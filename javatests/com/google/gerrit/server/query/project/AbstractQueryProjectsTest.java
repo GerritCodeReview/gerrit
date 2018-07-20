@@ -19,7 +19,12 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.access.AccessSectionInfo;
+import com.google.gerrit.extensions.api.access.PermissionInfo;
+import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
+import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.Projects.QueryRequest;
@@ -44,6 +49,7 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -281,7 +287,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
   @Test
   public void asAnonymous() throws Exception {
-    ProjectInfo project = createProject(name("project"));
+    ProjectInfo project = createProjectRestrictedToRegisteredUsers(name("project"));
 
     setAnonymous();
     assertQuery("name:" + project.name);
@@ -326,6 +332,21 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     config.state = state;
     gApi.projects().name(info.name).config(config);
     return info;
+  }
+
+  protected ProjectInfo createProjectRestrictedToRegisteredUsers(String name) throws Exception {
+    createProject(name);
+
+    ProjectAccessInput accessInput = new ProjectAccessInput();
+    AccessSectionInfo accessSection = new AccessSectionInfo();
+    PermissionInfo read = new PermissionInfo(null, null);
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.BLOCK, false);
+    read.rules = ImmutableMap.of(SystemGroupBackend.ANONYMOUS_USERS.get(), pri);
+    accessSection.permissions = ImmutableMap.of("read", read);
+    accessInput.add = ImmutableMap.of("refs/*", accessSection);
+    gApi.projects().name(name).access(accessInput);
+
+    return gApi.projects().name(name).get();
   }
 
   protected ProjectInfo getProject(Project.NameKey nameKey) throws Exception {

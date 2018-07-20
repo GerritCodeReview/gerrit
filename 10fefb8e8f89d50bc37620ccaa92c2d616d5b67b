@@ -126,6 +126,30 @@
     },
     {
       "key": {
+        "uuid": "93d872d6_a3195371",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-07-20T19:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3da0f1d5_628ee2fd",
+      "range": {
+        "startLine": 9,
+        "startChar": 74,
+        "endLine": 9,
+        "endChar": 80
+      },
+      "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc53af19_3f48d204",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -197,6 +221,30 @@
     },
     {
       "key": {
+        "uuid": "f07f357f_c6ddcc40",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-07-20T19:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2947116_1f8f1246",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9301759_1ce95fae",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -256,6 +304,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "e9301759_1ce95fae",
+      "range": {
+        "startLine": 17,
+        "startChar": 71,
+        "endLine": 17,
+        "endChar": 79
+      },
+      "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3866a2f1_668ddd1a",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-07-20T19:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e641ec3e_b0b764a7",
       "range": {
         "startLine": 17,
         "startChar": 71,

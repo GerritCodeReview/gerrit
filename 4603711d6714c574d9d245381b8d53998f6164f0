@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "53ca324f_483989e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-20T15:20:46Z",
+      "side": 1,
+      "message": "Resolved in PS2",
+      "parentUuid": "b263be0a_95f2f856",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "4603711d6714c574d9d245381b8d53998f6164f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "497a83d0_e8ba3387",
+        "filename": "java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-20T15:20:46Z",
+      "side": 1,
+      "message": "One idea for future work: we\u0027re already planning on implementing a PatchListEntry proto definition. An easy way we could avoid having any more mutable fields creep in would be to replace all these fields with a single final PatchListEntryProto field.\n\nDoing it that way would mean we don\u0027t have to modify the existing PatchListEntry interface, we would just have to change some method implementations to reach into the appropriate proto fields. This allows us to still have methods on PatchListEntry which have more complex than simple getters.\n\nOf course, we could go one step further and just use PatchListEntryProto everywhere, but that makes it harder to expose non-getter methods, and we can get the benefits of immutability without that.",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 78,
+        "endChar": 31
+      },
+      "revId": "4603711d6714c574d9d245381b8d53998f6164f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8018eeca_ababb628",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
         "patchSetId": 1

@@ -32,7 +32,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestCollectionView;
+import com.google.gerrit.server.update.RetryingRestCollectionModifyView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -68,7 +68,7 @@ public class RebaseChangeEdit
 
   @Singleton
   public static class Rebase
-      extends RetryingRestCollectionView<
+      extends RetryingRestCollectionModifyView<
           ChangeResource, ChangeEditResource.Rebase, Input, Response<?>> {
     private final GitRepositoryManager repositoryManager;
     private final ChangeEditModifier editModifier;

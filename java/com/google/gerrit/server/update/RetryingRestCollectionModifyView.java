@@ -20,12 +20,12 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.RestResource;
 
-public abstract class RetryingRestCollectionView<
+public abstract class RetryingRestCollectionModifyView<
         P extends RestResource, C extends RestResource, I, O>
     implements RestCollectionModifyView<P, C, I> {
   private final RetryHelper retryHelper;
 
-  protected RetryingRestCollectionView(RetryHelper retryHelper) {
+  protected RetryingRestCollectionModifyView(RetryHelper retryHelper) {
     this.retryHelper = retryHelper;
   }
 

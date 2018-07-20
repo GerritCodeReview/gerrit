@@ -32,7 +32,7 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestCollectionView;
+import com.google.gerrit.server.update.RetryingRestCollectionModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -70,7 +70,7 @@ public class PublishChangeEdit
 
   @Singleton
   public static class Publish
-      extends RetryingRestCollectionView<
+      extends RetryingRestCollectionModifyView<
           ChangeResource, ChangeEditResource.Publish, PublishChangeEditInput, Response<?>> {
 
     private final ChangeEditUtil editUtil;

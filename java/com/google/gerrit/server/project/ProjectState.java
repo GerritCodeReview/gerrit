@@ -94,6 +94,8 @@ public class ProjectState {
   /** Local access sections, wrapped in SectionMatchers for faster evaluation. */
   private volatile List<SectionMatcher> localAccessSections;
 
+  // TODO(dborowitz): Delete when the GWT UI gets deleted; in the meantime, don't bother with any
+  // refactoring.
   /** Theme information loaded from site_path/themes. */
   private volatile ThemeInfo theme;
 

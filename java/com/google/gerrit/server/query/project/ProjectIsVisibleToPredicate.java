@@ -42,7 +42,7 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectDat
     return permissionBackend
         .user(user)
         .project(pd.getProject().getNameKey())
-        .testOrFalse(ProjectPermission.READ);
+        .testOrFalse(ProjectPermission.ACCESS);
   }
 
   @Override

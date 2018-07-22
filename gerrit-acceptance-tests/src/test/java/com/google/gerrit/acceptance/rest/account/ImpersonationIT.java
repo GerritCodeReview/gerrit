@@ -470,7 +470,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.drafts = DraftHandling.PUBLISH;
     RestResponse res =
         adminRestSession.postWithHeader(
-            "/changes/" + r.getChangeId() + "/revisions/current/review", in, runAsHeader(user.id));
+            "/changes/" + r.getChangeId() + "/revisions/current/review", runAsHeader(user.id), in);
     res.assertOK();
 
     ChangeMessageInfo m = Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages);
@@ -502,13 +502,13 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.message = "Message on behalf of";
 
     String endpoint = "/changes/" + r.getChangeId() + "/revisions/current/review";
-    RestResponse res = adminRestSession.postWithHeader(endpoint, in, runAsHeader(user2.id));
+    RestResponse res = adminRestSession.postWithHeader(endpoint, runAsHeader(user2.id), in);
     res.assertForbidden();
     assertThat(res.getEntityContent())
         .isEqualTo("label required to post review on behalf of \"" + in.onBehalfOf + '"');
 
     in.label("Code-Review", 1);
-    adminRestSession.postWithHeader(endpoint, in, runAsHeader(user2.id)).assertOK();
+    adminRestSession.postWithHeader(endpoint, runAsHeader(user2.id), in).assertOK();
 
     PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
     assertThat(psa.getPatchSetId().get()).isEqualTo(1);

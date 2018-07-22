@@ -1101,7 +1101,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
       ci.message = "comment with impersonation";
       ri.message = "message with impersonation";
       ri.label("Code-Review", 1);
-      adminRestSession.postWithHeader(prefix + "review", ri, runAs).assertOK();
+      adminRestSession.postWithHeader(prefix + "review", runAs, ri).assertOK();
 
       di.message = "draft with impersonation";
       adminRestSession.putWithHeader(prefix + "drafts", runAs, di).assertCreated();

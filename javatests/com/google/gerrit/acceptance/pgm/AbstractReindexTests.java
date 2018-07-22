@@ -35,6 +35,7 @@ import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
 import java.nio.file.Files;
 import java.util.Set;
@@ -46,6 +47,9 @@ import org.junit.Test;
 
 @NoHttpd
 public abstract class AbstractReindexTests extends StandaloneSiteTest {
+  /** @param injector injector */
+  public abstract void configureIndex(Injector injector) throws Exception;
+
   private static final String CHANGES = ChangeSchemaDefinitions.NAME;
 
   private Project.NameKey project;
@@ -225,6 +229,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
   private void setUpChange() throws Exception {
     project = new Project.NameKey("reindex-project-test");
     try (ServerContext ctx = startServer()) {
+      configureIndex(ctx.getInjector());
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
       gApi.projects().create(project.get());
 

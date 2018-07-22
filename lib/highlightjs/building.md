@@ -20,7 +20,7 @@ The packed version of Highlight.js is an un-minified JS file with all of the
 languages included. Build it with the following:
 
     $>  # start in some temp directory
-    $>  git clone https://github.com/isagalaev/highlight.js.git
+    $>  git clone https://github.com/highlightjs/highlight.js
     $>  cd highlight.js
     $>  node tools/build.js -n \
           bash \
@@ -61,10 +61,15 @@ repo under the name "highlight.pack.js".
 
 ## Minification
 
-Minify the file using closure-compiler using the command below. (Modify
-`/path/to` with the path to your compiler jar.)
+Minify the file using closure-compiler using the command below.
 
-    $>  java -jar /path/to/closure-compiler.jar \
+    $> wget https://dl.google.com/closure-compiler/compiler-20180716.zip
+
+    $> unzip compiler-20180716.zip
+
+    $> mv closure-compiler-v20180716.jar closure-compiler.jar
+
+    $>  java -jar ./closure-compiler.jar \
             --js build/highlight.pack.js \
             --js_output_file build/highlight.min.js
 

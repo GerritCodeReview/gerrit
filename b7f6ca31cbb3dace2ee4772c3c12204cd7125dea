@@ -142,6 +142,24 @@
       "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "755c9fce_9038c0a1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2516,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-23T08:38:00Z",
+      "side": 1,
+      "message": "\u003e If we agree that our official position should be \"do not use DELETE\" (and I agree with Jonathan that it should), then we should explicitly list DELETE as deprecated, with some explanation in the release notes saying why.\n\u003e \n\u003e For this change, we should just not implement DELETE on this endpoint, and obviously update the documentation in this section. Jonathan, do you agree?\n\nWe can still support DELETE. We just need to guide users to use POST when they want to post a body.\n\n\u003e \n\u003e Updating all the other documentation to remove the disrecommended examples and make the deprecation official is beyond the scope of this change, but we should probably do it sooner rather than later.\n\nI will prepare a change to update all of our docs.",
+      "parentUuid": "0588dd28_441bfd2c",
+      "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

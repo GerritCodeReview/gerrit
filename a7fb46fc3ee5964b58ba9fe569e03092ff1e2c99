@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ecb707b7_8ff288ad",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-07-23T12:05:36Z",
+      "side": 1,
+      "message": "Yeah, well, I would agree with you, but I Gerrit users will have a wide landscape of OSs running and it\u0027s nice to ship a script as portable as possible. :-)",
+      "parentUuid": "b157755a_18a67adb",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 11
+      },
+      "revId": "a7fb46fc3ee5964b58ba9fe569e03092ff1e2c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e103ff0f_933eae6a",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 15

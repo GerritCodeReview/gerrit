@@ -61,10 +61,15 @@ repo under the name "highlight.pack.js".
 
 ## Minification
 
-Minify the file using closure-compiler using the command below. (Modify
-`/path/to` with the path to your compiler jar.)
+Minify the file using closure-compiler using the command below.
 
-    $>  java -jar /path/to/closure-compiler.jar \
+    $> wget https://dl.google.com/closure-compiler/compiler-latest.zip
+
+    $> unzip compiler-latest.zip
+
+    $> mv closure-compiler-*.jar closure-compiler.jar
+
+    $>  java -jar ./closure-compiler.jar \
             --js build/highlight.pack.js \
             --js_output_file build/highlight.min.js
 

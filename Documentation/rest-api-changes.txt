@@ -924,10 +924,6 @@ If the topic was deleted the response is "`204 No Content`".
 
 Deletes the topic of a change.
 
-Please note that some proxies prohibit request bodies for DELETE
-requests. In this case, if you want to specify a commit message, use
-link:#set-topic[PUT] to delete the topic.
-
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic HTTP/1.0
@@ -2236,17 +2232,9 @@ If the change was already private the response is "`200 OK`".
 Marks the change to be non-private. Note users can only unmark own private
 changes.
 
-A message can be specified in the request body inside a
-link:#private-input[PrivateInput] entity.
-
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "message": "This is a security fix that must not be public."
-  }
 ----
 
 .Response
@@ -2256,9 +2244,11 @@ link:#private-input[PrivateInput] entity.
 
 If the change was already not private, the response is "`409 Conflict`".
 
-Please note that some proxies prohibit request bodies for DELETE
-requests. In this case, if you want to set a message options, use a
-POST request:
+A message can be specified in the request body inside a
+link:#private-input[PrivateInput] entity. Historically, this method allowed
+a body in the DELETE, but that behavior is
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+In this case, use a POST request instead:
 
 .Request
 ----
@@ -3132,18 +3122,17 @@ An email will be sent using the "newchange" template.
 
 Deletes a reviewer from a change.
 
-Options can be provided in the request body as a
-link:#delete-reviewer-input[DeleteReviewerInput] entity.
-
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe HTTP/1.0
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/delete HTTP/1.0
 ----
 
-Please note that some proxies prohibit request bodies for DELETE
-requests. In this case, if you want to specify options, use a POST
-request:
+Options can be provided in the request body as a
+link:#delete-reviewer-input[DeleteReviewerInput] entity.
+Historically, this method allowed a body in the DELETE, but that behavior is
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+In this case, use a POST request instead:
 
 .Request
 ----
@@ -3213,18 +3202,17 @@ The entries in the map are sorted by label name.
 Deletes a single vote from a change. Note, that even when the last vote of
 a reviewer is removed the reviewer itself is still listed on the change.
 
-Options can be provided in the request body as a
-link:#delete-vote-input[DeleteVoteInput] entity.
-
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/votes/Code-Review HTTP/1.0
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/votes/Code-Review/delete HTTP/1.0
 ----
 
-Please note that some proxies prohibit request bodies for DELETE
-requests. In this case, if you want to specify options, use a POST
-request:
+Options can be provided in the request body as a
+link:#delete-vote-input[DeleteVoteInput] entity.
+Historically, this method allowed a body in the DELETE, but that behavior is
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+In this case, use a POST request instead:
 
 .Request
 ----
@@ -4587,17 +4575,17 @@ describes the published comment.
 Deletes a published comment of a revision. Instead of deleting the
 whole comment, this endpoint just replaces the comment's message
 with a new message, which contains the name of the user who deletes
-the comment and the reason why it's deleted. The reason can be
-provided in the request body as a
-link:#delete-comment-input[DeleteCommentInput] entity.
+the comment and the reason why it's deleted.
 
 Note that only users with the
 link:access-control.html#capability_administrateServer[Administrate Server]
 global capability are permitted to delete a comment.
 
-Please note that some proxies prohibit request bodies for DELETE
-requests. In this case, if you want to specify options, use a
-POST request:
+Deletion reason can be provided in the request body as a
+link:#delete-comment-input[DeleteCommentInput] entity.
+Historically, this method allowed a body in the DELETE, but that behavior is
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+In this case, use a POST request instead:
 
 .Request
 ----
@@ -5397,18 +5385,17 @@ deleting the vote (with same label) from a newer patch set by mistake.
 Note, that even when the last vote of a reviewer is removed the reviewer itself
 is still listed on the change.
 
-Options can be provided in the request body as a
-link:#delete-vote-input[DeleteVoteInput] entity.
-
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/reviewers/John%20Doe/votes/Code-Review HTTP/1.0
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/reviewers/John%20Doe/votes/Code-Review/delete HTTP/1.0
 ----
 
-Please note that some proxies prohibit request bodies for DELETE
-requests. In this case, if you want to specify options, use a POST
-request:
+Options can be provided in the request body as a
+link:#delete-vote-input[DeleteVoteInput] entity.
+Historically, this method allowed a body in the DELETE, but that behavior is
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+In this case, use a POST request instead:
 
 .Request
 ----

@@ -17,14 +17,11 @@ package com.google.gerrit.server.git;
 import com.google.common.cache.Cache;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.StringSerializer;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -36,16 +33,19 @@ public class TagCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        persist(CACHE_NAME, String.class, EntryVal.class);
+        persist(CACHE_NAME, String.class, TagSetHolder.class)
+            .version(1)
+            .keySerializer(StringSerializer.INSTANCE)
+            .valueSerializer(TagSetHolder.Serializer.INSTANCE);
         bind(TagCache.class);
       }
     };
   }
 
-  private final Cache<String, EntryVal> cache;
+  private final Cache<String, TagSetHolder> cache;
 
   @Inject
-  TagCache(@Named(CACHE_NAME) Cache<String, EntryVal> cache) {
+  TagCache(@Named(CACHE_NAME) Cache<String, TagSetHolder> cache) {
     this.cache = cache;
   }
 
@@ -68,15 +68,12 @@ public class TagCache {
     // never fail with an exception. Some of these references can be null
     // (e.g. not all projects are cached, or the cache is not current).
     //
-    EntryVal val = cache.getIfPresent(name.get());
-    if (val != null) {
-      TagSetHolder holder = val.holder;
-      if (holder != null) {
-        TagSet tags = holder.getTagSet();
-        if (tags != null) {
-          if (tags.updateFastForward(refName, oldValue, newValue)) {
-            cache.put(name.get(), val);
-          }
+    TagSetHolder holder = cache.getIfPresent(name.get());
+    if (holder != null) {
+      TagSet tags = holder.getTagSet();
+      if (tags != null) {
+        if (tags.updateFastForward(refName, oldValue, newValue)) {
+          cache.put(name.get(), holder);
         }
       }
     }
@@ -84,41 +81,13 @@ public class TagCache {
 
   public TagSetHolder get(Project.NameKey name) {
     try {
-      return cache.get(name.get(), () -> new EntryVal(new TagSetHolder(name))).holder;
+      return cache.get(name.get(), () -> new TagSetHolder(name));
     } catch (ExecutionException e) {
       throw new IllegalStateException(e);
     }
   }
 
   void put(Project.NameKey name, TagSetHolder tags) {
-    cache.put(name.get(), new EntryVal(tags));
-  }
-
-  public static class EntryVal implements Serializable {
-    static final long serialVersionUID = 1L;
-
-    transient TagSetHolder holder;
-
-    private EntryVal(TagSetHolder holder) {
-      this.holder = holder;
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-      holder = new TagSetHolder(new Project.NameKey(in.readUTF()));
-      if (in.readBoolean()) {
-        TagSet tags = new TagSet(holder.getProjectName());
-        tags.readObject(in);
-        holder.setTagSet(tags);
-      }
-    }
-
-    private void writeObject(ObjectOutputStream out) throws IOException {
-      TagSet tags = holder.getTagSet();
-      out.writeUTF(holder.getProjectName().get());
-      out.writeBoolean(tags != null);
-      if (tags != null) {
-        tags.writeObject(out);
-      }
-    }
+    cache.put(name.get(), tags);
   }
 }

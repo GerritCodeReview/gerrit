@@ -430,7 +430,7 @@ public abstract class ChangeNotesState {
     abstract ChangeNotesState build();
   }
 
-  static enum Serializer implements CacheSerializer<ChangeNotesState> {
+  enum Serializer implements CacheSerializer<ChangeNotesState> {
     INSTANCE;
 
     @VisibleForTesting static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();

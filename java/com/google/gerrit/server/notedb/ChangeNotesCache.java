@@ -77,7 +77,7 @@ public class ChangeNotesCache {
     abstract ObjectId id();
 
     @VisibleForTesting
-    static enum Serializer implements CacheSerializer<Key> {
+    enum Serializer implements CacheSerializer<Key> {
       INSTANCE;
 
       @Override

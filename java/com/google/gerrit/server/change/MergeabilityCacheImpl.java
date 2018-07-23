@@ -134,7 +134,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
           .toString();
     }
 
-    static enum Serializer implements CacheSerializer<EntryKey> {
+    enum Serializer implements CacheSerializer<EntryKey> {
       INSTANCE;
 
       private static final Converter<String, SubmitType> SUBMIT_TYPE_CONVERTER =

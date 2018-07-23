@@ -61,7 +61,7 @@ public abstract class ConflictKey {
 
   public abstract boolean contentMerge();
 
-  public static enum Serializer implements CacheSerializer<ConflictKey> {
+  public enum Serializer implements CacheSerializer<ConflictKey> {
     INSTANCE;
 
     private static final Converter<String, SubmitType> SUBMIT_TYPE_CONVERTER =

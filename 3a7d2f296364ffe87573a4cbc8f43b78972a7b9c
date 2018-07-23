@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fd432a5_d8588b76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-07-23T04:40:19Z",
+      "side": 1,
+      "message": "Nit: too long line.",
+      "revId": "3a7d2f296364ffe87573a4cbc8f43b78972a7b9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31ef2556_f8421f10",
+        "filename": "lib/highlightjs/building.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-07-23T04:40:19Z",
+      "side": 1,
+      "message": "This is unrelated to HLJS maintainer change. I\u0027m also not sure it\u0027s needed, as this would make these instructions stale, when new version of closure compiler is released.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 42
+      },
+      "revId": "3a7d2f296364ffe87573a4cbc8f43b78972a7b9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

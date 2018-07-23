@@ -15,13 +15,14 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
-import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TagMatcher;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -55,7 +55,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -105,16 +104,15 @@ class DefaultRefFilter {
         permissionBackend.user(user).database(db).project(projectState.getNameKey());
   }
 
-  Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts) {
+  Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+      throws PermissionBackendException {
     if (projectState.isAllUsers()) {
       refs = addUsersSelfSymref(refs);
     }
 
-    PermissionBackend.WithUser withUser = permissionBackend.user(user);
-    PermissionBackend.ForProject forProject = withUser.project(projectState.getNameKey());
     if (!projectState.isAllUsers()) {
       if (projectState.statePermitsRead()
-          && checkProjectPermission(forProject, ProjectPermission.READ)) {
+          && checkProjectPermission(permissionBackendForProject, ProjectPermission.READ)) {
         return refs;
       } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
         return fastHideRefsMetaConfig(refs);
@@ -125,6 +123,7 @@ class DefaultRefFilter {
     boolean isAdmin;
     Account.Id userId;
     IdentifiedUser identifiedUser;
+    PermissionBackend.WithUser withUser = permissionBackend.user(user);
     if (user.isIdentifiedUser()) {
       viewMetadata = withUser.testOrFalse(GlobalPermission.ACCESS_DATABASE);
       isAdmin = withUser.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);
@@ -229,7 +228,8 @@ class DefaultRefFilter {
     return result;
   }
 
-  private Map<String, Ref> fastHideRefsMetaConfig(Map<String, Ref> refs) {
+  private Map<String, Ref> fastHideRefsMetaConfig(Map<String, Ref> refs)
+      throws PermissionBackendException {
     if (refs.containsKey(REFS_CONFIG) && !canReadRef(REFS_CONFIG)) {
       Map<String, Ref> r = new HashMap<>(refs);
       r.remove(REFS_CONFIG);
@@ -250,7 +250,7 @@ class DefaultRefFilter {
     return refs;
   }
 
-  private boolean visible(Repository repo, Change.Id changeId) {
+  private boolean visible(Repository repo, Change.Id changeId) throws PermissionBackendException {
     if (visibleChanges == null) {
       if (changeCache == null) {
         visibleChanges = visibleChangesByScan(repo);
@@ -261,7 +261,7 @@ class DefaultRefFilter {
     return visibleChanges.containsKey(changeId);
   }
 
-  private boolean visibleEdit(Repository repo, String name) {
+  private boolean visibleEdit(Repository repo, String name) throws PermissionBackendException {
     Change.Id id = Change.Id.fromEditRefPart(name);
     // Initialize if it wasn't yet
     if (visibleChanges == null) {
@@ -284,16 +284,13 @@ class DefaultRefFilter {
         return true;
       } catch (AuthException e) {
         return false;
-      } catch (PermissionBackendException e) {
-        logger.atSevere().withCause(e).log(
-            "Failed to check permission for %s in %s", id, projectState.getName());
-        return false;
       }
     }
     return false;
   }
 
-  private Map<Change.Id, Branch.NameKey> visibleChangesBySearch() {
+  private Map<Change.Id, Branch.NameKey> visibleChangesBySearch()
+      throws PermissionBackendException {
     Project.NameKey project = projectState.getNameKey();
     try {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
@@ -310,14 +307,15 @@ class DefaultRefFilter {
         }
       }
       return visibleChanges;
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log(
           "Cannot load changes for project %s, assuming no changes are visible", project);
       return Collections.emptyMap();
     }
   }
 
-  private Map<Change.Id, Branch.NameKey> visibleChangesByScan(Repository repo) {
+  private Map<Change.Id, Branch.NameKey> visibleChangesByScan(Repository repo)
+      throws PermissionBackendException {
     Project.NameKey p = projectState.getNameKey();
     Stream<ChangeNotesResult> s;
     try {
@@ -327,13 +325,19 @@ class DefaultRefFilter {
           "Cannot load changes for project %s, assuming no changes are visible", p);
       return Collections.emptyMap();
     }
-    return s.map(this::toNotes)
-        .filter(Objects::nonNull)
-        .collect(toMap(AbstractChangeNotes::getChangeId, n -> n.getChange().getDest()));
+
+    Map<Change.Id, Branch.NameKey> result = Maps.newHashMapWithExpectedSize((int) s.count());
+    for (ChangeNotesResult notesResult : s.collect(toImmutableList())) {
+      ChangeNotes notes = toNotes(notesResult);
+      if (notes != null) {
+        result.put(notes.getChangeId(), notes.getChange().getDest());
+      }
+    }
+    return result;
   }
 
   @Nullable
-  private ChangeNotes toNotes(ChangeNotesResult r) {
+  private ChangeNotes toNotes(ChangeNotesResult r) throws PermissionBackendException {
     if (r.error().isPresent()) {
       logger.atWarning().withCause(r.error().get()).log(
           "Failed to load change %s in %s", r.id(), projectState.getName());
@@ -349,9 +353,6 @@ class DefaultRefFilter {
       return r.notes();
     } catch (AuthException e) {
       // Skip.
-    } catch (PermissionBackendException e) {
-      logger.atSevere().withCause(e).log(
-          "Failed to check permission for %s in %s", r.id(), projectState.getName());
     }
     return null;
   }
@@ -368,27 +369,21 @@ class DefaultRefFilter {
     return ref.getName().startsWith(REFS_USERS_SELF);
   }
 
-  private boolean canReadRef(String ref) {
+  private boolean canReadRef(String ref) throws PermissionBackendException {
     try {
       permissionBackendForProject.ref(ref).check(RefPermission.READ);
     } catch (AuthException e) {
-      return false;
-    } catch (PermissionBackendException e) {
-      logger.atSevere().withCause(e).log("unable to check permissions");
       return false;
     }
     return projectState.statePermitsRead();
   }
 
   private boolean checkProjectPermission(
-      PermissionBackend.ForProject forProject, ProjectPermission perm) {
+      PermissionBackend.ForProject forProject, ProjectPermission perm)
+      throws PermissionBackendException {
     try {
       forProject.check(perm);
     } catch (AuthException e) {
-      return false;
-    } catch (PermissionBackendException e) {
-      logger.atSevere().withCause(e).log(
-          "Can't check permission for user %s on project %s", user, projectState.getName());
       return false;
     }
     return true;

@@ -160,6 +160,24 @@
       "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75f58df7_ac7673ff",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2516,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-23T15:40:26Z",
+      "side": 1,
+      "message": "Now this endpoint recommends users to user POST when there is request body.\n\nOther docs about DELETE will be done in:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/189952",
+      "parentUuid": "755c9fce_9038c0a1",
+      "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

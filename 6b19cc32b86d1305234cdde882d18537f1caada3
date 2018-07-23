@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3eef3a2_dea0cc86",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-23T15:09:17Z",
+      "side": 0,
+      "message": "I am not 100% sure we want to just delete these explanations and leave no trace of the former behavior. Right now, with no code change, if you pass a body (and your proxy accepts it), you will get some completely undocumented behavior.\n\nI would make some further suggestions here:\n\n* Add an entry to the release notes saying how we no longer recommend sending bodies with DELETE requests; bodies with DELETE requests continue to work in this release but should be considered deprecated and will be removed in the next version. It should include the same explanation as is in this commit message.\n* In the API docs, say \"Historically, this method allowed a body in the DELETE, but that behavior is link:(the release notes)[deprecated]. Use a POST request instead.\"",
+      "range": {
+        "startLine": 2239,
+        "startChar": 0,
+        "endLine": 2240,
+        "endChar": 41
+      },
+      "revId": "6b19cc32b86d1305234cdde882d18537f1caada3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

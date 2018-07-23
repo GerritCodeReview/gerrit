@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9714e611_c9fb0481",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-07-23T10:13:43Z",
+      "side": 1,
+      "message": "(sorry didn\u0027t notice this before)\n\nAny reason to make it Bash-specific? As far as I can see, you only have Bashisms in the three if statements, which I think can be changed from double-[ to single-[ tests, after which you can restore it to /bin/sh.\n\nAnd while at it, you might want to change the shebang to use a more portable format:\n\n #!/usr/bin/env sh\n\nAs per https://stackoverflow.com/a/10383546",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 11
+      },
+      "revId": "a7fb46fc3ee5964b58ba9fe569e03092ff1e2c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e103ff0f_933eae6a",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-07-23T10:13:43Z",
+      "side": 1,
+      "message": "Oh wow, that\u0027s a brilliant way to enable the --if-exists option in older versions :)",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 37
+      },
+      "revId": "a7fb46fc3ee5964b58ba9fe569e03092ff1e2c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

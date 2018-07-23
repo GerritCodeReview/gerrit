@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "5509851c_154d5907",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-07-23T19:28:53Z",
+      "side": 1,
+      "message": "IMO, not really, no. IIRC I filed it as follow up work at the time because it didn\u0027t seem particularly urgent to me to move the test.",
+      "parentUuid": "101645cd_9cdc6eb7",
+      "revId": "7635413efdbf014a52b6e3c93ed332e83318d611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ae59814_7485c9ec",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 6

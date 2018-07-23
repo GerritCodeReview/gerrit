@@ -16,7 +16,12 @@ package com.google.gerrit.server.git;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.cache.CacheSerializer;
+import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto;
+import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto;
 import java.util.Collection;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -24,7 +29,8 @@ import org.eclipse.jgit.lib.Repository;
 public class TagSetHolder {
   private final Object buildLock = new Object();
   private final Project.NameKey projectName;
-  private volatile TagSet tags;
+
+  @Nullable private volatile TagSet tags;
 
   TagSetHolder(Project.NameKey projectName) {
     this.projectName = projectName;
@@ -92,6 +98,32 @@ public class TagSetHolder {
         cache.put(projectName, this);
       }
       return cur;
+    }
+  }
+
+  enum Serializer implements CacheSerializer<TagSetHolder> {
+    INSTANCE;
+
+    @Override
+    public byte[] serialize(TagSetHolder object) {
+      TagSetHolderProto.Builder b =
+          TagSetHolderProto.newBuilder().setProjectName(object.projectName.get());
+      TagSet tags = object.tags;
+      if (tags != null) {
+        b.setTags(tags.toProto());
+      }
+      return ProtoCacheSerializers.toByteArray(b.build());
+    }
+
+    @Override
+    public TagSetHolder deserialize(byte[] in) {
+      TagSetHolderProto proto =
+          ProtoCacheSerializers.parseUnchecked(TagSetHolderProto.parser(), in);
+      TagSetHolder holder = new TagSetHolder(new Project.NameKey(proto.getProjectName()));
+      if (proto.hasTags()) {
+        holder.tags = TagSet.fromProto(proto.getTags());
+      }
+      return holder;
     }
   }
 }

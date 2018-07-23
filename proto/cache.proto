@@ -193,3 +193,29 @@ message ConflictKeyProto {
   string submit_type = 3;
   bool content_merge = 4;
 }
+
+// Serialized form of com.google.gerrit.server.query.git.TagSetHolder.
+// Next ID: 3
+message TagSetHolderProto {
+  string project_name = 1;
+
+  // Next ID: 4
+  message TagSetProto {
+    string project_name = 1;
+
+    // Next ID: 3
+    message CachedRefProto {
+      bytes id = 1;
+      int32 flag = 2;
+    }
+    map<string, CachedRefProto> ref = 2;
+
+    // Next ID: 3
+    message TagProto {
+      bytes id = 1;
+      bytes flags = 2;
+    }
+    repeated TagProto tag = 3;
+  }
+  TagSetProto tags = 2;
+}

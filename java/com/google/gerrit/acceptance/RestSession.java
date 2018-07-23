@@ -116,10 +116,10 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse post(String endPoint, Object content) throws IOException {
-    return postWithHeader(endPoint, content, null);
+    return postWithHeader(endPoint, null, content);
   }
 
-  public RestResponse postWithHeader(String endPoint, Object content, Header header)
+  public RestResponse postWithHeader(String endPoint, Header header, Object content)
       throws IOException {
     Request post = Request.Post(getUrl(endPoint));
     if (header != null) {

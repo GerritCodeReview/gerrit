@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93bc77db_f996efff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-23T14:34:49Z",
+      "side": 1,
+      "message": "This summary message is almost but not quite the same as the previous commit. It would be nice if the one-line summary log provides more information.",
+      "revId": "36f9eeb84d556a5dd3eef38492c92c7dbef0d981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

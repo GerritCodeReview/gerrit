@@ -20,7 +20,7 @@ The packed version of Highlight.js is an un-minified JS file with all of the
 languages included. Build it with the following:
 
     $>  # start in some temp directory
-    $>  git clone https://github.com/isagalaev/highlight.js.git
+    $>  git clone https://github.com/highlightjs/highlight.js
     $>  cd highlight.js
     $>  node tools/build.js -n \
           bash \

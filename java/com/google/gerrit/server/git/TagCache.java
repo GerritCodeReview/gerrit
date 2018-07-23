@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
@@ -42,7 +43,6 @@ public class TagCache {
   }
 
   private final Cache<String, EntryVal> cache;
-  private final Object createLock = new Object();
 
   @Inject
   TagCache(@Named(CACHE_NAME) Cache<String, EntryVal> cache) {
@@ -83,30 +83,25 @@ public class TagCache {
   }
 
   public TagSetHolder get(Project.NameKey name) {
-    EntryVal val = cache.getIfPresent(name.get());
-    if (val == null) {
-      synchronized (createLock) {
-        val = cache.getIfPresent(name.get());
-        if (val == null) {
-          val = new EntryVal();
-          val.holder = new TagSetHolder(name);
-          cache.put(name.get(), val);
-        }
-      }
+    try {
+      return cache.get(name.get(), () -> new EntryVal(new TagSetHolder(name))).holder;
+    } catch (ExecutionException e) {
+      throw new IllegalStateException(e);
     }
-    return val.holder;
   }
 
   void put(Project.NameKey name, TagSetHolder tags) {
-    EntryVal val = new EntryVal();
-    val.holder = tags;
-    cache.put(name.get(), val);
+    cache.put(name.get(), new EntryVal(tags));
   }
 
   public static class EntryVal implements Serializable {
     static final long serialVersionUID = 1L;
 
     transient TagSetHolder holder;
+
+    private EntryVal(TagSetHolder holder) {
+      this.holder = holder;
+    }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       holder = new TagSetHolder(new Project.NameKey(in.readUTF()));

@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "91c2ad86_bd7d5da6",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-23T14:58:49Z",
+      "side": 1,
+      "message": "I was curious what the deal is with this library. It seems unmaintained (the pom.xml lists a homepage on code.google.com). But if it\u0027s good enough for Truth and for Error Prone, it\u0027s good enough for me:\nhttps://github.com/google/truth/commit/e1e16a2e84a8b0963dc0604d7701520cc715670d",
+      "revId": "94d0030a1dc1ec5dab8cbf0206fb434eae5f3744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6db3970f_925c3f56",
         "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
         "patchSetId": 3

@@ -14,16 +14,19 @@
 
 package com.google.gerrit.server.git;
 
-import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
-import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
-
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdConverter;
+import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto;
+import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.CachedRefProto;
+import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.TagProto;
+import com.google.protobuf.ByteString;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,13 +50,33 @@ class TagSet {
   private final ObjectIdOwnerMap<Tag> tags;
 
   TagSet(Project.NameKey projectName) {
+    this(projectName, new HashMap<>(), new ObjectIdOwnerMap<>());
+  }
+
+  TagSet(Project.NameKey projectName, HashMap<String, CachedRef> refs, ObjectIdOwnerMap<Tag> tags) {
     this.projectName = projectName;
-    this.refs = new HashMap<>();
-    this.tags = new ObjectIdOwnerMap<>();
+    this.refs = refs;
+    this.tags = tags;
+  }
+
+  Project.NameKey getProjectName() {
+    return projectName;
   }
 
   Tag lookupTag(AnyObjectId id) {
     return tags.get(id);
+  }
+
+  // Test methods have obtuse names in addition to annotations, since they expose mutable state
+  // which would be easy to corrupt.
+  @VisibleForTesting
+  Map<String, CachedRef> getRefsForTesting() {
+    return refs;
+  }
+
+  @VisibleForTesting
+  ObjectIdOwnerMap<Tag> getTagsForTesting() {
+    return tags;
   }
 
   boolean updateFastForward(String refName, ObjectId oldValue, ObjectId newValue) {
@@ -191,36 +214,46 @@ class TagSet {
     }
   }
 
-  void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-    int refCnt = in.readInt();
-    for (int i = 0; i < refCnt; i++) {
-      String name = in.readUTF();
-      int flag = in.readInt();
-      ObjectId id = readWithoutMarker(in);
-      refs.put(name, new CachedRef(flag, id));
-    }
+  static TagSet fromProto(TagSetProto proto) {
+    ObjectIdConverter idConverter = ObjectIdConverter.create();
 
-    int tagCnt = in.readInt();
-    for (int i = 0; i < tagCnt; i++) {
-      ObjectId id = readWithoutMarker(in);
-      BitSet flags = (BitSet) in.readObject();
-      tags.add(new Tag(id, flags));
-    }
+    HashMap<String, CachedRef> refs = Maps.newHashMapWithExpectedSize(proto.getRefCount());
+    proto
+        .getRefMap()
+        .forEach(
+            (n, cr) ->
+                refs.put(n, new CachedRef(cr.getFlag(), idConverter.fromByteString(cr.getId()))));
+    ObjectIdOwnerMap<Tag> tags = new ObjectIdOwnerMap<>();
+    proto
+        .getTagList()
+        .forEach(
+            t ->
+                tags.add(
+                    new Tag(
+                        idConverter.fromByteString(t.getId()),
+                        BitSet.valueOf(t.getFlags().asReadOnlyByteBuffer()))));
+    return new TagSet(new Project.NameKey(proto.getProjectName()), refs, tags);
   }
 
-  void writeObject(ObjectOutputStream out) throws IOException {
-    out.writeInt(refs.size());
-    for (Map.Entry<String, CachedRef> e : refs.entrySet()) {
-      out.writeUTF(e.getKey());
-      out.writeInt(e.getValue().flag);
-      writeWithoutMarker(out, e.getValue().get());
-    }
-
-    out.writeInt(tags.size());
-    for (Tag tag : tags) {
-      writeWithoutMarker(out, tag);
-      out.writeObject(tag.refFlags);
-    }
+  TagSetProto toProto() {
+    ObjectIdConverter idConverter = ObjectIdConverter.create();
+    TagSetProto.Builder b = TagSetProto.newBuilder().setProjectName(projectName.get());
+    refs.forEach(
+        (n, cr) ->
+            b.putRef(
+                n,
+                CachedRefProto.newBuilder()
+                    .setId(idConverter.toByteString(cr.get()))
+                    .setFlag(cr.flag)
+                    .build()));
+    tags.forEach(
+        t ->
+            b.addTag(
+                TagProto.newBuilder()
+                    .setId(idConverter.toByteString(t))
+                    .setFlags(ByteString.copyFrom(t.refFlags.toByteArray()))
+                    .build()));
+    return b.build();
   }
 
   private boolean refresh(TagSet old, TagMatcher m) {
@@ -342,7 +375,7 @@ class TagSet {
   }
 
   static final class Tag extends ObjectIdOwnerMap.Entry {
-    private final BitSet refFlags;
+    @VisibleForTesting final BitSet refFlags;
 
     Tag(AnyObjectId id, BitSet flags) {
       super(id);
@@ -352,11 +385,15 @@ class TagSet {
     boolean has(BitSet mask) {
       return refFlags.intersects(mask);
     }
+
+    @Override
+    public String toString() {
+      return MoreObjects.toStringHelper(this).addValue(name()).add("refFlags", refFlags).toString();
+    }
   }
 
-  private static final class CachedRef extends AtomicReference<ObjectId> {
-    private static final long serialVersionUID = 1L;
-
+  @VisibleForTesting
+  static final class CachedRef extends AtomicReference<ObjectId> {
     final int flag;
 
     CachedRef(Ref ref, int flag) {
@@ -366,6 +403,15 @@ class TagSet {
     CachedRef(int flag, ObjectId id) {
       this.flag = flag;
       set(id);
+    }
+
+    @Override
+    public String toString() {
+      ObjectId id = get();
+      return MoreObjects.toStringHelper(this)
+          .addValue(id != null ? id.name() : "null")
+          .add("flag", flag)
+          .toString();
     }
   }
 

@@ -156,12 +156,12 @@ public class StreamEventsApiListener
     return psUtil.get(db.get(), notes, PatchSet.Id.fromRef(info.ref));
   }
 
-  private Supplier<ChangeAttribute> changeAttributeSupplier(Change change) {
+  private Supplier<ChangeAttribute> changeAttributeSupplier(Change change, ChangeNotes notes) {
     return Suppliers.memoize(
         new Supplier<ChangeAttribute>() {
           @Override
           public ChangeAttribute get() {
-            return eventFactory.asChangeAttribute(change);
+            return eventFactory.asChangeAttribute(change, notes);
           }
         });
   }
@@ -257,10 +257,11 @@ public class StreamEventsApiListener
   @Override
   public void onAssigneeChanged(AssigneeChangedListener.Event ev) {
     try {
-      Change change = getChange(ev.getChange());
+      ChangeNotes notes = getNotes(ev.getChange());
+      Change change = notes.getChange();
       AssigneeChangedEvent event = new AssigneeChangedEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.changer = accountAttributeSupplier(ev.getWho());
       event.oldAssignee = accountAttributeSupplier(ev.getOldAssignee());
 
@@ -273,10 +274,11 @@ public class StreamEventsApiListener
   @Override
   public void onTopicEdited(TopicEditedListener.Event ev) {
     try {
-      Change change = getChange(ev.getChange());
+      ChangeNotes notes = getNotes(ev.getChange());
+      Change change = notes.getChange();
       TopicChangedEvent event = new TopicChangedEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.changer = accountAttributeSupplier(ev.getWho());
       event.oldTopic = ev.getOldTopic();
 
@@ -294,7 +296,7 @@ public class StreamEventsApiListener
       PatchSet patchSet = getPatchSet(notes, ev.getRevision());
       PatchSetCreatedEvent event = new PatchSetCreatedEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
       event.uploader = accountAttributeSupplier(ev.getWho());
 
@@ -310,7 +312,7 @@ public class StreamEventsApiListener
       ChangeNotes notes = getNotes(ev.getChange());
       Change change = notes.getChange();
       ReviewerDeletedEvent event = new ReviewerDeletedEvent(change);
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reviewer = accountAttributeSupplier(ev.getReviewer());
       event.remover = accountAttributeSupplier(ev.getWho());
@@ -331,7 +333,7 @@ public class StreamEventsApiListener
       Change change = notes.getChange();
       ReviewerAddedEvent event = new ReviewerAddedEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       for (AccountInfo reviewer : ev.getReviewers()) {
         event.reviewer = accountAttributeSupplier(reviewer);
@@ -354,10 +356,11 @@ public class StreamEventsApiListener
   @Override
   public void onHashtagsEdited(HashtagsEditedListener.Event ev) {
     try {
-      Change change = getChange(ev.getChange());
+      ChangeNotes notes = getNotes(ev.getChange());
+      Change change = notes.getChange();
       HashtagsChangedEvent event = new HashtagsChangedEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.editor = accountAttributeSupplier(ev.getWho());
       event.hashtags = hashtagArray(ev.getHashtags());
       event.added = hashtagArray(ev.getAddedHashtags());
@@ -402,7 +405,7 @@ public class StreamEventsApiListener
       PatchSet ps = getPatchSet(notes, ev.getRevision());
       CommentAddedEvent event = new CommentAddedEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.author = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, ps);
       event.comment = ev.getComment();
@@ -421,7 +424,7 @@ public class StreamEventsApiListener
       Change change = notes.getChange();
       ChangeRestoredEvent event = new ChangeRestoredEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.restorer = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
@@ -439,7 +442,7 @@ public class StreamEventsApiListener
       Change change = notes.getChange();
       ChangeMergedEvent event = new ChangeMergedEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.submitter = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.newRev = ev.getNewRevisionId();
@@ -457,7 +460,7 @@ public class StreamEventsApiListener
       Change change = notes.getChange();
       ChangeAbandonedEvent event = new ChangeAbandonedEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.abandoner = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
@@ -471,10 +474,11 @@ public class StreamEventsApiListener
   @Override
   public void onWorkInProgressStateChanged(WorkInProgressStateChangedListener.Event ev) {
     try {
-      Change change = getChange(ev.getChange());
+      ChangeNotes notes = getNotes(ev.getChange());
+      Change change = notes.getChange();
       WorkInProgressStateChangedEvent event = new WorkInProgressStateChangedEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.changer = accountAttributeSupplier(ev.getWho());
 
       dispatcher.get().postEvent(change, event);
@@ -486,10 +490,11 @@ public class StreamEventsApiListener
   @Override
   public void onPrivateStateChanged(PrivateStateChangedListener.Event ev) {
     try {
-      Change change = getChange(ev.getChange());
+      ChangeNotes notes = getNotes(ev.getChange());
+      Change change = notes.getChange();
       PrivateStateChangedEvent event = new PrivateStateChangedEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.changer = accountAttributeSupplier(ev.getWho());
 
       dispatcher.get().postEvent(change, event);
@@ -505,7 +510,7 @@ public class StreamEventsApiListener
       Change change = notes.getChange();
       VoteDeletedEvent event = new VoteDeletedEvent(change);
 
-      event.change = changeAttributeSupplier(change);
+      event.change = changeAttributeSupplier(change, notes);
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.comment = ev.getMessage();
       event.reviewer = accountAttributeSupplier(ev.getReviewer());

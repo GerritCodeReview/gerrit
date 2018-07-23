@@ -214,6 +214,24 @@
       "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ff4824a_bd6429c0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2516,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-23T16:57:41Z",
+      "side": 1,
+      "message": "\u003e Could we reject DELETE-with-body for all endpoints in RestApiServlet (as a separate change)?\n\nSure, after an appropriate deprecation window. I have no doubt there are some installations where admins run Gerrit either not behind a proxy, or behind a proxy that allows DELETE-with-body, where the proxy infrastructure is effectively unchanging. It has until now been safe for clients of such servers to depend on DELETE-with-body working, so I don\u0027t think it should just change overnight.\n\nIt may be that we decide an \"appropriate deprecation window\" is a few commits on master, rather than a whole release. I think we can have that discussion elsewhere, such as the change that edits the release notes.",
+      "parentUuid": "f43e28fd_b4029c6d",
+      "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

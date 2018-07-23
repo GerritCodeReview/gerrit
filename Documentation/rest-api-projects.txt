@@ -601,9 +601,8 @@ The request body does not need to include a
 link:#project-description-input[ProjectDescriptionInput] entity if no
 commit message is specified.
 
-Please note that some proxies prohibit request bodies for DELETE
-requests. In this case, if you want to specify a commit message, use
-link:#set-project-description[PUT] to delete the description.
+To specify a commit message, use link:#set-project-description[PUT]
+to delete the description.
 
 .Request
 ----

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f1d5eb_75edeb45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-23T14:53:51Z",
+      "side": 1,
+      "message": "The current latest version is 0.42, maybe we should jump to that?",
+      "revId": "94d0030a1dc1ec5dab8cbf0206fb434eae5f3744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6db3970f_925c3f56",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-23T14:53:51Z",
+      "side": 1,
+      "message": "IIUC these come out with a colon in between, \"expected message to be: sent\". In that case the \"to be\" seems redundant.",
+      "revId": "94d0030a1dc1ec5dab8cbf0206fb434eae5f3744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "416ff57e_9522c591",
+        "filename": "java/com/google/gerrit/extensions/common/testing/RangeSubject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-23T14:53:51Z",
+      "side": 1,
+      "message": "\"to be\" seems redundant",
+      "revId": "94d0030a1dc1ec5dab8cbf0206fb434eae5f3744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "101645cd_9cdc6eb7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-23T18:53:48Z",
+      "side": 1,
+      "message": "Ah, thanks - that answers it.\nAny particular value for keeping this test here?\nI\u0027d say move it to unit tests or delete it, as long as plugin.changeActions().onLabelsChanged() is covered with a test.",
+      "parentUuid": "6c0ba356_c0a5e245",
+      "revId": "7635413efdbf014a52b6e3c93ed332e83318d611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ae59814_7485c9ec",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 6

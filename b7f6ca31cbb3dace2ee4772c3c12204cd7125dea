@@ -196,6 +196,24 @@
       "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f43e28fd_b4029c6d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2516,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-23T16:19:32Z",
+      "side": 1,
+      "message": "The updated docs address my concerns.\n\nI have no opinion about whether we should support DELETE-without-body for this one. Either way seems fine to me.\n\nCould we reject DELETE-with-body for all endpoints in RestApiServlet (as a separate change)?",
+      "parentUuid": "f12dc316_a8f16482",
+      "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

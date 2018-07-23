@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aef60372_36fc95a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-07-23T13:34:56Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0fd432a5_d8588b76",
+      "revId": "3a7d2f296364ffe87573a4cbc8f43b78972a7b9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31ef2556_f8421f10",
         "filename": "lib/highlightjs/building.md",
         "patchSetId": 2

@@ -27,7 +27,6 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
-<link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
 <link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
@@ -38,7 +37,6 @@ limitations under the License.
 
 <dom-module id="gr-change-metadata">
   <template>
-    <style include="gr-voting-styles"></style>
     <style include="shared-styles">
       :host {
         display: table;
@@ -61,8 +59,15 @@ limitations under the License.
         color: var(--deemphasized-text-color);
         font-family: var(--font-family-bold);
         max-width: 20em;
+        padding-left: var(--metadata-horizontal-padding);
         padding-right: .5em;
         word-break: break-word;
+      }
+      .value {
+        padding-right: var(--metadata-horizontal-padding);
+      }
+      gr-change-requirements {
+        --requirements-horizontal-padding: var(--metadata-horizontal-padding);
       }
       gr-account-link {
         max-width: 20ch;
@@ -73,35 +78,6 @@ limitations under the License.
       }
       gr-editable-label {
         max-width: 9em;
-      }
-      .labelValueContainer:not(:first-of-type) {
-        margin-top: .25em;
-      }
-      .labelValueContainer span {
-        align-items: baseline;
-        display: inline-flex;
-      }
-      .labelValueContainer {
-        border-radius: 3px;
-        padding: .1em .3em;
-      }
-      gr-label {
-        margin-right: .3em;
-        padding: .05em .85em;
-        text-align: center;
-        @apply --vote-chip-styles;
-      }
-      .max {
-        background-color: var(--vote-color-approved);
-      }
-      .min {
-        background-color: var(--vote-color-rejected);
-      }
-      .positive {
-        background-color: var(--vote-color-recommended);
-      }
-      .negative {
-        background-color: var(--vote-color-disliked);
       }
       .webLink {
         display: block;
@@ -142,6 +118,11 @@ limitations under the License.
         --arrow-color: #ffa62f;
         display: inline-block;
       }
+      .separatedSection {
+        border-top: 1px solid var(--border-color);
+        margin-top: .5em;
+        padding: .5em 0;
+      }
     </style>
     <gr-external-style id="externalStyle" name="change-metadata">
       <section>
@@ -174,7 +155,7 @@ limitations under the License.
               placeholder="Set assignee..."
               accounts="{{_assignee}}"
               change="[[change]]"
-              readonly="[[_computeAssigneeReadOnly(mutable, change)]]"
+              readonly="[[_computeAssigneeReadOnly(_mutable, change)]]"
               allow-any-user></gr-account-list>
         </span>
       </section>
@@ -184,7 +165,7 @@ limitations under the License.
           <span class="value">
             <gr-reviewer-list
                 change="{{change}}"
-                mutable="[[mutable]]"
+                mutable="[[_mutable]]"
                 reviewers-only
                 max-reviewers-displayed="3"></gr-reviewer-list>
           </span>
@@ -194,7 +175,7 @@ limitations under the License.
           <span class="value">
             <gr-reviewer-list
                 change="{{change}}"
-                mutable="[[mutable]]"
+                mutable="[[_mutable]]"
                 ccs-only
                 max-reviewers-displayed="3"></gr-reviewer-list>
           </span>
@@ -206,7 +187,7 @@ limitations under the License.
           <span class="value">
             <gr-reviewer-list
                 change="{{change}}"
-                mutable="[[mutable]]"></gr-reviewer-list>
+                mutable="[[_mutable]]"></gr-reviewer-list>
           </span>
         </section>
       </template>
@@ -289,53 +270,24 @@ limitations under the License.
                   on-remove="_handleHashtagRemoved">
               </gr-linked-chip>
             </template>
-            <gr-editable-label
-                uppercase
-                label-text="Add a hashtag"
-                value="{{_newHashtag}}"
-                placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
-                read-only="[[_hashtagReadOnly]]"
-                on-changed="_handleHashtagChanged"></gr-editable-label>
-          </span>
-        </section>
-      </template>
-      <template is="dom-repeat"
-          items="[[_computeLabelNames(labels)]]" as="labelName">
-        <section>
-          <span class="title">[[labelName]]</span>
-          <span class="value">
-            <template is="dom-repeat"
-                items="[[_computeLabelValues(labelName, labels.*)]]"
-                as="label">
-              <div class="labelValueContainer">
-                <span>
-                  <gr-label
-                      has-tooltip
-                      title="[[_computeValueTooltip(change, label.value, labelName)]]"
-                      class$="[[label.className]] voteChip">
-                    [[label.value]]
-                  </gr-label>
-                  <gr-account-chip
-                      account="[[label.account]]"
-                      data-account-id$="[[label.account._account_id]]"
-                      label-name="[[labelName]]"
-                      removable="[[_computeCanDeleteVote(label.account, mutable)]]"
-                      transparent-background
-                      on-remove="_onDeleteVote"></gr-account-chip>
-                </span>
-              </div>
+            <template is="dom-if" if="[[!_hashtagReadOnly]]">
+              <gr-editable-label
+                  uppercase
+                  label-text="Add a hashtag"
+                  value="{{_newHashtag}}"
+                  placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
+                  read-only="[[_hashtagReadOnly]]"
+                  on-changed="_handleHashtagChanged"></gr-editable-label>
             </template>
           </span>
         </section>
       </template>
-      <template is="dom-if" if="[[_showRequirements]]">
-        <section class="requirementsStatus">
-          <span class="title">Submit Status</span>
-          <span class="value">
-            <gr-change-requirements change="[[change]]"></gr-change-requirements>
-          </span>
-        </section>
-      </template>
+      <div class="separatedSection">
+        <gr-change-requirements
+            change="{{change}}"
+            account="[[account]]"
+            mutable="[[_mutable]]"></gr-change-requirements>
+      </div>
       <section id="webLinks" hidden$="[[!_computeWebLinks(commitInfo)]]">
         <span class="title">Links</span>
         <span class="value">

@@ -17,29 +17,33 @@
 (function() {
   'use strict';
 
-  const VALID_SELECTOR_REGEX = /[^A-Za-z0-9\-]/g;
-
   Polymer({
     is: 'gr-change-requirements',
 
     properties: {
       /** @type {?} */
       change: Object,
-      requirements: {
+      account: Object,
+      mutable: Boolean,
+      _requirements: {
         type: Array,
         computed: '_computeRequirements(change)',
       },
-      labels: {
+      _requiredLabels: {
         type: Array,
-        computed: '_computeLabels(change)',
+        value: () => [],
+      },
+      _optionalLabels: {
+        type: Array,
+        value: () => [],
       },
       _showWip: {
         type: Boolean,
         computed: '_computeShowWip(change)',
       },
-      _showLabels: {
+      _showOptionalLabels: {
         type: Boolean,
-        computed: '_computeShowLabelStatus(change)',
+        value: true,
       },
     },
 
@@ -47,9 +51,9 @@
       Gerrit.RESTClientBehavior,
     ],
 
-    _computeShowLabelStatus(change) {
-      return change.status === this.ChangeStatus.NEW;
-    },
+    observers: [
+      '_computeLabels(change.labels.*)',
+    ],
 
     _computeShowWip(change) {
       return change.work_in_progress;
@@ -61,48 +65,85 @@
       if (change.requirements) {
         for (const requirement of change.requirements) {
           requirement.satisfied = requirement.status === 'OK';
+          requirement.style = this._computeRequirementClass(requirement);
           _requirements.push(requirement);
         }
+      }
+      if (change.work_in_progress) {
+        _requirements.push({
+          fallback_text: 'Work-in-progress',
+          tooltip: 'Change must not be in \'Work in Progress\' state.',
+        });
       }
 
       return _requirements;
     },
 
-    _computeLabels(change) {
-      const labels = change.labels;
-      const _labels = [];
-
-      for (const label in labels) {
-        if (!labels.hasOwnProperty(label)) { continue; }
-        const obj = labels[label];
-        if (obj.optional) { continue; }
-
-        const icon = this._computeRequirementIcon(obj.approved);
-        const style = this._computeRequirementClass(obj.approved);
-        _labels.push({label, icon, style});
-      }
-
-      return _labels;
-    },
-
     _computeRequirementClass(requirementStatus) {
-      if (requirementStatus) {
-        return 'satisfied';
-      } else {
-        return 'unsatisfied';
-      }
+      return requirementStatus ? 'approved' : '';
     },
 
     _computeRequirementIcon(requirementStatus) {
-      if (requirementStatus) {
-        return 'gr-icons:check';
-      } else {
-        return 'gr-icons:hourglass';
+      return requirementStatus ? 'gr-icons:check' : 'gr-icons:hourglass';
+    },
+
+    _computeLabels(labelsRecord) {
+      const labels = labelsRecord.base;
+      this._optionalLabels = [];
+      this._requiredLabels = [];
+
+      for (const label in labels) {
+        if (!labels.hasOwnProperty(label)) { continue; }
+
+        const labelInfo = labels[label];
+        const icon = this._computeLabelIcon(labelInfo);
+        const style = this._computeLabelClass(labelInfo);
+        const path = labelInfo.optional ? '_optionalLabels' : '_requiredLabels';
+
+        this.push(path, {label, icon, style, labelInfo});
       }
     },
 
-    _removeInvalidChars(text) {
-      return text.replace(VALID_SELECTOR_REGEX, '');
+    /**
+     * @param {Object} labelInfo
+     * @return {string} The icon name, or undefined if no icon should
+     *     be used.
+     */
+    _computeLabelIcon(labelInfo) {
+      if (labelInfo.approved) { return 'gr-icons:check'; }
+      if (labelInfo.rejected) { return 'gr-icons:close'; }
+      return 'gr-icons:hourglass';
+    },
+
+    /**
+     * @param {Object} labelInfo
+     */
+    _computeLabelClass(labelInfo) {
+      if (labelInfo.approved) { return 'approved'; }
+      if (labelInfo.rejected) { return 'rejected'; }
+      return '';
+    },
+
+    _computeShowOptional(optionalFieldsRecord) {
+      return optionalFieldsRecord.base.length ? '' : 'hidden';
+    },
+
+    _computeLabelValue(value) {
+      return (value > 0 ? '+' : '') + value;
+    },
+
+    _computeShowHideIcon(showOptionalLabels) {
+      return showOptionalLabels ?
+          'gr-icons:expand-less' :
+          'gr-icons:expand-more';
+    },
+
+    _computeSectionClass(show) {
+      return show ? '' : 'hidden';
+    },
+
+    _handleShowHide(e) {
+      this._showOptionalLabels = !this._showOptionalLabels;
     },
   });
 })();

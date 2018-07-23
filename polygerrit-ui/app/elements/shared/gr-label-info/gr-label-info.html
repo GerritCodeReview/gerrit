@@ -30,12 +30,13 @@ limitations under the License.
     <style include="gr-voting-styles"></style>
     <style include="shared-styles">
       .title {
-        font-size: var(--font-size-large);
         font-weight: bold;
+        max-width: 20em;
+        padding-right: .5em;
+        word-break: break-word;
       }
       .placeholder {
         color: var(--deemphasized-text-color);
-        padding-top: .5em;
       }
       .hidden {
         display: none;
@@ -44,7 +45,7 @@ limitations under the License.
         display: flex;
         justify-content: center;
         margin-right: .3em;
-        padding: .2em .85em;
+        padding: .05em .85em;
         @apply --vote-chip-styles;
       }
       .max {
@@ -68,16 +69,6 @@ limitations under the License.
       tr {
         min-height: 2.25em;
       }
-      tr td {
-        padding-top: .35em;
-      }
-      tr.currentUser td {
-        padding-bottom: .5em;
-      }
-      tr.currentUser + tr td {
-        border-top: 1px solid var(--border-color);
-        padding-top: .5em;
-      }
       gr-button {
         --gr-button: {
           height: 2em;
@@ -86,24 +77,25 @@ limitations under the License.
         }
       }
       gr-account-chip {
-        margin-right: 1.5em;
+        margin-right: .25em;
+      }
+      iron-icon {
+        height: 1.2em;
+        width: 1.2em;
+      }
+      .labelValueContainer:not(:first-of-type) td {
+        padding-top: .3em;
       }
     </style>
-    <p class="title">[[label]]</p>
-    <p class$="placeholder [[_computeShowPlaceholder(labelInfo, change.labels.*)]]">
-      No votes for this label.
-    </p>
     <table>
+      <p class$="placeholder [[_computeShowPlaceholder(labelInfo, change.labels.*)]]">
+        No votes.
+      </p>
       <template
           is="dom-repeat"
           items="[[_mapLabelInfo(labelInfo, account, change.labels.*)]]"
           as="mappedLabel">
-        <tr class$="labelValueContainer [[_computeLabelContainerClass(mappedLabel)]]">
-          <td>
-            <gr-account-chip
-                account="[[mappedLabel.account]]"
-                transparent-background></gr-account-chip>
-          </td>
+        <tr class="labelValueContainer">
           <td>
             <gr-label
                 has-tooltip
@@ -111,6 +103,11 @@ limitations under the License.
                 class$="[[mappedLabel.className]] voteChip">
               [[mappedLabel.value]]
             </gr-label>
+          </td>
+          <td>
+            <gr-account-chip
+                account="[[mappedLabel.account]]"
+                transparent-background></gr-account-chip>
           </td>
           <td>
             <gr-button

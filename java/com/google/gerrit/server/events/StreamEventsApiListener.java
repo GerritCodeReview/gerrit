@@ -148,10 +148,6 @@ public class StreamEventsApiListener
     }
   }
 
-  private Change getChange(ChangeInfo info) throws OrmException {
-    return getNotes(info).getChange();
-  }
-
   private PatchSet getPatchSet(ChangeNotes notes, RevisionInfo info) throws OrmException {
     return psUtil.get(db.get(), notes, PatchSet.Id.fromRef(info.ref));
   }

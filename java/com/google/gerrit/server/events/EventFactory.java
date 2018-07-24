@@ -183,7 +183,7 @@ public class EventFactory {
     ChangeAttribute a = asChangeAttribute(db, change);
     Set<String> hashtags = notes.load().getHashtags();
     if (!hashtags.isEmpty()) {
-      a.hashtags = new ArrayList<String>(hashtags.size());
+      a.hashtags = new ArrayList<>(hashtags.size());
       a.hashtags.addAll(hashtags);
     }
     return a;

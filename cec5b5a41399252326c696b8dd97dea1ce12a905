@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc4d7198_2c236b97",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-07-24T16:51:07Z",
+      "side": 1,
+      "message": "Please add a test for the new r key shortcut here.",
+      "revId": "cec5b5a41399252326c696b8dd97dea1ce12a905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

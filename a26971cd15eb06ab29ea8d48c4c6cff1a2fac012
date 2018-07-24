@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1532442640 -0700\nnonce APISObSQ3UQ7xAN8OaK2qbtSLv3eoQQw4dGwEQBRE+srP40FhxlSWNpBqRmsnoK5i680lcZHmrKZ\n\n0000000000000000000000000000000000000000 cb6a899ce862403d53e64f92affc56145953dc2e refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAltXOBAVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM4yIP/A1xKF6rPW6Nblh60t3qp/BRv55+\nLz7Govhl6oDeqsoBspQDpJxuNvEswVJvlU+7rCajwD9SiDeGqQvCeoaDmJlSSOpX\nukCMqxiYKef51KdxrAJJPks1r+Ldix2tY6VsFl/Dohtd4hVkQ0NS9Gud1J/8Xujv\njNaNZusllImPJ0MKeJO0SffZx5ILhd0VZJpbWDmtD9GJpCFo8fxsc4ZeL697ISJV\nbzAS8Ul4NXgN9/Ry3v+fXi4eAbY0Sm41Chv5ZHyBxMMRDaECZEE+5T+qcLjWwPan\npsFyWT77Rrez1LjDQaFPJklnScgrP4gtpI3VXSqziamvH6gGDHpKPDQwF3Ajv/qs\nJCDkR3iyngEsdzdfh29isPd7As/9eJIEx2UkfKXUA8A+6vv25PT7NImzOdhERKip\n/W9+OVFk1NJ72lZiXPenLu7dX14gaqqQgRt5laXXO1HffIzNotB7BrIRaFxqSBYu\njKZts34rI5VCmvY0ZPXwsqyZoEAn0zQFwCz53lxiy2HJ3+04iTNYxIFKElg68nvY\nYPYnumhsfi3JoX04JcvIrQFiV/rdwzXsBbWAJ8u2Scj1VJgPoK7yRrNpj7NHC52U\nGMh13fXMmhCzpiuGTTnAIxxSDmNI6c+oFMcMKITmqg5+sTkCbX6sDwkWT0aJ1Dov\nhlF11mIkidI0hygS\n\u003d0dCk\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "89eabb9c_545805b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-24T14:44:04Z",
+      "side": 1,
+      "message": "After saying that, of course, it took me 3 tries to get it right :/. So let me know if you think it makes more sense to just use the one-line implementation for #serialize",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "a26971cd15eb06ab29ea8d48c4c6cff1a2fac012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

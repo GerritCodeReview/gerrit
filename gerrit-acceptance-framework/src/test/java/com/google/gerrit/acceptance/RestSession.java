@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.server.OutputFormat;
 import java.io.IOException;
 import org.apache.http.Header;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.InputStreamEntity;
@@ -34,16 +33,6 @@ public class RestSession extends HttpSession {
 
   public RestSession(GerritServer server, @Nullable TestAccount account) {
     super(server, account);
-  }
-
-  public RestResponse getOK(String endPoint) throws Exception {
-    return get(endPoint, HttpStatus.SC_OK);
-  }
-
-  public RestResponse get(String endPoint, int expectedStatus) throws Exception {
-    RestResponse r = get(endPoint);
-    r.assertStatus(expectedStatus);
-    return r;
   }
 
   public RestResponse get(String endPoint) throws IOException {
@@ -103,16 +92,6 @@ public class RestSession extends HttpSession {
 
   public RestResponse post(String endPoint) throws IOException {
     return post(endPoint, null);
-  }
-
-  public RestResponse postOK(String endPoint, Object content) throws Exception {
-    return post(endPoint, content, HttpStatus.SC_OK);
-  }
-
-  public RestResponse post(String endPoint, Object content, int expectedStatus) throws Exception {
-    RestResponse r = post(endPoint, content);
-    r.assertStatus(expectedStatus);
-    return r;
   }
 
   public RestResponse post(String endPoint, Object content) throws IOException {

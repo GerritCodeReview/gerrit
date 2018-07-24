@@ -190,7 +190,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
               "Cannot update " + projectName + ": " + e.getCause().getMessage());
         }
         log.warn("Failed to update config of project {}.", projectName, e);
-        throw new ResourceConflictException("Cannot update " + projectName);
+        throw new ResourceConflictException("Cannot update " + projectName, e);
       }
 
       ProjectState state = projectStateFactory.create(projectConfig);

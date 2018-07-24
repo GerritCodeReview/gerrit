@@ -357,6 +357,24 @@
     },
     {
       "key": {
+        "uuid": "33db8693_6951a018",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-24T12:55:28Z",
+      "side": 1,
+      "message": "I\u0027m not sure that requesting the PATCH_SET field helps for all cases.\n\nLet\u0027s say I walk the history and I have a commit X with Change-Id FOO.\n\nIf there is any open change with Change-Id FOO (for the same branch) we want to auto-close it. This change may not have any patch set with commit X, but for auto-closing it we must provide commit X as \u0027expectMergedAs\u0027 in the FixInput. I guess for this case we must create a Map of Change-Id to commit SHA1 when walking the history. This way we can map back from Change-Id to the commit that was merged for it.\n\nI will try this and upload a new patch set.",
+      "parentUuid": "ed0681fa_35d8cd19",
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f900ef5_0e533979",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 6

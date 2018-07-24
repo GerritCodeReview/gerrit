@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e23b46f8_c47a2f83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-24T09:57:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f1d5eb_75edeb45",
+      "revId": "94d0030a1dc1ec5dab8cbf0206fb434eae5f3744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91c2ad86_bd7d5da6",
         "filename": "WORKSPACE",
         "patchSetId": 3
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "41fe0336_d56c3641",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-24T09:57:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6db3970f_925c3f56",
+      "revId": "94d0030a1dc1ec5dab8cbf0206fb434eae5f3744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "416ff57e_9522c591",
         "filename": "java/com/google/gerrit/extensions/common/testing/RangeSubject.java",
         "patchSetId": 3
@@ -67,6 +103,24 @@
       "revId": "94d0030a1dc1ec5dab8cbf0206fb434eae5f3744",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09a4f807_7d98fbe8",
+        "filename": "java/com/google/gerrit/extensions/common/testing/RangeSubject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-24T09:57:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "416ff57e_9522c591",
+      "revId": "94d0030a1dc1ec5dab8cbf0206fb434eae5f3744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -81,6 +81,13 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
+    test('_createElement classStr applies all classes', () => {
+      const node = builder._createElement('div', 'test classes');
+      assert.isTrue(node.classList.contains('gr-diff'));
+      assert.isTrue(node.classList.contains('test'));
+      assert.isTrue(node.classList.contains('classes'));
+    });
+
     test('context control buttons', () => {
       const section = {};
       const line = {contextGroup: {lines: []}};

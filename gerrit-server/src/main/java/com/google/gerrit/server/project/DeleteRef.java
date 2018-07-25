@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.IdentifiedUser;
@@ -96,7 +97,7 @@ public class DeleteRef {
     return this;
   }
 
-  public void delete() throws OrmException, IOException, ResourceConflictException {
+  public void delete() throws OrmException, IOException, ResourceConflictException, AuthException {
     if (!refsToDelete.isEmpty()) {
       try (Repository r = repoManager.openRepository(resource.getNameKey())) {
         if (refsToDelete.size() == 1) {
@@ -108,11 +109,17 @@ public class DeleteRef {
     }
   }
 
-  private void deleteSingleRef(Repository r) throws IOException, ResourceConflictException {
+  private void deleteSingleRef(Repository r)
+      throws IOException, ResourceConflictException, AuthException {
     String ref = refsToDelete.get(0);
     if (prefix != null && !ref.startsWith(prefix)) {
       ref = prefix + ref;
     }
+
+    if (!resource.getControl().controlForRef(ref).canDelete()) {
+      throw new AuthException("delete not permitted for " + ref);
+    }
+
     RefUpdate.Result result;
     RefUpdate u = r.updateRef(ref);
     u.setExpectedOldObjectId(r.exactRef(ref).getObjectId());

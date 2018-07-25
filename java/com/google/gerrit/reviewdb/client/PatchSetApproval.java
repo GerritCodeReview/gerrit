@@ -219,13 +219,14 @@ public final class PatchSetApproval {
           && Objects.equals(granted, p.granted)
           && Objects.equals(tag, p.tag)
           && Objects.equals(realAccountId, p.realAccountId)
-          && postSubmit == p.postSubmit;
+          && postSubmit == p.postSubmit
+          && Objects.equals(originalPatchSetId, p.originalPatchSetId);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, value, granted, tag);
+    return Objects.hash(key, value, granted, tag, realAccountId, postSubmit);
   }
 }

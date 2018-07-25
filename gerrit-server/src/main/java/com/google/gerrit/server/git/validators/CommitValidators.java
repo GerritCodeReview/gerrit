@@ -210,17 +210,13 @@ public class CommitValidators {
   public static class ChangeIdValidator implements CommitValidationListener {
     private static final String CHANGE_ID_PREFIX = FooterConstants.CHANGE_ID.getName() + ":";
     private static final String MISSING_CHANGE_ID_MSG =
-        "[%s] missing " + FooterConstants.CHANGE_ID.getName() + " in commit message footer";
+        "[%s] missing Change-Id in commit message footer";
     private static final String MISSING_SUBJECT_MSG =
-        "[%s] missing subject; "
-            + FooterConstants.CHANGE_ID.getName()
-            + " must be in commit message footer";
+        "[%s] missing subject; Change-Id must be in commit message footer";
     private static final String MULTIPLE_CHANGE_ID_MSG =
-        "[%s] multiple " + FooterConstants.CHANGE_ID.getName() + " lines in commit message footer";
+        "[%s] multiple Change-Id lines in commit message footer";
     private static final String INVALID_CHANGE_ID_MSG =
-        "[%s] invalid "
-            + FooterConstants.CHANGE_ID.getName()
-            + " line format in commit message footer";
+        "[%s] invalid Change-Id line format in commit message footer";
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
     private final ProjectState projectState;

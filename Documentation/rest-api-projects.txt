@@ -597,17 +597,30 @@ If the description was deleted the response is "`204 No Content`".
 
 Deletes the description of a project.
 
-The request body does not need to include a
-link:#project-description-input[ProjectDescriptionInput] entity if no
-commit message is specified.
-
-Please note that some proxies prohibit request bodies for DELETE
-requests. In this case, if you want to specify a commit message, use
-link:#set-project-description[PUT] to delete the description.
-
 .Request
 ----
   DELETE /projects/plugins%2Freplication/description HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+A commit message can be provided in the request body as a
+link:#project-description-input[ProjectDescriptionInput] entity.
+Historically, this method allowed a body in the DELETE, but that behavior is
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+In this case, use link:#set-project-description[PUT] instead.
+
+.Request
+----
+  PUT /projects/plugins%2Freplication/description HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "commit_message": "Update the project description"
+  }
 ----
 
 .Response

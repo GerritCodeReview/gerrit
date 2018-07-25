@@ -1,12 +1,12 @@
-load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_CENTRAL", "MAVEN_LOCAL", "maven_jar")
+load("//tools/bzl:maven_jar.bzl", "GERRIT", "JGIT_SNAPSHOT", "MAVEN_CENTRAL", "MAVEN_LOCAL", "maven_jar")
 
-_JGIT_VERS = "4.7.1.201706071930-r"
+_JGIT_VERS = "4.7.1.201706071930-r.22-g5a8ad4420"
 
-_DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
+_DOC_VERS = "4.7.1.201706071930-r"  # Set to _JGIT_VERS unless using a snapshot
 
 JGIT_DOC_URL = "http://download.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
 
-_JGIT_REPO = MAVEN_CENTRAL  # Leave here even if set to MAVEN_CENTRAL.
+_JGIT_REPO = JGIT_SNAPSHOT  # Leave here even if set to MAVEN_CENTRAL.
 
 # set this to use a local version.
 # "/home/<user>/projects/jgit"
@@ -26,28 +26,28 @@ def jgit_maven_repos():
         name = "jgit-lib",
         artifact = "org.eclipse.jgit:org.eclipse.jgit:" + _JGIT_VERS,
         repository = _JGIT_REPO,
-        sha1 = "0023aa574d6ea984e770af60da94da366a0109d2",
-        src_sha1 = "0497d0ac4f7c44eea49a32e7e1d6a5eee6343c33",
+        sha1 = "0501e9aa97c3dda50b4ad8ddfb2cffa6783fdcbd",
+        src_sha1 = "1e10449a7613c3b9ea5ef6da9c74e695483e98ee",
         unsign = True,
     )
     maven_jar(
         name = "jgit-servlet",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.http.server:" + _JGIT_VERS,
         repository = _JGIT_REPO,
-        sha1 = "0bacf02e5c9c587f8a6e680278d2b4b7fc8df96d",
+        sha1 = "02ef1c73119ffad3526981ae9eff7ca49503ead5",
         unsign = True,
     )
     maven_jar(
         name = "jgit-archive",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.archive:" + _JGIT_VERS,
         repository = _JGIT_REPO,
-        sha1 = "83c22720f1b00b4b5e321b9c8b089b91c1d78893",
+        sha1 = "a0c9274fe4f330e7cce188a3f307a286f0df2ea3",
     )
     maven_jar(
         name = "jgit-junit",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.junit:" + _JGIT_VERS,
         repository = _JGIT_REPO,
-        sha1 = "5a3f2d6cf33e88f3436acfd22a129bc7e2d2655b",
+        sha1 = "c1e3d6a9c42a546db08e5504dab41ab7d33d1add",
         unsign = True,
     )
 

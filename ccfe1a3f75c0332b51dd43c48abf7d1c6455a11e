@@ -1,4 +1,102 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1532500673 +0200\nnonce APISObQ/6N4sjDwkysu9SfXB7KkEeD3dax0DxYr8Uw5rekTljlh9R052s5yKKdrxQF5oPrUavKry\n\n0000000000000000000000000000000000000000 ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAltYGsEACgkQUbX9l6DQ\n71GXoAf+OBqjATqNFtO6R3fuPHe+GKHHdHseGQE3Jhaw0idO+/V9Rzl2DrA3VRC1\nBD7vO7HeLNVOmRAvc2mK5lW0Xf427kA7N3bP1Kt4QhMnzINdT72TllmfmR4KNa3k\nHOp2wRXFMm+44ZudWwb55wvqOM0rt5fgnSAXCcOLBP88a3/Ze192QnSHj2F+PGWq\nLmsAPepInYtPETBVC4WSgZYJ3XV/znH2aNZAKYeZYd2ZxkJTkVjieAgRE6778ks7\n8b3SgNpHaw3JyWxKTyRuXXXOIFqxHTOL2N/ljFr5J9AbfeeNz1qm8d904WMh7IsS\ncEG8oaLh0sPV4OJjmiZNooVXWmIArQ\u003d\u003d\n\u003dWju4\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "33b8f68a_428d1fd8",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2903,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-25T14:37:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure we should allow this to be unspecified at all. If the user accidentally omits it, then I\u0027m worried that the request thread will continue walking history for hours. Even if they notice this and cancel the request, the server is neither reading nor writing to the socket while it\u0027s searching the history, so it won\u0027t notice that the connection is closed.\n\nWould it be reasonable to cap this value (even if specified) at some constant multiple of index.maxTerms to limit the total number of index queries that the operation will perform? If we have maxTerms \u003d 100 (98 usable terms per query) and we limit it to 100 queries, then that gives us 9800 commits; do you think that would be enough for our use cases? What if the multiple is 200?",
+      "range": {
+        "startLine": 2902,
+        "startChar": 46,
+        "endLine": 2903,
+        "endChar": 66
+      },
+      "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0e33979_4549027c",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-25T14:37:30Z",
+      "side": 1,
+      "message": "This strikes me as weird, since normally these kinds of commits are rejected. I guess maybe a commit could have multiple Change-Id lines when it was directly pushed, which bypasses that check. In that case I\u0027m not actually sure what is the right answer for which Change-Id corresponds to this commit, but your choice of all of them seems as good as any.\n\nMaybe leave a comment?",
+      "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ae34dd7_49483e28",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-25T14:37:30Z",
+      "side": 1,
+      "message": "What if there are multiple SHA-1s with the same Change-Id? This could happen if a change was cherry-picked to a stable branch which then got merged back into master.",
+      "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14c2c9e7_c528bc64",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-25T14:37:30Z",
+      "side": 1,
+      "message": "+3, you forgot project.\n\nMore generally, this seems easy to get wrong. For example, if we add another \"open\" status, then open() will have more than one leaf term.\n\nI think this (and some code elsewhere as well :) would be better if we had a Predicate#leafCount method. Then you could have a  method in this class which produces the (is:open project:foo branch:bar) predicate. Call it once here (well, outside the loop) to count the leaves, then call the same method again in autoCloseableChangesByBranch when constructing the actual query, so it\u0027s guaranteed to be the right count.",
+      "range": {
+        "startLine": 168,
+        "startChar": 12,
+        "endLine": 169,
+        "endChar": 21
+      },
+      "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c1c276f_f234f5d5",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-25T14:37:30Z",
+      "side": 1,
+      "message": "Putting this inside the retry loop increases the chances of a permanent failure. The way you have it, a single failure in updating any of the changes will cause this block to be retried, so N failures spread across all the changes in this batch will result in permanent failure.\n\nIf you split the logic up so that the first retry is only for executing the query and collecting the changes to auto-close, then you can use a separate RetryHelper for each change. That way you won\u0027t see a permanent failure unless a single change fails multiple times.\n\nI don\u0027t feel too strongly, though. If leaving it this way keeps the logic easier to manage, then that\u0027s fine by me (until proven otherwise in production).",
+      "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

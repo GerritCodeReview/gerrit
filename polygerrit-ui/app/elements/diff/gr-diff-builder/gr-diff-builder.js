@@ -544,7 +544,7 @@
     return result;
   };
 
-  GrDiffBuilder.prototype._createElement = function(tagName, className) {
+  GrDiffBuilder.prototype._createElement = function(tagName, classStr) {
     const el = document.createElement(tagName);
     // When Shady DOM is being used, these classes are added to account for
     // Polymer's polyfill behavior. In order to guarantee sufficient
@@ -553,8 +553,10 @@
     // automatically) are not being used for performance reasons, this is
     // done manually.
     el.classList.add('style-scope', 'gr-diff');
-    if (className) {
-      el.classList.add(className);
+    if (classStr) {
+      for (const className of classStr.split(' ')) {
+        el.classList.add(className);
+      }
     }
     return el;
   };

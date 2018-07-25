@@ -75,10 +75,10 @@
   GrDiffBuilderImage.prototype._emitImagePair = function(section) {
     const tr = this._createElement('tr');
 
-    tr.appendChild(this._createElement('td'));
+    tr.appendChild(this._createElement('td', 'left lineNum blank'));
     tr.appendChild(this._createImageCell(this._baseImage, 'left', section));
 
-    tr.appendChild(this._createElement('td'));
+    tr.appendChild(this._createElement('td', 'right lineNum blank'));
     tr.appendChild(this._createImageCell(
         this._revisionImage, 'right', section));
 
@@ -126,7 +126,7 @@
       addNamesInLabel = true;
     }
 
-    tr.appendChild(this._createElement('td'));
+    tr.appendChild(this._createElement('td', 'left lineNum blank'));
     let td = this._createElement('td', 'left');
     let label = this._createElement('label');
     let nameSpan;
@@ -145,7 +145,7 @@
     td.appendChild(label);
     tr.appendChild(td);
 
-    tr.appendChild(this._createElement('td'));
+    tr.appendChild(this._createElement('td', 'right lineNum blank'));
     td = this._createElement('td', 'right');
     label = this._createElement('label');
     labelSpan = this._createElement('span', 'label');

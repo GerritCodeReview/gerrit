@@ -123,12 +123,6 @@ is the author of the commit. Its main purpose is to improve tracking of who
 did  what, especially with patches. Default is `INHERIT`, which means that this
 property is inherited from the parent project.
 
-[[receive.requireChangeId]]receive.requireChangeId::
-+
-Controls whether or not the Change-Id must be included in the commit message
-in the last paragraph. Default is `INHERIT`, which means that this property
-is inherited from the parent project.
-
 [[receive.maxObjectSizeLimit]]receive.maxObjectSizeLimit::
 +
 Maximum allowed Git object size that receive-pack will accept. If an object

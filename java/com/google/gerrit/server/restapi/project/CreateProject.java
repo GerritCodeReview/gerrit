@@ -197,8 +197,6 @@ public class CreateProject
     args.newChangeForAllNotInTarget =
         MoreObjects.firstNonNull(
             input.createNewChangeForAllNotInTarget, InheritableBoolean.INHERIT);
-    args.changeIdRequired =
-        MoreObjects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
     args.rejectEmptyCommit =
         MoreObjects.firstNonNull(input.rejectEmptyCommit, InheritableBoolean.INHERIT);
     try {
@@ -292,7 +290,6 @@ public class CreateProject
       newProject.setBooleanConfig(
           BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
           args.newChangeForAllNotInTarget);
-      newProject.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, args.changeIdRequired);
       newProject.setBooleanConfig(BooleanProjectConfig.REJECT_EMPTY_COMMIT, args.rejectEmptyCommit);
       newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
       if (args.newParent != null) {

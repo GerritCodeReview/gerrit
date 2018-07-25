@@ -1346,26 +1346,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushWithoutChangeId() throws Exception {
-    testPushWithoutChangeId();
-  }
-
-  @Test
-  public void pushWithoutChangeIdWithCreateNewChangeForAllNotInTarget() throws Exception {
-    enableCreateNewChangeForAllNotInTarget();
-    testPushWithoutChangeId();
-  }
-
-  private void testPushWithoutChangeId() throws Exception {
-    RevCommit c = createCommit(testRepo, "Message without Change-Id");
-    assertThat(GitUtil.getChangeId(testRepo, c)).isEmpty();
-    pushForReviewRejected(testRepo, "missing Change-Id in commit message footer");
-
-    setRequireChangeId(InheritableBoolean.FALSE);
-    pushForReviewOk(testRepo);
-  }
-
-  @Test
   @GerritConfig(name = "receive.allowPushToRefsChanges", value = "true")
   public void testPushWithChangedChangeId() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
@@ -1407,27 +1387,18 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + "Change-Id: I10f98c2ef76e52e23aa23be5afeb71e40b350e86\n"
             + "Change-Id: Ie9a132e107def33bdd513b7854b50de911edba0a\n");
     pushForReviewRejected(testRepo, "multiple Change-Id lines in commit message footer");
-
-    setRequireChangeId(InheritableBoolean.FALSE);
-    pushForReviewRejected(testRepo, "multiple Change-Id lines in commit message footer");
   }
 
   @Test
   public void pushWithInvalidChangeId() throws Exception {
-    testpushWithInvalidChangeId();
+    createCommit(testRepo, "Message with invalid Change-Id\n\nChange-Id: X\n");
+    pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
   }
 
   @Test
   public void pushWithInvalidChangeIdWithCreateNewChangeForAllNotInTarget() throws Exception {
     enableCreateNewChangeForAllNotInTarget();
-    testpushWithInvalidChangeId();
-  }
-
-  private void testpushWithInvalidChangeId() throws Exception {
     createCommit(testRepo, "Message with invalid Change-Id\n\nChange-Id: X\n");
-    pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
-
-    setRequireChangeId(InheritableBoolean.FALSE);
     pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
   }
 
@@ -1450,17 +1421,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + "\n"
             + "Change-Id: I0000000000000000000000000000000000000000\n");
     pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
-
-    setRequireChangeId(InheritableBoolean.FALSE);
-    pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
   }
 
   @Test
   public void pushWithChangeIdInSubjectLine() throws Exception {
     createCommit(testRepo, "Change-Id: I1234000000000000000000000000000000000000");
-    pushForReviewRejected(testRepo, "missing subject; Change-Id must be in commit message footer");
-
-    setRequireChangeId(InheritableBoolean.FALSE);
     pushForReviewRejected(testRepo, "missing subject; Change-Id must be in commit message footer");
   }
 
@@ -1480,19 +1445,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         "same Change-Id in multiple changes.\n"
             + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
             + " commit");
-
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .getProject()
-          .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
-      u.save();
-    }
-
-    pushForReviewRejected(
-        testRepo,
-        "same Change-Id in multiple changes.\n"
-            + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
-            + " commit");
   }
 
   @Test
@@ -1500,19 +1452,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     RevCommit commitChange1 = createCommitWithChangeId(testRepo, "some change");
 
     createCommit(testRepo, commitChange1.getFullMessage());
-
-    pushForReviewRejected(
-        testRepo,
-        "same Change-Id in multiple changes.\n"
-            + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
-            + " commit");
-
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .getProject()
-          .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
-      u.save();
-    }
 
     pushForReviewRejected(
         testRepo,

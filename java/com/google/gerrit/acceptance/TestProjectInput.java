@@ -43,8 +43,6 @@ public @interface TestProjectInput {
 
   InheritableBoolean useContentMerge() default InheritableBoolean.INHERIT;
 
-  InheritableBoolean requireChangeId() default InheritableBoolean.INHERIT;
-
   InheritableBoolean rejectEmptyCommit() default InheritableBoolean.INHERIT;
 
   // Fields specific to acceptance test behavior.

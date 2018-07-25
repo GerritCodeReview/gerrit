@@ -33,9 +33,6 @@ public class ConfigInfo extends JavaScriptObject {
 
   public final native String description() /*-{ return this.description }-*/;
 
-  public final native InheritedBooleanInfo requireChangeId()
-      /*-{ return this.require_change_id; }-*/ ;
-
   public final native InheritedBooleanInfo useContentMerge()
       /*-{ return this.use_content_merge; }-*/ ;
 

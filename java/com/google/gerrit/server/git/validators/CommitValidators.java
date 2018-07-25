@@ -292,11 +292,9 @@ public class CommitValidators {
           String errMsg = String.format(MISSING_SUBJECT_MSG, sha1);
           throw new CommitValidationException(errMsg);
         }
-        if (projectState.is(BooleanProjectConfig.REQUIRE_CHANGE_ID)) {
-          String errMsg = String.format(MISSING_CHANGE_ID_MSG, sha1);
-          messages.add(getMissingChangeIdErrorMsg(errMsg, commit));
-          throw new CommitValidationException(errMsg, messages);
-        }
+        String errMsg = String.format(MISSING_CHANGE_ID_MSG, sha1);
+        messages.add(getMissingChangeIdErrorMsg(errMsg, commit));
+        throw new CommitValidationException(errMsg, messages);
       } else if (idList.size() > 1) {
         String errMsg = String.format(MULTIPLE_CHANGE_ID_MSG, sha1);
         throw new CommitValidationException(errMsg, messages);

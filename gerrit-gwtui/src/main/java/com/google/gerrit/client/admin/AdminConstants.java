@@ -73,8 +73,6 @@ public interface AdminConstants extends Constants {
 
   String requireSignedPush();
 
-  String requireChangeID();
-
   String rejectImplicitMerges();
 
   String privateByDefault();

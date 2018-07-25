@@ -151,7 +151,6 @@ public class AllProjectsCreator {
       ProjectConfig config = ProjectConfig.read(md);
       Project p = config.getProject();
       p.setDescription("Access inherited by all other projects.");
-      p.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.TRUE);
       p.setBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE, InheritableBoolean.TRUE);
       p.setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, InheritableBoolean.FALSE);
       p.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, InheritableBoolean.FALSE);

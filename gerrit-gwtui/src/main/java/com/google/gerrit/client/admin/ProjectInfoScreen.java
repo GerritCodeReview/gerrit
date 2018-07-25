@@ -79,7 +79,6 @@ public class ProjectInfoScreen extends ProjectScreen {
   private LabeledWidgetsGrid actionsGrid;
 
   // Section: Project Options
-  private ListBox requireChangeID;
   private ListBox submitType;
   private ListBox state;
   private ListBox contentMerge;
@@ -196,7 +195,6 @@ public class ProjectInfoScreen extends ProjectScreen {
     descTxt.setEnabled(isOwner);
     contributorAgreements.setEnabled(isOwner);
     signedOffBy.setEnabled(isOwner);
-    requireChangeID.setEnabled(isOwner);
     rejectImplicitMerges.setEnabled(isOwner);
     privateByDefault.setEnabled(isOwner);
     workInProgressByDefault.setEnabled(isOwner);
@@ -258,10 +256,6 @@ public class ProjectInfoScreen extends ProjectScreen {
     newChangeForAllNotInTarget = newInheritedBooleanBox();
     saveEnabler.listenTo(newChangeForAllNotInTarget);
     grid.add(AdminConstants.I.createNewChangeForAllNotInTarget(), newChangeForAllNotInTarget);
-
-    requireChangeID = newInheritedBooleanBox();
-    saveEnabler.listenTo(requireChangeID);
-    grid.addHtml(AdminConstants.I.requireChangeID(), requireChangeID);
 
     if (Gerrit.info().receive().enableSignedPush()) {
       enableSignedPush = newInheritedBooleanBox();
@@ -426,7 +420,6 @@ public class ProjectInfoScreen extends ProjectScreen {
     setBool(signedOffBy, result.useSignedOffBy());
     setBool(contentMerge, result.useContentMerge());
     setBool(newChangeForAllNotInTarget, result.createNewChangeForAllNotInTarget());
-    setBool(requireChangeID, result.requireChangeId());
     if (Gerrit.info().receive().enableSignedPush()) {
       setBool(enableSignedPush, result.enableSignedPush());
       setBool(requireSignedPush, result.requireSignedPush());
@@ -702,7 +695,6 @@ public class ProjectInfoScreen extends ProjectScreen {
         getBool(contentMerge),
         getBool(signedOffBy),
         getBool(newChangeForAllNotInTarget),
-        getBool(requireChangeID),
         esp,
         rsp,
         getBool(rejectImplicitMerges),

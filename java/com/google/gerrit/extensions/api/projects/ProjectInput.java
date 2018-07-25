@@ -31,7 +31,6 @@ public class ProjectInput {
   public InheritableBoolean useContributorAgreements;
   public InheritableBoolean useSignedOffBy;
   public InheritableBoolean useContentMerge;
-  public InheritableBoolean requireChangeId;
   public InheritableBoolean createNewChangeForAllNotInTarget;
   public InheritableBoolean rejectEmptyCommit;
   public String maxObjectSizeLimit;

@@ -33,7 +33,6 @@ public class CreateProjectArgs {
   public List<String> branch;
   public InheritableBoolean contentMerge;
   public InheritableBoolean newChangeForAllNotInTarget;
-  public InheritableBoolean changeIdRequired;
   public InheritableBoolean rejectEmptyCommit;
   public boolean createEmptyCommit;
   public String maxObjectSizeLimit;
@@ -42,7 +41,6 @@ public class CreateProjectArgs {
     contributorAgreements = InheritableBoolean.INHERIT;
     signedOffBy = InheritableBoolean.INHERIT;
     contentMerge = InheritableBoolean.INHERIT;
-    changeIdRequired = InheritableBoolean.INHERIT;
     newChangeForAllNotInTarget = InheritableBoolean.INHERIT;
     submitType = SubmitType.MERGE_IF_NECESSARY;
   }

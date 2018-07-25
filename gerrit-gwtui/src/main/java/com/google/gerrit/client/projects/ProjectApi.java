@@ -148,7 +148,6 @@ public class ProjectApi {
       InheritableBoolean useContentMerge,
       InheritableBoolean useSignedOffBy,
       InheritableBoolean createNewChangeForAllNotInTarget,
-      InheritableBoolean requireChangeId,
       InheritableBoolean enableSignedPush,
       InheritableBoolean requireSignedPush,
       InheritableBoolean rejectImplicitMerges,
@@ -166,7 +165,6 @@ public class ProjectApi {
     in.setUseContributorAgreements(useContributorAgreements);
     in.setUseContentMerge(useContentMerge);
     in.setUseSignedOffBy(useSignedOffBy);
-    in.setRequireChangeId(requireChangeId);
     in.setCreateNewChangeForAllNotInTarget(createNewChangeForAllNotInTarget);
     if (enableSignedPush != null) {
       in.setEnableSignedPush(enableSignedPush);
@@ -285,12 +283,6 @@ public class ProjectApi {
     }
 
     private native void setUseSignedOffByRaw(String v) /*-{ if(v)this.use_signed_off_by=v; }-*/;
-
-    final void setRequireChangeId(InheritableBoolean v) {
-      setRequireChangeIdRaw(v.name());
-    }
-
-    private native void setRequireChangeIdRaw(String v) /*-{ if(v)this.require_change_id=v; }-*/;
 
     final void setCreateNewChangeForAllNotInTarget(InheritableBoolean v) {
       setCreateNewChangeForAllNotInTargetRaw(v.name());

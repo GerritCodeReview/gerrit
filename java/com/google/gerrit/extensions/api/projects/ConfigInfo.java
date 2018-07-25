@@ -28,7 +28,6 @@ public class ConfigInfo {
   public InheritedBooleanInfo useContentMerge;
   public InheritedBooleanInfo useSignedOffBy;
   public InheritedBooleanInfo createNewChangeForAllNotInTarget;
-  public InheritedBooleanInfo requireChangeId;
   public InheritedBooleanInfo enableSignedPush;
   public InheritedBooleanInfo requireSignedPush;
   public InheritedBooleanInfo rejectImplicitMerges;

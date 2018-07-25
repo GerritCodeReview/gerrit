@@ -187,7 +187,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.useContributorAgreements = InheritableBoolean.TRUE;
     in.useSignedOffBy = InheritableBoolean.TRUE;
     in.useContentMerge = InheritableBoolean.TRUE;
-    in.requireChangeId = InheritableBoolean.TRUE;
     ProjectInfo p = gApi.projects().create(in).get();
     assertThat(p.name).isEqualTo(newProjectName);
     Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();
@@ -200,8 +199,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
         .isEqualTo(in.useSignedOffBy);
     assertThat(project.getBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE))
         .isEqualTo(in.useContentMerge);
-    assertThat(project.getBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID))
-        .isEqualTo(in.requireChangeId);
   }
 
   @Test

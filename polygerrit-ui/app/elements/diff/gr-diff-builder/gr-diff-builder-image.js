@@ -75,12 +75,12 @@
   GrDiffBuilderImage.prototype._emitImagePair = function(section) {
     const tr = this._createElement('tr');
 
-    tr.appendChild(this._createElement('td'));
-    tr.appendChild(this._createImageCell(this._baseImage, 'left', section));
+    tr.appendChild(this._createElement('td', 'left'));
+    tr.appendChild(this._createImageCell(this._baseImage, null, section));
 
-    tr.appendChild(this._createElement('td'));
+    tr.appendChild(this._createElement('td', 'right'));
     tr.appendChild(this._createImageCell(
-        this._revisionImage, 'right', section));
+        this._revisionImage, null, section));
 
     section.appendChild(tr);
   };
@@ -126,8 +126,8 @@
       addNamesInLabel = true;
     }
 
-    tr.appendChild(this._createElement('td'));
-    let td = this._createElement('td', 'left');
+    tr.appendChild(this._createElement('td', 'left'));
+    let td = this._createElement('td');
     let label = this._createElement('label');
     let nameSpan;
     let labelSpan = this._createElement('span', 'label');
@@ -145,8 +145,8 @@
     td.appendChild(label);
     tr.appendChild(td);
 
-    tr.appendChild(this._createElement('td'));
-    td = this._createElement('td', 'right');
+    tr.appendChild(this._createElement('td', 'right'));
+    td = this._createElement('td');
     label = this._createElement('label');
     labelSpan = this._createElement('span', 'label');
 

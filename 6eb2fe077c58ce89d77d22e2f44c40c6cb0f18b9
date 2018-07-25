@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea61c370_7bc1d3bb",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-07-25T17:38:07Z",
+      "side": 1,
+      "message": "(you didn\u0027t change the situation, but I just happen to notice it now, could be done in a follow-up change)\n\nShouldn\u0027t this be quoted to work with gitdirs including spaces or other characters yielding unexpected results?\n\n f\u003d\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\" %stools/hooks/commit-msg ; chmod +x \"$f\"",
+      "revId": "6eb2fe077c58ce89d77d22e2f44c40c6cb0f18b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

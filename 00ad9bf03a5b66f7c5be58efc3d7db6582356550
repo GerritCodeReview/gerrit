@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bed74b4_5de53768",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-07-25T21:22:30Z",
+      "side": 1,
+      "message": "Missing line breaks here?",
+      "revId": "00ad9bf03a5b66f7c5be58efc3d7db6582356550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

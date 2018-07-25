@@ -288,14 +288,14 @@ public class CommitValidators {
 
     private CommitValidationMessage getMissingChangeIdErrorMsg(String errMsg, RevCommit c) {
       StringBuilder sb = new StringBuilder();
-      sb.append("ERROR: ").append(errMsg);
+      sb.append("ERROR: ").append(errMsg).append("\n");
 
       boolean hinted = false;
       if (c.getFullMessage().contains(CHANGE_ID_PREFIX)) {
         String lastLine = Iterables.getLast(Splitter.on('\n').split(c.getFullMessage()), "");
         if (!lastLine.contains(CHANGE_ID_PREFIX)) {
           hinted = true;
-          sb.append("\n\n")
+          sb.append("\n")
               .append("Hint: run\n")
               .append("  git commit --amend\n")
               .append("and move 'Change-Id: Ixxx..' to the bottom on a separate line\n");
@@ -304,7 +304,7 @@ public class CommitValidators {
 
       // Print only one hint to avoid overwhelming the user.
       if (!hinted) {
-        sb.append("Hint: to automatically insert a Change-Id, install the hook:\n")
+        sb.append("\nHint: to automatically insert a Change-Id, install the hook:\n")
             .append(getCommitMessageHookInstallationHint())
             .append("\n")
             .append("and then amend the commit:\n")

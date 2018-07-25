@@ -28,6 +28,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -181,7 +182,8 @@ public class StalenessChecker {
       String s = new String(b, UTF_8);
       List<String> parts = Splitter.on(':').splitToList(s);
       RefStatePattern.check(parts.size() == 2, s);
-      result.put(new Project.NameKey(parts.get(0)), RefStatePattern.create(parts.get(1)));
+      result.put(
+          new Project.NameKey(Url.decode(parts.get(0))), RefStatePattern.create(parts.get(1)));
     }
     return result;
   }

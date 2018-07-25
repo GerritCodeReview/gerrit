@@ -105,7 +105,8 @@ public class DeleteRef {
   }
 
   public void delete()
-      throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
+      throws OrmException, IOException, ResourceConflictException, AuthException,
+          PermissionBackendException {
     if (!refsToDelete.isEmpty()) {
       try (Repository r = repoManager.openRepository(resource.getNameKey())) {
         if (refsToDelete.size() == 1) {
@@ -117,11 +118,19 @@ public class DeleteRef {
     }
   }
 
-  private void deleteSingleRef(Repository r) throws IOException, ResourceConflictException {
+  private void deleteSingleRef(Repository r)
+      throws IOException, ResourceConflictException, AuthException, PermissionBackendException {
     String ref = refsToDelete.get(0);
     if (prefix != null && !ref.startsWith(R_REFS)) {
       ref = prefix + ref;
     }
+
+    permissionBackend
+        .user(identifiedUser)
+        .project(resource.getNameKey())
+        .ref(ref)
+        .check(RefPermission.DELETE);
+
     RefUpdate.Result result;
     RefUpdate u = r.updateRef(ref);
     u.setExpectedOldObjectId(r.exactRef(ref).getObjectId());

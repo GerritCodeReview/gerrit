@@ -359,10 +359,9 @@ public class CommitValidators {
       // If there are no SSH keys, the commit-msg hook must be installed via
       // HTTP(S)
       if (hostKeys.isEmpty()) {
-        String p = "${gitdir}/hooks/commit-msg";
         return String.format(
-            "  gitdir=$(git rev-parse --git-dir); curl -o %s %stools/hooks/commit-msg ; chmod +x %s",
-            p, canonicalWebUrl, p);
+            "  f=$(git rev-parse --git-dir)/hooks/commit-msg; curl -o $f %stools/hooks/commit-msg ; chmod +x $f",
+            canonicalWebUrl);
       }
 
       // SSH keys exist, so the hook can be installed with scp.

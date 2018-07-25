@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49ce54cb_caad2ca0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListCommitFilesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-25T07:20:50Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "8a156f809526b5667cbd72ace58768ccd81167e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10ea71cf_e3840be6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListCommitFilesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-25T07:20:50Z",
+      "side": 1,
+      "message": "Add a test that exercises the \"parent\" setting?",
+      "revId": "8a156f809526b5667cbd72ace58768ccd81167e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

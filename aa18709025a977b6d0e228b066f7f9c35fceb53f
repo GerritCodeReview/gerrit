@@ -141,6 +141,30 @@
       "revId": "aa18709025a977b6d0e228b066f7f9c35fceb53f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "961e909c_1080f109",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/group/TestGroupUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-25T09:30:41Z",
+      "side": 1,
+      "message": "ping, I think this should be easy to address so that we can submit this?",
+      "parentUuid": "4e3ddba8_9b30140b",
+      "range": {
+        "startLine": 46,
+        "startChar": 11,
+        "endLine": 46,
+        "endChar": 15
+      },
+      "revId": "aa18709025a977b6d0e228b066f7f9c35fceb53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

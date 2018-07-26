@@ -796,12 +796,13 @@
     /** @return {!Array} */
     _computeDiffHeaderItems(diffInfoRecord) {
       const diffInfo = diffInfoRecord.base;
-      if (!diffInfo || !diffInfo.diff_header || diffInfo.binary) { return []; }
+      if (!diffInfo || !diffInfo.diff_header) { return []; }
       return diffInfo.diff_header.filter(item => {
         return !(item.startsWith('diff --git ') ||
             item.startsWith('index ') ||
             item.startsWith('+++ ') ||
-            item.startsWith('--- '));
+            item.startsWith('--- ') ||
+            item === 'Binary files differ');
       });
     },
 

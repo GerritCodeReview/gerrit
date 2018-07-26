@@ -1074,8 +1074,17 @@ limitations under the License.
         flushAsynchronousOperations();
 
         assert.equal(element.$.diffHeader.textContent.trim(), 'test');
-        element.set('_diff.binary', true);
+      });
+
+      test('binary files', () => {
+        element._diff.binary = true;
         assert.equal(element._diffHeaderItems.length, 0);
+        element.push('_diff.diff_header', 'diff --git a/test.jpg b/test.jpg');
+        assert.equal(element._diffHeaderItems.length, 0);
+        element.push('_diff.diff_header', 'test');
+        assert.equal(element._diffHeaderItems.length, 1);
+        element.push('_diff.diff_header', 'Binary files differ');
+        assert.equal(element._diffHeaderItems.length, 1);
       });
     });
 

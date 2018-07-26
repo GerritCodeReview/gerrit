@@ -97,7 +97,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   @Option(
       name = "--project",
-      aliases = {"-p"},
+      aliases = {"-p", "--repository"},
       usage = "projects for which the groups should be listed")
   public void addProject(ProjectState project) {
     projects.add(project);

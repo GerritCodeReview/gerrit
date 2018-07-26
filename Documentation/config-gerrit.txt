@@ -4037,6 +4037,29 @@ Defaults to `OFF`.
 A list of regular expressions to match the email sender against. This can also
 be a list of addresses when regular expression characters are escaped.
 
+
+[[rest]]
+=== Section rest
+
+[[rest.repositoryProjectCompatibility]]rest.repositoryProjectCompatibility::
++
+Accept both 'project' and 'repository' fields in input objects on the REST API.
+Populate both fields in all REST responses that contain either one of them.
++
+If `PROJECT_ONLY` only 'project' is accepted as identifier for a project/repository
+on the API. Only this identifier is referenced on JSON objects that the API returns.
++
+If `PROJECT_AND_REPOSITORY` both 'project' and 'repository' are accepted as identifier
+for a project/repository on the API.
+JSON entities returned by the API will have both a 'project' and a 'repository'
+field populated with the same value.
++
+If `REPOSITORY_ONLY` only 'repository' is accepted as identifier for a
+project/repository on the API.
+Only this identifier is referenced on JSON objects that the API returns.
++
+Defaults to `PROJECT_ONLY`.
+
 [[sendemail]]
 === Section sendemail
 

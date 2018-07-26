@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritOptions;
+import com.google.gerrit.server.config.RepositoryProjectCompatibility;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.internal.UniqueAnnotations;
@@ -47,10 +48,15 @@ import org.eclipse.jgit.lib.Constants;
 class UrlModule extends ServletModule {
   private GerritOptions options;
   private AuthConfig authConfig;
+  private final RepositoryProjectCompatibility repositoryProjectCompatibility;
 
-  UrlModule(GerritOptions options, AuthConfig authConfig) {
+  UrlModule(
+      GerritOptions options,
+      AuthConfig authConfig,
+      RepositoryProjectCompatibility repositoryProjectCompatibility) {
     this.options = options;
     this.authConfig = authConfig;
+    this.repositoryProjectCompatibility = repositoryProjectCompatibility;
   }
 
   @Override
@@ -108,7 +114,13 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?changes/(.*)$").with(ChangesRestApiServlet.class);
     serveRegex("^/(?:a/)?config/(.*)$").with(ConfigRestApiServlet.class);
     serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);
-    serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
+
+    if (repositoryProjectCompatibility.acceptProject()) {
+      serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
+    }
+    if (repositoryProjectCompatibility.acceptRepository()) {
+      serveRegex("^/(?:a/)?repositories/(.*)?$").with(ProjectsRestApiServlet.class);
+    }
 
     filter("/Documentation/").through(QueryDocumentationFilter.class);
   }

@@ -61,6 +61,7 @@ import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.RepositoryProjectCompatibility;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -93,6 +94,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
@@ -157,6 +159,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
   public static final String FIELD_PARENTPROJECT = "parentproject";
+  public static final String FIELD_PARENTREPOSITORY = "parentrepository";
   public static final String FIELD_PATH = "path";
   public static final String FIELD_PENDING_REVIEWER = "pendingreviewer";
   public static final String FIELD_PENDING_REVIEWER_BY_EMAIL = "pendingreviewerbyemail";
@@ -164,6 +167,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_PROJECTS = "projects";
   public static final String FIELD_REF = "ref";
+  public static final String FIELD_REPOSITORY = "repository";
+  public static final String FIELD_REPOSITORIES = "repositories";
   public static final String FIELD_REVIEWEDBY = "reviewedby";
   public static final String FIELD_REVIEWER = "reviewer";
   public static final String FIELD_REVIEWERIN = "reviewerin";
@@ -217,6 +222,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final SubmitDryRun submitDryRun;
     final GroupMembers groupMembers;
     final Provider<AnonymousUser> anonymousUserProvider;
+    final Config gerritConfig;
+    final RepositoryProjectCompatibility repositoryProjectCompatibility;
 
     private final Provider<CurrentUser> self;
 
@@ -250,7 +257,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AccountCache accountCache,
         NotesMigration notesMigration,
         GroupMembers groupMembers,
-        Provider<AnonymousUser> anonymousUserProvider) {
+        Provider<AnonymousUser> anonymousUserProvider,
+        Config gerritConfig) {
       this(
           db,
           queryProvider,
@@ -279,7 +287,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           accountCache,
           notesMigration,
           groupMembers,
-          anonymousUserProvider);
+          anonymousUserProvider,
+          gerritConfig);
     }
 
     private Arguments(
@@ -310,7 +319,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AccountCache accountCache,
         NotesMigration notesMigration,
         GroupMembers groupMembers,
-        Provider<AnonymousUser> anonymousUserProvider) {
+        Provider<AnonymousUser> anonymousUserProvider,
+        Config gerritConfig) {
       this.db = db;
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
@@ -339,6 +349,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.notesMigration = notesMigration;
       this.groupMembers = groupMembers;
       this.anonymousUserProvider = anonymousUserProvider;
+      this.gerritConfig = gerritConfig;
+
+      repositoryProjectCompatibility =
+          gerritConfig.getEnum(
+              "rest",
+              null,
+              "repositoryProjectCompatibility",
+              RepositoryProjectCompatibility.PROJECT_ONLY);
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -370,7 +388,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           accountCache,
           notesMigration,
           groupMembers,
-          anonymousUserProvider);
+          anonymousUserProvider,
+          gerritConfig);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -635,12 +654,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> p(String name) {
+  public Predicate<ChangeData> p(String name) throws QueryParseException {
     return project(name);
   }
 
   @Operator
-  public Predicate<ChangeData> project(String name) {
+  public Predicate<ChangeData> project(String name) throws QueryParseException {
+    if (!args.repositoryProjectCompatibility.acceptProject()) {
+      throw new QueryParseException("'project' not allowed, must use 'repository'");
+    }
     if (name.startsWith("^")) {
       return new RegexProjectPredicate(name);
     }
@@ -648,12 +670,45 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> projects(String name) {
+  public Predicate<ChangeData> projects(String name) throws QueryParseException {
+    if (!args.repositoryProjectCompatibility.acceptProject()) {
+      throw new QueryParseException("'projects' not allowed, must use 'repositories'");
+    }
     return new ProjectPrefixPredicate(name);
   }
 
   @Operator
-  public Predicate<ChangeData> parentproject(String name) {
+  public Predicate<ChangeData> parentproject(String name) throws QueryParseException {
+    if (!args.repositoryProjectCompatibility.acceptProject()) {
+      throw new QueryParseException("'parentproject' not allowed, must use 'parentrepository'");
+    }
+    return new ParentProjectPredicate(args.projectCache, args.childProjects, name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> repository(String name) throws QueryParseException {
+    if (!args.repositoryProjectCompatibility.acceptRepository()) {
+      throw new QueryParseException("'repository' not allowed, must use 'project'");
+    }
+    if (name.startsWith("^")) {
+      return new RegexProjectPredicate(name);
+    }
+    return new ProjectPredicate(name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> repositories(String name) throws QueryParseException {
+    if (!args.repositoryProjectCompatibility.acceptRepository()) {
+      throw new QueryParseException("'repository' not allowed, must use 'project'");
+    }
+    return new ProjectPrefixPredicate(name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> parentrepository(String name) throws QueryParseException {
+    if (!args.repositoryProjectCompatibility.acceptRepository()) {
+      throw new QueryParseException("'repository' not allowed, must use 'project'");
+    }
     return new ParentProjectPredicate(args.projectCache, args.childProjects, name);
   }
 

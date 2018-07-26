@@ -131,12 +131,12 @@
       return '';
     },
 
-    _computeProjectURL(change) {
+    _computeRepoUrl(change) {
       return Gerrit.Nav.getUrlForProjectChanges(change.project, true,
           change.internalHost);
     },
 
-    _computeProjectBranchURL(change) {
+    _computeRepoBranchURL(change) {
       return Gerrit.Nav.getUrlForBranch(change.branch, change.project, null,
           change.internalHost);
     },
@@ -155,7 +155,7 @@
      *     truncated. If this value is truthy, the name will be truncated.
      * @return {string}
      */
-    _computeProjectDisplay(change, truncate) {
+    _computeRepoDisplay(change, truncate) {
       if (!change || !change.project) { return ''; }
       let str = '';
       if (change.internalHost) { str += change.internalHost + '/'; }

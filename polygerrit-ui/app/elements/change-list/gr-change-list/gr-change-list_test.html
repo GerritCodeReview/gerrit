@@ -310,7 +310,7 @@ limitations under the License.
             'Status',
             'Owner',
             'Assignee',
-            'Project',
+            'Repo',
             'Branch',
             'Updated',
             'Size',
@@ -349,10 +349,10 @@ limitations under the License.
         flushAsynchronousOperations();
       });
 
-      test('all columns except project visible', () => {
+      test('all columns except repo visible', () => {
         for (const column of element.changeTableColumns) {
           const elementClass = '.' + column.toLowerCase();
-          if (column === 'Project') {
+          if (column === 'Repo') {
             assert.isTrue(element.$$(elementClass).hidden);
           } else {
             assert.isFalse(element.$$(elementClass).hidden);

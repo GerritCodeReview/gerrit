@@ -125,7 +125,7 @@ limitations under the License.
         'Status',
         'Owner',
         'Assignee',
-        'Project',
+        'Repo',
         'Branch',
         'Updated',
         'Size',
@@ -135,31 +135,13 @@ limitations under the License.
 
       for (const column of element.columnNames) {
         const elementClass = '.' + column.toLowerCase();
+        assert.isOk(element.$$(elementClass),
+            `Expect ${elementClass} element to be found`);
         assert.isFalse(element.$$(elementClass).hidden);
       }
     });
 
-    test('no hidden columns', () => {
-      element.visibleChangeTableColumns = [
-        'Subject',
-        'Status',
-        'Owner',
-        'Assignee',
-        'Project',
-        'Branch',
-        'Updated',
-        'Size',
-      ];
-
-      flushAsynchronousOperations();
-
-      for (const column of element.columnNames) {
-        const elementClass = '.' + column.toLowerCase();
-        assert.isFalse(element.$$(elementClass).hidden);
-      }
-    });
-
-    test('project column hidden', () => {
+    test('repo column hidden', () => {
       element.visibleChangeTableColumns = [
         'Subject',
         'Status',
@@ -174,7 +156,7 @@ limitations under the License.
 
       for (const column of element.columnNames) {
         const elementClass = '.' + column.toLowerCase();
-        if (column === 'Project') {
+        if (column === 'Repo') {
           assert.isTrue(element.$$(elementClass).hidden);
         } else {
           assert.isFalse(element.$$(elementClass).hidden);
@@ -274,17 +256,17 @@ limitations under the License.
           [change.topic, change.internalHost]);
     });
 
-    test('_computeProjectDisplay', () => {
+    test('_computeRepoDisplay', () => {
       const change = {
         project: 'a/test/repo',
         internalHost: 'host',
       };
-      assert.equal(element._computeProjectDisplay(change), 'host/a/test/repo');
-      assert.equal(element._computeProjectDisplay(change, true),
+      assert.equal(element._computeRepoDisplay(change), 'host/a/test/repo');
+      assert.equal(element._computeRepoDisplay(change, true),
           'host/…/test/repo');
       delete change.internalHost;
-      assert.equal(element._computeProjectDisplay(change), 'a/test/repo');
-      assert.equal(element._computeProjectDisplay(change, true),
+      assert.equal(element._computeRepoDisplay(change), 'a/test/repo');
+      assert.equal(element._computeRepoDisplay(change, true),
           '…/test/repo');
     });
   });

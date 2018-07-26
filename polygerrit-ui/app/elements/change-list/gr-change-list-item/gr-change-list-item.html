@@ -169,21 +169,21 @@ limitations under the License.
         <span class="placeholder">--</span>
       </template>
     </td>
-    <td class="cell project"
-        hidden$="[[isColumnHidden('Project', visibleChangeTableColumns)]]">
-      <a class="fullProject" href$="[[_computeProjectURL(change)]]">
-        [[_computeProjectDisplay(change)]]
+    <td class="cell repo"
+        hidden$="[[isColumnHidden('Repo', visibleChangeTableColumns)]]">
+      <a class="fullRepo" href$="[[_computeRepoUrl(change)]]">
+        [[_computeRepoDisplay(change)]]
       </a>
       <a
-          class="truncatedProject"
-          href$="[[_computeProjectURL(change)]]"
-          title$="[[_computeProjectDisplay(change)]]">
-        [[_computeProjectDisplay(change, 'true')]]
+          class="truncatedRepo"
+          href$="[[_computeRepoUrl(change)]]"
+          title$="[[_computeRepoDisplay(change)]]">
+        [[_computeRepoDisplay(change, 'true')]]
       </a>
     </td>
     <td class="cell branch"
         hidden$="[[isColumnHidden('Branch', visibleChangeTableColumns)]]">
-      <a href$="[[_computeProjectBranchURL(change)]]">
+      <a href$="[[_computeRepoBranchURL(change)]]">
         [[change.branch]]
       </a>
       <template is="dom-if" if="[[change.topic]]">

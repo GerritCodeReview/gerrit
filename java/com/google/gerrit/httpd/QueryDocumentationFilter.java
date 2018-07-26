@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
+import com.google.gerrit.server.config.RepositoryProjectCompatibility;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocQueryException;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocResult;
@@ -59,7 +60,12 @@ public class QueryDocumentationFilter implements Filter {
       HttpServletResponse rsp = (HttpServletResponse) response;
       try {
         List<DocResult> result = searcher.doQuery(request.getParameter("q"));
-        RestApiServlet.replyJson(req, rsp, ImmutableListMultimap.of(), result);
+        RestApiServlet.replyJson(
+            req,
+            rsp,
+            ImmutableListMultimap.of(),
+            RepositoryProjectCompatibility.PROJECT_ONLY,
+            result);
       } catch (DocQueryException e) {
         logger.atSevere().withCause(e).log("Doc search failed");
         rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

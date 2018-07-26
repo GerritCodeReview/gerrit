@@ -35,7 +35,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
 
   @Option(
       name = "--project",
-      aliases = {"-p"},
+      aliases = {"-p", "--repository"},
       metaVar = "PROJECT",
       usage = "projects for which the access rights should be returned")
   private List<String> projects = new ArrayList<>();

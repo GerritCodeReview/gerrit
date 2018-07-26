@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "69d4a9f6_b33c254c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListCommitFilesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2018-07-26T11:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49ce54cb_caad2ca0",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "8a156f809526b5667cbd72ace58768ccd81167e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10ea71cf_e3840be6",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListCommitFilesIT.java",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "8a156f809526b5667cbd72ace58768ccd81167e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "201e0280_b9f69f8d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListCommitFilesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2018-07-26T11:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10ea71cf_e3840be6",
+      "revId": "8a156f809526b5667cbd72ace58768ccd81167e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

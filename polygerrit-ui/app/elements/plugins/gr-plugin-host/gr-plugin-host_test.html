@@ -190,8 +190,8 @@ limitations under the License.
 
     test('skips preloaded plugins', () => {
       sandbox.stub(Gerrit, '_isPluginPreloaded')
-          .withArgs('plugins/foo/bar').returns(true)
-          .withArgs('plugins/42').returns(true);
+          .withArgs(url + '/plugins/foo/bar').returns(true)
+          .withArgs(url + '/plugins/42').returns(true);
       sandbox.stub(Gerrit, '_setPluginsCount');
       sandbox.stub(Gerrit, '_setPluginsPending');
       element.config = {

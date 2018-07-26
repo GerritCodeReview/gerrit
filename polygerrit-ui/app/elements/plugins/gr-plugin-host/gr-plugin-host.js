@@ -39,8 +39,8 @@
       const defaultTheme = config.default_theme;
       const pluginsPending = []
           .concat(jsPlugins, htmlPlugins, defaultTheme || [])
-          .filter(p => !Gerrit._isPluginPreloaded(p))
-          .map(p => this._urlFor(p));
+          .map(p => this._urlFor(p))
+          .filter(p => !Gerrit._isPluginPreloaded(p));
       Gerrit._setPluginsPending(pluginsPending);
       if (defaultTheme) {
         // Make theme first to be first to load.
@@ -96,8 +96,9 @@
     },
 
     _urlFor(pathOrUrl) {
-      if (pathOrUrl.startsWith('http')) {
-        // Plugins are loaded from another domain.
+      if (pathOrUrl.startsWith('preloaded:') ||
+          pathOrUrl.startsWith('http')) {
+        // Plugins are loaded from another domain or preloaded.
         return pathOrUrl;
       }
       if (!pathOrUrl.startsWith('/')) {

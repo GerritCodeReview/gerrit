@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77f0ddda_1d17e6ac",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListCommitFilesIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-26T17:52:51Z",
+      "side": 1,
+      "message": "Nit: \"MergeCommit\"",
+      "range": {
+        "startLine": 62,
+        "startChar": 18,
+        "endLine": 62,
+        "endChar": 30
+      },
+      "revId": "141397975bbbb5baa1bc8114e610b22ed703a430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "ab67acd3d2327b7d08b8331acacc502d2b90630e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8aa37048_2f7a471e",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-26T08:44:17Z",
+      "side": 1,
+      "message": "If you don\u0027t have a web URL, then where are you doing your reviews?\n\nI\u0027d hope commit-msg download URL would be exempt from auth.\n\nMaybe we should just point to the gerrit-review.gs.com/ URL explicitly.",
+      "parentUuid": "9904aad2_5b3d6706",
+      "range": {
+        "startLine": 363,
+        "startChar": 15,
+        "endLine": 363,
+        "endChar": 60
+      },
+      "revId": "ab67acd3d2327b7d08b8331acacc502d2b90630e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

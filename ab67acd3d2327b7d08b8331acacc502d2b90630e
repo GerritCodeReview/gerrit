@@ -46,6 +46,30 @@
       "revId": "ab67acd3d2327b7d08b8331acacc502d2b90630e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9904aad2_5b3d6706",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-07-26T08:18:08Z",
+      "side": 1,
+      "message": "Okay.\n\n\u003e I don\u0027t understand why we even have the SSH command. We always have a Web URL.\n\nPerhaps true for gerrit-review.googlesource.com, but not universally true, right?\n\n\u003e Also, the SSH command requires setting up SSH authentication first.\n\nNo, not necessarily. Kerberos SSO... Works wonderfully! :-)\n\nAlso, in a non-SSO world, HTTP authentication has to be set up as well? Generate HTTP password, add to gitcookies, etc.",
+      "parentUuid": "c935c457_8e11fef5",
+      "range": {
+        "startLine": 363,
+        "startChar": 15,
+        "endLine": 363,
+        "endChar": 60
+      },
+      "revId": "ab67acd3d2327b7d08b8331acacc502d2b90630e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "a01df0247a44078675d527680b34e6066a60301c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3c3ae59_ae0b6b2a",
+        "filename": "javatests/com/google/gerrit/gpg/PublicKeyStoreTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1067901
+      },
+      "writtenOn": "2018-07-26T20:25:13Z",
+      "side": 1,
+      "message": "It is the key ID of the subkey defined in TestKeys.java:447. The constant will be valid as long as those keys remain the same.",
+      "parentUuid": "2b56f38f_72c018a0",
+      "range": {
+        "startLine": 166,
+        "startChar": 48,
+        "endLine": 166,
+        "endChar": 68
+      },
+      "revId": "a01df0247a44078675d527680b34e6066a60301c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -23,7 +23,7 @@ import org.junit.Test;
 public class TextParserTest extends AbstractParserTest {
   private static final String quotedFooter =
       ""
-          + "> To view, visit https://gerrit-review.googlesource.com/123\n"
+          + "> To view, visit https://gerrit-review.googlesource.com/c/project/+/123\n"
           + "> To unsubscribe, visit https://gerrit-review.googlesource.com\n"
           + "> \n"
           + "> Gerrit-MessageType: comment\n"

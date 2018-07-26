@@ -89,7 +89,7 @@ public class ReviewCommand extends SshCommand {
 
   @Option(
       name = "--project",
-      aliases = "-p",
+      aliases = {"-p", "--repository"},
       usage = "project containing the specified patch set(s)")
   private ProjectState projectState;
 

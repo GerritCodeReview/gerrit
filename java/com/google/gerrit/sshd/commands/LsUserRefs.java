@@ -55,7 +55,7 @@ public class LsUserRefs extends SshCommand {
 
   @Option(
       name = "--project",
-      aliases = {"-p"},
+      aliases = {"-p", "--repository"},
       metaVar = "PROJECT",
       required = true,
       usage = "project for which the refs should be listed")

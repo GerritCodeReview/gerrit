@@ -45,7 +45,10 @@ import org.kohsuke.args4j.Option;
 public class SetReviewersCommand extends SshCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  @Option(name = "--project", aliases = "-p", usage = "project containing the change")
+  @Option(
+      name = "--project",
+      aliases = {"-p", "--repository"},
+      usage = "project containing the change")
   private ProjectState projectState;
 
   @Option(

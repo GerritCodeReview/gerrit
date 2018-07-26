@@ -20,6 +20,8 @@
  * @externs
  */
 
+// eslint-disable no-var
+
 var Gerrit = {};
 
 /**

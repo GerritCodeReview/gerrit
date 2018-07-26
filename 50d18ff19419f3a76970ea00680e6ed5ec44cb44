@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74a6b628_26b90e9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-07-26T16:51:31Z",
+      "side": 1,
+      "message": "Whoops! Sorry.\n\nShould the tests be updated to reflect this?",
+      "revId": "50d18ff19419f3a76970ea00680e6ed5ec44cb44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

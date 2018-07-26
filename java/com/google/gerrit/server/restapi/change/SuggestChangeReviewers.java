@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -88,12 +87,11 @@ public class SuggestChangeReviewers extends SuggestReviewers
 
     return new VisibilityControl() {
       @Override
-      public boolean isVisibleTo(Account.Id account) throws OrmException {
+      public boolean isVisibleTo(Account.Id account) {
         // Use the destination reference, not the change, as private changes deny anyone who is not
         // already a reviewer.
-        IdentifiedUser who = identifiedUserFactory.create(account);
         return permissionBackend
-            .user(who)
+            .absentUser(account)
             .database(dbProvider)
             .ref(rsrc.getChange().getDest())
             .testOrFalse(RefPermission.READ);

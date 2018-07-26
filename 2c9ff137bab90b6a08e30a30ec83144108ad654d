@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1c10666_55d79a6f",
+        "filename": "Documentation/error-push-refschanges-not-allowed.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-07-26T08:15:07Z",
+      "side": 1,
+      "message": "Did you intend to remove this error message from the code and remove this file?\n\n* I believe you retain the error message in the code (e.g. in javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java:983 you still assert for it), so I meant to suggest to reword this. e.g. \"obsolete in this version of Gerrit\"\n* If you did intentionally remove this error and file; the link to this page wasn\u0027t removed in Documentation/error-messages.txt.",
+      "revId": "2c9ff137bab90b6a08e30a30ec83144108ad654d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

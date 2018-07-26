@@ -17,12 +17,20 @@ package com.google.gerrit.server.restapi;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.restapi.config.RestCacheAdminModule;
 import com.google.inject.AbstractModule;
+import org.eclipse.jgit.lib.Config;
 
 public class RestApiModule extends AbstractModule {
+
+  private final Config gerritConfig;
+
+  public RestApiModule(Config gerritConfig) {
+    this.gerritConfig = gerritConfig;
+  }
+
   @Override
   protected void configure() {
     install(new com.google.gerrit.server.restapi.access.Module());
-    install(new com.google.gerrit.server.restapi.account.Module());
+    install(new com.google.gerrit.server.restapi.account.Module(gerritConfig));
     install(new com.google.gerrit.server.restapi.change.Module());
     install(new com.google.gerrit.server.restapi.config.Module());
     install(new RestCacheAdminModule());

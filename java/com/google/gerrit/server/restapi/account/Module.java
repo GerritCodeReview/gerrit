@@ -28,9 +28,23 @@ import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
+import com.google.gerrit.server.config.RepositoryProjectCompatibility;
 import com.google.inject.Provides;
+import org.eclipse.jgit.lib.Config;
 
 public class Module extends RestApiModule {
+
+  private final RepositoryProjectCompatibility repositoryProjectCompatibility;
+
+  public Module(Config gerritConfig) {
+    repositoryProjectCompatibility =
+        gerritConfig.getEnum(
+            "rest",
+            null,
+            "repositoryProjectCompatibility",
+            RepositoryProjectCompatibility.PROJECT_ONLY);
+  }
+
   @Override
   protected void configure() {
     bind(AccountsCollection.class);
@@ -66,9 +80,17 @@ public class Module extends RestApiModule {
     put(EMAIL_KIND, "preferred").to(PutPreferred.class);
     put(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
     delete(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
-    get(ACCOUNT_KIND, "watched.projects").to(GetWatchedProjects.class);
-    post(ACCOUNT_KIND, "watched.projects").to(PostWatchedProjects.class);
-    post(ACCOUNT_KIND, "watched.projects:delete").to(DeleteWatchedProjects.class);
+
+    if (repositoryProjectCompatibility.acceptProject()) {
+      get(ACCOUNT_KIND, "watched.projects").to(GetWatchedProjects.class);
+      post(ACCOUNT_KIND, "watched.projects").to(PostWatchedProjects.class);
+      post(ACCOUNT_KIND, "watched.projects:delete").to(DeleteWatchedProjects.class);
+    }
+    if (repositoryProjectCompatibility.acceptRepository()) {
+      get(ACCOUNT_KIND, "watched.repositories").to(GetWatchedProjects.class);
+      post(ACCOUNT_KIND, "watched.repositories").to(PostWatchedProjects.class);
+      post(ACCOUNT_KIND, "watched.repositories:delete").to(DeleteWatchedProjects.class);
+    }
 
     child(ACCOUNT_KIND, "sshkeys").to(SshKeys.class);
     postOnCollection(SSH_KEY_KIND).to(AddSshKey.class);

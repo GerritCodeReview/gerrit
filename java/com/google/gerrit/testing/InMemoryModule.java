@@ -268,7 +268,7 @@ public class InMemoryModule extends FactoryModule {
     }
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
-    install(new RestApiModule());
+    install(new RestApiModule(cfg));
     install(new DefaultProjectNameLockManager.Module());
   }
 

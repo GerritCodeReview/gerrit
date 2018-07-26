@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b56f38f_72c018a0",
+        "filename": "javatests/com/google/gerrit/gpg/PublicKeyStoreTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-26T20:17:55Z",
+      "side": 1,
+      "message": "Where does this constant come from? Is it guaranteed to continue to work?",
+      "range": {
+        "startLine": 166,
+        "startChar": 48,
+        "endLine": 166,
+        "endChar": 68
+      },
+      "revId": "a01df0247a44078675d527680b34e6066a60301c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

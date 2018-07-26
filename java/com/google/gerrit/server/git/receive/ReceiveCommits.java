@@ -351,7 +351,6 @@ class ReceiveCommits {
   private final ReceivePack rp;
 
   // Immutable fields derived from constructor arguments.
-  private final boolean allowPushToRefsChanges;
   private final LabelTypes labelTypes;
   private final NoteMap rejectCommits;
   private final PermissionBackend.ForProject permissions;
@@ -485,7 +484,6 @@ class ReceiveCommits {
     this.rp = rp;
 
     // Immutable fields derived from constructor arguments.
-    allowPushToRefsChanges = cfg.getBoolean("receive", "allowPushToRefsChanges", false);
     repo = rp.getRepository();
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
@@ -880,14 +878,7 @@ class ReceiveCommits {
 
       Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
       if (m.matches()) {
-        if (allowPushToRefsChanges) {
-          // The referenced change must exist and must still be open.
-          //
-          Change.Id changeId = Change.Id.parse(m.group(1));
-          parseReplaceCommand(cmd, changeId);
-        } else {
-          reject(cmd, "upload to refs/changes not allowed");
-        }
+        reject(cmd, "upload to refs/changes not allowed");
         continue;
       }
 

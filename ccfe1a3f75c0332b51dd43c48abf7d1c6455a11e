@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d1d7bb69_dc1373b1",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2903,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-26T11:12:43Z",
+      "side": 1,
+      "message": "Yes, I agree it makes sense to always limit this. But for the sake of documentation I would prefer a fixed limit, rather than a limit that is based on maxTerms (which varies by host, e.g. for Lucene the default is 1024).\n\nWith a fixed limit we can have a skip_commits parameter in addition so that you can still auto-close changes by very old commits (in order to use skip_commits properly you would need to know the exact limit).\n\nFWIW the Gerrit history has ~33500 commits, so that would require ~350 queries with maxTerms \u003d 100. But this is for one branch only. If we have a limit for max_commits we should maybe not allow to specify multiple branches in the input, because the limit would be per branch.\n\nI\u0027m setting a hard-coded limit of 10000 commits now. I think that should be sufficient for almost all use-cases.\n\nDone",
+      "parentUuid": "33b8f68a_428d1fd8",
+      "range": {
+        "startLine": 2902,
+        "startChar": 46,
+        "endLine": 2903,
+        "endChar": 66
+      },
+      "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e33979_4549027c",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 11
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "0967b94d_5ce5b50d",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-26T11:12:43Z",
+      "side": 1,
+      "message": "I don\u0027t mind much what is done here, but it should be consistent with what ReceiveCommits#autoCloseChanges does and ReceiveCommits#autoCloseChanges currently considers all Change-Id lines. Added a comment.\n\nDone.",
+      "parentUuid": "b0e33979_4549027c",
+      "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ae34dd7_49483e28",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 11
@@ -57,6 +99,24 @@
       "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "409f7bdc_a2254396",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-26T11:12:43Z",
+      "side": 1,
+      "message": "Good question. I\u0027ve added my thoughts on this as a comment.\n\nDone.",
+      "parentUuid": "4ae34dd7_49483e28",
+      "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -83,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "3c222a60_930cc540",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-26T11:12:43Z",
+      "side": 1,
+      "message": "Good idea, this made me realize that this logic is wrong here. We must check the limit before adding the predicates for the current commit, otherwise this can make it go over the top.\n\nDone.",
+      "parentUuid": "14c2c9e7_c528bc64",
+      "range": {
+        "startLine": 168,
+        "startChar": 12,
+        "endLine": 169,
+        "endChar": 21
+      },
+      "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c1c276f_f234f5d5",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 11
@@ -97,6 +181,24 @@
       "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f4700e6_e7a70299",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-26T11:12:43Z",
+      "side": 1,
+      "message": "I think this even simplifies the code.\n\nDone.",
+      "parentUuid": "7c1c276f_f234f5d5",
+      "revId": "ccfe1a3f75c0332b51dd43c48abf7d1c6455a11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

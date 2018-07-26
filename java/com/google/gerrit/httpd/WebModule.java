@@ -27,7 +27,9 @@ import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitwebCgiConfig;
+import com.google.gerrit.server.config.RepositoryProjectCompatibility;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -35,17 +37,29 @@ import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 import java.net.SocketAddress;
+import org.eclipse.jgit.lib.Config;
 
 public class WebModule extends LifecycleModule {
   private final AuthConfig authConfig;
   private final GitwebCgiConfig gitwebCgiConfig;
   private final GerritOptions options;
+  private final RepositoryProjectCompatibility repositoryProjectCompatibility;
 
   @Inject
-  WebModule(AuthConfig authConfig, GerritOptions options, GitwebCgiConfig gitwebCgiConfig) {
+  WebModule(
+      AuthConfig authConfig,
+      GerritOptions options,
+      GitwebCgiConfig gitwebCgiConfig,
+      @GerritServerConfig Config gerritConfig) {
     this.authConfig = authConfig;
     this.options = options;
     this.gitwebCgiConfig = gitwebCgiConfig;
+    repositoryProjectCompatibility =
+        gerritConfig.getEnum(
+            "rest",
+            null,
+            "repositoryProjectCompatibility",
+            RepositoryProjectCompatibility.PROJECT_ONLY);
   }
 
   @Override
@@ -55,7 +69,7 @@ public class WebModule extends LifecycleModule {
 
     installAuthModule();
     if (options.enableMasterFeatures()) {
-      install(new UrlModule(options, authConfig));
+      install(new UrlModule(options, authConfig, repositoryProjectCompatibility));
       install(new UiRpcModule());
     }
     install(new GerritRequestModule());

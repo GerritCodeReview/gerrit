@@ -437,7 +437,7 @@ public class Daemon extends SiteProgram {
       modules.add(new SmtpEmailSender.Module());
     }
     modules.add(new SignedTokenEmailTokenVerifier.Module());
-    modules.add(new RestApiModule());
+    modules.add(new RestApiModule(config));
     modules.add(new GpgModule(config));
     modules.add(new StartupChecks.Module());
     modules.add(new GerritInstanceNameModule());

@@ -94,6 +94,30 @@
       "revId": "ab67acd3d2327b7d08b8331acacc502d2b90630e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "398a67e8_dce6551e",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-07-26T09:13:40Z",
+      "side": 1,
+      "message": "Gerrit can be built/run in headless mode [1]. You can perform reviews over SSH [2]. It\u0027s not the best UX, but it works.\n\n\u003e Maybe we should just point to the gerrit-review.gs.com/ URL explicitly.\n\nThat\u0027s a joke, right? (Not everyone runs private Gerrit instances using internet-accessible workstations..., let\u0027s not break that.)\n\n[1]: https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_headless_mode\n[2]: https://gerrit-review.googlesource.com/Documentation/cmd-review.html",
+      "parentUuid": "8aa37048_2f7a471e",
+      "range": {
+        "startLine": 363,
+        "startChar": 15,
+        "endLine": 363,
+        "endChar": 60
+      },
+      "revId": "ab67acd3d2327b7d08b8331acacc502d2b90630e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

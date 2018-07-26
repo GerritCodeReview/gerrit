@@ -35,6 +35,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -315,7 +316,7 @@ public class MergeOp implements AutoCloseable {
           throw new ResourceConflictException("submit rule error: " + record.errorMessage);
 
         case NOT_READY:
-          throw new ResourceConflictException(describeLabels(cd, record.labels));
+          throw new ResourceConflictException(describeNotReady(cd, record));
 
         case FORCED:
         default:
@@ -326,6 +327,21 @@ public class MergeOp implements AutoCloseable {
       }
     }
     throw new IllegalStateException();
+  }
+
+  private static String describeNotReady(ChangeData cd, SubmitRecord record) throws OrmException {
+    List<String> blockingConditions = new ArrayList<>();
+    if (record.labels != null) {
+      blockingConditions.add(describeLabels(cd, record.labels));
+    }
+    if (record.requirements != null) {
+      record
+          .requirements
+          .stream()
+          .map(SubmitRequirement::fallbackText)
+          .forEach(blockingConditions::add);
+    }
+    return Joiner.on("; ").join(blockingConditions);
   }
 
   private static SubmitRuleOptions submitRuleOptions(boolean allowClosed) {

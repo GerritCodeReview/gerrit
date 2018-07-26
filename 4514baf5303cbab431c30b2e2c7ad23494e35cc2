@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6baa43fe_5c32cf52",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2528,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2018-07-26T12:20:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9826832_d62a3660",
+      "range": {
+        "startLine": 2528,
+        "startChar": 93,
+        "endLine": 2528,
+        "endChar": 100
+      },
+      "revId": "4514baf5303cbab431c30b2e2c7ad23494e35cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d756371f_6e7fac86",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "34036f52_e0ada118",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2557,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2018-07-26T12:20:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d756371f_6e7fac86",
+      "range": {
+        "startLine": 2557,
+        "startChar": 70,
+        "endLine": 2557,
+        "endChar": 71
+      },
+      "revId": "4514baf5303cbab431c30b2e2c7ad23494e35cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cfcb52a_f8cc1679",
         "filename": "java/com/google/gerrit/server/restapi/project/FilesInCommitCollection.java",
         "patchSetId": 6
@@ -68,6 +116,30 @@
       "revId": "4514baf5303cbab431c30b2e2c7ad23494e35cc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58f85e05_d11b2407",
+        "filename": "java/com/google/gerrit/server/restapi/project/FilesInCommitCollection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2018-07-26T12:20:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cfcb52a_f8cc1679",
+      "range": {
+        "startLine": 98,
+        "startChar": 13,
+        "endLine": 98,
+        "endChar": 25
+      },
+      "revId": "4514baf5303cbab431c30b2e2c7ad23494e35cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

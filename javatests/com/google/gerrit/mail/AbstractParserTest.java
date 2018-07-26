@@ -26,7 +26,8 @@ import org.junit.Ignore;
 
 @Ignore
 public class AbstractParserTest {
-  protected static final String CHANGE_URL = "https://gerrit-review.googlesource.com/#/changes/123";
+  protected static final String CHANGE_URL =
+      "https://gerrit-review.googlesource.com/c/project/+/123";
 
   protected static void assertChangeMessage(String message, MailComment comment) {
     assertThat(comment.fileName).isNull();

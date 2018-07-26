@@ -70,6 +70,30 @@
       "revId": "a01df0247a44078675d527680b34e6066a60301c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8787ff61_b31d02e3",
+        "filename": "javatests/com/google/gerrit/gpg/PublicKeyStoreTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1067901
+      },
+      "writtenOn": "2018-07-26T22:49:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e437af4d_3152b8ff",
+      "range": {
+        "startLine": 166,
+        "startChar": 48,
+        "endLine": 166,
+        "endChar": 68
+      },
+      "revId": "a01df0247a44078675d527680b34e6066a60301c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

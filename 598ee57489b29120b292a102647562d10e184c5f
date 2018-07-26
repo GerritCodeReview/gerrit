@@ -22,6 +22,30 @@
       "revId": "598ee57489b29120b292a102647562d10e184c5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77d08b1d_57b8e7dd",
+        "filename": "javatests/com/google/gerrit/gpg/PublicKeyStoreTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1067901
+      },
+      "writtenOn": "2018-07-26T23:17:19Z",
+      "side": 1,
+      "message": "getPublicKeys() returns an Iterator, whereas List semantics are more clear. If you know a better way to do this, I\u0027d love to know!\n\nhttps://github.com/bcgit/bc-java/blob/master/pg/src/main/java/org/bouncycastle/openpgp/PGPPublicKeyRing.java#L218",
+      "parentUuid": "3abbf88a_529bab92",
+      "range": {
+        "startLine": 167,
+        "startChar": 29,
+        "endLine": 167,
+        "endChar": 49
+      },
+      "revId": "598ee57489b29120b292a102647562d10e184c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

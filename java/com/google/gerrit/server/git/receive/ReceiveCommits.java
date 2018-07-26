@@ -45,7 +45,6 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
@@ -1484,19 +1483,6 @@ class ReceiveCommits {
       }
       return NotifyHandling.ALL;
     }
-  }
-
-  /**
-   * Gets an unmodifiable view of the pushOptions.
-   *
-   * <p>The collection is empty if the client does not support push options, or if the client did
-   * not send any options.
-   *
-   * @return an unmodifiable view of pushOptions.
-   */
-  @Nullable
-  ListMultimap<String, String> getPushOptions() {
-    return ImmutableListMultimap.copyOf(pushOptions);
   }
 
   private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException {

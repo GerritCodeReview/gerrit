@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9826832_d62a3660",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2528,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-26T11:19:07Z",
+      "side": 1,
+      "message": "Remove this? A file path is always mapped to a single FileInfo, isn\u0027t it?",
+      "range": {
+        "startLine": 2528,
+        "startChar": 93,
+        "endLine": 2528,
+        "endChar": 100
+      },
+      "revId": "4514baf5303cbab431c30b2e2c7ad23494e35cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d756371f_6e7fac86",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2557,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-26T11:19:07Z",
+      "side": 1,
+      "message": "nit: one space too much",
+      "range": {
+        "startLine": 2557,
+        "startChar": 70,
+        "endLine": 2557,
+        "endChar": 71
+      },
+      "revId": "4514baf5303cbab431c30b2e2c7ad23494e35cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cfcb52a_f8cc1679",
+        "filename": "java/com/google/gerrit/server/restapi/project/FilesInCommitCollection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-26T11:19:07Z",
+      "side": 1,
+      "message": "I think this is not needed.",
+      "range": {
+        "startLine": 98,
+        "startChar": 13,
+        "endLine": 98,
+        "endChar": 25
+      },
+      "revId": "4514baf5303cbab431c30b2e2c7ad23494e35cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

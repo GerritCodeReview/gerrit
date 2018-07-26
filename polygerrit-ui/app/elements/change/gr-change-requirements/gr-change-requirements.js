@@ -65,7 +65,8 @@
       if (change.requirements) {
         for (const requirement of change.requirements) {
           requirement.satisfied = requirement.status === 'OK';
-          requirement.style = this._computeRequirementClass(requirement);
+          requirement.style =
+              this._computeRequirementClass(requirement.satisfied);
           _requirements.push(requirement);
         }
       }

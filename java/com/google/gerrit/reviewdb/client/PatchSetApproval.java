@@ -226,6 +226,6 @@ public final class PatchSetApproval {
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, value, granted, tag);
+    return Objects.hash(key, value, granted, tag, realAccountId, postSubmit);
   }
 }

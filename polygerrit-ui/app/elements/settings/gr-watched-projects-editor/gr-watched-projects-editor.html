@@ -49,7 +49,7 @@ limitations under the License.
       <table id="watchedProjects">
         <thead>
           <tr>
-            <th class="projectHeader">Project</th>
+            <th>Repo</th>
             <template is="dom-repeat" items="[[_getTypes()]]">
               <th class="notifType">[[item.name]]</th>
             </template>
@@ -98,7 +98,7 @@ limitations under the License.
                   id="newProject"
                   query="[[_query]]"
                   threshold="1"
-                  placeholder="Project"></gr-autocomplete>
+                  placeholder="Repo"></gr-autocomplete>
             </th>
             <th colspan$="[[_getTypeCount()]]">
               <input

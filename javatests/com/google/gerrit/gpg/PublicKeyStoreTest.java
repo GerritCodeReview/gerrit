@@ -163,6 +163,7 @@ public class PublicKeyStoreTest {
     TestKey key5 = validKeyWithSecondUserId();
     PGPPublicKeyRing keyRing = key5.getPublicKeyRing();
     PGPPublicKey key = keyRing.getPublicKey();
+    PGPPublicKey subKey = keyRing.getPublicKey(-4251428363064727069L);
     store.add(keyRing);
     assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
 
@@ -171,9 +172,11 @@ public class PublicKeyStoreTest {
         "Testuser Five <test5@example.com>",
         "foo:myId");
 
+    keyRing = PGPPublicKeyRing.removePublicKey(keyRing, subKey);
     keyRing = PGPPublicKeyRing.removePublicKey(keyRing, key);
     key = PGPPublicKey.removeCertification(key, "foo:myId");
     keyRing = PGPPublicKeyRing.insertPublicKey(keyRing, key);
+    keyRing = PGPPublicKeyRing.insertPublicKey(keyRing, subKey);
     store.add(keyRing);
     assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
 

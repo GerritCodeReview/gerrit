@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b0fc03d_3cbc1396",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-07-26T08:02:29Z",
+      "side": 1,
+      "message": "this part also",
+      "range": {
+        "startLine": 627,
+        "startChar": 33,
+        "endLine": 627,
+        "endChar": 57
+      },
+      "revId": "72ec2b3366cab0fae3fc672e9829a946e06c368c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d74db148_477c2e26",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-07-26T08:02:29Z",
+      "side": 1,
+      "message": "and here",
+      "revId": "72ec2b3366cab0fae3fc672e9829a946e06c368c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

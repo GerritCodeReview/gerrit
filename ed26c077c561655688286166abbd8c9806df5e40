@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "e6fda8bf_999116ac",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-26T17:53:01Z",
+      "side": 1,
+      "message": "optional: I wonder if a link name like \"Why Code Review?\" or \"Why Pre-submit Code Review?\" would make it easier for the intended audience to know to read this. Likewise for the filename --- e.g. intro-why.html.\n\nThe more colorful title would still be useful for once someone has landed on the page.",
+      "range": {
+        "startLine": 8,
+        "startChar": 27,
+        "endLine": 8,
+        "endChar": 65
+      },
+      "revId": "ed26c077c561655688286166abbd8c9806df5e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8ebe1f0_da49c786",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-26T17:53:01Z",
+      "side": 1,
+      "message": "formatting nit: I think this will render like \"straight- forward\". So we should write it in markup as \"straightforward\" or \"straight-forward\" on a single line and let line breaking happen at rendering time.",
+      "range": {
+        "startLine": 19,
+        "startChar": 69,
+        "endLine": 20,
+        "endChar": 7
+      },
+      "revId": "ed26c077c561655688286166abbd8c9806df5e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6974f2b2_5dac3f76",
         "filename": "Documentation/intro-rockstar.txt",
         "patchSetId": 5

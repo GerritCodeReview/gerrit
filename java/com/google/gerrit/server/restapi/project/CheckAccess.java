@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.DefaultPermissionMappings;
@@ -48,18 +47,15 @@ import org.eclipse.jgit.lib.Repository;
 @Singleton
 public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckInput> {
   private final AccountResolver accountResolver;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager gitRepositoryManager;
 
   @Inject
   CheckAccess(
       AccountResolver resolver,
-      IdentifiedUser.GenericFactory userFactory,
       PermissionBackend permissionBackend,
       GitRepositoryManager gitRepositoryManager) {
     this.accountResolver = resolver;
-    this.userFactory = userFactory;
     this.permissionBackend = permissionBackend;
     this.gitRepositoryManager = gitRepositoryManager;
   }
@@ -86,15 +82,13 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
     }
 
     AccessCheckInfo info = new AccessCheckInfo();
-
-    IdentifiedUser user = userFactory.create(match.getId());
     try {
-      permissionBackend.user(user).project(rsrc.getNameKey()).check(ProjectPermission.ACCESS);
+      permissionBackend
+          .absentUser(match.getId())
+          .project(rsrc.getNameKey())
+          .check(ProjectPermission.ACCESS);
     } catch (AuthException e) {
-      info.message =
-          String.format(
-              "user %s (%s) cannot see project %s",
-              user.getNameEmail(), user.getAccount().getId(), rsrc.getName());
+      info.message = String.format("user %s cannot see project %s", match.getId(), rsrc.getName());
       info.status = HttpServletResponse.SC_FORBIDDEN;
       return info;
     }
@@ -118,19 +112,15 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
     if (!Strings.isNullOrEmpty(input.ref)) {
       try {
         permissionBackend
-            .user(user)
+            .absentUser(match.getId())
             .ref(new Branch.NameKey(rsrc.getNameKey(), input.ref))
             .check(refPerm);
       } catch (AuthException e) {
         info.status = HttpServletResponse.SC_FORBIDDEN;
         info.message =
             String.format(
-                "user %s (%s) lacks permission %s for %s in project %s",
-                user.getNameEmail(),
-                user.getAccount().getId(),
-                input.permission,
-                input.ref,
-                rsrc.getName());
+                "user %s lacks permission %s for %s in project %s",
+                match.getId(), input.permission, input.ref, rsrc.getName());
         return info;
       }
     } else {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bc41ae7_044bcd29",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-07-26T08:05:13Z",
+      "side": 1,
+      "message": "If you\u0027re changing it now, I believe:\n\n* This assignment should also be quoted, if I\u0027m correct.\n* The SSH/scp command below in line 385 should also be adjusted.",
+      "range": {
+        "startLine": 363,
+        "startChar": 15,
+        "endLine": 363,
+        "endChar": 60
+      },
+      "revId": "ab67acd3d2327b7d08b8331acacc502d2b90630e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

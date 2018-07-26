@@ -127,7 +127,11 @@ property is inherited from the parent project.
 +
 Controls whether or not the Change-Id must be included in the commit message
 in the last paragraph. Default is `INHERIT`, which means that this property
-is inherited from the parent project.
+is inherited from the parent project. The global default for new hosts
+is `true`
++
+This option is deprecated and future releases will behave as if this
+is always `true`.
 
 [[receive.maxObjectSizeLimit]]receive.maxObjectSizeLimit::
 +

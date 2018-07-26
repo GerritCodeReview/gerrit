@@ -237,7 +237,7 @@ public class MailProcessor {
               .sorted(CommentsUtil.COMMENT_ORDER)
               .collect(toList());
       Project.NameKey project = cd.project();
-      String changeUrl = canonicalUrl.get() + "#/c/" + cd.getId().get();
+      String changeUrl = canonicalUrl.get() + "c/" + cd.project().get() + "/" + cd.getId().get();
 
       List<MailComment> parsedComments;
       if (useHtmlParser(message)) {

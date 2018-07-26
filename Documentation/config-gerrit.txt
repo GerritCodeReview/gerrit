@@ -4037,6 +4037,17 @@ Defaults to `OFF`.
 A list of regular expressions to match the email sender against. This can also
 be a list of addresses when regular expression characters are escaped.
 
+
+[[rest]]
+=== Section rest
+
+[[rest.enableRepositoryProjectCompatibility]]rest.enableRepositoryProjectCompatibility::
++
+Accept both 'project' and 'repository' fields in input objects on the REST API. Populat both fields
+in all REST responses that contain either one of them.
++
+Defaults to false.
+
 [[sendemail]]
 === Section sendemail
 

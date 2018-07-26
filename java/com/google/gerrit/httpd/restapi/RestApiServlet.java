@@ -219,6 +219,7 @@ public class RestApiServlet extends HttpServlet {
     final AuditService auditService;
     final RestApiMetrics metrics;
     final Pattern allowOrigin;
+    final boolean enableRepositoryProjectCompatibility;
 
     @Inject
     Globals(
@@ -236,6 +237,8 @@ public class RestApiServlet extends HttpServlet {
       this.auditService = auditService;
       this.metrics = metrics;
       allowOrigin = makeAllowOrigin(cfg);
+      enableRepositoryProjectCompatibility =
+          cfg.getBoolean("rest", null, "enableRepositoryProjectCompatibility", false);
     }
 
     private static Pattern makeAllowOrigin(Config cfg) {
@@ -519,7 +522,9 @@ public class RestApiServlet extends HttpServlet {
         if (result instanceof BinaryResult) {
           responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
         } else {
-          responseBytes = replyJson(req, res, qp.config(), result);
+          responseBytes =
+              replyJson(
+                  req, res, qp.config(), globals.enableRepositoryProjectCompatibility, result);
         }
       }
     } catch (MalformedJsonException | JsonParseException e) {
@@ -843,7 +848,10 @@ public class RestApiServlet extends HttpServlet {
     // 400). Consume the request body for all but raw input request types here.
     if (isType(JSON_TYPE, req.getContentType())) {
       try (BufferedReader br = req.getReader();
-          JsonReader json = new JsonReader(br)) {
+          JsonReader json =
+              globals.enableRepositoryProjectCompatibility
+                  ? new RepositoryCompatibilityJsonReader(br)
+                  : new JsonReader(br)) {
         try {
           json.setLenient(true);
 
@@ -972,6 +980,7 @@ public class RestApiServlet extends HttpServlet {
       @Nullable HttpServletRequest req,
       HttpServletResponse res,
       ListMultimap<String, String> config,
+      boolean enableRepositoryProjectCompatibility,
       Object result)
       throws IOException {
     TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
@@ -981,7 +990,11 @@ public class RestApiServlet extends HttpServlet {
     if (result instanceof JsonElement) {
       gson.toJson((JsonElement) result, w);
     } else {
-      gson.toJson(result, w);
+      if (enableRepositoryProjectCompatibility) {
+        gson.toJson(result, result.getClass(), new RepositoryCompatibilityJsonWriter(w));
+      } else {
+        gson.toJson(result, w);
+      }
     }
     w.write('\n');
     w.flush();
@@ -1347,7 +1360,8 @@ public class RestApiServlet extends HttpServlet {
   static long replyText(@Nullable HttpServletRequest req, HttpServletResponse res, String text)
       throws IOException {
     if ((req == null || isRead(req)) && isMaybeHTML(text)) {
-      return replyJson(req, res, ImmutableListMultimap.of("pp", "0"), new JsonPrimitive(text));
+      return replyJson(
+          req, res, ImmutableListMultimap.of("pp", "0"), false, new JsonPrimitive(text));
     }
     if (!text.endsWith("\n")) {
       text += "\n";

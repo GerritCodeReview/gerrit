@@ -79,11 +79,9 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.receive.NoteDbPushOption;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
-import com.google.gerrit.server.git.validators.CommitValidators.ChangeIdValidator;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -980,21 +978,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "receive.allowPushToRefsChanges", value = "true")
-  public void pushToRefsChangesAllowed() throws Exception {
-    PushOneCommit.Result r = pushOneCommitToRefsChanges();
-    r.assertOkStatus();
-  }
-
-  @Test
   public void pushNewPatchsetToRefsChanges() throws Exception {
-    PushOneCommit.Result r = pushOneCommitToRefsChanges();
-    r.assertErrorStatus("upload to refs/changes not allowed");
-  }
-
-  @Test
-  @GerritConfig(name = "receive.allowPushToRefsChanges", value = "false")
-  public void pushToRefsChangesNotAllowed() throws Exception {
     PushOneCommit.Result r = pushOneCommitToRefsChanges();
     r.assertErrorStatus("upload to refs/changes not allowed");
   }
@@ -1366,29 +1350,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "receive.allowPushToRefsChanges", value = "true")
-  public void testPushWithChangedChangeId() throws Exception {
-    PushOneCommit.Result r = pushTo("refs/for/master");
-    r.assertOkStatus();
-    PushOneCommit push =
-        pushFactory.create(
-            db,
-            admin.getIdent(),
-            testRepo,
-            PushOneCommit.SUBJECT
-                + "\n\n"
-                + "Change-Id: I55eab7c7a76e95005fa9cc469aa8f9fc16da9eba\n",
-            "b.txt",
-            "anotherContent",
-            r.getChangeId());
-    r = push.to("refs/changes/" + r.getChange().change().getId().get());
-    r.assertErrorStatus(
-        String.format(
-            ChangeIdValidator.CHANGE_ID_MISMATCH_MSG,
-            r.getCommit().abbreviate(RevId.ABBREV_LEN).name()));
-  }
-
-  @Test
   public void pushWithMultipleChangeIds() throws Exception {
     testPushWithMultipleChangeIds();
   }
@@ -1562,25 +1523,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // now the merged change 1) and the push tip (new patch set of change 2).
     assertThat(gApi.changes().id(id1.get()).info().status).isEqualTo(ChangeStatus.NEW);
     assertThat(gApi.changes().id(id2.get()).info().status).isEqualTo(ChangeStatus.NEW);
-  }
-
-  @Test
-  @GerritConfig(name = "receive.allowPushToRefsChanges", value = "true")
-  public void accidentallyPushNewPatchSetDirectlyToBranchAndRecoverByPushingToRefsChanges()
-      throws Exception {
-    Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
-    ChangeData cd = byChangeId(id);
-    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getRevision().get();
-
-    String r = "refs/changes/" + id;
-    assertPushOk(pushHead(testRepo, r, false), r);
-
-    // Added a new patch set and auto-closed the change.
-    cd = byChangeId(id);
-    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
-    assertThat(getPatchSetRevisions(cd))
-        .containsExactlyEntriesIn(
-            ImmutableMap.of(1, ps1Rev, 2, testRepo.getRepository().resolve("HEAD").name()));
   }
 
   @Test

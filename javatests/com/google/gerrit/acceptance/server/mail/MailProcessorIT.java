@@ -46,12 +46,7 @@ public class MailProcessorIT extends AbstractMailIT {
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt =
-        newPlaintextBody(
-            canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
-            "Test Message",
-            null,
-            null,
-            null);
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
@@ -74,12 +69,7 @@ public class MailProcessorIT extends AbstractMailIT {
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt =
-        newPlaintextBody(
-            canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
-            null,
-            "Some Inline Comment",
-            null,
-            null);
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, "Some Inline Comment", null, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
@@ -111,11 +101,7 @@ public class MailProcessorIT extends AbstractMailIT {
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt =
         newPlaintextBody(
-            canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
-            null,
-            null,
-            "Some Comment on File 1",
-            null);
+            getChangeUrl(changeInfo) + "/1", null, null, "Some Comment on File 1", null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
@@ -147,12 +133,7 @@ public class MailProcessorIT extends AbstractMailIT {
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt =
-        newPlaintextBody(
-            canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
-            null,
-            "Some Inline Comment",
-            null,
-            null);
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, "Some Inline Comment", null, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
@@ -178,12 +159,7 @@ public class MailProcessorIT extends AbstractMailIT {
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt =
-        newPlaintextBody(
-            canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
-            null,
-            "Some Inline Comment",
-            null,
-            null);
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, "Some Inline Comment", null, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     // Set account state to inactive
@@ -211,12 +187,7 @@ public class MailProcessorIT extends AbstractMailIT {
 
     // Build Message
     String txt =
-        newPlaintextBody(
-            canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
-            "Test Message",
-            null,
-            null,
-            null);
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null, null);
     MailMessage.Builder b =
         messageBuilderWithDefaultFields()
             .from(user.emailAddress)
@@ -238,12 +209,7 @@ public class MailProcessorIT extends AbstractMailIT {
 
     // Build Message
     String txt =
-        newPlaintextBody(
-            canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
-            "Test Message",
-            null,
-            null,
-            null);
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null, null);
     MailMessage.Builder b =
         messageBuilderWithDefaultFields()
             .from(user.emailAddress)
@@ -256,5 +222,9 @@ public class MailProcessorIT extends AbstractMailIT {
     Message message = sender.nextMessage();
     assertThat(message.body()).contains("was unable to parse your email");
     assertThat(message.headers()).containsKey("Subject");
+  }
+
+  private String getChangeUrl(ChangeInfo changeInfo) {
+    return canonicalWebUrl.get() + "c/" + changeInfo.project + "/+/" + changeInfo._number;
   }
 }

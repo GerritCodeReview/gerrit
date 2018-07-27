@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.mail.MailProcessingUtil;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.sql.Timestamp;
@@ -63,7 +64,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
     assertThat(emails).hasSize(1);
     FakeEmailSender.Message message = emails.get(0);
 
-    String changeURL = "<" + canonicalWebUrl.get() + newChange.getChange().getId().get() + ">";
+    String changeURL = "<" + getChangeUrl(newChange.getChange()) + ">";
 
     Map<String, Object> expectedHeaders = new HashMap<>();
     expectedHeaders.put("Gerrit-PatchSet", "1");
@@ -100,7 +101,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
     assertThat(emails).hasSize(1);
     FakeEmailSender.Message message = emails.get(0);
 
-    String changeURL = "<" + canonicalWebUrl.get() + newChange.getChange().getId().get() + ">";
+    String changeURL = "<" + getChangeUrl(newChange.getChange()) + ">";
     Map<String, Object> expectedHeaders = new HashMap<>();
     expectedHeaders.put("Gerrit-PatchSet", "1");
     expectedHeaders.put(
@@ -158,5 +159,13 @@ public class MailMetadataIT extends AbstractDaemonTest {
                 + entry.getKey());
       }
     }
+  }
+
+  private String getChangeUrl(ChangeData changeData) {
+    return canonicalWebUrl.get()
+        + "c/"
+        + changeData.project().get()
+        + "/+/"
+        + changeData.getId().get();
   }
 }

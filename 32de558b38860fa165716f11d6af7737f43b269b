@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dda03c39_23fe9b7b",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-07-27T22:09:32Z",
+      "side": 1,
+      "message": "s/a/in a/ ?",
+      "range": {
+        "startLine": 65,
+        "startChar": 64,
+        "endLine": 65,
+        "endChar": 65
+      },
+      "revId": "32de558b38860fa165716f11d6af7737f43b269b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

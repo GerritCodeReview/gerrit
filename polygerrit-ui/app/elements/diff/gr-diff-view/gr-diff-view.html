@@ -279,6 +279,8 @@ limitations under the License.
             <gr-button
                 link
                 disabled="[[_isBlameLoading]]"
+                has-tooltip
+                title="[[_computeBlameToggleTitle(_isBlameLoaded, _isBlameLoading)]]"
                 on-tap="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
             <span class="separator"></span>
           </span>

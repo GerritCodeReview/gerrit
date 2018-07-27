@@ -939,8 +939,13 @@
     },
 
     _computeBlameToggleLabel(loaded, loading) {
-      if (loaded) { return 'Hide blame'; }
-      return 'Show blame';
+      if (loaded) { return 'Hide attribution'; }
+      return 'Load Attribution';
+    },
+
+    _computeBlameToggleTitle(loaded, loading) {
+      if (loaded) { return 'Hide git "blame" information'; }
+      return 'Load git "blame" information';
     },
 
     /**

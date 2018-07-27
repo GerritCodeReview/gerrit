@@ -568,8 +568,8 @@ maven_jar(
 
 maven_jar(
     name = "dropwizard-core",
-    artifact = "io.dropwizard.metrics:metrics-core:4.0.2",
-    sha1 = "ec9878842d510cabd6bd6a9da1bebae1ae0cd199",
+    artifact = "io.dropwizard.metrics:metrics-core:4.0.3",
+    sha1 = "bb562ee73f740bb6b2bf7955f97be6b870d9e9f0",
 )
 
 BC_VERS = "1.56"

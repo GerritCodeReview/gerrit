@@ -22,6 +22,46 @@
       "revId": "a7df85f954d8f664c7df6d814d18fa830f947857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c320c6d7_fc1a0a53",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-27T22:48:02Z",
+      "side": 1,
+      "message": "Please include `git bisect` in this list, too. It could be a link to https://www.kernel.org/pub/software/scm/git/docs/git-bisect-lk2009.html",
+      "range": {
+        "startLine": 39,
+        "startChar": 26,
+        "endLine": 39,
+        "endChar": 73
+      },
+      "revId": "a7df85f954d8f664c7df6d814d18fa830f947857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d1c0340_214235c9",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-27T22:48:02Z",
+      "side": 1,
+      "message": "This lost some points from the old text:\n* code reviews mean that every change effectively has shared authorship\n* they share knowledge in two directions: reviewers learn from the patch author about how the new code they will have to maintain works, and the patch author learns from reviewers about best practices used in the project\n\nThat second point is one of the main benefits of code review: in projects that use it, it is how contributors are trained.",
+      "revId": "a7df85f954d8f664c7df6d814d18fa830f947857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

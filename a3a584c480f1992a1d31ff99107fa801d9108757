@@ -26,6 +26,75 @@
     },
     {
       "key": {
+        "uuid": "5ec3f5f5_fbf632fa",
+        "filename": "java/com/google/gerrit/server/cache/StringSerializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-27T13:02:54Z",
+      "side": 1,
+      "message": "optional: At some point, we should have a dedicated package (could be a subpackage) for the serialization stuff, especially as new CacheSerializers are added.",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4640b7cb_f60b40ab",
+        "filename": "java/com/google/gerrit/server/cache/StringSerializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-27T13:02:54Z",
+      "side": 1,
+      "message": "This parameter is never used.",
+      "range": {
+        "startLine": 35,
+        "startChar": 34,
+        "endLine": 35,
+        "endChar": 41
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dd9a9ce_f8331088",
+        "filename": "java/com/google/gerrit/server/cache/StringSerializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-27T13:02:54Z",
+      "side": 1,
+      "message": "Here and below: Other CacheSerializers use a pattern of \"Failed to serialize xyz\" for exceptions.",
+      "range": {
+        "startLine": 50,
+        "startChar": 39,
+        "endLine": 50,
+        "endChar": 64
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13e022c3_8fe68dcf",
         "filename": "javatests/com/google/gerrit/server/cache/StringSerializerTest.java",
         "patchSetId": 4
@@ -42,6 +111,75 @@
         "startChar": 17,
         "endLine": 1,
         "endChar": 21
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55ac9066_3e59d190",
+        "filename": "javatests/com/google/gerrit/server/cache/StringSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-27T13:02:54Z",
+      "side": 1,
+      "message": "It\u0027s a bit strange that StringSerializer has a dedicated @VisibleForTesting method just to allow this test but we don\u0027t test the exceptional case for deserialize, which would be possible without any code changes (e.g. byte 0xff).",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 34
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ead58d4_c929ca4a",
+        "filename": "javatests/com/google/gerrit/server/cache/StringSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-27T13:02:54Z",
+      "side": 1,
+      "message": "fail() is missing here, which would reveal that this test is currently not working as expected.",
+      "range": {
+        "startLine": 36,
+        "startChar": 69,
+        "endLine": 37,
+        "endChar": 11
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f0aa0ff_78adadb7",
+        "filename": "javatests/com/google/gerrit/server/cache/StringSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-27T13:02:54Z",
+      "side": 1,
+      "message": "The original exception isn\u0027t passed to the IllegalStateException in StringSerializer.",
+      "range": {
+        "startLine": 38,
+        "startChar": 27,
+        "endLine": 38,
+        "endChar": 86
       },
       "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

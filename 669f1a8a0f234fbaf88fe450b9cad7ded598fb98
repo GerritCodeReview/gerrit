@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd4b89df_353411c2",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-07-27T09:47:48Z",
+      "side": 1,
+      "message": "this repo seems unused",
+      "range": {
+        "startLine": 1,
+        "startChar": 44,
+        "endLine": 1,
+        "endChar": 59
+      },
+      "revId": "669f1a8a0f234fbaf88fe450b9cad7ded598fb98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f15ba43_76ef4f67",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-07-27T09:47:48Z",
+      "side": 1,
+      "message": "this repo seems unused",
+      "revId": "669f1a8a0f234fbaf88fe450b9cad7ded598fb98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5cf2988_e4175a50",
+        "filename": "tools/util.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-07-27T09:47:48Z",
+      "side": 1,
+      "message": "this repo seems unused",
+      "revId": "669f1a8a0f234fbaf88fe450b9cad7ded598fb98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

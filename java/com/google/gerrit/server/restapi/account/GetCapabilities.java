@@ -85,7 +85,7 @@ public class GetCapabilities implements RestReadView<AccountResource> {
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
     if (!self.get().hasSameAccountId(resource.getUser())) {
       perm.check(GlobalPermission.ADMINISTRATE_SERVER);
-      perm = permissionBackend.user(resource.getUser());
+      perm = permissionBackend.absentUser(resource.getUser().getAccountId());
     }
 
     Map<String, Object> have = new LinkedHashMap<>();

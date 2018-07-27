@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3170b31c_71c0b2de",
+        "filename": "java/com/google/gerrit/server/cache/StringSerializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-27T15:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc2ef7fe_e286648e",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ec3f5f5_fbf632fa",
         "filename": "java/com/google/gerrit/server/cache/StringSerializer.java",
         "patchSetId": 4
@@ -46,6 +70,30 @@
       "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fc66149_2fb69828",
+        "filename": "java/com/google/gerrit/server/cache/StringSerializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-27T15:49:03Z",
+      "side": 1,
+      "message": "Ack, will do that at the end of this series.",
+      "parentUuid": "5ec3f5f5_fbf632fa",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "aa8aa602_77344537",
+        "filename": "java/com/google/gerrit/server/cache/StringSerializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-27T15:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4640b7cb_f60b40ab",
+      "range": {
+        "startLine": 35,
+        "startChar": 34,
+        "endLine": 35,
+        "endChar": 41
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9dd9a9ce_f8331088",
         "filename": "java/com/google/gerrit/server/cache/StringSerializer.java",
         "patchSetId": 4
@@ -92,6 +164,30 @@
       "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49b90ec9_5a8bfff2",
+        "filename": "java/com/google/gerrit/server/cache/StringSerializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-27T15:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dd9a9ce_f8331088",
+      "range": {
+        "startLine": 50,
+        "startChar": 39,
+        "endLine": 50,
+        "endChar": 64
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "c862ce0f_e9a34161",
+        "filename": "javatests/com/google/gerrit/server/cache/StringSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-27T15:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13e022c3_8fe68dcf",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55ac9066_3e59d190",
         "filename": "javatests/com/google/gerrit/server/cache/StringSerializerTest.java",
         "patchSetId": 4
@@ -138,6 +258,30 @@
       "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab897371_2fa65c23",
+        "filename": "javatests/com/google/gerrit/server/cache/StringSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-27T15:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55ac9066_3e59d190",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 34
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "d61daf79_6191fe26",
+        "filename": "javatests/com/google/gerrit/server/cache/StringSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-27T15:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ead58d4_c929ca4a",
+      "range": {
+        "startLine": 36,
+        "startChar": 69,
+        "endLine": 37,
+        "endChar": 11
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f0aa0ff_78adadb7",
         "filename": "javatests/com/google/gerrit/server/cache/StringSerializerTest.java",
         "patchSetId": 4
@@ -184,6 +352,30 @@
       "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ad2bc99_56d96b5e",
+        "filename": "javatests/com/google/gerrit/server/cache/StringSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-27T15:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f0aa0ff_78adadb7",
+      "range": {
+        "startLine": 38,
+        "startChar": 27,
+        "endLine": 38,
+        "endChar": 86
+      },
+      "revId": "a3a584c480f1992a1d31ff99107fa801d9108757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

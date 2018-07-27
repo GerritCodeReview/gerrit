@@ -22,6 +22,30 @@
       "revId": "368130a4f892e772089f202a27e538665b4a39db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad5da51_41c39092",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-27T18:32:04Z",
+      "side": 1,
+      "message": "Yes, let\u0027s do that. Brandon is in the process of updating all of Google to 1.60 so it makes sense to have Gerrit on the same version.\n\nFortunately this particular change works on both versions so I think that doesn\u0027t need to block submission here.",
+      "parentUuid": "3c61f268_d0c56247",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "368130a4f892e772089f202a27e538665b4a39db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

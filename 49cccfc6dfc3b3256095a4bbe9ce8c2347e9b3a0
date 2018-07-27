@@ -23,6 +23,30 @@
       "revId": "49cccfc6dfc3b3256095a4bbe9ce8c2347e9b3a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbc6ed53_cbfc904f",
+        "filename": "java/com/google/gerrit/server/git/TagCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-27T13:41:40Z",
+      "side": 1,
+      "message": "Just saw that the follow-up change simplifies this line.",
+      "parentUuid": "ce6b44be_72956e9c",
+      "range": {
+        "startLine": 87,
+        "startChar": 13,
+        "endLine": 87,
+        "endChar": 78
+      },
+      "revId": "49cccfc6dfc3b3256095a4bbe9ce8c2347e9b3a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

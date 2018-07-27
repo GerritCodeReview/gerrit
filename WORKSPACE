@@ -680,30 +680,36 @@ maven_jar(
     sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
 )
 
-TRUTH_VERS = "0.40"
+TRUTH_VERS = "0.42"
 
 maven_jar(
     name = "truth",
     artifact = "com.google.truth:truth:" + TRUTH_VERS,
-    sha1 = "0d74e716afec045cc4a178dbbfde2a8314ae5574",
+    sha1 = "b5768f644b114e6cf5c3962c2ebcb072f788dcbb",
 )
 
 maven_jar(
     name = "truth-java8-extension",
     artifact = "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERS,
-    sha1 = "636e49d675bc28e0b3ae0edd077d6acbbb159166",
+    sha1 = "4d01dfa5b3780632a3d109e14e101f01d10cce2c",
 )
 
 maven_jar(
     name = "truth-liteproto-extension",
     artifact = "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERS,
-    sha1 = "21210ac07e5cfbe83f04733f806224a6c0ae4d2d",
+    sha1 = "c231e6735aa6c133c7e411ae1c1c90b124900a8b",
 )
 
 maven_jar(
     name = "truth-proto-extension",
     artifact = "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERS,
-    sha1 = "5a2b504143a5fec2b6be8bce292b3b7577a81789",
+    sha1 = "c41d22e8b4a61b4171e57c44a2959ebee0091a14",
+)
+
+maven_jar(
+    name = "diffutils",
+    artifact = "com.googlecode.java-diff-utils:diffutils:1.3.0",
+    sha1 = "7e060dd5b19431e6d198e91ff670644372f60fbd",
 )
 
 # When bumping the easymock version number, make sure to also move powermock to a compatible version

@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "3123eddb_20b9b5ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-30T09:45:41Z",
+      "side": 1,
+      "message": "nitpick: Git already records that you are adding this file, and editing another, so no need to mention this. How about:\n\n\"Add introduction to documentation\n\nthis document describes the rationale of code review in general, and Gerrit\u0027s approach to .. \n\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "a7df85f954d8f664c7df6d814d18fa830f947857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c320c6d7_fc1a0a53",
         "filename": "Documentation/intro-rockstar.txt",
         "patchSetId": 9

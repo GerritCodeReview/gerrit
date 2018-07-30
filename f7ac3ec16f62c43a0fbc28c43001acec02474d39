@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f62b982_32886d97",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-07-30T05:23:41Z",
+      "side": 0,
+      "message": "Thanks for removing double on.",
+      "range": {
+        "startLine": 134,
+        "startChar": 39,
+        "endLine": 134,
+        "endChar": 41
+      },
+      "revId": "f7ac3ec16f62c43a0fbc28c43001acec02474d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

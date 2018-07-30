@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef34aedb_27cf48ae",
+        "filename": "javatests/com/google/gerrit/server/git/TagSetTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-30T11:04:57Z",
+      "side": 1,
+      "message": "This will call Object#toString. Intended?",
+      "range": {
+        "startLine": 108,
+        "startChar": 57,
+        "endLine": 108,
+        "endChar": 70
+      },
+      "revId": "c4d76282b885cb31758309e6dcc54c3230a8e581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dc80cc1_d0b13775",
+        "filename": "javatests/com/google/gerrit/server/git/TagSetTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-30T11:04:57Z",
+      "side": 1,
+      "message": "Superfluous line as covered by check in line 107.",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 47
+      },
+      "revId": "c4d76282b885cb31758309e6dcc54c3230a8e581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

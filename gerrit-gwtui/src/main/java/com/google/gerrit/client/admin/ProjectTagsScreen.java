@@ -34,6 +34,7 @@ import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PagingHyperlink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
@@ -64,6 +65,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ProjectTagsScreen extends PaginatedProjectScreen {
+  public static final String REFS_TAGS = "refs/tags/*";
+
   private Hyperlink prev;
   private Hyperlink next;
   private TagsTable tagTable;
@@ -94,7 +97,10 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
         new GerritCallback<ProjectAccessInfo>() {
           @Override
           public void onSuccess(ProjectAccessInfo result) {
-            addPanel.setVisible(result.canAddRefs());
+            addPanel.setVisible(
+                (result.hasLocalPermission(REFS_TAGS, Permission.CREATE_TAG)
+                        && result.hasLocalRefs(REFS_TAGS))
+                    || result.ownerOf(REFS_TAGS));
           }
         });
     query = new Query(match).start(start).run();

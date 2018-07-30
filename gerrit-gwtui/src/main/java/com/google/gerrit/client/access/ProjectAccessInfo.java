@@ -19,7 +19,14 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class ProjectAccessInfo extends JavaScriptObject {
   public final native boolean canAddRefs() /*-{ return this.can_add ? true : false; }-*/;
 
+  public final native boolean hasLocalPermission(
+      String ref, String perm) /*-{ return perm in this.local[ref]["permissions"];}-*/;
+
+  public final native boolean hasLocalRefs(String ref) /*-{ return ref in this.local; }-*/;
+
   public final native boolean isOwner() /*-{ return this.is_owner ? true : false; }-*/;
+
+  public final native boolean ownerOf(String ref) /*-{ return this.owner_of.includes(ref); }-*/;
 
   public final native boolean configVisible() /*-{ return this.config_visible ? true : false; }-*/;
 

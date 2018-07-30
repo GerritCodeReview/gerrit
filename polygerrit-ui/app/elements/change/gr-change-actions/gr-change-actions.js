@@ -991,6 +991,7 @@
           true,
           {
             destination: el.branch,
+            base: el.base,
             message: el.message,
           }
       );

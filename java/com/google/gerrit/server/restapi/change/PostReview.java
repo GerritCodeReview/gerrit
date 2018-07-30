@@ -33,6 +33,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
@@ -145,6 +146,8 @@ import org.eclipse.jgit.lib.ObjectId;
 @Singleton
 public class PostReview
     extends RetryingRestModifyView<RevisionResource, ReviewInput, Response<ReviewResult>> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static final String ERROR_ADDING_REVIEWER = "error adding reviewer";
   public static final String ERROR_ONLY_OWNER_CAN_MODIFY_WORK_IN_PROGRESS =
       "only change owner can specify work_in_progress or ready";
@@ -1216,8 +1219,15 @@ public class PostReview
       }
 
       forceCallerAsReviewer(projectState, ctx, current, ups, del);
-      ctx.getDb().patchSetApprovals().delete(del);
-      ctx.getDb().patchSetApprovals().upsert(ups);
+
+      if (!del.isEmpty()) {
+        ctx.getDb().patchSetApprovals().delete(del);
+      }
+
+      if (!ups.isEmpty()) {
+        ctx.getDb().patchSetApprovals().upsert(ups);
+      }
+
       return !del.isEmpty() || !ups.isEmpty();
     }
 
@@ -1303,8 +1313,15 @@ public class PostReview
         if (del.isEmpty()) {
           // If no existing label is being set to 0, hack in the caller
           // as a reviewer by picking the first server-wide LabelType.
-          LabelId labelId =
-              projectState.getLabelTypes(ctx.getNotes()).getLabelTypes().get(0).getLabelId();
+          List<LabelType> labelTypes = projectState.getLabelTypes(ctx.getNotes()).getLabelTypes();
+          if (labelTypes.isEmpty()) {
+            logger.atWarning().log(
+                "no label type found for project %s, change %s",
+                projectState.getName(), ctx.getChange().getChangeId());
+            return;
+          }
+
+          LabelId labelId = labelTypes.get(0).getLabelId();
           PatchSetApproval c = ApprovalsUtil.newApproval(psId, user, labelId, 0, ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());

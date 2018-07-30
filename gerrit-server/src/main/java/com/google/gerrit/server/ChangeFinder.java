@@ -19,6 +19,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -141,7 +142,8 @@ public class ChangeFinder {
     Change.Id cId = new Change.Id(changeNumber);
     try {
       return ImmutableList.of(
-          changeNotesFactory.createChecked(reviewDb.get(), Project.NameKey.parse(project), cId));
+          changeNotesFactory.createChecked(
+              reviewDb.get(), Project.NameKey.parse(Url.encode(project)), cId));
     } catch (NoSuchChangeException e) {
       return Collections.emptyList();
     } catch (OrmException e) {

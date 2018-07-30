@@ -49,7 +49,7 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
       case V6_2:
         return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.4";
       case V6_3:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.1";
+        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.2";
     }
     throw new IllegalStateException("No tests for version: " + version.name());
   }

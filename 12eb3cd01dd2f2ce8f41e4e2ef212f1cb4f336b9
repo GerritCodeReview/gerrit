@@ -16,6 +16,24 @@
       "revId": "12eb3cd01dd2f2ce8f41e4e2ef212f1cb4f336b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d64a286_766fd891",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-07-30T19:19:14Z",
+      "side": 1,
+      "message": "I don\u0027t know that git diff/jgit diff output gets localized. Does it?\n\nAlso, would you prefer I make all of the strings in this function constants? I was following the pattern already established in this file, but upon further research it looks like this same discussion was had at that time too.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/103011",
+      "parentUuid": "c4e38b70_ad011c27",
+      "revId": "12eb3cd01dd2f2ce8f41e4e2ef212f1cb4f336b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

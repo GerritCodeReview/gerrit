@@ -36,6 +36,7 @@
 
     properties: {
       branch: String,
+      baseCommit: String,
       changeStatus: String,
       commitMessage: String,
       commitNum: String,

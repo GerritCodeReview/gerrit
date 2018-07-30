@@ -1009,6 +1009,7 @@
           true,
           {
             destination: el.branch,
+            base: el.baseCommit ? el.baseCommit : null,
             message: el.message,
           }
       );

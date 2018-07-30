@@ -74,6 +74,15 @@ limitations under the License.
             query="[[_query]]"
             placeholder="Destination branch">
         </gr-autocomplete>
+        <label for="baseInput">
+          Provide base commit sha1 for cherry-pick
+        </label>
+        <input
+            is="iron-input"
+            id="baseCommitInput"
+            maxlength="40"
+            placeholder="(optional)"
+            bind-value="{{baseCommit}}">
         <label for="messageInput">
           Cherry Pick Commit Message
         </label>

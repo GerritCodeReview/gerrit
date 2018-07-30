@@ -238,25 +238,17 @@ public class CommitValidators {
   public static class ChangeIdValidator implements CommitValidationListener {
     private static final String CHANGE_ID_PREFIX = FooterConstants.CHANGE_ID.getName() + ":";
     private static final String MISSING_CHANGE_ID_MSG =
-        "[%s] missing " + FooterConstants.CHANGE_ID.getName() + " in commit message footer";
+        "[%s] missing Change-Id in commit message footer";
     private static final String MISSING_SUBJECT_MSG =
-        "[%s] missing subject; "
-            + FooterConstants.CHANGE_ID.getName()
-            + " must be in commit message footer";
+        "[%s] missing subject; Change-Id must be in commit message footer";
     private static final String MULTIPLE_CHANGE_ID_MSG =
-        "[%s] multiple " + FooterConstants.CHANGE_ID.getName() + " lines in commit message footer";
+        "[%s] multiple Change-Id lines in commit message footer";
     private static final String INVALID_CHANGE_ID_MSG =
-        "[%s] invalid "
-            + FooterConstants.CHANGE_ID.getName()
-            + " line format in commit message footer";
+        "[%s] invalid Change-Id line format in commit message footer";
 
     @VisibleForTesting
     public static final String CHANGE_ID_MISMATCH_MSG =
-        "[%s] "
-            + FooterConstants.CHANGE_ID.getName()
-            + " in commit message footer does not match"
-            + FooterConstants.CHANGE_ID.getName()
-            + " of target change";
+        "[%s] Change-Id in commit message footer does not match Change-Id of target change";
 
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
@@ -367,10 +359,9 @@ public class CommitValidators {
       // If there are no SSH keys, the commit-msg hook must be installed via
       // HTTP(S)
       if (hostKeys.isEmpty()) {
-        String p = "${gitdir}/hooks/commit-msg";
         return String.format(
-            "  gitdir=$(git rev-parse --git-dir); curl -o %s %stools/hooks/commit-msg ; chmod +x %s",
-            p, canonicalWebUrl, p);
+            "  f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\" %stools/hooks/commit-msg ; chmod +x \"$f\"",
+            canonicalWebUrl);
       }
 
       // SSH keys exist, so the hook can be installed with scp.

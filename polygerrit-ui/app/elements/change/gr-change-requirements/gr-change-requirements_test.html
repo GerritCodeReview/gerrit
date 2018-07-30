@@ -170,5 +170,53 @@ limitations under the License.
       assert.equal(requirement.querySelector('.name').text,
           'Resolve all comments');
     });
+
+    test('satisfied class is applied with OK', () => {
+      element.change = {
+        status: 'NEW',
+        labels: {},
+        requirements: [{
+          fallback_text: 'Resolve all comments',
+          status: 'OK',
+        }],
+      };
+      flushAsynchronousOperations();
+
+      const requirement = element.$$('.requirement');
+      assert.ok(requirement);
+      assert.ok(requirement.querySelector('.approved'));
+    });
+
+    test('satisfied class is not applied with NOT_READY', () => {
+      element.change = {
+        status: 'NEW',
+        labels: {},
+        requirements: [{
+          fallback_text: 'Resolve all comments',
+          status: 'NOT_READY',
+        }],
+      };
+      flushAsynchronousOperations();
+
+      const requirement = element.$$('.requirement');
+      assert.ok(requirement);
+      assert.strictEqual(requirement.querySelector('.approved'), null);
+    });
+
+    test('satisfied class is not applied with RULE_ERROR', () => {
+      element.change = {
+        status: 'NEW',
+        labels: {},
+        requirements: [{
+          fallback_text: 'Resolve all comments',
+          status: 'RULE_ERROR',
+        }],
+      };
+      flushAsynchronousOperations();
+
+      const requirement = element.$$('.requirement');
+      assert.ok(requirement);
+      assert.strictEqual(requirement.querySelector('.approved'), null);
+    });
   });
 </script>

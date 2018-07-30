@@ -2640,6 +2640,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery(query);
   }
 
+  @Test
+  public void byUrlEncodedProject() throws Exception {
+    TestRepository<Repo> repo = createProject("repo+foo");
+    Change change = insert(repo, newChange(repo));
+    assertQuery("project:repo+foo", change);
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null, false);
   }

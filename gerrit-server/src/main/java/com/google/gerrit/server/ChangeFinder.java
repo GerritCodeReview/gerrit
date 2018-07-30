@@ -19,6 +19,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -173,7 +174,7 @@ public class ChangeFinder {
     InternalChangeQuery query = queryProvider.get().noFields();
     List<ChangeData> r = query.byLegacyChangeId(id);
     if (r.size() == 1) {
-      changeIdProjectCache.put(id, r.get(0).project().get());
+      changeIdProjectCache.put(id, Url.encode(r.get(0).project().get()));
     }
     return asChangeNotes(r);
   }

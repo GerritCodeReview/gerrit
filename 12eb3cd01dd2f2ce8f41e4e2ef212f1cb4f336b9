@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4e38b70_ad011c27",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-30T17:55:47Z",
+      "side": 1,
+      "message": "Make string a constant?\nAlso, is this the only way? I wonder how would it work with internationalization..",
+      "revId": "12eb3cd01dd2f2ce8f41e4e2ef212f1cb4f336b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

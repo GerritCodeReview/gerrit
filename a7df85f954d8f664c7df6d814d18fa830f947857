@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "510ee80c_91baeada",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-07-30T19:32:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3123eddb_20b9b5ef",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "a7df85f954d8f664c7df6d814d18fa830f947857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cbc02b6_0de10bbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-07-30T19:32:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5081305_ae0aab9d",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "a7df85f954d8f664c7df6d814d18fa830f947857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c320c6d7_fc1a0a53",
         "filename": "Documentation/intro-rockstar.txt",
         "patchSetId": 9
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "19f1073d_99ec7ef6",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-07-30T19:32:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c320c6d7_fc1a0a53",
+      "range": {
+        "startLine": 39,
+        "startChar": 26,
+        "endLine": 39,
+        "endChar": 73
+      },
+      "revId": "a7df85f954d8f664c7df6d814d18fa830f947857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d1c0340_214235c9",
         "filename": "Documentation/intro-rockstar.txt",
         "patchSetId": 9
@@ -85,6 +157,24 @@
       "revId": "a7df85f954d8f664c7df6d814d18fa830f947857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03dc72f2_403751db",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-07-30T19:32:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1c0340_214235c9",
+      "revId": "a7df85f954d8f664c7df6d814d18fa830f947857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

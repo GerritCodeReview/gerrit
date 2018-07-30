@@ -567,7 +567,14 @@ class ReceiveCommits {
 
     try {
       parsePushOptions();
-      parseCommands(commands);
+      logDebug("Parsing %d commands", commands.size());
+      for (ReceiveCommand cmd : commands) {
+        if (!projectState.getProject().getState().permitsWrite()) {
+          reject(cmd, "prohibited by Gerrit: project state does not permit write");
+          break;
+        }
+        parseCommand(cmd);
+      }
     } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
       for (ReceiveCommand cmd : actualCommands) {
         if (cmd.getResult() == NOT_ATTEMPTED) {
@@ -845,214 +852,131 @@ class ReceiveCommits {
     }
   }
 
-  private void parseCommands(Collection<ReceiveCommand> commands)
+  private void parseCommand(ReceiveCommand cmd)
       throws PermissionBackendException, NoSuchProjectException, IOException {
-    logDebug("Parsing %d commands", commands.size());
-    for (ReceiveCommand cmd : commands) {
-      if (cmd.getResult() != NOT_ATTEMPTED) {
-        // Already rejected by the core receive process.
-        logDebug("Already processed by core: %s %s", cmd.getResult(), cmd);
-        continue;
-      }
+    if (cmd.getResult() != NOT_ATTEMPTED) {
+      // Already rejected by the core receive process.
+      logDebug("Already processed by core: %s %s", cmd.getResult(), cmd);
+      return;
+    }
 
-      if (!Repository.isValidRefName(cmd.getRefName()) || cmd.getRefName().contains("//")) {
-        reject(cmd, "not valid ref");
-        continue;
-      }
+    if (!Repository.isValidRefName(cmd.getRefName()) || cmd.getRefName().contains("//")) {
+      reject(cmd, "not valid ref");
+      return;
+    }
 
-      if (!projectState.getProject().getState().permitsWrite()) {
-        reject(cmd, "prohibited by Gerrit: project state does not permit write");
+    if (MagicBranch.isMagicBranch(cmd.getRefName())) {
+      parseMagicBranch(cmd);
+      return;
+    }
+
+    if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
+      String newName = RefNames.refsUsers(user.getAccountId());
+      logDebug("Swapping out command for %s to %s", RefNames.REFS_USERS_SELF, newName);
+      final ReceiveCommand orgCmd = cmd;
+      cmd =
+          new ReceiveCommand(cmd.getOldId(), cmd.getNewId(), newName, cmd.getType()) {
+            @Override
+            public void setResult(Result s, String m) {
+              super.setResult(s, m);
+              orgCmd.setResult(s, m);
+            }
+          };
+    }
+
+    Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
+    if (m.matches()) {
+      if (allowPushToRefsChanges) {
+        // The referenced change must exist and must still be open.
+        //
+        Change.Id changeId = Change.Id.parse(m.group(1));
+        parseReplaceCommand(cmd, changeId);
+      } else {
+        reject(cmd, "upload to refs/changes not allowed");
+      }
+      return;
+    }
+
+    if (RefNames.isNoteDbMetaRef(cmd.getRefName())) {
+      // Reject pushes to NoteDb refs without a special option and permission. Note that this
+      // prohibition doesn't depend on NoteDb being enabled in any way, since all sites will
+      // migrate to NoteDb eventually, and we don't want garbage data waiting there when the
+      // migration finishes.
+      logDebug(
+          "%s NoteDb ref %s with %s=%s",
+          cmd.getType(), cmd.getRefName(), NoteDbPushOption.OPTION_NAME, noteDbPushOption);
+      if (!Optional.of(NoteDbPushOption.ALLOW).equals(noteDbPushOption)) {
+        // Only reject this command, not the whole push. This supports the use case of "git clone
+        // --mirror" followed by "git push --mirror", when the user doesn't really intend to clone
+        // or mirror the NoteDb data; there is no single refspec that describes all refs *except*
+        // NoteDb refs.
+        reject(
+            cmd,
+            "NoteDb update requires -o "
+                + NoteDbPushOption.OPTION_NAME
+                + "="
+                + NoteDbPushOption.ALLOW.value());
         return;
       }
-
-      if (MagicBranch.isMagicBranch(cmd.getRefName())) {
-        parseMagicBranch(cmd);
-        continue;
+      try {
+        permissionBackend.user(user).check(GlobalPermission.ACCESS_DATABASE);
+      } catch (AuthException e) {
+        reject(cmd, "NoteDb update requires access database permission");
+        return;
       }
+    }
 
-      if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
-        String newName = RefNames.refsUsers(user.getAccountId());
-        logDebug("Swapping out command for %s to %s", RefNames.REFS_USERS_SELF, newName);
-        final ReceiveCommand orgCmd = cmd;
-        cmd =
-            new ReceiveCommand(cmd.getOldId(), cmd.getNewId(), newName, cmd.getType()) {
-              @Override
-              public void setResult(Result s, String m) {
-                super.setResult(s, m);
-                orgCmd.setResult(s, m);
-              }
-            };
-      }
+    switch (cmd.getType()) {
+      case CREATE:
+        parseCreate(cmd);
+        break;
 
-      Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
-      if (m.matches()) {
-        if (allowPushToRefsChanges) {
-          // The referenced change must exist and must still be open.
-          //
-          Change.Id changeId = Change.Id.parse(m.group(1));
-          parseReplaceCommand(cmd, changeId);
-        } else {
-          reject(cmd, "upload to refs/changes not allowed");
-        }
-        continue;
-      }
+      case UPDATE:
+        parseUpdate(cmd);
+        break;
 
-      if (RefNames.isNoteDbMetaRef(cmd.getRefName())) {
-        // Reject pushes to NoteDb refs without a special option and permission. Note that this
-        // prohibition doesn't depend on NoteDb being enabled in any way, since all sites will
-        // migrate to NoteDb eventually, and we don't want garbage data waiting there when the
-        // migration finishes.
-        logDebug(
-            "%s NoteDb ref %s with %s=%s",
-            cmd.getType(), cmd.getRefName(), NoteDbPushOption.OPTION_NAME, noteDbPushOption);
-        if (!Optional.of(NoteDbPushOption.ALLOW).equals(noteDbPushOption)) {
-          // Only reject this command, not the whole push. This supports the use case of "git clone
-          // --mirror" followed by "git push --mirror", when the user doesn't really intend to clone
-          // or mirror the NoteDb data; there is no single refspec that describes all refs *except*
-          // NoteDb refs.
-          reject(
-              cmd,
-              "NoteDb update requires -o "
-                  + NoteDbPushOption.OPTION_NAME
-                  + "="
-                  + NoteDbPushOption.ALLOW.value());
-          continue;
-        }
-        try {
-          permissionBackend.user(user).check(GlobalPermission.ACCESS_DATABASE);
-        } catch (AuthException e) {
-          reject(cmd, "NoteDb update requires access database permission");
-          continue;
-        }
+      case DELETE:
+        parseDelete(cmd);
+        break;
+
+      case UPDATE_NONFASTFORWARD:
+        parseRewind(cmd);
+        break;
+
+      default:
+        reject(cmd, "prohibited by Gerrit: unknown command type " + cmd.getType());
+        return;
+    }
+
+    if (cmd.getResult() != NOT_ATTEMPTED) {
+      return;
+    }
+
+    if (isConfig(cmd)) {
+      logDebug("Processing %s command", cmd.getRefName());
+      try {
+        permissions.check(ProjectPermission.WRITE_CONFIG);
+      } catch (AuthException e) {
+        reject(
+            cmd,
+            String.format(
+                "must be either project owner or have %s permission",
+                ProjectPermission.WRITE_CONFIG.describeForException()));
+        return;
       }
 
       switch (cmd.getType()) {
         case CREATE:
-          parseCreate(cmd);
-          break;
-
         case UPDATE:
-          parseUpdate(cmd);
-          break;
-
-        case DELETE:
-          parseDelete(cmd);
-          break;
-
         case UPDATE_NONFASTFORWARD:
-          parseRewind(cmd);
-          break;
-
-        default:
-          reject(cmd, "prohibited by Gerrit: unknown command type " + cmd.getType());
-          continue;
-      }
-
-      if (cmd.getResult() != NOT_ATTEMPTED) {
-        continue;
-      }
-
-      if (isConfig(cmd)) {
-        logDebug("Processing %s command", cmd.getRefName());
-        try {
-          permissions.check(ProjectPermission.WRITE_CONFIG);
-        } catch (AuthException e) {
-          reject(
-              cmd,
-              String.format(
-                  "must be either project owner or have %s permission",
-                  ProjectPermission.WRITE_CONFIG.describeForException()));
-          continue;
-        }
-
-        switch (cmd.getType()) {
-          case CREATE:
-          case UPDATE:
-          case UPDATE_NONFASTFORWARD:
-            try {
-              ProjectConfig cfg = new ProjectConfig(project.getNameKey());
-              cfg.load(receivePack.getRevWalk(), cmd.getNewId());
-              if (!cfg.getValidationErrors().isEmpty()) {
-                addError("Invalid project configuration:");
-                for (ValidationError err : cfg.getValidationErrors()) {
-                  addError("  " + err.getMessage());
-                }
-                reject(cmd, "invalid project configuration");
-                logError(
-                    "User "
-                        + user.getLoggableName()
-                        + " tried to push invalid project configuration "
-                        + cmd.getNewId().name()
-                        + " for "
-                        + project.getName());
-                continue;
+          try {
+            ProjectConfig cfg = new ProjectConfig(project.getNameKey());
+            cfg.load(receivePack.getRevWalk(), cmd.getNewId());
+            if (!cfg.getValidationErrors().isEmpty()) {
+              addError("Invalid project configuration:");
+              for (ValidationError err : cfg.getValidationErrors()) {
+                addError("  " + err.getMessage());
               }
-              Project.NameKey newParent = cfg.getProject().getParent(allProjectsName);
-              Project.NameKey oldParent = project.getParent(allProjectsName);
-              if (oldParent == null) {
-                // update of the 'All-Projects' project
-                if (newParent != null) {
-                  reject(cmd, "invalid project configuration: root project cannot have parent");
-                  continue;
-                }
-              } else {
-                if (!oldParent.equals(newParent)) {
-                  try {
-                    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-                  } catch (AuthException e) {
-                    reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
-                    continue;
-                  }
-                }
-
-                if (projectCache.get(newParent) == null) {
-                  reject(cmd, "invalid project configuration: parent does not exist");
-                  continue;
-                }
-              }
-
-              for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
-                PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
-                ProjectConfigEntry configEntry = e.getProvider().get();
-                String value = pluginCfg.getString(e.getExportName());
-                String oldValue =
-                    projectState
-                        .getConfig()
-                        .getPluginConfig(e.getPluginName())
-                        .getString(e.getExportName());
-                if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
-                  oldValue =
-                      Arrays.stream(
-                              projectState
-                                  .getConfig()
-                                  .getPluginConfig(e.getPluginName())
-                                  .getStringList(e.getExportName()))
-                          .collect(joining("\n"));
-                }
-
-                if ((value == null ? oldValue != null : !value.equals(oldValue))
-                    && !configEntry.isEditable(projectState)) {
-                  reject(
-                      cmd,
-                      String.format(
-                          "invalid project configuration: Not allowed to set parameter"
-                              + " '%s' of plugin '%s' on project '%s'.",
-                          e.getExportName(), e.getPluginName(), project.getName()));
-                  continue;
-                }
-
-                if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
-                    && value != null
-                    && !configEntry.getPermittedValues().contains(value)) {
-                  reject(
-                      cmd,
-                      String.format(
-                          "invalid project configuration: The value '%s' is "
-                              + "not permitted for parameter '%s' of plugin '%s'.",
-                          value, e.getExportName(), e.getPluginName()));
-                }
-              }
-            } catch (Exception e) {
               reject(cmd, "invalid project configuration");
               logError(
                   "User "
@@ -1060,22 +984,97 @@ class ReceiveCommits {
                       + " tried to push invalid project configuration "
                       + cmd.getNewId().name()
                       + " for "
-                      + project.getName(),
-                  e);
-              continue;
+                      + project.getName());
+              return;
             }
-            break;
+            Project.NameKey newParent = cfg.getProject().getParent(allProjectsName);
+            Project.NameKey oldParent = project.getParent(allProjectsName);
+            if (oldParent == null) {
+              // update of the 'All-Projects' project
+              if (newParent != null) {
+                reject(cmd, "invalid project configuration: root project cannot have parent");
+                return;
+              }
+            } else {
+              if (!oldParent.equals(newParent)) {
+                try {
+                  permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+                } catch (AuthException e) {
+                  reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
+                  return;
+                }
+              }
 
-          case DELETE:
-            break;
+              if (projectCache.get(newParent) == null) {
+                reject(cmd, "invalid project configuration: parent does not exist");
+                return;
+              }
+            }
 
-          default:
-            reject(
-                cmd,
-                "prohibited by Gerrit: don't know how to handle config update of type "
-                    + cmd.getType());
-            continue;
-        }
+            for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+              PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
+              ProjectConfigEntry configEntry = e.getProvider().get();
+              String value = pluginCfg.getString(e.getExportName());
+              String oldValue =
+                  projectState
+                      .getConfig()
+                      .getPluginConfig(e.getPluginName())
+                      .getString(e.getExportName());
+              if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
+                oldValue =
+                    Arrays.stream(
+                            projectState
+                                .getConfig()
+                                .getPluginConfig(e.getPluginName())
+                                .getStringList(e.getExportName()))
+                        .collect(joining("\n"));
+              }
+
+              if ((value == null ? oldValue != null : !value.equals(oldValue))
+                  && !configEntry.isEditable(projectState)) {
+                reject(
+                    cmd,
+                    String.format(
+                        "invalid project configuration: Not allowed to set parameter"
+                            + " '%s' of plugin '%s' on project '%s'.",
+                        e.getExportName(), e.getPluginName(), project.getName()));
+                continue;
+              }
+
+              if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
+                  && value != null
+                  && !configEntry.getPermittedValues().contains(value)) {
+                reject(
+                    cmd,
+                    String.format(
+                        "invalid project configuration: The value '%s' is "
+                            + "not permitted for parameter '%s' of plugin '%s'.",
+                        value, e.getExportName(), e.getPluginName()));
+              }
+            }
+          } catch (Exception e) {
+            reject(cmd, "invalid project configuration");
+            logError(
+                "User "
+                    + user.getLoggableName()
+                    + " tried to push invalid project configuration "
+                    + cmd.getNewId().name()
+                    + " for "
+                    + project.getName(),
+                e);
+            return;
+          }
+          break;
+
+        case DELETE:
+          break;
+
+        default:
+          reject(
+              cmd,
+              "prohibited by Gerrit: don't know how to handle config update of type "
+                  + cmd.getType());
+          return;
       }
     }
   }

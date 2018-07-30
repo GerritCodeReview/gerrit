@@ -360,7 +360,11 @@ class ReceiveCommits {
 
   // Collections populated during processing.
   private final List<UpdateGroupsRequest> updateGroups;
+  private final ListMultimap<ObjectId, ValidationMessage> commitMessages;
+
+  // Summary messages.
   private final List<ValidationMessage> messages;
+
   private final ListMultimap<ReceiveError, String> errors;
   private final ListMultimap<String, String> pushOptions;
   private final Map<Change.Id, ReplaceRequest> replaceByChange;
@@ -496,6 +500,7 @@ class ReceiveCommits {
     // Collections populated during processing.
     actualCommands = new ArrayList<>();
     errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();
+    commitMessages = MultimapBuilder.hashKeys().arrayListValues().build();
     messages = new ArrayList<>();
     pushOptions = LinkedListMultimap.create();
     replaceByChange = new LinkedHashMap<>();
@@ -811,6 +816,7 @@ class ReceiveCommits {
     return sb.append(":\n").append(error.get()).toString();
   }
 
+  /** Parses push options specified as "git push -o OPTION" */
   private void parsePushOptions() {
     List<String> optionList = rp.getPushOptions();
     if (optionList != null) {
@@ -1240,7 +1246,7 @@ class ReceiveCommits {
     Map<String, Short> labels = new HashMap<>();
     String message;
     List<RevCommit> baseCommit;
-    CmdLineParser clp;
+    CmdLineParser cmdLineParser;
     Set<String> hashtags = new HashSet<>();
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
@@ -1336,7 +1342,7 @@ class ReceiveCommits {
         LabelType.checkName(v.label());
         ApprovalsUtil.checkLabel(labelTypes, v.label(), v.value());
       } catch (BadRequestException e) {
-        throw clp.reject(e.getMessage());
+        throw cmdLineParser.reject(e.getMessage());
       }
       labels.put(v.label(), v.value());
     }
@@ -1369,7 +1375,7 @@ class ReceiveCommits {
         usage = "add hashtag to changes")
     void addHashtag(String token) throws CmdLineException {
       if (!notesMigration.readChanges()) {
-        throw clp.reject("cannot add hashtags; noteDb is disabled");
+        throw cmdLineParser.reject("cannot add hashtags; noteDb is disabled");
       }
       String hashtag = cleanupHashtag(token);
       if (!hashtag.isEmpty()) {
@@ -1417,8 +1423,11 @@ class ReceiveCommits {
       return defaultPublishComments;
     }
 
+    /**
+     * returns the destination ref of the magic branch, and populates options in the cmdLineParser.
+     */
     String parse(
-        CmdLineParser clp,
+        CmdLineParser cmdLineParser,
         Repository repo,
         Set<String> refs,
         ListMultimap<String, String> pushOptions)
@@ -1426,6 +1435,8 @@ class ReceiveCommits {
       String ref = RefNames.fullName(MagicBranch.getDestBranchName(cmd.getRefName()));
 
       ListMultimap<String, String> options = LinkedListMultimap.create(pushOptions);
+
+      // Process and lop off the "%OPTION" suffix.
       int optionStart = ref.indexOf('%');
       if (0 < optionStart) {
         for (String s : COMMAS.split(ref.substring(optionStart + 1))) {
@@ -1440,7 +1451,7 @@ class ReceiveCommits {
       }
 
       if (!options.isEmpty()) {
-        clp.parseOptionMap(options);
+        cmdLineParser.parseOptionMap(options);
       }
 
       // Split the destination branch by branch and topic. The topic
@@ -1485,6 +1496,7 @@ class ReceiveCommits {
     }
   }
 
+  /** Parse the magic branch data (refs/for/BRANCH%OPTIONS) into the magicBranch member; */
   private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException {
     // Permit exactly one new change request per push.
     if (magicBranch != null) {
@@ -1498,18 +1510,18 @@ class ReceiveCommits {
     magicBranch.cc.addAll(extraReviewers.get(ReviewerStateInternal.CC));
 
     String ref;
-    CmdLineParser clp = optionParserFactory.create(magicBranch);
-    magicBranch.clp = clp;
+    CmdLineParser cliParser = optionParserFactory.create(magicBranch);
+    magicBranch.cmdLineParser = cliParser;
 
     try {
-      ref = magicBranch.parse(clp, repo, rp.getAdvertisedRefs().keySet(), pushOptions);
+      ref = magicBranch.parse(cliParser, repo, rp.getAdvertisedRefs().keySet(), pushOptions);
     } catch (CmdLineException e) {
-      if (!clp.wasHelpRequestedByOption()) {
+      if (!cliParser.wasHelpRequestedByOption()) {
         logDebug("Invalid branch syntax");
         reject(cmd, e.getMessage());
         return;
       }
-      ref = null; // never happen
+      ref = null; // never happens
     }
 
     if (magicBranch.topic != null && magicBranch.topic.length() > ChangeUtil.TOPIC_MAX_LENGTH) {
@@ -1517,10 +1529,10 @@ class ReceiveCommits {
           cmd, String.format("topic length exceeds the limit (%s)", ChangeUtil.TOPIC_MAX_LENGTH));
     }
 
-    if (clp.wasHelpRequestedByOption()) {
+    if (cliParser.wasHelpRequestedByOption()) {
       StringWriter w = new StringWriter();
       w.write("\nHelp for refs/for/branch:\n\n");
-      clp.printUsage(w, null);
+      cliParser.printUsage(w, null);
       addMessage(w.toString());
       reject(cmd, "see help");
       return;
@@ -1858,11 +1870,8 @@ class ReceiveCommits {
         }
 
         List<String> idList = c.getFooterLines(CHANGE_ID);
-
-        String idStr = !idList.isEmpty() ? idList.get(idList.size() - 1).trim() : null;
-
-        if (idStr != null) {
-          pending.put(c, new ChangeLookup(c, new Change.Key(idStr)));
+        if (!idList.isEmpty()) {
+          pending.put(c, new ChangeLookup(c, new Change.Key(idList.get(idList.size() - 1).trim())));
         } else {
           pending.put(c, new ChangeLookup(c));
         }
@@ -2900,10 +2909,10 @@ class ReceiveCommits {
                   project.getNameKey(), perm, user.asIdentifiedUser())
               : commitValidatorsFactory.forReceiveCommits(
                   perm, branch, user.asIdentifiedUser(), sshInfo, repo, rw, change);
-      messages.addAll(validators.validate(receiveEvent));
+      commitMessages.putAll(id, validators.validate(receiveEvent));
     } catch (CommitValidationException e) {
       logDebug("Commit validation failed on %s", c.name());
-      messages.addAll(e.getMessages());
+      commitMessages.putAll(id, e.getMessages());
       reject(cmd, e.getMessage());
       return false;
     }

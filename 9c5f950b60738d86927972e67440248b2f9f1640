@@ -1,4 +1,154 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1532603459 +0200\nnonce APISObQ4IAbBfOFs6s8sOstqbZ8z2yl8nFr1lRCW8QLbeBFff9CujBxhwdG9L7Qgt1NVhxwtjYgG\n\n0000000000000000000000000000000000000000 9c5f950b60738d86927972e67440248b2f9f1640 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAltZrEMACgkQUbX9l6DQ\n71Eb4gf9FbZUAR54V50u9+wSyHG+fShlltTBynjmc0PYlaiMeiNDljHvssPAYEG+\nEiwPXFVZOg8lpD91U6waYzdt++KVJ1WCeIZ/46IKa3Rmbh0kK/S4krK/pO/qtKV7\nwk2ly6VZK84k8SDU2fgncYEPkouwCsg/AnToPUB5gUnKobi2N6nqb+OPPiTgSggG\nzUZaf0APQpGdioST6bGAssulVv+/wJ8uSKJvobU0Mi98WtgXGuA4/y/8LIA5TAn5\nH8SEnaN5tXZMjMmXatOqaJp2sIlaY150XRLBLXGXl8VAXBlR1D8jCIfYWTWE070c\ncdC3EwXcXgABxhA7v7f0l8UntVAgbA\u003d\u003d\n\u003d0bYn\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2caae24e_9bdb2866",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2903,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-30T17:58:59Z",
+      "side": 1,
+      "message": "Nit: I think we prefer the US-style \"10,000\"",
+      "range": {
+        "startLine": 2903,
+        "startChar": 0,
+        "endLine": 2903,
+        "endChar": 6
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eadcaf1d_35d40967",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-30T17:58:59Z",
+      "side": 1,
+      "message": "leaf",
+      "range": {
+        "startLine": 94,
+        "startChar": 33,
+        "endLine": 94,
+        "endChar": 38
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f033bc4f_570ac6d1",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-30T17:58:59Z",
+      "side": 1,
+      "message": "Maybe a different name here? \"leafCount\" to me means \"count the number of leaves in the predicate\". This is more like \"availableLeaves\" or \"remainingLeaves\" for \"count the number of remaining leaves available, given this starting query\".\n\nAlternatively you could omit the IndexConfig term and have \"leafCount\" be \"count the leaves\", moving the subtraction into the callers.\n\nAlso it seems like this could be a non-static method.",
+      "range": {
+        "startLine": 95,
+        "startChar": 20,
+        "endLine": 95,
+        "endChar": 29
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5da0c34_9c66f9b6",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-30T17:58:59Z",
+      "side": 1,
+      "message": "Hah, that would be crazy, I agree giving up seems like the best option.",
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c3b5403_ac78e6ff",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-30T17:58:59Z",
+      "side": 1,
+      "message": "I think I agree with you, but I wonder if we should run this by the teams we have that are clamoring for this functionality?",
+      "range": {
+        "startLine": 225,
+        "startChar": 86,
+        "endLine": 227,
+        "endChar": 63
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec001f1b_4a8cb694",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-30T17:58:59Z",
+      "side": 1,
+      "message": "Missing {}. Actually, this can just be changeIdToMergedSha1.putIfAbsent(changeKey, commitId)",
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd86a917_655434d3",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-30T17:58:59Z",
+      "side": 1,
+      "message": "Maybe I\u0027m missing it due to all the nesting, but shouldn\u0027t this .format, and the one a few lines down, be in a RetryHelper?",
+      "range": {
+        "startLine": 288,
+        "startChar": 21,
+        "endLine": 288,
+        "endChar": 27
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

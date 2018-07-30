@@ -595,6 +595,7 @@ limitations under the License.
         assert.deepEqual(fireActionStub.lastCall.args, [
           '/cherrypick', action, true, {
             destination: 'master',
+            base: null,
             message: 'foo message',
           },
         ]);

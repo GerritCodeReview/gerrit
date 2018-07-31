@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29533e5e_80d9943b",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-31T23:42:45Z",
+      "side": 1,
+      "message": "nit: https://www.kernel.org/ to\n* use https, improving security\n* avoid the mirrors.edge implementation detail",
+      "range": {
+        "startLine": 45,
+        "startChar": 7,
+        "endLine": 45,
+        "endChar": 26
+      },
+      "revId": "ce1eefdd115ba3e707b792e2874de590f44f35d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "523f2b41_ee7eca32",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-31T19:23:15Z",
+      "side": 1,
+      "message": "getChildCount isn\u0027t recursive. Consider:\n\n(f1:a (f2:b OR f3:c) (f4:d OR f5:e))\n\ngetChildCount() on the root is 3, but getLeafCount() needs to return 5.",
+      "parentUuid": "c7969aee_d31e7771",
+      "range": {
+        "startLine": 95,
+        "startChar": 20,
+        "endLine": 95,
+        "endChar": 29
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e5da0c34_9c66f9b6",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 13

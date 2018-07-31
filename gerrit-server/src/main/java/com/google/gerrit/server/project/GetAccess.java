@@ -162,9 +162,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
           // user is a member of, as well as groups they own or that
           // are visible to all users.
 
-          AccessSection dst = null;
+          AccessSection dst = new AccessSection(name);
           for (Permission srcPerm : section.getPermissions()) {
-            Permission dstPerm = null;
 
             for (PermissionRule srcRule : srcPerm.getRules()) {
               AccountGroup.UUID group = srcRule.getGroup().getUUID();
@@ -183,14 +182,10 @@ public class GetAccess implements RestReadView<ProjectResource> {
               }
 
               if (canSeeGroup) {
-                if (dstPerm == null) {
-                  if (dst == null) {
-                    dst = new AccessSection(name);
-                    info.local.put(name, createAccessSection(dst));
-                  }
-                  dstPerm = dst.getPermission(srcPerm.getName(), true);
+                if (srcRule.getAction() == PermissionRule.Action.ALLOW) {
+                  dst.addPermission(new Permission(srcPerm.getName()));
+                  info.local.put(name, createAccessSection(dst));
                 }
-                dstPerm.add(srcRule);
               }
             }
           }

@@ -245,6 +245,13 @@ limitations under the License.
         background-position: var(--line-limit) 0;
         background-repeat: repeat-y;
       }
+      .newlineWarning {
+        color: var(--deemphasized-text-color);
+        text-align: center;
+      }
+      .newlineWarning.hidden {
+        display: none;
+      }
     </style>
     <style include="gr-syntax-theme"></style>
     <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">
@@ -283,6 +290,9 @@ limitations under the License.
           </gr-diff-builder>
         </gr-diff-highlight>
       </gr-diff-selection>
+    </div>
+    <div class$="[[_computeNewlineWarningClass(_newlineWarning, _loading)]]">
+      [[_newlineWarning]]
     </div>
     <div id="sizeWarning" class$="[[_computeWarningClass(_showWarning)]]">
       <p>

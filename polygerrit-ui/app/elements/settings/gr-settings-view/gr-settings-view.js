@@ -251,6 +251,8 @@
     _cloneChangeTableColumns() {
       let columns = this.prefs.change_table;
 
+      columns = this._fixProjectColumn(columns);
+
       if (columns.length === 0) {
         columns = this.columnNames;
         this._changeTableColumnsNotDisplayed = [];
@@ -259,6 +261,14 @@
             this.prefs.change_table);
       }
       this._localChangeTableColumns = columns;
+    },
+
+    _fixProjectColumn(columns) {
+      const projectIndex = columns.indexOf('Project');
+      if (projectIndex === -1) { return columns; }
+      const newColumns = columns.slice(0);
+      newColumns[projectIndex] = 'Repo';
+      return newColumns;
     },
 
     _formatChangeTableColumns(changeTableArray) {

@@ -90,7 +90,7 @@ public class EventFactory {
   private final Emails emails;
   private final Provider<String> urlProvider;
   private final PatchListCache patchListCache;
-  private final PersonIdent myIdent;
+  private final Provider<PersonIdent> myIdent;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeKindCache changeKindCache;
@@ -104,7 +104,7 @@ public class EventFactory {
       Emails emails,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       PatchListCache patchListCache,
-      @GerritPersonIdent PersonIdent myIdent,
+      @GerritPersonIdent Provider<PersonIdent> myIdent,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       ChangeKindCache changeKindCache,
@@ -664,7 +664,7 @@ public class EventFactory {
     a.reviewer =
         message.getAuthor() != null
             ? asAccountAttribute(message.getAuthor())
-            : asAccountAttribute(myIdent);
+            : asAccountAttribute(myIdent.get());
     a.message = message.getMessage();
     return a;
   }

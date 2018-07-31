@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "b1036d02_1be63cf7",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2903,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-31T09:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2caae24e_9bdb2866",
+      "range": {
+        "startLine": 2903,
+        "startChar": 0,
+        "endLine": 2903,
+        "endChar": 6
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eadcaf1d_35d40967",
         "filename": "java/com/google/gerrit/index/query/Predicate.java",
         "patchSetId": 13
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "857965e0_753d2ee8",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-31T09:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eadcaf1d_35d40967",
+      "range": {
+        "startLine": 94,
+        "startChar": 33,
+        "endLine": 94,
+        "endChar": 38
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f033bc4f_570ac6d1",
         "filename": "java/com/google/gerrit/index/query/Predicate.java",
         "patchSetId": 13
@@ -69,6 +117,30 @@
       "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7969aee_d31e7771",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-31T09:04:33Z",
+      "side": 1,
+      "message": "\u003e Alternatively you could omit the IndexConfig term and have \"leafCount\"\n\u003e be \"count the leaves\", moving the subtraction into the callers.\n\nOK, I\u0027m moving this back into the caller. Then we don\u0027t need any new method here since we already have getChildCount().",
+      "parentUuid": "f033bc4f_570ac6d1",
+      "range": {
+        "startLine": 95,
+        "startChar": 20,
+        "endLine": 95,
+        "endChar": 29
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -129,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "56493e71_40e35ce9",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-31T09:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec001f1b_4a8cb694",
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd86a917_655434d3",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 13
@@ -149,6 +239,30 @@
       "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d51220a_e853b7fb",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-31T09:04:33Z",
+      "side": 1,
+      "message": "Maybe. The main intention of using RetryHelper in this method is to re-attempt the index query if it fails, since we know that this is happening from time to time and is the reason why auto-closing changes fails sometimes.\n\nWe may also retry the actually auto-closing if it fails, but that should be a separate retry loop because in this case there is no need to repeat the index query.\n\nDone.",
+      "parentUuid": "dd86a917_655434d3",
+      "range": {
+        "startLine": 288,
+        "startChar": 21,
+        "endLine": 288,
+        "endChar": 27
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "12eb3cd01dd2f2ce8f41e4e2ef212f1cb4f336b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f1e07d_91f4a826",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-07-31T01:41:10Z",
+      "side": 1,
+      "message": "Why is this needed? Based on issue 9480, I thought the goal was to show file mode changes. It looks like just removing diffInfo.binary on l.799 would already do the trick.",
+      "parentUuid": "6d64a286_766fd891",
+      "revId": "12eb3cd01dd2f2ce8f41e4e2ef212f1cb4f336b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

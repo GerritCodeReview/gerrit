@@ -155,7 +155,7 @@ public class PatchSetUtil {
     db.patchSets().update(Collections.singleton(ps));
   }
 
-  private void ensurePatchSetMatches(PatchSet.Id psId, ChangeUpdate update) {
+  private static void ensurePatchSetMatches(PatchSet.Id psId, ChangeUpdate update) {
     Change.Id changeId = update.getChange().getId();
     checkArgument(
         psId.getParentKey().equals(changeId),
@@ -173,7 +173,7 @@ public class PatchSetUtil {
     }
   }
 
-  public void setGroups(ReviewDb db, ChangeUpdate update, PatchSet ps, List<String> groups)
+  public static void setGroups(ReviewDb db, ChangeUpdate update, PatchSet ps, List<String> groups)
       throws OrmException {
     ps.setGroups(groups);
     update.setGroups(groups);

@@ -52,6 +52,24 @@
       "revId": "12eb3cd01dd2f2ce8f41e4e2ef212f1cb4f336b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b30f09c8_43113373",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-07-31T17:04:44Z",
+      "side": 1,
+      "message": "We talked about this in the triage meeting on Thursday. Without this line, for binary files, the \"binary files differ\" text is shown twice. The text is also shown for images, which seems suboptimal to me -- especially since we\u0027re getting advanced image diffing soon.\n\nhttps://i.imgur.com/5AIPm1r.png",
+      "parentUuid": "b2f1e07d_91f4a826",
+      "revId": "12eb3cd01dd2f2ce8f41e4e2ef212f1cb4f336b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

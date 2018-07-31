@@ -238,6 +238,14 @@ limitations under the License.
           'none');
     });
 
+    test('_handleUpdateInheritFrom', () => {
+      element._inheritFromFilter = 'foo bar baz';
+      element._handleUpdateInheritFrom({detail: {value: 'abc+123'}});
+      assert.isOk(element._inheritsFrom);
+      assert.equal(element._inheritsFrom.id, 'abc+123');
+      assert.equal(element._inheritsFrom.name, 'foo bar baz');
+    });
+
     test('_computeLoadingClass', () => {
       assert.equal(element._computeLoadingClass(true), 'loading');
       assert.equal(element._computeLoadingClass(false), '');
@@ -419,6 +427,14 @@ limitations under the License.
         };
         assert.deepEqual(element._computeAddAndRemove(), {
           parent: 'test-project', add: {}, remove: {},
+        });
+      });
+
+      test('_handleSaveForReview new parent with spaces', () => {
+        element._inheritsFrom = {id: 'spaces+in+project+name'};
+        element._originalInheritsFrom = {id: 'old-project'};
+        assert.deepEqual(element._computeAddAndRemove(), {
+          parent: 'spaces in project name', add: {}, remove: {},
         });
       });
 

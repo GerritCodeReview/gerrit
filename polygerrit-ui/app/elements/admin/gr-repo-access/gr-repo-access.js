@@ -196,11 +196,10 @@
     },
 
     _handleUpdateInheritFrom(e) {
-      const projectId = decodeURIComponent(e.detail.value);
       if (!this._inheritsFrom) {
         this._inheritsFrom = {};
       }
-      this._inheritsFrom.id = projectId;
+      this._inheritsFrom.id = e.detail.value;
       this._inheritsFrom.name = this._inheritFromFilter;
       this._handleAccessModified();
     },
@@ -361,18 +360,24 @@
         remove: {},
       };
 
+      const originalInheritsFromId = this._originalInheritsFrom ?
+          this.singleDecodeURL(this._originalInheritsFrom.id) :
+          null;
+      const inheritsFromId = this._inheritsFrom ?
+          this.singleDecodeURL(this._inheritsFrom.id) :
+          null;
+
       const inheritFromChanged =
           // Inherit from changed
-          (this._originalInheritsFrom &&
-          this._originalInheritsFrom.id !== this._inheritsFrom.id) ||
-          // Inherit froma dded (did not have one initially);
-          (!this._originalInheritsFrom && this._inheritsFrom
-              && this._inheritsFrom.id);
+          (originalInheritsFromId
+              && originalInheritsFromId !== inheritsFromId) ||
+          // Inherit from added (did not have one initially);
+          (!originalInheritsFromId && inheritsFromId);
 
       this._recursivelyUpdateAddRemoveObj(this._local, addRemoveObj);
 
       if (inheritFromChanged) {
-        addRemoveObj.parent = this._inheritsFrom.id;
+        addRemoveObj.parent = inheritsFromId;
       }
       return addRemoveObj;
     },

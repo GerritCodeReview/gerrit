@@ -25,6 +25,9 @@ limitations under the License.
     /**
      * Pretty-encodes a URL. Double-encodes the string, and then replaces
      *   benevolent characters for legibility.
+     * @param {string} url
+     * @param {boolean=} replaceSlashes
+     * @return {string}
      */
     encodeURL(url, replaceSlashes) {
       // @see Issue 4255 regarding double-encoding.
@@ -36,6 +39,18 @@ limitations under the License.
         output = output.replace(/%252F/g, '/');
       }
       return output;
+    },
+
+    /**
+     * Single decode for URL components. Will decode plus signs ('+') to spaces.
+     * Note: because this function decodes once, it is not the inverse of
+     * encodeURL.
+     * @param {string} url
+     * @return {string}
+     */
+    singleDecodeURL(url) {
+      const withoutPlus = url.replace(/\+/g, '%20');
+      return decodeURIComponent(withoutPlus);
     },
   };
 })(window);

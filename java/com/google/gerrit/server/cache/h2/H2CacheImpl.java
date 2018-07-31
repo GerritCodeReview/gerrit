@@ -532,8 +532,11 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         try (PreparedStatement ps = c.conn.prepareStatement("DELETE FROM data WHERE version!=?")) {
           ps.setInt(1, version);
           int oldEntries = ps.executeUpdate();
-          logger.atInfo().log(
-              "Pruned %d entries not matching version %d from cache %s", oldEntries, version, url);
+          if (oldEntries > 0) {
+            logger.atInfo().log(
+                "Pruned %d entries not matching version %d from cache %s",
+                oldEntries, version, url);
+          }
         }
         try (Statement s = c.conn.createStatement()) {
           // Compute size without restricting to version (although obsolete data was just pruned

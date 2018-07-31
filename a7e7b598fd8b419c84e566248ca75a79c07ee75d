@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58a16c2c_a693c35d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-31T05:46:07Z",
+      "side": 1,
+      "message": "\"push of a single commit\"?",
+      "range": {
+        "startLine": 217,
+        "startChar": 39,
+        "endLine": 217,
+        "endChar": 50
+      },
+      "revId": "a7e7b598fd8b419c84e566248ca75a79c07ee75d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dc5cad8_ee739770",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-31T05:46:07Z",
+      "side": 1,
+      "message": "\"be prepared\"?",
+      "range": {
+        "startLine": 217,
+        "startChar": 3,
+        "endLine": 217,
+        "endChar": 11
+      },
+      "revId": "a7e7b598fd8b419c84e566248ca75a79c07ee75d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cd2bfe1_e5461ca2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1500,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-31T05:46:07Z",
+      "side": 1,
+      "message": "nit: \u0027.\u0027",
+      "range": {
+        "startLine": 1500,
+        "startChar": 11,
+        "endLine": 1500,
+        "endChar": 12
+      },
+      "revId": "a7e7b598fd8b419c84e566248ca75a79c07ee75d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6f5da6a_958549f1",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1502,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-31T05:46:07Z",
+      "side": 1,
+      "message": "\"handle\" or \"are handling\"",
+      "range": {
+        "startLine": 1502,
+        "startChar": 19,
+        "endLine": 1502,
+        "endChar": 27
+      },
+      "revId": "a7e7b598fd8b419c84e566248ca75a79c07ee75d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

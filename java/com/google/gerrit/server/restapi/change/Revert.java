@@ -101,7 +101,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private final PatchSetUtil psUtil;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeJson.Factory json;
-  private final PersonIdent serverIdent;
+  private final Provider<PersonIdent> serverIdent;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeReverted changeReverted;
   private final ContributorAgreementsChecker contributorAgreements;
@@ -120,7 +120,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       PatchSetUtil psUtil,
       RevertedSender.Factory revertedSenderFactory,
       ChangeJson.Factory json,
-      @GerritPersonIdent PersonIdent serverIdent,
+      @GerritPersonIdent Provider<PersonIdent> serverIdent,
       ApprovalsUtil approvalsUtil,
       ChangeReverted changeReverted,
       ContributorAgreementsChecker contributorAgreements,
@@ -185,7 +185,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       }
 
       Timestamp now = TimeUtil.nowTs();
-      PersonIdent committerIdent = new PersonIdent(serverIdent, now);
+      PersonIdent committerIdent = serverIdent.get();
       PersonIdent authorIdent =
           user.asIdentifiedUser().newCommitterIdent(now, committerIdent.getTimeZone());
 

@@ -2,7 +2,7 @@
 
 == Quickstarts
 
-. link:linux-quickstart.html[Quickstart for Installing Gerrit on Linux]
+. link:linux-quickstart.html[Quickstart: Install Gerrit on Linux]
 
 == About Gerrit
 . link:intro-quick.html[Product Overview]

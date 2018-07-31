@@ -184,6 +184,30 @@
     },
     {
       "key": {
+        "uuid": "aaa1748a_42705f27",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-31T09:24:13Z",
+      "side": 1,
+      "message": "I\u0027ve asked Jason about this.",
+      "parentUuid": "2c3b5403_ac78e6ff",
+      "range": {
+        "startLine": 225,
+        "startChar": 86,
+        "endLine": 227,
+        "endChar": 63
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec001f1b_4a8cb694",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 13

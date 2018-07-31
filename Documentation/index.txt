@@ -1,4 +1,4 @@
-= Gerrit Code Review for Git
+= Gerrit Code Review for Gits
 
 == Quickstarts
 

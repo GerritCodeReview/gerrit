@@ -15,12 +15,11 @@
 package com.google.gerrit.server.cache.h2;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.gerrit.server.cache.CacheSerializer;
+import com.google.gerrit.server.cache.StringSerializer;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.inject.TypeLiteral;
@@ -122,23 +121,6 @@ public class H2CacheTest {
     // Now it's no longer in the old cache.
     assertThat(oldImpl.diskStats().space()).isEqualTo(14);
     assertThat(oldImpl.getIfPresent("key")).isNull();
-  }
-
-  // TODO(dborowitz): Won't be necessary when we use a real StringSerializer in the server code.
-  private enum StringSerializer implements CacheSerializer<String> {
-    INSTANCE;
-
-    @Override
-    public byte[] serialize(String object) {
-      return object.getBytes(UTF_8);
-    }
-
-    @Override
-    public String deserialize(byte[] in) {
-      // TODO(dborowitz): Consider using CharsetDecoder directly in the real implementation, to get
-      // checked exceptions.
-      return new String(in, UTF_8);
-    }
   }
 
   private static <K, V> Cache<K, ValueHolder<V>> disableMemCache() {

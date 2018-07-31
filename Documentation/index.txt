@@ -1,4 +1,4 @@
-= Gerrit Code Review for Git
+= Gerrit Code Review for Gits
 
 == Quickstarts
 
@@ -6,7 +6,7 @@
 
 == About Gerrit
 . link:intro-quick.html[Product Overview]
-. link:intro-how-gerrit-works.html[How Gerrit Works]
+. link:intro-how-gerrit-works.html[How Gerrit Works ... it's fun]
 . link:intro-gerrit-walkthrough.html[Basic Gerrit Walkthrough]
 
 == Guides

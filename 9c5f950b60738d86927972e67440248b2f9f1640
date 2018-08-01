@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "dd78df8c_ebb80522",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-01T07:30:07Z",
+      "side": 1,
+      "message": "Ah, I missed that getChildCount was not recursive.\nI\u0027ve added getLeafCount back.\n\nDone.",
+      "parentUuid": "523f2b41_ee7eca32",
+      "range": {
+        "startLine": 95,
+        "startChar": 20,
+        "endLine": 95,
+        "endChar": 29
+      },
+      "revId": "9c5f950b60738d86927972e67440248b2f9f1640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5da0c34_9c66f9b6",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 13

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ea43e504_da3e37a3",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-08-01T23:58:38Z",
+      "side": 1,
+      "message": "If PID is not set, then even if the current user is root the OOM adj score is not set and we are in danger anyway.\n\nWould be worth to display that warning then anyway, even if PID isn\u0027t there?",
+      "parentUuid": "7ed9a4b4_777921ab",
+      "range": {
+        "startLine": 442,
+        "startChar": 26,
+        "endLine": 442,
+        "endChar": 29
+      },
+      "revId": "b242116a8cc3929477a52d912d75e91323a55a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "047041fe_af710d7c",
         "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 1
@@ -60,6 +84,24 @@
       "writtenOn": "2018-08-01T23:52:18Z",
       "side": 1,
       "message": "(suggestion) I would prefer a bit different choice of words here, e.g.:\n\n WARNING: Could not adjust Gerrit\u0027s process for the kernel\u0027s out-of-memory killer, because ${0} wasn\u0027t run as\n          root. Consider changing the OOM score adjustment manually for Gerrit\u0027s PID\u003d${PID} with e.g.:\n            echo \u0027-1000\u0027 | sudo tee /proc/{$PID}/oom_score_adj",
+      "revId": "b242116a8cc3929477a52d912d75e91323a55a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dcba400_8d0f041e",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-08-01T23:58:38Z",
+      "side": 1,
+      "message": "SGTM, let me adjust it in the next PS.",
+      "parentUuid": "047041fe_af710d7c",
       "revId": "b242116a8cc3929477a52d912d75e91323a55a34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

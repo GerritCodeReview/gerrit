@@ -64,7 +64,13 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 
-/** Hook that delegates to {@link ReceiveCommits} in a worker thread. */
+/**
+ * Hook that delegates to {@link ReceiveCommits} in a worker thread.
+ *
+ * <p>Since the work that {@link ReceiveCommits} does may take a long, potentially unbounded amount
+ * of time, it runs in the background so it can be monitored for timeouts and cancelled, and have
+ * stalls reported to the user from the main thread.
+ */
 public class AsyncReceiveCommits implements PreReceiveHook {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -105,7 +111,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     private Worker(Collection<ReceiveCommand> commands) {
       this.commands = commands;
-      receiveCommits = factory.create(projectState, user, rp, allRefsWatcher, extraReviewers);
+      receiveCommits =
+          factory.create(projectState, user, receivePack, allRefsWatcher, extraReviewers);
       receiveCommits.init();
       progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
     }
@@ -164,7 +171,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   private final ReceiveCommits.Factory factory;
   private final PermissionBackend.ForProject perm;
-  private final ReceivePack rp;
+  private final ReceivePack receivePack;
   private final ExecutorService executor;
   private final RequestScopePropagator scopePropagator;
   private final ReceiveConfig receiveConfig;
@@ -205,18 +212,18 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.extraReviewers = extraReviewers;
 
     Project.NameKey projectName = projectState.getNameKey();
-    rp = new ReceivePack(repo);
-    rp.setAllowCreates(true);
-    rp.setAllowDeletes(true);
-    rp.setAllowNonFastForwards(true);
-    rp.setRefLogIdent(user.newRefLogIdent());
-    rp.setTimeout(transferConfig.getTimeout());
-    rp.setMaxObjectSizeLimit(transferConfig.getEffectiveMaxObjectSizeLimit(projectState));
-    rp.setCheckReceivedObjects(projectState.getConfig().getCheckReceivedObjects());
-    rp.setRefFilter(new ReceiveRefFilter());
-    rp.setAllowPushOptions(true);
-    rp.setPreReceiveHook(this);
-    rp.setPostReceiveHook(lazyPostReceive.get());
+    receivePack = new ReceivePack(repo);
+    receivePack.setAllowCreates(true);
+    receivePack.setAllowDeletes(true);
+    receivePack.setAllowNonFastForwards(true);
+    receivePack.setRefLogIdent(user.newRefLogIdent());
+    receivePack.setTimeout(transferConfig.getTimeout());
+    receivePack.setMaxObjectSizeLimit(transferConfig.getEffectiveMaxObjectSizeLimit(projectState));
+    receivePack.setCheckReceivedObjects(projectState.getConfig().getCheckReceivedObjects());
+    receivePack.setRefFilter(new ReceiveRefFilter());
+    receivePack.setAllowPushOptions(true);
+    receivePack.setPreReceiveHook(this);
+    receivePack.setPostReceiveHook(lazyPostReceive.get());
 
     // If the user lacks READ permission, some references may be filtered and hidden from view.
     // Check objects mentioned inside the incoming pack file are reachable from visible refs.
@@ -225,7 +232,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       projectState.checkStatePermitsRead();
       this.perm.check(ProjectPermission.READ);
     } catch (AuthException | ResourceConflictException e) {
-      rp.setCheckReferencedObjectsAreReachable(receiveConfig.checkReferencedObjectsAreReachable);
+      receivePack.setCheckReferencedObjectsAreReachable(
+          receiveConfig.checkReferencedObjectsAreReachable);
     }
 
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(4);
@@ -235,7 +243,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
         new DefaultAdvertiseRefsHook(perm, RefFilterOptions.builder().setFilterMeta(true).build()));
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
     advHooks.add(new HackPushNegotiateHook());
-    rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
+    receivePack.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
   }
 
   /** Determine if the user can upload commits. */
@@ -282,6 +290,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   }
 
   public ReceivePack getReceivePack() {
-    return rp;
+    return receivePack;
   }
 }

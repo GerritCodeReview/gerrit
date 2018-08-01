@@ -439,6 +439,9 @@ case "$ACTION" in
                 echo -16 > "/proc/${PID}/oom_adj"
             fi
         fi
+    elif test -d "/proc/${PID}"; then
+        echo "WARNING: Gerrit PID=${PID} may be terminated at any time Linux Kernel OOM killer"
+        echo "         Re-run gerrit.sh as root for protecting Gerrit from being killed"
     fi
 
     TIMEOUT="$GERRIT_STARTUP_TIMEOUT"

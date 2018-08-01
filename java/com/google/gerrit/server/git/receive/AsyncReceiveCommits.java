@@ -16,7 +16,6 @@ package com.google.gerrit.server.git.receive;
 
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -76,7 +75,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
         ProjectState projectState,
         IdentifiedUser user,
         Repository repository,
-        @Nullable MessageSender messageSender,
         SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers);
   }
 
@@ -103,24 +101,23 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     final MultiProgressMonitor progress;
 
     private final Collection<ReceiveCommand> commands;
-    private final ReceiveCommits rc;
+    private final ReceiveCommits receiveCommits;
 
     private Worker(Collection<ReceiveCommand> commands) {
       this.commands = commands;
-      rc = factory.create(projectState, user, rp, allRefsWatcher, extraReviewers);
-      rc.init();
-      rc.setMessageSender(messageSender);
+      receiveCommits = factory.create(projectState, user, rp, allRefsWatcher, extraReviewers);
+      receiveCommits.init();
       progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
     }
 
     @Override
     public void run() {
-      rc.processCommands(commands, progress);
+      receiveCommits.processCommands(commands, progress);
     }
 
     @Override
     public Project.NameKey getProjectNameKey() {
-      return rc.getProject().getNameKey();
+      return receiveCommits.getProject().getNameKey();
     }
 
     @Override
@@ -139,28 +136,28 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     }
 
     void sendMessages() {
-      rc.sendMessages();
+      receiveCommits.sendMessages();
     }
 
     private class MessageSenderOutputStream extends OutputStream {
       @Override
       public void write(int b) {
-        rc.getMessageSender().sendBytes(new byte[] {(byte) b});
+        receiveCommits.getMessageSender().sendBytes(new byte[] {(byte) b});
       }
 
       @Override
       public void write(byte[] what, int off, int len) {
-        rc.getMessageSender().sendBytes(what, off, len);
+        receiveCommits.getMessageSender().sendBytes(what, off, len);
       }
 
       @Override
       public void write(byte[] what) {
-        rc.getMessageSender().sendBytes(what);
+        receiveCommits.getMessageSender().sendBytes(what);
       }
 
       @Override
       public void flush() {
-        rc.getMessageSender().flush();
+        receiveCommits.getMessageSender().flush();
       }
     }
   }
@@ -176,7 +173,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final ProjectState projectState;
   private final IdentifiedUser user;
   private final Repository repo;
-  private final MessageSender messageSender;
   private final SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
   private final AllRefsWatcher allRefsWatcher;
 
@@ -195,7 +191,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted Repository repo,
-      @Assisted @Nullable MessageSender messageSender,
       @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
       throws PermissionBackendException {
     this.factory = factory;
@@ -207,7 +202,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.projectState = projectState;
     this.user = user;
     this.repo = repo;
-    this.messageSender = messageSender;
     this.extraReviewers = extraReviewers;
 
     Project.NameKey projectName = projectState.getNameKey();

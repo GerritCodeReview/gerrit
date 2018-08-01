@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91e1c661_bcc2825b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-01T20:16:37Z",
+      "side": 1,
+      "message": "I\u0027m wondering if we ought to space the messages out a bit more. Maybe separate them with a \u0027//\u0027 or \u0027--\u0027 or \u0027..\u0027?",
+      "revId": "938eb0b742986db3096a6507a17f61b5baa5601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

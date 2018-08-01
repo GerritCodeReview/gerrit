@@ -1623,5 +1623,10 @@
     _resetReplyOverlayFocusStops() {
       this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
     },
+
+    _handleToggleStar(e) {
+      this.$.restAPI.saveChangeStarred(e.detail.change._number,
+          e.detail.starred);
+    },
   });
 })();

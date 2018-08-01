@@ -362,7 +362,9 @@ limitations under the License.
         <div class="headerTitle">
           <gr-change-star
               id="changeStar"
-              change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
+              change="{{_change}}"
+              on-toggle-star="_handleToggleStar"
+              hidden$="[[!_loggedIn]]"></gr-change-star>
           <div class="changeStatuses">
             <template is="dom-repeat" items="[[_changeStatuses]]" as="status">
               <gr-change-status

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97d3128c_ad538324",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-08-01T23:44:55Z",
+      "side": 1,
+      "message": "PID isn\u0027t necessarily set when this code executes. What\u0027s the intention behind this \"if\" test --- e.g. is it meant as a way of testing whether Gerrit is running or whether we are on Linux?",
+      "range": {
+        "startLine": 442,
+        "startChar": 26,
+        "endLine": 442,
+        "endChar": 29
+      },
+      "revId": "b242116a8cc3929477a52d912d75e91323a55a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

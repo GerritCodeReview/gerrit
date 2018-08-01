@@ -58,6 +58,22 @@ limitations under the License.
     isColumnHidden(columnToCheck, columnsToDisplay) {
       return !columnsToDisplay.includes(columnToCheck);
     },
+
+    /**
+     * The Project column was renamed to Repo, but some users may have
+     * preferences that use its old name. If that column is found, rename it
+     * before use.
+     * @param {!Array<string>} columns
+     * @return {!Array<string>} If the column was renamed, returns a new array
+     *     with the corrected name. Otherwise, it returns the original param.
+     */
+    getVisibleColumns(columns) {
+      const projectIndex = columns.indexOf('Project');
+      if (projectIndex === -1) { return columns; }
+      const newColumns = columns.slice(0);
+      newColumns[projectIndex] = 'Repo';
+      return newColumns;
+    },
   };
 })(window);
 </script>

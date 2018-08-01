@@ -114,12 +114,12 @@ final class ApproveOption implements Option, Setter<Short> {
     return false;
   }
 
-  // TODO(hanwen): add @Override after args4j upgrade.
+  @Override
   public String[] forbids() {
     return null;
   }
 
-  // TODO(hanwen): add @Override after args4j upgrade.
+  @Override
   public boolean help() {
     return false;
   }

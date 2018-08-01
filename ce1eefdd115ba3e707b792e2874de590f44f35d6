@@ -22,6 +22,30 @@
       "revId": "ce1eefdd115ba3e707b792e2874de590f44f35d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "432b555d_d54f969a",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-01T17:32:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29533e5e_80d9943b",
+      "range": {
+        "startLine": 45,
+        "startChar": 7,
+        "endLine": 45,
+        "endChar": 26
+      },
+      "revId": "ce1eefdd115ba3e707b792e2874de590f44f35d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -440,10 +440,18 @@ maven_jar(
     sha1 = "b60e33a6bd0d71831e0c249816d01e6c1dd90a47",
 )
 
+AUTO_VALUE_VERSION = "1.6.2"
+
 maven_jar(
     name = "auto-value",
-    artifact = "com.google.auto.value:auto-value:1.4",
-    sha1 = "6d1448fcd13074bd3658ef915022410b7c48343b",
+    artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
+    sha1 = "e7eae562942315a983eea3e191b72d755c153620",
+)
+
+maven_jar(
+    name = "auto-value-annotations",
+    artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
+    sha1 = "ed193d86e0af90cc2342aedbe73c5d86b03fa09b",
 )
 
 maven_jar(

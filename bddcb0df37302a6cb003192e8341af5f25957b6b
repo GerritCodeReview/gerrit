@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "171e2073_e5207523",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-01T19:51:18Z",
+      "side": 1,
+      "message": "I think this is not a no-op with respect to the wire protocol, because this line can cause refs to be advertised. And I\u0027m not at all sure this is allowed, I think the type of error that GitSmartHttpTools.sendError sends might only be valid to send over the wire after advertising refs.",
+      "revId": "bddcb0df37302a6cb003192e8341af5f25957b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1735,5 +1735,18 @@ limitations under the License.
       assert.isTrue(setStub.calledOnce);
       assert.isTrue(setStub.calledWith(101, 'test-project'));
     });
+
+    test('_handleToggleStar called when star is tapped', () => {
+      element._change = {
+        owner: {_account_id: 1},
+        starred: false,
+      };
+      element._loggedIn = true;
+      const stub = sandbox.stub(element, '_handleToggleStar');
+      flushAsynchronousOperations();
+
+      MockInteractions.tap(element.$.changeStar.$$('button'));
+      assert.isTrue(stub.called);
+    });
   });
 </script>

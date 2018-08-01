@@ -35,40 +35,42 @@
       Gerrit.ChangeTableBehavior,
     ],
 
-    _getButtonText(isShown) {
-      return isShown ? 'Hide' : 'Show';
-    },
-
-    _updateDisplayedColumns(displayedColumns, name, checked) {
-      if (!checked) {
-        return displayedColumns.filter(column => {
-          return name.toLowerCase() !== column.toLowerCase();
-        });
-      } else {
-        return displayedColumns.concat([name]);
-      }
+    /**
+     * Get the list of enabled column names from whichever checkboxes are
+     * checked (excluding the number checkbox).
+     * @return {!Array<string>}
+     */
+    _getDisplayedColumns() {
+      return Polymer.dom(this.root)
+          .querySelectorAll('.checkboxContainer input:not([name=number])')
+          .filter(checkbox => checkbox.checked)
+          .map(checkbox => checkbox.name);
     },
 
     /**
-     * Handles tap on either the checkbox itself or the surrounding table cell.
+     * Handle a tap on a checkbox container and relay the tap to the checkbox it
+     * contains.
+     */
+    _handleCheckboxContainerTap(e) {
+      const checkbox = Polymer.dom(e.target).querySelector('input');
+      if (!checkbox) { return; }
+      checkbox.click();
+    },
+
+    /**
+     * Handle a tap on the number checkbox and update the showNumber property
+     * accordingly.
+     */
+    _handleNumberCheckboxTap(e) {
+      this.showNumber = Polymer.dom(e).rootTarget.checked;
+    },
+
+    /**
+     * Handle a tap on a displayed column checkboxes (excluding number) and
+     * update the displayedColumns property accordingly.
      */
     _handleTargetTap(e) {
-      let checkbox = Polymer.dom(e.target).querySelector('input');
-      if (checkbox) {
-        checkbox.click();
-      } else {
-        // The target is the checkbox itself.
-        checkbox = Polymer.dom(e).rootTarget;
-      }
-
-      if (checkbox.name === 'number') {
-        this.showNumber = checkbox.checked;
-        return;
-      }
-
-      this.set('displayedColumns',
-          this._updateDisplayedColumns(
-              this.displayedColumns, checkbox.name, checkbox.checked));
+      this.set('displayedColumns', this._getDisplayedColumns());
     },
   });
 })();

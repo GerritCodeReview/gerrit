@@ -53,6 +53,7 @@ limitations under the License.
       ];
 
       element.set('displayedColumns', columns);
+      element.showNumber = false;
       flushAsynchronousOperations();
     });
 
@@ -108,66 +109,50 @@ limitations under the License.
           displayedLength + 1);
     });
 
-    test('_handleTargetTap', () => {
-      const checkbox = element.$$('table tr:nth-child(2) input');
-      let originalDisplayedColumns = element.displayedColumns;
-      const td = element.$$('table tr:nth-child(2) .checkboxContainer');
-      const displayedColumnStub =
-          sandbox.stub(element, '_updateDisplayedColumns');
-
-      MockInteractions.tap(checkbox);
-      assert.isTrue(displayedColumnStub.lastCall.calledWithExactly(
-          originalDisplayedColumns,
-          checkbox.name,
-          checkbox.checked));
-
-      originalDisplayedColumns = element.displayedColumns;
-      MockInteractions.tap(td);
-      assert.isTrue(displayedColumnStub.lastCall.calledWithExactly(
-          originalDisplayedColumns,
-          checkbox.name,
-          checkbox.checked));
+    test('_getDisplayedColumns', () => {
+      assert.deepEqual(element._getDisplayedColumns(), columns);
+      MockInteractions.tap(
+          element.$$('.checkboxContainer input[name=Assignee]'));
+      assert.deepEqual(element._getDisplayedColumns(),
+          columns.filter(c => c !== 'Assignee'));
     });
 
-    test('_handleTargetTap on number', () => {
-      element.showNumber = false;
-      const checkbox = element.$$('table tr:nth-child(1) input');
-      const displayedColumnStub =
-          sandbox.stub(element, '_updateDisplayedColumns');
+    test('_handleCheckboxContainerTap relayes taps to checkboxes', () => {
+      sandbox.stub(element, '_handleNumberCheckboxTap');
+      sandbox.stub(element, '_handleTargetTap');
 
-      MockInteractions.tap(checkbox);
-      assert.isFalse(displayedColumnStub.called);
+      MockInteractions.tap(
+          element.$$('table tr:first-of-type .checkboxContainer'));
+      assert.isTrue(element._handleNumberCheckboxTap.calledOnce);
+      assert.isFalse(element._handleTargetTap.called);
+
+      MockInteractions.tap(
+          element.$$('table tr:last-of-type .checkboxContainer'));
+      assert.isTrue(element._handleNumberCheckboxTap.calledOnce);
+      assert.isTrue(element._handleTargetTap.calledOnce);
+    });
+
+    test('_handleNumberCheckboxTap', () => {
+      sandbox.spy(element, '_handleNumberCheckboxTap');
+
+      MockInteractions
+          .tap(element.$$('.checkboxContainer input[name=number]'));
+      assert.isTrue(element._handleNumberCheckboxTap.calledOnce);
       assert.isTrue(element.showNumber);
 
-      MockInteractions.tap(checkbox);
+      MockInteractions
+          .tap(element.$$('.checkboxContainer input[name=number]'));
+      assert.isTrue(element._handleNumberCheckboxTap.calledTwice);
       assert.isFalse(element.showNumber);
     });
 
-    test('_updateDisplayedColumns', () => {
-      let name = 'Subject';
-      let checked = false;
-      assert.deepEqual(element._updateDisplayedColumns(columns, name, checked),
-          [
-            'Status',
-            'Owner',
-            'Assignee',
-            'Repo',
-            'Branch',
-            'Updated',
-          ]);
-      name = 'Size';
-      checked = true;
-      assert.deepEqual(element._updateDisplayedColumns(columns, name, checked),
-          [
-            'Subject',
-            'Status',
-            'Owner',
-            'Assignee',
-            'Repo',
-            'Branch',
-            'Updated',
-            'Size',
-          ]);
+    test('_handleTargetTap', () => {
+      sandbox.spy(element, '_handleTargetTap');
+      assert.include(element.displayedColumns, 'Assignee');
+      MockInteractions
+          .tap(element.$$('.checkboxContainer input[name=Assignee]'));
+      assert.isTrue(element._handleTargetTap.calledOnce);
+      assert.notInclude(element.displayedColumns, 'Assignee');
     });
   });
 </script>

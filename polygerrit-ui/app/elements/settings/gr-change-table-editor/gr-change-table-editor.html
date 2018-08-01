@@ -37,6 +37,9 @@ limitations under the License.
         cursor: pointer;
         text-align: center;
       }
+      .checkboxContainer input {
+        cursor: pointer;
+      }
       .checkboxContainer:hover {
         outline: 1px solid var(--border-color);
       }
@@ -52,12 +55,12 @@ limitations under the License.
         <tbody>
           <tr>
             <td>Number</td>
-            <td
-                class="checkboxContainer"
-                on-tap="_handleTargetTap">
+            <td class="checkboxContainer"
+                on-tap="_handleCheckboxContainerTap">
               <input
                   type="checkbox"
                   name="number"
+                  on-tap="_handleNumberCheckboxTap"
                   checked$="[[showNumber]]">
             </td>
           </tr>
@@ -65,10 +68,11 @@ limitations under the License.
             <tr>
               <td>[[item]]</td>
               <td class="checkboxContainer"
-                  on-tap="_handleTargetTap">
+                  on-tap="_handleCheckboxContainerTap">
                 <input
                     type="checkbox"
                     name="[[item]]"
+                    on-tap="_handleTargetTap"
                     checked$="[[!isColumnHidden(item, displayedColumns)]]">
               </td>
             </tr>

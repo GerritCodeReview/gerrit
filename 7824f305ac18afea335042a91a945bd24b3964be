@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9da81589_305cf9cd",
+        "filename": "java/com/google/gerrit/extensions/common/FileInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-01T15:44:35Z",
+      "side": 1,
+      "message": "This should be annotated with @Override, and the class should also implement the hashCode method.",
+      "revId": "7824f305ac18afea335042a91a945bd24b3964be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

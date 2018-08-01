@@ -568,8 +568,8 @@ maven_jar(
 
 maven_jar(
     name = "dropwizard-core",
-    artifact = "io.dropwizard.metrics:metrics-core:4.0.2",
-    sha1 = "ec9878842d510cabd6bd6a9da1bebae1ae0cd199",
+    artifact = "io.dropwizard.metrics:metrics-core:4.0.3",
+    sha1 = "bb562ee73f740bb6b2bf7955f97be6b870d9e9f0",
 )
 
 # When updading Bouncy Castle, also update it in bazlets.
@@ -880,8 +880,8 @@ maven_jar(
 
 maven_jar(
     name = "elasticsearch-rest-client",
-    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.3.1",
-    sha1 = "99de036a2cd99dbecec1cc84f5d0e19032e74fa7",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.3.2",
+    sha1 = "2077ea5f00fdd2d6af85223b730ba8047303297f",
 )
 
 JACKSON_VERSION = "2.6.6"

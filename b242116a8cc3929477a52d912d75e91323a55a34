@@ -22,6 +22,47 @@
       "revId": "b242116a8cc3929477a52d912d75e91323a55a34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ed9a4b4_777921ab",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-08-01T23:52:18Z",
+      "side": 1,
+      "message": "perhaps\n\n [ \"$(uname -s)\" \u003d \"Linux\" ]",
+      "parentUuid": "97d3128c_ad538324",
+      "range": {
+        "startLine": 442,
+        "startChar": 26,
+        "endLine": 442,
+        "endChar": 29
+      },
+      "revId": "b242116a8cc3929477a52d912d75e91323a55a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "047041fe_af710d7c",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-08-01T23:52:18Z",
+      "side": 1,
+      "message": "(suggestion) I would prefer a bit different choice of words here, e.g.:\n\n WARNING: Could not adjust Gerrit\u0027s process for the kernel\u0027s out-of-memory killer, because ${0} wasn\u0027t run as\n          root. Consider changing the OOM score adjustment manually for Gerrit\u0027s PID\u003d${PID} with e.g.:\n            echo \u0027-1000\u0027 | sudo tee /proc/{$PID}/oom_score_adj",
+      "revId": "b242116a8cc3929477a52d912d75e91323a55a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

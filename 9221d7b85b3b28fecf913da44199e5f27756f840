@@ -46,6 +46,30 @@
       "revId": "9221d7b85b3b28fecf913da44199e5f27756f840",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de922835_1fa3eb7e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-01T20:12:32Z",
+      "side": 0,
+      "message": "Sorry: I mean this would also accomplish what\u0027s happening in the new code. I put the comment on the base because that\u0027s where the original parameter name is. I see how that was a confusing way for me to comment. 😊",
+      "parentUuid": "b3381e8d_fe61a12b",
+      "range": {
+        "startLine": 556,
+        "startChar": 4,
+        "endLine": 558,
+        "endChar": 5
+      },
+      "revId": "9221d7b85b3b28fecf913da44199e5f27756f840",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

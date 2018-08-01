@@ -27,6 +27,9 @@
   const EVENT_ZERO_REBASE = 'rebase-percent-zero';
   const EVENT_NONZERO_REBASE = 'rebase-percent-nonzero';
 
+  const NO_NEWLINE_BASE = 'No newline at end of base file.';
+  const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
+
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
@@ -120,6 +123,11 @@
        */
       lineOfInterest: Object,
 
+      _loading: {
+        type: Boolean,
+        value: false,
+      },
+
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -169,6 +177,11 @@
         type: Number,
         computed: '_computeParentIndex(patchRange.*)',
       },
+
+      _newlineWarning: {
+        type: String,
+        computed: '_computeNewlineWarning(_diff)',
+      },
     },
 
     behaviors: [
@@ -196,6 +209,7 @@
 
     /** @return {!Promise} */
     reload() {
+      this._loading = true;
       this.cancel();
       this.clearBlame();
       this._safetyBypass = null;
@@ -214,6 +228,8 @@
           return this._renderDiffTable();
         }
         return Promise.resolve();
+      }).then(() => {
+        this._loading = false;
       });
     },
 
@@ -856,6 +872,90 @@
 
     expandAllContext() {
       this._handleFullBypass();
+    },
+
+    /**
+     * Find the last chunk for the given side.
+     * @param {!Object} diff
+     * @param {boolean} leftSide true if checking the base of the diff,
+     *     false if testing the revision.
+     * @return {Object|null} returns the chunk object or null if there was
+     *     no chunk for that side.
+     */
+    _lastChunkForSide(diff, leftSide) {
+      if (!diff.content.length) { return null; }
+
+      let chunkIndex = diff.content.length;
+      let chunk;
+
+      // Walk backwards until we find a chunk for the given side.
+      do {
+        chunkIndex--;
+        chunk = diff.content[chunkIndex];
+      } while (
+          // We haven't reached the beginning.
+          chunkIndex >= 0 &&
+
+          // The chunk doesn't have both sides.
+          !chunk.ab &&
+
+          // The chunk doesn't have the given side.
+          ((leftSide && !chunk.a) || (!leftSide && !chunk.b)));
+
+      // If we reached the beginning of the diff and failed to find a chunk
+      // with the given side, return null.
+      if (chunkIndex === -1) { return null; }
+
+      return chunk;
+    },
+
+    /**
+     * Check whether the specified side of the diff has a trailing newline.
+     * @param {!Object} diff
+     * @param {boolean} leftSide true if checking the base of the diff,
+     *     false if testing the revision.
+     * @return {boolean|null} Return true if the side has a trailing newline.
+     *     Return false if it doesn't. Return null if not applicable (for
+     *     example, if the diff has no content on the specified side).
+     */
+    _hasTrailingNewlines(diff, leftSide) {
+      const chunk = this._lastChunkForSide(diff, leftSide);
+      if (!chunk) { return null; }
+      let lines;
+      if (chunk.ab) {
+        lines = chunk.ab;
+      } else {
+        lines = leftSide ? chunk.a : chunk.b;
+      }
+      return lines[lines.length - 1] === '';
+    },
+
+    /**
+     * @param {!Object} diff
+     * @return {string|null}
+     */
+    _computeNewlineWarning(diff) {
+      const hasLeft = this._hasTrailingNewlines(diff, true);
+      const hasRight = this._hasTrailingNewlines(diff, false);
+      const messages = [];
+      if (hasLeft === false) {
+        messages.push(NO_NEWLINE_BASE);
+      }
+      if (hasRight === false) {
+        messages.push(NO_NEWLINE_REVISION);
+      }
+      if (!messages.length) { return null; }
+      return messages.join(' — ');
+    },
+
+    /**
+     * @param {string} warning
+     * @param {boolean} loading
+     * @return {string}
+     */
+    _computeNewlineWarningClass(warning, loading) {
+      if (loading || !warning) { return 'newlineWarning hidden'; }
+      return 'newlineWarning';
     },
   });
 })();

@@ -1266,6 +1266,131 @@ limitations under the License.
         assert.isUndefined(reportStub.lastCall.args[1]);
       });
     });
+
+    suite('trailing newlines', () => {
+      setup(() => {
+        element = fixture('basic');
+      });
+
+      suite('_lastChunkForSide', () => {
+        test('deltas', () => {
+          const diff = {content: [
+            {a: ['foo', 'bar'], b: ['baz']},
+            {ab: ['foo', 'bar', 'baz']},
+            {b: ['foo']},
+          ]};
+          assert.equal(element._lastChunkForSide(diff, false), diff.content[2]);
+          assert.equal(element._lastChunkForSide(diff, true), diff.content[1]);
+
+          diff.content.push({a: ['foo'], b: ['bar']});
+          assert.equal(element._lastChunkForSide(diff, false), diff.content[3]);
+          assert.equal(element._lastChunkForSide(diff, true), diff.content[3]);
+        });
+
+        test('addition', () => {
+          const diff = {content: [
+            {b: ['foo', 'bar', 'baz']},
+          ]};
+          assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
+          assert.isNull(element._lastChunkForSide(diff, true));
+        });
+
+        test('deletion', () => {
+          const diff = {content: [
+            {a: ['foo', 'bar', 'baz']},
+          ]};
+          assert.isNull(element._lastChunkForSide(diff, false));
+          assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
+        });
+
+        test('empty', () => {
+          const diff = {content: []};
+          assert.isNull(element._lastChunkForSide(diff, false));
+          assert.isNull(element._lastChunkForSide(diff, true));
+        });
+      });
+
+      suite('_hasTrailingNewlines', () => {
+        test('shared no trailing', () => {
+          const diff = undefined;
+          sandbox.stub(element, '_lastChunkForSide')
+              .returns({ab: ['foo', 'bar']});
+          assert.isFalse(element._hasTrailingNewlines(diff, false));
+          assert.isFalse(element._hasTrailingNewlines(diff, true));
+        });
+
+        test('delta trailing in right', () => {
+          const diff = undefined;
+          sandbox.stub(element, '_lastChunkForSide')
+              .returns({a: ['foo', 'bar'], b: ['baz', '']});
+          assert.isTrue(element._hasTrailingNewlines(diff, false));
+          assert.isFalse(element._hasTrailingNewlines(diff, true));
+        });
+
+        test('addition', () => {
+          const diff = undefined;
+          sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
+            if (leftSide) { return null; }
+            return {b: ['foo', '']};
+          });
+          assert.isTrue(element._hasTrailingNewlines(diff, false));
+          assert.isNull(element._hasTrailingNewlines(diff, true));
+        });
+
+        test('deletion', () => {
+          const diff = undefined;
+          sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
+            if (!leftSide) { return null; }
+            return {a: ['foo']};
+          });
+          assert.isNull(element._hasTrailingNewlines(diff, false));
+          assert.isFalse(element._hasTrailingNewlines(diff, true));
+        });
+      });
+
+      test('_computeNewlineWarning', () => {
+        const NO_NEWLINE_BASE = 'No newline at end of base file.';
+        const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
+
+        let hasLeft;
+        let hasRight;
+        sandbox.stub(element, '_hasTrailingNewlines', (diff, left) => {
+          if (left) { return hasLeft; }
+          return hasRight;
+        });
+        const diff = undefined;
+
+        // The revision has a trailing newline, but the base doesn't.
+        hasLeft = true;
+        hasRight = false;
+        assert.equal(element._computeNewlineWarning(diff), NO_NEWLINE_REVISION);
+
+        // Trailing newlines were undetermined in the revision.
+        hasLeft = true;
+        hasRight = null;
+        assert.isNull(element._computeNewlineWarning(diff));
+
+        // Missing trailing newlines in the base.
+        hasLeft = false;
+        hasRight = null;
+        assert.equal(element._computeNewlineWarning(diff), NO_NEWLINE_BASE);
+
+        // Missing trailing newlines in both.
+        hasLeft = false;
+        hasRight = false;
+        assert.equal(element._computeNewlineWarning(diff),
+            NO_NEWLINE_BASE + ' — ' + NO_NEWLINE_REVISION);
+      });
+
+      test('_computeNewlineWarningClass', () => {
+        const hidden = 'newlineWarning hidden';
+        const shown = 'newlineWarning';
+        assert.equal(element._computeNewlineWarningClass(null, true), hidden);
+        assert.equal(element._computeNewlineWarningClass('foo', true), hidden);
+        assert.equal(element._computeNewlineWarningClass(null, false), hidden);
+        assert.equal(element._computeNewlineWarningClass('foo', false), shown);
+      });
+    });
   });
 
   a11ySuite('basic');

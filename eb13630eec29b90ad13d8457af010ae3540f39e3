@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cfc04e6_fbd17bbd",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-02T15:17:01Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right link; did you mean to link to a specific page under this domain?",
+      "range": {
+        "startLine": 45,
+        "startChar": 7,
+        "endLine": 45,
+        "endChar": 34
+      },
+      "revId": "eb13630eec29b90ad13d8457af010ae3540f39e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4908e1bc_4d4f2854",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-02T15:17:01Z",
+      "side": 1,
+      "message": "Optional: This phrasing makes it sound like these are the only two projects in the world that use these practices.",
+      "revId": "eb13630eec29b90ad13d8457af010ae3540f39e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7492a122_1b9b6071",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-02T15:17:01Z",
+      "side": 1,
+      "message": "I think we generally use straight quotes instead of smart quotes in .txt files, because the assumption is that someone is going to be composing this text in a standard text editor, where it\u0027s not at all trivial to produce smart quotes with a keyboard.\n\nIf you think smart quotes are stylistically important, consider using the AsciiDoc syntax:\nhttps://asciidoctor.org/docs/asciidoc-syntax-quick-reference/",
+      "range": {
+        "startLine": 86,
+        "startChar": 13,
+        "endLine": 86,
+        "endChar": 14
+      },
+      "revId": "eb13630eec29b90ad13d8457af010ae3540f39e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca47de08_2e0a4b5f",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-02T15:17:01Z",
+      "side": 1,
+      "message": "Nit: be consistent between \"email\" or \"e-mail\" within a single doc. In our documentation, \"email\" is much more common, so I would lean towards that:\n\n $ find Documentation/ -name \\*.txt | xargs grep -i email | wc -l\n 655\n $ find Documentation/ -name \\*.txt | xargs grep -i e-mail | wc -l\n 31",
+      "range": {
+        "startLine": 99,
+        "startChar": 30,
+        "endLine": 99,
+        "endChar": 36
+      },
+      "revId": "eb13630eec29b90ad13d8457af010ae3540f39e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

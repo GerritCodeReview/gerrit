@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "53b9be6f_008c1c27",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/access/ProjectAccessInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-08-02T19:29:13Z",
+      "side": 1,
+      "message": "-I think that from the code perspective, \"local\" is a field defined inside ProjectAccessInfo class and is always assigned to some value, which is a HashMap. \n-It is possible that it doesn\u0027t contain the \"ref\" value (and the \"permissions\" as a key inside) if the user has no permission under any ref. \n-The \"permissions\" is a field of AccessSectionInfo class. When an AccessSessionInfo object is created, the \"permissions\" is always assigned to a new HashMap. So I think \"permissions\" is always there.\nJust let me know if I miss anything :)",
+      "parentUuid": "9fd6d392_ba0b7a8e",
+      "range": {
+        "startLine": 23,
+        "startChar": 51,
+        "endLine": 23,
+        "endChar": 81
+      },
+      "revId": "d9fd756060d4cfdfcdcf954ffeb8ebe3ad2d7f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d049146_a69931f3",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/access/ProjectAccessInfo.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-08-02T18:54:52Z",
       "side": 1,
       "message": "What is the difference between using \u0027in\u0027 (as here) and \u0027includes\u0027 (as in line 29)?",
+      "range": {
+        "startLine": 25,
+        "startChar": 67,
+        "endLine": 25,
+        "endChar": 84
+      },
+      "revId": "d9fd756060d4cfdfcdcf954ffeb8ebe3ad2d7f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43212f94_9593f16d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/access/ProjectAccessInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-08-02T19:29:13Z",
+      "side": 1,
+      "message": "- \"in\" is used to check whether a key exists inside a json object. (for example, (a in obj) is true if obj \u003d { a : {} } )\n- \"includes\" is used to check whether an array has the element. \n\nHere, this.local is a json object and I am checking whether there is a key named \"ref\" inside. The \"owner_of\" below is an array and I am checking if there is an element named \"ref\"",
+      "parentUuid": "2d049146_a69931f3",
       "range": {
         "startLine": 25,
         "startChar": 67,

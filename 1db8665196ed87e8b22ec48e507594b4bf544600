@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ef74c272_404fc02b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-08-02T19:29:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53017402_cb81f7f4",
+      "revId": "1db8665196ed87e8b22ec48e507594b4bf544600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2c004b9_738a6d5d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "1db8665196ed87e8b22ec48e507594b4bf544600",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14b2c74b_a1e9d650",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-08-02T19:29:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2c004b9_738a6d5d",
+      "range": {
+        "startLine": 186,
+        "startChar": 43,
+        "endLine": 186,
+        "endChar": 55
+      },
+      "revId": "1db8665196ed87e8b22ec48e507594b4bf544600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

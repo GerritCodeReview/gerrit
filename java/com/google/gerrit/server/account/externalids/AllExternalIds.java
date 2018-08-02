@@ -16,35 +16,30 @@ package com.google.gerrit.server.account.externalids;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
 
-/**
- * Cache value containing all external IDs.
- *
- * <p>All returned fields are unmodifiable.
- */
+/** Cache value containing all external IDs. */
 @AutoValue
 public abstract class AllExternalIds {
   static AllExternalIds create(Multimap<Id, ExternalId> byAccount) {
     SetMultimap<String, ExternalId> byEmailCopy =
         MultimapBuilder.hashKeys(byAccount.size()).hashSetValues(1).build();
-    byAccount
-        .values()
-        .stream()
+    byAccount.values().stream()
         .filter(e -> !Strings.isNullOrEmpty(e.email()))
         .forEach(e -> byEmailCopy.put(e.email(), e));
 
     return new AutoValue_AllExternalIds(
-        Multimaps.unmodifiableSetMultimap(
+        ImmutableSetMultimap.copyOf(
             MultimapBuilder.hashKeys(byAccount.size()).hashSetValues(5).build(byAccount)),
-        byEmailCopy);
+        ImmutableSetMultimap.copyOf(byEmailCopy));
   }
 
-  public abstract SetMultimap<Id, ExternalId> byAccount();
+  public abstract ImmutableSetMultimap<Account.Id, ExternalId> byAccount();
 
-  public abstract SetMultimap<String, ExternalId> byEmail();
+  public abstract ImmutableSetMultimap<String, ExternalId> byEmail();
 }

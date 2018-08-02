@@ -23,7 +23,7 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 
-public enum StringSerializer implements CacheSerializer<String> {
+public enum StringCacheSerializer implements CacheSerializer<String> {
   INSTANCE;
 
   @Override

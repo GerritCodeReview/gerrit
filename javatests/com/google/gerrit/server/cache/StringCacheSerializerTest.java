@@ -21,12 +21,13 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.StandardCharsets;
 import org.junit.Test;
 
-public class StringSerializerTest {
+public class StringCacheSerializerTest {
   @Test
   public void serialize() {
-    assertThat(StringSerializer.INSTANCE.serialize("")).isEmpty();
-    assertThat(StringSerializer.INSTANCE.serialize("abc")).isEqualTo(new byte[] {'a', 'b', 'c'});
-    assertThat(StringSerializer.INSTANCE.serialize("a\u1234c"))
+    assertThat(StringCacheSerializer.INSTANCE.serialize("")).isEmpty();
+    assertThat(StringCacheSerializer.INSTANCE.serialize("abc"))
+        .isEqualTo(new byte[] {'a', 'b', 'c'});
+    assertThat(StringCacheSerializer.INSTANCE.serialize("a\u1234c"))
         .isEqualTo(new byte[] {'a', (byte) 0xe1, (byte) 0x88, (byte) 0xb4, 'c'});
   }
 
@@ -34,7 +35,7 @@ public class StringSerializerTest {
   public void serializeInvalidChar() {
     // Can't use UTF-8 for the test, since it can encode all Unicode code points.
     try {
-      StringSerializer.serialize(StandardCharsets.US_ASCII, "\u1234");
+      StringCacheSerializer.serialize(StandardCharsets.US_ASCII, "\u1234");
       assert_().fail("expected IllegalStateException");
     } catch (IllegalStateException expected) {
       assertThat(expected).hasCauseThat().isInstanceOf(CharacterCodingException.class);
@@ -43,10 +44,11 @@ public class StringSerializerTest {
 
   @Test
   public void deserialize() {
-    assertThat(StringSerializer.INSTANCE.deserialize(new byte[0])).isEmpty();
-    assertThat(StringSerializer.INSTANCE.deserialize(new byte[] {'a', 'b', 'c'})).isEqualTo("abc");
+    assertThat(StringCacheSerializer.INSTANCE.deserialize(new byte[0])).isEmpty();
+    assertThat(StringCacheSerializer.INSTANCE.deserialize(new byte[] {'a', 'b', 'c'}))
+        .isEqualTo("abc");
     assertThat(
-            StringSerializer.INSTANCE.deserialize(
+            StringCacheSerializer.INSTANCE.deserialize(
                 new byte[] {'a', (byte) 0xe1, (byte) 0x88, (byte) 0xb4, 'c'}))
         .isEqualTo("a\u1234c");
   }
@@ -54,7 +56,7 @@ public class StringSerializerTest {
   @Test
   public void deserializeInvalidChar() {
     try {
-      StringSerializer.INSTANCE.deserialize(new byte[] {(byte) 0xff});
+      StringCacheSerializer.INSTANCE.deserialize(new byte[] {(byte) 0xff});
       assert_().fail("expected IllegalStateException");
     } catch (IllegalStateException expected) {
       assertThat(expected).hasCauseThat().isInstanceOf(CharacterCodingException.class);

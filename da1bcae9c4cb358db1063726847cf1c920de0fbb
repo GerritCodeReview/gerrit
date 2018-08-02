@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55449a05_f2518976",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-02T17:23:12Z",
+      "side": 1,
+      "message": "I still don\u0027t see anything in the contents of this page (or mirrors.kernel.org) that has anything to do with \"git bisect\". What was the intent here? Did you want to link to a manpage for git-bisect(1) or something?",
+      "revId": "da1bcae9c4cb358db1063726847cf1c920de0fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

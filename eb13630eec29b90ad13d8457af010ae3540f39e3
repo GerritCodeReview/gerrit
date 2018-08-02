@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "5cb01a89_eb4fe400",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-02T17:23:12Z",
+      "side": 1,
+      "message": "In this case, italics for emphasis are a better choice, I agree.\n\nThere are still other curved quotes (maybe just apostrophes/single quotes) elsewhere in this file.",
+      "parentUuid": "f0432508_970c5cbe",
+      "range": {
+        "startLine": 86,
+        "startChar": 13,
+        "endLine": 86,
+        "endChar": 14
+      },
+      "revId": "eb13630eec29b90ad13d8457af010ae3540f39e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca47de08_2e0a4b5f",
         "filename": "Documentation/intro-rockstar.txt",
         "patchSetId": 19

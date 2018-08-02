@@ -173,7 +173,7 @@ public class PatchSetUtil {
     }
   }
 
-  public static void setGroups(ReviewDb db, ChangeUpdate update, PatchSet ps, List<String> groups)
+  public void setGroups(ReviewDb db, ChangeUpdate update, PatchSet ps, List<String> groups)
       throws OrmException {
     ps.setGroups(groups);
     update.setGroups(groups);

@@ -63,6 +63,11 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
   }
 
   @Override
+  public PersistentCacheBinding<K, V> expireFromMemoryAfterAccess(Duration duration) {
+    return (PersistentCacheBinding<K, V>) super.expireFromMemoryAfterAccess(duration);
+  }
+
+  @Override
   public PersistentCacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> clazz) {
     return (PersistentCacheBinding<K, V>) super.weigher(clazz);
   }

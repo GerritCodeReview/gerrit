@@ -30,6 +30,9 @@ public interface PersistentCacheBinding<K, V> extends CacheBinding<K, V> {
   PersistentCacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);
 
   @Override
+  PersistentCacheBinding<K, V> expireFromMemoryAfterAccess(Duration duration);
+
+  @Override
   PersistentCacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> clazz);
 
   PersistentCacheBinding<K, V> version(int version);

@@ -18,12 +18,16 @@ import com.google.protobuf.ByteString;
 
 /** Static utilities for testing cache serializers. */
 public class CacheSerializerTestUtil {
-  public static ByteString bytes(int... ints) {
+  public static ByteString byteString(int... ints) {
+    return ByteString.copyFrom(byteArray(ints));
+  }
+
+  public static byte[] byteArray(int... ints) {
     byte[] bytes = new byte[ints.length];
     for (int i = 0; i < ints.length; i++) {
       bytes[i] = (byte) ints[i];
     }
-    return ByteString.copyFrom(bytes);
+    return bytes;
   }
 
   private CacheSerializerTestUtil() {}

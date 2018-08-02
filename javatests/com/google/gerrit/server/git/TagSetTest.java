@@ -17,7 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
-import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.bytes;
+import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
 
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Streams;
@@ -66,7 +66,7 @@ public class TagSetTest {
                     "refs/heads/master",
                     CachedRefProto.newBuilder()
                         .setId(
-                            bytes(
+                            byteString(
                                 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
                                 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa))
                         .setFlag(1)
@@ -75,7 +75,7 @@ public class TagSetTest {
                     "refs/heads/branch",
                     CachedRefProto.newBuilder()
                         .setId(
-                            bytes(
+                            byteString(
                                 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb,
                                 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb))
                         .setFlag(2)
@@ -83,18 +83,18 @@ public class TagSetTest {
                 .addTag(
                     TagProto.newBuilder()
                         .setId(
-                            bytes(
+                            byteString(
                                 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc,
                                 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc))
-                        .setFlags(bytes(0x2a))
+                        .setFlags(byteString(0x2a))
                         .build())
                 .addTag(
                     TagProto.newBuilder()
                         .setId(
-                            bytes(
+                            byteString(
                                 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd,
                                 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd))
-                        .setFlags(bytes(0x54))
+                        .setFlags(byteString(0x54))
                         .build())
                 .build());
 

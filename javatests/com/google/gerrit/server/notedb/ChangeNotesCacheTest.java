@@ -16,7 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
-import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.bytes;
+import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
 import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
@@ -41,7 +41,7 @@ public final class ChangeNotesCacheTest {
                 .setProject("project")
                 .setChangeId(1234)
                 .setId(
-                    bytes(
+                    byteString(
                         0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef,
                         0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef))
                 .build());

@@ -52,6 +52,7 @@ public class GitModules {
   private static final String GIT_MODULES = ".gitmodules";
 
   private final RequestId submissionId;
+  private final Branch.NameKey branch;
   Set<SubmoduleSubscription> subscriptions;
 
   @Inject
@@ -60,6 +61,7 @@ public class GitModules {
       @Assisted Branch.NameKey branch,
       @Assisted MergeOpRepoManager orm)
       throws IOException {
+    this.branch = branch;
     this.submissionId = orm.getSubmissionId();
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of %s for project %s", branch, project);
@@ -92,7 +94,7 @@ public class GitModules {
   }
 
   public Collection<SubmoduleSubscription> subscribedTo(Branch.NameKey src) {
-    logDebug("Checking for a subscription of %s", src);
+    logDebug("Checking for a subscription of %s for %s", src, branch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     for (SubmoduleSubscription s : subscriptions) {
       if (s.getSubmodule().equals(src)) {

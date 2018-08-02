@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5bf7bbf8_36ca0c04",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-02T16:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cfc04e6_fbd17bbd",
+      "range": {
+        "startLine": 45,
+        "startChar": 7,
+        "endLine": 45,
+        "endChar": 34
+      },
+      "revId": "eb13630eec29b90ad13d8457af010ae3540f39e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4908e1bc_4d4f2854",
         "filename": "Documentation/intro-rockstar.txt",
         "patchSetId": 19
@@ -36,6 +60,24 @@
       "writtenOn": "2018-08-02T15:17:01Z",
       "side": 1,
       "message": "Optional: This phrasing makes it sound like these are the only two projects in the world that use these practices.",
+      "revId": "eb13630eec29b90ad13d8457af010ae3540f39e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f4847a8_ead57586",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-02T16:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4908e1bc_4d4f2854",
       "revId": "eb13630eec29b90ad13d8457af010ae3540f39e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "f0432508_970c5cbe",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-02T16:52:14Z",
+      "side": 1,
+      "message": "If it\u0027s OK by you, let\u0027s use italics for emphasis instead. (I\u0027m not attached to the quotes, which came through from Docs.)",
+      "parentUuid": "7492a122_1b9b6071",
+      "range": {
+        "startLine": 86,
+        "startChar": 13,
+        "endLine": 86,
+        "endChar": 14
+      },
+      "revId": "eb13630eec29b90ad13d8457af010ae3540f39e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca47de08_2e0a4b5f",
         "filename": "Documentation/intro-rockstar.txt",
         "patchSetId": 19
@@ -85,6 +151,30 @@
       "revId": "eb13630eec29b90ad13d8457af010ae3540f39e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c580815_2b1dc4e3",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-02T16:52:14Z",
+      "side": 1,
+      "message": "Great catch. I will gradually clean up the instances of e-mail. I will check for other inconsistencies, too.",
+      "parentUuid": "ca47de08_2e0a4b5f",
+      "range": {
+        "startLine": 99,
+        "startChar": 30,
+        "endLine": 99,
+        "endChar": 36
+      },
+      "revId": "eb13630eec29b90ad13d8457af010ae3540f39e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

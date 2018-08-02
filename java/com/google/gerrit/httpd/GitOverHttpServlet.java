@@ -309,7 +309,7 @@ public class GitOverHttpServlet extends GitServlet {
 
       AsyncReceiveCommits arc =
           factory.create(
-              state, userProvider.get().asIdentifiedUser(), db, null, ImmutableSetMultimap.of());
+              state, userProvider.get().asIdentifiedUser(), db, ImmutableSetMultimap.of());
       ReceivePack rp = arc.getReceivePack();
       req.setAttribute(ATT_ARC, arc);
       return rp;
@@ -345,17 +345,19 @@ public class GitOverHttpServlet extends GitServlet {
       boolean isGet = "GET".equalsIgnoreCase(((HttpServletRequest) request).getMethod());
 
       AsyncReceiveCommits arc = (AsyncReceiveCommits) request.getAttribute(ATT_ARC);
+
+      // Send refs down the wire.
       ReceivePack rp = arc.getReceivePack();
       rp.getAdvertiseRefsHook().advertiseRefs(rp);
-      ProjectState state = (ProjectState) request.getAttribute(ATT_STATE);
 
-      Capable s;
+      ProjectState state = (ProjectState) request.getAttribute(ATT_STATE);
+      Capable canUpload;
       try {
         permissionBackend
             .currentUser()
             .project(state.getNameKey())
             .check(ProjectPermission.RUN_RECEIVE_PACK);
-        s = arc.canUpload();
+        canUpload = arc.canUpload();
       } catch (AuthException e) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
@@ -367,12 +369,12 @@ public class GitOverHttpServlet extends GitServlet {
         throw new RuntimeException(e);
       }
 
-      if (s != Capable.OK) {
+      if (canUpload != Capable.OK) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
             (HttpServletResponse) response,
             HttpServletResponse.SC_FORBIDDEN,
-            "\n" + s.getMessage());
+            "\n" + canUpload.getMessage());
         return;
       }
 

@@ -331,14 +331,12 @@ class InProcessProtocol extends TestProtocol<Context> {
         }
 
         AsyncReceiveCommits arc =
-            factory.create(projectState, identifiedUser, db, null, ImmutableSetMultimap.of());
-        ReceivePack rp = arc.getReceivePack();
-
-        Capable r = arc.canUpload();
-        if (r != Capable.OK) {
+            factory.create(projectState, identifiedUser, db, ImmutableSetMultimap.of());
+        if (arc.canUpload() != Capable.OK) {
           throw new ServiceNotAuthorizedException();
         }
 
+        ReceivePack rp = arc.getReceivePack();
         rp.setRefLogIdent(identifiedUser.newRefLogIdent());
         rp.setTimeout(config.getTimeout());
         rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());

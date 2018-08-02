@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fd6d392_ba0b7a8e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/access/ProjectAccessInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-02T18:54:52Z",
+      "side": 1,
+      "message": "Is it possible that `local` can be undefined/null, doesn\u0027t contain the \u0027ref\u0027 value, or the value of \u0027ref\u0027 doesn\u0027t have \u0027permissions\u0027?",
+      "range": {
+        "startLine": 23,
+        "startChar": 51,
+        "endLine": 23,
+        "endChar": 81
+      },
+      "revId": "d9fd756060d4cfdfcdcf954ffeb8ebe3ad2d7f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d049146_a69931f3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/access/ProjectAccessInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-02T18:54:52Z",
+      "side": 1,
+      "message": "What is the difference between using \u0027in\u0027 (as here) and \u0027includes\u0027 (as in line 29)?",
+      "range": {
+        "startLine": 25,
+        "startChar": 67,
+        "endLine": 25,
+        "endChar": 84
+      },
+      "revId": "d9fd756060d4cfdfcdcf954ffeb8ebe3ad2d7f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c422129_b7c2eb9a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-02T18:54:52Z",
+      "side": 1,
+      "message": "Use REFS_TAGS from RefNames.",
+      "revId": "d9fd756060d4cfdfcdcf954ffeb8ebe3ad2d7f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

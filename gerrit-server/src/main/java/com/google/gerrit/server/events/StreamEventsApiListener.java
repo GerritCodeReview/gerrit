@@ -473,11 +473,14 @@ public class StreamEventsApiListener
   @Override
   public void onWorkInProgressStateChanged(WorkInProgressStateChangedListener.Event ev) {
     try {
-      Change change = getChange(ev.getChange());
+      ChangeNotes notes = getNotes(ev.getChange());
+      Change change = notes.getChange();
+      PatchSet patchSet = getPatchSet(notes, ev.getRevision());
       WorkInProgressStateChangedEvent event = new WorkInProgressStateChangedEvent(change);
 
       event.change = changeAttributeSupplier(change);
       event.changer = accountAttributeSupplier(ev.getWho());
+      event.patchSet = patchSetAttributeSupplier(change,patchSet);
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
@@ -488,11 +491,14 @@ public class StreamEventsApiListener
   @Override
   public void onPrivateStateChanged(PrivateStateChangedListener.Event ev) {
     try {
-      Change change = getChange(ev.getChange());
+      ChangeNotes notes = getNotes(ev.getChange());
+      Change change = notes.getChange();
+      PatchSet patchSet = getPatchSet(notes, ev.getRevision());
       PrivateStateChangedEvent event = new PrivateStateChangedEvent(change);
 
       event.change = changeAttributeSupplier(change);
       event.changer = accountAttributeSupplier(ev.getWho());
+      event.patchSet = patchSetAttributeSupplier(change, patchSet);
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {

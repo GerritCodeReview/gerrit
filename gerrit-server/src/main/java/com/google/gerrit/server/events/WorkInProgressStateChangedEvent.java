@@ -18,7 +18,7 @@ import com.google.common.base.Supplier;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
-public class WorkInProgressStateChangedEvent extends ChangeEvent {
+public class WorkInProgressStateChangedEvent extends PatchSetEvent {
   static final String TYPE = "wip-state-changed";
   public Supplier<AccountAttribute> changer;
 

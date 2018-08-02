@@ -18,7 +18,7 @@ import com.google.common.base.Supplier;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
-public class PrivateStateChangedEvent extends ChangeEvent {
+public class PrivateStateChangedEvent extends PatchSetEvent {
   static final String TYPE = "private-state-changed";
   public Supplier<AccountAttribute> changer;
 

@@ -60,8 +60,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
       ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Collection<ExternalId> toRemove,
-      Collection<ExternalId> toAdd)
-      throws IOException {
+      Collection<ExternalId> toAdd) {
     updateCache(
         oldNotesRev,
         newNotesRev,

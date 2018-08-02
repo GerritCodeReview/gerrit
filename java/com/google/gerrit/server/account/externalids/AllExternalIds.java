@@ -41,7 +41,7 @@ public abstract class AllExternalIds {
     return new AutoValue_AllExternalIds(
         Multimaps.unmodifiableSetMultimap(
             MultimapBuilder.hashKeys(byAccount.size()).hashSetValues(5).build(byAccount)),
-        byEmailCopy);
+        Multimaps.unmodifiableSetMultimap(byEmailCopy));
   }
 
   public abstract SetMultimap<Id, ExternalId> byAccount();

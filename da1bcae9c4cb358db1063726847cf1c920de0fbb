@@ -16,6 +16,24 @@
       "revId": "da1bcae9c4cb358db1063726847cf1c920de0fbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2671ac4c_064a073a",
+        "filename": "Documentation/intro-rockstar.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-08-02T17:36:50Z",
+      "side": 1,
+      "message": "I think the intent is https://www.kernel.org/pub/software/scm/git/docs/git-bisect-lk2009.html",
+      "parentUuid": "55449a05_f2518976",
+      "revId": "da1bcae9c4cb358db1063726847cf1c920de0fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

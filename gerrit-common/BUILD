@@ -82,5 +82,6 @@ junit_tests(
     deps = [
         "//lib:truth",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
     ],
 )

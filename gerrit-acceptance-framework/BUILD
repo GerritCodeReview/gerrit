@@ -53,6 +53,7 @@ java_library2(
         "//lib:truth",
         "//lib:truth-java8-extension",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/httpcomponents:fluent-hc",
         "//lib/httpcomponents:httpclient",
         "//lib/httpcomponents:httpcore",

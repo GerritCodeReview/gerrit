@@ -136,9 +136,9 @@ is larger than the given size the pack-parsing will abort and the push
 operation will fail. If set to zero then there is no limit.
 +
 Project owners can use this setting to prevent developers from pushing
-objects which are too large to Gerrit. This setting can also be set it
-`gerrit.config` globally link:config-gerrit.html#receive.maxObjectSizeLimit[
-receive.maxObjectSizeLimit].
+objects which are too large to Gerrit. This setting can also be set in
+`gerrit.config` globally (link:config-gerrit.html#receive.maxObjectSizeLimit[
+receive.maxObjectSizeLimit]).
 +
 The project specific setting in `project.config` is only honored when it
 further reduces the global limit.

@@ -78,6 +78,7 @@ java_library(
         "//lib:tukaani-xz",
         "//lib:velocity",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/bouncycastle:bcpkix-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",
         "//lib/commons:codec",
@@ -143,6 +144,7 @@ java_library(
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
@@ -209,6 +211,7 @@ java_library(
     deps = TESTUTIL_DEPS + [
         "//gerrit-pgm:init",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/easymock:easymock",
         "//lib/powermock:powermock-api-easymock",
         "//lib/powermock:powermock-api-support",

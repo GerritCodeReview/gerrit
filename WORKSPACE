@@ -14,11 +14,9 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    build_file_content = "exports_files([\"0001-Replace-native-http-git-_archive-with-Skylark-rules.patch\"])",
-    patches = ["//:0001-Replace-native-http-git-_archive-with-Skylark-rules.patch"],
-    sha256 = "a80acb69c63d5f6437b099c111480a4493bad4592015af2127a2f49fb7512d8d",
-    strip_prefix = "rules_closure-0.7.0",
-    url = "https://github.com/bazelbuild/rules_closure/archive/0.7.0.tar.gz",
+    sha256 = "4dd84dd2bdd6c9f56cb5a475d504ea31d199c34309e202e9379501d01c3067e5",
+    strip_prefix = "rules_closure-3103a773820b59b76345f94c231cb213e0d404e2",
+    url = "https://github.com/bazelbuild/rules_closure/archive/3103a773820b59b76345f94c231cb213e0d404e2.tar.gz",
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -440,10 +438,18 @@ maven_jar(
     sha1 = "b60e33a6bd0d71831e0c249816d01e6c1dd90a47",
 )
 
+AUTO_VALUE_VERSION = "1.6.2"
+
 maven_jar(
     name = "auto-value",
-    artifact = "com.google.auto.value:auto-value:1.4.1",
-    sha1 = "8172ebbd7970188aff304c8a420b9f17168f6f48",
+    artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
+    sha1 = "e7eae562942315a983eea3e191b72d755c153620",
+)
+
+maven_jar(
+    name = "auto-value-annotations",
+    artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
+    sha1 = "ed193d86e0af90cc2342aedbe73c5d86b03fa09b",
 )
 
 maven_jar(

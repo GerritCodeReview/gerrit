@@ -154,6 +154,7 @@ java_library(
         # We want all these deps to be provided_deps
         "//gerrit-launcher:launcher",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
     ],
 )
 

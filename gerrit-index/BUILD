@@ -55,6 +55,7 @@ java_library(
         "//lib:gwtorm",
         "//lib/antlr:java-runtime",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
     ],

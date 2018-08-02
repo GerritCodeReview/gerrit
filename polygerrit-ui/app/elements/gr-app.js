@@ -128,6 +128,10 @@
       });
       this.$.restAPI.getConfig().then(config => {
         this._serverConfig = config;
+
+        if (config && config.gerrit && config.gerrit.report_bug_url) {
+          this._feedbackUrl = config.gerrit.report_bug_url;
+        }
       });
       this.$.restAPI.getVersion().then(version => {
         this._version = version;

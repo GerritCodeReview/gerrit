@@ -34,6 +34,8 @@
 
 package com.google.gerrit.util.cli;
 
+import static com.google.gerrit.server.args4j.Localizable.localizable;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -320,7 +322,7 @@ public class CmdLineParser {
       return false;
     }
 
-    throw new CmdLineException(parser, String.format("invalid boolean \"%s=%s\"", name, value));
+    throw new CmdLineException(parser, localizable("invalid boolean \"%s=%s\""), name, value);
   }
 
   private static class PrefixedOption implements Option {
@@ -586,6 +588,6 @@ public class CmdLineParser {
   }
 
   public CmdLineException reject(String message) {
-    return new CmdLineException(parser, message);
+    return new CmdLineException(parser, localizable(message));
   }
 }

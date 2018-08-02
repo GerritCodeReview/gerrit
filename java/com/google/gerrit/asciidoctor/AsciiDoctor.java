@@ -14,6 +14,7 @@
 
 package com.google.gerrit.asciidoctor;
 
+import static com.google.gerrit.server.args4j.Localizable.localizable;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.io.ByteStreams;
@@ -142,7 +143,7 @@ public class AsciiDoctor {
     try {
       parser.parseArgument(parameters);
       if (inputFiles.isEmpty()) {
-        throw new CmdLineException(parser, "asciidoctor: FAILED: input file missing");
+        throw new CmdLineException(parser, localizable("asciidoctor: FAILED: input file missing"));
       }
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());

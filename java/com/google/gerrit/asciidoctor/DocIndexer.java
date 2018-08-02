@@ -14,6 +14,7 @@
 
 package com.google.gerrit.asciidoctor;
 
+import static com.google.gerrit.server.args4j.Localizable.localizable;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.server.documentation.Constants;
@@ -72,7 +73,7 @@ public class DocIndexer {
     try {
       parser.parseArgument(parameters);
       if (inputFiles.isEmpty()) {
-        throw new CmdLineException(parser, "FAILED: input file missing");
+        throw new CmdLineException(parser, localizable("FAILED: input file missing"));
       }
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());

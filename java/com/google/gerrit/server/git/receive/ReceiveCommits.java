@@ -256,19 +256,23 @@ class ReceiveCommits {
         SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers);
   }
 
-  public class MessageSender {
+  private class ReceivePackMessageSender implements MessageSender {
+    @Override
     public void sendMessage(String what) {
       receivePack.sendMessage(what);
     }
 
+    @Override
     public void sendError(String what) {
       receivePack.sendError(what);
     }
 
+    @Override
     public void sendBytes(byte[] what) {
       sendBytes(what, 0, what.length);
     }
 
+    @Override
     public void sendBytes(byte[] what, int off, int len) {
       try {
         receivePack.getMessageOutputStream().write(what, off, len);
@@ -277,6 +281,7 @@ class ReceiveCommits {
       }
     }
 
+    @Override
     public void flush() {
       try {
         receivePack.getMessageOutputStream().flush();
@@ -510,7 +515,7 @@ class ReceiveCommits {
         projectState.is(BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET);
 
     // Handles for outputting back over the wire to the end user.
-    messageSender = new MessageSender();
+    messageSender = new ReceivePackMessageSender();
   }
 
   void init() {
@@ -519,7 +524,15 @@ class ReceiveCommits {
     }
   }
 
+  /** Set a message sender for this operation. */
+  void setMessageSender(MessageSender ms) {
+    messageSender = ms != null ? ms : new ReceivePackMessageSender();
+  }
+
   MessageSender getMessageSender() {
+    if (messageSender == null) {
+      setMessageSender(null);
+    }
     return messageSender;
   }
 

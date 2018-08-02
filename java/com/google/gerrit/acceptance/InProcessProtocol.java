@@ -331,7 +331,7 @@ class InProcessProtocol extends TestProtocol<Context> {
         }
 
         AsyncReceiveCommits arc =
-            factory.create(projectState, identifiedUser, db, ImmutableSetMultimap.of());
+            factory.create(projectState, identifiedUser, db, null, ImmutableSetMultimap.of());
         if (arc.canUpload() != Capable.OK) {
           throw new ServiceNotAuthorizedException();
         }

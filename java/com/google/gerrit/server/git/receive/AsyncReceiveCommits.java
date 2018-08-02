@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.receive;
 
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -81,6 +82,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
         ProjectState projectState,
         IdentifiedUser user,
         Repository repository,
+        @Nullable MessageSender messageSender,
         SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers);
   }
 
@@ -114,6 +116,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       receiveCommits =
           factory.create(projectState, user, receivePack, allRefsWatcher, extraReviewers);
       receiveCommits.init();
+      receiveCommits.setMessageSender(messageSender);
       progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
     }
 
@@ -180,6 +183,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final ProjectState projectState;
   private final IdentifiedUser user;
   private final Repository repo;
+  private final MessageSender messageSender;
   private final SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
   private final AllRefsWatcher allRefsWatcher;
 
@@ -198,6 +202,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted Repository repo,
+      @Assisted @Nullable MessageSender messageSender,
       @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
       throws PermissionBackendException {
     this.factory = factory;
@@ -209,6 +214,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.projectState = projectState;
     this.user = user;
     this.repo = repo;
+    this.messageSender = messageSender;
     this.extraReviewers = extraReviewers;
 
     Project.NameKey projectName = projectState.getNameKey();

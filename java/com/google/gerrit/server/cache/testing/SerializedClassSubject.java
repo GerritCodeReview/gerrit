@@ -100,4 +100,11 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
         .named("no-argument abstract methods on %s", actual().getName())
         .isEqualTo(expectedMethods);
   }
+
+  public void extendsClass(Type superclassType) {
+    isNotNull();
+    assertThat(actual().getGenericSuperclass())
+        .named("superclass of %s", actual().getName())
+        .isEqualTo(superclassType);
+  }
 }

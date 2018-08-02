@@ -18,8 +18,11 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.PrivateStateChanged;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -44,19 +47,23 @@ public class SetPrivateOp implements BatchUpdateOp {
   }
 
   private final ChangeMessagesUtil cmUtil;
+  private final PatchSetUtil psUtil;
   private final boolean isPrivate;
   private final Input input;
   private final PrivateStateChanged privateStateChanged;
 
   private Change change;
+  private PatchSet ps;
 
   @Inject
   SetPrivateOp(
       PrivateStateChanged privateStateChanged,
+      PatchSetUtil psUtil,
       @Assisted ChangeMessagesUtil cmUtil,
       @Assisted boolean isPrivate,
       @Assisted Input input) {
     this.cmUtil = cmUtil;
+    this.psUtil = psUtil;
     this.isPrivate = isPrivate;
     this.input = input;
     this.privateStateChanged = privateStateChanged;
@@ -65,6 +72,8 @@ public class SetPrivateOp implements BatchUpdateOp {
   @Override
   public boolean updateChange(ChangeContext ctx) throws ResourceConflictException, OrmException {
     change = ctx.getChange();
+    ChangeNotes notes = ctx.getNotes();
+    ps = psUtil.get(ctx.getDb(), notes, change.currentPatchSetId());
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     change.setPrivate(isPrivate);
     change.setLastUpdatedOn(ctx.getWhen());
@@ -75,7 +84,7 @@ public class SetPrivateOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) {
-    privateStateChanged.fire(change, ctx.getAccount(), ctx.getWhen());
+    privateStateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
   }
 
   private void addMessage(ChangeContext ctx, ChangeUpdate update) throws OrmException {

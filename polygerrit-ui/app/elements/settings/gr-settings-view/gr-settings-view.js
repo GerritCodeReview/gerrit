@@ -249,7 +249,7 @@
     },
 
     _cloneChangeTableColumns() {
-      let columns = this.prefs.change_table;
+      let columns = this.getVisibleColumns(this.prefs.change_table);
 
       if (columns.length === 0) {
         columns = this.columnNames;

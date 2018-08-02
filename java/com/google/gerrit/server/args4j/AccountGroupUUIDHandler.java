@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.util.cli.Localizable.localizable;
+
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -77,7 +79,7 @@ public class AccountGroupUUIDHandler extends OptionHandler<AccountGroup.UUID> {
 
     GroupReference group = GroupBackends.findExactSuggestion(groupBackend, n);
     if (group == null) {
-      throw new CmdLineException(owner, "Group \"" + n + "\" does not exist");
+      throw new CmdLineException(owner, localizable("Group \"%s\" does not exist"), n);
     }
     setter.addValue(group.getUUID());
     return 1;

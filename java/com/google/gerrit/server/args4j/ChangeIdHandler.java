@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.util.cli.Localizable.localizable;
+
 import com.google.common.base.Splitter;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -52,7 +54,7 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
     final List<String> tokens = Splitter.on(',').splitToList(token);
     if (tokens.size() != 3) {
       throw new CmdLineException(
-          owner, "change should be specified as <project>,<branch>,<change-id>");
+          owner, localizable("change should be specified as <project>,<branch>,<change-id>"));
     }
 
     try {
@@ -64,12 +66,12 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
         return 1;
       }
     } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, "Change-Id is not valid");
+      throw new CmdLineException(owner, localizable("Change-Id is not valid"));
     } catch (OrmException e) {
-      throw new CmdLineException(owner, "Database error: " + e.getMessage());
+      throw new CmdLineException(owner, localizable("Database error: %s"), e.getMessage());
     }
 
-    throw new CmdLineException(owner, "\"" + token + "\": change not found");
+    throw new CmdLineException(owner, localizable("\"%s\": change not found"), token);
   }
 
   @Override

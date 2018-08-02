@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53017402_cb81f7f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-02T18:49:53Z",
+      "side": 1,
+      "message": "Don\u0027t import this explicitly. See below.",
+      "revId": "1db8665196ed87e8b22ec48e507594b4bf544600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2c004b9_738a6d5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-02T18:49:53Z",
+      "side": 1,
+      "message": "PermissionRule.Action.ALLOW",
+      "range": {
+        "startLine": 186,
+        "startChar": 43,
+        "endLine": 186,
+        "endChar": 55
+      },
+      "revId": "1db8665196ed87e8b22ec48e507594b4bf544600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

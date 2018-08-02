@@ -3726,7 +3726,7 @@ Gerrit administrators can use this setting to prevent developers
 from pushing objects which are too large to Gerrit.
 +
 This setting can also be set in the `project.config`
-link:config-project-config.html[receive.maxObjectSizeLimit] in order
+(link:config-project-config.html[receive.maxObjectSizeLimit]) in order
 to further reduce the global setting. The project specific setting is
 only honored when it further reduces the global limit.
 +

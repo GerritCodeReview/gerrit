@@ -25,6 +25,7 @@ public class FileInfo {
   public long sizeDelta;
   public long size;
 
+  @Override
   public boolean equals(Object o) {
     if (o instanceof FileInfo) {
       FileInfo fileInfo = (FileInfo) o;
@@ -37,5 +38,10 @@ public class FileInfo {
           && Objects.equals(size, fileInfo.size);
     }
     return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(status, binary, oldPath, linesInserted, linesDeleted, sizeDelta, size);
   }
 }

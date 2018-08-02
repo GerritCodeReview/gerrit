@@ -16,6 +16,29 @@
       "revId": "bddcb0df37302a6cb003192e8341af5f25957b6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca15abea_a2a76995",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-02T10:19:13Z",
+      "side": 1,
+      "message": "On reading the commit message subject, this is the only thing that I would expect to find in this change. The rest goes beyond \"Document AsyncReceiveCommits\" and IMHO should be done in a separate change.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 3
+      },
+      "revId": "bddcb0df37302a6cb003192e8341af5f25957b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

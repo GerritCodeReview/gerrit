@@ -20,6 +20,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.cache.serialize.JavaCacheSerializer;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;

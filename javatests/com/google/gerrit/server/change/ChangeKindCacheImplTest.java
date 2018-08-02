@@ -20,8 +20,8 @@ import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byt
 import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.change.ChangeKindCacheImpl.Key;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;

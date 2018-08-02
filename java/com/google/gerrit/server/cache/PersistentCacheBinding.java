@@ -16,6 +16,7 @@ package com.google.gerrit.server.cache;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.time.Duration;
 
 /** Configure a persistent cache declared within a {@link CacheModule} instance. */

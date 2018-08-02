@@ -20,6 +20,8 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.JavaCacheSerializer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;

@@ -17,7 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.common.cache.Cache;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.StringCacheSerializer;
+import com.google.gerrit.server.cache.serialize.StringCacheSerializer;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;

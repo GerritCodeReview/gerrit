@@ -45,6 +45,7 @@ junit_tests(
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/cache/testing",
         "//java/com/google/gerrit/server/group/testing",
         "//java/com/google/gerrit/server/ioutil",

@@ -20,10 +20,10 @@ import com.google.common.base.Converter;
 import com.google.common.base.Enums;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.server.cache.CacheSerializer;
-import com.google.gerrit.server.cache.ProtoCacheSerializers;
-import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdConverter;
 import com.google.gerrit.server.cache.proto.Cache.ConflictKeyProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.ObjectIdConverter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 

@@ -377,12 +377,12 @@ public class CmdLineParser {
       return o.depends();
     }
 
-    // TODO(hanwen): add @Override after args4j upgrade.
+    @Override
     public String[] forbids() {
       return null;
     }
 
-    // TODO(hanwen): add @Override after args4j upgrade.
+    @Override
     public boolean help() {
       return false;
     }
@@ -574,12 +574,12 @@ public class CmdLineParser {
       return false;
     }
 
-    // TODO(hanwen): add @Override after args4j upgrade.
+    @Override
     public String[] forbids() {
       return null;
     }
 
-    // TODO(hanwen): add @Override after args4j upgrade.
+    @Override
     public boolean help() {
       return false;
     }

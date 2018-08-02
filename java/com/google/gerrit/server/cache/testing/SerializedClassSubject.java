@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
 import java.lang.reflect.Field;
@@ -99,5 +100,12 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
                 .collect(toImmutableMap(Method::getName, Method::getGenericReturnType)))
         .named("no-argument abstract methods on %s", actual().getName())
         .isEqualTo(expectedMethods);
+  }
+
+  public void extendsClass(Type superclassType) {
+    isNotNull();
+    assertThat(actual().getGenericSuperclass())
+        .named("superclass of %s", actual().getName())
+        .isEqualTo(superclassType);
   }
 }

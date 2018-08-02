@@ -46,6 +46,30 @@
       "revId": "c022b12867639dbb6f6dda7e62e59d2817754c7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a870e8c_d6c87049",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-02T10:15:32Z",
+      "side": 1,
+      "message": "OK, I\u0027ll look into implementing it, but in the meantime I think it\u0027s good to explicitly document that there is no inheritance.",
+      "parentUuid": "4ae74720_f143c146",
+      "range": {
+        "startLine": 144,
+        "startChar": 34,
+        "endLine": 145,
+        "endChar": 54
+      },
+      "revId": "c022b12867639dbb6f6dda7e62e59d2817754c7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

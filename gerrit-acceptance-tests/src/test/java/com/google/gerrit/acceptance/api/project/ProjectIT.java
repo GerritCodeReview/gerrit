@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -123,17 +124,80 @@ public class ProjectIT extends AbstractDaemonTest {
   public void submitType() throws Exception {
     RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
 
-    ConfigInfo info = gApi.projects().name(project.get()).config();
+    ConfigInfo info = getConfig();
     assertThat(info.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     ConfigInput input = new ConfigInput();
     input.submitType = SubmitType.CHERRY_PICK;
-    info = gApi.projects().name(project.get()).config(input);
+    info = setConfig(input);
     assertThat(info.submitType).isEqualTo(SubmitType.CHERRY_PICK);
-    info = gApi.projects().name(project.get()).config();
+    info = getConfig();
     assertThat(info.submitType).isEqualTo(SubmitType.CHERRY_PICK);
 
     RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         project.get(), RefNames.REFS_CONFIG, initialHead, updatedHead);
+  }
+
+  @Test
+  public void maxObjectSizeIsNotSetByDefault() throws Exception {
+    ConfigInfo info = getConfig();
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+  }
+
+  @Test
+  public void maxObjectSizeCanBeSetAndCleared() throws Exception {
+    // Set a value
+    ConfigInput input = new ConfigInput();
+    input.maxObjectSizeLimit = "100k";
+    ConfigInfo info = setConfig(input);
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+
+    // Clear the value
+    input.maxObjectSizeLimit = "0";
+    info = setConfig(input);
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("0");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+  }
+
+  @Test
+  public void maxObjectSizeIsNotInheritedFromParent() throws Exception {
+    Project.NameKey child = createProject(name("child"), project);
+
+    ConfigInput input = new ConfigInput();
+    input.maxObjectSizeLimit = "100k";
+    ConfigInfo info = setConfig(input);
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+
+    info = getConfig(child);
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+  }
+
+  @Test
+  public void invalidMaxObjectSizeIsRejected() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.maxObjectSizeLimit = "100 foo";
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("100 foo");
+    setConfig(input);
+  }
+
+  private ConfigInfo setConfig(Project.NameKey name, ConfigInput input) throws Exception {
+    return gApi.projects().name(name.get()).config(input);
+  }
+
+  private ConfigInfo setConfig(ConfigInput input) throws Exception {
+    return setConfig(project, input);
+  }
+
+  private ConfigInfo getConfig(Project.NameKey name) throws Exception {
+    return gApi.projects().name(name.get()).config();
+  }
+
+  private ConfigInfo getConfig() throws Exception {
+    return getConfig(project);
   }
 }

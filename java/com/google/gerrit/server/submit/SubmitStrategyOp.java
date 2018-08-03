@@ -22,7 +22,6 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -103,7 +102,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
   @Override
   public final void updateRepo(RepoContext ctx) throws Exception {
-    logDebug("%s#updateRepo for change %s", getClass().getSimpleName(), toMerge.change().getId());
+    logger.atFine().log(
+        "%s#updateRepo for change %s", getClass().getSimpleName(), toMerge.change().getId());
     checkState(
         ctx.getRevWalk() == args.rw,
         "SubmitStrategyOp requires callers to call BatchUpdate#setRepository with exactly the same"
@@ -117,18 +117,18 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     if (alreadyMergedCommit == null) {
       updateRepoImpl(ctx);
     } else {
-      logDebug("Already merged as %s", alreadyMergedCommit.name());
+      logger.atFine().log("Already merged as %s", alreadyMergedCommit.name());
     }
     CodeReviewCommit tipAfter = args.mergeTip.getCurrentTip();
 
     if (Objects.equals(tipBefore, tipAfter)) {
-      logDebug("Did not move tip", getClass().getSimpleName());
+      logger.atFine().log("Did not move tip", getClass().getSimpleName());
       return;
     } else if (tipAfter == null) {
-      logDebug("No merge tip, no update to perform");
+      logger.atFine().log("No merge tip, no update to perform");
       return;
     }
-    logDebug("Moved tip from %s to %s", tipBefore, tipAfter);
+    logger.atFine().log("Moved tip from %s to %s", tipBefore, tipAfter);
 
     checkProjectConfig(ctx, tipAfter);
 
@@ -144,7 +144,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       throws IntegrationException {
     String refName = getDest().get();
     if (RefNames.REFS_CONFIG.equals(refName)) {
-      logDebug("Loading new configuration from %s", RefNames.REFS_CONFIG);
+      logger.atFine().log("Loading new configuration from %s", RefNames.REFS_CONFIG);
       try {
         ProjectConfig cfg = new ProjectConfig(getProject());
         cfg.load(ctx.getRevWalk(), commit);
@@ -216,7 +216,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
   @Override
   public final boolean updateChange(ChangeContext ctx) throws Exception {
-    logDebug("%s#updateChange for change %s", getClass().getSimpleName(), toMerge.change().getId());
+    logger.atFine().log(
+        "%s#updateChange for change %s", getClass().getSimpleName(), toMerge.change().getId());
     toMerge.setNotes(ctx.getNotes()); // Update change and notes from ctx.
     PatchSet.Id oldPsId = checkNotNull(toMerge.getPatchsetId());
     PatchSet.Id newPsId;
@@ -225,12 +226,12 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       // Either another thread won a race, or we are retrying a whole topic submission after one
       // repo failed with lock failure.
       if (alreadyMergedCommit == null) {
-        logDebug(
+        logger.atFine().log(
             "Change is already merged according to its status, but we were unable to find it"
                 + " merged into the current tip (%s)",
             args.mergeTip.getCurrentTip().name());
       } else {
-        logDebug("Change is already merged");
+        logger.atFine().log("Change is already merged");
       }
       changeAlreadyMerged = true;
       return false;
@@ -276,7 +277,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     checkNotNull(commit, "missing commit for change " + id);
     CommitMergeStatus s = commit.getStatusCode();
     checkNotNull(s, "status not set for change " + id + " expected to previously fail fast");
-    logDebug("Status of change %s (%s) on %s: %s", id, commit.name(), c.getDest(), s);
+    logger.atFine().log("Status of change %s (%s) on %s: %s", id, commit.name(), c.getDest(), s);
     setApproval(ctx, args.caller);
 
     mergeResultRev =
@@ -302,7 +303,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private PatchSet getOrCreateAlreadyMergedPatchSet(ChangeContext ctx)
       throws IOException, OrmException {
     PatchSet.Id psId = alreadyMergedCommit.getPatchsetId();
-    logDebug("Fixing up already-merged patch set %s", psId);
+    logger.atFine().log("Fixing up already-merged patch set %s", psId);
     PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());
     ctx.getRevWalk().parseBody(alreadyMergedCommit);
     ctx.getChange()
@@ -310,7 +311,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
             psId, alreadyMergedCommit.getShortMessage(), ctx.getChange().getOriginalSubject());
     PatchSet existing = args.psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
     if (existing != null) {
-      logDebug("Patch set row exists, only updating change");
+      logger.atFine().log("Patch set row exists, only updating change");
       return existing;
     }
     // No patch set for the already merged commit, although we know it came form
@@ -336,7 +337,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     PatchSet.Id oldPsId = toMerge.getPatchsetId();
     PatchSet.Id newPsId = ctx.getChange().currentPatchSetId();
 
-    logDebug("Add approval for %s", id);
+    logger.atFine().log("Add approval for %s", id);
     ChangeUpdate origPsUpdate = ctx.getUpdate(oldPsId);
     origPsUpdate.putReviewer(user.getAccountId(), REVIEWER);
     LabelNormalizer.Result normalized = approve(ctx, origPsUpdate);
@@ -397,7 +398,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // change happened.
     for (PatchSetApproval psa : normalized.unchanged()) {
       if (includeUnchanged || psa.isLegacySubmit()) {
-        logDebug("Adding submit label %s", psa);
+        logger.atFine().log("Adding submit label %s", psa);
         update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
       }
     }
@@ -488,7 +489,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private void setMerged(ChangeContext ctx, ChangeMessage msg) throws OrmException {
     Change c = ctx.getChange();
     ReviewDb db = ctx.getDb();
-    logDebug("Setting change %s merged", c.getId());
+    logger.atFine().log("Setting change %s merged", c.getId());
     c.setStatus(Change.Status.MERGED);
     c.setSubmissionId(args.submissionId.toStringForStorage());
 
@@ -511,7 +512,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       // If we naively execute postUpdate even if the change is already merged when updateChange
       // being, then we are subject to a race where postUpdate steps are run twice if two submit
       // processes run at the same time.
-      logDebug("Skipping post-update steps for change %s", getId());
+      logger.atFine().log("Skipping post-update steps for change %s", getId());
       return;
     }
     postUpdateImpl(ctx);
@@ -594,38 +595,5 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       throw new IntegrationException(
           "cannot update gitlink for the commit at branch: " + args.destBranch);
     }
-  }
-
-  protected final void logDebug(String msg) {
-    logger.atFine().log(this.args.submissionId + msg);
-  }
-
-  protected final void logDebug(String msg, @Nullable Object arg) {
-    logger.atFine().log(this.args.submissionId + msg, arg);
-  }
-
-  protected final void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
-    logger.atFine().log(this.args.submissionId + msg, arg1, arg2);
-  }
-
-  protected final void logDebug(
-      String msg,
-      @Nullable Object arg1,
-      @Nullable Object arg2,
-      @Nullable Object arg3,
-      @Nullable Object arg4) {
-    logger.atFine().log(this.args.submissionId + msg, arg1, arg2, arg3, arg4);
-  }
-
-  protected final void logWarn(String msg, Throwable t) {
-    logger.atWarning().withCause(t).log("%s%s", args.submissionId, msg);
-  }
-
-  protected void logError(String msg, Throwable t) {
-    logger.atSevere().withCause(t).log("%s%s", args.submissionId, msg);
-  }
-
-  protected void logError(String msg) {
-    logError(msg, null);
   }
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.logging;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.server.util.RequestId;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import org.junit.After;
@@ -107,10 +108,28 @@ public class TraceContextTest {
   }
 
   @Test
+  public void openContextWithRequestId() {
+    assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
+    try (TraceContext traceContext = new TraceContext(RequestId.Id.RECEIVE_ID, "foo")) {
+      SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
+      assertThat(tagMap.keySet()).containsExactly("RECEIVE_ID");
+      assertThat(tagMap.get("RECEIVE_ID")).containsExactly("foo");
+    }
+    assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
+  }
+
+  @Test
+  public void cannotOpenContextWithNullRequestId() {
+    exception.expect(NullPointerException.class);
+    exception.expectMessage("request ID is required");
+    try (TraceContext traceContext = new TraceContext((RequestId.Id) null, "foo")) {}
+  }
+
+  @Test
   public void cannotOpenContextWithNullTagName() {
     exception.expect(NullPointerException.class);
     exception.expectMessage("tag name is required");
-    try (TraceContext traceContext = new TraceContext(null, "foo")) {}
+    try (TraceContext traceContext = new TraceContext((String) null, "foo")) {}
   }
 
   @Test

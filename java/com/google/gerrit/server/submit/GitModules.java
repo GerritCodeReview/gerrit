@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
-import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.server.util.git.SubmoduleSectionParser;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -51,7 +50,6 @@ public class GitModules {
 
   private static final String GIT_MODULES = ".gitmodules";
 
-  private final RequestId submissionId;
   private final Branch.NameKey branch;
   Set<SubmoduleSubscription> subscriptions;
 
@@ -62,9 +60,8 @@ public class GitModules {
       @Assisted MergeOpRepoManager orm)
       throws IOException {
     this.branch = branch;
-    this.submissionId = orm.getSubmissionId();
     Project.NameKey project = branch.getParentKey();
-    logDebug("Loading .gitmodules of %s for project %s", branch, project);
+    logger.atFine().log("Loading .gitmodules of %s for project %s", branch, project);
     try {
       OpenRepo or = orm.getRepo(project);
       ObjectId id = or.repo.resolve(branch.get());
@@ -76,7 +73,7 @@ public class GitModules {
       try (TreeWalk tw = TreeWalk.forPath(or.repo, GIT_MODULES, commit.getTree())) {
         if (tw == null || (tw.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
           subscriptions = Collections.emptySet();
-          logDebug("The .gitmodules file doesn't exist in %s", branch);
+          logger.atFine().log("The .gitmodules file doesn't exist in %s", branch);
           return;
         }
       }
@@ -94,22 +91,14 @@ public class GitModules {
   }
 
   public Collection<SubmoduleSubscription> subscribedTo(Branch.NameKey src) {
-    logDebug("Checking for a subscription of %s for %s", src, branch);
+    logger.atFine().log("Checking for a subscription of %s for %s", src, branch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     for (SubmoduleSubscription s : subscriptions) {
       if (s.getSubmodule().equals(src)) {
-        logDebug("Found %s", s);
+        logger.atFine().log("Found %s", s);
         ret.add(s);
       }
     }
     return ret;
-  }
-
-  private void logDebug(String msg, @Nullable Object arg) {
-    logger.atFine().log(submissionId + msg, arg);
-  }
-
-  private void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
-    logger.atFine().log(submissionId + msg, arg1, arg2);
   }
 }

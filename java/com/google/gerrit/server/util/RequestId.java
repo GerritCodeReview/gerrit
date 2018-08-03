@@ -49,14 +49,7 @@ public class RequestId {
   private RequestId(String resourceId) {
     Hasher h = Hashing.murmur3_128().newHasher();
     h.putLong(Thread.currentThread().getId()).putUnencodedChars(MACHINE_ID);
-    str =
-        "["
-            + resourceId
-            + "-"
-            + TimeUtil.nowTs().getTime()
-            + "-"
-            + h.hash().toString().substring(0, 8)
-            + "]";
+    str = resourceId + "-" + TimeUtil.nowTs().getTime() + "-" + h.hash().toString().substring(0, 8);
   }
 
   @Override

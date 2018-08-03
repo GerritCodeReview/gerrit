@@ -38,12 +38,12 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
+import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
-import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -55,6 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -126,10 +127,7 @@ public abstract class BatchUpdate implements AutoCloseable {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void execute(
-        Collection<BatchUpdate> updates,
-        BatchUpdateListener listener,
-        @Nullable RequestId requestId,
-        boolean dryRun)
+        Collection<BatchUpdate> updates, BatchUpdateListener listener, boolean dryRun)
         throws UpdateException, RestApiException {
       checkNotNull(listener);
       checkDifferentProject(updates);
@@ -141,11 +139,11 @@ public abstract class BatchUpdate implements AutoCloseable {
       if (migration.disableChangeReviewDb()) {
         ImmutableList<NoteDbBatchUpdate> noteDbUpdates =
             (ImmutableList) ImmutableList.copyOf(updates);
-        NoteDbBatchUpdate.execute(noteDbUpdates, listener, requestId, dryRun);
+        NoteDbBatchUpdate.execute(noteDbUpdates, listener, dryRun);
       } else {
         ImmutableList<ReviewDbBatchUpdate> reviewDbUpdates =
             (ImmutableList) ImmutableList.copyOf(updates);
-        ReviewDbBatchUpdate.execute(reviewDbUpdates, listener, requestId, dryRun);
+        ReviewDbBatchUpdate.execute(reviewDbUpdates, listener, dryRun);
       }
     }
 
@@ -156,20 +154,6 @@ public abstract class BatchUpdate implements AutoCloseable {
           projectCounts.entrySet().size() == updates.size(),
           "updates must all be for different projects, got: %s",
           projectCounts);
-    }
-  }
-
-  static void setRequestIds(
-      Collection<? extends BatchUpdate> updates, @Nullable RequestId requestId) {
-    if (requestId != null) {
-      for (BatchUpdate u : updates) {
-        checkArgument(
-            u.requestId == null || u.requestId == requestId,
-            "refusing to overwrite RequestId %s in update with %s",
-            u.requestId,
-            requestId);
-        u.setRequestId(requestId);
-      }
     }
   }
 
@@ -248,7 +232,6 @@ public abstract class BatchUpdate implements AutoCloseable {
   protected BatchRefUpdate batchRefUpdate;
   protected Order order;
   protected OnSubmitValidators onSubmitValidators;
-  protected RequestId requestId;
   protected PushCertificate pushCert;
   protected String refLogMessage;
 
@@ -283,11 +266,6 @@ public abstract class BatchUpdate implements AutoCloseable {
   }
 
   protected abstract Context newContext();
-
-  public BatchUpdate setRequestId(RequestId requestId) {
-    this.requestId = requestId;
-    return this;
-  }
 
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
     checkState(this.repoView == null, "repo already set");
@@ -388,8 +366,8 @@ public abstract class BatchUpdate implements AutoCloseable {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
-    if (requestId != null) {
-      logger.atFine().withCause(t).log(requestId + "%s", msg);
+    if (hasRequestId()) {
+      logger.atFine().withCause(t).log("%s", msg);
     }
   }
 
@@ -397,8 +375,8 @@ public abstract class BatchUpdate implements AutoCloseable {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
-    if (requestId != null) {
-      logger.atFine().log(requestId + msg);
+    if (hasRequestId()) {
+      logger.atFine().log(msg);
     }
   }
 
@@ -406,8 +384,8 @@ public abstract class BatchUpdate implements AutoCloseable {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
-    if (requestId != null) {
-      logger.atFine().log(requestId + msg, arg);
+    if (hasRequestId()) {
+      logger.atFine().log(msg, arg);
     }
   }
 
@@ -415,8 +393,13 @@ public abstract class BatchUpdate implements AutoCloseable {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
-    if (requestId != null) {
-      logger.atFine().log(requestId + msg, arg1, arg2);
+    if (hasRequestId()) {
+      logger.atFine().log(msg, arg1, arg2);
     }
+  }
+
+  private boolean hasRequestId() {
+    Set<String> tags = LoggingContext.getInstance().getTags().asMap().keySet();
+    return tags.contains("submission_id") || tags.contains("receive_id");
   }
 }

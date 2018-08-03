@@ -14,6 +14,7 @@
 
 public final class Main {
   private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
+  private static final String FLOGGER_LOGGING_CONTEXT = "flogger.logging_context";
 
   // We don't do any real work here because we need to import
   // the archive lookup code and we cannot import a class in
@@ -42,6 +43,9 @@ public final class Main {
   }
 
   private static void configureFloggerBackend() {
+    System.setProperty(
+        FLOGGER_LOGGING_CONTEXT, "com.google.gerrit.server.logging.LoggingContext#getInstance");
+
     if (System.getProperty(FLOGGER_BACKEND_PROPERTY) != null) {
       // Flogger backend is already configured
       return;

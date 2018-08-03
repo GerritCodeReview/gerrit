@@ -120,7 +120,7 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void config() throws Exception {
+  public void submitType() throws Exception {
     RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
 
     ConfigInfo info = gApi.projects().name(project.get()).config();

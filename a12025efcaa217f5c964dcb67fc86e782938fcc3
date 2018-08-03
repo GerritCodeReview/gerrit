@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c95b6ff5_d77fcc41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-03T20:35:14Z",
+      "side": 1,
+      "message": "Add current patchset ...",
+      "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1a8d324_7fa3df45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-03T20:35:14Z",
+      "side": 1,
+      "message": "The reason, it wasn\u0027t added, is because both actions WIP/Private are change related actions while drafts patchset are patchset related. For example, you could have many non draft patchsets for a change and the same time have some draft patchsets for the same change. This is not possible for WIP/Private concept: Entire change is always only Private/WIP or not.\n\nThat why I\u0027m not happy with term \"regression\" in that context. May be weaken that term to something like: \"Current patch set is currently not a part of Private-state-changed and wip-state-changed events\".",
+      "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8615b24a_159788aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-03T20:35:14Z",
+      "side": 1,
+      "message": "This change",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77c0d8f5_861508dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-03T20:35:14Z",
+      "side": 1,
+      "message": "Add footer with the reference to the issue:\n\n  Bug: Issue 8202",
+      "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60702857_b40221b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetPrivateOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-03T20:35:14Z",
+      "side": 1,
+      "message": "Better:\n\n  ps \u003d psUtil.get(ctx.getDb(), notes, change.currentPatchSetId());\n\nBecause the PatchSetUtil#current() would just call PatchSetUtil#get() anyway, and this is consistent how it\u0027s done in WorkInProgressOp.java.",
+      "range": {
+        "startLine": 76,
+        "startChar": 9,
+        "endLine": 76,
+        "endChar": 44
+      },
+      "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

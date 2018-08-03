@@ -110,6 +110,24 @@
       "revId": "d9fd756060d4cfdfcdcf954ffeb8ebe3ad2d7f24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e3829a4_948461e5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-08-03T12:45:53Z",
+      "side": 1,
+      "message": "I think here it should be \"refs/tags/*\" whereas the RefNames.REFS_TAGS is \"refs/tags/\" (missing a \"*\"). But I have created a variable from RefNames.REFS_TAGS like this: \nALL_REFS_TAGS \u003d RefNames.REFS_TAGS + \"*\"",
+      "parentUuid": "1c422129_b7c2eb9a",
+      "revId": "d9fd756060d4cfdfcdcf954ffeb8ebe3ad2d7f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

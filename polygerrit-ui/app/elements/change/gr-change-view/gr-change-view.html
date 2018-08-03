@@ -51,6 +51,7 @@ limitations under the License.
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
 <link rel="import" href="../gr-thread-list/gr-thread-list.html">
+<link rel="import" href="../gr-upload-help-dialog/gr-upload-help-dialog.html">
 
 <dom-module id="gr-change-view">
   <template>
@@ -242,6 +243,9 @@ limitations under the License.
       }
       #includedInOverlay {
         width: 65em;
+      }
+      #uploadHelpOverlay {
+        width: 50em;
       }
       @media screen and (min-width: 80em) {
         .commitMessage {
@@ -527,6 +531,7 @@ limitations under the License.
             files-expanded="[[_filesExpanded]]"
             on-open-diff-prefs="_handleOpenDiffPrefs"
             on-open-download-dialog="_handleOpenDownloadDialog"
+            on-open-upload-help-dialog="_handleOpenUploadHelpDialog"
             on-open-included-in-dialog="_handleOpenIncludedInDialog"
             on-expand-diffs="_expandAllDiffs"
             on-collapse-diffs="_collapseAllDiffs">
@@ -598,6 +603,10 @@ limitations under the License.
           patch-num="[[_patchRange.patchNum]]"
           config="[[_serverConfig.download]]"
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
+    </gr-overlay>
+    <gr-overlay id="uploadHelpOverlay" with-backdrop>
+      <gr-upload-help-dialog
+          on-close="_handleCloseUploadHelpDialog"></gr-upload-help-dialog>
     </gr-overlay>
     <gr-overlay id="includedInOverlay" with-backdrop>
       <gr-included-in-dialog

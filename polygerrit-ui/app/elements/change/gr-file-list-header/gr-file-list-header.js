@@ -19,9 +19,34 @@
 
   // Maximum length for patch set descriptions.
   const PATCH_DESC_MAX_LENGTH = 500;
+  const MERGED_STATUS = 'MERGED';
 
   Polymer({
     is: 'gr-file-list-header',
+
+    /**
+     * @event expand-diffs
+     */
+
+    /**
+     * @event collapse-diffs
+     */
+
+    /**
+     * @event open-diff-prefs
+     */
+
+    /**
+     * @event open-included-in-dialog
+     */
+
+    /**
+     * @event open-download-dialog
+     */
+
+    /**
+     * @event open-upload-help-dialog
+     */
 
     properties: {
       account: Object,
@@ -189,7 +214,8 @@
 
     _handleDownloadTap(e) {
       e.preventDefault();
-      this.fire('open-download-dialog');
+      this.dispatchEvent(
+          new CustomEvent('open-download-dialog', {bubbles: false}));
     },
 
     _computeEditModeClass(editMode) {
@@ -209,7 +235,23 @@
     },
 
     _hideIncludedIn(change) {
-      return change && change.status === 'MERGED' ? '' : 'hide';
+      return change && change.status === MERGED_STATUS ? '' : 'hide';
+    },
+
+    _handleUploadTap(e) {
+      e.preventDefault();
+      this.dispatchEvent(
+          new CustomEvent('open-upload-help-dialog', {bubbles: false}));
+    },
+
+    _computeUploadHelpContainerClass(change, account) {
+      const changeIsMerged = change && change.status === MERGED_STATUS;
+      const ownerId = change && change.owner && change.owner._account_id ?
+          change.owner._account_id : null;
+      const userId = account && account._account_id;
+      const userIsOwner = ownerId && userId && ownerId === userId;
+      const hideContainer = !userIsOwner || changeIsMerged;
+      return 'uploadContainer desktop' + (hideContainer ? ' hide' : '');
     },
   });
 })();

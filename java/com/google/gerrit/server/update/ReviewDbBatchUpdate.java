@@ -28,7 +28,6 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.metrics.Description;
@@ -51,6 +50,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InsertedObject;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
@@ -58,7 +58,6 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -240,15 +239,11 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
   }
 
   static void execute(
-      ImmutableList<ReviewDbBatchUpdate> updates,
-      BatchUpdateListener listener,
-      @Nullable RequestId requestId,
-      boolean dryrun)
+      ImmutableList<ReviewDbBatchUpdate> updates, BatchUpdateListener listener, boolean dryrun)
       throws UpdateException, RestApiException {
     if (updates.isEmpty()) {
       return;
     }
-    setRequestIds(updates, requestId);
     try {
       Order order = getOrder(updates, listener);
       boolean updateChangesInParallel = getUpdateChangesInParallel(updates);
@@ -358,7 +353,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
 
   @Override
   public void execute(BatchUpdateListener listener) throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), listener, requestId, false);
+    execute(ImmutableList.of(this), listener, false);
   }
 
   @Override
@@ -616,7 +611,6 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     NoteDbUpdateManager.StagedResult noteDbResult;
     boolean dirty;
     boolean deleted;
-    private String taskId;
 
     private ChangeTask(
         Change.Id id, Collection<BatchUpdateOp> changeOps, Thread mainThread, boolean dryrun) {
@@ -628,27 +622,29 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
 
     @Override
     public Void call() throws Exception {
-      taskId = id.toString() + "-" + Thread.currentThread().getId();
-      if (Thread.currentThread() == mainThread) {
-        initRepository();
-        Repository repo = repoView.getRepository();
-        try (RevWalk rw = new RevWalk(repo)) {
-          call(ReviewDbBatchUpdate.this.db, repo, rw);
+      try (TraceContext traceContext =
+          new TraceContext("task_id", id.toString() + "-" + Thread.currentThread().getId())) {
+        if (Thread.currentThread() == mainThread) {
+          initRepository();
+          Repository repo = repoView.getRepository();
+          try (RevWalk rw = new RevWalk(repo)) {
+            call(ReviewDbBatchUpdate.this.db, repo, rw);
+          }
+        } else {
+          // Possible optimization: allow Ops to declare whether they need to
+          // access the repo from updateChange, and don't open in this thread
+          // unless we need it. However, as of this writing the only operations
+          // that are executed in parallel are during ReceiveCommits, and they
+          // all need the repo open anyway. (The non-parallel case above does not
+          // reopen the repo.)
+          try (ReviewDb threadLocalDb = schemaFactory.open();
+              Repository repo = repoManager.openRepository(project);
+              RevWalk rw = new RevWalk(repo)) {
+            call(threadLocalDb, repo, rw);
+          }
         }
-      } else {
-        // Possible optimization: allow Ops to declare whether they need to
-        // access the repo from updateChange, and don't open in this thread
-        // unless we need it. However, as of this writing the only operations
-        // that are executed in parallel are during ReceiveCommits, and they
-        // all need the repo open anyway. (The non-parallel case above does not
-        // reopen the repo.)
-        try (ReviewDb threadLocalDb = schemaFactory.open();
-            Repository repo = repoManager.openRepository(project);
-            RevWalk rw = new RevWalk(repo)) {
-          call(threadLocalDb, repo, rw);
-        }
+        return null;
       }
-      return null;
     }
 
     private void call(ReviewDb db, Repository repo, RevWalk rw) throws Exception {
@@ -821,18 +817,6 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
 
     private boolean isNewChange(Change.Id id) {
       return newChanges.containsKey(id);
-    }
-
-    private void logDebug(String msg, Throwable t) {
-      ReviewDbBatchUpdate.this.logDebug("[" + taskId + "] " + msg, t);
-    }
-
-    private void logDebug(String msg) {
-      ReviewDbBatchUpdate.this.logDebug("[" + taskId + "] " + msg);
-    }
-
-    private void logDebug(String msg, @Nullable Object arg) {
-      ReviewDbBatchUpdate.this.logDebug("[" + taskId + "] " + msg, arg);
     }
   }
 

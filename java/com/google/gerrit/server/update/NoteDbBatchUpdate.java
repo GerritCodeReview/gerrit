@@ -21,7 +21,6 @@ import static java.util.Comparator.comparing;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -35,7 +34,6 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
-import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -68,15 +66,11 @@ public class NoteDbBatchUpdate extends BatchUpdate {
   }
 
   static void execute(
-      ImmutableList<NoteDbBatchUpdate> updates,
-      BatchUpdateListener listener,
-      @Nullable RequestId requestId,
-      boolean dryrun)
+      ImmutableList<NoteDbBatchUpdate> updates, BatchUpdateListener listener, boolean dryrun)
       throws UpdateException, RestApiException {
     if (updates.isEmpty()) {
       return;
     }
-    setRequestIds(updates, requestId);
 
     try {
       @SuppressWarnings("deprecation")
@@ -293,7 +287,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
 
   @Override
   public void execute(BatchUpdateListener listener) throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), listener, requestId, false);
+    execute(ImmutableList.of(this), listener, false);
   }
 
   @Override

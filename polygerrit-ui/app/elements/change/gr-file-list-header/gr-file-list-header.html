@@ -78,13 +78,13 @@ limitations under the License.
         align-items: center;
         display: flex;
       }
-      .downloadContainer {
-        margin-right: 16px;
-      }
+      .downloadContainer,
+      .uploadContainer,
       .includedInContainer {
         margin-right: 16px;
       }
-      .includedInContainer.hide {
+      .includedInContainer.hide,
+      .uploadContainer.hide {
         display: none;
       }
       .rightControls {
@@ -210,6 +210,11 @@ limitations under the License.
               patch-num="[[patchNum]]"
               change="[[change]]"></gr-edit-controls>
           <span class="separator"></span>
+        </span>
+        <span class$="[[_computeUploadHelpContainerClass(change, account)]]">
+          <gr-button link
+              class="upload"
+              on-tap="_handleUploadTap">Update Change</gr-button>
         </span>
         <span class="downloadContainer desktop">
           <gr-button link

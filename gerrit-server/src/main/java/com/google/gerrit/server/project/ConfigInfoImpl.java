@@ -41,7 +41,7 @@ public class ConfigInfoImpl extends ConfigInfo {
   public ConfigInfoImpl(
       boolean serverEnableSignedPush,
       ProjectControl control,
-      TransferConfig config,
+      TransferConfig transferConfig,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
@@ -100,11 +100,12 @@ public class ConfigInfoImpl extends ConfigInfo {
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
     maxObjectSizeLimit.value =
-        config.getEffectiveMaxObjectSizeLimit(projectState) == config.getMaxObjectSizeLimit()
-            ? config.getFormattedMaxObjectSizeLimit()
+        transferConfig.getEffectiveMaxObjectSizeLimit(projectState)
+                == transferConfig.getMaxObjectSizeLimit()
+            ? transferConfig.getFormattedMaxObjectSizeLimit()
             : p.getMaxObjectSizeLimit();
     maxObjectSizeLimit.configuredValue = p.getMaxObjectSizeLimit();
-    maxObjectSizeLimit.inheritedValue = config.getFormattedMaxObjectSizeLimit();
+    maxObjectSizeLimit.inheritedValue = transferConfig.getFormattedMaxObjectSizeLimit();
     this.maxObjectSizeLimit = maxObjectSizeLimit;
 
     this.submitType = p.getSubmitType();

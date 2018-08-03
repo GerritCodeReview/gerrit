@@ -58,7 +58,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
-  private final TransferConfig config;
+  private final TransferConfig transferConfig;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
   private final AllProjectsName allProjects;
@@ -71,7 +71,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
-      TransferConfig config,
+      TransferConfig transferConfig,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
@@ -81,7 +81,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
-    this.config = config;
+    this.transferConfig = transferConfig;
     this.pluginConfigEntries = pluginConfigEntries;
     this.cfgFactory = cfgFactory;
     this.allProjects = allProjects;
@@ -176,7 +176,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       return new ConfigInfoImpl(
           serverEnableSignedPush,
           state.controlFor(user.get()),
-          config,
+          transferConfig,
           pluginConfigEntries,
           cfgFactory,
           allProjects,

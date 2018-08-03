@@ -70,6 +70,24 @@
       "revId": "12eb3cd01dd2f2ce8f41e4e2ef212f1cb4f336b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0d16603_e845d667",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-03T17:01:32Z",
+      "side": 1,
+      "message": "Ack. I think I was interpreting this filter call incorrectly.\n\nI agree with Viktar that this string feels like it should be a constant, but I don\u0027t think it needs to block this.",
+      "parentUuid": "b30f09c8_43113373",
+      "revId": "12eb3cd01dd2f2ce8f41e4e2ef212f1cb4f336b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

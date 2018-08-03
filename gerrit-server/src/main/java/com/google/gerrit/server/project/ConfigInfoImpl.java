@@ -127,11 +127,15 @@ public class ConfigInfoImpl extends ConfigInfo {
     MaxObjectSizeLimitInfo info = new MaxObjectSizeLimitInfo();
     info.value =
         projectState.getEffectiveMaxObjectSizeLimit() == transferConfig.getMaxObjectSizeLimit()
-            ? transferConfig.getFormattedMaxObjectSizeLimit()
-            : p.getMaxObjectSizeLimit();
+            ? value(transferConfig.getMaxObjectSizeLimit())
+            : value(projectState.getMaxObjectSizeLimit());
     info.configuredValue = p.getMaxObjectSizeLimit();
     info.inheritedValue = transferConfig.getFormattedMaxObjectSizeLimit();
     return info;
+  }
+
+  private String value(long value) {
+    return value == 0 ? null : String.valueOf(value);
   }
 
   private Map<String, Map<String, ConfigParameterInfo>> getPluginConfig(

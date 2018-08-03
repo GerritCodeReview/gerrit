@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d4662586_edaef402",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1069975
+      },
+      "writtenOn": "2018-08-03T20:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c95b6ff5_d77fcc41",
+      "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1a8d324_7fa3df45",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae0e7eac_f28325d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1069975
+      },
+      "writtenOn": "2018-08-03T20:50:42Z",
+      "side": 1,
+      "message": "Fair enough, that\u0027s understandable. Reworded.",
+      "parentUuid": "f1a8d324_7fa3df45",
+      "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "afdbb725_5b0d8808",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1069975
+      },
+      "writtenOn": "2018-08-03T20:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8615b24a_159788aa",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77c0d8f5_861508dd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -73,6 +133,24 @@
       "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "287b4cf7_0385538b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1069975
+      },
+      "writtenOn": "2018-08-03T20:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77c0d8f5_861508dd",
+      "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -96,6 +174,30 @@
       "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "facdec79_e04ae17b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetPrivateOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1069975
+      },
+      "writtenOn": "2018-08-03T20:50:42Z",
+      "side": 1,
+      "message": "Ah, makes sense. Done.",
+      "parentUuid": "60702857_b40221b6",
+      "range": {
+        "startLine": 76,
+        "startChar": 9,
+        "endLine": 76,
+        "endChar": 44
+      },
+      "revId": "a12025efcaa217f5c964dcb67fc86e782938fcc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

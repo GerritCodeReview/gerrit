@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fcd1cba_d0b824ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-03T20:52:42Z",
+      "side": 1,
+      "message": "Nit: no new line between Bug footer and Change-Id, e.g.: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/147651",
+      "revId": "9bac624b9e3d9830d970202fb3ca1d52b8f265aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

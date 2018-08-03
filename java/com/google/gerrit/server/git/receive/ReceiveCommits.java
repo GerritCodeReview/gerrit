@@ -123,6 +123,7 @@ import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -363,7 +364,6 @@ class ReceiveCommits {
   private final PermissionBackend.ForProject permissions;
   private final Project project;
   private final Repository repo;
-  private final RequestId receiveId;
 
   // Collections populated during processing.
   private final List<UpdateGroupsRequest> updateGroups;
@@ -504,7 +504,6 @@ class ReceiveCommits {
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());
-    receiveId = RequestId.forProject(project.getNameKey());
     rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
     this.canonicalWebUrl = canonicalWebUrl;
 
@@ -563,84 +562,87 @@ class ReceiveCommits {
     closeProgress = progress.beginSubTask("closed", UNKNOWN);
     commandProgress = progress.beginSubTask("refs", UNKNOWN);
 
-    try {
-      parsePushOptions();
-      logDebug("Parsing %d commands", commands.size());
-      for (ReceiveCommand cmd : commands) {
-        if (!projectState.getProject().getState().permitsWrite()) {
-          reject(cmd, "prohibited by Gerrit: project state does not permit write");
-          break;
-        }
-        parseCommand(cmd);
-      }
-    } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
-      for (ReceiveCommand cmd : actualCommands) {
-        if (cmd.getResult() == NOT_ATTEMPTED) {
-          cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
-        }
-      }
-      logError(String.format("Failed to process refs in %s", project.getName()), err);
-    }
-
-    List<CreateRequest> newChanges = Collections.emptyList();
-    if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
-      newChanges = selectNewAndReplacedChangesFromMagicBranch();
-    }
-    preparePatchSetsForReplace(newChanges);
-    insertChangesAndPatchSets(newChanges);
-    newProgress.end();
-    replaceProgress.end();
-
-    if (!errors.isEmpty()) {
-      logDebug("Handling error conditions: %s", errors.keySet());
-      for (ReceiveError error : errors.keySet()) {
-        receivePack.sendMessage(buildError(error, errors.get(error)));
-      }
-      receivePack.sendMessage(String.format("User: %s", user.getLoggableName()));
-      receivePack.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
-    }
-
-    Set<Branch.NameKey> branches = new HashSet<>();
-    for (ReceiveCommand c : actualCommands) {
-      // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
-      // should happen in this loop are things that can't happen within one BatchUpdate because they
-      // involve kicking off an additional BatchUpdate.
-      if (c.getResult() != OK) {
-        continue;
-      }
-      if (isHead(c) || isConfig(c)) {
-        switch (c.getType()) {
-          case CREATE:
-          case UPDATE:
-          case UPDATE_NONFASTFORWARD:
-            autoCloseChanges(c);
-            branches.add(new Branch.NameKey(project.getNameKey(), c.getRefName()));
+    try (TraceContext traceContex =
+        new TraceContext(RequestId.Id.RECEIVE_ID, RequestId.forProject(project.getNameKey()))) {
+      try {
+        parsePushOptions();
+        logger.atFine().log("Parsing %d commands", commands.size());
+        for (ReceiveCommand cmd : commands) {
+          if (!projectState.getProject().getState().permitsWrite()) {
+            reject(cmd, "prohibited by Gerrit: project state does not permit write");
             break;
+          }
+          parseCommand(cmd);
+        }
+      } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
+        for (ReceiveCommand cmd : actualCommands) {
+          if (cmd.getResult() == NOT_ATTEMPTED) {
+            cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
+          }
+        }
+        logger.atSevere().withCause(err).log("Failed to process refs in %s", project.getName());
+      }
 
-          case DELETE:
-            break;
+      List<CreateRequest> newChanges = Collections.emptyList();
+      if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
+        newChanges = selectNewAndReplacedChangesFromMagicBranch();
+      }
+      preparePatchSetsForReplace(newChanges);
+      insertChangesAndPatchSets(newChanges);
+      newProgress.end();
+      replaceProgress.end();
+
+      if (!errors.isEmpty()) {
+        logger.atFine().log("Handling error conditions: %s", errors.keySet());
+        for (ReceiveError error : errors.keySet()) {
+          receivePack.sendMessage(buildError(error, errors.get(error)));
+        }
+        receivePack.sendMessage(String.format("User: %s", user.getLoggableName()));
+        receivePack.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
+      }
+
+      Set<Branch.NameKey> branches = new HashSet<>();
+      for (ReceiveCommand c : actualCommands) {
+        // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
+        // should happen in this loop are things that can't happen within one BatchUpdate because
+        // they involve kicking off an additional BatchUpdate.
+        if (c.getResult() != OK) {
+          continue;
+        }
+        if (isHead(c) || isConfig(c)) {
+          switch (c.getType()) {
+            case CREATE:
+            case UPDATE:
+            case UPDATE_NONFASTFORWARD:
+              autoCloseChanges(c);
+              branches.add(new Branch.NameKey(project.getNameKey(), c.getRefName()));
+              break;
+
+            case DELETE:
+              break;
+          }
         }
       }
-    }
 
-    // Update superproject gitlinks if required.
-    if (!branches.isEmpty()) {
-      try (MergeOpRepoManager orm = ormProvider.get()) {
-        orm.setContext(db, TimeUtil.nowTs(), user, receiveId);
-        SubmoduleOp op = subOpFactory.create(branches, orm);
-        op.updateSuperProjects();
-      } catch (SubmoduleException e) {
-        logError("Can't update the superprojects", e);
+      // Update superproject gitlinks if required.
+      if (!branches.isEmpty()) {
+        try (MergeOpRepoManager orm = ormProvider.get()) {
+          orm.setContext(db, TimeUtil.nowTs(), user);
+          SubmoduleOp op = subOpFactory.create(branches, orm);
+          op.updateSuperProjects();
+        } catch (SubmoduleException e) {
+          logger.atSevere().withCause(e).log("Can't update the superprojects");
+        }
       }
+
+      // Update account info with details discovered during commit walking.
+      updateAccountInfo();
+
+      closeProgress.end();
+      commandProgress.end();
+      progress.end();
+      reportMessages(newChanges);
     }
-
-    // Update account info with details discovered during commit walking.
-    updateAccountInfo();
-
-    closeProgress.end();
-    commandProgress.end();
-    progress.end();
-    reportMessages(newChanges);
   }
 
   private void reportMessages(List<CreateRequest> newChanges) {
@@ -689,7 +691,7 @@ class ReceiveCommits {
             subject = receivePack.getRevWalk().parseCommit(u.newCommitId).getShortMessage();
           } catch (IOException e) {
             // Log and fall back to original change subject
-            logWarn("failed to get subject for edit patch set", e);
+            logger.atWarning().withCause(e).log("failed to get subject for edit patch set");
             subject = u.notes.getChange().getSubject();
           }
         } else {
@@ -725,12 +727,11 @@ class ReceiveCommits {
   private void insertChangesAndPatchSets(List<CreateRequest> newChanges) {
     ReceiveCommand magicBranchCmd = magicBranch != null ? magicBranch.cmd : null;
     if (magicBranchCmd != null && magicBranchCmd.getResult() != NOT_ATTEMPTED) {
-      logWarn(
-          String.format(
-              "Skipping change updates on %s because ref update failed: %s %s",
-              project.getName(),
-              magicBranchCmd.getResult(),
-              Strings.nullToEmpty(magicBranchCmd.getMessage())));
+      logger.atWarning().log(
+          "Skipping change updates on %s because ref update failed: %s %s",
+          project.getName(),
+          magicBranchCmd.getResult(),
+          Strings.nullToEmpty(magicBranchCmd.getMessage()));
       return;
     }
 
@@ -741,26 +742,25 @@ class ReceiveCommits {
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
       bu.setRepository(repo, rw, ins).updateChangesInParallel();
-      bu.setRequestId(receiveId);
       bu.setRefLogMessage("push");
 
-      logDebug("Adding %d replace requests", newChanges.size());
+      logger.atFine().log("Adding %d replace requests", newChanges.size());
       for (ReplaceRequest replace : replaceByChange.values()) {
         replace.addOps(bu, replaceProgress);
       }
 
-      logDebug("Adding %d create requests", newChanges.size());
+      logger.atFine().log("Adding %d create requests", newChanges.size());
       for (CreateRequest create : newChanges) {
         create.addOps(bu);
       }
 
-      logDebug("Adding %d group update requests", newChanges.size());
+      logger.atFine().log("Adding %d group update requests", newChanges.size());
       updateGroups.forEach(r -> r.addOps(bu));
 
-      logDebug("Adding %d additional ref updates", actualCommands.size());
+      logger.atFine().log("Adding %d additional ref updates", actualCommands.size());
       actualCommands.forEach(c -> bu.addRepoOnlyOp(new UpdateOneRefOp(c)));
 
-      logDebug("Executing batch");
+      logger.atFine().log("Executing batch");
       try {
         bu.execute();
       } catch (UpdateException e) {
@@ -777,7 +777,7 @@ class ReceiveCommits {
             replace.inputCommand.setResult(OK);
           }
         } else {
-          logDebug("Rejecting due to message from ReplaceOp");
+          logger.atFine().log("Rejecting due to message from ReplaceOp");
           reject(replace.inputCommand, rejectMessage);
         }
       }
@@ -786,7 +786,8 @@ class ReceiveCommits {
       addMessage(e.getMessage());
       reject(magicBranchCmd, "conflict");
     } catch (RestApiException | IOException err) {
-      logError("Can't insert change/patch set for " + project.getName(), err);
+      logger.atSevere().withCause(err).log(
+          "Can't insert change/patch set for %s", project.getName());
       reject(magicBranchCmd, "internal server error: " + err.getMessage());
     }
 
@@ -802,7 +803,7 @@ class ReceiveCommits {
           | IOException
           | ConfigInvalidException
           | PermissionBackendException e) {
-        logError("Error submitting changes to " + project.getName(), e);
+        logger.atSevere().withCause(e).log("Error submitting changes to %s", project.getName());
         reject(magicBranchCmd, "error during submit");
       }
     }
@@ -856,7 +857,7 @@ class ReceiveCommits {
       throws PermissionBackendException, NoSuchProjectException, IOException {
     if (cmd.getResult() != NOT_ATTEMPTED) {
       // Already rejected by the core receive process.
-      logDebug("Already processed by core: %s %s", cmd.getResult(), cmd);
+      logger.atFine().log("Already processed by core: %s %s", cmd.getResult(), cmd);
       return;
     }
 
@@ -872,7 +873,7 @@ class ReceiveCommits {
 
     if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
       String newName = RefNames.refsUsers(user.getAccountId());
-      logDebug("Swapping out command for %s to %s", RefNames.REFS_USERS_SELF, newName);
+      logger.atFine().log("Swapping out command for %s to %s", RefNames.REFS_USERS_SELF, newName);
       final ReceiveCommand orgCmd = cmd;
       cmd =
           new ReceiveCommand(cmd.getOldId(), cmd.getNewId(), newName, cmd.getType()) {
@@ -902,7 +903,7 @@ class ReceiveCommits {
       // prohibition doesn't depend on NoteDb being enabled in any way, since all sites will
       // migrate to NoteDb eventually, and we don't want garbage data waiting there when the
       // migration finishes.
-      logDebug(
+      logger.atFine().log(
           "%s NoteDb ref %s with %s=%s",
           cmd.getType(), cmd.getRefName(), NoteDbPushOption.OPTION_NAME, noteDbPushOption);
       if (!Optional.of(NoteDbPushOption.ALLOW).equals(noteDbPushOption)) {
@@ -953,7 +954,7 @@ class ReceiveCommits {
     }
 
     if (isConfig(cmd)) {
-      logDebug("Processing %s command", cmd.getRefName());
+      logger.atFine().log("Processing %s command", cmd.getRefName());
       try {
         permissions.check(ProjectPermission.WRITE_CONFIG);
       } catch (AuthException e) {
@@ -978,13 +979,9 @@ class ReceiveCommits {
                 addError("  " + err.getMessage());
               }
               reject(cmd, "invalid project configuration");
-              logError(
-                  "User "
-                      + user.getLoggableName()
-                      + " tried to push invalid project configuration "
-                      + cmd.getNewId().name()
-                      + " for "
-                      + project.getName());
+              logger.atSevere().log(
+                  "User %s tried to push invalid project configuration %s for %s",
+                  user.getLoggableName(), cmd.getNewId().name(), project.getName());
               return;
             }
             Project.NameKey newParent = cfg.getProject().getParent(allProjectsName);
@@ -1054,14 +1051,9 @@ class ReceiveCommits {
             }
           } catch (Exception e) {
             reject(cmd, "invalid project configuration");
-            logError(
-                "User "
-                    + user.getLoggableName()
-                    + " tried to push invalid project configuration "
-                    + cmd.getNewId().name()
-                    + " for "
-                    + project.getName(),
-                e);
+            logger.atSevere().withCause(e).log(
+                "User %s tried to push invalid project configuration %s for %s",
+                user.getLoggableName(), cmd.getNewId().name(), project.getName());
             return;
           }
           break;
@@ -1085,13 +1077,12 @@ class ReceiveCommits {
     try {
       obj = receivePack.getRevWalk().parseAny(cmd.getNewId());
     } catch (IOException err) {
-      logError(
-          "Invalid object " + cmd.getNewId().name() + " for " + cmd.getRefName() + " creation",
-          err);
+      logger.atSevere().withCause(err).log(
+          "Invalid object %s for %s creation", cmd.getNewId().name(), cmd.getRefName());
       reject(cmd, "invalid object");
       return;
     }
-    logDebug("Creating %s", cmd);
+    logger.atFine().log("Creating %s", cmd);
 
     if (isHead(cmd) && !isCommit(cmd)) {
       return;
@@ -1117,7 +1108,7 @@ class ReceiveCommits {
   }
 
   private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException {
-    logDebug("Updating %s", cmd);
+    logger.atFine().log("Updating %s", cmd);
     boolean ok;
     try {
       permissions.ref(cmd.getRefName()).check(RefPermission.UPDATE);
@@ -1149,7 +1140,8 @@ class ReceiveCommits {
     try {
       obj = receivePack.getRevWalk().parseAny(cmd.getNewId());
     } catch (IOException err) {
-      logError("Invalid object " + cmd.getNewId().name() + " for " + cmd.getRefName(), err);
+      logger.atSevere().withCause(err).log(
+          "Invalid object %s for %s", cmd.getNewId().name(), cmd.getRefName());
       reject(cmd, "invalid object");
       return false;
     }
@@ -1162,7 +1154,7 @@ class ReceiveCommits {
   }
 
   private void parseDelete(ReceiveCommand cmd) throws PermissionBackendException {
-    logDebug("Deleting %s", cmd);
+    logger.atFine().log("Deleting %s", cmd);
     if (cmd.getRefName().startsWith(REFS_CHANGES)) {
       errors.put(ReceiveError.DELETE_CHANGES, cmd.getRefName());
       reject(cmd, "cannot delete changes");
@@ -1200,13 +1192,12 @@ class ReceiveCommits {
     } catch (IncorrectObjectTypeException notCommit) {
       newObject = null;
     } catch (IOException err) {
-      logError(
-          "Invalid object " + cmd.getNewId().name() + " for " + cmd.getRefName() + " forced update",
-          err);
+      logger.atSevere().withCause(err).log(
+          "Invalid object %s for %s forced update", cmd.getNewId().name(), cmd.getRefName());
       reject(cmd, "invalid object");
       return;
     }
-    logDebug("Rewinding %s", cmd);
+    logger.atFine().log("Rewinding %s", cmd);
 
     if (newObject != null) {
       validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
@@ -1507,7 +1498,7 @@ class ReceiveCommits {
       return;
     }
 
-    logDebug("Found magic branch %s", cmd.getRefName());
+    logger.atFine().log("Found magic branch %s", cmd.getRefName());
     magicBranch = new MagicBranchInput(user, cmd, labelTypes, notesMigration);
     magicBranch.reviewer.addAll(extraReviewers.get(ReviewerStateInternal.REVIEWER));
     magicBranch.cc.addAll(extraReviewers.get(ReviewerStateInternal.CC));
@@ -1519,7 +1510,7 @@ class ReceiveCommits {
       ref = magicBranch.parse(repo, receivePack.getAdvertisedRefs().keySet(), pushOptions);
     } catch (CmdLineException e) {
       if (!magicBranch.cmdLineParser.wasHelpRequestedByOption()) {
-        logDebug("Invalid branch syntax");
+        logger.atFine().log("Invalid branch syntax");
         reject(cmd, e.getMessage());
         return;
       }
@@ -1540,13 +1531,13 @@ class ReceiveCommits {
       return;
     }
     if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(ref)) {
-      logDebug("Handling %s", RefNames.REFS_USERS_SELF);
+      logger.atFine().log("Handling %s", RefNames.REFS_USERS_SELF);
       ref = RefNames.refsUsers(user.getAccountId());
     }
     if (!receivePack.getAdvertisedRefs().containsKey(ref)
         && !ref.equals(readHEAD(repo))
         && !ref.equals(RefNames.REFS_CONFIG)) {
-      logDebug("Ref %s not found", ref);
+      logger.atFine().log("Ref %s not found", ref);
       if (ref.startsWith(Constants.R_HEADS)) {
         String n = ref.substring(Constants.R_HEADS.length());
         reject(cmd, "branch " + n + " not found");
@@ -1619,10 +1610,10 @@ class ReceiveCommits {
     RevCommit tip;
     try {
       tip = walk.parseCommit(magicBranch.cmd.getNewId());
-      logDebug("Tip of push: %s", tip.name());
+      logger.atFine().log("Tip of push: %s", tip.name());
     } catch (IOException ex) {
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
-      logError("Invalid pack upload; one or more objects weren't sent", ex);
+      logger.atSevere().withCause(ex).log("Invalid pack upload; one or more objects weren't sent");
       return;
     }
 
@@ -1649,12 +1640,12 @@ class ReceiveCommits {
           || magicBranch.base != null
           || magicBranch.merged
           || tip.getParentCount() == 0) {
-        logDebug("Forcing newChangeForAllNotInTarget = false");
+        logger.atFine().log("Forcing newChangeForAllNotInTarget = false");
         newChangeForAllNotInTarget = false;
       }
 
       if (magicBranch.base != null) {
-        logDebug("Handling %base: %s", magicBranch.base);
+        logger.atFine().log("Handling %base: %s", magicBranch.base);
         magicBranch.baseCommit = Lists.newArrayListWithCapacity(magicBranch.base.size());
         for (ObjectId id : magicBranch.base) {
           try {
@@ -1666,7 +1657,8 @@ class ReceiveCommits {
             reject(cmd, "base not found");
             return;
           } catch (IOException e) {
-            logWarn(String.format("Project %s cannot read %s", project.getName(), id.name()), e);
+            logger.atWarning().withCause(e).log(
+                "Project %s cannot read %s", project.getName(), id.name());
             reject(cmd, "internal server error");
             return;
           }
@@ -1677,11 +1669,11 @@ class ReceiveCommits {
           return; // readBranchTip already rejected cmd.
         }
         magicBranch.baseCommit = Collections.singletonList(branchTip);
-        logDebug("Set baseCommit = %s", magicBranch.baseCommit.get(0).name());
+        logger.atFine().log("Set baseCommit = %s", magicBranch.baseCommit.get(0).name());
       }
     } catch (IOException ex) {
-      logWarn(
-          String.format("Error walking to %s in project %s", destBranch, project.getName()), ex);
+      logger.atWarning().withCause(ex).log(
+          "Error walking to %s in project %s", destBranch, project.getName());
       reject(cmd, "internal server error");
       return;
     }
@@ -1697,11 +1689,11 @@ class ReceiveCommits {
         // The destination branch does not yet exist. Assume the
         // history being sent for review will start it and thus
         // is "connected" to the branch.
-        logDebug("Branch is unborn");
+        logger.atFine().log("Branch is unborn");
         return;
       }
       RevCommit h = walk.parseCommit(targetRef.getObjectId());
-      logDebug("Current branch tip: %s", h.name());
+      logger.atFine().log("Current branch tip: %s", h.name());
       RevFilter oldRevFilter = walk.getRevFilter();
       try {
         walk.reset();
@@ -1717,7 +1709,7 @@ class ReceiveCommits {
       }
     } catch (IOException e) {
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
-      logError("Invalid pack upload; one or more objects weren't sent", e);
+      logger.atSevere().withCause(e).log("Invalid pack upload; one or more objects weren't sent");
     }
   }
 
@@ -1741,7 +1733,7 @@ class ReceiveCommits {
 
   // Handle an upload to refs/changes/XX/CHANGED-NUMBER.
   private void parseReplaceCommand(ReceiveCommand cmd, Change.Id changeId) {
-    logDebug("Parsing replace command");
+    logger.atFine().log("Parsing replace command");
     if (cmd.getType() != ReceiveCommand.Type.CREATE) {
       reject(cmd, "invalid usage");
       return;
@@ -1750,9 +1742,9 @@ class ReceiveCommits {
     RevCommit newCommit;
     try {
       newCommit = receivePack.getRevWalk().parseCommit(cmd.getNewId());
-      logDebug("Replacing with %s", newCommit);
+      logger.atFine().log("Replacing with %s", newCommit);
     } catch (IOException e) {
-      logError("Cannot parse " + cmd.getNewId().name() + " as commit", e);
+      logger.atSevere().withCause(e).log("Cannot parse %s as commit", cmd.getNewId().name());
       reject(cmd, "invalid commit");
       return;
     }
@@ -1761,11 +1753,11 @@ class ReceiveCommits {
     try {
       changeEnt = notesFactory.createChecked(db, project.getNameKey(), changeId).getChange();
     } catch (NoSuchChangeException e) {
-      logError("Change not found " + changeId, e);
+      logger.atSevere().withCause(e).log("Change not found %s", changeId);
       reject(cmd, "change " + changeId + " not found");
       return;
     } catch (OrmException e) {
-      logError("Cannot lookup existing change " + changeId, e);
+      logger.atSevere().withCause(e).log("Cannot lookup existing change %s", changeId);
       reject(cmd, "database error");
       return;
     }
@@ -1774,7 +1766,7 @@ class ReceiveCommits {
       return;
     }
 
-    logDebug("Replacing change %s", changeEnt.getId());
+    logger.atFine().log("Replacing change %s", changeEnt.getId());
     requestReplace(cmd, true, changeEnt, newCommit);
   }
 
@@ -1798,7 +1790,7 @@ class ReceiveCommits {
   }
 
   private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch() {
-    logDebug("Finding new and replaced changes");
+    logger.atFine().log("Finding new and replaced changes");
     List<CreateRequest> newChanges = new ArrayList<>();
 
     ListMultimap<ObjectId, Ref> existing = changeRefsById();
@@ -1880,7 +1872,7 @@ class ReceiveCommits {
         }
         int n = pending.size() + newChanges.size();
         if (maxBatchChanges != 0 && n > maxBatchChanges) {
-          logDebug("%d changes exceeds limit of %d", n, maxBatchChanges);
+          logger.atFine().log("%d changes exceeds limit of %d", n, maxBatchChanges);
           reject(
               magicBranch.cmd,
               "the number of pushed changes in a batch exceeds the max limit " + maxBatchChanges);
@@ -1899,12 +1891,12 @@ class ReceiveCommits {
             continue;
           }
 
-          logDebug("Creating new change for %s even though it is already tracked", name);
+          logger.atFine().log("Creating new change for %s even though it is already tracked", name);
         }
 
         if (!validCommit(receivePack.getRevWalk(), magicBranch.dest, magicBranch.cmd, c, null)) {
           // Not a change the user can propose? Abort as early as possible.
-          logDebug("Aborting early due to invalid commit");
+          logger.atFine().log("Aborting early due to invalid commit");
           return Collections.emptyList();
         }
 
@@ -1914,7 +1906,7 @@ class ReceiveCommits {
               magicBranch.cmd,
               "Pushing merges in commit chains with 'all not in target' is not allowed,\n"
                   + "to override please set the base manually");
-          logDebug("Rejecting merge commit %s with newChangeForAllNotInTarget", name);
+          logger.atFine().log("Rejecting merge commit %s with newChangeForAllNotInTarget", name);
           // TODO(dborowitz): Should we early return here?
         }
 
@@ -1923,7 +1915,7 @@ class ReceiveCommits {
           continue;
         }
       }
-      logDebug(
+      logger.atFine().log(
           "Finished initial RevWalk with %d commits total: %d already"
               + " tracked, %d new changes with no Change-Id, and %d deferred"
               + " lookups",
@@ -1940,14 +1932,14 @@ class ReceiveCommits {
         }
 
         if (newChangeIds.contains(p.changeKey)) {
-          logDebug("Multiple commits with Change-Id %s", p.changeKey);
+          logger.atFine().log("Multiple commits with Change-Id %s", p.changeKey);
           reject(magicBranch.cmd, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
           return Collections.emptyList();
         }
 
         List<ChangeData> changes = p.destChanges;
         if (changes.size() > 1) {
-          logDebug(
+          logger.atFine().log(
               "Multiple changes in branch %s with Change-Id %s: %s",
               magicBranch.dest,
               p.changeKey,
@@ -2005,7 +1997,7 @@ class ReceiveCommits {
         }
         newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get()));
       }
-      logDebug(
+      logger.atFine().log(
           "Finished deferred lookups with %d updates and %d new changes",
           replaceByChange.size(), newChanges.size());
     } catch (IOException e) {
@@ -2013,10 +2005,10 @@ class ReceiveCommits {
       // identified the missing object earlier before we got control.
       //
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
-      logError("Invalid pack upload; one or more objects weren't sent", e);
+      logger.atSevere().withCause(e).log("Invalid pack upload; one or more objects weren't sent");
       return Collections.emptyList();
     } catch (OrmException e) {
-      logError("Cannot query database to locate prior changes", e);
+      logger.atSevere().withCause(e).log("Cannot query database to locate prior changes");
       reject(magicBranch.cmd, "database error");
       return Collections.emptyList();
     }
@@ -2044,9 +2036,9 @@ class ReceiveCommits {
       for (UpdateGroupsRequest update : updateGroups) {
         update.groups = ImmutableList.copyOf((groups.get(update.commit)));
       }
-      logDebug("Finished updating groups from GroupCollector");
+      logger.atFine().log("Finished updating groups from GroupCollector");
     } catch (OrmException e) {
-      logError("Error collecting groups for changes", e);
+      logger.atSevere().withCause(e).log("Error collecting groups for changes");
       reject(magicBranch.cmd, "internal server error");
     }
     return newChanges;
@@ -2058,7 +2050,7 @@ class ReceiveCommits {
           notesFactory.create(db, project.getNameKey(), Change.Id.fromRef(ref.getName()));
       Change change = notes.getChange();
       if (change.getDest().equals(magicBranch.dest)) {
-        logDebug("Found change %s from existing refs.", change.getKey());
+        logger.atFine().log("Found change %s from existing refs.", change.getKey());
         // Reindex the change asynchronously, ignoring errors.
         @SuppressWarnings("unused")
         Future<?> possiblyIgnoredError = indexer.indexAsync(project.getNameKey(), change.getId());
@@ -2079,7 +2071,7 @@ class ReceiveCommits {
     if (magicBranch.baseCommit != null) {
       markExplicitBasesUninteresting();
     } else if (magicBranch.merged) {
-      logDebug("Marking parents of merged commit %s uninteresting", start.name());
+      logger.atFine().log("Marking parents of merged commit %s uninteresting", start.name());
       for (RevCommit c : start.getParents()) {
         rw.markUninteresting(c);
       }
@@ -2090,13 +2082,13 @@ class ReceiveCommits {
   }
 
   private void markExplicitBasesUninteresting() throws IOException {
-    logDebug("Marking %d base commits uninteresting", magicBranch.baseCommit.size());
+    logger.atFine().log("Marking %d base commits uninteresting", magicBranch.baseCommit.size());
     for (RevCommit c : magicBranch.baseCommit) {
       receivePack.getRevWalk().markUninteresting(c);
     }
     Ref targetRef = allRefs().get(magicBranch.dest.get());
     if (targetRef != null) {
-      logDebug(
+      logger.atFine().log(
           "Marking target ref %s (%s) uninteresting",
           magicBranch.dest.get(), targetRef.getObjectId().name());
       receivePack
@@ -2150,11 +2142,12 @@ class ReceiveCommits {
           rw.markUninteresting(rw.parseCommit(ref.getObjectId()));
           i++;
         } catch (IOException e) {
-          logWarn(String.format("Invalid ref %s in %s", ref.getName(), project.getName()), e);
+          logger.atWarning().withCause(e).log(
+              "Invalid ref %s in %s", ref.getName(), project.getName());
         }
       }
     }
-    logDebug("Marked %d heads as uninteresting", i);
+    logger.atFine().log("Marked %d heads as uninteresting", i);
   }
 
   private static boolean isValidChangeId(String idStr) {
@@ -2308,7 +2301,7 @@ class ReceiveCommits {
     Change tipChange = bySha.get(magicBranch.cmd.getNewId());
     checkNotNull(
         tipChange, "tip of push does not correspond to a change; found these changes: %s", bySha);
-    logDebug(
+    logger.atFine().log(
         "Processing submit with tip change %s (%s)", tipChange.getId(), magicBranch.cmd.getNewId());
     try (MergeOp op = mergeOpProvider.get()) {
       op.merge(db, tipChange, user, false, new SubmitInput(), false);
@@ -2328,27 +2321,23 @@ class ReceiveCommits {
         }
       }
     } catch (OrmException err) {
-      logError(
-          String.format(
-              "Cannot read database before replacement for project %s", project.getName()),
-          err);
+      logger.atSevere().withCause(err).log(
+          "Cannot read database before replacement for project %s", project.getName());
       for (ReplaceRequest req : replaceByChange.values()) {
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
           req.inputCommand.setResult(REJECTED_OTHER_REASON, "internal server error");
         }
       }
     } catch (IOException | PermissionBackendException err) {
-      logError(
-          String.format(
-              "Cannot read repository before replacement for project %s", project.getName()),
-          err);
+      logger.atSevere().withCause(err).log(
+          "Cannot read repository before replacement for project %s", project.getName());
       for (ReplaceRequest req : replaceByChange.values()) {
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
           req.inputCommand.setResult(REJECTED_OTHER_REASON, "internal server error");
         }
       }
     }
-    logDebug("Read %d changes to replace", replaceByChange.size());
+    logger.atFine().log("Read %d changes to replace", replaceByChange.size());
 
     if (magicBranch != null && magicBranch.cmd.getResult() != NOT_ATTEMPTED) {
       // Cancel creations tied to refs/for/ or refs/drafts/ command.
@@ -2402,10 +2391,8 @@ class ReceiveCommits {
               receivePack.getRevWalk().parseCommit(ref.getObjectId()),
               PatchSet.Id.fromRef(ref.getName()));
         } catch (IOException err) {
-          logWarn(
-              String.format(
-                  "Project %s contains invalid change ref %s", project.getName(), ref.getName()),
-              err);
+          logger.atWarning().withCause(err).log(
+              "Project %s contains invalid change ref %s", project.getName(), ref.getName());
         }
       }
     }
@@ -2566,7 +2553,7 @@ class ReceiveCommits {
       try {
         edit = editUtil.byChange(notes, user);
       } catch (AuthException | IOException e) {
-        logError("Cannot retrieve edit", e);
+        logger.atSevere().withCause(e).log("Cannot retrieve edit");
         return false;
       }
 
@@ -2699,11 +2686,11 @@ class ReceiveCommits {
     public void postUpdate(Context ctx) {
       String refName = cmd.getRefName();
       if (cmd.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
-        logDebug("Updating tag cache on fast-forward of %s", cmd.getRefName());
+        logger.atFine().log("Updating tag cache on fast-forward of %s", cmd.getRefName());
         tagCache.updateFastForward(project.getNameKey(), refName, cmd.getOldId(), cmd.getNewId());
       }
       if (isConfig(cmd)) {
-        logDebug("Reloading project in cache");
+        logger.atFine().log("Reloading project in cache");
         try {
           projectCache.evict(project);
         } catch (IOException e) {
@@ -2712,7 +2699,7 @@ class ReceiveCommits {
         }
         ProjectState ps = projectCache.get(project.getNameKey());
         try {
-          logDebug("Updating project description");
+          logger.atFine().log("Updating project description");
           repo.setGitwebDescription(ps.getProject().getDescription());
         } catch (IOException e) {
           logger.atWarning().withCause(e).log("cannot update description of %s", project.getName());
@@ -2828,7 +2815,7 @@ class ReceiveCommits {
         if (!Iterables.isEmpty(rejectCommits)) {
           throw new AuthException("reject-commits prevents " + PUSH_OPTION_SKIP_VALIDATION);
         }
-        logDebug("Short-circuiting new commit validation");
+        logger.atFine().log("Short-circuiting new commit validation");
       } catch (AuthException denied) {
         reject(cmd, denied.getMessage());
       }
@@ -2851,7 +2838,7 @@ class ReceiveCommits {
       int n = 0;
       for (RevCommit c; (c = walk.next()) != null; ) {
         if (++n > limit) {
-          logDebug("Number of new commits exceeds limit of %d", limit);
+          logger.atFine().log("Number of new commits exceeds limit of %d", limit);
           addMessage(
               String.format(
                   "Cannot push more than %d commits to %s without %s option "
@@ -2867,15 +2854,15 @@ class ReceiveCommits {
         }
 
         if (missingFullName && user.hasEmailAddress(c.getCommitterIdent().getEmailAddress())) {
-          logDebug("Will update full name of caller");
+          logger.atFine().log("Will update full name of caller");
           setFullNameTo = c.getCommitterIdent().getName();
           missingFullName = false;
         }
       }
-      logDebug("Validated %d new commits", n);
+      logger.atFine().log("Validated %d new commits", n);
     } catch (IOException err) {
       cmd.setResult(REJECTED_MISSING_OBJECT);
-      logError("Invalid pack upload; one or more objects weren't sent", err);
+      logger.atSevere().withCause(err).log("Invalid pack upload; one or more objects weren't sent");
     }
   }
 
@@ -2906,7 +2893,7 @@ class ReceiveCommits {
                   perm, branch, user.asIdentifiedUser(), sshInfo, repo, rw, change);
       messages.addAll(validators.validate(receiveEvent));
     } catch (CommitValidationException e) {
-      logDebug("Commit validation failed on %s", c.name());
+      logger.atFine().log("Commit validation failed on %s", c.name());
       messages.addAll(e.getMessages());
       reject(cmd, e.getMessage());
       return false;
@@ -2916,7 +2903,7 @@ class ReceiveCommits {
   }
 
   private void autoCloseChanges(ReceiveCommand cmd) {
-    logDebug("Starting auto-closing of changes");
+    logger.atFine().log("Starting auto-closing of changes");
     String refName = cmd.getRefName();
     checkState(
         !MagicBranch.isMagicBranch(refName),
@@ -2933,7 +2920,6 @@ class ReceiveCommits {
                 ObjectReader reader = ins.newReader();
                 RevWalk rw = new RevWalk(reader)) {
               bu.setRepository(repo, rw, ins).updateChangesInParallel();
-              bu.setRequestId(receiveId);
               // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
 
               RevCommit newTip = rw.parseCommit(cmd.getNewId());
@@ -2988,7 +2974,7 @@ class ReceiveCommits {
               for (ReplaceRequest req : replaceAndClose) {
                 Change.Id id = req.notes.getChangeId();
                 if (!req.validate(true)) {
-                  logDebug("Not closing %s because validation failed", id);
+                  logger.atFine().log("Not closing %s because validation failed", id);
                   continue;
                 }
                 req.addOps(bu, null);
@@ -3000,12 +2986,12 @@ class ReceiveCommits {
                 bu.addOp(id, new ChangeProgressOp(closeProgress));
               }
 
-              logDebug(
+              logger.atFine().log(
                   "Auto-closing %s changes with existing patch sets and %s with new patch sets",
                   existingPatchSets, newPatchSets);
               bu.execute();
             } catch (IOException | OrmException | PermissionBackendException e) {
-              logError("Failed to auto-close changes", e);
+              logger.atSevere().withCause(e).log("Failed to auto-close changes");
             }
             return null;
           },
@@ -3015,9 +3001,9 @@ class ReceiveCommits {
               .timeout(retryHelper.getDefaultTimeout(ActionType.CHANGE_UPDATE).multipliedBy(5))
               .build());
     } catch (RestApiException e) {
-      logError("Can't insert patchset", e);
+      logger.atSevere().withCause(e).log("Can't insert patchset");
     } catch (UpdateException e) {
-      logError("Failed to auto-close changes", e);
+      logger.atSevere().withCause(e).log("Failed to auto-close changes");
     }
   }
 
@@ -3043,7 +3029,7 @@ class ReceiveCommits {
     if (setFullNameTo == null) {
       return;
     }
-    logDebug("Updating full name of caller");
+    logger.atFine().log("Updating full name of caller");
     try {
       Optional<AccountState> accountState =
           accountsUpdateProvider
@@ -3060,7 +3046,7 @@ class ReceiveCommits {
           .map(AccountState::getAccount)
           .ifPresent(a -> user.getAccount().setFullName(a.getFullName()));
     } catch (OrmException | IOException | ConfigInvalidException e) {
-      logWarn("Failed to update full name of caller", e);
+      logger.atWarning().withCause(e).log("Failed to update full name of caller");
     }
   }
 
@@ -3097,47 +3083,5 @@ class ReceiveCommits {
 
   private static boolean isConfig(ReceiveCommand cmd) {
     return cmd.getRefName().equals(RefNames.REFS_CONFIG);
-  }
-
-  private void logDebug(String msg) {
-    logger.atFine().log(receiveId + msg);
-  }
-
-  private void logDebug(String msg, @Nullable Object arg) {
-    logger.atFine().log(receiveId + msg, arg);
-  }
-
-  private void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
-    logger.atFine().log(receiveId + msg, arg1, arg2);
-  }
-
-  private void logDebug(
-      String msg, @Nullable Object arg1, @Nullable Object arg2, @Nullable Object arg3) {
-    logger.atFine().log(receiveId + msg, arg1, arg2, arg3);
-  }
-
-  private void logDebug(
-      String msg,
-      @Nullable Object arg1,
-      @Nullable Object arg2,
-      @Nullable Object arg3,
-      @Nullable Object arg4) {
-    logger.atFine().log(receiveId + msg, arg1, arg2, arg3, arg4);
-  }
-
-  private void logWarn(String msg, Throwable t) {
-    logger.atWarning().withCause(t).log("%s%s", receiveId, msg);
-  }
-
-  private void logWarn(String msg) {
-    logWarn(msg, null);
-  }
-
-  private void logError(String msg, Throwable t) {
-    logger.atSevere().withCause(t).log("%s%s", receiveId, msg);
-  }
-
-  private void logError(String msg) {
-    logError(msg, null);
   }
 }

@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.util;
 
+import com.google.common.base.Enums;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.logging.LoggingContext;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -36,6 +38,19 @@ public class RequestId {
     MACHINE_ID = id;
   }
 
+  public enum Id {
+    RECEIVE_ID,
+    SUBMISSION_ID;
+
+    static boolean isId(String id) {
+      return id != null && Enums.getIfPresent(Id.class, id).isPresent();
+    }
+  }
+
+  public static boolean isSet() {
+    return LoggingContext.getInstance().getTagsAsMap().keySet().stream().anyMatch(Id::isId);
+  }
+
   public static RequestId forChange(Change c) {
     return new RequestId(c.getId().toString());
   }
@@ -49,14 +64,7 @@ public class RequestId {
   private RequestId(String resourceId) {
     Hasher h = Hashing.murmur3_128().newHasher();
     h.putLong(Thread.currentThread().getId()).putUnencodedChars(MACHINE_ID);
-    str =
-        "["
-            + resourceId
-            + "-"
-            + TimeUtil.nowTs().getTime()
-            + "-"
-            + h.hash().toString().substring(0, 8)
-            + "]";
+    str = resourceId + "-" + TimeUtil.nowTs().getTime() + "-" + h.hash().toString().substring(0, 8);
   }
 
   @Override

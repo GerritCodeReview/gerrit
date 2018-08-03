@@ -19,6 +19,7 @@
 /**
  * @param canonicalPath
  * @param staticResourcePath
+ * @param? assetsUrl
  * @param? faviconPath
  * @param? versionInfo
  * @param? deprecateGwtUi
@@ -61,6 +62,10 @@
   // CC them on any changes that load content before gr-app.html.
   //
   // github.com/Polymer/polymer-resin/blob/master/getting-started.md#integrating
+  {if $assetsUrl}
+    <link rel="import" href="{$assetsUrl}">{\n}
+  {/if}
+
   <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}
   <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
 

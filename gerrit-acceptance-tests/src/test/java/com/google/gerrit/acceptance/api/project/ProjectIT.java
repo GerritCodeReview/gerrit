@@ -41,9 +41,9 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(name).isEqualTo(gApi.projects().create(name).get().name);
 
     RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
-    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
-    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
+    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
+    eventRecorder.assertNoRefUpdatedEvents(name, "refs/heads/master");
   }
 
   @Test
@@ -52,9 +52,9 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(name).isEqualTo(gApi.projects().create(name + ".git").get().name);
 
     RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
-    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
-    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
+    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
+    eventRecorder.assertNoRefUpdatedEvents(name, "refs/heads/master");
   }
 
   @Test

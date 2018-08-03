@@ -31,7 +31,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -112,7 +111,6 @@ public class MergeOpRepoManager implements AutoCloseable {
             batchUpdateFactory
                 .create(db, getProjectName(), caller, ts)
                 .setRepository(repo, rw, ins)
-                .setRequestId(submissionId)
                 .setOnSubmitValidators(onSubmitValidatorsFactory.create());
       }
       return update;
@@ -162,7 +160,6 @@ public class MergeOpRepoManager implements AutoCloseable {
   private ReviewDb db;
   private Timestamp ts;
   private IdentifiedUser caller;
-  private RequestId submissionId;
 
   @Inject
   MergeOpRepoManager(
@@ -178,15 +175,10 @@ public class MergeOpRepoManager implements AutoCloseable {
     openRepos = new HashMap<>();
   }
 
-  public void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller, RequestId submissionId) {
+  public void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller) {
     this.db = db;
     this.ts = ts;
     this.caller = caller;
-    this.submissionId = submissionId;
-  }
-
-  public RequestId getSubmissionId() {
-    return submissionId;
   }
 
   public OpenRepo getRepo(Project.NameKey project) throws NoSuchProjectException, IOException {

@@ -536,6 +536,14 @@
       this.$.downloadOverlay.close();
     },
 
+    _handleOpenUploadHelpDialog(e) {
+      this.$.uploadHelpOverlay.open();
+    },
+
+    _handleCloseUploadHelpDialog(e) {
+      this.$.uploadHelpOverlay.close();
+    },
+
     _handleMessageReply(e) {
       const msg = e.detail.message.message;
       const quoteStr = msg.split('\n').map(

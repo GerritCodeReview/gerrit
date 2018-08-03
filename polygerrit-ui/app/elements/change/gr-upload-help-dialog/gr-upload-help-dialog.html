@@ -1,0 +1,110 @@
+<!--
+@license
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+
+<dom-module id="gr-upload-help-dialog">
+  <template>
+    <style include="shared-styles">
+      :host {
+        background-color: var(--dialog-background-color);
+        display: block;
+      }
+      .main {
+        width: 100%;
+      }
+      #title {
+        display: inline-block;
+        font-size: 1.2rem;
+        margin-top: .2em;
+      }
+      .closeButtonContainer {
+        float: right;
+      }
+      ol {
+        margin-left: 1em;
+        list-style: decimal;
+      }
+      p,
+      .commandContainer {
+        margin-bottom: .75em;
+      }
+      .commandContainer {
+        background: #f5f5f5;
+        padding: .5em .5em .5em 2.5em;
+        position: relative;
+        width: 100%;
+      }
+      .commandContainer:before {
+        background: #ebebeb;
+        bottom: 0;
+        content: '$';
+        display: block;
+        left: 0;
+        padding: .8em;
+        position: absolute;
+        top: 0;
+        width: 2em;
+      }
+      .commandContainer gr-copy-clipboard {
+        --text-container-style: {
+          border: none;
+        }
+      }
+    </style>
+    <gr-dialog
+        confirm-label="Done"
+        cancel-label=""
+        on-confirm="_handleCloseTap">
+      <div class="header" slot="header">How to update this change:</div>
+      <div class="main" slot="main">
+        <ol>
+          <li>
+            <p>
+              Checkout this change locally and make your desired modifications to
+              the files.
+            </p>
+          </li>
+          <li>
+            <p>
+              Update the local commit with your modifications using the following
+              command.
+            </p>
+            <div class="commandContainer">
+              <gr-copy-clipboard text="[[_commitCommand]]"></gr-copy-clipboard>
+            </div>
+            <p>
+              Leave the "Change-Id:" line of the commit message as is.
+            </p>
+          </li>
+          <li>
+            <p>Push the updated commit to Gerrit.</p>
+            <div class="commandContainer">
+              <gr-copy-clipboard text="[[_pushCommand]]"></gr-copy-clipboard>
+            </div>
+          </li>
+          <li>
+            <p>Refresh this page to view the the update.</p>
+          </li>
+        </ol>
+      </div>
+    </gr-dialog>
+  </template>
+  <script src="gr-upload-help-dialog.js"></script>
+</dom-module>

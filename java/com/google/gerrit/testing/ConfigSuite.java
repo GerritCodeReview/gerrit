@@ -24,6 +24,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.gerrit.server.logging.LoggingContext;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -105,11 +106,13 @@ import org.junit.runners.model.InitializationError;
  */
 public class ConfigSuite extends Suite {
   private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
+  private static final String FLOGGER_LOGGING_CONTEXT = "flogger.logging_context";
 
   static {
     System.setProperty(
         FLOGGER_BACKEND_PROPERTY,
         "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance");
+    System.setProperty(FLOGGER_LOGGING_CONTEXT, LoggingContext.class.getName() + "#getInstance");
   }
 
   public static final String DEFAULT = "default";

@@ -95,16 +95,13 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     if (!rsrc.getControl().isOwner()) {
       throw new ResourceNotFoundException(rsrc.getName());
     }
-    return apply(rsrc.getControl(), input);
-  }
 
-  public ConfigInfo apply(ProjectControl ctrl, ConfigInput input)
-      throws ResourceNotFoundException, BadRequestException, ResourceConflictException {
-    Project.NameKey projectName = ctrl.getProject().getNameKey();
     if (input == null) {
       throw new BadRequestException("config is required");
     }
 
+    ProjectControl ctrl = rsrc.getControl();
+    Project.NameKey projectName = ctrl.getProject().getNameKey();
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(projectName)) {
       ProjectConfig projectConfig = ProjectConfig.read(md);
       Project p = projectConfig.getProject();

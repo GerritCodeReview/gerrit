@@ -242,7 +242,14 @@ public class ProjectState {
   }
 
   public long getMaxObjectSizeLimit() {
-    return config.getMaxObjectSizeLimit();
+    long value = config.getMaxObjectSizeLimit();
+    for (ProjectState p : parents()) {
+      long parentValue = p.config.getMaxObjectSizeLimit();
+      if (value == 0 || (parentValue > 0 && parentValue < value)) {
+        value = parentValue;
+      }
+    }
+    return value;
   }
 
   /** Get the sections that pertain only to this project. */

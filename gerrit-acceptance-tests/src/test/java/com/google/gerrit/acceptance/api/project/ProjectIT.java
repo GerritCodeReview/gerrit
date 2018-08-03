@@ -153,15 +153,15 @@ public class ProjectIT extends AbstractDaemonTest {
     ConfigInput input = new ConfigInput();
     input.maxObjectSizeLimit = "100k";
     ConfigInfo info = setConfig(input);
-    assertThat(info.maxObjectSizeLimit.value).isNull(); // TODO: Should be "100k"
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("100k");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
     assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
 
     // Clear the value
     input.maxObjectSizeLimit = "0";
     info = setConfig(input);
-    assertThat(info.maxObjectSizeLimit.value).isEqualTo("0"); // TODO: Should be null
-    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("0"); // TODO: Should be null
+    assertThat(info.maxObjectSizeLimit.value).isNull();
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
     assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
   }
 
@@ -196,7 +196,7 @@ public class ProjectIT extends AbstractDaemonTest {
     ConfigInput input = new ConfigInput();
     input.maxObjectSizeLimit = "100k";
     ConfigInfo info = setConfig(input);
-    assertThat(info.maxObjectSizeLimit.value).isEqualTo("200k"); // TODO: Should be "100k"
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("100k");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
     assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
   }

@@ -16,10 +16,16 @@ package com.google.gerrit.server.logging;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.gerrit.server.util.RequestId;
+
 public class TraceContext implements AutoCloseable {
   private final String tagName;
   private final String tagValue;
   private final boolean removeOnClose;
+
+  public TraceContext(RequestId.Type requestId, Object tagValue) {
+    this(checkNotNull(requestId, "request ID is required").name(), tagValue);
+  }
 
   public TraceContext(String tagName, Object tagValue) {
     this.tagName = checkNotNull(tagName, "tag name is required");

@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.server.util.RequestId;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -86,9 +87,24 @@ public class TraceContextTest {
   }
 
   @Test
+  public void openContextWithRequestId() {
+    assertTags(ImmutableMap.of());
+    try (TraceContext traceContext = new TraceContext(RequestId.Type.RECEIVE_ID, "foo")) {
+      assertTags(ImmutableMap.of("RECEIVE_ID", ImmutableSet.of("foo")));
+    }
+    assertTags(ImmutableMap.of());
+  }
+
+  @Test
   public void cannotOpenContextWithInvalidTag() {
-    assertNullPointerException("tag name is required", () -> new TraceContext(null, "foo"));
+    assertNullPointerException(
+        "tag name is required", () -> new TraceContext((String) null, "foo"));
     assertNullPointerException("tag value is required", () -> new TraceContext("foo", null));
+
+    assertNullPointerException(
+        "request ID is required", () -> new TraceContext((RequestId.Type) null, "foo"));
+    assertNullPointerException(
+        "tag value is required", () -> new TraceContext(RequestId.Type.RECEIVE_ID, null));
   }
 
   private void assertTags(ImmutableMap<String, ImmutableSet<String>> expectedTagMap) {

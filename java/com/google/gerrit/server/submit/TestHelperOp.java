@@ -15,12 +15,10 @@
 package com.google.gerrit.server.submit;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.gerrit.server.util.RequestId;
 import java.io.IOException;
 import java.util.Queue;
 import org.eclipse.jgit.lib.ObjectId;
@@ -30,27 +28,22 @@ class TestHelperOp implements BatchUpdateOp {
 
   private final Change.Id changeId;
   private final TestSubmitInput input;
-  private final RequestId submissionId;
 
   TestHelperOp(Change.Id changeId, SubmitStrategy.Arguments args) {
     this.changeId = changeId;
     this.input = (TestSubmitInput) args.submitInput;
-    this.submissionId = args.submissionId;
   }
 
   @Override
   public void updateRepo(RepoContext ctx) throws IOException {
     Queue<Boolean> q = input.generateLockFailures;
     if (q != null && !q.isEmpty() && q.remove()) {
-      logDebug("Adding bogus ref update to trigger lock failure, via change %s", changeId);
+      logger.atFine().log(
+          "Adding bogus ref update to trigger lock failure, via change %s", changeId);
       ctx.addRefUpdate(
           ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
           ObjectId.zeroId(),
           "refs/test/" + getClass().getSimpleName());
     }
-  }
-
-  private void logDebug(String msg, @Nullable Object arg) {
-    logger.atFine().log(submissionId + msg, arg);
   }
 }

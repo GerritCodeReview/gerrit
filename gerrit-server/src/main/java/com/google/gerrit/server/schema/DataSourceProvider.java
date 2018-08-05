@@ -118,20 +118,20 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
     }
 
     if (usePool) {
-      final BasicDataSource ds = new BasicDataSource();
-      ds.setDriverClassName(driver);
-      ds.setUrl(url);
+      final BasicDataSource lds = new BasicDataSource();
+      lds.setDriverClassName(driver);
+      lds.setUrl(url);
       if (username != null && !username.isEmpty()) {
-        ds.setUsername(username);
+        lds.setUsername(username);
       }
       if (password != null && !password.isEmpty()) {
-        ds.setPassword(password);
+        lds.setPassword(password);
       }
       int poolLimit = threadSettingsConfig.getDatabasePoolLimit();
-      ds.setMaxActive(poolLimit);
-      ds.setMinIdle(cfg.getInt(DATABASE_KEY, "poolminidle", 4));
-      ds.setMaxIdle(cfg.getInt(DATABASE_KEY, "poolmaxidle", Math.min(poolLimit, 16)));
-      ds.setMaxWait(
+      lds.setMaxActive(poolLimit);
+      lds.setMinIdle(cfg.getInt(DATABASE_KEY, "poolminidle", 4));
+      lds.setMaxIdle(cfg.getInt(DATABASE_KEY, "poolmaxidle", Math.min(poolLimit, 16)));
+      lds.setMaxWait(
           ConfigUtil.getTimeUnit(
               cfg,
               DATABASE_KEY,
@@ -139,16 +139,16 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
               "poolmaxwait",
               MILLISECONDS.convert(30, SECONDS),
               MILLISECONDS));
-      ds.setInitialSize(ds.getMinIdle());
+      lds.setInitialSize(lds.getMinIdle());
       long evictIdleTimeMs = 1000L * 60;
-      ds.setMinEvictableIdleTimeMillis(evictIdleTimeMs);
-      ds.setTimeBetweenEvictionRunsMillis(evictIdleTimeMs / 2);
-      ds.setTestOnBorrow(true);
-      ds.setTestOnReturn(true);
-      ds.setValidationQuery(dst.getValidationQuery());
-      ds.setValidationQueryTimeout(5);
-      exportPoolMetrics(ds);
-      return intercept(interceptor, ds);
+      lds.setMinEvictableIdleTimeMillis(evictIdleTimeMs);
+      lds.setTimeBetweenEvictionRunsMillis(evictIdleTimeMs / 2);
+      lds.setTestOnBorrow(true);
+      lds.setTestOnReturn(true);
+      lds.setValidationQuery(dst.getValidationQuery());
+      lds.setValidationQueryTimeout(5);
+      exportPoolMetrics(lds);
+      return intercept(interceptor, lds);
     }
     // Don't use the connection pool.
     //

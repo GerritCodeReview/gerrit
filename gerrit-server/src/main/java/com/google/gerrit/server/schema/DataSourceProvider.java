@@ -17,13 +17,10 @@ package com.google.gerrit.server.schema;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.persistence.DataSourceInterceptor;
-import com.google.gerrit.metrics.CallbackMetric1;
-import com.google.gerrit.metrics.Description;
-import com.google.gerrit.metrics.Field;
-import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -33,12 +30,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Properties;
 import javax.sql.DataSource;
-import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 
 /** Provides access to the DataSource. */
@@ -47,7 +45,8 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
   private static final String DATABASE_KEY = "database";
 
   private final Config cfg;
-  private final MetricMaker metrics;
+  private final MetricRegistry metricRegistry;
+
   private final Context ctx;
   private final DataSourceType dst;
   private final ThreadSettingsConfig threadSettingsConfig;
@@ -56,12 +55,12 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
   @Inject
   protected DataSourceProvider(
       @GerritServerConfig Config cfg,
-      MetricMaker metrics,
+      MetricRegistry metricRegistry,
       ThreadSettingsConfig threadSettingsConfig,
       Context ctx,
       DataSourceType dst) {
     this.cfg = cfg;
-    this.metrics = metrics;
+    this.metricRegistry = metricRegistry;
     this.threadSettingsConfig = threadSettingsConfig;
     this.ctx = ctx;
     this.dst = dst;
@@ -80,12 +79,8 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
 
   @Override
   public synchronized void stop() {
-    if (ds instanceof BasicDataSource) {
-      try {
-        ((BasicDataSource) ds).close();
-      } catch (SQLException e) {
-        // Ignore the close failure.
-      }
+    if (ds instanceof HikariDataSource) {
+      ((HikariDataSource) ds).close();
     }
   }
 
@@ -114,41 +109,34 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
     if (context == Context.SINGLE_USER) {
       usePool = false;
     } else {
-      usePool = cfg.getBoolean(DATABASE_KEY, "connectionpool", dst.usePool());
+      usePool = cfg.getBoolean(DATABASE_KEY, "connectionPool", dst.usePool());
     }
 
     if (usePool) {
-      final BasicDataSource lds = new BasicDataSource();
-      lds.setDriverClassName(driver);
-      lds.setUrl(url);
-      if (username != null && !username.isEmpty()) {
-        lds.setUsername(username);
+      HikariConfig dsConfig = new HikariConfig();
+      dsConfig.setDriverClassName(driver);
+      dsConfig.setJdbcUrl(url);
+      dsConfig.setPoolName("ReviewDb connection pool");
+      if (!Strings.isNullOrEmpty(username)) {
+        dsConfig.setUsername(username);
       }
-      if (password != null && !password.isEmpty()) {
-        lds.setPassword(password);
+      if (!Strings.isNullOrEmpty(password)) {
+        dsConfig.setPassword(password);
       }
       int poolLimit = threadSettingsConfig.getDatabasePoolLimit();
-      lds.setMaxActive(poolLimit);
-      lds.setMinIdle(cfg.getInt(DATABASE_KEY, "poolminidle", 4));
-      lds.setMaxIdle(cfg.getInt(DATABASE_KEY, "poolmaxidle", Math.min(poolLimit, 16)));
-      lds.setMaxWait(
+      dsConfig.setMaximumPoolSize(poolLimit);
+      dsConfig.setMinimumIdle(cfg.getInt(DATABASE_KEY, "poolMinIdle", poolLimit));
+      dsConfig.setConnectionTimeout(
           ConfigUtil.getTimeUnit(
               cfg,
               DATABASE_KEY,
               null,
-              "poolmaxwait",
+              "poolMaxWait",
               MILLISECONDS.convert(30, SECONDS),
               MILLISECONDS));
-      lds.setInitialSize(lds.getMinIdle());
-      long evictIdleTimeMs = 1000L * 60;
-      lds.setMinEvictableIdleTimeMillis(evictIdleTimeMs);
-      lds.setTimeBetweenEvictionRunsMillis(evictIdleTimeMs / 2);
-      lds.setTestOnBorrow(true);
-      lds.setTestOnReturn(true);
-      lds.setValidationQuery(dst.getValidationQuery());
-      lds.setValidationQueryTimeout(5);
-      exportPoolMetrics(lds);
-      return intercept(interceptor, lds);
+//      dsConfig.setMaxLifetime(cfg.getInt(DATABASE_KEY, "maxLifeTime", 5000));
+      dsConfig.setMetricRegistry(metricRegistry);
+      return intercept(interceptor, new HikariDataSource(dsConfig));
     }
     // Don't use the connection pool.
     //
@@ -166,23 +154,6 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
     } catch (SQLException se) {
       throw new ProvisionException("Database unavailable", se);
     }
-  }
-
-  private void exportPoolMetrics(final BasicDataSource pool) {
-    final CallbackMetric1<Boolean, Integer> cnt =
-        metrics.newCallbackMetric(
-            "sql/connection_pool/connections",
-            Integer.class,
-            new Description("SQL database connections").setGauge().setUnit("connections"),
-            Field.ofBoolean("active"));
-    metrics.newTrigger(
-        cnt,
-        () -> {
-            synchronized (pool) {
-              cnt.set(true, pool.getNumActive());
-              cnt.set(false, pool.getNumIdle());
-            }
-          });
   }
 
   private DataSource intercept(String interceptor, DataSource ds) {

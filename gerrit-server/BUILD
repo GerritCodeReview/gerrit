@@ -61,6 +61,7 @@ java_library(
         "//lib/commons:codec",
         "//lib/commons:compress",
         "//lib/commons:dbcp",
+        "//lib:hikaricp",
         "//lib/commons:lang",
         "//lib/commons:net",
         "//lib/commons:validator",

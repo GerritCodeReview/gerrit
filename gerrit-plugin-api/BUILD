@@ -22,6 +22,7 @@ EXPORTS = [
     "//gerrit-server/src/main/prolog:common",
     "//lib/commons:dbcp",
     "//lib/commons:lang",
+    "//lib:hikaricp",
     "//lib/dropwizard:dropwizard-core",
     "//lib/guice:guice",
     "//lib/guice:guice-assistedinject",

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.pgm.util;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.gerrit.common.SiteLibraryLoaderUtil;
-import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
@@ -37,11 +37,11 @@ public class SiteLibraryBasedDataSourceProvider extends DataSourceProvider {
   SiteLibraryBasedDataSourceProvider(
       SitePaths site,
       @GerritServerConfig Config cfg,
-      MetricMaker metrics,
+      MetricRegistry metricRegistry,
       ThreadSettingsConfig tsc,
       DataSourceProvider.Context ctx,
       DataSourceType dst) {
-    super(cfg, metrics, tsc, ctx, dst);
+    super(cfg, metricRegistry, tsc, ctx, dst);
     libdir = site.lib_dir;
   }
 

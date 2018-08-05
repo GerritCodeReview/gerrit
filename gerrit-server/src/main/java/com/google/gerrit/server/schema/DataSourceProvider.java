@@ -44,6 +44,8 @@ import org.eclipse.jgit.lib.Config;
 /** Provides access to the DataSource. */
 @Singleton
 public class DataSourceProvider implements Provider<DataSource>, LifecycleListener {
+  private static final String DATABASE_KEY = "database";
+
   private final Config cfg;
   private final MetricMaker metrics;
   private final Context ctx;
@@ -93,7 +95,7 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
   }
 
   private DataSource open(final Config cfg, final Context context, final DataSourceType dst) {
-    ConfigSection dbs = new ConfigSection(cfg, "database");
+    ConfigSection dbs = new ConfigSection(cfg, DATABASE_KEY);
     String driver = dbs.optional("driver");
     if (Strings.isNullOrEmpty(driver)) {
       driver = dst.getDriver();
@@ -112,7 +114,7 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
     if (context == Context.SINGLE_USER) {
       usePool = false;
     } else {
-      usePool = cfg.getBoolean("database", "connectionpool", dst.usePool());
+      usePool = cfg.getBoolean(DATABASE_KEY, "connectionpool", dst.usePool());
     }
 
     if (usePool) {
@@ -127,12 +129,12 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
       }
       int poolLimit = threadSettingsConfig.getDatabasePoolLimit();
       ds.setMaxActive(poolLimit);
-      ds.setMinIdle(cfg.getInt("database", "poolminidle", 4));
-      ds.setMaxIdle(cfg.getInt("database", "poolmaxidle", Math.min(poolLimit, 16)));
+      ds.setMinIdle(cfg.getInt(DATABASE_KEY, "poolminidle", 4));
+      ds.setMaxIdle(cfg.getInt(DATABASE_KEY, "poolmaxidle", Math.min(poolLimit, 16)));
       ds.setMaxWait(
           ConfigUtil.getTimeUnit(
               cfg,
-              "database",
+              DATABASE_KEY,
               null,
               "poolmaxwait",
               MILLISECONDS.convert(30, SECONDS),

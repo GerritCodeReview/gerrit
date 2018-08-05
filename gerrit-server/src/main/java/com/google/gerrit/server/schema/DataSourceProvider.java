@@ -177,15 +177,12 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
             Field.ofBoolean("active"));
     metrics.newTrigger(
         cnt,
-        new Runnable() {
-          @Override
-          public void run() {
+        () -> {
             synchronized (pool) {
               cnt.set(true, pool.getNumActive());
               cnt.set(false, pool.getNumIdle());
             }
-          }
-        });
+          });
   }
 
   private DataSource intercept(String interceptor, DataSource ds) {

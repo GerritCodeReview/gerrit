@@ -31,6 +31,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,7 +41,6 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,17 +123,15 @@ public abstract class JdbcAccountPatchReviewStore
 
   private static DataSource createDataSource(
       Config cfg, SitePaths sitePaths, ThreadSettingsConfig threadSettingsConfig) {
-    BasicDataSource datasource = new BasicDataSource();
+    HikariConfig dsConfig = new HikariConfig();
     String url = getUrl(cfg, sitePaths);
     int poolLimit = threadSettingsConfig.getDatabasePoolLimit();
-    datasource.setUrl(url);
-    datasource.setDriverClassName(getDriverFromUrl(url));
-    datasource.setMaxActive(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolLimit", poolLimit));
-    datasource.setMinIdle(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolminidle", 4));
-    datasource.setMaxIdle(
-        cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolmaxidle", Math.min(poolLimit, 16)));
-    datasource.setInitialSize(datasource.getMinIdle());
-    datasource.setMaxWait(
+    dsConfig.setJdbcUrl(url);
+    dsConfig.setDriverClassName(getDriverFromUrl(url));
+    dsConfig.setPoolName("AccountPatchReviewStore connection pool");
+    dsConfig.setMaximumPoolSize(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolLimit", poolLimit));
+    dsConfig.setMinimumIdle(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolminidle", poolLimit));
+    dsConfig.setConnectionTimeout(
         ConfigUtil.getTimeUnit(
             cfg,
             ACCOUNT_PATCH_REVIEW_DB,
@@ -140,10 +139,7 @@ public abstract class JdbcAccountPatchReviewStore
             "poolmaxwait",
             MILLISECONDS.convert(30, SECONDS),
             MILLISECONDS));
-    long evictIdleTimeMs = 1000L * 60;
-    datasource.setMinEvictableIdleTimeMillis(evictIdleTimeMs);
-    datasource.setTimeBetweenEvictionRunsMillis(evictIdleTimeMs / 2);
-    return datasource;
+    return new HikariDataSource(dsConfig);
   }
 
   private static String getDriverFromUrl(String url) {
@@ -203,7 +199,11 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   @Override
-  public void stop() {}
+  public void stop() {
+    if (ds != null && ds instanceof HikariDataSource) {
+      ((HikariDataSource) ds).close();
+    }
+  }
 
   @Override
   public boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path)

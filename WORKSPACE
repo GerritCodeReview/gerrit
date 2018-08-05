@@ -329,6 +329,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "hikaricp",
+    artifact = "com.zaxxer:HikariCP:3.2.0",
+    sha1 = "6c66db1c636ee90beb4c65fe34abd8ba9396bca6",
+)
+
+maven_jar(
     name = "commons-net",
     artifact = "commons-net:commons-net:3.5",
     sha1 = "342fc284019f590e1308056990fdb24a08f06318",

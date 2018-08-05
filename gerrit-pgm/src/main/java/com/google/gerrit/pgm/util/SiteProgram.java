@@ -50,6 +50,7 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.google.inject.spi.Message;
 import com.google.inject.util.Providers;
+import com.zaxxer.hikari.pool.HikariPool;
 import java.lang.annotation.Annotation;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -257,10 +258,9 @@ public abstract class SiteProgram extends AbstractProgram {
             "Cannot guess database type from the database product name '%s'", dbProductName));
   }
 
-  @SuppressWarnings("deprecation")
   private static boolean isCannotCreatePoolException(Throwable why) {
-    return why instanceof org.apache.commons.dbcp.SQLNestedException
+    return why instanceof HikariPool.PoolInitializationException
         && why.getCause() != null
-        && why.getMessage().startsWith("Cannot create PoolableConnectionFactory");
+        && why.getMessage().startsWith("Failed to initialize pool");
   }
 }

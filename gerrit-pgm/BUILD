@@ -67,6 +67,7 @@ REST_UTIL_DEPS = [
     "//lib:args4j",
     "//lib:gwtorm",
     "//lib/commons:dbcp",
+    "//lib:hikaricp",
 ]
 
 java_library(
@@ -80,7 +81,7 @@ java_library(
     name = "util-nodep",
     srcs = glob([SRCS + "util/*.java"]),
     visibility = ["//visibility:public"],
-    deps = DEPS + REST_UTIL_DEPS,  #  We want all these deps to be provided_deps
+    deps = DEPS + REST_UTIL_DEPS + ["@dropwizard-core//jar"],  #  We want all these deps to be provided_deps
 )
 
 JETTY_DEPS = [

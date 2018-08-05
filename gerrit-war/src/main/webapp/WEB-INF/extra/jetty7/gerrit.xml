@@ -38,7 +38,7 @@
     <Arg></Arg>
     <Arg>jdbc/ReviewDb</Arg>
     <Arg>
-      <New class="org.apache.commons.dbcp.BasicDataSource">
+      <New class="com.zaxxer.hikari.HikariDataSource">
 <!--  PostgreSQL
         <Set name="driverClassName">org.postgresql.Driver</Set>
         <Set name="url">jdbc:postgresql:reviewdb</Set>
@@ -57,11 +57,9 @@
         <Set name="driverClassName">org.h2.Driver</Set>
         <Set name="url">jdbc:h2:file:ReviewDb</Set>
 -->
-        <Set name="initialSize">4</Set>
-        <Set name="maxActive">8</Set>
-        <Set name="minIdle">4</Set>
-        <Set name="maxIdle">4</Set>
-        <Set name="maxWait">30000</Set>
+        <Set name="maximumPoolSize">8</Set>
+        <Set name="minimumIdle">8</Set>
+        <Set name="connectionTimeout">30000</Set>
       </New>
     </Arg>
   </New>

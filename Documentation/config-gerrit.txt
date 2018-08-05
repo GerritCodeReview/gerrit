@@ -348,7 +348,7 @@ order to validate their email address expires.
 * h, hr, hour, hours
 * d, day, days
 * w, week, weeks (`1 week` is treated as `7 days`)
-* mon, month, months (`1 month` is treated as `30 days`)
+* mon, month, months (`1 month` is treated as `30 d<Set name="maxLifetime">5000</Set>ays`)
 * y, year, years (`1 year` is treated as `365 days`)
 
 +
@@ -1674,17 +1674,10 @@ This setting only applies if
 [[database.poolMinIdle]]database.poolMinIdle::
 +
 Minimum number of connections to keep idle in the pool.
-Default is 4.
-+
-This setting only applies if
-<<database.connectionPool,database.connectionPool>> is true.
-
-[[database.poolMaxIdle]]database.poolMaxIdle::
-+
-Maximum number of connections to keep idle in the pool.  If there
-are more idle connections, connections will be closed instead of
-being returned back to the pool.
-Default is min(<<database.poolLimit, database.poolLimit>>, 16).
+For maximum performance and responsiveness to spike demands, it
+is recommended not setting this value and instead allowing
+the pool to act as a fixed size connection pool.
+Default is the same number as <<database.poolLimit, poolLimit>>.
 +
 This setting only applies if
 <<database.connectionPool,database.connectionPool>> is true.

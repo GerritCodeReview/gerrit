@@ -56,13 +56,13 @@ final class ReviewDbDataSourceProvider implements Provider<DataSource>, Lifecycl
 
   private void closeDataSource(final DataSource ds) {
     try {
-      Class<?> type = Class.forName("org.apache.commons.dbcp.BasicDataSource");
+      Class<?> type = Class.forName("com.zaxxer.hikari.HikariDataSource");
       if (type.isInstance(ds)) {
         type.getMethod("close").invoke(ds);
         return;
       }
     } catch (Throwable bad) {
-      // Oh well, its not a Commons DBCP pooled connection.
+      // Oh well, its not a HikariCP pooled connection.
     }
 
     try {

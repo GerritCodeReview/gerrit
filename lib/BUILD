@@ -299,3 +299,10 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@postgresql//jar"],
 )
+
+java_library(
+    name = "hikaricp",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@hikaricp//jar"],
+)

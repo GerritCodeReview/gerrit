@@ -81,6 +81,24 @@
       "revId": "2c875fdc257146ac2b3c86964be1b7808e7c8d92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c4010a9_236647af",
+        "filename": "polygerrit-ui/app/elements/change/gr-upload-help-dialog/gr-upload-help-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-06T20:53:37Z",
+      "side": 1,
+      "message": "That\u0027s not the case. The \"confirmLabel\" can be modified to whatever you want -- in this case, \"Done\". Using this dialog will allow us to avoid issues of this class [1], and styling drift in general.\n\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d8884",
+      "parentUuid": "950ac887_9d6d127d",
+      "revId": "2c875fdc257146ac2b3c86964be1b7808e7c8d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

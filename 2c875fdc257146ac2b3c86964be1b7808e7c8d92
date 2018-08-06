@@ -99,6 +99,24 @@
       "revId": "2c875fdc257146ac2b3c86964be1b7808e7c8d92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1945a806_50a7f105",
+        "filename": "polygerrit-ui/app/elements/change/gr-upload-help-dialog/gr-upload-help-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-06T21:03:25Z",
+      "side": 1,
+      "message": "The design does not include a cancel button, but that isn\u0027t hideable in a confirm dialog (nor should it be, because then it would no-longer be a confirm dialog).\n\nI appreciate your desire to synchronize dialog styles, but isn\u0027t what we\u0027re trying to accomplish here.",
+      "parentUuid": "0c4010a9_236647af",
+      "revId": "2c875fdc257146ac2b3c86964be1b7808e7c8d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

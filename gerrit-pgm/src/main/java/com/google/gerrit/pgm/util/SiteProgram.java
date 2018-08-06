@@ -63,6 +63,8 @@ import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 public abstract class SiteProgram extends AbstractProgram {
+  private static final String CONNECTION_ERROR = "Cannot connect to SQL database";
+
   @Option(
       name = "--site-path",
       aliases = {"-d"},
@@ -190,16 +192,16 @@ public abstract class SiteProgram extends AbstractProgram {
       Throwable why = first.getCause();
 
       if (why instanceof SQLException) {
-        throw die("Cannot connect to SQL database", why);
+        throw die(CONNECTION_ERROR, why);
       }
       if (why instanceof OrmException
           && why.getCause() != null
           && "Unable to determine driver URL".equals(why.getMessage())) {
         why = why.getCause();
         if (isCannotCreatePoolException(why)) {
-          throw die("Cannot connect to SQL database", why.getCause());
+          throw die(CONNECTION_ERROR, why.getCause());
         }
-        throw die("Cannot connect to SQL database", why);
+        throw die(CONNECTION_ERROR, why);
       }
 
       final StringBuilder buf = new StringBuilder();

@@ -106,14 +106,13 @@ public abstract class SiteProgram extends AbstractProgram {
   /** @return provides database connectivity and site path. */
   protected Injector createDbInjector(
       final boolean enableMetrics, final DataSourceProvider.Context context) {
-    final Path sitePath = getSitePath();
     final List<Module> modules = new ArrayList<>();
 
     Module sitePathModule =
         new AbstractModule() {
           @Override
           protected void configure() {
-            bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+            bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
             bind(String.class)
                 .annotatedWith(SecureStoreClassName.class)
                 .toProvider(Providers.of(getConfiguredSecureStoreClass()));

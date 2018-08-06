@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8811d8e_e0c2c9fb",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-06T18:22:45Z",
+      "side": 1,
+      "message": "Not a blocker, but this name seems really generic. Everything that gets loaded here is an asset, and they all use different URLs.\n\nWhat do you think of about ..\n\n bundledAssetsUrl\n\n.. or ..\n\n bundledPluginsUrl\n\n..?",
+      "range": {
+        "startLine": 22,
+        "startChar": 11,
+        "endLine": 22,
+        "endChar": 20
+      },
+      "revId": "04d46ff81a349d455d662c50b04e550a6ab30748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8cb9406a_7904a3c2",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-06T18:22:45Z",
+      "side": 1,
+      "message": "Because the assetsUrl parameter is defined with \"?\", this should be ..\n\n {if $assetsUrl}\n\nOtherwise, it creates an failing request to \"null\".\n\n  \u003cscript src\u003d\"/bower_components/webcomponentsjs/webcomponents-lite.js\"\u003e\u003c/script\u003e\n  \u003clink rel\u003d\"import\" href\u003d\"null\"\u003e\n  \u003clink rel\u003d\"preload\" href\u003d\"/elements/gr-app.js\" as\u003d\"script\" crossorigin\u003d\"anonymous\"\u003e",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 23
+      },
+      "revId": "04d46ff81a349d455d662c50b04e550a6ab30748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

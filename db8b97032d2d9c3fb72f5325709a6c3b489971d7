@@ -94,6 +94,30 @@
       "revId": "db8b97032d2d9c3fb72f5325709a6c3b489971d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6498dd1e_94834ea7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-06T13:19:54Z",
+      "side": 1,
+      "message": "Yes, you are right. This was a oversight during the split of the original update in two steps:\n\n* 2.0.29 (was merged already)\n* 2.33 this change\n\nI did the split to reduce the moving parts. Mainly because already the update to 2.0.29 was incompatible with rules-closure and closure_template. Unfortunately, I missed, that the CmdLineException deprecation was part of 2.0.29.\n\nMeantime DavidP fixed the deprecated warning with a different approach. In any event, the deprecation fix should be extracted from this change.",
+      "parentUuid": "3a7863b5_88fc2a26",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 42
+      },
+      "revId": "db8b97032d2d9c3fb72f5325709a6c3b489971d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

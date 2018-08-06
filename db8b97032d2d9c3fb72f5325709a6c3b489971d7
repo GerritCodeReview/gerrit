@@ -70,6 +70,30 @@
       "revId": "db8b97032d2d9c3fb72f5325709a6c3b489971d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a7863b5_88fc2a26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-06T12:55:18Z",
+      "side": 1,
+      "message": "in order to minimize the number of moving parts, I\u0027d rather fix up the ctors in a different change.",
+      "parentUuid": "5f633f4c_fbf97f1f",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 42
+      },
+      "revId": "db8b97032d2d9c3fb72f5325709a6c3b489971d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

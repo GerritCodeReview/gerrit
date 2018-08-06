@@ -20,8 +20,10 @@ import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 
 /**
- * Marker on a {@link org.eclipse.jgit.lib.PersonIdent} pointing to the identity representing Gerrit
- * server itself.
+ * Marker on a {@link org.eclipse.jgit.lib.PersonIdent} pointing to the identity + startup timestamp
+ * representing the Gerrit server itself.
+ *
+ * <p>Do not persist this, since it contains a timestamp, and use a Provider instead.
  */
 @Retention(RUNTIME)
 @BindingAnnotation

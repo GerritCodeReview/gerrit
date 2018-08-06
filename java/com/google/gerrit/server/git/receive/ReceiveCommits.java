@@ -1732,6 +1732,7 @@ class ReceiveCommits {
     return receivePack.getRevWalk().parseCommit(r.getObjectId());
   }
 
+  // Handle an upload to refs/changes/XX/CHANGED-ID.
   private void parseReplaceCommand(ReceiveCommand cmd, Change.Id changeId) {
     logDebug("Parsing replace command");
     if (cmd.getType() != ReceiveCommand.Type.CREATE) {
@@ -2146,6 +2147,8 @@ class ReceiveCommits {
     }
   }
 
+  // Mark all branch tips as uninteresting in the given revwalk,
+  // so we get only the new commits when walking rw.
   private void markHeadsAsUninteresting(RevWalk rw, @Nullable String forRef) {
     int i = 0;
     for (Ref ref : allRefs().values()) {
@@ -3086,6 +3089,9 @@ class ReceiveCommits {
     return r;
   }
 
+  // allRefsWatcher hooks into the protocol negotation to get a list of all known refs.
+  // This is used as a cache of ref -> sha1 values, and to build an inverse index
+  // of (change => list of refs) and a (SHA1 => refs).
   private Map<String, Ref> allRefs() {
     return allRefsWatcher.getAllRefs();
   }

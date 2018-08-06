@@ -248,8 +248,9 @@ public abstract class SiteProgram extends AbstractProgram {
     for (Binding<DataSourceType> binding : dsTypeBindings) {
       Annotation annotation = binding.getKey().getAnnotation();
       if (annotation instanceof Named) {
-        if (((Named) annotation).value().toLowerCase().contains(dbProductName)) {
-          return ((Named) annotation).value();
+        Named named = (Named) annotation;
+        if (named.value().toLowerCase().contains(dbProductName)) {
+          return named.value();
         }
       }
     }

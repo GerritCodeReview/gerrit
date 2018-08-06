@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.git.receive;
 
+import com.google.gerrit.server.UsedAt;
+
 /**
  * Interface used by {@link ReceiveCommits} for send messages over the wire during {@code
  * receive-pack}.
  */
+@UsedAt(UsedAt.Project.GOOGLE)
 public interface MessageSender {
   void sendMessage(String what);
 

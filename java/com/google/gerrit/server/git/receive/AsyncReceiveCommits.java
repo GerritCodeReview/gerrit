@@ -107,9 +107,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     private Worker(Collection<ReceiveCommand> commands) {
       this.commands = commands;
-      rc = factory.create(projectState, user, rp, allRefsWatcher, extraReviewers);
+      rc = factory.create(projectState, user, rp, allRefsWatcher, extraReviewers, messageSender);
       rc.init();
-      rc.setMessageSender(messageSender);
       progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
     }
 

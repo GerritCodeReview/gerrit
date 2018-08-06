@@ -253,7 +253,8 @@ class ReceiveCommits {
         IdentifiedUser user,
         ReceivePack receivePack,
         AllRefsWatcher allRefsWatcher,
-        SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers);
+        SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers,
+        MessageSender messageSender);
   }
 
   private class ReceivePackMessageSender implements MessageSender {
@@ -442,7 +443,8 @@ class ReceiveCommits {
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
       @Assisted AllRefsWatcher allRefsWatcher,
-      @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
+      @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers,
+      @Nullable @Assisted MessageSender messageSender)
       throws IOException {
     // Injected fields.
     this.accountResolver = accountResolver;
@@ -515,7 +517,7 @@ class ReceiveCommits {
         projectState.is(BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET);
 
     // Handles for outputting back over the wire to the end user.
-    messageSender = new ReceivePackMessageSender();
+    this.messageSender = messageSender != null ? messageSender : new ReceivePackMessageSender();
   }
 
   void init() {
@@ -524,15 +526,7 @@ class ReceiveCommits {
     }
   }
 
-  /** Set a message sender for this operation. */
-  void setMessageSender(MessageSender ms) {
-    messageSender = ms != null ? ms : new ReceivePackMessageSender();
-  }
-
   MessageSender getMessageSender() {
-    if (messageSender == null) {
-      setMessageSender(null);
-    }
     return messageSender;
   }
 

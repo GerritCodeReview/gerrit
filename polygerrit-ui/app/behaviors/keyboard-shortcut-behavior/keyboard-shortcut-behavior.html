@@ -48,7 +48,9 @@ limitations under the License.
     shouldSuppressKeyboardShortcut(e) {
       e = getKeyboardEvent(e);
       const tagName = Polymer.dom(e).rootTarget.tagName;
-      if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+      if (tagName === 'INPUT' || tagName === 'TEXTAREA' ||
+          (e.keyCode === 13 && tagName === 'A')) {
+        // Suppress shortcuts if the key is 'enter' and target is an anchor.
         return true;
       }
       for (let i = 0; e.path && i < e.path.length; i++) {

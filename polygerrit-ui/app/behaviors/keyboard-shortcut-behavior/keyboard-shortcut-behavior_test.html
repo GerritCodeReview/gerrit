@@ -51,6 +51,7 @@ limitations under the License.
         behaviors: [Gerrit.KeyboardShortcutBehavior],
         keyBindings: {
           k: '_handleKey',
+          enter: '_handleKey',
         },
         _handleKey() {},
       });
@@ -105,6 +106,17 @@ limitations under the License.
         done();
       };
       MockInteractions.keyDownOn(divEl, 75, null, 'k');
+    });
+
+    test('blocks enter shortcut on an anchor', done => {
+      const anchorEl = document.createElement('a');
+      const element = overlay.querySelector('test-element');
+      element.appendChild(anchorEl);
+      element._handleKey = e => {
+        assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
+        done();
+      };
+      MockInteractions.keyDownOn(anchorEl, 13, null, 'enter');
     });
 
     test('modifierPressed returns accurate values', () => {

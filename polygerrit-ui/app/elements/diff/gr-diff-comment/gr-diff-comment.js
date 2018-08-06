@@ -449,6 +449,13 @@
       this.fire('comment-discard', this._getEventPayload());
     },
 
+    _handleFix() {
+      this.dispatchEvent(new CustomEvent('create-fix-comment', {
+        bubbles: true,
+        detail: this._getEventPayload(),
+      }));
+    },
+
     _handleDiscard(e) {
       e.preventDefault();
       this.$.reporting.recordDraftInteraction();

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5b1d9702_d1ccd338",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-06T20:50:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "092316f2_114372a4",
+      "range": {
+        "startLine": 242,
+        "startChar": 6,
+        "endLine": 242,
+        "endChar": 43
+      },
+      "revId": "2c875fdc257146ac2b3c86964be1b7808e7c8d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "400f6a66_99d56184",
         "filename": "polygerrit-ui/app/elements/change/gr-upload-help-dialog/gr-upload-help-dialog.html",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "2c875fdc257146ac2b3c86964be1b7808e7c8d92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "950ac887_9d6d127d",
+        "filename": "polygerrit-ui/app/elements/change/gr-upload-help-dialog/gr-upload-help-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-06T20:50:06Z",
+      "side": 1,
+      "message": "Unfortunately the confirm dialog cannot be used here because this isn\u0027t a confirmable or cancelable action.\n\nI think we agree that it\u0027d be nice to have a reusable dialog component for things like this, but we haven\u0027t got one at this time.",
+      "parentUuid": "400f6a66_99d56184",
+      "revId": "2c875fdc257146ac2b3c86964be1b7808e7c8d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

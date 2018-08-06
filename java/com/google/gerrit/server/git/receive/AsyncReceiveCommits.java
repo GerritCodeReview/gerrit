@@ -114,9 +114,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     private Worker(Collection<ReceiveCommand> commands) {
       this.commands = commands;
       receiveCommits =
-          factory.create(projectState, user, receivePack, allRefsWatcher, extraReviewers);
+          factory.create(projectState, user, receivePack, allRefsWatcher, extraReviewers, messageSender);
       receiveCommits.init();
-      receiveCommits.setMessageSender(messageSender);
       progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
     }
 

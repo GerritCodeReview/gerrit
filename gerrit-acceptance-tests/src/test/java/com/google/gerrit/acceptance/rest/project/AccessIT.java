@@ -15,9 +15,11 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.net.HttpHeaders;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -36,6 +38,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.HashMap;
+import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -50,6 +53,7 @@ public class AccessIT extends AbstractDaemonTest {
 
   private final String REFS_ALL = Constants.R_REFS + "*";
   private final String REFS_HEADS = Constants.R_HEADS + "*";
+  private final String REFS_TAGS = Constants.R_TAGS + "*";
 
   private final String LABEL_CODE_REVIEW = "Code-Review";
 
@@ -170,6 +174,25 @@ public class AccessIT extends AbstractDaemonTest {
 
     // Check
     assertThat(pApi.access().local).isEqualTo(accessInput.add);
+  }
+
+  @Test
+  public void getPermissionHttp() throws Exception {
+    Project.NameKey pj = createProject(PROJECT_NAME + "Http");
+    grant(Permission.CREATE, pj, REFS_TAGS, true, SystemGroupBackend.REGISTERED_USERS);
+    grant(Permission.CREATE_TAG, pj, REFS_TAGS, true, SystemGroupBackend.REGISTERED_USERS);
+
+    RestResponse r =
+        userRestSession.getWithHeader(
+            "/projects/" + pj.get() + "/access",
+            new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json"));
+    r.assertOK();
+
+    ProjectAccessInfo accessInfo = newGson().fromJson(r.getReader(), ProjectAccessInfo.class);
+    assertThat(accessInfo.local.containsKey(REFS_TAGS)).isTrue();
+    assertThat(accessInfo.local.get(REFS_TAGS).permissions.containsKey(Permission.CREATE)).isTrue();
+    assertThat(accessInfo.local.get(REFS_TAGS).permissions.containsKey(Permission.CREATE_TAG))
+        .isTrue();
   }
 
   @Test

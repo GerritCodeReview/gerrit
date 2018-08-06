@@ -117,6 +117,24 @@
       "revId": "2c875fdc257146ac2b3c86964be1b7808e7c8d92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75a8852a_b2689656",
+        "filename": "polygerrit-ui/app/elements/change/gr-upload-help-dialog/gr-upload-help-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-06T21:55:55Z",
+      "side": 1,
+      "message": "I\u0027d have no problem adding a property to the confirm dialog to allow hiding the cancel button. Would you like me to do so?\n\nI don\u0027t want to add technical debt to the project, especially when we\u0027ve already been bitten by this before. For instance, the header you\u0027ve added here is already in conflict with the header we have in many other dialogs. We could fix that ad-hoc for each individual case of an ad-hoc dialog, or we could make the good engineering decision to solve it generally (which I\u0027d prefer, especially as I\u0027ve had to fix issues of this class a few times before)",
+      "parentUuid": "1945a806_50a7f105",
+      "revId": "2c875fdc257146ac2b3c86964be1b7808e7c8d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

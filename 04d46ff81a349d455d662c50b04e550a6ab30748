@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6fb0abbd_a13143f3",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-08-06T19:19:49Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand your concern. \nSo, first of all, assets aren\u0027t purely plugins - current plan is to include plugins and site themes, but we potentially can use this mechanism to preload other data, e.g. plugin configuration, etc.\n\nSo, bundledAssetsUrl makes sense, but I don\u0027t see a significant difference in the name - a comment probably would be sufficient. What do you think?",
+      "parentUuid": "b8811d8e_e0c2c9fb",
+      "range": {
+        "startLine": 22,
+        "startChar": 11,
+        "endLine": 22,
+        "endChar": 20
+      },
+      "revId": "04d46ff81a349d455d662c50b04e550a6ab30748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cb9406a_7904a3c2",
         "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "04d46ff81a349d455d662c50b04e550a6ab30748",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07ef1cb3_9813af86",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-08-06T19:19:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cb9406a_7904a3c2",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 23
+      },
+      "revId": "04d46ff81a349d455d662c50b04e550a6ab30748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

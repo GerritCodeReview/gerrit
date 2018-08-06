@@ -20,8 +20,11 @@ import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 
 /**
- * Marker on a {@link org.eclipse.jgit.lib.PersonIdent} pointing to the identity representing Gerrit
- * server itself.
+ * Marker on a {@link org.eclipse.jgit.lib.PersonIdent} pointing to the identity + timestamp
+ * representing the Gerrit server itself.
+ *
+ * <p>When injecting this into a singleton class, use {@code Provider<PersonIdent>} so you get a
+ * fresh timestamp for each call to {@code get()}.
  */
 @Retention(RUNTIME)
 @BindingAnnotation

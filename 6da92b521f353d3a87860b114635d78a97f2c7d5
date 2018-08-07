@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec2afdd7_7a59c698",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1735,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-07T05:44:45Z",
+      "side": 1,
+      "message": "Maybe better say CHANGE-NUMBER to avoid confusion with the Change-Id (IXXXXXXX)?",
+      "range": {
+        "startLine": 1735,
+        "startChar": 5,
+        "endLine": 1735,
+        "endChar": 52
+      },
+      "revId": "6da92b521f353d3a87860b114635d78a97f2c7d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

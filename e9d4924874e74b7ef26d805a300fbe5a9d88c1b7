@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81953f9a_dd66593e",
+        "filename": "java/com/google/gerrit/server/GerritPersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-07T05:39:27Z",
+      "side": 1,
+      "message": "Why \u0027startup timestamp\u0027?\nIsn\u0027t it the timestamp of when this PersonIdent instance was created?\nIf it was the server startup timestamp we would be okay with keeping a reference to GerritPersonIdent in a singleton.",
+      "range": {
+        "startLine": 23,
+        "startChar": 83,
+        "endLine": 23,
+        "endChar": 100
+      },
+      "revId": "e9d4924874e74b7ef26d805a300fbe5a9d88c1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05556bc9_62d2fb8d",
+        "filename": "java/com/google/gerrit/server/GerritPersonIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-07T05:39:27Z",
+      "side": 1,
+      "message": "Persist may not be the right word, e.g. it\u0027s okay to use this identity in NoteDb to persist that an action was done by the server at that time. I think you mean instances of GerritPersonIdent should not be kept in singletons?",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 25
+      },
+      "revId": "e9d4924874e74b7ef26d805a300fbe5a9d88c1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

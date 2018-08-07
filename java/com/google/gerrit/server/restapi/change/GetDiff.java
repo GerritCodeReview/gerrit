@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.util.cli.Localizable.localizable;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
@@ -440,9 +441,9 @@ public class GetDiff implements RestReadView<FileResource> {
         } catch (NumberFormatException e) {
           throw new CmdLineException(
               owner,
-              String.format(
-                  "\"%s\" is not a valid value for \"%s\"",
-                  value, ((NamedOptionDef) option).name()));
+              localizable("\"%s\" is not a valid value for \"%s\""),
+              value,
+              ((NamedOptionDef) option).name());
         }
       }
       setter.addValue(context);

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.util.cli.Localizable.localizable;
+
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import java.lang.annotation.Annotation;
@@ -160,7 +162,7 @@ final class ApproveOption implements Option, Setter<Short> {
                 + " for \""
                 + name
                 + "\"";
-        throw new CmdLineException(owner, e);
+        throw new CmdLineException(owner, localizable(e));
       }
       return value;
     }

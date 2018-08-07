@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.util.cli.Localizable.localizable;
+
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -41,7 +43,7 @@ public class SocketAddressHandler extends OptionHandler<SocketAddress> {
     try {
       setter.addValue(SocketUtil.parse(token, 0));
     } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, e.getMessage());
+      throw new CmdLineException(owner, localizable(e.getMessage()));
     }
     return 1;
   }

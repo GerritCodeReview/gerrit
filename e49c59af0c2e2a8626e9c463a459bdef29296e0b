@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1533647931 +0200\nnonce APISObTtoEkxRrWEg1K1u5R5xk9+vm6ebEKI1NSQnWPf1iB2LUB5WdYUfp+PIRxAEZhP02HBA+IP\n\n0000000000000000000000000000000000000000 6c7616f539a204573c025550cf0a2a3fb55803cf refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAltpnDsACgkQUbX9l6DQ\n71Gy4AgAu+oFIGLEuWnDHRz823qDzA/AcuJkE2bnQaIakMoinj7N5rWmRZ//XM2z\n0jGSO+4GuaSJhIOLthMbSXvpIRUJ7IWuCIaSiqon7Vuj4QeukkDP5Q1kWEnfEkGR\nIuCYde4hzgSY2+6WOVENGawStzJOhei3k/DgDWIrmYNs7XFsdnxe0/HlzP8Q91Pr\nW27wvhr9r+48ByEd3WnOSxNUlioefiBM2Ng1dEn0VEPKBKOZaLcRbuyZwhy9E/rL\n34imPFw9rpAnun5PuS3FzkIMtGR20mbYDISYW/cwBFFBtyeTRW/zyvQ3dZB3w9m0\nXiHfVSBLTbDFllAk4xH4MXYSIdNVKw\u003d\u003d\n\u003dLmQp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c3c523c_5a6be1f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-07T19:45:54Z",
+      "side": 1,
+      "message": "Before moving forward with this, I want to make sure we aren\u0027t introducing regressions (associating debug tags with fewer log lines than we used to). Are you sure that there isn\u0027t any code which logs a tag in a background thread which would stop logging a tag? I\u0027m thinking for example about the fanout in ReviewDbBatchUpdate, or indexing.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "e49c59af0c2e2a8626e9c463a459bdef29296e0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

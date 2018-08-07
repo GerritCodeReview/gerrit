@@ -474,6 +474,9 @@ public class ProjectInfoScreen extends ProjectScreen {
       textBox.setValue(param.value());
       addWidget(g, textBox, param);
     }
+    if(textBox.getValue().length() > textBox.getVisibleLength()) {
+      textBox.setVisibleLength(textBox.getValue().length());
+    }
     saveEnabler.listenTo(textBox);
     return textBox;
   }

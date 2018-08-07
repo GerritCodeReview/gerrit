@@ -142,9 +142,9 @@ public class AsciiDoctor {
     try {
       parser.parseArgument(parameters);
       if (inputFiles.isEmpty()) {
-        throw new CmdLineException(parser, "asciidoctor: FAILED: input file missing");
+        throw new IllegalArgumentException("asciidoctor: FAILED: input file missing");
       }
-    } catch (CmdLineException e) {
+    } catch (CmdLineException | IllegalArgumentException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
       System.exit(1);

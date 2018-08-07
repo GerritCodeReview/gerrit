@@ -38,6 +38,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -370,7 +371,15 @@ class ReceiveCommits {
   private final ListMultimap<ReceiveError, String> errors;
   private final ListMultimap<String, String> pushOptions;
   private final Map<Change.Id, ReplaceRequest> replaceByChange;
-  private final Set<ObjectId> validCommits;
+
+  @AutoValue
+  protected abstract static class ValidCommitKey {
+    abstract ObjectId getObjectId();
+
+    abstract Branch.NameKey getBranch();
+  }
+
+  private final Set<ValidCommitKey> validCommits;
 
   /**
    * Actual commands to be executed, as opposed to the mix of actual and magic commands that were
@@ -2874,7 +2883,9 @@ class ReceiveCommits {
       RevWalk rw, Branch.NameKey branch, ReceiveCommand cmd, ObjectId id, @Nullable Change change)
       throws IOException {
     PermissionBackend.ForRef perm = permissions.ref(branch.get());
-    if (validCommits.contains(id)) {
+
+    ValidCommitKey key = new AutoValue_ReceiveCommits_ValidCommitKey(id.copy(), branch);
+    if (validCommits.contains(key)) {
       return true;
     }
 
@@ -2900,7 +2911,7 @@ class ReceiveCommits {
       reject(cmd, e.getMessage());
       return false;
     }
-    validCommits.add(c.copy());
+    validCommits.add(key);
     return true;
   }
 

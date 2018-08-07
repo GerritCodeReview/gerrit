@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c8adf89_871643ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-07T19:41:50Z",
+      "side": 1,
+      "message": "Based on the current code, this was only possible in one corner case. All but one of the callers of validCommits were in the codepath where it\u0027s processing a refs/for/* command, and we fail fast if more than one such command is present in the batch.\n\nThe remaining caller was when auto-closing changes. So you would have to push both refs/for/foo and refs/heads/bar in the same push.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "9dd2768cf450274c162077b04a0b5fca208517cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

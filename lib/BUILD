@@ -72,7 +72,11 @@ java_library(
     name = "gwtorm",
     visibility = ["//visibility:public"],
     exports = [":gwtorm-client"],
-    runtime_deps = [":protobuf"],
+    runtime_deps = [
+        ":protobuf",
+        "//lib/antlr:java-runtime",
+        "//lib/ow2:ow2-asm",
+    ],
 )
 
 java_library(

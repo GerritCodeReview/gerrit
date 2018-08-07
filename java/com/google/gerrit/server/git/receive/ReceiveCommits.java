@@ -382,7 +382,6 @@ class ReceiveCommits {
   private final List<ReceiveCommand> actualCommands;
 
   // Collections lazily populated during processing.
-  private List<CreateRequest> newChanges;
   private ListMultimap<Change.Id, Ref> refsByChange;
   private ListMultimap<ObjectId, Ref> refsById;
 
@@ -509,9 +508,6 @@ class ReceiveCommits {
     updateGroups = new ArrayList<>();
     validCommits = new HashSet<>();
 
-    // Collections lazily populated during processing.
-    newChanges = Collections.emptyList();
-
     // Other settings populated during processing.
     newChangeForAllNotInTarget =
         projectState.is(BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET);
@@ -576,11 +572,13 @@ class ReceiveCommits {
       }
       logError(String.format("Failed to process refs in %s", project.getName()), err);
     }
+
+    List<CreateRequest> newChanges = Collections.emptyList();
     if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
-      selectNewAndReplacedChangesFromMagicBranch();
+      newChanges = selectNewAndReplacedChangesFromMagicBranch();
     }
-    preparePatchSetsForReplace();
-    insertChangesAndPatchSets();
+    preparePatchSetsForReplace(newChanges);
+    insertChangesAndPatchSets(newChanges);
     newProgress.end();
     replaceProgress.end();
 
@@ -633,10 +631,10 @@ class ReceiveCommits {
     closeProgress.end();
     commandProgress.end();
     progress.end();
-    reportMessages();
+    reportMessages(newChanges);
   }
 
-  private void reportMessages() {
+  private void reportMessages(List<CreateRequest> newChanges) {
     List<CreateRequest> created =
         newChanges.stream().filter(r -> r.change != null).collect(toList());
     if (!created.isEmpty()) {
@@ -715,7 +713,7 @@ class ReceiveCommits {
     }
   }
 
-  private void insertChangesAndPatchSets() {
+  private void insertChangesAndPatchSets(List<CreateRequest> newChanges) {
     ReceiveCommand magicBranchCmd = magicBranch != null ? magicBranch.cmd : null;
     if (magicBranchCmd != null && magicBranchCmd.getResult() != NOT_ATTEMPTED) {
       logWarn(
@@ -1790,9 +1788,9 @@ class ReceiveCommits {
     return true;
   }
 
-  private void selectNewAndReplacedChangesFromMagicBranch() {
+  private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch() {
     logDebug("Finding new and replaced changes");
-    newChanges = new ArrayList<>();
+    List<CreateRequest> newChanges = new ArrayList<>();
 
     ListMultimap<ObjectId, Ref> existing = changeRefsById();
     GroupCollector groupCollector =
@@ -1801,7 +1799,7 @@ class ReceiveCommits {
     try {
       RevCommit start = setUpWalkForSelectingChanges();
       if (start == null) {
-        return;
+        return Collections.emptyList();
       }
 
       LinkedHashMap<RevCommit, ChangeLookup> pending = new LinkedHashMap<>();
@@ -1877,8 +1875,7 @@ class ReceiveCommits {
           reject(
               magicBranch.cmd,
               "the number of pushed changes in a batch exceeds the max limit " + maxBatchChanges);
-          newChanges = Collections.emptyList();
-          return;
+          return Collections.emptyList();
         }
 
         if (commitAlreadyTracked) {
@@ -1904,9 +1901,8 @@ class ReceiveCommits {
             c,
             null)) {
           // Not a change the user can propose? Abort as early as possible.
-          newChanges = Collections.emptyList();
           logDebug("Aborting early due to invalid commit");
-          return;
+          return Collections.emptyList();
         }
 
         // Don't allow merges to be uploaded in commit chain via all-not-in-target
@@ -1943,8 +1939,7 @@ class ReceiveCommits {
         if (newChangeIds.contains(p.changeKey)) {
           logDebug("Multiple commits with Change-Id %s", p.changeKey);
           reject(magicBranch.cmd, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
-          newChanges = Collections.emptyList();
-          return;
+          return Collections.emptyList();
         }
 
         List<ChangeData> changes = p.destChanges;
@@ -1960,8 +1955,7 @@ class ReceiveCommits {
           // this error message as Change-Id should be unique per branch.
           //
           reject(magicBranch.cmd, p.changeKey.get() + " has duplicates");
-          newChanges = Collections.emptyList();
-          return;
+          return Collections.emptyList();
         }
 
         if (changes.size() == 1) {
@@ -1985,15 +1979,13 @@ class ReceiveCommits {
           if (requestReplace(magicBranch.cmd, false, changes.get(0).change(), p.commit)) {
             continue;
           }
-          newChanges = Collections.emptyList();
-          return;
+          return Collections.emptyList();
         }
 
         if (changes.size() == 0) {
           if (!isValidChangeId(p.changeKey.get())) {
             reject(magicBranch.cmd, "invalid Change-Id");
-            newChanges = Collections.emptyList();
-            return;
+            return Collections.emptyList();
           }
 
           // In case the change look up from the index failed,
@@ -2001,8 +1993,7 @@ class ReceiveCommits {
           if (foundInExistingRef(existing.get(p.commit))) {
             if (pending.size() == 1) {
               reject(magicBranch.cmd, "commit(s) already exists (as current patchset)");
-              newChanges = Collections.emptyList();
-              return;
+              return Collections.emptyList();
             }
             itr.remove();
             continue;
@@ -2020,22 +2011,20 @@ class ReceiveCommits {
       //
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
       logError("Invalid pack upload; one or more objects weren't sent", e);
-      newChanges = Collections.emptyList();
-      return;
+      return Collections.emptyList();
     } catch (OrmException e) {
       logError("Cannot query database to locate prior changes", e);
       reject(magicBranch.cmd, "database error");
-      newChanges = Collections.emptyList();
-      return;
+      return Collections.emptyList();
     }
 
     if (newChanges.isEmpty() && replaceByChange.isEmpty()) {
       reject(magicBranch.cmd, "no new changes");
-      return;
+      return Collections.emptyList();
     }
     if (!newChanges.isEmpty() && magicBranch.edit) {
       reject(magicBranch.cmd, "edit is not supported for new changes");
-      return;
+      return newChanges;
     }
 
     try {
@@ -2056,8 +2045,8 @@ class ReceiveCommits {
     } catch (OrmException e) {
       logError("Error collecting groups for changes", e);
       reject(magicBranch.cmd, "internal server error");
-      return;
     }
+    return newChanges;
   }
 
   private boolean foundInExistingRef(Collection<Ref> existingRefs) throws OrmException {
@@ -2323,7 +2312,7 @@ class ReceiveCommits {
     }
   }
 
-  private void preparePatchSetsForReplace() {
+  private void preparePatchSetsForReplace(List<CreateRequest> newChanges) {
     try {
       readChangesForReplace();
       for (Iterator<ReplaceRequest> itr = replaceByChange.values().iterator(); itr.hasNext(); ) {

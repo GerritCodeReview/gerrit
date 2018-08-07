@@ -38,6 +38,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -370,7 +371,15 @@ class ReceiveCommits {
   private final ListMultimap<ReceiveError, String> errors;
   private final ListMultimap<String, String> pushOptions;
   private final Map<Change.Id, ReplaceRequest> replaceByChange;
-  private final Set<ObjectId> validCommits;
+
+  @AutoValue
+  protected abstract static class ValidCommitKey {
+    abstract ObjectId getObjectId();
+
+    abstract Branch.NameKey getBranch();
+  }
+
+  private final Set<ValidCommitKey> validCommits;
 
   /**
    * Actual commands to be executed, as opposed to the mix of actual and magic commands that were
@@ -1893,13 +1902,7 @@ class ReceiveCommits {
           logDebug("Creating new change for %s even though it is already tracked", name);
         }
 
-        if (!validCommit(
-            receivePack.getRevWalk(),
-            magicBranch.perm,
-            magicBranch.dest,
-            magicBranch.cmd,
-            c,
-            null)) {
+        if (!validCommit(receivePack.getRevWalk(), magicBranch.dest, magicBranch.cmd, c, null)) {
           // Not a change the user can propose? Abort as early as possible.
           logDebug("Aborting early due to invalid commit");
           return Collections.emptyList();
@@ -2486,9 +2489,8 @@ class ReceiveCommits {
         }
       }
 
-      PermissionBackend.ForRef perm = permissions.ref(change.getDest().get());
       if (!validCommit(
-          receivePack.getRevWalk(), perm, change.getDest(), inputCommand, newCommit, change)) {
+          receivePack.getRevWalk(), change.getDest(), inputCommand, newCommit, change)) {
         return false;
       }
       receivePack.getRevWalk().parseBody(priorCommit);
@@ -2860,7 +2862,7 @@ class ReceiveCommits {
         }
         if (existing.keySet().contains(c)) {
           continue;
-        } else if (!validCommit(walk, perm, branch, cmd, c, null)) {
+        } else if (!validCommit(walk, branch, cmd, c, null)) {
           break;
         }
 
@@ -2878,15 +2880,12 @@ class ReceiveCommits {
   }
 
   private boolean validCommit(
-      RevWalk rw,
-      PermissionBackend.ForRef perm,
-      Branch.NameKey branch,
-      ReceiveCommand cmd,
-      ObjectId id,
-      @Nullable Change change)
+      RevWalk rw, Branch.NameKey branch, ReceiveCommand cmd, ObjectId id, @Nullable Change change)
       throws IOException {
+    PermissionBackend.ForRef perm = permissions.ref(branch.get());
 
-    if (validCommits.contains(id)) {
+    ValidCommitKey key = new AutoValue_ReceiveCommits_ValidCommitKey(id.copy(), branch);
+    if (validCommits.contains(key)) {
       return true;
     }
 
@@ -2912,7 +2911,7 @@ class ReceiveCommits {
       reject(cmd, e.getMessage());
       return false;
     }
-    validCommits.add(c.copy());
+    validCommits.add(key);
     return true;
   }
 

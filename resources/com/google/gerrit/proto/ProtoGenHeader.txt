@@ -14,7 +14,6 @@
 
 syntax = "proto2";
 
-option java_api_version = 2;
 option java_package = "com.google.gerrit.proto.reviewdb";
 
 package devtools.gerritcodereview;

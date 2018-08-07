@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm;
+package com.google.gerrit.proto;
 
+import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gerrit.pgm.util.AbstractProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.schema.java.JavaSchemaModel;
 import java.io.BufferedWriter;
@@ -28,23 +28,37 @@ import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.util.IO;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-public class ProtoGen extends AbstractProgram {
+public class ProtoGen {
   @Option(
-      name = "--output",
-      aliases = {"-o"},
-      required = true,
-      metaVar = "FILE",
-      usage = "File to write .proto into")
+    name = "--output",
+    aliases = {"-o"},
+    required = true,
+    metaVar = "FILE",
+    usage = "File to write .proto into"
+  )
   private File file;
 
-  @Override
-  public int run() throws Exception {
-    LockFile lock = new LockFile(file.getAbsoluteFile());
-    if (!lock.lock()) {
-      throw die("Cannot lock " + file);
+  public static void main(String[] argv) throws Exception {
+    System.exit(new ProtoGen().run(argv));
+  }
+
+  private int run(String[] argv) throws Exception {
+    CmdLineParser parser = new CmdLineParser(this);
+    try {
+      parser.parseArgument(argv);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      System.err.println(getClass().getSimpleName() + " -o output.proto");
+      parser.printUsage(System.err);
+      return 1;
     }
+
+    LockFile lock = new LockFile(file.getAbsoluteFile());
+    checkState(lock.lock(), "cannot lock %s", file);
     try {
       JavaSchemaModel jsm = new JavaSchemaModel(ReviewDb.class);
       try (OutputStream o = lock.getOutputStream();
@@ -61,9 +75,7 @@ public class ProtoGen extends AbstractProgram {
         jsm.generateProto(out);
         out.flush();
       }
-      if (!lock.commit()) {
-        throw die("Could not write to " + file);
-      }
+      checkState(lock.commit(), "Could not write to %s", file);
     } finally {
       lock.unlock();
     }

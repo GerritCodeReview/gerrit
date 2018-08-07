@@ -238,7 +238,9 @@ determining whether a change is submittable.
 The `PatchSetLock` function provides a locking mechanism for patch
 sets.  This function's values are not considered when determining
 whether a change is submittable. When set, no new patchsets can be
-created and rebase and abandon are blocked.
+created and rebase and abandon are blocked. This is useful to prevent
+updates to a change while (potentially expensive) CI
+validation is running.
 +
 This function is designed to allow overlapping locks, so several lock
 accounts could lock the same change.

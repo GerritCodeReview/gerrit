@@ -40,7 +40,7 @@ public class ConfigInfoImpl extends ConfigInfo {
   public ConfigInfoImpl(
       boolean serverEnableSignedPush,
       ProjectControl control,
-      TransferConfig config,
+      TransferConfig transferConfig,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
@@ -114,14 +114,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     this.privateByDefault = privateByDefault;
     this.workInProgressByDefault = workInProgressByDefault;
 
-    MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
-    maxObjectSizeLimit.value =
-        config.getEffectiveMaxObjectSizeLimit(projectState) == config.getMaxObjectSizeLimit()
-            ? config.getFormattedMaxObjectSizeLimit()
-            : p.getMaxObjectSizeLimit();
-    maxObjectSizeLimit.configuredValue = p.getMaxObjectSizeLimit();
-    maxObjectSizeLimit.inheritedValue = config.getFormattedMaxObjectSizeLimit();
-    this.maxObjectSizeLimit = maxObjectSizeLimit;
+    this.maxObjectSizeLimit = getMaxObjectSizeLimit(projectState, transferConfig, p);
 
     this.submitType = p.getSubmitType();
     this.state =
@@ -144,6 +137,19 @@ public class ConfigInfoImpl extends ConfigInfo {
     this.theme = projectState.getTheme();
 
     this.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
+  }
+
+  private MaxObjectSizeLimitInfo getMaxObjectSizeLimit(
+      ProjectState projectState, TransferConfig transferConfig, Project p) {
+    MaxObjectSizeLimitInfo info = new MaxObjectSizeLimitInfo();
+    info.value =
+        transferConfig.getEffectiveMaxObjectSizeLimit(projectState)
+                == transferConfig.getMaxObjectSizeLimit()
+            ? transferConfig.getFormattedMaxObjectSizeLimit()
+            : p.getMaxObjectSizeLimit();
+    info.configuredValue = p.getMaxObjectSizeLimit();
+    info.inheritedValue = transferConfig.getFormattedMaxObjectSizeLimit();
+    return info;
   }
 
   private Map<String, Map<String, ConfigParameterInfo>> getPluginConfig(

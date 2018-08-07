@@ -137,6 +137,10 @@ public class EventRecorder {
     return events;
   }
 
+  public void assertNoRefUpdatedEvents(String project, String branch) throws Exception {
+    getRefUpdatedEvents(project, branch, 0);
+  }
+
   public void assertRefUpdatedEvents(String project, String branch, String... expected)
       throws Exception {
     ImmutableList<RefUpdatedEvent> events =

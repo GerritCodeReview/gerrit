@@ -140,9 +140,12 @@ objects which are too large to Gerrit. This setting can also be set in
 `gerrit.config` globally (link:config-gerrit.html#receive.maxObjectSizeLimit[
 receive.maxObjectSizeLimit]).
 +
-The project specific setting in `project.config` is only honored when it
-further reduces the global limit. The setting is not inherited from the
-parent project; it must be explicitly set per project.
+The project specific setting in `project.config` may not set a value higher
+than the global limit (if configured). In other words, it is only honored when
+it further reduces the global limit.
++
+The setting is not inherited from the parent project; it must be explicitly
+set per project.
 +
 Default is zero.
 +

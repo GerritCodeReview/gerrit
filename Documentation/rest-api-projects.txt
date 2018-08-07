@@ -3062,7 +3062,8 @@ formatted string. +
 Not set if there is no limit for the object size configured on project
 level.
 |`inherited_value` |optional|
-The max object size limit that is inherited as a formatted string. +
+The max object size limit that is inherited from the global config as a
+formatted string. +
 Not set if there is no global limit for the object size.
 |===============================
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.logging;
 
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.flogger.backend.Tags;
 import java.util.logging.Level;
 
@@ -51,6 +52,11 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     return mutableTags != null ? mutableTags.getTags() : Tags.empty();
   }
 
+  public ImmutableMultimap<String, String> getTagsAsMap() {
+    MutableTags mutableTags = tags.get();
+    return mutableTags != null ? mutableTags.asMap() : ImmutableMultimap.of();
+  }
+
   boolean addTag(String name, String value) {
     return getMutableTags().add(name, value);
   }
@@ -61,6 +67,14 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     if (mutableTags.isEmpty()) {
       tags.remove();
     }
+  }
+
+  void setTags(ImmutableMultimap<String, String> newTags) {
+    if (newTags.isEmpty()) {
+      tags.remove();
+      return;
+    }
+    getMutableTags().set(newTags);
   }
 
   void clearTags() {

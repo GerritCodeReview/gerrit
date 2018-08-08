@@ -17,6 +17,7 @@ package com.google.gerrit.server.logging;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import java.util.Map;
 import java.util.SortedMap;
@@ -110,6 +111,16 @@ public class MutableTagsTest {
 
     tags.remove("name", "foo");
     assertTags(ImmutableMap.of("name", ImmutableSet.of("value")));
+  }
+
+  @Test
+  public void setTags() {
+    tags.add("name", "value");
+    assertTags(ImmutableMap.of("name", ImmutableSet.of("value")));
+
+    tags.set(ImmutableMultimap.of("foo", "bar", "foo", "baz", "bar", "baz"));
+    assertTags(
+        ImmutableMap.of("foo", ImmutableSet.of("bar", "baz"), "bar", ImmutableSet.of("baz")));
   }
 
   @Test

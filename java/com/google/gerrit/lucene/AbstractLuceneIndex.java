@@ -39,6 +39,7 @@ import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.logging.LoggingContextAwareThreadFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import java.io.IOException;
@@ -131,6 +132,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
           new ScheduledThreadPoolExecutor(
               1,
               new ThreadFactoryBuilder()
+                  .setThreadFactory(new LoggingContextAwareThreadFactory())
                   .setNameFormat(index + " Commit-%d")
                   .setDaemon(true)
                   .build());
@@ -171,6 +173,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
             Executors.newFixedThreadPool(
                 1,
                 new ThreadFactoryBuilder()
+                    .setThreadFactory(new LoggingContextAwareThreadFactory())
                     .setNameFormat(index + " Write-%d")
                     .setDaemon(true)
                     .build()));

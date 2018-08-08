@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df1ed2a4_545cdeb1",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-08T12:13:38Z",
+      "side": 0,
+      "message": "I don\u0027t see this check in the new code. Don\u0027t we need it anymore?",
+      "range": {
+        "startLine": 294,
+        "startChar": 4,
+        "endLine": 296,
+        "endChar": 5
+      },
+      "revId": "924f53efd73eb21e6ea233741cfe8e06ef3f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

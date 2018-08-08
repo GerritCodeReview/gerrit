@@ -23,6 +23,30 @@
       "revId": "e49c59af0c2e2a8626e9c463a459bdef29296e0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73937932_ba7db5aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-08T07:15:32Z",
+      "side": 1,
+      "message": "\u003e Before moving forward with this, I want to make sure we aren\u0027t introducing \n\u003e regressions (associating debug tags with fewer log lines than we used to).\n\nSure this is a risk and it\u0027s the reason why this series is an RFC right now.\nHowever this risk comes only with the follow-up change, which removes our custom log methods in favor of using logging tags. Just adding the support for logging tags (this change) has no risk.\n\n\u003e Are you sure that there isn\u0027t any code which logs a tag in a background\n\u003e thread which would stop logging a tag?\n\u003e I\u0027m thinking for example about the fanout in ReviewDbBatchUpdate, or indexing.\n\nI tested the straight-forward cases (push a commit for review and submit a change), you can find the before/after logs for this in the commit message of the follow-up change (https://gerrit-review.googlesource.com/c/gerrit/+/191554/2//COMMIT_MSG).\n\nI\u0027m pretty sure that we don\u0027t have tags for indexing right now (none of the index classes has custom log methods). \n\nI wasn\u0027t aware of the fan-out in ReviewDbBatchUpdate. If this is triggering logs from background threads, then there is likely a problem and I must look closer at this. Thanks for pointing me to this.",
+      "parentUuid": "1c3c523c_5a6be1f0",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "e49c59af0c2e2a8626e9c463a459bdef29296e0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

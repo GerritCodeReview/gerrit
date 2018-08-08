@@ -47,6 +47,30 @@
       "revId": "e49c59af0c2e2a8626e9c463a459bdef29296e0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "847b8d95_66e725f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-08T09:37:37Z",
+      "side": 1,
+      "message": "This is now addressed by [1] which copies the logging context to background threads.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/192010",
+      "parentUuid": "73937932_ba7db5aa",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "e49c59af0c2e2a8626e9c463a459bdef29296e0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

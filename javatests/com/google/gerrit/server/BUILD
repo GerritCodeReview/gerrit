@@ -63,6 +63,7 @@ junit_tests(
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/commons:codec",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",

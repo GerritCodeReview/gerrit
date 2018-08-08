@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -107,6 +108,27 @@ public class MutableTagsTest {
 
     tags.remove("name", "foo");
     assertTags(ImmutableMap.of("name", ImmutableSet.of("value")));
+  }
+
+  @Test
+  public void setTags() {
+    tags.add("name", "value");
+    assertTags(ImmutableMap.of("name", ImmutableSet.of("value")));
+
+    tags.set(ImmutableSetMultimap.of("foo", "bar", "foo", "baz", "bar", "baz"));
+    assertTags(
+        ImmutableMap.of("foo", ImmutableSet.of("bar", "baz"), "bar", ImmutableSet.of("baz")));
+  }
+
+  @Test
+  public void asMap() {
+    tags.add("name", "value");
+    assertThat(tags.asMap()).containsExactlyEntriesIn(ImmutableSetMultimap.of("name", "value"));
+
+    tags.set(ImmutableSetMultimap.of("foo", "bar", "foo", "baz", "bar", "baz"));
+    assertThat(tags.asMap())
+        .containsExactlyEntriesIn(
+            ImmutableSetMultimap.of("foo", "bar", "foo", "baz", "bar", "baz"));
   }
 
   @Test

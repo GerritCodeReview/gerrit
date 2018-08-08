@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.server.logging.LoggingContextAwareThreadFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -32,6 +33,10 @@ public class DiffExecutorModule extends AbstractModule {
   @DiffExecutor
   public ExecutorService createDiffExecutor() {
     return Executors.newCachedThreadPool(
-        new ThreadFactoryBuilder().setNameFormat("Diff-%d").setDaemon(true).build());
+        new ThreadFactoryBuilder()
+            .setThreadFactory(new LoggingContextAwareThreadFactory())
+            .setNameFormat("Diff-%d")
+            .setDaemon(true)
+            .build());
   }
 }

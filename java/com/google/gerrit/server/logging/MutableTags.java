@@ -16,6 +16,7 @@ package com.google.gerrit.server.logging;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.backend.Tags;
@@ -74,6 +75,26 @@ public class MutableTags {
   public void clear() {
     tagMap.clear();
     tags = Tags.empty();
+  }
+
+  /**
+   * Returns the tags as Multimap.
+   *
+   * @return the tags as Multimap
+   */
+  public ImmutableSetMultimap<String, String> asMap() {
+    return ImmutableSetMultimap.copyOf(tagMap);
+  }
+
+  /**
+   * Replaces the existing tags with the provided tags.
+   *
+   * @param tags the tags that should be set.
+   */
+  void set(ImmutableSetMultimap<String, String> tags) {
+    tagMap.clear();
+    tags.forEach(tagMap::put);
+    buildTags();
   }
 
   private void buildTags() {

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9fcbc965_38433751",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutAssignee.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-08T15:26:54Z",
+      "side": 1,
+      "message": "In the case of the change endpoints, NSPE really shouldn\u0027t happen because we already had to open the project to load the change in ChangesCollection#parse. If the project failed to open the first time, it should probably 404, but if it succeeded the first time and failed the second time, then it\u0027s definitely unexpected and I\u0027m kind of ok with a 500.\n\nIt might be worth investigating whether we can change the exception hierarchy or put some logic in RestApiServlet to translate NSPE specifically to 404, but I haven\u0027t convinced myself it\u0027s the right thing to do in all cases.",
+      "parentUuid": "e2f1593b_391e0285",
+      "range": {
+        "startLine": 84,
+        "startChar": 62,
+        "endLine": 84,
+        "endChar": 84
+      },
+      "revId": "924f53efd73eb21e6ea233741cfe8e06ef3f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a934e0c9_7aae859d",
         "filename": "java/com/google/gerrit/server/restapi/project/ProjectsCollection.java",
         "patchSetId": 5

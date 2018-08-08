@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -58,11 +57,6 @@ class ListReviewers implements RestReadView<ChangeResource> {
     for (Account.Id accountId : approvalsUtil.getReviewers(db, rsrc.getNotes()).all()) {
       if (!reviewers.containsKey(accountId.toString())) {
         reviewers.put(accountId.toString(), resourceFactory.create(rsrc, accountId));
-      }
-    }
-    for (Address adr : rsrc.getNotes().getReviewersByEmail().all()) {
-      if (!reviewers.containsKey(adr.toString())) {
-        reviewers.put(adr.toString(), new ReviewerResource(rsrc, adr));
       }
     }
     return json.format(reviewers.values());

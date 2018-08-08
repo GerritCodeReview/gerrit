@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -63,11 +62,6 @@ class ListRevisionReviewers implements RestReadView<RevisionResource> {
     for (Account.Id accountId : approvalsUtil.getReviewers(db, rsrc.getNotes()).all()) {
       if (!reviewers.containsKey(accountId.toString())) {
         reviewers.put(accountId.toString(), resourceFactory.create(rsrc, accountId));
-      }
-    }
-    for (Address address : rsrc.getNotes().getReviewersByEmail().all()) {
-      if (!reviewers.containsKey(address.toString())) {
-        reviewers.put(address.toString(), new ReviewerResource(rsrc, address));
       }
     }
     return json.format(reviewers.values());

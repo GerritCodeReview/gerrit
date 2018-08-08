@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c5d41e32_ef8eb7a5",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-08T15:29:58Z",
+      "side": 1,
+      "message": "No idea. It\u0027s possible there was some Velocity feature that allowed templates to call arbitrary methods? But without Velocity, and without anyone complaining about this feature being missing from Soy templates, I\u0027m inclined to delete it. (Probably not right this moment since it would just cause me more rebase pain.)",
+      "parentUuid": "017c2c20_77b8b25c",
+      "range": {
+        "startLine": 328,
+        "startChar": 35,
+        "endLine": 328,
+        "endChar": 53
+      },
+      "revId": "81cc806fc64917226033eca5edc3df027cfe0a2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "678dedaa_6b74b979",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 5

@@ -16,6 +16,7 @@ package com.google.gerrit.server.logging;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.flogger.backend.Tags;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import org.junit.Before;
@@ -138,6 +139,25 @@ public class MutableTagsTest {
     tagMap = tags.getTags().asMap();
     assertThat(tagMap.keySet()).containsExactly("name");
     assertThat(tagMap.get("name")).containsExactly("value");
+  }
+
+  @Test
+  public void setTags() {
+    tags.add("name", "value");
+
+    tags.set(Tags.builder().addTag("foo", "bar").addTag("foo", "baz").addTag("bar", "baz").build());
+
+    SortedMap<String, SortedSet<Object>> tagMap = tags.getTags().asMap();
+    assertThat(tagMap.keySet()).containsExactly("foo", "bar");
+    assertThat(tagMap.get("foo")).containsExactly("bar", "baz");
+    assertThat(tagMap.get("bar")).containsExactly("baz");
+  }
+
+  @Test
+  public void setInvalidTags() {
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("tag invalid has an unsupported type: java.lang.Boolean");
+    tags.set(Tags.builder().addTag("invalid", true).build());
   }
 
   @Test

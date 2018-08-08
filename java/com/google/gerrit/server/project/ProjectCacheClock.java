@@ -18,6 +18,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.LoggingContextAwareThreadFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.concurrent.Executors;
@@ -56,6 +57,7 @@ public class ProjectCacheClock implements LifecycleListener {
           Executors.newScheduledThreadPool(
               1,
               new ThreadFactoryBuilder()
+                  .setThreadFactory(new LoggingContextAwareThreadFactory())
                   .setNameFormat("ProjectCacheClock-%d")
                   .setDaemon(true)
                   .setPriority(Thread.MIN_PRIORITY)

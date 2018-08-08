@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.logging;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.flogger.backend.Tags;
@@ -81,6 +82,33 @@ public class MutableTags {
   public synchronized void clear() {
     tagMap.clear();
     tags = Tags.empty();
+  }
+
+  /**
+   * Replaces the existing tags with the tags from the given Tags object. The provided Tags object
+   * must only contain String tags. If other tag types are contained this method throws {@link
+   * IllegalArgumentException}.
+   *
+   * @param tags the tags that should be set.
+   * @throws IllegalArgumentException if the provide Tags object contains any non-String tags
+   */
+  synchronized void set(Tags tags) {
+    tagMap.clear();
+    for (Map.Entry<String, SortedSet<Object>> e : tags.asMap().entrySet()) {
+      String tagName = e.getKey();
+      if (!tagMap.containsKey(tagName)) {
+        tagMap.put(tagName, new TreeSet<>());
+      }
+      for (Object value : e.getValue()) {
+        checkArgument(
+            value instanceof String,
+            "tag %s has an unsupported type: %s",
+            tagName,
+            value.getClass().getName());
+        tagMap.get(tagName).add((String) value);
+      }
+    }
+    buildTags();
   }
 
   private void buildTags() {

@@ -28,6 +28,7 @@ import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.logging.LoggingContextAwareThreadFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -75,11 +76,16 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     if (cacheDir != null) {
       executor =
           Executors.newFixedThreadPool(
-              1, new ThreadFactoryBuilder().setNameFormat("DiskCache-Store-%d").build());
+              1,
+              new ThreadFactoryBuilder()
+                  .setThreadFactory(new LoggingContextAwareThreadFactory())
+                  .setNameFormat("DiskCache-Store-%d")
+                  .build());
       cleanup =
           Executors.newScheduledThreadPool(
               1,
               new ThreadFactoryBuilder()
+                  .setThreadFactory(new LoggingContextAwareThreadFactory())
                   .setNameFormat("DiskCache-Prune-%d")
                   .setDaemon(true)
                   .build());

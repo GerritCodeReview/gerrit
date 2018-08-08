@@ -516,13 +516,26 @@ public class SubmoduleOp {
                 + "doesn't have gitlink file mode.";
         throw new SubmoduleException(errMsg);
       }
+      // Parse the current gitlink entry commit in the subproject repo. This is used to add a
+      // shortlog for this submodule to the commit message in the superproject.
+      //
+      // Even if we don't strictly speaking need that commit message, parsing the commit is a sanity
+      // check that the old gitlink is a commit that actually exists. If not, then there is an
+      // inconsistency between the superproject and subproject state, and we don't want to risk
+      // making things worse by updating the gitlink to something else.
       oldCommit = subOr.rw.parseCommit(dce.getObjectId());
     }
 
     final CodeReviewCommit newCommit;
     if (branchTips.containsKey(s.getSubmodule())) {
+      // This submodule's branch was updated as part of this specific submit batch: update the
+      // gitlink to point to the new commit from the batch.
       newCommit = branchTips.get(s.getSubmodule());
     } else {
+      // For whatever reason, this submodule was not updated as part of this submit batch, but the
+      // superproject is still subscribed to this branch. Re-read the ref to see if anything has
+      // changed since the last time the gitlink was updated, and roll that update into the same
+      // commit as all other submodule updates.
       Ref ref = subOr.repo.getRefDatabase().exactRef(s.getSubmodule().get());
       if (ref == null) {
         ed.add(new DeletePath(s.getPath()));

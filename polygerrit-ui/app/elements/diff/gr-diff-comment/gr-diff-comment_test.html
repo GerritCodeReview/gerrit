@@ -841,5 +841,16 @@ limitations under the License.
       element.save();
       assert.isTrue(discardStub.called);
     });
+
+    test('_handleFix fires create-fix event', done => {
+      element.addEventListener('create-fix-comment', e => {
+        assert.deepEqual(e.detail, element._getEventPayload());
+        done();
+      });
+      element.isRobotComment = true;
+      flushAsynchronousOperations();
+
+      MockInteractions.tap(element.$$('.fix'));
+    });
   });
 </script>

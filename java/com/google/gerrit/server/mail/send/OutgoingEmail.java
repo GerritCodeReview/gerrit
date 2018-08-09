@@ -161,17 +161,16 @@ public abstract class OutgoingEmail {
       // Set Reply-To only if it hasn't been set by a child class
       // Reply-To will already be populated for the message types where Gerrit supports
       // inbound email replies.
-      if (!headers.containsKey(FieldName.REPLY_TO)) {
-        StringJoiner j = new StringJoiner(", ");
-        if (fromId != null) {
-          Address address = toAddress(fromId);
-          if (address != null) {
-            j.add(address.getEmail());
-          }
+      if (!headers.containsKey(FieldName.REPLY_TO) && fromId != null) {
+        // If we have a user that this message is supposedly caused by
+        // but the From header on the email does not match the user as
+        // it is a generic header for this Gerrit server, include the
+        // Reply-To header with the current user's email address.
+        //
+        final Address a = toAddress(fromId);
+        if (a != null && !smtpFromAddress.getEmail().equals(a.getEmail())) {
+            setHeader(FieldName.REPLY_TO, a.getEmail());
         }
-        smtpRcptTo.stream().forEach(a -> j.add(a.getEmail()));
-        smtpRcptToPlaintextOnly.stream().forEach(a -> j.add(a.getEmail()));
-        setHeader(FieldName.REPLY_TO, j.toString());
       }
 
       String textPart = textBody.toString();

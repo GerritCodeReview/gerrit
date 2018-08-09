@@ -38,6 +38,7 @@ import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -199,58 +200,67 @@ public abstract class QueryProcessor<T> {
       return disabledResults(queryStrings, queries);
     }
 
-    // Parse and rewrite all queries.
-    List<Integer> limits = new ArrayList<>(cnt);
-    List<Predicate<T>> predicates = new ArrayList<>(cnt);
-    List<DataSource<T>> sources = new ArrayList<>(cnt);
-    for (Predicate<T> q : queries) {
-      int limit = getEffectiveLimit(q);
-      limits.add(limit);
+    List<QueryResult<T>> out;
+    try {
+      // Parse and rewrite all queries.
+      List<Integer> limits = new ArrayList<>(cnt);
+      List<Predicate<T>> predicates = new ArrayList<>(cnt);
+      List<DataSource<T>> sources = new ArrayList<>(cnt);
+      for (Predicate<T> q : queries) {
+        int limit = getEffectiveLimit(q);
+        limits.add(limit);
 
-      if (limit == getBackendSupportedLimit()) {
-        limit--;
+        if (limit == getBackendSupportedLimit()) {
+          limit--;
+        }
+
+        int page = (start / limit) + 1;
+        if (page > indexConfig.maxPages()) {
+          throw new QueryParseException(
+              "Cannot go beyond page " + indexConfig.maxPages() + " of results");
+        }
+
+        // Always bump limit by 1, even if this results in exceeding the permitted
+        // max for this user. The only way to see if there are more entities is to
+        // ask for one more result from the query.
+        QueryOptions opts = createOptions(indexConfig, start, limit + 1, getRequestedFields());
+        Predicate<T> pred = rewriter.rewrite(q, opts);
+        if (enforceVisibility) {
+          pred = enforceVisibility(pred);
+        }
+        predicates.add(pred);
+
+        @SuppressWarnings("unchecked")
+        DataSource<T> s = (DataSource<T>) pred;
+        sources.add(s);
       }
 
-      int page = (start / limit) + 1;
-      if (page > indexConfig.maxPages()) {
-        throw new QueryParseException(
-            "Cannot go beyond page " + indexConfig.maxPages() + " of results");
+      // Run each query asynchronously, if supported.
+      List<ResultSet<T>> matches = new ArrayList<>(cnt);
+      for (DataSource<T> s : sources) {
+        matches.add(s.read());
       }
 
-      // Always bump limit by 1, even if this results in exceeding the permitted
-      // max for this user. The only way to see if there are more entities is to
-      // ask for one more result from the query.
-      QueryOptions opts = createOptions(indexConfig, start, limit + 1, getRequestedFields());
-      Predicate<T> pred = rewriter.rewrite(q, opts);
-      if (enforceVisibility) {
-        pred = enforceVisibility(pred);
+      out = new ArrayList<>(cnt);
+      for (int i = 0; i < cnt; i++) {
+        out.add(
+            QueryResult.create(
+                queryStrings != null ? queryStrings.get(i) : null,
+                predicates.get(i),
+                limits.get(i),
+                matches.get(i).toList()));
       }
-      predicates.add(pred);
 
-      @SuppressWarnings("unchecked")
-      DataSource<T> s = (DataSource<T>) pred;
-      sources.add(s);
+      // Only measure successful queries that actually touched the index.
+      metrics.executionTime.record(
+          schemaDef.getName(), System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
+    } catch (OrmException | OrmRuntimeException e) {
+      Optional<QueryParseException> qpe = findQueryParseException(e);
+      if (qpe.isPresent()) {
+        throw new QueryParseException(qpe.get().getMessage(), e);
+      }
+      throw e;
     }
-
-    // Run each query asynchronously, if supported.
-    List<ResultSet<T>> matches = new ArrayList<>(cnt);
-    for (DataSource<T> s : sources) {
-      matches.add(s.read());
-    }
-
-    List<QueryResult<T>> out = new ArrayList<>(cnt);
-    for (int i = 0; i < cnt; i++) {
-      out.add(
-          QueryResult.create(
-              queryStrings != null ? queryStrings.get(i) : null,
-              predicates.get(i),
-              limits.get(i),
-              matches.get(i).toList()));
-    }
-
-    // Only measure successful queries that actually touched the index.
-    metrics.executionTime.record(
-        schemaDef.getName(), System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
     return out;
   }
 
@@ -331,5 +341,13 @@ public abstract class QueryProcessor<T> {
     // Should have short-circuited from #query or thrown some other exception before getting here.
     checkState(result > 0, "effective limit should be positive");
     return result;
+  }
+
+  private static Optional<QueryParseException> findQueryParseException(Throwable t) {
+    return Throwables.getCausalChain(t)
+        .stream()
+        .filter(c -> c instanceof QueryParseException)
+        .map(QueryParseException.class::cast)
+        .findFirst();
   }
 }

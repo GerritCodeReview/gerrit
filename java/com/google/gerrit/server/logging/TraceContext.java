@@ -30,6 +30,8 @@ public class TraceContext implements AutoCloseable {
   // Table<TAG_NAME, TAG_VALUE, REMOVE_ON_CLOSE>
   private final Table<String, String, Boolean> tags = HashBasedTable.create();
 
+  private boolean stopForceLoggingOnClose;
+
   private TraceContext() {}
 
   public TraceContext addTag(RequestId.Type requestId, Object tagValue) {
@@ -43,12 +45,24 @@ public class TraceContext implements AutoCloseable {
     return this;
   }
 
+  public TraceContext forceLogging() {
+    if (stopForceLoggingOnClose) {
+      return this;
+    }
+
+    stopForceLoggingOnClose = !LoggingContext.getInstance().forceLogging(true);
+    return this;
+  }
+
   @Override
   public void close() {
     for (Table.Cell<String, String, Boolean> cell : tags.cellSet()) {
       if (cell.getValue()) {
         LoggingContext.getInstance().removeTag(cell.getRowKey(), cell.getColumnKey());
       }
+    }
+    if (stopForceLoggingOnClose) {
+      LoggingContext.getInstance().forceLogging(false);
     }
   }
 }

@@ -22,6 +22,30 @@
       "revId": "958afe6957a2995612deedd025a2cbde0f8042a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bf2dc86_621db9c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-08-09T14:29:10Z",
+      "side": 1,
+      "message": "I think that the access REST endpoint documentation ([1]) gives detailed descriptions of access rights from the admin\u0027s perspective only. However, it fails to state that the regular user couldn\u0027t see the \"permissions\" from the \"AccessSectionInfo\" previously. This change allows the user to see the label of the permissions if their rule is \"ALLOW\" under the \"PermissionRuleInfo\". \n\nI am not sure if we want to add this modification to the documentation if it only gives information from the admin\u0027s perspective. Please let me know if you have further concerns :)",
+      "parentUuid": "bb29e29b_b12f9dbe",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 20
+      },
+      "revId": "958afe6957a2995612deedd025a2cbde0f8042a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

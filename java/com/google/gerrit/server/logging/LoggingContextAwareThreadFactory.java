@@ -37,6 +37,7 @@ public class LoggingContextAwareThreadFactory implements ThreadFactory {
   public Thread newThread(Runnable r) {
     Thread callingThread = Thread.currentThread();
     Tags tags = LoggingContext.getInstance().getTags();
+    boolean forceLogging = LoggingContext.getInstance().isLoggingForced();
     return parentThreadFactory.newThread(
         () -> {
           if (callingThread.equals(Thread.currentThread())) {
@@ -46,11 +47,14 @@ public class LoggingContextAwareThreadFactory implements ThreadFactory {
           }
 
           // propagate logging context
-          LoggingContext.getInstance().getMutableTags().set(tags);
+          LoggingContext loggingCtx = LoggingContext.getInstance();
+          loggingCtx.getMutableTags().set(tags);
+          loggingCtx.forceLogging(forceLogging);
           try {
             r.run();
           } finally {
-            LoggingContext.getInstance().getMutableTags().clear();
+            loggingCtx.getMutableTags().clear();
+            loggingCtx.forceLogging(false);
           }
         });
   }

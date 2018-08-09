@@ -29,6 +29,7 @@ public class TraceContextTest {
   @After
   public void cleanup() {
     LoggingContext.getInstance().getMutableTags().clear();
+    LoggingContext.getInstance().forceLogging(false);
   }
 
   @Test
@@ -118,5 +119,41 @@ public class TraceContextTest {
     exception.expect(NullPointerException.class);
     exception.expectMessage("tag value is required");
     try (TraceContext traceContext = new TraceContext("foo", null)) {}
+  }
+
+  @Test
+  public void openContextWithForceLogging() {
+    assertForceLogging(false);
+    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
+      assertForceLogging(true);
+    }
+    assertForceLogging(false);
+  }
+
+  @Test
+  public void openNestedContextsWithForceLogging() {
+    assertForceLogging(false);
+    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
+      assertForceLogging(true);
+
+      try (TraceContext traceContext2 = new TraceContext("abc", "xyz")) {
+        // force logging is still enabled since outer trace context forced logging
+        assertForceLogging(true);
+
+        try (TraceContext traceContext3 = new TraceContext(true, "tag", "value")) {
+          assertForceLogging(true);
+        }
+
+        assertForceLogging(true);
+      }
+
+      assertForceLogging(true);
+    }
+    assertForceLogging(false);
+  }
+
+  private void assertForceLogging(boolean expected) {
+    assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
+        .isEqualTo(expected);
   }
 }

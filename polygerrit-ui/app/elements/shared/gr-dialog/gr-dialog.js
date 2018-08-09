@@ -18,7 +18,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-confirm-dialog',
+    is: 'gr-dialog',
 
     /**
      * Fired when the confirm button is pressed.

@@ -17,7 +17,7 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
+<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-confirm-delete-comment-dialog">
@@ -52,7 +52,7 @@ limitations under the License.
         }
       }
     </style>
-    <gr-confirm-dialog
+    <gr-dialog
         confirm-label="Delete"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
@@ -66,7 +66,7 @@ limitations under the License.
             placeholder="<Insert reasoning here>"
             bind-value="{{message}}"></iron-autogrow-textarea>
       </div>
-    </gr-confirm-dialog>
+    </gr-dialog>
   </template>
   <script src="gr-confirm-delete-comment-dialog.js"></script>
 </dom-module>

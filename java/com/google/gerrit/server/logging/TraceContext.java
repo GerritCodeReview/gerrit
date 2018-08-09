@@ -19,6 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.gerrit.server.util.RequestId;
 
 public class TraceContext implements AutoCloseable {
+  public static final TraceContext DISABLED = new TraceContext();
+
   private final String tagName;
   private final String tagValue;
   private final boolean removeOnClose;
@@ -31,6 +33,12 @@ public class TraceContext implements AutoCloseable {
     this.tagName = checkNotNull(tagName, "tag name is required");
     this.tagValue = checkNotNull(tagValue, "tag value is required").toString();
     this.removeOnClose = LoggingContext.getInstance().addTag(this.tagName, this.tagValue);
+  }
+
+  private TraceContext() {
+    this.tagName = null;
+    this.tagValue = null;
+    this.removeOnClose = false;
   }
 
   @Override

@@ -32,6 +32,7 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
   private static final LoggingContext INSTANCE = new LoggingContext();
 
   private static final ThreadLocal<MutableTags> tags = new ThreadLocal<>();
+  private static final ThreadLocal<Boolean> forceLogging = new ThreadLocal<>();
 
   private LoggingContext() {}
 
@@ -42,7 +43,8 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
 
   @Override
   public boolean shouldForceLogging(String loggerName, Level level, boolean isEnabled) {
-    return false;
+    Boolean force = forceLogging.get();
+    return force != null ? force : false;
   }
 
   @Override
@@ -58,5 +60,15 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       tags.set(mutableTags);
     }
     return mutableTags;
+  }
+
+  boolean forceLogging(boolean force) {
+    Boolean oldValue = forceLogging.get();
+    if (force) {
+      forceLogging.set(true);
+    } else {
+      forceLogging.remove();
+    }
+    return oldValue != null ? oldValue : false;
   }
 }

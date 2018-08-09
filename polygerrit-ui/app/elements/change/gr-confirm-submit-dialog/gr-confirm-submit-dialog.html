@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -37,7 +38,7 @@ limitations under the License.
         }
       }
     </style>
-    <gr-confirm-dialog
+    <gr-dialog
         id="dialog"
         confirm-label="Continue"
         confirm-on-enter
@@ -55,7 +56,7 @@ limitations under the License.
           <gr-endpoint-param name="action" value="[[action]]"></gr-endpoint-param>
         </gr-endpoint-decorator>
       </div>
-    </gr-confirm-dialog>
+    </gr-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-confirm-submit-dialog.js"></script>

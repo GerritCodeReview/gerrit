@@ -16,7 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
+<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-confirm-delete-item-dialog">
@@ -27,7 +27,7 @@ limitations under the License.
         width: 30em;
       }
     </style>
-    <gr-confirm-dialog
+    <gr-dialog
         confirm-label="Delete [[_computeItemName(itemType)]]"
         confirm-on-enter
         on-confirm="_handleConfirmTap"
@@ -41,7 +41,7 @@ limitations under the License.
           [[item]]
         </div>
       </div>
-    </gr-confirm-dialog>
+    </gr-dialog>
   </template>
   <script src="gr-confirm-delete-item-dialog.js"></script>
 </dom-module>

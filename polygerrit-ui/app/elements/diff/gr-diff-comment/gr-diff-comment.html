@@ -23,7 +23,7 @@ limitations under the License.
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
+<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
@@ -214,7 +214,7 @@ limitations under the License.
       .resolve label {
         color: var(--comment-text-color);
       }
-      gr-confirm-dialog .main {
+      gr-dialog .main {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -366,7 +366,7 @@ limitations under the License.
         </gr-confirm-delete-comment-dialog>
       </gr-overlay>
       <gr-overlay id="confirmDiscardOverlay" with-backdrop>
-        <gr-confirm-dialog
+        <gr-dialog
             id="confirmDiscardDialog"
             confirm-label="Discard"
             confirm-on-enter
@@ -378,7 +378,7 @@ limitations under the License.
           <div class="main" slot="main">
             Are you sure you want to discard this draft comment?
           </div>
-        </gr-confirm-dialog>
+        </gr-dialog>
       </gr-overlay>
     </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

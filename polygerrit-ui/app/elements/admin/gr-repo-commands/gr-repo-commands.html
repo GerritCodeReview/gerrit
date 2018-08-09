@@ -23,7 +23,7 @@ limitations under the License.
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
-<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
+<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-create-change-dialog/gr-create-change-dialog.html">
@@ -64,7 +64,7 @@ limitations under the License.
       </div>
     </main>
     <gr-overlay id="createChangeOverlay" with-backdrop>
-      <gr-confirm-dialog
+      <gr-dialog
           id="createChangeDialog"
           confirm-label="Create"
           disabled="[[!_canCreate]]"
@@ -79,7 +79,7 @@ limitations under the License.
               can-create="{{_canCreate}}"
               repo-name="[[repo]]"></gr-create-change-dialog>
         </div>
-      </gr-confirm-dialog>
+      </gr-dialog>
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

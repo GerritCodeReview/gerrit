@@ -55,6 +55,7 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
     assertThat(listener.foundTraceId).isFalse();
+    assertThat(listener.isLoggingForced).isFalse();
   }
 
   @Test
@@ -64,6 +65,7 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
     assertThat(listener.foundTraceId).isTrue();
+    assertThat(listener.isLoggingForced).isTrue();
   }
 
   @Test
@@ -73,6 +75,7 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
     assertThat(listener.foundTraceId).isTrue();
+    assertThat(listener.isLoggingForced).isTrue();
   }
 
   @Test
@@ -82,15 +85,18 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
     assertThat(listener.foundTraceId).isFalse();
+    assertThat(listener.isLoggingForced).isFalse();
   }
 
   private static class TraceValidatingProjectCreationValidationListener
       implements ProjectCreationValidationListener {
     Boolean foundTraceId;
+    Boolean isLoggingForced;
 
     @Override
     public void validateNewProject(CreateProjectArgs args) throws ValidationException {
       this.foundTraceId = LoggingContext.getInstance().getTagsAsMap().containsKey("TRACE_ID");
+      this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
     }
   }
 }

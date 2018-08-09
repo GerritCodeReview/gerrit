@@ -40,6 +40,7 @@ public class SshTraceIT extends AbstractDaemonTest {
     adminSshSession.exec("gerrit create-project new1");
     adminSshSession.assertSuccess();
     assertThat(projectCreationListener.foundTraceId).isFalse();
+    assertThat(projectCreationListener.isLoggingForced).isFalse();
   }
 
   @Test
@@ -50,15 +51,18 @@ public class SshTraceIT extends AbstractDaemonTest {
     adminSshSession.assertFailure(RequestId.Type.TRACE_ID.name());
 
     assertThat(projectCreationListener.foundTraceId).isTrue();
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
   }
 
   private static class TraceValidatingProjectCreationValidationListener
       implements ProjectCreationValidationListener {
     Boolean foundTraceId;
+    Boolean isLoggingForced;
 
     @Override
     public void validateNewProject(CreateProjectArgs args) throws ValidationException {
       this.foundTraceId = LoggingContext.getInstance().getTagsAsMap().containsKey("TRACE_ID");
+      this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
     }
   }
 }

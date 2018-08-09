@@ -572,7 +572,7 @@ class ReceiveCommits {
             .addTag(RequestId.Type.RECEIVE_ID, RequestId.forProject(project.getNameKey()))) {
       if (tracePushOption.orElse(false)) {
         RequestId traceId = new RequestId();
-        traceContext.addTag(RequestId.Type.TRACE_ID, traceId);
+        traceContext.forceLogging().addTag(RequestId.Type.TRACE_ID, traceId);
         addMessage(RequestId.Type.TRACE_ID.name() + ": " + traceId);
       }
       try {

@@ -48,6 +48,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -107,10 +108,12 @@ import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gerrit.util.http.RequestUtil;
 import com.google.gson.ExclusionStrategy;
@@ -176,6 +179,8 @@ public class RestApiServlet extends HttpServlet {
   private static final String JSON_TYPE = "application/json";
 
   private static final String FORM_TYPE = "application/x-www-form-urlencoded";
+
+  @VisibleForTesting public static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
 
   // HTTP 422 Unprocessable Entity.
   // TODO: Remove when HttpServletResponse.SC_UNPROCESSABLE_ENTITY is available
@@ -280,332 +285,337 @@ public class RestApiServlet extends HttpServlet {
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
 
-    try (PerThreadCache ignored = PerThreadCache.create()) {
-      if (isCorsPreflight(req)) {
-        doCorsPreflight(req, res);
-        return;
-      }
+    try (TraceContext traceContext = enableTracing(req, res)) {
+      try (PerThreadCache ignored = PerThreadCache.create()) {
 
-      qp = ParameterParser.getQueryParams(req);
-      checkCors(req, res, qp.hasXdOverride());
-      if (qp.hasXdOverride()) {
-        req = applyXdOverrides(req, qp);
-      }
-      checkUserSession(req);
-
-      List<IdString> path = splitPath(req);
-      RestCollection<RestResource, RestResource> rc = members.get();
-      globals
-          .permissionBackend
-          .currentUser()
-          .checkAny(GlobalPermission.fromAnnotation(rc.getClass()));
-
-      viewData = new ViewData(null, null);
-
-      if (path.isEmpty()) {
-        if (rc instanceof NeedsParams) {
-          ((NeedsParams) rc).setParams(qp.params());
+        if (isCorsPreflight(req)) {
+          doCorsPreflight(req, res);
+          return;
         }
 
-        if (isRead(req)) {
-          viewData = new ViewData(null, rc.list());
-        } else if (isPost(req)) {
-          RestView<RestResource> restCollectionView =
-              rc.views().get("gerrit", "POST_ON_COLLECTION./");
-          if (restCollectionView != null) {
-            viewData = new ViewData(null, restCollectionView);
-          } else {
-            throw methodNotAllowed(req);
-          }
-        } else {
-          // DELETE on root collections is not supported
-          throw methodNotAllowed(req);
+        qp = ParameterParser.getQueryParams(req);
+        checkCors(req, res, qp.hasXdOverride());
+        if (qp.hasXdOverride()) {
+          req = applyXdOverrides(req, qp);
         }
-      } else {
-        IdString id = path.remove(0);
-        try {
-          rsrc = rc.parse(rsrc, id);
-          if (path.isEmpty()) {
-            checkPreconditions(req);
-          }
-        } catch (ResourceNotFoundException e) {
-          if (!path.isEmpty()) {
-            throw e;
-          }
+        checkUserSession(req);
 
-          if (isPost(req) || isPut(req)) {
-            RestView<RestResource> createView = rc.views().get("gerrit", "CREATE./");
-            if (createView != null) {
-              viewData = new ViewData(null, createView);
-              status = SC_CREATED;
-              path.add(id);
-            } else {
-              throw e;
-            }
-          } else if (isDelete(req)) {
-            RestView<RestResource> deleteView = rc.views().get("gerrit", "DELETE_MISSING./");
-            if (deleteView != null) {
-              viewData = new ViewData(null, deleteView);
-              status = SC_NO_CONTENT;
-              path.add(id);
-            } else {
-              throw e;
-            }
-          } else {
-            throw e;
-          }
-        }
-        if (viewData.view == null) {
-          viewData = view(rc, req.getMethod(), path);
-        }
-      }
-      checkRequiresCapability(viewData);
+        List<IdString> path = splitPath(req);
+        RestCollection<RestResource, RestResource> rc = members.get();
+        globals
+            .permissionBackend
+            .currentUser()
+            .checkAny(GlobalPermission.fromAnnotation(rc.getClass()));
 
-      while (viewData.view instanceof RestCollection<?, ?>) {
-        @SuppressWarnings("unchecked")
-        RestCollection<RestResource, RestResource> c =
-            (RestCollection<RestResource, RestResource>) viewData.view;
+        viewData = new ViewData(null, null);
 
         if (path.isEmpty()) {
+          if (rc instanceof NeedsParams) {
+            ((NeedsParams) rc).setParams(qp.params());
+          }
+
           if (isRead(req)) {
-            viewData = new ViewData(null, c.list());
+            viewData = new ViewData(null, rc.list());
           } else if (isPost(req)) {
             RestView<RestResource> restCollectionView =
-                c.views().get(viewData.pluginName, "POST_ON_COLLECTION./");
-            if (restCollectionView != null) {
-              viewData = new ViewData(null, restCollectionView);
-            } else {
-              throw methodNotAllowed(req);
-            }
-          } else if (isDelete(req)) {
-            RestView<RestResource> restCollectionView =
-                c.views().get(viewData.pluginName, "DELETE_ON_COLLECTION./");
+                rc.views().get("gerrit", "POST_ON_COLLECTION./");
             if (restCollectionView != null) {
               viewData = new ViewData(null, restCollectionView);
             } else {
               throw methodNotAllowed(req);
             }
           } else {
+            // DELETE on root collections is not supported
             throw methodNotAllowed(req);
           }
-          break;
-        }
-        IdString id = path.remove(0);
-        try {
-          rsrc = c.parse(rsrc, id);
-          checkPreconditions(req);
-          viewData = new ViewData(null, null);
-        } catch (ResourceNotFoundException e) {
-          if (!path.isEmpty()) {
-            throw e;
-          }
+        } else {
+          IdString id = path.remove(0);
+          try {
+            rsrc = rc.parse(rsrc, id);
+            if (path.isEmpty()) {
+              checkPreconditions(req);
+            }
+          } catch (ResourceNotFoundException e) {
+            if (!path.isEmpty()) {
+              throw e;
+            }
 
-          if (isPost(req) || isPut(req)) {
-            RestView<RestResource> createView = c.views().get("gerrit", "CREATE./");
-            if (createView != null) {
-              viewData = new ViewData(null, createView);
-              status = SC_CREATED;
-              path.add(id);
+            if (isPost(req) || isPut(req)) {
+              RestView<RestResource> createView = rc.views().get("gerrit", "CREATE./");
+              if (createView != null) {
+                viewData = new ViewData(null, createView);
+                status = SC_CREATED;
+                path.add(id);
+              } else {
+                throw e;
+              }
+            } else if (isDelete(req)) {
+              RestView<RestResource> deleteView = rc.views().get("gerrit", "DELETE_MISSING./");
+              if (deleteView != null) {
+                viewData = new ViewData(null, deleteView);
+                status = SC_NO_CONTENT;
+                path.add(id);
+              } else {
+                throw e;
+              }
             } else {
               throw e;
             }
-          } else if (isDelete(req)) {
-            RestView<RestResource> deleteView = c.views().get("gerrit", "DELETE_MISSING./");
-            if (deleteView != null) {
-              viewData = new ViewData(null, deleteView);
-              status = SC_NO_CONTENT;
-              path.add(id);
-            } else {
-              throw e;
-            }
-          } else {
-            throw e;
           }
-        }
-        if (viewData.view == null) {
-          viewData = view(c, req.getMethod(), path);
+          if (viewData.view == null) {
+            viewData = view(rc, req.getMethod(), path);
+          }
         }
         checkRequiresCapability(viewData);
-      }
 
-      if (notModified(req, rsrc, viewData.view)) {
-        res.sendError(SC_NOT_MODIFIED);
-        return;
-      }
+        while (viewData.view instanceof RestCollection<?, ?>) {
+          @SuppressWarnings("unchecked")
+          RestCollection<RestResource, RestResource> c =
+              (RestCollection<RestResource, RestResource>) viewData.view;
 
-      if (!globals.paramParser.get().parse(viewData.view, qp.params(), req, res)) {
-        return;
-      }
-
-      if (viewData.view instanceof RestReadView<?> && isRead(req)) {
-        result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
-      } else if (viewData.view instanceof RestModifyView<?, ?>) {
-        @SuppressWarnings("unchecked")
-        RestModifyView<RestResource, Object> m =
-            (RestModifyView<RestResource, Object>) viewData.view;
-
-        Type type = inputType(m);
-        inputRequestBody = parseRequest(req, type);
-        result = m.apply(rsrc, inputRequestBody);
-        if (inputRequestBody instanceof RawInput) {
-          try (InputStream is = req.getInputStream()) {
-            ServletUtils.consumeRequestBody(is);
+          if (path.isEmpty()) {
+            if (isRead(req)) {
+              viewData = new ViewData(null, c.list());
+            } else if (isPost(req)) {
+              RestView<RestResource> restCollectionView =
+                  c.views().get(viewData.pluginName, "POST_ON_COLLECTION./");
+              if (restCollectionView != null) {
+                viewData = new ViewData(null, restCollectionView);
+              } else {
+                throw methodNotAllowed(req);
+              }
+            } else if (isDelete(req)) {
+              RestView<RestResource> restCollectionView =
+                  c.views().get(viewData.pluginName, "DELETE_ON_COLLECTION./");
+              if (restCollectionView != null) {
+                viewData = new ViewData(null, restCollectionView);
+              } else {
+                throw methodNotAllowed(req);
+              }
+            } else {
+              throw methodNotAllowed(req);
+            }
+            break;
           }
-        }
-      } else if (viewData.view instanceof RestCollectionCreateView<?, ?, ?>) {
-        @SuppressWarnings("unchecked")
-        RestCollectionCreateView<RestResource, RestResource, Object> m =
-            (RestCollectionCreateView<RestResource, RestResource, Object>) viewData.view;
+          IdString id = path.remove(0);
+          try {
+            rsrc = c.parse(rsrc, id);
+            checkPreconditions(req);
+            viewData = new ViewData(null, null);
+          } catch (ResourceNotFoundException e) {
+            if (!path.isEmpty()) {
+              throw e;
+            }
 
-        Type type = inputType(m);
-        inputRequestBody = parseRequest(req, type);
-        result = m.apply(rsrc, path.get(0), inputRequestBody);
-        if (inputRequestBody instanceof RawInput) {
-          try (InputStream is = req.getInputStream()) {
-            ServletUtils.consumeRequestBody(is);
+            if (isPost(req) || isPut(req)) {
+              RestView<RestResource> createView = c.views().get("gerrit", "CREATE./");
+              if (createView != null) {
+                viewData = new ViewData(null, createView);
+                status = SC_CREATED;
+                path.add(id);
+              } else {
+                throw e;
+              }
+            } else if (isDelete(req)) {
+              RestView<RestResource> deleteView = c.views().get("gerrit", "DELETE_MISSING./");
+              if (deleteView != null) {
+                viewData = new ViewData(null, deleteView);
+                status = SC_NO_CONTENT;
+                path.add(id);
+              } else {
+                throw e;
+              }
+            } else {
+              throw e;
+            }
           }
-        }
-      } else if (viewData.view instanceof RestCollectionDeleteMissingView<?, ?, ?>) {
-        @SuppressWarnings("unchecked")
-        RestCollectionDeleteMissingView<RestResource, RestResource, Object> m =
-            (RestCollectionDeleteMissingView<RestResource, RestResource, Object>) viewData.view;
-
-        Type type = inputType(m);
-        inputRequestBody = parseRequest(req, type);
-        result = m.apply(rsrc, path.get(0), inputRequestBody);
-        if (inputRequestBody instanceof RawInput) {
-          try (InputStream is = req.getInputStream()) {
-            ServletUtils.consumeRequestBody(is);
+          if (viewData.view == null) {
+            viewData = view(c, req.getMethod(), path);
           }
+          checkRequiresCapability(viewData);
         }
-      } else if (viewData.view instanceof RestCollectionModifyView<?, ?, ?>) {
-        @SuppressWarnings("unchecked")
-        RestCollectionModifyView<RestResource, RestResource, Object> m =
-            (RestCollectionModifyView<RestResource, RestResource, Object>) viewData.view;
 
-        Type type = inputType(m);
-        inputRequestBody = parseRequest(req, type);
-        result = m.apply(rsrc, inputRequestBody);
-        if (inputRequestBody instanceof RawInput) {
-          try (InputStream is = req.getInputStream()) {
-            ServletUtils.consumeRequestBody(is);
+        if (notModified(req, rsrc, viewData.view)) {
+          res.sendError(SC_NOT_MODIFIED);
+          return;
+        }
+
+        if (!globals.paramParser.get().parse(viewData.view, qp.params(), req, res)) {
+          return;
+        }
+
+        if (viewData.view instanceof RestReadView<?> && isRead(req)) {
+          result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
+        } else if (viewData.view instanceof RestModifyView<?, ?>) {
+          @SuppressWarnings("unchecked")
+          RestModifyView<RestResource, Object> m =
+              (RestModifyView<RestResource, Object>) viewData.view;
+
+          Type type = inputType(m);
+          inputRequestBody = parseRequest(req, type);
+          result = m.apply(rsrc, inputRequestBody);
+          if (inputRequestBody instanceof RawInput) {
+            try (InputStream is = req.getInputStream()) {
+              ServletUtils.consumeRequestBody(is);
+            }
           }
-        }
-      } else {
-        throw new ResourceNotFoundException();
-      }
+        } else if (viewData.view instanceof RestCollectionCreateView<?, ?, ?>) {
+          @SuppressWarnings("unchecked")
+          RestCollectionCreateView<RestResource, RestResource, Object> m =
+              (RestCollectionCreateView<RestResource, RestResource, Object>) viewData.view;
 
-      if (result instanceof Response) {
-        @SuppressWarnings("rawtypes")
-        Response<?> r = (Response) result;
-        status = r.statusCode();
-        configureCaching(req, res, rsrc, viewData.view, r.caching());
-      } else if (result instanceof Response.Redirect) {
-        CacheHeaders.setNotCacheable(res);
-        res.sendRedirect(((Response.Redirect) result).location());
-        return;
-      } else if (result instanceof Response.Accepted) {
-        CacheHeaders.setNotCacheable(res);
-        res.setStatus(SC_ACCEPTED);
-        res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) result).location());
-        return;
-      } else {
-        CacheHeaders.setNotCacheable(res);
-      }
-      res.setStatus(status);
+          Type type = inputType(m);
+          inputRequestBody = parseRequest(req, type);
+          result = m.apply(rsrc, path.get(0), inputRequestBody);
+          if (inputRequestBody instanceof RawInput) {
+            try (InputStream is = req.getInputStream()) {
+              ServletUtils.consumeRequestBody(is);
+            }
+          }
+        } else if (viewData.view instanceof RestCollectionDeleteMissingView<?, ?, ?>) {
+          @SuppressWarnings("unchecked")
+          RestCollectionDeleteMissingView<RestResource, RestResource, Object> m =
+              (RestCollectionDeleteMissingView<RestResource, RestResource, Object>) viewData.view;
 
-      if (result != Response.none()) {
-        result = Response.unwrap(result);
-        if (result instanceof BinaryResult) {
-          responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
+          Type type = inputType(m);
+          inputRequestBody = parseRequest(req, type);
+          result = m.apply(rsrc, path.get(0), inputRequestBody);
+          if (inputRequestBody instanceof RawInput) {
+            try (InputStream is = req.getInputStream()) {
+              ServletUtils.consumeRequestBody(is);
+            }
+          }
+        } else if (viewData.view instanceof RestCollectionModifyView<?, ?, ?>) {
+          @SuppressWarnings("unchecked")
+          RestCollectionModifyView<RestResource, RestResource, Object> m =
+              (RestCollectionModifyView<RestResource, RestResource, Object>) viewData.view;
+
+          Type type = inputType(m);
+          inputRequestBody = parseRequest(req, type);
+          result = m.apply(rsrc, inputRequestBody);
+          if (inputRequestBody instanceof RawInput) {
+            try (InputStream is = req.getInputStream()) {
+              ServletUtils.consumeRequestBody(is);
+            }
+          }
         } else {
-          responseBytes = replyJson(req, res, qp.config(), result);
+          throw new ResourceNotFoundException();
         }
-      }
-    } catch (MalformedJsonException | JsonParseException e) {
-      responseBytes =
-          replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
-    } catch (BadRequestException e) {
-      responseBytes =
-          replyError(
-              req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
-    } catch (AuthException e) {
-      responseBytes =
-          replyError(req, res, status = SC_FORBIDDEN, messageOr(e, "Forbidden"), e.caching(), e);
-    } catch (AmbiguousViewException e) {
-      responseBytes = replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
-    } catch (ResourceNotFoundException e) {
-      responseBytes =
-          replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Not Found"), e.caching(), e);
-    } catch (MethodNotAllowedException e) {
-      responseBytes =
-          replyError(
-              req,
-              res,
-              status = SC_METHOD_NOT_ALLOWED,
-              messageOr(e, "Method Not Allowed"),
-              e.caching(),
-              e);
-    } catch (ResourceConflictException e) {
-      responseBytes =
-          replyError(req, res, status = SC_CONFLICT, messageOr(e, "Conflict"), e.caching(), e);
-    } catch (PreconditionFailedException e) {
-      responseBytes =
-          replyError(
-              req,
-              res,
-              status = SC_PRECONDITION_FAILED,
-              messageOr(e, "Precondition Failed"),
-              e.caching(),
-              e);
-    } catch (UnprocessableEntityException e) {
-      responseBytes =
-          replyError(
-              req,
-              res,
-              status = SC_UNPROCESSABLE_ENTITY,
-              messageOr(e, "Unprocessable Entity"),
-              e.caching(),
-              e);
-    } catch (NotImplementedException e) {
-      responseBytes =
-          replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
-    } catch (UpdateException e) {
-      Throwable t = e.getCause();
-      if (t instanceof LockFailureException) {
+
+        if (result instanceof Response) {
+          @SuppressWarnings("rawtypes")
+          Response<?> r = (Response) result;
+          status = r.statusCode();
+          configureCaching(req, res, rsrc, viewData.view, r.caching());
+        } else if (result instanceof Response.Redirect) {
+          CacheHeaders.setNotCacheable(res);
+          res.sendRedirect(((Response.Redirect) result).location());
+          return;
+        } else if (result instanceof Response.Accepted) {
+          CacheHeaders.setNotCacheable(res);
+          res.setStatus(SC_ACCEPTED);
+          res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) result).location());
+          return;
+        } else {
+          CacheHeaders.setNotCacheable(res);
+        }
+        res.setStatus(status);
+
+        if (result != Response.none()) {
+          result = Response.unwrap(result);
+          if (result instanceof BinaryResult) {
+            responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
+          } else {
+            responseBytes = replyJson(req, res, qp.config(), result);
+          }
+        }
+      } catch (MalformedJsonException | JsonParseException e) {
         responseBytes =
-            replyError(req, res, status = SC_SERVICE_UNAVAILABLE, messageOr(t, "Lock failure"), e);
-      } else {
+            replyError(
+                req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
+      } catch (BadRequestException e) {
+        responseBytes =
+            replyError(
+                req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
+      } catch (AuthException e) {
+        responseBytes =
+            replyError(req, res, status = SC_FORBIDDEN, messageOr(e, "Forbidden"), e.caching(), e);
+      } catch (AmbiguousViewException e) {
+        responseBytes = replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
+      } catch (ResourceNotFoundException e) {
+        responseBytes =
+            replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Not Found"), e.caching(), e);
+      } catch (MethodNotAllowedException e) {
+        responseBytes =
+            replyError(
+                req,
+                res,
+                status = SC_METHOD_NOT_ALLOWED,
+                messageOr(e, "Method Not Allowed"),
+                e.caching(),
+                e);
+      } catch (ResourceConflictException e) {
+        responseBytes =
+            replyError(req, res, status = SC_CONFLICT, messageOr(e, "Conflict"), e.caching(), e);
+      } catch (PreconditionFailedException e) {
+        responseBytes =
+            replyError(
+                req,
+                res,
+                status = SC_PRECONDITION_FAILED,
+                messageOr(e, "Precondition Failed"),
+                e.caching(),
+                e);
+      } catch (UnprocessableEntityException e) {
+        responseBytes =
+            replyError(
+                req,
+                res,
+                status = SC_UNPROCESSABLE_ENTITY,
+                messageOr(e, "Unprocessable Entity"),
+                e.caching(),
+                e);
+      } catch (NotImplementedException e) {
+        responseBytes =
+            replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
+      } catch (UpdateException e) {
+        Throwable t = e.getCause();
+        if (t instanceof LockFailureException) {
+          responseBytes =
+              replyError(
+                  req, res, status = SC_SERVICE_UNAVAILABLE, messageOr(t, "Lock failure"), e);
+        } else {
+          status = SC_INTERNAL_SERVER_ERROR;
+          responseBytes = handleException(e, req, res);
+        }
+      } catch (Exception e) {
         status = SC_INTERNAL_SERVER_ERROR;
         responseBytes = handleException(e, req, res);
+      } finally {
+        String metric =
+            viewData != null && viewData.view != null ? globals.metrics.view(viewData) : "_unknown";
+        globals.metrics.count.increment(metric);
+        if (status >= SC_BAD_REQUEST) {
+          globals.metrics.errorCount.increment(metric, status);
+        }
+        if (responseBytes != -1) {
+          globals.metrics.responseBytes.record(metric, responseBytes);
+        }
+        globals.metrics.serverLatency.record(
+            metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
+        globals.auditService.dispatch(
+            new ExtendedHttpAuditEvent(
+                globals.webSession.get().getSessionId(),
+                globals.currentUser.get(),
+                req,
+                auditStartTs,
+                qp != null ? qp.params() : ImmutableListMultimap.of(),
+                inputRequestBody,
+                status,
+                result,
+                rsrc,
+                viewData == null ? null : viewData.view));
       }
-    } catch (Exception e) {
-      status = SC_INTERNAL_SERVER_ERROR;
-      responseBytes = handleException(e, req, res);
-    } finally {
-      String metric =
-          viewData != null && viewData.view != null ? globals.metrics.view(viewData) : "_unknown";
-      globals.metrics.count.increment(metric);
-      if (status >= SC_BAD_REQUEST) {
-        globals.metrics.errorCount.increment(metric, status);
-      }
-      if (responseBytes != -1) {
-        globals.metrics.responseBytes.record(metric, responseBytes);
-      }
-      globals.metrics.serverLatency.record(
-          metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
-      globals.auditService.dispatch(
-          new ExtendedHttpAuditEvent(
-              globals.webSession.get().getSessionId(),
-              globals.currentUser.get(),
-              req,
-              auditStartTs,
-              qp != null ? qp.params() : ImmutableListMultimap.of(),
-              inputRequestBody,
-              status,
-              result,
-              rsrc,
-              viewData == null ? null : viewData.view));
     }
   }
 
@@ -1263,6 +1273,16 @@ public class RestApiServlet extends HttpServlet {
     if (user.isIdentifiedUser()) {
       user.setLastLoginExternalIdKey(globals.webSession.get().getLastLoginExternalId());
     }
+  }
+
+  private TraceContext enableTracing(HttpServletRequest req, HttpServletResponse res) {
+    String v = req.getParameter(ParameterParser.TRACE_PARAMETER);
+    if (v != null && (v.isEmpty() || Boolean.parseBoolean(v))) {
+      RequestId traceId = new RequestId();
+      res.setHeader(X_GERRIT_TRACE, traceId.toString());
+      return new TraceContext(RequestId.Id.TRACE_ID, traceId);
+    }
+    return TraceContext.DISABLED;
   }
 
   private boolean isDelete(HttpServletRequest req) {

@@ -16,6 +16,7 @@ package com.google.gerrit.server.util;
 
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -39,7 +40,8 @@ public class RequestId {
 
   public enum Id {
     RECEIVE_ID,
-    SUBMISSION_ID;
+    SUBMISSION_ID,
+    TRACE_ID;
 
     static boolean isId(String id) {
       if (id == null) {
@@ -68,10 +70,18 @@ public class RequestId {
 
   private final String str;
 
-  private RequestId(String resourceId) {
+  public RequestId() {
+    this(null);
+  }
+
+  private RequestId(@Nullable String resourceId) {
     Hasher h = Hashing.murmur3_128().newHasher();
     h.putLong(Thread.currentThread().getId()).putUnencodedChars(MACHINE_ID);
-    str = resourceId + "-" + TimeUtil.nowTs().getTime() + "-" + h.hash().toString().substring(0, 8);
+    str =
+        (resourceId != null ? resourceId + "-" : "")
+            + TimeUtil.nowTs().getTime()
+            + "-"
+            + h.hash().toString().substring(0, 8);
   }
 
   @Override

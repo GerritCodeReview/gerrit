@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a0bd4dbf_4dad4177",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-08-09T22:47:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba6b2998_47149bbd",
+      "revId": "6a1b0deb1d76f939482b12508fe021ff1a8a4231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f498c4a_298ceb48",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -69,6 +87,24 @@
       "revId": "6a1b0deb1d76f939482b12508fe021ff1a8a4231",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca5e8e98_55ca04c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-08-09T22:47:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fab74e8b_b183b487",
+      "revId": "6a1b0deb1d76f939482b12508fe021ff1a8a4231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +152,30 @@
       "revId": "6a1b0deb1d76f939482b12508fe021ff1a8a4231",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db3740cc_95da4fd9",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-08-09T22:47:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1630672_bc09efab",
+      "range": {
+        "startLine": 56,
+        "startChar": 10,
+        "endLine": 56,
+        "endChar": 50
+      },
+      "revId": "6a1b0deb1d76f939482b12508fe021ff1a8a4231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

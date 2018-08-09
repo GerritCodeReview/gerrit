@@ -24,7 +24,7 @@ limitations under the License.
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
+<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
@@ -210,7 +210,7 @@ limitations under the License.
           action="[[revisionActions.submit]]"
           on-cancel="_handleConfirmDialogCancel"
           on-confirm="_handleSubmitConfirm" hidden></gr-confirm-submit-dialog>
-      <gr-confirm-dialog id="createFollowUpDialog"
+      <gr-dialog id="createFollowUpDialog"
           class="confirmDialog"
           confirm-label="Create"
           on-confirm="_handleCreateFollowUpChange"
@@ -226,8 +226,8 @@ limitations under the License.
               repo-name="[[change.project]]"
               private-by-default="[[privateByDefault]]"></gr-create-change-dialog>
         </div>
-      </gr-confirm-dialog>
-      <gr-confirm-dialog
+      </gr-dialog>
+      <gr-dialog
           id="confirmDeleteDialog"
           class="confirmDialog"
           confirm-label="Delete"
@@ -240,8 +240,8 @@ limitations under the License.
         <div class="main" slot="main">
           Do you really want to delete the change?
         </div>
-      </gr-confirm-dialog>
-      <gr-confirm-dialog
+      </gr-dialog>
+      <gr-dialog
           id="confirmDeleteEditDialog"
           class="confirmDialog"
           confirm-label="Delete"
@@ -254,7 +254,7 @@ limitations under the License.
         <div class="main" slot="main">
           Do you really want to delete the edit?
         </div>
-      </gr-confirm-dialog>
+      </gr-dialog>
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

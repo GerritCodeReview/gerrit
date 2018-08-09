@@ -28,61 +28,82 @@ public class LoggingContextAwareThreadFactoryTest {
   @Test
   public void loggingContextPropagationToNewThread() throws Exception {
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
-    try (TraceContext traceContext = new TraceContext("foo", "bar")) {
+    assertForceLogging(false);
+    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
       SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
+      assertForceLogging(true);
 
       Thread thread =
           new LoggingContextAwareThreadFactory(r -> new Thread(r, "test-thread"))
               .newThread(
                   () -> {
-                    // Verify that the tags have been propagated to the new thread.
+                    // Verify that the tags and force logging flag have been propagated to the new
+                    // thread.
                     SortedMap<String, SortedSet<Object>> threadTagMap =
                         LoggingContext.getInstance().getTags().asMap();
                     expect.that(threadTagMap.keySet()).containsExactly("foo");
                     expect.that(threadTagMap.get("foo")).containsExactly("bar");
+                    expect
+                        .that(LoggingContext.getInstance().shouldForceLogging(null, null, false))
+                        .isTrue();
                   });
 
       // Execute in background.
       thread.start();
       thread.join();
 
-      // Verify that tags in the outer thread are still set.
+      // Verify that tags and force logging flag in the outer thread are still set.
       tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
+      assertForceLogging(true);
     }
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
+    assertForceLogging(false);
   }
 
   @Test
   public void loggingContextPropagationToSameThread() throws Exception {
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
-    try (TraceContext traceContext = new TraceContext("foo", "bar")) {
+    assertForceLogging(false);
+    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
       SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
+      assertForceLogging(true);
 
       Thread thread =
           new LoggingContextAwareThreadFactory()
               .newThread(
                   () -> {
-                    // Verify that the tags have been propagated to the new thread.
+                    // Verify that the tags and force logging flag have been propagated to the new
+                    // thread.
                     SortedMap<String, SortedSet<Object>> threadTagMap =
                         LoggingContext.getInstance().getTags().asMap();
                     expect.that(threadTagMap.keySet()).containsExactly("foo");
                     expect.that(threadTagMap.get("foo")).containsExactly("bar");
+                    expect
+                        .that(LoggingContext.getInstance().shouldForceLogging(null, null, false))
+                        .isTrue();
                   });
 
       // Execute in the same thread.
       thread.run();
 
-      // Verify that tags in the outer thread are still set.
+      // Verify that tags and force logging flag in the outer thread are still set.
       tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
+      assertForceLogging(true);
     }
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
+    assertForceLogging(false);
+  }
+
+  private void assertForceLogging(boolean expected) {
+    assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
+        .isEqualTo(expected);
   }
 }

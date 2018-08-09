@@ -29,6 +29,7 @@ public class TraceContextTest {
   @After
   public void cleanup() {
     LoggingContext.getInstance().clearTags();
+    LoggingContext.getInstance().forceLogging(false);
   }
 
   @Test
@@ -108,6 +109,52 @@ public class TraceContextTest {
     assertTags(ImmutableMap.of());
   }
 
+  @Test
+  public void openContextWithForceLogging() {
+    assertForceLogging(false);
+    try (TraceContext traceContext = TraceContext.open().forceLogging()) {
+      assertForceLogging(true);
+    }
+    assertForceLogging(false);
+  }
+
+  @Test
+  public void openNestedContextsWithForceLogging() {
+    assertForceLogging(false);
+    try (TraceContext traceContext = TraceContext.open().forceLogging()) {
+      assertForceLogging(true);
+
+      try (TraceContext traceContext2 = TraceContext.open()) {
+        // force logging is still enabled since outer trace context forced logging
+        assertForceLogging(true);
+
+        try (TraceContext traceContext3 = TraceContext.open().forceLogging()) {
+          assertForceLogging(true);
+        }
+
+        assertForceLogging(true);
+      }
+
+      assertForceLogging(true);
+    }
+    assertForceLogging(false);
+  }
+
+  @Test
+  public void forceLogging() {
+    assertForceLogging(false);
+    try (TraceContext traceContext = TraceContext.open()) {
+      assertForceLogging(false);
+
+      traceContext.forceLogging();
+      assertForceLogging(true);
+
+      traceContext.forceLogging();
+      assertForceLogging(true);
+    }
+    assertForceLogging(false);
+  }
+
   private void assertTags(ImmutableMap<String, ImmutableSet<String>> expectedTagMap) {
     SortedMap<String, SortedSet<Object>> actualTagMap =
         LoggingContext.getInstance().getTags().asMap();
@@ -116,5 +163,10 @@ public class TraceContextTest {
       assertThat(actualTagMap.get(expectedEntry.getKey()))
           .containsExactlyElementsIn(expectedEntry.getValue());
     }
+  }
+
+  private void assertForceLogging(boolean expected) {
+    assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
+        .isEqualTo(expected);
   }
 }

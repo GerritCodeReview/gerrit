@@ -153,6 +153,24 @@
       "revId": "2c875fdc257146ac2b3c86964be1b7808e7c8d92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e0b975e_20391668",
+        "filename": "polygerrit-ui/app/elements/change/gr-upload-help-dialog/gr-upload-help-dialog.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-09T20:42:13Z",
+      "side": 1,
+      "message": "I do see it as an improvement! :)",
+      "parentUuid": "f0dc4fe8_0114e8d5",
+      "revId": "2c875fdc257146ac2b3c86964be1b7808e7c8d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

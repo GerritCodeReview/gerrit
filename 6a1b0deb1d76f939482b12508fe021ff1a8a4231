@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ba6b2998_47149bbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-08-09T21:06:48Z",
+      "side": 1,
+      "message": "Will fix.",
+      "parentUuid": "f526f98c_f05c25d9",
+      "revId": "6a1b0deb1d76f939482b12508fe021ff1a8a4231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7f498c4a_298ceb48",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fab74e8b_b183b487",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-08-09T21:06:48Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "7f498c4a_298ceb48",
+      "revId": "6a1b0deb1d76f939482b12508fe021ff1a8a4231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e51a43a1_4783d98f",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2018-08-07T09:13:42Z",
       "side": 1,
       "message": "The received sha1 on CI is 58ca0a0fba72f2db6e6b27bd464dc44a946a617c.  I get the same when I manually download the artifact with wget, and sonatype is also showing the same.",
+      "range": {
+        "startLine": 56,
+        "startChar": 10,
+        "endLine": 56,
+        "endChar": 50
+      },
+      "revId": "6a1b0deb1d76f939482b12508fe021ff1a8a4231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1630672_bc09efab",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-08-09T21:06:48Z",
+      "side": 1,
+      "message": "Huh, not sure how I got the wrong one. I\u0027ll recheck and fix.",
+      "parentUuid": "e51a43a1_4783d98f",
       "range": {
         "startLine": 56,
         "startChar": 10,

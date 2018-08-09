@@ -79,5 +79,13 @@ limitations under the License.
       element.resetFocus();
       assert.isTrue(focusStub.calledOnce);
     });
+
+    test('empty cancel label hides cancel btn', () => {
+      assert.isFalse(isHidden(element.$.cancel));
+      element.cancelLabel = '';
+      flushAsynchronousOperations();
+
+      assert.isTrue(isHidden(element.$.cancel));
+    });
   });
 </script>

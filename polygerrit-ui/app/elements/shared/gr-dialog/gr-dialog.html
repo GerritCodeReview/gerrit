@@ -55,12 +55,17 @@ limitations under the License.
         flex-shrink: 0;
         justify-content: flex-end;
       }
+      .hidden {
+        display: none;
+      }
     </style>
     <div class="container" on-keydown="_handleKeydown">
       <header><slot name="header"></slot></header>
       <main><slot name="main"></slot></main>
       <footer>
-        <gr-button link on-tap="_handleCancelTap">[[cancelLabel]]</gr-button>
+        <gr-button id="cancel" class$="[[_computeCancelClass(cancelLabel)]]" link on-tap="_handleCancelTap">
+          [[cancelLabel]]
+        </gr-button>
         <gr-button id="confirm" link primary on-tap="_handleConfirm" disabled="[[disabled]]">
           [[confirmLabel]]
         </gr-button>

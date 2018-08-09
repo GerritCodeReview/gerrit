@@ -37,6 +37,7 @@
         type: String,
         value: 'Confirm',
       },
+      // Supplying an empty cancel label will hide the button completely.
       cancelLabel: {
         type: String,
         value: 'Cancel',
@@ -73,6 +74,10 @@
 
     resetFocus() {
       this.$.confirm.focus();
+    },
+
+    _computeCancelClass(cancelLabel) {
+      return cancelLabel.length ? '' : 'hidden';
     },
   });
 })();

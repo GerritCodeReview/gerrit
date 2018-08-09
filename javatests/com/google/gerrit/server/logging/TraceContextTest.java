@@ -30,6 +30,7 @@ public class TraceContextTest {
   @After
   public void cleanup() {
     LoggingContext.getInstance().clearTags();
+    LoggingContext.getInstance().forceLogging(false);
   }
 
   @Test
@@ -107,6 +108,37 @@ public class TraceContextTest {
         "tag value is required", () -> new TraceContext(RequestId.Type.RECEIVE_ID, null));
   }
 
+  @Test
+  public void openContextWithForceLogging() {
+    assertForceLogging(false);
+    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
+      assertForceLogging(true);
+    }
+    assertForceLogging(false);
+  }
+
+  @Test
+  public void openNestedContextsWithForceLogging() {
+    assertForceLogging(false);
+    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
+      assertForceLogging(true);
+
+      try (TraceContext traceContext2 = new TraceContext("abc", "xyz")) {
+        // force logging is still enabled since outer trace context forced logging
+        assertForceLogging(true);
+
+        try (TraceContext traceContext3 = new TraceContext(true, "tag", "value")) {
+          assertForceLogging(true);
+        }
+
+        assertForceLogging(true);
+      }
+
+      assertForceLogging(true);
+    }
+    assertForceLogging(false);
+  }
+
   private void assertTags(ImmutableMap<String, ImmutableSet<String>> expectedTagMap) {
     SortedMap<String, SortedSet<Object>> actualTagMap =
         LoggingContext.getInstance().getTags().asMap();
@@ -124,5 +156,10 @@ public class TraceContextTest {
     } catch (NullPointerException e) {
       assertThat(e.getMessage()).isEqualTo(expectedMessage);
     }
+  }
+
+  private void assertForceLogging(boolean expected) {
+    assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
+        .isEqualTo(expected);
   }
 }

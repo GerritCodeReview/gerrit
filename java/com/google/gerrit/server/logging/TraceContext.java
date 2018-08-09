@@ -24,27 +24,42 @@ public class TraceContext implements AutoCloseable {
   private final String tagName;
   private final String tagValue;
   private final boolean removeOnClose;
+  private final boolean stopForceLoggingOnClose;
 
   public TraceContext(RequestId.Type requestType, Object tagValue) {
     this(checkNotNull(requestType, "request type is required").name(), tagValue);
   }
 
+  public TraceContext(boolean forceLogging, RequestId.Type requestType, Object tagValue) {
+    this(forceLogging, checkNotNull(requestType, "request type is required").name(), tagValue);
+  }
+
   public TraceContext(String tagName, Object tagValue) {
+    this(false, tagName, tagValue);
+  }
+
+  public TraceContext(boolean forceLogging, String tagName, Object tagValue) {
     this.tagName = checkNotNull(tagName, "tag name is required");
     this.tagValue = checkNotNull(tagValue, "tag value is required").toString();
     this.removeOnClose = LoggingContext.getInstance().addTag(this.tagName, this.tagValue);
+    this.stopForceLoggingOnClose =
+        forceLogging ? !LoggingContext.getInstance().forceLogging(true) : false;
   }
 
   private TraceContext() {
     this.tagName = null;
     this.tagValue = null;
     this.removeOnClose = false;
+    this.stopForceLoggingOnClose = false;
   }
 
   @Override
   public void close() {
     if (removeOnClose) {
       LoggingContext.getInstance().removeTag(tagName, tagValue);
+    }
+    if (stopForceLoggingOnClose) {
+      LoggingContext.getInstance().forceLogging(false);
     }
   }
 }

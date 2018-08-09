@@ -48,6 +48,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -107,10 +108,12 @@ import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gerrit.util.http.RequestUtil;
 import com.google.gson.ExclusionStrategy;
@@ -176,6 +179,8 @@ public class RestApiServlet extends HttpServlet {
   private static final String JSON_TYPE = "application/json";
 
   private static final String FORM_TYPE = "application/x-www-form-urlencoded";
+
+  @VisibleForTesting public static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
 
   // HTTP 422 Unprocessable Entity.
   // TODO: Remove when HttpServletResponse.SC_UNPROCESSABLE_ENTITY is available
@@ -280,7 +285,9 @@ public class RestApiServlet extends HttpServlet {
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
 
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (AutoCloseable traceContext = enableTracing(req, res);
+        PerThreadCache ignored = PerThreadCache.create()) {
+
       if (isCorsPreflight(req)) {
         doCorsPreflight(req, res);
         return;
@@ -1263,6 +1270,19 @@ public class RestApiServlet extends HttpServlet {
     if (user.isIdentifiedUser()) {
       user.setLastLoginExternalIdKey(globals.webSession.get().getLastLoginExternalId());
     }
+  }
+
+  private AutoCloseable enableTracing(HttpServletRequest req, HttpServletResponse res) {
+    String v = req.getParameter(ParameterParser.TRACE_PARAMETER);
+    if (v != null && (v.isEmpty() || Boolean.parseBoolean(v))) {
+      RequestId traceId = new RequestId();
+      res.setHeader(X_GERRIT_TRACE, traceId.toString());
+      return new TraceContext("trace_id", traceId);
+    }
+    return new AutoCloseable() {
+      @Override
+      public void close() {}
+    };
   }
 
   private boolean isDelete(HttpServletRequest req) {

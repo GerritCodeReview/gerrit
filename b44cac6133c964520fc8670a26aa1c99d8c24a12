@@ -1,4 +1,124 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1533819292 +0200\nnonce APISObQ0CWDVGubKE90odzuj2/74u3Gn5CyiMshqUKV/Xs+pcXMQbKy2Px+H1m/jvyXnRunTBSz6\n\n0000000000000000000000000000000000000000 2e8c849c4dc4b06737babc42cf178cae6c36ba3b refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAltsOZ0ACgkQUbX9l6DQ\n71GhTQgAgBcKRus1Vqacey5yoRRDDGMCzPEMxnJQjmK1rSePZM7AZ2Rq3pCbUlQ0\nqreB91bBpPI6wPnyPDKjXmdQmytqwwCwzA0XdF7nZdmPVvDT+dXmLSBk4KG9Br49\n3ksdh/i6y0dJGYqr29gg+MXOqHjqdvxHuQLmjKG06b2MUGTpxgT+g5wkhToKGNjB\nKGG9q89foKobMzxv76bXhPTFodF/tfZhKvloTbDb/R3hqn1eZnTYyOmklf2LGnaV\nWW4TaJCH/rGnzRhM+QGliDTMJw9EMVAvT6VeGhrKB+aRSapDYtxzNeuXGHJubOv2\nPV9qS5rZA6Y8LEb7AVp6c11g4lIwwQ\u003d\u003d\n\u003d9TVK\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "56314b36_1d07dc94",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-10T15:46:24Z",
+      "side": 1,
+      "message": "Are these garbage collected? I see that tags can be removed from the MutableTags (I assume by auto-closing a TraceContext, so the size can go to 0, but the empty map would still stick around, right? So the steady state is we now have one extra Map per thread?",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3176c01c_2dc679a7",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-10T15:46:24Z",
+      "side": 1,
+      "message": "Can you just use SortedSetMultimap? ISTM it would make the implementation considerably simpler.",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89e7086a_c534f9c3",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-10T15:46:24Z",
+      "side": 1,
+      "message": "Why does this class need synchronized methods? Is it used somewhere other than in the ThreadLocal?",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "419c8bd2_6c5e4813",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-10T15:46:24Z",
+      "side": 1,
+      "message": "If you use a multimap, this is as simple as tagMap.forEach(tagsBuilder::addTag)",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f84a54dd_04da883d",
+        "filename": "javatests/com/google/gerrit/server/logging/MutableTagsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-10T15:46:24Z",
+      "side": 1,
+      "message": "Don\u0027t use ExpectedException.",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c5f3ce2_b899b4e2",
+        "filename": "javatests/com/google/gerrit/server/logging/MutableTagsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-10T15:46:24Z",
+      "side": 1,
+      "message": "Optional: I might find this easier to read as:\n\n assertThat(tagMap).containsExactly(\n     ImmutableMap.of(\n         \"name1\", ImmutableSet.of(\"value1\"),\n         \"name2\", ImmutableSet.of(\"value2\")));",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97468203_4889de21",
+        "filename": "javatests/com/google/gerrit/server/logging/MutableTagsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-10T15:46:24Z",
+      "side": 1,
+      "message": "IMO this is unnecessarily paranoid; it\u0027s just testing that the implementation of SortedMap that the Flogger library uses actually conforms to its stated interface.",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

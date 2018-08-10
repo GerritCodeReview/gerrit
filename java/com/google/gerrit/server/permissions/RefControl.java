@@ -16,6 +16,7 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -41,6 +42,8 @@ import java.util.Set;
 
 /** Manages access control for Git references (aka branches, tags). */
 class RefControl {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ProjectControl projectControl;
   private final String refName;
@@ -392,15 +395,39 @@ class RefControl {
   /** True if the user has this permission. */
   private boolean canPerform(String permissionName, boolean isChangeOwner, boolean withForce) {
     if (isBlocked(permissionName, isChangeOwner, withForce)) {
+      logger.atFine().log(
+          "'%s' cannot perform '%s'"
+              + (withForce ? " with force" : "")
+              + " on project '%s' for ref '%s' because this permission is blocked",
+          getUser().getLoggableName(),
+          permissionName,
+          projectControl.getProject().getName(),
+          refName);
       return false;
     }
 
     for (PermissionRule pr : relevant.getAllowRules(permissionName)) {
       if (isAllow(pr, withForce) && projectControl.match(pr, isChangeOwner)) {
+        logger.atFine().log(
+            "'%s' can perform '%s'"
+                + (withForce ? " with force" : "")
+                + " on project '%s' for ref '%s'",
+            getUser().getLoggableName(),
+            permissionName,
+            projectControl.getProject().getName(),
+            refName);
         return true;
       }
     }
 
+    logger.atFine().log(
+        "'%s' cannot perform '%s'"
+            + (withForce ? " with force" : "")
+            + " on project '%s' for ref '%s'",
+        getUser().getLoggableName(),
+        permissionName,
+        projectControl.getProject().getName(),
+        refName);
     return false;
   }
 

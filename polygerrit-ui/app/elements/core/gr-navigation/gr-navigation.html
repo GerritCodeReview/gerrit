@@ -17,7 +17,6 @@ limitations under the License.
 <script>
   (function(window) {
     'use strict';
-
     // Navigation parameters object format:
     //
     // Each object has a `view` property with a value from Gerrit.Nav.View. The
@@ -413,14 +412,14 @@ limitations under the License.
 
       /**
        * @param {string} repo The name of the repo.
-       * @param {!Array} sections The sections to display in the dashboard
+       * @param {string} sections The sections to display in the dashboard
        * @return {string}
        */
-      getUrlForCustomDashboard(repo, sections) {
+      getUrlForCustomDashboard(repo, id) {
         return this._getUrlFor({
           repo,
           view: Gerrit.Nav.View.DASHBOARD,
-          sections,
+          id,
         });
       },
 

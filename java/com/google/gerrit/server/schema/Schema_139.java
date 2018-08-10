@@ -148,7 +148,7 @@ public class Schema_139 extends SchemaVersion {
           md.getCommitBuilder().setCommitter(serverUser);
           md.setMessage(MSG);
 
-          AccountConfig accountConfig = new AccountConfig(e.getKey(), git);
+          AccountConfig accountConfig = new AccountConfig(e.getKey(), allUsersName, git);
           accountConfig.load(md);
           accountConfig.setAccountUpdate(
               InternalAccountUpdate.builder()

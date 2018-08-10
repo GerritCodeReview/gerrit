@@ -152,7 +152,7 @@ public class MergeValidators {
         final Project.NameKey newParent;
         try {
           ProjectConfig cfg = new ProjectConfig(destProject.getNameKey());
-          cfg.load(repo, commit);
+          cfg.load(destProject.getNameKey(), repo, commit);
           newParent = cfg.getProject().getParent(allProjectsName);
           final Project.NameKey oldParent = destProject.getProject().getParent(allProjectsName);
           if (oldParent == null) {

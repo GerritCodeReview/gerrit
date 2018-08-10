@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountProperties;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.inject.Inject;
@@ -38,21 +39,30 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class AccountValidator {
 
   private final Provider<IdentifiedUser> self;
+  private final AllUsersName allUsersName;
   private final OutgoingEmailValidator emailValidator;
 
   @Inject
-  public AccountValidator(Provider<IdentifiedUser> self, OutgoingEmailValidator emailValidator) {
+  public AccountValidator(
+      Provider<IdentifiedUser> self,
+      AllUsersName allUsersName,
+      OutgoingEmailValidator emailValidator) {
     this.self = self;
+    this.allUsersName = allUsersName;
     this.emailValidator = emailValidator;
   }
 
   public List<String> validate(
-      Account.Id accountId, Repository repo, RevWalk rw, @Nullable ObjectId oldId, ObjectId newId)
+      Account.Id accountId,
+      Repository allUsersRepo,
+      RevWalk rw,
+      @Nullable ObjectId oldId,
+      ObjectId newId)
       throws IOException {
     Optional<Account> oldAccount = Optional.empty();
     if (oldId != null && !ObjectId.zeroId().equals(oldId)) {
       try {
-        oldAccount = loadAccount(accountId, repo, rw, oldId, null);
+        oldAccount = loadAccount(accountId, allUsersRepo, rw, oldId, null);
       } catch (ConfigInvalidException e) {
         // ignore, maybe the new commit is repairing it now
       }
@@ -61,7 +71,7 @@ public class AccountValidator {
     List<String> messages = new ArrayList<>();
     Optional<Account> newAccount;
     try {
-      newAccount = loadAccount(accountId, repo, rw, newId, messages);
+      newAccount = loadAccount(accountId, allUsersRepo, rw, newId, messages);
     } catch (ConfigInvalidException e) {
       return ImmutableList.of(
           String.format(
@@ -94,14 +104,14 @@ public class AccountValidator {
 
   private Optional<Account> loadAccount(
       Account.Id accountId,
-      Repository repo,
+      Repository allUsersRepo,
       RevWalk rw,
       ObjectId commit,
       @Nullable List<String> messages)
       throws IOException, ConfigInvalidException {
     rw.reset();
-    AccountConfig accountConfig = new AccountConfig(accountId, repo);
-    accountConfig.load(rw, commit);
+    AccountConfig accountConfig = new AccountConfig(accountId, allUsersName, allUsersRepo);
+    accountConfig.load(allUsersName, rw, commit);
     if (messages != null) {
       messages.addAll(
           accountConfig

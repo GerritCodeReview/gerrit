@@ -27,6 +27,7 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
@@ -51,9 +52,10 @@ import org.eclipse.jgit.revwalk.RevSort;
  * A representation of a group in NoteDb.
  *
  * <p>Groups in NoteDb can be created by following the descriptions of {@link
- * #createForNewGroup(Repository, InternalGroupCreation)}. For reading groups from NoteDb or
- * updating them, refer to {@link #loadForGroup(Repository, AccountGroup.UUID)} or {@link
- * #loadForGroupSnapshot(Repository, AccountGroup.UUID, ObjectId)}.
+ * #createForNewGroup(Project.NameKey, Repository, InternalGroupCreation)}. For reading groups from
+ * NoteDb or updating them, refer to {@link #loadForGroup(Project.NameKey, Repository,
+ * AccountGroup.UUID)} or {@link #loadForGroupSnapshot(Project.NameKey, Repository,
+ * AccountGroup.UUID, ObjectId)}.
  *
  * <p><strong>Note: </strong>Any modification (group creation or update) only becomes permanent (and
  * hence written to NoteDb) if {@link #commit(MetaDataUpdate)} is called.
@@ -100,6 +102,7 @@ public class GroupConfig extends VersionedMetaData {
    * <p><strong>Note: </strong>The returned {@code GroupConfig} has to be committed via {@link
    * #commit(MetaDataUpdate)} in order to create the group for real.
    *
+   * @param projectName the name of the project which holds the NoteDb commits for groups
    * @param repository the repository which holds the NoteDb commits for groups
    * @param groupCreation an {@code InternalGroupCreation} specifying all properties which are
    *     required for a new group
@@ -110,10 +113,10 @@ public class GroupConfig extends VersionedMetaData {
    * @throws OrmDuplicateKeyException if a group with the same UUID already exists
    */
   public static GroupConfig createForNewGroup(
-      Repository repository, InternalGroupCreation groupCreation)
+      Project.NameKey projectName, Repository repository, InternalGroupCreation groupCreation)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID());
-    groupConfig.load(repository);
+    groupConfig.load(projectName, repository);
     groupConfig.setGroupCreation(groupCreation);
     return groupConfig;
   }
@@ -131,27 +134,30 @@ public class GroupConfig extends VersionedMetaData {
    * {@code InternalGroupUpdate} via {@link #setGroupUpdate(InternalGroupUpdate, AuditLogFormatter)}
    * and committing the {@code GroupConfig} via {@link #commit(MetaDataUpdate)}.
    *
+   * @param projectName the name of the project which holds the NoteDb commits for groups
    * @param repository the repository which holds the NoteDb commits for groups
    * @param groupUuid the UUID of the group
    * @return a {@code GroupConfig} for the group with the specified UUID
    * @throws IOException if the repository can't be accessed for some reason
    * @throws ConfigInvalidException if the group exists but can't be read due to an invalid format
    */
-  public static GroupConfig loadForGroup(Repository repository, AccountGroup.UUID groupUuid)
+  public static GroupConfig loadForGroup(
+      Project.NameKey projectName, Repository repository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
     GroupConfig groupConfig = new GroupConfig(groupUuid);
-    groupConfig.load(repository);
+    groupConfig.load(projectName, repository);
     return groupConfig;
   }
 
   /**
    * Creates a {@code GroupConfig} for an existing group at a specific revision of the repository.
    *
-   * <p>This method behaves nearly the same as {@link #loadForGroup(Repository, AccountGroup.UUID)}.
-   * The only difference is that {@link #loadForGroup(Repository, AccountGroup.UUID)} loads the
-   * group from the current state of the repository whereas this method loads the group at a
-   * specific (maybe past) revision.
+   * <p>This method behaves nearly the same as {@link #loadForGroup(Project.NameKey, Repository,
+   * AccountGroup.UUID)}. The only difference is that {@link #loadForGroup(Project.NameKey,
+   * Repository, AccountGroup.UUID)} loads the group from the current state of the repository
+   * whereas this method loads the group at a specific (maybe past) revision.
    *
+   * @param projectName the name of the project which holds the NoteDb commits for groups
    * @param repository the repository which holds the NoteDb commits for groups
    * @param groupUuid the UUID of the group
    * @param commitId the revision of the repository at which the group should be loaded
@@ -160,10 +166,13 @@ public class GroupConfig extends VersionedMetaData {
    * @throws ConfigInvalidException if the group exists but can't be read due to an invalid format
    */
   public static GroupConfig loadForGroupSnapshot(
-      Repository repository, AccountGroup.UUID groupUuid, ObjectId commitId)
+      Project.NameKey projectName,
+      Repository repository,
+      AccountGroup.UUID groupUuid,
+      ObjectId commitId)
       throws IOException, ConfigInvalidException {
     GroupConfig groupConfig = new GroupConfig(groupUuid);
-    groupConfig.load(repository, commitId);
+    groupConfig.load(projectName, repository, commitId);
     return groupConfig;
   }
 

@@ -162,7 +162,7 @@ public class AccountIndexerIT {
       md.getCommitBuilder().setAuthor(ident);
       md.getCommitBuilder().setCommitter(ident);
 
-      AccountConfig accountConfig = new AccountConfig(accountId, allUsersRepo).load();
+      AccountConfig accountConfig = new AccountConfig(accountId, allUsersName, allUsersRepo).load();
       accountConfig.setAccountUpdate(accountUpdate);
       accountConfig.commit(md);
     }

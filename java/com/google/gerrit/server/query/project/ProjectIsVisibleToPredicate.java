@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.project;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.CurrentUser;
@@ -24,6 +25,8 @@ import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 
 public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectData> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   protected final PermissionBackend permissionBackend;
   protected final CurrentUser user;
 
@@ -36,13 +39,19 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectDat
   @Override
   public boolean match(ProjectData pd) throws OrmException {
     if (!pd.getProject().getState().permitsRead()) {
+      logger.atFine().log("Filter out non-readable project: %s", pd);
       return false;
     }
 
-    return permissionBackend
-        .user(user)
-        .project(pd.getProject().getNameKey())
-        .testOrFalse(ProjectPermission.ACCESS);
+    boolean canSee =
+        permissionBackend
+            .user(user)
+            .project(pd.getProject().getNameKey())
+            .testOrFalse(ProjectPermission.ACCESS);
+    if (!canSee) {
+      logger.atFine().log("Filter out non-visible project: %s", pd);
+    }
+    return canSee;
   }
 
   @Override

@@ -68,10 +68,12 @@
       });
     },
 
-    _getUrl(project, sections) {
-      if (!project || !sections) { return ''; }
+    _getUrl(project, id) {
+      if (!project || !id) { return ''; }
 
-      return Gerrit.Nav.getUrlForCustomDashboard(project, sections);
+      //console.log(Gerrit.Nav.navigateToRelativeUrl('/p/' + project + '/+/dashboard/' + id));
+
+      return Gerrit.Nav.getUrlForCustomDashboard(project, id);
     },
 
     _computeLoadingClass(loading) {

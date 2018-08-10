@@ -413,14 +413,18 @@ limitations under the License.
 
       /**
        * @param {string} repo The name of the repo.
-       * @param {!Array} sections The sections to display in the dashboard
+       * @param {string} dashboard The sections to display in the dashboard
        * @return {string}
        */
-      getUrlForCustomDashboard(repo, sections) {
+      getUrlForCustomDashboard(repo, dashboard) {
+        const p = 'p';
+        const plus = '+';
         return this._getUrlFor({
+          p,
           repo,
+          plus,
           view: Gerrit.Nav.View.DASHBOARD,
-          sections,
+          dashboard,
         });
       },
 

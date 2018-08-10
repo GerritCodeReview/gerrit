@@ -1,0 +1,43 @@
+= Request Tracing
+
+Gerrit supports on-demand tracing of single requests that results in
+additional logs with debug information that are written to the
+`error_log`. The logs that correspond to a traced request are
+associated with a unique trace ID. This trace ID is returned with the
+response and can be used by an administrator to find the matching log
+entries.
+
+How tracing is enabled and how the trace ID is returned depends on the
+request type:
+
+* REST API: For REST calls tracing can be enabled by setting the
+  `trace` request parameter, the trace ID is returned as
+  `X-Gerrit-Trace` header. More information about this can be found in
+  the link:rest-api.html#tracing[Request Tracing] section of the
+  link:rest-api.html[REST API documentation].
+* SSH API: For SSH calls tracing is not supported.
+* GIT: For GIT requests tracing is not supported.
+
+== Find log entries for a trace ID
+
+If tracing is enabled all log messages that correspond to the traced
+request have a `trace_id` tag set, e.g.:
+
+----
+[2018-08-10 09:25:43,749] [HTTP-78] DEBUG com.google.gerrit.httpd.restapi.RestApiServlet : Received REST request: GET /accounts/self?trace [CONTEXT forced=true trace_id="1533885943749-8257c498" ]
+[2018-08-10 09:25:43,750] [HTTP-78] DEBUG com.google.gerrit.httpd.restapi.RestApiServlet : Calling user: admin [CONTEXT forced=true trace_id="1533885943749-8257c498" ]
+[2018-08-10 09:25:43,751] [HTTP-78] DEBUG com.google.gerrit.httpd.restapi.RestApiServlet : REST call succeeded: 200 [CONTEXT forced=true trace_id="1533885943749-8257c498" ]
+[2018-08-10 09:25:43,753] [HTTP-78] DEBUG com.google.gerrit.httpd.restapi.RestApiServlet : JSON response body:
+)]}'
+{
+  "_account_id": 1000000,
+  "name": "Administrator",
+  "email": "admin@example.com",
+  "username": "admin"
+}
+
+[CONTEXT forced=true trace_id="1533885943749-8257c498" ]
+----
+
+By doing a grep with the trace ID over the error log the log entries
+that correspond to the request can be found.

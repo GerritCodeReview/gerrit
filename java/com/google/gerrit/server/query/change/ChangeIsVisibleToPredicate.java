@@ -74,10 +74,11 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     try {
       ProjectState projectState = projectCache.checkedGet(cd.project());
       if (projectState == null) {
-        logger.atInfo().log("No such project: %s", cd.project());
+        logger.atFine().log("Filter out change %s of non-existing project %s", cd, cd.project());
         return false;
       }
       if (!projectState.statePermitsRead()) {
+        logger.atFine().log("Filter out change %s of non-reabable project %s", cd, cd.project());
         return false;
       }
     } catch (IOException e) {
@@ -94,11 +95,13 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
       Throwable cause = e.getCause();
       if (cause instanceof RepositoryNotFoundException) {
         logger.atWarning().withCause(e).log(
-            "Skipping change %s because the corresponding repository was not found", cd.getId());
+            "Filter out change %s because the corresponding repository %s was not found",
+            cd, cd.project());
         return false;
       }
       throw new OrmException("unable to check permissions on change " + cd.getId(), e);
     } catch (AuthException e) {
+      logger.atFine().log("Filter out non-visisble change: %s", cd);
       return false;
     }
 

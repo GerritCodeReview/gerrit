@@ -18,6 +18,7 @@ package com.google.gerrit.httpd.restapi;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS;
@@ -134,6 +135,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -287,6 +289,10 @@ public class RestApiServlet extends HttpServlet {
 
     try (AutoCloseable traceContext = enableTracing(req, res);
         PerThreadCache ignored = PerThreadCache.create()) {
+      logger.atFine().log(
+          "Received REST request: %s %s?%s",
+          req.getMethod(), req.getRequestURI(), req.getQueryString());
+      logger.atFine().log("Calling user: %s", globals.currentUser.get().getLoggableName());
 
       if (isCorsPreflight(req)) {
         doCorsPreflight(req, res);
@@ -509,17 +515,21 @@ public class RestApiServlet extends HttpServlet {
         configureCaching(req, res, rsrc, viewData.view, r.caching());
       } else if (result instanceof Response.Redirect) {
         CacheHeaders.setNotCacheable(res);
-        res.sendRedirect(((Response.Redirect) result).location());
+        String location = ((Response.Redirect) result).location();
+        res.sendRedirect(location);
+        logger.atFine().log("REST call redirected to: %s", location);
         return;
       } else if (result instanceof Response.Accepted) {
         CacheHeaders.setNotCacheable(res);
         res.setStatus(SC_ACCEPTED);
         res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) result).location());
+        logger.atFine().log("REST call succeeded: %d", SC_ACCEPTED);
         return;
       } else {
         CacheHeaders.setNotCacheable(res);
       }
       res.setStatus(status);
+      logger.atFine().log("REST call succeeded: %d", status);
 
       if (result != Response.none()) {
         result = Response.unwrap(result);
@@ -992,6 +1002,19 @@ public class RestApiServlet extends HttpServlet {
     }
     w.write('\n');
     w.flush();
+
+    logger.atFine().log(
+        "JSON response body:\n%s",
+        lazy(
+            () -> {
+              try {
+                ByteArrayOutputStream debugOut = new ByteArrayOutputStream();
+                buf.writeTo(debugOut, null);
+                return debugOut.toString(UTF_8.name());
+              } catch (IOException e) {
+                return "<JSON formatting failed>";
+              }
+            }));
     return replyBinaryResult(
         req, res, asBinaryResult(buf).setContentType(JSON_TYPE).setCharacterEncoding(UTF_8));
   }
@@ -1361,6 +1384,7 @@ public class RestApiServlet extends HttpServlet {
     configureCaching(req, res, null, null, c);
     checkArgument(statusCode >= 400, "non-error status: %s", statusCode);
     res.setStatus(statusCode);
+    logger.atFine().log("REST call failed: %d", statusCode);
     return replyText(req, res, msg);
   }
 
@@ -1372,6 +1396,7 @@ public class RestApiServlet extends HttpServlet {
     if (!text.endsWith("\n")) {
       text += "\n";
     }
+    logger.atFine().log("Text response body:\n%s", text);
     return replyBinaryResult(req, res, BinaryResult.create(text).setContentType(PLAIN_TEXT));
   }
 

@@ -17,7 +17,9 @@ package com.google.gerrit.server.git.meta;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.LockFailureException;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -62,6 +64,8 @@ import org.eclipse.jgit.util.RawParseUtils;
  * read from the repository, or format an update that can later be written back to the repository.
  */
 public abstract class VersionedMetaData {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /**
    * Path information that does not hold references to any repository data structures, allowing the
    * application to retain this object for long periods of time.
@@ -81,6 +85,7 @@ public abstract class VersionedMetaData {
   /** The revision at which the data was loaded. Is null for data yet to be created. */
   @Nullable protected RevCommit revision;
 
+  protected Project.NameKey projectName;
   protected RevWalk rw;
   protected ObjectReader reader;
   protected ObjectInserter inserter;
@@ -114,13 +119,15 @@ public abstract class VersionedMetaData {
    * <p>The repository is not held after the call completes, allowing the application to retain this
    * object for long periods of time.
    *
+   * @param projectName the name of the project
    * @param db repository to access.
    * @throws IOException
    * @throws ConfigInvalidException
    */
-  public void load(Repository db) throws IOException, ConfigInvalidException {
+  public void load(Project.NameKey projectName, Repository db)
+      throws IOException, ConfigInvalidException {
     Ref ref = db.getRefDatabase().exactRef(getRefName());
-    load(db, ref != null ? ref.getObjectId() : null);
+    load(projectName, db, ref != null ? ref.getObjectId() : null);
   }
 
   /**
@@ -133,15 +140,16 @@ public abstract class VersionedMetaData {
    * <p>The repository is not held after the call completes, allowing the application to retain this
    * object for long periods of time.
    *
+   * @param projectName the name of the project
    * @param db repository to access.
    * @param id revision to load.
    * @throws IOException
    * @throws ConfigInvalidException
    */
-  public void load(Repository db, @Nullable ObjectId id)
+  public void load(Project.NameKey projectName, Repository db, @Nullable ObjectId id)
       throws IOException, ConfigInvalidException {
     try (RevWalk walk = new RevWalk(db)) {
-      load(walk, id);
+      load(projectName, walk, id);
     }
   }
 
@@ -156,12 +164,15 @@ public abstract class VersionedMetaData {
    * instance does not hold a reference to the walk or the repository after the call completes,
    * allowing the application to retain this object for long periods of time.
    *
+   * @param projectName the name of the project
    * @param walk open walk to access to access.
    * @param id revision to load.
    * @throws IOException
    * @throws ConfigInvalidException
    */
-  public void load(RevWalk walk, ObjectId id) throws IOException, ConfigInvalidException {
+  public void load(Project.NameKey projectName, RevWalk walk, ObjectId id)
+      throws IOException, ConfigInvalidException {
+    this.projectName = projectName;
     this.rw = walk;
     this.reader = walk.getObjectReader();
     try {
@@ -174,11 +185,11 @@ public abstract class VersionedMetaData {
   }
 
   public void load(MetaDataUpdate update) throws IOException, ConfigInvalidException {
-    load(update.getRepository());
+    load(update.getProjectName(), update.getRepository());
   }
 
   public void load(MetaDataUpdate update, ObjectId id) throws IOException, ConfigInvalidException {
-    load(update.getRepository(), id);
+    load(update.getProjectName(), update.getRepository(), id);
   }
 
   /**
@@ -481,6 +492,9 @@ public abstract class VersionedMetaData {
       return new byte[] {};
     }
 
+    logger.atFine().log(
+        "Read file '%s' from ref '%s' of project '%s' from revision '%s'",
+        fileName, getRefName(), projectName, revision.name());
     try (TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
       if (tw != null) {
         ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
@@ -553,6 +567,8 @@ public abstract class VersionedMetaData {
   }
 
   protected void saveFile(String fileName, byte[] raw) throws IOException {
+    logger.atFine().log(
+        "Save file '%s' in ref '%s' of project '%s'", fileName, getRefName(), projectName);
     DirCacheEditor editor = newTree.editor();
     if (raw != null && 0 < raw.length) {
       final ObjectId blobId = inserter.insert(Constants.OBJ_BLOB, raw);

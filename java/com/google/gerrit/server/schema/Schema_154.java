@@ -139,7 +139,10 @@ public class Schema_154 extends SchemaVersion {
     PersonIdent ident = serverIdent.get();
     md.getCommitBuilder().setAuthor(ident);
     md.getCommitBuilder().setCommitter(ident);
-    new AccountConfig(account.getId(), allUsersRepo).load().setAccount(account).commit(md);
+    new AccountConfig(account.getId(), allUsersName, allUsersRepo)
+        .load()
+        .setAccount(account)
+        .commit(md);
   }
 
   @FunctionalInterface

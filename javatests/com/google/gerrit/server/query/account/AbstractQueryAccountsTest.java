@@ -579,7 +579,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       PersonIdent ident = serverIdent.get();
       md.getCommitBuilder().setAuthor(ident);
       md.getCommitBuilder().setCommitter(ident);
-      new AccountConfig(accountId, repo)
+      new AccountConfig(accountId, allUsers, repo)
           .load()
           .setAccountUpdate(InternalAccountUpdate.builder().setFullName(newName).build())
           .commit(md);

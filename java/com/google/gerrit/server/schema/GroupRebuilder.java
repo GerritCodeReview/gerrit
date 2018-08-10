@@ -81,7 +81,7 @@ class GroupRebuilder {
             .setNameKey(group.getNameKey())
             .setGroupUUID(group.getGroupUUID())
             .build();
-    GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
+    GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsers, allUsersRepo, groupCreation);
     groupConfig.setAllowSaveEmptyName();
 
     InternalGroupUpdate.Builder updateBuilder =

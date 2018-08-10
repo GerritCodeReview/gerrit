@@ -972,7 +972,7 @@ class ReceiveCommits {
         case UPDATE_NONFASTFORWARD:
           try {
             ProjectConfig cfg = new ProjectConfig(project.getNameKey());
-            cfg.load(receivePack.getRevWalk(), cmd.getNewId());
+            cfg.load(project.getNameKey(), receivePack.getRevWalk(), cmd.getNewId());
             if (!cfg.getValidationErrors().isEmpty()) {
               addError("Invalid project configuration:");
               for (ValidationError err : cfg.getValidationErrors()) {

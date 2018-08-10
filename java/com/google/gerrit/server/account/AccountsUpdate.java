@@ -368,7 +368,7 @@ public class AccountsUpdate {
 
   private AccountConfig read(Repository allUsersRepo, Account.Id accountId)
       throws IOException, ConfigInvalidException {
-    AccountConfig accountConfig = new AccountConfig(accountId, allUsersRepo).load();
+    AccountConfig accountConfig = new AccountConfig(accountId, allUsersName, allUsersRepo).load();
     afterReadRevision.run();
     return accountConfig;
   }

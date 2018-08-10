@@ -140,7 +140,7 @@ public class AbstractGroupTest extends GerritBaseTests {
           @Override
           public String getName() {
             try {
-              return GroupConfig.loadForGroup(allUsersRepo, uuid)
+              return GroupConfig.loadForGroup(allUsersName, allUsersRepo, uuid)
                   .getLoadedGroup()
                   .map(InternalGroup::getName)
                   .orElse("Group " + uuid);

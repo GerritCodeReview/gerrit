@@ -80,7 +80,7 @@ public class Schema_144 extends SchemaVersion {
 
     try {
       try (Repository repo = repoManager.openRepository(allUsersName)) {
-        ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(repo);
+        ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsersName, repo);
         extIdNotes.upsert(toAdd);
         try (MetaDataUpdate metaDataUpdate =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, repo)) {

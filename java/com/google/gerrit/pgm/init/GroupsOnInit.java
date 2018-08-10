@@ -25,9 +25,9 @@ import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -64,13 +64,13 @@ public class GroupsOnInit {
 
   private final InitFlags flags;
   private final SitePaths site;
-  private final String allUsers;
+  private final AllUsersName allUsers;
 
   @Inject
   public GroupsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
     this.flags = flags;
     this.site = site;
-    this.allUsers = allUsers.get();
+    this.allUsers = new AllUsersName(allUsers.get());
   }
 
   /**
@@ -90,7 +90,7 @@ public class GroupsOnInit {
     if (allUsersRepoPath != null) {
       try (Repository allUsersRepo = new FileRepository(allUsersRepoPath)) {
         AccountGroup.UUID groupUuid = groupReference.getUUID();
-        GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, groupUuid);
+        GroupConfig groupConfig = GroupConfig.loadForGroup(allUsers, allUsersRepo, groupUuid);
         return groupConfig
             .getLoadedGroup()
             .orElseThrow(() -> new NoSuchGroupException(groupReference.getUUID()));
@@ -145,7 +145,7 @@ public class GroupsOnInit {
   private void addGroupMemberInNoteDb(
       Repository repository, AccountGroup.UUID groupUuid, Account account)
       throws IOException, ConfigInvalidException, NoSuchGroupException {
-    GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
+    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsers, repository, groupUuid);
     InternalGroup group =
         groupConfig.getLoadedGroup().orElseThrow(() -> new NoSuchGroupException(groupUuid));
 
@@ -160,7 +160,7 @@ public class GroupsOnInit {
   private File getPathToAllUsersRepository() {
     Path basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
     checkArgument(basePath != null, "gerrit.basePath must be configured");
-    return RepositoryCache.FileKey.resolve(basePath.resolve(allUsers).toFile(), FS.DETECTED);
+    return RepositoryCache.FileKey.resolve(basePath.resolve(allUsers.get()).toFile(), FS.DETECTED);
   }
 
   private static InternalGroupUpdate getMemberAdditionUpdate(Account account) {
@@ -186,7 +186,7 @@ public class GroupsOnInit {
 
   private MetaDataUpdate createMetaDataUpdate(Repository repository, PersonIdent personIdent) {
     MetaDataUpdate metaDataUpdate =
-        new MetaDataUpdate(GitReferenceUpdated.DISABLED, new Project.NameKey(allUsers), repository);
+        new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, repository);
     metaDataUpdate.getCommitBuilder().setAuthor(personIdent);
     metaDataUpdate.getCommitBuilder().setCommitter(personIdent);
     return metaDataUpdate;

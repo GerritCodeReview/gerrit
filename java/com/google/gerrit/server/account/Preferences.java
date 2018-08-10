@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -414,25 +415,28 @@ public class Preferences {
     return urlAliases;
   }
 
-  public static GeneralPreferencesInfo readDefaultGeneralPreferences(Repository allUsersRepo)
+  public static GeneralPreferencesInfo readDefaultGeneralPreferences(
+      AllUsersName allUsersName, Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
-    return parseGeneralPreferences(readDefaultConfig(allUsersRepo), null, null);
+    return parseGeneralPreferences(readDefaultConfig(allUsersName, allUsersRepo), null, null);
   }
 
-  public static DiffPreferencesInfo readDefaultDiffPreferences(Repository allUsersRepo)
+  public static DiffPreferencesInfo readDefaultDiffPreferences(
+      AllUsersName allUsersName, Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
-    return parseDiffPreferences(readDefaultConfig(allUsersRepo), null, null);
+    return parseDiffPreferences(readDefaultConfig(allUsersName, allUsersRepo), null, null);
   }
 
-  public static EditPreferencesInfo readDefaultEditPreferences(Repository allUsersRepo)
+  public static EditPreferencesInfo readDefaultEditPreferences(
+      AllUsersName allUsersName, Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
-    return parseEditPreferences(readDefaultConfig(allUsersRepo), null, null);
+    return parseEditPreferences(readDefaultConfig(allUsersName, allUsersRepo), null, null);
   }
 
-  static Config readDefaultConfig(Repository allUsersRepo)
+  static Config readDefaultConfig(AllUsersName allUsersName, Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
     VersionedDefaultPreferences defaultPrefs = new VersionedDefaultPreferences();
-    defaultPrefs.load(allUsersRepo);
+    defaultPrefs.load(allUsersName, allUsersRepo);
     return defaultPrefs.getConfig();
   }
 

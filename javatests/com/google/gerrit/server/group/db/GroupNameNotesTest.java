@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.common.testing.CommitInfoSubject;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -84,12 +85,14 @@ public class GroupNameNotesTest {
   private final AccountGroup.NameKey groupName = new AccountGroup.NameKey("users");
 
   private AtomicInteger idCounter;
+  private AllUsersName allUsersName;
   private Repository repo;
 
   @Before
   public void setUp() {
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
     idCounter = new AtomicInteger();
+    allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
     repo = new InMemoryRepository(new DfsRepositoryDescription(AllUsersNameProvider.DEFAULT));
   }
 
@@ -110,13 +113,13 @@ public class GroupNameNotesTest {
   @Test
   public void uuidOfNewGroupMustNotBeNull() throws Exception {
     expectedException.expect(NullPointerException.class);
-    GroupNameNotes.forNewGroup(repo, null, groupName);
+    GroupNameNotes.forNewGroup(allUsersName, repo, null, groupName);
   }
 
   @Test
   public void nameOfNewGroupMustNotBeNull() throws Exception {
     expectedException.expect(NullPointerException.class);
-    GroupNameNotes.forNewGroup(repo, groupUuid, null);
+    GroupNameNotes.forNewGroup(allUsersName, repo, groupUuid, null);
   }
 
   @Test
@@ -135,7 +138,7 @@ public class GroupNameNotesTest {
     AccountGroup.UUID anotherGroupUuid = new AccountGroup.UUID("AnotherGroup");
     expectedException.expect(OrmDuplicateKeyException.class);
     expectedException.expectMessage(groupName.get());
-    GroupNameNotes.forNewGroup(repo, anotherGroupUuid, groupName);
+    GroupNameNotes.forNewGroup(allUsersName, repo, anotherGroupUuid, groupName);
   }
 
   @Test
@@ -179,7 +182,7 @@ public class GroupNameNotesTest {
     createGroup(groupUuid, groupName);
 
     expectedException.expect(NullPointerException.class);
-    GroupNameNotes.forRename(repo, groupUuid, groupName, null);
+    GroupNameNotes.forRename(allUsersName, repo, groupUuid, groupName, null);
   }
 
   @Test
@@ -188,7 +191,7 @@ public class GroupNameNotesTest {
 
     AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
     expectedException.expect(NullPointerException.class);
-    GroupNameNotes.forRename(repo, groupUuid, null, anotherName);
+    GroupNameNotes.forRename(allUsersName, repo, groupUuid, null, anotherName);
   }
 
   @Test
@@ -199,7 +202,7 @@ public class GroupNameNotesTest {
     AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
     expectedException.expect(ConfigInvalidException.class);
     expectedException.expectMessage(anotherOldName.get());
-    GroupNameNotes.forRename(repo, groupUuid, anotherOldName, anotherName);
+    GroupNameNotes.forRename(allUsersName, repo, groupUuid, anotherOldName, anotherName);
   }
 
   @Test
@@ -211,7 +214,7 @@ public class GroupNameNotesTest {
 
     expectedException.expect(OrmDuplicateKeyException.class);
     expectedException.expectMessage(anotherGroupName.get());
-    GroupNameNotes.forRename(repo, groupUuid, groupName, anotherGroupName);
+    GroupNameNotes.forRename(allUsersName, repo, groupUuid, groupName, anotherGroupName);
   }
 
   @Test
@@ -220,7 +223,7 @@ public class GroupNameNotesTest {
 
     AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
     expectedException.expect(NullPointerException.class);
-    GroupNameNotes.forRename(repo, null, groupName, anotherName);
+    GroupNameNotes.forRename(allUsersName, repo, null, groupName, anotherName);
   }
 
   @Test
@@ -231,7 +234,7 @@ public class GroupNameNotesTest {
     AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
     expectedException.expect(ConfigInvalidException.class);
     expectedException.expectMessage(groupUuid.get());
-    GroupNameNotes.forRename(repo, anotherGroupUuid, groupName, anotherName);
+    GroupNameNotes.forRename(allUsersName, repo, anotherGroupUuid, groupName, anotherName);
   }
 
   @Test
@@ -287,7 +290,8 @@ public class GroupNameNotesTest {
 
   @Test
   public void newCommitIsNotCreatedWhenCommittingGroupCreationTwice() throws Exception {
-    GroupNameNotes groupNameNotes = GroupNameNotes.forNewGroup(repo, groupUuid, groupName);
+    GroupNameNotes groupNameNotes =
+        GroupNameNotes.forNewGroup(allUsersName, repo, groupUuid, groupName);
 
     commit(groupNameNotes);
     ImmutableList<CommitInfo> commitsAfterFirstCommit = log();
@@ -303,7 +307,7 @@ public class GroupNameNotesTest {
 
     AccountGroup.NameKey anotherName = new AccountGroup.NameKey("admins");
     GroupNameNotes groupNameNotes =
-        GroupNameNotes.forRename(repo, groupUuid, groupName, anotherName);
+        GroupNameNotes.forRename(allUsersName, repo, groupUuid, groupName, anotherName);
 
     commit(groupNameNotes);
     ImmutableList<CommitInfo> commitsAfterFirstCommit = log();
@@ -504,14 +508,16 @@ public class GroupNameNotesTest {
 
   private void createGroup(AccountGroup.UUID groupUuid, AccountGroup.NameKey groupName)
       throws Exception {
-    GroupNameNotes groupNameNotes = GroupNameNotes.forNewGroup(repo, groupUuid, groupName);
+    GroupNameNotes groupNameNotes =
+        GroupNameNotes.forNewGroup(allUsersName, repo, groupUuid, groupName);
     commit(groupNameNotes);
   }
 
   private void renameGroup(
       AccountGroup.UUID groupUuid, AccountGroup.NameKey oldName, AccountGroup.NameKey newName)
       throws Exception {
-    GroupNameNotes groupNameNotes = GroupNameNotes.forRename(repo, groupUuid, oldName, newName);
+    GroupNameNotes groupNameNotes =
+        GroupNameNotes.forRename(allUsersName, repo, groupUuid, oldName, newName);
     commit(groupNameNotes);
   }
 

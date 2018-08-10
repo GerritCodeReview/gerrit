@@ -44,7 +44,7 @@ public class GetDiffPreferences implements RestReadView<ConfigResource> {
   public DiffPreferencesInfo apply(ConfigResource configResource)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     try (Repository git = gitManager.openRepository(allUsersName)) {
-      return Preferences.readDefaultDiffPreferences(git);
+      return Preferences.readDefaultDiffPreferences(allUsersName, git);
     }
   }
 }

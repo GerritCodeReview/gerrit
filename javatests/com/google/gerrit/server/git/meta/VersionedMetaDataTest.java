@@ -203,7 +203,7 @@ public class VersionedMetaDataTest {
 
   private MyMetaData load(String ref, int expectedValue) throws Exception {
     MyMetaData d = new MyMetaData(ref);
-    d.load(repo);
+    d.load(project, repo);
     assertThat(d.getValue()).isEqualTo(expectedValue);
     return d;
   }

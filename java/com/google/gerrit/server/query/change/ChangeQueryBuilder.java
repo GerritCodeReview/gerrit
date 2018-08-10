@@ -1107,7 +1107,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> query(String name) throws QueryParseException {
     try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
       VersionedAccountQueries q = VersionedAccountQueries.forUser(self());
-      q.load(git);
+      q.load(args.allUsersName, git);
       String query = q.getQueryList().getQuery(name);
       if (query != null) {
         return parse(query);
@@ -1131,7 +1131,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> destination(String name) throws QueryParseException {
     try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
       VersionedAccountDestinations d = VersionedAccountDestinations.forUser(self());
-      d.load(git);
+      d.load(args.allUsersName, git);
       Set<Branch.NameKey> destinations = d.getDestinationList().getDestinations(name);
       if (destinations != null && !destinations.isEmpty()) {
         return new DestinationPredicate(destinations, name);

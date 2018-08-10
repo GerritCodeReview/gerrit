@@ -2508,7 +2508,7 @@ public class AccountIT extends AbstractDaemonTest {
     // Manually inserting/updating/deleting an external ID of the user makes the index document
     // stale.
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(repo);
+      ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsers, repo);
 
       ExternalId.Key key = ExternalId.Key.create("foo", "foo");
       extIdNotes.insert(ExternalId.create(key, accountId));

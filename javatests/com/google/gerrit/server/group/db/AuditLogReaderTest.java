@@ -37,7 +37,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   @Before
   public void setUp() throws Exception {
-    auditLogReader = new AuditLogReader(SERVER_ID);
+    auditLogReader = new AuditLogReader(SERVER_ID, allUsersName);
   }
 
   @Test
@@ -250,7 +250,8 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
                 .setMemberModification(members -> ImmutableSet.of(authorId))
                 .build();
 
-    GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
+    GroupConfig groupConfig =
+        GroupConfig.createForNewGroup(allUsersName, allUsersRepo, groupCreation);
     groupConfig.setGroupUpdate(groupUpdate, getAuditLogFormatter());
 
     groupConfig.commit(createMetaDataUpdate(authorIdent));
@@ -261,7 +262,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   private void updateGroup(AccountGroup.UUID uuid, InternalGroupUpdate groupUpdate)
       throws Exception {
-    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, uuid);
+    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepo, uuid);
     groupConfig.setGroupUpdate(groupUpdate, getAuditLogFormatter());
     groupConfig.commit(createMetaDataUpdate(userIdent));
   }

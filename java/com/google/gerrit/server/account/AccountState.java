@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Function;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -314,5 +315,12 @@ public class AccountState {
               .build();
     }
     return properties;
+  }
+
+  @Override
+  public String toString() {
+    MoreObjects.ToStringHelper h = MoreObjects.toStringHelper(this);
+    h.addValue(getAccount().getId());
+    return h.toString();
   }
 }

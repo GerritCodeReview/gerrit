@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "a9cbf165_1d41dec1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-10T16:30:36Z",
+      "side": 1,
+      "message": "Oh, but I think it would be useful and not too leaky to log the response body for non-200 responses.",
+      "parentUuid": "90c861c5_4347f767",
+      "revId": "b01b58db139875b8c92ef1070de8d506a7a6baf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5b53a7fb_58df7039",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 2

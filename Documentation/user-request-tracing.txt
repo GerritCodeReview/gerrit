@@ -1,0 +1,41 @@
+= Request Tracing
+
+Gerrit supports on-demand tracing of single requests that results in
+additional logs with debug information that are written to the
+`error_log`. The logs that correspond to a traced request are
+associated with a unique trace ID. This trace ID is returned with the
+response and can be used by an administrator to find the matching log
+entries.
+
+How tracing is enabled and how the trace ID is returned depends on the
+request type:
+
+* REST API: For REST calls tracing can be enabled by setting the
+  `trace` request parameter, the trace ID is returned as
+  `X-Gerrit-Trace` header. More information about this can be found in
+  the link:rest-api.html#tracing[Request Tracing] section of the
+  link:rest-api.html[REST API documentation].
+* SSH API: For SSH calls tracing can be enabled by setting the
+  `--trace` option. More information about this can be found in
+  the link:cmd-index.html#trace[Trace] section of the
+  link:cmd-index.html[SSH command documentation].
+* Git: For Git pushes tracing can be enabled by setting the
+  `trace` push option, the trace ID is returned in the command output.
+  More information about this can be found in
+  the link:user-upload.html#trace[Trace] section of the
+  link:user-upload.html[upload documentation]. Tracing for Git requests
+  other than Git push is not supported.
+
+== Find log entries for a trace ID
+
+If tracing is enabled all log messages that correspond to the traced
+request have a `TRACE_ID` tag set, e.g.:
+
+----
+[2018-08-13 15:28:08,913] [HTTP-76] TRACE com.google.gerrit.httpd.restapi.RestApiServlet : Received REST request: GET /a/accounts/self (parameters: [trace]) [CONTEXT forced=true TRACE_ID="1534166888910-3985dfba" ]
+[2018-08-13 15:28:08,914] [HTTP-76] TRACE com.google.gerrit.httpd.restapi.RestApiServlet : Calling user: admin [CONTEXT forced=true TRACE_ID="1534166888910-3985dfba" ]
+[2018-08-13 15:28:08,942] [HTTP-76] TRACE com.google.gerrit.httpd.restapi.RestApiServlet : REST call succeeded: 200 [CONTEXT forced=true TRACE_ID="1534166888910-3985dfba" ]
+----
+
+By doing a grep with the trace ID over the error log the log entries
+that correspond to the request can be found.

@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
@@ -77,6 +78,7 @@ import org.eclipse.jgit.revwalk.RevSort;
  */
 public class AccountConfig extends VersionedMetaData implements ValidationError.Sink {
   private final Account.Id accountId;
+  private final AllUsersName allUsersName;
   private final Repository repo;
   private final String ref;
 
@@ -87,8 +89,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
   private List<ValidationError> validationErrors;
 
-  public AccountConfig(Account.Id accountId, Repository allUsersRepo) {
+  public AccountConfig(Account.Id accountId, AllUsersName allUsersName, Repository allUsersRepo) {
     this.accountId = checkNotNull(accountId, "accountId");
+    this.allUsersName = checkNotNull(allUsersName, "allUsersName");
     this.repo = checkNotNull(allUsersRepo, "allUsersRepo");
     this.ref = RefNames.refsUsers(accountId);
   }
@@ -99,7 +102,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   }
 
   public AccountConfig load() throws IOException, ConfigInvalidException {
-    load(repo);
+    load(allUsersName, repo);
     return this;
   }
 
@@ -242,7 +245,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
           new Preferences(
               accountId,
               readConfig(Preferences.PREFERENCES_CONFIG),
-              Preferences.readDefaultConfig(repo),
+              Preferences.readDefaultConfig(allUsersName, repo),
               this);
 
       projectWatches.parse();
@@ -253,7 +256,8 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       projectWatches = new ProjectWatches(accountId, new Config(), this);
 
       preferences =
-          new Preferences(accountId, new Config(), Preferences.readDefaultConfig(repo), this);
+          new Preferences(
+              accountId, new Config(), Preferences.readDefaultConfig(allUsersName, repo), this);
     }
 
     Ref externalIdsRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);

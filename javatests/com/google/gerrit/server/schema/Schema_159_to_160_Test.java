@@ -189,7 +189,7 @@ public class Schema_159_to_160_Test {
       Supplier<VersionedAccountPreferences> prefsSupplier) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       VersionedAccountPreferences prefs = prefsSupplier.get();
-      prefs.load(repo);
+      prefs.load(allUsersName, repo);
       Config cfg = prefs.getConfig();
       return cfg.getSubsections(MY)
           .stream()

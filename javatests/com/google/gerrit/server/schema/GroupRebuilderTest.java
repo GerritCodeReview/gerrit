@@ -66,6 +66,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
   private static final String SERVER_EMAIL = "noreply@gerritcodereview.com";
 
   private AtomicInteger idCounter;
+  private AllUsersName allUsersName;
   private Repository repo;
   private GroupRebuilder rebuilder;
   private GroupBundle.Factory bundleFactory;
@@ -74,7 +75,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
   public void setUp() throws Exception {
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
     idCounter = new AtomicInteger();
-    AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
+    allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
     repo = new InMemoryRepositoryManager().createRepository(allUsersName);
     rebuilder =
         new GroupRebuilder(
@@ -83,7 +84,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
             // Note that the expected name/email values in tests are not necessarily realistic,
             // since they use these trivial name/email functions.
             getAuditLogFormatter());
-    bundleFactory = new GroupBundle.Factory(new AuditLogReader(SERVER_ID));
+    bundleFactory = new GroupBundle.Factory(new AuditLogReader(SERVER_ID, allUsersName));
   }
 
   @After
@@ -606,7 +607,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
   }
 
   private GroupBundle reload(AccountGroup g) throws Exception {
-    return bundleFactory.fromNoteDb(repo, g.getGroupUUID());
+    return bundleFactory.fromNoteDb(allUsersName, repo, g.getGroupUUID());
   }
 
   private void assertMigratedCleanly(GroupBundle noteDbBundle, GroupBundle expectedReviewDbBundle) {

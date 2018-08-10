@@ -214,12 +214,14 @@ public class SchemaCreator {
     AuditLogFormatter auditLogFormatter =
         AuditLogFormatter.createBackedBy(ImmutableSet.of(), ImmutableSet.of(), serverId);
 
-    GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
+    GroupConfig groupConfig =
+        GroupConfig.createForNewGroup(allUsersName, allUsersRepo, groupCreation);
     groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
     GroupNameNotes groupNameNotes =
-        GroupNameNotes.forNewGroup(allUsersRepo, groupCreation.getGroupUUID(), groupName);
+        GroupNameNotes.forNewGroup(
+            allUsersName, allUsersRepo, groupCreation.getGroupUUID(), groupName);
 
     commit(allUsersRepo, groupConfig, groupNameNotes);
 

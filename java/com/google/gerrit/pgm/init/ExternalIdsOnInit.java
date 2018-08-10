@@ -16,10 +16,10 @@ package com.google.gerrit.pgm.init;
 
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -39,13 +39,13 @@ import org.eclipse.jgit.util.FS;
 public class ExternalIdsOnInit {
   private final InitFlags flags;
   private final SitePaths site;
-  private final String allUsers;
+  private final AllUsersName allUsers;
 
   @Inject
   public ExternalIdsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
     this.flags = flags;
     this.site = site;
-    this.allUsers = allUsers.get();
+    this.allUsers = new AllUsersName(allUsers.get());
   }
 
   public synchronized void insert(String commitMessage, Collection<ExternalId> extIds)
@@ -53,11 +53,10 @@ public class ExternalIdsOnInit {
     File path = getPath();
     if (path != null) {
       try (Repository allUsersRepo = new FileRepository(path)) {
-        ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsersRepo);
+        ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsers, allUsersRepo);
         extIdNotes.insert(extIds);
         try (MetaDataUpdate metaDataUpdate =
-            new MetaDataUpdate(
-                GitReferenceUpdated.DISABLED, new Project.NameKey(allUsers), allUsersRepo)) {
+            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, allUsersRepo)) {
           PersonIdent serverIdent = new GerritPersonIdentProvider(flags.cfg).get();
           metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
           metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
@@ -73,6 +72,6 @@ public class ExternalIdsOnInit {
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
-    return FileKey.resolve(basePath.resolve(allUsers).toFile(), FS.DETECTED);
+    return FileKey.resolve(basePath.resolve(allUsers.get()).toFile(), FS.DETECTED);
   }
 }

@@ -70,14 +70,14 @@ public class Groups {
   public Optional<InternalGroup> getGroup(AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-      return getGroupFromNoteDb(allUsersRepo, groupUuid);
+      return getGroupFromNoteDb(allUsersName, allUsersRepo, groupUuid);
     }
   }
 
   private static Optional<InternalGroup> getGroupFromNoteDb(
-      Repository allUsersRepository, AccountGroup.UUID groupUuid)
+      AllUsersName allUsersName, Repository allUsersRepository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepository, groupUuid);
+    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepository, groupUuid);
     Optional<InternalGroup> loadedGroup = groupConfig.getLoadedGroup();
     if (loadedGroup.isPresent()) {
       // Check consistency with group name notes.
@@ -110,16 +110,18 @@ public class Groups {
    */
   public Stream<AccountGroup.UUID> getExternalGroups() throws IOException, ConfigInvalidException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-      return getExternalGroupsFromNoteDb(allUsersRepo);
+      return getExternalGroupsFromNoteDb(allUsersName, allUsersRepo);
     }
   }
 
-  private static Stream<AccountGroup.UUID> getExternalGroupsFromNoteDb(Repository allUsersRepo)
+  private static Stream<AccountGroup.UUID> getExternalGroupsFromNoteDb(
+      AllUsersName allUsersName, Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
     ImmutableList<GroupReference> allInternalGroups = GroupNameNotes.loadAllGroups(allUsersRepo);
     ImmutableSet.Builder<AccountGroup.UUID> allSubgroups = ImmutableSet.builder();
     for (GroupReference internalGroup : allInternalGroups) {
-      Optional<InternalGroup> group = getGroupFromNoteDb(allUsersRepo, internalGroup.getUUID());
+      Optional<InternalGroup> group =
+          getGroupFromNoteDb(allUsersName, allUsersRepo, internalGroup.getUUID());
       group.map(InternalGroup::getSubgroups).ifPresent(allSubgroups::addAll);
     }
     return allSubgroups
@@ -131,15 +133,16 @@ public class Groups {
   /**
    * Returns the membership audit records for a given group.
    *
-   * @param repo All-Users repository.
+   * @param allUsersRepo All-Users repository.
    * @param groupUuid the UUID of the group
    * @return the audit records, in arbitrary order; empty if the group does not exist
    * @throws IOException if an error occurs while reading from NoteDb
    * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
    */
-  public List<AccountGroupMemberAudit> getMembersAudit(Repository repo, AccountGroup.UUID groupUuid)
+  public List<AccountGroupMemberAudit> getMembersAudit(
+      Repository allUsersRepo, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
-    return auditLogReader.getMembersAudit(repo, groupUuid);
+    return auditLogReader.getMembersAudit(allUsersRepo, groupUuid);
   }
 
   /**

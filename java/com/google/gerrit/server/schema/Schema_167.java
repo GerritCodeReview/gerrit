@@ -150,7 +150,8 @@ public class Schema_167 extends SchemaVersion {
       ReviewDb db, Repository allUsersRepo, Config gerritConfig, SitePaths sitePaths)
       throws IOException, ConfigInvalidException {
     String serverId = new GerritServerIdProvider(gerritConfig, sitePaths).get();
-    SimpleInMemoryAccountCache accountCache = new SimpleInMemoryAccountCache(allUsersRepo);
+    SimpleInMemoryAccountCache accountCache =
+        new SimpleInMemoryAccountCache(allUsersName, allUsersRepo);
     SimpleInMemoryGroupCache groupCache = new SimpleInMemoryGroupCache(db);
     return AuditLogFormatter.create(
         accountCache::get,
@@ -178,10 +179,12 @@ public class Schema_167 extends SchemaVersion {
   // The regular account cache isn't available during init. -> Use a simple replacement which tries
   // to load every account only once from disk.
   private static class SimpleInMemoryAccountCache {
+    private final AllUsersName allUsersName;
     private final Repository allUsersRepo;
     private Map<Account.Id, Optional<Account>> accounts = new HashMap<>();
 
-    public SimpleInMemoryAccountCache(Repository allUsersRepo) {
+    public SimpleInMemoryAccountCache(AllUsersName allUsersName, Repository allUsersRepo) {
+      this.allUsersName = allUsersName;
       this.allUsersRepo = allUsersRepo;
     }
 
@@ -192,7 +195,8 @@ public class Schema_167 extends SchemaVersion {
 
     private Optional<Account> load(Account.Id accountId) {
       try {
-        AccountConfig accountConfig = new AccountConfig(accountId, allUsersRepo).load();
+        AccountConfig accountConfig =
+            new AccountConfig(accountId, allUsersName, allUsersRepo).load();
         return accountConfig.getLoadedAccount();
       } catch (IOException | ConfigInvalidException ignored) {
         logger.atWarning().withCause(ignored).log(

@@ -55,7 +55,7 @@ public class Schema_148 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(repo);
+      ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsersName, repo);
       for (ExternalId extId : extIdNotes.all()) {
         if (needsUpdate(extId)) {
           extIdNotes.upsert(extId);

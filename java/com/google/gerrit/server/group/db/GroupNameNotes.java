@@ -29,6 +29,7 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -62,12 +63,12 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * map of name/UUID pairs and manage it with this class.
  *
  * <p>To claim the name for a new group, create an instance of {@code GroupNameNotes} via {@link
- * #forNewGroup(Repository, AccountGroup.UUID, AccountGroup.NameKey)} and call {@link
- * #commit(com.google.gerrit.server.git.meta.MetaDataUpdate) commit(MetaDataUpdate)} on it. For
- * renaming, call {@link #forRename(Repository, AccountGroup.UUID, AccountGroup.NameKey,
- * AccountGroup.NameKey)} and also commit the returned {@code GroupNameNotes}. Both times, the
- * creation of the {@code GroupNameNotes} will fail if the (new) name is already used. Committing
- * the {@code GroupNameNotes} is necessary to make the adjustments for real.
+ * #forNewGroup(Project.NameKey, Repository, AccountGroup.UUID, AccountGroup.NameKey)} and call
+ * {@link #commit(com.google.gerrit.server.git.meta.MetaDataUpdate) commit(MetaDataUpdate)} on it.
+ * For renaming, call {@link #forRename(Project.NameKey, Repository, AccountGroup.UUID,
+ * AccountGroup.NameKey, AccountGroup.NameKey)} and also commit the returned {@code GroupNameNotes}.
+ * Both times, the creation of the {@code GroupNameNotes} will fail if the (new) name is already
+ * used. Committing the {@code GroupNameNotes} is necessary to make the adjustments for real.
  *
  * <p>The map has an additional benefit: We can quickly iterate over all group name/UUID pairs
  * without having to load all groups completely (which is costly).
@@ -101,6 +102,7 @@ public class GroupNameNotes extends VersionedMetaData {
    * via {@link #commit(com.google.gerrit.server.git.meta.MetaDataUpdate) commit(MetaDataUpdate)} in
    * order to claim the new name and free up the old one.
    *
+   * @param projectName the name of the project which holds the commits of the notes
    * @param repository the repository which holds the commits of the notes
    * @param groupUuid the UUID of the group which is renamed
    * @param oldName the current name of the group
@@ -112,6 +114,7 @@ public class GroupNameNotes extends VersionedMetaData {
    * @throws OrmDuplicateKeyException if a group with the new name already exists
    */
   public static GroupNameNotes forRename(
+      Project.NameKey projectName,
       Repository repository,
       AccountGroup.UUID groupUuid,
       AccountGroup.NameKey oldName,
@@ -121,7 +124,7 @@ public class GroupNameNotes extends VersionedMetaData {
     checkNotNull(newName);
 
     GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, oldName, newName);
-    groupNameNotes.load(repository);
+    groupNameNotes.load(projectName, repository);
     groupNameNotes.ensureNewNameIsNotUsed();
     return groupNameNotes;
   }
@@ -133,6 +136,7 @@ public class GroupNameNotes extends VersionedMetaData {
    * via {@link #commit(com.google.gerrit.server.git.meta.MetaDataUpdate) commit(MetaDataUpdate)} in
    * order to claim the new name.
    *
+   * @param projectName the name of the project which holds the commits of the notes
    * @param repository the repository which holds the commits of the notes
    * @param groupUuid the UUID of the new group
    * @param groupName the name of the new group
@@ -142,12 +146,15 @@ public class GroupNameNotes extends VersionedMetaData {
    * @throws OrmDuplicateKeyException if a group with the new name already exists
    */
   public static GroupNameNotes forNewGroup(
-      Repository repository, AccountGroup.UUID groupUuid, AccountGroup.NameKey groupName)
+      Project.NameKey projectName,
+      Repository repository,
+      AccountGroup.UUID groupUuid,
+      AccountGroup.NameKey groupName)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     checkNotNull(groupName);
 
     GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, null, groupName);
-    groupNameNotes.load(repository);
+    groupNameNotes.load(projectName, repository);
     groupNameNotes.ensureNewNameIsNotUsed();
     return groupNameNotes;
   }

@@ -916,7 +916,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
   private GroupBundle readGroupBundleFromNoteDb(AccountGroup.UUID groupUuid) throws Exception {
     try (Repository allUsersRepo = gitRepoManager.openRepository(allUsersName)) {
-      return groupBundleFactory.fromNoteDb(allUsersRepo, groupUuid);
+      return groupBundleFactory.fromNoteDb(allUsersName, allUsersRepo, groupUuid);
     }
   }
 
@@ -985,7 +985,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
   private Optional<InternalGroup> getGroupFromNoteDb(AccountGroup.UUID groupUuid) throws Exception {
     try (Repository allUsersRepo = gitRepoManager.openRepository(allUsersName)) {
-      return GroupConfig.loadForGroup(allUsersRepo, groupUuid).getLoadedGroup();
+      return GroupConfig.loadForGroup(allUsersName, allUsersRepo, groupUuid).getLoadedGroup();
     }
   }
 

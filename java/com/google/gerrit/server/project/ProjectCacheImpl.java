@@ -274,7 +274,7 @@ public class ProjectCacheImpl implements ProjectCache {
       Project.NameKey key = new Project.NameKey(projectName);
       try (Repository git = mgr.openRepository(key)) {
         ProjectConfig cfg = new ProjectConfig(key);
-        cfg.load(git);
+        cfg.load(key, git);
 
         ProjectState state = projectStateFactory.create(cfg);
         state.initLastCheck(now);

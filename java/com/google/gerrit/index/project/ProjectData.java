@@ -16,6 +16,7 @@ package com.google.gerrit.index.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Project;
 import java.util.ArrayList;
@@ -52,5 +53,12 @@ public class ProjectData {
 
   public ImmutableList<String> getParentNames() {
     return tree().stream().skip(1).map(p -> p.getProject().getName()).collect(toImmutableList());
+  }
+
+  @Override
+  public String toString() {
+    MoreObjects.ToStringHelper h = MoreObjects.toStringHelper(this);
+    h.addValue(project.getName());
+    return h.toString();
   }
 }

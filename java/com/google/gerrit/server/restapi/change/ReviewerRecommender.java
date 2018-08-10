@@ -107,8 +107,13 @@ public class ReviewerRecommender {
       ProjectState projectState,
       List<Account.Id> candidateList)
       throws OrmException, IOException, ConfigInvalidException {
+    logger.atFine().log("Candidates %s", candidateList);
+
     String query = suggestReviewers.getQuery();
+    logger.atFine().log("query: %s", query);
+
     double baseWeight = config.getInt("addReviewer", "baseWeight", 1);
+    logger.atFine().log("base weight: %s", baseWeight);
 
     Map<Account.Id, MutableDouble> reviewerScores;
     if (Strings.isNullOrEmpty(query)) {
@@ -116,6 +121,7 @@ public class ReviewerRecommender {
     } else {
       reviewerScores = baseRankingForCandidateList(candidateList, projectState, baseWeight);
     }
+    logger.atFine().log("Base reviewer scores: %s", reviewerScores);
 
     // Send the query along with a candidate list to all plugins and merge the
     // results. Plugins don't necessarily need to use the candidates list, they
@@ -163,6 +169,7 @@ public class ReviewerRecommender {
           }
         }
       }
+      logger.atFine().log("Reviewer scores: %s", reviewerScores);
     } catch (ExecutionException | InterruptedException e) {
       logger.atSevere().withCause(e).log("Exception while suggesting reviewers");
       return ImmutableList.of();
@@ -170,12 +177,20 @@ public class ReviewerRecommender {
 
     if (changeNotes != null) {
       // Remove change owner
-      reviewerScores.remove(changeNotes.getChange().getOwner());
+      if (reviewerScores.remove(changeNotes.getChange().getOwner()) != null) {
+        logger.atFine().log("Remove change owner %s", changeNotes.getChange().getOwner());
+      }
 
       // Remove existing reviewers
-      reviewerScores
-          .keySet()
-          .removeAll(approvalsUtil.getReviewers(dbProvider.get(), changeNotes).byState(REVIEWER));
+      approvalsUtil
+          .getReviewers(dbProvider.get(), changeNotes)
+          .byState(REVIEWER)
+          .forEach(
+              r -> {
+                if (reviewerScores.remove(r) != null) {
+                  logger.atFine().log("Remove existing reviewer %s", r);
+                }
+              });
     }
 
     // Sort results
@@ -185,6 +200,7 @@ public class ReviewerRecommender {
             .stream()
             .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
     List<Account.Id> sortedSuggestions = sorted.map(Map.Entry::getKey).collect(toList());
+    logger.atFine().log("Sorted suggestions: %s", sortedSuggestions);
     return sortedSuggestions;
   }
 

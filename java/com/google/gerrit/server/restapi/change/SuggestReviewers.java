@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.config.GerritConfigListenerHelper.acceptIfChanged;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.ConfigKey;
@@ -27,6 +28,8 @@ import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 public class SuggestReviewers {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final int DEFAULT_MAX_SUGGESTED = 10;
 
   protected final Provider<ReviewDb> dbProvider;
@@ -101,6 +104,8 @@ public class SuggestReviewers {
             "addreviewer",
             "maxWithoutConfirmation",
             PostReviewers.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
+
+    logger.atFine().log("AccountVisibility: %s", av.name());
   }
 
   public static GerritConfigListener configListener() {

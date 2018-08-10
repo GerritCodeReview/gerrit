@@ -43,7 +43,7 @@ public class GetEditPreferences implements RestReadView<ConfigResource> {
   public EditPreferencesInfo apply(ConfigResource configResource)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     try (Repository git = gitManager.openRepository(allUsersName)) {
-      return Preferences.readDefaultEditPreferences(git);
+      return Preferences.readDefaultEditPreferences(allUsersName, git);
     }
   }
 }

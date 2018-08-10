@@ -121,7 +121,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
         throws IOException, ConfigInvalidException {
       try (Repository git = repoManager.openRepository(allUsersName)) {
         VersionedAuthorizedKeys authorizedKeys = authorizedKeysFactory.create(accountId);
-        authorizedKeys.load(git);
+        authorizedKeys.load(allUsersName, git);
         return authorizedKeys;
       }
     }

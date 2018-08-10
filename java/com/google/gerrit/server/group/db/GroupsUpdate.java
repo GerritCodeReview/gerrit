@@ -232,9 +232,11 @@ public class GroupsUpdate {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
       GroupNameNotes groupNameNotes =
-          GroupNameNotes.forNewGroup(allUsersRepo, groupCreation.getGroupUUID(), groupName);
+          GroupNameNotes.forNewGroup(
+              allUsersName, allUsersRepo, groupCreation.getGroupUUID(), groupName);
 
-      GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
+      GroupConfig groupConfig =
+          GroupConfig.createForNewGroup(allUsersName, allUsersRepo, groupCreation);
       groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
       commit(allUsersRepo, groupConfig, groupNameNotes);
@@ -269,7 +271,7 @@ public class GroupsUpdate {
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException, NoSuchGroupException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-      GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, groupUuid);
+      GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepo, groupUuid);
       groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
       if (!groupConfig.getLoadedGroup().isPresent()) {
         throw new NoSuchGroupException(groupUuid);
@@ -280,7 +282,8 @@ public class GroupsUpdate {
       if (groupUpdate.getName().isPresent()) {
         AccountGroup.NameKey oldName = originalGroup.getNameKey();
         AccountGroup.NameKey newName = groupUpdate.getName().get();
-        groupNameNotes = GroupNameNotes.forRename(allUsersRepo, groupUuid, oldName, newName);
+        groupNameNotes =
+            GroupNameNotes.forRename(allUsersName, allUsersRepo, groupUuid, oldName, newName);
       }
 
       commit(allUsersRepo, groupConfig, groupNameNotes);

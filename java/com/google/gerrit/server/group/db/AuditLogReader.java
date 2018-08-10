@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.notedb.NoteDbUtil;
 import com.google.inject.Inject;
@@ -49,10 +50,12 @@ public class AuditLogReader {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final String serverId;
+  private final AllUsersName allUsersName;
 
   @Inject
-  public AuditLogReader(@GerritServerId String serverId) {
+  public AuditLogReader(@GerritServerId String serverId, AllUsersName allUsersName) {
     this.serverId = serverId;
+    this.allUsersName = allUsersName;
   }
 
   // Having separate methods for reading the two types of audit records mirrors the split in
@@ -60,8 +63,8 @@ public class AuditLogReader {
   // revisit this, e.g. to do only a single walk, or even change the record types.
 
   public ImmutableList<AccountGroupMemberAudit> getMembersAudit(
-      Repository repo, AccountGroup.UUID uuid) throws IOException, ConfigInvalidException {
-    return getMembersAudit(getGroupId(repo, uuid), parseCommits(repo, uuid));
+      Repository allUsersRepo, AccountGroup.UUID uuid) throws IOException, ConfigInvalidException {
+    return getMembersAudit(getGroupId(allUsersRepo, uuid), parseCommits(allUsersRepo, uuid));
   }
 
   private ImmutableList<AccountGroupMemberAudit> getMembersAudit(
@@ -211,10 +214,13 @@ public class AuditLogReader {
     }
   }
 
-  private AccountGroup.Id getGroupId(Repository repo, AccountGroup.UUID uuid)
+  private AccountGroup.Id getGroupId(Repository allUsersRepo, AccountGroup.UUID uuid)
       throws ConfigInvalidException, IOException {
     // TODO(dborowitz): This re-walks all commits just to find createdOn, which we don't need.
-    return GroupConfig.loadForGroup(repo, uuid).getLoadedGroup().get().getId();
+    return GroupConfig.loadForGroup(allUsersName, allUsersRepo, uuid)
+        .getLoadedGroup()
+        .get()
+        .getId();
   }
 
   @AutoValue

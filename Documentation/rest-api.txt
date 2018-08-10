@@ -191,6 +191,35 @@ Preconditions] section.
 "`422 Unprocessable Entity`" is returned if the ID of a resource that is
 specified in the request body cannot be resolved.
 
+[[tracing]]
+=== Request Tracing
+For each REST endpoint tracing can be enabled by setting the `trace`
+request parameter.
+
+.Example Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/suggest_reviewers?trace&q=J
+----
+
+Enabling tracing results in additional logs with debug information that
+are written to the `error_log`. All logs that correspond to the traced
+request are associated with a unique trace ID. This trace ID is
+returned with the REST response in the `X-Gerrit-Trace` header.
+
+.Example Response
+----
+HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+  X-Gerrit-Trace: 1533885943749-8257c498
+
+  )]}'
+  ... <json> ...
+----
+
+Given the trace ID an administrator can find the corresponding logs and
+investigate issues more easily.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

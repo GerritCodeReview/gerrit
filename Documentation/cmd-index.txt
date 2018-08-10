@@ -205,6 +205,27 @@ link:cmd-show-queue.html[ps]::
 link:cmd-suexec.html[suexec]::
 	Execute a command as any registered user account.
 
+=== [[trace]]Trace
+
+For executing SSH commands tracing can be enabled by setting the
+`--trace` option.
+
+----
+  $ ssh -p 29418 review.example.com gerrit create-project --trace foo/bar
+----
+
+Enabling tracing results in additional logs with debug information that
+are written to the `error_log`. All logs that correspond to the traced
+request are associated with a unique trace ID. This trace ID is printed
+to the stderr command output:
+
+----
+  TRACE_ID: 1534174322774-7edf2a7b
+----
+
+Given the trace ID an administrator can find the corresponding logs and
+investigate issues more easily.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

@@ -204,10 +204,20 @@
 
     _computeChangeContainerClass(currentChange, relatedChange) {
       const classes = ['changeContainer'];
-      if (relatedChange.change_id === currentChange.change_id) {
+      if (this._changesEqual(relatedChange, currentChange)) {
         classes.push('thisChange');
       }
       return classes.join(' ');
+    },
+
+    /**
+     * Does the given objects describe the same change?
+     * @param {!Object} a
+     * @param {!Object} b
+     * @return {boolean}
+     */
+    _changesEqual(a, b) {
+      return a._number === b._number;
     },
 
     _computeLinkClass(change) {

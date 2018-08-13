@@ -2052,16 +2052,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushToPublishMagicBranchIsAllowed() throws Exception {
-    // Push to "refs/publish/*" will be a synonym of "refs/for/*".
-    createChange("refs/publish/master");
-    PushOneCommit.Result result = pushTo("refs/publish/master");
-    result.assertOkStatus();
-    assertThat(result.getMessage())
-        .endsWith("Pushing to refs/publish/* is deprecated, use refs/for/* instead.\n");
-  }
-
-  @Test
   public void pushNoteDbRef() throws Exception {
     String ref = "refs/changes/34/1234/meta";
     RevCommit c = testRepo.commit().message("Junk NoteDb commit").create();

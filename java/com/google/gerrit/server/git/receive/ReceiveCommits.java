@@ -611,18 +611,10 @@ class ReceiveCommits {
       newProgress.end();
       replaceProgress.end();
       queueSuccessMessages(newChanges);
-      refsPublishDeprecationWarning();
 
       logger.atFine().log(
           "Command results: %s",
           lazy(() -> commands.stream().map(ReceiveCommits::commandToString).collect(joining(","))));
-    }
-  }
-
-  private void refsPublishDeprecationWarning() {
-    // TODO(xchangcheng): remove after migrating tools which are using this magic branch.
-    if (magicBranch != null && magicBranch.publish) {
-      addMessage("Pushing to refs/publish/* is deprecated, use refs/for/* instead.");
     }
   }
 
@@ -1362,8 +1354,6 @@ class ReceiveCommits {
                 + "for new changes and '--edit' for existing changes")
     boolean draft;
 
-    boolean publish;
-
     @Option(name = "--private", usage = "mark new/updated change as private")
     boolean isPrivate;
 
@@ -1501,7 +1491,6 @@ class ReceiveCommits {
       this.deprecatedTopicSeen = false;
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
-      this.publish = cmd.getRefName().startsWith(MagicBranch.NEW_PUBLISH_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
       GeneralPreferencesInfo prefs = user.state().getGeneralPreferences();

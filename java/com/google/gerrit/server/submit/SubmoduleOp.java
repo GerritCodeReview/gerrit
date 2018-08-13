@@ -142,7 +142,17 @@ public class SubmoduleOp {
   private final Map<Branch.NameKey, GitModules> branchGitModules;
 
   /** Branches updated as part of the enclosing submit or push batch. */
-  private final ImmutableSet<Branch.NameKey> updatedBranches;
+  private final ImmutableSet<Branch.NameKey> branchesUpdatedByEnclosingBatch;
+
+  /**
+   * Set of all branches in all repos that are allowed to be updated by this operation.
+   *
+   * <p>A branch in a given project is only allowed to be updated either if it came in via {@link
+   * #branchesUpdatedByEnclosingBatch}, or if there is a patch via submodule links from that branch
+   * to a directly-updated branch. This avoids rereading and updating branches that are not relevant
+   * to the end-user operation.
+   */
+  private final Set<Branch.NameKey> allowedToUpdate;
 
   /**
    * Current branch tips, taking into account commits creating during the submit process as well as
@@ -174,7 +184,7 @@ public class SubmoduleOp {
       Config cfg,
       ProjectCache projectCache,
       BatchUpdate.Factory batchUpdateFactory,
-      Set<Branch.NameKey> updatedBranches,
+      Set<Branch.NameKey> branchesUpdatedByEnclosingBatch,
       MergeOpRepoManager orm)
       throws SubmoduleException {
     this.gitmodulesFactory = gitmodulesFactory;
@@ -189,7 +199,8 @@ public class SubmoduleOp {
         cfg.getLong("submodule", "maxCombinedCommitMessageSize", 256 << 10);
     this.maxCommitMessages = cfg.getLong("submodule", "maxCommitMessages", 1000);
     this.orm = orm;
-    this.updatedBranches = ImmutableSet.copyOf(updatedBranches);
+    this.branchesUpdatedByEnclosingBatch = ImmutableSet.copyOf(branchesUpdatedByEnclosingBatch);
+    this.allowedToUpdate = new HashSet<>();
     this.targets = MultimapBuilder.hashKeys().hashSetValues().build();
     this.affectedBranches = new HashSet<>();
     this.branchTips = new HashMap<>();
@@ -233,15 +244,25 @@ public class SubmoduleOp {
       return null;
     }
 
+    /**
+     * Multimap of branch to all superproject branches which directly subscribe to that branch. This
+     * is the inverse of {@link #targets}, where the keys correspond to {@link
+     * SubmoduleSubscription#getSubmodule()} on the values of {@code targets}.
+     */
+    SetMultimap<Branch.NameKey, Branch.NameKey> subscribers =
+        MultimapBuilder.hashKeys().hashSetValues().build();
+
     logDebug("Calculating superprojects - submodules map");
     LinkedHashSet<Branch.NameKey> allVisited = new LinkedHashSet<>();
-    for (Branch.NameKey updatedBranch : updatedBranches) {
+    for (Branch.NameKey updatedBranch : branchesUpdatedByEnclosingBatch) {
       if (allVisited.contains(updatedBranch)) {
         continue;
       }
 
-      searchForSuperprojects(updatedBranch, new LinkedHashSet<>(), allVisited);
+      searchForSuperprojects(updatedBranch, new LinkedHashSet<>(), allVisited, subscribers);
     }
+
+    computeAllowedToUpdate(subscribers);
 
     // Since the searchForSuperprojects will add all branches (related or
     // unrelated) and ensure the superproject's branches get added first before
@@ -255,7 +276,8 @@ public class SubmoduleOp {
   private void searchForSuperprojects(
       Branch.NameKey current,
       LinkedHashSet<Branch.NameKey> currentVisited,
-      LinkedHashSet<Branch.NameKey> allVisited)
+      LinkedHashSet<Branch.NameKey> allVisited,
+      SetMultimap<Branch.NameKey, Branch.NameKey> subscribers)
       throws SubmoduleException {
     logDebug("Now processing %s", current);
 
@@ -275,8 +297,9 @@ public class SubmoduleOp {
           superProjectSubscriptionsForSubmoduleBranch(current);
       for (SubmoduleSubscription sub : subscriptions) {
         Branch.NameKey superBranch = sub.getSuperProject();
-        searchForSuperprojects(superBranch, currentVisited, allVisited);
+        searchForSuperprojects(superBranch, currentVisited, allVisited, subscribers);
         targets.put(superBranch, sub);
+        subscribers.put(sub.getSubmodule(), superBranch);
         branchesByProject.put(superBranch.getParentKey(), superBranch);
         affectedBranches.add(superBranch);
         affectedBranches.add(sub.getSubmodule());
@@ -401,6 +424,18 @@ public class SubmoduleOp {
     return ret;
   }
 
+  private void computeAllowedToUpdate(SetMultimap<Branch.NameKey, Branch.NameKey> subscribers) {
+    // Walk up from all branches updatd by the enclosing batch to all subscribers to those branches,
+    // recursively. This method doesn't check for circular subscriptions because it is called after
+    // the initial circular subscription check in searchForSuperprojects.
+    Deque<Branch.NameKey> todo = new ArrayDeque<>(branchesUpdatedByEnclosingBatch);
+    while (!todo.isEmpty()) {
+      Branch.NameKey curr = todo.remove();
+      allowedToUpdate.add(curr);
+      todo.addAll(subscribers.get(curr));
+    }
+  }
+
   public void updateSuperProjects() throws SubmoduleException {
     ImmutableSet<Project.NameKey> projects = getProjectsInOrder();
     if (projects == null) {
@@ -457,12 +492,13 @@ public class SubmoduleOp {
     int count = 0;
 
     List<SubmoduleSubscription> subscriptions =
-        targets
-            .get(subscriber)
-            .stream()
+        targets.get(subscriber).stream()
             .sorted(comparing(SubmoduleSubscription::getPath))
             .collect(toList());
     for (SubmoduleSubscription s : subscriptions) {
+      if (!allowedToUpdate.contains(s.getSuperProject())) {
+        continue;
+      }
       if (count > 0) {
         msgbuf.append("\n\n");
       }
@@ -513,6 +549,9 @@ public class SubmoduleOp {
     DirCache dc = readTree(or.rw, currentCommit);
     DirCacheEditor ed = dc.editor();
     for (SubmoduleSubscription s : targets.get(subscriber)) {
+      if (!allowedToUpdate.contains(s.getSuperProject())) {
+        continue;
+      }
       updateSubmodule(dc, ed, msgbuf, s);
     }
     ed.finish();
@@ -682,7 +721,7 @@ public class SubmoduleOp {
       addAllSubmoduleProjects(project, new LinkedHashSet<>(), projects);
     }
 
-    for (Branch.NameKey branch : updatedBranches) {
+    for (Branch.NameKey branch : branchesUpdatedByEnclosingBatch) {
       projects.add(branch.getParentKey());
     }
     return ImmutableSet.copyOf(projects);
@@ -724,7 +763,7 @@ public class SubmoduleOp {
     if (sortedBranches != null) {
       branches.addAll(sortedBranches);
     }
-    branches.addAll(updatedBranches);
+    branches.addAll(branchesUpdatedByEnclosingBatch);
     return ImmutableSet.copyOf(branches);
   }
 

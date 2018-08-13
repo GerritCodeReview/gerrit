@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "59a248de_ed2d7b28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T12:35:40Z",
+      "side": 1,
+      "message": "I actually think that from the Flogger side it is intentional that this cannot be changed since there are tools that parse log files and they rely on this format (e.g. I made an internal change to Flogger to remove the superfluous space at the end of the context string and already this may break existing parsers).",
+      "parentUuid": "7f82cfb7_2399ca6e",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 17
+      },
+      "revId": "e30f7d6ca806b99d0fa4be1693966276ddc1fdcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f15aa6b0_7eb8988d",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 5

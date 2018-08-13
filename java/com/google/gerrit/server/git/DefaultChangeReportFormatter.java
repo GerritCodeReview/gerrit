@@ -18,6 +18,9 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 
+/**
+ * Print a change description for use in git command-line progress.
+ */
 public class DefaultChangeReportFormatter implements ChangeReportFormatter {
   private final String canonicalWebUrl;
 

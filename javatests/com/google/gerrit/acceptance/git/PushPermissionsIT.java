@@ -89,8 +89,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
             "Branch refs/heads/master:",
             "To push into this reference you need 'Push' rights.",
             "User: admin",
-            "Please read the documentation and contact an administrator",
-            "if you feel the configuration is incorrect");
+            "Contact an administrator to fix the permissions");
     assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
   }
 
@@ -116,8 +115,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
             "You need 'Delete Reference' rights or 'Push' rights with the ",
             "'Force Push' flag set to delete references.",
             "User: admin",
-            "Please read the documentation and contact an administrator",
-            "if you feel the configuration is incorrect");
+            "Contact an administrator to fix the permissions");
     assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
   }
 
@@ -155,8 +153,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
             "Branch refs/heads/master:",
             "To push into this reference you need 'Push' rights.",
             "User: admin",
-            "Please read the documentation and contact an administrator",
-            "if you feel the configuration is incorrect");
+            "Contact an administrator to fix the permissions");
   }
 
   @Test
@@ -195,8 +192,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
             "Configuration changes can only be pushed by project owners",
             "who also have 'Push' rights on refs/meta/config",
             "User: admin",
-            "Please read the documentation and contact an administrator",
-            "if you feel the configuration is incorrect");
+            "Contact an administrator to fix the permissions");
     assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
 
     grant(project, "refs/*", Permission.OWNER, false, REGISTERED_USERS);

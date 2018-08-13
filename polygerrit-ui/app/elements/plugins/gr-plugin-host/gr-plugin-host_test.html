@@ -194,6 +194,7 @@ limitations under the License.
           .withArgs(url + '/plugins/42').returns(true);
       sandbox.stub(Gerrit, '_setPluginsCount');
       sandbox.stub(Gerrit, '_setPluginsPending');
+      sandbox.stub(element, '_createScriptTag');
       element.config = {
         plugin: {
           html_resource_paths: ['plugins/foo/bar', 'plugins/baz'],
@@ -202,6 +203,8 @@ limitations under the License.
       };
       assert.isTrue(
           Gerrit._setPluginsPending.calledWith([url + '/plugins/baz']));
+      assert.equal(element._createScriptTag.callCount, 0);
+      assert.isTrue(element.importHref.calledWith(url + '/plugins/baz'));
     });
   });
 </script>

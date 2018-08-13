@@ -33,14 +33,16 @@
 
     _configChanged(config) {
       const plugins = config.plugin;
-      const htmlPlugins = plugins.html_resource_paths || [];
-      const jsPlugins =
-          this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins);
-      const defaultTheme = config.default_theme;
-      const pluginsPending = []
-          .concat(jsPlugins, htmlPlugins, defaultTheme || [])
+      const htmlPlugins = (plugins.html_resource_paths || [])
           .map(p => this._urlFor(p))
           .filter(p => !Gerrit._isPluginPreloaded(p));
+      const jsPlugins =
+          this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins)
+          .map(p => this._urlFor(p))
+          .filter(p => !Gerrit._isPluginPreloaded(p));
+      const defaultTheme = config.default_theme;
+      const pluginsPending =
+          [].concat(jsPlugins, htmlPlugins, defaultTheme || []);
       Gerrit._setPluginsPending(pluginsPending);
       if (defaultTheme) {
         // Make theme first to be first to load.

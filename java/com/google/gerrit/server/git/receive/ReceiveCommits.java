@@ -661,7 +661,7 @@ class ReceiveCommits {
         replaceByChange
             .values()
             .stream()
-            .filter(r -> !r.skip && r.inputCommand.getResult() == OK)
+            .filter(r -> r.inputCommand.getResult() == OK)
             .sorted(comparingInt(r -> r.notes.getChangeId().get()))
             .collect(toList());
     if (!updated.isEmpty()) {
@@ -2322,9 +2322,6 @@ class ReceiveCommits {
         ReplaceRequest req = itr.next();
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
           req.validate(false);
-          if (req.skip && req.cmd == null) {
-            itr.remove();
-          }
         }
       }
     } catch (OrmException err) {
@@ -2383,7 +2380,6 @@ class ReceiveCommits {
     ReceiveCommand prev;
     ReceiveCommand cmd;
     PatchSetInfo info;
-    boolean skip;
     private PatchSet.Id priorPatchSet;
     List<String> groups = ImmutableList.of();
     private ReplaceOp replaceOp;

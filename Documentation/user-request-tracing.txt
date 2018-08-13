@@ -16,7 +16,12 @@ request type:
   the link:rest-api.html#tracing[Request Tracing] section of the
   link:rest-api.html[REST API documentation].
 * SSH API: For SSH calls tracing is not supported.
-* GIT: For GIT requests tracing is not supported.
+* GIT: For GIT pushes tracing can be enabled by setting the
+  `trace=true` push option, the trace ID is returned in the command
+  output. More information about this can be found in
+  the link:user-uploade.html#trace[Trace] section of the
+  link:user-upload.html[upload documentation]. Tracing for GIT requests
+  other than GIT push is not supported.
 
 == Find log entries for a trace ID
 

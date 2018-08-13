@@ -29,7 +29,7 @@ public class LoggingContextAwareThreadFactoryTest {
   public void loggingContextPropagationToNewThread() throws Exception {
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
     assertForceLogging(false);
-    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar")) {
       SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
@@ -68,7 +68,7 @@ public class LoggingContextAwareThreadFactoryTest {
   public void loggingContextPropagationToSameThread() throws Exception {
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
     assertForceLogging(false);
-    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar")) {
       SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");

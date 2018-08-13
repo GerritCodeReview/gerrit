@@ -36,7 +36,7 @@ public class TraceContextTest {
   @Test
   public void openContext() {
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
-    try (TraceContext traceContext = new TraceContext("foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().addTag("foo", "bar")) {
       SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
@@ -47,12 +47,12 @@ public class TraceContextTest {
   @Test
   public void openNestedContexts() {
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
-    try (TraceContext traceContext = new TraceContext("foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().addTag("foo", "bar")) {
       SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
 
-      try (TraceContext traceContext2 = new TraceContext("abc", "xyz")) {
+      try (TraceContext traceContext2 = TraceContext.open().addTag("abc", "xyz")) {
         tagMap = LoggingContext.getInstance().getTags().asMap();
         assertThat(tagMap.keySet()).containsExactly("abc", "foo");
         assertThat(tagMap.get("abc")).containsExactly("xyz");
@@ -69,12 +69,12 @@ public class TraceContextTest {
   @Test
   public void openNestedContextsWithSameTagName() {
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
-    try (TraceContext traceContext = new TraceContext("foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().addTag("foo", "bar")) {
       SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
 
-      try (TraceContext traceContext2 = new TraceContext("foo", "baz")) {
+      try (TraceContext traceContext2 = TraceContext.open().addTag("foo", "baz")) {
         tagMap = LoggingContext.getInstance().getTags().asMap();
         assertThat(tagMap.keySet()).containsExactly("foo");
         assertThat(tagMap.get("foo")).containsExactly("bar", "baz");
@@ -90,12 +90,12 @@ public class TraceContextTest {
   @Test
   public void openNestedContextsWithSameTagNameAndValue() {
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
-    try (TraceContext traceContext = new TraceContext("foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().addTag("foo", "bar")) {
       SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
 
-      try (TraceContext traceContext2 = new TraceContext("foo", "bar")) {
+      try (TraceContext traceContext2 = TraceContext.open().addTag("foo", "bar")) {
         tagMap = LoggingContext.getInstance().getTags().asMap();
         assertThat(tagMap.keySet()).containsExactly("foo");
         assertThat(tagMap.get("foo")).containsExactly("bar");
@@ -111,7 +111,7 @@ public class TraceContextTest {
   @Test
   public void openContextWithRequestId() {
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
-    try (TraceContext traceContext = new TraceContext(RequestId.Id.RECEIVE_ID, "foo")) {
+    try (TraceContext traceContext = TraceContext.open().addTag(RequestId.Id.RECEIVE_ID, "foo")) {
       SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("RECEIVE_ID");
       assertThat(tagMap.get("RECEIVE_ID")).containsExactly("foo");
@@ -120,30 +120,48 @@ public class TraceContextTest {
   }
 
   @Test
-  public void cannotOpenContextWithNullRequestId() {
+  public void addTag() {
+    assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
+    try (TraceContext traceContext = TraceContext.open().addTag("foo", "bar")) {
+      SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
+      assertThat(tagMap.keySet()).containsExactly("foo");
+      assertThat(tagMap.get("foo")).containsExactly("bar");
+
+      traceContext.addTag("foo", "baz");
+      traceContext.addTag("bar", "baz");
+      tagMap = LoggingContext.getInstance().getTags().asMap();
+      assertThat(tagMap.keySet()).containsExactly("foo", "bar");
+      assertThat(tagMap.get("foo")).containsExactly("bar", "baz");
+      assertThat(tagMap.get("bar")).containsExactly("baz");
+    }
+    assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
+  }
+
+  @Test
+  public void cannotAddTagWithNullRequestId() {
     exception.expect(NullPointerException.class);
     exception.expectMessage("request ID is required");
-    try (TraceContext traceContext = new TraceContext((RequestId.Id) null, "foo")) {}
+    try (TraceContext traceContext = TraceContext.open().addTag((RequestId.Id) null, "foo")) {}
   }
 
   @Test
-  public void cannotOpenContextWithNullTagName() {
+  public void cannotAddTagWithNullTagName() {
     exception.expect(NullPointerException.class);
     exception.expectMessage("tag name is required");
-    try (TraceContext traceContext = new TraceContext((String) null, "foo")) {}
+    try (TraceContext traceContext = TraceContext.open().addTag((String) null, "foo")) {}
   }
 
   @Test
-  public void cannotOpenContextWithNullTagValue() {
+  public void cannotAddTagWithNullTagValue() {
     exception.expect(NullPointerException.class);
     exception.expectMessage("tag value is required");
-    try (TraceContext traceContext = new TraceContext("foo", null)) {}
+    try (TraceContext traceContext = TraceContext.open().addTag("foo", null)) {}
   }
 
   @Test
   public void openContextWithForceLogging() {
     assertForceLogging(false);
-    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar")) {
       assertForceLogging(true);
     }
     assertForceLogging(false);
@@ -152,20 +170,35 @@ public class TraceContextTest {
   @Test
   public void openNestedContextsWithForceLogging() {
     assertForceLogging(false);
-    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar")) {
       assertForceLogging(true);
 
-      try (TraceContext traceContext2 = new TraceContext("abc", "xyz")) {
+      try (TraceContext traceContext2 = TraceContext.open().addTag("abc", "xyz")) {
         // force logging is still enabled since outer trace context forced logging
         assertForceLogging(true);
 
-        try (TraceContext traceContext3 = new TraceContext(true, "tag", "value")) {
+        try (TraceContext traceContext3 =
+            TraceContext.open().forceLogging().addTag("tag", "value")) {
           assertForceLogging(true);
         }
 
         assertForceLogging(true);
       }
 
+      assertForceLogging(true);
+    }
+    assertForceLogging(false);
+  }
+
+  public void forceLogging() {
+    assertForceLogging(false);
+    try (TraceContext traceContext = TraceContext.open()) {
+      assertForceLogging(false);
+
+      traceContext.forceLogging();
+      assertForceLogging(true);
+
+      traceContext.forceLogging();
       assertForceLogging(true);
     }
     assertForceLogging(false);

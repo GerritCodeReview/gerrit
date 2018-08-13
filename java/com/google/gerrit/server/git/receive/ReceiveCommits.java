@@ -721,11 +721,6 @@ class ReceiveCommits {
       }
       addMessage("");
     }
-
-    // TODO(xchangcheng): remove after migrating tools which are using this magic branch.
-    if (magicBranch != null && magicBranch.publish) {
-      addMessage("Pushing to refs/publish/* is deprecated, use refs/for/* instead.");
-    }
   }
 
   private void insertChangesAndPatchSets(List<CreateRequest> newChanges) {
@@ -1406,7 +1401,6 @@ class ReceiveCommits {
         NotesMigration notesMigration) {
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
-      this.publish = cmd.getRefName().startsWith(MagicBranch.NEW_PUBLISH_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
       GeneralPreferencesInfo prefs = user.state().getGeneralPreferences();

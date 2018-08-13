@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "604b54ba_4d2420a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T13:36:11Z",
+      "side": 1,
+      "message": "Good point. I\u0027ve changed the code to\n\na) only log parameter names, but no values\nb) only log the response for error responses\n\nDone.",
+      "parentUuid": "a9cbf165_1d41dec1",
+      "revId": "b01b58db139875b8c92ef1070de8d506a7a6baf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b53a7fb_58df7039",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 2
@@ -58,6 +76,30 @@
       "revId": "b01b58db139875b8c92ef1070de8d506a7a6baf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebe38e1e_98ef745e",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T13:36:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b53a7fb_58df7039",
+      "range": {
+        "startLine": 292,
+        "startChar": 15,
+        "endLine": 292,
+        "endChar": 21
+      },
+      "revId": "b01b58db139875b8c92ef1070de8d506a7a6baf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

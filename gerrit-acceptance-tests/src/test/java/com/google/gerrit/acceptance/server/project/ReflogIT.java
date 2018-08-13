@@ -24,10 +24,12 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
+import java.io.IOException;
 import java.util.List;
 import org.junit.Test;
 
@@ -57,9 +59,31 @@ public class ReflogIT extends AbstractDaemonTest {
 
   @Test
   @UseLocalDisk
-  public void regularUserIsNotAllowedToGetReflog() throws Exception {
+  public void regularUserWithoutReadPermissionsIsNotAllowedToGetReflog() throws Exception {
+    ProjectConfig cfg = configProjectAsPrivateAccess();
+
+    GroupApi groupApi = gApi.groups().create(name("get-reflog"));
+    Util.allow(cfg, Permission.READ, new AccountGroup.UUID(groupApi.get().id), "refs/*");
+
+    saveProjectConfig(project, cfg);
+
     setApiUser(user);
-    exception.expect(AuthException.class);
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects().name(project.get()).branch("master").reflog();
+  }
+
+  @Test
+  @UseLocalDisk
+  public void regularUserIsAllowedToGetReflog() throws Exception {
+    ProjectConfig cfg = configProjectAsPrivateAccess();
+
+    GroupApi groupApi = gApi.groups().create(name("get-reflog"));
+    Util.allow(cfg, Permission.READ, new AccountGroup.UUID(groupApi.get().id), "refs/*");
+    groupApi.addMembers("user");
+
+    saveProjectConfig(project, cfg);
+
+    setApiUser(user);
     gApi.projects().name(project.get()).branch("master").reflog();
   }
 
@@ -82,5 +106,12 @@ public class ReflogIT extends AbstractDaemonTest {
   public void adminUserIsAllowedToGetReflog() throws Exception {
     setApiUser(admin);
     gApi.projects().name(project.get()).branch("master").reflog();
+  }
+
+  private ProjectConfig configProjectAsPrivateAccess() throws IOException {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.deny(cfg, Permission.READ, SystemGroupBackend.ANONYMOUS_USERS, "refs/*");
+    Util.deny(cfg, Permission.READ, SystemGroupBackend.REGISTERED_USERS, "refs/*");
+    return cfg;
   }
 }

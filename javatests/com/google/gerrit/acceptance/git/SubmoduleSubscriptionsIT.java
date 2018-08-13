@@ -29,6 +29,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
@@ -652,6 +653,42 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
           .isGreaterThan(pushResult2.getCommit().getAuthorIdent().getWhen());
     } finally {
       TestTimeUtil.useSystemTime();
+    }
+  }
+
+  @Test
+  public void updateOnlyRelevantSubmodules() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo1 = createProjectWithPush("subscribed-to-project-1");
+    TestRepository<?> subRepo2 = createProjectWithPush("subscribed-to-project-2");
+
+    allowMatchingSubmoduleSubscription(
+        "subscribed-to-project-1", "refs/heads/master", "super-project", "refs/heads/master");
+    allowMatchingSubmoduleSubscription(
+        "subscribed-to-project-2", "refs/heads/master", "super-project", "refs/heads/master");
+
+    Config config = new Config();
+    prepareSubmoduleConfigEntry(config, "subscribed-to-project-1", "master");
+    prepareSubmoduleConfigEntry(config, "subscribed-to-project-2", "master");
+    pushSubmoduleConfig(superRepo, "master", config);
+
+    // Push once to initialize submodules.
+    ObjectId subTip2 = pushChangeTo(subRepo2, "master");
+    ObjectId subTip1 = pushChangeTo(subRepo1, "master");
+
+    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project-1", subTip1);
+    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project-2", subTip2);
+
+    directUpdateRef("subscribed-to-project-2", "refs/heads/master");
+    subTip1 = pushChangeTo(subRepo1, "master");
+
+    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project-1", subTip1);
+    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project-2", subTip2);
+  }
+
+  private ObjectId directUpdateRef(String project, String ref) throws Exception {
+    try (Repository serverRepo = repoManager.openRepository(new Project.NameKey(name(project)))) {
+      return new TestRepository<>(serverRepo).branch(ref).commit().create().copy();
     }
   }
 

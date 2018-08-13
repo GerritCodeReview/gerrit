@@ -459,7 +459,8 @@ public class MergeOp implements AutoCloseable {
     this.db = db;
     this.submissionId = RequestId.forChange(change);
 
-    try (TraceContext traceContext = new TraceContext(RequestId.Type.SUBMISSION_ID, submissionId)) {
+    try (TraceContext traceContext =
+        TraceContext.open().addTag(RequestId.Type.SUBMISSION_ID, submissionId)) {
       openRepoManager();
 
       logger.atFine().log("Beginning integration of %s", change);

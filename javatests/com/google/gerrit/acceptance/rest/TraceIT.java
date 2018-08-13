@@ -17,71 +17,155 @@ package com.google.gerrit.acceptance.rest;
 import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_CREATED;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.restapi.ParameterParser;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
+import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TraceIT extends AbstractDaemonTest {
   @Inject private DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
+  @Inject private DynamicSet<CommitValidationListener> commitValidationListeners;
 
-  private TraceValidatingProjectCreationValidationListener listener;
-  private RegistrationHandle registrationHandle;
+  private TraceValidatingProjectCreationValidationListener projectCreationListener;
+  private RegistrationHandle projectCreationListenerRegistrationHandle;
+  private TraceValidatingCommitValidationListener commitValidationListener;
+  private RegistrationHandle commitValidationRegistrationHandle;
 
   @Before
   public void setup() {
-    listener = new TraceValidatingProjectCreationValidationListener();
-    registrationHandle = projectCreationValidationListeners.add(listener);
+    projectCreationListener = new TraceValidatingProjectCreationValidationListener();
+    projectCreationListenerRegistrationHandle =
+        projectCreationValidationListeners.add(projectCreationListener);
+    commitValidationListener = new TraceValidatingCommitValidationListener();
+    commitValidationRegistrationHandle = commitValidationListeners.add(commitValidationListener);
   }
 
   @After
   public void cleanup() {
-    registrationHandle.remove();
+    projectCreationListenerRegistrationHandle.remove();
+    commitValidationRegistrationHandle.remove();
   }
 
   @Test
-  public void withoutTrace() throws Exception {
+  public void restCallWithoutTrace() throws Exception {
     RestResponse response = adminRestSession.put("/projects/new1");
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
-    assertThat(listener.foundTraceId).isFalse();
+    assertThat(projectCreationListener.foundTraceId).isFalse();
   }
 
   @Test
-  public void withTrace() throws Exception {
+  public void restCallWithTrace() throws Exception {
     RestResponse response =
         adminRestSession.put("/projects/new2?" + ParameterParser.TRACE_PARAMETER);
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
-    assertThat(listener.foundTraceId).isTrue();
+    assertThat(projectCreationListener.foundTraceId).isTrue();
   }
 
   @Test
-  public void withTraceTrue() throws Exception {
+  public void restCallWithTraceTrue() throws Exception {
     RestResponse response =
         adminRestSession.put("/projects/new3?" + ParameterParser.TRACE_PARAMETER + "=true");
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
-    assertThat(listener.foundTraceId).isTrue();
+    assertThat(projectCreationListener.foundTraceId).isTrue();
   }
 
   @Test
-  public void withTraceFalse() throws Exception {
+  public void restCallWithTraceFalse() throws Exception {
     RestResponse response =
         adminRestSession.put("/projects/new4?" + ParameterParser.TRACE_PARAMETER + "=false");
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
-    assertThat(listener.foundTraceId).isFalse();
+    assertThat(projectCreationListener.foundTraceId).isFalse();
+  }
+
+  @Test
+  public void pushWithoutTrace() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/heads/master");
+    r.assertOkStatus();
+    assertThat(commitValidationListener.foundTraceId).isFalse();
+  }
+
+  @Test
+  public void pushWithTrace() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of("trace"));
+    PushOneCommit.Result r = push.to("refs/heads/master");
+    r.assertOkStatus();
+    assertThat(commitValidationListener.foundTraceId).isTrue();
+  }
+
+  @Test
+  public void pushWithTraceTrue() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of("trace=true"));
+    PushOneCommit.Result r = push.to("refs/heads/master");
+    r.assertOkStatus();
+    assertThat(commitValidationListener.foundTraceId).isTrue();
+  }
+
+  @Test
+  public void pushWithTraceFalse() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of("trace=false"));
+    PushOneCommit.Result r = push.to("refs/heads/master");
+    r.assertOkStatus();
+    assertThat(commitValidationListener.foundTraceId).isFalse();
+  }
+
+  @Test
+  public void pushForReviewWithoutTrace() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    assertThat(commitValidationListener.foundTraceId).isFalse();
+  }
+
+  @Test
+  public void pushForReviewWithTrace() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of("trace"));
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    assertThat(commitValidationListener.foundTraceId).isTrue();
+  }
+
+  @Test
+  public void pushForReviewWithTraceTrue() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of("trace=true"));
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    assertThat(commitValidationListener.foundTraceId).isTrue();
+  }
+
+  @Test
+  public void pushForReviewWithTraceFalse() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of("trace=false"));
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    assertThat(commitValidationListener.foundTraceId).isFalse();
   }
 
   private static class TraceValidatingProjectCreationValidationListener
@@ -91,6 +175,17 @@ public class TraceIT extends AbstractDaemonTest {
     @Override
     public void validateNewProject(CreateProjectArgs args) throws ValidationException {
       this.foundTraceId = LoggingContext.getInstance().getTagsAsMap().containsKey("TRACE_ID");
+    }
+  }
+
+  private static class TraceValidatingCommitValidationListener implements CommitValidationListener {
+    Boolean foundTraceId;
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      this.foundTraceId = LoggingContext.getInstance().getTagsAsMap().containsKey("TRACE_ID");
+      return ImmutableList.of();
     }
   }
 }

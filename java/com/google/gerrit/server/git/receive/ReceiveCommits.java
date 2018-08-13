@@ -404,6 +404,7 @@ class ReceiveCommits {
   private String setFullNameTo;
   private boolean setChangeAsPrivate;
   private Optional<NoteDbPushOption> noteDbPushOption;
+  private Optional<Boolean> tracePushOption;
 
   // Handles for outputting back over the wire to the end user.
   private Task newProgress;
@@ -564,8 +565,15 @@ class ReceiveCommits {
     closeProgress = progress.beginSubTask("closed", UNKNOWN);
     commandProgress = progress.beginSubTask("refs", UNKNOWN);
 
+    parsePushOptions();
     try (TraceContext traceContext =
-        new TraceContext(RequestId.Type.RECEIVE_ID, RequestId.forProject(project.getNameKey()))) {
+        TraceContext.open()
+            .addTag(RequestId.Type.RECEIVE_ID, RequestId.forProject(project.getNameKey()))) {
+      if (tracePushOption.orElse(false)) {
+        RequestId traceId = new RequestId();
+        traceContext.addTag(RequestId.Type.TRACE_ID, traceId);
+        addMessage(RequestId.Type.TRACE_ID.name() + ": " + traceId);
+      }
       try {
         if (!projectState.getProject().getState().permitsWrite()) {
           for (ReceiveCommand cmd : commands) {
@@ -574,7 +582,6 @@ class ReceiveCommits {
           return;
         }
 
-        parsePushOptions();
         logger.atFine().log("Parsing %d commands", commands.size());
 
         List<ReceiveCommand> magicCommands = new ArrayList<>();
@@ -887,6 +894,14 @@ class ReceiveCommits {
       }
     } else {
       noteDbPushOption = Optional.of(NoteDbPushOption.DISALLOW);
+    }
+
+    List<String> traceValues = pushOptions.get("trace");
+    if (!traceValues.isEmpty()) {
+      String value = traceValues.get(traceValues.size() - 1);
+      tracePushOption = Optional.of(value.isEmpty() || Boolean.parseBoolean(value));
+    } else {
+      tracePushOption = Optional.empty();
     }
   }
 
@@ -1290,6 +1305,9 @@ class ReceiveCommits {
     List<RevCommit> baseCommit;
     CmdLineParser cmdLineParser;
     Set<String> hashtags = new HashSet<>();
+
+    @Option(name = "--trace", metaVar = "NAME", usage = "enable tracing")
+    boolean trace;
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;

@@ -1362,8 +1362,6 @@ class ReceiveCommits {
                 + "for new changes and '--edit' for existing changes")
     boolean draft;
 
-    boolean publish;
-
     @Option(name = "--private", usage = "mark new/updated change as private")
     boolean isPrivate;
 
@@ -1501,7 +1499,6 @@ class ReceiveCommits {
       this.deprecatedTopicSeen = false;
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
-      this.publish = cmd.getRefName().startsWith(MagicBranch.NEW_PUBLISH_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
       GeneralPreferencesInfo prefs = user.state().getGeneralPreferences();

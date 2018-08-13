@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "3a3a8003_e58d23a3",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-13T15:34:21Z",
+      "side": 1,
+      "message": "Sure, but I was thinking MultimapBuilder.treeKeys().treeSetValues().\n\nAnyway, I like what you have in PS6 better: you\u0027re right that ordering doesn\u0027t matter, and TreeSets are pretty wasteful of memory.",
+      "parentUuid": "83641e26_8ab5cc53",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89e7086a_c534f9c3",
         "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
         "patchSetId": 5
@@ -172,6 +190,24 @@
       "side": 1,
       "message": "What else should be used? assertThrows comes only with JUnit5, but we are still on 4.12. This is why our other tests use ExpectedException too.",
       "parentUuid": "f84a54dd_04da883d",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20368107_4a0d3bcb",
+        "filename": "javatests/com/google/gerrit/server/logging/MutableTagsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-13T15:34:21Z",
+      "side": 1,
+      "message": "The argument against ExpectedException is that it is actively harmful. Try/catch is better, even though it\u0027s more boilerplate. In many cases, such as this test, you\u0027re always catching a similar type of exception so it\u0027s easy to factor out a single method:\n\n assertNullPointerException(\"tag value is required\", () -\u003e tags.remove(\"foo\", null));",
+      "parentUuid": "63c00eee_1d48b18f",
       "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

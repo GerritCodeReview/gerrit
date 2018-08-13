@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "db1be3eb_fef20a80",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T08:45:55Z",
+      "side": 1,
+      "message": "Just for the sake of keeping this class simple and me being lazy to implement support for other tag value types that we are not using. We could support other tag value types as well, but we don\u0027t need them for now.\n\nFloggers Tags class supports String, Boolean, Long and Double as types for tag values. In addition it supports tags with no value. To support this the Tags.Builder class has 5 different addTag methods, one for each tag value type. Internally the Tags class stores all tags in a TreeMap\u003cString, SortedSet\u003cObject\u003e\u003e.\n\nWe could reflect this in MutableTags and have 5 add methods and store tags in a Multimap\u003cString, Object\u003e too, but then we need to differentiate between value types in the buildTags() method and call the corresponding addTag method on Tags.Builder. I thought that this was not worth the effort considering that we only use String tags for now.\n\nThe set(Tags) method is package-private here and is only used to copy tags from one MutableTags instance to another. Hence the tag map should never contain non-String values. I rewrote this now so that it\u0027s no longer possible to pass in tags with non-String values.\n\nDone",
+      "parentUuid": "c01a38a1_6552af7c",
+      "range": {
+        "startLine": 89,
+        "startChar": 36,
+        "endLine": 90,
+        "endChar": 31
+      },
+      "revId": "5b9749f6b907a732681cb6535e9d0b48f5e3826b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48345692_1677f918",
         "filename": "javatests/com/google/gerrit/server/logging/LoggingContextAwareThreadFactoryTest.java",
         "patchSetId": 2
@@ -40,6 +64,24 @@
       "revId": "5b9749f6b907a732681cb6535e9d0b48f5e3826b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58be9993_36120b72",
+        "filename": "javatests/com/google/gerrit/server/logging/LoggingContextAwareThreadFactoryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T08:45:55Z",
+      "side": 1,
+      "message": "good catch, done",
+      "parentUuid": "48345692_1677f918",
+      "revId": "5b9749f6b907a732681cb6535e9d0b48f5e3826b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

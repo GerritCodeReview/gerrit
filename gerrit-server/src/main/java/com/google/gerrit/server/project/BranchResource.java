@@ -43,6 +43,10 @@ public class BranchResource extends RefResource {
     return branchInfo.ref;
   }
 
+  public RefControl getRefControl() {
+    return getControl().controlForRef(new Branch.NameKey(getNameKey(), branchInfo.ref));
+  }
+
   @Override
   public String getRevision() {
     return branchInfo.revision;

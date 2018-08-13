@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
@@ -57,9 +56,8 @@ public class ReflogIT extends AbstractDaemonTest {
 
   @Test
   @UseLocalDisk
-  public void regularUserIsNotAllowedToGetReflog() throws Exception {
+  public void regularUserIsAllowedToGetReflog() throws Exception {
     setApiUser(user);
-    exception.expect(AuthException.class);
     gApi.projects().name(project.get()).branch("master").reflog();
   }
 

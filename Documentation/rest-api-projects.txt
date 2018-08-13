@@ -1522,7 +1522,7 @@ or when only the content of 'testbranch' has been merged.
 
 Gets the reflog of a certain branch.
 
-The caller must be project owner.
+The caller must be allowed to read the branch or be a project owner.
 
 .Request
 ----

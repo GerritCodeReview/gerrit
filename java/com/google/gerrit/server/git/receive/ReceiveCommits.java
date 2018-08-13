@@ -569,15 +569,49 @@ class ReceiveCommits {
     closeProgress = progress.beginSubTask("closed", UNKNOWN);
     commandProgress = progress.beginSubTask("refs", UNKNOWN);
 
+    if (!projectState.getProject().getState().permitsWrite()) {
+      for (ReceiveCommand cmd : commands) {
+        reject(cmd, "prohibited by Gerrit: project state does not permit write");
+      }
+      return;
+    }
+
     try {
       parsePushOptions();
       logDebug("Parsing %d commands", commands.size());
+
+      List<ReceiveCommand> magicCommands =
+          commands
+              .stream()
+              .filter(c -> MagicBranch.isMagicBranch(c.getRefName()))
+              .collect(toList());
+      List<ReceiveCommand> directChangePushCommands =
+          commands.stream().filter(c -> isDirectChangesPush(c)).collect(toList());
+
+      commands =
+          commands
+              .stream()
+              .filter(c -> !MagicBranch.isMagicBranch(c.getRefName()) && !isDirectChangesPush(c))
+              .collect(toList());
+
       for (ReceiveCommand cmd : commands) {
-        if (!projectState.getProject().getState().permitsWrite()) {
-          reject(cmd, "prohibited by Gerrit: project state does not permit write");
-          break;
+        parseNonMagicCommand(cmd);
+      }
+
+      for (ReceiveCommand cmd : directChangePushCommands) {
+        parseDirectChangesPush(cmd);
+      }
+
+      // Process the magicCommand last so we are sure magicBranch settings don't affect
+      // the non-magic commands.
+      boolean first = true;
+      for (ReceiveCommand cmd : magicCommands) {
+        if (first) {
+          parseMagicBranch(cmd);
+          first = false;
+        } else {
+          reject(cmd, "duplicate request");
         }
-        parseCommand(cmd);
       }
     } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
       for (ReceiveCommand cmd : actualCommands) {
@@ -853,7 +887,30 @@ class ReceiveCommits {
     }
   }
 
-  private void parseCommand(ReceiveCommand cmd)
+  private static boolean isDirectChangesPush(ReceiveCommand cmd) {
+    Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
+    return m.matches();
+  }
+
+  private void parseDirectChangesPush(ReceiveCommand cmd) {
+    Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
+    if (m.matches()) {
+      if (allowPushToRefsChanges) {
+        // The referenced change must exist and must still be open.
+        //
+        Change.Id changeId = Change.Id.parse(m.group(1));
+        parseReplaceCommand(cmd, changeId);
+      } else {
+        reject(cmd, "upload to refs/changes not allowed");
+      }
+      return;
+    }
+  }
+
+  /*
+   * Interpret a normal push, and optionally add a corresponding command to actualCommands.
+   */
+  private void parseNonMagicCommand(ReceiveCommand cmd)
       throws PermissionBackendException, NoSuchProjectException, IOException {
     if (cmd.getResult() != NOT_ATTEMPTED) {
       // Already rejected by the core receive process.
@@ -863,11 +920,6 @@ class ReceiveCommits {
 
     if (!Repository.isValidRefName(cmd.getRefName()) || cmd.getRefName().contains("//")) {
       reject(cmd, "not valid ref");
-      return;
-    }
-
-    if (MagicBranch.isMagicBranch(cmd.getRefName())) {
-      parseMagicBranch(cmd);
       return;
     }
 
@@ -883,19 +935,6 @@ class ReceiveCommits {
               orgCmd.setResult(s, m);
             }
           };
-    }
-
-    Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
-    if (m.matches()) {
-      if (allowPushToRefsChanges) {
-        // The referenced change must exist and must still be open.
-        //
-        Change.Id changeId = Change.Id.parse(m.group(1));
-        parseReplaceCommand(cmd, changeId);
-      } else {
-        reject(cmd, "upload to refs/changes not allowed");
-      }
-      return;
     }
 
     if (RefNames.isNoteDbMetaRef(cmd.getRefName())) {
@@ -1510,12 +1549,6 @@ class ReceiveCommits {
    * <p>Assumes we are handling a magic branch here.
    */
   private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException {
-    // Permit exactly one new change request per push.
-    if (magicBranch != null) {
-      reject(cmd, "duplicate request");
-      return;
-    }
-
     logDebug("Found magic branch %s", cmd.getRefName());
     magicBranch = new MagicBranchInput(user, cmd, labelTypes, notesMigration);
     magicBranch.reviewer.addAll(extraReviewers.get(ReviewerStateInternal.REVIEWER));

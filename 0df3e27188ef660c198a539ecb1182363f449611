@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1534162718 +0200\nnonce APISObQ0qRdOWNu2gPWR3zQKkIeCQUlQ7iMUqv2GZm2qNKdOpKJRztMN8L4WAt7ofNf1MZMZDZca\n\n0000000000000000000000000000000000000000 6c9b90cc932457b78ed9e66b3b6433f7af4ddff2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAltxdx4ACgkQUbX9l6DQ\n71GlbAf/aOkTjRZoH7SlE9wDfeCkSxnpwswTXm8MVSmPNrsmz3sYqUy3Vn47HaFx\nAwfgBwjw318bYF25OsPM2yGE8BY8Ub2o/6bwL40ITEW7hmECHoU9Ce9TRch4RU4U\nk1QpsGE4U0TaLdTdVvKT2n5hLwUeWVjo4WqDXCeoEAbdzlLYAQQ6CyKx+l56Bue0\nba/FMAOO/y696MZRTk6mNed8OctYUCfoyl2PZL+ZSrbgfMhfpTsQOBrNn3iQ+N46\nqgvtUE9B1YSYn7Se/sNN1L1TvJz8HG1cGAG3yHBmt+y/NgZEMer8JOeuA0QIsP1R\n8trqwYVil+N0sYQwzkOx9rIOy5Rl6g\u003d\u003d\n\u003dNor8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4239f88f_236c1e31",
+        "filename": "java/com/google/gerrit/server/util/RequestId.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-13T15:47:53Z",
+      "side": 1,
+      "message": "return id !\u003d null \u0026\u0026 Enums.getIfPresent(Id.class, id).isPresent()",
+      "revId": "0df3e27188ef660c198a539ecb1182363f449611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

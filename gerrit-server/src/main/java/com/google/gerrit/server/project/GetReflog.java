@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.args4j.TimestampHandler;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -86,8 +87,8 @@ public class GetReflog implements RestReadView<BranchResource> {
 
   @Override
   public List<ReflogEntryInfo> apply(BranchResource rsrc) throws RestApiException, IOException {
-    if (!rsrc.getControl().isOwner()) {
-      throw new AuthException("not project owner");
+    if (!rsrc.getControl().isOwner() && !getRefControl(rsrc).isVisible()) {
+      throw new AuthException("Cannot read ref");
     }
 
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
@@ -127,5 +128,10 @@ public class GetReflog implements RestReadView<BranchResource> {
         e.getNewId().getName(),
         CommonConverters.toGitPerson(e.getWho()),
         e.getComment());
+  }
+
+  private RefControl getRefControl(BranchResource rsrc) {
+    return rsrc.getControl()
+        .controlForRef(new Branch.NameKey(rsrc.getNameKey(), rsrc.getBranchInfo().ref));
   }
 }

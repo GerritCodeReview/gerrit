@@ -24,8 +24,7 @@ public final class ReceiveConstants {
       "only change owner or project owner can modify Work-in-Progress";
 
   static final String COMMAND_REJECTION_MESSAGE_FOOTER =
-      "Please read the documentation and contact an administrator\n"
-          + "if you feel the configuration is incorrect";
+      "Contact an administrator to fix the permissions";
 
   static final String SAME_CHANGE_ID_IN_MULTIPLE_CHANGES =
       "same Change-Id in multiple changes.\n"

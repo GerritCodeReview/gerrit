@@ -15,6 +15,7 @@
 package com.google.gerrit.server.submit;
 
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.MultimapBuilder;
@@ -196,7 +197,7 @@ public class SubmoduleOp {
         continue;
       }
 
-      searchForSuperprojects(updatedBranch, new LinkedHashSet<Branch.NameKey>(), allVisited);
+      searchForSuperprojects(updatedBranch, new LinkedHashSet<>(), allVisited);
     }
 
     // Since the searchForSuperprojects will add all branches (related or
@@ -323,7 +324,7 @@ public class SubmoduleOp {
     return ret;
   }
 
-  public Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
+  private Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
       Branch.NameKey srcBranch) throws IOException {
     logDebug("Calculating possible superprojects for %s", srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
@@ -384,7 +385,7 @@ public class SubmoduleOp {
   }
 
   /** Create a separate gitlink commit */
-  public CodeReviewCommit composeGitlinksCommit(Branch.NameKey subscriber)
+  private CodeReviewCommit composeGitlinksCommit(Branch.NameKey subscriber)
       throws IOException, SubmoduleException {
     OpenRepo or;
     try {
@@ -406,14 +407,18 @@ public class SubmoduleOp {
       addBranchTip(subscriber, currentCommit);
     }
 
-    StringBuilder msgbuf = new StringBuilder("");
+    StringBuilder msgbuf = new StringBuilder();
     PersonIdent author = null;
     DirCache dc = readTree(or.rw, currentCommit);
     DirCacheEditor ed = dc.editor();
     int count = 0;
 
-    List<SubmoduleSubscription> subscriptions = new ArrayList<>(targets.get(subscriber));
-    Collections.sort(subscriptions, comparing(SubmoduleSubscription::getPath));
+    List<SubmoduleSubscription> subscriptions =
+        targets
+            .get(subscriber)
+            .stream()
+            .sorted(comparing(SubmoduleSubscription::getPath))
+            .collect(toList());
     for (SubmoduleSubscription s : subscriptions) {
       if (count > 0) {
         msgbuf.append("\n\n");
@@ -452,8 +457,7 @@ public class SubmoduleOp {
   }
 
   /** Amend an existing commit with gitlink updates */
-  public CodeReviewCommit composeGitlinksCommit(
-      Branch.NameKey subscriber, CodeReviewCommit currentCommit)
+  CodeReviewCommit composeGitlinksCommit(Branch.NameKey subscriber, CodeReviewCommit currentCommit)
       throws IOException, SubmoduleException {
     OpenRepo or;
     try {
@@ -462,7 +466,7 @@ public class SubmoduleOp {
       throw new SubmoduleException("Cannot access superproject", e);
     }
 
-    StringBuilder msgbuf = new StringBuilder("");
+    StringBuilder msgbuf = new StringBuilder();
     DirCache dc = readTree(or.rw, currentCommit);
     DirCacheEditor ed = dc.editor();
     for (SubmoduleSubscription s : targets.get(subscriber)) {
@@ -577,7 +581,8 @@ public class SubmoduleOp {
     msgbuf.append(" from branch '");
     msgbuf.append(s.getSubmodule().getShortName());
     msgbuf.append("'");
-    msgbuf.append("\n  to " + newCommit.getName());
+    msgbuf.append("\n  to ");
+    msgbuf.append(newCommit.getName());
 
     // newly created submodule gitlink, do not append whole history
     if (oldCommit == null) {
@@ -628,7 +633,7 @@ public class SubmoduleOp {
     return dc;
   }
 
-  public ImmutableSet<Project.NameKey> getProjectsInOrder() throws SubmoduleException {
+  ImmutableSet<Project.NameKey> getProjectsInOrder() throws SubmoduleException {
     LinkedHashSet<Project.NameKey> projects = new LinkedHashSet<>();
     for (Project.NameKey project : branchesByProject.keySet()) {
       addAllSubmoduleProjects(project, new LinkedHashSet<>(), projects);
@@ -671,7 +676,7 @@ public class SubmoduleOp {
     projects.add(project);
   }
 
-  public ImmutableSet<Branch.NameKey> getBranchesInOrder() {
+  ImmutableSet<Branch.NameKey> getBranchesInOrder() {
     LinkedHashSet<Branch.NameKey> branches = new LinkedHashSet<>();
     if (sortedBranches != null) {
       branches.addAll(sortedBranches);
@@ -680,15 +685,15 @@ public class SubmoduleOp {
     return ImmutableSet.copyOf(branches);
   }
 
-  public boolean hasSubscription(Branch.NameKey branch) {
+  boolean hasSubscription(Branch.NameKey branch) {
     return targets.containsKey(branch);
   }
 
-  public void addBranchTip(Branch.NameKey branch, CodeReviewCommit tip) {
+  void addBranchTip(Branch.NameKey branch, CodeReviewCommit tip) {
     branchTips.put(branch, tip);
   }
 
-  public void addOp(BatchUpdate bu, Branch.NameKey branch) {
+  void addOp(BatchUpdate bu, Branch.NameKey branch) {
     bu.addRepoOnlyOp(new GitlinkOp(branch));
   }
 

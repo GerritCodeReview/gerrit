@@ -1131,6 +1131,24 @@
     },
     {
       "key": {
+        "uuid": "d205df07_a9055b34",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T15:52:30Z",
+      "side": 1,
+      "message": "Yeah, I realized this too now...\nMaybe we still find a solution for this later.",
+      "parentUuid": "f0cc22fd_679308cf",
+      "revId": "e30f7d6ca806b99d0fa4be1693966276ddc1fdcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb63ac2f_4a55040a",
         "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 5

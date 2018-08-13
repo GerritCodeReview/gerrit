@@ -623,7 +623,8 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     @Override
     public Void call() throws Exception {
       try (TraceContext traceContext =
-          new TraceContext("TASK_ID", id.toString() + "-" + Thread.currentThread().getId())) {
+          TraceContext.open()
+              .addTag("TASK_ID", id.toString() + "-" + Thread.currentThread().getId())) {
         if (Thread.currentThread() == mainThread) {
           initRepository();
           Repository repo = repoView.getRepository();

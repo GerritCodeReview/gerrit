@@ -223,13 +223,26 @@ limitations under the License.
     });
 
     test('_computeChangeContainerClass', () => {
-      const change1 = {change_id: 123};
-      const change2 = {change_id: 456};
+      const change1 = {change_id: 123, _number: 0};
+      const change2 = {change_id: 456, _number: 1};
+      const change3 = {change_id: 123, _number: 2};
 
       assert.notEqual(element._computeChangeContainerClass(
           change1, change1).indexOf('thisChange'), -1);
       assert.equal(element._computeChangeContainerClass(
           change1, change2).indexOf('thisChange'), -1);
+      assert.equal(element._computeChangeContainerClass(
+          change1, change3).indexOf('thisChange'), -1);
+    });
+
+    test('_changesEqual', () => {
+      const change1 = {change_id: 123, _number: 0};
+      const change2 = {change_id: 456, _number: 1};
+      const change3 = {change_id: 123, _number: 2};
+
+      assert.isTrue(element._changesEqual(change1, change1));
+      assert.isFalse(element._changesEqual(change1, change2));
+      assert.isFalse(element._changesEqual(change1, change3));
     });
 
     test('event for section loaded fires for each section ', () => {

@@ -17,6 +17,24 @@
       "revId": "1cf6062940aa2d5d9bb41ccbbc25a3350678d29c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f18c102_055475fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T12:39:25Z",
+      "side": 1,
+      "message": "Exactly. Updated the commit message.\n\nI mean submitting this change wouldn\u0027t harm, but force logging would still not work while we are not using a new Flogger version.",
+      "parentUuid": "fce12924_30fd5e12",
+      "revId": "1cf6062940aa2d5d9bb41ccbbc25a3350678d29c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "04e046f0_c2f58f2d",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T07:45:10Z",
+      "side": 1,
+      "message": "Good point. Fixed.",
+      "parentUuid": "56314b36_1d07dc94",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3176c01c_2dc679a7",
         "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
         "patchSetId": 5
@@ -34,6 +52,24 @@
       "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83641e26_8ab5cc53",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T07:45:10Z",
+      "side": 1,
+      "message": "A SortedSetMultimap only sorts the values, but not the keys, which is why I didn\u0027t use it in the first place.\n\nHowever now I realized that we don\u0027t need to care about sorting here, as this is done by the Tags class. So we can just use a normal Multimap.\n\nDone.",
+      "parentUuid": "3176c01c_2dc679a7",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "3e762922_cfb6fca0",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T07:45:10Z",
+      "side": 1,
+      "message": "It doesn\u0027t need synchronization.\n\nDone.",
+      "parentUuid": "89e7086a_c534f9c3",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "419c8bd2_6c5e4813",
         "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
         "patchSetId": 5
@@ -71,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "3c696321_94ca8aab",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T07:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "419c8bd2_6c5e4813",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f84a54dd_04da883d",
         "filename": "javatests/com/google/gerrit/server/logging/MutableTagsTest.java",
         "patchSetId": 5
@@ -82,6 +154,24 @@
       "writtenOn": "2018-08-10T15:46:24Z",
       "side": 1,
       "message": "Don\u0027t use ExpectedException.",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63c00eee_1d48b18f",
+        "filename": "javatests/com/google/gerrit/server/logging/MutableTagsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T07:45:10Z",
+      "side": 1,
+      "message": "What else should be used? assertThrows comes only with JUnit5, but we are still on 4.12. This is why our other tests use ExpectedException too.",
+      "parentUuid": "f84a54dd_04da883d",
       "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "7212a2f9_14f860e7",
+        "filename": "javatests/com/google/gerrit/server/logging/MutableTagsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T07:45:10Z",
+      "side": 1,
+      "message": "Did you mean\n\n  assertThat(tagMap).isEqualTo(...)\n\nor\n\n  assertThat(tagMap).containsExactlyEntriesIn(...)\n\n?\n\nThis doesn\u0027t work well, since the Map value is an Collections.UnmodifiableSortedSet if it contains several values, and that\u0027s not an ImmutableSet and the assertion fails.\n\nFound another way to simplify this assertion.",
+      "parentUuid": "6c5f3ce2_b899b4e2",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97468203_4889de21",
         "filename": "javatests/com/google/gerrit/server/logging/MutableTagsTest.java",
         "patchSetId": 5
@@ -119,6 +227,24 @@
       "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5639440_9638096a",
+        "filename": "javatests/com/google/gerrit/server/logging/MutableTagsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-13T07:45:10Z",
+      "side": 1,
+      "message": "Right this test is not needed.",
+      "parentUuid": "97468203_4889de21",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

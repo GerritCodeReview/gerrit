@@ -32,38 +32,90 @@ limitations under the License.
 
 <script>
   suite('gr-external-style integration tests', () => {
+    const TEST_URL = 'http://some/plugin/url.html';
+
     let sandbox;
     let element;
+    let plugin;
 
-    setup(done => {
-      sandbox = sinon.sandbox.create();
-
-      // NB: Order is important.
-      let plugin;
+    const installPlugin = () => {
+      if (plugin) { return; }
       Gerrit.install(p => {
         plugin = p;
-        plugin.registerStyleModule('foo', 'some-module');
-      }, '0.1', 'http://some/plugin/url.html');
+      }, '0.1', TEST_URL);
+    };
 
-      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
-
+    const createElement = () => {
       element = fixture('basic');
-      sandbox.stub(element, '_applyStyle');
-      sandbox.stub(element, 'importHref', (url, resolve) => { resolve(); });
+      sandbox.spy(element, '_applyStyle');
+    };
 
-      flush(done);
+    /**
+     * Installs the plugin, creates the element, registers style module.
+     */
+    const lateRegister = () => {
+      installPlugin();
+      createElement();
+      plugin.registerStyleModule('foo', 'some-module');
+    };
+
+    /**
+     * Installs the plugin, registers style module, creates the element.
+     */
+    const earlyRegister = () => {
+      installPlugin();
+      plugin.registerStyleModule('foo', 'some-module');
+      createElement();
+    };
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      stub('gr-external-style', {
+        importHref: (url, resolve) => resolve(),
+      });
+      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
     });
 
     teardown(() => {
       sandbox.restore();
     });
 
-    test('imports plugin-provided module', () => {
-      assert.isTrue(element.importHref.calledWith(
-          new URL('http://some/plugin/url.html')));
+    test('imports plugin-provided module', async () => {
+      lateRegister();
+      await new Promise(flush);
+      assert.isTrue(element.importHref.calledWith(new URL(TEST_URL)));
     });
 
-    test('applies plugin-provided styles', () => {
+    test('applies plugin-provided styles', async () => {
+      lateRegister();
+      await new Promise(flush);
+      assert.isTrue(element._applyStyle.calledWith('some-module'));
+    });
+
+    test('does not double import', async () => {
+      earlyRegister();
+      await new Promise(flush);
+      plugin.registerStyleModule('foo', 'some-module');
+      await new Promise(flush);
+      const urlsImported =
+          element._urlsImported.filter(url => url.toString() === TEST_URL);
+      assert.strictEqual(urlsImported.length, 1);
+    });
+
+    test('does not double apply', async () => {
+      earlyRegister();
+      await new Promise(flush);
+      plugin.registerStyleModule('foo', 'some-module');
+      await new Promise(flush);
+      const stylesApplied =
+          element._stylesApplied.filter(name => name === 'some-module');
+      assert.strictEqual(stylesApplied.length, 1);
+    });
+
+    test('loads and applies preloaded modules', async () => {
+      earlyRegister();
+      await new Promise(flush);
+      assert.isTrue(element.importHref.calledWith(new URL(TEST_URL)));
       assert.isTrue(element._applyStyle.calledWith('some-module'));
     });
   });

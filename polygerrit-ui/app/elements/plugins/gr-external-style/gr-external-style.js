@@ -22,30 +22,49 @@
 
     properties: {
       name: String,
+      _urlsImported: {
+        type: Array,
+        value() { return []; },
+      },
+      _stylesApplied: {
+        type: Array,
+        value() { return []; },
+      },
     },
 
     _import(url) {
+      if (this._urlsImported.includes(url)) { return Promise.resolve(); }
+      this._urlsImported.push(url);
       return new Promise((resolve, reject) => {
         this.importHref(url, resolve, reject);
       });
     },
 
     _applyStyle(name) {
+      if (this._stylesApplied.includes(name)) { return; }
+      this._stylesApplied.push(name);
       const s = document.createElement('style', 'custom-style');
       s.setAttribute('include', name);
       Polymer.dom(this.root).appendChild(s);
     },
 
-    ready() {
-      Gerrit.awaitPluginsLoaded().then(() => Promise.all(
-          Gerrit._endpoints.getPlugins(this.name).map(
-              pluginUrl => this._import(pluginUrl)))
+    _importAndApply() {
+      Promise.all(Gerrit._endpoints.getPlugins(this.name).map(
+          pluginUrl => this._import(pluginUrl))
       ).then(() => {
         const moduleNames = Gerrit._endpoints.getModules(this.name);
         for (const name of moduleNames) {
           this._applyStyle(name);
         }
       });
+    },
+
+    attached() {
+      this._importAndApply();
+    },
+
+    ready() {
+      Gerrit.awaitPluginsLoaded().then(() => this._importAndApply());
     },
   });
 })();

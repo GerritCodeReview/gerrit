@@ -1324,7 +1324,7 @@ public class RestApiServlet extends HttpServlet {
     if (v != null && (v.isEmpty() || Boolean.parseBoolean(v))) {
       RequestId traceId = new RequestId();
       res.setHeader(X_GERRIT_TRACE, traceId.toString());
-      return new TraceContext(true, RequestId.Id.TRACE_ID, traceId);
+      return TraceContext.open().forceLogging().addTag(RequestId.Id.TRACE_ID, traceId);
     }
     return TraceContext.DISABLED;
   }

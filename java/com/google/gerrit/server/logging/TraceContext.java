@@ -16,47 +16,50 @@ package com.google.gerrit.server.logging;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import com.google.gerrit.server.util.RequestId;
 
 public class TraceContext implements AutoCloseable {
   public static final TraceContext DISABLED = new TraceContext();
 
-  private final String tagName;
-  private final String tagValue;
-  private final boolean removeOnClose;
-  private final boolean stopForceLoggingOnClose;
-
-  public TraceContext(RequestId.Id requestId, Object tagValue) {
-    this(checkNotNull(requestId, "request ID is required").name(), tagValue);
+  public static TraceContext open() {
+    return new TraceContext();
   }
 
-  public TraceContext(boolean forceLogging, RequestId.Id requestId, Object tagValue) {
-    this(forceLogging, checkNotNull(requestId, "request ID is required").name(), tagValue);
+  private boolean stopForceLoggingOnClose;
+
+  // Table<TAG_NAME, TAG_VALUE, REMOVE_ON_CLOSE>
+  private final Table<String, String, Boolean> tags = HashBasedTable.create();
+
+  private TraceContext() {}
+
+  public TraceContext forceLogging() {
+    if (stopForceLoggingOnClose) {
+      return this;
+    }
+
+    stopForceLoggingOnClose = !LoggingContext.getInstance().forceLogging(true);
+    return this;
   }
 
-  public TraceContext(String tagName, Object tagValue) {
-    this(false, tagName, tagValue);
+  public TraceContext addTag(RequestId.Id requestId, Object tagValue) {
+    return addTag(checkNotNull(requestId, "request ID is required").name(), tagValue);
   }
 
-  public TraceContext(boolean forceLogging, String tagName, Object tagValue) {
-    this.tagName = checkNotNull(tagName, "tag name is required");
-    this.tagValue = checkNotNull(tagValue, "tag value is required").toString();
-    this.removeOnClose = LoggingContext.getInstance().addTag(this.tagName, this.tagValue);
-    this.stopForceLoggingOnClose =
-        forceLogging ? !LoggingContext.getInstance().forceLogging(true) : false;
-  }
-
-  private TraceContext() {
-    this.tagName = null;
-    this.tagValue = null;
-    this.removeOnClose = false;
-    this.stopForceLoggingOnClose = false;
+  public TraceContext addTag(String tagName, Object tagValue) {
+    String name = checkNotNull(tagName, "tag name is required");
+    String value = checkNotNull(tagValue, "tag value is required").toString();
+    tags.put(name, value, LoggingContext.getInstance().addTag(name, value));
+    return this;
   }
 
   @Override
   public void close() {
-    if (removeOnClose) {
-      LoggingContext.getInstance().removeTag(tagName, tagValue);
+    for (Table.Cell<String, String, Boolean> cell : tags.cellSet()) {
+      if (cell.getValue()) {
+        LoggingContext.getInstance().removeTag(cell.getRowKey(), cell.getColumnKey());
+      }
     }
     if (stopForceLoggingOnClose) {
       LoggingContext.getInstance().forceLogging(false);

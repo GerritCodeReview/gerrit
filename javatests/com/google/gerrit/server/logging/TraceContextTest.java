@@ -15,7 +15,6 @@
 package com.google.gerrit.server.logging;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -36,7 +35,7 @@ public class TraceContextTest {
   @Test
   public void openContext() {
     assertTags(ImmutableMap.of());
-    try (TraceContext traceContext = new TraceContext("foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().addTag("foo", "bar")) {
       assertTags(ImmutableMap.of("foo", ImmutableSet.of("bar")));
     }
     assertTags(ImmutableMap.of());
@@ -45,10 +44,10 @@ public class TraceContextTest {
   @Test
   public void openNestedContexts() {
     assertTags(ImmutableMap.of());
-    try (TraceContext traceContext = new TraceContext("foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().addTag("foo", "bar")) {
       assertTags(ImmutableMap.of("foo", ImmutableSet.of("bar")));
 
-      try (TraceContext traceContext2 = new TraceContext("abc", "xyz")) {
+      try (TraceContext traceContext2 = TraceContext.open().addTag("abc", "xyz")) {
         assertTags(ImmutableMap.of("abc", ImmutableSet.of("xyz"), "foo", ImmutableSet.of("bar")));
       }
 
@@ -60,10 +59,10 @@ public class TraceContextTest {
   @Test
   public void openNestedContextsWithSameTagName() {
     assertTags(ImmutableMap.of());
-    try (TraceContext traceContext = new TraceContext("foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().addTag("foo", "bar")) {
       assertTags(ImmutableMap.of("foo", ImmutableSet.of("bar")));
 
-      try (TraceContext traceContext2 = new TraceContext("foo", "baz")) {
+      try (TraceContext traceContext2 = TraceContext.open().addTag("foo", "baz")) {
         assertTags(ImmutableMap.of("foo", ImmutableSet.of("bar", "baz")));
       }
 
@@ -75,10 +74,10 @@ public class TraceContextTest {
   @Test
   public void openNestedContextsWithSameTagNameAndValue() {
     assertTags(ImmutableMap.of());
-    try (TraceContext traceContext = new TraceContext("foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().addTag("foo", "bar")) {
       assertTags(ImmutableMap.of("foo", ImmutableSet.of("bar")));
 
-      try (TraceContext traceContext2 = new TraceContext("foo", "bar")) {
+      try (TraceContext traceContext2 = TraceContext.open().addTag("foo", "bar")) {
         assertTags(ImmutableMap.of("foo", ImmutableSet.of("bar")));
       }
 
@@ -90,28 +89,30 @@ public class TraceContextTest {
   @Test
   public void openContextWithRequestId() {
     assertTags(ImmutableMap.of());
-    try (TraceContext traceContext = new TraceContext(RequestId.Id.RECEIVE_ID, "foo")) {
+    try (TraceContext traceContext = TraceContext.open().addTag(RequestId.Id.RECEIVE_ID, "foo")) {
       assertTags(ImmutableMap.of("RECEIVE_ID", ImmutableSet.of("foo")));
     }
     assertTags(ImmutableMap.of());
   }
 
   @Test
-  public void cannotOpenContextWithInvalidTag() {
-    assertNullPointerException(
-        "tag name is required", () -> new TraceContext((String) null, "foo"));
-    assertNullPointerException("tag value is required", () -> new TraceContext("foo", null));
+  public void addTag() {
+    assertTags(ImmutableMap.of());
+    try (TraceContext traceContext = TraceContext.open().addTag("foo", "bar")) {
+      assertTags(ImmutableMap.of("foo", ImmutableSet.of("bar")));
 
-    assertNullPointerException(
-        "request ID is required", () -> new TraceContext((RequestId.Id) null, "foo"));
-    assertNullPointerException(
-        "tag value is required", () -> new TraceContext(RequestId.Id.RECEIVE_ID, null));
+      traceContext.addTag("foo", "baz");
+      traceContext.addTag("bar", "baz");
+      assertTags(
+          ImmutableMap.of("foo", ImmutableSet.of("bar", "baz"), "bar", ImmutableSet.of("baz")));
+    }
+    assertTags(ImmutableMap.of());
   }
 
   @Test
   public void openContextWithForceLogging() {
     assertForceLogging(false);
-    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar")) {
       assertForceLogging(true);
     }
     assertForceLogging(false);
@@ -120,20 +121,36 @@ public class TraceContextTest {
   @Test
   public void openNestedContextsWithForceLogging() {
     assertForceLogging(false);
-    try (TraceContext traceContext = new TraceContext(true, "foo", "bar")) {
+    try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar")) {
       assertForceLogging(true);
 
-      try (TraceContext traceContext2 = new TraceContext("abc", "xyz")) {
+      try (TraceContext traceContext2 = TraceContext.open().addTag("abc", "xyz")) {
         // force logging is still enabled since outer trace context forced logging
         assertForceLogging(true);
 
-        try (TraceContext traceContext3 = new TraceContext(true, "tag", "value")) {
+        try (TraceContext traceContext3 =
+            TraceContext.open().forceLogging().addTag("tag", "value")) {
           assertForceLogging(true);
         }
 
         assertForceLogging(true);
       }
 
+      assertForceLogging(true);
+    }
+    assertForceLogging(false);
+  }
+
+  @Test
+  public void forceLogging() {
+    assertForceLogging(false);
+    try (TraceContext traceContext = TraceContext.open()) {
+      assertForceLogging(false);
+
+      traceContext.forceLogging();
+      assertForceLogging(true);
+
+      traceContext.forceLogging();
       assertForceLogging(true);
     }
     assertForceLogging(false);
@@ -146,15 +163,6 @@ public class TraceContextTest {
     for (Map.Entry<String, ImmutableSet<String>> expectedEntry : expectedTagMap.entrySet()) {
       assertThat(actualTagMap.get(expectedEntry.getKey()))
           .containsExactlyElementsIn(expectedEntry.getValue());
-    }
-  }
-
-  private void assertNullPointerException(String expectedMessage, Runnable r) {
-    try {
-      r.run();
-      assert_().fail("expected NullPointerException");
-    } catch (NullPointerException e) {
-      assertThat(e.getMessage()).isEqualTo(expectedMessage);
     }
   }
 

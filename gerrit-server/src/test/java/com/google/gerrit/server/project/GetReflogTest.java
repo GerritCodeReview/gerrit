@@ -20,12 +20,15 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.lenient;
 
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -88,6 +91,7 @@ public class GetReflogTest {
   private BranchInfo repoBranchInfo;
   private ProjectConfig project;
   private IdentifiedUser regularUser;
+  private IdentifiedUser reflogUser;
   private IdentifiedUser ownerUser;
   private IdentifiedUser adminUser;
 
@@ -106,10 +110,15 @@ public class GetReflogTest {
 
     regularUser = createUser("user");
     ownerUser = createUser("owner");
+    reflogUser = createUser("reflogUser");
 
-    GroupApi groupApi = gerritApi.groups().create("TestProjectOwners");
-    groupApi.addMembers(ownerUser.getAccountId().toString());
-    AccountGroup.UUID projectOwnerGroupId = new AccountGroup.UUID(groupApi.get().id);
+    GroupApi projectOwnerGroup = gerritApi.groups().create("TestProjectOwners");
+    projectOwnerGroup.addMembers(ownerUser.getAccountId().toString());
+    AccountGroup.UUID projectOwnerGroupId = new AccountGroup.UUID(projectOwnerGroup.get().id);
+
+    GroupApi reflogGroup = gerritApi.groups().create("TestReflogGroup");
+    reflogGroup.addMembers(reflogUser.getAccountId().toString());
+    AccountGroup.UUID reflogGroupId = new AccountGroup.UUID(reflogGroup.get().id);
 
     Project.NameKey name = new Project.NameKey("project");
     InMemoryRepository inMemoryRepo = repoManager.createRepository(name);
@@ -121,8 +130,15 @@ public class GetReflogTest {
     repoBranchInfo.ref = "refs/heads/master";
     repoBranchInfo.revision = id.getName();
 
-    allow(project, READ, REGISTERED_USERS, "refs/*");
-    allow(project, OWNER, projectOwnerGroupId, "refs/*");
+    setUpPermissions();
+    allow(project, READ, REGISTERED_USERS, "refs/*", false);
+    allow(
+        project,
+        READ,
+        reflogGroupId,
+        "refs/heads/master",
+        true); // Grant exclusive access to master for reflogGroup
+    allow(project, OWNER, projectOwnerGroupId, "refs/*", false);
 
     // InMemory repository doesn't support refLog, need to mock it
     lenient().when(repoManagerMock.openRepository(name)).thenReturn(repositoryMock);
@@ -152,6 +168,14 @@ public class GetReflogTest {
   }
 
   @Test
+  public void userWithReadAccessShouldGetReflog() throws Exception {
+    GetReflog getReflog = new GetReflog(repoManagerMock);
+
+    assertNotNull(
+        getReflog.apply(new BranchResource(newProjectControl(reflogUser), repoBranchInfo)));
+  }
+
+  @Test
   public void ownerUserShouldGetReflog() throws Exception {
     GetReflog getReflog = new GetReflog(repoManagerMock);
 
@@ -171,9 +195,10 @@ public class GetReflogTest {
     return projectControlFactory.controlFor(project.getName(), currentUser);
   }
 
-  private void allow(ProjectConfig project, String permission, AccountGroup.UUID id, String ref)
+  private void allow(
+      ProjectConfig project, String permission, AccountGroup.UUID id, String ref, boolean exclusive)
       throws Exception {
-    Util.allow(project, permission, id, ref);
+    Util.allow(project, permission, id, ref, exclusive);
     saveProjectConfig(project);
   }
 
@@ -202,5 +227,18 @@ public class GetReflogTest {
             return Providers.of(reviewDb);
           }
         });
+  }
+
+  private void setUpPermissions() throws Exception {
+    // Remove read permissions for all users besides admin, because by default
+    // Anonymous user group has ALLOW READ permission in refs/*.
+    // This method is idempotent, so is safe to call on every test setup.
+    ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
+    for (AccessSection sec : pc.getAccessSections()) {
+      sec.removePermission(Permission.READ);
+    }
+    UUID admins = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID();
+
+    Util.allow(pc, Permission.READ, admins, "refs/*");
   }
 }

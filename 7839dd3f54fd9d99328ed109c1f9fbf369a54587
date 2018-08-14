@@ -16,6 +16,24 @@
       "revId": "7839dd3f54fd9d99328ed109c1f9fbf369a54587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b203982_7233b2ee",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-14T16:24:50Z",
+      "side": 0,
+      "message": "there is \n\ncommit 732e075ce860df57bcda239c08315e137011ede8\nAuthor: Changcheng Xiao \u003cxchangcheng@google.com\u003e\nDate:   Mon Oct 9 09:15:42 2017 +0200\n\n    Keep \"refs/publish/*\" as a synonym of \"refs/for/*\"\n    \n    There are some tools, e.g. git-review, which are depending on this\n    magic branch. We have to treat \"refs/publish/*\" as a synonym of\n    \"refs/for/*\" for now. To make this branch unmagical, we could follow\n    the following steps:\n    1- [This Change] Treat \"refs/publish/*\" like \"refs/for/*\" but output\n    a warning.\n    2- Remove dependencies on this magic branch.\n    3- Converting the warning to an error.\n    4- Stop treating it magical.\n    \n\nthere is a change for git-review on https://review.openstack.org/#/c/584607/\n\nIMO, we should just have a deprecation policy that things live deprecated for one release and then remove it. I think we shouldn\u0027t be on the hook for other tools that we don\u0027t really support.",
+      "parentUuid": "668e051e_cfccf485",
+      "revId": "7839dd3f54fd9d99328ed109c1f9fbf369a54587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

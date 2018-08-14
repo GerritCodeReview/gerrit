@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.flogger.LazyArgs.lazy;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toSet;
@@ -376,6 +377,8 @@ public class StarredChangesUtil {
   }
 
   public static StarRef readLabels(Repository repo, String refName) throws IOException {
+    logger.atFine().log("Read star labels of account %s", lazy(() -> Account.Id.fromRef(refName)));
+
     Ref ref = repo.exactRef(refName);
     if (ref == null) {
       return StarRef.MISSING;
@@ -448,6 +451,9 @@ public class StarredChangesUtil {
   private void updateLabels(
       Repository repo, String refName, ObjectId oldObjectId, Collection<String> labels)
       throws IOException, OrmException, InvalidLabelsException {
+    logger.atFine().log(
+        "Update star labels of account %s (labels=%s)",
+        lazy(() -> Account.Id.fromRef(refName)), labels);
     try (RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(refName);
       u.setExpectedOldObjectId(oldObjectId);
@@ -485,6 +491,8 @@ public class StarredChangesUtil {
       return;
     }
 
+    logger.atFine().log(
+        "Delete star labels of account %s", lazy(() -> Account.Id.fromRef(refName)));
     RefUpdate u = repo.updateRef(refName);
     u.setForceUpdate(true);
     u.setExpectedOldObjectId(oldObjectId);

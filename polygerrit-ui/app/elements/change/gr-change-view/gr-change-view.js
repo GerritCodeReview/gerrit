@@ -961,9 +961,10 @@
     },
 
     _determinePageBack() {
-      // Default backPage to '/' if user came to change view page
+      // Default backPage to root if user came to change view page
       // via an email link, etc.
-      Gerrit.Nav.navigateToRelativeUrl(this.backPage || '/');
+      Gerrit.Nav.navigateToRelativeUrl(this.backPage ||
+          Gerrit.Nav.getUrlForRoot());
     },
 
     _handleLabelRemoved(splices, path) {

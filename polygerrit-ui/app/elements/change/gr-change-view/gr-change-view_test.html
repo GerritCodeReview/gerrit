@@ -89,12 +89,13 @@ limitations under the License.
         assert(starStub.called);
       });
 
-      test('U should navigate to / if no backPage set', () => {
+      test('U should navigate to root if no backPage set', () => {
         const relativeNavStub = sandbox.stub(Gerrit.Nav,
             'navigateToRelativeUrl');
         MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
         assert.isTrue(relativeNavStub.called);
-        assert.isTrue(relativeNavStub.lastCall.calledWithExactly('/'));
+        assert.isTrue(relativeNavStub.lastCall.calledWithExactly(
+            Gerrit.Nav.getUrlForRoot()));
       });
 
       test('U should navigate to backPage if set', () => {

@@ -248,6 +248,8 @@
         url = this._generateGroupUrl(params);
       } else if (params.view === Views.REPO) {
         url = this._generateRepoUrl(params);
+      } else if (params.view === Views.ROOT) {
+        url = '/';
       } else if (params.view === Views.SETTINGS) {
         url = this._generateSettingsUrl(params);
       } else {

@@ -70,6 +70,9 @@ limitations under the License.
     //    - `repoName`, required, String: the name of the repo
     //    - `detail`, optional, String: the name of the repo detail view.
     //      Takes any value from Gerrit.Nav.RepoDetailView.
+    //
+    //  - Gerrit.Nav.View.ROOT:
+    //    - no possible parameters.
 
 
     window.Gerrit = window.Gerrit || {};
@@ -96,6 +99,7 @@ limitations under the License.
         GROUP: 'group',
         PLUGIN_SCREEN: 'plugin-screen',
         REPO: 'repo',
+        ROOT: 'root',
         SEARCH: 'search',
         SETTINGS: 'settings',
       },
@@ -408,6 +412,15 @@ limitations under the License.
         return this._getUrlFor({
           view: Gerrit.Nav.View.DASHBOARD,
           user,
+        });
+      },
+
+      /**
+       * @return {string}
+       */
+      getUrlForRoot() {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.ROOT,
         });
       },
 

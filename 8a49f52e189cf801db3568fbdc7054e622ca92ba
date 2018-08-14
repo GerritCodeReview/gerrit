@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "018df96b_856643b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-08-14T20:15:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65921099_b445ce7c",
+      "revId": "8a49f52e189cf801db3568fbdc7054e622ca92ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3beaf923_44c8456e",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/GetReflogTest.java",
         "patchSetId": 2

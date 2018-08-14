@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ba351a5_bacc3f2e",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-14T19:33:26Z",
+      "side": 1,
+      "message": "Why this idiom of setting it to \"\" and appending at most one additional string to it?\n\nNormally I would prefer declaring but not assigning advice, then assigning it in each case of the switch statement (including default: if applicable). The advantage of that approach is the compiler will check that it gets assigned in all paths.\n\nIf you intend to allow appending \u003e1 piece of advice, I would suggest using a StringBuilder.",
+      "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db129ff1_8b1f3b12",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-14T19:33:26Z",
+      "side": 1,
+      "message": "IIUC this will call setAdvice(\"\") when the permission enum value is not in the preceding switch statement. I don\u0027t think you would ever want to do that. To the point that I\u0027d even consider adding checkArgument(!Strings.isNullOrEmpty(advice)) to the body of setAdvice.",
+      "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0656f452_38068ff7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-14T19:33:26Z",
+      "side": 1,
+      "message": "Did you want to still check on this? Or punt to a later change?",
+      "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24c80227_6eaa38b9",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-14T19:33:26Z",
+      "side": 1,
+      "message": "This is the kind of thing that advice is intended for: it describes what you need to do in order to gain the permission tersely described as \"skip validation\".",
+      "range": {
+        "startLine": 273,
+        "startChar": 8,
+        "endLine": 275,
+        "endChar": 59
+      },
+      "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

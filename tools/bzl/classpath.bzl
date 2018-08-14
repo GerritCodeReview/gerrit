@@ -3,7 +3,8 @@ def _classpath_collector(ctx):
     for d in ctx.attr.deps:
         if hasattr(d, "java"):
             all += d.java.transitive_runtime_deps
-            all += d.java.compilation_info.runtime_classpath
+            if hasattr(d.java.compilation_info, "runtime_classpath"):
+                all += d.java.compilation_info.runtime_classpath
         elif hasattr(d, "files"):
             all += d.files
 

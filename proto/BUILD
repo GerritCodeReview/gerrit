@@ -23,6 +23,9 @@ proto_library(
 
 java_proto_library(
     name = "reviewdb_java_proto",
-    visibility = ["//javatests/com/google/gerrit/proto:__pkg__"],
+    visibility = [
+        "//javatests/com/google/gerrit/proto:__pkg__",
+        "//tools/eclipse:__pkg__",
+    ],
     deps = [":reviewdb_proto"],
 )

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d3010d64_f7dfcaa0",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-14T16:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2759fc0a_36bc7924",
+      "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c5f3fc3_544be7a4",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87842c26_c85140b1",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-14T16:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c5f3fc3_544be7a4",
+      "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +101,24 @@
       "side": 1,
       "message": "it\u0027s a global variable, so it\u0027s not obvious that the non-magic code paths don\u0027t look at magicbranch.\n\nIn particular, there a bit in validCommit (marked below) that looks at magicBranch even when it is called for a non-magic update.",
       "parentUuid": "598bb64f_1fd0e143",
+      "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11e753dd_3c5f3520",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-14T16:31:11Z",
+      "side": 1,
+      "message": "rephrased.",
+      "parentUuid": "cc7564fc_bca010f5",
       "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

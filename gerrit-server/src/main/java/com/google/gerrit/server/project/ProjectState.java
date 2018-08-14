@@ -46,6 +46,7 @@ import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ProjectLevelConfig;
+import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
@@ -93,6 +94,7 @@ public class ProjectState {
   private final ProjectConfig config;
   private final Map<String, ProjectLevelConfig> configs;
   private final Set<AccountGroup.UUID> localOwners;
+  private final long globalMaxObjectSizeLimit;
 
   /** Prolog rule state. */
   private volatile PrologMachineCopy rulesMachine;
@@ -121,6 +123,7 @@ public class ProjectState {
       RulesCache rulesCache,
       List<CommentLinkInfo> commentLinks,
       CapabilityCollection.Factory capabilityFactory,
+      TransferConfig transferConfig,
       @Assisted ProjectConfig config) {
     this.sitePaths = sitePaths;
     this.projectCache = projectCache;
@@ -138,6 +141,7 @@ public class ProjectState {
         isAllProjects
             ? capabilityFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
             : null;
+    this.globalMaxObjectSizeLimit = transferConfig.getMaxObjectSizeLimit();
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
@@ -243,6 +247,15 @@ public class ProjectState {
 
   public long getMaxObjectSizeLimit() {
     return config.getMaxObjectSizeLimit();
+  }
+
+  public long getEffectiveMaxObjectSizeLimit() {
+    long local = getMaxObjectSizeLimit();
+    if (globalMaxObjectSizeLimit > 0 && local > 0) {
+      return Math.min(globalMaxObjectSizeLimit, local);
+    }
+    // zero means "no limit", in this case the max is more limiting
+    return Math.max(globalMaxObjectSizeLimit, local);
   }
 
   /** Get the sections that pertain only to this project. */

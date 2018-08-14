@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "87bb4dbe_3a97c63b",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-14T06:12:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "334ee6d2_a0003bf6",
+      "revId": "d60037ab927830b3f5fedaa77b41390f46d3d590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56b8449b_1f62af0d",
         "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
         "patchSetId": 6
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "63a7a80e_34252d62",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-14T06:12:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56b8449b_1f62af0d",
+      "revId": "d60037ab927830b3f5fedaa77b41390f46d3d590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1ef182d_b269a1dd",
         "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
         "patchSetId": 6
@@ -51,6 +87,24 @@
       "revId": "d60037ab927830b3f5fedaa77b41390f46d3d590",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b6c77ab_b3896273",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-14T06:12:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1ef182d_b269a1dd",
+      "revId": "d60037ab927830b3f5fedaa77b41390f46d3d590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

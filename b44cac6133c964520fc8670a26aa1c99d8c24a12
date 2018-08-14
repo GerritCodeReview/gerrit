@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "0f91ac1d_616166f5",
+        "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-14T06:12:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3a3a8003_e58d23a3",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89e7086a_c534f9c3",
         "filename": "java/com/google/gerrit/server/logging/MutableTags.java",
         "patchSetId": 5
@@ -211,6 +229,24 @@
       "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8daa226a_0ddf43a9",
+        "filename": "javatests/com/google/gerrit/server/logging/MutableTagsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-14T06:12:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20368107_4a0d3bcb",
+      "revId": "b44cac6133c964520fc8670a26aa1c99d8c24a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

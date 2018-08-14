@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "45b70656_cf87b9b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-08-14T18:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d2aa972_4d9c259c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "376e37785fb2aeb5c7c91f89515f1765c15236be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43f6758f_612a4129",
         "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "376e37785fb2aeb5c7c91f89515f1765c15236be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84858b0b_3730c6a8",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-08-14T18:07:07Z",
+      "side": 1,
+      "message": "Basically, there\u0027s an early styling phase and a late styling phase now.\n\nEarly styling phase happens before loading all of the plugins and rendering the DOM, and late one happens after both.",
+      "parentUuid": "43f6758f_612a4129",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 6
+      },
+      "revId": "376e37785fb2aeb5c7c91f89515f1765c15236be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

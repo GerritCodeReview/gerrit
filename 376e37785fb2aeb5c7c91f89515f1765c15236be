@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d2aa972_4d9c259c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-14T00:25:03Z",
+      "side": 1,
+      "message": "This commit message doesn\u0027t really explain to me what problem this solves. If plugins are installed early, wouldn\u0027t the style modules be installed by implication? What is meant by \"early\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "376e37785fb2aeb5c7c91f89515f1765c15236be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43f6758f_612a4129",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-14T00:25:03Z",
+      "side": 1,
+      "message": "It looks like much of the code in this change is intended to prevent double imports and double style applications, but this looks like it\u0027s trying to import plugins and apply styles twice. Can you please explain more (for example in the commit message) why this is _importAndApply is called from two places?",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 6
+      },
+      "revId": "376e37785fb2aeb5c7c91f89515f1765c15236be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

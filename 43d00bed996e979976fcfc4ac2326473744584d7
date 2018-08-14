@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37c41b63_6e27e216",
+        "filename": "java/com/google/gerrit/server/documentation/MarkdownFormatter.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-08-14T19:45:44Z",
+      "side": 1,
+      "message": "Remove, since java7 we have type inference.\n\n ArrayList\u003cExtension\u003e extensions \u003d new ArrayList\u003c\u003e();",
+      "range": {
+        "startLine": 98,
+        "startChar": 52,
+        "endLine": 98,
+        "endChar": 61
+      },
+      "revId": "43d00bed996e979976fcfc4ac2326473744584d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

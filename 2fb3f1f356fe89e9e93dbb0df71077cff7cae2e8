@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74bdab48_6ef1687a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 33
+      },
+      "lineNbr": 2509,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-14T09:56:48Z",
+      "side": 1,
+      "message": "This is a little bit unspecific. As far as I understood it, flexmark-java is not a Markdown flavor but rather enables the use of different Markdown flavors. To prevent chaos and future issues, we should enforce a specific kind (e.g. provide only the corresponding library dependencies) or at least suggest exactly one kind in the docs.\n\nWe currently use the pegdown flavor and since flexmark-java supports it as well, my suggestion is to stay with it for this change. However, it would be best if we switched to Jekyll + kramdown flavor in the future (-\u003e a follow-up change) as (besides other advantages) our new http://gerritcodereview.com homepage also uses Jekyll + kramdown flavor.",
+      "range": {
+        "startLine": 2508,
+        "startChar": 0,
+        "endLine": 2509,
+        "endChar": 57
+      },
+      "revId": "2fb3f1f356fe89e9e93dbb0df71077cff7cae2e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ad04ac8_16ec9c89",
+        "filename": "WORKSPACE",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-14T09:56:48Z",
+      "side": 1,
+      "message": "Do we need all of the listed flexmark dependencies?",
+      "revId": "2fb3f1f356fe89e9e93dbb0df71077cff7cae2e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36973f5c_44b40f18",
+        "filename": "WORKSPACE",
+        "patchSetId": 33
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-14T09:56:48Z",
+      "side": 1,
+      "message": "Why do we need autolink?",
+      "range": {
+        "startLine": 485,
+        "startChar": 12,
+        "endLine": 485,
+        "endChar": 20
+      },
+      "revId": "2fb3f1f356fe89e9e93dbb0df71077cff7cae2e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99dd18fd_abd81636",
+        "filename": "WORKSPACE",
+        "patchSetId": 33
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-14T09:56:48Z",
+      "side": 1,
+      "message": "If we need autolink, we should probably use the same version as gitiles, which is currently 0.7.0 (see [1]).\n\n[1] https://gerrit.googlesource.com/gitiles/+/master/WORKSPACE#71",
+      "range": {
+        "startLine": 486,
+        "startChar": 44,
+        "endLine": 486,
+        "endChar": 49
+      },
+      "revId": "2fb3f1f356fe89e9e93dbb0df71077cff7cae2e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49c9d7c3_f514f10f",
+        "filename": "WORKSPACE",
+        "patchSetId": 33
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-14T09:56:48Z",
+      "side": 1,
+      "message": "grappa and jitescript are only used by pegdown. If we switch to flexmark-java, we should remove those dependencies, too.",
+      "range": {
+        "startLine": 490,
+        "startChar": 0,
+        "endLine": 500,
+        "endChar": 1
+      },
+      "revId": "2fb3f1f356fe89e9e93dbb0df71077cff7cae2e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

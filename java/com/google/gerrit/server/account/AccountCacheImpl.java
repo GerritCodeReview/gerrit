@@ -179,6 +179,7 @@ public class AccountCacheImpl implements AccountCache {
 
     @Override
     public Optional<AccountState> load(Account.Id who) throws Exception {
+      logger.atFine().log("Loading account %s", who);
       return accounts.get(who);
     }
   }

@@ -144,6 +144,7 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public Optional<InternalGroup> load(AccountGroup.Id key) throws Exception {
+      logger.atFine().log("Loading group %s by ID", key);
       return groupQueryProvider.get().byId(key);
     }
   }
@@ -158,6 +159,7 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public Optional<InternalGroup> load(String name) throws Exception {
+      logger.atFine().log("Loading group '%s' by name", name);
       return groupQueryProvider.get().byName(new AccountGroup.NameKey(name));
     }
   }
@@ -172,6 +174,7 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public Optional<InternalGroup> load(String uuid) throws Exception {
+      logger.atFine().log("Loading group %s by UUID", uuid);
       return groups.getGroup(new AccountGroup.UUID(uuid));
     }
   }

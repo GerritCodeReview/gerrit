@@ -351,6 +351,7 @@ class LdapRealm extends AbstractRealm {
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
+      logger.atFine().log("Loading account for username %s", username);
       return externalIds
           .get(ExternalId.Key.create(SCHEME_GERRIT, username))
           .map(ExternalId::accountId);
@@ -367,6 +368,7 @@ class LdapRealm extends AbstractRealm {
 
     @Override
     public Set<AccountGroup.UUID> load(String username) throws Exception {
+      logger.atFine().log("Loading group for member with username %s", username);
       final DirContext ctx = helper.open();
       try {
         return helper.queryForGroups(ctx, username, null);
@@ -386,6 +388,7 @@ class LdapRealm extends AbstractRealm {
 
     @Override
     public Boolean load(String groupDn) throws Exception {
+      logger.atFine().log("Loading groupDn %s", groupDn);
       final DirContext ctx = helper.open();
       try {
         Name compositeGroupName = new CompositeName().add(groupDn);

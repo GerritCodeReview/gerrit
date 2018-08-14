@@ -148,6 +148,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId) throws OrmException {
+      logger.atFine().log("Loading groups with member %s", memberId);
       return groupQueryProvider
           .get()
           .byMember(memberId)
@@ -168,6 +169,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
+      logger.atFine().log("Loading parent groups of %s", key);
       return groupQueryProvider
           .get()
           .bySubgroup(key)
@@ -187,6 +189,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(String key) throws Exception {
+      logger.atFine().log("Loading all external groups");
       return groups.getExternalGroups().collect(toImmutableList());
     }
   }

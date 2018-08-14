@@ -144,6 +144,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
 
     @Override
     public List<CachedChange> load(Project.NameKey key) throws Exception {
+      logger.atFine().log("Loading changes of project %s", key);
       try (ManualRequestContext ctx = requestContext.open()) {
         List<ChangeData> cds =
             queryProvider

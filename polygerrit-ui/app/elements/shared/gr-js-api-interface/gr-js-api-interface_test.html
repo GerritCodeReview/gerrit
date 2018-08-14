@@ -78,6 +78,13 @@ limitations under the License.
       assert.strictEqual(plugin, otherPlugin);
     });
 
+    test('flushes preinstalls if provided', () => {
+      window.Gerrit.flushPreinstalls = sandbox.stub();
+      Gerrit._flushPreinstalls();
+      assert.isTrue(window.Gerrit.flushPreinstalls.calledOnce);
+      delete window.Gerrit.flushPreinstalls;
+    });
+
     test('url', () => {
       assert.equal(plugin.url(), 'http://test.com/plugins/testplugin/');
       assert.equal(plugin.url('/static/test.js'),
@@ -427,6 +434,15 @@ limitations under the License.
       assert.isTrue(installStub.called);
       const pluginApi = installStub.lastCall.args[0];
       assert.strictEqual(pluginApi.getPluginName(), 'foo');
+    });
+
+    test('installing preloaded plugin', () => {
+      let plugin;
+      window.ASSETS_PATH = 'http://blips.com/chitz/';
+      Gerrit.install(p => { plugin = p; }, '0.1', 'preloaded:foo');
+      assert.strictEqual(plugin.getPluginName(), 'foo');
+      assert.strictEqual(plugin.url('/some/thing.html'),
+          'http://blips.com/plugins/foo/some/thing.html');
     });
 
     suite('test plugin with base url', () => {

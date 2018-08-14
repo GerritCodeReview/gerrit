@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "9aa990db_81812fbe",
+        "filename": "WORKSPACE",
+        "patchSetId": 33
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-08-14T14:35:38Z",
+      "side": 1,
+      "message": "I think one of flexmark requires it as a dep.\n\nThough not sure exactly which one.",
+      "parentUuid": "36973f5c_44b40f18",
+      "range": {
+        "startLine": 485,
+        "startChar": 12,
+        "endLine": 485,
+        "endChar": 20
+      },
+      "revId": "2fb3f1f356fe89e9e93dbb0df71077cff7cae2e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99dd18fd_abd81636",
         "filename": "WORKSPACE",
         "patchSetId": 33
@@ -76,6 +100,30 @@
       "writtenOn": "2018-08-14T09:56:48Z",
       "side": 1,
       "message": "If we need autolink, we should probably use the same version as gitiles, which is currently 0.7.0 (see [1]).\n\n[1] https://gerrit.googlesource.com/gitiles/+/master/WORKSPACE#71",
+      "range": {
+        "startLine": 486,
+        "startChar": 44,
+        "endLine": 486,
+        "endChar": 49
+      },
+      "revId": "2fb3f1f356fe89e9e93dbb0df71077cff7cae2e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e43653a_8f41c475",
+        "filename": "WORKSPACE",
+        "patchSetId": 33
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-08-14T14:35:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "99dd18fd_abd81636",
       "range": {
         "startLine": 486,
         "startChar": 44,

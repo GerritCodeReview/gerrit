@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1534244275 +0200\nnonce APISObTQ3RvO9EZFBPU1Sz84p14Y6QiF1ALD37xURctyNv+WUJFjtmiwZcDopcfKJSDfovBLPF3K\n\n0000000000000000000000000000000000000000 1e2155a0d6bd28bcdd61f783e19a8c7ebe8c9316 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAltytbMACgkQUbX9l6DQ\n71EsjQgAhKIBxAhvimPROCNYk4mnA4lBCc35xkQTfjOUqVj7eXD4/y9Yj39QxBP5\nzrVigh3iGz3/w86YyKcKdoPSFNxj+Go1wiq4lp/3JWqR57COOeK13234FHKCtjGp\nNeIDcd2ZTO20bVYL6He6v5SiRSXuVuNrbJtnKLrL/o182waf6wk43i93gMt26W+8\nJ5PJOmAk05BrMludfQI6u6tJQ8mx0mf8RXc87ZncJyInj3P0pAcS+xU2OkgSsTLy\nJrwcugEDdHdnyja2wlC9oqwLG3BJCXUD8nW/k89UI7WGv14k5q6lloPauRj0ZuKQ\niogQ8ltPbHFZ+j0N+Nvz/GIe3Al3xw\u003d\u003d\n\u003d78ss\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "150cc80d_83ede335",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-14T14:53:42Z",
+      "side": 1,
+      "message": "It would be nice if the \"\u003dtrue\" weren\u0027t necessary, is that possible? I thought for sure we already supported e.g. \"-o wip\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "a7b8c99af7b32613e8c647a0a4760e8b197d610c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

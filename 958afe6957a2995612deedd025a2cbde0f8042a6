@@ -46,6 +46,30 @@
       "revId": "958afe6957a2995612deedd025a2cbde0f8042a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3df1923_0ddcfbcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-14T13:48:35Z",
+      "side": 1,
+      "message": "I think that the change is subtle and that example output before/after would help to grasp what/how exactly the output was changed here. I\u0027m not sure yet, that this exampe belongs to the commit message, though. I will try to look deeper into this change in the next days.",
+      "parentUuid": "1bf2dc86_621db9c7",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 20
+      },
+      "revId": "958afe6957a2995612deedd025a2cbde0f8042a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

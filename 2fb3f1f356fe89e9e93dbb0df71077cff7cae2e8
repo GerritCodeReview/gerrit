@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "23e6be44_ae1a19b7",
+        "filename": "WORKSPACE",
+        "patchSetId": 33
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-08-14T15:11:36Z",
+      "side": 1,
+      "message": "I will say flexmark as seems to be needed by two of the deps https://github.com/vsch/flexmark-java/search?q\u003dautolink\u0026unscoped_q\u003dautolink\n\nThanks, done.",
+      "parentUuid": "cb377fce_6494e9c4",
+      "range": {
+        "startLine": 485,
+        "startChar": 12,
+        "endLine": 485,
+        "endChar": 20
+      },
+      "revId": "2fb3f1f356fe89e9e93dbb0df71077cff7cae2e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99dd18fd_abd81636",
         "filename": "WORKSPACE",
         "patchSetId": 33
@@ -223,6 +247,30 @@
       "revId": "2fb3f1f356fe89e9e93dbb0df71077cff7cae2e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e3c689_06e442f6",
+        "filename": "WORKSPACE",
+        "patchSetId": 33
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-08-14T15:11:36Z",
+      "side": 1,
+      "message": "Oh sorry, i think i may have reverted it by mistake, sorry.\n\nWill do that now thanks.",
+      "parentUuid": "facd5d32_80ece1bd",
+      "range": {
+        "startLine": 486,
+        "startChar": 44,
+        "endLine": 486,
+        "endChar": 49
+      },
+      "revId": "2fb3f1f356fe89e9e93dbb0df71077cff7cae2e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fb80e9c_ece7c57b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 41
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-08-14T16:08:04Z",
+      "side": 1,
+      "message": "Can you qualify this a bit? Have you tested it or can you point to something in the flexmark docs that confirms it?",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 25
+      },
+      "revId": "df8b176fd601f489de08aba9b95711936e363c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

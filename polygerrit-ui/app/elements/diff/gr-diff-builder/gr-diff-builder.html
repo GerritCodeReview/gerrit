@@ -116,6 +116,12 @@ limitations under the License.
            * @type {Defs.LineOfInterest|null}
            */
           lineOfInterest: Object,
+
+          /**
+           * @type {function(number, booleam, !string)}
+           */
+          createCommentFn: Function,
+
           _builder: Object,
           _groups: Array,
           _layers: Array,
@@ -250,12 +256,6 @@ limitations under the License.
           GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
         },
 
-        createCommentThreadGroup(changeNum, patchNum, path,
-            isOnParent, commentSide) {
-          return this._builder.createCommentThreadGroup(changeNum, patchNum,
-              path, isOnParent, commentSide);
-        },
-
         emitGroup(group, sectionEl) {
           this._builder.emitGroup(group, sectionEl);
         },
@@ -303,26 +303,23 @@ limitations under the License.
           }
 
           let builder = null;
+          const createFn = this.createCommentFn;
           if (this.isImageDiff) {
-            builder = new GrDiffBuilderImage(diff, comments, prefs,
-                this.projectName, this.diffElement, this.baseImage,
-                this.revisionImage);
+            builder = new GrDiffBuilderImage(diff, comments, createFn, prefs,
+              this.diffElement, this.baseImage, this.revisionImage);
           } else if (diff.binary) {
             // If the diff is binary, but not an image.
             return new GrDiffBuilderBinary(diff, comments, prefs,
-                this.projectName, this.diffElement);
+                this.diffElement);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            builder = new GrDiffBuilderSideBySide(diff, comments, prefs,
-                this.projectName, this.diffElement, this._layers);
+            builder = new GrDiffBuilderSideBySide(diff, comments, createFn,
+                prefs, this.diffElement, this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            builder = new GrDiffBuilderUnified(diff, comments, prefs,
-                this.projectName, this.diffElement, this._layers);
+            builder = new GrDiffBuilderUnified(diff, comments, createFn, prefs,
+                this.diffElement, this._layers);
           }
           if (!builder) {
             throw Error('Unsupported diff view mode: ' + this.viewMode);
-          }
-          if (this.parentIndex) {
-            builder.setParentIndex(this.parentIndex);
           }
           return builder;
         },

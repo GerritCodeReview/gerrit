@@ -176,6 +176,8 @@
 
   const LEGACY_QUERY_SUFFIX_PATTERN = /,n,z$/;
 
+  const REPO_TOKEN_PATTERN = /\$\{(project|repo)\}/g;
+
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
   const app = document.querySelector('#app');
@@ -405,24 +407,40 @@
      * @return {string}
      */
     _generateDashboardUrl(params) {
+      const repoName = params.repo || params.project || null;
       if (params.sections) {
         // Custom dashboard.
-        const queryParams = params.sections.map(section => {
-          return encodeURIComponent(section.name) + '=' +
-              encodeURIComponent(section.query);
-        });
+        const queryParams = this._sectionsToEncodedParams(params.sections,
+            repoName);
         if (params.title) {
           queryParams.push('title=' + encodeURIComponent(params.title));
         }
         const user = params.user ? params.user : '';
         return `/dashboard/${user}?${queryParams.join('&')}`;
-      } else if (params.project) {
+      } else if (repoName) {
         // Project dashboard.
-        return `/p/${params.project}/+/dashboard/${params.dashboard}`;
+        return `/p/${repoName}/+/dashboard/${params.dashboard}`;
       } else {
         // User dashboard.
         return `/dashboard/${params.user || 'self'}`;
       }
+    },
+
+    /**
+     * @param {!Array<!{name: string, query: string}>} sections
+     * @param {string=} opt_repoName
+     * @return {!Array<string>}
+     */
+    _sectionsToEncodedParams(sections, opt_repoName) {
+      return sections.map(section => {
+        // If there is a repo name provided, make sure to substitute it into the
+        // ${repo} (or legacy ${project}) query tokens.
+        const query = opt_repoName ?
+            section.query.replace(REPO_TOKEN_PATTERN, opt_repoName) :
+            section.query;
+        return encodeURIComponent(section.name) + '=' +
+            encodeURIComponent(query);
+      });
     },
 
     /**

@@ -57,6 +57,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -204,6 +205,7 @@ public class RefControlTest {
   @Inject private ThreadLocalRequestContext requestContext;
   @Inject private Provider<InternalChangeQuery> queryProvider;
   @Inject private ProjectControl.Metrics metrics;
+  @Inject private TransferConfig transferConfig;
 
   @Before
   public void setUp() throws Exception {
@@ -883,6 +885,7 @@ public class RefControlTest {
             rulesCache,
             commentLinks,
             capabilityCollectionFactory,
+            transferConfig,
             pc));
     return repo;
   }

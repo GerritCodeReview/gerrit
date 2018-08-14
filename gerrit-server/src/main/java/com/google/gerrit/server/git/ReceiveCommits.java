@@ -446,8 +446,7 @@ public class ReceiveCommits {
     rp.setAllowNonFastForwards(true);
     rp.setRefLogIdent(user.newRefLogIdent());
     rp.setTimeout(transferConfig.getTimeout());
-    rp.setMaxObjectSizeLimit(
-        transferConfig.getEffectiveMaxObjectSizeLimit(projectControl.getProjectState()));
+    rp.setMaxObjectSizeLimit(projectControl.getProjectState().getEffectiveMaxObjectSizeLimit());
     rp.setCheckReceivedObjects(ps.getConfig().getCheckReceivedObjects());
     rp.setRefFilter(
         new RefFilter() {

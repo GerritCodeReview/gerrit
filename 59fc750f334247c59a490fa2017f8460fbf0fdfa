@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "1c2cd0e3_b4c04559",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-14T13:55:12Z",
+      "side": 1,
+      "message": "Having a ternary for the corresponding value (withForce ? \" with force\" : \"\") is fine; it\u0027s about string allocation, not branching. But what you have is good too.",
+      "parentUuid": "80671778_71aa0738",
+      "revId": "59fc750f334247c59a490fa2017f8460fbf0fdfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13311c29_b89fc6a2",
         "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
         "patchSetId": 2
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6ace410f_f1502c04",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-14T13:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13311c29_b89fc6a2",
+      "revId": "59fc750f334247c59a490fa2017f8460fbf0fdfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39197412_d35584ff",
         "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
         "patchSetId": 2
@@ -51,6 +87,24 @@
       "revId": "59fc750f334247c59a490fa2017f8460fbf0fdfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa41fe1_16d58735",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-14T13:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39197412_d35584ff",
+      "revId": "59fc750f334247c59a490fa2017f8460fbf0fdfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

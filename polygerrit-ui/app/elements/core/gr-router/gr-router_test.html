@@ -375,6 +375,21 @@ limitations under the License.
               '/dashboard/?section%201=query%201&section%202=query%202');
         });
 
+        test('custom repo dashboard', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            sections: [
+              {name: 'section 1', query: 'query 1 ${project}'},
+              {name: 'section 2', query: 'query 2 ${repo}'},
+            ],
+            repo: 'repo-name',
+          };
+          assert.equal(
+              element._generateUrl(params),
+              '/dashboard/?section%201=query%201%20repo-name&' +
+              'section%202=query%202%20repo-name');
+        });
+
         test('custom user dashboard, with title', () => {
           const params = {
             view: Gerrit.Nav.View.DASHBOARD,
@@ -387,7 +402,18 @@ limitations under the License.
               '/dashboard/user?name=query&title=custom%20dashboard');
         });
 
-        test('project dashboard', () => {
+        test('repo dashboard', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            repo: 'gerrit/repo',
+            dashboard: 'default:main',
+          };
+          assert.equal(
+              element._generateUrl(params),
+              '/p/gerrit/repo/+/dashboard/default:main');
+        });
+
+        test('project dashboard (legacy)', () => {
           const params = {
             view: Gerrit.Nav.View.DASHBOARD,
             project: 'gerrit/project',

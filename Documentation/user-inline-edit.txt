@@ -1,191 +1,318 @@
-= Inline Edit
+= Creating and Editing Changes in the Gerrit Web Interface
 
-This page explains the workflow for creating and amending changes in the
-browser.
+The following content explains how to use the Gerrit web interface to create
+and amend changes. The web interface is ideally suited to make minor changes
+to files. When you create a change in the Gerrit user interface, you don't
+clone a Gerrit repository or use the CLI to issue Git commands — you perform
+your work directly in the Gerrit web interface.
+
+To learn more, see link:intro-user.html[Gerrit User's Guide].
 
 
 [[create-change]]
-== Creating a New Change
+== Creating a Change
 
-A new change can be created directly in the browser, meaning it is not necessary
-to clone the whole repository to make trivial changes.
+To create a change in the Gerrit web interface:
 
-The new change is created as a public
-link:user-upload.html#wip[work-in-progress change].
+. From the link:https://gerrit-review.googlesource.com[Gerrit Code Review] dashboard,
+  select Browse > Repositories.
 
-There are two different ways to create a new change:
+. Under Repository Name, click the name of the repository you want to work
+  on. For example, Public-Projects. To find a specific repository, enter all
+  or part of its name next to Filter.
 
-By clicking on the 'Create Change' button in the project screen:
+  image::images/inline-edit-home-page.png[width=700,
+  link="images/inline-edit-home-page.png"]
 
-[[create-change-from-project-info-screen]]
+. In the left navigation panel for the repository you selected, click
+  Commands:
 
-image::images/inline-edit-create-change-project-screen.png[width=800, link="images/inline-edit-create-change-project-screen.png"]
+  image::images/inline-edit-create-change.png[width=400,
+  link="images/inline-edit-create-change.png"]
 
-The user can select the branch on which the new change should be created:
+. Under Repository Commands, click Create Change.
 
-image::images/inline-edit-create-change-project-screen-dialog.png[width=800, link="images/inline-edit-create-change-project-screen-dialog.png"]
+. In the Create Change window, enter the following information:
 
-By clicking the 'Follow-Up' button on the change screen, to create a new change
-based on the selected change.
+   -  Select branch for new change: Specify the destination branch of the
+      change.
 
-[[create-change-from-change-screen]]
+   -  Provide base commit SHA1 for change: Leave this field blank.
 
-image::images/inline-edit-create-follow-up-change.png[width=800, link="images/inline-edit-create-follow-up-change.png"]
+      Note: Git uses a unique SHA1 value to identify each and every commit (in
+      other words, each Git commit generates a new SHA1 hash). This value
+      differs from a Gerrit Change-Id, which is used by Gerrit to uniquely
+      identify a change. The Gerrit Change-Id remains static throughout the
+      life of a Gerrit change.
+
+   -  Description: Briefly describe the change. Be sure to use the
+      link:dev-contributing.html#commit-message[Commit Message] format.
+      The first line becomes the subject of the change and is included in
+      the Commit Message. Because the message also appears on its own in
+      dashboards and in the results of `git log --pretty=oneline output`
+      make the message informative and brief.
+
+   -  Private change: Select this option to designate this change as private.
+      Only you (and any reviewers you add) can see your private changes.
+
+    image::images/inline-edit-create-change-form.png[width=400,
+    link="images/inline-edit-create-change-form.png"]
+
+. On the Create Change window, click Create. Gerrit creates a public Work
+  In Progress (WIP) change. Until the change is sent for review, it remains a
+  WIP and appears in _your_ dashboard only. In addition, all email
+  notifications are turned off.
+
+  image::images/inline-edit-new-change-page.png[width=700,
+  link="images/inline-edit-new-change-page.png"]
+
+. To add files to the change, see
+  link:user-inline-edit.html#add-files[Adding Files to a Change].
+
+
+[[add-files]]
+== Adding a File to a Change
+
+Files can only be added to changes that have not been merged into the code
+base. If you add a file to an approved change, the change loses its +2 vote.
+
+To add a file to the change:
+
+. In the top left corner of the change, click Edit.
+. Next to Files, click Open:
+
+  image::images/inline-edit-open-file.png[width=500,
+  link="images/inline-edit-open-file.png"]
+
+. In the Open File window, do one of the following:
+
+  -  To add an existing file:
+
+     -  Enter part of the name of the file you want to edit or add.
+        Gerrit automatically populates a list of possible matching files.
+
+     -  Select the file you want to add to the change and then click Open.
+
+  -  To create a new file:
+
+     -  Enter the name of the new file you want to add to the change
+        and then click Open.
+
+  image::images/inline-edit-prefill-files.png[width=400,
+  link="images/inline-edit-prefill-files.png"]
+
+
+[[search-for-change-edits]]
+== Searching for a Change
+
+To search for a change in the web interface:
+
+-  In the Search bar, enter link:user-search.html#has[has:edit].
+
+_or_
+
+-  From the Gerrit dashboard, select Your > Changes.
+
 
 [[editing-change]]
-== Editing Changes
+== Editing a Change
 
-To switch to edit mode, press the 'Edit' button at the top of the file list:
+To edit a file you've added to a change:
 
-[[switch-to-edit-mode]]
-image::images/inline-edit-enter-edit-mode-from-file-list.png[width=800, link="images/inline-edit-enter-edit-mode-from-file-list.png"]
+. On the change page, click the file name. When you create a new file, a
+  blank page is displayed. When you add an existing file to a change, the
+  entire file is displayed for you to edit the existing content. For example:
 
-While in edit mode, it is possible to add new files to the change by clicking
-the 'Add...' button at the top of the file list.
+  image::images/inline-edit-open-file.png[width=500,
+  link="images/inline-edit-open-file.png"]
 
-File changes can be reverted or files can be removed from the change or
-deleted files can be restored, by clicking the icons to the left of the file
-name.
+. Update the file and then click Save. You _must_ click Save to add the
+  file to the change.
 
-To switch from edit mode back to review mode, click the 'Done Editing' button.
+. To close the text editor and display the change page, click Close.
 
-image::images/inline-edit-file-list-in-edit-mode.png[width=800, link="images/inline-edit-file-list-in-edit-mode.png"]
+When you save your work and close the file, the file is added to the change
+and the file name is listed in the Files section. The letter displayed to the
+left of the file name denotes the action performed on the file. In this case,
+one file was modified:
 
-[[open-full-screen-editor]]
-While in edit mode, clicking on a file name in the file list opens a full
-screen editor for that file.
+-  M: Modified
+-  A: Added
+-  D: Deleted
 
-To save edits, click the 'Save' button or press `CTRL-S`.  To return to the
-change screen, click the 'Close' button.
+image::images/inline-edit-add-file-page.png[width=600,
+link="images/inline-edit-add-file-page.png"]
 
-Note that when editing the commit message, trailing blank lines will be stripped.
+. When you're done editing and adding files, click Stop Editing.
 
-image::images/inline-edit-full-screen-editor.png[width=800, link="images/inline-edit-full-screen-editor.png"]
+. To apply the updated file to the change, click Publish Edit. When you
+  publish a change, you promote it to a regular patch set. The special ref
+  that represents the change is deleted when the change is published.
 
-If there are unsaved edits when the 'Close' button is pressed, a dialog will
-pop up asking to confirm the edits.
+Not happy with your edits? Click Delete Edit.
 
-image::images/inline-edit-confirm-unsaved-edits.png[width=800, link="images/inline-edit-confirm-unsaved-edits.png"]
 
-To discard the unsaved edits and return to the change screen, click the 'OK'
-button. To continue editing, click 'Cancel'.
+[[delete-file]]
+== Deleting a File from a Change
 
-[[switch-to-edit-mode-from-side-by-side]]
+Files can be deleted from approved and unapproved changes. However, if you
+delete a file from an approved change, the change will lose the +2 vote.
+To delete a file from a change:
 
-While in review mode, it is possible to switch directly to edit mode and into an
-editor for a file under review by clicking on the edit icon in the patch set list
-on the side-by-side diff view.
+. In the top left corner of the change, click Edit. To indicate the change
+  is in Edit mode, Stop Editing is displayed and the page banner is displayed
+  in light blue.
 
-image::images/inline-edit-enter-edit-mode-from-diff.png[width=800, link="images/inline-edit-enter-edit-mode-from-diff.png"]
+. Next to the file you want to remove, select Actions > Delete:
 
-[[reviewing-changes-made-in-change-edit]]
-== Reviewing Change Edits
+  image::images/inline-edit-delete-file.png[width=500,
+  link="images/inline-edit-delete-file.png"]
 
-Change edits are reviewed in the same way as regular patch sets, using the
-side-by-side diff screen. Change edits are shown as 'edit' in the patch list
-on the diff screen:
+. On the Delete a File from the Repo form, click Delete. The file you
+  highlighted is removed from the change.
 
-image::images/inline-edit-edit-in-diff-screen-patch-list.png[width=800, link="images/inline-edit-edit-in-diff-screen-patch-list.png"]
+Changed your mind about deleting a file? To restore a file you've previously
+deleted:
 
-and on the change screen:
+. With the Gerrit change in Edit mode, next to the file name, select
+  Actions > Restore.
 
-image::images/inline-edit-edit-in-patch-list.png[width=800, link="images/inline-edit-edit-in-patch-list.png"]
+. Use the form to find the desired file and then click Restore.
 
-Note that patch sets may exist that were created after the change edit was created.
 
-For example this sequence:
+[[submit-change]]
+== Submitting a Change to Review
 
-`1 2 3 4 5 6 7 8 9 edit 10`
+When you submit a WIP change, Gerrit removes the WIP designation and submits
+the change to code review. The change appears in other Gerrit dashboards and
+reviewers are notified when the change is updated.
 
-means that the change edit was created on top of patch set number 9 and a regular
-patch set was uploaded later.
+To submit a change to review:
+
+. Open the change and then click Start Review:
+
+  image::images/inline-edit-start-review-button.png[width=500,
+  link="images/inline-edit-start-review-button.png"]
+
+. In the change notification form, write a note to the reviewers and then
+  click Start Review:
+
+  image::images/inline-edit-review-message.png[width=500,
+  link="images/inline-edit-review-message.png"]
+
+The change is now displayed in other Gerrit dashboards and reviewers are
+notified that the change is available for code review.
+
+
+[[review-edits]]
+== Reviewing Changes
+
+Review changes in the same way you review regular patch sets, with the
+side-by-side diff screen.
+
+image::images/inline-edit-diff-screen.png[width=800,
+link="images/inline-edit-diff-screen.png"]
+
+It's possible that subsequent patch sets may exist. For example, this sequence
+means that the change was created on top of patch set 9 while a regular patch
+set was uploaded later:
+
+....
+1 2 3 4 5 6 7 8 9 edit 10
+....
+
 
 [[change-edit-actions]]
-== Change Edit Actions
+## == Editing Actions
 
-Change edits can be deleted, published and rebased, and a patch set that
-represents a change edit can be downloaded like a regular patch set.
+You can perform these actions on a change:
 
-[[delete-change-edit]]
+-  link:user-inline-edit.html#rebase-change-edit[Rebase]
+-  link:user-inline-edit.html#download-change-edit-patch[Download Patch]
+-  link:user-inline-edit.html#delete-change-edit[Follow-up]
+-  link:user-inline-edit.html#abandon-change-edit[Abandon]
 
-There is a special ref for a change edit. When the change edit is deleted, this
-ref is deleted as well. To delete a change edit click on the "Delete Edit"
-button.
-
-[[publish-change-edit]]
-
-When a change edit is based on the current patch set, it can be published. By
-publishing a change edit it is promoted to a regular patch set. The special ref
-that represents the change edit is deleted on publish. To publish a change edit
-click on the "Publish Edit" button. This button is only shown when the change
-edit is based on the current patch set. Otherwise the change edit must first be
-rebased onto the current patch set.
 
 [[rebase-change-edit]]
 
-Only change edits that are based on the current patch set can be published. If
-in the meantime a new patch set was uploaded, the change edit must be rebased on
-top of the current patch set before it can be published. Rebasing a change
-edit is done by clicking on the "Rebase Edit" button. If the rebase results in
-conflicts, these conflicts cannot be resolved in the browser. In this case the
-change edit must be downloaded (see below) and the conflicts must be resolved in
-the local environment. The commit that contains the conflict resolution can then
-be uploaded by setting `edit` as option on the target ref:
+Only when a change is based on the current patch set can the change be
+published. In the meantime, if a new patch set has been uploaded, the change
+must be rebased on top of the current patch set before the change can be
+published.
 
-----
-  $ git push host HEAD:refs/for/master%edit
-----
+To rebase a change:
+
+-  Open the change and then click Rebase Edit.
+
+If the rebase generates conflicts, the conflicts can't be resolved in the web
+interface. Instead, the change must be downloaded (see below) and the conflicts
+resolved in the local environment.
+
+When the conflicts are resolved in the local environment, the commit that
+contains the conflict resolution can be uploaded by setting `edit` as option on
+the target ref. For example:
+
+....
+$ git push host HEAD:refs/for/master%edit
+....
+
 
 [[download-change-edit-patch]]
 
-Like regular patch sets, change edits can be downloaded by the download
-commands (e.g. provided by the `download-commands` plugin). To download a
-change edit, select the desired scheme from the "Download" dropdown and copy the
-command to your terminal. Note: only change edit owners and users that were
-granted the link:access-control.html#capability_accessDatabase[accessDatabase]
-global capability are able to access change edit refs.
+As with regular patch sets, you can download changes. For example, as provided
+by the `download-commands` plug-in).   Only the owners of a change and those
+users granted the
+link:access-control.html#capability_accessDatabase[accessDatabase] global
+capability can access change refs.
 
-[[search-for-change-edits]]
+To download a change:
 
-To search change edits from the UI the link:user-search.html#has[has:edit]
-predicate can be used.
+. Open the change, click the More icon, and then select Download patch.
+. Copy the desired scheme from the Download drop-down.
+. Paste the command into a terminal window.
 
-Alternatively change edits can be accessed through "My => Edits" dashboard.
+image::images/inline-edit-actions-download.png[width=600,
+link="images/inline-edit-actions-download.png"]
 
-[[not-implemented-features]]
-== Not Implemented Features
 
-* Support default configuration options for inline editor that an
-administrator has set in `refs/users/default:preferences.config` file.
+[[follow-up]]
 
-* Allow to rename files that are already contained in the change (from the file table).
-The same rename file dialog can be used with preselected and disabled original file
-name.
+To Follow-up means to create a new change based on the selected change.
 
-* Changed files in change edit should be marked as changed in file table in edit mode.
-One option is to use dirty icon or "*" char in front of changed files, another option
-is to use different hyperlink color for changed files (red?), to avoid adding yet another
-column to the file table
+To create a follow-up:
 
-* Add navigation icons in header area of edit screen. When dozen files need to be changed
-in context of change edit, this is not the best workflow to open one file in edit screen,
-change it, save it, close edit screen and select next file from the file table to edit.
-"<-" | "->" icons in header of edit screen could be used to navigate to the next file to
-change from the file table. This would behave like the navigation icons in side by side
-with the following logic on click:
+. Open the change, click the More icon, and then select Follow-up.
 
-** "save-when-file-was-changed" or
-** "close-when-no-changes"
+. Fill out the form. The value you enter next to Description becomes the
+  first line in the link:dev-contributing.html#commit-message[Commit Message]
+  so make it informative and brief.
 
-* Implement conflict resolution during rebase of change edit using inline edit
-feature by creating new edit on top of current patch set with auto merge content
+. Click Create. Gerrit displays the new change in the web interface. The
+  follow-up is assigned a new Change-Id and change number.
 
-* Similarly, reuse inline edit feature for conflict resolution during rebase of regular
-patch sets
 
-GERRIT
-------
+[[abandon]]
+
+To Abandon a change means that the change can not be committed to the branch
+unless it's restored. In addition, the change is closed to review.
+
+To abandon a change:
+
+. Open the change and then click Abandon.
+
+. On the Abandon change form, enter a brief message to describe why you want to
+  abandon the change.
+
+. Click Abandon. The change will be displayed on your dashboard, listed under
+  Recently closed.
+
+To restore a previously abandoned change:
+
+- Open the change and then click Restore.
+
+
+## GERRIT
+
 Part of link:index.html[Gerrit Code Review]
 
-SEARCHBOX
----------
+## SEARCHBOX

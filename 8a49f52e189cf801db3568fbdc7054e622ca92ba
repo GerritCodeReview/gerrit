@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f465015a_744161be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-14T19:37:26Z",
+      "side": 1,
+      "message": "Please mention in the commit message that it\u0027s not using the acceptance test framework (i.e. is not an IT test) due to the fact that the test repository does not support reflog and it needs to be mocked.",
+      "revId": "8a49f52e189cf801db3568fbdc7054e622ca92ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3beaf923_44c8456e",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/GetReflogTest.java",
         "patchSetId": 2

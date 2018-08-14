@@ -47,8 +47,13 @@ public class ConfigInfo {
   }
 
   public static class MaxObjectSizeLimitInfo {
+    /* The effective value. */
     public String value;
+
+    /* The value configured on the project. */
     public String configuredValue;
+
+    /* The value configured globally. */
     public String inheritedValue;
   }
 

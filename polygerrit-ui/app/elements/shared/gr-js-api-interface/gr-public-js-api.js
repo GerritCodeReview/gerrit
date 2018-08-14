@@ -103,6 +103,12 @@
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
   window.$wnd = window;
 
+  function flushPreinstalls() {
+    if (window.Gerrit.flushPreinstalls) {
+      window.Gerrit.flushPreinstalls();
+    }
+  }
+
   function installPreloadedPlugins() {
     if (!Gerrit._preloadedPlugins) { return; }
     for (const name in Gerrit._preloadedPlugins) {
@@ -161,6 +167,13 @@
 
     this._url = new URL(opt_url);
     this._name = getPluginNameFromUrl(this._url);
+    if (this._url.protocol === PRELOADED_PROTOCOL) {
+      // Original plugin URL is used in plugin assets URLs calculation.
+      const assetsBaseUrl = window.ASSETS_PATH ||
+          (window.location.origin + Gerrit.BaseUrlBehavior.getBaseUrl());
+      this._url = new URL(assetsBaseUrl + '/plugins/' + this._name +
+          '/static/' + this._name + '.js');
+    }
   }
 
   Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
@@ -435,6 +448,8 @@
     },
   };
 
+  flushPreinstalls();
+
   const Gerrit = window.Gerrit || {};
 
   let _resolveAllPluginsLoaded = null;
@@ -447,6 +462,7 @@
   if (!app) {
     // No gr-app found (running tests)
     Gerrit._installPreloadedPlugins = installPreloadedPlugins;
+    Gerrit._flushPreinstalls = flushPreinstalls;
     Gerrit._resetPlugins = () => {
       _allPluginsPromise = null;
       _pluginsInstalled = [];

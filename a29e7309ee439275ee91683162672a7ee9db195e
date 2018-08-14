@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7973b0c7_e627264f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2895,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-14T16:17:32Z",
+      "side": 0,
+      "message": "In a previous change you objected that a reference to documentation without a link is non-actionable. Here, though, there\u0027s an actionable link; why remove it? Is it too verbose?\n\nI think this ties into the motivation for separating the error message (what failed) from the advice (what to do about it). The error is that you pushed too many commits, and what you can do about it is, I guess, read the docs.",
+      "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

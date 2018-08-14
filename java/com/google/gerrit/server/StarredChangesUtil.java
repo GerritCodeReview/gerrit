@@ -376,6 +376,8 @@ public class StarredChangesUtil {
   }
 
   public static StarRef readLabels(Repository repo, String refName) throws IOException {
+    logger.atFine().log("Read star labels from %s", refName));
+
     Ref ref = repo.exactRef(refName);
     if (ref == null) {
       return StarRef.MISSING;
@@ -448,6 +450,8 @@ public class StarredChangesUtil {
   private void updateLabels(
       Repository repo, String refName, ObjectId oldObjectId, Collection<String> labels)
       throws IOException, OrmException, InvalidLabelsException {
+    logger.atFine().log(
+        "Update star labels in %s (labels=%s)", refName, labels);
     try (RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(refName);
       u.setExpectedOldObjectId(oldObjectId);
@@ -485,6 +489,8 @@ public class StarredChangesUtil {
       return;
     }
 
+    logger.atFine().log(
+        "Delete star labels in %s", refName);
     RefUpdate u = repo.updateRef(refName);
     u.setForceUpdate(true);
     u.setExpectedOldObjectId(oldObjectId);

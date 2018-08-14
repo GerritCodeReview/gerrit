@@ -22,6 +22,30 @@
       "revId": "43d00bed996e979976fcfc4ac2326473744584d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95e1f789_c9c94a40",
+        "filename": "java/com/google/gerrit/server/documentation/MarkdownFormatter.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-08-14T20:10:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "37c41b63_6e27e216",
+      "range": {
+        "startLine": 98,
+        "startChar": 52,
+        "endLine": 98,
+        "endChar": 61
+      },
+      "revId": "43d00bed996e979976fcfc4ac2326473744584d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

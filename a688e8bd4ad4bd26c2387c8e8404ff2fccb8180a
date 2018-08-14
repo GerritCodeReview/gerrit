@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "438bd737_1d547002",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BranchResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-14T09:13:31Z",
+      "side": 1,
+      "message": "Instead of adding this method, the call to controlForRef should be inlined at the call site as it is for other endpoint implementations.",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 0
+      },
+      "revId": "a688e8bd4ad4bd26c2387c8e8404ff2fccb8180a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb17b3c5_687283eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetReflog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-14T09:13:31Z",
+      "side": 1,
+      "message": "Better to make this simpler, something like \"cannot read ref\".",
+      "range": {
+        "startLine": 86,
+        "startChar": 30,
+        "endLine": 86,
+        "endChar": 84
+      },
+      "revId": "a688e8bd4ad4bd26c2387c8e8404ff2fccb8180a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

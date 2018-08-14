@@ -19,6 +19,7 @@ import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
@@ -42,6 +43,8 @@ import org.eclipse.jgit.lib.Repository;
 
 /** View of contents at a single ref related to some change. * */
 public abstract class AbstractChangeNotes<T> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @VisibleForTesting
   @Singleton
   public static class Args {
@@ -145,6 +148,11 @@ public abstract class AbstractChangeNotes<T> {
     if (loaded) {
       return self();
     }
+
+    logger.atFine().log(
+        "Load %s for change %s of project %s from %s (%s)",
+        getClass().getSimpleName(), getChangeId(), getProjectName(), getRefName(), primaryStorage);
+
     boolean read = args.migration.readChanges();
     if (!read && primaryStorage == PrimaryStorage.NOTE_DB) {
       throw new OrmException("NoteDb is required to read change " + changeId);

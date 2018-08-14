@@ -235,6 +235,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     @Override
     public ValueHolder<V> load(K key) throws Exception {
+      logger.atFine().log("Loading value for %s from cache", key);
+
       if (store.mightContain(key)) {
         ValueHolder<V> h = store.getIfPresent(key);
         if (h != null) {

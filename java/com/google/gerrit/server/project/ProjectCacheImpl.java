@@ -269,6 +269,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
     @Override
     public ProjectState load(String projectName) throws Exception {
+      logger.atFine().log("Loading project %s", projectName);
       long now = clock.read();
       Project.NameKey key = new Project.NameKey(projectName);
       try (Repository git = mgr.openRepository(key)) {
@@ -298,6 +299,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
     @Override
     public ImmutableSortedSet<Project.NameKey> load(ListKey key) throws Exception {
+      logger.atFine().log("Loading project list");
       return ImmutableSortedSet.copyOf(mgr.list());
     }
   }

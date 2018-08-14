@@ -152,6 +152,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
     @Override
     public AllExternalIds load(ObjectId notesRev) throws Exception {
+      logger.atFine().log("Loading external IDs (revision=%s)", notesRev);
       Multimap<Account.Id, ExternalId> extIdsByAccount =
           MultimapBuilder.hashKeys().arrayListValues().build();
       for (ExternalId extId : externalIdReader.all(notesRev)) {

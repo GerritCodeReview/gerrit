@@ -50,6 +50,41 @@
       "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc7564fc_bca010f5",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-14T16:18:37Z",
+      "side": 1,
+      "message": "it\u0027s a global variable, so it\u0027s not obvious that the non-magic code paths don\u0027t look at magicbranch.\n\nIn particular, there a bit in validCommit (marked below) that looks at magicBranch even when it is called for a non-magic update.",
+      "parentUuid": "598bb64f_1fd0e143",
+      "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a28a834_9c138204",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2934,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-14T16:18:37Z",
+      "side": 1,
+      "message": "here",
+      "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

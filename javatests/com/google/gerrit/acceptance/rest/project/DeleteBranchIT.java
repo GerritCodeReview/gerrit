@@ -193,7 +193,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   private void assertDeleteForbidden(Branch.NameKey branch) throws Exception {
     assertThat(branch(branch).get().canDelete).isNull();
     exception.expect(AuthException.class);
-    exception.expectMessage("delete not permitted");
+    exception.expectMessage("not permitted: delete");
     branch(branch).delete();
   }
 }

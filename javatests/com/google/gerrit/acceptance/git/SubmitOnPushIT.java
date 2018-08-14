@@ -158,7 +158,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   @Test
   public void submitOnPushNotAllowed_Error() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%submit");
-    r.assertErrorStatus("update by submit not permitted");
+    r.assertErrorStatus("not permitted: update by submit");
   }
 
   @Test
@@ -170,7 +170,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         push(
             "refs/for/master%submit",
             PushOneCommit.SUBJECT, "a.txt", "other content", r.getChangeId());
-    r.assertErrorStatus("update by submit not permitted");
+    r.assertErrorStatus("not permitted: update by submit ");
   }
 
   @Test

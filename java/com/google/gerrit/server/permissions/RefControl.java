@@ -449,7 +449,87 @@ class RefControl {
     @Override
     public void check(RefPermission perm) throws AuthException, PermissionBackendException {
       if (!can(perm)) {
-        throw new AuthException(perm.describeForException() + " not permitted for " + refName);
+        PermissionDeniedException pde = new PermissionDeniedException(perm, refName);
+        String advice = "";
+        switch (perm) {
+          case UPDATE:
+            if (refName.equals(RefNames.REFS_CONFIG)) {
+              advice +=
+                  "Configuration changes can only be pushed by project owners\n"
+                      + "who also have 'Push' rights on "
+                      + RefNames.REFS_CONFIG;
+            } else {
+              advice += "To push into this reference you need 'Push' rights.";
+            }
+            break;
+          case DELETE:
+            advice +=
+                "You need 'Delete Reference' rights or 'Push' rights with the \n"
+                    + "'Force Push' flag set to delete references.";
+            break;
+          case CREATE_CHANGE:
+            // This is misleading in the default permission backend, since "create change" on a
+            // branch is encoded as "push" on refs/for/DESTINATION.
+            advice +=
+                "You need 'Create Change' rights to upload code review requests.\n"
+                    + "Verify that you are pushing to the right branch.";
+            break;
+          case CREATE:
+            advice += "You need 'Create' rights to create new references.";
+            break;
+          case CREATE_SIGNED_TAG:
+            advice += "You need 'Create Signed Tag' rights to push a signed tag.";
+            break;
+          case CREATE_TAG:
+            advice += "You need 'Create Tag' rights to push a normal tag.";
+            break;
+          case FORCE_UPDATE:
+            advice += "You need 'Push' rights with 'Force' flag set to do a non-fastforward push.";
+            break;
+          case FORGE_AUTHOR:
+            advice += "You need 'Forge Author' rights to push commits with another user as author.";
+            break;
+          case FORGE_COMMITTER:
+            advice +=
+                "You need 'Forge Committer' rights to push commits with another user as committer.";
+            break;
+          case FORGE_SERVER:
+            advice +=
+                "You need 'Forge Server' rights to push merge commits authored by the server.";
+            break;
+          case MERGE:
+            advice += "You need 'Push Merge' in addition to 'Push' rights to push merge commits.";
+            break;
+
+          case READ:
+            advice += "You need 'Read' rights to fetch or clone this ref.";
+            break;
+
+          case READ_CONFIG:
+            advice += "You need 'Read' rights on refs/meta/config to see the configuration.";
+            break;
+          case READ_PRIVATE_CHANGES:
+            advice += "You need 'Read Private Changes' to see private changes.";
+            break;
+          case SET_HEAD:
+            advice += "You need 'Set HEAD' rights to set the default branch.";
+            break;
+          case SKIP_VALIDATION:
+            advice +=
+                "You need 'Forge Author', 'Forge Server', 'Forge Committer'\n"
+                    + "and 'Push Merge' rights to skip validation.";
+            break;
+          case UPDATE_BY_SUBMIT:
+            advice +=
+                "You need 'Submit' rights on refs/for/ to submit changes during change upload.";
+            break;
+
+          case WRITE_CONFIG:
+            advice += "You need 'Write' rights on refs/meta/config.";
+            break;
+        }
+        pde.setAdvice(advice);
+        throw pde;
       }
     }
 

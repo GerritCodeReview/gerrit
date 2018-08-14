@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1534185963 -0700\nnonce APISObTqiQrKFJTUUA0dkDEkZbhqAPKJtppqtBZTseN7yoSYSCf1wKBU94T/FYGPxjUPLtjWx62k\n\n0000000000000000000000000000000000000000 ebfa01129413ed2fb8e762bc6eb55dcc5d6867e0 refs/for/master%topic\u003dsubop-minor-cleanup\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAltx0esVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM1NcQAKoCVFm2Ys2R9VtIa72GT8m3WNRt\n8Fyof7OB6bDvMxvfBO0ClKN4NSTvbwZFr25bcH+5iY6pfH8IVEyWqcaf8YmFVuQH\nPPhqL/ZVfUDxKFs2YNepCmuNYW5v7PJSl4Hl3p4VTlSV6evwM64/t+P2qVtq4MzS\nEipXRoimVhXb97s7Yu52wF4RmVuEDOyyWRPv6pR0VpH5WSheLh16Wvgr/Im95Zw1\nymOpSnChHoG8M9lTfk7T+/e4t8VIUe3vW3qo3XkF1P+Cd2imkpeK9VbPO8NH4l5R\nDIF3HnHXC8c+jDwAYf3tPAGrZbQsSubN7qNqa3tgehKJRJwNcnZyFyNclP0l6j4X\ndukevn4ciU8TD6ECDZ3lsqu93vfVSIZUrPWG3wGPzK8Xq0CGaIZoWPkzhwRuVkoD\nh9sJZ2GK0Pp2yl2R2VW3xMspqbNu6Dnhldz8SDwz8XqahclHT7mBnuZHsI6VRG8B\nmf5IB8Me1V5KHusuTf6ASQ2CqdaH6Kria5iPbhclozotDWRLO6KQDYgxzgPMcydB\nXpCRAQMyHr5LhcPnPCBo/H3OfCZnAiLLLhHtxEzeOsBJEA6FDzKqwD3o0ycWkNs0\nEHH03fiBY+cNlicyGzjmhVgs7QEIs8mza4vVYHXJZhsj8ahtc7K79cNoiNo2jXqF\n14q+EDQxvqWngxKO\n\u003dO9tG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a702a7db_4b9b51de",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-14T07:02:37Z",
+      "side": 1,
+      "message": "created",
+      "range": {
+        "startLine": 148,
+        "startChar": 54,
+        "endLine": 148,
+        "endChar": 62
+      },
+      "revId": "ebfa01129413ed2fb8e762bc6eb55dcc5d6867e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4747e55_31dd57fc",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-14T07:02:37Z",
+      "side": 1,
+      "message": "just \"reading\"?",
+      "range": {
+        "startLine": 223,
+        "startChar": 30,
+        "endLine": 223,
+        "endChar": 46
+      },
+      "revId": "ebfa01129413ed2fb8e762bc6eb55dcc5d6867e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

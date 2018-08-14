@@ -3,6 +3,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "402a14ac_46c0f5d7",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1648,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-14T14:04:55Z",
+      "side": 1,
+      "message": "\u0027%\u0027 needs to be encoded here: \"%%base\"",
+      "range": {
+        "startLine": 1648,
+        "startChar": 38,
+        "endLine": 1648,
+        "endChar": 43
+      },
+      "revId": "047e64180921f7c8720c1f9a7c40d5ca99302c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d62d24f_f73e4323",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-14T14:04:55Z",
+      "side": 1,
+      "message": "use withCause(e) here",
+      "range": {
+        "startLine": 512,
+        "startChar": 71,
+        "endLine": 512,
+        "endChar": 74
+      },
+      "revId": "047e64180921f7c8720c1f9a7c40d5ca99302c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bca750d_48274cc3",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-14T14:04:55Z",
+      "side": 1,
+      "message": "This log argument is not used and should be removed.",
+      "range": {
+        "startLine": 125,
+        "startChar": 44,
+        "endLine": 125,
+        "endChar": 72
+      },
+      "revId": "047e64180921f7c8720c1f9a7c40d5ca99302c40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "288765a8_d86f34b7",
         "filename": "java/com/google/gerrit/server/util/RequestId.java",
         "patchSetId": 9

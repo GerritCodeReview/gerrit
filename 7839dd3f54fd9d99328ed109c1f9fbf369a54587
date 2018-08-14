@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "668e051e_cfccf485",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-14T16:03:06Z",
+      "side": 0,
+      "message": "Did we ever follow up with these teams? A cursory search doesn\u0027t show anyone using it, but I\u0027m not sure I\u0027m looking in the right place, and Changcheng may have had someone specific in mind.",
+      "revId": "7839dd3f54fd9d99328ed109c1f9fbf369a54587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

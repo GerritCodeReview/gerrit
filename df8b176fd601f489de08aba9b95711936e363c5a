@@ -22,6 +22,30 @@
       "revId": "df8b176fd601f489de08aba9b95711936e363c5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47812009_e0575e19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 41
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-08-14T17:07:17Z",
+      "side": 1,
+      "message": "Here https://github.com/vsch/flexmark-java#feature-comparison",
+      "parentUuid": "3fb80e9c_ece7c57b",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 25
+      },
+      "revId": "df8b176fd601f489de08aba9b95711936e363c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

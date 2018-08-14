@@ -204,10 +204,22 @@
 
     _computeChangeContainerClass(currentChange, relatedChange) {
       const classes = ['changeContainer'];
-      if (relatedChange.change_id === currentChange.change_id) {
+      if (this._changesEqual(relatedChange, currentChange)) {
         classes.push('thisChange');
       }
       return classes.join(' ');
+    },
+
+    /**
+     * Do the given objects describe the same change?
+     * (Compares the change objects by their change numbers.)
+     * @see /Documentation/rest-api-changes.html#change-info
+     * @param {!Object} a
+     * @param {!Object} b
+     * @return {boolean}
+     */
+    _changesEqual(a, b) {
+      return a._number === b._number;
     },
 
     _computeLinkClass(change) {

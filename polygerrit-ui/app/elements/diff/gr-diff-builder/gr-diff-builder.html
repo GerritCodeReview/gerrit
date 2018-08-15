@@ -159,7 +159,7 @@ limitations under the License.
           });
         },
 
-        render(comments, prefs) {
+        async render(comments, prefs) {
           this.$.syntaxLayer.enabled = prefs.syntax_highlighting;
           this._showTabs = !!prefs.show_tabs;
           this._showTrailingWhitespace = !!prefs.show_whitespace_errors;
@@ -182,27 +182,25 @@ limitations under the License.
           reporting.time(TimingLabel.TOTAL);
           reporting.time(TimingLabel.CONTENT);
           this.dispatchEvent(new CustomEvent('render-start', {bubbles: true}));
-          return this.$.processor.process(this.diff.content, isBinary)
-              .then(() => {
-                if (this.isImageDiff) {
-                  this._builder.renderDiff();
-                }
-                this.dispatchEvent(new CustomEvent('render-content',
-                    {bubbles: true}));
+          await this.$.processor.process(this.diff.content, isBinary);
 
-                if (this._anyLineTooLong()) {
-                  this.$.syntaxLayer.enabled = false;
-                }
+          if (this.isImageDiff) {
+            this._builder.renderDiff();
+          }
+          this.dispatchEvent(new CustomEvent('render-content',
+              {bubbles: true}));
 
-                reporting.timeEnd(TimingLabel.CONTENT);
-                reporting.time(TimingLabel.SYNTAX);
-                return this.$.syntaxLayer.process().then(() => {
-                  reporting.timeEnd(TimingLabel.SYNTAX);
-                  reporting.timeEnd(TimingLabel.TOTAL);
-                  this.dispatchEvent(
-                      new CustomEvent('render', {bubbles: true}));
-                });
-              });
+          if (this._anyLineTooLong()) {
+            this.$.syntaxLayer.enabled = false;
+          }
+
+          reporting.timeEnd(TimingLabel.CONTENT);
+          reporting.time(TimingLabel.SYNTAX);
+          await this.$.syntaxLayer.process();
+
+          reporting.timeEnd(TimingLabel.SYNTAX);
+          reporting.timeEnd(TimingLabel.TOTAL);
+          this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
         },
 
         getLineElByChild(node) {

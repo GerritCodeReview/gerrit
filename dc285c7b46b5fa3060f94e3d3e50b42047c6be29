@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b653b31_c396cd4d",
+        "filename": "java/com/google/gerrit/server/git/strategy/FastForwardOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T21:52:12Z",
+      "side": 1,
+      "message": "This breaks submission of a root commit.\n\nI\u0027m a little surprised we have no test coverage for that.",
+      "revId": "dc285c7b46b5fa3060f94e3d3e50b42047c6be29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "2449cede65be12ec67ae3dad71adc1b125bad975",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "413c392d_ee295cda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-15T07:57:18Z",
+      "side": 1,
+      "message": "I\u0027d have to look into this and test it, but I suspect it\u0027s going to fail with the same problem that the underlying jgit implementation does not support reflog.",
+      "parentUuid": "5adc55e3_4a2a38bf",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 38
+      },
+      "revId": "2449cede65be12ec67ae3dad71adc1b125bad975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

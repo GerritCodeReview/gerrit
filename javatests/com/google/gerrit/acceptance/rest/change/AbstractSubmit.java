@@ -27,6 +27,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -154,11 +155,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void submitToEmptyRepo() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    assertThat(getRemoteHead()).isNull();
     PushOneCommit.Result change = createChange();
+    assertThat(change.getCommit().getParents()).isEmpty();
     Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
     RevCommit headAfterSubmitPreview = getRemoteHead();
-    assertThat(headAfterSubmitPreview).isEqualTo(initialHead);
+    assertThat(headAfterSubmitPreview).isNull();
     assertThat(actual).hasSize(1);
 
     submit(change.getChangeId());
@@ -1068,6 +1070,43 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             + ": Change could not be merged because the commit is empty. "
             + "Project policy requires all commits to contain modifications to at least one file.");
     change.current().submit();
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false, rejectEmptyCommit = InheritableBoolean.TRUE)
+  public void submitNonemptyCommitToEmptyRepoWithRejectEmptyCommit() throws Exception {
+    assertThat(getRemoteHead()).isNull();
+    PushOneCommit.Result change = createChange();
+    assertThat(change.getCommit().getParents()).isEmpty();
+    Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
+    RevCommit headAfterSubmitPreview = getRemoteHead();
+    assertThat(headAfterSubmitPreview).isNull();
+    assertThat(actual).hasSize(1);
+
+    submit(change.getChangeId());
+    assertThat(getRemoteHead().getId()).isEqualTo(change.getCommit());
+    assertTrees(project, actual);
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false, rejectEmptyCommit = InheritableBoolean.TRUE)
+  public void submitEmptyCommitToEmptyRepoWithRejectEmptyCommit() throws Exception {
+    assertThat(getRemoteHead()).isNull();
+    PushOneCommit.Result result =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "Change 1", ImmutableMap.of())
+            .to("refs/for/master");
+    result.assertOkStatus();
+    Change change = result.getChange().change();
+
+    approve(change.getKey().get());
+    submitWithConflict(
+        change.getKey().get(),
+        "Failed to submit 1 change due to the following problems:\n"
+            + "Change "
+            + change.getId()
+            + ": Change could not be merged because the commit is empty. "
+            + "Project policy requires all commits to contain modifications to at least one file.");
   }
 
   private void setChangeStatusToNew(PushOneCommit.Result... changes) throws Exception {

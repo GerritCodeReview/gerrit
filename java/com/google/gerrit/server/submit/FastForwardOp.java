@@ -19,18 +19,25 @@ import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.update.RepoContext;
+import org.eclipse.jgit.lib.ObjectId;
 
 class FastForwardOp extends SubmitStrategyOp {
+  private static final ObjectId EMPTY_TREE =
+      ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904");
+
   FastForwardOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {
     super(args, toMerge);
   }
 
   @Override
   protected void updateRepoImpl(RepoContext ctx) throws IntegrationException {
-    if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)
-        && toMerge.getTree().equals(toMerge.getParent(0).getTree())) {
-      toMerge.setStatusCode(EMPTY_COMMIT);
-      return;
+    if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)) {
+      ObjectId oldTreeId =
+          toMerge.getParentCount() > 0 ? toMerge.getParent(0).getTree() : EMPTY_TREE;
+      if (toMerge.getTree().equals(oldTreeId)) {
+        toMerge.setStatusCode(EMPTY_COMMIT);
+        return;
+      }
     }
 
     args.mergeTip.moveTipTo(toMerge, toMerge);

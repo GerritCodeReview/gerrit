@@ -34,12 +34,11 @@ import org.kohsuke.args4j.Option;
 
 public class ProtoGen {
   @Option(
-    name = "--output",
-    aliases = {"-o"},
-    required = true,
-    metaVar = "FILE",
-    usage = "File to write .proto into"
-  )
+      name = "--output",
+      aliases = {"-o"},
+      required = true,
+      metaVar = "FILE",
+      usage = "File to write .proto into")
   private File file;
 
   public static void main(String[] argv) throws Exception {

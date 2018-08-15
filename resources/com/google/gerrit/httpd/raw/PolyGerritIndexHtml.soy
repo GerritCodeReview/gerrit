@@ -19,6 +19,7 @@
 /**
  * @param canonicalPath
  * @param staticResourcePath
+ * @param? assetsPath
  * @param? assetsUrl
  * @param? faviconPath
  * @param? versionInfo
@@ -37,6 +38,7 @@
     {if $deprecateGwtUi}window.DEPRECATE_GWT_UI = true;{/if}
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
     {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
+    {if $assetsPath != ''}window.ASSETS_PATH = '{$assetsPath}';{/if}
   </script>{\n}
 
   {if $faviconPath}

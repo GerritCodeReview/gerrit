@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5adc55e3_4a2a38bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-15T07:45:31Z",
+      "side": 1,
+      "message": "Why not to use @UseDisk annotation, that was invented to have integration Unit tests für Git GC? I would see the same machinery (whole 9 yards integration tests) is used for Git Reflog Unit tests as well.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 38
+      },
+      "revId": "2449cede65be12ec67ae3dad71adc1b125bad975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "2449cede65be12ec67ae3dad71adc1b125bad975",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "875f9397_bb2a8231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-15T08:01:19Z",
+      "side": 1,
+      "message": "You were right, annotating the test as @UseLocalDisk allows reflog to work.",
+      "parentUuid": "413c392d_ee295cda",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 38
+      },
+      "revId": "2449cede65be12ec67ae3dad71adc1b125bad975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

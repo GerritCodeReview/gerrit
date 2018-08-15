@@ -49,7 +49,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
@@ -65,11 +64,9 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.groups.GroupApi;
-import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
-import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Comment.Range;
@@ -161,29 +158,6 @@ public class ChangeIT extends AbstractDaemonTest {
   public void resetTime() {
     TestTimeUtil.useSystemTime();
     System.setProperty("user.timezone", systemTimeZone);
-  }
-
-  @Test
-  @UseLocalDisk
-  public void reflog() throws Exception {
-    BranchApi branchApi = gApi.projects().name(project.get()).branch("master");
-    List<ReflogEntryInfo> reflog = branchApi.reflog();
-    assertThat(reflog).isNotEmpty();
-
-    // Current number of entries in the reflog
-    int refLogLen = reflog.size();
-
-    // Create and submit a change
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-    String revision = r.getCommit().name();
-    ReviewInput in = ReviewInput.approve();
-    gApi.changes().id(changeId).revision(revision).review(in);
-    gApi.changes().id(changeId).revision(revision).submit();
-
-    // Submitting the change causes a new entry in the reflog
-    reflog = branchApi.reflog();
-    assertThat(reflog).hasSize(refLogLen + 1);
   }
 
   @Test

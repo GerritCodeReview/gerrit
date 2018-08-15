@@ -542,6 +542,7 @@ public class SubmoduleOp {
   private RevCommit updateSubmodule(
       DirCache dc, DirCacheEditor ed, StringBuilder msgbuf, SubmoduleSubscription s)
       throws SubmoduleException, IOException {
+    logDebug("Updating gitlink for %s", s);
     OpenRepo subOr;
     try {
       subOr = orm.getRepo(s.getSubmodule().getParentKey());
@@ -569,7 +570,14 @@ public class SubmoduleOp {
       // check that the old gitlink is a commit that actually exists. If not, then there is an
       // inconsistency between the superproject and subproject state, and we don't want to risk
       // making things worse by updating the gitlink to something else.
-      oldCommit = subOr.rw.parseCommit(dce.getObjectId());
+      try {
+        oldCommit = subOr.rw.parseCommit(dce.getObjectId());
+      } catch (IOException e) {
+        // Broken gitlink; sanity check failed. Warn and continue so the submit operation can
+        // proceed, it will just skip this gitlink update.
+        logger.atSevere().withCause(e).log("Failed to read commit %s", dce.getObjectId().name());
+        return null;
+      }
     }
 
     final CodeReviewCommit newCommit;

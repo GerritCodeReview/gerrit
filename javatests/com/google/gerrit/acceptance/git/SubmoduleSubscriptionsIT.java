@@ -686,6 +686,29 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project-2", subTip2);
   }
 
+  @Test
+  public void skipUpdatingBrokenGitlinkPointer() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    allowMatchingSubmoduleSubscription(
+        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+
+    // Push once to initialize submodule.
+    ObjectId subTip = pushChangeTo(subRepo, "master");
+    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subTip);
+
+    // Write an invalid SHA-1 directly to the gitlink.
+    ObjectId badId = ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    directUpdateSubmodule("super-project", "refs/heads/master", "subscribed-to-project", badId);
+    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", badId);
+
+    // Push succeeds, but gitlink update is skipped.
+    pushChangeTo(subRepo, "master");
+    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", badId);
+  }
+
   private ObjectId directUpdateRef(String project, String ref) throws Exception {
     try (Repository serverRepo = repoManager.openRepository(new Project.NameKey(name(project)))) {
       return new TestRepository<>(serverRepo).branch(ref).commit().create().copy();

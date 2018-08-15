@@ -29,11 +29,22 @@ import com.google.gerrit.server.project.ProjectConfig;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.StreamSupport;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -450,5 +461,48 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     RevWalk rw = repo.getRevWalk();
     RevCommit c = rw.parseCommit(commitId);
     return c.getAuthorIdent();
+  }
+
+  protected void directUpdateSubmodule(String project, String refName, String path, AnyObjectId id)
+      throws Exception {
+    path = name(path);
+    try (Repository serverRepo = repoManager.openRepository(new Project.NameKey(name(project)));
+        ObjectInserter ins = serverRepo.newObjectInserter();
+        RevWalk rw = new RevWalk(serverRepo)) {
+      Ref ref = serverRepo.exactRef(refName);
+      assertThat(ref).named(refName).isNotNull();
+      ObjectId oldCommitId = ref.getObjectId();
+
+      DirCache dc = DirCache.newInCore();
+      DirCacheBuilder b = dc.builder();
+      b.addTree(
+          new byte[0], DirCacheEntry.STAGE_0, rw.getObjectReader(), rw.parseTree(oldCommitId));
+      b.finish();
+      DirCacheEditor e = dc.editor();
+      e.add(
+          new PathEdit(path) {
+            @Override
+            public void apply(DirCacheEntry ent) {
+              ent.setFileMode(FileMode.GITLINK);
+              ent.setObjectId(id);
+            }
+          });
+      e.finish();
+
+      CommitBuilder cb = new CommitBuilder();
+      cb.addParentId(oldCommitId);
+      cb.setTreeId(dc.writeTree(ins));
+      PersonIdent ident = serverIdent.get();
+      cb.setAuthor(ident);
+      cb.setCommitter(ident);
+      cb.setMessage("Direct update submodule " + path);
+      ObjectId newCommitId = ins.insert(cb);
+      ins.flush();
+
+      RefUpdate ru = serverRepo.updateRef(refName);
+      ru.setExpectedOldObjectId(oldCommitId);
+      ru.setNewObjectId(newCommitId);
+      assertThat(ru.update()).isEqualTo(RefUpdate.Result.FAST_FORWARD);
+    }
   }
 }

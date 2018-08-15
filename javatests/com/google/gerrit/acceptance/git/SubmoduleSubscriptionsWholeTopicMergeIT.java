@@ -856,4 +856,44 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
         .that(superRepo.getRepository().resolve("origin/master^"))
         .isEqualTo(superPreviousId);
   }
+
+  @Test
+  public void skipUpdatingBrokenGitlinkPointer() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> sub1 = createProjectWithPush("sub1");
+    TestRepository<?> sub2 = createProjectWithPush("sub2");
+
+    allowMatchingSubmoduleSubscription(
+        "sub1", "refs/heads/master", "super-project", "refs/heads/master");
+    allowMatchingSubmoduleSubscription(
+        "sub2", "refs/heads/master", "super-project", "refs/heads/master");
+
+    Config config = new Config();
+    prepareSubmoduleConfigEntry(config, "sub1", "master");
+    prepareSubmoduleConfigEntry(config, "sub2", "master");
+    pushSubmoduleConfig(superRepo, "master", config);
+
+    // Write an invalid SHA-1 directly to one of the gitlinks.
+    ObjectId badId = ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    directUpdateSubmodule("super-project", "refs/heads/master", "sub1", badId);
+    expectToHaveSubmoduleState(superRepo, "master", "sub1", badId);
+
+    String topic = "same-topic";
+    ObjectId sub1Id = pushChangeTo(sub1, "refs/for/master", "some message", topic);
+    ObjectId sub2Id = pushChangeTo(sub2, "refs/for/master", "some message", topic);
+
+    String changeId1 = getChangeId(sub1, sub1Id).get();
+    String changeId2 = getChangeId(sub2, sub2Id).get();
+    approve(changeId1);
+    approve(changeId2);
+
+    gApi.changes().id(changeId1).current().submit();
+
+    assertThat(info(changeId1).status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(info(changeId2).status).isEqualTo(ChangeStatus.MERGED);
+
+    // sub1 was skipped but sub2 succeeded.
+    expectToHaveSubmoduleState(superRepo, "master", "sub1", badId);
+    expectToHaveSubmoduleState(superRepo, "master", "sub2", sub2, "master");
+  }
 }

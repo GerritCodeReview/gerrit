@@ -256,7 +256,8 @@ Cherry Pick, Rebase Always, and (perhaps) Rebase If Necessary.
 
 - 'rejectEmptyCommit': Defines whether empty commits should be rejected when a change is merged.
 Changes might not seem empty at first but when attempting to merge, rebasing can lead to an empty
-commit. If this option is set to 'true' the merge would fail.
+commit. If this option is set to 'true' the merge would fail. An empty commit is still allowed as
+the initial commit on a branch.
 
 Merge strategy
 

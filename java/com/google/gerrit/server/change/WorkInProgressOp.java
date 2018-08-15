@@ -125,7 +125,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) {
-    stateChanged.fire(change, ctx.getAccount(), ctx.getWhen());
+    stateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
     if (workInProgress || notify.ordinal() < NotifyHandling.OWNER_REVIEWERS.ordinal()) {
       return;
     }

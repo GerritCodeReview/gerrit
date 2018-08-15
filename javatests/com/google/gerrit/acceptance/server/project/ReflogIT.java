@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.server.notedb;
+package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
@@ -21,8 +21,12 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.BranchApi;
+import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import java.io.File;
+import java.util.List;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
@@ -47,5 +51,27 @@ public class ReflogIT extends AbstractDaemonTest {
       assertThat(last).named("last RefLogEntry").isNotNull();
       assertThat(last.getComment()).isEqualTo("restapi.change.PutTopic");
     }
+  }
+
+  @Test
+  public void reflogUpdatedBySubmittingChange() throws Exception {
+    BranchApi branchApi = gApi.projects().name(project.get()).branch("master");
+    List<ReflogEntryInfo> reflog = branchApi.reflog();
+    assertThat(reflog).isNotEmpty();
+
+    // Current number of entries in the reflog
+    int refLogLen = reflog.size();
+
+    // Create and submit a change
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revision = r.getCommit().name();
+    ReviewInput in = ReviewInput.approve();
+    gApi.changes().id(changeId).revision(revision).review(in);
+    gApi.changes().id(changeId).revision(revision).submit();
+
+    // Submitting the change causes a new entry in the reflog
+    reflog = branchApi.reflog();
+    assertThat(reflog).hasSize(refLogLen + 1);
   }
 }

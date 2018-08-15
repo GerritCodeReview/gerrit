@@ -64,6 +64,8 @@ import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 public abstract class SiteProgram extends AbstractProgram {
+  private static final String CONNECTION_ERROR = "Cannot connect to SQL database";
+
   @Option(
       name = "--site-path",
       aliases = {"-d"},
@@ -106,14 +108,13 @@ public abstract class SiteProgram extends AbstractProgram {
 
   /** @return provides database connectivity and site path. */
   protected Injector createDbInjector(boolean enableMetrics, DataSourceProvider.Context context) {
-    Path sitePath = getSitePath();
     List<Module> modules = new ArrayList<>();
 
     Module sitePathModule =
         new AbstractModule() {
           @Override
           protected void configure() {
-            bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+            bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
             bind(String.class)
                 .annotatedWith(SecureStoreClassName.class)
                 .toProvider(Providers.of(getConfiguredSecureStoreClass()));
@@ -198,16 +199,16 @@ public abstract class SiteProgram extends AbstractProgram {
       Throwable why = first.getCause();
 
       if (why instanceof SQLException) {
-        throw die("Cannot connect to SQL database", why);
+        throw die(CONNECTION_ERROR, why);
       }
       if (why instanceof OrmException
           && why.getCause() != null
           && "Unable to determine driver URL".equals(why.getMessage())) {
         why = why.getCause();
         if (isCannotCreatePoolException(why)) {
-          throw die("Cannot connect to SQL database", why.getCause());
+          throw die(CONNECTION_ERROR, why.getCause());
         }
-        throw die("Cannot connect to SQL database", why);
+        throw die(CONNECTION_ERROR, why);
       }
 
       StringBuilder buf = new StringBuilder();
@@ -259,8 +260,9 @@ public abstract class SiteProgram extends AbstractProgram {
     for (Binding<DataSourceType> binding : dsTypeBindings) {
       Annotation annotation = binding.getKey().getAnnotation();
       if (annotation instanceof Named) {
-        if (((Named) annotation).value().toLowerCase().contains(dbProductName)) {
-          return ((Named) annotation).value();
+        Named named = (Named) annotation;
+        if (named.value().toLowerCase().contains(dbProductName)) {
+          return named.value();
         }
       }
     }

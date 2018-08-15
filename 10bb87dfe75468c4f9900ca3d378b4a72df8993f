@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e130f12_3ceb5414",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-15T14:59:10Z",
+      "side": 1,
+      "message": "I think the reason \"master\" was not used here is that it is assumed that the default branch is \"master\", so the example was intended to show moving the change to another branch.",
+      "revId": "10bb87dfe75468c4f9900ca3d378b4a72df8993f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

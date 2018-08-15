@@ -61,7 +61,6 @@
    *   endpoint: string,
    *   patchNum: (string|number|null|undefined),
    *   errFn: (function(?Response, string=)|null|undefined),
-   *   cancelCondition: (function()|null|undefined),
    *   params: (Object|null|undefined),
    *   fetchOptions: (Object|null|undefined),
    *   anonymizedEndpoint: (string|undefined),
@@ -2112,10 +2111,8 @@
      * @param {number|string} patchNum
      * @param {string} path
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {function()=} opt_cancelCondition
      */
-    getDiff(changeNum, basePatchNum, patchNum, path,
-        opt_errFn, opt_cancelCondition) {
+    getDiff(changeNum, basePatchNum, patchNum, path, opt_errFn) {
       const params = {
         context: 'ALL',
         intraline: null,
@@ -2133,7 +2130,6 @@
         endpoint,
         patchNum,
         errFn: opt_errFn,
-        cancelCondition: opt_cancelCondition,
         params,
         anonymizedEndpoint: '/files/*/diff',
       });
@@ -2796,7 +2792,6 @@
         return this._fetchJSON({
           url: url + req.endpoint,
           errFn: req.errFn,
-          cancelCondition: req.cancelCondition,
           params: req.params,
           fetchOptions: req.fetchOptions,
           anonymizedUrl: anonymizedEndpoint ?

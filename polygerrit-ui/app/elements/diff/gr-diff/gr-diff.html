@@ -192,15 +192,20 @@ limitations under the License.
         font-size: var(--font-size, var(--font-size-normal));
         padding: 0.5em 0 0.5em 4em;
       }
+      #loadingError,
       #sizeWarning {
         display: none;
         margin: 1em auto;
         max-width: 60em;
         text-align: center;
       }
+      #loadingError {
+        color: var(--error-text-color);
+      }
       #sizeWarning gr-button {
         margin: 1em;
       }
+      #loadingError.showError,
       #sizeWarning.warn {
         display: block;
       }
@@ -298,6 +303,9 @@ limitations under the License.
     </div>
     <div class$="[[_computeNewlineWarningClass(_newlineWarning, _loading)]]">
       [[_newlineWarning]]
+    </div>
+    <div id="loadingError" class$="[[_computeErrorClass(_showError)]]">
+      [[_errorMessage]]
     </div>
     <div id="sizeWarning" class$="[[_computeWarningClass(_showWarning)]]">
       <p>

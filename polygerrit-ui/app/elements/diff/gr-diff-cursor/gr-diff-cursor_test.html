@@ -50,6 +50,9 @@ limitations under the License.
 
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
+        getDiff() {
+          return Promise.resolve(mockDiffResponse.diffResponse);
+        },
       });
 
       const fixtureElems = fixture('basic');
@@ -60,13 +63,10 @@ limitations under the License.
       // Register the diff with the cursor.
       cursorElement.push('diffs', diffElement);
 
+      diffElement.patchRange = {basePatchNum: 1, patchNum: 2};
       diffElement.comments = {left: [], right: []};
       diffElement.$.restAPI.getDiffPreferences().then(prefs => {
         diffElement.prefs = prefs;
-      });
-
-      sandbox.stub(diffElement, '_getDiff', () => {
-        return Promise.resolve(mockDiffResponse.diffResponse);
       });
 
       const setupDone = () => {

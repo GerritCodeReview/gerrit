@@ -123,6 +123,14 @@
        */
       lineOfInterest: Object,
 
+      /**
+       * If the diff fails to load, show the failure message in the diff rather
+       * than bubbling the error up to the whole page. This is useful for when
+       * loading inline diffs because one diff failing need not mark the whole
+       * page with a failure.
+       */
+      showLoadFailure: Boolean,
+
       _loading: {
         type: Boolean,
         value: false,
@@ -161,6 +169,12 @@
       },
 
       _showWarning: Boolean,
+
+      _showError: {
+        type: Boolean,
+        value: false,
+      },
+      _errorMessage: String,
 
       /** @type {?Object} */
       _blame: {
@@ -224,16 +238,23 @@
       this.clearBlame();
       this._safetyBypass = null;
       this._showWarning = false;
+      this._showError = false;
       this.clearDiffContent();
 
-      const promises = [];
+      const diffRequest = this._getDiff();
 
-      promises.push(this._getDiff().then(diff => {
-        this._diff = diff;
+      const assetRequest = diffRequest.then(diff => {
+        // If the diff is null, then it's failed to load.
+        if (!diff) { return null; }
+
         return this._loadDiffAssets();
-      }));
+      });
 
-      return Promise.all(promises).then(() => {
+      return Promise.all([diffRequest, assetRequest]).then(results => {
+        const diff = results[0];
+        if (!diff) {
+          return Promise.resolve();
+        }
         if (this.prefs) {
           return this._renderDiffTable();
         }
@@ -727,32 +748,57 @@
         this.fire('server-error', {response});
         return;
       }
+
+      if (this.showLoadFailure) {
+        this._errorMessage = [
+          'Encountered error when loading the diff:',
+          response.status,
+          response.statusText,
+        ].join(' ');
+        this._showError = true;
+        return;
+      }
+
       this.fire('page-error', {response});
     },
 
     /** @return {!Promise<!Object>} */
     _getDiff() {
-      return this.$.restAPI.getDiff(
-          this.changeNum,
-          this.patchRange.basePatchNum,
-          this.patchRange.patchNum,
-          this.path,
-          this._handleGetDiffError.bind(this)).then(diff => {
+      // Wrap the diff request in a new promise so that the error handler
+      // rejects the promise, allowing the error to be handled in the .catch.
+      const request = new Promise((resolve, reject) => {
+        this.$.restAPI.getDiff(
+            this.changeNum,
+            this.patchRange.basePatchNum,
+            this.patchRange.patchNum,
+            this.path,
+            reject)
+            .then(resolve);
+      });
+
+      return request
+          .then(diff => {
+            this.filesWeblinks = this._getFilesWeblinks(diff);
+            this._diff = diff;
             this._reportDiff(diff);
-            if (!this.commitRange) {
-              this.filesWeblinks = {};
-              return diff;
-            }
-            this.filesWeblinks = {
-              meta_a: Gerrit.Nav.getFileWebLinks(
-                  this.projectName, this.commitRange.baseCommit, this.path,
-                  {weblinks: diff && diff.meta_a && diff.meta_a.web_links}),
-              meta_b: Gerrit.Nav.getFileWebLinks(
-                  this.projectName, this.commitRange.commit, this.path,
-                  {weblinks: diff && diff.meta_b && diff.meta_b.web_links}),
-            };
             return diff;
+          })
+          .catch(e => {
+            this._handleGetDiffError(e);
+            return null;
           });
+    },
+
+    _getFilesWeblinks(diff) {
+      if (!this.commitRange) { return {}; }
+      return {
+        meta_a: Gerrit.Nav.getFileWebLinks(
+            this.projectName, this.commitRange.baseCommit, this.path,
+            {weblinks: diff && diff.meta_a && diff.meta_a.web_links}),
+        meta_b: Gerrit.Nav.getFileWebLinks(
+            this.projectName, this.commitRange.commit, this.path,
+            {weblinks: diff && diff.meta_b && diff.meta_b.web_links}),
+      };
     },
 
     /**
@@ -888,6 +934,11 @@
     /** @return {string} */
     _computeWarningClass(showWarning) {
       return showWarning ? 'warn' : '';
+    },
+
+    /** @return {string} */
+    _computeErrorClass(showError) {
+      return showError ? 'showError' : '';
     },
 
     /**

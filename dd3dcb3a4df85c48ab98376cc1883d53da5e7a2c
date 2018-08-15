@@ -1,0 +1,634 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc63effa_13861563",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "For some reason this paragraph is in a larger font than either the following paragraph or the rest of the text. Is that worth doing something about? If you think it doesn\u0027t look too distracting, we can leave it.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "469481e0_1cca4377",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "These don\u0027t render as images, they are code blocks containing this text.",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59453348_c8e18aec",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "This renders as a code block, I don\u0027t think that\u0027s intended.",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb5fe8ae_c88e7e26",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Maybe add a comma before \"make\"",
+      "range": {
+        "startLine": 52,
+        "startChar": 72,
+        "endLine": 53,
+        "endChar": 6
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e59bfbdb_d9f1dbea",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Is this necessary, given that it\u0027s the next thing on the page?",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cbd69e2_d2b82a1d",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "I have a few technical problems with this statement:\n\n* Votes can be on different labels; if you\u0027re talking about Code-Review, then say so.\n* The vote is only lost if the label.\u003cname\u003e.copyMaxScore setting is false (false being the default).\n* This section is about adding files to an *edit* of a change. As long as the edit is still pending, there is no effect on the votes one way or another. Vote clearing (or copying, depending on the configuration) happens when you publish the edit to create a new patch set.",
+      "range": {
+        "startLine": 77,
+        "startChar": 5,
+        "endLine": 77,
+        "endChar": 76
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddfcccfa_68736b22",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "This header sounds a little too generic: in a vacuum, it seems like it would be a general discussion of how to search for changes. It\u0027s really only about searching for your changes which currently have edits.\n\nTBH I don\u0027t think this is an especially important operation. It should probably be documented, but I think the section could be moved to the bottom.",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6701652d_7177a486",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "This seems like it would be by far the more common way to find your edits.\n\nAlso, I don\u0027t see this on my dashboard. Does it only appear when you have pending edits? If so, that may be worth mentioning.",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9a5399e_9babf928",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "This section seems to be confusing a \"change\" and an \"edit on a change\". In my mind, there is a clear distinction between the *change*, which may have multiple patch sets, multiple edits by different people, etc., and the *edit*, which is the mutable state that I\u0027m currently working on in the UI.\n\nBut I understand that from an end user perspective it may make more sense to talk about adding files to a change, rather than an edit, because that reflects their end goal.\n\nIs there some way to reconcile these while using technically accurate terminology?",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 0
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dedba57_627e387b",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "If I\u0027ve been thinking in terms of \"adding files to changes\", then this sentence may be a little confusing: what\u0027s the difference between \"adding the file\" and \"applying the file\"?",
+      "range": {
+        "startLine": 148,
+        "startChar": 1,
+        "endLine": 148,
+        "endChar": 41
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fc18b28_f89e3c56",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "This should definitely be \"publish an edit on a change\" or \"to a change\". You are definitely not publishing the change itself. (In fact in the past there was a concept of \"publishing a change\" which meant something completely different.)",
+      "range": {
+        "startLine": 149,
+        "startChar": 2,
+        "endLine": 149,
+        "endChar": 18
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1f00854_e494968f",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Prior to this sentence, there is no mention that changes are stored on a special ref.",
+      "range": {
+        "startLine": 149,
+        "startChar": 59,
+        "endLine": 150,
+        "endChar": 69
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcfcbb90_12476c6b",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Same issues as above.",
+      "range": {
+        "startLine": 158,
+        "startChar": 59,
+        "endLine": 159,
+        "endChar": 72
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6442f2f2_517a63a2",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "This is another place where I think it\u0027s important to distinguish between a change and an edit on a change.\n\nDoes \"deleting a file\" mean removing the file from the tree entirely? Or reverting a file that you had previously edited back to its unedited state?\n\nHaving only read this paragraph in this section, I believe that you are talking about the former, but I can\u0027t tell for sure. Only once I read the next few paragraphs can I tell.",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7ed1da0_65ea297c",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "This is a clearer signal that what you are talking about is deleting a file from the tree entirely. Can we work this \"from the repo\" wording into the introductory paragraph of this section?",
+      "range": {
+        "startLine": 171,
+        "startChar": 9,
+        "endLine": 171,
+        "endChar": 36
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68a5241a_00c96871",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "I think we should not use the term \"submit\" here. \"Submitting a change\" means submitting it to the branch. I think what you\u0027re talking about in this section is \"starting a review\".",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e20216aa_43e59a38",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "I\u0027m really confused by this section. This document is about edits; why are we now talking about WIP changes?",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 54
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94ff43e2_636c4b2f",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Are you talking about change edits? As written, this sentence makes no sense, because \"reviewing a change\" is the normal thing you do in Gerrit, and a change is composed of multiple patch sets.",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 60
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eb94c86_bacfb794",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "This is code font, is that intended?",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1489bf99_992eb516",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "This section header has a literal \"\u003d\u003d\" in it.",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0946a60b_96bdd120",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Wrong link",
+      "range": {
+        "startLine": 232,
+        "startChar": 30,
+        "endLine": 232,
+        "endChar": 48
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84493aa0_333b64e1",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "I don\u0027t understand why these actions are grouped together. The first two are about change edits, and the second two are about changes.",
+      "range": {
+        "startLine": 228,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 0
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b12ec3d3_90fdcc3d",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Missing a word here?",
+      "range": {
+        "startLine": 252,
+        "startChar": 52,
+        "endLine": 252,
+        "endChar": 76
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67aecbe6_eb3d06eb",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Nit: use \"plugin\" to be consistent with other documentation. If you want to make an argument for changing the term we use everywhere, that should happen somewhere that\u0027s not this change.",
+      "range": {
+        "startLine": 263,
+        "startChar": 27,
+        "endLine": 263,
+        "endChar": 34
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88010f1a_6af36387",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Nit: extra spaces.",
+      "range": {
+        "startLine": 263,
+        "startChar": 36,
+        "endLine": 263,
+        "endChar": 39
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1404ff09_e78cb8f5",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Unmatched paren.",
+      "range": {
+        "startLine": 263,
+        "startChar": 34,
+        "endLine": 263,
+        "endChar": 35
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b36a0f2c_e655b4ea",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Why does this belong in this document?",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03159e96_139568b6",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Why does this belong in this document?",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f249f8e_c841040f",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "submitted",
+      "range": {
+        "startLine": 296,
+        "startChar": 53,
+        "endLine": 296,
+        "endChar": 62
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6bed497_acccf17e",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 1,
+      "message": "Depends what you mean by \"review\". It\u0027s available in the UI and anyone can add comments, but voting is disabled.",
+      "range": {
+        "startLine": 297,
+        "startChar": 22,
+        "endLine": 297,
+        "endChar": 66
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1fba5f8_bbd399d5",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 0,
+      "message": "This is an asciidoc macro. Changing the format causes the text \"GERRIT\" to appear in the document.",
+      "revId": "ce8fa68e2f8a6997f084ae7755ae1fa72eea55e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c7de7aa_de00b025",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-15T19:13:04Z",
+      "side": 0,
+      "message": "This is a special asciidoc macro that inserts a search box. Changing it breaks the macro.",
+      "revId": "ce8fa68e2f8a6997f084ae7755ae1fa72eea55e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

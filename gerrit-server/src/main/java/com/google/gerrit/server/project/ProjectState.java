@@ -116,17 +116,17 @@ public class ProjectState {
 
   @Inject
   public ProjectState(
-      final SitePaths sitePaths,
-      final ProjectCache projectCache,
-      final AllProjectsName allProjectsName,
-      final AllUsersName allUsersName,
-      final ProjectControl.AssistedFactory projectControlFactory,
-      final PrologEnvironment.Factory envFactory,
-      final GitRepositoryManager gitMgr,
-      final RulesCache rulesCache,
-      final List<CommentLinkInfo> commentLinks,
-      final CapabilityCollection.Factory limitsFactory,
-      @Assisted final ProjectConfig config) {
+      SitePaths sitePaths,
+      ProjectCache projectCache,
+      AllProjectsName allProjectsName,
+      AllUsersName allUsersName,
+      ProjectControl.AssistedFactory projectControlFactory,
+      PrologEnvironment.Factory envFactory,
+      GitRepositoryManager gitMgr,
+      RulesCache rulesCache,
+      List<CommentLinkInfo> commentLinks,
+      CapabilityCollection.Factory limitsFactory,
+      @Assisted ProjectConfig config) {
     this.sitePaths = sitePaths;
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);

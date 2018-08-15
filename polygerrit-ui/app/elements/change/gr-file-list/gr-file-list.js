@@ -35,6 +35,7 @@
     A: 'Added',
     C: 'Copied',
     D: 'Deleted',
+    M: 'Modified',
     R: 'Renamed',
     W: 'Rewritten',
     U: 'Unchanged',
@@ -895,6 +896,12 @@
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
+    /**
+     * Get a descriptive label for use in the status indicator's tooltip and
+     * ARIA label.
+     * @param {string} status
+     * @return {string}
+     */
     _computeFileStatusLabel(status) {
       const statusCode = this._computeFileStatus(status);
       return FileStatus.hasOwnProperty(statusCode) ?

@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -408,6 +409,104 @@ public class ProjectIT extends AbstractDaemonTest {
     gApi.projects().name(project.get()).index(true);
     projectIndexedCounter.assertReindexExactly(
         ImmutableMap.of(project.get(), 1L, middle.get(), 1L, leave.get(), 1L));
+  }
+
+  @Test
+  public void maxObjectSizeIsNotSetByDefault() throws Exception {
+    ConfigInfo info = getConfig();
+    assertThat(info.maxObjectSizeLimit.value).isNull();
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+  }
+
+  @Test
+  public void maxObjectSizeCanBeSetAndCleared() throws Exception {
+    // Set a value
+    ConfigInput input = new ConfigInput();
+    input.maxObjectSizeLimit = "100k";
+    ConfigInfo info = setConfig(input);
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+
+    // Clear the value
+    input.maxObjectSizeLimit = "0";
+    info = setConfig(input);
+    assertThat(info.maxObjectSizeLimit.value).isNull();
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+  }
+
+  @Test
+  public void maxObjectSizeIsNotInheritedFromParentProject() throws Exception {
+    Project.NameKey child = createProject(name("child"), project);
+
+    ConfigInput input = new ConfigInput();
+    input.maxObjectSizeLimit = "100k";
+    ConfigInfo info = setConfig(input);
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+
+    info = getConfig(child);
+    assertThat(info.maxObjectSizeLimit.value).isNull();
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
+  public void maxObjectSizeIsInheritedFromGlobalConfig() throws Exception {
+    ConfigInfo info = getConfig();
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
+  }
+
+  @Test
+  @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
+  public void maxObjectSizeOverridesGlobalConfigWhenLower() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.maxObjectSizeLimit = "100k";
+    ConfigInfo info = setConfig(input);
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
+  }
+
+  @Test
+  @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
+  public void maxObjectSizeDoesNotOverrideGlobalConfigWhenHigher() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.maxObjectSizeLimit = "300k";
+    ConfigInfo info = setConfig(input);
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("300k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
+  }
+
+  @Test
+  public void invalidMaxObjectSizeIsRejected() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.maxObjectSizeLimit = "100 foo";
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("100 foo");
+    setConfig(input);
+  }
+
+  private ConfigInfo setConfig(Project.NameKey name, ConfigInput input) throws Exception {
+    return gApi.projects().name(name.get()).config(input);
+  }
+
+  private ConfigInfo setConfig(ConfigInput input) throws Exception {
+    return setConfig(project, input);
+  }
+
+  private ConfigInfo getConfig(Project.NameKey name) throws Exception {
+    return gApi.projects().name(name.get()).config();
+  }
+
+  private ConfigInfo getConfig() throws Exception {
+    return getConfig(project);
   }
 
   private ConfigInput createTestConfigInput() {

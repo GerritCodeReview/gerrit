@@ -16,6 +16,24 @@
       "revId": "10bb87dfe75468c4f9900ca3d378b4a72df8993f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c06960_aac415b6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 1016502
+      },
+      "writtenOn": "2018-08-15T15:17:00Z",
+      "side": 1,
+      "message": "In that case, maybe we should just say something like\n\"destination_branch\" : \"\u003cdestination-branch-name\u003e\"\nThe motivation for this change was seeing a developer misread it. The text needs to be clear that the LHS is a literal, and the RHS is a value.",
+      "parentUuid": "1e130f12_3ceb5414",
+      "revId": "10bb87dfe75468c4f9900ca3d378b4a72df8993f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

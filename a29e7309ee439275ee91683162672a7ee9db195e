@@ -139,6 +139,24 @@
       "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59cc13a6_18b8db99",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2934,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-16T14:03:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2a28a834_9c138204",
+      "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,6 +17,24 @@
       "revId": "1e2155a0d6bd28bcdd61f783e19a8c7ebe8c9316",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90b405a4_ff33183c",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-16T11:10:44Z",
+      "side": 1,
+      "message": "I don\u0027t mind much.\n\nDone.",
+      "parentUuid": "c78ab1d2_c9011097",
+      "revId": "1e2155a0d6bd28bcdd61f783e19a8c7ebe8c9316",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

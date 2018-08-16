@@ -46,6 +46,30 @@
       "revId": "29337ec7b88cae1f0f17a79bbbb438847b61fabe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddc26b56_61aaf60f",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-16T06:28:04Z",
+      "side": 1,
+      "message": "I uploaded a fix as follow-up change.",
+      "parentUuid": "a053c4b8_6d4bb3cf",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 29
+      },
+      "revId": "29337ec7b88cae1f0f17a79bbbb438847b61fabe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

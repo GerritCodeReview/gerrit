@@ -2037,7 +2037,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertPushOk(pushHead(testRepo, master), master);
 
     commits.addAll(initChanges(3));
-    assertPushRejected(pushHead(testRepo, master), master, "too many commits");
+    assertPushRejected(
+        pushHead(testRepo, master), master, "more than 2 commits, and skip-validation not set");
 
     grantSkipValidation(project, master, SystemGroupBackend.REGISTERED_USERS);
     PushResult r =

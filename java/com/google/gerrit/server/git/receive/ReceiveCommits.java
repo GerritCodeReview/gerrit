@@ -1592,7 +1592,7 @@ class ReceiveCommits {
    */
   private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException {
     logger.atFine().log("Found magic branch %s", cmd.getRefName());
-    magicBranch = new MagicBranchInput(user, cmd, labelTypes, notesMigration);
+    MagicBranchInput magicBranch = new MagicBranchInput(user, cmd, labelTypes, notesMigration);
     magicBranch.reviewer.addAll(extraReviewers.get(ReviewerStateInternal.REVIEWER));
     magicBranch.cc.addAll(extraReviewers.get(ReviewerStateInternal.CC));
 
@@ -1768,20 +1768,29 @@ class ReceiveCommits {
       return;
     }
 
-    // Validate that the new commits are connected with the target
-    // branch.  If they aren't, we want to abort. We do this check by
-    // looking to see if we can compute a merge base between the new
-    // commits and the target branch head.
-    //
+    if (validateConnected(magicBranch.cmd, magicBranch.dest, tip)) {
+      this.magicBranch = magicBranch;
+    }
+  }
+
+  // Validate that the new commits are connected with the target
+  // branch.  If they aren't, we want to abort. We do this check by
+  // looking to see if we can compute a merge base between the new
+  // commits and the target branch head.
+  private boolean validateConnected(ReceiveCommand cmd, Branch.NameKey dest, RevCommit tip) {
+    RevWalk walk = receivePack.getRevWalk();
     try {
-      Ref targetRef = receivePack.getAdvertisedRefs().get(magicBranch.dest.get());
+      Ref targetRef = receivePack.getAdvertisedRefs().get(dest.get());
       if (targetRef == null || targetRef.getObjectId() == null) {
         // The destination branch does not yet exist. Assume the
         // history being sent for review will start it and thus
         // is "connected" to the branch.
         logger.atFine().log("Branch is unborn");
-        return;
+
+        // This is not an error condition.
+        return true;
       }
+
       RevCommit h = walk.parseCommit(targetRef.getObjectId());
       logger.atFine().log("Current branch tip: %s", h.name());
       RevFilter oldRevFilter = walk.getRevFilter();
@@ -1792,6 +1801,7 @@ class ReceiveCommits {
         walk.markStart(h);
         if (walk.next() == null) {
           reject(magicBranch.cmd, "no common ancestry");
+          return false;
         }
       } finally {
         walk.reset();
@@ -1800,7 +1810,9 @@ class ReceiveCommits {
     } catch (IOException e) {
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
       logger.atSevere().withCause(e).log("Invalid pack upload; one or more objects weren't sent");
+      return false;
     }
+    return true;
   }
 
   private static String readHEAD(Repository repo) {

@@ -61,7 +61,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -100,7 +99,6 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -133,6 +131,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.CreateRefControl;
@@ -249,6 +248,10 @@ class ReceiveCommits {
     }
   }
 
+  private static final String CANNOT_DELETE_CHANGES = "Cannot delete from '" + REFS_CHANGES + "'";
+  private static final String CANNOT_DELETE_CONFIG =
+      "Cannot delete project configuration from '" + RefNames.REFS_CONFIG + "'";
+
   interface Factory {
     ReceiveCommits create(
         ProjectState projectState,
@@ -348,7 +351,6 @@ class ReceiveCommits {
   private final SshInfo sshInfo;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
-  private final String canonicalWebUrl;
 
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
@@ -368,7 +370,9 @@ class ReceiveCommits {
   // Collections populated during processing.
   private final List<UpdateGroupsRequest> updateGroups;
   private final List<ValidationMessage> messages;
-  private final ListMultimap<ReceiveError, String> errors;
+  /** Multimap of error text to refnames that produced that error. */
+  private final ListMultimap<String, String> errors;
+
   private final ListMultimap<String, String> pushOptions;
   private final Map<Change.Id, ReplaceRequest> replaceByChange;
 
@@ -446,7 +450,6 @@ class ReceiveCommits {
       SshInfo sshInfo,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
-      @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -505,7 +508,6 @@ class ReceiveCommits {
     labelTypes = projectState.getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());
     rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
-    this.canonicalWebUrl = canonicalWebUrl;
 
     // Collections populated during processing.
     actualCommands = new ArrayList<>();
@@ -565,22 +567,57 @@ class ReceiveCommits {
     try (TraceContext traceContext =
         new TraceContext(RequestId.Type.RECEIVE_ID, RequestId.forProject(project.getNameKey()))) {
       try {
+        if (!projectState.getProject().getState().permitsWrite()) {
+          for (ReceiveCommand cmd : commands) {
+            reject(cmd, "prohibited by Gerrit: project state does not permit write");
+          }
+          return;
+        }
+
         parsePushOptions();
         logger.atFine().log("Parsing %d commands", commands.size());
+
+        List<ReceiveCommand> magicCommands = new ArrayList<>();
+        List<ReceiveCommand> directPatchSetPushCommands = new ArrayList<>();
+        List<ReceiveCommand> regularCommands = new ArrayList<>();
+
         for (ReceiveCommand cmd : commands) {
-          if (!projectState.getProject().getState().permitsWrite()) {
-            reject(cmd, "prohibited by Gerrit: project state does not permit write");
-            break;
+          if (MagicBranch.isMagicBranch(cmd.getRefName())) {
+            magicCommands.add(cmd);
+          } else if (isDirectChangesPush(cmd.getRefName())) {
+            directPatchSetPushCommands.add(cmd);
+          } else {
+            regularCommands.add(cmd);
           }
-          parseCommand(cmd);
+        }
+
+        for (ReceiveCommand cmd : regularCommands) {
+          parseRegularCommand(cmd);
+        }
+
+        for (ReceiveCommand cmd : directPatchSetPushCommands) {
+          parseDirectChangesPush(cmd);
+        }
+
+        // Process the magicCommand last, so magicBranch settings can't interact with regular
+        // commands.
+        boolean first = true;
+        for (ReceiveCommand cmd : magicCommands) {
+          if (first) {
+            parseMagicBranch(cmd);
+            first = false;
+          } else {
+            reject(cmd, "duplicate request");
+          }
         }
       } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
         for (ReceiveCommand cmd : actualCommands) {
           if (cmd.getResult() == NOT_ATTEMPTED) {
             cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
           }
+          logger.atSevere().withCause(err).log("Failed to process refs in %s", project.getName());
         }
-        logger.atSevere().withCause(err).log("Failed to process refs in %s", project.getName());
+        return;
       }
 
       List<CreateRequest> newChanges = Collections.emptyList();
@@ -594,7 +631,7 @@ class ReceiveCommits {
 
       if (!errors.isEmpty()) {
         logger.atFine().log("Handling error conditions: %s", errors.keySet());
-        for (ReceiveError error : errors.keySet()) {
+        for (String error : errors.keySet()) {
           receivePack.sendMessage(buildError(error, errors.get(error)));
         }
         receivePack.sendMessage(String.format("User: %s", user.getLoggableName()));
@@ -809,11 +846,11 @@ class ReceiveCommits {
     }
   }
 
-  private String buildError(ReceiveError error, List<String> branches) {
+  private String buildError(String error, List<String> branches) {
     StringBuilder sb = new StringBuilder();
     if (branches.size() == 1) {
       sb.append("Branch ").append(branches.get(0)).append(":\n");
-      sb.append(error.get());
+      sb.append(error);
       return sb.toString();
     }
     sb.append("Branches");
@@ -822,7 +859,7 @@ class ReceiveCommits {
       sb.append(delim).append(branch);
       delim = ", ";
     }
-    return sb.append(":\n").append(error.get()).toString();
+    return sb.append(":\n").append(error).toString();
   }
 
   /** Parses push options specified as "git push -o OPTION" */
@@ -853,7 +890,30 @@ class ReceiveCommits {
     }
   }
 
-  private void parseCommand(ReceiveCommand cmd)
+  private static boolean isDirectChangesPush(String refname) {
+    Matcher m = NEW_PATCHSET_PATTERN.matcher(refname);
+    return m.matches();
+  }
+
+  private void parseDirectChangesPush(ReceiveCommand cmd) {
+    Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
+    if (m.matches()) {
+      if (allowPushToRefsChanges) {
+        // The referenced change must exist and must still be open.
+        //
+        Change.Id changeId = Change.Id.parse(m.group(1));
+        parseReplaceCommand(cmd, changeId);
+      } else {
+        reject(cmd, "upload to refs/changes not allowed");
+      }
+      return;
+    }
+  }
+
+  /*
+   * Interpret a normal push, and optionally add a corresponding command to actualCommands.
+   */
+  private void parseRegularCommand(ReceiveCommand cmd)
       throws PermissionBackendException, NoSuchProjectException, IOException {
     if (cmd.getResult() != NOT_ATTEMPTED) {
       // Already rejected by the core receive process.
@@ -863,11 +923,6 @@ class ReceiveCommits {
 
     if (!Repository.isValidRefName(cmd.getRefName()) || cmd.getRefName().contains("//")) {
       reject(cmd, "not valid ref");
-      return;
-    }
-
-    if (MagicBranch.isMagicBranch(cmd.getRefName())) {
-      parseMagicBranch(cmd);
       return;
     }
 
@@ -883,19 +938,6 @@ class ReceiveCommits {
               orgCmd.setResult(s, m);
             }
           };
-    }
-
-    Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
-    if (m.matches()) {
-      if (allowPushToRefsChanges) {
-        // The referenced change must exist and must still be open.
-        //
-        Change.Id changeId = Change.Id.parse(m.group(1));
-        parseReplaceCommand(cmd, changeId);
-      } else {
-        reject(cmd, "upload to refs/changes not allowed");
-      }
-      return;
     }
 
     if (RefNames.isNoteDbMetaRef(cmd.getRefName())) {
@@ -1093,7 +1135,10 @@ class ReceiveCommits {
       // Must pass explicit user instead of injecting a provider into CreateRefControl, since
       // Provider<CurrentUser> within ReceiveCommits will always return anonymous.
       createRefControl.checkCreateRef(Providers.of(user), receivePack.getRepository(), branch, obj);
-    } catch (AuthException | ResourceConflictException denied) {
+    } catch (AuthException denied) {
+      rejectProhibited(cmd, denied);
+      return;
+    } catch (ResourceConflictException denied) {
       reject(cmd, "prohibited by Gerrit: " + denied.getMessage());
       return;
     }
@@ -1109,14 +1154,8 @@ class ReceiveCommits {
 
   private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException {
     logger.atFine().log("Updating %s", cmd);
-    boolean ok;
-    try {
-      permissions.ref(cmd.getRefName()).check(RefPermission.UPDATE);
-      ok = true;
-    } catch (AuthException err) {
-      ok = false;
-    }
-    if (ok) {
+    Optional<AuthException> err = checkRefPermission(cmd, RefPermission.UPDATE);
+    if (!err.isPresent()) {
       if (isHead(cmd) && !isCommit(cmd)) {
         return;
       }
@@ -1126,12 +1165,7 @@ class ReceiveCommits {
       validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
       actualCommands.add(cmd);
     } else {
-      if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
-        errors.put(ReceiveError.CONFIG_UPDATE, RefNames.REFS_CONFIG);
-      } else {
-        errors.put(ReceiveError.UPDATE, cmd.getRefName());
-      }
-      reject(cmd, "prohibited by Gerrit: ref update access denied");
+      rejectProhibited(cmd, err.get());
     }
   }
 
@@ -1156,32 +1190,21 @@ class ReceiveCommits {
   private void parseDelete(ReceiveCommand cmd) throws PermissionBackendException {
     logger.atFine().log("Deleting %s", cmd);
     if (cmd.getRefName().startsWith(REFS_CHANGES)) {
-      errors.put(ReceiveError.DELETE_CHANGES, cmd.getRefName());
+      errors.put(CANNOT_DELETE_CHANGES, cmd.getRefName());
       reject(cmd, "cannot delete changes");
-    } else if (canDelete(cmd)) {
+    } else if (isConfigRef(cmd.getRefName())) {
+      errors.put(CANNOT_DELETE_CONFIG, cmd.getRefName());
+      reject(cmd, "cannot delete project configuration");
+    }
+
+    Optional<AuthException> err = checkRefPermission(cmd, RefPermission.DELETE);
+    if (!err.isPresent()) {
       if (!validRefOperation(cmd)) {
         return;
       }
       actualCommands.add(cmd);
-    } else if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
-      reject(cmd, "cannot delete project configuration");
     } else {
-      errors.put(ReceiveError.DELETE, cmd.getRefName());
-      reject(cmd, "cannot delete references");
-    }
-  }
-
-  private boolean canDelete(ReceiveCommand cmd) throws PermissionBackendException {
-    if (isConfigRef(cmd.getRefName())) {
-      // Never allow to delete the meta config branch.
-      return false;
-    }
-
-    try {
-      permissions.ref(cmd.getRefName()).check(RefPermission.DELETE);
-      return projectState.statePermitsWrite();
-    } catch (AuthException e) {
-      return false;
+      rejectProhibited(cmd, err.get());
     }
   }
 
@@ -1206,21 +1229,49 @@ class ReceiveCommits {
       }
     }
 
-    boolean ok;
-    try {
-      permissions.ref(cmd.getRefName()).check(RefPermission.FORCE_UPDATE);
-      ok = true;
-    } catch (AuthException err) {
-      ok = false;
-    }
-    if (ok) {
+    Optional<AuthException> err = checkRefPermission(cmd, RefPermission.FORCE_UPDATE);
+    if (!err.isPresent()) {
       if (!validRefOperation(cmd)) {
         return;
       }
       actualCommands.add(cmd);
     } else {
-      cmd.setResult(REJECTED_OTHER_REASON, "need '" + PermissionRule.FORCE_PUSH + "' privilege.");
+      rejectProhibited(cmd, err.get());
     }
+  }
+
+  private Optional<AuthException> checkRefPermission(ReceiveCommand cmd, RefPermission perm)
+      throws PermissionBackendException {
+    return checkRefPermission(permissions.ref(cmd.getRefName()), perm);
+  }
+
+  private Optional<AuthException> checkRefPermission(
+      PermissionBackend.ForRef forRef, RefPermission perm) throws PermissionBackendException {
+    try {
+      forRef.check(perm);
+      return Optional.empty();
+    } catch (AuthException e) {
+      return Optional.of(e);
+    }
+  }
+
+  private void rejectProhibited(ReceiveCommand cmd, AuthException err) {
+    err.getAdvice().ifPresent(a -> errors.put(a, cmd.getRefName()));
+    reject(cmd, prohibited(err, cmd.getRefName()));
+  }
+
+  private static String prohibited(AuthException e, String alreadyDisplayedResource) {
+    String msg = e.getMessage();
+    if (e instanceof PermissionDeniedException) {
+      PermissionDeniedException pde = (PermissionDeniedException) e;
+      if (pde.getResource().isPresent()
+          && pde.getResource().get().equals(alreadyDisplayedResource)) {
+        // Avoid repeating resource name if exactly the given name was already displayed by the
+        // generic git push machinery.
+        msg = PermissionDeniedException.MESSAGE_PREFIX + pde.describePermission();
+      }
+    }
+    return "prohibited by Gerrit: " + msg;
   }
 
   static class MagicBranchInput {
@@ -1492,12 +1543,6 @@ class ReceiveCommits {
    * <p>Assumes we are handling a magic branch here.
    */
   private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException {
-    // Permit exactly one new change request per push.
-    if (magicBranch != null) {
-      reject(cmd, "duplicate request");
-      return;
-    }
-
     logger.atFine().log("Found magic branch %s", cmd.getRefName());
     magicBranch = new MagicBranchInput(user, cmd, labelTypes, notesMigration);
     magicBranch.reviewer.addAll(extraReviewers.get(ReviewerStateInternal.REVIEWER));
@@ -1550,11 +1595,9 @@ class ReceiveCommits {
     magicBranch.dest = new Branch.NameKey(project.getNameKey(), ref);
     magicBranch.perm = permissions.ref(ref);
 
-    try {
-      magicBranch.perm.check(RefPermission.CREATE_CHANGE);
-    } catch (AuthException denied) {
-      errors.put(ReceiveError.CODE_REVIEW, ref);
-      reject(cmd, denied.getMessage());
+    Optional<AuthException> err = checkRefPermission(magicBranch.perm, RefPermission.CREATE_CHANGE);
+    if (err.isPresent()) {
+      rejectProhibited(cmd, err.get());
       return;
     }
     if (!projectState.statePermitsWrite()) {
@@ -1565,7 +1608,7 @@ class ReceiveCommits {
     // TODO(davido): Remove legacy support for drafts magic branch option
     // after repo-tool supports private and work-in-progress changes.
     if (magicBranch.draft && !receiveConfig.allowDrafts) {
-      errors.put(ReceiveError.CODE_REVIEW, ref);
+      errors.put(ReceiveError.CODE_REVIEW.get(), ref);
       reject(cmd, "draft workflow is disabled");
       return;
     }
@@ -1598,10 +1641,9 @@ class ReceiveCommits {
     }
 
     if (magicBranch.submit) {
-      try {
-        permissions.ref(ref).check(RefPermission.UPDATE_BY_SUBMIT);
-      } catch (AuthException e) {
-        reject(cmd, e.getMessage());
+      err = checkRefPermission(magicBranch.perm, RefPermission.UPDATE_BY_SUBMIT);
+      if (err.isPresent()) {
+        rejectProhibited(cmd, err.get());
         return;
       }
     }
@@ -2801,20 +2843,21 @@ class ReceiveCommits {
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
             || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
         && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION)) {
-      try {
-        if (projectState.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
-          throw new AuthException(
-              "requireSignedOffBy prevents option " + PUSH_OPTION_SKIP_VALIDATION);
-        }
-
-        perm.check(RefPermission.SKIP_VALIDATION);
-        if (!Iterables.isEmpty(rejectCommits)) {
-          throw new AuthException("reject-commits prevents " + PUSH_OPTION_SKIP_VALIDATION);
-        }
-        logger.atFine().log("Short-circuiting new commit validation");
-      } catch (AuthException denied) {
-        reject(cmd, denied.getMessage());
+      if (projectState.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
+        reject(cmd, "requireSignedOffBy prevents option " + PUSH_OPTION_SKIP_VALIDATION);
+        return;
       }
+
+      Optional<AuthException> err =
+          checkRefPermission(permissions.ref(branch.get()), RefPermission.SKIP_VALIDATION);
+      if (err.isPresent()) {
+        rejectProhibited(cmd, err.get());
+        return;
+      }
+      if (!Iterables.isEmpty(rejectCommits)) {
+        reject(cmd, "reject-commits prevents " + PUSH_OPTION_SKIP_VALIDATION);
+      }
+      logger.atFine().log("Short-circuiting new commit validation");
       return;
     }
 
@@ -2835,12 +2878,10 @@ class ReceiveCommits {
       for (RevCommit c; (c = walk.next()) != null; ) {
         if (++n > limit) {
           logger.atFine().log("Number of new commits exceeds limit of %d", limit);
-          addMessage(
+          reject(
+              cmd,
               String.format(
-                  "Cannot push more than %d commits to %s without %s option "
-                      + "(see %sDocumentation/user-upload.html#skip_validation for details)",
-                  limit, branch.get(), PUSH_OPTION_SKIP_VALIDATION, canonicalWebUrl));
-          reject(cmd, "too many commits");
+                  "more than %d commits, and %s not set", limit, PUSH_OPTION_SKIP_VALIDATION));
           return;
         }
         if (existing.keySet().contains(c)) {

@@ -2037,7 +2037,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertPushOk(pushHead(testRepo, master), master);
 
     commits.addAll(initChanges(3));
-    assertPushRejected(pushHead(testRepo, master), master, "too many commits");
+    assertPushRejected(
+        pushHead(testRepo, master), master, "more than 2 commits, and skip-validation not set");
 
     grantSkipValidation(project, master, SystemGroupBackend.REGISTERED_USERS);
     PushResult r =
@@ -2079,7 +2080,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     pr = pushOne(testRepo, c.name(), ref, false, false, opts);
-    assertPushRejected(pr, ref, "prohibited by Gerrit: create not permitted for " + ref);
+    assertPushRejected(pr, ref, "prohibited by Gerrit: not permitted: create");
 
     grant(project, "refs/changes/*", Permission.CREATE);
     grant(project, "refs/changes/*", Permission.PUSH);

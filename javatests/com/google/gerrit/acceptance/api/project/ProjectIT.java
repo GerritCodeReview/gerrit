@@ -368,7 +368,7 @@ public class ProjectIT extends AbstractDaemonTest {
     gApi.projects().name(project.get()).branch("test").create(new BranchInput());
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("set HEAD not permitted for refs/heads/test");
+    exception.expectMessage("not permitted: set HEAD on refs/heads/test");
     gApi.projects().name(project.get()).head("test");
   }
 

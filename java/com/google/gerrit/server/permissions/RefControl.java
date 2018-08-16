@@ -474,7 +474,88 @@ class RefControl {
     @Override
     public void check(RefPermission perm) throws AuthException, PermissionBackendException {
       if (!can(perm)) {
-        throw new AuthException(perm.describeForException() + " not permitted for " + refName);
+        PermissionDeniedException pde = new PermissionDeniedException(perm, refName);
+        switch (perm) {
+          case UPDATE:
+            if (refName.equals(RefNames.REFS_CONFIG)) {
+              pde.setAdvice(
+                  "Configuration changes can only be pushed by project owners\n"
+                      + "who also have 'Push' rights on "
+                      + RefNames.REFS_CONFIG);
+            } else {
+              pde.setAdvice("To push into this reference you need 'Push' rights.");
+            }
+            break;
+          case DELETE:
+            pde.setAdvice(
+                "You need 'Delete Reference' rights or 'Push' rights with the \n"
+                    + "'Force Push' flag set to delete references.");
+            break;
+          case CREATE_CHANGE:
+            // This is misleading in the default permission backend, since "create change" on a
+            // branch is encoded as "push" on refs/for/DESTINATION.
+            pde.setAdvice(
+                "You need 'Create Change' rights to upload code review requests.\n"
+                    + "Verify that you are pushing to the right branch.");
+            break;
+          case CREATE:
+            pde.setAdvice("You need 'Create' rights to create new references.");
+            break;
+          case CREATE_SIGNED_TAG:
+            pde.setAdvice("You need 'Create Signed Tag' rights to push a signed tag.");
+            break;
+          case CREATE_TAG:
+            pde.setAdvice("You need 'Create Tag' rights to push a normal tag.");
+            break;
+          case FORCE_UPDATE:
+            pde.setAdvice(
+                "You need 'Push' rights with 'Force' flag set to do a non-fastforward push.");
+            break;
+          case FORGE_AUTHOR:
+            pde.setAdvice(
+                "You need 'Forge Author' rights to push commits with another user as author.");
+            break;
+          case FORGE_COMMITTER:
+            pde.setAdvice(
+                "You need 'Forge Committer' rights to push commits with another user as committer.");
+            break;
+          case FORGE_SERVER:
+            pde.setAdvice(
+                "You need 'Forge Server' rights to push merge commits authored by the server.");
+            break;
+          case MERGE:
+            pde.setAdvice(
+                "You need 'Push Merge' in addition to 'Push' rights to push merge commits.");
+            break;
+
+          case READ:
+            pde.setAdvice("You need 'Read' rights to fetch or clone this ref.");
+            break;
+
+          case READ_CONFIG:
+            pde.setAdvice("You need 'Read' rights on refs/meta/config to see the configuration.");
+            break;
+          case READ_PRIVATE_CHANGES:
+            pde.setAdvice("You need 'Read Private Changes' to see private changes.");
+            break;
+          case SET_HEAD:
+            pde.setAdvice("You need 'Set HEAD' rights to set the default branch.");
+            break;
+          case SKIP_VALIDATION:
+            pde.setAdvice(
+                "You need 'Forge Author', 'Forge Server', 'Forge Committer'\n"
+                    + "and 'Push Merge' rights to skip validation.");
+            break;
+          case UPDATE_BY_SUBMIT:
+            pde.setAdvice(
+                "You need 'Submit' rights on refs/for/ to submit changes during change upload.");
+            break;
+
+          case WRITE_CONFIG:
+            pde.setAdvice("You need 'Write' rights on refs/meta/config.");
+            break;
+        }
+        throw pde;
       }
     }
 

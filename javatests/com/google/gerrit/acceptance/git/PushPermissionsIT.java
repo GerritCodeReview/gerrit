@@ -46,6 +46,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,6 +76,17 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
       u.save();
     }
+  }
+
+  @Test
+  public void mixingMagicAndRegularPush() throws Exception {
+    testRepo.branch("HEAD").commit().create();
+    PushResult r = push("HEAD:refs/heads/master", "HEAD:refs/for/master");
+
+    String msg = "cannot combine normal pushes and magic pushes";
+    assertThat(r.getRemoteUpdate("refs/heads/master")).isNotEqualTo(Status.OK);
+    assertThat(r.getRemoteUpdate("refs/for/master")).isNotEqualTo(Status.OK);
+    assertThat(r.getRemoteUpdate("refs/for/master").getMessage()).isEqualTo(msg);
   }
 
   @Test

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.git;
 
+
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.Before;

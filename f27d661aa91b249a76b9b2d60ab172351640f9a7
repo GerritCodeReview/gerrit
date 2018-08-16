@@ -64,6 +64,24 @@
       "revId": "f27d661aa91b249a76b9b2d60ab172351640f9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c29e957_fb7dfbb4",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-16T21:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abc47664_1d585cec",
+      "revId": "f27d661aa91b249a76b9b2d60ab172351640f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

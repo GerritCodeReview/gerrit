@@ -59,7 +59,7 @@ public class QueryDocumentationFilter implements Filter {
       HttpServletResponse rsp = (HttpServletResponse) response;
       try {
         List<DocResult> result = searcher.doQuery(request.getParameter("q"));
-        RestApiServlet.replyJson(req, rsp, ImmutableListMultimap.of(), result);
+        RestApiServlet.replyJson(req, rsp, false, ImmutableListMultimap.of(), result);
       } catch (DocQueryException e) {
         logger.atSevere().withCause(e).log("Doc search failed");
         rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

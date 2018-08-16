@@ -18,6 +18,7 @@ package com.google.gerrit.httpd.restapi;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS;
@@ -134,6 +135,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -287,6 +289,10 @@ public class RestApiServlet extends HttpServlet {
 
     try (TraceContext traceContext = enableTracing(req, res)) {
       try (PerThreadCache ignored = PerThreadCache.create()) {
+        logger.atFinest().log(
+            "Received REST request: %s %s (parameters: %s)",
+            req.getMethod(), req.getRequestURI(), getParameterNames(req));
+        logger.atFinest().log("Calling user: %s", globals.currentUser.get().getLoggableName());
 
         if (isCorsPreflight(req)) {
           doCorsPreflight(req, res);
@@ -509,24 +515,28 @@ public class RestApiServlet extends HttpServlet {
           configureCaching(req, res, rsrc, viewData.view, r.caching());
         } else if (result instanceof Response.Redirect) {
           CacheHeaders.setNotCacheable(res);
-          res.sendRedirect(((Response.Redirect) result).location());
+          String location = ((Response.Redirect) result).location();
+          res.sendRedirect(location);
+          logger.atFinest().log("REST call redirected to: %s", location);
           return;
         } else if (result instanceof Response.Accepted) {
           CacheHeaders.setNotCacheable(res);
           res.setStatus(SC_ACCEPTED);
           res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) result).location());
+          logger.atFinest().log("REST call succeeded: %d", SC_ACCEPTED);
           return;
         } else {
           CacheHeaders.setNotCacheable(res);
         }
         res.setStatus(status);
+        logger.atFinest().log("REST call succeeded: %d", status);
 
         if (result != Response.none()) {
           result = Response.unwrap(result);
           if (result instanceof BinaryResult) {
             responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
           } else {
-            responseBytes = replyJson(req, res, qp.config(), result);
+            responseBytes = replyJson(req, res, false, qp.config(), result);
           }
         }
       } catch (MalformedJsonException | JsonParseException e) {
@@ -978,9 +988,22 @@ public class RestApiServlet extends HttpServlet {
     throw new InstantiationException("Cannot make " + type);
   }
 
+  /**
+   * Sets a JSON reply on the given HTTP servlet response.
+   *
+   * @param req the HTTP servlet request
+   * @param res the HTTP servlet response on which the reply should be set
+   * @param allowTracing whether it is allowed to log the reply if tracing is enabled, must not be
+   *     set to {@code true} if the reply may contain sensitive data
+   * @param config config parameters for the JSON formatting
+   * @param result the object that should be formatted as JSON
+   * @return the length of the response
+   * @throws IOException
+   */
   public static long replyJson(
       @Nullable HttpServletRequest req,
       HttpServletResponse res,
+      boolean allowTracing,
       ListMultimap<String, String> config,
       Object result)
       throws IOException {
@@ -995,6 +1018,21 @@ public class RestApiServlet extends HttpServlet {
     }
     w.write('\n');
     w.flush();
+
+    if (allowTracing) {
+      logger.atFinest().log(
+          "JSON response body:\n%s",
+          lazy(
+              () -> {
+                try {
+                  ByteArrayOutputStream debugOut = new ByteArrayOutputStream();
+                  buf.writeTo(debugOut, null);
+                  return debugOut.toString(UTF_8.name());
+                } catch (IOException e) {
+                  return "<JSON formatting failed>";
+                }
+              }));
+    }
     return replyBinaryResult(
         req, res, asBinaryResult(buf).setContentType(JSON_TYPE).setCharacterEncoding(UTF_8));
   }
@@ -1275,6 +1313,12 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  private List<String> getParameterNames(HttpServletRequest req) {
+    List<String> parameterNames = new ArrayList<>(req.getParameterMap().keySet());
+    Collections.sort(parameterNames);
+    return parameterNames;
+  }
+
   private TraceContext enableTracing(HttpServletRequest req, HttpServletResponse res) {
     String v = req.getParameter(ParameterParser.TRACE_PARAMETER);
     if (v != null && (v.isEmpty() || Boolean.parseBoolean(v))) {
@@ -1361,16 +1405,33 @@ public class RestApiServlet extends HttpServlet {
     configureCaching(req, res, null, null, c);
     checkArgument(statusCode >= 400, "non-error status: %s", statusCode);
     res.setStatus(statusCode);
-    return replyText(req, res, msg);
+    logger.atFinest().log("REST call failed: %d", statusCode);
+    return replyText(req, res, true, msg);
   }
 
-  static long replyText(@Nullable HttpServletRequest req, HttpServletResponse res, String text)
+  /**
+   * Sets a text reply on the given HTTP servlet response.
+   *
+   * @param req the HTTP servlet request
+   * @param res the HTTP servlet response on which the reply should be set
+   * @param allowTracing whether it is allowed to log the reply if tracing is enabled, must not be
+   *     set to {@code true} if the reply may contain sensitive data
+   * @param text the text reply
+   * @return the length of the response
+   * @throws IOException
+   */
+  static long replyText(
+      @Nullable HttpServletRequest req, HttpServletResponse res, boolean allowTracing, String text)
       throws IOException {
     if ((req == null || isRead(req)) && isMaybeHTML(text)) {
-      return replyJson(req, res, ImmutableListMultimap.of("pp", "0"), new JsonPrimitive(text));
+      return replyJson(
+          req, res, allowTracing, ImmutableListMultimap.of("pp", "0"), new JsonPrimitive(text));
     }
     if (!text.endsWith("\n")) {
       text += "\n";
+    }
+    if (allowTracing) {
+      logger.atFinest().log("Text response body:\n%s", text);
     }
     return replyBinaryResult(req, res, BinaryResult.create(text).setContentType(PLAIN_TEXT));
   }

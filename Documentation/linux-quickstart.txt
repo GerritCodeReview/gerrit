@@ -17,7 +17,9 @@ link:install.html[Standalone Daemon Installation Guide].
 To complete this quickstart, you need:
 
 . A Unix-based server such as any of the Linux flavors or BSD.
-. Java SE Runtime Environment version 1.8 or later.
+. Java SE Runtime Environment version 1.8
++
+Gerrit is not compatible with Java 9 or newer yet.
 
 == Download Gerrit
 

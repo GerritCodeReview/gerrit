@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2da8702b_a9cf4214",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-16T00:25:15Z",
+      "side": 1,
+      "message": "How does assetsPath relate to assetUrl? Is asset path the path component of assetUrl? Why can\u0027t assetUrl be used in this case?",
+      "revId": "9751fdec7baea609f0beae69e5d4a0ee471d38da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -836,7 +836,7 @@ class ReceiveCommits {
       }
 
     } catch (ResourceConflictException e) {
-      addMessage(e.getMessage());
+      addError(e.getMessage());
       reject(magicBranchCmd, "conflict");
     } catch (RestApiException | IOException err) {
       logger.atSevere().withCause(err).log(
@@ -848,7 +848,7 @@ class ReceiveCommits {
       try {
         submit(newChanges, replaceByChange.values());
       } catch (ResourceConflictException e) {
-        addMessage(e.getMessage());
+        addError(e.getMessage());
         reject(magicBranchCmd, "conflict");
       } catch (RestApiException
           | OrmException
@@ -2549,12 +2549,11 @@ class ReceiveCommits {
         if (messageEq && parentsEq && authorEq && !autoClose) {
           addMessage(
               String.format(
-                  "(W) No changes between prior commit %s and new commit %s",
+                  "warning: no changes between prior commit %s and new commit %s",
                   reader.abbreviate(priorCommit).name(), reader.abbreviate(newCommit).name()));
         } else {
           StringBuilder msg = new StringBuilder();
-          msg.append("(I) ");
-          msg.append(reader.abbreviate(newCommit).name());
+          msg.append("warning: ").append(reader.abbreviate(newCommit).name());
           msg.append(":");
           msg.append(" no files changed");
           if (!authorEq) {
@@ -2894,7 +2893,7 @@ class ReceiveCommits {
       for (RevCommit c; (c = walk.next()) != null; ) {
         if (++n > limit) {
           logger.atFine().log("Number of new commits exceeds limit of %d", limit);
-          addMessage(
+          addError(
               String.format(
                   "Cannot push more than %d commits to %s without %s option "
                       + "(see %sDocumentation/user-upload.html#skip_validation for details)",

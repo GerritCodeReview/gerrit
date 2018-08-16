@@ -410,7 +410,6 @@ limitations under the License.
       suite('image diffs', () => {
         let mockFile1;
         let mockFile2;
-        const stubs = [];
         setup(() => {
           mockFile1 = {
             body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
@@ -445,18 +444,18 @@ limitations under the License.
           };
           const mockComments = {baseComments: [], comments: []};
 
-          stubs.push(sandbox.stub(element.$.restAPI, 'getCommitInfo',
-              () => Promise.resolve(mockCommit)));
-          stubs.push(sandbox.stub(element.$.restAPI,
+          sandbox.stub(element.$.restAPI, 'getCommitInfo')
+              .returns(Promise.resolve(mockCommit));
+          sandbox.stub(element.$.restAPI,
               'getB64FileContents',
               (changeId, patchNum, path, opt_parentIndex) => {
                 return Promise.resolve(opt_parentIndex === 1 ? mockFile1 :
                     mockFile2);
-              }));
-          stubs.push(sandbox.stub(element.$.restAPI, '_getDiffComments',
-              () => Promise.resolve(mockComments)));
-          stubs.push(sandbox.stub(element.$.restAPI, 'getDiffDrafts',
-              () => Promise.resolve(mockComments)));
+              });
+          sandbox.stub(element.$.restAPI, '_getDiffComments')
+              .returns(Promise.resolve(mockComments));
+          sandbox.stub(element.$.restAPI, 'getDiffDrafts')
+              .returns(Promise.resolve(mockComments));
 
           element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
           element.comments = {left: [], right: []};
@@ -479,8 +478,8 @@ limitations under the License.
             content: [{skip: 66}],
             binary: true,
           };
-          stubs.push(sandbox.stub(element, '_getDiff',
-              () => Promise.resolve(mockDiff)));
+          sandbox.stub(element.$.restAPI, 'getDiff')
+              .returns(Promise.resolve(mockDiff));
 
           const rendered = () => {
             // Recognizes that it should be an image diff.
@@ -559,8 +558,8 @@ limitations under the License.
             content: [{skip: 66}],
             binary: true,
           };
-          stubs.push(sandbox.stub(element, '_getDiff',
-              () => Promise.resolve(mockDiff)));
+          sandbox.stub(element.$.restAPI, 'getDiff')
+              .returns(Promise.resolve(mockDiff));
 
           const rendered = () => {
             // Recognizes that it should be an image diff.
@@ -640,8 +639,8 @@ limitations under the License.
             content: [{skip: 66}],
             binary: true,
           };
-          stubs.push(sandbox.stub(element, '_getDiff',
-              () => Promise.resolve(mockDiff)));
+          sandbox.stub(element.$.restAPI, 'getDiff')
+              .returns(Promise.resolve(mockDiff));
 
           element.addEventListener('render', () => {
             // Recognizes that it should be an image diff.
@@ -679,8 +678,8 @@ limitations under the License.
             content: [{skip: 66}],
             binary: true,
           };
-          stubs.push(sandbox.stub(element, '_getDiff',
-              () => Promise.resolve(mockDiff)));
+          sandbox.stub(element.$.restAPI, 'getDiff')
+              .returns(Promise.resolve(mockDiff));
 
           element.addEventListener('render', () => {
             // Recognizes that it should be an image diff.
@@ -720,8 +719,8 @@ limitations under the License.
           };
           mockFile1.type = 'image/jpeg-evil';
 
-          stubs.push(sandbox.stub(element, '_getDiff',
-              () => Promise.resolve(mockDiff)));
+          sandbox.stub(element.$.restAPI, 'getDiff')
+              .returns(Promise.resolve(mockDiff));
 
           element.addEventListener('render', () => {
             // Recognizes that it should be an image diff.
@@ -791,6 +790,55 @@ limitations under the License.
         element.patchRange = {basePatchNum: 1, patchNum: 2};
         element.path = 'file.txt';
         element._getDiff().then(done);
+      });
+
+      test('_getDiff resolves as null on error', () => {
+        const onErrStub = sandbox.stub(element, '_handleGetDiffError');
+        const error = {ok: false, status: 500};
+        sandbox.stub(element.$.restAPI, 'getDiff',
+            (changeNum, basePatchNum, patchNum, path, onErr) => {
+              onErr(error);
+            });
+        return element._getDiff().then(diff => {
+          assert.isNull(diff);
+          assert.isTrue(onErrStub.calledOnce);
+        });
+      });
+
+      suite('_handleGetDiffError', () => {
+        let serverErrorStub;
+        let pageErrorStub;
+
+        setup(() => {
+          serverErrorStub = sinon.stub();
+          element.addEventListener('server-error', serverErrorStub);
+          pageErrorStub = sinon.stub();
+          element.addEventListener('page-error', pageErrorStub);
+        });
+
+        test('page error on HTTP-409', () => {
+          element._handleGetDiffError({status: 409});
+          assert.isTrue(serverErrorStub.calledOnce);
+          assert.isFalse(pageErrorStub.called);
+          assert.isFalse(element._showError);
+        });
+
+        test('server error on non-HTTP-409', () => {
+          element._handleGetDiffError({status: 500});
+          assert.isFalse(serverErrorStub.called);
+          assert.isTrue(pageErrorStub.calledOnce);
+          assert.isFalse(element._showError);
+        });
+
+        test('error message if showLoadFailure', () => {
+          element.showLoadFailure = true;
+          element._handleGetDiffError({status: 500, statusText: 'Failure!'});
+          assert.isFalse(serverErrorStub.called);
+          assert.isFalse(pageErrorStub.called);
+          assert.isTrue(element._showError);
+          assert.equal(element._errorMessage,
+              'Encountered error when loading the diff: 500 Failure!');
+        });
       });
 
       suite('getCursorStops', () => {

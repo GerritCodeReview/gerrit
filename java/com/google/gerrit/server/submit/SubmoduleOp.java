@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -228,11 +227,11 @@ public class SubmoduleOp {
   // testable using small tests.
   private ImmutableSet<Branch.NameKey> calculateSubscriptionMaps() throws SubmoduleException {
     if (!enableSuperProjectSubscriptions) {
-      logDebug("Updating superprojects disabled");
+      logger.atFine().log("Updating superprojects disabled");
       return null;
     }
 
-    logDebug("Calculating superprojects - submodules map");
+    logger.atFine().log("Calculating superprojects - submodules map");
     LinkedHashSet<Branch.NameKey> allVisited = new LinkedHashSet<>();
     for (Branch.NameKey updatedBranch : updatedBranches) {
       if (allVisited.contains(updatedBranch)) {
@@ -256,7 +255,7 @@ public class SubmoduleOp {
       LinkedHashSet<Branch.NameKey> currentVisited,
       LinkedHashSet<Branch.NameKey> allVisited)
       throws SubmoduleException {
-    logDebug("Now processing %s", current);
+    logger.atFine().log("Now processing %s", current);
 
     if (currentVisited.contains(current)) {
       throw new SubmoduleException(
@@ -318,9 +317,9 @@ public class SubmoduleOp {
   private Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src, SubscribeSection s)
       throws IOException {
     Collection<Branch.NameKey> ret = new HashSet<>();
-    logDebug("Inspecting SubscribeSection %s", s);
+    logger.atFine().log("Inspecting SubscribeSection %s", s);
     for (RefSpec r : s.getMatchingRefSpecs()) {
-      logDebug("Inspecting [matching] ref %s", r);
+      logger.atFine().log("Inspecting [matching] ref %s", r);
       if (!r.matchSource(src.get())) {
         continue;
       }
@@ -338,7 +337,7 @@ public class SubmoduleOp {
     }
 
     for (RefSpec r : s.getMultiMatchRefSpecs()) {
-      logDebug("Inspecting [all] ref %s", r);
+      logger.atFine().log("Inspecting [all] ref %s", r);
       if (!r.matchSource(src.get())) {
         continue;
       }
@@ -362,17 +361,17 @@ public class SubmoduleOp {
         }
       }
     }
-    logDebug("Returning possible branches: %s for project %s", ret, s.getProject());
+    logger.atFine().log("Returning possible branches: %s for project %s", ret, s.getProject());
     return ret;
   }
 
   private Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
       Branch.NameKey srcBranch) throws IOException {
-    logDebug("Calculating possible superprojects for %s", srcBranch);
+    logger.atFine().log("Calculating possible superprojects for %s", srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey srcProject = srcBranch.getParentKey();
     for (SubscribeSection s : projectCache.get(srcProject).getSubscribeSections(srcBranch)) {
-      logDebug("Checking subscribe section %s", s);
+      logger.atFine().log("Checking subscribe section %s", s);
       Collection<Branch.NameKey> branches = getDestinationBranches(srcBranch, s);
       for (Branch.NameKey targetBranch : branches) {
         Project.NameKey targetProject = targetBranch.getParentKey();
@@ -380,11 +379,11 @@ public class SubmoduleOp {
           OpenRepo or = orm.getRepo(targetProject);
           ObjectId id = or.repo.resolve(targetBranch.get());
           if (id == null) {
-            logDebug("The branch %s doesn't exist.", targetBranch);
+            logger.atFine().log("The branch %s doesn't exist.", targetBranch);
             continue;
           }
         } catch (NoSuchProjectException e) {
-          logDebug("The project %s doesn't exist", targetProject);
+          logger.atFine().log("The project %s doesn't exist", targetProject);
           continue;
         }
 
@@ -396,7 +395,7 @@ public class SubmoduleOp {
         ret.addAll(m.subscribedTo(srcBranch));
       }
     }
-    logDebug("Calculated superprojects for %s are %s", srcBranch, ret);
+    logger.atFine().log("Calculated superprojects for %s are %s", srcBranch, ret);
     return ret;
   }
 
@@ -419,8 +418,7 @@ public class SubmoduleOp {
           }
         }
       }
-      batchUpdateFactory.execute(
-          orm.batchUpdates(superProjects), BatchUpdateListener.NONE, orm.getSubmissionId(), false);
+      batchUpdateFactory.execute(orm.batchUpdates(superProjects), BatchUpdateListener.NONE, false);
     } catch (RestApiException | UpdateException | IOException | NoSuchProjectException e) {
       throw new SubmoduleException("Cannot update gitlinks", e);
     }
@@ -737,17 +735,5 @@ public class SubmoduleOp {
 
   void addOp(BatchUpdate bu, Branch.NameKey branch) {
     bu.addRepoOnlyOp(new GitlinkOp(branch));
-  }
-
-  private void logDebug(String msg) {
-    logger.atFine().log(orm.getSubmissionId() + " " + msg);
-  }
-
-  private void logDebug(String msg, @Nullable Object arg) {
-    logger.atFine().log(orm.getSubmissionId() + " " + msg, arg);
-  }
-
-  private void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
-    logger.atFine().log(orm.getSubmissionId() + " " + msg, arg1, arg2);
   }
 }

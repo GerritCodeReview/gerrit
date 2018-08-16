@@ -19,6 +19,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.LoggingContextAwareThreadFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -46,7 +47,10 @@ public class ProjectCacheWarmer implements LifecycleListener {
       ThreadPoolExecutor pool =
           new ScheduledThreadPoolExecutor(
               config.getInt("cache", "projects", "loadThreads", cpus),
-              new ThreadFactoryBuilder().setNameFormat("ProjectCacheLoader-%d").build());
+              new ThreadFactoryBuilder()
+                  .setThreadFactory(new LoggingContextAwareThreadFactory())
+                  .setNameFormat("ProjectCacheLoader-%d")
+                  .build());
       Thread scheduler =
           new Thread(
               () -> {

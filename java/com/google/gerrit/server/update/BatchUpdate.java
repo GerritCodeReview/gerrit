@@ -126,10 +126,7 @@ public abstract class BatchUpdate implements AutoCloseable {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void execute(
-        Collection<BatchUpdate> updates,
-        BatchUpdateListener listener,
-        @Nullable RequestId requestId,
-        boolean dryRun)
+        Collection<BatchUpdate> updates, BatchUpdateListener listener, boolean dryRun)
         throws UpdateException, RestApiException {
       checkNotNull(listener);
       checkDifferentProject(updates);
@@ -141,11 +138,11 @@ public abstract class BatchUpdate implements AutoCloseable {
       if (migration.disableChangeReviewDb()) {
         ImmutableList<NoteDbBatchUpdate> noteDbUpdates =
             (ImmutableList) ImmutableList.copyOf(updates);
-        NoteDbBatchUpdate.execute(noteDbUpdates, listener, requestId, dryRun);
+        NoteDbBatchUpdate.execute(noteDbUpdates, listener, dryRun);
       } else {
         ImmutableList<ReviewDbBatchUpdate> reviewDbUpdates =
             (ImmutableList) ImmutableList.copyOf(updates);
-        ReviewDbBatchUpdate.execute(reviewDbUpdates, listener, requestId, dryRun);
+        ReviewDbBatchUpdate.execute(reviewDbUpdates, listener, dryRun);
       }
     }
 
@@ -156,20 +153,6 @@ public abstract class BatchUpdate implements AutoCloseable {
           projectCounts.entrySet().size() == updates.size(),
           "updates must all be for different projects, got: %s",
           projectCounts);
-    }
-  }
-
-  static void setRequestIds(
-      Collection<? extends BatchUpdate> updates, @Nullable RequestId requestId) {
-    if (requestId != null) {
-      for (BatchUpdate u : updates) {
-        checkArgument(
-            u.requestId == null || u.requestId == requestId,
-            "refusing to overwrite RequestId %s in update with %s",
-            u.requestId,
-            requestId);
-        u.setRequestId(requestId);
-      }
     }
   }
 
@@ -248,7 +231,6 @@ public abstract class BatchUpdate implements AutoCloseable {
   protected BatchRefUpdate batchRefUpdate;
   protected Order order;
   protected OnSubmitValidators onSubmitValidators;
-  protected RequestId requestId;
   protected PushCertificate pushCert;
   protected String refLogMessage;
 
@@ -283,11 +265,6 @@ public abstract class BatchUpdate implements AutoCloseable {
   }
 
   protected abstract Context newContext();
-
-  public BatchUpdate setRequestId(RequestId requestId) {
-    this.requestId = requestId;
-    return this;
-  }
 
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
     checkState(this.repoView == null, "repo already set");
@@ -384,39 +361,39 @@ public abstract class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  protected void logDebug(String msg, Throwable t) {
+  protected static void logDebug(String msg, Throwable t) {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
-    if (requestId != null) {
-      logger.atFine().withCause(t).log(requestId + "%s", msg);
+    if (RequestId.isSet()) {
+      logger.atFine().withCause(t).log("%s", msg);
     }
   }
 
-  protected void logDebug(String msg) {
+  protected static void logDebug(String msg) {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
-    if (requestId != null) {
-      logger.atFine().log(requestId + msg);
+    if (RequestId.isSet()) {
+      logger.atFine().log(msg);
     }
   }
 
-  protected void logDebug(String msg, @Nullable Object arg) {
+  protected static void logDebug(String msg, @Nullable Object arg) {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
-    if (requestId != null) {
-      logger.atFine().log(requestId + msg, arg);
+    if (RequestId.isSet()) {
+      logger.atFine().log(msg, arg);
     }
   }
 
-  protected void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
+  protected static void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
-    if (requestId != null) {
-      logger.atFine().log(requestId + msg, arg1, arg2);
+    if (RequestId.isSet()) {
+      logger.atFine().log(msg, arg1, arg2);
     }
   }
 }

@@ -24,6 +24,7 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
+import com.google.gerrit.server.logging.LoggingContextAwareThreadFactory;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -165,11 +166,12 @@ public class WorkQueue {
     if (threadPriority != Thread.NORM_PRIORITY) {
       ThreadFactory parent = executor.getThreadFactory();
       executor.setThreadFactory(
-          task -> {
-            Thread t = parent.newThread(task);
-            t.setPriority(threadPriority);
-            return t;
-          });
+          new LoggingContextAwareThreadFactory(
+              task -> {
+                Thread t = parent.newThread(task);
+                t.setPriority(threadPriority);
+                return t;
+              }));
     }
 
     return executor;
@@ -251,18 +253,19 @@ public class WorkQueue {
     Executor(int corePoolSize, final String queueName) {
       super(
           corePoolSize,
-          new ThreadFactory() {
-            private final ThreadFactory parent = Executors.defaultThreadFactory();
-            private final AtomicInteger tid = new AtomicInteger(1);
+          new LoggingContextAwareThreadFactory(
+              new ThreadFactory() {
+                private final ThreadFactory parent = Executors.defaultThreadFactory();
+                private final AtomicInteger tid = new AtomicInteger(1);
 
-            @Override
-            public Thread newThread(Runnable task) {
-              final Thread t = parent.newThread(task);
-              t.setName(queueName + "-" + tid.getAndIncrement());
-              t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
-              return t;
-            }
-          });
+                @Override
+                public Thread newThread(Runnable task) {
+                  final Thread t = parent.newThread(task);
+                  t.setName(queueName + "-" + tid.getAndIncrement());
+                  t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
+                  return t;
+                }
+              }));
 
       all =
           new ConcurrentHashMap<>( //

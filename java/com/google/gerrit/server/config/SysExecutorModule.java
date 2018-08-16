@@ -19,6 +19,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.logging.LoggingContextAwareThreadFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -89,7 +90,11 @@ public class SysExecutorModule extends AbstractModule {
                 10,
                 TimeUnit.MINUTES,
                 new ArrayBlockingQueue<Runnable>(poolSize),
-                new ThreadFactoryBuilder().setNameFormat("ChangeUpdate-%d").setDaemon(true).build(),
+                new ThreadFactoryBuilder()
+                    .setThreadFactory(new LoggingContextAwareThreadFactory())
+                    .setNameFormat("ChangeUpdate-%d")
+                    .setDaemon(true)
+                    .build(),
                 new ThreadPoolExecutor.CallerRunsPolicy())));
   }
 }

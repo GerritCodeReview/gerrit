@@ -62,38 +62,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitOnPushWithTag() throws Exception {
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
-    grant(project, "refs/tags/*", Permission.CREATE);
-    grant(project, "refs/tags/*", Permission.PUSH);
-    PushOneCommit.Tag tag = new PushOneCommit.Tag("v1.0");
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    push.setTag(tag);
-    PushOneCommit.Result r = push.to("refs/for/master%submit");
-    r.assertOkStatus();
-    r.assertChange(Change.Status.MERGED, null, admin);
-    assertSubmitApproval(r.getPatchSetId());
-    assertCommit(project, "refs/heads/master");
-    assertTag(project, "refs/heads/master", tag);
-  }
-
-  @Test
-  public void submitOnPushWithAnnotatedTag() throws Exception {
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
-    grant(project, "refs/tags/*", Permission.PUSH);
-    PushOneCommit.AnnotatedTag tag =
-        new PushOneCommit.AnnotatedTag("v1.0", "annotation", admin.getIdent());
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    push.setTag(tag);
-    PushOneCommit.Result r = push.to("refs/for/master%submit");
-    r.assertOkStatus();
-    r.assertChange(Change.Status.MERGED, null, admin);
-    assertSubmitApproval(r.getPatchSetId());
-    assertCommit(project, "refs/heads/master");
-    assertTag(project, "refs/heads/master", tag);
-  }
-
-  @Test
   public void submitOnPushToRefsMetaConfig() throws Exception {
     grant(project, "refs/for/refs/meta/config", Permission.SUBMIT);
 

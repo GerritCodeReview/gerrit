@@ -63,7 +63,7 @@ One-time setup:
 
 1. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_gerrit_development_war_file)
 2. Set up a local test site. Docs
-   [here](https://gerrit-review.googlesource.com/Documentation/install-quick.html) and
+   [here](https://gerrit-review.googlesource.com/Documentation/linux-quickstart.html) and
    [here](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init).
 
 When your project is set up and works using the classic UI, run a test server

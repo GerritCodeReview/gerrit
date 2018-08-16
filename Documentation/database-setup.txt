@@ -16,7 +16,8 @@ corporate installations. This is because there is no easy way to interact
 with the database while Gerrit is offline, it's not easy to backup the data,
 and it's not possible to set up H2 in a load balanced/hotswap configuration.
 
-If this option interests you, you might want to consider link:install-quick.html[the quick guide].
+If this option interests you, you might want to consider
+link:linux-quickstart.html[the quick guide].
 
 [[createdb_derby]]
 === Apache Derby

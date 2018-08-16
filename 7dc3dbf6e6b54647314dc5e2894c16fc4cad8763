@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "26f9f5ce_1f272b25",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-16T14:01:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0cee8bce_2ef90671",
+      "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db129ff1_8b1f3b12",
         "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
         "patchSetId": 16
@@ -107,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "898805a5_0a8572b8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-16T14:01:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4aa6d35a_ea119261",
+      "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24c80227_6eaa38b9",
         "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
         "patchSetId": 16
@@ -142,6 +178,30 @@
       "side": 1,
       "message": "it\u0027s strange to me that we have something that is a permission (SKIP_VALIDATION), but is actually given out as a conjunction of 4 other permissions.",
       "parentUuid": "24c80227_6eaa38b9",
+      "range": {
+        "startLine": 273,
+        "startChar": 8,
+        "endLine": 275,
+        "endChar": 59
+      },
+      "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e56a032_7ac2d57f",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-16T14:01:03Z",
+      "side": 1,
+      "message": "My answer is some combination of \"welcome to Gerrit\" and this is due to the PermissionBackend refactoring.\n\nThe fact that these are called \"permissions\" is because the PermissionBackend refactoring replaced a bunch of methods named RefPermission#canFoo() with a bunch of objects called RefPermission.FOO.\n\nBut the implementation of canFoo() was in the vast majority of cases more complicated than just checking for the existing Gerrit permission called \"Foo\". Just search for [boolean can] in:\nhttps://gerrit.googlesource.com/gerrit/+/3f849afecdf6362cee0d6972472be178194f4cee/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java\n\nSo I guess what I\u0027m saying here is: the advice field in PermissionDeniedException is primarily for explaining how to deal with Gerrit\u0027s complicated legacy permission system. If you design a new PermissionBackend from scratch, *hopefully* you don\u0027t have to use it. But I think we still need it.",
+      "parentUuid": "da54f4d3_d339db3d",
       "range": {
         "startLine": 273,
         "startChar": 8,

@@ -89,6 +89,24 @@
       "revId": "a7226dc4a0a2b3c195a9d7df935896081f96e116",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61f6d9c1_6ea0c9a8",
+        "filename": "java/com/google/gerrit/server/submit/FastForwardOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-08-16T00:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fc33c79_37213359",
+      "revId": "a7226dc4a0a2b3c195a9d7df935896081f96e116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

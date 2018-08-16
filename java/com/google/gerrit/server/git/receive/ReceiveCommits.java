@@ -655,39 +655,7 @@ class ReceiveCommits {
         receivePack.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
       }
 
-      Set<Branch.NameKey> branches = new HashSet<>();
-      for (ReceiveCommand c : actualCommands) {
-        // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
-        // should happen in this loop are things that can't happen within one BatchUpdate because
-        // they involve kicking off an additional BatchUpdate.
-        if (c.getResult() != OK) {
-          continue;
-        }
-        if (isHead(c) || isConfig(c)) {
-          switch (c.getType()) {
-            case CREATE:
-            case UPDATE:
-            case UPDATE_NONFASTFORWARD:
-              autoCloseChanges(c);
-              branches.add(new Branch.NameKey(project.getNameKey(), c.getRefName()));
-              break;
-
-            case DELETE:
-              break;
-          }
-        }
-      }
-
-      // Update superproject gitlinks if required.
-      if (!branches.isEmpty()) {
-        try (MergeOpRepoManager orm = ormProvider.get()) {
-          orm.setContext(db, TimeUtil.nowTs(), user);
-          SubmoduleOp op = subOpFactory.create(branches, orm);
-          op.updateSuperProjects();
-        } catch (SubmoduleException e) {
-          logger.atSevere().withCause(e).log("Can't update the superprojects");
-        }
-      }
+      updateBranches();
 
       // Update account info with details discovered during commit walking.
       updateAccountInfo();
@@ -696,6 +664,42 @@ class ReceiveCommits {
       commandProgress.end();
       progress.end();
       reportMessages(newChanges);
+    }
+  }
+
+  private void updateBranches() {
+    Set<Branch.NameKey> branches = new HashSet<>();
+    for (ReceiveCommand c : actualCommands) {
+      // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
+      // should happen in this loop are things that can't happen within one BatchUpdate because
+      // they involve kicking off an additional BatchUpdate.
+      if (c.getResult() != OK) {
+        continue;
+      }
+      if (isHead(c) || isConfig(c)) {
+        switch (c.getType()) {
+          case CREATE:
+          case UPDATE:
+          case UPDATE_NONFASTFORWARD:
+            autoCloseChanges(c);
+            branches.add(new Branch.NameKey(project.getNameKey(), c.getRefName()));
+            break;
+
+          case DELETE:
+            break;
+        }
+      }
+    }
+
+    // Update superproject gitlinks if required.
+    if (!branches.isEmpty()) {
+      try (MergeOpRepoManager orm = ormProvider.get()) {
+        orm.setContext(db, TimeUtil.nowTs(), user);
+        SubmoduleOp op = subOpFactory.create(branches, orm);
+        op.updateSuperProjects();
+      } catch (SubmoduleException e) {
+        logger.atSevere().withCause(e).log("Can't update the superprojects");
+      }
     }
   }
 

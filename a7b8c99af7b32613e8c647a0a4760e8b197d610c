@@ -88,6 +88,24 @@
       "revId": "a7b8c99af7b32613e8c647a0a4760e8b197d610c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9c38c68_2e5d5058",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-16T13:53:00Z",
+      "side": 1,
+      "message": "I\u0027m reversing the order of the changes, so that this can be submitting without waiting for the new Flogger release on Maven Central.\n\nThe new order will be:\n\n  this change \u003c- \"[WIP] Support force logging for single REST requests\" \u003c- \"Add documentation for request tracing\"\n\nI want to expose the documentation only when force logging for traces is working. So the documentation diffs go into \"Add documentation for request tracing\" which is a successor change now.",
+      "parentUuid": "ef29862c_f22039dd",
+      "revId": "a7b8c99af7b32613e8c647a0a4760e8b197d610c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

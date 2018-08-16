@@ -421,7 +421,6 @@ branches, consider adding a custom remote block to your project's
   $ git push exp
 ----
 
-
 [[push_replace]]
 === Replace Changes
 

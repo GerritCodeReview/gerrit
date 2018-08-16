@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.common.testing;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
@@ -80,5 +81,11 @@ public class ContentEntrySubject extends Subject<ContentEntrySubject, ContentEnt
     isNotNull();
     ContentEntry contentEntry = actual();
     return Truth.assertThat(contentEntry.editB).named("intraline edits of 'b'");
+  }
+
+  public IntegerSubject numberOfSkippedLines() {
+    isNotNull();
+    ContentEntry contentEntry = actual();
+    return Truth.assertThat(contentEntry.skip).named("number of skipped lines");
   }
 }

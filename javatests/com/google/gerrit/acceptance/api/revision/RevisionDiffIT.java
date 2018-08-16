@@ -32,6 +32,9 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
@@ -2341,6 +2344,126 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         gApi.changes().id(changeId).current().files(previousPatchSetId);
     assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(2);
     assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(2);
+  }
+
+  @Test
+  public void diffOfUnmodifiedFileWithWholeFileContextReturnsFileContents() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(
+        changeId, FILE_NAME2, content -> content.replace("2nd line\n", "Second line\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
+            .get();
+    // We don't list the full file contents here as that is not the focus of this test.
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .commonLines()
+        .containsAllOf("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
+        .inOrder();
+  }
+
+  @Test
+  public void diffOfUnmodifiedFileWithCommentAndWholeFileContextReturnsFileContents()
+      throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(comment));
+    gApi.changes().id(changeId).revision(previousPatchSetId).review(reviewInput);
+    addModifiedPatchSet(
+        changeId, FILE_NAME2, content -> content.replace("2nd line\n", "Second line\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
+            .get();
+    // We don't list the full file contents here as that is not the focus of this test.
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .commonLines()
+        .containsAllOf("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
+        .inOrder();
+  }
+
+  @Test
+  public void diffOfNonExistentFileIsAnEmptyDiffResult() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, "a_non-existent_file.txt")
+            .withBase(initialPatchSetId)
+            .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
+            .get();
+    assertThat(diffInfo).content().isEmpty();
+  }
+
+  @Test
+  public void requestingDiffForOldFileNameOfRenamedFileYieldsReasonableResult() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    String newFilePath = "a_new_file.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath);
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
+            .get();
+    // This behavior has been present in Gerrit for quite some time. It differs from the results
+    // returned for other cases (e.g. requesting the diff with whole file context for an unmodified
+    // file; requesting the diff with whole file context for a non-existent file). However, it's not
+    // completely clear what should be returned. The closest would be the result of a file deletion
+    // but that might also be misleading for users as actually a file rename occurred. In fact,
+    // requesting the diff result for the old file name of a renamed file is not a reasonable use
+    // case at all. We at least guarantee that we don't run into an internal error.
+    assertThat(diffInfo).content().element(0).commonLines().isNull();
+    assertThat(diffInfo).content().element(0).numberOfSkippedLines().isGreaterThan(0);
+  }
+
+  @Test
+  public void requestingDiffForOldFileNameOfRenamedFileWithCommentOnOldFileYieldsReasonableResult()
+      throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(comment));
+    gApi.changes().id(changeId).revision(previousPatchSetId).review(reviewInput);
+    String newFilePath = "a_new_file.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath);
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
+            .get();
+    // See comment for requestingDiffForOldFileNameOfRenamedFileYieldsReasonableResult().
+    // This test should additionally ensure that we also don't run into an internal error when
+    // a comment is present.
+    assertThat(diffInfo).content().element(0).commonLines().isNull();
+    assertThat(diffInfo).content().element(0).numberOfSkippedLines().isGreaterThan(0);
+  }
+
+  private static CommentInput createCommentInput(
+      int startLine, int startCharacter, int endLine, int endCharacter, String message) {
+    CommentInput comment = new CommentInput();
+    comment.range = new Comment.Range();
+    comment.range.startLine = startLine;
+    comment.range.startCharacter = startCharacter;
+    comment.range.endLine = endLine;
+    comment.range.endCharacter = endCharacter;
+    comment.message = message;
+    return comment;
   }
 
   private void assertDiffForNewFile(

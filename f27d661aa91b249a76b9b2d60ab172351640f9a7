@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a04cc9d2_93fb6598",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-16T21:01:14Z",
+      "side": 1,
+      "message": "Is this an accurate description for when you mix refs/for/* and refs/changes/*?\n\nI guess I can\u0027t really come up with anything better, and that seems extremely rare.",
+      "range": {
+        "startLine": 606,
+        "startChar": 67,
+        "endLine": 606,
+        "endChar": 97
+      },
+      "revId": "f27d661aa91b249a76b9b2d60ab172351640f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abc47664_1d585cec",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-16T21:01:14Z",
+      "side": 1,
+      "message": "Test for refs/changes/*?",
+      "revId": "f27d661aa91b249a76b9b2d60ab172351640f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

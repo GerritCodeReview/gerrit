@@ -603,6 +603,20 @@ class ReceiveCommits {
           parseDirectChangesPush(cmd);
         }
 
+        int commandTypes =
+            (magicCommands.isEmpty() ? 0 : 1)
+                + (directPatchSetPushCommands.isEmpty() ? 0 : 1)
+                + (regularCommands.isEmpty() ? 0 : 1);
+
+        if (commandTypes > 1) {
+          for (ReceiveCommand cmd : commands) {
+            if (cmd.getResult() == NOT_ATTEMPTED) {
+              cmd.setResult(REJECTED_OTHER_REASON, "cannot combine normal pushes and magic pushes");
+            }
+          }
+          return;
+        }
+
         // Process the magicCommand last, so magicBranch settings can't interact with regular
         // commands.
         boolean first = true;

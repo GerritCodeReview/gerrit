@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0cee8bce_2ef90671",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-16T11:56:46Z",
+      "side": 1,
+      "message": "this is because of a generic prefix that I ended stripping in another CL.",
+      "parentUuid": "2ba351a5_bacc3f2e",
+      "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db129ff1_8b1f3b12",
         "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
         "patchSetId": 16
@@ -33,6 +51,24 @@
       "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbda1151_4c387aee",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-16T11:56:46Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "db129ff1_8b1f3b12",
+      "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

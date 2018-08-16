@@ -11,7 +11,6 @@ TEST_DEPS = [
     "//gerrit-gwtui:ui_tests",
     "//javatests/com/google/gerrit/elasticsearch:elasticsearch_test_utils",
     "//javatests/com/google/gerrit/server:server_tests",
-    "//proto:reviewdb_java_proto",
 ]
 
 DEPS = [
@@ -33,8 +32,7 @@ DEPS = [
     "//lib/gwt:w3c-css-sac",
     "//lib/jetty:servlets",
     "//lib/prolog:compiler-lib",
-    # TODO(davido): I do not understand why it must be on the Eclipse classpath
-    #'//Documentation:index',
+    "//proto:reviewdb_java_proto",
 ]
 
 java_library(

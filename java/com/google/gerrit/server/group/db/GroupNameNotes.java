@@ -25,6 +25,7 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
@@ -87,6 +88,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * </ul>
  */
 public class GroupNameNotes extends VersionedMetaData {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String SECTION_NAME = "group";
   private static final String UUID_PARAM = "uuid";
   private static final String NAME_PARAM = "name";
@@ -323,6 +326,8 @@ public class GroupNameNotes extends VersionedMetaData {
   protected void onLoad() throws IOException, ConfigInvalidException {
     nameConflicting = false;
 
+    logger.atFine().log("Reading group notes");
+
     if (revision != null) {
       NoteMap noteMap = NoteMap.read(reader, revision);
       if (newGroupName.isPresent()) {
@@ -364,6 +369,8 @@ public class GroupNameNotes extends VersionedMetaData {
     if (!oldGroupName.isPresent() && !newGroupName.isPresent()) {
       return false;
     }
+
+    logger.atFine().log("Updating group notes");
 
     NoteMap noteMap = revision == null ? NoteMap.newEmptyMap() : NoteMap.read(reader, revision);
     if (oldGroupName.isPresent()) {

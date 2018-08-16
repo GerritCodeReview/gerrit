@@ -615,6 +615,8 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
+    logger.atFine().log("Reading external IDs");
+
     noteMap = revision != null ? NoteMap.read(reader, revision) : NoteMap.newEmptyMap();
 
     if (afterReadRevision != null) {
@@ -700,6 +702,8 @@ public class ExternalIdNotes extends VersionedMetaData {
     if (noteMapUpdates.isEmpty()) {
       return false;
     }
+
+    logger.atFine().log("Updating external IDs");
 
     if (Strings.isNullOrEmpty(commit.getMessage())) {
       commit.setMessage("Update external IDs\n");

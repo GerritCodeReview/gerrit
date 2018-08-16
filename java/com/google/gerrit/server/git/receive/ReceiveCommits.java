@@ -40,6 +40,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
@@ -651,7 +652,7 @@ class ReceiveCommits {
       if (!errors.isEmpty()) {
         logger.atFine().log("Handling error conditions: %s", errors.keySet());
         for (String error : errors.keySet()) {
-          receivePack.sendMessage(buildError(error, errors.get(error)));
+          receivePack.sendMessage("error: " + buildError(error, errors.get(error)));
         }
         receivePack.sendMessage(String.format("User: %s", user.getLoggableName()));
         receivePack.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
@@ -839,7 +840,7 @@ class ReceiveCommits {
       }
 
     } catch (ResourceConflictException e) {
-      addMessage(e.getMessage());
+      addError(e.getMessage());
       reject(magicBranchCmd, "conflict");
     } catch (RestApiException | IOException err) {
       logger.atSevere().withCause(err).log(
@@ -851,7 +852,7 @@ class ReceiveCommits {
       try {
         submit(newChanges, replaceByChange.values());
       } catch (ResourceConflictException e) {
-        addMessage(e.getMessage());
+        addError(e.getMessage());
         reject(magicBranchCmd, "conflict");
       } catch (RestApiException
           | OrmException
@@ -868,16 +869,11 @@ class ReceiveCommits {
   private String buildError(String error, List<String> branches) {
     StringBuilder sb = new StringBuilder();
     if (branches.size() == 1) {
-      sb.append("Branch ").append(branches.get(0)).append(":\n");
+      sb.append("branch ").append(branches.get(0)).append(":\n");
       sb.append(error);
       return sb.toString();
     }
-    sb.append("Branches");
-    String delim = " ";
-    for (String branch : branches) {
-      sb.append(delim).append(branch);
-      delim = ", ";
-    }
+    sb.append("branches ").append(Joiner.on(", ").join(branches));
     return sb.append(":\n").append(error).toString();
   }
 
@@ -2563,12 +2559,11 @@ class ReceiveCommits {
         if (messageEq && parentsEq && authorEq && !autoClose) {
           addMessage(
               String.format(
-                  "(W) No changes between prior commit %s and new commit %s",
+                  "warning: no changes between prior commit %s and new commit %s",
                   reader.abbreviate(priorCommit).name(), reader.abbreviate(newCommit).name()));
         } else {
           StringBuilder msg = new StringBuilder();
-          msg.append("(I) ");
-          msg.append(reader.abbreviate(newCommit).name());
+          msg.append("warning: ").append(reader.abbreviate(newCommit).name());
           msg.append(":");
           msg.append(" no files changed");
           if (!authorEq) {

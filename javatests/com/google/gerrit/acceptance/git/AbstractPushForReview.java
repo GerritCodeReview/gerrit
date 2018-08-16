@@ -2101,11 +2101,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 .push()
                 .setRefSpecs(
                     new RefSpec(noteDbCommit.name() + ":" + ref),
-                    new RefSpec(changeCommit.name() + ":refs/for/master"))
+                    new RefSpec(changeCommit.name() + ":refs/heads/permitted"))
                 .call());
 
     assertPushRejected(pr, ref, "NoteDb update requires -o notedb=allow");
-    assertPushOk(pr, "refs/for/master");
+    assertPushOk(pr, "refs/heads/permitted");
   }
 
   private DraftInput newDraft(String path, int line, String message) {

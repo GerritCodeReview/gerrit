@@ -22,6 +22,30 @@
       "revId": "eb04344f67161726291f1c0c124d2cea0e8b5c76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "630321e2_1cd438d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-16T16:41:17Z",
+      "side": 1,
+      "message": "That could be, but that would be solving a different problem than this is. If you want my opinion on the UX of the error message, then I think the current diff view error is better. While this does add a new property, the scope is very limited and it doesn\u0027t really add much complexity.\n\nEither way, this makes it easy to switch the behavior if we ever choose to, and it\u0027s also easy to drop the config if we want it to be default.",
+      "parentUuid": "7abd5aad_d41dc697",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 63
+      },
+      "revId": "eb04344f67161726291f1c0c124d2cea0e8b5c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

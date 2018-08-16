@@ -109,7 +109,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .isRejected("prohibited by Gerrit: not permitted: update");
     assertThat(r)
         .hasMessages(
-            "Branch refs/heads/master:",
+            "error: branch refs/heads/master:",
             "To push into this reference you need 'Push' rights.",
             "User: admin",
             "Contact an administrator to fix the permissions");
@@ -134,7 +134,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .isRejected("prohibited by Gerrit: not permitted: delete");
     assertThat(r)
         .hasMessages(
-            "Branch refs/heads/master:",
+            "error: branch refs/heads/master:",
             "You need 'Delete Reference' rights or 'Push' rights with the ",
             "'Force Push' flag set to delete references.",
             "User: admin",
@@ -170,10 +170,10 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .isRejected("prohibited by Gerrit: not permitted: update");
     assertThat(r)
         .hasMessages(
-            "Branches refs/heads/foo, refs/heads/bar:",
+            "error: branches refs/heads/foo, refs/heads/bar:",
             "You need 'Delete Reference' rights or 'Push' rights with the ",
             "'Force Push' flag set to delete references.",
-            "Branch refs/heads/master:",
+            "error: branch refs/heads/master:",
             "To push into this reference you need 'Push' rights.",
             "User: admin",
             "Contact an administrator to fix the permissions");
@@ -211,7 +211,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .isRejected("prohibited by Gerrit: not permitted: update");
     assertThat(r)
         .hasMessages(
-            "Branch refs/meta/config:",
+            "error: branch refs/meta/config:",
             "Configuration changes can only be pushed by project owners",
             "who also have 'Push' rights on refs/meta/config",
             "User: admin",
@@ -237,7 +237,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .isRejected("prohibited by Gerrit: not permitted: create change on refs/heads/master");
     assertThat(r)
         .containsMessages(
-            "Branch refs/for/master:",
+            "error: branch refs/for/master:",
             "You need 'Create Change' rights to upload code review requests.",
             "Verify that you are pushing to the right branch.");
     assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));

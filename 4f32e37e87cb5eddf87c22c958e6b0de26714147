@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad11edaa_276fa8e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-08-16T22:59:13Z",
+      "side": 1,
+      "message": "Bug: Issue 4495\n\nsince this will fix that bug.",
+      "revId": "4f32e37e87cb5eddf87c22c958e6b0de26714147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "9751fdec7baea609f0beae69e5d4a0ee471d38da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7ee3595_d8b50090",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-16T18:46:42Z",
+      "side": 1,
+      "message": "Aha! That makes it clear. Thanks!",
+      "parentUuid": "7e32189e_6345cb73",
+      "revId": "9751fdec7baea609f0beae69e5d4a0ee471d38da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

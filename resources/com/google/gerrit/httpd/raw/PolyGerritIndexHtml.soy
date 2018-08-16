@@ -19,7 +19,8 @@
 /**
  * @param canonicalPath
  * @param staticResourcePath
- * @param? assetsUrl
+ * @param? assetsPath {string} URL to static assets root, if served from CDN.
+ * @param? assetsBundle {string} Assets bundle .html file, served from $assetsPath.
  * @param? faviconPath
  * @param? versionInfo
  * @param? deprecateGwtUi
@@ -37,6 +38,7 @@
     {if $deprecateGwtUi}window.DEPRECATE_GWT_UI = true;{/if}
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
     {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
+    {if $assetsPath != ''}window.ASSETS_PATH = '{$assetsPath}';{/if}
   </script>{\n}
 
   {if $faviconPath}
@@ -62,8 +64,8 @@
   // CC them on any changes that load content before gr-app.html.
   //
   // github.com/Polymer/polymer-resin/blob/master/getting-started.md#integrating
-  {if $assetsUrl}
-    <link rel="import" href="{$assetsUrl}">{\n}
+  {if $assetsPath and $assetsBundle}
+    <link rel="import" href="{$assetsPath + $assetsBundle}">{\n}
   {/if}
 
   <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}

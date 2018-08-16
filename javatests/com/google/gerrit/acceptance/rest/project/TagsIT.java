@@ -254,7 +254,7 @@ public class TagsIT extends AbstractDaemonTest {
     TagInput input = new TagInput();
     input.ref = "test";
     exception.expect(AuthException.class);
-    exception.expectMessage("create not permitted");
+    exception.expectMessage("not permitted: create");
     tag(input.ref).create(input);
   }
 

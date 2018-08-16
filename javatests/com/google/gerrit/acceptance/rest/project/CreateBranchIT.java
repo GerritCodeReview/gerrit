@@ -61,7 +61,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   @Test
   public void createBranch_Forbidden() throws Exception {
     setApiUser(user);
-    assertCreateFails(testBranch, AuthException.class, "create not permitted for refs/heads/test");
+    assertCreateFails(testBranch, AuthException.class, "not permitted: create on refs/heads/test");
   }
 
   @Test
@@ -85,7 +85,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   @Test
   public void createBranchByAdminCreateReferenceBlocked_Forbidden() throws Exception {
     blockCreateReference();
-    assertCreateFails(testBranch, AuthException.class, "create not permitted for refs/heads/test");
+    assertCreateFails(testBranch, AuthException.class, "not permitted: create on refs/heads/test");
   }
 
   @Test
@@ -93,7 +93,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     grantOwner();
     blockCreateReference();
     setApiUser(user);
-    assertCreateFails(testBranch, AuthException.class, "create not permitted for refs/heads/test");
+    assertCreateFails(testBranch, AuthException.class, "not permitted: create on refs/heads/test");
   }
 
   @Test

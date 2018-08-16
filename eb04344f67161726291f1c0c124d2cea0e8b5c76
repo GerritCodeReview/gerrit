@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7abd5aad_d41dc697",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-16T16:19:19Z",
+      "side": 1,
+      "message": "I\u0027m wondering -- would it be useful to have this new behavior even in the diff view? A less catastrophic failure (page redirect) would allow users to nail down error repro steps better, and not having to support multiple properties on the diff would simplify our codebase.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 63
+      },
+      "revId": "eb04344f67161726291f1c0c124d2cea0e8b5c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

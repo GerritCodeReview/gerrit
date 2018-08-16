@@ -71,6 +71,23 @@
       "revId": "a7b8c99af7b32613e8c647a0a4760e8b197d610c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef29862c_f22039dd",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-16T13:49:08Z",
+      "side": 1,
+      "message": "What happened to these docs changes in the latest PS?",
+      "revId": "a7b8c99af7b32613e8c647a0a4760e8b197d610c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

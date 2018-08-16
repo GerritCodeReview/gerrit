@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
@@ -386,15 +387,6 @@ class ReceiveCommits {
 
   private final Set<ValidCommitKey> validCommits;
 
-  /**
-   * Actual commands to be executed, as opposed to the mix of actual and magic commands that were
-   * provided over the wire.
-   *
-   * <p>Excludes commands executed implicitly as part of other {@link BatchUpdateOp}s, such as
-   * creating patch set refs.
-   */
-  private final List<ReceiveCommand> actualCommands;
-
   // Collections lazily populated during processing.
   private ListMultimap<Change.Id, Ref> refsByChange;
   private ListMultimap<ObjectId, Ref> refsById;
@@ -512,7 +504,6 @@ class ReceiveCommits {
     rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
 
     // Collections populated during processing.
-    actualCommands = new ArrayList<>();
     errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();
     messages = new ArrayList<>();
     pushOptions = LinkedListMultimap.create();
@@ -561,6 +552,17 @@ class ReceiveCommits {
   }
 
   void processCommands(Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
+    processCommandsUnsafe(commands, progress);
+    for (ReceiveCommand cmd : commands) {
+      if (cmd.getResult() == NOT_ATTEMPTED) {
+        cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
+      }
+    }
+  }
+
+  // Process as many commands as possible, but may leave some commands in state NOT_ATTEMPTED.
+  private void processCommandsUnsafe(
+      Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
     newProgress = progress.beginSubTask("new", UNKNOWN);
     replaceProgress = progress.beginSubTask("updated", UNKNOWN);
     closeProgress = progress.beginSubTask("closed", UNKNOWN);
@@ -613,8 +615,8 @@ class ReceiveCommits {
           return;
         }
 
-        for (ReceiveCommand cmd : regularCommands) {
-          parseRegularCommand(cmd);
+        if (!regularCommands.isEmpty()) {
+          handleRegularCommands(regularCommands);
         }
 
         for (ReceiveCommand cmd : directPatchSetPushCommands) {
@@ -631,12 +633,7 @@ class ReceiveCommits {
           }
         }
       } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
-        for (ReceiveCommand cmd : actualCommands) {
-          if (cmd.getResult() == NOT_ATTEMPTED) {
-            cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
-          }
-          logger.atSevere().withCause(err).log("Failed to process refs in %s", project.getName());
-        }
+        logger.atSevere().withCause(err).log("Failed to process refs in %s", project.getName());
         return;
       }
 
@@ -658,40 +655,6 @@ class ReceiveCommits {
         receivePack.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
       }
 
-      Set<Branch.NameKey> branches = new HashSet<>();
-      for (ReceiveCommand c : actualCommands) {
-        // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
-        // should happen in this loop are things that can't happen within one BatchUpdate because
-        // they involve kicking off an additional BatchUpdate.
-        if (c.getResult() != OK) {
-          continue;
-        }
-        if (isHead(c) || isConfig(c)) {
-          switch (c.getType()) {
-            case CREATE:
-            case UPDATE:
-            case UPDATE_NONFASTFORWARD:
-              autoCloseChanges(c);
-              branches.add(new Branch.NameKey(project.getNameKey(), c.getRefName()));
-              break;
-
-            case DELETE:
-              break;
-          }
-        }
-      }
-
-      // Update superproject gitlinks if required.
-      if (!branches.isEmpty()) {
-        try (MergeOpRepoManager orm = ormProvider.get()) {
-          orm.setContext(db, TimeUtil.nowTs(), user);
-          SubmoduleOp op = subOpFactory.create(branches, orm);
-          op.updateSuperProjects();
-        } catch (SubmoduleException e) {
-          logger.atSevere().withCause(e).log("Can't update the superprojects");
-        }
-      }
-
       // Update account info with details discovered during commit walking.
       updateAccountInfo();
 
@@ -699,6 +662,75 @@ class ReceiveCommits {
       commandProgress.end();
       progress.end();
       reportMessages(newChanges);
+    }
+  }
+
+  private void handleRegularCommands(List<ReceiveCommand> cmds)
+      throws PermissionBackendException, IOException, NoSuchProjectException {
+    cmds = cmds.stream().map(this::resolveMagicRefs).collect(toList());
+    for (ReceiveCommand cmd : cmds) {
+      parseRegularCommand(cmd);
+    }
+
+    try (BatchUpdate bu =
+            batchUpdateFactory.create(
+                db, project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
+        ObjectInserter ins = repo.newObjectInserter();
+        ObjectReader reader = ins.newReader();
+        RevWalk rw = new RevWalk(reader)) {
+      bu.setRepository(repo, rw, ins).updateChangesInParallel();
+      bu.setRefLogMessage("push");
+
+      int added = 0;
+      for (ReceiveCommand cmd : cmds) {
+        if (cmd.getResult() == NOT_ATTEMPTED) {
+          bu.addRepoOnlyOp(new UpdateOneRefOp(cmd));
+          added++;
+        }
+      }
+      logger.atFine().log("Added %d additional ref updates", added);
+      bu.execute();
+    } catch (UpdateException | RestApiException e) {
+      for (ReceiveCommand cmd : cmds) {
+        if (cmd.getResult() == NOT_ATTEMPTED) {
+          cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
+        }
+      }
+      logger.atFine().withCause(e).log("update failed:");
+    }
+
+    Set<Branch.NameKey> branches = new HashSet<>();
+    for (ReceiveCommand c : cmds) {
+      // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
+      // should happen in this loop are things that can't happen within one BatchUpdate because
+      // they involve kicking off an additional BatchUpdate.
+      if (c.getResult() != OK) {
+        continue;
+      }
+      if (isHead(c) || isConfig(c)) {
+        switch (c.getType()) {
+          case CREATE:
+          case UPDATE:
+          case UPDATE_NONFASTFORWARD:
+            autoCloseChanges(c);
+            branches.add(new Branch.NameKey(project.getNameKey(), c.getRefName()));
+            break;
+
+          case DELETE:
+            break;
+        }
+      }
+    }
+
+    // Update superproject gitlinks if required.
+    if (!branches.isEmpty()) {
+      try (MergeOpRepoManager orm = ormProvider.get()) {
+        orm.setContext(db, TimeUtil.nowTs(), user);
+        SubmoduleOp op = subOpFactory.create(branches, orm);
+        op.updateSuperProjects();
+      } catch (SubmoduleException e) {
+        logger.atSevere().withCause(e).log("Can't update the superprojects");
+      }
     }
   }
 
@@ -814,9 +846,6 @@ class ReceiveCommits {
       logger.atFine().log("Adding %d group update requests", newChanges.size());
       updateGroups.forEach(r -> r.addOps(bu));
 
-      logger.atFine().log("Adding %d additional ref updates", actualCommands.size());
-      actualCommands.forEach(c -> bu.addRepoOnlyOp(new UpdateOneRefOp(c)));
-
       logger.atFine().log("Executing batch");
       try {
         bu.execute();
@@ -920,21 +949,36 @@ class ReceiveCommits {
 
   private void parseDirectChangesPush(ReceiveCommand cmd) {
     Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
-    if (m.matches()) {
-      if (allowPushToRefsChanges) {
-        // The referenced change must exist and must still be open.
-        //
-        Change.Id changeId = Change.Id.parse(m.group(1));
-        parseReplaceCommand(cmd, changeId);
-      } else {
-        reject(cmd, "upload to refs/changes not allowed");
-      }
-      return;
+    checkArgument(m.matches());
+
+    if (allowPushToRefsChanges) {
+      // The referenced change must exist and must still be open.
+      Change.Id changeId = Change.Id.parse(m.group(1));
+      parseReplaceCommand(cmd, changeId);
+    } else {
+      reject(cmd, "upload to refs/changes not allowed");
     }
   }
 
+  private ReceiveCommand resolveMagicRefs(ReceiveCommand cmd) {
+    if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
+      String newName = RefNames.refsUsers(user.getAccountId());
+      logger.atFine().log("Swapping out command for %s to %s", RefNames.REFS_USERS_SELF, newName);
+      final ReceiveCommand orgCmd = cmd;
+      return new ReceiveCommand(cmd.getOldId(), cmd.getNewId(), newName, cmd.getType()) {
+        @Override
+        public void setResult(Result s, String m) {
+          super.setResult(s, m);
+          orgCmd.setResult(s, m);
+        }
+      };
+    }
+
+    return cmd;
+  }
+
   /*
-   * Interpret a normal push, and optionally add a corresponding command to actualCommands.
+   * Interpret a normal push.
    */
   private void parseRegularCommand(ReceiveCommand cmd)
       throws PermissionBackendException, NoSuchProjectException, IOException {
@@ -948,21 +992,6 @@ class ReceiveCommits {
       reject(cmd, "not valid ref");
       return;
     }
-
-    if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
-      String newName = RefNames.refsUsers(user.getAccountId());
-      logger.atFine().log("Swapping out command for %s to %s", RefNames.REFS_USERS_SELF, newName);
-      final ReceiveCommand orgCmd = cmd;
-      cmd =
-          new ReceiveCommand(cmd.getOldId(), cmd.getNewId(), newName, cmd.getType()) {
-            @Override
-            public void setResult(Result s, String m) {
-              super.setResult(s, m);
-              orgCmd.setResult(s, m);
-            }
-          };
-    }
-
     if (RefNames.isNoteDbMetaRef(cmd.getRefName())) {
       // Reject pushes to NoteDb refs without a special option and permission. Note that this
       // prohibition doesn't depend on NoteDb being enabled in any way, since all sites will
@@ -1166,13 +1195,9 @@ class ReceiveCommits {
       return;
     }
 
-    if (!validRefOperation(cmd)) {
-      // validRefOperation sets messages, so no need to provide more feedback.
-      return;
+    if (validRefOperation(cmd)) {
+      validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
     }
-
-    validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
-    actualCommands.add(cmd);
   }
 
   private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException {
@@ -1180,13 +1205,12 @@ class ReceiveCommits {
     Optional<AuthException> err = checkRefPermission(cmd, RefPermission.UPDATE);
     if (!err.isPresent()) {
       if (isHead(cmd) && !isCommit(cmd)) {
+        reject(cmd, "head must point to commit");
         return;
       }
-      if (!validRefOperation(cmd)) {
-        return;
+      if (validRefOperation(cmd)) {
+        validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
       }
-      validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
-      actualCommands.add(cmd);
     } else {
       rejectProhibited(cmd, err.get());
     }
@@ -1222,10 +1246,8 @@ class ReceiveCommits {
 
     Optional<AuthException> err = checkRefPermission(cmd, RefPermission.DELETE);
     if (!err.isPresent()) {
-      if (!validRefOperation(cmd)) {
-        return;
-      }
-      actualCommands.add(cmd);
+      validRefOperation(cmd);
+
     } else {
       rejectProhibited(cmd, err.get());
     }
@@ -1254,10 +1276,7 @@ class ReceiveCommits {
 
     Optional<AuthException> err = checkRefPermission(cmd, RefPermission.FORCE_UPDATE);
     if (!err.isPresent()) {
-      if (!validRefOperation(cmd)) {
-        return;
-      }
-      actualCommands.add(cmd);
+      validRefOperation(cmd);
     } else {
       rejectProhibited(cmd, err.get());
     }
@@ -2847,6 +2866,8 @@ class ReceiveCommits {
         && Objects.equals(aAuthor.getEmailAddress(), bAuthor.getEmailAddress());
   }
 
+  // Run RefValidators on the command. If any validator fails, the command status is set to
+  // REJECTED, and the return value is 'false'
   private boolean validRefOperation(ReceiveCommand cmd) {
     RefOperationValidators refValidators = refValidatorsFactory.create(getProject(), user, cmd);
 

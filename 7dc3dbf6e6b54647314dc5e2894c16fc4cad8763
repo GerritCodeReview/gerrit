@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "4aa6d35a_ea119261",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-16T11:55:49Z",
+      "side": 1,
+      "message": "punt. This is coming from ProjectControl.check()",
+      "parentUuid": "0656f452_38068ff7",
+      "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24c80227_6eaa38b9",
         "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
         "patchSetId": 16
@@ -64,6 +82,30 @@
       "writtenOn": "2018-08-14T19:33:26Z",
       "side": 1,
       "message": "This is the kind of thing that advice is intended for: it describes what you need to do in order to gain the permission tersely described as \"skip validation\".",
+      "range": {
+        "startLine": 273,
+        "startChar": 8,
+        "endLine": 275,
+        "endChar": 59
+      },
+      "revId": "7dc3dbf6e6b54647314dc5e2894c16fc4cad8763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da54f4d3_d339db3d",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-16T11:55:49Z",
+      "side": 1,
+      "message": "it\u0027s strange to me that we have something that is a permission (SKIP_VALIDATION), but is actually given out as a conjunction of 4 other permissions.",
+      "parentUuid": "24c80227_6eaa38b9",
       "range": {
         "startLine": 273,
         "startChar": 8,

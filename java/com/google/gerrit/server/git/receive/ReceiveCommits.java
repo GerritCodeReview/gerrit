@@ -668,6 +668,19 @@ class ReceiveCommits {
   }
 
   private void updateBranches() {
+    try (BatchUpdate bu =
+            batchUpdateFactory.create(
+                db, project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
+        ObjectInserter ins = repo.newObjectInserter();
+        ObjectReader reader = ins.newReader();
+        RevWalk rw = new RevWalk(reader)) {
+      bu.setRepository(repo, rw, ins).updateChangesInParallel();
+      bu.setRefLogMessage("push");
+      logger.atFine().log("Adding %d additional ref updates", actualCommands.size());
+
+      actualCommands.forEach(c -> bu.addRepoOnlyOp(new UpdateOneRefOp(c)));
+    }
+
     Set<Branch.NameKey> branches = new HashSet<>();
     for (ReceiveCommand c : actualCommands) {
       // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
@@ -814,9 +827,6 @@ class ReceiveCommits {
 
       logger.atFine().log("Adding %d group update requests", newChanges.size());
       updateGroups.forEach(r -> r.addOps(bu));
-
-      logger.atFine().log("Adding %d additional ref updates", actualCommands.size());
-      actualCommands.forEach(c -> bu.addRepoOnlyOp(new UpdateOneRefOp(c)));
 
       logger.atFine().log("Executing batch");
       try {

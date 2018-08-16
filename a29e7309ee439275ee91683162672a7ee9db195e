@@ -16,6 +16,24 @@
       "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6948204f_7410ae0e",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2895,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-16T12:56:45Z",
+      "side": 0,
+      "message": "the link in itself is not that bad, but the addMessage implies that the validateNewCommits needs to have access to the messages field, which complicates further refactoring.",
+      "parentUuid": "7973b0c7_e627264f",
+      "revId": "a29e7309ee439275ee91683162672a7ee9db195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

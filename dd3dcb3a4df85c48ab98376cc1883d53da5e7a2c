@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "09929947_d971edf3",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "It\u0027s a feature of the doc template that when there\u0027s no heading to introduce content, the content is displayed in a larger font (for example, see https://gerrit-review.googlesource.com/Documentation/intro-quick.html). I\u0027ll add a heading of \"Overview\" to reduce the font size.",
+      "parentUuid": "bc63effa_13861563",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "469481e0_1cca4377",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193d6917_32d13530",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "469481e0_1cca4377",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "656090a1_99a9bc59",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "59453348_c8e18aec",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb5fe8ae_c88e7e26",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "b0900410_f4e4f89e",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb5fe8ae_c88e7e26",
+      "range": {
+        "startLine": 52,
+        "startChar": 72,
+        "endLine": 53,
+        "endChar": 6
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e59bfbdb_d9f1dbea",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -102,6 +192,24 @@
       "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2823081_7218f2bc",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e59bfbdb_d9f1dbea",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "567b68dd_999ee4cd",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cbd69e2_d2b82a1d",
+      "range": {
+        "startLine": 77,
+        "startChar": 5,
+        "endLine": 77,
+        "endChar": 76
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddfcccfa_68736b22",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "26d8f355_67835b6e",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddfcccfa_68736b22",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6701652d_7177a486",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -159,6 +309,24 @@
       "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90cc4927_6624eaf7",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6701652d_7177a486",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "0621a483_8f99a55c",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9a5399e_9babf928",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 0
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dedba57_627e387b",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -205,6 +397,30 @@
       "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9773596b_5265ad00",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dedba57_627e387b",
+      "range": {
+        "startLine": 148,
+        "startChar": 1,
+        "endLine": 148,
+        "endChar": 41
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -231,6 +447,30 @@
     },
     {
       "key": {
+        "uuid": "32c0c244_ba897bb5",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fc18b28_f89e3c56",
+      "range": {
+        "startLine": 149,
+        "startChar": 2,
+        "endLine": 149,
+        "endChar": 18
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1f00854_e494968f",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -251,6 +491,30 @@
       "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "909427ea_7d6aa55f",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1f00854_e494968f",
+      "range": {
+        "startLine": 149,
+        "startChar": 59,
+        "endLine": 150,
+        "endChar": 69
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -277,6 +541,30 @@
     },
     {
       "key": {
+        "uuid": "b2236b61_419814bf",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcfcbb90_12476c6b",
+      "range": {
+        "startLine": 158,
+        "startChar": 59,
+        "endLine": 159,
+        "endChar": 72
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6442f2f2_517a63a2",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -291,6 +579,24 @@
       "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa9d429d_a03b4939",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6442f2f2_517a63a2",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -317,6 +623,30 @@
     },
     {
       "key": {
+        "uuid": "2fb844a8_e9f11e07",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7ed1da0_65ea297c",
+      "range": {
+        "startLine": 171,
+        "startChar": 9,
+        "endLine": 171,
+        "endChar": 36
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68a5241a_00c96871",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -331,6 +661,24 @@
       "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d6f33eb_b1fe6868",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68a5241a_00c96871",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -357,6 +705,30 @@
     },
     {
       "key": {
+        "uuid": "01df1f9c_45c9aa59",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "When I create a change in the UI, the change is created aa a WIP until the review is started. This is what the existing content suggests.",
+      "parentUuid": "e20216aa_43e59a38",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 54
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94ff43e2_636c4b2f",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -380,6 +752,30 @@
     },
     {
       "key": {
+        "uuid": "90b79d09_2d69977e",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94ff43e2_636c4b2f",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 60
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3eb94c86_bacfb794",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -397,6 +793,24 @@
     },
     {
       "key": {
+        "uuid": "9edc4255_573febb7",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3eb94c86_bacfb794",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1489bf99_992eb516",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -411,6 +825,24 @@
       "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4a97593_76e1f652",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1489bf99_992eb516",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -437,6 +869,30 @@
     },
     {
       "key": {
+        "uuid": "60175956_5f81b4ce",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Deleted the links.",
+      "parentUuid": "0946a60b_96bdd120",
+      "range": {
+        "startLine": 232,
+        "startChar": 30,
+        "endLine": 232,
+        "endChar": 48
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84493aa0_333b64e1",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -460,6 +916,30 @@
     },
     {
       "key": {
+        "uuid": "7e5667c9_fd9e59bb",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "These are carry-overs from the previous content. They\u0027re gone.",
+      "parentUuid": "84493aa0_333b64e1",
+      "range": {
+        "startLine": 228,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 0
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b12ec3d3_90fdcc3d",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -480,6 +960,30 @@
       "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14575f8b_1f6da694",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b12ec3d3_90fdcc3d",
+      "range": {
+        "startLine": 252,
+        "startChar": 52,
+        "endLine": 252,
+        "endChar": 76
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -552,6 +1056,78 @@
     },
     {
       "key": {
+        "uuid": "5f3da831_e5a496d4",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67aecbe6_eb3d06eb",
+      "range": {
+        "startLine": 263,
+        "startChar": 27,
+        "endLine": 263,
+        "endChar": 34
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f8193ce_11f85bb0",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1404ff09_e78cb8f5",
+      "range": {
+        "startLine": 263,
+        "startChar": 34,
+        "endLine": 263,
+        "endChar": 35
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c775e19_655a6158",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Good catch.",
+      "parentUuid": "88010f1a_6af36387",
+      "range": {
+        "startLine": 263,
+        "startChar": 36,
+        "endLine": 263,
+        "endChar": 39
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b36a0f2c_e655b4ea",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -566,6 +1142,24 @@
       "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f30353a3_a32358b2",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Agreed. This is carry-over from existing content.",
+      "parentUuid": "b36a0f2c_e655b4ea",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -609,6 +1203,48 @@
     },
     {
       "key": {
+        "uuid": "12c939d2_b9d71b15",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7f249f8e_c841040f",
+      "range": {
+        "startLine": 296,
+        "startChar": 53,
+        "endLine": 296,
+        "endChar": 62
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80087c8a_844ca1ba",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Removed. Again, carry-over from the previous content.",
+      "parentUuid": "03159e96_139568b6",
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6bed497_acccf17e",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3
@@ -629,6 +1265,30 @@
       "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f0712a9_bfcc50c3",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-16T23:06:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e6bed497_acccf17e",
+      "range": {
+        "startLine": 297,
+        "startChar": 22,
+        "endLine": 297,
+        "endChar": 66
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

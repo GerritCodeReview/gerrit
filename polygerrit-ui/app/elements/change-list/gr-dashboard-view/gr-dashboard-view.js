@@ -30,6 +30,7 @@
       name: 'Work in progress',
       query: 'is:open owner:${user} is:wip',
       selfOnly: true,
+      hideIfEmpty: true,
     },
     {
       // Non-WIP open changes owned by viewed user. Filter out changes ignored
@@ -160,16 +161,10 @@
     _getUserDashboard(user, sections, title) {
       sections = sections
         .filter(section => (user === 'self' || !section.selfOnly))
-        .map(section => {
-          const dashboardSection = {
-            name: section.name,
-            query: section.query.replace(USER_PLACEHOLDER_PATTERN, user),
-          };
-          if (section.suffixForDashboard) {
-            dashboardSection.suffixForDashboard = section.suffixForDashboard;
-          }
-          return dashboardSection;
-        });
+        .map(section => Object.assign({}, section, {
+          name: section.name,
+          query: section.query.replace(USER_PLACEHOLDER_PATTERN, user),
+        }));
       return Promise.resolve({title, sections});
     },
 
@@ -197,45 +192,57 @@
       // in an async so that attachment to the DOM can take place first.
       const title = params.title || this._computeTitle(user);
       this.async(() => this.fire('title-change', {title}));
+      return this._reload();
+    },
 
+    /**
+     * Reloads the element.
+     *
+     * @return {Promise<!Object>}
+     */
+    _reload() {
       this._loading = true;
-
-      const dashboardPromise = params.project ?
-          this._getProjectDashboard(params.project, params.dashboard) :
+      const {project, dashboard, title, user, sections} = this.params;
+      const dashboardPromise = project ?
+          this._getProjectDashboard(project, dashboard) :
           this._getUserDashboard(
-              params.user || 'self',
-              params.sections || DEFAULT_SECTIONS,
-              params.title || this._computeTitle(params.user));
+              user || 'self',
+              sections || DEFAULT_SECTIONS,
+              title || this._computeTitle(user));
 
-      return dashboardPromise.then(dashboard => {
-        if (!dashboard) {
-          this._loading = false;
-          return;
+      return dashboardPromise.then(this._fetchDashboardChanges.bind(this))
+          .then(() => {
+            this.$.reporting.dashboardDisplayed();
+          }).catch(err => {
+            console.warn(err);
+          }).finally(() => { this._loading = false; });
+    },
+
+    /**
+     * Fetches the changes for each dashboard section and sets this._results
+     * with the response.
+     *
+     * @param {!Object} res
+     * @return {Promise}
+     */
+    _fetchDashboardChanges(res) {
+      if (!res) { return Promise.resolve(); }
+      const queries = res.sections.map(section => {
+        if (section.suffixForDashboard) {
+          return section.query + ' ' + section.suffixForDashboard;
         }
-        const queries = dashboard.sections.map(section => {
-          if (section.suffixForDashboard) {
-            return section.query + ' ' + section.suffixForDashboard;
-          }
-          return section.query;
-        });
-        const req =
-            this.$.restAPI.getChanges(null, queries, null, this.options);
-        return req.then(response => {
-          this._loading = false;
-          this._results = response.map((results, i) => {
-            return {
-              sectionName: dashboard.sections[i].name,
-              query: dashboard.sections[i].query,
-              results,
-            };
-          });
-        });
-      }).then(() => {
-        this.$.reporting.dashboardDisplayed();
-      }).catch(err => {
-        this._loading = false;
-        console.warn(err);
+        return section.query;
       });
+
+      return this.$.restAPI.getChanges(null, queries, null, this.options)
+          .then(changes => {
+            this._results = changes.map((results, i) => ({
+              sectionName: res.sections[i].name,
+              query: res.sections[i].query,
+              results,
+            })).filter((section, i) => !res.sections[i].hideIfEmpty ||
+                section.results.length);
+          });
     },
 
     _computeUserHeaderClass(userParam) {

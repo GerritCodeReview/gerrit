@@ -285,6 +285,13 @@ class PatchScriptBuilder {
     int aSize = a.src.size();
     int bSize = b.src.size();
 
+    if (edits.isEmpty() && (aSize == 0 || bSize == 0)) {
+      // The diff was requested for a file which was either added or deleted but which JGit doesn't
+      // consider a file addition/deletion (e.g. requesting a diff for the old file name of a
+      // renamed file looks like a deletion).
+      return;
+    }
+
     Optional<Edit> lastEdit = getLast(edits);
     if (isNewlineAtEndDeleted()) {
       Optional<Edit> lastLineEdit = lastEdit.filter(edit -> edit.getEndA() == aSize);

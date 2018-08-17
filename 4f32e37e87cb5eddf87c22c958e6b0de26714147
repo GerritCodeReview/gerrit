@@ -39,6 +39,30 @@
       "revId": "4f32e37e87cb5eddf87c22c958e6b0de26714147",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "309d97c5_fe5a5312",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-17T14:50:02Z",
+      "side": 1,
+      "message": "I had a similar comment on a previous patch set. I\u0027m ok with Han-Wen\u0027s argument that nobody should be using direct patch set pushes anyway.",
+      "parentUuid": "bb6578bd_be0e4718",
+      "range": {
+        "startLine": 606,
+        "startChar": 52,
+        "endLine": 606,
+        "endChar": 97
+      },
+      "revId": "4f32e37e87cb5eddf87c22c958e6b0de26714147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

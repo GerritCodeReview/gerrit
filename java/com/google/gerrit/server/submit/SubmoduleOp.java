@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.VerboseSuperprojectUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -365,7 +366,8 @@ public class SubmoduleOp {
     return ret;
   }
 
-  private Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
+  @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
+  public Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
       Branch.NameKey srcBranch) throws IOException {
     logger.atFine().log("Calculating possible superprojects for %s", srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();

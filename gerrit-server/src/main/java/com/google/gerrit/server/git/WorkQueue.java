@@ -319,6 +319,12 @@ public class WorkQueue {
     }
 
     @Override
+    public void shutdown() {
+      super.shutdown();
+      unregisterWorkQueue();
+    }
+
+    @Override
     protected <V> RunnableScheduledFuture<V> decorateTask(
         final Runnable runnable, RunnableScheduledFuture<V> r) {
       r = super.decorateTask(runnable, r);

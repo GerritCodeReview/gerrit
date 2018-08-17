@@ -16,6 +16,29 @@
       "revId": "4f32e37e87cb5eddf87c22c958e6b0de26714147",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb6578bd_be0e4718",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-08-17T08:34:01Z",
+      "side": 1,
+      "message": "Splitting hairs here and I don\u0027t have a decent alternative if you don\u0027t want to drag in the \"command type\" terminology into the error-message but:\n\nA direct patchset push is not a magic push but with this change you still cannot combine it with a direct push to f.i. master and the error message doesn\u0027t explain why.\nEven if you consider it a magic push the error-message does not explain why the push was rejected.",
+      "range": {
+        "startLine": 606,
+        "startChar": 52,
+        "endLine": 606,
+        "endChar": 97
+      },
+      "revId": "4f32e37e87cb5eddf87c22c958e6b0de26714147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

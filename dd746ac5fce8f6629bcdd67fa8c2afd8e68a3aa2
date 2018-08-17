@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8bc7e521_feae5976",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-08-17T11:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "328bd72e_74d97e8a",
+      "range": {
+        "startLine": 16,
+        "startChar": 51,
+        "endLine": 16,
+        "endChar": 61
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "474b60a1_ac112e0f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -68,6 +92,54 @@
       "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19edb23a_a66ecf3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-08-17T11:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "474b60a1_ac112e0f",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c02b680_4a6cc140",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-08-17T11:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62a6f30a_19934938",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -142,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "f055a036_cd5d2111",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3696,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-08-17T11:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca8e8208_e0796550",
+      "range": {
+        "startLine": 3696,
+        "startChar": 52,
+        "endLine": 3696,
+        "endChar": 66
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b74c5a3_0ab758b3",
         "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
         "patchSetId": 2
@@ -159,6 +255,24 @@
     },
     {
       "key": {
+        "uuid": "45365039_8e0b8cc8",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-08-17T11:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b74c5a3_0ab758b3",
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "732564c5_c6339f27",
         "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
         "patchSetId": 2
@@ -170,6 +284,30 @@
       "writtenOn": "2018-06-26T07:30:09Z",
       "side": 1,
       "message": "Shouldn\u0027t there be an else block to check that the calling user is a project owner?",
+      "range": {
+        "startLine": 179,
+        "startChar": 16,
+        "endLine": 179,
+        "endChar": 17
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed92f462_55e23cd9",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-08-17T11:57:40Z",
+      "side": 1,
+      "message": "There should already be checks in place that verifies that the user can actually write refs/meta/config (i.e. is owner).\n\nThough I added a check just in case. The extra also means that I can give the user a better error message.",
+      "parentUuid": "732564c5_c6339f27",
       "range": {
         "startLine": 179,
         "startChar": 16,
@@ -226,6 +364,30 @@
       "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3ee06cf_8cb48bd0",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-08-17T11:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b6d2ff0_40ab007b",
+      "range": {
+        "startLine": 122,
+        "startChar": 25,
+        "endLine": 122,
+        "endChar": 57
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

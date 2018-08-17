@@ -2856,7 +2856,6 @@ class ReceiveCommits {
 
   private void validateNewCommits(Branch.NameKey branch, ReceiveCommand cmd)
       throws PermissionBackendException {
-    PermissionBackend.ForRef perm = permissions.ref(branch.get());
     if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
             || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())

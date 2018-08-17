@@ -25,6 +25,14 @@
   // gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java
   const DEFAULT_SECTIONS = [
     {
+      // Changes with unpublished draft comments. This section is omitted when
+      // viewing other users, so we don't need to filter anything out.
+      name: 'Has unpublished drafts',
+      query: 'has:draft',
+      selfOnly: true,
+      hideIfEmpty: true,
+    },
+    {
       // WIP open changes owned by viewing user. This section is omitted when
       // viewing other users, so we don't need to filter anything out.
       name: 'Work in progress',

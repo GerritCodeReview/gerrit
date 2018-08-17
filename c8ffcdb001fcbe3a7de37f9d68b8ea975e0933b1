@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2e08df6_a8735397",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-17T14:55:05Z",
+      "side": 1,
+      "message": "So \"unsafe\" in this context means \"might skip processing commands due to programmer error\"? And this method is \"safe\" because it guarantees that no command will have result NOT_ATTEMPTED after completion. Makes sense.",
+      "revId": "c8ffcdb001fcbe3a7de37f9d68b8ea975e0933b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76b53ebd_abd57540",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2866,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-17T14:55:05Z",
+      "side": 1,
+      "message": "If you\u0027re going to document side effects, maybe also document the return value?",
+      "revId": "c8ffcdb001fcbe3a7de37f9d68b8ea975e0933b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -660,7 +660,8 @@
       Gerrit.Nav.setup(
           url => { page.show(url); },
           this._generateUrl.bind(this),
-          params => this._generateWeblinks(params)
+          params => this._generateWeblinks(params),
+          x => x
       );
 
       page.exit('*', (ctx, next) => {

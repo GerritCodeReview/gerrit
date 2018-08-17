@@ -132,6 +132,9 @@ limitations under the License.
       /** @type {Function} */
       _generateWeblinks: uninitialized,
 
+      /** @type {Function} */
+      overrideCommentlinks: uninitialized,
+
       /**
        * @param {number=} patchNum
        * @param {number|string=} basePatchNum
@@ -147,17 +150,20 @@ limitations under the License.
        * @param {Function} navigate
        * @param {Function} generateUrl
        * @param {Function} generateWeblinks
+       * @param {Function} overrideCommentlinks
        */
-      setup(navigate, generateUrl, generateWeblinks) {
+      setup(navigate, generateUrl, generateWeblinks, overrideCommentlinks) {
         this._navigate = navigate;
         this._generateUrl = generateUrl;
         this._generateWeblinks = generateWeblinks;
+        this.overrideCommentlinks = overrideCommentlinks;
       },
 
       destroy() {
         this._navigate = uninitialized;
         this._generateUrl = uninitialized;
         this._generateWeblinks = uninitialized;
+        this.overrideCommentlinks = uninitialized;
       },
 
       /**

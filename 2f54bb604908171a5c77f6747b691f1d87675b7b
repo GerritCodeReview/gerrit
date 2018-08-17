@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1534485055 +0200\nnonce APISObS9awR/OjjXKM8jb0clxrpa1ElgUJUUaPWYrm8BCZ3VNqZj5E+vo4MS0y0HeqnQJ/wVjlv0\n\n0000000000000000000000000000000000000000 2f54bb604908171a5c77f6747b691f1d87675b7b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJbdmI/AAoJEHFVO370GiZWlt8H/1YAgv+26xvtmeGv5c1m7fnq\nQWZkDzJr5/O1aTbEF7Xzo8FFeJr+j2UvlYVlQMGhN2oGPRu1MDYlHOgtl8vy4xji\nZXySSilwIufEIJhKIRrNfB1ylx/fhfdnUw9fMVZpSr6ZeaXC55T2N0yBV7GAmXnn\nlDJFnFxg4LgZrJTiI1rc2iWn9WAN6up9pyzoParLY4viS9jXjtiOc9cQpR6K040D\nlJCF8G0eApsS1s8SIhg2Koz4u6bX+TZWQG5WmQP28g1VAMXGvwJGOBppQ3pe34mR\nR5F6rdlkAFrbgFP89NmpP2hS1+VBaMOyTprKTc4d1CHDHhRfPhHuUz3qm1HlhXI\u003d\n\u003dEmE8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "958b2bf0_9daf3cd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-17T05:53:59Z",
+      "side": 1,
+      "message": "Add issue footer:\n\n  Bug: Issue 9597",
+      "revId": "2f54bb604908171a5c77f6747b691f1d87675b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

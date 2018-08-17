@@ -93,6 +93,30 @@
       "revId": "5650aebddb5155546463ee45d49a2535c95d7882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4afe7b6b_7983d465",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-17T17:12:25Z",
+      "side": 1,
+      "message": "In that case I\u0027m confused about why this function is included in this file. If the test only checks that an otherwise-unused test interface function works, isn\u0027t the test only testing itself?",
+      "parentUuid": "7d2316a8_b40d1cfa",
+      "range": {
+        "startLine": 463,
+        "startChar": 11,
+        "endLine": 463,
+        "endChar": 28
+      },
+      "revId": "5650aebddb5155546463ee45d49a2535c95d7882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -207,8 +207,11 @@ limitations under the License.
                     sections: [
                       {name: 'section 1', query: 'query 1'},
                       {name: 'section 2', query: 'query 2 for self'},
-                      {name: 'section 3', query: 'self only query'},
                       {
+                        name: 'section 3',
+                        query: 'self only query',
+                        selfOnly: true,
+                      }, {
                         name: 'section 4',
                         query: 'query 4',
                         suffixForDashboard: 'suffix',
@@ -236,6 +239,21 @@ limitations under the License.
                     ],
                   });
             });
+      });
+    });
+
+    test('hideIfEmpty sections', () => {
+      const sections = [
+        {name: 'test1', query: 'test1', hideIfEmpty: true},
+        {name: 'test2', query: 'test2', hideIfEmpty: true},
+      ];
+      getChangesStub.restore();
+      sandbox.stub(element.$.restAPI, 'getChanges')
+          .returns(Promise.resolve([[], ['nonempty']]));
+
+      return element._fetchDashboardChanges({sections}).then(() => {
+        assert.equal(element._results.length, 1);
+        assert.equal(element._results[0].sectionName, 'test2');
       });
     });
 

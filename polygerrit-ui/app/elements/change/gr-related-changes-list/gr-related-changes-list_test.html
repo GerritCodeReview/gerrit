@@ -224,7 +224,7 @@ limitations under the License.
 
     test('_computeChangeContainerClass', () => {
       const change1 = {change_id: 123, _number: 0};
-      const change2 = {change_id: 456, _number: 1};
+      const change2 = {change_id: 456, _change_number: 1};
       const change3 = {change_id: 123, _number: 2};
 
       assert.notEqual(element._computeChangeContainerClass(
@@ -243,6 +243,13 @@ limitations under the License.
       assert.isTrue(element._changesEqual(change1, change1));
       assert.isFalse(element._changesEqual(change1, change2));
       assert.isFalse(element._changesEqual(change1, change3));
+    });
+
+    test('_getChangeNumber', () => {
+      const change1 = {change_id: 123, _number: 0};
+      const change2 = {change_id: 456, _change_number: 1};
+      assert.equal(element._getChangeNumber(change1), 0);
+      assert.equal(element._getChangeNumber(change2), 1);
     });
 
     test('event for section loaded fires for each section ', () => {

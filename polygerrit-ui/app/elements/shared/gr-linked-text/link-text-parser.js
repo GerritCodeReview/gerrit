@@ -41,8 +41,8 @@
    * @param {Object|null|undefined} linkConfig Comment links as specified by the
    *     commentlinks field on a project config.
    * @param {Function} callback The callback to be fired when an intermediate
-   *     parse result is emitted. The callback is passed text and href strings if
-   *     a link is to be created, or a document fragment otherwise.
+   *     parse result is emitted. The callback is passed text and href strings
+   *     if a link is to be created, or a document fragment otherwise.
    * @param {boolean|undefined} opt_removeZeroWidthSpace If true, zero-width
    *     spaces will be removed from R=<email> and CC=<email> expressions.
    */
@@ -73,14 +73,14 @@
    */
   GrLinkTextParser.prototype.processLinks = function(text, outputArray) {
     this.sortArrayReverse(outputArray);
-    var fragment = document.createDocumentFragment();
-    var cursor = text.length;
+    const fragment = document.createDocumentFragment();
+    let cursor = text.length;
 
     // Start inserting linkified URLs from the end of the String. That way, the
     // string positions of the items don't change as we iterate through.
-    outputArray.forEach(function(item) {
-      // Add any text between the current linkified item and the item added before
-      // if it exists.
+    outputArray.forEach(item => {
+      // Add any text between the current linkified item and the item added
+      // before if it exists.
       if (item.position + item.length !== cursor) {
         fragment.insertBefore(
             document.createTextNode(
@@ -130,32 +130,32 @@
    */
   GrLinkTextParser.prototype.addItem =
       function(text, href, html, position, length, outputArray) {
-    var htmlOutput = '';
+        let htmlOutput = '';
 
-    if (href) {
-      var a = document.createElement('a');
-      a.href = href;
-      a.textContent = text;
-      a.target = '_blank';
-      a.rel = 'noopener';
-      htmlOutput = a;
-    } else if (html) {
-      var fragment = document.createDocumentFragment();
+        if (href) {
+          const a = document.createElement('a');
+          a.href = href;
+          a.textContent = text;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          htmlOutput = a;
+        } else if (html) {
+          const fragment = document.createDocumentFragment();
       // Create temporary div to hold the nodes in.
-      var div = document.createElement('div');
-      div.innerHTML = html;
-      while (div.firstChild) {
-        fragment.appendChild(div.firstChild);
-      }
-      htmlOutput = fragment;
-    }
+          const div = document.createElement('div');
+          div.innerHTML = html;
+          while (div.firstChild) {
+            fragment.appendChild(div.firstChild);
+          }
+          htmlOutput = fragment;
+        }
 
-    outputArray.push({
-      html: htmlOutput,
-      position: position,
-      length: length,
-    });
-  };
+        outputArray.push({
+          html: htmlOutput,
+          position,
+          length,
+        });
+      };
 
   /**
    * Create a CommentLinkItem for a link and append it to the given output
@@ -171,9 +171,9 @@
    */
   GrLinkTextParser.prototype.addLink =
       function(text, href, position, length, outputArray) {
-    if (!text || this.hasOverlap(position, length, outputArray)) { return; }
-    this.addItem(text, href, null, position, length, outputArray);
-  };
+        if (!text || this.hasOverlap(position, length, outputArray)) { return; }
+        this.addItem(text, href, null, position, length, outputArray);
+      };
 
   /**
    * Create a CommentLinkItem specified by an HTMl string and append it to the
@@ -188,9 +188,9 @@
    */
   GrLinkTextParser.prototype.addHTML =
       function(html, position, length, outputArray) {
-    if (this.hasOverlap(position, length, outputArray)) { return; }
-    this.addItem(null, null, html, position, length, outputArray);
-  };
+        if (this.hasOverlap(position, length, outputArray)) { return; }
+        this.addItem(null, null, html, position, length, outputArray);
+      };
 
   /**
    * Does the given range overlap with anything already in the item list.
@@ -200,18 +200,18 @@
    */
   GrLinkTextParser.prototype.hasOverlap =
       function(position, length, outputArray) {
-    var endPosition = position + length;
-    for (var i = 0; i < outputArray.length; i++) {
-      var arrayItemStart = outputArray[i].position;
-      var arrayItemEnd = outputArray[i].position + outputArray[i].length;
-      if ((position >= arrayItemStart && position < arrayItemEnd) ||
+        const endPosition = position + length;
+        for (let i = 0; i < outputArray.length; i++) {
+          const arrayItemStart = outputArray[i].position;
+          const arrayItemEnd = outputArray[i].position + outputArray[i].length;
+          if ((position >= arrayItemStart && position < arrayItemEnd) ||
         (endPosition > arrayItemStart && endPosition <= arrayItemEnd) ||
         (position === arrayItemStart && position === arrayItemEnd)) {
             return true;
-      }
-    }
-    return false;
-  };
+          }
+        }
+        return false;
+      };
 
   /**
    * Parse the given source text and emit callbacks for the items that are
@@ -241,9 +241,9 @@
       text = text.replace(/^(CC|R)=\u200B/gm, '$1=');
     }
 
-    // If the href is provided then ba-linkify has recognized it as a URL. If the
-    // source text does not include a protocol, the protocol will be added by
-    // ba-linkify. Create the link if the href is provided and its protocol
+    // If the href is provided then ba-linkify has recognized it as a URL. If
+    // the source text does not include a protocol, the protocol will be added
+    // by ba-linkify. Create the link if the href is provided and its protocol
     // matches the expected pattern.
     if (href && URL_PROTOCOL_PATTERN.test(href)) {
       this.addText(text, href);
@@ -262,9 +262,10 @@
    *   object.
    */
   GrLinkTextParser.prototype.parseLinks = function(text, patterns) {
-    // The outputArray is used to store all of the matches found for all patterns.
-    var outputArray = [];
-    for (var p in patterns) {
+    // The outputArray is used to store all of the matches found for all
+    // patterns.
+    const outputArray = [];
+    for (const p in patterns) {
       if (patterns[p].enabled != null && patterns[p].enabled == false) {
         continue;
       }
@@ -279,38 +280,37 @@
         }
       }
 
-      var pattern = new RegExp(patterns[p].match, 'g');
+      const pattern = new RegExp(patterns[p].match, 'g');
 
-      var match;
-      var textToCheck = text;
-      var susbtrIndex = 0;
+      let match;
+      let textToCheck = text;
+      let susbtrIndex = 0;
 
       while ((match = pattern.exec(textToCheck)) != null) {
         textToCheck = textToCheck.substr(match.index + match[0].length);
-        var result = match[0].replace(pattern,
+        let result = match[0].replace(pattern,
             patterns[p].html || patterns[p].link);
 
+        let i;
         // Skip portion of replacement string that is equal to original.
-        for (var i = 0; i < result.length; i++) {
-          if (result[i] !== match[0][i]) {
-            break;
-          }
+        for (i = 0; i < result.length; i++) {
+          if (result[i] !== match[0][i]) { break; }
         }
         result = result.slice(i);
 
         if (patterns[p].html) {
           this.addHTML(
-            result,
-            susbtrIndex + match.index + i,
-            match[0].length - i,
-            outputArray);
+              result,
+              susbtrIndex + match.index + i,
+              match[0].length - i,
+              outputArray);
         } else if (patterns[p].link) {
           this.addLink(
-            match[0],
-            result,
-            susbtrIndex + match.index + i,
-            match[0].length - i,
-            outputArray);
+              match[0],
+              result,
+              susbtrIndex + match.index + i,
+              match[0].length - i,
+              outputArray);
         } else {
           throw Error('linkconfig entry ' + p +
               ' doesn’t contain a link or html attribute.');

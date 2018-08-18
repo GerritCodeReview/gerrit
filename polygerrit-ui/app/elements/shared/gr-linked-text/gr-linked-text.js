@@ -60,15 +60,15 @@
      *     commentLink patterns
      */
     _contentOrConfigChanged(content, config) {
-      var output = Polymer.dom(this.$.output);
+      const output = Polymer.dom(this.$.output);
       output.textContent = '';
-      var parser = new GrLinkTextParser(config,
+      const parser = new GrLinkTextParser(config,
           this._handleParseResult.bind(this), this.removeZeroWidthSpace);
       parser.parse(content);
 
       // Ensure that links originating from HTML commentlink configs open in a
       // new tab. @see Issue 5567
-      output.querySelectorAll('a').forEach(function(anchor) {
+      output.querySelectorAll('a').forEach(anchor => {
         anchor.setAttribute('target', '_blank');
         anchor.setAttribute('rel', 'noopener');
       });
@@ -87,9 +87,9 @@
      * @param  {DocumentFragment|undefined} fragment
      */
     _handleParseResult(text, href, fragment) {
-      var output = Polymer.dom(this.$.output);
+      const output = Polymer.dom(this.$.output);
       if (href) {
-        var a = document.createElement('a');
+        const a = document.createElement('a');
         a.href = href;
         a.textContent = text;
         a.target = '_blank';

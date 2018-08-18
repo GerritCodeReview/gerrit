@@ -37,29 +37,29 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-linked-text tests', function() {
-    var element;
-    var sandbox;
+  suite('gr-linked-text tests', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
       element.config = {
         ph: {
           match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',
-          link: 'https://code.google.com/p/gerrit/issues/detail?id=$2'
+          link: 'https://code.google.com/p/gerrit/issues/detail?id=$2',
         },
         changeid: {
           match: '(I[0-9a-f]{8,40})',
-          link: '#/q/$1'
+          link: '#/q/$1',
         },
         changeid2: {
           match: 'Change-Id: +(I[0-9a-f]{8,40})',
-          link: '#/q/$1'
+          link: '#/q/$1',
         },
         googlesearch: {
           match: 'google:(.+)',
-          link: 'https://bing.com/search?q=$1',  // html should supercede link.
+          link: 'https://bing.com/search?q=$1', // html should supercede link.
           html: '<a href="https://google.com/search?q=$1">$1</a>',
         },
         hashedhtml: {
@@ -74,27 +74,27 @@ limitations under the License.
       };
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('URL pattern was parsed and linked.', function() {
-      // Reguar inline link.
-      var url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+    test('URL pattern was parsed and linked.', () => {
+      // Regular inline link.
+      const url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
       element.content = url;
-      var linkEl = element.$.output.childNodes[0];
+      const linkEl = element.$.output.childNodes[0];
       assert.equal(linkEl.target, '_blank');
       assert.equal(linkEl.rel, 'noopener');
       assert.equal(linkEl.href, url);
       assert.equal(linkEl.textContent, url);
     });
 
-    test('Bug pattern was parsed and linked', function() {
+    test('Bug pattern was parsed and linked', () => {
       // "Issue/Bug" pattern.
       element.content = 'Issue 3650';
 
-      var linkEl = element.$.output.childNodes[0];
-      var url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+      let linkEl = element.$.output.childNodes[0];
+      const url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
       assert.equal(linkEl.target, '_blank');
       assert.equal(linkEl.href, url);
       assert.equal(linkEl.textContent, 'Issue 3650');
@@ -107,26 +107,26 @@ limitations under the License.
       assert.equal(linkEl.textContent, 'Bug 3650');
     });
 
-    test('Change-Id pattern was parsed and linked', function() {
+    test('Change-Id pattern was parsed and linked', () => {
       // "Change-Id:" pattern.
-      var changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
-      var prefix = 'Change-Id: ';
+      const changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
+      const prefix = 'Change-Id: ';
       element.content = prefix + changeID;
 
-      var textNode = element.$.output.childNodes[0];
-      var linkEl = element.$.output.childNodes[1];
+      const textNode = element.$.output.childNodes[0];
+      const linkEl = element.$.output.childNodes[1];
       assert.equal(textNode.textContent, prefix);
-      var url = '/q/' + changeID;
+      const url = '/q/' + changeID;
       assert.equal(linkEl.target, '_blank');
       // Since url is a path, the host is added automatically.
       assert.isTrue(linkEl.href.endsWith(url));
       assert.equal(linkEl.textContent, changeID);
     });
 
-    test('Multiple matches', function() {
+    test('Multiple matches', () => {
       element.content = 'Issue 3650\nIssue 3450';
-      var linkEl1 = element.$.output.childNodes[0];
-      var linkEl2 = element.$.output.childNodes[2];
+      const linkEl1 = element.$.output.childNodes[0];
+      const linkEl2 = element.$.output.childNodes[2];
 
       assert.equal(linkEl1.target, '_blank');
       assert.equal(linkEl1.href,
@@ -139,22 +139,22 @@ limitations under the License.
       assert.equal(linkEl2.textContent, 'Issue 3450');
     });
 
-    test('Change-Id pattern parsed before bug pattern', function() {
+    test('Change-Id pattern parsed before bug pattern', () => {
       // "Change-Id:" pattern.
-      var changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
-      var prefix = 'Change-Id: ';
+      const changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
+      const prefix = 'Change-Id: ';
 
       // "Issue/Bug" pattern.
-      var bug = 'Issue 3650';
+      const bug = 'Issue 3650';
 
-      var changeUrl = '/q/' + changeID;
-      var bugUrl = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+      const changeUrl = '/q/' + changeID;
+      const bugUrl = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
 
       element.content = prefix + changeID + bug;
 
-      var textNode = element.$.output.childNodes[0];
-      var changeLinkEl = element.$.output.childNodes[1];
-      var bugLinkEl = element.$.output.childNodes[2];
+      const textNode = element.$.output.childNodes[0];
+      const changeLinkEl = element.$.output.childNodes[1];
+      const bugLinkEl = element.$.output.childNodes[2];
 
       assert.equal(textNode.textContent, prefix);
 
@@ -167,41 +167,41 @@ limitations under the License.
       assert.equal(bugLinkEl.textContent, 'Issue 3650');
     });
 
-    test('html field in link config', function() {
+    test('html field in link config', () => {
       element.content = 'google:do a barrel roll';
-      var linkEl = element.$.output.childNodes[0];
+      const linkEl = element.$.output.childNodes[0];
       assert.equal(linkEl.getAttribute('href'),
           'https://google.com/search?q=do a barrel roll');
       assert.equal(linkEl.textContent, 'do a barrel roll');
     });
 
-    test('removing hash from links', function() {
+    test('removing hash from links', () => {
       element.content = 'hash:foo';
-      var linkEl = element.$.output.childNodes[0];
+      const linkEl = element.$.output.childNodes[0];
       assert.isTrue(linkEl.href.endsWith('/awesomesauce'));
       assert.equal(linkEl.textContent, 'foo');
     });
 
-    test('disabled config', function() {
+    test('disabled config', () => {
       element.content = 'foo:baz';
       assert.equal(element.$.output.innerHTML, 'foo:baz');
     });
 
-    test('R=email labels link correctly', function() {
+    test('R=email labels link correctly', () => {
       element.removeZeroWidthSpace = true;
       element.content = 'R=\u200Btest@google.com';
       assert.equal(element.$.output.textContent, 'R=test@google.com');
       assert.equal(element.$.output.innerHTML.match(/(R=<a)/g).length, 1);
     });
 
-    test('CC=email labels link correctly', function() {
+    test('CC=email labels link correctly', () => {
       element.removeZeroWidthSpace = true;
       element.content = 'CC=\u200Btest@google.com';
       assert.equal(element.$.output.textContent, 'CC=test@google.com');
       assert.equal(element.$.output.innerHTML.match(/(CC=<a)/g).length, 1);
     });
 
-    test('only {http,https,mailto} protocols are linkified', function() {
+    test('only {http,https,mailto} protocols are linkified', () => {
       element.content = 'xx mailto:test@google.com yy';
       let links = element.$.output.querySelectorAll('a');
       assert.equal(links.length, 1);
@@ -226,7 +226,7 @@ limitations under the License.
       assert.equal(links.length, 0);
     });
 
-    test('overlapping links', function() {
+    test('overlapping links', () => {
       element.config = {
         b1: {
           match: '(B:\\s*)(\\d+)',
@@ -238,7 +238,7 @@ limitations under the License.
         },
       };
       element.content = '- B: 123, 45';
-      var links = Polymer.dom(element.root).querySelectorAll('a');
+      const links = Polymer.dom(element.root).querySelectorAll('a');
 
       assert.equal(links.length, 2);
       assert.equal(element.$$('span').textContent, '- B: 123, 45');
@@ -250,31 +250,31 @@ limitations under the License.
       assert.equal(links[1].textContent, '45');
     });
 
-    test('_contentOrConfigChanged called with config', function() {
-      var contentStub = sandbox.stub(element, '_contentChanged');
-      var contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
+    test('_contentOrConfigChanged called with config', () => {
+      const contentStub = sandbox.stub(element, '_contentChanged');
+      const contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
       element.content = 'some text';
       assert.isTrue(contentStub.called);
       assert.isTrue(contentConfigStub.called);
     });
   });
 
-  suite('gr-linked-text with null config', function() {
-    var element;
-    var sandbox;
+  suite('gr-linked-text with null config', () => {
+    let element;
+    let sandbox;
 
-    setup(function() {
+    setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(function() {
+    teardown(() => {
       sandbox.restore();
     });
 
-    test('_contentOrConfigChanged not called without config', function() {
-      var contentStub = sandbox.stub(element, '_contentChanged');
-      var contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
+    test('_contentOrConfigChanged not called without config', () => {
+      const contentStub = sandbox.stub(element, '_contentChanged');
+      const contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
       element.content = 'some text';
       assert.isTrue(contentStub.called);
       assert.isFalse(contentConfigStub.called);

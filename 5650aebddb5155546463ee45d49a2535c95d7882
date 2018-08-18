@@ -117,6 +117,30 @@
       "revId": "5650aebddb5155546463ee45d49a2535c95d7882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c750af7c_513785b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-08-18T00:19:40Z",
+      "side": 1,
+      "message": "\u003e In that case I\u0027m confused about why this function is included in this file.\n\nGerrit.flushPreinstalls() gets executed on instantiation, therefore a test wrapper is added to trigger it outside of initial cycle.\n\n\u003e If the test only checks that an otherwise-unused test interface function works, isn\u0027t the test only testing itself?\n\nGerrit._flushPreinstalls is a test interface for Gerrit.flushPreinstalls();\nSo the test validates Gerrit.flushPreinstalls() gets called if it exists.",
+      "parentUuid": "4afe7b6b_7983d465",
+      "range": {
+        "startLine": 463,
+        "startChar": 11,
+        "endLine": 463,
+        "endChar": 28
+      },
+      "revId": "5650aebddb5155546463ee45d49a2535c95d7882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

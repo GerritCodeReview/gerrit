@@ -34,6 +34,24 @@
       "revId": "10bb87dfe75468c4f9900ca3d378b4a72df8993f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e1e3df2_4bc1adde",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-19T23:59:30Z",
+      "side": 1,
+      "message": "The examples here should be the actual JSON that gets sent, which won\u0027t be the case if we use \"\u003cdestination-branch-name\u003e\".\n\nAlso it would make this example inconsistent with all the others.",
+      "parentUuid": "15c06960_aac415b6",
+      "revId": "10bb87dfe75468c4f9900ca3d378b4a72df8993f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

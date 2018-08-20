@@ -2110,13 +2110,16 @@
      *     index.
      * @param {number|string} patchNum
      * @param {string} path
+     * @param {string=} opt_whitespace the ignore-whitespace level for the diff
+     *     algorithm.
      * @param {function(?Response, string=)=} opt_errFn
      */
-    getDiff(changeNum, basePatchNum, patchNum, path, opt_errFn) {
+    getDiff(changeNum, basePatchNum, patchNum, path, opt_whitespace,
+        opt_errFn) {
       const params = {
         context: 'ALL',
         intraline: null,
-        whitespace: 'IGNORE_NONE',
+        whitespace: opt_whitespace || 'IGNORE_NONE',
       };
       if (this.isMergeParent(basePatchNum)) {
         params.parent = this.getParentIndex(basePatchNum);

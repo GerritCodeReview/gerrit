@@ -17,23 +17,23 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-copy-clipboard</title>
+<title>gr-shell-command</title>
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-copy-clipboard.html">
+<link rel="import" href="gr-shell-command.html">
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
-    <gr-copy-clipboard></gr-copy-clipboard>
+    <gr-shell-command></gr-shell-command>
   </template>
 </test-fixture>
 
 <script>
-  suite('gr-copy-clipboard tests', () => {
+  suite('gr-shell-command tests', () => {
     let element;
     let sandbox;
 
@@ -49,31 +49,18 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('copy to clipboard', () => {
-      const clipboardSpy = sandbox.spy(element, '_copyToClipboard');
-      const copyBtn = element.$$('.copyToClipboard');
-      MockInteractions.tap(copyBtn);
-      assert.isTrue(clipboardSpy.called);
-    });
-
     test('focusOnCopy', () => {
+      const focusStub = sandbox.stub(element.$$('gr-copy-clipboard'),
+          'focusOnCopy');
       element.focusOnCopy();
-      assert.deepEqual(Polymer.dom(element.root).activeElement,
-          element.$$('.copyToClipboard'));
+      assert.isTrue(focusStub.called);
     });
 
-    test('_handleInputTap', () => {
-      const inputElement = element.$$('input');
-      MockInteractions.tap(inputElement);
-      assert.equal(inputElement.selectionStart, 0);
-      assert.equal(inputElement.selectionEnd, element.text.length - 1);
-    });
-
-    test('hideInput', () => {
-      assert.notEqual(getComputedStyle(element.$.input).display, 'none');
+    test('hideLabel', () => {
+      assert.notEqual(getComputedStyle(element.$.label).display, 'none');
       element.hideInput = true;
       flushAsynchronousOperations();
-      assert.equal(getComputedStyle(element.$.input).display, 'none');
+      assert.equal(getComputedStyle(element.$.label).display, 'none');
     });
   });
 </script>

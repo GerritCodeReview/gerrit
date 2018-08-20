@@ -114,7 +114,7 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, SetMembersCommand.class);
     command(gerrit, CreateBranchCommand.class);
     command(gerrit, SetAccountCommand.class);
-    command(gerrit, AdminSetParent.class);
+    command(gerrit, SetParentCommand.class);
 
     command(testSubmit, TestSubmitRuleCommand.class);
     command(testSubmit, TestSubmitTypeCommand.class);

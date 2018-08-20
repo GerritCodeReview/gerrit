@@ -20,7 +20,11 @@ default this is `All-Projects`.  This command sets
 the project to inherit through another one.
 
 == ACCESS
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be a member of the privileged 'Administrators' group
+or, if
+link:config-gerrit.html#receive.allowProjectOwnersToChangeParent[receive.allowProjectOwnersToChangeParent]
+is enabled, be a project owner of the projects that is getting their
+parent updated.
 
 == SCRIPTING
 This command is intended to be used in scripts.

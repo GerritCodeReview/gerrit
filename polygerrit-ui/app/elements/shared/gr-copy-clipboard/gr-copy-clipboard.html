@@ -41,9 +41,33 @@ limitations under the License.
       .hideLabel label {
         display: none;
       }
+      .commandContainer {
+        margin-bottom: .75em;
+      }
+      .commandContainer {
+        background-color: var(--shell-command-background-color);
+        padding: .5em .5em .5em 2.5em;
+        position: relative;
+        width: 100%;
+      }
+      .commandContainer:before {
+        background: var(--shell-command-decoration-background-color);
+        bottom: 0;
+        content: '$';
+        display: block;
+        left: 0;
+        padding: .8em;
+        position: absolute;
+        top: 0;
+        width: 2em;
+      }
       input {
         font-family: var(--monospace-font-family);
         font-size: inherit;
+        @apply --text-container-style;
+      }
+      .commandContainer input {
+        border: none;
         @apply --text-container-style;
       }
       #icon {
@@ -51,23 +75,25 @@ limitations under the License.
         width: 1.2em;
       }
     </style>
-    <div class$="text [[_computeLabelClass(hideLabel)]]">
-        <label>[[title]]</label>
-        <input id="input" is="iron-input"
-            class$="copyText [[_computeInputClass(hideInput)]]"
-            type="text"
-            bind-value="[[text]]"
-            on-tap="_handleInputTap"
-            readonly>
-        <gr-button id="button"
-            link
-            has-tooltip="[[hasTooltip]]"
-            class="copyToClipboard"
-            title="[[buttonTitle]]"
-            on-tap="_copyToClipboard">
-          <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
-        </gr-button>
-      </div>
+    <label>[[title]]</label>
+    <div class$="[[_computeInputWrapperClass(command)]]">
+        <div class$="text [[_computeLabelClass(hideLabel)]]">
+          <input id="input" is="iron-input"
+              class$="copyText [[_computeInputClass(hideInput)]]"
+              type="text"
+              bind-value="[[text]]"
+              on-tap="_handleInputTap"
+              readonly>
+          <gr-button id="button"
+              link
+              has-tooltip="[[hasTooltip]]"
+              class="copyToClipboard"
+              title="[[buttonTitle]]"
+              on-tap="_copyToClipboard">
+            <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
+          </gr-button>
+        </div>
+    </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-copy-clipboard.js"></script>

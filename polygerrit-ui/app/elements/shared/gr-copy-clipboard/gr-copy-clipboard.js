@@ -38,6 +38,10 @@
         type: Boolean,
         value: false,
       },
+      command: {
+        type: Boolean,
+        value: false
+      }
     },
 
     focusOnCopy() {
@@ -50,6 +54,10 @@
 
     _computeLabelClass(hideLabel) {
       return hideLabel ? 'hideLabel' : '';
+    },
+
+    _computeInputWrapperClass(command) {
+      return command ? 'commandContainer' : '';
     },
 
     _handleInputTap(e) {

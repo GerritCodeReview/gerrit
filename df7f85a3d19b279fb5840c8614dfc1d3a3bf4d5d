@@ -34,6 +34,24 @@
       "revId": "df7f85a3d19b279fb5840c8614dfc1d3a3bf4d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9f795a5_d5b531ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-20T21:18:43Z",
+      "side": 1,
+      "message": "You were right to question whether this uses the correct data format, because this caused issue 9604.",
+      "parentUuid": "a961fc84_ff29c637",
+      "revId": "df7f85a3d19b279fb5840c8614dfc1d3a3bf4d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

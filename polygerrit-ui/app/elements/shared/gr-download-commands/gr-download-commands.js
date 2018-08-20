@@ -44,7 +44,7 @@
     },
 
     focusOnCopy() {
-      this.$$('gr-copy-clipboard').focusOnCopy();
+      this.$$('gr-shell-command').focusOnCopy();
     },
 
     _getLoggedIn() {

@@ -20,7 +20,7 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/paper-tabs/paper-tabs.html">
-<link rel="import" href="../../shared/gr-copy-clipboard/gr-copy-clipboard.html">
+<link rel="import" href="../../shared/gr-shell-command/gr-shell-command.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -52,7 +52,7 @@ limitations under the License.
         display: flex;
         flex-direction: column;
       }
-      gr-copy-clipboard {
+      gr-shell-command {
         width: 60em;
         margin-bottom: .5em;
       }
@@ -75,9 +75,9 @@ limitations under the License.
       <template is="dom-repeat"
           items="[[commands]]"
           as="command">
-        <gr-copy-clipboard
-            title=[[command.title]]
-            text=[[command.command]]></gr-copy-clipboard>
+        <gr-shell-command
+            label=[[command.title]]
+            command=[[command.command]]></gr-shell-command>
       </template>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

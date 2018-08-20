@@ -399,10 +399,6 @@ class ReceiveCommits {
   private Optional<NoteDbPushOption> noteDbPushOption;
   private Optional<Boolean> tracePushOption;
 
-  // Handles for outputting back over the wire to the end user.
-  private Task newProgress;
-  private Task replaceProgress;
-  private Task closeProgress;
   private MessageSender messageSender;
 
   @Inject
@@ -551,13 +547,9 @@ class ReceiveCommits {
   }
 
   void processCommands(Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
-    newProgress = progress.beginSubTask("new", UNKNOWN);
-    replaceProgress = progress.beginSubTask("updated", UNKNOWN);
-    closeProgress = progress.beginSubTask("closed", UNKNOWN);
-
     Task commandProgress = progress.beginSubTask("refs", UNKNOWN);
     commands = commands.stream().map(c -> wrapReceiveCommand(c, commandProgress)).collect(toList());
-    processCommandsUnsafe(commands);
+    processCommandsUnsafe(commands, progress);
     for (ReceiveCommand cmd : commands) {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
@@ -565,10 +557,15 @@ class ReceiveCommits {
     }
     commandProgress.end();
     progress.end();
+
+    // Update account info with details discovered during commit walking. The account update happens
+    // in a separate batch update, and failure doesn't cause the push itself to fail.
+    updateAccountInfo();
   }
 
   // Process as many commands as possible, but may leave some commands in state NOT_ATTEMPTED.
-  private void processCommandsUnsafe(Collection<ReceiveCommand> commands) {
+  private void processCommandsUnsafe(
+      Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
     parsePushOptions();
     try (TraceContext traceContext =
         TraceContext.open()
@@ -617,7 +614,8 @@ class ReceiveCommits {
         }
 
         if (!regularCommands.isEmpty()) {
-          handleRegularCommands(regularCommands);
+          handleRegularCommands(regularCommands, progress);
+          return;
         }
 
         for (ReceiveCommand cmd : directPatchSetPushCommands) {
@@ -638,12 +636,15 @@ class ReceiveCommits {
         return;
       }
 
+      Task newProgress = progress.beginSubTask("new", UNKNOWN);
+      Task replaceProgress = progress.beginSubTask("updated", UNKNOWN);
+
       List<CreateRequest> newChanges = Collections.emptyList();
       if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
-        newChanges = selectNewAndReplacedChangesFromMagicBranch();
+        newChanges = selectNewAndReplacedChangesFromMagicBranch(newProgress);
       }
       preparePatchSetsForReplace(newChanges);
-      insertChangesAndPatchSets(newChanges);
+      insertChangesAndPatchSets(newChanges, replaceProgress);
       newProgress.end();
       replaceProgress.end();
 
@@ -656,15 +657,11 @@ class ReceiveCommits {
         receivePack.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
       }
 
-      // Update account info with details discovered during commit walking.
-      updateAccountInfo();
-
-      closeProgress.end();
       reportMessages(newChanges);
     }
   }
 
-  private void handleRegularCommands(List<ReceiveCommand> cmds)
+  private void handleRegularCommands(List<ReceiveCommand> cmds, MultiProgressMonitor progress)
       throws PermissionBackendException, IOException, NoSuchProjectException {
     for (ReceiveCommand cmd : cmds) {
       parseRegularCommand(cmd);
@@ -710,7 +707,9 @@ class ReceiveCommits {
           case CREATE:
           case UPDATE:
           case UPDATE_NONFASTFORWARD:
-            autoCloseChanges(c);
+            Task closeProgress = progress.beginSubTask("closed", UNKNOWN);
+            autoCloseChanges(c, closeProgress);
+            closeProgress.end();
             branches.add(new Branch.NameKey(project.getNameKey(), c.getRefName()));
             break;
 
@@ -811,7 +810,7 @@ class ReceiveCommits {
     }
   }
 
-  private void insertChangesAndPatchSets(List<CreateRequest> newChanges) {
+  private void insertChangesAndPatchSets(List<CreateRequest> newChanges, Task replaceProgress) {
     ReceiveCommand magicBranchCmd = magicBranch != null ? magicBranch.cmd : null;
     if (magicBranchCmd != null && magicBranchCmd.getResult() != NOT_ATTEMPTED) {
       logger.atWarning().log(
@@ -1896,7 +1895,7 @@ class ReceiveCommits {
     return true;
   }
 
-  private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch() {
+  private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch(Task newProgress) {
     logger.atFine().log("Finding new and replaced changes");
     List<CreateRequest> newChanges = new ArrayList<>();
 
@@ -2018,7 +2017,7 @@ class ReceiveCommits {
         }
 
         if (idList.isEmpty()) {
-          newChanges.add(new CreateRequest(c, magicBranch.dest.get()));
+          newChanges.add(new CreateRequest(c, magicBranch.dest.get(), newProgress));
           continue;
         }
       }
@@ -2102,7 +2101,7 @@ class ReceiveCommits {
           }
           newChangeIds.add(p.changeKey);
         }
-        newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get()));
+        newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get(), newProgress));
       }
       logger.atFine().log(
           "Finished deferred lookups with %d updates and %d new changes",
@@ -2281,6 +2280,7 @@ class ReceiveCommits {
 
   private class CreateRequest {
     final RevCommit commit;
+    final Task progress;
     private final String refName;
 
     Change.Id changeId;
@@ -2290,9 +2290,10 @@ class ReceiveCommits {
 
     Change change;
 
-    CreateRequest(RevCommit commit, String refName) {
+    CreateRequest(RevCommit commit, String refName, Task progress) {
       this.commit = commit;
       this.refName = refName;
+      this.progress = progress;
     }
 
     private void setChangeId(int id) {
@@ -2387,7 +2388,7 @@ class ReceiveCommits {
                 return false;
               }
             });
-        bu.addOp(changeId, new ChangeProgressOp(newProgress));
+        bu.addOp(changeId, new ChangeProgressOp(progress));
       } catch (Exception e) {
         throw INSERT_EXCEPTION.apply(e);
       }
@@ -3004,15 +3005,16 @@ class ReceiveCommits {
     return true;
   }
 
-  private void autoCloseChanges(ReceiveCommand cmd) {
+  private void autoCloseChanges(ReceiveCommand cmd, Task progress) {
     logger.atFine().log("Starting auto-closing of changes");
     String refName = cmd.getRefName();
     checkState(
         !MagicBranch.isMagicBranch(refName),
         "shouldn't be auto-closing changes on magic branch %s",
         refName);
+
     // TODO(dborowitz): Combine this BatchUpdate with the main one in
-    // insertChangesAndPatchSets.
+    // handleRegularCommands
     try {
       retryHelper.execute(
           updateFactory -> {
@@ -3085,7 +3087,7 @@ class ReceiveCommits {
                     mergedByPushOpFactory
                         .create(requestScopePropagator, req.psId, refName)
                         .setPatchSetProvider(req.replaceOp::getPatchSet));
-                bu.addOp(id, new ChangeProgressOp(closeProgress));
+                bu.addOp(id, new ChangeProgressOp(progress));
               }
 
               logger.atFine().log(

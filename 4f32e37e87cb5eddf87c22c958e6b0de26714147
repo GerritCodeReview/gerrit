@@ -80,6 +80,30 @@
       "revId": "4f32e37e87cb5eddf87c22c958e6b0de26714147",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b78136cf_90fc0c6f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-08-20T07:09:27Z",
+      "side": 1,
+      "message": "Sorry, read through the previous comments to fast, didn\u0027t see yours.\nAs I was trying to say in my comments, it\u0027s just an oddity I noticed and I don\u0027t feel that it needs to be addressed since I wouldn\u0027t know how to address it without confusing the user further.",
+      "parentUuid": "309d97c5_fe5a5312",
+      "range": {
+        "startLine": 606,
+        "startChar": 52,
+        "endLine": 606,
+        "endChar": 97
+      },
+      "revId": "4f32e37e87cb5eddf87c22c958e6b0de26714147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

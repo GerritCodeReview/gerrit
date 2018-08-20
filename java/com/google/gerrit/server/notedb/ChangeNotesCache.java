@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Table;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -46,6 +47,8 @@ import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class ChangeNotesCache {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @VisibleForTesting static final String CACHE_NAME = "change_notes";
 
   public static Module module() {
@@ -345,6 +348,8 @@ public class ChangeNotesCache {
 
     @Override
     public ChangeNotesState call() throws ConfigInvalidException, IOException {
+      logger.atFine().log(
+          "Load change notes for change %s of project %s", key.changeId(), key.project());
       ChangeNotesParser parser =
           new ChangeNotesParser(
               key.changeId(),

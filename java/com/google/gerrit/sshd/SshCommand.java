@@ -14,11 +14,17 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.util.RequestId;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Option;
 
 public abstract class SshCommand extends BaseCommand {
+  @Option(name = "--trace", usage = "enable request tracing")
+  private boolean trace;
+
   protected PrintWriter stdout;
   protected PrintWriter stderr;
 
@@ -31,7 +37,7 @@ public abstract class SshCommand extends BaseCommand {
             parseCommandLine();
             stdout = toPrintWriter(out);
             stderr = toPrintWriter(err);
-            try {
+            try (TraceContext traceContext = enableTracing()) {
               SshCommand.this.run();
             } finally {
               stdout.flush();
@@ -42,4 +48,13 @@ public abstract class SshCommand extends BaseCommand {
   }
 
   protected abstract void run() throws UnloggedFailure, Failure, Exception;
+
+  private TraceContext enableTracing() {
+    if (trace) {
+      RequestId traceId = new RequestId();
+      stderr.println(String.format("%s = %s", RequestId.Type.TRACE_ID, traceId));
+      return TraceContext.open().addTag(RequestId.Type.TRACE_ID, traceId);
+    }
+    return TraceContext.DISABLED;
+  }
 }

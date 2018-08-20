@@ -2516,7 +2516,7 @@ class ReceiveCommits {
       if (!validateNewPatchSetCommit()) {
         return false;
       }
-      sameTreeWarning(false);
+      sameTreeWarning();
 
       if (magicBranch != null) {
         validateMagicBranchWipStatusChange();
@@ -2538,7 +2538,7 @@ class ReceiveCommits {
       if (!validateNewPatchSetCommit()) {
         return false;
       }
-      sameTreeWarning(true);
+
       newPatchSet();
       return true;
     }
@@ -2630,7 +2630,7 @@ class ReceiveCommits {
     }
 
     /** prints a warning if the new PS has the same tree as the previous commit. */
-    private void sameTreeWarning(boolean autoClose) throws IOException {
+    private void sameTreeWarning() throws IOException {
       RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
 
@@ -2641,7 +2641,7 @@ class ReceiveCommits {
         boolean authorEq = authorEqual(newCommit, priorCommit);
         ObjectReader reader = receivePack.getRevWalk().getObjectReader();
 
-        if (messageEq && parentsEq && authorEq && !autoClose) {
+        if (messageEq && parentsEq && authorEq) {
           addMessage(
               String.format(
                   "warning: no changes between prior commit %s and new commit %s",

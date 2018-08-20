@@ -17,5 +17,6 @@ def acceptance_tests(
         ],
         size = "large",
         jvm_flags = vm_args,
+        shard_count =5,
         **kwargs
     )

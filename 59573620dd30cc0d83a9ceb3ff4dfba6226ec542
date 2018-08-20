@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8edf98c4_c5f3b28a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-20T23:07:57Z",
+      "side": 1,
+      "message": "Remove this period.",
+      "range": {
+        "startLine": 7,
+        "startChar": 55,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "59573620dd30cc0d83a9ceb3ff4dfba6226ec542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "793bcf4b_bca5afe5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-20T23:07:57Z",
+      "side": 1,
+      "message": "I think there might be value in refactoring this work into a new element, gr-shell-command, that wraps a gr-copy-clipboard with these styles and such. That\u0027d be a bit cleaner, more explicit, and testable.\n\nWe use the copy-clipboard element anywhere you see the copy icon, so hiding all of this related DOM in every scenario seems a bit inefficient.",
+      "revId": "59573620dd30cc0d83a9ceb3ff4dfba6226ec542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -52,6 +52,47 @@
       "revId": "7839dd3f54fd9d99328ed109c1f9fbf369a54587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a974bb_10ad96b2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-08-20T07:31:42Z",
+      "side": 0,
+      "message": "\"git-review\" is the only blocker I know. \n\n\u003e For our internal customers, deleting it makes it go away in production, like, next week. If we remove support for something that, say, Chromium is using without informing them, or just fixing their callers, then they will complain and we will have to roll back the release.\n\nAn announcement(+cc to affected teams) to internal users one week before removing should be friendly enough. Of course, we need to fix all of those callers so that it doesn\u0027t break anyone.",
+      "parentUuid": "c4e7c97a_581ad1d3",
+      "revId": "7839dd3f54fd9d99328ed109c1f9fbf369a54587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f4e830a_108f30e9",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2063,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-08-20T07:31:42Z",
+      "side": 0,
+      "message": "Should we change add a test to verify pushing to \"refs/publish\" fail as expect?",
+      "range": {
+        "startLine": 2054,
+        "startChar": 1,
+        "endLine": 2063,
+        "endChar": 0
+      },
+      "revId": "7839dd3f54fd9d99328ed109c1f9fbf369a54587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

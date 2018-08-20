@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1534776928 +0200\nnonce ACQ0HpyqcMeNL20nFRU1grGSC4OMyj4sWHkRIiKhs8sOSu4yHhpEoyx2fL6hUPCrmLaTt/xKgzTQ\n\n0000000000000000000000000000000000000000 e57f8acb9c674e0083fc13d84cb5508148afe478 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlt61mAACgkQUbX9l6DQ\n71Fh3AgAmTYtITFTlKTogT3PSbdLfWf2EUHfEEVTlff2DwhnDlNO6zcGBABQpGXx\nUaTfmAHIU5B7ljNHj/1G+ww8zSMsJkc0FUGXXoIU2sU0YyDgSvjqJEWxAMBxki5k\nmK5/rP8MO9EUkd2tdRaHvt2rBPPXhTuUALXot93lqxZtSmVTzBfamiim6rOAvGc6\nxkkB0jx+2TeBW4o0L69AWHsrkLcfXTtMlYOqViopV38845Ikbxk9zu+hk+ICxXAT\nRAfsxiaFjgFHlcSesZO7SoaTTFNMPPOyhDehSaPi4VAMArxs0aaFGCpYNQRtLKC6\nGbmbsFv2iJ2Tj2OLyIQeBaHYAClTVQ\u003d\u003d\n\u003dadRi\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "54c08bfa_bb18838b",
+        "filename": "java/com/google/gerrit/sshd/SshCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-20T15:32:39Z",
+      "side": 1,
+      "message": "\"enable\"?",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "e57f8acb9c674e0083fc13d84cb5508148afe478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad686a8_4cb37bbc",
+        "filename": "java/com/google/gerrit/sshd/SshCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-20T15:32:39Z",
+      "side": 1,
+      "message": "Should this be stderr instead? If callers are assuming stdout is in the standard machine-readable format, then this might break them.",
+      "revId": "e57f8acb9c674e0083fc13d84cb5508148afe478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -149,7 +149,7 @@ public abstract class AbstractChangeNotes<T> {
       return self();
     }
 
-    logger.atFine().log(
+    logger.atFinest().log(
         "Load %s for change %s of project %s from %s (%s)",
         getClass().getSimpleName(), getChangeId(), getProjectName(), getRefName(), primaryStorage);
 

@@ -2417,7 +2417,7 @@ class ReceiveCommits {
       for (Iterator<ReplaceRequest> itr = replaceByChange.values().iterator(); itr.hasNext(); ) {
         ReplaceRequest req = itr.next();
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
-          req.validateNewPatchSetCommit(false);
+          req.validateNewPatchSet(false);
         }
       }
     } catch (OrmException err) {
@@ -2514,7 +2514,29 @@ class ReceiveCommits {
      * @throws OrmException
      * @throws PermissionBackendException
      */
-    boolean validateNewPatchSetCommit(boolean autoClose)
+    boolean validateNewPatchSet(boolean autoClose)
+        throws IOException, OrmException, PermissionBackendException {
+      if (!validateNewPatchSetCommit()) {
+        return false;
+      }
+      sameTreeWarning(autoClose);
+
+      if (magicBranch != null) {
+        validateMagicBranchWipStatusChange();
+        if (inputCommand.getResult() != NOT_ATTEMPTED) {
+          return false;
+        }
+
+        if (magicBranch.edit || magicBranch.draft) {
+          return newEdit();
+        }
+      }
+
+      newPatchSet();
+      return true;
+    }
+
+    private boolean validateNewPatchSetCommit()
         throws IOException, OrmException, PermissionBackendException {
       if (notes == null) {
         reject(inputCommand, "change " + ontoChange + " not found");
@@ -2529,7 +2551,6 @@ class ReceiveCommits {
       }
 
       RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
-      RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
 
       // Not allowed to create a new patch set if the current patch set is locked.
       if (psUtil.isPatchSetLocked(notes)) {
@@ -2573,9 +2594,36 @@ class ReceiveCommits {
           receivePack.getRevWalk(), change.getDest(), inputCommand, newCommit, change)) {
         return false;
       }
+      return true;
+    }
 
-      receivePack.getRevWalk().parseBody(priorCommit);
+    // Validate whether the WIP change is allowed. Rejects inputCommand if not.
+    private void validateMagicBranchWipStatusChange() throws PermissionBackendException {
+      Change change = notes.getChange();
+      if ((magicBranch.workInProgress || magicBranch.ready)
+          && magicBranch.workInProgress != change.isWorkInProgress()
+          && !user.getAccountId().equals(change.getOwner())) {
+        boolean hasWriteConfigPermission = false;
+        try {
+          permissions.check(ProjectPermission.WRITE_CONFIG);
+          hasWriteConfigPermission = true;
+        } catch (AuthException e) {
+          // Do nothing.
+        }
 
+        if (!hasWriteConfigPermission) {
+          try {
+            permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+          } catch (AuthException e1) {
+            reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
+          }
+        }
+      }
+    }
+
+    private void sameTreeWarning(boolean autoClose) throws IOException {
+      RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
+      RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
       // Warning if the tree was the same.
       if (newCommit.getTree().equals(priorCommit.getTree())) {
         boolean messageEq =
@@ -2606,35 +2654,6 @@ class ReceiveCommits {
           addMessage(msg.toString());
         }
       }
-
-      if (magicBranch != null
-          && (magicBranch.workInProgress || magicBranch.ready)
-          && magicBranch.workInProgress != change.isWorkInProgress()
-          && !user.getAccountId().equals(change.getOwner())) {
-        boolean hasWriteConfigPermission = false;
-        try {
-          permissions.check(ProjectPermission.WRITE_CONFIG);
-          hasWriteConfigPermission = true;
-        } catch (AuthException e) {
-          // Do nothing.
-        }
-
-        if (!hasWriteConfigPermission) {
-          try {
-            permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-          } catch (AuthException e1) {
-            reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
-            return false;
-          }
-        }
-      }
-
-      if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {
-        return newEdit();
-      }
-
-      newPatchSet();
-      return true;
     }
 
     private boolean newEdit() {
@@ -3065,7 +3084,7 @@ class ReceiveCommits {
 
               for (ReplaceRequest req : replaceAndClose) {
                 Change.Id id = req.notes.getChangeId();
-                if (!req.validateNewPatchSetCommit(true)) {
+                if (!req.validateNewPatchSet(true)) {
                   logger.atFine().log("Not closing %s because validation failed", id);
                   continue;
                 }

@@ -34,6 +34,24 @@
       "revId": "7c4b2ee181a7b5b4928e88e3b71ed9becef92991",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b64cdbbf_9a1621ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-20T08:38:44Z",
+      "side": 1,
+      "message": "Updated the commit message to clarify.",
+      "parentUuid": "5440a5ed_d7066725",
+      "revId": "7c4b2ee181a7b5b4928e88e3b71ed9becef92991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

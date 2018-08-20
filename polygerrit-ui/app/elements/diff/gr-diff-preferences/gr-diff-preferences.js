@@ -67,6 +67,7 @@
       this.$.lineWrappingInput.checked = prefs.line_wrapping;
       this.$.syntaxHighlightInput.checked = prefs.syntax_highlighting;
       this.$.automaticReviewInput.checked = !prefs.manual_review;
+      this.$.ignoreWhitespace.value = prefs.ignore_whitespace;
     },
 
     _localPrefsChanged(changeRecord) {
@@ -77,6 +78,11 @@
     _handleContextSelectChange(e) {
       const selectEl = Polymer.dom(e).rootTarget;
       this.set('_newPrefs.context', parseInt(selectEl.value, 10));
+    },
+
+    _handleIgnoreWhitespaceChange(e) {
+      const selectEl = Polymer.dom(e).rootTarget;
+      this.set('_newPrefs.ignore_whitespace', selectEl.value);
     },
 
     _handleShowTabsTap(e) {

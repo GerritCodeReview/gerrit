@@ -30,6 +30,8 @@
   const NO_NEWLINE_BASE = 'No newline at end of base file.';
   const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
 
+  const WHITESPACE_IGNORE_NONE = 'IGNORE_NONE';
+
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
@@ -141,6 +143,7 @@
         value: false,
       },
       _diff: Object,
+      _loadedWhitespaceLevel: String,
       _diffHeaderItems: {
         type: Array,
         value: [],
@@ -241,7 +244,7 @@
       this._showError = false;
       this.clearDiffContent();
 
-      const diffRequest = this._getDiff();
+      const diffRequest = this._getDiff(this.prefs.ignore_whitespace);
 
       const assetRequest = diffRequest.then(diff => {
         // If the diff is null, then it's failed to load.
@@ -711,6 +714,13 @@
       this.updateStyles(stylesToUpdate);
 
       if (this._diff && this.comments && !this.noRenderOnPrefsChange) {
+        // If the whitespace level is different from the last time the diff
+        // content was loaded, then the diff content must be reloaded.
+        if (this._loadedWhitespaceLevel &&
+            this._loadedWhitespaceLevel !== prefs.ignore_whitespace) {
+          return this.reload();
+        }
+
         this._renderDiffTable();
       }
     },
@@ -763,7 +773,9 @@
     },
 
     /** @return {!Promise<!Object>} */
-    _getDiff() {
+    _getDiff(opt_whitespace) {
+      const whitespace = opt_whitespace;
+
       // Wrap the diff request in a new promise so that the error handler
       // rejects the promise, allowing the error to be handled in the .catch.
       const request = new Promise((resolve, reject) => {
@@ -772,6 +784,7 @@
             this.patchRange.basePatchNum,
             this.patchRange.patchNum,
             this.path,
+            whitespace,
             reject)
             .then(resolve);
       });
@@ -779,7 +792,13 @@
       return request
           .then(diff => {
             this.filesWeblinks = this._getFilesWeblinks(diff);
-            this._diff = diff;
+
+            this._loadedWhitespaceLevel = whitespace;
+            if (whitespace === WHITESPACE_IGNORE_NONE) {
+              this._diff = diff;
+            } else {
+              this._diff = this._translateChunksToIgnore(diff);
+            }
             this._reportDiff(diff);
             return diff;
           })
@@ -787,6 +806,44 @@
             this._handleGetDiffError(e);
             return null;
           });
+    },
+
+    /**
+     * Take a diff that was loaded with a ignore-whitespace other than
+     * IGNORE_NONE, and convert delta chunks labeled as common into shared
+     * chunks.
+     * @param {!Object} diff
+     * @returns {!Object}
+     */
+    _translateChunksToIgnore(diff) {
+      const newDiff = Object.assign({}, diff);
+      const mergedContent = [];
+
+      // Was the last chunk visited a shared chunk?
+      let lastWasShared = false;
+
+      for (const chunk of diff.content) {
+        if (lastWasShared) {
+          if (chunk.common) {
+            // The last chunk was shared and this chunk should be ignored, so
+            // add its revision content to the previous chunk.
+            mergedContent[mergedContent.length - 1].ab.push(...chunk.b);
+            continue;
+          } else if (chunk.ab) {
+            // Both the last chunk and the current chunk are shared. Merge this
+            // chunk's shared content into the previous shared content.
+            mergedContent[mergedContent.length - 1].ab.push(...chunk.ab);
+            continue;
+          }
+        }
+
+        // Otherwise add the chunk as is.
+        mergedContent.push(chunk);
+        lastWasShared = !!chunk.ab;
+      }
+
+      newDiff.content = mergedContent;
+      return newDiff;
     },
 
     _getFilesWeblinks(diff) {

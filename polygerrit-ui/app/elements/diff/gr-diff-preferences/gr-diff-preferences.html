@@ -60,7 +60,7 @@ limitations under the License.
         align-items: center;
         display: flex;
         padding: .35em 1.5em;
-        width: 20em;
+        width: 25em;
       }
       .pref:hover {
         background-color: var(--hover-background-color);
@@ -148,6 +148,15 @@ limitations under the License.
               id="automaticReviewInput"
               type="checkbox"
               on-tap="_handleAutomaticReviewTap">
+        </div>
+        <div class="pref">
+          <label for="ignoreWhitespace">Ignore Whitespace</label>
+          <select id="ignoreWhitespace" on-change="_handleIgnoreWhitespaceChange">
+            <option value="IGNORE_NONE">None</option>
+            <option value="IGNORE_TRAILING">Trailing</option>
+            <option value="IGNORE_LEADING_AND_TRAILING">Leading & trailing</option>
+            <option value="IGNORE_ALL">All</option>
+          </select>
         </div>
       </div>
       <div class="actions">

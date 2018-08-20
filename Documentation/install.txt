@@ -5,7 +5,9 @@
 To run the Gerrit service, the following requirements must be met on
 the host:
 
-* JRE, minimum version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
+* JRE, version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
++
+Gerrit is not yet compatible with Java 9 or newer at this time.
 
 You'll also need an SQL database to house the review metadata. You have the
 choice of either using the embedded H2 or to host your own MySQL or PostgreSQL.

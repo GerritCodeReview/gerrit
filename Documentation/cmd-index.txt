@@ -85,6 +85,9 @@ link:cmd-set-head.html[gerrit set-head]::
 link:cmd-set-project.html[gerrit set-project]::
 	Change a project's settings.
 
+link:cmd-set-project-parent.html[gerrit set-project-parent]::
+Change the project permissions are inherited from.
+
 link:cmd-set-reviewers.html[gerrit set-reviewers]::
 	Add or remove reviewers on a change.
 
@@ -177,9 +180,6 @@ link:cmd-set-account.html[gerrit set-account]::
 
 link:cmd-set-members.html[gerrit set-members]::
 	Set group members.
-
-link:cmd-set-project-parent.html[gerrit set-project-parent]::
-	Change the project permissions are inherited from.
 
 link:cmd-show-caches.html[gerrit show-caches]::
 	Display current cache statistics.

@@ -16,41 +16,36 @@ package com.google.gerrit.sshd.commands;
 
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.ListChildProjects;
+import com.google.gerrit.server.restapi.project.SetParent;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
     name = "set-project-parent",
     description = "Change the project permissions are inherited from")
-final class AdminSetParent extends SshCommand {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
+final class SetParentCommand extends SshCommand {
   @Option(
       name = "--parent",
       aliases = {"-p"},
@@ -80,13 +75,17 @@ final class AdminSetParent extends SshCommand {
 
   @Inject private ProjectCache projectCache;
 
-  @Inject private MetaDataUpdate.User metaDataUpdateFactory;
-
-  @Inject private AllProjectsName allProjectsName;
-
   @Inject private ListChildProjects listChildProjects;
 
+  @Inject private SetParent setParent;
+
   private Project.NameKey newParentKey;
+
+  private static ParentInput parentInput(String parent) {
+    ParentInput input = new ParentInput();
+    input.parent = parent;
+    return input;
+  }
 
   @Override
   protected void run() throws Failure {
@@ -100,25 +99,9 @@ final class AdminSetParent extends SshCommand {
     }
 
     final StringBuilder err = new StringBuilder();
-    final Set<Project.NameKey> grandParents = new HashSet<>();
-
-    grandParents.add(allProjectsName);
 
     if (newParent != null) {
       newParentKey = newParent.getProject().getNameKey();
-
-      // Catalog all grandparents of the "parent", we want to
-      // catch a cycle in the parent pointers before it occurs.
-      //
-      Project.NameKey gp = newParent.getProject().getParent();
-      while (gp != null && grandParents.add(gp)) {
-        final ProjectState s = projectCache.get(gp);
-        if (s != null) {
-          gp = s.getProject().getParent();
-        } else {
-          break;
-        }
-      }
     }
 
     final List<Project.NameKey> childProjects =
@@ -135,47 +118,19 @@ final class AdminSetParent extends SshCommand {
 
     for (Project.NameKey nameKey : childProjects) {
       final String name = nameKey.get();
-
-      if (allProjectsName.equals(nameKey)) {
-        // Don't allow the wild card project to have a parent.
-        //
-        err.append("error: Cannot set parent of '").append(name).append("'\n");
-        continue;
-      }
-
-      if (grandParents.contains(nameKey) || nameKey.equals(newParentKey)) {
-        // Try to avoid creating a cycle in the parent pointers.
-        //
-        err.append("error: Cycle exists between '")
-            .append(name)
-            .append("' and '")
-            .append(newParentKey != null ? newParentKey.get() : allProjectsName.get())
-            .append("'\n");
-        continue;
-      }
-
-      try (MetaDataUpdate md = metaDataUpdateFactory.create(nameKey)) {
-        ProjectConfig config = ProjectConfig.read(md);
-        config.getProject().setParentName(newParentKey);
-        md.setMessage(
-            "Inherit access from "
-                + (newParentKey != null ? newParentKey.get() : allProjectsName.get())
-                + "\n");
-        config.commit(md);
-      } catch (RepositoryNotFoundException notFound) {
-        err.append("error: Project ").append(name).append(" not found\n");
-      } catch (IOException | ConfigInvalidException e) {
-        final String msg = "Cannot update project " + name;
-        logger.atSevere().withCause(e).log(msg);
-        err.append("error: ").append(msg).append("\n");
-      }
-
+      ProjectState project = projectCache.get(nameKey);
       try {
-        projectCache.evict(nameKey);
-      } catch (IOException e) {
-        final String msg = "Cannot reindex project: " + name;
-        logger.atSevere().withCause(e).log(msg);
-        err.append("error: ").append(msg).append("\n");
+        setParent.apply(new ProjectResource(project, user), parentInput(newParentKey.get()));
+      } catch (AuthException e) {
+        err.append("error: insuffient access rights to change parent of '")
+            .append(name)
+            .append("'\n");
+      } catch (ResourceConflictException | ResourceNotFoundException | BadRequestException e) {
+        err.append("error: ").append(e.getMessage()).append("'\n");
+      } catch (UnprocessableEntityException | IOException e) {
+        throw new Failure(1, "failure in request", e);
+      } catch (PermissionBackendException e) {
+        throw new Failure(1, "permissions unavailable", e);
       }
     }
 

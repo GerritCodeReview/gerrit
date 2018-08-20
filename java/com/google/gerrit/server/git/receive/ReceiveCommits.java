@@ -403,7 +403,6 @@ class ReceiveCommits {
   private Task newProgress;
   private Task replaceProgress;
   private Task closeProgress;
-  private Task commandProgress;
   private MessageSender messageSender;
 
   @Inject
@@ -552,23 +551,24 @@ class ReceiveCommits {
   }
 
   void processCommands(Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
-    commands = commands.stream().map(this::resolveMagicRefs).collect(toList());
-    processCommandsUnsafe(commands, progress);
+    newProgress = progress.beginSubTask("new", UNKNOWN);
+    replaceProgress = progress.beginSubTask("updated", UNKNOWN);
+    closeProgress = progress.beginSubTask("closed", UNKNOWN);
+
+    Task commandProgress = progress.beginSubTask("refs", UNKNOWN);
+    commands = commands.stream().map(c -> wrapReceiveCommand(c, commandProgress)).collect(toList());
+    processCommandsUnsafe(commands);
     for (ReceiveCommand cmd : commands) {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
       }
     }
+    commandProgress.end();
+    progress.end();
   }
 
   // Process as many commands as possible, but may leave some commands in state NOT_ATTEMPTED.
-  private void processCommandsUnsafe(
-      Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
-    newProgress = progress.beginSubTask("new", UNKNOWN);
-    replaceProgress = progress.beginSubTask("updated", UNKNOWN);
-    closeProgress = progress.beginSubTask("closed", UNKNOWN);
-    commandProgress = progress.beginSubTask("refs", UNKNOWN);
-
+  private void processCommandsUnsafe(Collection<ReceiveCommand> commands) {
     parsePushOptions();
     try (TraceContext traceContext =
         TraceContext.open()
@@ -660,8 +660,6 @@ class ReceiveCommits {
       updateAccountInfo();
 
       closeProgress.end();
-      commandProgress.end();
-      progress.end();
       reportMessages(newChanges);
     }
   }
@@ -960,24 +958,31 @@ class ReceiveCommits {
     }
   }
 
-  private ReceiveCommand resolveMagicRefs(ReceiveCommand cmd) {
-    if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
-      String newName = RefNames.refsUsers(user.getAccountId());
-      logger.atFine().log("Swapping out command for %s to %s", RefNames.REFS_USERS_SELF, newName);
-      final ReceiveCommand orgCmd = cmd;
+  // Wrap ReceiveCommand so the progress counter works automatically.
+  private ReceiveCommand wrapReceiveCommand(ReceiveCommand cmd, Task progress) {
+    String refname = cmd.getRefName();
 
-      // We must also update the original, because callers may inspect it afterwards to decide if
-      // the command went through or not.
-      return new ReceiveCommand(cmd.getOldId(), cmd.getNewId(), newName, cmd.getType()) {
-        @Override
-        public void setResult(Result s, String m) {
-          super.setResult(s, m);
-          orgCmd.setResult(s, m);
-        }
-      };
+    if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
+      refname = RefNames.refsUsers(user.getAccountId());
+      logger.atFine().log("Swapping out command for %s to %s", RefNames.REFS_USERS_SELF, refname);
     }
 
-    return cmd;
+    // We must also update the original, because callers may inspect it afterwards to decide if
+    // the command went through or not.
+    return new ReceiveCommand(cmd.getOldId(), cmd.getNewId(), refname, cmd.getType()) {
+      @Override
+      public void setResult(Result s, String m) {
+        // Counter intuitively, we don't check that results == NOT_ATTEMPTED here.
+        // This is so submit-on-push can still reject the update if the change is created
+        // successfully
+        // (status OK) but the submit failed (merge failed: REJECTED_OTHER_REASON).
+        super.setResult(s, m);
+        cmd.setResult(s, m);
+        if (getResult() == NOT_ATTEMPTED) { // Only report the progress update once.
+          progress.update(1);
+        }
+      }
+    };
   }
 
   /*
@@ -3167,11 +3172,8 @@ class ReceiveCommits {
     return allRefsWatcher.getAllRefs();
   }
 
-  private void reject(@Nullable ReceiveCommand cmd, String why) {
-    if (cmd != null) {
-      cmd.setResult(REJECTED_OTHER_REASON, why);
-      commandProgress.update(1);
-    }
+  private void reject(ReceiveCommand cmd, String why) {
+    cmd.setResult(REJECTED_OTHER_REASON, why);
   }
 
   private static boolean isHead(ReceiveCommand cmd) {

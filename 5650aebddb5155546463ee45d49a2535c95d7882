@@ -141,6 +141,30 @@
       "revId": "5650aebddb5155546463ee45d49a2535c95d7882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36ba6d3f_215f7c0a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-20T20:59:39Z",
+      "side": 1,
+      "message": "Resolved in-person.",
+      "parentUuid": "c750af7c_513785b8",
+      "range": {
+        "startLine": 463,
+        "startChar": 11,
+        "endLine": 463,
+        "endChar": 28
+      },
+      "revId": "5650aebddb5155546463ee45d49a2535c95d7882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

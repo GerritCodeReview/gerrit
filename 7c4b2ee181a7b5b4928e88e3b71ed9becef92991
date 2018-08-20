@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92d63fdc_df51959d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-20T06:08:39Z",
+      "side": 1,
+      "message": "The new UI should be adjusted as well when this change is merged to stable-2.15 and master?",
+      "revId": "7c4b2ee181a7b5b4928e88e3b71ed9becef92991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

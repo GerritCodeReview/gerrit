@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "330098ab_91e21b72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-20T01:27:32Z",
+      "side": 1,
+      "message": "Add some information here to explain why this is replaced, i.e. what are the benefits/advantages of doing it?",
+      "revId": "415285dac8dac7a8b08e41a248e04eaaeb0440b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d28405b3_4fe5546f",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-20T01:27:32Z",
+      "side": 1,
+      "message": "Move this declaration so it\u0027s not in the middle of all the commons- declarations?",
+      "revId": "415285dac8dac7a8b08e41a248e04eaaeb0440b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87ecf8f0_3eecc161",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-20T01:27:32Z",
+      "side": 1,
+      "message": "Move this down to around L47-48?",
+      "revId": "415285dac8dac7a8b08e41a248e04eaaeb0440b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1669d534_f174f520",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-20T01:27:32Z",
+      "side": 1,
+      "message": "We should not introduce a direct dependency on the codahale/dropwizard implementation. All of the metrics implementation should be abstracted behind com.google.gerrit.metrics.\n\nReason for this is to allow to bind an alternative metrics implementation (for example Google doesn\u0027t use dropwizard).",
+      "revId": "415285dac8dac7a8b08e41a248e04eaaeb0440b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

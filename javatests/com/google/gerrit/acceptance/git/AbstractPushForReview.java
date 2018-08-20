@@ -1228,7 +1228,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // BatchUpdate implementations differ in how they hook into progress monitors. We mostly just
     // care that there is a new change.
-    assertThat(pr.getMessages()).containsMatch("changes: new: 1,( refs: 1)? done");
+    assertThat(pr.getMessages()).containsMatch("changes: new: 1,( refs: 1)?,? done");
     assertTwoChangesWithSameRevision(r);
   }
 

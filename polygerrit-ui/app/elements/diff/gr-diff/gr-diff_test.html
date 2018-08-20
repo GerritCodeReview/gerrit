@@ -208,6 +208,58 @@ limitations under the License.
             element.$$('.diffContainer').classList.contains('displayLine'));
       });
 
+      suite.only('_translateChunksToIgnore', () => {
+        let content;
+
+        setup(() => {
+          content = [
+            {ab: ['one', 'two']},
+            {a: ['three'], b: ['different three']},
+            {b: ['four']},
+            {ab: ['five', 'six']},
+          ];
+        });
+
+        test('does nothing to unmarked diff', () => {
+          assert.deepEqual(element._translateChunksToIgnore({content}),
+              {content});
+        });
+
+        test('merges marked delta chunk', () => {
+          content[1].common = true;
+          assert.deepEqual(element._translateChunksToIgnore({content}), {
+            content: [
+              {ab: ['one', 'two', 'different three']},
+              {b: ['four']},
+              {ab: ['five', 'six']},
+            ],
+          });
+        });
+
+        test('merges marked addition chunk', () => {
+          content[2].common = true;
+          assert.deepEqual(element._translateChunksToIgnore({content}), {
+            content: [
+              {ab: ['one', 'two']},
+              {a: ['three'], b: ['different three']},
+              {ab: ['four', 'five', 'six']},
+            ],
+          });
+        });
+
+        test('merges multiple marked delta', () => {
+          content[1].common = true;
+          content[2].common = true;
+          console.log(element._translateChunksToIgnore({content}));
+          assert.deepEqual(element._translateChunksToIgnore({content}), {
+            content: [
+              {ab: ['one', 'two', 'different three', 'four', 'five', 'six']},
+            ],
+          });
+
+        });
+      });
+
       test('loads files weblinks', () => {
         const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
             .returns({name: 'stubb', url: '#s'});

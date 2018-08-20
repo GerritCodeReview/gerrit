@@ -1651,10 +1651,6 @@ class ReceiveCommits {
       rejectProhibited(cmd, err.get());
       return;
     }
-    if (!projectState.statePermitsWrite()) {
-      reject(cmd, "project state does not permit write");
-      return;
-    }
 
     // TODO(davido): Remove legacy support for drafts magic branch option
     // after repo-tool supports private and work-in-progress changes.
@@ -2548,10 +2544,6 @@ class ReceiveCommits {
         return false;
       }
 
-      if (!projectState.statePermitsWrite()) {
-        reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
-        return false;
-      }
       if (change.getStatus().isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;

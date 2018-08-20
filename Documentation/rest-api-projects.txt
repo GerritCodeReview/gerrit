@@ -1410,6 +1410,95 @@ returns immediately.
   Content-Disposition: attachment
 ----
 
+[[check]]
+=== Check project consistency
+
+Performs consistency checks on the project.
+
+Which consistency checks should be performed is controlled by the
+link:#check-project-input[CheckProjectInput] entity in the request
+body.
+
+The following consistency checks are supported:
+
+[[auto-closeable-changes-check]]
+--
+* AutoCloseableChangesCheck: Searches for open changes that can be
+  auto-closed because a patch set of the change is already contained in
+  the destination branch or because the destination branch contains a
+  commit with the same Change-Id. Normally Gerrit auto-closes such
+  changes when the corresponding commits are pushed directly to the
+  repository. However if a branch is updated behind Gerrit's back or if
+  auto-closing changes fails (and the push is still successful) change
+  states can get inconsistent (changes that are already part of the
+  destination branch are still open). This consistency check is
+  intended to detect and repair this situation.
+--
+
+To fix any problems that can be fixed automatically set the `fix` field
+in the inputs for the consistency checks  to `true`.
+
+This REST endpoint requires the
+link:access-control.html#capability_administrateServer[Administrate Server]
+global capability.
+
+.Request
+----
+  POST /projects/MyProject/check HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "auto_closeable_changes_check": {
+      "fix": true,
+      "branch": "refs/heads/master",
+      "max_commits": 100
+    }
+  }
+----
+
+As response a link:#check-project-result-info[CheckProjectResultInfo]
+entity is returned that results for the consistency checks.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "auto_closeable_changes_check_result": {
+      "auto_closeable_changes": {
+        "refs/heads/master": [
+          {
+            "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+            "project": "myProject",
+            "branch": "master",
+            "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+            "subject": "Implementing Feature X",
+            "status": "NEW",
+            "created": "2013-02-01 09:59:32.126000000",
+            "updated": "2013-02-21 11:16:36.775000000",
+            "insertions": 34,
+            "deletions": 101,
+            "_number": 3965,
+            "owner": {
+              "name": "John Doe"
+            },
+            "problems": [
+              {
+                "message": "Patch set 1 (2f15e416237ed9b561199f24184f5f5d2708c584) is merged into destination ref refs/heads/master (2f15e416237ed9b561199f24184f5f5d2708c584), but change status is NEW",
+                "status": "FIXED",
+                "outcome": "Marked change as merged"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+----
+
 [[branch-endpoints]]
 == Branch Endpoints
 
@@ -2850,6 +2939,52 @@ access
 check. This defaults to `read`. If given, it `ref` must be given too.
 |=========================================
 
+[[auto_closeable_changes_check_input]]
+=== AutoCloseableChangesCheckInput
+The `AutoCloseableChangesCheckInput` entity contains options for running
+the link:#auto-closeable-changes-check[AutoCloseableChangesCheck].
+
+[options="header",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`fix`           |optional|
+Whether auto-closeable changes should be closed automatically.
+|`branch`        ||
+The branch for which the link:#auto-closeable-changes-check[
+AutoCloseableChangesCheck] should be performed. The 'refs/heads/'
+prefix for the branch name can be omitted.
+|`skip_commits`  |optional|
+Number of commits that should be skipped when walking the commits of
+the branch.
+|`max_commits`   |optional|
+Maximum number of commits to walk. If not specified this defaults to
+10,000 commits. 10,000 is also the maximum that can be set.
+Auto-closing changes is an expensive operation and the more commits
+are walked the slower it gets. This is why you should avoid walking too
+many commits.
+|=============================
+
+[[auto_closeable_changes_check_result]]
+=== AutoCloseableChangesCheckResult
+The `AutoCloseableChangesCheckResult` entity contains the results of
+running the link:#auto-closeable-changes-check[AutoCloseableChangesCheck]
+on a project.
+
+[options="header",cols="1,6"]
+|====================================
+|Field Name              |Description
+|`auto_closeable_changes`|
+Changes that can be auto-closed as list of
+link:rest-api-changes.html#change-info[ChangeInfo] entities. For each
+returned link:rest-api-changes.html#change-info[ChangeInfo] entity the
+`problems` field is populated that includes details about the detected
+issues. If `fix` in the link:#auto_closeable_changes_check_input[
+AutoCloseableChangesCheckInput] was set to `true`, `status` and
+`outcome` in link:rest-api-changes.html#problem-info[ProblemInfo] are
+populated. If the status says `FIXED` Gerrit was able to auto-close the
+change now.
+|====================================
+
 [[ban-input]]
 === BanInput
 The `BanInput` entity contains information for banning commits in a
@@ -2906,6 +3041,36 @@ If set, must match the branch ID in the URL.
 The base revision of the new branch. +
 If not set, `HEAD` will be used as base revision.
 |=======================
+
+[[check-project-input]]
+=== CheckProjectInput
+The `CheckProjectInput` entity contains information about which
+consistency checks should be run on a project.
+
+[options="header",cols="1,^2,4"]
+|===========================================
+|Field Name                    ||Description
+|`auto_closeable_changes_check`|optional|
+Parameters for the link:#auto-closeable-changes-check[
+AutoCloseableChangesCheck] as
+link:rest-api-changes.html#auto_closeable_changes_check_input[
+AutoCloseableChangesCheckInput] entity.
+|===========================================
+
+[[check-project-result-info]]
+=== CheckProjectResultInfo
+The `CheckProjectResultInfo` entity contains results for consistency
+checks that have been run on a project.
+
+[options="header",cols="1,^2,4"]
+|==================================================
+|Field Name                           ||Description
+|`auto_closeable_changes_check_result`|optional|
+Results for the link:#auto-closeable-changes-check[
+AutoCloseableChangesCheck] as
+link:rest-api-changes.html#auto_closeable_changes_check_result[
+AutoCloseableChangesCheckResult] entity.
+|==================================================
 
 [[config-info]]
 === ConfigInfo

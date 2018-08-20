@@ -138,7 +138,21 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   }
 
   public List<ChangeData> byBranchKey(Branch.NameKey branch, Change.Key key) throws OrmException {
-    return query(and(ref(branch), project(branch.getParentKey()), change(key)));
+    return query(byBranchKeyPred(branch, key));
+  }
+
+  public List<ChangeData> byBranchKeyOpen(Project.NameKey project, String branch, Change.Key key)
+      throws OrmException {
+    return query(and(byBranchKeyPred(new Branch.NameKey(project, branch), key), open()));
+  }
+
+  public static Predicate<ChangeData> byBranchKeyOpenPred(
+      Project.NameKey project, String branch, Change.Key key) {
+    return and(byBranchKeyPred(new Branch.NameKey(project, branch), key), open());
+  }
+
+  private static Predicate<ChangeData> byBranchKeyPred(Branch.NameKey branch, Change.Key key) {
+    return and(ref(branch), project(branch.getParentKey()), change(key));
   }
 
   public List<ChangeData> byProject(Project.NameKey project) throws OrmException {
@@ -264,11 +278,26 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
 
   public List<ChangeData> byBranchCommit(String project, String branch, String hash)
       throws OrmException {
-    return query(and(new ProjectPredicate(project), new RefPredicate(branch), commit(hash)));
+    return query(byBranchCommitPred(project, branch, hash));
   }
 
   public List<ChangeData> byBranchCommit(Branch.NameKey branch, String hash) throws OrmException {
     return byBranchCommit(branch.getParentKey().get(), branch.get(), hash);
+  }
+
+  public List<ChangeData> byBranchCommitOpen(String project, String branch, String hash)
+      throws OrmException {
+    return query(and(byBranchCommitPred(project, branch, hash), open()));
+  }
+
+  public static Predicate<ChangeData> byBranchCommitOpenPred(
+      Project.NameKey project, String branch, String hash) {
+    return and(byBranchCommitPred(project.get(), branch, hash), open());
+  }
+
+  private static Predicate<ChangeData> byBranchCommitPred(
+      String project, String branch, String hash) {
+    return and(new ProjectPredicate(project), new RefPredicate(branch), commit(hash));
   }
 
   public List<ChangeData> bySubmissionId(String cs) throws OrmException {

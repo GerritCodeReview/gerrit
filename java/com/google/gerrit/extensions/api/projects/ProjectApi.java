@@ -43,6 +43,8 @@ public interface ProjectApi {
 
   AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException;
 
+  CheckProjectResultInfo check(CheckProjectInput in) throws RestApiException;
+
   ConfigInfo config() throws RestApiException;
 
   ConfigInfo config(ConfigInput in) throws RestApiException;
@@ -239,6 +241,11 @@ public interface ProjectApi {
 
     @Override
     public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public CheckProjectResultInfo check(CheckProjectInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

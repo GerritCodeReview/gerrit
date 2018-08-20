@@ -151,7 +151,7 @@ public class ProjectIT extends AbstractDaemonTest {
   public void maxObjectSizeCanBeSetAndCleared() throws Exception {
     // Set a value
     ConfigInfo info = setMaxObjectSize("100k");
-    assertThat(info.maxObjectSizeLimit.value).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
     assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
 
@@ -167,6 +167,7 @@ public class ProjectIT extends AbstractDaemonTest {
     Project.NameKey child = createProject(name("child"), project);
 
     ConfigInfo info = setMaxObjectSize("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
     assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
 
@@ -180,7 +181,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
   public void maxObjectSizeIsInheritedFromGlobalConfig() throws Exception {
     ConfigInfo info = getConfig();
-    assertThat(info.maxObjectSizeLimit.value).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
     assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
     assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
   }
@@ -189,7 +190,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
   public void maxObjectSizeOverridesGlobalConfigWhenLower() throws Exception {
     ConfigInfo info = setMaxObjectSize("100k");
-    assertThat(info.maxObjectSizeLimit.value).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
     assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
   }
@@ -198,7 +199,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
   public void maxObjectSizeDoesNotOverrideGlobalConfigWhenHigher() throws Exception {
     ConfigInfo info = setMaxObjectSize("300k");
-    assertThat(info.maxObjectSizeLimit.value).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("300k");
     assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
   }

@@ -2421,7 +2421,7 @@ class ReceiveCommits {
       for (Iterator<ReplaceRequest> itr = replaceByChange.values().iterator(); itr.hasNext(); ) {
         ReplaceRequest req = itr.next();
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
-          req.validate(false);
+          req.validateNewPatchSetCommit(false);
         }
       }
     } catch (OrmException err) {
@@ -2518,11 +2518,9 @@ class ReceiveCommits {
      * @throws OrmException
      * @throws PermissionBackendException
      */
-    boolean validate(boolean autoClose)
+    boolean validateNewPatchSetCommit(boolean autoClose)
         throws IOException, OrmException, PermissionBackendException {
-      if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
-        return false;
-      } else if (notes == null) {
+      if (notes == null) {
         reject(inputCommand, "change " + ontoChange + " not found");
         return false;
       }
@@ -2583,11 +2581,10 @@ class ReceiveCommits {
           receivePack.getRevWalk(), change.getDest(), inputCommand, newCommit, change)) {
         return false;
       }
+
       receivePack.getRevWalk().parseBody(priorCommit);
 
-      // Don't allow the same tree if the commit message is unmodified
-      // or no parents were updated (rebase), else warn that only part
-      // of the commit was modified.
+      // Warning if the tree was the same.
       if (newCommit.getTree().equals(priorCommit.getTree())) {
         boolean messageEq =
             Objects.equals(newCommit.getFullMessage(), priorCommit.getFullMessage());
@@ -3076,7 +3073,7 @@ class ReceiveCommits {
 
               for (ReplaceRequest req : replaceAndClose) {
                 Change.Id id = req.notes.getChangeId();
-                if (!req.validate(true)) {
+                if (!req.validateNewPatchSetCommit(true)) {
                   logger.atFine().log("Not closing %s because validation failed", id);
                   continue;
                 }

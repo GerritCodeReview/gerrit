@@ -28,6 +28,8 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
 
+  const WHITESPACE_IGNORE_NONE = 'IGNORE_NONE';
+
   /**
    * @param {Object} diff
    * @return {boolean}
@@ -105,7 +107,10 @@
         type: Boolean,
         reflectToAttribute: true,
       },
-      noRenderOnPrefsChange: Boolean,
+      noRenderOnPrefsChange: {
+        type: Boolean,
+        value: false,
+      },
       comments: Object,
       lineWrapping: {
         type: Boolean,
@@ -167,11 +172,18 @@
         type: Object,
         value: null,
       },
+
+      _loadedWhitespaceLevel: String,
     },
 
     listeners: {
       'draft-interaction': '_handleDraftInteraction',
     },
+
+    observers: [
+      '_whitespaceChanged(prefs.ignore_whitespace, _loadedWhitespaceLevel,' +
+          ' noRenderOnPrefsChange)',
+    ],
 
     ready() {
       if (this._canReload()) {
@@ -189,10 +201,15 @@
     reload() {
       this._loading = true;
       this._errorMessage = null;
+      const whitespaceLevel = this._getIgnoreWhitespace();
 
       const diffRequest = this._getDiff()
           .then(diff => {
+            this._loadedWhitespaceLevel = whitespaceLevel;
             this._reportDiff(diff);
+            if (this._getIgnoreWhitespace()) {
+              return this._translateChunksToIgnore(diff);
+            }
             return diff;
           })
           .catch(e => {
@@ -321,6 +338,7 @@
             this.patchRange.basePatchNum,
             this.patchRange.patchNum,
             this.path,
+            this._getIgnoreWhitespace(),
             reject)
             .then(resolve);
       });
@@ -429,6 +447,60 @@
 
     _handleDraftInteraction() {
       this.$.reporting.recordDraftInteraction();
+    },
+
+    /**
+     * Take a diff that was loaded with a ignore-whitespace other than
+     * IGNORE_NONE, and convert delta chunks labeled as common into shared
+     * chunks.
+     * @param {!Object} diff
+     * @returns {!Object}
+     */
+    _translateChunksToIgnore(diff) {
+      const newDiff = Object.assign({}, diff);
+      const mergedContent = [];
+
+      // Was the last chunk visited a shared chunk?
+      let lastWasShared = false;
+
+      for (const chunk of diff.content) {
+        if (lastWasShared && chunk.common) {
+          // The last chunk was shared and this chunk should be ignored, so
+          // add its revision content to the previous chunk.
+          mergedContent[mergedContent.length - 1].ab.push(...chunk.b);
+        } else if (lastWasShared && chunk.ab) {
+          // Both the last chunk and the current chunk are shared. Merge this
+          // chunk's shared content into the previous shared content.
+          mergedContent[mergedContent.length - 1].ab.push(...chunk.ab);
+        } else if (chunk.common) {
+          // If the previous chunk was not shared, but this one should be
+          // ignored, then add it as a shared chunk.
+          mergedContent.push({ab: chunk.b});
+        } else {
+          // Otherwise add the chunk as is.
+          mergedContent.push(chunk);
+        }
+
+        lastWasShared = !!mergedContent[mergedContent.length - 1].ab;
+      }
+
+      newDiff.content = mergedContent;
+      return newDiff;
+    },
+
+    _getIgnoreWhitespace() {
+      if (!this.prefs || !this.prefs.ignore_whitespace) {
+        return WHITESPACE_IGNORE_NONE;
+      }
+      return this.prefs.ignore_whitespace;
+    },
+
+    _whitespaceChanged(preferredWhitespaceLevel, loadedWhitespaceLevel,
+        noRenderOnPrefsChange) {
+      if (preferredWhitespaceLevel !== loadedWhitespaceLevel &&
+          !noRenderOnPrefsChange) {
+        this.reload();
+      }
     },
   });
 })();

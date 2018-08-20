@@ -18,13 +18,19 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.PrivateStateChangedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.sql.Timestamp;
 
 @Singleton
@@ -40,12 +46,17 @@ public class PrivateStateChanged {
     this.util = util;
   }
 
-  public void fire(Change change, AccountState account, Timestamp when) {
+  public void fire(Change change, PatchSet patchSet, AccountState account, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      Event event = new Event(util.changeInfo(change), util.accountInfo(account), when);
+      Event event =
+          new Event(
+              util.changeInfo(change),
+              util.revisionInfo(change.getProject(), patchSet),
+              util.accountInfo(account),
+              when);
       for (PrivateStateChangedListener l : listeners) {
         try {
           l.onPrivateStateChanged(event);
@@ -53,16 +64,20 @@ public class PrivateStateChanged {
           util.logEventListenerError(event, l, e);
         }
       }
-    } catch (OrmException e) {
+    } catch (OrmException
+        | PatchListNotAvailableException
+        | GpgException
+        | IOException
+        | PermissionBackendException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }
   }
 
-  private static class Event extends AbstractChangeEvent
+  private static class Event extends AbstractRevisionEvent
       implements PrivateStateChangedListener.Event {
 
-    protected Event(ChangeInfo change, AccountInfo who, Timestamp when) {
-      super(change, who, when, NotifyHandling.ALL);
+    protected Event(ChangeInfo change, RevisionInfo revision, AccountInfo who, Timestamp when) {
+      super(change, revision, who, when, NotifyHandling.ALL);
     }
   }
 }

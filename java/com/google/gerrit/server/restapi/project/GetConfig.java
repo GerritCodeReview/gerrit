@@ -31,7 +31,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class GetConfig implements RestReadView<ProjectResource> {
   private final boolean serverEnableSignedPush;
-  private final TransferConfig config;
+  private final TransferConfig transferConfig;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
   private final AllProjectsName allProjects;
@@ -41,14 +41,14 @@ public class GetConfig implements RestReadView<ProjectResource> {
   @Inject
   public GetConfig(
       @EnableSignedPush boolean serverEnableSignedPush,
-      TransferConfig config,
+      TransferConfig transferConfig,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
       UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views) {
     this.serverEnableSignedPush = serverEnableSignedPush;
-    this.config = config;
+    this.transferConfig = transferConfig;
     this.pluginConfigEntries = pluginConfigEntries;
     this.allProjects = allProjects;
     this.cfgFactory = cfgFactory;
@@ -62,7 +62,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
         serverEnableSignedPush,
         resource.getProjectState(),
         resource.getUser(),
-        config,
+        transferConfig,
         pluginConfigEntries,
         cfgFactory,
         allProjects,

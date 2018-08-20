@@ -2417,7 +2417,7 @@ class ReceiveCommits {
       for (Iterator<ReplaceRequest> itr = replaceByChange.values().iterator(); itr.hasNext(); ) {
         ReplaceRequest req = itr.next();
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
-          req.validateNewPatchSetCommit(false);
+          req.validateNewPatchSet();
         }
       }
     } catch (OrmException err) {
@@ -2507,14 +2507,44 @@ class ReceiveCommits {
      *   <li>May reset {@code receivePack.getRevWalk()}; do not call in the middle of a walk.
      * </ul>
      *
-     * @param autoClose whether the caller intends to auto-close the change after adding a new patch
-     *     set.
      * @return whether the new commit is valid
      * @throws IOException
      * @throws OrmException
      * @throws PermissionBackendException
      */
-    boolean validateNewPatchSetCommit(boolean autoClose)
+    boolean validateNewPatchSet() throws IOException, OrmException, PermissionBackendException {
+      if (!validateNewPatchSetCommit()) {
+        return false;
+      }
+      sameTreeWarning(false);
+
+      if (magicBranch != null) {
+        validateMagicBranchWipStatusChange();
+        if (inputCommand.getResult() != NOT_ATTEMPTED) {
+          return false;
+        }
+
+        if (magicBranch.edit || magicBranch.draft) {
+          return newEdit();
+        }
+      }
+
+      newPatchSet();
+      return true;
+    }
+
+    boolean validateNewPatchSetForAutoClose()
+        throws IOException, OrmException, PermissionBackendException {
+      if (!validateNewPatchSetCommit()) {
+        return false;
+      }
+      sameTreeWarning(true);
+      newPatchSet();
+      return true;
+    }
+
+    /** Validates the new PS against permissions and notedb status. */
+    private boolean validateNewPatchSetCommit()
         throws IOException, OrmException, PermissionBackendException {
       if (notes == null) {
         reject(inputCommand, "change " + ontoChange + " not found");
@@ -2529,7 +2559,6 @@ class ReceiveCommits {
       }
 
       RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
-      RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
 
       // Not allowed to create a new patch set if the current patch set is locked.
       if (psUtil.isPatchSetLocked(notes)) {
@@ -2573,10 +2602,38 @@ class ReceiveCommits {
           receivePack.getRevWalk(), change.getDest(), inputCommand, newCommit, change)) {
         return false;
       }
+      return true;
+    }
 
-      receivePack.getRevWalk().parseBody(priorCommit);
+    /** Validates whether the WIP change is allowed. Rejects inputCommand if not. */
+    private void validateMagicBranchWipStatusChange() throws PermissionBackendException {
+      Change change = notes.getChange();
+      if ((magicBranch.workInProgress || magicBranch.ready)
+          && magicBranch.workInProgress != change.isWorkInProgress()
+          && !user.getAccountId().equals(change.getOwner())) {
+        boolean hasWriteConfigPermission = false;
+        try {
+          permissions.check(ProjectPermission.WRITE_CONFIG);
+          hasWriteConfigPermission = true;
+        } catch (AuthException e) {
+          // Do nothing.
+        }
 
-      // Warning if the tree was the same.
+        if (!hasWriteConfigPermission) {
+          try {
+            permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+          } catch (AuthException e1) {
+            reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
+          }
+        }
+      }
+    }
+
+    /** prints a warning if the new PS has the same tree as the previous commit. */
+    private void sameTreeWarning(boolean autoClose) throws IOException {
+      RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
+      RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
+
       if (newCommit.getTree().equals(priorCommit.getTree())) {
         boolean messageEq =
             Objects.equals(newCommit.getFullMessage(), priorCommit.getFullMessage());
@@ -2606,37 +2663,12 @@ class ReceiveCommits {
           addMessage(msg.toString());
         }
       }
-
-      if (magicBranch != null
-          && (magicBranch.workInProgress || magicBranch.ready)
-          && magicBranch.workInProgress != change.isWorkInProgress()
-          && !user.getAccountId().equals(change.getOwner())) {
-        boolean hasWriteConfigPermission = false;
-        try {
-          permissions.check(ProjectPermission.WRITE_CONFIG);
-          hasWriteConfigPermission = true;
-        } catch (AuthException e) {
-          // Do nothing.
-        }
-
-        if (!hasWriteConfigPermission) {
-          try {
-            permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-          } catch (AuthException e1) {
-            reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
-            return false;
-          }
-        }
-      }
-
-      if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {
-        return newEdit();
-      }
-
-      newPatchSet();
-      return true;
     }
 
+    /**
+     * Sets cmd and prev to the ReceiveCommands for change edits. Returns false if there was a
+     * failure.
+     */
     private boolean newEdit() {
       psId = notes.getChange().currentPatchSetId();
       Optional<ChangeEdit> edit = null;
@@ -2667,8 +2699,8 @@ class ReceiveCommits {
       return true;
     }
 
+    /** Creates a ReceiveCommand for a new edit. */
     private void createEditCommand() {
-      // create new edit
       cmd =
           new ReceiveCommand(
               ObjectId.zeroId(),
@@ -2676,6 +2708,7 @@ class ReceiveCommits {
               RefNames.refsEdit(user.getAccountId(), notes.getChangeId(), psId));
     }
 
+    /** Updates 'this' to add a new patchset. */
     private void newPatchSet() throws IOException, OrmException {
       RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
       psId =
@@ -3065,7 +3098,7 @@ class ReceiveCommits {
 
               for (ReplaceRequest req : replaceAndClose) {
                 Change.Id id = req.notes.getChangeId();
-                if (!req.validateNewPatchSetCommit(true)) {
+                if (!req.validateNewPatchSetForAutoClose()) {
                   logger.atFine().log("Not closing %s because validation failed", id);
                   continue;
                 }

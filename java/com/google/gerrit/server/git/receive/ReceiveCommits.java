@@ -1967,10 +1967,12 @@ class ReceiveCommits {
 
         List<String> idList = c.getFooterLines(CHANGE_ID);
         if (!idList.isEmpty()) {
-          pending.put(c, new ChangeLookup(c, new Change.Key(idList.get(idList.size() - 1).trim())));
+          pending.put(
+              c, lookupByChangeKey(c, new Change.Key(idList.get(idList.size() - 1).trim())));
         } else {
-          pending.put(c, new ChangeLookup(c));
+          pending.put(c, lookupByCommit(c));
         }
+
         int n = pending.size() + newChanges.size();
         if (maxBatchChanges != 0 && n > maxBatchChanges) {
           logger.atFine().log("%d changes exceeds limit of %d", n, maxBatchChanges);
@@ -2255,22 +2257,26 @@ class ReceiveCommits {
     return idStr.matches("^I[0-9a-fA-F]{40}$") && !idStr.matches("^I00*$");
   }
 
-  private class ChangeLookup {
+  private static class ChangeLookup {
     final RevCommit commit;
-    final Change.Key changeKey;
+
+    @Nullable final Change.Key changeKey;
     final List<ChangeData> destChanges;
 
-    ChangeLookup(RevCommit c, Change.Key key) throws OrmException {
-      commit = c;
-      changeKey = key;
-      destChanges = queryProvider.get().byBranchKey(magicBranch.dest, key);
+    ChangeLookup(RevCommit c, @Nullable Change.Key key, final List<ChangeData> destChanges) {
+      this.commit = c;
+      this.changeKey = key;
+      this.destChanges = destChanges;
     }
+  }
 
-    ChangeLookup(RevCommit c) throws OrmException {
-      commit = c;
-      destChanges = queryProvider.get().byBranchCommit(magicBranch.dest, c.getName());
-      changeKey = null;
-    }
+  ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) throws OrmException {
+    return new ChangeLookup(c, key, queryProvider.get().byBranchKey(magicBranch.dest, key));
+  }
+
+  ChangeLookup lookupByCommit(RevCommit c) throws OrmException {
+    return new ChangeLookup(
+        c, null, queryProvider.get().byBranchCommit(magicBranch.dest, c.getName()));
   }
 
   private class CreateRequest {

@@ -82,7 +82,6 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -561,7 +560,6 @@ class ReceiveCommits {
 
     commandProgress.end();
     progress.end();
-
 
     // Update account info with details discovered during commit walking. The account update happens
     // in a separate batch update, and failure doesn't cause the push itself to fail.
@@ -1873,11 +1871,20 @@ class ReceiveCommits {
       return;
     }
 
-    logger.atFine().log("Replacing change %s", changeEnt.getId());
-    requestReplace(cmd, true, changeEnt, newCommit);
+    try {
+      if (validCommit(receivePack.getRevWalk(), changeEnt.getDest(), cmd, newCommit, changeEnt)) {
+        logger.atFine().log("Replacing change %s", changeEnt.getId());
+        requestReplace(cmd, true, changeEnt, newCommit);
+      }
+    } catch (IOException e) {
+      reject(cmd, "I/O exception validating commit");
+    }
   }
 
-  /** Add an update for an existing change. Returns true if it succeeded; rejects the command if it failed. */
+  /**
+   * Add an update for an existing change. Returns true if it succeeded; rejects the command if it
+   * failed.
+   */
   private boolean requestReplace(
       ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
     if (change.getStatus().isClosed()) {
@@ -2527,19 +2534,9 @@ class ReceiveCommits {
      * @throws PermissionBackendException
      */
     boolean validateNewPatchSet() throws IOException, OrmException, PermissionBackendException {
-      if (!validateNewPatchSetCommit()) {
+      if (!validateNewPatchSetNoteDb()) {
         return false;
       }
-      RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
-      if (!validCommit(
-          receivePack.getRevWalk(),
-          notes.getChange().getDest(),
-          inputCommand,
-          newCommit,
-          notes.getChange())) {
-        return false;
-      }
-
       sameTreeWarning();
 
       if (magicBranch != null) {
@@ -2559,7 +2556,7 @@ class ReceiveCommits {
 
     boolean validateNewPatchSetForAutoClose()
         throws IOException, OrmException, PermissionBackendException {
-      if (!validateNewPatchSetCommit()) {
+      if (!validateNewPatchSetNoteDb()) {
         return false;
       }
 
@@ -2568,7 +2565,7 @@ class ReceiveCommits {
     }
 
     /** Validates the new PS against permissions and notedb status. */
-    private boolean validateNewPatchSetCommit()
+    private boolean validateNewPatchSetNoteDb()
         throws IOException, OrmException, PermissionBackendException {
       if (notes == null) {
         reject(inputCommand, "change " + ontoChange + " not found");

@@ -1202,7 +1202,7 @@ class ReceiveCommits {
     }
 
     if (validRefOperation(cmd)) {
-      validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+      validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
     }
   }
 
@@ -1215,7 +1215,7 @@ class ReceiveCommits {
         return;
       }
       if (validRefOperation(cmd)) {
-        validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+        validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
       }
     } else {
       rejectProhibited(cmd, err.get());
@@ -1274,7 +1274,7 @@ class ReceiveCommits {
     logger.atFine().log("Rewinding %s", cmd);
 
     if (newObject != null) {
-      validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+      validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
       if (cmd.getResult() != NOT_ATTEMPTED) {
         return;
       }
@@ -2932,7 +2932,11 @@ class ReceiveCommits {
     return true;
   }
 
-  private void validateNewCommits(Branch.NameKey branch, ReceiveCommand cmd)
+  /** validateNewCommits validates the commits that a regular push brings in.
+   *
+   * <p>On validation failure, the command is rejected.</p>
+   * */
+  private void validateRegularPushCommits(Branch.NameKey branch, ReceiveCommand cmd)
       throws PermissionBackendException {
     if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
@@ -2998,6 +3002,8 @@ class ReceiveCommits {
     }
   }
 
+  /** validCommit validates a single commit. If the commit does not validate, the command is rejected.
+   */
   private boolean validCommit(
       RevWalk rw, Branch.NameKey branch, ReceiveCommand cmd, ObjectId id, @Nullable Change change)
       throws IOException {

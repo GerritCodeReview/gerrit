@@ -554,6 +554,10 @@ class ReceiveCommits {
         cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
       }
     }
+
+    // This has to be done before terminating progress, or the test framework will get confused.
+    sendErrorMessages();
+
     commandProgress.end();
     progress.end();
 
@@ -614,6 +618,7 @@ class ReceiveCommits {
 
         if (!regularCommands.isEmpty()) {
           handleRegularCommands(regularCommands, progress);
+          return;
         }
 
         for (ReceiveCommand cmd : directPatchSetPushCommands) {
@@ -645,17 +650,18 @@ class ReceiveCommits {
       insertChangesAndPatchSets(newChanges, replaceProgress);
       newProgress.end();
       replaceProgress.end();
-
-      if (!errors.isEmpty()) {
-        logger.atFine().log("Handling error conditions: %s", errors.keySet());
-        for (String error : errors.keySet()) {
-          receivePack.sendMessage("error: " + buildError(error, errors.get(error)));
-        }
-        receivePack.sendMessage(String.format("User: %s", user.getLoggableName()));
-        receivePack.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
-      }
-
       reportMessages(newChanges);
+    }
+  }
+
+  private void sendErrorMessages() {
+    if (!errors.isEmpty()) {
+      logger.atFine().log("Handling error conditions: %s", errors.keySet());
+      for (String error : errors.keySet()) {
+        receivePack.sendMessage("error: " + buildError(error, errors.get(error)));
+      }
+      receivePack.sendMessage(String.format("User: %s", user.getLoggableName()));
+      receivePack.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
     }
   }
 

@@ -52,6 +52,24 @@
       "revId": "7c4b2ee181a7b5b4928e88e3b71ed9becef92991",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e413bf5_f5104613",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-21T07:15:38Z",
+      "side": 1,
+      "message": "It turns out that the PG UI doesn\u0027t display the effective value anyway.\n\nSee issue 9610.",
+      "parentUuid": "b64cdbbf_9a1621ea",
+      "revId": "7c4b2ee181a7b5b4928e88e3b71ed9becef92991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

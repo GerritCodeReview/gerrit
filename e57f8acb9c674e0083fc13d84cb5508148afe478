@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "5f84e69f_318589e5",
+        "filename": "java/com/google/gerrit/sshd/SshCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-21T06:38:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54c08bfa_bb18838b",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "e57f8acb9c674e0083fc13d84cb5508148afe478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ad686a8_4cb37bbc",
         "filename": "java/com/google/gerrit/sshd/SshCommand.java",
         "patchSetId": 1
@@ -40,6 +64,24 @@
       "revId": "e57f8acb9c674e0083fc13d84cb5508148afe478",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93fa55b8_00c7a89b",
+        "filename": "java/com/google/gerrit/sshd/SshCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-21T06:38:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ad686a8_4cb37bbc",
+      "revId": "e57f8acb9c674e0083fc13d84cb5508148afe478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

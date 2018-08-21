@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdc4bf44_a6a9d57e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-21T19:35:18Z",
+      "side": 1,
+      "message": "Nit: don\u0027t wrap the subject line; a single long line is preferable.",
+      "revId": "40da9f0edfb0a0b365e95c25097845a75ace5de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

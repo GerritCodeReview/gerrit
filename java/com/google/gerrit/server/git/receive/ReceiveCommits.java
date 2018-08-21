@@ -2321,7 +2321,7 @@ class ReceiveCommits {
   private class CreateRequest {
     final RevCommit commit;
     final Task progress;
-    private final String refName;
+    final String refName;
 
     Change.Id changeId;
     ReceiveCommand cmd;
@@ -2517,9 +2517,9 @@ class ReceiveCommits {
     ReceiveCommand prev;
     ReceiveCommand cmd;
     PatchSetInfo info;
-    private PatchSet.Id priorPatchSet;
+    PatchSet.Id priorPatchSet;
     List<String> groups = ImmutableList.of();
-    private ReplaceOp replaceOp;
+    ReplaceOp replaceOp;
 
     ReplaceRequest(
         Change.Id toChange, RevCommit newCommit, ReceiveCommand cmd, boolean checkMergedInto) {
@@ -2800,8 +2800,8 @@ class ReceiveCommits {
   }
 
   private class UpdateGroupsRequest {
-    private final PatchSet.Id psId;
-    private final RevCommit commit;
+    final PatchSet.Id psId;
+    final RevCommit commit;
     List<String> groups = ImmutableList.of();
 
     UpdateGroupsRequest(Ref ref, RevCommit commit) {
@@ -2836,7 +2836,7 @@ class ReceiveCommits {
   }
 
   private class UpdateOneRefOp implements RepoOnlyOp {
-    private final ReceiveCommand cmd;
+    final ReceiveCommand cmd;
 
     private UpdateOneRefOp(ReceiveCommand cmd) {
       this.cmd = checkNotNull(cmd);
@@ -3039,8 +3039,7 @@ class ReceiveCommits {
   }
 
   /**
-   * Validates a single commit. If the commit does not validate, the command is
-   * rejected.
+   * Validates a single commit. If the commit does not validate, the command is rejected.
    *
    * @param objectReader the object reader to use.
    * @param branch the branch to which this commit is pushed

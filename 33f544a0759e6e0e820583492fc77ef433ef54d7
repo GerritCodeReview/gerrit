@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97947227_af468013",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-21T06:56:08Z",
+      "side": 0,
+      "message": "Of course is \"url\" attribute supported in http_archive Skylark rule: [1]. And of course, this change was successful validated by the Gerrit-CI: [2].\n\nI don\u0027t use Mac and cannot help your to investigate your original problem. May be you could ask Bazel Team co-located in Google@MUC. My assumption is that your build environment is broken.\n\n* [1] https://github.com/bazelbuild/bazel/blob/master/tools/build_defs/repo/http.bzl#L235\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/191190",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 112
+      },
+      "revId": "33f544a0759e6e0e820583492fc77ef433ef54d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

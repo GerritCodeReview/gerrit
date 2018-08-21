@@ -81,6 +81,24 @@
       "revId": "59573620dd30cc0d83a9ceb3ff4dfba6226ec542",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa3e4811_c4423d70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-21T19:30:49Z",
+      "side": 1,
+      "message": "I think it\u0027s safe to support both situations -- leaving the ability to use the label in a copy-clipboard element, and also having another component that\u0027s a stylized command. The gr-shell-command element doesn\u0027t even necessarily have to use the label property of the copy-clipboard element.",
+      "parentUuid": "0d9f25d6_63e2f92e",
+      "revId": "59573620dd30cc0d83a9ceb3ff4dfba6226ec542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

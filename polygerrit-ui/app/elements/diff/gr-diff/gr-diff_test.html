@@ -343,20 +343,6 @@ limitations under the License.
         });
       });
 
-      test('_getRangeString', () => {
-        const side = 'PARENT';
-        const range = {
-          startLine: 1,
-          startChar: 1,
-          endLine: 1,
-          endChar: 2,
-        };
-        assert.equal(element._getRangeString(side, range),
-            'range-1-1-1-2-PARENT');
-        assert.equal(element._getRangeString(side, null),
-            'line-PARENT');
-      }),
-
       test('thread groups', () => {
         const contentEl = document.createElement('div');
         const commentSide = 'left';

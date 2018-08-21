@@ -70,6 +70,30 @@
       "revId": "2449cede65be12ec67ae3dad71adc1b125bad975",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33d956c9_7bee1a8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-08-21T22:10:46Z",
+      "side": 1,
+      "message": "\u003e You were right, annotating the test as @UseLocalDisk allows reflog to work.\n\nI looked at using @UseLocalDisk, but it seems that is an annotation used by the Gerrit Acceptance Test framework which is a full integration test. The purpose of this change is not to add the integration tests but only the unit test of the rest API.\n\nThe full integration tests is covered already in 2.15 and wouldn\u0027t make so much sense to start a full retrofitting of that part only for the  purpose of a small one-liner in the next follow-up change.",
+      "parentUuid": "875f9397_bb2a8231",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 38
+      },
+      "revId": "2449cede65be12ec67ae3dad71adc1b125bad975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

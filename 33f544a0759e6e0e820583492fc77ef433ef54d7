@@ -94,6 +94,30 @@
       "revId": "33f544a0759e6e0e820583492fc77ef433ef54d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92675cac_03d4dca7",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-08-21T07:26:24Z",
+      "side": 0,
+      "message": "I don\u0027t think it matters much, as the \u0027urls\u0027 parameter is recommended over \u0027url\u0027 (it being deprecated). However, it should really work... but I see that https://github.com/bazelbuild/bazel/commit/053dfd1822727a18cecaaee924a36f537b2463b2#diff-0a0d5a6b64e11b6bc5bab80ad3a90003 introduced for the compatibility when using the optional import of the non-native http_archive rule. Are you running an outdated version of Bazel?",
+      "parentUuid": "1ce7e19e_e6a35317",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 112
+      },
+      "revId": "33f544a0759e6e0e820583492fc77ef433ef54d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

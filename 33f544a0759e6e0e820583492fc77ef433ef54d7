@@ -22,6 +22,30 @@
       "revId": "33f544a0759e6e0e820583492fc77ef433ef54d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0f5de9c_e614ba0a",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-21T06:59:25Z",
+      "side": 0,
+      "message": "Is there a specific reason for using \"url\" here instead of \"urls\" like at L12 and L28?",
+      "parentUuid": "97947227_af468013",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 112
+      },
+      "revId": "33f544a0759e6e0e820583492fc77ef433ef54d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -578,6 +578,7 @@ class ReceiveCommits {
         traceContext.addTag(RequestId.Type.TRACE_ID, traceId);
         addMessage(RequestId.Type.TRACE_ID.name() + ": " + traceId);
       }
+
       try {
         if (!projectState.getProject().getState().permitsWrite()) {
           for (ReceiveCommand cmd : commands) {
@@ -650,7 +651,15 @@ class ReceiveCommits {
       insertChangesAndPatchSets(newChanges, replaceProgress);
       newProgress.end();
       replaceProgress.end();
-      reportMessages(newChanges);
+      queueSuccessMessages(newChanges);
+      refsPublishDeprecationWarning();
+    }
+  }
+
+  private void refsPublishDeprecationWarning() {
+    // TODO(xchangcheng): remove after migrating tools which are using this magic branch.
+    if (magicBranch != null && magicBranch.publish) {
+      addMessage("Pushing to refs/publish/* is deprecated, use refs/for/* instead.");
     }
   }
 
@@ -735,9 +744,25 @@ class ReceiveCommits {
     }
   }
 
-  private void reportMessages(List<CreateRequest> newChanges) {
+  /** Appends messages for successful change creation/updates. */
+  private void queueSuccessMessages(List<CreateRequest> newChanges) {
     List<CreateRequest> created =
         newChanges.stream().filter(r -> r.change != null).collect(toList());
+    List<ReplaceRequest> updated =
+        replaceByChange
+            .values()
+            .stream()
+            .filter(r -> r.inputCommand.getResult() == OK)
+            .sorted(comparingInt(r -> r.notes.getChangeId().get()))
+            .collect(toList());
+
+    if (created.isEmpty() && updated.isEmpty()) {
+      return;
+    }
+
+    addMessage("");
+    addMessage("SUCCESS");
+
     if (!created.isEmpty()) {
       addMessage("");
       addMessage("New Changes:");
@@ -746,16 +771,8 @@ class ReceiveCommits {
             changeFormatter.newChange(
                 ChangeReportFormatter.Input.builder().setChange(c.change).build()));
       }
-      addMessage("");
     }
 
-    List<ReplaceRequest> updated =
-        replaceByChange
-            .values()
-            .stream()
-            .filter(r -> r.inputCommand.getResult() == OK)
-            .sorted(comparingInt(r -> r.notes.getChangeId().get()))
-            .collect(toList());
     if (!updated.isEmpty()) {
       addMessage("");
       addMessage("Updated Changes:");
@@ -806,11 +823,6 @@ class ReceiveCommits {
         addMessage(changeFormatter.changeUpdated(input));
       }
       addMessage("");
-    }
-
-    // TODO(xchangcheng): remove after migrating tools which are using this magic branch.
-    if (magicBranch != null && magicBranch.publish) {
-      addMessage("Pushing to refs/publish/* is deprecated, use refs/for/* instead.");
     }
   }
 

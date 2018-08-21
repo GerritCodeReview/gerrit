@@ -2521,6 +2521,16 @@ class ReceiveCommits {
       if (!validateNewPatchSetCommit()) {
         return false;
       }
+      RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
+      if (!validCommit(
+          receivePack.getRevWalk(),
+          notes.getChange().getDest(),
+          inputCommand,
+          newCommit,
+          notes.getChange())) {
+        return false;
+      }
+
       sameTreeWarning();
 
       if (magicBranch != null) {
@@ -2603,10 +2613,6 @@ class ReceiveCommits {
         }
       }
 
-      if (!validCommit(
-          receivePack.getRevWalk(), change.getDest(), inputCommand, newCommit, change)) {
-        return false;
-      }
       return true;
     }
 

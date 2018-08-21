@@ -2279,6 +2279,7 @@ class ReceiveCommits {
         c, null, queryProvider.get().byBranchCommit(magicBranch.dest, c.getName()));
   }
 
+  /** Represents a commit for which a Change should be created. */
   private class CreateRequest {
     final RevCommit commit;
     final Task progress;
@@ -2467,6 +2468,7 @@ class ReceiveCommits {
     }
   }
 
+  /** Represents a commit that should be stored in a new patchset of an existing change. */
   private class ReplaceRequest {
     final Change.Id ontoChange;
     final ObjectId newCommitId;

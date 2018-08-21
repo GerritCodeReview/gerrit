@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "201b2132_c1efc8b1",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetParent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-21T03:42:08Z",
+      "side": 1,
+      "message": "Will this work as expected if the option is enabled and the administrator is not in the owner group?  I\u0027m not sure if the admin implicitly has the WRITE_CONFIG permission.",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "eea4cca0f7e242caa592a75f2bf276f88d9ba5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff21fc5e_2ce3f1bd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-21T03:42:08Z",
+      "side": 1,
+      "message": "Would it be better to grant the permission on an explicit group rather than for everyone?",
+      "range": {
+        "startLine": 57,
+        "startChar": 54,
+        "endLine": 57,
+        "endChar": 89
+      },
+      "revId": "eea4cca0f7e242caa592a75f2bf276f88d9ba5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5ea8e9c_7ad7ae51",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-21T03:42:08Z",
+      "side": 1,
+      "message": "Add a test that admin can still set the parent when the option is enabled but the admin is not an owner.  See my comment in SetParent for context.",
+      "revId": "eea4cca0f7e242caa592a75f2bf276f88d9ba5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

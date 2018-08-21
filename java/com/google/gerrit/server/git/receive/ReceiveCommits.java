@@ -1166,7 +1166,6 @@ class ReceiveCommits {
               cmd,
               "prohibited by Gerrit: don't know how to handle config update of type "
                   + cmd.getType());
-          return;
       }
     }
   }
@@ -1202,7 +1201,7 @@ class ReceiveCommits {
     }
 
     if (validRefOperation(cmd)) {
-      validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+      validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
     }
   }
 
@@ -1215,7 +1214,7 @@ class ReceiveCommits {
         return;
       }
       if (validRefOperation(cmd)) {
-        validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+        validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
       }
     } else {
       rejectProhibited(cmd, err.get());
@@ -1274,7 +1273,7 @@ class ReceiveCommits {
     logger.atFine().log("Rewinding %s", cmd);
 
     if (newObject != null) {
-      validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+      validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
       if (cmd.getResult() != NOT_ATTEMPTED) {
         return;
       }
@@ -2339,16 +2338,15 @@ class ReceiveCommits {
         Account.Id me = user.getAccountId();
         List<FooterLine> footerLines = commit.getFooterLines();
         MailRecipients recipients = new MailRecipients();
-        Map<String, Short> approvals = new HashMap<>();
         checkNotNull(magicBranch);
         recipients.add(magicBranch.getMailRecipients());
-        approvals = magicBranch.labels;
+        Map<String, Short> approvals = magicBranch.labels;
         recipients.add(getRecipientsFromFooters(accountResolver, footerLines));
         recipients.remove(me);
         StringBuilder msg =
             new StringBuilder(
                 ApprovalsUtil.renderMessageWithApprovals(
-                    psId.get(), approvals, Collections.<String, PatchSetApproval>emptyMap()));
+                    psId.get(), approvals, Collections.emptyMap()));
         msg.append('.');
         if (!Strings.isNullOrEmpty(magicBranch.message)) {
           msg.append("\n").append(magicBranch.message);
@@ -2679,7 +2677,7 @@ class ReceiveCommits {
      */
     private boolean newEdit() {
       psId = notes.getChange().currentPatchSetId();
-      Optional<ChangeEdit> edit = null;
+      Optional<ChangeEdit> edit;
 
       try {
         edit = editUtil.byChange(notes, user);
@@ -2932,7 +2930,11 @@ class ReceiveCommits {
     return true;
   }
 
-  private void validateNewCommits(Branch.NameKey branch, ReceiveCommand cmd)
+  /** validateNewCommits validates the commits that a regular push brings in.
+   *
+   * <p>On validation failure, the command is rejected.</p>
+   * */
+  private void validateRegularPushCommits(Branch.NameKey branch, ReceiveCommand cmd)
       throws PermissionBackendException {
     if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
@@ -2998,6 +3000,8 @@ class ReceiveCommits {
     }
   }
 
+  /** validCommit validates a single commit. If the commit does not validate, the command is rejected.
+   */
   private boolean validCommit(
       RevWalk rw, Branch.NameKey branch, ReceiveCommand cmd, ObjectId id, @Nullable Change change)
       throws IOException {
@@ -3203,7 +3207,7 @@ class ReceiveCommits {
     return allRefsWatcher.getAllRefs();
   }
 
-  private void reject(ReceiveCommand cmd, String why) {
+  private static void reject(ReceiveCommand cmd, String why) {
     cmd.setResult(REJECTED_OTHER_REASON, why);
   }
 

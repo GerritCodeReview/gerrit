@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1534837213 +0200\nnonce ACQ0HpxTQEZfnivYk1uyfXSdn2Kn0eFKMLu7Jt4vHFnSJh8n238EoegLfW5eioS3Cpf62yz4W2cY\n\n0000000000000000000000000000000000000000 28a0002c3939a2f29874b3ca1984f60ec2d61c6b refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlt7wd0ACgkQUbX9l6DQ\n71FbRgf/efk1pCnDI6sKSNilYcah1Sas/m8fHS3H47IWDgXqXl6zMJmEhdaqk3h2\nwgx2VUppS97dbw68OUwEJdNgoUv2j9nh8dvkv9JpZYepDD/zJ/M+1TxwPlQFyMGb\npTyPo01EYGxrYjT9S3e3yyzDWL+nJ/N5aIZCrIycI2QrAyYUPTabXJeVbL9kDVkJ\n1lbxvnRPVpgQstgBPOxp7qg24QH2/gB3v3FWoe/eg8Mkdot5XlyzINyfieSZalyB\nWKsBvlxom7pZ70gLwImlAIBGPWeLXlgT2Z7TKqZuRfXourB9zKaIkvDeGLDNo8z4\n2hAuc2A5AENCTbeysyiv/cbtfjnfFA\u003d\u003d\n\u003d2OeS\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c065b68_04683588",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-21T07:53:23Z",
+      "side": 1,
+      "message": "By now there is a new Flogger version on Maven Central (0.3) but unfortunately this release misses some classes and is broken for us. I\u0027m in touch with the Flogger team about this.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 39
+      },
+      "revId": "4d456c632c8d57810944b64e1b68e32af0a0245f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

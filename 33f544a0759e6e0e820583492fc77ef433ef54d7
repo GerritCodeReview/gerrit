@@ -70,6 +70,30 @@
       "revId": "33f544a0759e6e0e820583492fc77ef433ef54d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ce7e19e_e6a35317",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-21T07:18:48Z",
+      "side": 0,
+      "message": "Hm, okay. I just noticed this and thought it\u0027s easy to fix. At the moment I have no time to do further investigations on this.",
+      "parentUuid": "4cb6e891_f47547c1",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 112
+      },
+      "revId": "33f544a0759e6e0e820583492fc77ef433ef54d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

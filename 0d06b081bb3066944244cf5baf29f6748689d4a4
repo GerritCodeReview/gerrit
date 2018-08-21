@@ -22,6 +22,30 @@
       "revId": "0d06b081bb3066944244cf5baf29f6748689d4a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95d63873_eb79b037",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-21T07:02:31Z",
+      "side": 1,
+      "message": "I don\u0027t think it needs to block the merge.  If it needs to be reverted or fixed in another way on stable-2.14 we can do another merge later to bring it to stable-2.15.",
+      "parentUuid": "2c2ef5bd_a7b67502",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "0d06b081bb3066944244cf5baf29f6748689d4a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

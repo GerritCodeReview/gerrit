@@ -3054,7 +3054,7 @@ limit] of a project.
 |===============================
 |Field Name        ||Description
 |`value`           |optional|
-The effective value of the max object size limit as a formatted string. +
+The effective value in bytes of the max object size limit. +
 Not set if there is no limit for the object size.
 |`configured_value`|optional|
 The max object size limit that is configured on the project as a

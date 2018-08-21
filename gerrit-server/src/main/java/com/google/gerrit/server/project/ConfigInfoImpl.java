@@ -142,11 +142,8 @@ public class ConfigInfoImpl extends ConfigInfo {
   private MaxObjectSizeLimitInfo getMaxObjectSizeLimit(
       ProjectState projectState, TransferConfig transferConfig, Project p) {
     MaxObjectSizeLimitInfo info = new MaxObjectSizeLimitInfo();
-    info.value =
-        transferConfig.getEffectiveMaxObjectSizeLimit(projectState)
-                == transferConfig.getMaxObjectSizeLimit()
-            ? transferConfig.getFormattedMaxObjectSizeLimit()
-            : p.getMaxObjectSizeLimit();
+    long value = projectState.getEffectiveMaxObjectSizeLimit();
+    info.value = value == 0 ? null : String.valueOf(value);
     info.configuredValue = p.getMaxObjectSizeLimit();
     info.inheritedValue = transferConfig.getFormattedMaxObjectSizeLimit();
     return info;

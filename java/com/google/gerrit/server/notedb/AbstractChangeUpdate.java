@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -41,6 +42,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 /** A single delta related to a specific patch-set of a change. */
 public abstract class AbstractChangeUpdate {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   protected final NotesMigration migration;
   protected final ChangeNoteUtil noteUtil;
   protected final Account.Id accountId;
@@ -218,6 +221,11 @@ public abstract class AbstractChangeUpdate {
 
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
     checkNotReadOnly();
+
+    logger.atFinest().log(
+        "%s for change %s of project %s in %s (NoteDb)",
+        getClass().getSimpleName(), getId(), getProjectName(), getRefName());
+
     ObjectId z = ObjectId.zeroId();
     CommitBuilder cb = applyImpl(rw, ins, curr);
     if (cb == null) {

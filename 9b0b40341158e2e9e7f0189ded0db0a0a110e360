@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c37606a_715f8889",
+        "filename": "java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-21T19:29:43Z",
+      "side": 1,
+      "message": "IMO this should be a hard requirement rather than a general observation. I\u0027m fine with leaving this wording as-is in the class javadoc for now, since it reflects the fact that there is no validation of the format within this class.\n\nIt would probably be nicer if we added some validation to this class, but I\u0027m not at all sure that won\u0027t break something, so it should probably happen outside this series.",
+      "range": {
+        "startLine": 257,
+        "startChar": 57,
+        "endLine": 257,
+        "endChar": 66
+      },
+      "revId": "9b0b40341158e2e9e7f0189ded0db0a0a110e360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

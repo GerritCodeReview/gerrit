@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d5d74c58_91ab5f3f",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-21T20:58:33Z",
+      "side": 1,
+      "message": "I can add documentation for what all four of these do in a follow-up change. I\u0027d like to proceed with this work, I\u0027ve been blocked by this code review for a few days now.",
+      "parentUuid": "5c933615_40d0d4a7",
+      "range": {
+        "startLine": 153,
+        "startChar": 27,
+        "endLine": 153,
+        "endChar": 47
+      },
+      "revId": "4f31fb792930d269cab6477833fa15d4786daf5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3f41531_259e47d8",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-08-21T20:49:37Z",
       "side": 1,
       "message": "Should this be a default?",
+      "range": {
+        "startLine": 664,
+        "startChar": 10,
+        "endLine": 664,
+        "endChar": 16
+      },
+      "revId": "4f31fb792930d269cab6477833fa15d4786daf5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "708d6621_bd5bc146",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-21T20:58:33Z",
+      "side": 1,
+      "message": "Do you mean that this should be the initial value of the function in gr-navigation? If so, no -- all of the other functions are set to uninitialized, I don\u0027t see a compelling reason to break from that pattern here.",
+      "parentUuid": "d3f41531_259e47d8",
       "range": {
         "startLine": 664,
         "startChar": 10,

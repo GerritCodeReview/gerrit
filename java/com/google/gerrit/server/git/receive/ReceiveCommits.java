@@ -1873,8 +1873,14 @@ class ReceiveCommits {
       return;
     }
 
-    logger.atFine().log("Replacing change %s", changeEnt.getId());
-    requestReplace(cmd, true, changeEnt, newCommit);
+    try {
+      if (validCommit(receivePack.getRevWalk(), changeEnt.getDest(), cmd, newCommit, changeEnt)) {
+        logger.atFine().log("Replacing change %s", changeEnt.getId());
+        requestReplace(cmd, true, changeEnt, newCommit);
+      }
+    } catch (IOException e) {
+      reject(cmd, "I/O exception validating commit");
+    }
   }
 
   /**
@@ -2530,19 +2536,9 @@ class ReceiveCommits {
      * @throws PermissionBackendException
      */
     boolean validateNewPatchSet() throws IOException, OrmException, PermissionBackendException {
-      if (!validateNewPatchSetCommit()) {
+      if (!validateNewPatchSetNoteDb()) {
         return false;
       }
-      RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
-      if (!validCommit(
-          receivePack.getRevWalk(),
-          notes.getChange().getDest(),
-          inputCommand,
-          newCommit,
-          notes.getChange())) {
-        return false;
-      }
-
       sameTreeWarning();
 
       if (magicBranch != null) {
@@ -2562,7 +2558,7 @@ class ReceiveCommits {
 
     boolean validateNewPatchSetForAutoClose()
         throws IOException, OrmException, PermissionBackendException {
-      if (!validateNewPatchSetCommit()) {
+      if (!validateNewPatchSetNoteDb()) {
         return false;
       }
 
@@ -2571,7 +2567,7 @@ class ReceiveCommits {
     }
 
     /** Validates the new PS against permissions and notedb status. */
-    private boolean validateNewPatchSetCommit()
+    private boolean validateNewPatchSetNoteDb()
         throws IOException, OrmException, PermissionBackendException {
       if (notes == null) {
         reject(inputCommand, "change " + ontoChange + " not found");

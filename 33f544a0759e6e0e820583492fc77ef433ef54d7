@@ -46,6 +46,30 @@
       "revId": "33f544a0759e6e0e820583492fc77ef433ef54d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cb6e891_f47547c1",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-21T07:04:52Z",
+      "side": 0,
+      "message": "The idea behind multiple URLs in http_archive is fail over feature. If one URL is not working, bazel will try anotehr one. See rules_closure: [1] example for multiple urls use case. In our use case, all we have is the GitHub commit where the code is consumed from and nothing else (we are fetching specific commit that wasn\u0027t even released yet). That why single form url in the base version was correct and should be restored. If at all, the above http_archive invocation should be adapted to use single form as well.\n\n* [1] https://github.com/bazelbuild/rules_closure/blob/master/closure/repositories.bzl#L174-L184",
+      "parentUuid": "c0f5de9c_e614ba0a",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 112
+      },
+      "revId": "33f544a0759e6e0e820583492fc77ef433ef54d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

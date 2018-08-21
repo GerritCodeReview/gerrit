@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "d1caf535_0346ad69",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-21T08:36:13Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "01351a35_2f317364",
+      "range": {
+        "startLine": 57,
+        "startChar": 54,
+        "endLine": 57,
+        "endChar": 89
+      },
+      "revId": "eea4cca0f7e242caa592a75f2bf276f88d9ba5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5ea8e9c_7ad7ae51",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
         "patchSetId": 4

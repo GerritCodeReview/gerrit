@@ -301,12 +301,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r2.assertOkStatus();
     r2.assertChange(Change.Status.NEW, null);
     r2.assertMessage(
-        "New changes:\n"
+        "success\n"
+            + "\n"
+            + "New changes:\n"
             + "  "
             + url
             + id2
             + " another commit\n"
-            + "\n"
             + "\n"
             + "Updated changes:\n"
             + "  "

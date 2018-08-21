@@ -37,11 +37,8 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -350,31 +347,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
       assertThat(c.getCommitterIdent().getEmailAddress())
           .isEqualTo(serverIdent.get().getEmailAddress());
-    }
-  }
-
-  private void assertTag(Project.NameKey project, String branch, PushOneCommit.Tag tag)
-      throws Exception {
-    try (Repository repo = repoManager.openRepository(project)) {
-      Ref tagRef = repo.findRef(tag.name);
-      assertThat(tagRef).isNotNull();
-      ObjectId taggedCommit = null;
-      if (tag instanceof PushOneCommit.AnnotatedTag) {
-        PushOneCommit.AnnotatedTag annotatedTag = (PushOneCommit.AnnotatedTag) tag;
-        try (RevWalk rw = new RevWalk(repo)) {
-          RevObject object = rw.parseAny(tagRef.getObjectId());
-          assertThat(object).isInstanceOf(RevTag.class);
-          RevTag tagObject = (RevTag) object;
-          assertThat(tagObject.getFullMessage()).isEqualTo(annotatedTag.message);
-          assertThat(tagObject.getTaggerIdent()).isEqualTo(annotatedTag.tagger);
-          taggedCommit = tagObject.getObject();
-        }
-      } else {
-        taggedCommit = tagRef.getObjectId();
-      }
-      ObjectId headCommit = repo.exactRef(branch).getObjectId();
-      assertThat(taggedCommit).isNotNull();
-      assertThat(taggedCommit).isEqualTo(headCommit);
     }
   }
 

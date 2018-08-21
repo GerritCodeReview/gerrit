@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "36f63ac9_c8fb020b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070684
+      },
+      "writtenOn": "2018-08-21T06:09:34Z",
+      "side": 1,
+      "message": "Huh, I did not see that coming.",
+      "parentUuid": "8edf98c4_c5f3b28a",
+      "range": {
+        "startLine": 7,
+        "startChar": 55,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "59573620dd30cc0d83a9ceb3ff4dfba6226ec542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "793bcf4b_bca5afe5",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2018-08-20T23:07:57Z",
       "side": 1,
       "message": "I think there might be value in refactoring this work into a new element, gr-shell-command, that wraps a gr-copy-clipboard with these styles and such. That\u0027d be a bit cleaner, more explicit, and testable.\n\nWe use the copy-clipboard element anywhere you see the copy icon, so hiding all of this related DOM in every scenario seems a bit inefficient.",
+      "revId": "59573620dd30cc0d83a9ceb3ff4dfba6226ec542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d9f25d6_63e2f92e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070684
+      },
+      "writtenOn": "2018-08-21T06:09:34Z",
+      "side": 1,
+      "message": "I agree, but the label that gr-copy-clipboard can include (which is actually used in tandem with a few of those commands) makes the structure problematic.\n\nWhat do you suggest to do?\nI can check whether the label is only used with commands and if so, I will remove the support for it from gr-copy-clipboard and into the new gr-shell-command. Does that seem reasonable?\nHowever, if it is used without commands... I am not sure what to do. Suggestions?\n\nAlso, I did check for usage of gr-copy-clipboard and did not find a lot of usage (less than 10 if I remember correctly), which is why I was less worried about the enlargement.",
+      "parentUuid": "793bcf4b_bca5afe5",
       "revId": "59573620dd30cc0d83a9ceb3ff4dfba6226ec542",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

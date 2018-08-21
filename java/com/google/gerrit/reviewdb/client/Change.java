@@ -253,7 +253,10 @@ public final class Change {
     }
   }
 
-  /** Globally unique identification of this change. */
+  /**
+   * Globally unique identification of this change. This generally takes the form of a string
+   * "Ixxxxxx...", and is stored in the Change-Id footer of a commit.
+   */
   public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 

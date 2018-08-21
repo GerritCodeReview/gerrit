@@ -399,10 +399,6 @@ class ReceiveCommits {
   private Optional<NoteDbPushOption> noteDbPushOption;
   private Optional<Boolean> tracePushOption;
 
-  // Handles for outputting back over the wire to the end user.
-  private Task newProgress;
-  private Task replaceProgress;
-  private Task closeProgress;
   private MessageSender messageSender;
 
   @Inject
@@ -551,13 +547,9 @@ class ReceiveCommits {
   }
 
   void processCommands(Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
-    newProgress = progress.beginSubTask("new", UNKNOWN);
-    replaceProgress = progress.beginSubTask("updated", UNKNOWN);
-    closeProgress = progress.beginSubTask("closed", UNKNOWN);
-
     Task commandProgress = progress.beginSubTask("refs", UNKNOWN);
     commands = commands.stream().map(c -> wrapReceiveCommand(c, commandProgress)).collect(toList());
-    processCommandsUnsafe(commands);
+    processCommandsUnsafe(commands, progress);
     for (ReceiveCommand cmd : commands) {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
@@ -565,10 +557,15 @@ class ReceiveCommits {
     }
     commandProgress.end();
     progress.end();
+
+    // Update account info with details discovered during commit walking. The account update happens
+    // in a separate batch update, and failure doesn't cause the push itself to fail.
+    updateAccountInfo();
   }
 
   // Process as many commands as possible, but may leave some commands in state NOT_ATTEMPTED.
-  private void processCommandsUnsafe(Collection<ReceiveCommand> commands) {
+  private void processCommandsUnsafe(
+      Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
     parsePushOptions();
     try (TraceContext traceContext =
         TraceContext.open()
@@ -617,7 +614,7 @@ class ReceiveCommits {
         }
 
         if (!regularCommands.isEmpty()) {
-          handleRegularCommands(regularCommands);
+          handleRegularCommands(regularCommands, progress);
         }
 
         for (ReceiveCommand cmd : directPatchSetPushCommands) {
@@ -638,12 +635,15 @@ class ReceiveCommits {
         return;
       }
 
+      Task newProgress = progress.beginSubTask("new", UNKNOWN);
+      Task replaceProgress = progress.beginSubTask("updated", UNKNOWN);
+
       List<CreateRequest> newChanges = Collections.emptyList();
       if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
-        newChanges = selectNewAndReplacedChangesFromMagicBranch();
+        newChanges = selectNewAndReplacedChangesFromMagicBranch(newProgress);
       }
       preparePatchSetsForReplace(newChanges);
-      insertChangesAndPatchSets(newChanges);
+      insertChangesAndPatchSets(newChanges, replaceProgress);
       newProgress.end();
       replaceProgress.end();
 
@@ -656,15 +656,11 @@ class ReceiveCommits {
         receivePack.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
       }
 
-      // Update account info with details discovered during commit walking.
-      updateAccountInfo();
-
-      closeProgress.end();
       reportMessages(newChanges);
     }
   }
 
-  private void handleRegularCommands(List<ReceiveCommand> cmds)
+  private void handleRegularCommands(List<ReceiveCommand> cmds, MultiProgressMonitor progress)
       throws PermissionBackendException, IOException, NoSuchProjectException {
     for (ReceiveCommand cmd : cmds) {
       parseRegularCommand(cmd);
@@ -710,7 +706,9 @@ class ReceiveCommits {
           case CREATE:
           case UPDATE:
           case UPDATE_NONFASTFORWARD:
-            autoCloseChanges(c);
+            Task closeProgress = progress.beginSubTask("closed", UNKNOWN);
+            autoCloseChanges(c, closeProgress);
+            closeProgress.end();
             branches.add(new Branch.NameKey(project.getNameKey(), c.getRefName()));
             break;
 
@@ -811,7 +809,7 @@ class ReceiveCommits {
     }
   }
 
-  private void insertChangesAndPatchSets(List<CreateRequest> newChanges) {
+  private void insertChangesAndPatchSets(List<CreateRequest> newChanges, Task replaceProgress) {
     ReceiveCommand magicBranchCmd = magicBranch != null ? magicBranch.cmd : null;
     if (magicBranchCmd != null && magicBranchCmd.getResult() != NOT_ATTEMPTED) {
       logger.atWarning().log(
@@ -1653,10 +1651,6 @@ class ReceiveCommits {
       rejectProhibited(cmd, err.get());
       return;
     }
-    if (!projectState.statePermitsWrite()) {
-      reject(cmd, "project state does not permit write");
-      return;
-    }
 
     // TODO(davido): Remove legacy support for drafts magic branch option
     // after repo-tool supports private and work-in-progress changes.
@@ -1896,7 +1890,7 @@ class ReceiveCommits {
     return true;
   }
 
-  private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch() {
+  private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch(Task newProgress) {
     logger.atFine().log("Finding new and replaced changes");
     List<CreateRequest> newChanges = new ArrayList<>();
 
@@ -1973,10 +1967,12 @@ class ReceiveCommits {
 
         List<String> idList = c.getFooterLines(CHANGE_ID);
         if (!idList.isEmpty()) {
-          pending.put(c, new ChangeLookup(c, new Change.Key(idList.get(idList.size() - 1).trim())));
+          pending.put(
+              c, lookupByChangeKey(c, new Change.Key(idList.get(idList.size() - 1).trim())));
         } else {
-          pending.put(c, new ChangeLookup(c));
+          pending.put(c, lookupByCommit(c));
         }
+
         int n = pending.size() + newChanges.size();
         if (maxBatchChanges != 0 && n > maxBatchChanges) {
           logger.atFine().log("%d changes exceeds limit of %d", n, maxBatchChanges);
@@ -2018,7 +2014,7 @@ class ReceiveCommits {
         }
 
         if (idList.isEmpty()) {
-          newChanges.add(new CreateRequest(c, magicBranch.dest.get()));
+          newChanges.add(new CreateRequest(c, magicBranch.dest.get(), newProgress));
           continue;
         }
       }
@@ -2102,7 +2098,7 @@ class ReceiveCommits {
           }
           newChangeIds.add(p.changeKey);
         }
-        newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get()));
+        newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get(), newProgress));
       }
       logger.atFine().log(
           "Finished deferred lookups with %d updates and %d new changes",
@@ -2261,26 +2257,32 @@ class ReceiveCommits {
     return idStr.matches("^I[0-9a-fA-F]{40}$") && !idStr.matches("^I00*$");
   }
 
-  private class ChangeLookup {
+  private static class ChangeLookup {
     final RevCommit commit;
-    final Change.Key changeKey;
+
+    @Nullable final Change.Key changeKey;
     final List<ChangeData> destChanges;
 
-    ChangeLookup(RevCommit c, Change.Key key) throws OrmException {
-      commit = c;
-      changeKey = key;
-      destChanges = queryProvider.get().byBranchKey(magicBranch.dest, key);
-    }
-
-    ChangeLookup(RevCommit c) throws OrmException {
-      commit = c;
-      destChanges = queryProvider.get().byBranchCommit(magicBranch.dest, c.getName());
-      changeKey = null;
+    ChangeLookup(RevCommit c, @Nullable Change.Key key, final List<ChangeData> destChanges) {
+      this.commit = c;
+      this.changeKey = key;
+      this.destChanges = destChanges;
     }
   }
 
+  ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) throws OrmException {
+    return new ChangeLookup(c, key, queryProvider.get().byBranchKey(magicBranch.dest, key));
+  }
+
+  ChangeLookup lookupByCommit(RevCommit c) throws OrmException {
+    return new ChangeLookup(
+        c, null, queryProvider.get().byBranchCommit(magicBranch.dest, c.getName()));
+  }
+
+  /** Represents a commit for which a Change should be created. */
   private class CreateRequest {
     final RevCommit commit;
+    final Task progress;
     private final String refName;
 
     Change.Id changeId;
@@ -2290,9 +2292,10 @@ class ReceiveCommits {
 
     Change change;
 
-    CreateRequest(RevCommit commit, String refName) {
+    CreateRequest(RevCommit commit, String refName, Task progress) {
       this.commit = commit;
       this.refName = refName;
+      this.progress = progress;
     }
 
     private void setChangeId(int id) {
@@ -2387,7 +2390,7 @@ class ReceiveCommits {
                 return false;
               }
             });
-        bu.addOp(changeId, new ChangeProgressOp(newProgress));
+        bu.addOp(changeId, new ChangeProgressOp(progress));
       } catch (Exception e) {
         throw INSERT_EXCEPTION.apply(e);
       }
@@ -2421,7 +2424,7 @@ class ReceiveCommits {
       for (Iterator<ReplaceRequest> itr = replaceByChange.values().iterator(); itr.hasNext(); ) {
         ReplaceRequest req = itr.next();
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
-          req.validate(false);
+          req.validateNewPatchSet();
         }
       }
     } catch (OrmException err) {
@@ -2465,6 +2468,7 @@ class ReceiveCommits {
     }
   }
 
+  /** Represents a commit that should be stored in a new patchset of an existing change. */
   private class ReplaceRequest {
     final Change.Id ontoChange;
     final ObjectId newCommitId;
@@ -2511,18 +2515,46 @@ class ReceiveCommits {
      *   <li>May reset {@code receivePack.getRevWalk()}; do not call in the middle of a walk.
      * </ul>
      *
-     * @param autoClose whether the caller intends to auto-close the change after adding a new patch
-     *     set.
      * @return whether the new commit is valid
      * @throws IOException
      * @throws OrmException
      * @throws PermissionBackendException
      */
-    boolean validate(boolean autoClose)
-        throws IOException, OrmException, PermissionBackendException {
-      if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
+    boolean validateNewPatchSet() throws IOException, OrmException, PermissionBackendException {
+      if (!validateNewPatchSetCommit()) {
         return false;
-      } else if (notes == null) {
+      }
+      sameTreeWarning();
+
+      if (magicBranch != null) {
+        validateMagicBranchWipStatusChange();
+        if (inputCommand.getResult() != NOT_ATTEMPTED) {
+          return false;
+        }
+
+        if (magicBranch.edit || magicBranch.draft) {
+          return newEdit();
+        }
+      }
+
+      newPatchSet();
+      return true;
+    }
+
+    boolean validateNewPatchSetForAutoClose()
+        throws IOException, OrmException, PermissionBackendException {
+      if (!validateNewPatchSetCommit()) {
+        return false;
+      }
+
+      newPatchSet();
+      return true;
+    }
+
+    /** Validates the new PS against permissions and notedb status. */
+    private boolean validateNewPatchSetCommit()
+        throws IOException, OrmException, PermissionBackendException {
+      if (notes == null) {
         reject(inputCommand, "change " + ontoChange + " not found");
         return false;
       }
@@ -2535,7 +2567,6 @@ class ReceiveCommits {
       }
 
       RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
-      RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
 
       // Not allowed to create a new patch set if the current patch set is locked.
       if (psUtil.isPatchSetLocked(notes)) {
@@ -2550,10 +2581,6 @@ class ReceiveCommits {
         return false;
       }
 
-      if (!projectState.statePermitsWrite()) {
-        reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
-        return false;
-      }
       if (change.getStatus().isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;
@@ -2583,11 +2610,38 @@ class ReceiveCommits {
           receivePack.getRevWalk(), change.getDest(), inputCommand, newCommit, change)) {
         return false;
       }
-      receivePack.getRevWalk().parseBody(priorCommit);
+      return true;
+    }
 
-      // Don't allow the same tree if the commit message is unmodified
-      // or no parents were updated (rebase), else warn that only part
-      // of the commit was modified.
+    /** Validates whether the WIP change is allowed. Rejects inputCommand if not. */
+    private void validateMagicBranchWipStatusChange() throws PermissionBackendException {
+      Change change = notes.getChange();
+      if ((magicBranch.workInProgress || magicBranch.ready)
+          && magicBranch.workInProgress != change.isWorkInProgress()
+          && !user.getAccountId().equals(change.getOwner())) {
+        boolean hasWriteConfigPermission = false;
+        try {
+          permissions.check(ProjectPermission.WRITE_CONFIG);
+          hasWriteConfigPermission = true;
+        } catch (AuthException e) {
+          // Do nothing.
+        }
+
+        if (!hasWriteConfigPermission) {
+          try {
+            permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+          } catch (AuthException e1) {
+            reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
+          }
+        }
+      }
+    }
+
+    /** prints a warning if the new PS has the same tree as the previous commit. */
+    private void sameTreeWarning() throws IOException {
+      RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
+      RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
+
       if (newCommit.getTree().equals(priorCommit.getTree())) {
         boolean messageEq =
             Objects.equals(newCommit.getFullMessage(), priorCommit.getFullMessage());
@@ -2595,7 +2649,7 @@ class ReceiveCommits {
         boolean authorEq = authorEqual(newCommit, priorCommit);
         ObjectReader reader = receivePack.getRevWalk().getObjectReader();
 
-        if (messageEq && parentsEq && authorEq && !autoClose) {
+        if (messageEq && parentsEq && authorEq) {
           addMessage(
               String.format(
                   "warning: no changes between prior commit %s and new commit %s",
@@ -2617,37 +2671,12 @@ class ReceiveCommits {
           addMessage(msg.toString());
         }
       }
-
-      if (magicBranch != null
-          && (magicBranch.workInProgress || magicBranch.ready)
-          && magicBranch.workInProgress != change.isWorkInProgress()
-          && !user.getAccountId().equals(change.getOwner())) {
-        boolean hasWriteConfigPermission = false;
-        try {
-          permissions.check(ProjectPermission.WRITE_CONFIG);
-          hasWriteConfigPermission = true;
-        } catch (AuthException e) {
-          // Do nothing.
-        }
-
-        if (!hasWriteConfigPermission) {
-          try {
-            permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-          } catch (AuthException e1) {
-            reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
-            return false;
-          }
-        }
-      }
-
-      if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {
-        return newEdit();
-      }
-
-      newPatchSet();
-      return true;
     }
 
+    /**
+     * Sets cmd and prev to the ReceiveCommands for change edits. Returns false if there was a
+     * failure.
+     */
     private boolean newEdit() {
       psId = notes.getChange().currentPatchSetId();
       Optional<ChangeEdit> edit = null;
@@ -2678,8 +2707,8 @@ class ReceiveCommits {
       return true;
     }
 
+    /** Creates a ReceiveCommand for a new edit. */
     private void createEditCommand() {
-      // create new edit
       cmd =
           new ReceiveCommand(
               ObjectId.zeroId(),
@@ -2687,6 +2716,7 @@ class ReceiveCommits {
               RefNames.refsEdit(user.getAccountId(), notes.getChangeId(), psId));
     }
 
+    /** Updates 'this' to add a new patchset. */
     private void newPatchSet() throws IOException, OrmException {
       RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
       psId =
@@ -3004,15 +3034,16 @@ class ReceiveCommits {
     return true;
   }
 
-  private void autoCloseChanges(ReceiveCommand cmd) {
+  private void autoCloseChanges(ReceiveCommand cmd, Task progress) {
     logger.atFine().log("Starting auto-closing of changes");
     String refName = cmd.getRefName();
     checkState(
         !MagicBranch.isMagicBranch(refName),
         "shouldn't be auto-closing changes on magic branch %s",
         refName);
+
     // TODO(dborowitz): Combine this BatchUpdate with the main one in
-    // insertChangesAndPatchSets.
+    // handleRegularCommands
     try {
       retryHelper.execute(
           updateFactory -> {
@@ -3075,7 +3106,7 @@ class ReceiveCommits {
 
               for (ReplaceRequest req : replaceAndClose) {
                 Change.Id id = req.notes.getChangeId();
-                if (!req.validate(true)) {
+                if (!req.validateNewPatchSetForAutoClose()) {
                   logger.atFine().log("Not closing %s because validation failed", id);
                   continue;
                 }
@@ -3085,7 +3116,7 @@ class ReceiveCommits {
                     mergedByPushOpFactory
                         .create(requestScopePropagator, req.psId, refName)
                         .setPatchSetProvider(req.replaceOp::getPatchSet));
-                bu.addOp(id, new ChangeProgressOp(closeProgress));
+                bu.addOp(id, new ChangeProgressOp(progress));
               }
 
               logger.atFine().log(

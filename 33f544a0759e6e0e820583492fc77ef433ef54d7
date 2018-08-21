@@ -118,6 +118,30 @@
       "revId": "33f544a0759e6e0e820583492fc77ef433ef54d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d9e6182_09ef91f2",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-21T07:30:08Z",
+      "side": 0,
+      "message": "Ah yes, when I got this error I had an old Bazel version. I upgraded it only after I had fixed this, because only then I get the error message saying that my Bazel version was too old.",
+      "parentUuid": "92675cac_03d4dca7",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 112
+      },
+      "revId": "33f544a0759e6e0e820583492fc77ef433ef54d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

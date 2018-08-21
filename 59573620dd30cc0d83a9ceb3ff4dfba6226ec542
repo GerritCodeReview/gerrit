@@ -99,6 +99,24 @@
       "revId": "59573620dd30cc0d83a9ceb3ff4dfba6226ec542",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5d20a10_6d9b37bb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070684
+      },
+      "writtenOn": "2018-08-21T20:41:03Z",
+      "side": 1,
+      "message": "So do you think I should add support for label in the new gr-shell-command element? Because the label is currently (before as well as after my change) used at least once (in the Update Change modal) in tandem with the shell-command look.",
+      "parentUuid": "fa3e4811_c4423d70",
+      "revId": "59573620dd30cc0d83a9ceb3ff4dfba6226ec542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

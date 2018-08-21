@@ -483,20 +483,6 @@
     },
 
     /**
-     * @param {string} commentSide
-     * @param {!Object=} opt_range
-     */
-    _getRangeString(commentSide, opt_range) {
-      return opt_range ?
-        'range-' +
-        opt_range.startLine + '-' +
-        opt_range.startChar + '-' +
-        opt_range.endLine + '-' +
-        opt_range.endChar + '-' +
-        commentSide : 'line-' + commentSide;
-    },
-
-    /**
      * Gets or creates a comment thread for a specific spot on a diff.
      * May include a range, if the comment is a range comment.
      *

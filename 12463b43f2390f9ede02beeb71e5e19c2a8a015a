@@ -17,6 +17,24 @@
       "revId": "12463b43f2390f9ede02beeb71e5e19c2a8a015a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b681b32c_cae63ad8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-21T08:13:11Z",
+      "side": 1,
+      "message": "Yes, I was aware of this. I just thought to address the log spam quickly and then look further into it. We really want to have this log only on cache misses. I\u0027ve adapted the change accordingly.\n\nDone.",
+      "parentUuid": "6669bd84_cdf501d7",
+      "revId": "12463b43f2390f9ede02beeb71e5e19c2a8a015a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

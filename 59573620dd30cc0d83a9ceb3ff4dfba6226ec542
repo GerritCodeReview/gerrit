@@ -117,6 +117,24 @@
       "revId": "59573620dd30cc0d83a9ceb3ff4dfba6226ec542",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fad5b3f6_66dca68d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-21T23:50:20Z",
+      "side": 1,
+      "message": "I think that what wyatta@ did with using the label initially was totally fine, as it was a one-off usage of the element.\n\nI also think that you make a really great argument for reusing the styles in the download commands, and perhaps anywhere at all that shell commands are listed out. If we reuse the styles, we probably ought to make one specific element and reuse that.\n\nFrom what I can tell, there\u0027s no situation in which we need a label for the copy-clipboard element where it isn\u0027t being used to copy a command, so it\u0027s probably safe to remove all label functionality from it. \n\nI know that\u0027s a bit of a big refactor, and perhaps more than you wanted to sign up to contribute. I\u0027d be totally happy to help with whatever parts you\u0027re not interested in doing!",
+      "parentUuid": "e5d20a10_6d9b37bb",
+      "revId": "59573620dd30cc0d83a9ceb3ff4dfba6226ec542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

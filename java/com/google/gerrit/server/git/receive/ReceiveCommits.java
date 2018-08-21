@@ -2522,6 +2522,16 @@ class ReceiveCommits {
       if (!validateNewPatchSetCommit()) {
         return false;
       }
+      RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
+      if (!validCommit(
+          receivePack.getRevWalk(),
+          notes.getChange().getDest(),
+          inputCommand,
+          newCommit,
+          notes.getChange())) {
+        return false;
+      }
+
       sameTreeWarning();
 
       if (magicBranch != null) {
@@ -2604,10 +2614,6 @@ class ReceiveCommits {
         }
       }
 
-      if (!validCommit(
-          receivePack.getRevWalk(), change.getDest(), inputCommand, newCommit, change)) {
-        return false;
-      }
       return true;
     }
 
@@ -2930,10 +2936,11 @@ class ReceiveCommits {
     return true;
   }
 
-  /** validateNewCommits validates the commits that a regular push brings in.
+  /**
+   * validateNewCommits validates the commits that a regular push brings in.
    *
-   * <p>On validation failure, the command is rejected.</p>
-   * */
+   * <p>On validation failure, the command is rejected.
+   */
   private void validateRegularPushCommits(Branch.NameKey branch, ReceiveCommand cmd)
       throws PermissionBackendException {
     if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
@@ -3000,7 +3007,9 @@ class ReceiveCommits {
     }
   }
 
-  /** validCommit validates a single commit. If the commit does not validate, the command is rejected.
+  /**
+   * validCommit validates a single commit. If the commit does not validate, the command is
+   * rejected.
    */
   private boolean validCommit(
       RevWalk rw, Branch.NameKey branch, ReceiveCommand cmd, ObjectId id, @Nullable Change change)

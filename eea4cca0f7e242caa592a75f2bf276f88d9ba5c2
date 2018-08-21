@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "66032131_e50cbdbf",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetParent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-08-21T08:30:06Z",
+      "side": 1,
+      "message": "Yes. WRITE_CONFIG is tied to the isOwner()-control, which also includes isAdmin()",
+      "parentUuid": "201b2132_c1efc8b1",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "eea4cca0f7e242caa592a75f2bf276f88d9ba5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff21fc5e_2ce3f1bd",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2018-08-21T03:42:08Z",
       "side": 1,
       "message": "Would it be better to grant the permission on an explicit group rather than for everyone?",
+      "range": {
+        "startLine": 57,
+        "startChar": 54,
+        "endLine": 57,
+        "endChar": 89
+      },
+      "revId": "eea4cca0f7e242caa592a75f2bf276f88d9ba5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01351a35_2f317364",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-08-21T08:30:06Z",
+      "side": 1,
+      "message": "I checked other test cases and this seemed to be how other tests does it. Probably because AbstractDaemonTest does not have good helper methods for assigning temp groups. It behaves as expected, so I hope it is OK to keep as is.",
+      "parentUuid": "ff21fc5e_2ce3f1bd",
       "range": {
         "startLine": 57,
         "startChar": 54,
@@ -62,6 +110,24 @@
       "revId": "eea4cca0f7e242caa592a75f2bf276f88d9ba5c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd85a01c_a2e1ffce",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-08-21T08:30:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5ea8e9c_7ad7ae51",
+      "revId": "eea4cca0f7e242caa592a75f2bf276f88d9ba5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.account.externalids;
 
 import com.google.gerrit.server.account.externalids.ExternalIdCacheImpl.Loader;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.serialize.ObjectIdCacheSerializer;
 import com.google.inject.TypeLiteral;
 import java.time.Duration;
 import org.eclipse.jgit.lib.ObjectId;
@@ -23,7 +24,7 @@ import org.eclipse.jgit.lib.ObjectId;
 public class ExternalIdModule extends CacheModule {
   @Override
   protected void configure() {
-    cache(ExternalIdCacheImpl.CACHE_NAME, ObjectId.class, new TypeLiteral<AllExternalIds>() {})
+    persist(ExternalIdCacheImpl.CACHE_NAME, ObjectId.class, new TypeLiteral<AllExternalIds>() {})
         // The cached data is potentially pretty large and we are always only interested
         // in the latest value. However, due to a race condition, it is possible for different
         // threads to observe different values of the meta ref, and hence request different keys
@@ -32,7 +33,11 @@ public class ExternalIdModule extends CacheModule {
         // memory.
         .maximumWeight(2)
         .expireFromMemoryAfterAccess(Duration.ofMinutes(1))
-        .loader(Loader.class);
+        .loader(Loader.class)
+        .diskLimit(-1)
+        .version(1)
+        .keySerializer(ObjectIdCacheSerializer.INSTANCE)
+        .valueSerializer(AllExternalIds.Serializer.INSTANCE);
 
     bind(ExternalIdCacheImpl.class);
     bind(ExternalIdCache.class).to(ExternalIdCacheImpl.class);

@@ -786,6 +786,7 @@ Default is 128 MiB per cache, except:
 +
 * `"change_notes"`: disk storage is disabled by default
 * `"diff_summary"`: default is `1g` (1 GiB of disk space)
+* `"external_ids_map"`: disk storage is disabled by default
 
 +
 If 0 or negative, disk storage for the cache is disabled.
@@ -862,8 +863,10 @@ of link:config-accounts.html#external-ids[all current external IDs]. The
 cache may temporarily contain 2 entries, but the second one is promptly
 expired.
 +
-It is not recommended to change the attributes of this cache away from
-the defaults.
+It is not recommended to change the in-memory attributes of this cache
+away from the defaults. The cache may be persisted by setting
+`diskLimit`, which is only recommended if cold start performance is
+problematic.
 
 cache `"git_tags"`::
 +

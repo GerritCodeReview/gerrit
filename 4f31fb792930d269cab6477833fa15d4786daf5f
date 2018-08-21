@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c933615_40d0d4a7",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2018-08-21T20:49:37Z",
+      "side": 1,
+      "message": "I think additional documentation would be helpful for what this function takes in and what it should return.",
+      "range": {
+        "startLine": 153,
+        "startChar": 27,
+        "endLine": 153,
+        "endChar": 47
+      },
+      "revId": "4f31fb792930d269cab6477833fa15d4786daf5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f41531_259e47d8",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2018-08-21T20:49:37Z",
+      "side": 1,
+      "message": "Should this be a default?",
+      "range": {
+        "startLine": 664,
+        "startChar": 10,
+        "endLine": 664,
+        "endChar": 16
+      },
+      "revId": "4f31fb792930d269cab6477833fa15d4786daf5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

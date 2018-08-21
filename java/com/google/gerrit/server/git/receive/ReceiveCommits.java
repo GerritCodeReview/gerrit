@@ -578,6 +578,7 @@ class ReceiveCommits {
         traceContext.addTag(RequestId.Type.TRACE_ID, traceId);
         addMessage(RequestId.Type.TRACE_ID.name() + ": " + traceId);
       }
+
       try {
         if (!projectState.getProject().getState().permitsWrite()) {
           for (ReceiveCommand cmd : commands) {
@@ -650,7 +651,7 @@ class ReceiveCommits {
       insertChangesAndPatchSets(newChanges, replaceProgress);
       newProgress.end();
       replaceProgress.end();
-      reportMessages(newChanges);
+      queueSuccessMessages(newChanges);
     }
   }
 
@@ -735,9 +736,23 @@ class ReceiveCommits {
     }
   }
 
-  private void reportMessages(List<CreateRequest> newChanges) {
+  /** Appends messages for successful change creation/updates. */
+  private void queueSuccessMessages(List<CreateRequest> newChanges) {
     List<CreateRequest> created =
         newChanges.stream().filter(r -> r.change != null).collect(toList());
+    List<ReplaceRequest> updated =
+        replaceByChange
+            .values()
+            .stream()
+            .filter(r -> r.inputCommand.getResult() == OK)
+            .sorted(comparingInt(r -> r.notes.getChangeId().get()))
+            .collect(toList());
+
+    if (!created.isEmpty() || !updated.isEmpty()) {
+      addMessage("");
+      addMessage("SUCCESS");
+    }
+
     if (!created.isEmpty()) {
       addMessage("");
       addMessage("New Changes:");
@@ -749,13 +764,6 @@ class ReceiveCommits {
       addMessage("");
     }
 
-    List<ReplaceRequest> updated =
-        replaceByChange
-            .values()
-            .stream()
-            .filter(r -> r.inputCommand.getResult() == OK)
-            .sorted(comparingInt(r -> r.notes.getChangeId().get()))
-            .collect(toList());
     if (!updated.isEmpty()) {
       addMessage("");
       addMessage("Updated Changes:");

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22b27f54_23a329da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-21T19:33:07Z",
+      "side": 1,
+      "message": "Can you say why?\n\nA common reason for having private fields in private inner classes is to convey that they should not be directly accessed by other code in the file outside of that class, even though it\u0027s technically valid to do so.\n\nIf these fields are actually being accessed from outside the class, then I agree removing private is the way to go, but the commit message should say so. (I mean, you could also refactor further to avoid accessing the private fields, but it\u0027s fine to stop shaving the yak here.)",
+      "revId": "e13b78bb40ef50c70e8e84cab21b3d75d4282ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

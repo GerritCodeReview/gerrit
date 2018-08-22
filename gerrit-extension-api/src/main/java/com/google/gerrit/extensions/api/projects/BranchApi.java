@@ -57,7 +57,7 @@ public interface BranchApi {
     }
 
     @Override
-    public List<ReflogEntryInfo> reflog() {
+    public List<ReflogEntryInfo> reflog() throws RestApiException {
       throw new NotImplementedException();
     }
   }

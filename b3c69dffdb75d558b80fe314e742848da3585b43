@@ -16,6 +16,24 @@
       "revId": "b3c69dffdb75d558b80fe314e742848da3585b43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d57050b_d58e21f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-08-22T07:27:23Z",
+      "side": 1,
+      "message": "I don\u0027t know - is there a fast way to find out? I ran \nbazel build gerrit\nand it still builds. Or is there another way to do the JSCompiler type checking?",
+      "parentUuid": "4017c57f_fc126aea",
+      "revId": "b3c69dffdb75d558b80fe314e742848da3585b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

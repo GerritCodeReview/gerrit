@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "128b4980_e80a1489",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ReflogEntryInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-22T05:47:01Z",
+      "side": 1,
+      "message": "Is 2017 correct here. Shouldn\u0027t this be rather 2014, to reflect the original file where it was moved from, or 2018 to reflect the time when this new file was created?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9d18f269480a15cd3996624e78f932caa3a34495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

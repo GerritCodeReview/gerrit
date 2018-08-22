@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4017c57f_fc126aea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-22T07:23:17Z",
+      "side": 1,
+      "message": "Is that commit included in the version polymer that we are using?",
+      "revId": "b3c69dffdb75d558b80fe314e742848da3585b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

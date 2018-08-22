@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63a64d3a_6cb4729b",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2018-08-22T21:01:31Z",
+      "side": 1,
+      "message": "I think it would be helpful to document what these functions take in and should return.\nnavigate. A typescript-esq syntax might be useful (string) \u003d\u003e void.",
+      "range": {
+        "startLine": 155,
+        "startChar": 17,
+        "endLine": 155,
+        "endChar": 25
+      },
+      "revId": "96f82545cd56ef857b583231c565880a33108acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bd949c9_79efd5c9",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2018-08-22T21:01:31Z",
+      "side": 1,
+      "message": "maps the comment links to what?",
+      "range": {
+        "startLine": 170,
+        "startChar": 43,
+        "endLine": 171,
+        "endChar": 42
+      },
+      "revId": "96f82545cd56ef857b583231c565880a33108acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

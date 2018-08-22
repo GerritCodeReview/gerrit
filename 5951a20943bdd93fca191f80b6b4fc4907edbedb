@@ -22,6 +22,30 @@
       "revId": "5951a20943bdd93fca191f80b6b4fc4907edbedb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86a82b33_ea2aae42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-22T19:05:30Z",
+      "side": 1,
+      "message": "Whoops, this was resolved with a later PS.",
+      "parentUuid": "7e74fb43_e21aabd1",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "5951a20943bdd93fca191f80b6b4fc4907edbedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

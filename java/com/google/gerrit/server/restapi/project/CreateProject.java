@@ -72,6 +72,7 @@ import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -90,6 +91,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
+@Singleton
 public class CreateProject
     implements RestCollectionCreateView<TopLevelResource, ProjectResource, ProjectInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

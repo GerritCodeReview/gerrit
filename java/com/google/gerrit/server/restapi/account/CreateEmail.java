@@ -44,9 +44,11 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+@Singleton
 public class CreateEmail
     implements RestCollectionCreateView<AccountResource, AccountResource.Email, EmailInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

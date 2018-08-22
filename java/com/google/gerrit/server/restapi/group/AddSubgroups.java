@@ -131,6 +131,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     groupsUpdateProvider.get().updateGroup(parentGroupUuid, groupUpdate);
   }
 
+  @Singleton
   public static class CreateSubgroup
       implements RestCollectionCreateView<GroupResource, SubgroupResource, Input> {
     private final AddSubgroups addSubgroups;

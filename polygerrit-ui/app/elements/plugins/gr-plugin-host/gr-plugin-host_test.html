@@ -188,6 +188,15 @@ limitations under the License.
       assert.equal(Gerrit._pluginInstallError.callCount, 2);
     });
 
+    test('default theme is loaded with html plugins', () => {
+      sandbox.stub(Gerrit, '_setPluginsPending');
+      element.config = {
+        default_theme: '/oof',
+        plugin: {},
+      };
+      assert.isTrue(Gerrit._setPluginsPending.calledWith([url + '/oof']));
+    });
+
     test('skips preloaded plugins', () => {
       sandbox.stub(Gerrit, '_isPluginPreloaded')
           .withArgs(url + '/plugins/foo/bar').returns(true)

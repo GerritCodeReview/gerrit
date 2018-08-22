@@ -212,12 +212,14 @@ limitations under the License.
       test('loads files weblinks', () => {
         const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
             .returns({name: 'stubb', url: '#s'});
-        sandbox.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({}));
+        sandbox.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({
+          content: [],
+        }));
         element.projectName = 'test-project';
         element.path = 'test-path';
         element.commitRange = {baseCommit: 'test-base', commit: 'test-commit'};
         element.patchRange = {};
-        return element._getDiff().then(() => {
+        return element.reload().then(() => {
           assert.isTrue(weblinksStub.calledTwice);
           assert.isTrue(weblinksStub.firstCall.calledWith({
             commit: 'test-base',
@@ -792,15 +794,14 @@ limitations under the License.
         element._getDiff().then(done);
       });
 
-      test('_getDiff resolves as null on error', () => {
+      test('reload resolves on error', () => {
         const onErrStub = sandbox.stub(element, '_handleGetDiffError');
         const error = {ok: false, status: 500};
         sandbox.stub(element.$.restAPI, 'getDiff',
             (changeNum, basePatchNum, patchNum, path, onErr) => {
               onErr(error);
             });
-        return element._getDiff().then(diff => {
-          assert.isNull(diff);
+        return element.reload().then(() => {
           assert.isTrue(onErrStub.calledOnce);
         });
       });

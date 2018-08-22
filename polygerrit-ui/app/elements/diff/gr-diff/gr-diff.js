@@ -237,13 +237,21 @@
       this._loading = true;
       this._errorMessage = null;
 
-      const diffRequest = this._getDiff();
+      const diffRequest = this._getDiff()
+          .then(diff => {
+            this._reportDiff(diff);
+            return diff;
+          })
+          .catch(e => {
+            this._handleGetDiffError(e);
+            return null;
+          });
 
       const assetRequest = diffRequest.then(diff => {
         // If the diff is null, then it's failed to load.
         if (!diff) { return null; }
 
-        return this._loadDiffAssets();
+        return this._loadDiffAssets(diff);
       });
 
       return Promise.all([diffRequest, assetRequest]).then(results => {
@@ -251,11 +259,10 @@
         if (!diff) {
           return Promise.resolve();
         }
-        if (this.prefs) {
-          return this._renderDiffTable();
-        }
-        return Promise.resolve();
-      }).then(() => {
+        this.filesWeblinks = this._getFilesWeblinks(diff);
+        this._diff = diff;
+        return this._renderDiffTable();
+      }).finally(() => {
         this._loading = false;
       });
     },
@@ -722,6 +729,7 @@
     },
 
     _renderDiffTable() {
+      if (!this.prefs) { return Promise.resolve(); }
       if (this.prefs.context === -1 &&
           this._diffLength(this._diff) >= LARGE_DIFF_THRESHOLD_LINES &&
           this._safetyBypass === null) {
@@ -771,7 +779,7 @@
     _getDiff() {
       // Wrap the diff request in a new promise so that the error handler
       // rejects the promise, allowing the error to be handled in the .catch.
-      const request = new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         this.$.restAPI.getDiff(
             this.changeNum,
             this.patchRange.basePatchNum,
@@ -780,18 +788,6 @@
             reject)
             .then(resolve);
       });
-
-      return request
-          .then(diff => {
-            this.filesWeblinks = this._getFilesWeblinks(diff);
-            this._diff = diff;
-            this._reportDiff(diff);
-            return diff;
-          })
-          .catch(e => {
-            this._handleGetDiffError(e);
-            return null;
-          });
     },
 
     _getFilesWeblinks(diff) {
@@ -850,22 +846,28 @@
       return this.$.restAPI.getLoggedIn();
     },
 
-    /** @return {boolean} */
-    _computeIsImageDiff() {
-      if (!this._diff) { return false; }
+    /**
+     * @param {Object} diff
+     * @return {boolean}
+     */
+    _computeIsImageDiff(diff) {
+      if (!diff) { return false; }
 
-      const isA = this._diff.meta_a &&
-          this._diff.meta_a.content_type.startsWith('image/');
-      const isB = this._diff.meta_b &&
-          this._diff.meta_b.content_type.startsWith('image/');
+      const isA = diff.meta_a &&
+          diff.meta_a.content_type.startsWith('image/');
+      const isB = diff.meta_b &&
+          diff.meta_b.content_type.startsWith('image/');
 
-      return !!(this._diff.binary && (isA || isB));
+      return !!(diff.binary && (isA || isB));
     },
 
-    /** @return {!Promise} */
-    _loadDiffAssets() {
-      if (this.isImageDiff) {
-        return this._getImages().then(images => {
+    /**
+     * @param {Object} diff
+     * @return {!Promise}
+     */
+    _loadDiffAssets(diff) {
+      if (this._computeIsImageDiff(diff)) {
+        return this._getImages(diff).then(images => {
           this._baseImage = images.baseImage;
           this._revisionImage = images.revisionImage;
         });
@@ -876,9 +878,12 @@
       }
     },
 
-    /** @return {!Promise} */
-    _getImages() {
-      return this.$.restAPI.getImagesForDiff(this.changeNum, this._diff,
+    /**
+     * @param {Object} diff
+     * @return {!Promise}
+     */
+    _getImages(diff) {
+      return this.$.restAPI.getImagesForDiff(this.changeNum, diff,
           this.patchRange);
     },
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1615f67f_26cef53d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-22T19:05:08Z",
+      "side": 1,
+      "message": "We usually name our observers something more like \u0027_loadingChanged\u0027.",
+      "range": {
+        "startLine": 137,
+        "startChar": 19,
+        "endLine": 137,
+        "endChar": 35
+      },
+      "revId": "b8f6eaf1ffe37f50fffee774fbd2f7404c52149e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e85aedc0_2ee418a9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-22T19:05:08Z",
+      "side": 1,
+      "message": "`loading` should be added as a parameter to this function, and used inside the function instead of this._loading.\n\nThere\u0027s no functional difference, but this is usually how we do it.",
+      "range": {
+        "startLine": 681,
+        "startChar": 20,
+        "endLine": 681,
+        "endChar": 22
+      },
+      "revId": "b8f6eaf1ffe37f50fffee774fbd2f7404c52149e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

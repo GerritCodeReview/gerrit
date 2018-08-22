@@ -22,6 +22,30 @@
       "revId": "67d31638212be9a63a8a1af0b81aeadca6f7bdb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "095c4126_debe5791",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2933,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-22T01:08:08Z",
+      "side": 1,
+      "message": "Also, the method was renamed to \"validateRegularPushCommits\" so this comment is wrong anyway.",
+      "parentUuid": "a81f2e00_f5011e74",
+      "range": {
+        "startLine": 2933,
+        "startChar": 5,
+        "endLine": 2933,
+        "endChar": 23
+      },
+      "revId": "67d31638212be9a63a8a1af0b81aeadca6f7bdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

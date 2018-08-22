@@ -39,6 +39,30 @@
       "revId": "8f84ab89700b4d9a191ca08be8b3344366756208",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d83ff3ed_76ef33c9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-22T06:02:31Z",
+      "side": 1,
+      "message": "I missed that all commits in this series are cherry-picks from stable-2.15 branch.",
+      "parentUuid": "c374e52a_3c35c1d1",
+      "range": {
+        "startLine": 167,
+        "startChar": 7,
+        "endLine": 167,
+        "endChar": 12
+      },
+      "revId": "8f84ab89700b4d9a191ca08be8b3344366756208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

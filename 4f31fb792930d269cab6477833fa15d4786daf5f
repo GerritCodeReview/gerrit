@@ -117,6 +117,30 @@
       "revId": "4f31fb792930d269cab6477833fa15d4786daf5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d649f46_025dd14c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-22T18:23:08Z",
+      "side": 1,
+      "message": "I see your point, I\u0027ll add a TODO in my follow-up that also contains the gr-nav documentation -- maybe this function needs renaming, maybe something else should happen.",
+      "parentUuid": "a089206f_bfad63d5",
+      "range": {
+        "startLine": 664,
+        "startChar": 10,
+        "endLine": 664,
+        "endChar": 16
+      },
+      "revId": "4f31fb792930d269cab6477833fa15d4786daf5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

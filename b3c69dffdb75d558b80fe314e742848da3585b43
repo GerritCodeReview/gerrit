@@ -70,6 +70,24 @@
       "revId": "b3c69dffdb75d558b80fe314e742848da3585b43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "077144f7_2072c93c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-22T07:47:12Z",
+      "side": 1,
+      "message": "Rather than just running \"bazel build gerrit\", you need to run the tests and/or lint checks.\n\nSee the result from CI...",
+      "parentUuid": "34375230_abb198e1",
+      "revId": "b3c69dffdb75d558b80fe314e742848da3585b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

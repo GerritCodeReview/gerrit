@@ -44,7 +44,7 @@ public abstract class AllExternalIds {
         newByAccountBuilder(byAccount.size()).build(byAccount), copyByEmail(byAccount.values()));
   }
 
-  private static AllExternalIds create(Collection<ExternalId> externalIds) {
+  static AllExternalIds create(Collection<ExternalId> externalIds) {
     SetMultimap<Account.Id, ExternalId> byAccount = newByAccountBuilder(externalIds.size()).build();
     externalIds.forEach(id -> byAccount.put(id.accountId(), id));
     return create(byAccount, copyByEmail(externalIds));

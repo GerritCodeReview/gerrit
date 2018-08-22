@@ -170,11 +170,10 @@
 
       _showWarning: Boolean,
 
-      _showError: {
-        type: Boolean,
-        value: false,
+      _errorMessage: {
+        type: String,
+        value: null,
       },
-      _errorMessage: String,
 
       /** @type {?Object} */
       _blame: {
@@ -238,7 +237,7 @@
       this.clearBlame();
       this._safetyBypass = null;
       this._showWarning = false;
-      this._showError = false;
+      this._errorMessage = null;
       this.clearDiffContent();
 
       const diffRequest = this._getDiff();
@@ -755,7 +754,6 @@
           response.status,
           response.statusText,
         ].join(' ');
-        this._showError = true;
         return;
       }
 
@@ -936,9 +934,12 @@
       return showWarning ? 'warn' : '';
     },
 
-    /** @return {string} */
-    _computeErrorClass(showError) {
-      return showError ? 'showError' : '';
+    /**
+     * @param {string} errorMessage
+     * @return {string}
+     */
+    _computeErrorClass(errorMessage) {
+      return errorMessage ? 'showError' : '';
     },
 
     /**

@@ -52,6 +52,24 @@
       "revId": "b3c69dffdb75d558b80fe314e742848da3585b43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34375230_abb198e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-08-22T07:42:52Z",
+      "side": 1,
+      "message": "Makes sense - so then the build should fail, so apparently I am not building correctly? Can you tell me how I would need to build to get the type errors?",
+      "parentUuid": "b51f5bd9_8b78dd7f",
+      "revId": "b3c69dffdb75d558b80fe314e742848da3585b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

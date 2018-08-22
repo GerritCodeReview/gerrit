@@ -94,6 +94,30 @@
       "revId": "2449cede65be12ec67ae3dad71adc1b125bad975",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f489158e_010f9696",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-22T02:30:47Z",
+      "side": 1,
+      "message": "The point is that this doesn\u0027t follow the existing pattern used for testing the REST API, which is to use integration tests rather than mocks, and that it introduces yet another test class related to reflog tests.\n\nI would prefer to backport the existing ReflogIT class to stable-2.14 and then add these additional tests there.",
+      "parentUuid": "33d956c9_7bee1a8c",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 38
+      },
+      "revId": "2449cede65be12ec67ae3dad71adc1b125bad975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "e530b33cd57418f0556596381758073f98e66a2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "558b8e67_c77d6773",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ReflogIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-22T06:31:01Z",
+      "side": 0,
+      "message": "When using the class scope annotation, the tests would pass when run individually, but when running them all at once only the first would pass and the second would fail and freeze.  I didn\u0027t investigate any further after trying the method scope annotation and finding that it worked.",
+      "parentUuid": "5981e327_b5f7a889",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "e530b33cd57418f0556596381758073f98e66a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

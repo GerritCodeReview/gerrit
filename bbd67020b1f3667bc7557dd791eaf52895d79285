@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c35ab430_1cf5e0ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-08-22T15:21:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "da21fec9_0ad34ba4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 60
+      },
+      "revId": "bbd67020b1f3667bc7557dd791eaf52895d79285",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "885c5905_d1d85073",
         "filename": "WORKSPACE",
         "patchSetId": 43
@@ -36,6 +60,24 @@
       "writtenOn": "2018-08-22T08:01:46Z",
       "side": 1,
       "message": "The latest version is now 0.34.18\n\nShould we update it here, or do an upgrade in a followup commit?",
+      "revId": "bbd67020b1f3667bc7557dd791eaf52895d79285",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "151b347b_029910b7",
+        "filename": "WORKSPACE",
+        "patchSetId": 43
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-08-22T15:21:36Z",
+      "side": 1,
+      "message": "I think we should upgrade in a follow up.",
+      "parentUuid": "885c5905_d1d85073",
       "revId": "bbd67020b1f3667bc7557dd791eaf52895d79285",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

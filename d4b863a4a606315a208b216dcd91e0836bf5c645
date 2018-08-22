@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11acf304_d9543635",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-22T05:57:30Z",
+      "side": 1,
+      "message": "Havn\u0027t we already moved reflog tests out of the ChangeIT in dedicated test class? I see, you are moving them in the follow-up commit. Wouldn\u0027t make more sense to move first and then annotate with @UseLocalDisk annotation?",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 15
+      },
+      "revId": "d4b863a4a606315a208b216dcd91e0836bf5c645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -280,20 +280,18 @@ max_no_block(Label, Max, need(Max)) :-
 :- public filter_submit_results/3.
 %%
 filter_submit_results(Filter, In, Out) :-
-    filter_submit_results(Filter, In, [], Tmp),
-    reverse(Tmp, Out).
-filter_submit_results(Filter, [I | In], Tmp, Out) :-
+    filter_submit_results_(In, Filter, Out).
+
+filter_submit_results_([], _, []).
+filter_submit_results_([I | In], Filter, [T | Out]) :-
     arg(1, I, R),
     call_submit_filter(Filter, R, S),
     !,
     S =.. [submit | Ls],
     ( is_all_ok(Ls) -> T = ok(S) ; T = not_ready(S) ),
-    filter_submit_results(Filter, In, [T | Tmp], Out).
-filter_submit_results(Filter, [_ | In], Tmp, Out) :-
-   filter_submit_results(Filter, In, Tmp, Out),
-   !
-   .
-filter_submit_results(Filter, [], Out, Out).
+    filter_submit_results_(In, Filter, Out).
+filter_submit_results_([_ | In], Filter, Out) :-
+   filter_submit_results_(In, Filter, Out).
 
 call_submit_filter(P:X, R, S) :- !, F =.. [X, R, S], P:F.
 call_submit_filter(X, R, S) :- F =.. [X, R, S], F.

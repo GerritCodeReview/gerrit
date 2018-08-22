@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f4297847_941c1628",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-08-22T19:09:03Z",
+      "side": 1,
+      "message": "I don\u0027t mind changing that, but do consider that there are 4 observers just above this line in this file that use the -Observer naming and do not pass in the observed variable...\n\nDo you want me to update those, too?",
+      "parentUuid": "1615f67f_26cef53d",
+      "range": {
+        "startLine": 137,
+        "startChar": 19,
+        "endLine": 137,
+        "endChar": 35
+      },
+      "revId": "b8f6eaf1ffe37f50fffee774fbd2f7404c52149e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e85aedc0_2ee418a9",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 3

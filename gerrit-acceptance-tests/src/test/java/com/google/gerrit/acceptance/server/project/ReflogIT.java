@@ -16,18 +16,28 @@ package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchApi;
+import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.Util;
 import java.util.List;
 import org.junit.Test;
 
-@UseLocalDisk
 public class ReflogIT extends AbstractDaemonTest {
   @Test
+  @UseLocalDisk
   public void reflogUpdatedBySubmittingChange() throws Exception {
     BranchApi branchApi = gApi.projects().name(project.get()).branch("master");
     List<ReflogEntryInfo> reflog = branchApi.reflog();
@@ -47,5 +57,42 @@ public class ReflogIT extends AbstractDaemonTest {
     // Submitting the change causes a new entry in the reflog
     reflog = branchApi.reflog();
     assertThat(reflog).hasSize(refLogLen + 1);
+  }
+
+  @Test
+  @UseLocalDisk
+  public void regularUserIsNotAllowedToGetReflog() throws Exception {
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.projects().name(project.get()).branch("master").reflog();
+  }
+
+  @Test
+  @UseLocalDisk
+  public void ownerUserIsAllowedToGetReflog() throws Exception {
+    GroupApi groupApi = gApi.groups().create(name("get-reflog"));
+    groupApi.addMembers("user");
+
+    ProjectInput in = new ProjectInput();
+    in.name = name("get-reflog");
+    in.owners = Lists.newArrayListWithCapacity(1);
+    in.owners.add(groupApi.name());
+    in.createEmptyCommit = true;
+    ProjectApi api = gApi.projects().create(in);
+
+    Project.NameKey nameKey = new Project.NameKey(api.get().name);
+    ProjectConfig cfg = projectCache.checkedGet(nameKey).getConfig();
+    Util.allow(cfg, Permission.OWNER, new AccountGroup.UUID(groupApi.get().id), "refs/*");
+    saveProjectConfig(nameKey, cfg);
+
+    setApiUser(user);
+    gApi.projects().name(nameKey.get()).branch("master").reflog();
+  }
+
+  @Test
+  @UseLocalDisk
+  public void adminUserIsAllowedToGetReflog() throws Exception {
+    setApiUser(admin);
+    gApi.projects().name(project.get()).branch("master").reflog();
   }
 }

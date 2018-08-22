@@ -16,6 +16,24 @@
       "revId": "4859919d184f4e20cadb67453cda5dda1d1f8748",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81a9dbcf_a1450b9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-08-22T17:09:56Z",
+      "side": 1,
+      "message": "Sorry, it seems I have my vi misconfigured my vi, it was breaking after 75 chars. I *hope* I got it right this time.",
+      "parentUuid": "53aac2e4_406c9b4f",
+      "revId": "4859919d184f4e20cadb67453cda5dda1d1f8748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -138,7 +138,7 @@ limitations under the License.
       _generateWeblinks: uninitialized,
 
       /** @type {Function} */
-      overrideCommentlinks: uninitialized,
+      mapCommentlinks: uninitialized,
 
       /**
        * @param {number=} patchNum
@@ -152,23 +152,38 @@ limitations under the License.
 
       /**
        * Setup router implementation.
-       * @param {Function} navigate
-       * @param {Function} generateUrl
-       * @param {Function} generateWeblinks
-       * @param {Function} overrideCommentlinks
+       * @param {function(!string)} navigate the router-abstracted equivalent of
+       *     `window.location.href = ...`. Takes a string.
+       * @param {function(!Object): string} generateUrl generates a URL given
+       *     navigation parameters, detailed in the file header.
+       * @param {function(!Object): string} generateWeblinks weblinks generator
+       *     function takes single payload parameter with type property that
+       *  determines which
+       *     part of the UI is the consumer of the weblinks. type property can
+       *     be one of file, change, or patchset.
+       *     - For file type, payload will also contain string properties: repo,
+       *         commit, file.
+       *     - For patchset type, payload will also contain string properties:
+       *         repo, commit.
+       *     - For change type, payload will also contain string properties:
+       *         repo, commit. If server provides weblinks, those will be passed
+       *         as options.weblinks property on the main payload object.
+       * @param {function(!Object): Object} mapCommentlinks provides an escape
+       *     hatch to modify the commentlinks object, e.g. if it contains any
+       *     relative URLs.
        */
-      setup(navigate, generateUrl, generateWeblinks, overrideCommentlinks) {
+      setup(navigate, generateUrl, generateWeblinks, mapCommentlinks) {
         this._navigate = navigate;
         this._generateUrl = generateUrl;
         this._generateWeblinks = generateWeblinks;
-        this.overrideCommentlinks = overrideCommentlinks;
+        this.mapCommentlinks = mapCommentlinks;
       },
 
       destroy() {
         this._navigate = uninitialized;
         this._generateUrl = uninitialized;
         this._generateWeblinks = uninitialized;
-        this.overrideCommentlinks = uninitialized;
+        this.mapCommentlinks = uninitialized;
       },
 
       /**

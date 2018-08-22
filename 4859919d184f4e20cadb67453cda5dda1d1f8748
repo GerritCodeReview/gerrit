@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53aac2e4_406c9b4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-22T16:56:34Z",
+      "side": 1,
+      "message": "This commit message should also follow the 50/72 rule (subject max length 50ch, message line max length 72ch).",
+      "revId": "4859919d184f4e20cadb67453cda5dda1d1f8748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -94,6 +95,7 @@ public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPl
   }
 
   @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+  @Singleton
   static class Create
       implements RestCollectionCreateView<TopLevelResource, PluginResource, InstallPluginInput> {
     private final PluginLoader loader;
@@ -114,6 +116,7 @@ public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPl
   }
 
   @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+  @Singleton
   static class Overwrite implements RestModifyView<PluginResource, InstallPluginInput> {
     private final Provider<InstallPlugin> install;
 

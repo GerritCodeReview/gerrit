@@ -55,6 +55,7 @@ import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -63,6 +64,7 @@ import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @RequiresCapability(GlobalCapability.CREATE_ACCOUNT)
+@Singleton
 public class CreateAccount
     implements RestCollectionCreateView<TopLevelResource, AccountResource, AccountInput> {
   private final Sequences seq;

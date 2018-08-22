@@ -216,6 +216,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     return result;
   }
 
+  @Singleton
   public static class CreateMember
       implements RestCollectionCreateView<GroupResource, MemberResource, Input> {
     private final AddMembers put;

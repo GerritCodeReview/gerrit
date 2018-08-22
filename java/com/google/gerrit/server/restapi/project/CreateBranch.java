@@ -41,6 +41,7 @@ import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
@@ -51,6 +52,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
+@Singleton
 public class CreateBranch
     implements RestCollectionCreateView<ProjectResource, BranchResource, BranchInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

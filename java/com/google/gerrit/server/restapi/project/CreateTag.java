@@ -41,6 +41,7 @@ import com.google.gerrit.server.project.RefUtil;
 import com.google.gerrit.server.project.RefUtil.InvalidRevisionException;
 import com.google.gerrit.server.project.TagResource;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.TimeZone;
 import org.eclipse.jgit.api.Git;
@@ -53,6 +54,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+@Singleton
 public class CreateTag implements RestCollectionCreateView<ProjectResource, TagResource, TagInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final PermissionBackend permissionBackend;

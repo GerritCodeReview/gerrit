@@ -46,6 +46,30 @@
       "revId": "9d18f269480a15cd3996624e78f932caa3a34495",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0a2e002_734dd61d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ReflogEntryInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-22T05:50:58Z",
+      "side": 1,
+      "message": "Note that all the commits in this topic are cherry-picked from stable-2.15/master.  I\u0027ve backported them so we can use the reflog API for the tests added by Luca.",
+      "parentUuid": "6cd46de3_2bf44283",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9d18f269480a15cd3996624e78f932caa3a34495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

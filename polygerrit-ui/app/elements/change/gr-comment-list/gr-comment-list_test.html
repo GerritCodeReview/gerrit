@@ -40,7 +40,7 @@ limitations under the License.
     setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
-      sandbox.stub(Gerrit.Nav, 'overrideCommentlinks', x => x);
+      sandbox.stub(Gerrit.Nav, 'mapCommentlinks', x => x);
     });
 
     teardown(() => { sandbox.restore(); });

@@ -12,27 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gwtorm.client.IntKey;
-import java.util.function.Function;
+import com.google.common.base.Converter;
+import com.google.common.base.Enums;
 
-public class IntKeyCacheSerializer<K extends IntKey<?>> implements CacheSerializer<K> {
-  private final Function<Integer, K> factory;
+public class EnumCacheSerializer<E extends Enum<E>> implements CacheSerializer<E> {
+  private final Converter<String, E> converter;
 
-  public IntKeyCacheSerializer(Function<Integer, K> factory) {
-    this.factory = checkNotNull(factory);
+  public EnumCacheSerializer(Class<E> clazz) {
+    this.converter = Enums.stringConverter(clazz);
   }
 
   @Override
-  public byte[] serialize(K object) {
-    return IntegerCacheSerializer.INSTANCE.serialize(object.get());
+  public byte[] serialize(E object) {
+    return converter.reverse().convert(checkNotNull(object)).getBytes(UTF_8);
   }
 
   @Override
-  public K deserialize(byte[] in) {
-    return factory.apply(IntegerCacheSerializer.INSTANCE.deserialize(in));
+  public E deserialize(byte[] in) {
+    return converter.convert(new String(checkNotNull(in), UTF_8));
   }
 }

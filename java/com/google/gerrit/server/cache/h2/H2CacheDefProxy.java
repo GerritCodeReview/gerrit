@@ -17,9 +17,9 @@ package com.google.gerrit.server.cache.h2;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.inject.TypeLiteral;
 import java.time.Duration;
 

@@ -19,9 +19,9 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.gerrit.server.cache.StringSerializer;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
+import com.google.gerrit.server.cache.serialize.StringCacheSerializer;
 import com.google.inject.TypeLiteral;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -42,8 +42,8 @@ public class H2CacheTest {
         new SqlStore<>(
             "jdbc:h2:mem:Test_" + id,
             KEY_TYPE,
-            StringSerializer.INSTANCE,
-            StringSerializer.INSTANCE,
+            StringCacheSerializer.INSTANCE,
+            StringCacheSerializer.INSTANCE,
             version,
             1 << 20,
             null);
@@ -87,9 +87,9 @@ public class H2CacheTest {
   @Test
   public void stringSerializer() {
     String input = "foo";
-    byte[] serialized = StringSerializer.INSTANCE.serialize(input);
+    byte[] serialized = StringCacheSerializer.INSTANCE.serialize(input);
     assertThat(serialized).isEqualTo(new byte[] {'f', 'o', 'o'});
-    assertThat(StringSerializer.INSTANCE.deserialize(serialized)).isEqualTo(input);
+    assertThat(StringCacheSerializer.INSTANCE.deserialize(serialized)).isEqualTo(input);
   }
 
   @Test

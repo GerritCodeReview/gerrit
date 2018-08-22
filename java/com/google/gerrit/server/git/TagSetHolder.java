@@ -18,9 +18,9 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.cache.CacheSerializer;
-import com.google.gerrit.server.cache.ProtoCacheSerializers;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers;
 import java.util.Collection;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;

@@ -16,12 +16,12 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
-import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.bytes;
+import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
 import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.change.ChangeKindCacheImpl.Key;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -39,9 +39,9 @@ public class ChangeKindCacheImplTest {
     assertThat(ChangeKindKeyProto.parseFrom(serialized))
         .isEqualTo(
             ChangeKindKeyProto.newBuilder()
-                .setPrior(bytes(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+                .setPrior(byteString(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
                 .setNext(
-                    bytes(
+                    byteString(
                         0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef,
                         0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef))
                 .setStrategyName("aStrategy")

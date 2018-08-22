@@ -8,6 +8,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/cache/serialize",
         "//lib:guava",
         "//lib:h2",
         "//lib/flogger:api",

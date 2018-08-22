@@ -6,8 +6,8 @@ import static com.google.gerrit.server.cache.testing.SerializedClassSubject.asse
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
-import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.proto.Cache.OAuthTokenProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.lang.reflect.Type;
 import org.junit.Test;
 import org.junit.runner.RunWith;

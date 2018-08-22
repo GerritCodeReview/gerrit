@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.extensions.client.SubmitType.FAST_FORWARD_ONLY;
 import static com.google.gerrit.extensions.client.SubmitType.MERGE_IF_NECESSARY;
-import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.bytes;
+import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
 import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
@@ -68,11 +68,11 @@ public class ConflictKeyTest {
         .isEqualTo(
             ConflictKeyProto.newBuilder()
                 .setCommit(
-                    bytes(
+                    byteString(
                         0xba, 0xdc, 0x0f, 0xee, 0xba, 0xdc, 0x0f, 0xee, 0xba, 0xdc, 0x0f, 0xee,
                         0xba, 0xdc, 0x0f, 0xee, 0xba, 0xdc, 0x0f, 0xee))
                 .setOtherCommit(
-                    bytes(
+                    byteString(
                         0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef,
                         0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef))
                 .setSubmitType("MERGE_IF_NECESSARY")

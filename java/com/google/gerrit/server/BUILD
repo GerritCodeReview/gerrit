@@ -40,6 +40,7 @@ java_library(
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/prettify:server",
         "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/util/git",
         "//java/com/google/gerrit/util/cli",

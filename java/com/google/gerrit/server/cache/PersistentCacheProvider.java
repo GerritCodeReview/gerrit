@@ -20,6 +20,8 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.JavaCacheSerializer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
@@ -60,6 +62,11 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
   @Override
   public PersistentCacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz) {
     return (PersistentCacheBinding<K, V>) super.loader(clazz);
+  }
+
+  @Override
+  public PersistentCacheBinding<K, V> expireFromMemoryAfterAccess(Duration duration) {
+    return (PersistentCacheBinding<K, V>) super.expireFromMemoryAfterAccess(duration);
   }
 
   @Override

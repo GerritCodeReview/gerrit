@@ -16,6 +16,7 @@ package com.google.gerrit.server.cache;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.time.Duration;
 
 /** Configure a persistent cache declared within a {@link CacheModule} instance. */
@@ -28,6 +29,9 @@ public interface PersistentCacheBinding<K, V> extends CacheBinding<K, V> {
 
   @Override
   PersistentCacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);
+
+  @Override
+  PersistentCacheBinding<K, V> expireFromMemoryAfterAccess(Duration duration);
 
   @Override
   PersistentCacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> clazz);

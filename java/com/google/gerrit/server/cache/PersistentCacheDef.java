@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.cache;
 
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+
 public interface PersistentCacheDef<K, V> extends CacheDef<K, V> {
   long diskLimit();
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.server.cache.serialize;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -23,7 +23,7 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 
-public enum StringSerializer implements CacheSerializer<String> {
+public enum StringCacheSerializer implements CacheSerializer<String> {
   INSTANCE;
 
   @Override

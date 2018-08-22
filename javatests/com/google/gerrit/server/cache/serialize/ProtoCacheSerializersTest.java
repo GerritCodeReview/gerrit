@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
-import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.bytes;
+import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
 
-import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdConverter;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
+import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.ObjectIdConverter;
 import com.google.protobuf.ByteString;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -32,13 +32,13 @@ public class ProtoCacheSerializersTest {
     ObjectIdConverter idConverter = ObjectIdConverter.create();
     assertThat(
             idConverter.fromByteString(
-                bytes(
+                byteString(
                     0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
                     0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa)))
         .isEqualTo(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     assertThat(
             idConverter.fromByteString(
-                bytes(
+                byteString(
                     0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb,
                     0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb)))
         .isEqualTo(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
@@ -61,14 +61,14 @@ public class ProtoCacheSerializersTest {
             idConverter.toByteString(
                 ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")))
         .isEqualTo(
-            bytes(
+            byteString(
                 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
                 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa));
     assertThat(
             idConverter.toByteString(
                 ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")))
         .isEqualTo(
-            bytes(
+            byteString(
                 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb,
                 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb));
   }

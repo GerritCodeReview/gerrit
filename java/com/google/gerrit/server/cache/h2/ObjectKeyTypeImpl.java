@@ -17,7 +17,7 @@ package com.google.gerrit.server.cache.h2;
 import com.google.common.hash.Funnel;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.PrimitiveSink;
-import com.google.gerrit.server.cache.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

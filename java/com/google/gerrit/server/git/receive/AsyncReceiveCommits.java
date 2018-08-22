@@ -224,7 +224,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     receivePack.setAllowNonFastForwards(true);
     receivePack.setRefLogIdent(user.newRefLogIdent());
     receivePack.setTimeout(transferConfig.getTimeout());
-    receivePack.setMaxObjectSizeLimit(transferConfig.getEffectiveMaxObjectSizeLimit(projectState));
+    receivePack.setMaxObjectSizeLimit(projectState.getEffectiveMaxObjectSizeLimit());
     receivePack.setCheckReceivedObjects(projectState.getConfig().getCheckReceivedObjects());
     receivePack.setRefFilter(new ReceiveRefFilter());
     receivePack.setAllowPushOptions(true);

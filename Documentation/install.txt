@@ -5,7 +5,9 @@
 
 To run the Gerrit service, the following requirement must be met on the host:
 
-* JRE, minimum version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
+* JRE, version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
++
+Gerrit is not yet compatible with Java 9 or newer at this time.
 
 By default, Gerrit uses link:note-db.html[NoteDB] as the storage backend. (If
 desired, you can _optionally_ use an external database such as MySQL or

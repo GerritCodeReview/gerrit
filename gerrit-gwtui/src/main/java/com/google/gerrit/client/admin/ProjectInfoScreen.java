@@ -439,14 +439,15 @@ public class ProjectInfoScreen extends ProjectScreen {
     setSubmitType(result.defaultSubmitType());
     setState(result.state());
     maxObjectSizeLimit.setText(result.maxObjectSizeLimit().configuredValue());
-    if (result.maxObjectSizeLimit().inheritedValue() != null) {
-      effectiveMaxObjectSizeLimit.setVisible(true);
+    if (result.maxObjectSizeLimit().value() != null) {
       effectiveMaxObjectSizeLimit.setText(
           AdminMessages.I.effectiveMaxObjectSizeLimit(result.maxObjectSizeLimit().value()));
-      effectiveMaxObjectSizeLimit.setTitle(
-          AdminMessages.I.globalMaxObjectSizeLimit(result.maxObjectSizeLimit().inheritedValue()));
+      if (result.maxObjectSizeLimit().inheritedValue() != null) {
+        effectiveMaxObjectSizeLimit.setTitle(
+            AdminMessages.I.globalMaxObjectSizeLimit(result.maxObjectSizeLimit().inheritedValue()));
+      }
     } else {
-      effectiveMaxObjectSizeLimit.setVisible(false);
+      effectiveMaxObjectSizeLimit.setText(AdminMessages.I.noMaxObjectSizeLimit());
     }
 
     saveProject.setEnabled(false);

@@ -422,16 +422,13 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   public void maxObjectSizeCanBeSetAndCleared() throws Exception {
     // Set a value
-    ConfigInput input = new ConfigInput();
-    input.maxObjectSizeLimit = "100k";
-    ConfigInfo info = setConfig(input);
-    assertThat(info.maxObjectSizeLimit.value).isEqualTo("100k");
+    ConfigInfo info = setMaxObjectSize("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
     assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
 
     // Clear the value
-    input.maxObjectSizeLimit = "0";
-    info = setConfig(input);
+    info = setMaxObjectSize("0");
     assertThat(info.maxObjectSizeLimit.value).isNull();
     assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
     assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
@@ -441,9 +438,8 @@ public class ProjectIT extends AbstractDaemonTest {
   public void maxObjectSizeIsNotInheritedFromParentProject() throws Exception {
     Project.NameKey child = createProject(name("child"), project);
 
-    ConfigInput input = new ConfigInput();
-    input.maxObjectSizeLimit = "100k";
-    ConfigInfo info = setConfig(input);
+    ConfigInfo info = setMaxObjectSize("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
     assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
 
@@ -457,7 +453,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
   public void maxObjectSizeIsInheritedFromGlobalConfig() throws Exception {
     ConfigInfo info = getConfig();
-    assertThat(info.maxObjectSizeLimit.value).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
     assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
     assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
   }
@@ -465,10 +461,8 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
   public void maxObjectSizeOverridesGlobalConfigWhenLower() throws Exception {
-    ConfigInput input = new ConfigInput();
-    input.maxObjectSizeLimit = "100k";
-    ConfigInfo info = setConfig(input);
-    assertThat(info.maxObjectSizeLimit.value).isEqualTo("100k");
+    ConfigInfo info = setMaxObjectSize("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
     assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
   }
@@ -476,21 +470,17 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
   public void maxObjectSizeDoesNotOverrideGlobalConfigWhenHigher() throws Exception {
-    ConfigInput input = new ConfigInput();
-    input.maxObjectSizeLimit = "300k";
-    ConfigInfo info = setConfig(input);
-    assertThat(info.maxObjectSizeLimit.value).isEqualTo("200k");
+    ConfigInfo info = setMaxObjectSize("300k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("300k");
     assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
   }
 
   @Test
   public void invalidMaxObjectSizeIsRejected() throws Exception {
-    ConfigInput input = new ConfigInput();
-    input.maxObjectSizeLimit = "100 foo";
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("100 foo");
-    setConfig(input);
+    setMaxObjectSize("100 foo");
   }
 
   private ConfigInfo setConfig(Project.NameKey name, ConfigInput input) throws Exception {
@@ -524,6 +514,12 @@ public class ProjectIT extends AbstractDaemonTest {
     input.submitType = SubmitType.CHERRY_PICK;
     input.state = ProjectState.HIDDEN;
     return input;
+  }
+
+  private ConfigInfo setMaxObjectSize(String value) throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.maxObjectSizeLimit = value;
+    return setConfig(input);
   }
 
   private static class ProjectIndexedCounter implements ProjectIndexedListener {

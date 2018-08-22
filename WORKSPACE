@@ -16,7 +16,7 @@ http_archive(
     name = "io_bazel_rules_closure",
     sha256 = "4dd84dd2bdd6c9f56cb5a475d504ea31d199c34309e202e9379501d01c3067e5",
     strip_prefix = "rules_closure-3103a773820b59b76345f94c231cb213e0d404e2",
-    url = "https://github.com/bazelbuild/rules_closure/archive/3103a773820b59b76345f94c231cb213e0d404e2.tar.gz",
+    urls = ["https://github.com/bazelbuild/rules_closure/archive/3103a773820b59b76345f94c231cb213e0d404e2.tar.gz"],
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be

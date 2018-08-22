@@ -21,10 +21,15 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.project.testing.Util;
 import java.io.File;
 import java.util.List;
 import org.eclipse.jgit.lib.ReflogEntry;
@@ -73,5 +78,33 @@ public class ReflogIT extends AbstractDaemonTest {
     // Submitting the change causes a new entry in the reflog
     reflog = branchApi.reflog();
     assertThat(reflog).hasSize(refLogLen + 1);
+  }
+
+  @Test
+  public void regularUserIsNotAllowedToGetReflog() throws Exception {
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.projects().name(project.get()).branch("master").reflog();
+  }
+
+  @Test
+  public void ownerUserIsAllowedToGetReflog() throws Exception {
+    GroupApi groupApi = gApi.groups().create(name("get-reflog"));
+    groupApi.addMembers("user");
+
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.allow(
+          u.getConfig(), Permission.OWNER, new AccountGroup.UUID(groupApi.get().id), "refs/*");
+      u.save();
+    }
+
+    setApiUser(user);
+    gApi.projects().name(project.get()).branch("master").reflog();
+  }
+
+  @Test
+  public void adminUserIsAllowedToGetReflog() throws Exception {
+    setApiUser(admin);
+    gApi.projects().name(project.get()).branch("master").reflog();
   }
 }

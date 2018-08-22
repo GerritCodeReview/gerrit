@@ -820,14 +820,14 @@ limitations under the License.
           element._handleGetDiffError({status: 409});
           assert.isTrue(serverErrorStub.calledOnce);
           assert.isFalse(pageErrorStub.called);
-          assert.isFalse(element._showError);
+          assert.isNotOk(element._errorMessage);
         });
 
         test('server error on non-HTTP-409', () => {
           element._handleGetDiffError({status: 500});
           assert.isFalse(serverErrorStub.called);
           assert.isTrue(pageErrorStub.calledOnce);
-          assert.isFalse(element._showError);
+          assert.isNotOk(element._errorMessage);
         });
 
         test('error message if showLoadFailure', () => {
@@ -835,7 +835,6 @@ limitations under the License.
           element._handleGetDiffError({status: 500, statusText: 'Failure!'});
           assert.isFalse(serverErrorStub.called);
           assert.isFalse(pageErrorStub.called);
-          assert.isTrue(element._showError);
           assert.equal(element._errorMessage,
               'Encountered error when loading the diff: 500 Failure!');
         });

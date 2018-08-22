@@ -134,6 +134,7 @@
       _loading: {
         type: Boolean,
         value: false,
+        observer: '_loadingObserver',
       },
 
       _loggedIn: {
@@ -234,12 +235,7 @@
     /** @return {!Promise} */
     reload() {
       this._loading = true;
-      this.cancel();
-      this.clearBlame();
-      this._safetyBypass = null;
-      this._showWarning = false;
       this._errorMessage = null;
-      this.clearDiffContent();
 
       const diffRequest = this._getDiff();
 
@@ -680,6 +676,16 @@
 
     _viewModeObserver() {
       this._prefsChanged(this.prefs);
+    },
+
+    _loadingObserver() {
+      if (this._loading) {
+        this.cancel();
+        this.clearBlame();
+        this._safetyBypass = null;
+        this._showWarning = false;
+        this.clearDiffContent();
+      }
     },
 
     _lineWrappingObserver() {

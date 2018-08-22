@@ -16,6 +16,24 @@
       "revId": "0e1fb95c95eb9d5cbdef12484a2f5c3f2760fa2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf701773_cab5227f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ReflogIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-22T06:54:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c055ddb_6fda126b",
+      "revId": "0e1fb95c95eb9d5cbdef12484a2f5c3f2760fa2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

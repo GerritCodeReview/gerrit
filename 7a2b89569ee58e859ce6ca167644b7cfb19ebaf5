@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "274a9f85_52c4d279",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-22T03:06:52Z",
+      "side": 0,
+      "message": "Since this class no longer keeps any state, it can be annotated as @Singleton. The same applies to all the other resource creation implementations touched by this change.\n\nDone in https://gerrit-review.googlesource.com/c/gerrit/+/193652",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "7a2b89569ee58e859ce6ca167644b7cfb19ebaf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -194,16 +194,15 @@ default_submit(P) :-
 % submit record.
 %
 default_submit(LabelTypes, P) :-
-  default_submit(LabelTypes, [], Tmp),
-  reverse(Tmp, Ls),
-  P =.. [ submit | Ls].
+  default_submit_(LabelTypes, Ls),
+  P =.. [submit | Ls].
 
-default_submit([], Out, Out).
-default_submit([Type | Types], Tmp, Out) :-
+default_submit_([], []).
+default_submit_([Type | Types], [R | Out]) :-
   label_type(Label, Fun, Min, Max) = Type,
   legacy_submit_rule(Fun, Label, Min, Max, Status),
   R = label(Label, Status),
-  default_submit(Types, [R | Tmp], Out).
+  default_submit_(Types, Out).
 
 
 %% legacy_submit_rule:

@@ -612,12 +612,6 @@
       this._handleCommentSaveOrDiscard();
     },
 
-    /**
-     * Closure annotation for Polymer.prototype.push is off. Submitted PR:
-     * https://github.com/Polymer/polymer/pull/4776
-     * but for not supressing annotations.
-     *
-     * @suppress {checkTypes} */
     _handleCommentUpdate(e) {
       const comment = e.detail.comment;
       const side = e.detail.comment.__commentSide;

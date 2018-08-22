@@ -16,6 +16,24 @@
       "revId": "122d994085db5dce17a6e216d768838a6f8b68be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aec63300_23e6c7f9",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-22T17:25:03Z",
+      "side": 0,
+      "message": "kind of: the flow control gets a bit harder otherwise, because we return in l.760",
+      "parentUuid": "2d42ff73_55f012d8",
+      "revId": "122d994085db5dce17a6e216d768838a6f8b68be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

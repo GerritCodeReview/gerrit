@@ -16,6 +16,24 @@
       "revId": "e13b78bb40ef50c70e8e84cab21b3d75d4282ab7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc0c7986_3f9b45c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-22T17:22:40Z",
+      "side": 1,
+      "message": "to me, it\u0027s visual noise, given the lack of enforcement mechanism. For example replaceOp is \"private\", but it\u0027s actually accessed in autoCloseChanges(). In general, the notion that data is private is weird to me when we\u0027re using non-static inner classes (that can access the outer class private members at will).",
+      "parentUuid": "22b27f54_23a329da",
+      "revId": "e13b78bb40ef50c70e8e84cab21b3d75d4282ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

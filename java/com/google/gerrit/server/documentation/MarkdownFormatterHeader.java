@@ -62,7 +62,7 @@ public class MarkdownFormatterHeader {
     public Set<NodeRenderingHandler<?>> getNodeRenderingHandlers() {
       return new HashSet<NodeRenderingHandler<? extends Node>>(
           Arrays.asList(
-              new NodeRenderingHandler<AnchorLink>(
+              new NodeRenderingHandler<>(
                   AnchorLink.class,
                   new CustomNodeRenderer<AnchorLink>() {
                     @Override
@@ -71,7 +71,7 @@ public class MarkdownFormatterHeader {
                       HeadingNodeRenderer.this.render(node, context, html);
                     }
                   }),
-              new NodeRenderingHandler<Heading>(
+              new NodeRenderingHandler<>(
                   Heading.class,
                   new CustomNodeRenderer<Heading>() {
                     @Override
@@ -152,8 +152,7 @@ public class MarkdownFormatterHeader {
 
       @Override
       public Set<Class<? extends NodeRendererFactory>> getDelegates() {
-        Set<Class<? extends NodeRendererFactory>> delegates =
-            new HashSet<Class<? extends NodeRendererFactory>>();
+        Set<Class<? extends NodeRendererFactory>> delegates = new HashSet<>();
         delegates.add(AnchorLinkNodeRenderer.Factory.class);
         return delegates;
       }

@@ -36,7 +36,7 @@ limitations under the License.
 <link rel="import" href="../gr-diff-cursor/gr-diff-cursor.html">
 <link rel="import" href="../gr-diff-mode-selector/gr-diff-mode-selector.html">
 <link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
-<link rel="import" href="../gr-diff/gr-diff.html">
+<link rel="import" href="../gr-diff-host/gr-diff-host.html">
 <link rel="import" href="../gr-patch-range-select/gr-patch-range-select.html">
 
 <dom-module id="gr-diff-view">
@@ -320,7 +320,7 @@ limitations under the License.
       </div>
     </gr-fixed-panel>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
-    <gr-diff
+    <gr-diff-host
         id="diff"
         hidden
         hidden$="[[_loading]]"
@@ -337,7 +337,7 @@ limitations under the License.
         view-mode="[[_diffMode]]"
         is-blame-loaded="{{_isBlameLoaded}}"
         on-line-selected="_onLineSelected">
-    </gr-diff>
+    </gr-diff-host>
     <gr-diff-preferences
         id="diffPreferences"
         prefs="{{_prefs}}"

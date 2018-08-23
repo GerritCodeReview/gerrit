@@ -18,7 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
+import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
@@ -28,11 +30,14 @@ import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.TagProto;
 import com.google.gerrit.server.git.TagSet.CachedRef;
 import com.google.gerrit.server.git.TagSet.Tag;
+import com.google.inject.TypeLiteral;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.junit.Test;
@@ -99,6 +104,42 @@ public class TagSetTest {
                 .build());
 
     assertEqual(tagSet, TagSet.fromProto(proto));
+  }
+
+  @Test
+  public void tagSetFields() {
+    assertThatSerializedClass(TagSet.class)
+        .hasFields(
+            ImmutableMap.of(
+                "projectName", Project.NameKey.class,
+                "refs", new TypeLiteral<Map<String, CachedRef>>() {}.getType(),
+                "tags", new TypeLiteral<ObjectIdOwnerMap<Tag>>() {}.getType()));
+  }
+
+  @Test
+  public void cachedRefFields() {
+    assertThatSerializedClass(CachedRef.class)
+        .extendsClass(new TypeLiteral<AtomicReference<ObjectId>>() {}.getType());
+    assertThatSerializedClass(CachedRef.class)
+        .hasFields(
+            ImmutableMap.of(
+                "flag", int.class, "value", AtomicReference.class.getTypeParameters()[0]));
+  }
+
+  @Test
+  public void tagFields() {
+    assertThatSerializedClass(Tag.class).extendsClass(ObjectIdOwnerMap.Entry.class);
+    assertThatSerializedClass(Tag.class)
+        .hasFields(
+            ImmutableMap.<String, Type>builder()
+                .put("refFlags", BitSet.class)
+                .put("next", ObjectIdOwnerMap.Entry.class)
+                .put("w1", int.class)
+                .put("w2", int.class)
+                .put("w3", int.class)
+                .put("w4", int.class)
+                .put("w5", int.class)
+                .build());
   }
 
   // TODO(dborowitz): Find some more common place to put this method, which requires access to

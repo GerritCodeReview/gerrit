@@ -16,7 +16,9 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
+import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto;
 import org.junit.Test;
@@ -53,5 +55,15 @@ public class TagSetHolderTest {
     TagSetHolder deserialized = TagSetHolder.Serializer.INSTANCE.deserialize(serialized);
     assertThat(deserialized.getProjectName()).isEqualTo(holder.getProjectName());
     TagSetTest.assertEqual(holder.getTagSet(), deserialized.getTagSet());
+  }
+
+  @Test
+  public void fields() {
+    assertThatSerializedClass(TagSetHolder.class)
+        .hasFields(
+            ImmutableMap.of(
+                "buildLock", Object.class,
+                "projectName", Project.NameKey.class,
+                "tags", TagSet.class));
   }
 }

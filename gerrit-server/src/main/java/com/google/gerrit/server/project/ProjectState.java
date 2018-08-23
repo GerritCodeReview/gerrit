@@ -245,12 +245,8 @@ public class ProjectState {
     return cfg;
   }
 
-  public long getMaxObjectSizeLimit() {
-    return config.getMaxObjectSizeLimit();
-  }
-
   public long getEffectiveMaxObjectSizeLimit() {
-    long local = getMaxObjectSizeLimit();
+    long local = config.getMaxObjectSizeLimit();
     if (globalMaxObjectSizeLimit > 0 && local > 0) {
       return Math.min(globalMaxObjectSizeLimit, local);
     }

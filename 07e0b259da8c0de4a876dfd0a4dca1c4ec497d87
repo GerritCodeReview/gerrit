@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1534883976 -0700\nnonce ACQ0Hpx7GJ68oZ0Rq41L21NfGfrWph9NMTS7lGnHnqM7zjm9rOcRxujWeAA8xJagJHCaOqpnKIpt\n\n0000000000000000000000000000000000000000 a46f1bed97ecf7cd7269183f608beb23101fafec refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlt8eIgVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMr8gQAIDEgUe7K/CA2nzckmXj4CndW0TF\nEi8bO+S5mkqA8TiShxenP8q3gXj/uMh9kGlaxT6rE6ppWeOZMX2sjfCuB2AkZMBR\nds3e1MowQBfxXUQMezGHlka1u4Lsg8B3+TiUk4uZVU2nsMcN4VHw4Kxgfye+keld\nu7m2bd1eZeVwVQjydeY/nhL7kvy4cbn/2CbUdUq9vHRX+nHZzEHbef/tFN5uNQGq\nByY2Lz1tT+FsMzlorT+P4aYkmgeajjLUzQoVxRK8Q7uhuB3wEMWTFEA7Ift/KirK\nwmjIkvYpyajzmXabUJwwqcEixz+L6X8+hOkpuzfEN1wmrvKtWitvq526nAQFtC71\nOghJTrSQj9Z5+6RqTY/Rcpsfqf67gSFBRdZoQhk5eSyGVWIncrqXw9MNPLrIHN5C\nHR3LCMA0MDd07czblDdMqfH90sguTru5/00qg0OCf2f2ifXPKJMZMTOTSPFZN0Qa\nswh995T0hQQwZIMdE5nnNv0qEZ4O9vHqJZbrYSwpq82H8TaqXvMm2CaiYa72Y7Hj\nQQfHCLQbn9oV/EmKidQTaj7Lw+OXSJaxaDKKEy9VdLYvu0wc+EYDYo5v4CtdobH0\n+21+FrxtmCpxXaaXOATeEQgr0ML9RmQLVgs2+1E9bKAFlFs3grmHplTA24pWKBkf\nxaOPkTJbOQlzrFh7\n\u003dyMMq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3576e298_d10a0932",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-23T10:43:23Z",
+      "side": 1,
+      "message": "Would it be an option here to return ImmutableSetMultimap? All callers of this and the byAccount() method are in ExternalIdCacheImpl, so it should be completely in our control.\n\n(Thus, we wouldn\u0027t need to worry about modifiable input values as AutoValue automatically maps them to immutable collections.)",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 29
+      },
+      "revId": "07e0b259da8c0de4a876dfd0a4dca1c4ec497d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

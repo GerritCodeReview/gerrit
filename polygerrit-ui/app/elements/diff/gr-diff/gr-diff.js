@@ -395,20 +395,18 @@
 
     addDraftAtLine(el) {
       this._selectLine(el);
-      this._isValidElForComment(el).then(valid => {
-        if (!valid) { return; }
+      if (!this._isValidElForComment(el)) { return; }
 
-        const value = el.getAttribute('data-value');
-        let lineNum;
-        if (value !== GrDiffLine.FILE) {
-          lineNum = parseInt(value, 10);
-          if (isNaN(lineNum)) {
-            this.fire('show-alert', {message: ERR_INVALID_LINE + value});
-            return;
-          }
+      const value = el.getAttribute('data-value');
+      let lineNum;
+      if (value !== GrDiffLine.FILE) {
+        lineNum = parseInt(value, 10);
+        if (isNaN(lineNum)) {
+          this.fire('show-alert', {message: ERR_INVALID_LINE + value});
+          return;
         }
-        this._createComment(el, lineNum);
-      });
+      }
+      this._createComment(el, lineNum);
     },
 
     _handleCreateComment(e) {
@@ -416,36 +414,34 @@
       const side = e.detail.side;
       const lineNum = range.endLine;
       const lineEl = this.$.diffBuilder.getLineElByNumber(lineNum, side);
-      this._isValidElForComment(lineEl).then(valid => {
-        if (!valid) { return; }
 
+      if (this._isValidElForComment(lineEl)) {
         this._createComment(lineEl, lineNum, side, range);
-      });
+      }
     },
 
+    /** @return {boolean} */
     _isValidElForComment(el) {
-      return this._getLoggedIn().then(loggedIn => {
-        if (!loggedIn) {
-          this.fire('show-auth-required');
-          return false;
-        }
-        const patchNum = el.classList.contains(DiffSide.LEFT) ?
-            this.patchRange.basePatchNum :
-            this.patchRange.patchNum;
+      if (!this._loggedIn) {
+        this.fire('show-auth-required');
+        return false;
+      }
+      const patchNum = el.classList.contains(DiffSide.LEFT) ?
+          this.patchRange.basePatchNum :
+          this.patchRange.patchNum;
 
-        const isEdit = this.patchNumEquals(patchNum, this.EDIT_NAME);
-        const isEditBase = this.patchNumEquals(patchNum, this.PARENT_NAME) &&
-            this.patchNumEquals(this.patchRange.patchNum, this.EDIT_NAME);
+      const isEdit = this.patchNumEquals(patchNum, this.EDIT_NAME);
+      const isEditBase = this.patchNumEquals(patchNum, this.PARENT_NAME) &&
+          this.patchNumEquals(this.patchRange.patchNum, this.EDIT_NAME);
 
-        if (isEdit) {
-          this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT});
-          return false;
-        } else if (isEditBase) {
-          this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT_BASE});
-          return false;
-        }
-        return true;
-      });
+      if (isEdit) {
+        this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT});
+        return false;
+      } else if (isEditBase) {
+        this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT_BASE});
+        return false;
+      }
+      return true;
     },
 
     /**

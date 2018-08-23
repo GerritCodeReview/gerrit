@@ -34,6 +34,24 @@
       "revId": "e13b78bb40ef50c70e8e84cab21b3d75d4282ab7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f34f7cad_ffe06ee3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-23T17:24:48Z",
+      "side": 1,
+      "message": "One person\u0027s visual noise is another person\u0027s useful documentation, I suppose.\n\nYou have spent the most mental energy trying to understand this code recently, so I defer to your judgment of what would have made it easier for you to follow.",
+      "parentUuid": "dc0c7986_3f9b45c3",
+      "revId": "e13b78bb40ef50c70e8e84cab21b3d75d4282ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

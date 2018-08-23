@@ -23,6 +23,30 @@
       "revId": "07e0b259da8c0de4a876dfd0a4dca1c4ec497d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3617c7cb_54c71ccc",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-23T14:21:16Z",
+      "side": 1,
+      "message": "This is a memory optimization: ImmutableSetMultimap stores an additional pointer in each entry to maintain the order. My thinking was, AllExternalIds already accounts for a huge percentage of heap in our servers, so this was an easy way to cut some out.\n\nIn retrospect this may have been premature. If we have 1M users and 2 ext IDs per user, that\u0027s like 8 * 1M * 2 \u003d 16M of extra RAM (assuming no compressed oops or what have you), which doesn\u0027t seem so bad.\n\nWDYT? Should we try to measure the memory increase, or just switch to Immutable?",
+      "parentUuid": "3576e298_d10a0932",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 29
+      },
+      "revId": "07e0b259da8c0de4a876dfd0a4dca1c4ec497d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

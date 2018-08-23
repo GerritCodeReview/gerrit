@@ -282,7 +282,7 @@
     },
 
     get diffs() {
-      return Polymer.dom(this.root).querySelectorAll('gr-diff');
+      return Polymer.dom(this.root).querySelectorAll('gr-diff-host');
     },
 
     openDiffPrefs() {
@@ -842,10 +842,9 @@
     },
 
     _updateDiffCursor() {
-      const diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
       // Overwrite the cursor's list of diffs:
       this.$.diffCursor.splice(
-          ...['diffs', 0, this.$.diffCursor.diffs.length].concat(diffElements));
+          ...['diffs', 0, this.$.diffCursor.diffs.length].concat(this.diffs));
     },
 
     _filesChanged() {
@@ -969,7 +968,7 @@
      * for each path in order, awaiting the previous render to complete before
      * continung.
      * @param  {!Array<string>} paths
-     * @param  {!NodeList<!Object>} diffElements (GrDiffElement)
+     * @param  {!NodeList<!Object>} diffElements (GrDiffHostElement)
      * @param  {number} initialCount The total number of paths in the pass. This
      *   is used to generate log messages.
      * @return {!Promise}

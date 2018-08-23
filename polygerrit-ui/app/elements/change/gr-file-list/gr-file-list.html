@@ -23,7 +23,7 @@ limitations under the License.
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
-<link rel="import" href="../../diff/gr-diff/gr-diff.html">
+<link rel="import" href="../../diff/gr-diff-host/gr-diff-host.html">
 <link rel="import" href="../../diff/gr-diff-cursor/gr-diff-cursor.html">
 <link rel="import" href="../../edit/gr-edit-file-controls/gr-edit-file-controls.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -388,7 +388,7 @@ limitations under the License.
           </div>
           <template is="dom-if"
               if="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]">
-            <gr-diff
+            <gr-diff-host
                 no-auto-render
                 show-load-failure
                 display-line="[[_displayLine]]"
@@ -402,7 +402,7 @@ limitations under the License.
                 project-config="[[projectConfig]]"
                 on-line-selected="_onLineSelected"
                 no-render-on-prefs-change
-                view-mode="[[diffViewMode]]"></gr-diff>
+                view-mode="[[diffViewMode]]"></gr-diff-host>
           </template>
         </div>
       </template>

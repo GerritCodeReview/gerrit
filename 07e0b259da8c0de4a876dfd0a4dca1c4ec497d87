@@ -71,6 +71,30 @@
       "revId": "07e0b259da8c0de4a876dfd0a4dca1c4ec497d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a23031f_d3068f7b",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-23T17:23:32Z",
+      "side": 1,
+      "message": "I think I will measure it. I don\u0027t think it\u0027s worth the effort to run an experiment in production but I already have this code to parse chromium\u0027s All-Users in memory on my workstation so it should just take a few minutes.",
+      "parentUuid": "79503caf_3a6cbfe9",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 29
+      },
+      "revId": "07e0b259da8c0de4a876dfd0a4dca1c4ec497d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

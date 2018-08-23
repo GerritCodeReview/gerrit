@@ -30,7 +30,7 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
-import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.project.ProjectState.EffectiveMaxObjectSizeLimit;
 import com.google.inject.util.Providers;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -41,7 +41,6 @@ public class ConfigInfoImpl extends ConfigInfo {
   public ConfigInfoImpl(
       boolean serverEnableSignedPush,
       ProjectControl control,
-      TransferConfig transferConfig,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
@@ -98,7 +97,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       this.requireSignedPush = requireSignedPush;
     }
 
-    this.maxObjectSizeLimit = getMaxObjectSizeLimit(projectState, transferConfig, p);
+    this.maxObjectSizeLimit = getMaxObjectSizeLimit(projectState, p);
 
     this.submitType = p.getSubmitType();
     this.state =
@@ -122,13 +121,13 @@ public class ConfigInfoImpl extends ConfigInfo {
     this.theme = projectState.getTheme();
   }
 
-  private MaxObjectSizeLimitInfo getMaxObjectSizeLimit(
-      ProjectState projectState, TransferConfig transferConfig, Project p) {
+  private MaxObjectSizeLimitInfo getMaxObjectSizeLimit(ProjectState projectState, Project p) {
     MaxObjectSizeLimitInfo info = new MaxObjectSizeLimitInfo();
-    long value = projectState.getEffectiveMaxObjectSizeLimit();
+    EffectiveMaxObjectSizeLimit limit = projectState.getEffectiveMaxObjectSizeLimit();
+    long value = limit.value;
     info.value = value == 0 ? null : String.valueOf(value);
     info.configuredValue = p.getMaxObjectSizeLimit();
-    info.inheritedValue = transferConfig.getFormattedMaxObjectSizeLimit();
+    info.inheritedValue = limit.inheritedFrom;
     return info;
   }
 

@@ -16,6 +16,10 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_GLOBAL;
+import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_PARENT;
+import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_GLOBAL;
+import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_PARENT;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -163,7 +167,7 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void maxObjectSizeIsNotInheritedFromParentProject() throws Exception {
+  public void maxObjectSizeIsInheritedFromParentProject() throws Exception {
     Project.NameKey child = createProject(name("child"), project);
 
     ConfigInfo info = setMaxObjectSize("100k");
@@ -172,18 +176,72 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
 
     info = getConfig(child);
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.inheritedValue)
+        .isEqualTo(String.format(INHERITED_FROM_PARENT, project));
+  }
+
+  @Test
+  public void maxObjectSizeOverridesParentProjectWhenNotSetOnParent() throws Exception {
+    Project.NameKey child = createProject(name("child"), project);
+
+    ConfigInfo info = setMaxObjectSize("0");
     assertThat(info.maxObjectSizeLimit.value).isNull();
     assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
     assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+
+    info = setMaxObjectSize(child, "100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+  }
+
+  @Test
+  public void maxObjectSizeOverridesParentProjectWhenLower() throws Exception {
+    Project.NameKey child = createProject(name("child"), project);
+
+    ConfigInfo info = setMaxObjectSize("200k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+
+    info = setMaxObjectSize(child, "100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+  }
+
+  @Test
+  public void maxObjectSizeDoesNotOverrideParentProjectWhenHigher() throws Exception {
+    Project.NameKey child = createProject(name("child"), project);
+
+    ConfigInfo info = setMaxObjectSize("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+
+    info = setMaxObjectSize(child, "200k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue)
+        .isEqualTo(String.format(OVERRIDDEN_BY_PARENT, project));
   }
 
   @Test
   @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
   public void maxObjectSizeIsInheritedFromGlobalConfig() throws Exception {
+    Project.NameKey child = createProject(name("child"), project);
+
     ConfigInfo info = getConfig();
     assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
     assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
-    assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo(INHERITED_FROM_GLOBAL);
+
+    info = getConfig(child);
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo(INHERITED_FROM_GLOBAL);
   }
 
   @Test
@@ -192,16 +250,39 @@ public class ProjectIT extends AbstractDaemonTest {
     ConfigInfo info = setMaxObjectSize("100k");
     assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
-    assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "receive.maxObjectSizeLimit", value = "300k")
+  public void inheritedMaxObjectSizeOverridesGlobalConfigWhenLower() throws Exception {
+    Project.NameKey child = createProject(name("child"), project);
+
+    ConfigInfo info = setMaxObjectSize("200k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
+
+    info = setMaxObjectSize(child, "100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isNull();
   }
 
   @Test
   @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
   public void maxObjectSizeDoesNotOverrideGlobalConfigWhenHigher() throws Exception {
+    Project.NameKey child = createProject(name("child"), project);
+
     ConfigInfo info = setMaxObjectSize("300k");
     assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("300k");
-    assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo(OVERRIDDEN_BY_GLOBAL);
+
+    info = getConfig(child);
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.inheritedValue).isEqualTo(OVERRIDDEN_BY_GLOBAL);
   }
 
   @Test
@@ -220,9 +301,13 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   private ConfigInfo setMaxObjectSize(String value) throws Exception {
+    return setMaxObjectSize(project, value);
+  }
+
+  private ConfigInfo setMaxObjectSize(Project.NameKey name, String value) throws Exception {
     ConfigInput input = new ConfigInput();
     input.maxObjectSizeLimit = value;
-    return setConfig(input);
+    return setConfig(name, input);
   }
 
   private ConfigInfo getConfig(Project.NameKey name) throws Exception {

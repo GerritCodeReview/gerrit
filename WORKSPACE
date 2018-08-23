@@ -74,8 +74,9 @@ GUICE_VERS = "4.2.0"
 
 maven_jar(
     name = "guice-library",
-    artifact = "com.google.inject:guice:" + GUICE_VERS,
-    sha1 = "25e1f4c1d528a1cffabcca0d432f634f3132f6c8",
+    artifact = "com.google.inject:guice:" + GUICE_VERS + ":classes",
+    attach_source = False,
+    sha1 = "4c41ec3c1c6230764642f9b5666ff80d2de4273a",
 )
 
 maven_jar(

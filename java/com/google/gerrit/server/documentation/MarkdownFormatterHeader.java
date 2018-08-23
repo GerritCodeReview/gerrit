@@ -56,7 +56,7 @@ public class MarkdownFormatterHeader {
   }
 
   static class HeadingNodeRenderer implements NodeRenderer {
-    public HeadingNodeRenderer(DataHolder options) {}
+    public HeadingNodeRenderer() {}
 
     @Override
     public Set<NodeRenderingHandler<?>> getNodeRenderingHandlers() {
@@ -68,7 +68,7 @@ public class MarkdownFormatterHeader {
                     @Override
                     public void render(
                         AnchorLink node, NodeRendererContext context, HtmlWriter html) {
-                      HeadingNodeRenderer.this.render(node, context, html);
+                      HeadingNodeRenderer.this.render(node, context);
                     }
                   }),
               new NodeRenderingHandler<Heading>(
@@ -81,7 +81,7 @@ public class MarkdownFormatterHeader {
                   })));
     }
 
-    void render(final AnchorLink node, final NodeRendererContext context, final HtmlWriter html) {
+    void render(final AnchorLink node, final NodeRendererContext context) {
       Node parent = node.getParent();
 
       if (parent instanceof Heading && ((Heading) parent).getLevel() == 1) {
@@ -147,7 +147,7 @@ public class MarkdownFormatterHeader {
     public static class Factory implements DelegatingNodeRendererFactory {
       @Override
       public NodeRenderer create(final DataHolder options) {
-        return new HeadingNodeRenderer(options);
+        return new HeadingNodeRenderer();
       }
 
       @Override

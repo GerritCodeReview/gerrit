@@ -2,12 +2,41 @@ package(default_visibility = ["//visibility:public"])
 
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
+load(
+    "@bazel_tools//tools/jdk:default_java_toolchain.bzl",
+    "default_java_toolchain",
+)
 
 config_setting(
     name = "java9",
     values = {
         "java_toolchain": "@bazel_tools//tools/jdk:toolchain_java9",
     },
+)
+
+config_setting(
+    name = "java10",
+    values = {
+        "java_toolchain": ":toolchain_vanilla",
+    },
+)
+
+java_runtime(
+    name = "jdk10",
+    java_home = "/usr/lib64/jvm/java-10",
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "vanillajavabuilder",
+    srcs = ["@bazel_tools//tools/jdk:VanillaJavaBuilder_deploy.jar"],
+)
+
+default_java_toolchain(
+    name = "toolchain_vanilla",
+    forcibly_disable_header_compilation = True,
+    javabuilder = [":vanillajavabuilder"],
+    jvm_opts = [],
 )
 
 genrule(

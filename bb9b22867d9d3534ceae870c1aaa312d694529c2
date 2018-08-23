@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d595ea62_2c39b124",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-08-23T20:25:40Z",
+      "side": 1,
+      "message": "getPermissionsThroughRest",
+      "range": {
+        "startLine": 180,
+        "startChar": 14,
+        "endLine": 180,
+        "endChar": 31
+      },
+      "revId": "bb9b22867d9d3534ceae870c1aaa312d694529c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dafea877_3787f8d8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-08-23T20:25:40Z",
+      "side": 1,
+      "message": "Necessary? If not, setUp already creates it.",
+      "range": {
+        "startLine": 181,
+        "startChar": 51,
+        "endLine": 181,
+        "endChar": 60
+      },
+      "revId": "bb9b22867d9d3534ceae870c1aaa312d694529c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "305abb66_4607be7a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-08-23T20:25:40Z",
+      "side": 1,
+      "message": "project",
+      "range": {
+        "startLine": 181,
+        "startChar": 20,
+        "endLine": 181,
+        "endChar": 22
+      },
+      "revId": "bb9b22867d9d3534ceae870c1aaa312d694529c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "751b6b6a_cb4a98e2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-08-23T20:25:40Z",
+      "side": 1,
+      "message": "We might need to split this test method into two tests or so, if the comment about lightweight tag permissions vs annotated ones ends up making sense. That review comment is in this current change\u0027s parent Ic9ef8a33.",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 31
+      },
+      "revId": "bb9b22867d9d3534ceae870c1aaa312d694529c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e58aae9_4f37347a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-08-23T20:25:40Z",
+      "side": 1,
+      "message": "response (or, result)",
+      "range": {
+        "startLine": 185,
+        "startChar": 17,
+        "endLine": 185,
+        "endChar": 18
+      },
+      "revId": "bb9b22867d9d3534ceae870c1aaa312d694529c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "807cd518_27093c36",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-08-23T20:25:40Z",
+      "side": 1,
+      "message": "Any reusable resource instead of this boiler-plate code?",
+      "range": {
+        "startLine": 187,
+        "startChar": 12,
+        "endLine": 188,
+        "endChar": 73
+      },
+      "revId": "bb9b22867d9d3534ceae870c1aaa312d694529c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be740dd9_5191b572",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-08-23T20:25:40Z",
+      "side": 1,
+      "message": "Could also add this repeating call to the above /reusable accessInfo resource.",
+      "range": {
+        "startLine": 193,
+        "startChar": 25,
+        "endLine": 193,
+        "endChar": 31
+      },
+      "revId": "bb9b22867d9d3534ceae870c1aaa312d694529c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

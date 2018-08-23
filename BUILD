@@ -10,6 +10,13 @@ config_setting(
     },
 )
 
+config_setting(
+    name = "java10",
+    values = {
+        "java_toolchain": "@bazel_tools//tools/jdk:toolchain_java10",
+    },
+)
+
 genrule(
     name = "gen_version",
     outs = ["version.txt"],

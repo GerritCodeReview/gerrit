@@ -16,7 +16,6 @@ link:install.html[Standalone Daemon Installation Guide].
 
 Be sure you have:
 
-<<<<<<< HEAD
 . A Unix-based server, including any Linux flavor, MacOS, or Berkeley Software
     Distribution (BSD).
 . Java SE Runtime Environment version 1.8. Gerrit is not compatible with Java

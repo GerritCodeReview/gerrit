@@ -247,6 +247,15 @@ public class ProjectState {
 
   public long getEffectiveMaxObjectSizeLimit() {
     long local = config.getMaxObjectSizeLimit();
+    for (ProjectState parent : parents()) {
+      long parentValue = parent.config.getMaxObjectSizeLimit();
+      if (parentValue > 0 && local > 0) {
+        local = Math.min(parentValue, local);
+      } else if (parentValue > 0) {
+        local = parentValue;
+      }
+    }
+
     if (globalMaxObjectSizeLimit > 0 && local > 0) {
       return Math.min(globalMaxObjectSizeLimit, local);
     }

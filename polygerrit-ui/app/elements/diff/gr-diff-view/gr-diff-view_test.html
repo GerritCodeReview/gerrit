@@ -73,7 +73,7 @@ limitations under the License.
 
     test('params change triggers diffViewDisplayed()', () => {
       sandbox.stub(element.$.reporting, 'diffViewDisplayed');
-      sandbox.stub(element.$.diff, 'reload').returns(Promise.resolve());
+      sandbox.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sandbox.spy(element, '_paramsChanged');
       element.params = {
         view: Gerrit.Nav.View.DIFF,
@@ -89,7 +89,7 @@ limitations under the License.
     });
 
     test('toggle left diff with a hotkey', () => {
-      const toggleLeftDiffStub = sandbox.stub(element.$.diff, 'toggleLeftDiff');
+      const toggleLeftDiffStub = sandbox.stub(element.$.diffHost, 'toggleLeftDiff');
       MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
       assert.isTrue(toggleLeftDiffStub.calledOnce);
     });
@@ -168,7 +168,7 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 80, 'shift', 'p');
       assert(scrollStub.calledOnce);
 
-      const computeContainerClassStub = sandbox.stub(element.$.diff,
+      const computeContainerClassStub = sandbox.stub(element.$.diffHost.$.diff,
           '_computeContainerClass');
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
       assert(computeContainerClassStub.lastCall.calledWithExactly(
@@ -189,7 +189,7 @@ limitations under the License.
     });
 
     test('shift+x shortcut expands all diff context', () => {
-      const expandStub = sandbox.stub(element.$.diff, 'expandAllContext');
+      const expandStub = sandbox.stub(element.$.diffHost, 'expandAllContext');
       MockInteractions.pressAndReleaseKeyOn(element, 88, 'shift', 'x');
       flushAsynchronousOperations();
       assert.isTrue(expandStub.called);
@@ -550,7 +550,7 @@ limitations under the License.
       const getReviewedStub = sandbox.stub(element, '_getReviewedStatus',
           () => Promise.resolve());
 
-      sandbox.stub(element.$.diff, 'reload');
+      sandbox.stub(element.$.diffHost, 'reload');
       element._loggedIn = true;
       element.params = {
         view: Gerrit.Nav.View.DIFF,
@@ -575,7 +575,7 @@ limitations under the License.
     test('file review status', () => {
       const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
           () => Promise.resolve());
-      sandbox.stub(element.$.diff, 'reload');
+      sandbox.stub(element.$.diffHost, 'reload');
 
       element._loggedIn = true;
       element.params = {
@@ -621,7 +621,7 @@ limitations under the License.
     });
 
     test('hash is determined from params', done => {
-      sandbox.stub(element.$.diff, 'reload');
+      sandbox.stub(element.$.diffHost, 'reload');
       sandbox.stub(element, '_initCursor');
 
       element._loggedIn = true;
@@ -642,7 +642,7 @@ limitations under the License.
 
     test('diff mode selector correctly toggles the diff', () => {
       const select = element.$.modeSelect;
-      const diffDisplay = element.$.diff;
+      const diffDisplay = element.$.diffHost;
       element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
 
       // The mode selected in the view state reflects the selected option.
@@ -687,7 +687,7 @@ limitations under the License.
 
     suite('_commitRange', () => {
       setup(() => {
-        sandbox.stub(element.$.diff, 'reload');
+        sandbox.stub(element.$.diffHost, 'reload');
         sandbox.stub(element, '_initCursor');
         sandbox.stub(element, '_getChangeDetail').returns(Promise.resolve({
           _number: 42,

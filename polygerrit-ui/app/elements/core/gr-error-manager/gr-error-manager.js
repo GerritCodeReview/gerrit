@@ -62,6 +62,7 @@
       this.listen(document, 'network-error', '_handleNetworkError');
       this.listen(document, 'auth-error', '_handleAuthError');
       this.listen(document, 'show-alert', '_handleShowAlert');
+      this.listen(document, 'show-error', '_handleShowErrorDialog');
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
       this.listen(document, 'show-auth-required', '_handleAuthRequired');
     },
@@ -73,6 +74,7 @@
       this.unlisten(document, 'auth-error', '_handleAuthError');
       this.unlisten(document, 'show-auth-required', '_handleAuthRequired');
       this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
+      this.unlisten(document, 'show-error', '_handleShowErrorDialog');
     },
 
     _shouldSuppressError(msg) {
@@ -101,7 +103,7 @@
           // This indicates the auth token is no longer valid.
           this._handleAuthError();
         } else if (!this._shouldSuppressError(text)) {
-          this._showAlert('Server error: ' + text);
+          this._showErrorDialog('Server error: ' + text);
         }
         console.error(text);
       });
@@ -256,6 +258,20 @@
 
     _handleWindowFocus() {
       this.flushDebouncer('checkLoggedIn');
+    },
+
+    _handleShowErrorDialog(e) {
+      this._showErrorDialog(e.detail.message);
+    },
+
+    _handleDismissErrorDialog() {
+      this.$.errorDialog.text = '';
+      this.$.errorOverlay.close();
+    },
+
+    _showErrorDialog(message) {
+      this.$.errorDialog.text = message;
+      this.$.errorOverlay.open();
     },
   });
 })();

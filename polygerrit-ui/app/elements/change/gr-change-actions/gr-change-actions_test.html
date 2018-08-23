@@ -1370,6 +1370,7 @@ limitations under the License.
     suite('_send', () => {
       let cleanup;
       let payload;
+      let onShowError;
       let onShowAlert;
 
       setup(() => {
@@ -1378,6 +1379,8 @@ limitations under the License.
         element.latestPatchNum = 12;
         payload = {foo: 'bar'};
 
+        onShowError = sinon.stub();
+        element.addEventListener('show-error', onShowError);
         onShowAlert = sinon.stub();
         element.addEventListener('show-alert', onShowAlert);
       });
@@ -1395,7 +1398,7 @@ limitations under the License.
         test('change action', () => {
           return element._send('DELETE', payload, '/endpoint', false, cleanup)
               .then(() => {
-                assert.isFalse(onShowAlert.called);
+                assert.isFalse(onShowError.called);
                 assert.isTrue(cleanup.calledOnce);
                 assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
                     null, payload));
@@ -1405,7 +1408,7 @@ limitations under the License.
         test('revision action', () => {
           return element._send('DELETE', payload, '/endpoint', true, cleanup)
               .then(() => {
-                assert.isFalse(onShowAlert.called);
+                assert.isFalse(onShowError.called);
                 assert.isTrue(cleanup.calledOnce);
                 assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
                     12, payload));
@@ -1423,6 +1426,7 @@ limitations under the License.
           return element._send('DELETE', payload, '/endpoint', true, cleanup)
               .then(() => {
                 assert.isTrue(onShowAlert.calledOnce);
+                assert.isFalse(onShowError.called);
                 assert.isTrue(cleanup.calledOnce);
                 assert.isFalse(sendStub.called);
               });
@@ -1441,7 +1445,7 @@ limitations under the License.
 
           return element._send('DELETE', payload, '/endpoint', true, cleanup)
               .then(() => {
-                assert.isFalse(onShowAlert.called);
+                assert.isFalse(onShowError.called);
                 assert.isTrue(cleanup.called);
                 assert.isTrue(sendStub.calledOnce);
                 assert.isTrue(handleErrorStub.called);

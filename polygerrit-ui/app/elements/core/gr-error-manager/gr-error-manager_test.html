@@ -87,7 +87,7 @@ limitations under the License.
     });
 
     test('show normal server error', done => {
-      const showAlertStub = sandbox.stub(element, '_showAlert');
+      const showErrorStub = sandbox.stub(element, '_showErrorDialog');
       const textSpy = sandbox.spy(() => { return Promise.resolve('ZOMG'); });
       element.fire('server-error', {response: {status: 500, text: textSpy}});
 
@@ -96,8 +96,8 @@ limitations under the License.
         element.$.restAPI.getLoggedIn.lastCall.returnValue,
         textSpy.lastCall.returnValue,
       ]).then(() => {
-        assert.isTrue(showAlertStub.calledOnce);
-        assert.isTrue(showAlertStub.lastCall.calledWithExactly(
+        assert.isTrue(showErrorStub.calledOnce);
+        assert.isTrue(showErrorStub.lastCall.calledWithExactly(
             'Server error: ZOMG'));
         done();
       });
@@ -278,6 +278,23 @@ limitations under the License.
       const hideStub = sandbox.stub(element, '_hideAlert');
       element._showAlert();
       assert.isTrue(hideStub.calledOnce);
+    });
+
+    test('show-error', () => {
+      const openStub = sandbox.stub(element.$.errorOverlay, 'open');
+      const closeStub = sandbox.stub(element.$.errorOverlay, 'close');
+      const message = 'test message';
+      element.fire('show-error', {message});
+      flushAsynchronousOperations();
+
+      assert.isTrue(openStub.called);
+      assert.equal(element.$.errorDialog.text, message);
+
+      element.$.errorDialog.fire('dismiss');
+      flushAsynchronousOperations();
+
+      assert.isTrue(closeStub.called);
+      assert.equal(element.$.errorDialog.text, '');
     });
   });
 </script>

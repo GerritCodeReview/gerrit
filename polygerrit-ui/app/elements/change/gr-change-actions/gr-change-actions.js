@@ -212,6 +212,12 @@
      * @event show-alert
      */
 
+    /**
+     * Fires when a change action fails.
+     *
+     * @event show-error
+     */
+
     properties: {
       /**
        * @type {{
@@ -1154,7 +1160,7 @@
 
     _handleResponseError(response) {
       return response.text().then(errText => {
-        this.fire('show-alert',
+        this.fire('show-error',
             {message: `Could not perform action: ${errText}`});
         if (!errText.startsWith('Change is already up to date')) {
           throw Error(errText);

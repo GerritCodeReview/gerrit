@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.documentation;
 
-import com.google.common.flogger.FluentLogger;
 import com.vladsch.flexmark.ast.Heading;
 import com.vladsch.flexmark.ast.Node;
 import com.vladsch.flexmark.ext.anchorlink.AnchorLink;
@@ -37,8 +36,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MarkdownFormatterHeader {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   static class HeadingExtension implements HtmlRendererExtension {
     @Override
     public void rendererOptions(final MutableDataHolder options) {

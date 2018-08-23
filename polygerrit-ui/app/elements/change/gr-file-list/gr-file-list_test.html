@@ -69,7 +69,7 @@ limitations under the License.
       stub('gr-date-formatter', {
         _loadTimeFormat() { return Promise.resolve(''); },
       });
-      stub('gr-diff', {
+      stub('gr-diff-host', {
         reload() { return Promise.resolve(); },
       });
 
@@ -825,7 +825,7 @@ limitations under the License.
 
       // Click inside the diff. This should result in no additional calls to
       // _togglePathExpanded or _reviewFile.
-      Polymer.dom(element.root).querySelector('gr-diff').click();
+      Polymer.dom(element.root).querySelector('gr-diff-host').click();
       assert.isTrue(tapSpy.calledTwice);
       assert.isTrue(toggleExpandSpy.calledOnce);
       assert.isFalse(reviewStub.called);
@@ -1019,6 +1019,8 @@ limitations under the License.
           done();
         },
         cancel() {},
+        getCursorStops() { return []; },
+        addEventListener(eventName, callback) { callback(new Event(eventName)); },
       }];
       sinon.stub(element, 'diffs', {
         get() { return diffs; },
@@ -1349,7 +1351,7 @@ limitations under the License.
 
     const setupDiff = function(diff) {
       const mock = document.createElement('mock-diff-response');
-      diff._diff = mock.diffResponse;
+      diff.$.diff._diff = mock.diffResponse;
       diff.comments = {
         left: diff.path === '/COMMIT_MSG' ? commitMsgComments : [],
         right: [],
@@ -1377,12 +1379,12 @@ limitations under the License.
         theme: 'DEFAULT',
         ignore_whitespace: 'IGNORE_NONE',
       };
-      diff._renderDiffTable();
+      diff.$.diff._renderDiffTable();
     };
 
     const renderAndGetNewDiffs = function(index) {
       const diffs =
-          Polymer.dom(element.root).querySelectorAll('gr-diff');
+          Polymer.dom(element.root).querySelectorAll('gr-diff-host');
 
       for (let i = index; i < diffs.length; i++) {
         setupDiff(diffs[i]);
@@ -1405,7 +1407,7 @@ limitations under the License.
       stub('gr-date-formatter', {
         _loadTimeFormat() { return Promise.resolve(''); },
       });
-      stub('gr-diff', {
+      stub('gr-diff-host', {
         reload() { return Promise.resolve(); },
       });
 

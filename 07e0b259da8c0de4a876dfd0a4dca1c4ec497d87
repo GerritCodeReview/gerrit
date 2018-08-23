@@ -47,6 +47,30 @@
       "revId": "07e0b259da8c0de4a876dfd0a4dca1c4ec497d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79503caf_3a6cbfe9",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-23T17:17:47Z",
+      "side": 1,
+      "message": "I would fall back to the general advice regarding such micro optimization: Only do them when you can prove that they have a substantial impact. If you have a gut feeling that switching to ImmutableSetMultimap will have a noticeable negative impact on our memory usage, please measure it. I trust your assessment regarding this.\n\nBy the way, if we stay at SetMultimap, we should definitely document in code why we aren\u0027t using ImmutableSetMultimap. Otherwise, ImmutableSetMultimap can easily sneak in in the future.",
+      "parentUuid": "3617c7cb_54c71ccc",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 29
+      },
+      "revId": "07e0b259da8c0de4a876dfd0a4dca1c4ec497d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

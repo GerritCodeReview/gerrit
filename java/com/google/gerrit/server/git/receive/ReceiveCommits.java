@@ -1872,7 +1872,13 @@ class ReceiveCommits {
     }
 
     try {
-      if (validCommit(receivePack.getRevWalk(), changeEnt.getDest(), cmd, newCommit, changeEnt)) {
+      if (validCommit(
+          receivePack.getRevWalk().getObjectReader(),
+          changeEnt.getDest(),
+          cmd,
+          newCommit,
+          false,
+          changeEnt)) {
         logger.atFine().log("Replacing change %s", changeEnt.getId());
         requestReplace(cmd, true, changeEnt, newCommit);
       }
@@ -2011,7 +2017,13 @@ class ReceiveCommits {
           logger.atFine().log("Creating new change for %s even though it is already tracked", name);
         }
 
-        if (!validCommit(receivePack.getRevWalk(), magicBranch.dest, magicBranch.cmd, c, null)) {
+        if (!validCommit(
+            receivePack.getRevWalk().getObjectReader(),
+            magicBranch.dest,
+            magicBranch.cmd,
+            c,
+            magicBranch.merged,
+            null)) {
           // Not a change the user can propose? Abort as early as possible.
           logger.atFine().log("Aborting early due to invalid commit");
           return Collections.emptyList();
@@ -2995,7 +3007,9 @@ class ReceiveCommits {
         }
         if (existing.keySet().contains(c)) {
           continue;
-        } else if (!validCommit(walk, branch, cmd, c, null)) {
+        }
+
+        if (!validCommit(walk.getObjectReader(), branch, cmd, c, false, null)) {
           break;
         }
 
@@ -3012,35 +3026,48 @@ class ReceiveCommits {
     }
   }
 
-  /** Validates a single commit. If the commit does not validate, the command is rejected. */
+  /**
+   * Validates a single commit. If the commit does not validate, the command is rejected.
+   *
+   * @param objectReader the object reader to use.
+   * @param branch the branch to which this commit is pushed
+   * @param cmd the ReceiveCommand executing the push.
+   * @param commit the commit being validated.
+   * @param isMerged whether this is a merge commit created by magicBranch --merge option
+   * @param change the change for which this is a new patchset.
+   */
   private boolean validCommit(
-      RevWalk rw, Branch.NameKey branch, ReceiveCommand cmd, ObjectId id, @Nullable Change change)
+      ObjectReader objectReader,
+      Branch.NameKey branch,
+      ReceiveCommand cmd,
+      RevCommit commit,
+      boolean isMerged,
+      @Nullable Change change)
       throws IOException {
     PermissionBackend.ForRef perm = permissions.ref(branch.get());
 
-    ValidCommitKey key = new AutoValue_ReceiveCommits_ValidCommitKey(id.copy(), branch);
+    ValidCommitKey key = new AutoValue_ReceiveCommits_ValidCommitKey(commit.copy(), branch);
     if (validCommits.contains(key)) {
       return true;
     }
 
-    RevCommit c = rw.parseCommit(id);
-    rw.parseBody(c);
-
     try (CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, branch.get(), rw.getObjectReader(), c, user)) {
-      boolean isMerged =
-          magicBranch != null
-              && cmd.getRefName().equals(magicBranch.cmd.getRefName())
-              && magicBranch.merged;
+        new CommitReceivedEvent(cmd, project, branch.get(), objectReader, commit, user)) {
       CommitValidators validators =
           isMerged
               ? commitValidatorsFactory.forMergedCommits(
                   project.getNameKey(), perm, user.asIdentifiedUser())
               : commitValidatorsFactory.forReceiveCommits(
-                  perm, branch, user.asIdentifiedUser(), sshInfo, repo, rw, change);
+                  perm,
+                  branch,
+                  user.asIdentifiedUser(),
+                  sshInfo,
+                  repo,
+                  receiveEvent.revWalk,
+                  change);
       messages.addAll(validators.validate(receiveEvent));
     } catch (CommitValidationException e) {
-      logger.atFine().log("Commit validation failed on %s", c.name());
+      logger.atFine().log("Commit validation failed on %s", commit.name());
       messages.addAll(e.getMessages());
       reject(cmd, e.getMessage());
       return false;

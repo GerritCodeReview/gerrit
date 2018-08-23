@@ -59,7 +59,8 @@
       // changes not owned by the viewing user (the one instance of
       // 'owner:self' is intentional and implements this logic).
       query: 'is:closed -is:ignored (-is:wip OR owner:self) ' +
-          '(owner:${user} OR reviewer:${user} OR assignee:${user})',
+          '(owner:${user} OR reviewer:${user} OR assignee:${user} ' +
+          'OR cc:${user})',
       suffixForDashboard: '-age:4w limit:10',
     },
   ];

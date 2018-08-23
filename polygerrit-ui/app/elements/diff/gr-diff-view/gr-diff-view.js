@@ -200,7 +200,7 @@
         this._loggedIn = loggedIn;
       });
 
-      this.$.cursor.push('diffs', this.$.diff);
+      this.$.cursor.push('diffs', this.$.diffHost);
     },
 
     _getLoggedIn() {
@@ -276,7 +276,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      this.$.diff.displayLine = false;
+      this.$.diffHost.displayLine = false;
     },
 
     _handleShiftLeftKey(e) {
@@ -303,7 +303,7 @@
       if (this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      this.$.diff.displayLine = true;
+      this.$.diffHost.displayLine = true;
       this.$.cursor.moveUp();
     },
 
@@ -317,7 +317,7 @@
       if (this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      this.$.diff.displayLine = true;
+      this.$.diffHost.displayLine = true;
       this.$.cursor.moveDown();
     },
 
@@ -350,13 +350,13 @@
 
     _handleCKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      if (this.$.diff.isRangeSelected()) { return; }
+      if (this.$.diffHost.isRangeSelected()) { return; }
       if (this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       const line = this.$.cursor.getTargetLineElement();
       if (line) {
-        this.$.diff.addDraftAtLine(line);
+        this.$.diffHost.addDraftAtLine(line);
       }
     },
 
@@ -407,7 +407,7 @@
 
       if (e.detail.keyboardEvent.shiftKey) { // Hide left diff.
         e.preventDefault();
-        this.$.diff.toggleLeftDiff();
+        this.$.diffHost.toggleLeftDiff();
         return;
       }
 
@@ -549,7 +549,7 @@
         this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
       }
 
-      this.$.diff.lineOfInterest = this._getLineOfInterest(this.params);
+      this.$.diffHost.lineOfInterest = this._getLineOfInterest(this.params);
       this._initCursor(this.params);
 
       this._changeNum = value.changeNum;
@@ -621,8 +621,8 @@
           });
         }
         this._loading = false;
-        this.$.diff.comments = this._commentsForDiff;
-        return this.$.diff.reload();
+        this.$.diffHost.comments = this._commentsForDiff;
+        return this.$.diffHost.reload();
       }).then(() => {
         this.$.reporting.diffViewDisplayed();
       });
@@ -949,13 +949,13 @@
      */
     _toggleBlame() {
       if (this._isBlameLoaded) {
-        this.$.diff.clearBlame();
+        this.$.diffHost.clearBlame();
         return;
       }
 
       this._isBlameLoading = true;
       this.fire('show-alert', {message: MSG_LOADING_BLAME});
-      this.$.diff.loadBlame()
+      this.$.diffHost.loadBlame()
           .then(() => {
             this._isBlameLoading = false;
             this.fire('show-alert', {message: MSG_LOADED_BLAME});
@@ -991,7 +991,7 @@
 
     _handleShiftXKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      this.$.diff.expandAllContext();
+      this.$.diffHost.expandAllContext();
     },
   });
 })();

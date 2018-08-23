@@ -1875,6 +1875,10 @@ class ReceiveCommits {
     requestReplace(cmd, true, changeEnt, newCommit);
   }
 
+  /**
+   * Add an update for an existing change. Returns true if it succeeded; rejects the command if it
+   * failed.
+   */
   private boolean requestReplace(
       ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
     if (change.getStatus().isClosed()) {

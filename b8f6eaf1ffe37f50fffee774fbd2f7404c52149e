@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2c1f0a3b_f0dd3bf7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-23T04:06:09Z",
+      "side": 1,
+      "message": "...ah, youre totally right, and I can see why you followed that pattern now. If you use blame, you can see that that\u0027s some of the oldest code in this project.\n\nI\u0027d prefer you follow the convention I named here for this line, for sure. But definitely don\u0027t worry about the other instances, that\u0027s definitely not work on your shoulders.",
+      "parentUuid": "f4297847_941c1628",
+      "range": {
+        "startLine": 137,
+        "startChar": 19,
+        "endLine": 137,
+        "endChar": 35
+      },
+      "revId": "b8f6eaf1ffe37f50fffee774fbd2f7404c52149e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e85aedc0_2ee418a9",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 3

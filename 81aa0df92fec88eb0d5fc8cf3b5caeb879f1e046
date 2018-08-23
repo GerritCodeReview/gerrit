@@ -1,4 +1,143 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1534887699 -0700\nnonce ACQ0HpzZYdImMoDPTwJUe1orSUigZN2r5FraCeToohOy3P7s/5QVv+TxK/CgG4AKKtprdywdKU+d\n\n0000000000000000000000000000000000000000 81aa0df92fec88eb0d5fc8cf3b5caeb879f1e046 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlt8hxMVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMbHAP/2GgFHedrv06F5+fQTSE4QqsZlKU\n7JEz53tbYpoc6twOWZFg81AsKwJxBPxWOga9xhBu7El1Cuv61XFfYkHG7ikhVEt8\nfLqqeFVgPKPyxsP9FICCuBey3LCEtAFeqkkMHWS/m7qTvtNPlEW/xKQhnOxFGDVb\nrVbFrYNMYKpXvmpKxCXvpzs/gPqhlqUYxDNta3rrAFvm4G7cFS78B0U3KuuOH/oO\nIrXOgbnk2BaMwzm3ZdtJ4zMiVf03obF14yEEvpf5AkfJ8uu8ffDSQWCvVi1KLbFk\nv2Y/b3Ib89FjFfRmyJwTvBWtVGknGkFPOUJhLybh+l/3lxYqEezza1s2GPPBPPCG\n02im7vjSCkpwKAILpVofLSplkIc9p4e8EKsu+8JHMbB1kbH/9KwBGsvN/ttl7gaa\nLewYGt1DWePiDn7e7SdtEqnU35FfPeIuJEsUMUupLiO+Cv4Zpktk0wV7cHsNDn2U\n3NflAvbd8vLQSh8Tftm1T054RV86cu/Fv7P6hUabmDKlPiIIGS5gUS6GG0Sk7Bq3\nMxbafxoKDX/Kg1R0l16QgM6/A7Uq5FJNtDgVifUvVO4e9hU6yRPhgqanXG14f1SQ\nbWY7RAtGffmzXP6MAACYeW9IIUqXJWiMzikyBS1QeS3VWGte6ftLn61PX5mC/FmB\n6uCqZSzi7S2IYTVs\n\u003dHWc9\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3215b4a_2f3e5ffd",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-23T17:43:20Z",
+      "side": 1,
+      "message": "Can\u0027t this simply be create(byAccount.values())?",
+      "range": {
+        "startLine": 43,
+        "startChar": 11,
+        "endLine": 44,
+        "endChar": 96
+      },
+      "revId": "81aa0df92fec88eb0d5fc8cf3b5caeb879f1e046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "985cc285_3f6477e9",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-23T17:43:20Z",
+      "side": 1,
+      "message": "Here and below: Using streams/forEach to one-by-one fill a mutable SetMultimap just to create a copy is not the best approach in my opinion. AFAIK, the recommended way for such things is to use a stream and a collector which generates a resulting collection. In our case, we could go with Multimaps#toMultimap, which allows to specify a key function, a value function, and a Multimap supplier.\n\nIf we decide to switch to ImmutableSetMultimap (see other discussion on I2fc1285b), we could also use ImmutableSetMultimap#toImmutableSetMultimap.",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 65
+      },
+      "revId": "81aa0df92fec88eb0d5fc8cf3b5caeb879f1e046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f678094f_4383761d",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-23T17:43:20Z",
+      "side": 1,
+      "message": "nit: Obsolete.",
+      "range": {
+        "startLine": 77,
+        "startChar": 2,
+        "endLine": 77,
+        "endChar": 8
+      },
+      "revId": "81aa0df92fec88eb0d5fc8cf3b5caeb879f1e046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c66e3af1_e0756b05",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-23T17:43:20Z",
+      "side": 1,
+      "message": "I really like the way you structured the implementation of the deserialize() method (e.g. a stream which maps proto to ExternalId; a dedicated method for the mapping of ExternalId objects; separation of the mapping for the AllExternalIds object from the mapping for ExternalId objects). Could we structure the serialize() method similarly?",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 27
+      },
+      "revId": "81aa0df92fec88eb0d5fc8cf3b5caeb879f1e046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26b84864_d44b8fd6",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-23T17:43:20Z",
+      "side": 1,
+      "message": "Should we document that disk storage is disabled by default for the ExternalId cache as we did for the ChangeNotes cache (I1ffe15fe)?",
+      "range": {
+        "startLine": 37,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 22
+      },
+      "revId": "81aa0df92fec88eb0d5fc8cf3b5caeb879f1e046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6adbe3b_72cea99d",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/AllExternalIdsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-23T17:43:20Z",
+      "side": 1,
+      "message": "optional: It\u0027s not important but is there any reason to switch to ListMultimap here? I also see that we aren\u0027t consistent in the implementation either. Since we are kind of bothered about the memory usage of AllExternalIds, I\u0027m kind of wondering why we don\u0027t try to reduce the number of copies we need to make (e.g. by directly creating UnmodifiableSetMultimap and passing that around).",
+      "range": {
+        "startLine": 131,
+        "startChar": 43,
+        "endLine": 131,
+        "endChar": 66
+      },
+      "revId": "81aa0df92fec88eb0d5fc8cf3b5caeb879f1e046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -723,8 +723,8 @@ maven_jar(
 
 maven_jar(
     name = "cglib-3_2",
-    artifact = "cglib:cglib-nodep:3.2.0",
-    sha1 = "cf1ca207c15b04ace918270b6cb3f5601160cdfd",
+    artifact = "cglib:cglib-nodep:3.2.6",
+    sha1 = "92bf48723d277d6efd1150b2f7e9e1e92cb56caf",
 )
 
 maven_jar(

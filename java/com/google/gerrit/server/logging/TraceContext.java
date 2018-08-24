@@ -18,13 +18,33 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.util.RequestId;
+import java.util.function.Consumer;
 
 public class TraceContext implements AutoCloseable {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static final TraceContext DISABLED = new TraceContext();
 
   public static TraceContext open() {
     return new TraceContext();
+  }
+
+  public static <T> void invokeExtensionPoint(DynamicSet<T> dynamicSet, Consumer<T> c) {
+    dynamicSet
+        .entryIterator()
+        .forEachRemaining(
+            entry -> {
+              T t = entry.getProvider().get();
+              try (TraceContext traceContext = open().addTag("PLUGIN", entry.getPluginName())) {
+                c.accept(t);
+              } catch (RuntimeException e) {
+                logger.atWarning().withCause(e).log(
+                    "Failure in %s of plugin %s", t.getClass(), entry.getPluginName());
+              }
+            });
   }
 
   // Table<TAG_NAME, TAG_VALUE, REMOVE_ON_CLOSE>

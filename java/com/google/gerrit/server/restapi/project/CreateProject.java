@@ -59,6 +59,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectCache;
@@ -391,13 +392,7 @@ public class CreateProject
     }
 
     Event event = new Event(name, head);
-    for (NewProjectCreatedListener l : createdListeners) {
-      try {
-        l.onNewProjectCreated(event);
-      } catch (RuntimeException e) {
-        logger.atWarning().withCause(e).log("Failure in NewProjectCreatedListener");
-      }
-    }
+    TraceContext.invokeExtensionPoint(createdListeners, l -> l.onNewProjectCreated(event));
   }
 
   static class Event extends AbstractNoNotifyEvent implements NewProjectCreatedListener.Event {

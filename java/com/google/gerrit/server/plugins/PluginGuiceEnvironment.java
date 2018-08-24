@@ -281,7 +281,8 @@ public class PluginGuiceEnvironment {
 
   private void attachSet(
       Map<TypeLiteral<?>, DynamicSet<?>> sets, @Nullable Injector src, Plugin plugin) {
-    for (RegistrationHandle h : PrivateInternals_DynamicTypes.attachSets(src, sets)) {
+    for (RegistrationHandle h :
+        PrivateInternals_DynamicTypes.attachSets(src, plugin.getName(), sets)) {
       plugin.add(h);
     }
   }
@@ -434,7 +435,7 @@ public class PluginGuiceEnvironment {
           oi.remove();
           replace(newPlugin, h2, b);
         } else {
-          newPlugin.add(set.add(b.getKey(), b.getProvider()));
+          newPlugin.add(set.add(newPlugin.getName(), b.getKey(), b.getProvider()));
         }
       }
     }

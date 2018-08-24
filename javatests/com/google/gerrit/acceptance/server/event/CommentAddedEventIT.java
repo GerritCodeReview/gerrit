@@ -76,6 +76,7 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
 
     eventListenerRegistration =
         source.add(
+            "gerrit",
             new CommentAddedListener() {
               @Override
               public void onCommentAdded(Event event) {

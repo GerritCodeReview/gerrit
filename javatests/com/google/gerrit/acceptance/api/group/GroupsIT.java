@@ -1298,7 +1298,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
     GroupIndexedCounter groupIndexedCounter = new GroupIndexedCounter();
     RegistrationHandle groupIndexEventCounterHandle =
-        groupIndexedListeners.add(groupIndexedCounter);
+        groupIndexedListeners.add("gerrit", groupIndexedCounter);
     try {
       // Running the reindexer right after startup should not need to reindex any group since
       // reindexing was already done on startup.
@@ -1355,7 +1355,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
     GroupIndexedCounter groupIndexedCounter = new GroupIndexedCounter();
     RegistrationHandle groupIndexEventCounterHandle =
-        groupIndexedListeners.add(groupIndexedCounter);
+        groupIndexedListeners.add("gerrit", groupIndexedCounter);
     try {
       // No group indexing happened on startup. All groups should be reindexed now.
       slaveGroupIndexer.run();

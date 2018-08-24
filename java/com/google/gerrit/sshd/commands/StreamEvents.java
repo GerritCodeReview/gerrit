@@ -151,6 +151,7 @@ final class StreamEvents extends BaseCommand {
     stdout = toPrintWriter(out);
     eventListenerRegistration =
         eventListeners.add(
+            "gerrit",
             new UserScopedEventListener() {
               @Override
               public void onEvent(Event event) {

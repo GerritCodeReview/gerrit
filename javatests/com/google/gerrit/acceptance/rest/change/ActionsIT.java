@@ -331,7 +331,7 @@ public class ActionsIT extends AbstractDaemonTest {
     assertThat(origActions.get("abandon").label).isEqualTo("Abandon");
 
     Visitor v = new Visitor();
-    visitorHandle = actionVisitors.add(v);
+    visitorHandle = actionVisitors.add("gerrit", v);
 
     Map<String, ActionInfo> newActions =
         gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS)).actions;
@@ -380,7 +380,7 @@ public class ActionsIT extends AbstractDaemonTest {
     assertThat(origActions.get("rebase").label).isEqualTo("Rebase");
 
     Visitor v = new Visitor();
-    visitorHandle = actionVisitors.add(v);
+    visitorHandle = actionVisitors.add("gerrit", v);
 
     // Test different codepaths within ActionJson...
     // ...via revision API.
@@ -443,7 +443,7 @@ public class ActionsIT extends AbstractDaemonTest {
     assertThat(origActions.get("description").label).isEqualTo("Edit Description");
 
     Visitor v = new Visitor();
-    visitorHandle = actionVisitors.add(v);
+    visitorHandle = actionVisitors.add("gerrit", v);
 
     // Unlike for the current revision, actions for old revisions are only available via the
     // revision API.

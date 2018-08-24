@@ -76,7 +76,7 @@ public abstract class AllRequestFilter implements Filter {
         // synchronized.
         if (!initializedFilters.contains(filter)) {
           filter.init(filterConfig);
-          initializedFilters.add(filter);
+          initializedFilters.add("gerrit", filter);
         }
       } else {
         ret = false;
@@ -89,7 +89,7 @@ public abstract class AllRequestFilter implements Filter {
       initializedFilters = new DynamicSet<>();
       for (AllRequestFilter filter : filtersToCleanUp) {
         if (filters.contains(filter)) {
-          initializedFilters.add(filter);
+          initializedFilters.add("gerrit", filter);
         } else {
           filter.destroy();
         }

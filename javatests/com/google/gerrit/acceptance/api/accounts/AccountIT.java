@@ -230,7 +230,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Before
   public void addAccountIndexEventCounter() {
     accountIndexedCounter = new AccountIndexedCounter();
-    accountIndexEventCounterHandle = accountIndexedListeners.add(accountIndexedCounter);
+    accountIndexEventCounterHandle = accountIndexedListeners.add("gerrit", accountIndexedCounter);
   }
 
   @After
@@ -243,7 +243,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Before
   public void addRefUpdateCounter() {
     refUpdateCounter = new RefUpdateCounter();
-    refUpdateCounterHandle = refUpdateListeners.add(refUpdateCounter);
+    refUpdateCounterHandle = refUpdateListeners.add("gerrit", refUpdateCounter);
   }
 
   @After
@@ -532,6 +532,7 @@ public class AccountIT extends AbstractDaemonTest {
         accountOperations.newAccount().preferredEmail("foo@deactivatable.com").create();
     RegistrationHandle registrationHandle =
         accountActivationValidationListeners.add(
+            "gerrit",
             new AccountActivationValidationListener() {
               @Override
               public void validateActivation(AccountState account) throws ValidationException {

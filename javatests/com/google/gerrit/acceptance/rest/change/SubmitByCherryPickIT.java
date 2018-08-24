@@ -97,6 +97,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     PushOneCommit.Result change = createChange();
     RegistrationHandle handle =
         changeMessageModifiers.add(
+            "gerrit",
             new ChangeMessageModifier() {
               @Override
               public String onSubmit(

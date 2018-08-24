@@ -50,7 +50,7 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
   @Before
   public void addChangeIndexedCounter() {
     changeIndexedCounter = new ChangeIndexedCounter();
-    changeIndexedCounterHandle = changeIndexedListeners.add(changeIndexedCounter);
+    changeIndexedCounterHandle = changeIndexedListeners.add("gerrit", changeIndexedCounter);
   }
 
   @After

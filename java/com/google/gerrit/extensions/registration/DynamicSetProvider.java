@@ -38,16 +38,17 @@ class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
     return new DynamicSet<>(find(injector, type));
   }
 
-  private static <T> List<AtomicReference<Provider<T>>> find(Injector src, TypeLiteral<T> type) {
+  private static <T> List<AtomicReference<NamedProvider<T>>> find(
+      Injector src, TypeLiteral<T> type) {
     List<Binding<T>> bindings = src.findBindingsByType(type);
     int cnt = bindings != null ? bindings.size() : 0;
     if (cnt == 0) {
       return Collections.emptyList();
     }
-    List<AtomicReference<Provider<T>>> r = new ArrayList<>(cnt);
+    List<AtomicReference<NamedProvider<T>>> r = new ArrayList<>(cnt);
     for (Binding<T> b : bindings) {
       if (b.getKey().getAnnotation() != null) {
-        r.add(new AtomicReference<>(b.getProvider()));
+        r.add(new AtomicReference<>(new NamedProvider<>(b.getProvider(), "gerrit")));
       }
     }
     return r;

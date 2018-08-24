@@ -14,11 +14,12 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.SubmitRule;
@@ -29,7 +30,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Evaluates a submit-like Prolog rule found in the rules.pl file of the current project and filters
@@ -42,7 +42,7 @@ public class SubmitRuleEvaluator {
 
   private final ProjectCache projectCache;
   private final PrologRule prologRule;
-  private final DynamicSet<SubmitRule> submitRules;
+  private final PluginSetContext<SubmitRule> submitRules;
   private final SubmitRuleOptions opts;
 
   public interface Factory {
@@ -54,7 +54,7 @@ public class SubmitRuleEvaluator {
   private SubmitRuleEvaluator(
       ProjectCache projectCache,
       PrologRule prologRule,
-      DynamicSet<SubmitRule> submitRules,
+      PluginSetContext<SubmitRule> submitRules,
       @Assisted SubmitRuleOptions options) {
     this.projectCache = projectCache;
     this.prologRule = prologRule;
@@ -110,8 +110,8 @@ public class SubmitRuleEvaluator {
 
     // We evaluate all the plugin-defined evaluators,
     // and then we collect the results in one list.
-    return StreamSupport.stream(submitRules.spliterator(), false)
-        .map(s -> s.evaluate(cd, opts))
+    return Streams.stream(submitRules)
+        .map(c -> c.call(s -> s.evaluate(cd, opts)))
         .flatMap(Collection::stream)
         .collect(Collectors.toList());
   }

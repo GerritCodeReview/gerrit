@@ -16,7 +16,6 @@ package com.google.gerrit.server.extensions.events;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -45,8 +44,6 @@ import java.util.Map;
 
 @Singleton
 public class EventUtil {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private static final ImmutableSet<ListChangesOption> CHANGE_OPTIONS;
 
   static {
@@ -117,23 +114,5 @@ public class EventUtil {
           ChangeJson.getApprovalInfo(accountState.getAccount().getId(), value, null, null, ts));
     }
     return result;
-  }
-
-  public void logEventListenerError(Object event, Object listener, Exception error) {
-    logger.atWarning().log(
-        "Error in event listener %s for event %s: %s - %s",
-        listener.getClass().getName(),
-        event.getClass().getName(),
-        error.getClass().getName(),
-        error.getMessage());
-    logger.atFine().withCause(error).log(
-        "Cause of error in event listener %s:", listener.getClass().getName());
-  }
-
-  public static void logEventListenerError(Object listener, Exception error) {
-    logger.atWarning().log(
-        "Error in event listener %s: %s", listener.getClass().getName(), error.getMessage());
-    logger.atFine().withCause(error).log(
-        "Cause of error in event listener %s", listener.getClass().getName());
   }
 }

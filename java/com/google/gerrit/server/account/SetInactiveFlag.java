@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.validators.AccountActivationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
@@ -35,13 +35,13 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class SetInactiveFlag {
-  private final DynamicSet<AccountActivationValidationListener>
+  private final PluginSetContext<AccountActivationValidationListener>
       accountActivationValidationListeners;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
   SetInactiveFlag(
-      DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners,
+      PluginSetContext<AccountActivationValidationListener> accountActivationValidationListeners,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.accountActivationValidationListeners = accountActivationValidationListeners;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -60,13 +60,12 @@ public class SetInactiveFlag {
               if (!a.getAccount().isActive()) {
                 alreadyInactive.set(true);
               } else {
-                for (AccountActivationValidationListener l : accountActivationValidationListeners) {
-                  try {
-                    l.validateDeactivation(a);
-                  } catch (ValidationException e) {
-                    exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
-                    return;
-                  }
+                try {
+                  accountActivationValidationListeners.runEach(
+                      l -> l.validateDeactivation(a), ValidationException.class);
+                } catch (ValidationException e) {
+                  exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
+                  return;
                 }
                 u.setActive(false);
               }
@@ -94,13 +93,12 @@ public class SetInactiveFlag {
               if (a.getAccount().isActive()) {
                 alreadyActive.set(true);
               } else {
-                for (AccountActivationValidationListener l : accountActivationValidationListeners) {
-                  try {
-                    l.validateActivation(a);
-                  } catch (ValidationException e) {
-                    exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
-                    return;
-                  }
+                try {
+                  accountActivationValidationListeners.runEach(
+                      l -> l.validateActivation(a), ValidationException.class);
+                } catch (ValidationException e) {
+                  exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
+                  return;
                 }
                 u.setActive(true);
               }

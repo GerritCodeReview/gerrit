@@ -18,12 +18,12 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -37,10 +37,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @Singleton
 public class IncludedIn {
   private final GitRepositoryManager repoManager;
-  private final DynamicSet<ExternalIncludedIn> externalIncludedIn;
+  private final PluginSetContext<ExternalIncludedIn> externalIncludedIn;
 
   @Inject
-  IncludedIn(GitRepositoryManager repoManager, DynamicSet<ExternalIncludedIn> externalIncludedIn) {
+  IncludedIn(
+      GitRepositoryManager repoManager, PluginSetContext<ExternalIncludedIn> externalIncludedIn) {
     this.repoManager = repoManager;
     this.externalIncludedIn = externalIncludedIn;
   }
@@ -61,13 +62,15 @@ public class IncludedIn {
 
       IncludedInResolver.Result d = IncludedInResolver.resolve(r, rw, rev);
       ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
-      for (ExternalIncludedIn ext : externalIncludedIn) {
-        ListMultimap<String, String> extIncludedIns =
-            ext.getIncludedIn(project.get(), rev.name(), d.tags(), d.branches());
-        if (extIncludedIns != null) {
-          external.putAll(extIncludedIns);
-        }
-      }
+      externalIncludedIn.runEach(
+          ext -> {
+            ListMultimap<String, String> extIncludedIns =
+                ext.getIncludedIn(project.get(), rev.name(), d.tags(), d.branches());
+            if (extIncludedIns != null) {
+              external.putAll(extIncludedIns);
+            }
+          });
+
       return new IncludedInInfo(
           d.branches(), d.tags(), (!external.isEmpty() ? external.asMap() : null));
     }

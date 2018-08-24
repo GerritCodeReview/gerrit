@@ -71,7 +71,6 @@ import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -130,6 +129,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -301,7 +301,7 @@ class ReceiveCommits {
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
-  private final DynamicSet<ReceivePackInitializer> initializers;
+  private final PluginSetContext<ReceivePackInitializer> initializers;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
   private final NotesMigration notesMigration;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -376,7 +376,7 @@ class ReceiveCommits {
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
       CreateRefControl createRefControl,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
-      DynamicSet<ReceivePackInitializer> initializers,
+      PluginSetContext<ReceivePackInitializer> initializers,
       MergedByPushOp.Factory mergedByPushOpFactory,
       NotesMigration notesMigration,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -472,9 +472,7 @@ class ReceiveCommits {
   }
 
   void init() {
-    for (ReceivePackInitializer i : initializers) {
-      i.init(projectState.getNameKey(), receivePack);
-    }
+    initializers.runEach(i -> i.init(projectState.getNameKey(), receivePack));
   }
 
   MessageSender getMessageSender() {

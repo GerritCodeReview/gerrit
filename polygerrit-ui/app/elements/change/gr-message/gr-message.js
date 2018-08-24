@@ -17,7 +17,8 @@
 (function() {
   'use strict';
 
-  const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+: /;
+  const PATCH_SET_PREFIX_PATTERN = /^Patch Set (\d)+:[ ]?/;
+  const COMMENTS_COUNT_PATTERN = /^\((\d+)( inline)? comments?\)$/;
   const LABEL_TITLE_SCORE_PATTERN = /^([A-Za-z0-9-]+)([+-]\d+)$/;
 
   Polymer({
@@ -101,10 +102,17 @@
         type: Boolean,
         value: false,
       },
+
+      _parsedPatchNum: String,
+      _parsedCommentCount: String,
+      _parsedVotes: Array,
+      _parsedChangeMessage: String,
+      _successfulParse: Boolean,
     },
 
     observers: [
       '_updateExpandedClass(message.expanded)',
+      '_consumeMessage(message.message)',
     ],
 
     ready() {
@@ -184,19 +192,6 @@
       return event.type === 'REVIEWER_UPDATE';
     },
 
-    _getScores(message) {
-      if (!message.message) { return []; }
-      const line = message.message.split('\n', 1)[0];
-      const patchSetPrefix = PATCH_SET_PREFIX_PATTERN;
-      if (!line.match(patchSetPrefix)) { return []; }
-      const scoresRaw = line.split(patchSetPrefix)[1];
-      if (!scoresRaw) { return []; }
-      return scoresRaw.split(' ')
-          .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
-          .filter(ms => ms && ms.length === 3)
-          .map(ms => ({label: ms[1], value: ms[2]}));
-    },
-
     _computeScoreClass(score, labelExtremes) {
       const classes = [];
       if (score.value > 0) {
@@ -259,6 +254,74 @@
     _toggleExpanded(e) {
       e.stopPropagation();
       this.set('message.expanded', !this.message.expanded);
+    },
+
+    /**
+     * Attempts to consume a change message to create a shorter and more legible
+     * format. If the function encounters unexpected characters at any point, it
+     * sets the _successfulParse flag to false and terminates, causing the UI to
+     * fall back to displaying the entirety of the change message.
+     *
+     * A successful parse results in a one-liner that reads:
+     * `${AVATAR} voted ${VOTES} and left ${NUM} comment(s) on ${PATCHSET}`
+     *
+     * @param {string} text
+     */
+    _consumeMessage(text) {
+      this._parsedPatchNum = '';
+      this._parsedCommentCount = '';
+      this._parsedChangeMessage = '';
+      this._parsedVotes = [];
+      if (!text) {
+        // No message body means nothing to parse.
+        this._successfulParse = false;
+        return;
+      }
+      const lines = text.split('\n');
+      const messageLines = lines.shift().split(PATCH_SET_PREFIX_PATTERN);
+      if (!messageLines[1]) {
+        // Message is in an unexpected format.
+        this._successfulParse = false;
+        return;
+      }
+      this._parsedPatchNum = messageLines[1];
+      if (messageLines[2]) {
+        // Content after the colon is always vote information. If it is in the
+        // most up to date schema, parse it. Otherwise, cancel the parsing
+        // completely.
+        let match;
+        for (const score of messageLines[2].split(' ')) {
+          match = score.match(LABEL_TITLE_SCORE_PATTERN);
+          if (!match || match.length !== 3) {
+            this._successfulParse = false;
+            return;
+          }
+          this._parsedVotes.push({label: match[1], value: match[2]});
+        }
+      }
+      // Remove empty line.
+      lines.shift();
+      if (lines.length) {
+        const commentMatch = lines[0].match(COMMENTS_COUNT_PATTERN);
+        if (commentMatch) {
+          this._parsedCommentCount = commentMatch[1];
+          // Remove comment line and the following empty line.
+          lines.splice(0, 2);
+        }
+        this._parsedChangeMessage = lines.join('\n');
+      }
+      this._successfulParse = true;
+    },
+
+    _computeConversationalString(votes, patchNum, commentCount) {
+      let clause = ' on Patch Set ' + patchNum;
+      if (commentCount) {
+        let commentStr = ' comment';
+        if (parseInt(commentCount, 10) > 1) { commentStr += 's'; }
+        clause = ' left ' + commentCount + commentStr + clause;
+        if (votes.length) { clause = ' and' + clause; }
+      }
+      return clause;
     },
   });
 })();

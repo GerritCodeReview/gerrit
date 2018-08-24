@@ -169,7 +169,9 @@ limitations under the License.
         author: {},
         expanded: false,
         message: 'Patch Set 1: Verified+1 Code-Review-2 Trybot-Ready+1',
+        _revision_number: 1,
       };
+      element.comments = {};
       element.labelExtremes = {
         'Verified': {max: 1, min: -1},
         'Code-Review': {max: 2, min: -2},
@@ -198,6 +200,146 @@ limitations under the License.
       element.labelExtremes = {};
       const scoreChips = Polymer.dom(element.root).querySelectorAll('.score');
       assert.equal(scoreChips.length, 0);
+    });
+
+    suite('_consumeMessage', () => {
+      const assertConsumeFailed = str => {
+        element._consumeMessage(str);
+        assert.isFalse(element._successfulParse);
+      };
+
+      test('no message body', () => {
+        assertConsumeFailed('');
+      });
+
+      test('known old schema', () => {
+        const str = 'Patch Set 1: Looks good to me, approved; Verified';
+        assertConsumeFailed(str);
+      });
+
+      test('known old schema 2', () => {
+        const str = [
+          'Patch Set 2: Looks good to me',
+          '',
+          'Patch set 2 compiles, and runs as expected.',
+        ].join('\n');
+        assertConsumeFailed(str);
+      });
+
+      test('known old schema 3', () => {
+        const str = 'Patch Set 2: (1 inline comment)';
+        assertConsumeFailed(str);
+      });
+
+      test('known old schema 4', () => {
+        const str = [
+          'Patch Set 2: Looks good to me',
+          '',
+          '(1 inline comment)',
+        ].join('\n');
+        assertConsumeFailed(str);
+      });
+
+      test('just change message', () => {
+        const str = [
+          'Patch Set 2:',
+          '',
+          'I think you should reconsider this approach.',
+          'It really makes no sense.',
+        ].join('\n');
+
+        element._consumeMessage(str);
+
+        assert.isTrue(element._successfulParse);
+        assert.equal(element._parsedPatchNum, '2');
+        assert.equal(element._parsedCommentCount, '');
+        assert.deepEqual(element._parsedVotes, []);
+        assert.equal(element._parsedChangeMessage, [
+          'I think you should reconsider this approach.',
+          'It really makes no sense.',
+        ].join('\n'));
+      });
+
+      test('just votes', () => {
+        element._consumeMessage('Patch Set 2: Code-Review-Label+1 Verified+1');
+
+        assert.isTrue(element._successfulParse);
+        assert.equal(element._parsedPatchNum, '2');
+        assert.equal(element._parsedCommentCount, '');
+        assert.deepEqual(element._parsedVotes, [
+          {label: 'Code-Review-Label', value: '+1'},
+          {label: 'Verified', value: '+1'},
+        ]);
+        assert.equal(element._parsedChangeMessage, '');
+      });
+
+      test('just comments', () => {
+        const str = [
+          'Patch Set 2:',
+          '',
+          '(8 comments)',
+        ].join('\n');
+
+        element._consumeMessage(str);
+
+        assert.isTrue(element._successfulParse);
+        assert.equal(element._parsedPatchNum, '2');
+        assert.equal(element._parsedCommentCount, '8');
+        assert.deepEqual(element._parsedVotes, []);
+        assert.equal(element._parsedChangeMessage, '');
+      });
+
+      test('vote with comments and change message', () => {
+        const str = [
+          'Patch Set 2: Code-Review-Label+1 Verified+1',
+          '',
+          '(1 comment)',
+          '',
+          'LGTM',
+          '',
+          'Nice work, just one nit.',
+        ].join('\n');
+
+        element._consumeMessage(str);
+
+        assert.isTrue(element._successfulParse);
+        assert.equal(element._parsedPatchNum, '2');
+        assert.equal(element._parsedCommentCount, '1');
+        assert.deepEqual(element._parsedVotes, [
+          {label: 'Code-Review-Label', value: '+1'},
+          {label: 'Verified', value: '+1'},
+        ]);
+        assert.equal(element._parsedChangeMessage, [
+          'LGTM',
+          '',
+          'Nice work, just one nit.',
+        ].join('\n'));
+      });
+
+      test('vote with change message', () => {
+        const str = [
+          'Patch Set 2: Code-Review-Label+2 Verified+1',
+          '',
+          'LGTM',
+          '',
+          'Nice work.',
+        ].join('\n');
+
+        element._consumeMessage(str);
+
+        assert.isTrue(element._successfulParse);
+        assert.equal(element._parsedPatchNum, '2');
+        assert.equal(element._parsedCommentCount, '');
+        assert.deepEqual(element._parsedVotes, [
+          {label: 'Code-Review-Label', value: '+2'},
+          {label: 'Verified', value: '+1'},
+        ]);
+        assert.equal(element._parsedChangeMessage, [
+          'LGTM',
+          '',
+          'Nice work.',
+        ].join('\n'));
+      });
     });
   });
 </script>

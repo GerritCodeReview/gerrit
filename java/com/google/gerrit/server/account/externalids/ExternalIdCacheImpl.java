@@ -16,9 +16,8 @@ package com.google.gerrit.server.account.externalids;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
@@ -121,17 +120,17 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   private void updateCache(
       ObjectId oldNotesRev,
       ObjectId newNotesRev,
-      Consumer<Multimap<Account.Id, ExternalId>> update) {
+      Consumer<SetMultimap<Account.Id, ExternalId>> update) {
     lock.lock();
     try {
-      ListMultimap<Account.Id, ExternalId> m;
+      SetMultimap<Account.Id, ExternalId> m;
       if (!ObjectId.zeroId().equals(oldNotesRev)) {
         m =
             MultimapBuilder.hashKeys()
-                .arrayListValues()
+                .hashSetValues()
                 .build(extIdsByAccount.get(oldNotesRev).byAccount());
       } else {
-        m = MultimapBuilder.hashKeys().arrayListValues().build();
+        m = MultimapBuilder.hashKeys().hashSetValues().build();
       }
       update.accept(m);
       extIdsByAccount.put(newNotesRev, AllExternalIds.create(m));
@@ -153,13 +152,9 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     @Override
     public AllExternalIds load(ObjectId notesRev) throws Exception {
       logger.atFine().log("Loading external IDs (revision=%s)", notesRev);
-      Multimap<Account.Id, ExternalId> extIdsByAccount =
-          MultimapBuilder.hashKeys().arrayListValues().build();
-      for (ExternalId extId : externalIdReader.all(notesRev)) {
-        extId.checkThatBlobIdIsSet();
-        extIdsByAccount.put(extId.accountId(), extId);
-      }
-      return AllExternalIds.create(extIdsByAccount);
+      ImmutableSet<ExternalId> externalIds = externalIdReader.all(notesRev);
+      externalIds.forEach(ExternalId::checkThatBlobIdIsSet);
+      return AllExternalIds.create(externalIds);
     }
   }
 }

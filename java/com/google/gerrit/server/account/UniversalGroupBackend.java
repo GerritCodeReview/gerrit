@@ -32,6 +32,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StartupCheck;
 import com.google.gerrit.server.StartupException;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -88,9 +89,7 @@ public class UniversalGroupBackend implements GroupBackend {
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
     Set<GroupReference> groups = Sets.newTreeSet(GROUP_REF_NAME_COMPARATOR);
-    for (GroupBackend g : backends) {
-      groups.addAll(g.suggest(name, project));
-    }
+    PluginContext.invokeIgnoreExceptions(backends, g -> groups.addAll(g.suggest(name, project)));
     return groups;
   }
 
@@ -104,9 +103,7 @@ public class UniversalGroupBackend implements GroupBackend {
 
     private UniversalGroupMembership(IdentifiedUser user) {
       ImmutableMap.Builder<GroupBackend, GroupMembership> builder = ImmutableMap.builder();
-      for (GroupBackend g : backends) {
-        builder.put(g, g.membershipsOf(user));
-      }
+      PluginContext.invokeIgnoreExceptions(backends, g -> builder.put(g, g.membershipsOf(user)));
       this.memberships = builder.build();
     }
 

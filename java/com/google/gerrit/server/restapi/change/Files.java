@@ -43,6 +43,8 @@ import com.google.gerrit.server.change.FileInfoJson;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -235,8 +237,10 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
       Account.Id userId = user.getAccountId();
       PatchSet patchSetId = resource.getPatchSet();
-      Optional<PatchSetWithReviewedFiles> o =
-          accountPatchReviewStore.get().findReviewed(patchSetId.getId(), userId);
+      Optional<PatchSetWithReviewedFiles> o;
+      try (TraceContext traceContext = PluginContext.newTrace(accountPatchReviewStore)) {
+        o = accountPatchReviewStore.get().findReviewed(patchSetId.getId(), userId);
+      }
 
       if (o.isPresent()) {
         PatchSetWithReviewedFiles res = o.get();
@@ -317,9 +321,11 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
             pathList.add(path);
           }
         }
-        accountPatchReviewStore
-            .get()
-            .markReviewed(resource.getPatchSet().getId(), userId, pathList);
+        try (TraceContext traceContext = PluginContext.newTrace(accountPatchReviewStore)) {
+          accountPatchReviewStore
+              .get()
+              .markReviewed(resource.getPatchSet().getId(), userId, pathList);
+        }
         return pathList;
       }
     }

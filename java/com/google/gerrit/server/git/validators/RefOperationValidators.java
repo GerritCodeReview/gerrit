@@ -25,6 +25,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.events.RefReceivedEvent;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -75,12 +77,14 @@ public class RefOperationValidators {
   public List<ValidationMessage> validateForRefOperation() throws RefOperationValidationException {
     List<ValidationMessage> messages = new ArrayList<>();
     boolean withException = false;
-    List<RefOperationValidationListener> listeners = new ArrayList<>();
-    listeners.add(new DisallowCreationAndDeletionOfUserBranches(perm, allUsersName));
-    refOperationValidationListeners.forEach(listeners::add);
     try {
-      for (RefOperationValidationListener listener : listeners) {
-        messages.addAll(listener.onRefOperation(event));
+      messages.addAll(
+          new DisallowCreationAndDeletionOfUserBranches(perm, allUsersName).onRefOperation(event));
+      for (DynamicSet.Entry<RefOperationValidationListener> entry :
+          refOperationValidationListeners.entries()) {
+        try (TraceContext pluginContext = PluginContext.newTrace(entry)) {
+          messages.addAll(entry.get().onRefOperation(event));
+        }
       }
     } catch (ValidationException e) {
       messages.add(new ValidationMessage(e.getMessage(), true));

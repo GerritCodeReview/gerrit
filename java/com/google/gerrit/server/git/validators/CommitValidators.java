@@ -48,6 +48,8 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -478,9 +480,9 @@ public class CommitValidators {
         throws CommitValidationException {
       List<CommitValidationMessage> messages = new ArrayList<>();
 
-      for (CommitValidationListener validator : commitValidationListeners) {
-        try {
-          messages.addAll(validator.onCommitReceived(receiveEvent));
+      for (DynamicSet.Entry<CommitValidationListener> entry : commitValidationListeners.entries()) {
+        try (TraceContext pluginContext = PluginContext.newTrace(entry)) {
+          messages.addAll(entry.get().onCommitReceived(receiveEvent));
         } catch (CommitValidationException e) {
           messages.addAll(e.getMessages());
           throw new CommitValidationException(e.getMessage(), messages);

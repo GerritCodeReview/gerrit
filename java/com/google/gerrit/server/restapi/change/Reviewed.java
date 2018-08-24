@@ -20,6 +20,8 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.change.FileResource;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -37,15 +39,17 @@ public class Reviewed {
 
     @Override
     public Response<String> apply(FileResource resource, Input input) throws OrmException {
-      if (accountPatchReviewStore
-          .get()
-          .markReviewed(
-              resource.getPatchKey().getParentKey(),
-              resource.getAccountId(),
-              resource.getPatchKey().getFileName())) {
-        return Response.created("");
+      boolean reviewFlagUpdated;
+      try (TraceContext traceContext = PluginContext.newTrace(accountPatchReviewStore)) {
+        reviewFlagUpdated =
+            accountPatchReviewStore
+                .get()
+                .markReviewed(
+                    resource.getPatchKey().getParentKey(),
+                    resource.getAccountId(),
+                    resource.getPatchKey().getFileName());
       }
-      return Response.ok("");
+      return reviewFlagUpdated ? Response.created("") : Response.ok("");
     }
   }
 
@@ -60,12 +64,14 @@ public class Reviewed {
 
     @Override
     public Response<?> apply(FileResource resource, Input input) throws OrmException {
-      accountPatchReviewStore
-          .get()
-          .clearReviewed(
-              resource.getPatchKey().getParentKey(),
-              resource.getAccountId(),
-              resource.getPatchKey().getFileName());
+      try (TraceContext traceContext = PluginContext.newTrace(accountPatchReviewStore)) {
+        accountPatchReviewStore
+            .get()
+            .clearReviewed(
+                resource.getPatchKey().getParentKey(),
+                resource.getAccountId(),
+                resource.getPatchKey().getFileName());
+      }
       return Response.none();
     }
   }

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeRevertedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -44,13 +45,7 @@ public class ChangeReverted {
     }
     try {
       Event event = new Event(util.changeInfo(change), util.changeInfo(revertChange), when);
-      for (ChangeRevertedListener l : listeners) {
-        try {
-          l.onChangeReverted(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      PluginContext.invokeIgnoreExceptions(listeners, l -> l.onChangeReverted(event));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }

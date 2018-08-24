@@ -23,6 +23,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -103,9 +104,7 @@ public class GroupIndexerImpl implements GroupIndexer {
   }
 
   private void fireGroupIndexedEvent(String uuid) {
-    for (GroupIndexedListener listener : indexedListener) {
-      listener.onGroupIndexed(uuid);
-    }
+    PluginContext.invokeIgnoreExceptions(indexedListener, l -> l.onGroupIndexed(uuid));
   }
 
   private Collection<GroupIndex> getWriteIndexes() {

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.index.change;
 
-import static com.google.gerrit.server.extensions.events.EventUtil.logEventListenerError;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.flogger.FluentLogger;
@@ -33,6 +32,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -220,23 +220,11 @@ public class ChangeIndexer {
   }
 
   private void fireChangeIndexedEvent(String projectName, int id) {
-    for (ChangeIndexedListener listener : indexedListeners) {
-      try {
-        listener.onChangeIndexed(projectName, id);
-      } catch (Exception e) {
-        logEventListenerError(listener, e);
-      }
-    }
+    PluginContext.invokeIgnoreExceptions(indexedListeners, l -> l.onChangeIndexed(projectName, id));
   }
 
   private void fireChangeDeletedFromIndexEvent(int id) {
-    for (ChangeIndexedListener listener : indexedListeners) {
-      try {
-        listener.onChangeDeleted(id);
-      } catch (Exception e) {
-        logEventListenerError(listener, e);
-      }
-    }
+    PluginContext.invokeIgnoreExceptions(indexedListeners, l -> l.onChangeDeleted(id));
   }
 
   /**

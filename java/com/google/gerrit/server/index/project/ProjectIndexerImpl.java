@@ -24,6 +24,7 @@ import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.assistedinject.Assisted;
@@ -87,9 +88,7 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   }
 
   private void fireProjectIndexedEvent(String name) {
-    for (ProjectIndexedListener listener : indexedListener) {
-      listener.onProjectIndexed(name);
-    }
+    PluginContext.invokeIgnoreExceptions(indexedListener, l -> l.onProjectIndexed(name));
   }
 
   private Collection<ProjectIndex> getWriteIndexes() {

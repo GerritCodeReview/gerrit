@@ -34,6 +34,24 @@
       "revId": "e51deb8e86d5ee4f07b6c4b4166160439801d123",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cae80ec7_97299880",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-24T22:11:00Z",
+      "side": 1,
+      "message": "(I realize that\u0027s what the commit message and the linked bug is asking, but in searching for the behavior I\u0027m supposed to replicate I realized that I can\u0027t actually replicate it)",
+      "parentUuid": "fbefb97a_978cd045",
+      "revId": "e51deb8e86d5ee4f07b6c4b4166160439801d123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

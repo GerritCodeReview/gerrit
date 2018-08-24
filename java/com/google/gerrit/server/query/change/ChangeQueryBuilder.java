@@ -31,6 +31,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.PluginEntry;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaUtil;
@@ -427,7 +428,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   private void setupDynamicOperators() {
-    for (DynamicMap.Entry<ChangeOperatorFactory> e : args.opFactories) {
+    for (PluginEntry<ChangeOperatorFactory> e : args.opFactories) {
       String name = e.getExportName() + "_" + e.getPluginName();
       opFactories.put(name, e.getProvider().get());
     }

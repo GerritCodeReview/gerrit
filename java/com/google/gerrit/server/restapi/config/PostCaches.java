@@ -20,6 +20,7 @@ import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.PluginEntry;
 import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -96,7 +97,7 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
   }
 
   private void flushAll() throws AuthException, PermissionBackendException {
-    for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+    for (PluginEntry<Cache<?, ?>> e : cacheMap) {
       CacheResource cacheResource =
           new CacheResource(e.getPluginName(), e.getExportName(), e.getProvider());
       if (FlushCache.WEB_SESSIONS.equals(cacheResource.getName())) {

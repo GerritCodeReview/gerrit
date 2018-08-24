@@ -34,7 +34,6 @@ import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ProblemInfo.Status;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -47,6 +46,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.PluginItemContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -107,7 +107,7 @@ public class ConsistencyChecker {
 
   private final ChangeNotes.Factory notesFactory;
   private final Accounts accounts;
-  private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
+  private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
   private final GitRepositoryManager repoManager;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
@@ -136,7 +136,7 @@ public class ConsistencyChecker {
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       ChangeNotes.Factory notesFactory,
       Accounts accounts,
-      DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
+      PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore,
       GitRepositoryManager repoManager,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
@@ -668,7 +668,7 @@ public class ConsistencyChecker {
         throws OrmException, PatchSetInfoNotAvailableException {
       // Delete dangling key references.
       ReviewDb db = BatchUpdateReviewDb.unwrap(ctx.getDb());
-      accountPatchReviewStore.get().clearReviewed(psId);
+      accountPatchReviewStore.run(s -> s.clearReviewed(psId), OrmException.class);
       db.changeMessages().delete(db.changeMessages().byChange(psId.getParentKey()));
       db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
       db.patchComments().delete(db.patchComments().byPatchSet(psId));

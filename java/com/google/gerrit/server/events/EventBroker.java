@@ -16,7 +16,6 @@ package com.google.gerrit.server.events;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -25,6 +24,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.logging.PluginSetContext;
+import com.google.gerrit.server.logging.PluginSetEntryContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -53,10 +54,10 @@ public class EventBroker implements EventDispatcher {
   }
 
   /** Listeners to receive changes as they happen (limited by visibility of user). */
-  protected final DynamicSet<UserScopedEventListener> listeners;
+  protected final PluginSetContext<UserScopedEventListener> listeners;
 
   /** Listeners to receive all changes as they happen. */
-  protected final DynamicSet<EventListener> unrestrictedListeners;
+  protected final PluginSetContext<EventListener> unrestrictedListeners;
 
   private final PermissionBackend permissionBackend;
   protected final ProjectCache projectCache;
@@ -67,8 +68,8 @@ public class EventBroker implements EventDispatcher {
 
   @Inject
   public EventBroker(
-      DynamicSet<UserScopedEventListener> listeners,
-      DynamicSet<EventListener> unrestrictedListeners,
+      PluginSetContext<UserScopedEventListener> listeners,
+      PluginSetContext<EventListener> unrestrictedListeners,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       ChangeNotes.Factory notesFactory,
@@ -104,25 +105,25 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected void fireEventForUnrestrictedListeners(Event event) {
-    for (EventListener listener : unrestrictedListeners) {
-      listener.onEvent(event);
-    }
+    unrestrictedListeners.runEach(l -> l.onEvent(event));
   }
 
   protected void fireEvent(Change change, ChangeEvent event)
       throws OrmException, PermissionBackendException {
-    for (UserScopedEventListener listener : listeners) {
-      if (isVisibleTo(change, listener.getUser())) {
-        listener.onEvent(event);
+    for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
+      CurrentUser user = c.call(l -> l.getUser());
+      if (isVisibleTo(change, user)) {
+        c.run(l -> l.onEvent(event));
       }
     }
     fireEventForUnrestrictedListeners(event);
   }
 
   protected void fireEvent(Project.NameKey project, ProjectEvent event) {
-    for (UserScopedEventListener listener : listeners) {
-      if (isVisibleTo(project, listener.getUser())) {
-        listener.onEvent(event);
+    for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
+      CurrentUser user = c.call(l -> l.getUser());
+      if (isVisibleTo(project, user)) {
+        c.run(l -> l.onEvent(event));
       }
     }
     fireEventForUnrestrictedListeners(event);
@@ -130,18 +131,20 @@ public class EventBroker implements EventDispatcher {
 
   protected void fireEvent(Branch.NameKey branchName, RefEvent event)
       throws PermissionBackendException {
-    for (UserScopedEventListener listener : listeners) {
-      if (isVisibleTo(branchName, listener.getUser())) {
-        listener.onEvent(event);
+    for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
+      CurrentUser user = c.call(l -> l.getUser());
+      if (isVisibleTo(branchName, user)) {
+        c.run(l -> l.onEvent(event));
       }
     }
     fireEventForUnrestrictedListeners(event);
   }
 
   protected void fireEvent(Event event) throws OrmException, PermissionBackendException {
-    for (UserScopedEventListener listener : listeners) {
-      if (isVisibleTo(event, listener.getUser())) {
-        listener.onEvent(event);
+    for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
+      CurrentUser user = c.call(l -> l.getUser());
+      if (isVisibleTo(event, user)) {
+        c.run(l -> l.onEvent(event));
       }
     }
     fireEventForUnrestrictedListeners(event);

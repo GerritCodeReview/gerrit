@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -25,6 +24,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gerrit.server.mail.send.SetAssigneeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -45,7 +45,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
   }
 
   private final ChangeMessagesUtil cmUtil;
-  private final DynamicSet<AssigneeValidationListener> validationListeners;
+  private final PluginSetContext<AssigneeValidationListener> validationListeners;
   private final IdentifiedUser newAssignee;
   private final AssigneeChanged assigneeChanged;
   private final SetAssigneeSender.Factory setAssigneeSenderFactory;
@@ -58,7 +58,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
   @Inject
   SetAssigneeOp(
       ChangeMessagesUtil cmUtil,
-      DynamicSet<AssigneeValidationListener> validationListeners,
+      PluginSetContext<AssigneeValidationListener> validationListeners,
       AssigneeChanged assigneeChanged,
       SetAssigneeSender.Factory setAssigneeSenderFactory,
       Provider<IdentifiedUser> user,
@@ -80,11 +80,10 @@ public class SetAssigneeOp implements BatchUpdateOp {
       return false;
     }
     try {
-      for (AssigneeValidationListener validator : validationListeners) {
-        validator.validateAssignee(change, newAssignee.getAccount());
-      }
+      validationListeners.runEach(
+          l -> l.validateAssignee(change, newAssignee.getAccount()), ValidationException.class);
     } catch (ValidationException e) {
-      throw new ResourceConflictException(e.getMessage());
+      throw new ResourceConflictException(e.getMessage(), e);
     }
 
     if (change.getAssignee() != null) {

@@ -18,8 +18,8 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeRevertedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -29,28 +29,22 @@ import java.sql.Timestamp;
 public class ChangeReverted {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<ChangeRevertedListener> listeners;
+  private final PluginSetContext<ChangeRevertedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  ChangeReverted(DynamicSet<ChangeRevertedListener> listeners, EventUtil util) {
+  ChangeReverted(PluginSetContext<ChangeRevertedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
   public void fire(Change change, Change revertChange, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     try {
       Event event = new Event(util.changeInfo(change), util.changeInfo(revertChange), when);
-      for (ChangeRevertedListener l : listeners) {
-        try {
-          l.onChangeReverted(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      listeners.runEach(l -> l.onChangeReverted(event));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }

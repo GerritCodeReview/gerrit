@@ -15,11 +15,11 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.common.Input;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.change.FileResource;
+import com.google.gerrit.server.logging.PluginItemContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -28,44 +28,45 @@ public class Reviewed {
 
   @Singleton
   public static class PutReviewed implements RestModifyView<FileResource, Input> {
-    private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
+    private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
 
     @Inject
-    PutReviewed(DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
+    PutReviewed(PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore) {
       this.accountPatchReviewStore = accountPatchReviewStore;
     }
 
     @Override
     public Response<String> apply(FileResource resource, Input input) throws OrmException {
-      if (accountPatchReviewStore
-          .get()
-          .markReviewed(
-              resource.getPatchKey().getParentKey(),
-              resource.getAccountId(),
-              resource.getPatchKey().getFileName())) {
-        return Response.created("");
-      }
-      return Response.ok("");
+      boolean reviewFlagUpdated =
+          accountPatchReviewStore.call(
+              s ->
+                  s.markReviewed(
+                      resource.getPatchKey().getParentKey(),
+                      resource.getAccountId(),
+                      resource.getPatchKey().getFileName()),
+              OrmException.class);
+      return reviewFlagUpdated ? Response.created("") : Response.ok("");
     }
   }
 
   @Singleton
   public static class DeleteReviewed implements RestModifyView<FileResource, Input> {
-    private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
+    private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
 
     @Inject
-    DeleteReviewed(DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
+    DeleteReviewed(PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore) {
       this.accountPatchReviewStore = accountPatchReviewStore;
     }
 
     @Override
     public Response<?> apply(FileResource resource, Input input) throws OrmException {
-      accountPatchReviewStore
-          .get()
-          .clearReviewed(
-              resource.getPatchKey().getParentKey(),
-              resource.getAccountId(),
-              resource.getPatchKey().getFileName());
+      accountPatchReviewStore.run(
+          s ->
+              s.clearReviewed(
+                  resource.getPatchKey().getParentKey(),
+                  resource.getAccountId(),
+                  resource.getPatchKey().getFileName()),
+          OrmException.class);
       return Response.none();
     }
   }

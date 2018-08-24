@@ -17,9 +17,9 @@ package com.google.gerrit.server.extensions.events;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -57,11 +57,11 @@ public class GitReferenceUpdated {
             Project.NameKey project, BatchRefUpdate batchRefUpdate, AccountState updater) {}
       };
 
-  private final DynamicSet<GitReferenceUpdatedListener> listeners;
+  private final PluginSetContext<GitReferenceUpdatedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  GitReferenceUpdated(DynamicSet<GitReferenceUpdatedListener> listeners, EventUtil util) {
+  GitReferenceUpdated(PluginSetContext<GitReferenceUpdatedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
@@ -121,7 +121,7 @@ public class GitReferenceUpdated {
   }
 
   public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate, AccountState updater) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
@@ -144,19 +144,13 @@ public class GitReferenceUpdated {
       ObjectId newObjectId,
       ReceiveCommand.Type type,
       AccountInfo updater) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     ObjectId o = oldObjectId != null ? oldObjectId : ObjectId.zeroId();
     ObjectId n = newObjectId != null ? newObjectId : ObjectId.zeroId();
     Event event = new Event(project, ref, o.name(), n.name(), type, updater);
-    for (GitReferenceUpdatedListener l : listeners) {
-      try {
-        l.onGitReferenceUpdated(event);
-      } catch (Exception e) {
-        util.logEventListenerError(this, l, e);
-      }
-    }
+    listeners.runEach(l -> l.onGitReferenceUpdated(event));
   }
 
   public static class Event implements GitReferenceUpdatedListener.Event {

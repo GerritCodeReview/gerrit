@@ -28,7 +28,6 @@ import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -46,6 +45,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -88,7 +88,7 @@ public class CommitValidators {
   public static class Factory {
     private final PersonIdent gerritIdent;
     private final String canonicalWebUrl;
-    private final DynamicSet<CommitValidationListener> pluginValidators;
+    private final PluginSetContext<CommitValidationListener> pluginValidators;
     private final GitRepositoryManager repoManager;
     private final AllUsersName allUsers;
     private final AllProjectsName allProjects;
@@ -102,7 +102,7 @@ public class CommitValidators {
         @GerritPersonIdent PersonIdent gerritIdent,
         @CanonicalWebUrl @Nullable String canonicalWebUrl,
         @GerritServerConfig Config cfg,
-        DynamicSet<CommitValidationListener> pluginValidators,
+        PluginSetContext<CommitValidationListener> pluginValidators,
         GitRepositoryManager repoManager,
         AllUsersName allUsers,
         AllProjectsName allProjects,
@@ -468,10 +468,10 @@ public class CommitValidators {
 
   /** Execute commit validation plug-ins */
   public static class PluginCommitValidationListener implements CommitValidationListener {
-    private final DynamicSet<CommitValidationListener> commitValidationListeners;
+    private final PluginSetContext<CommitValidationListener> commitValidationListeners;
 
     public PluginCommitValidationListener(
-        final DynamicSet<CommitValidationListener> commitValidationListeners) {
+        final PluginSetContext<CommitValidationListener> commitValidationListeners) {
       this.commitValidationListeners = commitValidationListeners;
     }
 
@@ -479,14 +479,12 @@ public class CommitValidators {
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
       List<CommitValidationMessage> messages = new ArrayList<>();
-
-      for (CommitValidationListener validator : commitValidationListeners) {
-        try {
-          messages.addAll(validator.onCommitReceived(receiveEvent));
-        } catch (CommitValidationException e) {
-          messages.addAll(e.getMessages());
-          throw new CommitValidationException(e.getMessage(), messages);
-        }
+      try {
+        commitValidationListeners.runEach(
+            l -> l.onCommitReceived(receiveEvent), CommitValidationException.class);
+      } catch (CommitValidationException e) {
+        messages.addAll(e.getMessages());
+        throw new CommitValidationException(e.getMessage(), messages);
       }
       return messages;
     }

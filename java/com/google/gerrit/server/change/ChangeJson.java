@@ -88,6 +88,7 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.PluginEntry;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.query.QueryResult;
@@ -1471,7 +1472,7 @@ public class ChangeJson {
   private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in)
       throws PermissionBackendException, OrmException, IOException {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
-    for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
+    for (PluginEntry<DownloadScheme> e : downloadSchemes) {
       String schemeName = e.getExportName();
       DownloadScheme scheme = e.getProvider().get();
       if (!scheme.isEnabled()
@@ -1502,7 +1503,7 @@ public class ChangeJson {
       String projectName,
       String refName,
       FetchInfo fetchInfo) {
-    for (DynamicMap.Entry<DownloadCommand> e2 : commands) {
+    for (PluginEntry<DownloadCommand> e2 : commands) {
       String commandName = e2.getExportName();
       DownloadCommand command = e2.getProvider().get();
       String c = command.getCommand(scheme, projectName, refName);

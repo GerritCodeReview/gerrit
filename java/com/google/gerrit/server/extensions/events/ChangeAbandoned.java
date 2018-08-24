@@ -20,11 +20,11 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.ChangeAbandonedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -38,11 +38,11 @@ import java.sql.Timestamp;
 public class ChangeAbandoned {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<ChangeAbandonedListener> listeners;
+  private final PluginSetContext<ChangeAbandonedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  ChangeAbandoned(DynamicSet<ChangeAbandonedListener> listeners, EventUtil util) {
+  ChangeAbandoned(PluginSetContext<ChangeAbandonedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
@@ -54,7 +54,7 @@ public class ChangeAbandoned {
       String reason,
       Timestamp when,
       NotifyHandling notifyHandling) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     try {
@@ -66,13 +66,7 @@ public class ChangeAbandoned {
               reason,
               when,
               notifyHandling);
-      for (ChangeAbandonedListener l : listeners) {
-        try {
-          l.onChangeAbandoned(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      listeners.runEach(l -> l.onChangeAbandoned(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException

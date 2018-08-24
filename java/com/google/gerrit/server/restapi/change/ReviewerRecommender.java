@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -35,6 +34,7 @@ import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.SuggestedReviewer;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.logging.PluginMapContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -77,7 +77,7 @@ public class ReviewerRecommender {
 
   private final ChangeQueryBuilder changeQueryBuilder;
   private final Config config;
-  private final DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap;
+  private final PluginMapContext<ReviewerSuggestion> reviewerSuggestionPluginMap;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ExecutorService executor;
   private final Provider<ReviewDb> dbProvider;
@@ -86,7 +86,7 @@ public class ReviewerRecommender {
   @Inject
   ReviewerRecommender(
       ChangeQueryBuilder changeQueryBuilder,
-      DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap,
+      PluginMapContext<ReviewerSuggestion> reviewerSuggestionPluginMap,
       Provider<InternalChangeQuery> queryProvider,
       @FanOutExecutor ExecutorService executor,
       Provider<ReviewDb> dbProvider,
@@ -130,30 +130,30 @@ public class ReviewerRecommender {
         new ArrayList<>(reviewerSuggestionPluginMap.plugins().size());
     List<Double> weights = new ArrayList<>(reviewerSuggestionPluginMap.plugins().size());
 
-    for (DynamicMap.Entry<ReviewerSuggestion> plugin : reviewerSuggestionPluginMap) {
-      tasks.add(
-          () ->
-              plugin
-                  .getProvider()
-                  .get()
-                  .suggestReviewers(
-                      projectState.getNameKey(),
-                      changeNotes != null ? changeNotes.getChangeId() : null,
-                      query,
-                      reviewerScores.keySet()));
-      String key = plugin.getPluginName() + "-" + plugin.getExportName();
-      String pluginWeight = config.getString("addReviewer", key, "weight");
-      if (Strings.isNullOrEmpty(pluginWeight)) {
-        pluginWeight = "1";
-      }
-      logger.atFine().log("weight for %s: %s", key, pluginWeight);
-      try {
-        weights.add(Double.parseDouble(pluginWeight));
-      } catch (NumberFormatException e) {
-        logger.atSevere().withCause(e).log("Exception while parsing weight for %s", key);
-        weights.add(1d);
-      }
-    }
+    reviewerSuggestionPluginMap.runEach(
+        pluginEntry -> {
+          tasks.add(
+              () ->
+                  pluginEntry
+                      .get()
+                      .suggestReviewers(
+                          projectState.getNameKey(),
+                          changeNotes != null ? changeNotes.getChangeId() : null,
+                          query,
+                          reviewerScores.keySet()));
+          String key = pluginEntry.getPluginName() + "-" + pluginEntry.getExportName();
+          String pluginWeight = config.getString("addReviewer", key, "weight");
+          if (Strings.isNullOrEmpty(pluginWeight)) {
+            pluginWeight = "1";
+          }
+          logger.atFine().log("weight for %s: %s", key, pluginWeight);
+          try {
+            weights.add(Double.parseDouble(pluginWeight));
+          } catch (NumberFormatException e) {
+            logger.atSevere().withCause(e).log("Exception while parsing weight for %s", key);
+            weights.add(1d);
+          }
+        });
 
     try {
       List<Future<Set<SuggestedReviewer>>> futures =

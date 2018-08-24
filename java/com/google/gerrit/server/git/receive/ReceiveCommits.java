@@ -71,8 +71,7 @@ import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicMap.Entry;
-import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.PluginEntry;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -118,6 +117,7 @@ import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
@@ -303,7 +303,7 @@ class ReceiveCommits {
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
-  private final DynamicSet<ReceivePackInitializer> initializers;
+  private final PluginSetContext<ReceivePackInitializer> initializers;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
   private final NotesMigration notesMigration;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -379,7 +379,7 @@ class ReceiveCommits {
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
       CreateRefControl createRefControl,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
-      DynamicSet<ReceivePackInitializer> initializers,
+      PluginSetContext<ReceivePackInitializer> initializers,
       MergedByPushOp.Factory mergedByPushOpFactory,
       NotesMigration notesMigration,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -475,9 +475,7 @@ class ReceiveCommits {
   }
 
   void init() {
-    for (ReceivePackInitializer i : initializers) {
-      i.init(projectState.getNameKey(), receivePack);
-    }
+    initializers.runEach(i -> i.init(projectState.getNameKey(), receivePack));
   }
 
   MessageSender getMessageSender() {
@@ -1134,7 +1132,7 @@ class ReceiveCommits {
    * fails.
    */
   private void validatePluginConfig(ReceiveCommand cmd, ProjectConfig cfg) {
-    for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+    for (PluginEntry<ProjectConfigEntry> e : pluginConfigEntries) {
       PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
       ProjectConfigEntry configEntry = e.getProvider().get();
       String value = pluginCfg.getString(e.getExportName());

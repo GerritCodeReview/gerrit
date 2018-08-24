@@ -45,24 +45,6 @@ import java.util.concurrent.atomic.AtomicReference;
  * singleton and non-singleton members.
  */
 public class DynamicSet<T> implements Iterable<T> {
-  public static class Entry<T> {
-    private final String pluginName;
-    private final Provider<T> provider;
-
-    private Entry(String pluginName, Provider<T> provider) {
-      this.pluginName = pluginName;
-      this.provider = provider;
-    }
-
-    public String getPluginName() {
-      return pluginName;
-    }
-
-    public Provider<T> getProvider() {
-      return provider;
-    }
-  }
-
   /**
    * Declare a singleton {@code DynamicSet<T>} with a binder.
    *
@@ -153,12 +135,12 @@ public class DynamicSet<T> implements Iterable<T> {
   }
 
   public static <T> DynamicSet<T> emptySet() {
-    return new DynamicSet<>(Collections.<AtomicReference<NamedProvider<T>>>emptySet());
+    return new DynamicSet<>(Collections.<AtomicReference<PluginEntry<T>>>emptySet());
   }
 
-  private final CopyOnWriteArrayList<AtomicReference<NamedProvider<T>>> items;
+  private final CopyOnWriteArrayList<AtomicReference<PluginEntry<T>>> items;
 
-  DynamicSet(Collection<AtomicReference<NamedProvider<T>>> base) {
+  DynamicSet(Collection<AtomicReference<PluginEntry<T>>> base) {
     items = new CopyOnWriteArrayList<>(base);
   }
 
@@ -168,7 +150,7 @@ public class DynamicSet<T> implements Iterable<T> {
 
   @Override
   public Iterator<T> iterator() {
-    Iterator<Entry<T>> entryIterator = entries().iterator();
+    Iterator<PluginEntry<T>> entryIterator = entries().iterator();
     return new Iterator<T>() {
       @Override
       public boolean hasNext() {
@@ -177,39 +159,35 @@ public class DynamicSet<T> implements Iterable<T> {
 
       @Override
       public T next() {
-        Entry<T> next = entryIterator.next();
+        PluginEntry<T> next = entryIterator.next();
         return next != null ? next.getProvider().get() : null;
       }
     };
   }
 
-  public Iterable<Entry<T>> entries() {
-    final Iterator<AtomicReference<NamedProvider<T>>> itr = items.iterator();
-    return new Iterable<Entry<T>>() {
+  public Iterable<PluginEntry<T>> entries() {
+    final Iterator<AtomicReference<PluginEntry<T>>> itr = items.iterator();
+    return new Iterable<PluginEntry<T>>() {
       @Override
-      public Iterator<Entry<T>> iterator() {
-        return new Iterator<Entry<T>>() {
-          private Entry<T> next;
+      public Iterator<PluginEntry<T>> iterator() {
+        return new Iterator<PluginEntry<T>>() {
+          private PluginEntry<T> next;
 
           @Override
           public boolean hasNext() {
             while (next == null && itr.hasNext()) {
-              NamedProvider<T> p = itr.next().get();
+              PluginEntry<T> p = itr.next().get();
               if (p != null) {
-                try {
-                  next = new Entry<>(p.pluginName, p.impl);
-                } catch (RuntimeException e) {
-                  // TODO Log failed member of DynamicSet.
-                }
+                next = p;
               }
             }
             return next != null;
           }
 
           @Override
-          public Entry<T> next() {
+          public PluginEntry<T> next() {
             if (hasNext()) {
-              Entry<T> result = next;
+              PluginEntry<T> result = next;
               next = null;
               return result;
             }
@@ -250,7 +228,7 @@ public class DynamicSet<T> implements Iterable<T> {
   public ImmutableSortedSet<String> plugins() {
     return items
         .stream()
-        .map(i -> i.get().pluginName)
+        .map(i -> i.get().getPluginName())
         .collect(toImmutableSortedSet(naturalOrder()));
   }
 
@@ -263,8 +241,8 @@ public class DynamicSet<T> implements Iterable<T> {
   public ImmutableSet<Provider<T>> byPlugin(String pluginName) {
     return items
         .stream()
-        .filter(i -> i.get().pluginName.equals(pluginName))
-        .map(i -> i.get().impl)
+        .filter(i -> i.get().getPluginName().equals(pluginName))
+        .map(i -> i.get().getProvider())
         .collect(toImmutableSet());
   }
 
@@ -285,8 +263,8 @@ public class DynamicSet<T> implements Iterable<T> {
    * @return handle to remove the item at a later point in time.
    */
   public RegistrationHandle add(String pluginName, Provider<T> item) {
-    final AtomicReference<NamedProvider<T>> ref =
-        new AtomicReference<>(new NamedProvider<>(item, pluginName));
+    AtomicReference<PluginEntry<T>> ref =
+        new AtomicReference<>(new PluginEntry<>(pluginName, item));
     items.add(ref);
     return new RegistrationHandle() {
       @Override
@@ -310,18 +288,18 @@ public class DynamicSet<T> implements Iterable<T> {
    *     the collection.
    */
   public ReloadableRegistrationHandle<T> add(String pluginName, Key<T> key, Provider<T> item) {
-    AtomicReference<NamedProvider<T>> ref =
-        new AtomicReference<>(new NamedProvider<>(item, pluginName));
+    AtomicReference<PluginEntry<T>> ref =
+        new AtomicReference<>(new PluginEntry<>(pluginName, item));
     items.add(ref);
     return new ReloadableHandle(ref, key, ref.get());
   }
 
   private class ReloadableHandle implements ReloadableRegistrationHandle<T> {
-    private final AtomicReference<NamedProvider<T>> ref;
+    private final AtomicReference<PluginEntry<T>> ref;
     private final Key<T> key;
-    private final NamedProvider<T> item;
+    private final PluginEntry<T> item;
 
-    ReloadableHandle(AtomicReference<NamedProvider<T>> ref, Key<T> key, NamedProvider<T> item) {
+    ReloadableHandle(AtomicReference<PluginEntry<T>> ref, Key<T> key, PluginEntry<T> item) {
       this.ref = ref;
       this.key = key;
       this.item = item;
@@ -341,7 +319,7 @@ public class DynamicSet<T> implements Iterable<T> {
 
     @Override
     public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
-      NamedProvider<T> n = new NamedProvider<>(newItem, item.pluginName);
+      PluginEntry<T> n = new PluginEntry<>(item.getPluginName(), newItem);
       if (ref.compareAndSet(item, n)) {
         return new ReloadableHandle(ref, newKey, n);
       }

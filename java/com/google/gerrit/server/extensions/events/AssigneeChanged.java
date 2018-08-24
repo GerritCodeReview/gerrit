@@ -19,9 +19,9 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.AssigneeChangedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -31,18 +31,18 @@ import java.sql.Timestamp;
 public class AssigneeChanged {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<AssigneeChangedListener> listeners;
+  private final PluginSetContext<AssigneeChangedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  AssigneeChanged(DynamicSet<AssigneeChangedListener> listeners, EventUtil util) {
+  AssigneeChanged(PluginSetContext<AssigneeChangedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
   public void fire(
       Change change, AccountState accountState, AccountState oldAssignee, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     try {
@@ -52,13 +52,7 @@ public class AssigneeChanged {
               util.accountInfo(accountState),
               util.accountInfo(oldAssignee),
               when);
-      for (AssigneeChangedListener l : listeners) {
-        try {
-          l.onAssigneeChanged(event);
-        } catch (Exception e) {
-          util.logEventListenerError(event, l, e);
-        }
-      }
+      listeners.runEach(l -> l.onAssigneeChanged(event));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }

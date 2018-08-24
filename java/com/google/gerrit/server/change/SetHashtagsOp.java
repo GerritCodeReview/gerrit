@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -31,6 +30,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.HashtagsUtil.InvalidHashtagException;
 import com.google.gerrit.server.extensions.events.HashtagsEdited;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -54,7 +54,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
 
   private final NotesMigration notesMigration;
   private final ChangeMessagesUtil cmUtil;
-  private final DynamicSet<HashtagValidationListener> validationListeners;
+  private final PluginSetContext<HashtagValidationListener> validationListeners;
   private final HashtagsEdited hashtagsEdited;
   private final HashtagsInput input;
 
@@ -69,7 +69,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
   SetHashtagsOp(
       NotesMigration notesMigration,
       ChangeMessagesUtil cmUtil,
-      DynamicSet<HashtagValidationListener> validationListeners,
+      PluginSetContext<HashtagValidationListener> validationListeners,
       HashtagsEdited hashtagsEdited,
       @Assisted @Nullable HashtagsInput input) {
     this.notesMigration = notesMigration;
@@ -106,10 +106,8 @@ public class SetHashtagsOp implements BatchUpdateOp {
       toAdd = new HashSet<>(extractTags(input.add));
       toRemove = new HashSet<>(extractTags(input.remove));
 
-      for (HashtagValidationListener validator : validationListeners) {
-        validator.validateHashtags(update.getChange(), toAdd, toRemove);
-      }
-
+      validationListeners.runEach(
+          l -> l.validateHashtags(update.getChange(), toAdd, toRemove), ValidationException.class);
       updated.addAll(existingHashtags);
       toAdd.removeAll(existingHashtags);
       toRemove.retainAll(existingHashtags);
@@ -123,7 +121,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
       updatedHashtags = ImmutableSortedSet.copyOf(updated);
       return true;
     } catch (ValidationException | InvalidHashtagException e) {
-      throw new BadRequestException(e.getMessage());
+      throw new BadRequestException(e.getMessage(), e);
     }
   }
 

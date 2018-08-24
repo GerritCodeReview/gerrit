@@ -19,9 +19,9 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.TopicEditedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -31,29 +31,23 @@ import java.sql.Timestamp;
 public class TopicEdited {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<TopicEditedListener> listeners;
+  private final PluginSetContext<TopicEditedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  TopicEdited(DynamicSet<TopicEditedListener> listeners, EventUtil util) {
+  TopicEdited(PluginSetContext<TopicEditedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
   public void fire(Change change, AccountState account, String oldTopicName, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     try {
       Event event =
           new Event(util.changeInfo(change), util.accountInfo(account), oldTopicName, when);
-      for (TopicEditedListener l : listeners) {
-        try {
-          l.onTopicEdited(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      listeners.runEach(l -> l.onTopicEdited(event));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }

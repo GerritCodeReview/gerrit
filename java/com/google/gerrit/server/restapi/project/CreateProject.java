@@ -34,8 +34,6 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
-import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -59,6 +57,8 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.logging.PluginItemContext;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectCache;
@@ -98,10 +98,11 @@ public class CreateProject
 
   private final Provider<ProjectsCollection> projectsCollection;
   private final Provider<GroupsCollection> groupsCollection;
-  private final DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
+  private final PluginSetContext<ProjectCreationValidationListener>
+      projectCreationValidationListeners;
   private final ProjectJson json;
   private final GitRepositoryManager repoManager;
-  private final DynamicSet<NewProjectCreatedListener> createdListeners;
+  private final PluginSetContext<NewProjectCreatedListener> createdListeners;
   private final ProjectCache projectCache;
   private final GroupBackend groupBackend;
   private final ProjectOwnerGroupsProvider.Factory projectOwnerGroups;
@@ -113,16 +114,16 @@ public class CreateProject
   private final Provider<PutConfig> putConfig;
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
-  private final DynamicItem<ProjectNameLockManager> lockManager;
+  private final PluginItemContext<ProjectNameLockManager> lockManager;
 
   @Inject
   CreateProject(
       Provider<ProjectsCollection> projectsCollection,
       Provider<GroupsCollection> groupsCollection,
       ProjectJson json,
-      DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
+      PluginSetContext<ProjectCreationValidationListener> projectCreationValidationListeners,
       GitRepositoryManager repoManager,
-      DynamicSet<NewProjectCreatedListener> createdListeners,
+      PluginSetContext<NewProjectCreatedListener> createdListeners,
       ProjectCache projectCache,
       GroupBackend groupBackend,
       ProjectOwnerGroupsProvider.Factory projectOwnerGroups,
@@ -134,7 +135,7 @@ public class CreateProject
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
       AllUsersName allUsers,
-      DynamicItem<ProjectNameLockManager> lockManager) {
+      PluginItemContext<ProjectNameLockManager> lockManager) {
     this.projectsCollection = projectsCollection;
     this.groupsCollection = groupsCollection;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
@@ -209,15 +210,14 @@ public class CreateProject
       throw new BadRequestException(e.getMessage());
     }
 
-    Lock nameLock = lockManager.get().getLock(args.getProject());
+    Lock nameLock = lockManager.call(lockManager -> lockManager.getLock(args.getProject()));
     nameLock.lock();
     try {
-      for (ProjectCreationValidationListener l : projectCreationValidationListeners) {
-        try {
-          l.validateNewProject(args);
-        } catch (ValidationException e) {
-          throw new ResourceConflictException(e.getMessage(), e);
-        }
+      try {
+        projectCreationValidationListeners.runEach(
+            l -> l.validateNewProject(args), ValidationException.class);
+      } catch (ValidationException e) {
+        throw new ResourceConflictException(e.getMessage(), e);
       }
 
       ProjectState projectState = createProject(args);
@@ -386,18 +386,12 @@ public class CreateProject
   }
 
   private void fire(Project.NameKey name, String head) {
-    if (!createdListeners.iterator().hasNext()) {
+    if (createdListeners.isEmpty()) {
       return;
     }
 
     Event event = new Event(name, head);
-    for (NewProjectCreatedListener l : createdListeners) {
-      try {
-        l.onNewProjectCreated(event);
-      } catch (RuntimeException e) {
-        logger.atWarning().withCause(e).log("Failure in NewProjectCreatedListener");
-      }
-    }
+    createdListeners.runEach(l -> l.onNewProjectCreated(event));
   }
 
   static class Event extends AbstractNoNotifyEvent implements NewProjectCreatedListener.Event {

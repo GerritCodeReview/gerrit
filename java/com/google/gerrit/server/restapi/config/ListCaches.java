@@ -26,6 +26,7 @@ import com.google.common.cache.CacheStats;
 import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.PluginEntry;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.cache.PersistentCache;
@@ -60,7 +61,7 @@ public class ListCaches implements RestReadView<ConfigResource> {
 
   public Map<String, CacheInfo> getCacheInfos() {
     Map<String, CacheInfo> cacheInfos = new TreeMap<>();
-    for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+    for (PluginEntry<Cache<?, ?>> e : cacheMap) {
       cacheInfos.put(
           cacheNameOf(e.getPluginName(), e.getExportName()), new CacheInfo(e.getProvider().get()));
     }

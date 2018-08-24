@@ -26,12 +26,13 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StartupCheck;
 import com.google.gerrit.server.StartupException;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.PluginSetContext;
+import com.google.gerrit.server.logging.PluginSetEntryContext;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -48,19 +49,19 @@ import org.eclipse.jgit.lib.Config;
 public class UniversalGroupBackend implements GroupBackend {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<GroupBackend> backends;
+  private final PluginSetContext<GroupBackend> backends;
 
   @Inject
-  UniversalGroupBackend(DynamicSet<GroupBackend> backends) {
+  UniversalGroupBackend(PluginSetContext<GroupBackend> backends) {
     this.backends = backends;
   }
 
   @Nullable
   private GroupBackend backend(AccountGroup.UUID uuid) {
     if (uuid != null) {
-      for (GroupBackend g : backends) {
-        if (g.handles(uuid)) {
-          return g;
+      for (PluginSetEntryContext<GroupBackend> c : backends) {
+        if (c.call(b -> b.handles(uuid))) {
+          return c.get();
         }
       }
     }
@@ -88,9 +89,7 @@ public class UniversalGroupBackend implements GroupBackend {
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
     Set<GroupReference> groups = Sets.newTreeSet(GROUP_REF_NAME_COMPARATOR);
-    for (GroupBackend g : backends) {
-      groups.addAll(g.suggest(name, project));
-    }
+    backends.runEach(g -> groups.addAll(g.suggest(name, project)));
     return groups;
   }
 
@@ -104,9 +103,7 @@ public class UniversalGroupBackend implements GroupBackend {
 
     private UniversalGroupMembership(IdentifiedUser user) {
       ImmutableMap.Builder<GroupBackend, GroupMembership> builder = ImmutableMap.builder();
-      for (GroupBackend g : backends) {
-        builder.put(g, g.membershipsOf(user));
-      }
+      backends.runEach(g -> builder.put(g, g.membershipsOf(user)));
       this.memberships = builder.build();
     }
 
@@ -200,9 +197,9 @@ public class UniversalGroupBackend implements GroupBackend {
 
   @Override
   public boolean isVisibleToAll(AccountGroup.UUID uuid) {
-    for (GroupBackend g : backends) {
-      if (g.handles(uuid)) {
-        return g.isVisibleToAll(uuid);
+    for (PluginSetEntryContext<GroupBackend> c : backends) {
+      if (c.call(b -> b.handles(uuid))) {
+        return c.call(b -> b.isVisibleToAll(uuid));
       }
     }
     return false;

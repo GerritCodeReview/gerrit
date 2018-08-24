@@ -21,11 +21,11 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -40,11 +40,11 @@ import java.util.Map;
 public class ReviewerDeleted {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<ReviewerDeletedListener> listeners;
+  private final PluginSetContext<ReviewerDeletedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  ReviewerDeleted(DynamicSet<ReviewerDeletedListener> listeners, EventUtil util) {
+  ReviewerDeleted(PluginSetContext<ReviewerDeletedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
@@ -59,7 +59,7 @@ public class ReviewerDeleted {
       Map<String, Short> oldApprovals,
       NotifyHandling notify,
       Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     try {
@@ -74,13 +74,7 @@ public class ReviewerDeleted {
               util.approvals(reviewer, oldApprovals, when),
               notify,
               when);
-      for (ReviewerDeletedListener listener : listeners) {
-        try {
-          listener.onReviewerDeleted(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, listener, e);
-        }
-      }
+      listeners.runEach(l -> l.onReviewerDeleted(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException

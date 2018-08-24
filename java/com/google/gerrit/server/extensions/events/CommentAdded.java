@@ -21,11 +21,11 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.CommentAddedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -40,11 +40,11 @@ import java.util.Map;
 public class CommentAdded {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<CommentAddedListener> listeners;
+  private final PluginSetContext<CommentAddedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  CommentAdded(DynamicSet<CommentAddedListener> listeners, EventUtil util) {
+  CommentAdded(PluginSetContext<CommentAddedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
@@ -57,7 +57,7 @@ public class CommentAdded {
       Map<String, Short> approvals,
       Map<String, Short> oldApprovals,
       Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     try {
@@ -70,13 +70,7 @@ public class CommentAdded {
               util.approvals(author, approvals, when),
               util.approvals(author, oldApprovals, when),
               when);
-      for (CommentAddedListener l : listeners) {
-        try {
-          l.onCommentAdded(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      listeners.runEach(l -> l.onCommentAdded(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException

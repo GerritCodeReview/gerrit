@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git.validators;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -28,7 +28,7 @@ import org.eclipse.jgit.transport.UploadPack;
 
 public class UploadValidators implements PreUploadHook {
 
-  private final DynamicSet<UploadValidationListener> uploadValidationListeners;
+  private final PluginSetContext<UploadValidationListener> uploadValidationListeners;
   private final Project project;
   private final Repository repository;
   private final String remoteHost;
@@ -39,7 +39,7 @@ public class UploadValidators implements PreUploadHook {
 
   @Inject
   UploadValidators(
-      DynamicSet<UploadValidationListener> uploadValidationListeners,
+      PluginSetContext<UploadValidationListener> uploadValidationListeners,
       @Assisted Project project,
       @Assisted Repository repository,
       @Assisted String remoteHost) {
@@ -53,12 +53,12 @@ public class UploadValidators implements PreUploadHook {
   public void onSendPack(
       UploadPack up, Collection<? extends ObjectId> wants, Collection<? extends ObjectId> haves)
       throws ServiceMayNotContinueException {
-    for (UploadValidationListener validator : uploadValidationListeners) {
-      try {
-        validator.onPreUpload(repository, project, remoteHost, up, wants, haves);
-      } catch (ValidationException e) {
-        throw new UploadValidationException(e.getMessage());
-      }
+    try {
+      uploadValidationListeners.runEach(
+          l -> l.onPreUpload(repository, project, remoteHost, up, wants, haves),
+          ValidationException.class);
+    } catch (ValidationException e) {
+      throw new UploadValidationException(e.getMessage());
     }
   }
 
@@ -66,12 +66,12 @@ public class UploadValidators implements PreUploadHook {
   public void onBeginNegotiateRound(
       UploadPack up, Collection<? extends ObjectId> wants, int cntOffered)
       throws ServiceMayNotContinueException {
-    for (UploadValidationListener validator : uploadValidationListeners) {
-      try {
-        validator.onBeginNegotiate(repository, project, remoteHost, up, wants, cntOffered);
-      } catch (ValidationException e) {
-        throw new UploadValidationException(e.getMessage());
-      }
+    try {
+      uploadValidationListeners.runEach(
+          l -> l.onBeginNegotiate(repository, project, remoteHost, up, wants, cntOffered),
+          ValidationException.class);
+    } catch (ValidationException e) {
+      throw new UploadValidationException(e.getMessage());
     }
   }
 

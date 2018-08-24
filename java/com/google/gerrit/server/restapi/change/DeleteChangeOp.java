@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -26,6 +25,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
+import com.google.gerrit.server.logging.PluginItemContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateReviewDb;
@@ -44,7 +44,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 class DeleteChangeOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
-  private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
+  private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
 
   private Change.Id id;
 
@@ -52,7 +52,7 @@ class DeleteChangeOp implements BatchUpdateOp {
   DeleteChangeOp(
       PatchSetUtil psUtil,
       StarredChangesUtil starredChangesUtil,
-      DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
+      PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore) {
     this.psUtil = psUtil;
     this.starredChangesUtil = starredChangesUtil;
     this.accountPatchReviewStore = accountPatchReviewStore;
@@ -122,7 +122,7 @@ class DeleteChangeOp implements BatchUpdateOp {
   private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
       throws OrmException, NoSuchChangeException {
     for (PatchSet ps : patchSets) {
-      accountPatchReviewStore.get().clearReviewed(ps.getId());
+      accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()), OrmException.class);
     }
 
     // Non-atomic operation on Accounts table; not much we can do to make it

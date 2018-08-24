@@ -21,11 +21,11 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.VoteDeletedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginSetContext;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -40,11 +40,11 @@ import java.util.Map;
 public class VoteDeleted {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<VoteDeletedListener> listeners;
+  private final PluginSetContext<VoteDeletedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  VoteDeleted(DynamicSet<VoteDeletedListener> listeners, EventUtil util) {
+  VoteDeleted(PluginSetContext<VoteDeletedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
@@ -59,7 +59,7 @@ public class VoteDeleted {
       String message,
       AccountState remover,
       Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     try {
@@ -74,13 +74,7 @@ public class VoteDeleted {
               message,
               util.accountInfo(remover),
               when);
-      for (VoteDeletedListener l : listeners) {
-        try {
-          l.onVoteDeleted(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      listeners.runEach(l -> l.onVoteDeleted(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException

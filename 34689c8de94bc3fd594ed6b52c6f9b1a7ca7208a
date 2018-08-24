@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1535122390 +0200\nnonce ACQ0HpysjZj+MKYkTMI9+doJyA+3+FdrrWvLAodKSCAgYcvL3xZYaNdv4NaQ2qGFEgzrIdibtloU\n\n0000000000000000000000000000000000000000 c107c1010af1a90c01e5229b98a0563b69188d86 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluAG9YACgkQUbX9l6DQ\n71HGKggAqe53cgAkm7KKgwxdCQo/jiAZJu3Tkwi0ckKMYRPjMcanr+b7YyL9pHEL\nIHLiKjnV8vSfQ6cht4Hp3Js1nrrBQQMRywUeKje00kKrwEczjj4gtgaFxQYI85L+\ngk3QdwqalJk6dFS00oJrGz11bUOAyKxhPA+y3uhjFa+rDL29AOKzVnS14WznUiY/\naNG50XpLe1D9/SxI+qOlhojBgZyXTurETZzcl8djlt4ewM3rrsZCpyKPXmTwjCSr\n9z8H4FF33GcRXA4UlWgnTUjufACyDRFpRe/lO0P4wxFLMhPYi2FGssDc8Jw7Ob23\nIZ0Yctob5iDBJqkd0+poQbvVQn9xsg\u003d\u003d\n\u003dFzSK\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5274e809_dd485a18",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-24T15:11:41Z",
+      "side": 1,
+      "message": "Please annotate @Nullable (pretty sure that\u0027s allowed in the extensions package)",
+      "revId": "34689c8de94bc3fd594ed6b52c6f9b1a7ca7208a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

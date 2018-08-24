@@ -18,13 +18,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -42,7 +42,7 @@ public class GroupIndexerImpl implements GroupIndexer {
   }
 
   private final GroupCache groupCache;
-  private final DynamicSet<GroupIndexedListener> indexedListener;
+  private final PluginSetContext<GroupIndexedListener> indexedListener;
   private final StalenessChecker stalenessChecker;
   @Nullable private final GroupIndexCollection indexes;
   @Nullable private final GroupIndex index;
@@ -50,7 +50,7 @@ public class GroupIndexerImpl implements GroupIndexer {
   @AssistedInject
   GroupIndexerImpl(
       GroupCache groupCache,
-      DynamicSet<GroupIndexedListener> indexedListener,
+      PluginSetContext<GroupIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
       @Assisted GroupIndexCollection indexes) {
     this.groupCache = groupCache;
@@ -63,7 +63,7 @@ public class GroupIndexerImpl implements GroupIndexer {
   @AssistedInject
   GroupIndexerImpl(
       GroupCache groupCache,
-      DynamicSet<GroupIndexedListener> indexedListener,
+      PluginSetContext<GroupIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
       @Assisted @Nullable GroupIndex index) {
     this.groupCache = groupCache;
@@ -113,9 +113,7 @@ public class GroupIndexerImpl implements GroupIndexer {
   }
 
   private void fireGroupIndexedEvent(String uuid) {
-    for (GroupIndexedListener listener : indexedListener) {
-      listener.onGroupIndexed(uuid);
-    }
+    indexedListener.runEach(l -> l.onGroupIndexed(uuid));
   }
 
   private Collection<GroupIndex> getWriteIndexes() {

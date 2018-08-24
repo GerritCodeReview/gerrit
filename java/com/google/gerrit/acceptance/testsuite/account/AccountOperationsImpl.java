@@ -138,13 +138,12 @@ public class AccountOperationsImpl implements AccountOperations {
       return TestAccountUpdate.builder(this::updateAccount);
     }
 
-    private TestAccount updateAccount(TestAccountUpdate accountUpdate)
+    private void updateAccount(TestAccountUpdate accountUpdate)
         throws OrmException, IOException, ConfigInvalidException {
       AccountsUpdate.AccountUpdater accountUpdater =
           (account, updateBuilder) -> fillBuilder(updateBuilder, accountUpdate, accountId);
       Optional<AccountState> updatedAccount = updateAccount(accountUpdater);
       checkState(updatedAccount.isPresent(), "Tried to update non-existing test account");
-      return toTestAccount(updatedAccount.get());
     }
 
     private Optional<AccountState> updateAccount(AccountsUpdate.AccountUpdater accountUpdater)

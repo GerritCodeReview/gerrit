@@ -42,7 +42,7 @@ public interface AccountOperations {
    * <p>Example:
    *
    * <pre>
-   * TestAccount createdAccount = accountOperations
+   * Account.Id createdAccountId = accountOperations
    *     .newAccount()
    *     .username("janedoe")
    *     .preferredEmail("janedoe@example.com")

@@ -526,9 +526,9 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void validateAccountActivation() throws Exception {
-    com.google.gerrit.acceptance.testsuite.account.TestAccount activatableAccount =
+    Account.Id activatableAccountId =
         accountOperations.newAccount().inactive().preferredEmail("foo@activatable.com").create();
-    com.google.gerrit.acceptance.testsuite.account.TestAccount deactivatableAccount =
+    Account.Id deactivatableAccountId =
         accountOperations.newAccount().preferredEmail("foo@deactivatable.com").create();
     RegistrationHandle registrationHandle =
         accountActivationValidationListeners.add(
@@ -553,61 +553,56 @@ public class AccountIT extends AbstractDaemonTest {
       /* Test account that can be activated, but not deactivated */
       // Deactivate account that is already inactive
       try {
-        gApi.accounts().id(activatableAccount.accountId().get()).setActive(false);
+        gApi.accounts().id(activatableAccountId.get()).setActive(false);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("account not active");
       }
-      assertThat(accountOperations.account(activatableAccount.accountId()).get().active())
-          .isFalse();
+      assertThat(accountOperations.account(activatableAccountId).get().active()).isFalse();
 
       // Activate account that can be activated
-      gApi.accounts().id(activatableAccount.accountId().get()).setActive(true);
-      assertThat(accountOperations.account(activatableAccount.accountId()).get().active()).isTrue();
+      gApi.accounts().id(activatableAccountId.get()).setActive(true);
+      assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
 
       // Activate account that is already active
-      gApi.accounts().id(activatableAccount.accountId().get()).setActive(true);
-      assertThat(accountOperations.account(activatableAccount.accountId()).get().active()).isTrue();
+      gApi.accounts().id(activatableAccountId.get()).setActive(true);
+      assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
 
       // Try deactivating account that cannot be deactivated
       try {
-        gApi.accounts().id(activatableAccount.accountId().get()).setActive(false);
+        gApi.accounts().id(activatableAccountId.get()).setActive(false);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("not allowed to deactive account");
       }
-      assertThat(accountOperations.account(activatableAccount.accountId()).get().active()).isTrue();
+      assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
 
       /* Test account that can be deactivated, but not activated */
       // Activate account that is already inactive
-      gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(true);
-      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
-          .isTrue();
+      gApi.accounts().id(deactivatableAccountId.get()).setActive(true);
+      assertThat(accountOperations.account(deactivatableAccountId).get().active()).isTrue();
 
       // Deactivate account that can be deactivated
-      gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(false);
-      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
-          .isFalse();
+      gApi.accounts().id(deactivatableAccountId.get()).setActive(false);
+      assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
 
       // Deactivate account that is already inactive
       try {
-        gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(false);
+        gApi.accounts().id(deactivatableAccountId.get()).setActive(false);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("account not active");
       }
-      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
-          .isFalse();
+      assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
 
       // Try activating account that cannot be activated
       try {
-        gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(true);
+        gApi.accounts().id(deactivatableAccountId.get()).setActive(true);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("not allowed to active account");
       }
-      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
-          .isFalse();
+      assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
     } finally {
       registrationHandle.remove();
     }
@@ -908,10 +903,7 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().id(foo.id.hashCode()).addEmail(input);
 
     assertThat(
-            gApi.accounts()
-                .id(foo.id.get())
-                .getEmails()
-                .stream()
+            gApi.accounts().id(foo.id.get()).getEmails().stream()
                 .map(e -> e.email)
                 .collect(toSet()))
         .containsExactly(email, secondaryEmail);
@@ -2433,10 +2425,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(bgCounterA1.get()).isEqualTo(0);
     assertThat(bgCounterA2.get()).isEqualTo(0);
     assertThat(
-            gApi.accounts()
-                .id(accountId.get())
-                .getExternalIds()
-                .stream()
+            gApi.accounts().id(accountId.get()).getExternalIds().stream()
                 .map(i -> i.identity)
                 .collect(toSet()))
         .containsExactly(extIdA1.key().get());
@@ -2466,10 +2455,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(updatedAccount.get().getExternalIds()).containsExactly(extIdB2);
     assertThat(accounts.get(accountId).get().getExternalIds()).containsExactly(extIdB2);
     assertThat(
-            gApi.accounts()
-                .id(accountId.get())
-                .getExternalIds()
-                .stream()
+            gApi.accounts().id(accountId.get()).getExternalIds().stream()
                 .map(i -> i.identity)
                 .collect(toSet()))
         .containsExactly(extIdB2.key().get());
@@ -2634,9 +2620,7 @@ public class AccountIT extends AbstractDaemonTest {
     Iterable<String> expectedFps =
         expected.transform(k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
     Iterable<String> actualFps =
-        externalIds
-            .byAccount(currAccountId, SCHEME_GPGKEY)
-            .stream()
+        externalIds.byAccount(currAccountId, SCHEME_GPGKEY).stream()
             .map(e -> e.key().id())
             .collect(toSet());
     assertThat(actualFps).named("external IDs in database").containsExactlyElementsIn(expectedFps);

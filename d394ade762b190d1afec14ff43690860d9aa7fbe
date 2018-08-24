@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4e8ecf43_1f06e044",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-24T19:36:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d4d068b_3477eeac",
+      "revId": "d394ade762b190d1afec14ff43690860d9aa7fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f842d499_6dd7f88c",
         "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog_test.html",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "d394ade762b190d1afec14ff43690860d9aa7fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6edb77ce_593367e0",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-24T19:36:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f842d499_6dd7f88c",
+      "range": {
+        "startLine": 4,
+        "startChar": 14,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "d394ade762b190d1afec14ff43690860d9aa7fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -16,6 +16,24 @@
       "revId": "e51deb8e86d5ee4f07b6c4b4166160439801d123",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbefb97a_978cd045",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-24T22:07:08Z",
+      "side": 1,
+      "message": "That\u0027s true, I guess I focused on the triple click case.\n\nWhere on the web is \"double click at the whitespace at the end of the line \u003d\u003e select the whole line\" a thing? I\u0027m not seeing that behavior on Google, Gmail, or Drive.",
+      "parentUuid": "6bc229f3_8eb0f4d4",
+      "revId": "e51deb8e86d5ee4f07b6c4b4166160439801d123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

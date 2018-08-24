@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d091b628_e61975f4",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-24T01:18:36Z",
+      "side": 1,
+      "message": "According to [1], maybe this should be ..\n\n {function(!string}}\n\n..? \n\n[1] https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler#function-type",
+      "parentUuid": "63a64d3a_6cb4729b",
+      "range": {
+        "startLine": 155,
+        "startChar": 17,
+        "endLine": 155,
+        "endChar": 25
+      },
+      "revId": "96f82545cd56ef857b583231c565880a33108acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5bd949c9_79efd5c9",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
         "patchSetId": 1

@@ -33,6 +33,8 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -196,9 +198,11 @@ class ProjectBasicAuthFilter implements Filter {
 
   private void setUserIdentified(Account.Id id) {
     WebSession ws = session.get();
-    ws.setUserAccountId(id);
-    ws.setAccessPathOk(AccessPath.GIT, true);
-    ws.setAccessPathOk(AccessPath.REST_API, true);
+    try (TraceContext traceContext = PluginContext.newTrace(session)) {
+      ws.setUserAccountId(id);
+      ws.setAccessPathOk(AccessPath.GIT, true);
+      ws.setAccessPathOk(AccessPath.REST_API, true);
+    }
   }
 
   private String encoding(HttpServletRequest req) {

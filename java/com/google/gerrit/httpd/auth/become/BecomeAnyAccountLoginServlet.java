@@ -33,6 +33,8 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
@@ -125,7 +127,9 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
 
     if (res != null) {
-      webSession.get().login(res, false);
+      try (TraceContext traceContext = PluginContext.newTrace(webSession)) {
+        webSession.get().login(res, false);
+      }
       final StringBuilder rdr = new StringBuilder();
       rdr.append(req.getContextPath());
       rdr.append("/");

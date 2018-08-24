@@ -35,6 +35,8 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -172,9 +174,11 @@ class ProjectOAuthFilter implements Filter {
     try {
       AuthResult authResult = accountManager.authenticate(authRequest);
       WebSession ws = session.get();
-      ws.setUserAccountId(authResult.getAccountId());
-      ws.setAccessPathOk(AccessPath.GIT, true);
-      ws.setAccessPathOk(AccessPath.REST_API, true);
+      try (TraceContext traceContext = PluginContext.newTrace(session)) {
+        ws.setUserAccountId(authResult.getAccountId());
+        ws.setAccessPathOk(AccessPath.GIT, true);
+        ws.setAccessPathOk(AccessPath.REST_API, true);
+      }
       return true;
     } catch (AccountException e) {
       logger.atWarning().withCause(e).log(authenticationFailedMsg(authInfo.username, req));

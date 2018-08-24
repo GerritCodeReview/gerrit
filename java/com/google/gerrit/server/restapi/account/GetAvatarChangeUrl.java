@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.avatar.AvatarProvider;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -39,7 +40,7 @@ public class GetAvatarChangeUrl implements RestReadView<AccountResource> {
       throw new ResourceNotFoundException();
     }
 
-    String url = impl.getChangeAvatarUrl(rsrc.getUser());
+    String url = PluginContext.invoke(avatarProvider, a -> a.getChangeAvatarUrl(rsrc.getUser()));
     if (Strings.isNullOrEmpty(url)) {
       throw new ResourceNotFoundException();
     }

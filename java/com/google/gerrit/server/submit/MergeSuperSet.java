@@ -25,6 +25,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -120,7 +122,9 @@ public class MergeSuperSet {
       if (wholeTopicEnabled(cfg)) {
         return completeChangeSetIncludingTopics(db, changeSet, user);
       }
-      return mergeSuperSetComputation.get().completeWithoutTopic(db, orm, changeSet, user);
+      try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation)) {
+        return mergeSuperSetComputation.get().completeWithoutTopic(db, orm, changeSet, user);
+      }
     } finally {
       if (closeOrm && orm != null) {
         orm.close();

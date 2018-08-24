@@ -35,6 +35,8 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -153,7 +155,9 @@ class OAuthSession {
       return;
     }
 
-    webSession.get().login(arsp, true);
+    try (TraceContext traceContext = PluginContext.newTrace(webSession)) {
+      webSession.get().login(arsp, true);
+    }
     String suffix = redirectToken.substring(OAuthWebFilter.GERRIT_LOGIN.length() + 1);
     suffix = CharMatcher.anyOf("/").trimLeadingFrom(Url.decode(suffix));
     StringBuilder rdr = new StringBuilder(urlProvider.get(req));

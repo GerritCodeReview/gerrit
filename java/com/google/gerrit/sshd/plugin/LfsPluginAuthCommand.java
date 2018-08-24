@@ -18,6 +18,8 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -71,6 +73,10 @@ public class LfsPluginAuthCommand extends SshCommand {
       throw new UnloggedFailure(1, CONFIGURATION_ERROR);
     }
 
-    stdout.print(pluginAuth.authenticate(user, args));
+    String output;
+    try (TraceContext traceContext = PluginContext.newTrace(auth)) {
+      output = pluginAuth.authenticate(user, args);
+    }
+    stdout.print(output);
   }
 }

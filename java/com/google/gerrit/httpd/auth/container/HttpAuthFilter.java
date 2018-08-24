@@ -28,6 +28,7 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
@@ -116,16 +117,15 @@ class HttpAuthFilter implements Filter {
   }
 
   private boolean isSessionValid(HttpServletRequest req) {
-    WebSession session = sessionProvider.get();
-    if (session.isSignedIn()) {
+    if (PluginContext.invoke(sessionProvider, s -> s.isSignedIn())) {
       String user = getRemoteUser(req);
-      return user == null || correctUser(user, session);
+      return user == null || correctUser(user, sessionProvider);
     }
     return false;
   }
 
-  private static boolean correctUser(String user, WebSession session) {
-    ExternalId.Key id = session.getLastLoginExternalId();
+  private static boolean correctUser(String user, DynamicItem<WebSession> sessionProvider) {
+    ExternalId.Key id = PluginContext.invoke(sessionProvider, s -> s.getLastLoginExternalId());
     return id != null && id.equals(ExternalId.Key.create(SCHEME_GERRIT, user));
   }
 

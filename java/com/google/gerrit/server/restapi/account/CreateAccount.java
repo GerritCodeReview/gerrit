@@ -48,6 +48,7 @@ import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyExcept
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
@@ -132,9 +133,8 @@ public class CreateAccount
     }
 
     extIds.add(ExternalId.createUsername(username, accountId, input.httpPassword));
-    for (AccountExternalIdCreator c : externalIdCreators) {
-      extIds.addAll(c.create(accountId, username, input.email));
-    }
+    PluginContext.invokeIgnoreExceptions(
+        externalIdCreators, c -> extIds.addAll(c.create(accountId, username, input.email)));
 
     try {
       accountsUpdateProvider

@@ -47,6 +47,8 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -668,7 +670,9 @@ public class ConsistencyChecker {
         throws OrmException, PatchSetInfoNotAvailableException {
       // Delete dangling key references.
       ReviewDb db = BatchUpdateReviewDb.unwrap(ctx.getDb());
-      accountPatchReviewStore.get().clearReviewed(psId);
+      try (TraceContext traceContext = PluginContext.newTrace(accountPatchReviewStore)) {
+        accountPatchReviewStore.get().clearReviewed(psId);
+      }
       db.changeMessages().delete(db.changeMessages().byChange(psId.getParentKey()));
       db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
       db.patchComments().delete(db.patchComments().byPatchSet(psId));

@@ -61,6 +61,10 @@ public class DynamicSet<T> implements Iterable<T> {
     public Provider<T> getProvider() {
       return provider;
     }
+
+    public T get() {
+      return provider.get();
+    }
   }
 
   /**

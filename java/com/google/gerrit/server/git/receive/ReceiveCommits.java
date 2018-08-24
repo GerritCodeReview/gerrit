@@ -72,7 +72,6 @@ import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -123,6 +122,7 @@ import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
@@ -326,7 +326,7 @@ class ReceiveCommits {
   private final ChangeIndexer indexer;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeNotes.Factory notesFactory;
-  private final ChangeReportFormatter changeFormatter;
+  private final DynamicItem<ChangeReportFormatter> changeFormatter;
   private final CmdLineParser.Factory optionParserFactory;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
@@ -413,7 +413,7 @@ class ReceiveCommits {
       ChangeIndexer indexer,
       ChangeInserter.Factory changeInserterFactory,
       ChangeNotes.Factory notesFactory,
-      DynamicItem<ChangeReportFormatter> changeFormatterProvider,
+      DynamicItem<ChangeReportFormatter> changeFormatter,
       CmdLineParser.Factory optionParserFactory,
       CommitValidators.Factory commitValidatorsFactory,
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
@@ -452,7 +452,7 @@ class ReceiveCommits {
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.allProjectsName = allProjectsName;
     this.batchUpdateFactory = batchUpdateFactory;
-    this.changeFormatter = changeFormatterProvider.get();
+    this.changeFormatter = changeFormatter;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.createRefControl = createRefControl;
@@ -519,9 +519,8 @@ class ReceiveCommits {
   }
 
   void init() {
-    for (ReceivePackInitializer i : initializers) {
-      i.init(projectState.getNameKey(), receivePack);
-    }
+    PluginContext.invokeIgnoreExceptions(
+        initializers, i -> i.init(projectState.getNameKey(), receivePack));
   }
 
   MessageSender getMessageSender() {
@@ -780,9 +779,9 @@ class ReceiveCommits {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        addMessage(
-            changeFormatter.newChange(
-                ChangeReportFormatter.Input.builder().setChange(c.change).build()));
+        ChangeReportFormatter.Input input =
+            ChangeReportFormatter.Input.builder().setChange(c.change).build();
+        addMessage(PluginContext.invoke(changeFormatter, f -> f.newChange(input)));
       }
     }
 
@@ -833,7 +832,7 @@ class ReceiveCommits {
                 .setIsPrivate(isPrivate)
                 .setIsWorkInProgress(wip)
                 .build();
-        addMessage(changeFormatter.changeUpdated(input));
+        addMessage(PluginContext.invoke(changeFormatter, f -> f.changeUpdated(input)));
       }
       addMessage("");
     }
@@ -1152,7 +1151,7 @@ class ReceiveCommits {
               }
             }
 
-            for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+            for (DynamicMap.Entry<ProjectConfigEntry> e : pluginConfigEntries) {
               PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
               ProjectConfigEntry configEntry = e.getProvider().get();
               String value = pluginCfg.getString(e.getExportName());
@@ -1933,10 +1932,9 @@ class ReceiveCommits {
   private boolean requestReplace(
       ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
     if (change.getStatus().isClosed()) {
-      reject(
-          cmd,
-          changeFormatter.changeClosed(
-              ChangeReportFormatter.Input.builder().setChange(change).build()));
+      ChangeReportFormatter.Input input =
+          ChangeReportFormatter.Input.builder().setChange(change).build();
+      reject(cmd, PluginContext.invoke(changeFormatter, f -> f.changeClosed(input)));
       return false;
     }
 

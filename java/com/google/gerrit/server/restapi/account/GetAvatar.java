@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.avatar.AvatarProvider;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.inject.Inject;
 import java.util.concurrent.TimeUnit;
 import org.kohsuke.args4j.Option;
@@ -51,7 +52,7 @@ public class GetAvatar implements RestReadView<AccountResource> {
       throw (new ResourceNotFoundException()).caching(CacheControl.PUBLIC(1, TimeUnit.DAYS));
     }
 
-    String url = impl.getUrl(rsrc.getUser(), size);
+    String url = PluginContext.invoke(avatarProvider, a -> a.getUrl(rsrc.getUser(), size));
     if (Strings.isNullOrEmpty(url)) {
       throw (new ResourceNotFoundException()).caching(CacheControl.PUBLIC(1, TimeUnit.HOURS));
     }

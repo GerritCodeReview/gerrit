@@ -30,6 +30,8 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -147,7 +149,9 @@ class HttpLoginServlet extends HttpServlet {
       rdr.append(token);
     }
 
-    webSession.get().login(arsp, true /* persistent cookie */);
+    try (TraceContext traceContext = PluginContext.newTrace(webSession)) {
+      webSession.get().login(arsp, true /* persistent cookie */);
+    }
     rsp.sendRedirect(rdr.toString());
   }
 

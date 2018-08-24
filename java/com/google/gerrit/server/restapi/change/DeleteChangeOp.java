@@ -26,6 +26,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateReviewDb;
@@ -121,8 +123,10 @@ class DeleteChangeOp implements BatchUpdateOp {
 
   private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
       throws OrmException, NoSuchChangeException {
-    for (PatchSet ps : patchSets) {
-      accountPatchReviewStore.get().clearReviewed(ps.getId());
+    try (TraceContext traceContext = PluginContext.newTrace(accountPatchReviewStore)) {
+      for (PatchSet ps : patchSets) {
+        accountPatchReviewStore.get().clearReviewed(ps.getId());
+      }
     }
 
     // Non-atomic operation on Accounts table; not much we can do to make it

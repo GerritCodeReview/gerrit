@@ -32,6 +32,8 @@ import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -422,7 +424,9 @@ class OpenIdServiceImpl {
             lastId.setMaxAge(0);
           }
           rsp.addCookie(lastId);
-          webSession.get().login(arsp, remember);
+          try (TraceContext traceContext = PluginContext.newTrace(webSession)) {
+            webSession.get().login(arsp, remember);
+          }
           if (arsp.isNew() && claimedIdentifier != null) {
             final com.google.gerrit.server.account.AuthRequest linkReq =
                 new com.google.gerrit.server.account.AuthRequest(
@@ -437,7 +441,9 @@ class OpenIdServiceImpl {
         case LINK_IDENTIY:
           {
             arsp = accountManager.link(identifiedUser.get().getAccountId(), areq);
-            webSession.get().login(arsp, remember);
+            try (TraceContext traceContext = PluginContext.newTrace(webSession)) {
+              webSession.get().login(arsp, remember);
+            }
             callback(false, req, rsp);
             break;
           }
@@ -490,7 +496,9 @@ class OpenIdServiceImpl {
 
   private void cancel(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     if (isSignIn(signInMode(req))) {
-      webSession.get().logout();
+      try (TraceContext traceContext = PluginContext.newTrace(webSession)) {
+        webSession.get().logout();
+      }
     }
     callback(false, req, rsp);
   }
@@ -500,7 +508,9 @@ class OpenIdServiceImpl {
       throws IOException {
     final SignInMode mode = signInMode(req);
     if (isSignIn(mode)) {
-      webSession.get().logout();
+      try (TraceContext traceContext = PluginContext.newTrace(webSession)) {
+        webSession.get().logout();
+      }
     }
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get(req));

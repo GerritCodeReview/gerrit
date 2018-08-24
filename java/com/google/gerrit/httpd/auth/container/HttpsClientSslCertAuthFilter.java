@@ -21,6 +21,8 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -79,7 +81,9 @@ class HttpsClientSslCertAuthFilter implements Filter {
       logger.atSevere().withCause(e).log(err);
       throw new ServletException(err, e);
     }
-    webSession.get().login(arsp, true);
+    try (TraceContext traceContext = PluginContext.newTrace(webSession)) {
+      webSession.get().login(arsp, true);
+    }
     chain.doFilter(req, rsp);
   }
 

@@ -23,6 +23,8 @@ import com.google.gerrit.server.audit.AuditEvent;
 import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -53,7 +55,9 @@ public class HttpLogoutServlet extends HttpServlet {
   }
 
   protected void doLogout(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-    webSession.get().logout();
+    try (TraceContext traceContext = PluginContext.newTrace(webSession)) {
+      webSession.get().logout();
+    }
     if (logoutUrl != null) {
       rsp.sendRedirect(logoutUrl);
     } else {

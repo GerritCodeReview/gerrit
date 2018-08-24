@@ -33,6 +33,8 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -197,7 +199,9 @@ class OAuthSessionOverOpenID {
       return;
     }
 
-    webSession.get().login(arsp, true);
+    try (TraceContext traceContext = PluginContext.newTrace(webSession)) {
+      webSession.get().login(arsp, true);
+    }
     StringBuilder rdr = new StringBuilder(urlProvider.get(req));
     rdr.append(Url.decode(redirectToken));
     rsp.sendRedirect(rdr.toString());

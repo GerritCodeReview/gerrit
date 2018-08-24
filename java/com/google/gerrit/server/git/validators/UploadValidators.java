@@ -16,6 +16,8 @@ package com.google.gerrit.server.git.validators;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -53,9 +55,9 @@ public class UploadValidators implements PreUploadHook {
   public void onSendPack(
       UploadPack up, Collection<? extends ObjectId> wants, Collection<? extends ObjectId> haves)
       throws ServiceMayNotContinueException {
-    for (UploadValidationListener validator : uploadValidationListeners) {
-      try {
-        validator.onPreUpload(repository, project, remoteHost, up, wants, haves);
+    for (DynamicSet.Entry<UploadValidationListener> entry : uploadValidationListeners.entries()) {
+      try (TraceContext pluginContext = PluginContext.newTrace(entry)) {
+        entry.get().onPreUpload(repository, project, remoteHost, up, wants, haves);
       } catch (ValidationException e) {
         throw new UploadValidationException(e.getMessage());
       }
@@ -66,9 +68,9 @@ public class UploadValidators implements PreUploadHook {
   public void onBeginNegotiateRound(
       UploadPack up, Collection<? extends ObjectId> wants, int cntOffered)
       throws ServiceMayNotContinueException {
-    for (UploadValidationListener validator : uploadValidationListeners) {
-      try {
-        validator.onBeginNegotiate(repository, project, remoteHost, up, wants, cntOffered);
+    for (DynamicSet.Entry<UploadValidationListener> entry : uploadValidationListeners.entries()) {
+      try (TraceContext pluginContext = PluginContext.newTrace(entry)) {
+        entry.get().onBeginNegotiate(repository, project, remoteHost, up, wants, cntOffered);
       } catch (ValidationException e) {
         throw new UploadValidationException(e.getMessage());
       }

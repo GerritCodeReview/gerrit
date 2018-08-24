@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -67,13 +68,7 @@ public class ReviewerAdded {
               Lists.transform(reviewers, util::accountInfo),
               util.accountInfo(adder),
               when);
-      for (ReviewerAddedListener l : listeners) {
-        try {
-          l.onReviewersAdded(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      PluginContext.invokeIgnoreExceptions(listeners, l -> l.onReviewersAdded(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException

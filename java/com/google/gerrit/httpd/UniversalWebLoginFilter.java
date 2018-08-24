@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -88,7 +89,7 @@ public class UniversalWebLoginFilter implements Filter {
   }
 
   private Optional<IdentifiedUser> loggedInUser() {
-    return session.get().isSignedIn()
+    return PluginContext.invoke(session, s -> s.isSignedIn())
         ? Optional.of(userProvider.get().asIdentifiedUser())
         : Optional.empty();
   }

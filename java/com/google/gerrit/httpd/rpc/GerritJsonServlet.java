@@ -27,6 +27,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.audit.RpcAuditEvent;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.server.ActiveCall;
@@ -92,7 +93,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       // valid XSRF token *and* have the user signed in. Doing these
       // checks also validates that they agree on the user identity.
       //
-      if (!call.requireXsrfValid() || !session.get().isSignedIn()) {
+      if (!call.requireXsrfValid() || !PluginContext.invoke(session, s -> s.isSignedIn())) {
         call.onFailure(new NotSignedInException());
       }
     }

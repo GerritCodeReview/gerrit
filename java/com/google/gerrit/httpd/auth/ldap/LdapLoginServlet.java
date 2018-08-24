@@ -33,6 +33,8 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -147,7 +149,9 @@ class LdapLoginServlet extends HttpServlet {
     dest.append(LoginUrlToken.getToken(req));
 
     CacheHeaders.setNotCacheable(res);
-    webSession.get().login(ares, "1".equals(remember));
+    try (TraceContext traceContext = PluginContext.newTrace(webSession)) {
+      webSession.get().login(ares, "1".equals(remember));
+    }
     res.sendRedirect(dest.toString());
   }
 }

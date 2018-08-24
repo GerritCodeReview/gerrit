@@ -36,6 +36,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -254,8 +256,10 @@ public class MergeValidators {
         PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
-      for (MergeValidationListener validator : mergeValidationListeners) {
-        validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller);
+      for (DynamicSet.Entry<MergeValidationListener> entry : mergeValidationListeners.entries()) {
+        try (TraceContext pluginContext = PluginContext.newTrace(entry)) {
+          entry.get().onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller);
+        }
       }
     }
   }

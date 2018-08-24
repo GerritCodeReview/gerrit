@@ -27,6 +27,8 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -106,9 +108,11 @@ class ContainerAuthFilter implements Filter {
       return false;
     }
     WebSession ws = session.get();
-    ws.setUserAccountId(who.get().getAccount().getId());
-    ws.setAccessPathOk(AccessPath.GIT, true);
-    ws.setAccessPathOk(AccessPath.REST_API, true);
+    try (TraceContext traceContext = PluginContext.newTrace(session)) {
+      ws.setUserAccountId(who.get().getAccount().getId());
+      ws.setAccessPathOk(AccessPath.GIT, true);
+      ws.setAccessPathOk(AccessPath.REST_API, true);
+    }
     return true;
   }
 }

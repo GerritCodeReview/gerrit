@@ -25,6 +25,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -86,7 +88,7 @@ class RunAsFilter implements Filter {
         return;
       }
 
-      CurrentUser self = session.get().getUser();
+      CurrentUser self = PluginContext.invoke(session, s -> s.getUser());
       try {
         if (!self.isIdentifiedUser()) {
           // Always disallow for anonymous users, even if permitted by the ACL,
@@ -115,7 +117,9 @@ class RunAsFilter implements Filter {
         replyError(req, res, SC_FORBIDDEN, "no account matches " + RUN_AS, null);
         return;
       }
-      session.get().setUserAccountId(target.getId());
+      try (TraceContext traceContext = PluginContext.newTrace(session)) {
+        session.get().setUserAccountId(target.getId());
+      }
     }
 
     chain.doFilter(req, res);

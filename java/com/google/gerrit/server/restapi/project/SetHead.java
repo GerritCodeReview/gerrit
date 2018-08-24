@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -29,6 +28,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -46,8 +46,6 @@ import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final GitRepositoryManager repoManager;
   private final Provider<IdentifiedUser> identifiedUser;
   private final DynamicSet<HeadUpdatedListener> headUpdatedListeners;
@@ -122,14 +120,9 @@ public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
     if (!headUpdatedListeners.iterator().hasNext()) {
       return;
     }
+
     Event event = new Event(nameKey, oldHead, newHead);
-    for (HeadUpdatedListener l : headUpdatedListeners) {
-      try {
-        l.onHeadUpdated(event);
-      } catch (RuntimeException e) {
-        logger.atWarning().withCause(e).log("Failure in HeadUpdatedListener");
-      }
-    }
+    TraceContext.invokeExtensionPoint(headUpdatedListeners, l -> l.onHeadUpdated(event));
   }
 
   static class Event extends AbstractNoNotifyEvent implements HeadUpdatedListener.Event {

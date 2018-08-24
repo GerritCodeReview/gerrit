@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bc229f3_8eb0f4d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-24T21:58:45Z",
+      "side": 1,
+      "message": "When I load this change, I\u0027m still able to reproduce the behavior in the bug where I double click after the end of a line.",
+      "revId": "e51deb8e86d5ee4f07b6c4b4166160439801d123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

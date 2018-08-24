@@ -274,7 +274,7 @@ public class PluginGuiceEnvironment {
   private void attachItem(
       Map<TypeLiteral<?>, DynamicItem<?>> items, @Nullable Injector src, Plugin plugin) {
     for (RegistrationHandle h :
-        PrivateInternals_DynamicTypes.attachItems(src, items, plugin.getName())) {
+        PrivateInternals_DynamicTypes.attachItems(src, plugin.getName(), items)) {
       plugin.add(h);
     }
   }

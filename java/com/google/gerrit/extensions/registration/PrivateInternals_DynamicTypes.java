@@ -81,7 +81,7 @@ public class PrivateInternals_DynamicTypes {
   }
 
   public static List<RegistrationHandle> attachItems(
-      Injector src, Map<TypeLiteral<?>, DynamicItem<?>> items, String pluginName) {
+      Injector src, String pluginName, Map<TypeLiteral<?>, DynamicItem<?>> items) {
     if (src == null || items == null || items.isEmpty()) {
       return Collections.emptyList();
     }

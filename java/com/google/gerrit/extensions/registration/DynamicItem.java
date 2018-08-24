@@ -132,6 +132,18 @@ public class DynamicItem<T> {
   }
 
   /**
+   * Get the name of the plugin that has bound the configured item, or null.
+   *
+   * @return the name of the plugin that has bound the configured item; null if no implementation
+   *     has been bound to the item. This is common if no plugin registered an implementation for
+   *     the type.
+   */
+  public String getPluginName() {
+    NamedProvider<T> item = ref.get();
+    return item != null ? item.pluginName : null;
+  }
+
+  /**
    * Set the element to provide.
    *
    * @param item the item to use. Must not be null.

@@ -107,7 +107,7 @@ public class PrivateInternals_DynamicTypes {
   }
 
   public static List<RegistrationHandle> attachSets(
-      Injector src, Map<TypeLiteral<?>, DynamicSet<?>> sets) {
+      Injector src, String pluginName, Map<TypeLiteral<?>, DynamicSet<?>> sets) {
     if (src == null || sets == null || sets.isEmpty()) {
       return Collections.emptyList();
     }
@@ -123,7 +123,7 @@ public class PrivateInternals_DynamicTypes {
 
         for (Binding<Object> b : bindings(src, type)) {
           if (b.getKey().getAnnotation() != null) {
-            handles.add(set.add(b.getKey(), b.getProvider()));
+            handles.add(set.add(pluginName, b.getKey(), b.getProvider()));
           }
         }
       }
@@ -174,7 +174,7 @@ public class PrivateInternals_DynamicTypes {
         handles = new ArrayList<>(4);
         Injector parent = self.getParent();
         while (parent != null) {
-          handles.addAll(attachSets(self, dynamicSetsOf(parent)));
+          handles.addAll(attachSets(self, PluginName.GERRIT, dynamicSetsOf(parent)));
           handles.addAll(attachMaps(self, PluginName.GERRIT, dynamicMapsOf(parent)));
           parent = parent.getParent();
         }

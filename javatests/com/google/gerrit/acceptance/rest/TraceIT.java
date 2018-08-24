@@ -52,9 +52,10 @@ public class TraceIT extends AbstractDaemonTest {
   public void setup() {
     projectCreationListener = new TraceValidatingProjectCreationValidationListener();
     projectCreationListenerRegistrationHandle =
-        projectCreationValidationListeners.add(projectCreationListener);
+        projectCreationValidationListeners.add("gerrit", projectCreationListener);
     commitValidationListener = new TraceValidatingCommitValidationListener();
-    commitValidationRegistrationHandle = commitValidationListeners.add(commitValidationListener);
+    commitValidationRegistrationHandle =
+        commitValidationListeners.add("gerrit", commitValidationListener);
   }
 
   @After

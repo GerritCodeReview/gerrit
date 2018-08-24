@@ -27,7 +27,7 @@ public class SshTraceIT extends AbstractDaemonTest {
   public void setup() {
     projectCreationListener = new TraceValidatingProjectCreationValidationListener();
     projectCreationListenerRegistrationHandle =
-        projectCreationValidationListeners.add(projectCreationListener);
+        projectCreationValidationListeners.add("gerrit", projectCreationListener);
   }
 
   @After

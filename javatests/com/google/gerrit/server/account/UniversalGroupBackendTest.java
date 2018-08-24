@@ -55,7 +55,7 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
     user = createNiceMock(IdentifiedUser.class);
     replay(user);
     backends = new DynamicSet<>();
-    backends.add(new SystemGroupBackend(new Config()));
+    backends.add("gerrit", new SystemGroupBackend(new Config()));
     backend = new UniversalGroupBackend(backends);
   }
 
@@ -123,7 +123,7 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
     replay(member, notMember, backend);
 
     backends = new DynamicSet<>();
-    backends.add(backend);
+    backends.add("gerrit", backend);
     backend = new UniversalGroupBackend(backends);
 
     GroupMembership checker = backend.membershipsOf(member);

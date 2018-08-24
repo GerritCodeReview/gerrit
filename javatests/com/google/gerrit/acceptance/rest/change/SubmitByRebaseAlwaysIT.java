@@ -87,6 +87,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
 
     RegistrationHandle handle =
         changeMessageModifiers.add(
+            "gerrit",
             new ChangeMessageModifier() {
               @Override
               public String onSubmit(

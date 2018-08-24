@@ -610,7 +610,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   }
 
   private void addListener(NotesMigrationStateListener listener) {
-    addedListeners.add(listeners.add(listener));
+    addedListeners.add(listeners.add("gerrit", listener));
   }
 
   private ImmutableSortedSet<String> getObjectFiles(Project.NameKey project) throws Exception {

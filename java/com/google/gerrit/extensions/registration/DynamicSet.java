@@ -14,6 +14,12 @@
 
 package com.google.gerrit.extensions.registration;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
+import static java.util.Comparator.naturalOrder;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -39,6 +45,24 @@ import java.util.concurrent.atomic.AtomicReference;
  * singleton and non-singleton members.
  */
 public class DynamicSet<T> implements Iterable<T> {
+  public static class Entry<T> {
+    private final String pluginName;
+    private final Provider<T> provider;
+
+    private Entry(String pluginName, Provider<T> provider) {
+      this.pluginName = pluginName;
+      this.provider = provider;
+    }
+
+    public String getPluginName() {
+      return pluginName;
+    }
+
+    public Provider<T> getProvider() {
+      return provider;
+    }
+  }
+
   /**
    * Declare a singleton {@code DynamicSet<T>} with a binder.
    *
@@ -129,12 +153,12 @@ public class DynamicSet<T> implements Iterable<T> {
   }
 
   public static <T> DynamicSet<T> emptySet() {
-    return new DynamicSet<>(Collections.<AtomicReference<Provider<T>>>emptySet());
+    return new DynamicSet<>(Collections.<AtomicReference<NamedProvider<T>>>emptySet());
   }
 
-  private final CopyOnWriteArrayList<AtomicReference<Provider<T>>> items;
+  private final CopyOnWriteArrayList<AtomicReference<NamedProvider<T>>> items;
 
-  DynamicSet(Collection<AtomicReference<Provider<T>>> base) {
+  DynamicSet(Collection<AtomicReference<NamedProvider<T>>> base) {
     items = new CopyOnWriteArrayList<>(base);
   }
 
@@ -144,17 +168,33 @@ public class DynamicSet<T> implements Iterable<T> {
 
   @Override
   public Iterator<T> iterator() {
-    final Iterator<AtomicReference<Provider<T>>> itr = items.iterator();
+    Iterator<Entry<T>> entryIterator = entryIterator();
     return new Iterator<T>() {
-      private T next;
+      @Override
+      public boolean hasNext() {
+        return entryIterator.hasNext();
+      }
+
+      @Override
+      public T next() {
+        Entry<T> next = entryIterator.next();
+        return next != null ? next.getProvider().get() : null;
+      }
+    };
+  }
+
+  public Iterator<Entry<T>> entryIterator() {
+    final Iterator<AtomicReference<NamedProvider<T>>> itr = items.iterator();
+    return new Iterator<Entry<T>>() {
+      private Entry<T> next;
 
       @Override
       public boolean hasNext() {
         while (next == null && itr.hasNext()) {
-          Provider<T> p = itr.next().get();
+          NamedProvider<T> p = itr.next().get();
           if (p != null) {
             try {
-              next = p.get();
+              next = new Entry<>(p.pluginName, p.impl);
             } catch (RuntimeException e) {
               // TODO Log failed member of DynamicSet.
             }
@@ -164,9 +204,9 @@ public class DynamicSet<T> implements Iterable<T> {
       }
 
       @Override
-      public T next() {
+      public Entry<T> next() {
         if (hasNext()) {
-          T result = next;
+          Entry<T> result = next;
           next = null;
           return result;
         }
@@ -198,13 +238,29 @@ public class DynamicSet<T> implements Iterable<T> {
   }
 
   /**
-   * Add one new element to the set.
+   * Get the names of all running plugins supplying this type.
    *
-   * @param item the item to add to the collection. Must not be null.
-   * @return handle to remove the item at a later point in time.
+   * @return sorted set of active plugins that supply at least one item.
    */
-  public RegistrationHandle add(T item) {
-    return add(Providers.of(item));
+  public ImmutableSortedSet<String> plugins() {
+    return items
+        .stream()
+        .map(i -> i.get().pluginName)
+        .collect(toImmutableSortedSet(naturalOrder()));
+  }
+
+  /**
+   * Get the items exported by a single plugin.
+   *
+   * @param pluginName name of the plugin.
+   * @return items exported by a plugin.
+   */
+  public ImmutableSet<Provider<T>> byPlugin(String pluginName) {
+    return items
+        .stream()
+        .filter(i -> i.get().pluginName.equals(pluginName))
+        .map(i -> i.get().impl)
+        .collect(toImmutableSet());
   }
 
   /**
@@ -213,13 +269,24 @@ public class DynamicSet<T> implements Iterable<T> {
    * @param item the item to add to the collection. Must not be null.
    * @return handle to remove the item at a later point in time.
    */
-  public RegistrationHandle add(Provider<T> item) {
-    final AtomicReference<Provider<T>> ref = new AtomicReference<>(item);
+  public RegistrationHandle add(String pluginName, T item) {
+    return add(pluginName, Providers.of(item));
+  }
+
+  /**
+   * Add one new element to the set.
+   *
+   * @param item the item to add to the collection. Must not be null.
+   * @return handle to remove the item at a later point in time.
+   */
+  public RegistrationHandle add(String pluginName, Provider<T> item) {
+    final AtomicReference<NamedProvider<T>> ref =
+        new AtomicReference<>(new NamedProvider<>(item, pluginName));
     items.add(ref);
     return new RegistrationHandle() {
       @Override
       public void remove() {
-        if (ref.compareAndSet(item, null)) {
+        if (ref.compareAndSet(ref.get(), null)) {
           items.remove(ref);
         }
       }
@@ -229,6 +296,7 @@ public class DynamicSet<T> implements Iterable<T> {
   /**
    * Add one new element that may be hot-replaceable in the future.
    *
+   * @param pluginName unique name of the plugin providing the item.
    * @param key unique description from the item's Guice binding. This can be later obtained from
    *     the registration handle to facilitate matching with the new equivalent instance during a
    *     hot reload.
@@ -236,18 +304,19 @@ public class DynamicSet<T> implements Iterable<T> {
    * @return a handle that can remove this item later, or hot-swap the item without it ever leaving
    *     the collection.
    */
-  public ReloadableRegistrationHandle<T> add(Key<T> key, Provider<T> item) {
-    AtomicReference<Provider<T>> ref = new AtomicReference<>(item);
+  public ReloadableRegistrationHandle<T> add(String pluginName, Key<T> key, Provider<T> item) {
+    AtomicReference<NamedProvider<T>> ref =
+        new AtomicReference<>(new NamedProvider<>(item, pluginName));
     items.add(ref);
-    return new ReloadableHandle(ref, key, item);
+    return new ReloadableHandle(ref, key, ref.get());
   }
 
   private class ReloadableHandle implements ReloadableRegistrationHandle<T> {
-    private final AtomicReference<Provider<T>> ref;
+    private final AtomicReference<NamedProvider<T>> ref;
     private final Key<T> key;
-    private final Provider<T> item;
+    private final NamedProvider<T> item;
 
-    ReloadableHandle(AtomicReference<Provider<T>> ref, Key<T> key, Provider<T> item) {
+    ReloadableHandle(AtomicReference<NamedProvider<T>> ref, Key<T> key, NamedProvider<T> item) {
       this.ref = ref;
       this.key = key;
       this.item = item;
@@ -267,8 +336,9 @@ public class DynamicSet<T> implements Iterable<T> {
 
     @Override
     public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
-      if (ref.compareAndSet(item, newItem)) {
-        return new ReloadableHandle(ref, newKey, newItem);
+      NamedProvider<T> n = new NamedProvider<>(newItem, item.pluginName);
+      if (ref.compareAndSet(item, n)) {
+        return new ReloadableHandle(ref, newKey, n);
       }
       return null;
     }

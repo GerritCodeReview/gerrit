@@ -63,6 +63,7 @@ public class EventRecorder {
 
     eventListenerRegistration =
         eventListeners.add(
+            "gerrit",
             new UserScopedEventListener() {
               @Override
               public void onEvent(Event e) {

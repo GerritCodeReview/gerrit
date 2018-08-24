@@ -39,6 +39,29 @@
       "revId": "d394ade762b190d1afec14ff43690860d9aa7fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3013b279_06a1331b",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1070798
+      },
+      "writtenOn": "2018-08-24T09:40:15Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of this?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "d394ade762b190d1afec14ff43690860d9aa7fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

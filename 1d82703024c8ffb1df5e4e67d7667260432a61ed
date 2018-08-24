@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da8b10db_8088de91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-24T03:53:41Z",
+      "side": 1,
+      "message": "While this approach seems to work, Guice maintainers pointed out the the next Guice release will be done in a couple of weeks: [1] so that we should rather wait for it. Mark this changes as WIP.\n\n[1] https://github.com/bazelbuild/bazel/issues/5967#issuecomment-415565632",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "1d82703024c8ffb1df5e4e67d7667260432a61ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

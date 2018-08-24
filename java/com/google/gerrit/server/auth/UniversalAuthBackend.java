@@ -17,6 +17,7 @@ package com.google.gerrit.server.auth;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -36,15 +37,17 @@ public final class UniversalAuthBackend implements AuthBackend {
   public AuthUser authenticate(AuthRequest request) throws AuthException {
     List<AuthUser> authUsers = new ArrayList<>();
     List<AuthException> authExs = new ArrayList<>();
-    for (AuthBackend backend : authBackends) {
-      try {
-        authUsers.add(checkNotNull(backend.authenticate(request)));
-      } catch (MissingCredentialsException ex) {
-        // Not handled by this backend.
-      } catch (AuthException ex) {
-        authExs.add(ex);
-      }
-    }
+    TraceContext.invokeExtensionPoint(
+        authBackends,
+        backend -> {
+          try {
+            authUsers.add(checkNotNull(backend.authenticate(request)));
+          } catch (MissingCredentialsException ex) {
+            // Not handled by this backend.
+          } catch (AuthException ex) {
+            authExs.add(ex);
+          }
+        });
 
     // Handle the valid responses
     if (authUsers.size() == 1) {

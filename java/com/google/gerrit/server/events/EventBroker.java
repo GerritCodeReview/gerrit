@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -104,16 +105,17 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected void fireEventForUnrestrictedListeners(Event event) {
-    for (EventListener listener : unrestrictedListeners) {
-      listener.onEvent(event);
-    }
+    TraceContext.invokeExtensionPoint(unrestrictedListeners, l -> l.onEvent(event));
   }
 
   protected void fireEvent(Change change, ChangeEvent event)
       throws OrmException, PermissionBackendException {
-    for (UserScopedEventListener listener : listeners) {
-      if (isVisibleTo(change, listener.getUser())) {
-        listener.onEvent(event);
+    for (DynamicSet.Entry<UserScopedEventListener> e : listeners.entries()) {
+      try (TraceContext traceContext = TraceContext.newPluginTrace(e)) {
+        UserScopedEventListener listener = e.getProvider().get();
+        if (isVisibleTo(change, listener.getUser())) {
+          listener.onEvent(event);
+        }
       }
     }
     fireEventForUnrestrictedListeners(event);

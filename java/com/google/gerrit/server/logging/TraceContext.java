@@ -16,11 +16,18 @@ package com.google.gerrit.server.logging;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Function;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * TraceContext that allows to set logging tags and enforce logging.
@@ -89,6 +96,8 @@ import java.util.Optional;
  * </pre>
  */
 public class TraceContext implements AutoCloseable {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static TraceContext open() {
     return new TraceContext();
   }
@@ -146,6 +155,90 @@ public class TraceContext implements AutoCloseable {
   @FunctionalInterface
   public interface TraceIdConsumer {
     void accept(String tagName, String traceId);
+  }
+
+  public static <T> TraceContext newPluginTrace(DynamicItem<T> dynamicItem) {
+    String pluginNameForTracing =
+        getPluginNameForTracing(dynamicItem.getPluginName(), dynamicItem.get());
+    return open().addTag("PLUGIN", pluginNameForTracing);
+  }
+
+  public static <T> TraceContext newPluginTrace(DynamicSet.Entry<T> dynamicSetEntry) {
+    String pluginNameForTracing =
+        getPluginNameForTracing(
+            dynamicSetEntry.getPluginName(), dynamicSetEntry.getProvider().get());
+    return open().addTag("PLUGIN", pluginNameForTracing);
+  }
+
+  public static <T> TraceContext newPluginTrace(DynamicMap.Entry<T> dynamicMapEntry) {
+    String pluginNameForTracing =
+        getPluginNameForTracing(
+            dynamicMapEntry.getPluginName(), dynamicMapEntry.getProvider().get());
+    return open().addTag("PLUGIN", pluginNameForTracing);
+  }
+
+  public static <T> void invokeExtensionPoint(DynamicItem<T> dynamicItem, Consumer<T> c) {
+    tracePlugin(dynamicItem.getPluginName(), dynamicItem.get(), c);
+  }
+
+  public static <T> void invokeExtensionPoint(DynamicSet<T> dynamicSet, Consumer<T> c) {
+    dynamicSet
+        .entries()
+        .forEach(entry -> tracePlugin(entry.getPluginName(), entry.getProvider().get(), c));
+  }
+
+  public static <T> void invokeExtensionPoint(DynamicMap<T> dynamicMap, Consumer<T> c) {
+    dynamicMap
+        .iterator()
+        .forEachRemaining(
+            entry -> tracePlugin(entry.getPluginName(), entry.getProvider().get(), c));
+  }
+
+  private static <T> void tracePlugin(
+      @Nullable String pluginName, T extensionPoint, Consumer<T> c) {
+    String pluginNameForTracing = getPluginNameForTracing(pluginName, extensionPoint);
+    try (TraceContext traceContext = open().addTag("PLUGIN", pluginNameForTracing)) {
+      c.accept(extensionPoint);
+    } catch (RuntimeException e) {
+      logger.atWarning().withCause(e).log(
+          "Failure in %s of plugin %s", extensionPoint.getClass(), pluginNameForTracing);
+    }
+  }
+
+  public static <T, R> R invokeExtensionPoint(
+      DynamicSet.Entry<T> dynamicSetEntry, Function<T, R> function) {
+    return tracePlugin(
+        dynamicSetEntry.getPluginName(), dynamicSetEntry.getProvider().get(), function);
+  }
+
+  private static <T, R> R tracePlugin(
+      @Nullable String pluginName, T extensionPoint, Function<T, R> function) {
+    String pluginNameForTracing = getPluginNameForTracing(pluginName, extensionPoint);
+    try (TraceContext traceContext = open().addTag("PLUGIN", pluginNameForTracing)) {
+      return function.apply(extensionPoint);
+    }
+  }
+
+  private static <T> String getPluginNameForTracing(String pluginName, T extensionPoint) {
+    if (pluginName != null) {
+      return pluginName;
+    }
+
+    // Try to guess plugin name from package name.
+    // For most plugins the package name contains the plugin name, e.g.:
+    //   com.googlesource.gerrit.plugins.<pluginName>.foo.bar
+    // Use the part of the package that follows 'plugins' as plugin name.
+    boolean foundPluginsPackage = false;
+    for (String part : Splitter.on('.').split(extensionPoint.getClass().getName())) {
+      if (foundPluginsPackage) {
+        return String.format("%s (guessed)", part);
+      }
+      if (part.equals("plugins")) {
+        foundPluginsPackage = true;
+      }
+    }
+
+    return "n/a";
   }
 
   // Table<TAG_NAME, TAG_VALUE, REMOVE_ON_CLOSE>

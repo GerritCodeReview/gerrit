@@ -62,6 +62,30 @@
       "revId": "d394ade762b190d1afec14ff43690860d9aa7fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8361b73_63134f32",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-24T17:35:41Z",
+      "side": 1,
+      "message": "Fair question, we have a line like this in pretty much all our tests, but they aren\u0027t super clearly documented.\n\nThey\u0027re to avoid the frustrating test flakiness described in [1], originally introduced in [2].\n\n[1] https://github.com/Polymer/web-component-tester/issues/505\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/101290",
+      "parentUuid": "3013b279_06a1331b",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "d394ade762b190d1afec14ff43690860d9aa7fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

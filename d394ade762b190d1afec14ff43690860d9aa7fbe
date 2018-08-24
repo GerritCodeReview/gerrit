@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d4d068b_3477eeac",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-24T00:56:27Z",
+      "side": 1,
+      "message": "Nitpick: extra blank line.",
+      "revId": "d394ade762b190d1afec14ff43690860d9aa7fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f842d499_6dd7f88c",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-24T00:56:27Z",
+      "side": 1,
+      "message": "Nitpick: 2018",
+      "range": {
+        "startLine": 4,
+        "startChar": 14,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "d394ade762b190d1afec14ff43690860d9aa7fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

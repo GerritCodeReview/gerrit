@@ -135,7 +135,7 @@ public class PrivateInternals_DynamicTypes {
   }
 
   public static List<RegistrationHandle> attachMaps(
-      Injector src, String groupName, Map<TypeLiteral<?>, DynamicMap<?>> maps) {
+      Injector src, String pluginName, Map<TypeLiteral<?>, DynamicMap<?>> maps) {
     if (src == null || maps == null || maps.isEmpty()) {
       return Collections.emptyList();
     }
@@ -147,12 +147,12 @@ public class PrivateInternals_DynamicTypes {
         TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
 
         @SuppressWarnings("unchecked")
-        PrivateInternals_DynamicMapImpl<Object> set =
+        PrivateInternals_DynamicMapImpl<Object> map =
             (PrivateInternals_DynamicMapImpl<Object>) e.getValue();
 
         for (Binding<Object> b : bindings(src, type)) {
           if (b.getKey().getAnnotation() != null) {
-            handles.add(set.put(groupName, b.getKey(), b.getProvider()));
+            handles.add(map.put(pluginName, b.getKey(), b.getProvider()));
           }
         }
       }

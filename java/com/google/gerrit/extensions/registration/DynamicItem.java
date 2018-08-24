@@ -34,17 +34,6 @@ import java.util.concurrent.atomic.AtomicReference;
  * exception is thrown.
  */
 public class DynamicItem<T> {
-  /** Pair of provider implementation and plugin providing it. */
-  static class NamedProvider<T> {
-    final Provider<T> impl;
-    final String pluginName;
-
-    NamedProvider(Provider<T> provider, String pluginName) {
-      this.impl = provider;
-      this.pluginName = pluginName;
-    }
-  }
-
   /**
    * Declare a singleton {@code DynamicItem<T>} with a binder.
    *

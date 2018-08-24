@@ -17,11 +17,20 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../core/gr-error-dialog/gr-error-dialog.html">
 <link rel="import" href="../../shared/gr-alert/gr-alert.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-error-manager">
   <template>
+    <gr-overlay with-backdrop id="errorOverlay">
+      <gr-error-dialog
+          id="errorDialog"
+          on-dismiss="_handleDismissErrorDialog"
+          confirm-label="Dismiss"
+          confirm-on-enter></gr-error-dialog>
+    </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-error-manager.js"></script>

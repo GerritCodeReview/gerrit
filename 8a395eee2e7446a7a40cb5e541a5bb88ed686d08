@@ -1,4 +1,90 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1535122390 +0200\nnonce ACQ0HpysjZj+MKYkTMI9+doJyA+3+FdrrWvLAodKSCAgYcvL3xZYaNdv4NaQ2qGFEgzrIdibtloU\n\n0000000000000000000000000000000000000000 c107c1010af1a90c01e5229b98a0563b69188d86 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluAG9YACgkQUbX9l6DQ\n71HGKggAqe53cgAkm7KKgwxdCQo/jiAZJu3Tkwi0ckKMYRPjMcanr+b7YyL9pHEL\nIHLiKjnV8vSfQ6cht4Hp3Js1nrrBQQMRywUeKje00kKrwEczjj4gtgaFxQYI85L+\ngk3QdwqalJk6dFS00oJrGz11bUOAyKxhPA+y3uhjFa+rDL29AOKzVnS14WznUiY/\naNG50XpLe1D9/SxI+qOlhojBgZyXTurETZzcl8djlt4ewM3rrsZCpyKPXmTwjCSr\n9z8H4FF33GcRXA4UlWgnTUjufACyDRFpRe/lO0P4wxFLMhPYi2FGssDc8Jw7Ob23\nIZ0Yctob5iDBJqkd0+poQbvVQn9xsg\u003d\u003d\n\u003dFzSK\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "50e8e576_7c959db4",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-24T15:59:56Z",
+      "side": 1,
+      "message": "Is there a reason this should be an interface instead of a concrete class? It would allow you add a constructor instead of creating an anonymous implementation on line 184.",
+      "revId": "8a395eee2e7446a7a40cb5e541a5bb88ed686d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a233a3be_7307b209",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-24T15:59:56Z",
+      "side": 1,
+      "message": "Huh, I\u0027m surprised there\u0027s nothing like Iterators#map in Guava.",
+      "revId": "8a395eee2e7446a7a40cb5e541a5bb88ed686d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5df3dd3b_0015d24d",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-24T15:59:56Z",
+      "side": 1,
+      "message": "I would recommend ImmutableSortedSet, and then the body can be a single stream statement:\n\n return Iitems.stream().map(i -\u003e i.get().pluginName).collect(toImmutableSortedSet(naturalOrder())",
+      "revId": "8a395eee2e7446a7a40cb5e541a5bb88ed686d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dcbd3c5_6024c9b4",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-24T15:59:56Z",
+      "side": 1,
+      "message": "I\u0027d recommend ImmutableSortedSet.",
+      "revId": "8a395eee2e7446a7a40cb5e541a5bb88ed686d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be9c661a_6ad3dcea",
+        "filename": "java/com/google/gerrit/sshd/commands/StreamEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-24T15:59:56Z",
+      "side": 1,
+      "message": "I think this should be a constant somewhere. If it were only used in tests I\u0027d be more ok with hard-coding it, but this is not test code.",
+      "revId": "8a395eee2e7446a7a40cb5e541a5bb88ed686d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

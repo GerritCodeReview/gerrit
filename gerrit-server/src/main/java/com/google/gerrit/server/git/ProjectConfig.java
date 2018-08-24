@@ -451,10 +451,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return rulesId;
   }
 
-  /**
-   * @return the maxObjectSizeLimit for this project, if set. Zero if this project doesn't define
-   *     own maxObjectSizeLimit.
-   */
+  /** @return the maxObjectSizeLimit configured on this project, or zero if not configured. */
   public long getMaxObjectSizeLimit() {
     return maxObjectSizeLimit;
   }

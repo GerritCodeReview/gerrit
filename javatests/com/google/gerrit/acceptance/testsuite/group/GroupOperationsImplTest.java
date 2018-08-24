@@ -21,8 +21,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
-import com.google.gerrit.acceptance.testsuite.account.TestAccount;
-import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -42,7 +40,6 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   @Rule public ExpectedException expectedException = ExpectedException.none();
 
   @Inject private AccountOperations accountOperations;
-  @Inject private GerritApi gApi;
 
   @Inject private GroupOperationsImpl groupOperations;
 
@@ -50,17 +47,17 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void groupCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
-    TestGroup group = groupOperations.newGroup().create();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().create();
 
-    GroupInfo foundGroup = getGroupFromServer(group.groupUuid());
-    assertThat(foundGroup.id).isEqualTo(group.groupUuid().get());
+    GroupInfo foundGroup = getGroupFromServer(groupUuid);
+    assertThat(foundGroup.id).isEqualTo(groupUuid.get());
     assertThat(foundGroup.name).isNotEmpty();
   }
 
   @Test
   public void twoGroupsWithoutAnyParametersDoNotClash() throws Exception {
-    AccountGroup.UUID groupUuid1 = groupOperations.newGroup().create().groupUuid();
-    AccountGroup.UUID groupUuid2 = groupOperations.newGroup().create().groupUuid();
+    AccountGroup.UUID groupUuid1 = groupOperations.newGroup().create();
+    AccountGroup.UUID groupUuid2 = groupOperations.newGroup().create();
 
     TestGroup group1 = groupOperations.group(groupUuid1).get();
     TestGroup group2 = groupOperations.group(groupUuid2).get();
@@ -70,7 +67,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void groupCreatedByTestApiCanBeRetrievedViaOfficialApi() throws Exception {
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().name("unique group created via test API").create().groupUuid();
+        groupOperations.newGroup().name("unique group created via test API").create();
 
     GroupInfo foundGroup = getGroupFromServer(groupUuid);
     assertThat(foundGroup.id).isEqualTo(groupUuid.get());
@@ -80,7 +77,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void specifiedNameIsRespectedForGroupCreation() throws Exception {
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().name("XYZ-123-this-name-must-be-unique").create().groupUuid();
+        groupOperations.newGroup().name("XYZ-123-this-name-must-be-unique").create();
 
     GroupInfo group = getGroupFromServer(groupUuid);
     assertThat(group.name).isEqualTo("XYZ-123-this-name-must-be-unique");
@@ -89,7 +86,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void specifiedDescriptionIsRespectedForGroupCreation() throws Exception {
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().description("All authenticated users").create().groupUuid();
+        groupOperations.newGroup().description("All authenticated users").create();
 
     GroupInfo group = getGroupFromServer(groupUuid);
     assertThat(group.description).isEqualTo("All authenticated users");
@@ -97,8 +94,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void requestingNoDescriptionIsPossibleForGroupCreation() throws Exception {
-    AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().clearDescription().create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearDescription().create();
 
     GroupInfo group = getGroupFromServer(groupUuid);
     assertThat(group.description).isNull();
@@ -106,22 +102,22 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void specifiedOwnerIsRespectedForGroupCreation() throws Exception {
-    TestGroup ownerGroup = groupOperations.newGroup().create();
+    AccountGroup.UUID ownerGroupUuid = groupOperations.newGroup().create();
 
-    TestGroup group =
-        groupOperations.newGroup().ownerGroupUuid(ownerGroup.ownerGroupUuid()).create();
+    AccountGroup.UUID groupUuid =
+        groupOperations.newGroup().ownerGroupUuid(ownerGroupUuid).create();
 
-    GroupInfo foundGroup = getGroupFromServer(group.groupUuid());
-    assertThat(foundGroup.ownerId).isEqualTo(ownerGroup.ownerGroupUuid().get());
+    GroupInfo foundGroup = getGroupFromServer(groupUuid);
+    assertThat(foundGroup.ownerId).isEqualTo(ownerGroupUuid.get());
   }
 
   @Test
   public void specifiedVisibilityIsRespectedForGroupCreation() throws Exception {
-    TestGroup group1 = groupOperations.newGroup().visibleToAll(true).create();
-    TestGroup group2 = groupOperations.newGroup().visibleToAll(false).create();
+    AccountGroup.UUID group1Uuid = groupOperations.newGroup().visibleToAll(true).create();
+    AccountGroup.UUID group2Uuid = groupOperations.newGroup().visibleToAll(false).create();
 
-    GroupInfo foundGroup1 = getGroupFromServer(group1.groupUuid());
-    GroupInfo foundGroup2 = getGroupFromServer(group2.groupUuid());
+    GroupInfo foundGroup1 = getGroupFromServer(group1Uuid);
+    GroupInfo foundGroup2 = getGroupFromServer(group2Uuid);
     assertThat(foundGroup1.options.visibleToAll).isTrue();
     // False == null
     assertThat(foundGroup2.options.visibleToAll).isNull();
@@ -129,97 +125,87 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void specifiedMembersAreRespectedForGroupCreation() throws Exception {
-    TestAccount account1 = accountOperations.newAccount().create();
-    TestAccount account2 = accountOperations.newAccount().create();
-    TestAccount account3 = accountOperations.newAccount().create();
-    TestAccount account4 = accountOperations.newAccount().create();
+    Account.Id account1Id = accountOperations.newAccount().create();
+    Account.Id account2Id = accountOperations.newAccount().create();
+    Account.Id account3Id = accountOperations.newAccount().create();
+    Account.Id account4Id = accountOperations.newAccount().create();
 
-    TestGroup group =
+    AccountGroup.UUID groupUuid =
         groupOperations
             .newGroup()
-            .members(account1.accountId(), account2.accountId())
-            .addMember(account3.accountId())
-            .addMember(account4.accountId())
+            .members(account1Id, account2Id)
+            .addMember(account3Id)
+            .addMember(account4Id)
             .create();
 
-    GroupInfo foundGroup = getGroupFromServer(group.groupUuid());
+    GroupInfo foundGroup = getGroupFromServer(groupUuid);
     assertThat(foundGroup.members)
         .comparingElementsUsing(getAccountToIdCorrespondence())
-        .containsExactly(
-            account1.accountId(), account2.accountId(), account3.accountId(), account4.accountId());
+        .containsExactly(account1Id, account2Id, account3Id, account4Id);
   }
 
   @Test
   public void directlyAddingMembersIsPossibleForGroupCreation() throws Exception {
-    TestAccount account1 = accountOperations.newAccount().create();
-    TestAccount account2 = accountOperations.newAccount().create();
+    Account.Id account1Id = accountOperations.newAccount().create();
+    Account.Id account2Id = accountOperations.newAccount().create();
 
-    TestGroup group =
-        groupOperations
-            .newGroup()
-            .addMember(account1.accountId())
-            .addMember(account2.accountId())
-            .create();
+    AccountGroup.UUID groupUuid =
+        groupOperations.newGroup().addMember(account1Id).addMember(account2Id).create();
 
-    GroupInfo foundGroup = getGroupFromServer(group.groupUuid());
+    GroupInfo foundGroup = getGroupFromServer(groupUuid);
     assertThat(foundGroup.members)
         .comparingElementsUsing(getAccountToIdCorrespondence())
-        .containsExactly(account1.accountId(), account2.accountId());
+        .containsExactly(account1Id, account2Id);
   }
 
   @Test
   public void requestingNoMembersIsPossibleForGroupCreation() throws Exception {
-    TestGroup group = groupOperations.newGroup().clearMembers().create();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearMembers().create();
 
-    GroupInfo foundGroup = getGroupFromServer(group.groupUuid());
+    GroupInfo foundGroup = getGroupFromServer(groupUuid);
     assertThat(foundGroup.members).isEmpty();
   }
 
   @Test
   public void specifiedSubgroupsAreRespectedForGroupCreation() throws Exception {
-    TestGroup group1 = groupOperations.newGroup().create();
-    TestGroup group2 = groupOperations.newGroup().create();
-    TestGroup group3 = groupOperations.newGroup().create();
-    TestGroup group4 = groupOperations.newGroup().create();
+    AccountGroup.UUID group1Uuid = groupOperations.newGroup().create();
+    AccountGroup.UUID group2Uuid = groupOperations.newGroup().create();
+    AccountGroup.UUID group3Uuid = groupOperations.newGroup().create();
+    AccountGroup.UUID group4Uuid = groupOperations.newGroup().create();
 
-    TestGroup group =
+    AccountGroup.UUID groupUuid =
         groupOperations
             .newGroup()
-            .subgroups(group1.groupUuid(), group2.groupUuid())
-            .addSubgroup(group3.groupUuid())
-            .addSubgroup(group4.groupUuid())
+            .subgroups(group1Uuid, group2Uuid)
+            .addSubgroup(group3Uuid)
+            .addSubgroup(group4Uuid)
             .create();
 
-    GroupInfo foundGroup = getGroupFromServer(group.groupUuid());
+    GroupInfo foundGroup = getGroupFromServer(groupUuid);
     assertThat(foundGroup.includes)
         .comparingElementsUsing(getGroupToUuidCorrespondence())
-        .containsExactly(
-            group1.groupUuid(), group2.groupUuid(), group3.groupUuid(), group4.groupUuid());
+        .containsExactly(group1Uuid, group2Uuid, group3Uuid, group4Uuid);
   }
 
   @Test
   public void directlyAddingSubgroupsIsPossibleForGroupCreation() throws Exception {
-    TestGroup group1 = groupOperations.newGroup().create();
-    TestGroup group2 = groupOperations.newGroup().create();
+    AccountGroup.UUID group1Uuid = groupOperations.newGroup().create();
+    AccountGroup.UUID group2Uuid = groupOperations.newGroup().create();
 
-    TestGroup group =
-        groupOperations
-            .newGroup()
-            .addSubgroup(group1.groupUuid())
-            .addSubgroup(group2.groupUuid())
-            .create();
+    AccountGroup.UUID groupUuid =
+        groupOperations.newGroup().addSubgroup(group1Uuid).addSubgroup(group2Uuid).create();
 
-    GroupInfo foundGroup = getGroupFromServer(group.groupUuid());
+    GroupInfo foundGroup = getGroupFromServer(groupUuid);
     assertThat(foundGroup.includes)
         .comparingElementsUsing(getGroupToUuidCorrespondence())
-        .containsExactly(group1.groupUuid(), group2.groupUuid());
+        .containsExactly(group1Uuid, group2Uuid);
   }
 
   @Test
   public void requestingNoSubgroupsIsPossibleForGroupCreation() throws Exception {
-    TestGroup group = groupOperations.newGroup().clearSubgroups().create();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearSubgroups().create();
 
-    GroupInfo foundGroup = getGroupFromServer(group.groupUuid());
+    GroupInfo foundGroup = getGroupFromServer(groupUuid);
     assertThat(foundGroup.includes).isEmpty();
   }
 
@@ -263,7 +249,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void uuidOfExistingGroupCanBeRetrieved() throws Exception {
-    AccountGroup.UUID groupUuid = groupOperations.newGroup().create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().create();
 
     AccountGroup.UUID foundGroupUuid = groupOperations.group(groupUuid).get().groupUuid();
 
@@ -273,7 +259,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void nameOfExistingGroupCanBeRetrieved() throws Exception {
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().name("ABC-789-this-name-must-be-unique").create().groupUuid();
+        groupOperations.newGroup().name("ABC-789-this-name-must-be-unique").create();
 
     String groupName = groupOperations.group(groupUuid).get().name();
 
@@ -283,7 +269,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void nameKeyOfExistingGroupCanBeRetrieved() throws Exception {
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().name("ABC-789-this-name-must-be-unique").create().groupUuid();
+        groupOperations.newGroup().name("ABC-789-this-name-must-be-unique").create();
 
     AccountGroup.NameKey groupName = groupOperations.group(groupUuid).get().nameKey();
 
@@ -296,8 +282,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
         groupOperations
             .newGroup()
             .description("This is a very detailed description of this group.")
-            .create()
-            .groupUuid();
+            .create();
 
     Optional<String> description = groupOperations.group(groupUuid).get().description();
 
@@ -306,8 +291,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void emptyDescriptionOfExistingGroupCanBeRetrieved() throws Exception {
-    AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().clearDescription().create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearDescription().create();
 
     Optional<String> description = groupOperations.group(groupUuid).get().description();
 
@@ -318,7 +302,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   public void ownerGroupUuidOfExistingGroupCanBeRetrieved() throws Exception {
     AccountGroup.UUID originalOwnerGroupUuid = new AccountGroup.UUID("owner group");
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().ownerGroupUuid(originalOwnerGroupUuid).create().groupUuid();
+        groupOperations.newGroup().ownerGroupUuid(originalOwnerGroupUuid).create();
 
     AccountGroup.UUID ownerGroupUuid = groupOperations.group(groupUuid).get().ownerGroupUuid();
 
@@ -327,10 +311,8 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void visibilityOfExistingGroupCanBeRetrieved() throws Exception {
-    AccountGroup.UUID visibleGroupUuid =
-        groupOperations.newGroup().visibleToAll(true).create().groupUuid();
-    AccountGroup.UUID invisibleGroupUuid =
-        groupOperations.newGroup().visibleToAll(false).create().groupUuid();
+    AccountGroup.UUID visibleGroupUuid = groupOperations.newGroup().visibleToAll(true).create();
+    AccountGroup.UUID invisibleGroupUuid = groupOperations.newGroup().visibleToAll(false).create();
 
     TestGroup visibleGroup = groupOperations.group(visibleGroupUuid).get();
     TestGroup invisibleGroup = groupOperations.group(invisibleGroupUuid).get();
@@ -355,7 +337,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
     Account.Id memberId2 = new Account.Id(2000);
     Account.Id memberId3 = new Account.Id(3000);
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().members(memberId1, memberId2, memberId3).create().groupUuid();
+        groupOperations.newGroup().members(memberId1, memberId2, memberId3).create();
 
     ImmutableSet<Account.Id> members = groupOperations.group(groupUuid).get().members();
 
@@ -364,7 +346,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void emptyMembersOfExistingGroupCanBeRetrieved() throws Exception {
-    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearMembers().create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearMembers().create();
 
     ImmutableSet<Account.Id> members = groupOperations.group(groupUuid).get().members();
 
@@ -377,11 +359,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
     AccountGroup.UUID subgroupUuid2 = new AccountGroup.UUID("subgroup 2");
     AccountGroup.UUID subgroupUuid3 = new AccountGroup.UUID("subgroup 3");
     AccountGroup.UUID groupUuid =
-        groupOperations
-            .newGroup()
-            .subgroups(subgroupUuid1, subgroupUuid2, subgroupUuid3)
-            .create()
-            .groupUuid();
+        groupOperations.newGroup().subgroups(subgroupUuid1, subgroupUuid2, subgroupUuid3).create();
 
     ImmutableSet<AccountGroup.UUID> subgroups = groupOperations.group(groupUuid).get().subgroups();
 
@@ -390,7 +368,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void emptySubgroupsOfExistingGroupCanBeRetrieved() throws Exception {
-    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearSubgroups().create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearSubgroups().create();
 
     ImmutableSet<AccountGroup.UUID> subgroups = groupOperations.group(groupUuid).get().subgroups();
 
@@ -399,8 +377,8 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void updateWithoutAnyParametersIsANoop() throws Exception {
-    TestGroup originalGroup = groupOperations.newGroup().create();
-    AccountGroup.UUID groupUuid = originalGroup.groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().create();
+    TestGroup originalGroup = groupOperations.group(groupUuid).get();
 
     groupOperations.group(groupUuid).forUpdate().update();
 
@@ -411,7 +389,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void updateWritesToInternalGroupSystem() throws Exception {
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().description("original description").create().groupUuid();
+        groupOperations.newGroup().description("original description").create();
 
     groupOperations.group(groupUuid).forUpdate().description("updated description").update();
 
@@ -421,8 +399,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void nameCanBeUpdated() throws Exception {
-    AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().name("original name").create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().name("original name").create();
 
     groupOperations.group(groupUuid).forUpdate().name("updated name").update();
 
@@ -433,7 +410,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void descriptionCanBeUpdated() throws Exception {
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().description("original description").create().groupUuid();
+        groupOperations.newGroup().description("original description").create();
 
     groupOperations.group(groupUuid).forUpdate().description("updated description").update();
 
@@ -444,7 +421,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void descriptionCanBeCleared() throws Exception {
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().description("original description").create().groupUuid();
+        groupOperations.newGroup().description("original description").create();
 
     groupOperations.group(groupUuid).forUpdate().clearDescription().update();
 
@@ -456,7 +433,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   public void ownerGroupUuidCanBeUpdated() throws Exception {
     AccountGroup.UUID originalOwnerGroupUuid = new AccountGroup.UUID("original owner");
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().ownerGroupUuid(originalOwnerGroupUuid).create().groupUuid();
+        groupOperations.newGroup().ownerGroupUuid(originalOwnerGroupUuid).create();
 
     AccountGroup.UUID updatedOwnerGroupUuid = new AccountGroup.UUID("updated owner");
     groupOperations.group(groupUuid).forUpdate().ownerGroupUuid(updatedOwnerGroupUuid).update();
@@ -468,8 +445,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void visibilityCanBeUpdated() throws Exception {
-    AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().visibleToAll(true).create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().visibleToAll(true).create();
 
     groupOperations.group(groupUuid).forUpdate().visibleToAll(false).update();
 
@@ -479,7 +455,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void membersCanBeAdded() throws Exception {
-    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearMembers().create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearMembers().create();
 
     Account.Id memberId1 = new Account.Id(1000);
     Account.Id memberId2 = new Account.Id(2000);
@@ -493,8 +469,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   public void membersCanBeRemoved() throws Exception {
     Account.Id memberId1 = new Account.Id(1000);
     Account.Id memberId2 = new Account.Id(2000);
-    AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().members(memberId1, memberId2).create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().members(memberId1, memberId2).create();
 
     groupOperations.group(groupUuid).forUpdate().removeMember(memberId2).update();
 
@@ -506,8 +481,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   public void memberAdditionAndRemovalCanBeMixed() throws Exception {
     Account.Id memberId1 = new Account.Id(1000);
     Account.Id memberId2 = new Account.Id(2000);
-    AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().members(memberId1, memberId2).create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().members(memberId1, memberId2).create();
 
     Account.Id memberId3 = new Account.Id(3000);
     groupOperations
@@ -525,8 +499,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   public void membersCanBeCleared() throws Exception {
     Account.Id memberId1 = new Account.Id(1000);
     Account.Id memberId2 = new Account.Id(2000);
-    AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().members(memberId1, memberId2).create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().members(memberId1, memberId2).create();
 
     groupOperations.group(groupUuid).forUpdate().clearMembers().update();
 
@@ -538,8 +511,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   public void furtherMembersCanBeAddedAfterClearingAll() throws Exception {
     Account.Id memberId1 = new Account.Id(1000);
     Account.Id memberId2 = new Account.Id(2000);
-    AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().members(memberId1, memberId2).create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().members(memberId1, memberId2).create();
 
     Account.Id memberId3 = new Account.Id(3000);
     groupOperations.group(groupUuid).forUpdate().clearMembers().addMember(memberId3).update();
@@ -550,7 +522,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void subgroupsCanBeAdded() throws Exception {
-    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearSubgroups().create().groupUuid();
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().clearSubgroups().create();
 
     AccountGroup.UUID subgroupUuid1 = new AccountGroup.UUID("subgroup 1");
     AccountGroup.UUID subgroupUuid2 = new AccountGroup.UUID("subgroup 2");
@@ -570,7 +542,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
     AccountGroup.UUID subgroupUuid1 = new AccountGroup.UUID("subgroup 1");
     AccountGroup.UUID subgroupUuid2 = new AccountGroup.UUID("subgroup 2");
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().subgroups(subgroupUuid1, subgroupUuid2).create().groupUuid();
+        groupOperations.newGroup().subgroups(subgroupUuid1, subgroupUuid2).create();
 
     groupOperations.group(groupUuid).forUpdate().removeSubgroup(subgroupUuid2).update();
 
@@ -583,7 +555,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
     AccountGroup.UUID subgroupUuid1 = new AccountGroup.UUID("subgroup 1");
     AccountGroup.UUID subgroupUuid2 = new AccountGroup.UUID("subgroup 2");
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().subgroups(subgroupUuid1, subgroupUuid2).create().groupUuid();
+        groupOperations.newGroup().subgroups(subgroupUuid1, subgroupUuid2).create();
 
     AccountGroup.UUID subgroupUuid3 = new AccountGroup.UUID("subgroup 3");
     groupOperations
@@ -602,7 +574,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
     AccountGroup.UUID subgroupUuid1 = new AccountGroup.UUID("subgroup 1");
     AccountGroup.UUID subgroupUuid2 = new AccountGroup.UUID("subgroup 2");
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().subgroups(subgroupUuid1, subgroupUuid2).create().groupUuid();
+        groupOperations.newGroup().subgroups(subgroupUuid1, subgroupUuid2).create();
 
     groupOperations.group(groupUuid).forUpdate().clearSubgroups().update();
 
@@ -615,7 +587,7 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
     AccountGroup.UUID subgroupUuid1 = new AccountGroup.UUID("subgroup 1");
     AccountGroup.UUID subgroupUuid2 = new AccountGroup.UUID("subgroup 2");
     AccountGroup.UUID groupUuid =
-        groupOperations.newGroup().subgroups(subgroupUuid1, subgroupUuid2).create().groupUuid();
+        groupOperations.newGroup().subgroups(subgroupUuid1, subgroupUuid2).create();
 
     AccountGroup.UUID subgroupUuid3 = new AccountGroup.UUID("subgroup 3");
     groupOperations

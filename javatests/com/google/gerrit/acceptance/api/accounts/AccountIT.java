@@ -526,9 +526,9 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void validateAccountActivation() throws Exception {
-    com.google.gerrit.acceptance.testsuite.account.TestAccount activatableAccount =
+    Account.Id activatableAccountId =
         accountOperations.newAccount().inactive().preferredEmail("foo@activatable.com").create();
-    com.google.gerrit.acceptance.testsuite.account.TestAccount deactivatableAccount =
+    Account.Id deactivatableAccountId =
         accountOperations.newAccount().preferredEmail("foo@deactivatable.com").create();
     RegistrationHandle registrationHandle =
         accountActivationValidationListeners.add(
@@ -553,61 +553,56 @@ public class AccountIT extends AbstractDaemonTest {
       /* Test account that can be activated, but not deactivated */
       // Deactivate account that is already inactive
       try {
-        gApi.accounts().id(activatableAccount.accountId().get()).setActive(false);
+        gApi.accounts().id(activatableAccountId.get()).setActive(false);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("account not active");
       }
-      assertThat(accountOperations.account(activatableAccount.accountId()).get().active())
-          .isFalse();
+      assertThat(accountOperations.account(activatableAccountId).get().active()).isFalse();
 
       // Activate account that can be activated
-      gApi.accounts().id(activatableAccount.accountId().get()).setActive(true);
-      assertThat(accountOperations.account(activatableAccount.accountId()).get().active()).isTrue();
+      gApi.accounts().id(activatableAccountId.get()).setActive(true);
+      assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
 
       // Activate account that is already active
-      gApi.accounts().id(activatableAccount.accountId().get()).setActive(true);
-      assertThat(accountOperations.account(activatableAccount.accountId()).get().active()).isTrue();
+      gApi.accounts().id(activatableAccountId.get()).setActive(true);
+      assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
 
       // Try deactivating account that cannot be deactivated
       try {
-        gApi.accounts().id(activatableAccount.accountId().get()).setActive(false);
+        gApi.accounts().id(activatableAccountId.get()).setActive(false);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("not allowed to deactive account");
       }
-      assertThat(accountOperations.account(activatableAccount.accountId()).get().active()).isTrue();
+      assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
 
       /* Test account that can be deactivated, but not activated */
       // Activate account that is already inactive
-      gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(true);
-      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
-          .isTrue();
+      gApi.accounts().id(deactivatableAccountId.get()).setActive(true);
+      assertThat(accountOperations.account(deactivatableAccountId).get().active()).isTrue();
 
       // Deactivate account that can be deactivated
-      gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(false);
-      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
-          .isFalse();
+      gApi.accounts().id(deactivatableAccountId.get()).setActive(false);
+      assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
 
       // Deactivate account that is already inactive
       try {
-        gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(false);
+        gApi.accounts().id(deactivatableAccountId.get()).setActive(false);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("account not active");
       }
-      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
-          .isFalse();
+      assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
 
       // Try activating account that cannot be activated
       try {
-        gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(true);
+        gApi.accounts().id(deactivatableAccountId.get()).setActive(true);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("not allowed to active account");
       }
-      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
-          .isFalse();
+      assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
     } finally {
       registrationHandle.remove();
     }

@@ -39,7 +39,6 @@ import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.events.VoteDeletedListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -54,7 +53,7 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
@@ -114,7 +113,7 @@ public class StreamEventsApiListener
     }
   }
 
-  private final DynamicItem<EventDispatcher> dispatcher;
+  private final PluginItemContext<EventDispatcher> dispatcher;
   private final Provider<ReviewDb> db;
   private final EventFactory eventFactory;
   private final ProjectCache projectCache;
@@ -124,7 +123,7 @@ public class StreamEventsApiListener
 
   @Inject
   StreamEventsApiListener(
-      DynamicItem<EventDispatcher> dispatcher,
+      PluginItemContext<EventDispatcher> dispatcher,
       Provider<ReviewDb> db,
       EventFactory eventFactory,
       ProjectCache projectCache,
@@ -261,8 +260,8 @@ public class StreamEventsApiListener
       event.changer = accountAttributeSupplier(ev.getWho());
       event.oldAssignee = accountAttributeSupplier(ev.getOldAssignee());
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -278,8 +277,8 @@ public class StreamEventsApiListener
       event.changer = accountAttributeSupplier(ev.getWho());
       event.oldTopic = ev.getOldTopic();
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -296,8 +295,8 @@ public class StreamEventsApiListener
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
       event.uploader = accountAttributeSupplier(ev.getWho());
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -316,8 +315,8 @@ public class StreamEventsApiListener
       event.approvals =
           approvalsAttributeSupplier(change, ev.getNewApprovals(), ev.getOldApprovals());
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -333,9 +332,9 @@ public class StreamEventsApiListener
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       for (AccountInfo reviewer : ev.getReviewers()) {
         event.reviewer = accountAttributeSupplier(reviewer);
-        dispatcher.get().postEvent(change, event);
+        dispatcher.run(d -> d.postEvent(event));
       }
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -346,7 +345,7 @@ public class StreamEventsApiListener
     event.projectName = ev.getProjectName();
     event.headName = ev.getHeadName();
 
-    dispatcher.get().postEvent(event.getProjectNameKey(), event);
+    dispatcher.run(d -> d.postEvent(event.getProjectNameKey(), event));
   }
 
   @Override
@@ -362,8 +361,8 @@ public class StreamEventsApiListener
       event.added = hashtagArray(ev.getAddedHashtags());
       event.removed = hashtagArray(ev.getRemovedHashtags());
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -386,11 +385,7 @@ public class StreamEventsApiListener
                     refName);
               }
             });
-    try {
-      dispatcher.get().postEvent(refName, event);
-    } catch (PermissionBackendException e) {
-      logger.atSevere().withCause(e).log("Failed to dispatch event");
-    }
+    dispatcher.run(d -> d.postEvent(refName, event));
   }
 
   @Override
@@ -407,8 +402,8 @@ public class StreamEventsApiListener
       event.comment = ev.getComment();
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -425,8 +420,8 @@ public class StreamEventsApiListener
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -443,8 +438,8 @@ public class StreamEventsApiListener
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.newRev = ev.getNewRevisionId();
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -461,8 +456,8 @@ public class StreamEventsApiListener
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -479,8 +474,8 @@ public class StreamEventsApiListener
       event.changer = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -497,8 +492,8 @@ public class StreamEventsApiListener
       event.changer = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
@@ -517,8 +512,8 @@ public class StreamEventsApiListener
       event.remover = accountAttributeSupplier(ev.getWho());
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }

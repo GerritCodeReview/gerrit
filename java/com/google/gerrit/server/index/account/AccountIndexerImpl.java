@@ -18,13 +18,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -42,7 +42,7 @@ public class AccountIndexerImpl implements AccountIndexer {
   }
 
   private final AccountCache byIdCache;
-  private final DynamicSet<AccountIndexedListener> indexedListener;
+  private final PluginSetContext<AccountIndexedListener> indexedListener;
   private final StalenessChecker stalenessChecker;
   @Nullable private final AccountIndexCollection indexes;
   @Nullable private final AccountIndex index;
@@ -50,7 +50,7 @@ public class AccountIndexerImpl implements AccountIndexer {
   @AssistedInject
   AccountIndexerImpl(
       AccountCache byIdCache,
-      DynamicSet<AccountIndexedListener> indexedListener,
+      PluginSetContext<AccountIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
       @Assisted AccountIndexCollection indexes) {
     this.byIdCache = byIdCache;
@@ -63,7 +63,7 @@ public class AccountIndexerImpl implements AccountIndexer {
   @AssistedInject
   AccountIndexerImpl(
       AccountCache byIdCache,
-      DynamicSet<AccountIndexedListener> indexedListener,
+      PluginSetContext<AccountIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
       @Assisted @Nullable AccountIndex index) {
     this.byIdCache = byIdCache;
@@ -113,9 +113,7 @@ public class AccountIndexerImpl implements AccountIndexer {
   }
 
   private void fireAccountIndexedEvent(int id) {
-    for (AccountIndexedListener listener : indexedListener) {
-      listener.onAccountIndexed(id);
-    }
+    indexedListener.runEach(l -> l.onAccountIndexed(id));
   }
 
   private Collection<AccountIndex> getWriteIndexes() {

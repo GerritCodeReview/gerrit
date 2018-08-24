@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45cc15c5_03ad5f0f",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-24T00:56:20Z",
+      "side": 1,
+      "message": "Is there any specific reason to clear this? Won\u0027t it get overwritten on the next error?",
+      "revId": "b94762a603a282f7108f57fedb2663d87752960d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

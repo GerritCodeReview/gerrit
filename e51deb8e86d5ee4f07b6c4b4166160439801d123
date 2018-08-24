@@ -52,6 +52,24 @@
       "revId": "e51deb8e86d5ee4f07b6c4b4166160439801d123",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b754b58_7a23d01c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-24T22:17:13Z",
+      "side": 1,
+      "message": "It sounds like this change actually fixes issue 9368 instead of issue 8691. (I guess they\u0027re not dupes.) 9368 seems to me like it\u0027s more worth fixing, so maybe the simplest thing would be to de dupe them and refer to 9368?\n\nDouble clicking is normally to select a word. I\u0027m not aware of any pattern involving double clicking after the end of a line, but it\u0027s certainly surprising what Gerrit does in that case!",
+      "parentUuid": "fbefb97a_978cd045",
+      "revId": "e51deb8e86d5ee4f07b6c4b4166160439801d123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -94,6 +94,8 @@ import java.util.function.Consumer;
  * </pre>
  */
 public class TraceContext implements AutoCloseable {
+  private static final String PLUGIN_TAG = "PLUGIN";
+
   public static TraceContext open() {
     return new TraceContext();
   }
@@ -238,6 +240,10 @@ public class TraceContext implements AutoCloseable {
     String value = checkNotNull(tagValue, "tag value is required").toString();
     tags.put(name, value, LoggingContext.getInstance().addTag(name, value));
     return this;
+  }
+
+  public TraceContext addPluginTag(String pluginName) {
+    return addTag(PLUGIN_TAG, pluginName);
   }
 
   public TraceContext forceLogging() {

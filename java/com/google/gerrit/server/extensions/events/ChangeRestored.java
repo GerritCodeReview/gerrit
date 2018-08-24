@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.ChangeRestoredListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
@@ -28,6 +27,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,18 +38,18 @@ import java.sql.Timestamp;
 public class ChangeRestored {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<ChangeRestoredListener> listeners;
+  private final PluginSetContext<ChangeRestoredListener> listeners;
   private final EventUtil util;
 
   @Inject
-  ChangeRestored(DynamicSet<ChangeRestoredListener> listeners, EventUtil util) {
+  ChangeRestored(PluginSetContext<ChangeRestoredListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
   public void fire(
       Change change, PatchSet ps, AccountState restorer, String reason, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     try {
@@ -60,13 +60,7 @@ public class ChangeRestored {
               util.accountInfo(restorer),
               reason,
               when);
-      for (ChangeRestoredListener l : listeners) {
-        try {
-          l.onChangeRestored(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      listeners.runEach(l -> l.onChangeRestored(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException

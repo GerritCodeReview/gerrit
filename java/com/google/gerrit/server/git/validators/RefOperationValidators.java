@@ -17,7 +17,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
@@ -28,6 +27,7 @@ import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -52,14 +52,14 @@ public class RefOperationValidators {
 
   private final PermissionBackend.WithUser perm;
   private final AllUsersName allUsersName;
-  private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
+  private final PluginSetContext<RefOperationValidationListener> refOperationValidationListeners;
   private final RefReceivedEvent event;
 
   @Inject
   RefOperationValidators(
       PermissionBackend permissionBackend,
       AllUsersName allUsersName,
-      DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
+      PluginSetContext<RefOperationValidationListener> refOperationValidationListeners,
       @Assisted Project project,
       @Assisted IdentifiedUser user,
       @Assisted ReceiveCommand cmd) {
@@ -75,13 +75,11 @@ public class RefOperationValidators {
   public List<ValidationMessage> validateForRefOperation() throws RefOperationValidationException {
     List<ValidationMessage> messages = new ArrayList<>();
     boolean withException = false;
-    List<RefOperationValidationListener> listeners = new ArrayList<>();
-    listeners.add(new DisallowCreationAndDeletionOfUserBranches(perm, allUsersName));
-    refOperationValidationListeners.forEach(listeners::add);
     try {
-      for (RefOperationValidationListener listener : listeners) {
-        messages.addAll(listener.onRefOperation(event));
-      }
+      messages.addAll(
+          new DisallowCreationAndDeletionOfUserBranches(perm, allUsersName).onRefOperation(event));
+      refOperationValidationListeners.runEach(
+          l -> l.onRefOperation(event), ValidationException.class);
     } catch (ValidationException e) {
       messages.add(new ValidationMessage(e.getMessage(), true));
       withException = true;

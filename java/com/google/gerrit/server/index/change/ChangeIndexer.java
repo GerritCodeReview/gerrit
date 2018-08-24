@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.index.change;
 
-import static com.google.gerrit.server.extensions.events.EventUtil.logEventListenerError;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.flogger.FluentLogger;
@@ -24,7 +23,6 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -37,6 +35,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
@@ -94,7 +93,7 @@ public class ChangeIndexer {
   private final ThreadLocalRequestContext context;
   private final ListeningExecutorService batchExecutor;
   private final ListeningExecutorService executor;
-  private final DynamicSet<ChangeIndexedListener> indexedListeners;
+  private final PluginSetContext<ChangeIndexedListener> indexedListeners;
   private final StalenessChecker stalenessChecker;
   private final boolean autoReindexIfStale;
 
@@ -106,7 +105,7 @@ public class ChangeIndexer {
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
-      DynamicSet<ChangeIndexedListener> indexedListeners,
+      PluginSetContext<ChangeIndexedListener> indexedListeners,
       StalenessChecker stalenessChecker,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
@@ -133,7 +132,7 @@ public class ChangeIndexer {
       ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
-      DynamicSet<ChangeIndexedListener> indexedListeners,
+      PluginSetContext<ChangeIndexedListener> indexedListeners,
       StalenessChecker stalenessChecker,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
@@ -227,23 +226,11 @@ public class ChangeIndexer {
   }
 
   private void fireChangeIndexedEvent(String projectName, int id) {
-    for (ChangeIndexedListener listener : indexedListeners) {
-      try {
-        listener.onChangeIndexed(projectName, id);
-      } catch (Exception e) {
-        logEventListenerError(listener, e);
-      }
-    }
+    indexedListeners.runEach(l -> l.onChangeIndexed(projectName, id));
   }
 
   private void fireChangeDeletedFromIndexEvent(int id) {
-    for (ChangeIndexedListener listener : indexedListeners) {
-      try {
-        listener.onChangeDeleted(id);
-      } catch (Exception e) {
-        logEventListenerError(listener, e);
-      }
-    }
+    indexedListeners.runEach(l -> l.onChangeDeleted(id));
   }
 
   /**

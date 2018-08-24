@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.events.AssigneeChangedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -52,13 +53,7 @@ public class AssigneeChanged {
               util.accountInfo(accountState),
               util.accountInfo(oldAssignee),
               when);
-      for (AssigneeChangedListener l : listeners) {
-        try {
-          l.onAssigneeChanged(event);
-        } catch (Exception e) {
-          util.logEventListenerError(event, l, e);
-        }
-      }
+      PluginContext.invokeIgnoreExceptions(listeners, l -> l.onAssigneeChanged(event));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }

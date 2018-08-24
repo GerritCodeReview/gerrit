@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -150,13 +151,7 @@ public class GitReferenceUpdated {
     ObjectId o = oldObjectId != null ? oldObjectId : ObjectId.zeroId();
     ObjectId n = newObjectId != null ? newObjectId : ObjectId.zeroId();
     Event event = new Event(project, ref, o.name(), n.name(), type, updater);
-    for (GitReferenceUpdatedListener l : listeners) {
-      try {
-        l.onGitReferenceUpdated(event);
-      } catch (Exception e) {
-        util.logEventListenerError(this, l, e);
-      }
-    }
+    PluginContext.invokeIgnoreExceptions(listeners, l -> l.onGitReferenceUpdated(event));
   }
 
   public static class Event implements GitReferenceUpdatedListener.Event {

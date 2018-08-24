@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.SubmitRule;
@@ -110,8 +111,13 @@ public class SubmitRuleEvaluator {
 
     // We evaluate all the plugin-defined evaluators,
     // and then we collect the results in one list.
-    return StreamSupport.stream(submitRules.spliterator(), false)
-        .map(s -> s.evaluate(cd, opts))
+    return StreamSupport.stream(submitRules.entries().spliterator(), false)
+        .map(
+            e -> {
+              Collection<SubmitRecord> submitRecords =
+                  PluginContext.invoke(e, s -> s.evaluate(cd, opts));
+              return submitRecords;
+            })
         .flatMap(Collection::stream)
         .collect(Collectors.toList());
   }

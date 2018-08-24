@@ -15,7 +15,6 @@
 package com.google.gerrit.server.audit;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -23,14 +22,13 @@ import com.google.gerrit.server.audit.group.GroupAuditListener;
 import com.google.gerrit.server.audit.group.GroupMemberAuditEvent;
 import com.google.gerrit.server.audit.group.GroupSubgroupAuditEvent;
 import com.google.gerrit.server.group.GroupAuditService;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
 
 @Singleton
 public class AuditService implements GroupAuditService {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final DynamicSet<AuditListener> auditListeners;
   private final DynamicSet<GroupAuditListener> groupAuditListeners;
 
@@ -43,9 +41,7 @@ public class AuditService implements GroupAuditService {
   }
 
   public void dispatch(AuditEvent action) {
-    for (AuditListener auditListener : auditListeners) {
-      auditListener.onAuditableAction(action);
-    }
+    PluginContext.invokeIgnoreExceptions(auditListeners, l -> l.onAuditableAction(action));
   }
 
   @Override
@@ -54,15 +50,9 @@ public class AuditService implements GroupAuditService {
       AccountGroup.UUID updatedGroup,
       ImmutableSet<Account.Id> addedMembers,
       Timestamp addedOn) {
-    for (GroupAuditListener auditListener : groupAuditListeners) {
-      try {
-        GroupMemberAuditEvent event =
-            GroupMemberAuditEvent.create(actor, updatedGroup, addedMembers, addedOn);
-        auditListener.onAddMembers(event);
-      } catch (RuntimeException e) {
-        logger.atSevere().withCause(e).log("failed to log add accounts to group event");
-      }
-    }
+    GroupMemberAuditEvent event =
+        GroupMemberAuditEvent.create(actor, updatedGroup, addedMembers, addedOn);
+    PluginContext.invokeIgnoreExceptions(groupAuditListeners, l -> l.onAddMembers(event));
   }
 
   @Override
@@ -71,15 +61,9 @@ public class AuditService implements GroupAuditService {
       AccountGroup.UUID updatedGroup,
       ImmutableSet<Account.Id> deletedMembers,
       Timestamp deletedOn) {
-    for (GroupAuditListener auditListener : groupAuditListeners) {
-      try {
-        GroupMemberAuditEvent event =
-            GroupMemberAuditEvent.create(actor, updatedGroup, deletedMembers, deletedOn);
-        auditListener.onDeleteMembers(event);
-      } catch (RuntimeException e) {
-        logger.atSevere().withCause(e).log("failed to log delete accounts from group event");
-      }
-    }
+    GroupMemberAuditEvent event =
+        GroupMemberAuditEvent.create(actor, updatedGroup, deletedMembers, deletedOn);
+    PluginContext.invokeIgnoreExceptions(groupAuditListeners, l -> l.onDeleteMembers(event));
   }
 
   @Override
@@ -88,15 +72,9 @@ public class AuditService implements GroupAuditService {
       AccountGroup.UUID updatedGroup,
       ImmutableSet<AccountGroup.UUID> addedSubgroups,
       Timestamp addedOn) {
-    for (GroupAuditListener auditListener : groupAuditListeners) {
-      try {
-        GroupSubgroupAuditEvent event =
-            GroupSubgroupAuditEvent.create(actor, updatedGroup, addedSubgroups, addedOn);
-        auditListener.onAddSubgroups(event);
-      } catch (RuntimeException e) {
-        logger.atSevere().withCause(e).log("failed to log add groups to group event");
-      }
-    }
+    GroupSubgroupAuditEvent event =
+        GroupSubgroupAuditEvent.create(actor, updatedGroup, addedSubgroups, addedOn);
+    PluginContext.invokeIgnoreExceptions(groupAuditListeners, l -> l.onAddSubgroups(event));
   }
 
   @Override
@@ -105,14 +83,8 @@ public class AuditService implements GroupAuditService {
       AccountGroup.UUID updatedGroup,
       ImmutableSet<AccountGroup.UUID> deletedSubgroups,
       Timestamp deletedOn) {
-    for (GroupAuditListener auditListener : groupAuditListeners) {
-      try {
-        GroupSubgroupAuditEvent event =
-            GroupSubgroupAuditEvent.create(actor, updatedGroup, deletedSubgroups, deletedOn);
-        auditListener.onDeleteSubgroups(event);
-      } catch (RuntimeException e) {
-        logger.atSevere().withCause(e).log("failed to log delete groups from group event");
-      }
-    }
+    GroupSubgroupAuditEvent event =
+        GroupSubgroupAuditEvent.create(actor, updatedGroup, deletedSubgroups, deletedOn);
+    PluginContext.invokeIgnoreExceptions(groupAuditListeners, l -> l.onDeleteSubgroups(event));
   }
 }

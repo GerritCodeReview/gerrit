@@ -18,6 +18,7 @@ package com.google.gerrit.httpd.restapi;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS;
@@ -33,6 +34,7 @@ import static com.google.common.net.HttpHeaders.VARY;
 import static java.math.RoundingMode.CEILING;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.joining;
 import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
@@ -57,6 +59,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -289,9 +292,10 @@ public class RestApiServlet extends HttpServlet {
 
     try (TraceContext traceContext = enableTracing(req, res)) {
       try (PerThreadCache ignored = PerThreadCache.create()) {
+        HttpServletRequest origReq = req;
         logger.atFinest().log(
             "Received REST request: %s %s (parameters: %s)",
-            req.getMethod(), req.getRequestURI(), getParameterNames(req));
+            req.getMethod(), req.getRequestURI(), lazy(() -> getParameterNames(origReq)));
         logger.atFinest().log("Calling user: %s", globals.currentUser.get().getLoggableName());
 
         if (isCorsPreflight(req)) {
@@ -1315,10 +1319,8 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private List<String> getParameterNames(HttpServletRequest req) {
-    List<String> parameterNames = new ArrayList<>(req.getParameterMap().keySet());
-    Collections.sort(parameterNames);
-    return parameterNames;
+  private ImmutableSortedSet<String> getParameterNames(HttpServletRequest req) {
+    return req.getParameterMap().keySet().stream().collect(toImmutableSortedSet(naturalOrder()));
   }
 
   private TraceContext enableTracing(HttpServletRequest req, HttpServletResponse res) {

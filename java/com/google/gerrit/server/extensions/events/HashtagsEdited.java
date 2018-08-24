@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -57,13 +58,7 @@ public class HashtagsEdited {
       Event event =
           new Event(
               util.changeInfo(change), util.accountInfo(editor), hashtags, added, removed, when);
-      for (HashtagsEditedListener l : listeners) {
-        try {
-          l.onHashtagsEdited(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      PluginContext.invokeIgnoreExceptions(listeners, l -> l.onHashtagsEdited(event));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }

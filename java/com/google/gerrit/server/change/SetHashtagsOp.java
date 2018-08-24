@@ -31,6 +31,8 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.HashtagsUtil.InvalidHashtagException;
 import com.google.gerrit.server.extensions.events.HashtagsEdited;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -106,8 +108,10 @@ public class SetHashtagsOp implements BatchUpdateOp {
       toAdd = new HashSet<>(extractTags(input.add));
       toRemove = new HashSet<>(extractTags(input.remove));
 
-      for (HashtagValidationListener validator : validationListeners) {
-        validator.validateHashtags(update.getChange(), toAdd, toRemove);
+      for (DynamicSet.Entry<HashtagValidationListener> entry : validationListeners.entries()) {
+        try (TraceContext traceContext = PluginContext.newTrace(entry)) {
+          entry.get().validateHashtags(update.getChange(), toAdd, toRemove);
+        }
       }
 
       updated.addAll(existingHashtags);

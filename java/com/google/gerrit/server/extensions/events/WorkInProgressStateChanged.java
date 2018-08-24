@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
@@ -58,13 +59,7 @@ public class WorkInProgressStateChanged {
               util.revisionInfo(change.getProject(), patchSet),
               util.accountInfo(account),
               when);
-      for (WorkInProgressStateChangedListener l : listeners) {
-        try {
-          l.onWorkInProgressStateChanged(event);
-        } catch (Exception e) {
-          util.logEventListenerError(event, l, e);
-        }
-      }
+      PluginContext.invokeIgnoreExceptions(listeners, l -> l.onWorkInProgressStateChanged(event));
     } catch (OrmException
         | PatchListNotAvailableException
         | GpgException

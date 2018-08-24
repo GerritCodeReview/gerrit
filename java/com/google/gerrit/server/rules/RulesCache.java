@@ -26,6 +26,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -258,9 +259,7 @@ public class RulesCache {
 
     List<String> packages = new ArrayList<>();
     packages.addAll(PACKAGE_LIST);
-    for (PredicateProvider predicateProvider : predicateProviders) {
-      packages.addAll(predicateProvider.getPackages());
-    }
+    PluginContext.invokeIgnoreExceptions(predicateProviders, p -> packages.addAll(p.getPackages()));
 
     // Bootstrap the interpreter and ensure there is clean state.
     ctl.initialize(packages.toArray(new String[packages.size()]));

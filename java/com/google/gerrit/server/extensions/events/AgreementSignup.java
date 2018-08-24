@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.AgreementSignupListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -37,13 +38,7 @@ public class AgreementSignup {
       return;
     }
     Event event = new Event(util.accountInfo(accountState), agreementName);
-    for (AgreementSignupListener l : listeners) {
-      try {
-        l.onAgreementSignup(event);
-      } catch (Exception e) {
-        util.logEventListenerError(this, l, e);
-      }
-    }
+    PluginContext.invokeIgnoreExceptions(listeners, l -> l.onAgreementSignup(event));
   }
 
   private static class Event extends AbstractNoNotifyEvent

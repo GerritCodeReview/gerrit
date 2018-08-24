@@ -21,6 +21,8 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.validators.AccountActivationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
@@ -60,9 +62,10 @@ public class SetInactiveFlag {
               if (!a.getAccount().isActive()) {
                 alreadyInactive.set(true);
               } else {
-                for (AccountActivationValidationListener l : accountActivationValidationListeners) {
-                  try {
-                    l.validateDeactivation(a);
+                for (DynamicSet.Entry<AccountActivationValidationListener> entry :
+                    accountActivationValidationListeners.entries()) {
+                  try (TraceContext traceContext = PluginContext.newTrace(entry)) {
+                    entry.get().validateDeactivation(a);
                   } catch (ValidationException e) {
                     exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
                     return;
@@ -94,9 +97,10 @@ public class SetInactiveFlag {
               if (a.getAccount().isActive()) {
                 alreadyActive.set(true);
               } else {
-                for (AccountActivationValidationListener l : accountActivationValidationListeners) {
-                  try {
-                    l.validateActivation(a);
+                for (DynamicSet.Entry<AccountActivationValidationListener> entry :
+                    accountActivationValidationListeners.entries()) {
+                  try (TraceContext traceContext = PluginContext.newTrace(entry)) {
+                    entry.get().validateActivation(a);
                   } catch (ValidationException e) {
                     exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
                     return;

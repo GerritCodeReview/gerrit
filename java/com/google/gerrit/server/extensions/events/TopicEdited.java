@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -47,13 +48,7 @@ public class TopicEdited {
     try {
       Event event =
           new Event(util.changeInfo(change), util.accountInfo(account), oldTopicName, when);
-      for (TopicEditedListener l : listeners) {
-        try {
-          l.onTopicEdited(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      PluginContext.invokeIgnoreExceptions(listeners, l -> l.onTopicEdited(event));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }

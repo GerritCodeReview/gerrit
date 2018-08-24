@@ -25,6 +25,8 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.mail.send.SetAssigneeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -80,8 +82,10 @@ public class SetAssigneeOp implements BatchUpdateOp {
       return false;
     }
     try {
-      for (AssigneeValidationListener validator : validationListeners) {
-        validator.validateAssignee(change, newAssignee.getAccount());
+      for (DynamicSet.Entry<AssigneeValidationListener> entry : validationListeners.entries()) {
+        try (TraceContext traceContext = PluginContext.newTrace(entry)) {
+          entry.get().validateAssignee(change, newAssignee.getAccount());
+        }
       }
     } catch (ValidationException e) {
       throw new ResourceConflictException(e.getMessage());

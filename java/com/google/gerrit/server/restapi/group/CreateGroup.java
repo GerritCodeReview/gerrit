@@ -50,6 +50,8 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
+import com.google.gerrit.server.logging.PluginContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
@@ -158,9 +160,10 @@ public class CreateGroup
               : Collections.<Account.Id>emptySet();
     }
 
-    for (GroupCreationValidationListener l : groupCreationValidationListeners) {
-      try {
-        l.validateNewGroup(args);
+    for (DynamicSet.Entry<GroupCreationValidationListener> entry :
+        groupCreationValidationListeners.entries()) {
+      try (TraceContext traceContext = PluginContext.newTrace(entry)) {
+        entry.get().validateNewGroup(args);
       } catch (ValidationException e) {
         throw new ResourceConflictException(e.getMessage(), e);
       }

@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -74,13 +75,7 @@ public class ReviewerDeleted {
               util.approvals(reviewer, oldApprovals, when),
               notify,
               when);
-      for (ReviewerDeletedListener listener : listeners) {
-        try {
-          listener.onReviewerDeleted(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, listener, e);
-        }
-      }
+      PluginContext.invokeIgnoreExceptions(listeners, l -> l.onReviewerDeleted(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException

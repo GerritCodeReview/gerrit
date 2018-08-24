@@ -23,6 +23,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -103,9 +104,7 @@ public class AccountIndexerImpl implements AccountIndexer {
   }
 
   private void fireAccountIndexedEvent(int id) {
-    for (AccountIndexedListener listener : indexedListener) {
-      listener.onAccountIndexed(id);
-    }
+    PluginContext.invokeIgnoreExceptions(indexedListener, l -> l.onAccountIndexed(id));
   }
 
   private Collection<AccountIndex> getWriteIndexes() {

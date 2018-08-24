@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -35,9 +36,7 @@ class ListTopMenus implements RestReadView<ConfigResource> {
   @Override
   public List<TopMenu.MenuEntry> apply(ConfigResource resource) {
     List<TopMenu.MenuEntry> entries = new ArrayList<>();
-    for (TopMenu extension : extensions) {
-      entries.addAll(extension.getEntries());
-    }
+    PluginContext.invokeIgnoreExceptions(extensions, e -> entries.addAll(e.getEntries()));
     return entries;
   }
 }

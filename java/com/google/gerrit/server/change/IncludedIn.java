@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.PluginContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -61,13 +62,16 @@ public class IncludedIn {
 
       IncludedInResolver.Result d = IncludedInResolver.resolve(r, rw, rev);
       ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
-      for (ExternalIncludedIn ext : externalIncludedIn) {
-        ListMultimap<String, String> extIncludedIns =
-            ext.getIncludedIn(project.get(), rev.name(), d.tags(), d.branches());
-        if (extIncludedIns != null) {
-          external.putAll(extIncludedIns);
-        }
-      }
+      PluginContext.invokeIgnoreExceptions(
+          externalIncludedIn,
+          ext -> {
+            ListMultimap<String, String> extIncludedIns =
+                ext.getIncludedIn(project.get(), rev.name(), d.tags(), d.branches());
+            if (extIncludedIns != null) {
+              external.putAll(extIncludedIns);
+            }
+          });
+
       return new IncludedInInfo(
           d.branches(), d.tags(), (!external.isEmpty() ? external.asMap() : null));
     }

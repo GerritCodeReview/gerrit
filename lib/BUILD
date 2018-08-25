@@ -504,3 +504,11 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@postgresql//jar"],
 )
+
+# TODO: Add right license: https://javaee.github.io/glassfish/LICENSE
+java_library(
+    name = "javax-activation",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@javax-activation//jar"],
+)

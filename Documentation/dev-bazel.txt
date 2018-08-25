@@ -6,7 +6,7 @@
 To build Gerrit from source, you need:
 
 * A Linux or macOS system (Windows is not supported at this time)
-* A JDK for Java 8|9|10
+* A JDK for Java 8|9|10|11
 * Python 2 or 3
 * Node.js
 * link:https://www.bazel.io/versions/master/docs/install.html[Bazel]
@@ -14,22 +14,22 @@ To build Gerrit from source, you need:
 * zip, unzip
 * gcc
 
-[[Java 10 support]]
-Java 10 is supported through vanilla java toolchain
+[[Java 10|11 support]]
+Java 10|11 is supported through vanilla java toolchain
 link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
-To build Gerrit with Java 10, specify vanilla java toolchain and provide
-path to Java 10 home:
+To build Gerrit with Java 10|11, specify vanilla java toolchain and provide
+path to Java 10|11 home:
 
 ```
   $ bazel build --host_javabase=:absolute_javabase \
-    --define=ABSOLUTE_JAVABASE=<path-to-java-10> \
+    --define=ABSOLUTE_JAVABASE=<path-to-java-10|11> \
     --host_java_toolchain=//:toolchain_vanilla \
     --java_toolchain=//:toolchain_vanilla \
     :release
 ```
 
 Note that the following options must be added to `container.javaOptions`
-in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 10:
+in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 10|11:
 
 ```
 [container]

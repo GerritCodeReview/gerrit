@@ -6,7 +6,7 @@
 To build Gerrit from source, you need:
 
 * A Linux or macOS system (Windows is not supported at this time)
-* A JDK for Java 8|9|10
+* A JDK for Java 8|9|10|11|...
 * Python 2 or 3
 * Node.js
 * link:https://www.bazel.io/versions/master/docs/install.html[Bazel]
@@ -22,8 +22,8 @@ To build Gerrit from source, you need:
 
 Java 10 is supported through vanilla java toolchain
 link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
-To build Gerrit with Java 10, specify vanilla java toolchain and provide
-path to Java 10 home:
+To build Gerrit with Java 10 and newer, specify vanilla java toolchain and
+provide the path to JDK home:
 
 ```
   $ bazel build --host_javabase=:absolute_javabase \
@@ -34,12 +34,40 @@ path to Java 10 home:
     :release
 ```
 
-Note that the following options must be added to `container.javaOptions`
-in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 10:
+To run the tests, `--javabase` option must be passed as well, because
+bazel test runs the test using the target javabase:
+
+```
+  $ bazel test --host_javabase=:absolute_javabase \
+    --javabase=:absolute_javabase \
+    --define=ABSOLUTE_JAVABASE=<path-to-java-10> \
+    --define=USE_ABSOLUTE_JAVABASE=true \
+    --host_java_toolchain=//:toolchain_vanilla \
+    --java_toolchain=//:toolchain_vanilla \
+    //...
+```
+
+To avoid passing all those options on every Bazel build invocation,
+they could be added to ~/.bazelrc resource file:
+
+```
+$ cat << EOF > ~/.bazelrc
+> build --define=ABSOLUTE_JAVABASE=<path-to-java-10>
+> build --javabase=:absolute_javabase
+> build --host_javabase=:absolute_javabase
+> build --host_java_toolchain=//:toolchain_vanilla
+> build --java_toolchain=//:toolchain_vanilla
+> EOF
+```
+
+Now, invoking Bazel with just `bazel build :release` would include
+all those options.
+
+Note that the follow option must be added to `container.javaOptions`
+in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 10|11|...:
 
 ```
 [container]
-  javaOptions = --add-modules java.activation
   javaOptions = --add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED
 ```
 
@@ -58,13 +86,12 @@ To build Gerrit with Java 9, specify JDK 9 java toolchain:
       :release
 ```
 
-Note that the following option must be added to `container.javaOptions`
+Note that the follow option must be added to `container.javaOptions`
 in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 9:
 
 ```
 [container]
-  javaOptions = --add-modules java.activation \
-      --add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED
+  javaOptions = --add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED
 ```
 
 [[build]]

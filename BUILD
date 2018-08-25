@@ -15,7 +15,7 @@ config_setting(
 )
 
 config_setting(
-    name = "java10",
+    name = "java_next",
     values = {
         "java_toolchain": ":toolchain_vanilla",
     },

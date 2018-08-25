@@ -43,10 +43,14 @@
    * @param {string} method HTTP Method (GET, POST, etc)
    * @param {string} url URL without base path or plugin prefix
    * @param {Object=} payload Respected for POST and PUT only.
+   * @param {?function(?Response, string=)=} opt_errFn
+   *    passed as null sometimes.
    * @return {!Promise}
    */
-  GrPluginRestApi.prototype.fetch = function(method, url, opt_payload) {
-    return getRestApi().send(method, this.opt_prefix + url, opt_payload);
+  GrPluginRestApi.prototype.fetch = function(method, url, opt_payload,
+      opt_errFn) {
+    return getRestApi().send(method, this.opt_prefix + url, opt_payload,
+        opt_errFn);
   };
 
   /**
@@ -54,10 +58,13 @@
    * @param {string} method HTTP Method (GET, POST, etc)
    * @param {string} url URL without base path or plugin prefix
    * @param {Object=} payload Respected for POST and PUT only.
+   * @param {?function(?Response, string=)=} opt_errFn
+   *    passed as null sometimes.
    * @return {!Promise} resolves on success, rejects on error.
    */
-  GrPluginRestApi.prototype.send = function(method, url, opt_payload) {
-    return this.fetch(method, url, opt_payload).then(response => {
+  GrPluginRestApi.prototype.send = function(method, url, opt_payload,
+      opt_errFn) {
+    return this.fetch(method, url, opt_payload, opt_errFn).then(response => {
       if (response.status < 200 || response.status >= 300) {
         return response.text().then(text => {
           if (text) {

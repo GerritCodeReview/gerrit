@@ -6,6 +6,8 @@ DEPS = [
     "//java/com/google/gerrit/mail",
 ]
 
+POST_JDK8_DEPS = ["//lib:javax-activation"]
+
 acceptance_tests(
     srcs = glob(
         ["*IT.java"],
@@ -16,7 +18,11 @@ acceptance_tests(
         "no_windows",
         "server",
     ],
-    deps = DEPS + [":util"],
+    deps = DEPS + [":util"] + select({
+        "//:java9": POST_JDK8_DEPS,
+        "//:java_next": POST_JDK8_DEPS,
+        "//conditions:default": [],
+    }),
 )
 
 java_library(

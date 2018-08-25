@@ -27,7 +27,11 @@ limitations under the License.
       }
     </style>
     <h3>[[title]]</h3>
-    <gr-button on-tap="_onCommandTap">[[title]]</gr-button>
+    <gr-button
+        disabled$="[[disabled]]"
+        on-tap="_onCommandTap">
+      [[title]]
+    </gr-button>
   </template>
   <script src="gr-repo-command.js"></script>
 </dom-module>

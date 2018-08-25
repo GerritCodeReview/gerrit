@@ -21,6 +21,13 @@ config_setting(
     },
 )
 
+config_setting(
+    name = "java11",
+    values = {
+        "java_toolchain": ":toolchain_vanilla",
+    },
+)
+
 # TODO(davido): Switch to consuming it from @bazel_tool//tools/jdk:absolute_javabase
 # when new Bazel version is released with this change included:
 # https://github.com/bazelbuild/bazel/issues/6012

@@ -23,6 +23,7 @@
     properties: {
       title: String,
       disabled: Boolean,
+      tooltip: String,
     },
 
     /**

@@ -50,7 +50,8 @@ limitations under the License.
               on-command-tap="_handleEditRepoConfig">
           </gr-repo-command>
           <gr-repo-command
-              title="Run GC"
+	    title="[[_repoConfig.actions.gc.label]]"
+	    tooltip="[[_repoConfig.actions.gc.title]]"
               hidden$="[[!_repoConfig.actions.gc.enabled]]"
               on-command-tap="_handleRunningGC">
           </gr-repo-command>

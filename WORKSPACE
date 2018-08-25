@@ -1,6 +1,7 @@
 workspace(name = "gerrit")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
@@ -14,9 +15,9 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "4dd84dd2bdd6c9f56cb5a475d504ea31d199c34309e202e9379501d01c3067e5",
-    strip_prefix = "rules_closure-3103a773820b59b76345f94c231cb213e0d404e2",
-    urls = ["https://github.com/bazelbuild/rules_closure/archive/3103a773820b59b76345f94c231cb213e0d404e2.tar.gz"],
+    sha256 = "42f467b0af9099756cab65e22a40f7443943fd00984ba3e891070bc1d5fe9b2c",
+    strip_prefix = "rules_closure-9624854e89a9876990b816bdb53be38b4b9c83b4",
+    urls = ["https://github.com/davido/rules_closure/archive/9624854e89a9876990b816bdb53be38b4b9c83b4.tar.gz"],
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -70,25 +71,31 @@ maven_jar(
     sha1 = "83cd2cd674a217ade95a4bb83a8a14f351f48bd0",
 )
 
-GUICE_VERS = "4.2.0"
-
-maven_jar(
+java_import_external(
     name = "guice-library",
-    artifact = "com.google.inject:guice:" + GUICE_VERS + ":classes",
-    attach_source = False,
-    sha1 = "4c41ec3c1c6230764642f9b5666ff80d2de4273a",
+    jar_sha256 = "e7772e981306d91f76220197e6cdca5c9f8fe2581f6ee03954d4063de0443b52",
+    jar_urls = [
+        "https://github.com/davido/guice/releases/download/4.2.1/guice-4.2.1.jar",
+    ],
+    licenses = ["notice"],  # Apache 2.0
 )
 
-maven_jar(
+java_import_external(
     name = "guice-assistedinject",
-    artifact = "com.google.inject.extensions:guice-assistedinject:" + GUICE_VERS,
-    sha1 = "e7270305960ad7db56f7e30cb9df6be9ff1cfb45",
+    jar_sha256 = "9902f2c21bcd9f5c914ddac475808740e1f7d2463fa5296cb444a841fdcffe3e",
+    jar_urls = [
+        "https://github.com/davido/guice/releases/download/4.2.1/guice-assistedinject-4.2.1.jar",
+    ],
+    licenses = ["notice"],  # Apache 2.0
 )
 
-maven_jar(
+java_import_external(
     name = "guice-servlet",
-    artifact = "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
-    sha1 = "f57581625c36c148f088d9f52a568d5bdf12c61d",
+    jar_sha256 = "bb6bd29db0785e242b3a5990b575465d3f9aac31f9ef1f07df13e623fb3b7ef6",
+    jar_urls = [
+        "https://github.com/davido/guice/releases/download/4.2.1/guice-servlet-4.2.1.jar",
+    ],
+    licenses = ["notice"],  # Apache 2.0
 )
 
 maven_jar(

@@ -1127,6 +1127,12 @@ maven_jar(
     sha1 = "65bd0cacc9c79a21c6ed8e9f588577cd3c2f85b9",
 )
 
+maven_jar(
+    name = "javax-activation",
+    artifact = "javax.activation:activation:1.1.1",
+    sha1 = "485de3a253e23f645037828c07f1d7f1af40763a",
+)
+
 load("//tools/bzl:js.bzl", "bower_archive", "npm_binary")
 
 # NPM binaries bundled along with their dependencies.

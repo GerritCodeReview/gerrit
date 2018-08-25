@@ -74,7 +74,7 @@ limitations under the License.
       });
 
       test('focusOnCopy', () => {
-        const focusStub = sandbox.stub(element.$$('gr-copy-clipboard'),
+        const focusStub = sandbox.stub(element.$$('gr-shell-command'),
             'focusOnCopy');
         element.focusOnCopy();
         assert.isTrue(focusStub.called);

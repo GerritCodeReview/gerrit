@@ -22,6 +22,7 @@
 
     properties: {
       title: String,
+      disabled: Boolean,
     },
 
     /**

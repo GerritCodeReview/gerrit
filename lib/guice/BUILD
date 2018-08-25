@@ -16,10 +16,6 @@ java_library(
     runtime_deps = [
         "aopalliance",
         "//lib:cglib-3_2",
-        "//lib/ow2:ow2-asm",
-        "//lib/ow2:ow2-asm-analysis",
-        "//lib/ow2:ow2-asm-tree",
-        "//lib/ow2:ow2-asm-util",
     ],
 )
 

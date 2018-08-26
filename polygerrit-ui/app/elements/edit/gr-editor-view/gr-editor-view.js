@@ -73,9 +73,9 @@
     },
 
     behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.PathListBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.PathListBehavior,
     ],
 
     listeners: {

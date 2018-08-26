@@ -64,8 +64,8 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.URLEncodingBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.URLEncodingBehavior,
     ],
 
     attached() {

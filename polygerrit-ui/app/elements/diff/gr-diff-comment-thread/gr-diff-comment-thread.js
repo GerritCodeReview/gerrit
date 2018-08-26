@@ -93,8 +93,8 @@
     },
 
     behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PathListBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.PathListBehavior,
     ],
 
     listeners: {

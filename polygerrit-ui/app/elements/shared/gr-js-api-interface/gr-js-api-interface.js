@@ -49,7 +49,7 @@
       },
     },
 
-    behaviors: [Gerrit.PatchSetBehavior],
+    behaviors: [window.Gerrit.PatchSetBehavior],
 
     Element,
     EventType,

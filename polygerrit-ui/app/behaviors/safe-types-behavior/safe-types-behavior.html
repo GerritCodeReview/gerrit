@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <script>
-(function(window) {
+(function() {
   'use strict';
 
   window.Gerrit = window.Gerrit || {};
@@ -71,5 +71,5 @@ limitations under the License.
     // Otherwise fail.
     throw new Error(`Refused to bind value as ${type}: ${value}`);
   };
-})(window);
+})();
 </script>

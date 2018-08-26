@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
+(function() {
   'use strict';
 
   /**
@@ -130,7 +130,7 @@
     if (url.protocol === PRELOADED_PROTOCOL) {
       return url.pathname;
     }
-    const base = Gerrit.BaseUrlBehavior.getBaseUrl();
+    const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
     const pathname = url.pathname.replace(base, '');
     // Site theme is server from predefined path.
     if (pathname === '/static/gerrit-theme.html') {
@@ -170,7 +170,7 @@
     if (this._url.protocol === PRELOADED_PROTOCOL) {
       // Original plugin URL is used in plugin assets URLs calculation.
       const assetsBaseUrl = window.ASSETS_PATH ||
-          (window.location.origin + Gerrit.BaseUrlBehavior.getBaseUrl());
+          (window.location.origin + window.Gerrit.BaseUrlBehavior.getBaseUrl());
       this._url = new URL(assetsBaseUrl + '/plugins/' + this._name +
           '/static/' + this._name + '.js');
     }
@@ -217,14 +217,14 @@
   };
 
   Plugin.prototype.url = function(opt_path) {
-    const base = Gerrit.BaseUrlBehavior.getBaseUrl();
+    const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
     return this._url.origin + base + '/plugins/' +
         this._name + (opt_path || '/');
   };
 
   Plugin.prototype.screenUrl = function(opt_screenName) {
     const origin = this._url.origin;
-    const base = Gerrit.BaseUrlBehavior.getBaseUrl();
+    const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
     const tokenPart = opt_screenName ? '/' + opt_screenName : '';
     return `${origin}${base}/x/${this.getPluginName()}${tokenPart}`;
   };
@@ -667,4 +667,4 @@
   // Preloaded plugins should be installed after Gerrit.install() is set,
   // since plugin preloader substitutes Gerrit.install() temporarily.
   installPreloadedPlugins();
-})(window);
+})();

@@ -67,7 +67,7 @@
     },
 
     behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
     ],
 
     keyBindings: {

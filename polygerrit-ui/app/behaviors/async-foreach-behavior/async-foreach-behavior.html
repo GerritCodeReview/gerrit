@@ -16,13 +16,13 @@ limitations under the License.
 -->
 
 <script>
-(function(window) {
+(function() {
   'use strict';
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.AsyncForeachBehavior */
-  Gerrit.AsyncForeachBehavior = {
+  /** @polymerBehavior window.Gerrit.AsyncForeachBehavior */
+  window.Gerrit.AsyncForeachBehavior = {
     /**
      * @template T
      * @param {!Array<T>} array
@@ -45,5 +45,5 @@ limitations under the License.
       });
     },
   };
-})(window);
+})();
 </script>

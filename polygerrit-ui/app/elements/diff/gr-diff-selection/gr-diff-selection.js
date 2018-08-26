@@ -53,7 +53,7 @@
     },
 
     behaviors: [
-      Gerrit.DomUtilBehavior,
+      window.Gerrit.DomUtilBehavior,
     ],
 
     attached() {

@@ -164,10 +164,10 @@
     },
 
     behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.PathListBehavior,
-      Gerrit.RESTClientBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.PathListBehavior,
+      window.Gerrit.RESTClientBehavior,
     ],
 
     observers: [

@@ -20,4 +20,4 @@
   if (window.Gerrit.hasOwnProperty('getRootElement')) { return; }
 
   window.Gerrit.getRootElement = () => document.body;
-})(window);
+})();

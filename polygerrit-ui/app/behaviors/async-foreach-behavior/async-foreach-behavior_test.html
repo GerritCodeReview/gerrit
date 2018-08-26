@@ -28,7 +28,7 @@ limitations under the License.
   suite('async-foreach-behavior tests', () => {
     test('loops over each item', () => {
       const fn = sinon.stub().returns(Promise.resolve());
-      return Gerrit.AsyncForeachBehavior.asyncForeach([1, 2, 3], fn)
+      return window.Gerrit.AsyncForeachBehavior.asyncForeach([1, 2, 3], fn)
           .then(() => {
             assert.isTrue(fn.calledThrice);
             assert.equal(fn.getCall(0).args[0], 1);
@@ -44,7 +44,7 @@ limitations under the License.
         stop();
         return Promise.resolve();
       };
-      return Gerrit.AsyncForeachBehavior.asyncForeach([1, 2, 3], fn)
+      return window.Gerrit.AsyncForeachBehavior.asyncForeach([1, 2, 3], fn)
           .then(() => {
             assert.isTrue(stub.calledOnce);
             assert.equal(stub.lastCall.args[0], 1);

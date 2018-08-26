@@ -35,7 +35,7 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
+      window.Gerrit.BaseUrlBehavior,
     ],
 
     attached() {

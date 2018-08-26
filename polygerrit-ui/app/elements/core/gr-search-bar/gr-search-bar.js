@@ -106,8 +106,8 @@
      */
 
     behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.URLEncodingBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.URLEncodingBehavior,
     ],
 
     keyBindings: {

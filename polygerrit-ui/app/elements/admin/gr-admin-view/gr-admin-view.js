@@ -65,9 +65,9 @@
     },
 
     behaviors: [
-      Gerrit.AdminNavBehavior,
-      Gerrit.BaseUrlBehavior,
-      Gerrit.URLEncodingBehavior,
+      window.Gerrit.AdminNavBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.URLEncodingBehavior,
     ],
 
     observers: [

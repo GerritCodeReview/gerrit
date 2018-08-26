@@ -115,9 +115,9 @@
     },
 
     behaviors: [
-      Gerrit.AccessBehavior,
-      Gerrit.BaseUrlBehavior,
-      Gerrit.URLEncodingBehavior,
+      window.Gerrit.AccessBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.URLEncodingBehavior,
     ],
 
     listeners: {

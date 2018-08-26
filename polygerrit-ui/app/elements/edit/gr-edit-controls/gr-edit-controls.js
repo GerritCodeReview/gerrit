@@ -55,7 +55,7 @@
     },
 
     behaviors: [
-      Gerrit.PatchSetBehavior,
+      window.Gerrit.PatchSetBehavior,
     ],
 
     _handleTap(e) {

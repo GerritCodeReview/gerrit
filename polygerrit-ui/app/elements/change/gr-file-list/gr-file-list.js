@@ -182,11 +182,11 @@
     },
 
     behaviors: [
-      Gerrit.AsyncForeachBehavior,
-      Gerrit.DomUtilBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.PathListBehavior,
+      window.Gerrit.AsyncForeachBehavior,
+      window.Gerrit.DomUtilBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.PathListBehavior,
     ],
 
     observers: [

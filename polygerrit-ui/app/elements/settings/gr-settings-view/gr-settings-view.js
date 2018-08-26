@@ -143,8 +143,8 @@
     },
 
     behaviors: [
-      Gerrit.DocsUrlBehavior,
-      Gerrit.ChangeTableBehavior,
+      window.Gerrit.DocsUrlBehavior,
+      window.Gerrit.ChangeTableBehavior,
     ],
 
     observers: [

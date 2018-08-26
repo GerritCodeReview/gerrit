@@ -42,4 +42,4 @@
     return '';
   };
   window.util = util;
-})(window);
+})();

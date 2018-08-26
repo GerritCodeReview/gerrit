@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6df8287d_dd58f5ab",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-26T23:28:22Z",
+      "side": 1,
+      "message": "Can we add:\n\n ExpectedExceptionChecker:ERROR\n\nin this list now, or as a follow-up?",
+      "revId": "c66e9aa016b05e0c2bf4777fe05fd9b00073b591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

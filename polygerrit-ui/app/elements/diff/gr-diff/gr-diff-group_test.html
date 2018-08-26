@@ -25,6 +25,9 @@ limitations under the License.
 <script src="gr-diff-group.js"></script>
 
 <script>
+  const GrDiffGroup = Gerrit.GrDiffGroup;
+  const GrDiffLine = Gerrit.GrDiffLine;
+
   suite('gr-diff-group tests', () => {
     test('delta line pairs', () => {
       let group = new GrDiffGroup(GrDiffGroup.Type.DELTA);

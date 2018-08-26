@@ -18,7 +18,7 @@
   'use strict';
 
   // Prevent redefinition.
-  if (window.GrDiffGroup) { return; }
+  if (window.Gerrit.GrDiffGroup) { return; }
 
   function GrDiffGroup(type, opt_lines) {
     this.type = type;
@@ -116,5 +116,5 @@
     }
   };
 
-  window.GrDiffGroup = GrDiffGroup;
-})(window, GrDiffLine);
+  window.Gerrit.GrDiffGroup = GrDiffGroup;
+})(window, Gerrit.GrDiffLine);

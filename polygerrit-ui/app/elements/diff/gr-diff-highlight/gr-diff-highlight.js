@@ -145,7 +145,7 @@
      * @return {!Object} fixed normalized range
      */
     _normalizeRange(domRange) {
-      const range = GrRangeNormalizer.normalize(domRange);
+      const range = Gerrit.GrRangeNormalizer.normalize(domRange);
       return this._fixTripleClickSelection({
         start: this._normalizeSelectionSide(
             range.startContainer, range.startOffset),

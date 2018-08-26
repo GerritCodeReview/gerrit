@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window, GrDiffBuilderSideBySide) {
+(function(window, GrDiffBuilder) {
   'use strict';
 
   // Prevent redefinition.
-  if (window.GrDiffBuilderBinary) { return; }
+  if (window.Gerrit.GrDiffBuilderBinary) { return; }
 
   function GrDiffBuilderBinary(diff, comments, prefs, outputEl) {
     GrDiffBuilder.call(this, diff, comments, null, prefs, outputEl);
@@ -42,5 +42,5 @@
     return section;
   };
 
-  window.GrDiffBuilderBinary = GrDiffBuilderBinary;
-})(window, GrDiffBuilderSideBySide);
+  window.Gerrit.GrDiffBuilderBinary = GrDiffBuilderBinary;
+})(window, Gerrit.GrDiffBuilder);

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
+(function(GrDiffLine) {
   'use strict';
 
   const HOVER_PATH_PATTERN = /^comments\.(left|right)\.\#(\d+)\.__hovering$/;
@@ -201,4 +201,4 @@
           .sort((a, b) => a.hovering && !b.hovering ? 1 : 0);
     },
   });
-})();
+})(Gerrit.GrDiffLine);

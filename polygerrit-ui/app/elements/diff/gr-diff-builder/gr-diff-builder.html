@@ -48,7 +48,7 @@ limitations under the License.
   <script src="gr-diff-builder-image.js"></script>
   <script src="gr-diff-builder-binary.js"></script>
   <script>
-    (function() {
+    (function(GrDiffBuilder, GrDiffLine) {
       'use strict';
 
       const Defs = {};
@@ -253,7 +253,7 @@ limitations under the License.
 
         getSideByLineEl(lineEl) {
           return lineEl.classList.contains(GrDiffBuilder.Side.RIGHT) ?
-          GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
+              GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
         },
 
         emitGroup(group, sectionEl) {
@@ -305,17 +305,17 @@ limitations under the License.
           let builder = null;
           const createFn = this.createCommentFn;
           if (this.isImageDiff) {
-            builder = new GrDiffBuilderImage(diff, comments, createFn, prefs,
+            builder = new Gerrit.GrDiffBuilderImage(diff, comments, createFn, prefs,
               this.diffElement, this.baseImage, this.revisionImage);
           } else if (diff.binary) {
             // If the diff is binary, but not an image.
-            return new GrDiffBuilderBinary(diff, comments, prefs,
+            return new Gerrit.GrDiffBuilderBinary(diff, comments, prefs,
                 this.diffElement);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            builder = new GrDiffBuilderSideBySide(diff, comments, createFn,
+            builder = new Gerrit.GrDiffBuilderSideBySide(diff, comments, createFn,
                 prefs, this.diffElement, this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            builder = new GrDiffBuilderUnified(diff, comments, createFn, prefs,
+            builder = new Gerrit.GrDiffBuilderUnified(diff, comments, createFn, prefs,
                 this.diffElement, this._layers);
           }
           if (!builder) {
@@ -478,6 +478,6 @@ limitations under the License.
           this._builder.setBlame(blame);
         },
       });
-    })();
+    })(Gerrit.GrDiffBuilder, Gerrit.GrDiffLine);
   </script>
 </dom-module>

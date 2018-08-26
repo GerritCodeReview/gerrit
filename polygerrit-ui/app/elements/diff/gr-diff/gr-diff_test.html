@@ -390,7 +390,7 @@ limitations under the License.
             // Recognizes that it should be an image diff.
             assert.isTrue(element.isImageDiff);
             assert.instanceOf(
-                element.$.diffBuilder._builder, GrDiffBuilderImage);
+                element.$.diffBuilder._builder, Gerrit.GrDiffBuilderImage);
 
             // Left image rendered with the parent commit's version of the file.
             const leftImage = element.$.diffTable.querySelector('td.left img');
@@ -482,7 +482,7 @@ limitations under the License.
             // Recognizes that it should be an image diff.
             assert.isTrue(element.isImageDiff);
             assert.instanceOf(
-                element.$.diffBuilder._builder, GrDiffBuilderImage);
+                element.$.diffBuilder._builder, Gerrit.GrDiffBuilderImage);
 
             // Left image rendered with the parent commit's version of the file.
             const leftImage = element.$.diffTable.querySelector('td.left img');
@@ -562,7 +562,7 @@ limitations under the License.
             // Recognizes that it should be an image diff.
             assert.isTrue(element.isImageDiff);
             assert.instanceOf(
-                element.$.diffBuilder._builder, GrDiffBuilderImage);
+                element.$.diffBuilder._builder, Gerrit.GrDiffBuilderImage);
 
             const leftImage = element.$.diffTable.querySelector('td.left img');
             const rightImage = element.$.diffTable.querySelector('td.right img');
@@ -597,7 +597,7 @@ limitations under the License.
             // Recognizes that it should be an image diff.
             assert.isTrue(element.isImageDiff);
             assert.instanceOf(
-                element.$.diffBuilder._builder, GrDiffBuilderImage);
+                element.$.diffBuilder._builder, Gerrit.GrDiffBuilderImage);
 
             const leftImage = element.$.diffTable.querySelector('td.left img');
             const rightImage = element.$.diffTable.querySelector('td.right img');
@@ -633,7 +633,7 @@ limitations under the License.
             // Recognizes that it should be an image diff.
             assert.isTrue(element.isImageDiff);
             assert.instanceOf(
-                element.$.diffBuilder._builder, GrDiffBuilderImage);
+                element.$.diffBuilder._builder, Gerrit.GrDiffBuilderImage);
             const leftImage = element.$.diffTable.querySelector('td.left img');
             assert.isNotOk(leftImage);
             done();

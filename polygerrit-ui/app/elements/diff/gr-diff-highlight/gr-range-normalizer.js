@@ -18,7 +18,7 @@
   'use strict';
 
   // Prevent redefinition.
-  if (window.GrRangeNormalizer) { return; }
+  if (window.Gerrit.GrRangeNormalizer) { return; }
 
   // Astral code point as per https://mathiasbynens.be/notes/javascript-unicode
   const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
@@ -105,5 +105,5 @@
     },
   };
 
-  window.GrRangeNormalizer = GrRangeNormalizer;
+  window.Gerrit.GrRangeNormalizer = GrRangeNormalizer;
 })();

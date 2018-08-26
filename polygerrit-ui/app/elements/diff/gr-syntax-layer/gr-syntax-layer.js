@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
+(function(GrDiffLine) {
   'use strict';
 
   const LANGUAGE_MAP = {
@@ -444,4 +444,4 @@
       });
     },
   });
-})();
+})(Gerrit.GrDiffLine);

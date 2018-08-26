@@ -18,7 +18,7 @@
   'use strict';
 
   // Prevent redefinition.
-  if (window.GrDiffBuilderSideBySide) { return; }
+  if (window.Gerrit.GrDiffBuilderSideBySide) { return; }
 
   function GrDiffBuilderSideBySide(diff, comments, createThreadGroupFn, prefs,
       outputEl, layers) {
@@ -118,5 +118,5 @@
     return null;
   };
 
-  window.GrDiffBuilderSideBySide = GrDiffBuilderSideBySide;
-})(window, GrDiffBuilder);
+  window.Gerrit.GrDiffBuilderSideBySide = GrDiffBuilderSideBySide;
+})(window, Gerrit.GrDiffBuilder);

@@ -175,7 +175,7 @@
       if (commentSelected) {
         return this._getCommentLines(sel, side);
       }
-      const range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
+      const range = Gerrit.GrRangeNormalizer.normalize(sel.getRangeAt(0));
       const startLineEl =
           this.diffBuilder.getLineElByChild(range.startContainer);
       const endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
@@ -242,7 +242,7 @@
      * @return {string} The selected comment text.
      */
     _getCommentLines(sel, side) {
-      const range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
+      const range = Gerrit.GrRangeNormalizer.normalize(sel.getRangeAt(0));
       const content = [];
       // Query the diffElement for comments.
       const messages = this.diffBuilder.diffElement.querySelectorAll(

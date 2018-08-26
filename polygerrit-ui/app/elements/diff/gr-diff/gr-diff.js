@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
+(function(GrDiffLine) {
   'use strict';
 
   const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
@@ -824,4 +824,4 @@
       return 'newlineWarning';
     },
   });
-})();
+})(Gerrit.GrDiffLine);

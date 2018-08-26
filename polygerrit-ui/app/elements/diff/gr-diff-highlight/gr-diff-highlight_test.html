@@ -568,11 +568,11 @@ limitations under the License.
       test('GrRangeNormalizer._getTextOffset computes text offset', () => {
         let content = stubContent(140, 'left');
         let child = content.lastChild.lastChild;
-        let result = GrRangeNormalizer._getTextOffset(content, child);
+        let result = Gerrit.GrRangeNormalizer._getTextOffset(content, child);
         assert.equal(result, 75);
         content = stubContent(146, 'right');
         child = content.lastChild;
-        result = GrRangeNormalizer._getTextOffset(content, child);
+        result = Gerrit.GrRangeNormalizer._getTextOffset(content, child);
         assert.equal(result, 0);
       });
 

@@ -18,7 +18,7 @@
   'use strict';
 
   // Prevent redefinition.
-  if (window.GrDiffBuilderImage) { return; }
+  if (window.Gerrit.GrDiffBuilderImage) { return; }
 
   const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|jpeg|jpg|png|tiff|webp)$/;
 
@@ -178,5 +178,5 @@
     return 'No image';
   };
 
-  window.GrDiffBuilderImage = GrDiffBuilderImage;
-})(window, GrDiffBuilderSideBySide);
+  window.Gerrit.GrDiffBuilderImage = GrDiffBuilderImage;
+})(window, Gerrit.GrDiffBuilderSideBySide);

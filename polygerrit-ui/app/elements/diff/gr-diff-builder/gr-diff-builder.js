@@ -18,7 +18,7 @@
   'use strict';
 
   // Prevent redefinition.
-  if (window.GrDiffBuilder) { return; }
+  if (window.Gerrit.GrDiffBuilder) { return; }
 
   /**
    * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -664,5 +664,5 @@
     return blameTd;
   };
 
-  window.GrDiffBuilder = GrDiffBuilder;
-})(window, GrDiffGroup, GrDiffLine);
+  window.Gerrit.GrDiffBuilder = GrDiffBuilder;
+})(window, Gerrit.GrDiffGroup, GrDiffLine);

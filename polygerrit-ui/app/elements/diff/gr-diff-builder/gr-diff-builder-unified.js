@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window, GrDiffBuilder) {
+(function(window, GrDiffBuilder, GrDiffLine) {
   'use strict';
 
   // Prevent redefinition.
-  if (window.GrDiffBuilderUnified) { return; }
+  if (window.Gerrit.GrDiffBuilderUnified) { return; }
 
   function GrDiffBuilderUnified(diff, comments, createThreadGroupFn, prefs,
       outputEl, layers) {
@@ -110,5 +110,5 @@
     return null;
   };
 
-  window.GrDiffBuilderUnified = GrDiffBuilderUnified;
-})(window, GrDiffBuilder);
+  window.Gerrit.GrDiffBuilderUnified = GrDiffBuilderUnified;
+})(window, Gerrit.GrDiffBuilder, Gerrit.GrDiffLine);

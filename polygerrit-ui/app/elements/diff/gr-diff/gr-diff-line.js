@@ -18,7 +18,7 @@
   'use strict';
 
   // Prevent redefinition.
-  if (window.GrDiffLine) { return; }
+  if (window.Gerrit.GrDiffLine) { return; }
 
   function GrDiffLine(type) {
     this.type = type;
@@ -45,5 +45,5 @@
 
   GrDiffLine.BLANK_LINE = new GrDiffLine(GrDiffLine.Type.BLANK);
 
-  window.GrDiffLine = GrDiffLine;
+  window.Gerrit.GrDiffLine = GrDiffLine;
 })();

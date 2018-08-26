@@ -60,11 +60,11 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.ChangeTableBehavior,
-      Gerrit.PathListBehavior,
-      Gerrit.RESTClientBehavior,
-      Gerrit.URLEncodingBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.ChangeTableBehavior,
+      window.Gerrit.PathListBehavior,
+      window.Gerrit.RESTClientBehavior,
+      window.Gerrit.URLEncodingBehavior,
     ],
 
     _computeItemNeedsReview(reviewed) {

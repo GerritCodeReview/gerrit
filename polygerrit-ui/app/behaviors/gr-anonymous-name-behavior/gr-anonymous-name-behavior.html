@@ -16,15 +16,15 @@ limitations under the License.
 -->
 
 <script>
-(function(window) {
+(function() {
   'use strict';
 
   const ANONYMOUS_NAME = 'Anonymous';
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.AnonymousNameBehavior */
-  Gerrit.AnonymousNameBehavior = {
+  /** @polymerBehavior window.Gerrit.AnonymousNameBehavior */
+  window.Gerrit.AnonymousNameBehavior = {
     /**
      * enableEmail when true enables to fallback to using email if
      * the account name is not avilable.
@@ -44,5 +44,5 @@ limitations under the License.
       return ANONYMOUS_NAME;
     },
   };
-})(window);
+})();
 </script>

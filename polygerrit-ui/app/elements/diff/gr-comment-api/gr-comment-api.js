@@ -78,11 +78,11 @@
   };
 
   ChangeComments.prototype._patchNumEquals =
-      Gerrit.PatchSetBehavior.patchNumEquals;
+      window.Gerrit.PatchSetBehavior.patchNumEquals;
   ChangeComments.prototype._isMergeParent =
-      Gerrit.PatchSetBehavior.isMergeParent;
+      window.Gerrit.PatchSetBehavior.isMergeParent;
   ChangeComments.prototype._getParentIndex =
-      Gerrit.PatchSetBehavior.getParentIndex;
+      window.Gerrit.PatchSetBehavior.getParentIndex;
 
   /**
    * Get an object mapping file paths to a boolean representing whether that
@@ -492,7 +492,7 @@
     },
 
     behaviors: [
-      Gerrit.PatchSetBehavior,
+      window.Gerrit.PatchSetBehavior,
     ],
 
     /**

@@ -30,7 +30,7 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
+      window.Gerrit.BaseUrlBehavior,
     ],
 
     _computeOwnerLink(account) {

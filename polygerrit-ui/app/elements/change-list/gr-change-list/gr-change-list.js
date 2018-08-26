@@ -99,11 +99,11 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.ChangeTableBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.RESTClientBehavior,
-      Gerrit.URLEncodingBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.ChangeTableBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.RESTClientBehavior,
+      window.Gerrit.URLEncodingBehavior,
     ],
 
     keyBindings: {

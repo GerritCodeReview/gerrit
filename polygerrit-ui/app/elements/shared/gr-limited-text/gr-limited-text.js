@@ -37,7 +37,7 @@
         value: null,
       },
 
-      /** Boolean property used by Gerrit.TooltipBehavior. */
+      /** Boolean property used by window.Gerrit.TooltipBehavior. */
       hasTooltip: {
         type: Boolean,
         value: false,
@@ -57,7 +57,7 @@
     ],
 
     behaviors: [
-      Gerrit.TooltipBehavior,
+      window.Gerrit.TooltipBehavior,
     ],
 
     /**

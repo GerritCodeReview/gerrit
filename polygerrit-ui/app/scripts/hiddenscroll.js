@@ -29,4 +29,4 @@
     window.Gerrit.hiddenscroll = elem.offsetWidth === elem.clientWidth;
     elem.remove();
   });
-})(window);
+})();

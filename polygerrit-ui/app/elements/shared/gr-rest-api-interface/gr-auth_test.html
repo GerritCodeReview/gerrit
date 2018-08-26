@@ -81,7 +81,7 @@ limitations under the License.
 
       test('base url support', () => {
         const baseUrl = 'http://foo';
-        sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
+        sandbox.stub(window.Gerrit.BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
         return auth.fetch(baseUrl + '/url', {bar: 'bar'}).then(() => {
           const [url] = fetch.lastCall.args;
           assert.equal(url, 'http://foo/a/url?access_token=zbaz');

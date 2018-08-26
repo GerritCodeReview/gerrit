@@ -51,8 +51,8 @@
     },
 
     behaviors: [
-      Gerrit.AnonymousNameBehavior,
-      Gerrit.TooltipBehavior,
+      window.Gerrit.AnonymousNameBehavior,
+      window.Gerrit.TooltipBehavior,
     ],
 
     ready() {

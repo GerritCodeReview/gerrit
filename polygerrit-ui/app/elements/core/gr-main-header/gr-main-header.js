@@ -115,9 +115,9 @@
     },
 
     behaviors: [
-      Gerrit.AdminNavBehavior,
-      Gerrit.BaseUrlBehavior,
-      Gerrit.DocsUrlBehavior,
+      window.Gerrit.AdminNavBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.DocsUrlBehavior,
     ],
 
     observers: [

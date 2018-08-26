@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
+(function() {
   'use strict';
 
   // Prevent redefinition.
@@ -144,7 +144,7 @@
 
       if (accessToken) {
         params.push(`access_token=${accessToken}`);
-        const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
+        const baseUrl = window.Gerrit.BaseUrlBehavior.getBaseUrl();
         const pathname = baseUrl ?
               url.substring(url.indexOf(baseUrl) + baseUrl.length) : url;
         if (!pathname.startsWith('/a/')) {
@@ -183,4 +183,4 @@
   };
 
   window.Gerrit.Auth = Gerrit.Auth;
-})(window);
+})();

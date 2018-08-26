@@ -83,8 +83,8 @@
     },
 
     behaviors: [
-      Gerrit.ListViewBehavior,
-      Gerrit.URLEncodingBehavior,
+      window.Gerrit.ListViewBehavior,
+      window.Gerrit.URLEncodingBehavior,
     ],
 
     _determineIfOwner(repo) {

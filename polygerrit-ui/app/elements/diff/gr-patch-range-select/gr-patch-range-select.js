@@ -59,7 +59,7 @@
       '_updateSortedRevisions(revisions.*)',
     ],
 
-    behaviors: [Gerrit.PatchSetBehavior],
+    behaviors: [window.Gerrit.PatchSetBehavior],
 
     _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
         changeComments, revisionInfo) {

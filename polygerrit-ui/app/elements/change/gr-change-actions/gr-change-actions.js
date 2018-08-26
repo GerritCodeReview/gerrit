@@ -389,8 +389,8 @@
     RevisionActions,
 
     behaviors: [
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.RESTClientBehavior,
     ],
 
     observers: [

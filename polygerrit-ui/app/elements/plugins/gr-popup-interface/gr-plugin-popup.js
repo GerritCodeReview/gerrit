@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
+(function() {
   'use strict';
   Polymer({
     is: 'gr-plugin-popup',
@@ -28,4 +28,4 @@
       this.$.overlay.close();
     },
   });
-})(window);
+})();

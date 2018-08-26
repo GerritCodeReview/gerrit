@@ -69,7 +69,7 @@
     },
 
     behaviors: [
-      Gerrit.AccessBehavior,
+      window.Gerrit.AccessBehavior,
     ],
 
     listeners: {

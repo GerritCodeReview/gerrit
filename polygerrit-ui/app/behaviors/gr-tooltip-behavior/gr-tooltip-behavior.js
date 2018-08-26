@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
+(function() {
   'use strict';
 
   const BOTTOM_OFFSET = 7.2; // Height of the arrow in tooltip.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.TooltipBehavior */
-  Gerrit.TooltipBehavior = {
+  /** @polymerBehavior window.Gerrit.TooltipBehavior */
+  window.Gerrit.TooltipBehavior = {
 
     properties: {
       hasTooltip: {
@@ -146,4 +146,4 @@
       }
     },
   };
-})(window);
+})();

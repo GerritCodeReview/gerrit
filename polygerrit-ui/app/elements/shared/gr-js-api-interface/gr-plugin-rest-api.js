@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
+(function() {
   'use strict';
 
   let restApi;
@@ -123,4 +123,4 @@
   };
 
   window.GrPluginRestApi = GrPluginRestApi;
-})(window);
+})();

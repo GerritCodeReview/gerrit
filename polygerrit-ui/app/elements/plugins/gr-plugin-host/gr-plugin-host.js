@@ -28,7 +28,7 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
+      window.Gerrit.BaseUrlBehavior,
     ],
 
     _configChanged(config) {

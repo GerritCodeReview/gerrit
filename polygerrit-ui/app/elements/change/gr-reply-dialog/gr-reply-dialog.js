@@ -232,10 +232,10 @@
     START_REVIEW_MESSAGE,
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.RESTClientBehavior,
     ],
 
     keyBindings: {

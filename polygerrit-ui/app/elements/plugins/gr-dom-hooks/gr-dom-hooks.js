@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
+(function() {
   'use strict';
 
   function GrDomHooksManager(plugin) {
@@ -135,4 +135,4 @@
 
   window.GrDomHook = GrDomHook;
   window.GrDomHooksManager = GrDomHooksManager;
-})(window);
+})();

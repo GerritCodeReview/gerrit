@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <script>
-(function(window) {
+(function() {
   'use strict';
 
   const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins'];
@@ -43,8 +43,8 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.AdminNavBehavior */
-  Gerrit.AdminNavBehavior = {
+  /** @polymerBehavior window.Gerrit.AdminNavBehavior */
+  window.Gerrit.AdminNavBehavior = {
     /**
      * @param {!Object} account
      * @param {!Function} getAccountCapabilities
@@ -202,5 +202,5 @@ limitations under the License.
       };
     },
   };
-})(window);
+})();
 </script>

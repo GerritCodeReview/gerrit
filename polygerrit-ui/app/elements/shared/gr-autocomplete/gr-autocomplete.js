@@ -166,7 +166,7 @@
     },
 
     behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
     ],
 
     observers: [

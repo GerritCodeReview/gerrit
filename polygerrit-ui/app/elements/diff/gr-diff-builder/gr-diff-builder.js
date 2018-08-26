@@ -370,7 +370,7 @@
     if (line.type === GrDiffLine.Type.REMOVE ||
         opt_side === GrDiffBuilder.Side.LEFT) {
       if (this._comments.meta.patchRange.basePatchNum === 'PARENT' ||
-          Gerrit.PatchSetBehavior.isMergeParent(
+          window.Gerrit.PatchSetBehavior.isMergeParent(
               this._comments.meta.patchRange.basePatchNum)) {
         isOnParent = true;
       } else {

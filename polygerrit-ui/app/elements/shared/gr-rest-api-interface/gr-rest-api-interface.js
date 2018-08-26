@@ -139,9 +139,9 @@
     is: 'gr-rest-api-interface',
 
     behaviors: [
-      Gerrit.PathListBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
+      window.Gerrit.PathListBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.RESTClientBehavior,
     ],
 
     /**

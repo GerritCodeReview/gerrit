@@ -16,6 +16,24 @@
       "revId": "ce362c3ba5d7368f99c6105bc1865739ccb63901",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf33075c_e01d111b",
+        "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-27T07:25:02Z",
+      "side": 1,
+      "message": "Right. rootPath \u003d /home/davido/projects/gerrit2/.\nWe need just /home/davido/projects/gerrit2/. So that:\n\n  String prefix2 \u003d rootPath.normalize().toString()\n\nwouldn\u0027t be the same, but: /home/davido/projects/gerrit2.\n\nWe would need to append path separator, e.g.:\n\n  String prefix2 \u003d rootPath.normalize().toString() + File.separatorChar;",
+      "parentUuid": "2cdb0c77_c23f44fd",
+      "revId": "ce362c3ba5d7368f99c6105bc1865739ccb63901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

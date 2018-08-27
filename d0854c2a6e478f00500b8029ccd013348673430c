@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69069e27_c34f88ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-27T23:12:11Z",
+      "side": 1,
+      "message": "This reads strangely. Should this be \"when prefs are not set and no rendering happened\"?",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 63
+      },
+      "revId": "d0854c2a6e478f00500b8029ccd013348673430c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42ad8bcc_9326ed5a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-27T23:12:11Z",
+      "side": 1,
+      "message": "I didn\u0027t anticipate how the short-circuits in `_renderDiffTable` would mean that a \"render\" event isn\u0027t always fired every time a `_reload` promise resolves.\n\nWhen there are no prefs, or the safety catch engages, there is a sense in which a \"render\" didn\u0027t take place, so I wonder if adding these new dispatches would dilute the meaning of that event.\n\nWhat if we instead created a new event with a 1:1 correspondence to the `reload` promise, and dispatch it from this `.finally` clause?\n\n}).finally(() \u003d\u003e {\n  this._loading \u003d false;\n  this.dispatchEvent(new CustomEvent(\u0027reloaded\u0027, {bubbles: true}));\n});",
+      "revId": "d0854c2a6e478f00500b8029ccd013348673430c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

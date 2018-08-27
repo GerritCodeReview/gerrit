@@ -4627,6 +4627,21 @@ By default 0.
 [[theme]]
 === Section theme
 
+[[theme.url]]theme.url::
++
+_(PolyGerrit only)_ Full URL to a PolyGerrit `gerrit-theme.html` plugin file
+defining the default theme. If set, the server will report this URL in the
+`default_theme` field of the link:rest-api-config.html#server-info[ServerInfo].
++
+If unset, the server will report a `default_theme` only if
+`static/gerrit-theme.html` exists in the site directory.
++
+If set to an empty value, the server will not report a `default_theme` even if
+`static/gerrit.html` exists. This allows turning off theming without removing
+the theme file.
++
+By default, unset.
+
 [[theme.backgroundColor]]theme.backgroundColor::
 +
 _(GWT UI only)_ Background color for the page, and major data tables like the all

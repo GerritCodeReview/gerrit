@@ -30,6 +30,9 @@ import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
+import java.nio.file.Files;
 import org.junit.Test;
 
 @NoHttpd
@@ -37,6 +40,8 @@ import org.junit.Test;
 public class ServerInfoIT extends AbstractDaemonTest {
   private static final byte[] JS_PLUGIN_CONTENT =
       "Gerrit.install(function(self){});\n".getBytes(UTF_8);
+
+  @Inject private SitePaths sitePaths;
 
   @Test
   // accounts
@@ -205,5 +210,38 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     setApiUserAnonymous();
     gApi.config().server().getInfo();
+  }
+
+  @Test
+  public void liveUpdateTheme() throws Exception {
+    assertThat(gApi.config().server().getInfo().defaultTheme).isNull();
+    writeGerritTheme("a theme");
+    assertThat(gApi.config().server().getInfo().defaultTheme)
+        .isEqualTo("/static/gerrit-theme.html");
+    Files.delete(sitePaths.site_theme);
+    assertThat(gApi.config().server().getInfo().defaultTheme).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "theme.url", value = "https://cdn.foo/bar/gerrit-theme.html")
+  public void themeUrl() throws Exception {
+    assertThat(gApi.config().server().getInfo().defaultTheme)
+        .isEqualTo("https://cdn.foo/bar/gerrit-theme.html");
+    writeGerritTheme("a theme");
+    assertThat(gApi.config().server().getInfo().defaultTheme)
+        .isEqualTo("https://cdn.foo/bar/gerrit-theme.html");
+  }
+
+  @Test
+  @GerritConfig(name = "theme.url", value = "")
+  public void emptyThemeUrl() throws Exception {
+    assertThat(gApi.config().server().getInfo().defaultTheme).isNull();
+    writeGerritTheme("a theme");
+    assertThat(gApi.config().server().getInfo().defaultTheme).isNull();
+  }
+
+  private void writeGerritTheme(String content) throws Exception {
+    Files.createDirectories(sitePaths.site_theme.getParent());
+    Files.write(sitePaths.site_theme, content.getBytes(UTF_8));
   }
 }

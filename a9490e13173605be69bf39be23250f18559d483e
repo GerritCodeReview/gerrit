@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72aaba42_00599d03",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-27T13:59:37Z",
+      "side": 1,
+      "message": "annotate with with UsedBy",
+      "revId": "a9490e13173605be69bf39be23250f18559d483e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

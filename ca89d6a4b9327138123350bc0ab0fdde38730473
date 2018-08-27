@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "531cf226_e3bdf9c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-08-27T09:16:44Z",
+      "side": 1,
+      "message": "Are you talking about the UI here? What you proposed sounds reasonable.",
+      "revId": "ca89d6a4b9327138123350bc0ab0fdde38730473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

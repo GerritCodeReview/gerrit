@@ -37,7 +37,6 @@ import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
@@ -237,18 +236,17 @@ public class CommitValidators {
 
   public static class ChangeIdValidator implements CommitValidationListener {
     private static final String CHANGE_ID_PREFIX = FooterConstants.CHANGE_ID.getName() + ":";
-    private static final String MISSING_CHANGE_ID_MSG =
-        "[%s] missing Change-Id in commit message footer";
+    private static final String MISSING_CHANGE_ID_MSG = "missing Change-Id in message footer";
     private static final String MISSING_SUBJECT_MSG =
-        "[%s] missing subject; Change-Id must be in commit message footer";
+        "missing subject; Change-Id must be in message footer";
     private static final String MULTIPLE_CHANGE_ID_MSG =
-        "[%s] multiple Change-Id lines in commit message footer";
+        "multiple Change-Id lines in message footer";
     private static final String INVALID_CHANGE_ID_MSG =
-        "[%s] invalid Change-Id line format in commit message footer";
+        "invalid Change-Id line format in message footer";
 
     @VisibleForTesting
     public static final String CHANGE_ID_MISMATCH_MSG =
-        "[%s] Change-Id in commit message footer does not match Change-Id of target change";
+        "Change-Id in message footer does not match Change-Id of target change";
 
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
@@ -283,35 +281,29 @@ public class CommitValidators {
       RevCommit commit = receiveEvent.commit;
       List<CommitValidationMessage> messages = new ArrayList<>();
       List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
-      String sha1 = commit.abbreviate(RevId.ABBREV_LEN).name();
 
       if (idList.isEmpty()) {
         String shortMsg = commit.getShortMessage();
         if (shortMsg.startsWith(CHANGE_ID_PREFIX)
             && CHANGE_ID.matcher(shortMsg.substring(CHANGE_ID_PREFIX.length()).trim()).matches()) {
-          String errMsg = String.format(MISSING_SUBJECT_MSG, sha1);
-          throw new CommitValidationException(errMsg);
+          throw new CommitValidationException(MISSING_SUBJECT_MSG);
         }
         if (projectState.is(BooleanProjectConfig.REQUIRE_CHANGE_ID)) {
-          String errMsg = String.format(MISSING_CHANGE_ID_MSG, sha1);
-          messages.add(getMissingChangeIdErrorMsg(errMsg, commit));
-          throw new CommitValidationException(errMsg, messages);
+          messages.add(getMissingChangeIdErrorMsg(MISSING_CHANGE_ID_MSG, commit));
+          throw new CommitValidationException(MISSING_CHANGE_ID_MSG, messages);
         }
       } else if (idList.size() > 1) {
-        String errMsg = String.format(MULTIPLE_CHANGE_ID_MSG, sha1);
-        throw new CommitValidationException(errMsg, messages);
+        throw new CommitValidationException(MULTIPLE_CHANGE_ID_MSG, messages);
       } else {
         String v = idList.get(idList.size() - 1).trim();
         // Reject Change-Ids with wrong format and invalid placeholder ID from
         // Egit (I0000000000000000000000000000000000000000).
         if (!CHANGE_ID.matcher(v).matches() || v.matches("^I00*$")) {
-          String errMsg = String.format(INVALID_CHANGE_ID_MSG, sha1);
-          messages.add(getMissingChangeIdErrorMsg(errMsg, receiveEvent.commit));
-          throw new CommitValidationException(errMsg, messages);
+          messages.add(getMissingChangeIdErrorMsg(INVALID_CHANGE_ID_MSG, receiveEvent.commit));
+          throw new CommitValidationException(INVALID_CHANGE_ID_MSG, messages);
         }
         if (change != null && !v.equals(change.getKey().get())) {
-          String errMsg = String.format(CHANGE_ID_MISMATCH_MSG, sha1);
-          throw new CommitValidationException(errMsg);
+          throw new CommitValidationException(CHANGE_ID_MISMATCH_MSG);
         }
       }
 
@@ -539,7 +531,7 @@ public class CommitValidators {
           perm.check(RefPermission.FORGE_COMMITTER);
         } catch (AuthException denied) {
           throw new CommitValidationException(
-              "not Signed-off-by author/committer/uploader in commit message footer");
+              "not Signed-off-by author/committer/uploader in message footer");
         } catch (PermissionBackendException e) {
           logger.atSevere().withCause(e).log("cannot check FORGE_COMMITTER");
           throw new CommitValidationException("internal auth error");

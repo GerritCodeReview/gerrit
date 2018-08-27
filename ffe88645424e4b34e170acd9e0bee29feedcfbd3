@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b96ff71e_120acb34",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-27T20:55:22Z",
+      "side": 1,
+      "message": "This will break if we try to serve gerrit-theme.html from CDN.\n\nIn general I don\u0027t think this should hard-code anything; you should be trusting the value that the server reported as default_theme.",
+      "revId": "ffe88645424e4b34e170acd9e0bee29feedcfbd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

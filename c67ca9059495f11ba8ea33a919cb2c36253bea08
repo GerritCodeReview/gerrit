@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "69083f88_03e20eb3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-shell-command/gr-shell-command.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1070684
+      },
+      "writtenOn": "2018-08-27T20:58:26Z",
+      "side": 1,
+      "message": "Oh, hideLabel is hide-label in the template... That is why I could not find any usage... I assumed it was added for completeness.\nYes, it is not needed anymore, then. Removing.",
+      "parentUuid": "34c3799b_19fb8c7f",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 8
+      },
+      "revId": "c67ca9059495f11ba8ea33a919cb2c36253bea08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfd9e664_5c09e823",
         "filename": "polygerrit-ui/app/elements/shared/gr-shell-command/gr-shell-command_test.html",
         "patchSetId": 8

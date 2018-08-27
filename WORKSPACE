@@ -174,12 +174,12 @@ maven_jar(
     sha1 = "94ad16d728b374d65bd897625f3fbb3da223a2b6",
 )
 
-FLOGGER_VERS = "0.2"
+FLOGGER_VERS = "0.3.1"
 
 maven_jar(
     name = "flogger",
     artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
-    sha1 = "a22d04ed3b84bae8ecf8aa6d4430ad000bcdf7b4",
+    sha1 = "585030fe1ec709760cbef997a459729fb965df0e",
 )
 
 maven_jar(
@@ -191,7 +191,7 @@ maven_jar(
 maven_jar(
     name = "flogger-system-backend",
     artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
-    sha1 = "b995c84b8443d6cfbd011a55719b63494b974c3a",
+    sha1 = "287b569d76abcd82f9de87fe41829fbc7ebd8ac9",
 )
 
 maven_jar(

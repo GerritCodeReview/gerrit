@@ -53,7 +53,7 @@ public abstract class SshCommand extends BaseCommand {
     if (trace) {
       RequestId traceId = new RequestId();
       stderr.println(String.format("%s: %s", RequestId.Type.TRACE_ID, traceId));
-      return TraceContext.open().addTag(RequestId.Type.TRACE_ID, traceId);
+      return TraceContext.open().forceLogging().addTag(RequestId.Type.TRACE_ID, traceId);
     }
     return TraceContext.DISABLED;
   }

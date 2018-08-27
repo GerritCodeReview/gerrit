@@ -1351,7 +1351,6 @@ limitations under the License.
 
     const setupDiff = function(diff) {
       const mock = document.createElement('mock-diff-response');
-      diff.$.diff._diff = mock.diffResponse;
       diff.comments = {
         left: diff.path === '/COMMIT_MSG' ? commitMsgComments : [],
         right: [],
@@ -1379,7 +1378,7 @@ limitations under the License.
         theme: 'DEFAULT',
         ignore_whitespace: 'IGNORE_NONE',
       };
-      diff.$.diff._renderDiffTable();
+      diff._diff = mock.diffResponse;
     };
 
     const renderAndGetNewDiffs = function(index) {

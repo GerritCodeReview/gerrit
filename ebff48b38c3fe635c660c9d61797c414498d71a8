@@ -22,6 +22,30 @@
       "revId": "ebff48b38c3fe635c660c9d61797c414498d71a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b3ee3df_00b34517",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-27T09:02:31Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/gerrit/+/138774/33/WORKSPACE#486.",
+      "parentUuid": "43fc6138_b13acf15",
+      "range": {
+        "startLine": 506,
+        "startChar": 0,
+        "endLine": 511,
+        "endChar": 1
+      },
+      "revId": "ebff48b38c3fe635c660c9d61797c414498d71a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -554,6 +554,12 @@ class ReceiveCommits {
         cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
       }
     }
+
+    // This sends error messages before the 'done' string of the progress monitor is sent.
+    // Currently, the test framework relies on this ordering to understand if pushes completed
+    // successfully.
+    sendErrorMessages();
+
     commandProgress.end();
     progress.end();
 
@@ -574,6 +580,7 @@ class ReceiveCommits {
         traceContext.forceLogging().addTag(RequestId.Type.TRACE_ID, traceId);
         addMessage(RequestId.Type.TRACE_ID.name() + ": " + traceId);
       }
+
       try {
         if (!projectState.getProject().getState().permitsWrite()) {
           for (ReceiveCommand cmd : commands) {
@@ -614,6 +621,7 @@ class ReceiveCommits {
 
         if (!regularCommands.isEmpty()) {
           handleRegularCommands(regularCommands, progress);
+          return;
         }
 
         for (ReceiveCommand cmd : directPatchSetPushCommands) {
@@ -645,17 +653,26 @@ class ReceiveCommits {
       insertChangesAndPatchSets(newChanges, replaceProgress);
       newProgress.end();
       replaceProgress.end();
+      queueSuccessMessages(newChanges);
+      refsPublishDeprecationWarning();
+    }
+  }
 
-      if (!errors.isEmpty()) {
-        logger.atFine().log("Handling error conditions: %s", errors.keySet());
-        for (String error : errors.keySet()) {
-          receivePack.sendMessage("error: " + buildError(error, errors.get(error)));
-        }
-        receivePack.sendMessage(String.format("User: %s", user.getLoggableName()));
-        receivePack.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
+  private void refsPublishDeprecationWarning() {
+    // TODO(xchangcheng): remove after migrating tools which are using this magic branch.
+    if (magicBranch != null && magicBranch.publish) {
+      addMessage("Pushing to refs/publish/* is deprecated, use refs/for/* instead.");
+    }
+  }
+
+  private void sendErrorMessages() {
+    if (!errors.isEmpty()) {
+      logger.atFine().log("Handling error conditions: %s", errors.keySet());
+      for (String error : errors.keySet()) {
+        receivePack.sendMessage("error: " + buildError(error, errors.get(error)));
       }
-
-      reportMessages(newChanges);
+      receivePack.sendMessage(String.format("User: %s", user.getLoggableName()));
+      receivePack.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
     }
   }
 
@@ -729,9 +746,25 @@ class ReceiveCommits {
     }
   }
 
-  private void reportMessages(List<CreateRequest> newChanges) {
+  /** Appends messages for successful change creation/updates. */
+  private void queueSuccessMessages(List<CreateRequest> newChanges) {
     List<CreateRequest> created =
         newChanges.stream().filter(r -> r.change != null).collect(toList());
+    List<ReplaceRequest> updated =
+        replaceByChange
+            .values()
+            .stream()
+            .filter(r -> r.inputCommand.getResult() == OK)
+            .sorted(comparingInt(r -> r.notes.getChangeId().get()))
+            .collect(toList());
+
+    if (created.isEmpty() && updated.isEmpty()) {
+      return;
+    }
+
+    addMessage("");
+    addMessage("SUCCESS");
+
     if (!created.isEmpty()) {
       addMessage("");
       addMessage("New Changes:");
@@ -740,16 +773,8 @@ class ReceiveCommits {
             changeFormatter.newChange(
                 ChangeReportFormatter.Input.builder().setChange(c.change).build()));
       }
-      addMessage("");
     }
 
-    List<ReplaceRequest> updated =
-        replaceByChange
-            .values()
-            .stream()
-            .filter(r -> r.inputCommand.getResult() == OK)
-            .sorted(comparingInt(r -> r.notes.getChangeId().get()))
-            .collect(toList());
     if (!updated.isEmpty()) {
       addMessage("");
       addMessage("Updated Changes:");
@@ -800,11 +825,6 @@ class ReceiveCommits {
         addMessage(changeFormatter.changeUpdated(input));
       }
       addMessage("");
-    }
-
-    // TODO(xchangcheng): remove after migrating tools which are using this magic branch.
-    if (magicBranch != null && magicBranch.publish) {
-      addMessage("Pushing to refs/publish/* is deprecated, use refs/for/* instead.");
     }
   }
 
@@ -1865,10 +1885,26 @@ class ReceiveCommits {
       return;
     }
 
-    logger.atFine().log("Replacing change %s", changeEnt.getId());
-    requestReplace(cmd, true, changeEnt, newCommit);
+    try {
+      if (validCommit(
+          receivePack.getRevWalk().getObjectReader(),
+          changeEnt.getDest(),
+          cmd,
+          newCommit,
+          false,
+          changeEnt)) {
+        logger.atFine().log("Replacing change %s", changeEnt.getId());
+        requestReplace(cmd, true, changeEnt, newCommit);
+      }
+    } catch (IOException e) {
+      reject(cmd, "I/O exception validating commit");
+    }
   }
 
+  /**
+   * Add an update for an existing change. Returns true if it succeeded; rejects the command if it
+   * failed.
+   */
   private boolean requestReplace(
       ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
     if (change.getStatus().isClosed()) {
@@ -1995,7 +2031,13 @@ class ReceiveCommits {
           logger.atFine().log("Creating new change for %s even though it is already tracked", name);
         }
 
-        if (!validCommit(receivePack.getRevWalk(), magicBranch.dest, magicBranch.cmd, c, null)) {
+        if (!validCommit(
+            receivePack.getRevWalk().getObjectReader(),
+            magicBranch.dest,
+            magicBranch.cmd,
+            c,
+            magicBranch.merged,
+            null)) {
           // Not a change the user can propose? Abort as early as possible.
           logger.atFine().log("Aborting early due to invalid commit");
           return Collections.emptyList();
@@ -2281,7 +2323,7 @@ class ReceiveCommits {
   private class CreateRequest {
     final RevCommit commit;
     final Task progress;
-    private final String refName;
+    final String refName;
 
     Change.Id changeId;
     ReceiveCommand cmd;
@@ -2477,9 +2519,9 @@ class ReceiveCommits {
     ReceiveCommand prev;
     ReceiveCommand cmd;
     PatchSetInfo info;
-    private PatchSet.Id priorPatchSet;
+    PatchSet.Id priorPatchSet;
     List<String> groups = ImmutableList.of();
-    private ReplaceOp replaceOp;
+    ReplaceOp replaceOp;
 
     ReplaceRequest(
         Change.Id toChange, RevCommit newCommit, ReceiveCommand cmd, boolean checkMergedInto) {
@@ -2518,19 +2560,9 @@ class ReceiveCommits {
      * @throws PermissionBackendException
      */
     boolean validateNewPatchSet() throws IOException, OrmException, PermissionBackendException {
-      if (!validateNewPatchSetCommit()) {
+      if (!validateNewPatchSetNoteDb()) {
         return false;
       }
-      RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
-      if (!validCommit(
-          receivePack.getRevWalk(),
-          notes.getChange().getDest(),
-          inputCommand,
-          newCommit,
-          notes.getChange())) {
-        return false;
-      }
-
       sameTreeWarning();
 
       if (magicBranch != null) {
@@ -2550,7 +2582,7 @@ class ReceiveCommits {
 
     boolean validateNewPatchSetForAutoClose()
         throws IOException, OrmException, PermissionBackendException {
-      if (!validateNewPatchSetCommit()) {
+      if (!validateNewPatchSetNoteDb()) {
         return false;
       }
 
@@ -2559,7 +2591,7 @@ class ReceiveCommits {
     }
 
     /** Validates the new PS against permissions and notedb status. */
-    private boolean validateNewPatchSetCommit()
+    private boolean validateNewPatchSetNoteDb()
         throws IOException, OrmException, PermissionBackendException {
       if (notes == null) {
         reject(inputCommand, "change " + ontoChange + " not found");
@@ -2770,8 +2802,8 @@ class ReceiveCommits {
   }
 
   private class UpdateGroupsRequest {
-    private final PatchSet.Id psId;
-    private final RevCommit commit;
+    final PatchSet.Id psId;
+    final RevCommit commit;
     List<String> groups = ImmutableList.of();
 
     UpdateGroupsRequest(Ref ref, RevCommit commit) {
@@ -2806,7 +2838,7 @@ class ReceiveCommits {
   }
 
   private class UpdateOneRefOp implements RepoOnlyOp {
-    private final ReceiveCommand cmd;
+    final ReceiveCommand cmd;
 
     private UpdateOneRefOp(ReceiveCommand cmd) {
       this.cmd = checkNotNull(cmd);
@@ -2989,7 +3021,9 @@ class ReceiveCommits {
         }
         if (existing.keySet().contains(c)) {
           continue;
-        } else if (!validCommit(walk, branch, cmd, c, null)) {
+        }
+
+        if (!validCommit(walk.getObjectReader(), branch, cmd, c, false, null)) {
           break;
         }
 
@@ -3006,35 +3040,48 @@ class ReceiveCommits {
     }
   }
 
-  /** Validates a single commit. If the commit does not validate, the command is rejected. */
+  /**
+   * Validates a single commit. If the commit does not validate, the command is rejected.
+   *
+   * @param objectReader the object reader to use.
+   * @param branch the branch to which this commit is pushed
+   * @param cmd the ReceiveCommand executing the push.
+   * @param commit the commit being validated.
+   * @param isMerged whether this is a merge commit created by magicBranch --merge option
+   * @param change the change for which this is a new patchset.
+   */
   private boolean validCommit(
-      RevWalk rw, Branch.NameKey branch, ReceiveCommand cmd, ObjectId id, @Nullable Change change)
+      ObjectReader objectReader,
+      Branch.NameKey branch,
+      ReceiveCommand cmd,
+      RevCommit commit,
+      boolean isMerged,
+      @Nullable Change change)
       throws IOException {
     PermissionBackend.ForRef perm = permissions.ref(branch.get());
 
-    ValidCommitKey key = new AutoValue_ReceiveCommits_ValidCommitKey(id.copy(), branch);
+    ValidCommitKey key = new AutoValue_ReceiveCommits_ValidCommitKey(commit.copy(), branch);
     if (validCommits.contains(key)) {
       return true;
     }
 
-    RevCommit c = rw.parseCommit(id);
-    rw.parseBody(c);
-
     try (CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, branch.get(), rw.getObjectReader(), c, user)) {
-      boolean isMerged =
-          magicBranch != null
-              && cmd.getRefName().equals(magicBranch.cmd.getRefName())
-              && magicBranch.merged;
+        new CommitReceivedEvent(cmd, project, branch.get(), objectReader, commit, user)) {
       CommitValidators validators =
           isMerged
               ? commitValidatorsFactory.forMergedCommits(
                   project.getNameKey(), perm, user.asIdentifiedUser())
               : commitValidatorsFactory.forReceiveCommits(
-                  perm, branch, user.asIdentifiedUser(), sshInfo, repo, rw, change);
+                  perm,
+                  branch,
+                  user.asIdentifiedUser(),
+                  sshInfo,
+                  repo,
+                  receiveEvent.revWalk,
+                  change);
       messages.addAll(validators.validate(receiveEvent));
     } catch (CommitValidationException e) {
-      logger.atFine().log("Commit validation failed on %s", c.name());
+      logger.atFine().log("Commit validation failed on %s", commit.name());
       messages.addAll(e.getMessages());
       reject(cmd, e.getMessage());
       return false;

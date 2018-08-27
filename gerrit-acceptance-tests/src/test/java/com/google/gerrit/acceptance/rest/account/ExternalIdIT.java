@@ -968,6 +968,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   private void assertRefUpdateFailure(RemoteRefUpdate update, String msg) {
     assertThat(update.getStatus()).isEqualTo(Status.REJECTED_OTHER_REASON);
-    assertThat(update.getMessage()).isEqualTo(msg);
+    assertThat(update.getMessage()).contains(msg);
   }
 }

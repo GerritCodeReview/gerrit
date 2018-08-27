@@ -261,7 +261,14 @@
         }
         this.filesWeblinks = this._getFilesWeblinks(diff);
         this._diff = diff;
-        return this._renderDiffTable();
+        const renderPromise = new Promise(resolve => {
+          this.addEventListener('render', () => {
+            resolve();
+            this.removeEventListener('render', arguments.callee);
+          });
+        });
+        this._renderDiffTable();
+        return renderPromise;
       }).finally(() => {
         this._loading = false;
       });
@@ -712,16 +719,20 @@
     },
 
     _renderDiffTable() {
-      if (!this.prefs) { return Promise.resolve(); }
+      if (!this.prefs) {
+        this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
+        return;
+      }
       if (this.prefs.context === -1 &&
           this._diffLength(this._diff) >= LARGE_DIFF_THRESHOLD_LINES &&
           this._safetyBypass === null) {
         this._showWarning = true;
-        return Promise.resolve();
+        this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
+        return;
       }
 
       this._showWarning = false;
-      return this.$.diffBuilder.render(this.comments, this._getBypassPrefs());
+      this.$.diffBuilder.render(this.comments, this._getBypassPrefs());
     },
 
     /**

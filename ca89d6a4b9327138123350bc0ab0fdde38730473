@@ -34,6 +34,24 @@
       "revId": "ca89d6a4b9327138123350bc0ab0fdde38730473",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20e9cbae_0f22b39d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-08-27T11:57:17Z",
+      "side": 1,
+      "message": "\u003e It will be in the info element [1] returned from the project config endpoint [2], so yes, eventually it will need to be added into the UI.\n\nThen we have to distinguish between the inherited and global value. Right?\n\nBtw, shall we also include the (parent) project name from which the inherited value comes?",
+      "parentUuid": "34877ca8_3962c6d3",
+      "revId": "ca89d6a4b9327138123350bc0ab0fdde38730473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -21,11 +21,6 @@
   const ERR_COMMENT_ON_EDIT_BASE = 'You cannot comment on the base patch set ' +
       'of an edit.';
   const ERR_INVALID_LINE = 'Invalid line number: ';
-  const MSG_EMPTY_BLAME = 'No blame information for this diff.';
-
-  const EVENT_AGAINST_PARENT = 'diff-against-parent';
-  const EVENT_ZERO_REBASE = 'rebase-percent-zero';
-  const EVENT_NONZERO_REBASE = 'rebase-percent-nonzero';
 
   const NO_NEWLINE_BASE = 'No newline at end of base file.';
   const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -64,6 +59,12 @@
      * @event diff-comments-modified
      */
 
+     /**
+      * Fired when a draft is added or edited.
+      *
+      * @event draft-interaction
+      */
+
     properties: {
       changeNum: String,
       noAutoRender: {
@@ -88,15 +89,8 @@
       },
       isImageDiff: {
         type: Boolean,
-        computed: '_computeIsImageDiff(_diff)',
-        notify: true,
       },
       commitRange: Object,
-      filesWeblinks: {
-        type: Object,
-        value() { return {}; },
-        notify: true,
-      },
       hidden: {
         type: Boolean,
         reflectToAttribute: true,
@@ -123,38 +117,33 @@
        */
       lineOfInterest: Object,
 
-      /**
-       * If the diff fails to load, show the failure message in the diff rather
-       * than bubbling the error up to the whole page. This is useful for when
-       * loading inline diffs because one diff failing need not mark the whole
-       * page with a failure.
-       */
-      showLoadFailure: Boolean,
-
-      _loading: {
+      loading: {
         type: Boolean,
         value: false,
         observer: '_loadingChanged',
       },
 
-      _loggedIn: {
+      loggedIn: {
         type: Boolean,
         value: false,
       },
-      _diff: Object,
+      diff: {
+        type: Object,
+        observer: '_diffChanged',
+      },
       _diffHeaderItems: {
         type: Array,
         value: [],
-        computed: '_computeDiffHeaderItems(_diff.*)',
+        computed: '_computeDiffHeaderItems(diff.*)',
       },
       _diffTableClass: {
         type: String,
         value: '',
       },
       /** @type {?Object} */
-      _baseImage: Object,
+      baseImage: Object,
       /** @type {?Object} */
-      _revisionImage: Object,
+      revisionImage: Object,
 
       /**
        * Whether the safety check for large diffs when whole-file is set has
@@ -172,20 +161,16 @@
       _showWarning: Boolean,
 
       /** @type {?string} */
-      _errorMessage: {
+      errorMessage: {
         type: String,
         value: null,
       },
 
       /** @type {?Object} */
-      _blame: {
+      blame: {
         type: Object,
         value: null,
-      },
-      isBlameLoaded: {
-        type: Boolean,
-        notify: true,
-        computed: '_computeIsBlameLoaded(_blame)',
+        observer: '_blameChanged',
       },
 
       _parentIndex: {
@@ -195,7 +180,7 @@
 
       _newlineWarning: {
         type: String,
-        computed: '_computeNewlineWarning(_diff)',
+        computed: '_computeNewlineWarning(diff)',
       },
 
       /**
@@ -218,61 +203,6 @@
       'comment-update': '_handleCommentUpdate',
       'comment-save': '_handleCommentSave',
       'create-comment': '_handleCreateComment',
-    },
-
-    attached() {
-      this._getLoggedIn().then(loggedIn => {
-        this._loggedIn = loggedIn;
-      });
-    },
-
-    ready() {
-      if (this._canRender()) {
-        this.reload();
-      }
-    },
-
-    /** @return {!Promise} */
-    reload() {
-      this._loading = true;
-      this._errorMessage = null;
-
-      const diffRequest = this._getDiff()
-          .then(diff => {
-            this._reportDiff(diff);
-            return diff;
-          })
-          .catch(e => {
-            this._handleGetDiffError(e);
-            return null;
-          });
-
-      const assetRequest = diffRequest.then(diff => {
-        // If the diff is null, then it's failed to load.
-        if (!diff) { return null; }
-
-        return this._loadDiffAssets(diff);
-      });
-
-      return Promise.all([diffRequest, assetRequest]).then(results => {
-        const diff = results[0];
-        if (!diff) {
-          return Promise.resolve();
-        }
-        this.filesWeblinks = this._getFilesWeblinks(diff);
-        this._diff = diff;
-        const renderPromise = new Promise(resolve => {
-          const callback = () => {
-            resolve();
-            this.removeEventListener('render', callback);
-          };
-          this.addEventListener('render', callback);
-        });
-        this._renderDiffTable();
-        return renderPromise;
-      }).finally(() => {
-        this._loading = false;
-      });
     },
 
     /** Cancel any remaining diff builder rendering work. */
@@ -298,48 +228,18 @@
       this.toggleClass('no-left');
     },
 
-    /**
-     * Load and display blame information for the base of the diff.
-     * @return {Promise} A promise that resolves when blame finishes rendering.
-     */
-    loadBlame() {
-      return this.$.restAPI.getBlame(this.changeNum, this.patchRange.patchNum,
-          this.path, true)
-          .then(blame => {
-            if (!blame.length) {
-              this.fire('show-alert', {message: MSG_EMPTY_BLAME});
-              return Promise.reject(MSG_EMPTY_BLAME);
-            }
-
-            this._blame = blame;
-
-            this.$.diffBuilder.setBlame(blame);
-            this.classList.add('showBlame');
-          });
-    },
-
-    _computeIsBlameLoaded(blame) {
-      return !!blame;
-    },
-
-    /**
-     * Unload blame information for the diff.
-     */
-    clearBlame() {
-      this._blame = null;
-      this.$.diffBuilder.setBlame(null);
-      this.classList.remove('showBlame');
+    _blameChanged(newValue) {
+      this.$.diffBuilder.setBlame(newValue);
+      if (newValue) {
+        this.classList.add('showBlame');
+      } else {
+        this.classList.remove('showBlame');
+      }
     },
 
     _handleCommentSaveOrDiscard() {
       this.dispatchEvent(new CustomEvent('diff-comments-modified',
           {bubbles: true}));
-    },
-
-    /** @return {boolean}} */
-    _canRender() {
-      return !!this.changeNum && !!this.patchRange && !!this.path &&
-          !this.noAutoRender;
     },
 
     /** @return {!Array<!HTMLElement>} */
@@ -430,7 +330,7 @@
 
     /** @return {boolean} */
     _isValidElForComment(el) {
-      if (!this._loggedIn) {
+      if (!this.loggedIn) {
         this.fire('show-auth-required');
         return false;
       }
@@ -459,7 +359,7 @@
      * @param {!Object=} opt_range
      */
     _createComment(lineEl, opt_lineNum, opt_side, opt_range) {
-      this.$.reporting.recordDraftInteraction();
+      this.dispatchEvent(new CustomEvent('draft-interaction', {bubbles: true}));
       const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       const contentEl = contentText.parentElement;
       const side = opt_side ||
@@ -679,7 +579,7 @@
     _loadingChanged(newValue) {
       if (newValue) {
         this.cancel();
-        this.clearBlame();
+        this._blame = null;
         this._safetyBypass = null;
         this._showWarning = false;
         this.clearDiffContent();
@@ -693,7 +593,7 @@
     _prefsChanged(prefs) {
       if (!prefs) { return; }
 
-      this.clearBlame();
+      this._blame = null;
 
       const stylesToUpdate = {};
 
@@ -714,7 +614,13 @@
 
       this.updateStyles(stylesToUpdate);
 
-      if (this._diff && this.comments && !this.noRenderOnPrefsChange) {
+      if (this.diff && this.comments && !this.noRenderOnPrefsChange) {
+        this._renderDiffTable();
+      }
+    },
+
+    _diffChanged(newValue) {
+      if (newValue) {
         this._renderDiffTable();
       }
     },
@@ -725,7 +631,7 @@
         return;
       }
       if (this.prefs.context === -1 &&
-          this._diffLength(this._diff) >= LARGE_DIFF_THRESHOLD_LINES &&
+          this._diffLength(this.diff) >= LARGE_DIFF_THRESHOLD_LINES &&
           this._safetyBypass === null) {
         this._showWarning = true;
         this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
@@ -748,138 +654,6 @@
 
     clearDiffContent() {
       this.$.diffTable.innerHTML = null;
-    },
-
-    _handleGetDiffError(response) {
-      // Loading the diff may respond with 409 if the file is too large. In this
-      // case, use a toast error..
-      if (response.status === 409) {
-        this.fire('server-error', {response});
-        return;
-      }
-
-      if (this.showLoadFailure) {
-        this._errorMessage = [
-          'Encountered error when loading the diff:',
-          response.status,
-          response.statusText,
-        ].join(' ');
-        return;
-      }
-
-      this.fire('page-error', {response});
-    },
-
-    /** @return {!Promise<!Object>} */
-    _getDiff() {
-      // Wrap the diff request in a new promise so that the error handler
-      // rejects the promise, allowing the error to be handled in the .catch.
-      return new Promise((resolve, reject) => {
-        this.$.restAPI.getDiff(
-            this.changeNum,
-            this.patchRange.basePatchNum,
-            this.patchRange.patchNum,
-            this.path,
-            reject)
-            .then(resolve);
-      });
-    },
-
-    _getFilesWeblinks(diff) {
-      if (!this.commitRange) { return {}; }
-      return {
-        meta_a: Gerrit.Nav.getFileWebLinks(
-            this.projectName, this.commitRange.baseCommit, this.path,
-            {weblinks: diff && diff.meta_a && diff.meta_a.web_links}),
-        meta_b: Gerrit.Nav.getFileWebLinks(
-            this.projectName, this.commitRange.commit, this.path,
-            {weblinks: diff && diff.meta_b && diff.meta_b.web_links}),
-      };
-    },
-
-    /**
-     * Report info about the diff response.
-     */
-    _reportDiff(diff) {
-      if (!diff || !diff.content) { return; }
-
-      // Count the delta lines stemming from normal deltas, and from
-      // due_to_rebase deltas.
-      let nonRebaseDelta = 0;
-      let rebaseDelta = 0;
-      diff.content.forEach(chunk => {
-        if (chunk.ab) { return; }
-        const deltaSize = Math.max(
-            chunk.a ? chunk.a.length : 0, chunk.b ? chunk.b.length : 0);
-        if (chunk.due_to_rebase) {
-          rebaseDelta += deltaSize;
-        } else {
-          nonRebaseDelta += deltaSize;
-        }
-      });
-
-      // Find the percent of the delta from due_to_rebase chunks rounded to two
-      // digits. Diffs with no delta are considered 0%.
-      const totalDelta = rebaseDelta + nonRebaseDelta;
-      const percentRebaseDelta = !totalDelta ? 0 :
-          Math.round(100 * rebaseDelta / totalDelta);
-
-      // Report the due_to_rebase percentage in the "diff" category when
-      // applicable.
-      if (this.patchRange.basePatchNum === 'PARENT') {
-        this.$.reporting.reportInteraction(EVENT_AGAINST_PARENT);
-      } else if (percentRebaseDelta === 0) {
-        this.$.reporting.reportInteraction(EVENT_ZERO_REBASE);
-      } else {
-        this.$.reporting.reportInteraction(EVENT_NONZERO_REBASE,
-            percentRebaseDelta);
-      }
-    },
-
-    /** @return {!Promise} */
-    _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
-    },
-
-    /**
-     * @param {Object} diff
-     * @return {boolean}
-     */
-    _computeIsImageDiff(diff) {
-      if (!diff) { return false; }
-
-      const isA = diff.meta_a &&
-          diff.meta_a.content_type.startsWith('image/');
-      const isB = diff.meta_b &&
-          diff.meta_b.content_type.startsWith('image/');
-
-      return !!(diff.binary && (isA || isB));
-    },
-
-    /**
-     * @param {Object} diff
-     * @return {!Promise}
-     */
-    _loadDiffAssets(diff) {
-      if (this._computeIsImageDiff(diff)) {
-        return this._getImages(diff).then(images => {
-          this._baseImage = images.baseImage;
-          this._revisionImage = images.revisionImage;
-        });
-      } else {
-        this._baseImage = null;
-        this._revisionImage = null;
-        return Promise.resolve();
-      }
-    },
-
-    /**
-     * @param {Object} diff
-     * @return {!Promise}
-     */
-    _getImages(diff) {
-      return this.$.restAPI.getImagesForDiff(this.changeNum, diff,
-          this.patchRange);
     },
 
     _projectConfigChanged(projectConfig) {

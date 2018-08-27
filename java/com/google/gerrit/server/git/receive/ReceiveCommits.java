@@ -3040,6 +3040,10 @@ class ReceiveCommits {
     }
   }
 
+  private String messageForCommit(RevCommit c, String msg) {
+    return String.format("commit %s: %s", c.abbreviate(RevId.ABBREV_LEN).name(), msg);
+  }
+
   /**
    * Validates a single commit. If the commit does not validate, the command is rejected.
    *
@@ -3079,11 +3083,19 @@ class ReceiveCommits {
                   repo,
                   receiveEvent.revWalk,
                   change);
-      messages.addAll(validators.validate(receiveEvent));
+
+      for (CommitValidationMessage m : validators.validate(receiveEvent)) {
+        messages.add(
+            new CommitValidationMessage(messageForCommit(commit, m.getMessage()), m.isError()));
+      }
     } catch (CommitValidationException e) {
       logger.atFine().log("Commit validation failed on %s", commit.name());
-      messages.addAll(e.getMessages());
-      reject(cmd, e.getMessage());
+      for (CommitValidationMessage m : e.getMessages()) {
+        // TODO(hanwen): drop the non-error messages?
+        messages.add(
+            new CommitValidationMessage(messageForCommit(commit, m.getMessage()), m.isError()));
+      }
+      reject(cmd, messageForCommit(commit, e.getMessage()));
       return false;
     }
     validCommits.add(key);

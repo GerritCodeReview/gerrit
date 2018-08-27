@@ -52,6 +52,24 @@
       "revId": "ca89d6a4b9327138123350bc0ab0fdde38730473",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9f65c81_b17c6f84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-27T12:36:59Z",
+      "side": 1,
+      "message": "\u003e Then we have to distinguish between the inherited and global value. Right?\n\nYes, the UI will need to be modified for this.  It can be done in this commit.\n\n\u003e Btw, shall we also include the (parent) project name from which the inherited value comes?\n\nThat would be nice, but it would add more complexity. I\u0027d prefer to do it separately later.",
+      "parentUuid": "20e9cbae_0f22b39d",
+      "revId": "ca89d6a4b9327138123350bc0ab0fdde38730473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

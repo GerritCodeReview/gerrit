@@ -17,10 +17,31 @@
 (function() {
   'use strict';
 
+  const MSG_EMPTY_BLAME = 'No blame information for this diff.';
+
+  const EVENT_AGAINST_PARENT = 'diff-against-parent';
+  const EVENT_ZERO_REBASE = 'rebase-percent-zero';
+  const EVENT_NONZERO_REBASE = 'rebase-percent-nonzero';
+
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
   };
+
+  /**
+   * @param {Object} diff
+   * @return {boolean}
+   */
+  function isImageDiff(diff) {
+    if (!diff) { return false; }
+
+    const isA = diff.meta_a &&
+        diff.meta_a.content_type.startsWith('image/');
+    const isB = diff.meta_b &&
+        diff.meta_b.content_type.startsWith('image/');
+
+    return !!(diff.binary && (isA || isB));
+  }
 
   /**
    * Wrapper around gr-diff.
@@ -71,11 +92,13 @@
       },
       isImageDiff: {
         type: Boolean,
+        computed: '_computeIsImageDiff(_diff)',
         notify: true,
       },
       commitRange: Object,
       filesWeblinks: {
         type: Object,
+        value() { return {}; },
         notify: true,
       },
       hidden: {
@@ -113,12 +136,106 @@
       isBlameLoaded: {
         type: Boolean,
         notify: true,
+        computed: '_computeIsBlameLoaded(_blame)',
       },
+
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+      },
+
+      _loading: {
+        type: Boolean,
+        value: false,
+      },
+
+      /** @type {?string} */
+      _errorMessage: {
+        type: String,
+        value: null,
+      },
+
+      /** @type {?Object} */
+      _baseImage: Object,
+      /** @type {?Object} */
+      _revisionImage: Object,
+
+      _diff: Object,
+
+      /** @type {?Object} */
+      _blame: {
+        type: Object,
+        value: null,
+      },
+    },
+
+    listeners: {
+      'draft-interaction': '_handleDraftInteraction',
+    },
+
+    ready() {
+      if (this._canReload()) {
+        this.reload();
+      }
+    },
+
+    attached() {
+      this._getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+      });
     },
 
     /** @return {!Promise} */
     reload() {
-      return this.$.diff.reload();
+      this._loading = true;
+      this._errorMessage = null;
+
+      const diffRequest = this._getDiff()
+          .then(diff => {
+            this._reportDiff(diff);
+            return diff;
+          })
+          .catch(e => {
+            this._handleGetDiffError(e);
+            return null;
+          });
+
+      const assetRequest = diffRequest.then(diff => {
+        // If the diff is null, then it's failed to load.
+        if (!diff) { return null; }
+
+        return this._loadDiffAssets(diff);
+      });
+
+      return Promise.all([diffRequest, assetRequest]).then(results => {
+        const diff = results[0];
+        if (!diff) {
+          return Promise.resolve();
+        }
+        this.filesWeblinks = this._getFilesWeblinks(diff);
+        const renderPromise = new Promise(resolve => {
+          this.addEventListener('render', () => {
+            resolve();
+            this.removeEventListener('render', arguments.callee);
+          });
+        });
+        this._diff = diff;
+        return renderPromise;
+      }).finally(() => {
+        this._loading = false;
+      });
+    },
+
+    _getFilesWeblinks(diff) {
+      if (!this.commitRange) { return {}; }
+      return {
+        meta_a: Gerrit.Nav.getFileWebLinks(
+            this.projectName, this.commitRange.baseCommit, this.path,
+            {weblinks: diff && diff.meta_a && diff.meta_a.web_links}),
+        meta_b: Gerrit.Nav.getFileWebLinks(
+            this.projectName, this.commitRange.commit, this.path,
+            {weblinks: diff && diff.meta_b && diff.meta_b.web_links}),
+      };
     },
 
     /** Cancel any remaining diff builder rendering work. */
@@ -145,12 +262,21 @@
      * @return {Promise} A promise that resolves when blame finishes rendering.
      */
     loadBlame() {
-      return this.$.diff.loadBlame();
+      return this.$.restAPI.getBlame(this.changeNum, this.patchRange.patchNum,
+          this.path, true)
+          .then(blame => {
+            if (!blame.length) {
+              this.fire('show-alert', {message: MSG_EMPTY_BLAME});
+              return Promise.reject(MSG_EMPTY_BLAME);
+            }
+
+            this._blame = blame;
+          });
     },
 
     /** Unload blame information for the diff. */
     clearBlame() {
-      this.$.diff.clearBlame();
+      this._blame = null;
     },
 
     /** @return {!Array<!HTMLElement>} */
@@ -170,5 +296,136 @@
     expandAllContext() {
       this.$.diff.expandAllContext();
     },
+
+    /** @return {!Promise} */
+    _getLoggedIn() {
+      return this.$.restAPI.getLoggedIn();
+    },
+
+    /** @return {boolean}} */
+    _canReload() {
+      return !!this.changeNum && !!this.patchRange && !!this.path &&
+          !this.noAutoRender;
+    },
+
+    /** @return {!Promise<!Object>} */
+    _getDiff() {
+      // Wrap the diff request in a new promise so that the error handler
+      // rejects the promise, allowing the error to be handled in the .catch.
+      return new Promise((resolve, reject) => {
+        this.$.restAPI.getDiff(
+            this.changeNum,
+            this.patchRange.basePatchNum,
+            this.patchRange.patchNum,
+            this.path,
+            reject)
+            .then(resolve);
+      });
+    },
+
+    _handleGetDiffError(response) {
+      // Loading the diff may respond with 409 if the file is too large. In this
+      // case, use a toast error..
+      if (response.status === 409) {
+        this.fire('server-error', {response});
+        return;
+      }
+
+      if (this.showLoadFailure) {
+        this._errorMessage = [
+          'Encountered error when loading the diff:',
+          response.status,
+          response.statusText,
+        ].join(' ');
+        return;
+      }
+
+      this.fire('page-error', {response});
+    },
+
+    /**
+     * Report info about the diff response.
+     */
+    _reportDiff(diff) {
+      if (!diff || !diff.content) { return; }
+
+      // Count the delta lines stemming from normal deltas, and from
+      // due_to_rebase deltas.
+      let nonRebaseDelta = 0;
+      let rebaseDelta = 0;
+      diff.content.forEach(chunk => {
+        if (chunk.ab) { return; }
+        const deltaSize = Math.max(
+            chunk.a ? chunk.a.length : 0, chunk.b ? chunk.b.length : 0);
+        if (chunk.due_to_rebase) {
+          rebaseDelta += deltaSize;
+        } else {
+          nonRebaseDelta += deltaSize;
+        }
+      });
+
+      // Find the percent of the delta from due_to_rebase chunks rounded to two
+      // digits. Diffs with no delta are considered 0%.
+      const totalDelta = rebaseDelta + nonRebaseDelta;
+      const percentRebaseDelta = !totalDelta ? 0 :
+          Math.round(100 * rebaseDelta / totalDelta);
+
+      // Report the due_to_rebase percentage in the "diff" category when
+      // applicable.
+      if (this.patchRange.basePatchNum === 'PARENT') {
+        this.$.reporting.reportInteraction(EVENT_AGAINST_PARENT);
+      } else if (percentRebaseDelta === 0) {
+        this.$.reporting.reportInteraction(EVENT_ZERO_REBASE);
+      } else {
+        this.$.reporting.reportInteraction(EVENT_NONZERO_REBASE,
+            percentRebaseDelta);
+      }
+    },
+
+    /**
+     * @param {Object} diff
+     * @return {!Promise}
+     */
+    _loadDiffAssets(diff) {
+      if (isImageDiff(diff)) {
+        return this._getImages(diff).then(images => {
+          this._baseImage = images.baseImage;
+          this._revisionImage = images.revisionImage;
+        });
+      } else {
+        this._baseImage = null;
+        this._revisionImage = null;
+        return Promise.resolve();
+      }
+    },
+
+    /**
+     * @param {Object} diff
+     * @return {boolean}
+     */
+    _computeIsImageDiff(diff) {
+      return isImageDiff(diff);
+    },
+
+    /**
+     * @param {Object} blame
+     * @return {boolean}
+     */
+    _computeIsBlameLoaded(blame) {
+      return !!blame;
+    },
+
+    /**
+     * @param {Object} diff
+     * @return {!Promise}
+     */
+    _getImages(diff) {
+      return this.$.restAPI.getImagesForDiff(this.changeNum, diff,
+          this.patchRange);
+    },
+
+    _handleDraftInteraction() {
+      this.$.reporting.recordDraftInteraction();
+    }
   });
 })();

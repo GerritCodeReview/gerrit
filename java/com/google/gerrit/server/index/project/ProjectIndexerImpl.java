@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.project;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -32,6 +33,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class ProjectIndexerImpl implements ProjectIndexer {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     ProjectIndexerImpl create(ProjectIndexCollection indexes);
 
@@ -69,12 +72,14 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   public void index(Project.NameKey nameKey) throws IOException {
     ProjectState projectState = projectCache.get(nameKey);
     if (projectState != null) {
+      logger.atInfo().log("Replace project %s in index", nameKey.get());
       ProjectData projectData = projectState.toProjectData();
       for (ProjectIndex i : getWriteIndexes()) {
         i.replace(projectData);
       }
       fireProjectIndexedEvent(nameKey.get());
     } else {
+      logger.atInfo().log("Delete project %s from index", nameKey.get());
       for (ProjectIndex i : getWriteIndexes()) {
         i.delete(nameKey);
       }

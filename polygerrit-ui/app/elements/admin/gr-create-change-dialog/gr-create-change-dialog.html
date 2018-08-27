@@ -24,6 +24,7 @@ limitations under the License.
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
+<link rel="import" href="../../shared/gr-repo-branch-picker/gr-repo-branch-picker.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
@@ -64,12 +65,9 @@ limitations under the License.
         <section class$="[[_computeBranchClass(baseChange)]]">
           <span class="title">Select branch for new change</span>
           <span class="value">
-            <gr-autocomplete
-                id="branchInput"
-                text="{{branch}}"
-                query="[[_query]]"
-                placeholder="Destination branch">
-            </gr-autocomplete>
+            <gr-repo-branch-picker
+                repo="{{repoName}}"
+                branch="{{branchName}}"></gr-repo-branch-picker>
           </span>
         </section>
         <section class$="[[_computeBranchClass(baseChange)]]">

@@ -64,7 +64,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.restapi.change.AllowedFormats;
 import com.google.gerrit.server.submit.MergeSuperSet;
 import com.google.inject.Inject;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -149,8 +148,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public ServerInfo apply(ConfigResource rsrc)
-      throws MalformedURLException, PermissionBackendException {
+  public ServerInfo apply(ConfigResource rsrc) throws PermissionBackendException {
     ServerInfo info = new ServerInfo();
     info.accounts = getAccountsInfo(accountVisibilityProvider);
     info.auth = getAuthInfo(authConfig, realm);

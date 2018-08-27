@@ -70,10 +70,11 @@ public class GroupIndexerImpl implements GroupIndexer {
 
   @Override
   public void index(AccountGroup.UUID uuid) throws IOException {
+    // Evict the cache to get an up-to-date value for sure.
+    groupCache.evict(uuid);
+    Optional<InternalGroup> internalGroup = groupCache.get(uuid);
+
     for (Index<AccountGroup.UUID, InternalGroup> i : getWriteIndexes()) {
-      // Evict the cache to get an up-to-date value for sure.
-      groupCache.evict(uuid);
-      Optional<InternalGroup> internalGroup = groupCache.get(uuid);
       if (internalGroup.isPresent()) {
         i.replace(internalGroup.get());
       } else {

@@ -223,6 +223,12 @@ public class AllProjectsCreator {
   }
 
   public static LabelType initCodeReviewLabel(ProjectConfig c) {
+    LabelType type = getDefaultCodeReviewLabel();
+    c.getLabelSections().put(type.getName(), type);
+    return type;
+  }
+
+  public static LabelType getDefaultCodeReviewLabel() {
     LabelType type =
         new LabelType(
             "Code-Review",
@@ -234,7 +240,6 @@ public class AllProjectsCreator {
                 new LabelValue((short) -2, "This shall not be merged")));
     type.setCopyMinScore(true);
     type.setCopyAllScoresOnTrivialRebase(true);
-    c.getLabelSections().put(type.getName(), type);
     return type;
   }
 

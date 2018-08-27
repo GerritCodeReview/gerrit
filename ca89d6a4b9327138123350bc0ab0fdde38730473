@@ -16,6 +16,24 @@
       "revId": "ca89d6a4b9327138123350bc0ab0fdde38730473",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34877ca8_3962c6d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-27T09:37:25Z",
+      "side": 1,
+      "message": "It will be in the info element [1] returned from the project config endpoint [2], so yes, eventually it will need to be added into the UI.\n\n[1] http://gerrit-documentation.storage.googleapis.com/Documentation/2.14/rest-api-projects.html#max-object-size-limit-info\n[2] http://gerrit-documentation.storage.googleapis.com/Documentation/2.14/rest-api-projects.html#get-config",
+      "parentUuid": "531cf226_e3bdf9c1",
+      "revId": "ca89d6a4b9327138123350bc0ab0fdde38730473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

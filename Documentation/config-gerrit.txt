@@ -4629,7 +4629,7 @@ By default 0.
 
 [[theme.backgroundColor]]theme.backgroundColor::
 +
-Background color for the page, and major data tables like the all
+_(GWT UI only)_ Background color for the page, and major data tables like the all
 open changes table or the account dashboard. The value must be a
 valid HTML hex color code, or standard color name.
 +
@@ -4637,7 +4637,7 @@ By default white, `FFFFFF`.
 
 [[theme.topMenuColor]]theme.topMenuColor::
 +
-This is the color of the main menu bar at the top of the page.
+_(GWT UI only)_ This is the color of the main menu bar at the top of the page.
 The value must be a valid HTML hex color code, or standard color
 name.
 +
@@ -4645,53 +4645,52 @@ By default white, `FFFFFF`.
 
 [[theme.textColor]]theme.textColor::
 +
-Text color for the page, and major data tables like the all
-open changes table or the account dashboard. The value must be a
-valid HTML hex color code, or standard color name.
+_(GWT UI only)_ Text color for the page, and major data tables like the all open
+changes table or the account dashboard. The value must be a valid HTML hex color
+code, or standard color name.
 +
 By default dark grey, `353535`.
 
 [[theme.trimColor]]theme.trimColor::
 +
-Primary color used as a background color behind text.  This is
-the color of the main menu bar at the top, of table headers,
-and of major UI areas that we want to offset from other portions
-of the page.  The value must be a valid HTML hex color code, or
-standard color name.
+_(GWT UI only)_ Primary color used as a background color behind text.  This is
+the color of the main menu bar at the top, of table headers, and of major UI
+areas that we want to offset from other portions of the page.  The value must be
+a valid HTML hex color code, or standard color name.
 +
 By default a light grey, `EEEEEE`.
 
 [[theme.selectionColor]]theme.selectionColor::
 +
-Background color used within a trimColor area to denote the currently
-selected tab, or the background color used in a table to denote the
-currently selected row.  The value must be a valid HTML hex color
-code, or standard color name.
+_(GWT UI only)_ Background color used within a trimColor area to denote the
+currently selected tab, or the background color used in a table to denote the
+currently selected row.  The value must be a valid HTML hex color code, or
+standard color name.
 +
 By default a pale blue, `D8EDF9`.
 
 [[theme.changeTableOutdatedColor]]theme.changeTableOutdatedColor::
 +
-Background color used for patch outdated messages.  The value must be
-a valid HTML hex color code, or standard color name.
+_(GWT UI only)_ Background color used for patch outdated messages.  The value
+must be a valid HTML hex color code, or standard color name.
 +
 By default a shade of red, `F08080`.
 
 [[theme.tableOddRowColor]]theme.tableOddRowColor::
 +
-Background color for tables such as lists of open reviews for odd
-rows.  This is so you can have a different color for odd and even
-rows of the table.  The value must be a valid HTML hex color code,
-or standard color name.
+_(GWT UI only)_ Background color for tables such as lists of open reviews for
+odd rows.  This is so you can have a different color for odd and even rows of
+the table.  The value must be a valid HTML hex color code, or standard color
+name.
 +
 By default transparent.
 
 [[theme.tableEvenRowColor]]theme.tableEvenRowColor::
 +
-Background color for tables such as lists of open reviews for even
-rows.  This is so you can have a different color for odd and even
-rows of the table.  The value must be a valid HTML hex color code,
-or standard color name.
+_(GWT UI only)_ Background color for tables such as lists of open reviews for
+even rows.  This is so you can have a different color for odd and even rows of
+the table.  The value must be a valid HTML hex color code, or standard color
+name.
 +
 By default transparent.
 

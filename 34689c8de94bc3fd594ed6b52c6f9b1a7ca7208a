@@ -17,6 +17,24 @@
       "revId": "34689c8de94bc3fd594ed6b52c6f9b1a7ca7208a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a700de7a_11cce190",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-27T06:16:11Z",
+      "side": 1,
+      "message": "Yes, @Nullable is used in several places in the extension API.\n\nNote that if it\u0027s added here, it should also be added in this class\u0027s other methods that may return null.  I\u0027d be OK with adding them all in a followup commit to avoid having to rebase this one.",
+      "parentUuid": "5274e809_dd485a18",
+      "revId": "34689c8de94bc3fd594ed6b52c6f9b1a7ca7208a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

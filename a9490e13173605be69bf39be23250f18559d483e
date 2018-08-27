@@ -34,6 +34,24 @@
       "revId": "a9490e13173605be69bf39be23250f18559d483e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28e12d1e_7290c7c1",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-27T14:03:05Z",
+      "side": 1,
+      "message": "From an upstream point of view it looks legit to inline this method, which would then break us. So I think having this annotation is better.",
+      "parentUuid": "16505cb3_e5b20194",
+      "revId": "a9490e13173605be69bf39be23250f18559d483e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

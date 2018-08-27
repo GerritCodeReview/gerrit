@@ -1,4 +1,4 @@
-= multiple Change-Id lines in commit message footer
+= commit xxxxxxxx: multiple Change-Id lines in message footer
 
 With this error message Gerrit rejects to push a commit if the commit
 message footer of the pushed commit contains several Change-Id lines.

@@ -150,41 +150,40 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   @Override
   public ServerInfo apply(ConfigResource rsrc) throws PermissionBackendException {
     ServerInfo info = new ServerInfo();
-    info.accounts = getAccountsInfo(accountVisibilityProvider);
-    info.auth = getAuthInfo(authConfig, realm);
-    info.change = getChangeInfo(config);
-    info.download =
-        getDownloadInfo(downloadSchemes, downloadCommands, cloneCommands, archiveFormats);
-    info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
+    info.accounts = getAccountsInfo();
+    info.auth = getAuthInfo();
+    info.change = getChangeInfo();
+    info.download = getDownloadInfo();
+    info.gerrit = getGerritInfo();
     info.noteDbEnabled = toBoolean(isNoteDbEnabled());
     info.plugin = getPluginInfo();
     if (Files.exists(sitePaths.site_theme)) {
       info.defaultTheme = "/static/" + SitePaths.THEME_FILENAME;
     }
-    info.sshd = getSshdInfo(config);
-    info.suggest = getSuggestInfo(config);
+    info.sshd = getSshdInfo();
+    info.suggest = getSuggestInfo();
 
-    Map<String, String> urlAliases = getUrlAliasesInfo(config);
+    Map<String, String> urlAliases = getUrlAliasesInfo();
     info.urlAliases = !urlAliases.isEmpty() ? urlAliases : null;
 
-    info.user = getUserInfo(anonymousCowardName);
+    info.user = getUserInfo();
     info.receive = getReceiveInfo();
     return info;
   }
 
-  private AccountsInfo getAccountsInfo(AccountVisibilityProvider accountVisibilityProvider) {
+  private AccountsInfo getAccountsInfo() {
     AccountsInfo info = new AccountsInfo();
     info.visibility = accountVisibilityProvider.get();
     return info;
   }
 
-  private AuthInfo getAuthInfo(AuthConfig cfg, Realm realm) throws PermissionBackendException {
+  private AuthInfo getAuthInfo() throws PermissionBackendException {
     AuthInfo info = new AuthInfo();
-    info.authType = cfg.getAuthType();
-    info.useContributorAgreements = toBoolean(cfg.isUseContributorAgreements());
+    info.authType = authConfig.getAuthType();
+    info.useContributorAgreements = toBoolean(authConfig.isUseContributorAgreements());
     info.editableAccountFields = new ArrayList<>(realm.getEditableFields());
-    info.switchAccountUrl = cfg.getSwitchAccountUrl();
-    info.gitBasicAuthPolicy = cfg.getGitBasicAuthPolicy();
+    info.switchAccountUrl = authConfig.getSwitchAccountUrl();
+    info.gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
 
     if (info.useContributorAgreements != null) {
       Collection<ContributorAgreement> agreements =
@@ -200,22 +199,22 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     switch (info.authType) {
       case LDAP:
       case LDAP_BIND:
-        info.registerUrl = cfg.getRegisterUrl();
-        info.registerText = cfg.getRegisterText();
-        info.editFullNameUrl = cfg.getEditFullNameUrl();
+        info.registerUrl = authConfig.getRegisterUrl();
+        info.registerText = authConfig.getRegisterText();
+        info.editFullNameUrl = authConfig.getEditFullNameUrl();
         break;
 
       case CUSTOM_EXTENSION:
-        info.registerUrl = cfg.getRegisterUrl();
-        info.registerText = cfg.getRegisterText();
-        info.editFullNameUrl = cfg.getEditFullNameUrl();
-        info.httpPasswordUrl = cfg.getHttpPasswordUrl();
+        info.registerUrl = authConfig.getRegisterUrl();
+        info.registerText = authConfig.getRegisterText();
+        info.editFullNameUrl = authConfig.getEditFullNameUrl();
+        info.httpPasswordUrl = authConfig.getHttpPasswordUrl();
         break;
 
       case HTTP:
       case HTTP_LDAP:
-        info.loginUrl = cfg.getLoginUrl();
-        info.loginText = cfg.getLoginText();
+        info.loginUrl = authConfig.getLoginUrl();
+        info.loginText = authConfig.getLoginText();
         break;
 
       case CLIENT_SSL_CERT_LDAP:
@@ -228,40 +227,37 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
-  private ChangeConfigInfo getChangeInfo(Config cfg) {
+  private ChangeConfigInfo getChangeInfo() {
     ChangeConfigInfo info = new ChangeConfigInfo();
-    info.allowBlame = toBoolean(cfg.getBoolean("change", "allowBlame", true));
+    info.allowBlame = toBoolean(config.getBoolean("change", "allowBlame", true));
     boolean hasAssigneeInIndex =
         indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE);
     info.showAssigneeInChangesTable =
         toBoolean(
-            cfg.getBoolean("change", "showAssigneeInChangesTable", false) && hasAssigneeInIndex);
-    info.largeChange = cfg.getInt("change", "largeChange", 500);
+            config.getBoolean("change", "showAssigneeInChangesTable", false) && hasAssigneeInIndex);
+    info.largeChange = config.getInt("change", "largeChange", 500);
     info.replyTooltip =
-        Optional.ofNullable(cfg.getString("change", null, "replyTooltip")).orElse("Reply and score")
+        Optional.ofNullable(config.getString("change", null, "replyTooltip"))
+                .orElse("Reply and score")
             + " (Shortcut: a)";
     info.replyLabel =
-        Optional.ofNullable(cfg.getString("change", null, "replyLabel")).orElse("Reply") + "\u2026";
+        Optional.ofNullable(config.getString("change", null, "replyLabel")).orElse("Reply")
+            + "\u2026";
     info.updateDelay =
-        (int) ConfigUtil.getTimeUnit(cfg, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
-    info.submitWholeTopic = MergeSuperSet.wholeTopicEnabled(cfg);
+        (int) ConfigUtil.getTimeUnit(config, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
+    info.submitWholeTopic = MergeSuperSet.wholeTopicEnabled(config);
     info.disablePrivateChanges =
-        toBoolean(config.getBoolean("change", null, "disablePrivateChanges", false));
+        toBoolean(this.config.getBoolean("change", null, "disablePrivateChanges", false));
     return info;
   }
 
-  private DownloadInfo getDownloadInfo(
-      DynamicMap<DownloadScheme> downloadSchemes,
-      DynamicMap<DownloadCommand> downloadCommands,
-      DynamicMap<CloneCommand> cloneCommands,
-      AllowedFormats archiveFormats) {
+  private DownloadInfo getDownloadInfo() {
     DownloadInfo info = new DownloadInfo();
     info.schemes = new HashMap<>();
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
       DownloadScheme scheme = e.getProvider().get();
       if (scheme.isEnabled() && scheme.getUrl("${project}") != null) {
-        info.schemes.put(
-            e.getExportName(), getDownloadSchemeInfo(scheme, downloadCommands, cloneCommands));
+        info.schemes.put(e.getExportName(), getDownloadSchemeInfo(scheme));
       }
     }
     info.archives =
@@ -269,10 +265,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
-  private DownloadSchemeInfo getDownloadSchemeInfo(
-      DownloadScheme scheme,
-      DynamicMap<DownloadCommand> downloadCommands,
-      DynamicMap<CloneCommand> cloneCommands) {
+  private DownloadSchemeInfo getDownloadSchemeInfo(DownloadScheme scheme) {
     DownloadSchemeInfo info = new DownloadSchemeInfo();
     info.url = scheme.getUrl("${project}");
     info.isAuthRequired = toBoolean(scheme.isAuthRequired());
@@ -302,17 +295,16 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
-  private GerritInfo getGerritInfo(
-      Config cfg, AllProjectsName allProjectsName, AllUsersName allUsersName) {
+  private GerritInfo getGerritInfo() {
     GerritInfo info = new GerritInfo();
     info.allProjects = allProjectsName.get();
     info.allUsers = allUsersName.get();
-    info.reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
-    info.reportBugText = cfg.getString("gerrit", null, "reportBugText");
-    info.docUrl = getDocUrl(cfg);
+    info.reportBugUrl = config.getString("gerrit", null, "reportBugUrl");
+    info.reportBugText = config.getString("gerrit", null, "reportBugText");
+    info.docUrl = getDocUrl();
     info.docSearch = docSearcher.isAvailable();
     info.editGpgKeys =
-        toBoolean(enableSignedPush && cfg.getBoolean("gerrit", null, "editGpgKeys", true));
+        toBoolean(enableSignedPush && config.getBoolean("gerrit", null, "editGpgKeys", true));
     info.webUis = EnumSet.noneOf(UiType.class);
     info.webUis.add(UiType.POLYGERRIT);
     if (gerritOptions.enableGwtUi()) {
@@ -321,8 +313,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
-  private String getDocUrl(Config cfg) {
-    String docUrl = cfg.getString("gerrit", null, "docUrl");
+  private String getDocUrl() {
+    String docUrl = config.getString("gerrit", null, "docUrl");
     if (Strings.isNullOrEmpty(docUrl)) {
       return null;
     }
@@ -350,18 +342,18 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
-  private Map<String, String> getUrlAliasesInfo(Config cfg) {
+  private Map<String, String> getUrlAliasesInfo() {
     Map<String, String> urlAliases = new HashMap<>();
-    for (String subsection : cfg.getSubsections(URL_ALIAS)) {
+    for (String subsection : config.getSubsections(URL_ALIAS)) {
       urlAliases.put(
-          cfg.getString(URL_ALIAS, subsection, KEY_MATCH),
-          cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
+          config.getString(URL_ALIAS, subsection, KEY_MATCH),
+          config.getString(URL_ALIAS, subsection, KEY_TOKEN));
     }
     return urlAliases;
   }
 
-  private SshdInfo getSshdInfo(Config cfg) {
-    String[] addr = cfg.getStringList("sshd", null, "listenAddress");
+  private SshdInfo getSshdInfo() {
+    String[] addr = config.getStringList("sshd", null, "listenAddress");
     if (addr.length == 1 && isOff(addr[0])) {
       return null;
     }
@@ -374,13 +366,13 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         || "no".equalsIgnoreCase(listenHostname);
   }
 
-  private SuggestInfo getSuggestInfo(Config cfg) {
+  private SuggestInfo getSuggestInfo() {
     SuggestInfo info = new SuggestInfo();
-    info.from = cfg.getInt("suggest", "from", 0);
+    info.from = config.getInt("suggest", "from", 0);
     return info;
   }
 
-  private UserConfigInfo getUserInfo(String anonymousCowardName) {
+  private UserConfigInfo getUserInfo() {
     UserConfigInfo info = new UserConfigInfo();
     info.anonymousCowardName = anonymousCowardName;
     return info;

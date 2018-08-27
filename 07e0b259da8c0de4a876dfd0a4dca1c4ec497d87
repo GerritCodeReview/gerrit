@@ -120,6 +120,30 @@
       "revId": "07e0b259da8c0de4a876dfd0a4dca1c4ec497d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "360ac2cd_31095ab1",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-27T11:23:15Z",
+      "side": 1,
+      "message": "Nice that we can have the cake and eat it too regarding readability and performance.\n\nRegarding AutoValue: I thought of the AutoValue.Builder which allows to e.g. specify Set as method parameter even when the AutoValue annotated type returns ImmutableSet. You\u0027re right that it doesn\u0027t work with the constructor, though, and enforces the use of the immutable type. What I actually rather meant to say is: When we use ImmutableSetMultimap with AutoValue, there\u0027s no risk that somebody could sneak in a modifiable SetMultimap.",
+      "parentUuid": "f02ea88a_0f245fae",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 49,
+        "endChar": 29
+      },
+      "revId": "07e0b259da8c0de4a876dfd0a4dca1c4ec497d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

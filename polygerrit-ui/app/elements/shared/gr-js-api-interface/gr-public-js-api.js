@@ -132,7 +132,9 @@
     }
     const base = Gerrit.BaseUrlBehavior.getBaseUrl();
     const pathname = url.pathname.replace(base, '');
-    // Site theme is server from predefined path.
+    // Site theme is served from predefined path.
+    // TODO(viktard): This fails to assign a plugin name when the default_theme
+    // is a CDN URL instead of this constant string.
     if (pathname === '/static/gerrit-theme.html') {
       return 'gerrit-theme';
     } else if (!pathname.startsWith('/plugins')) {

@@ -157,9 +157,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.gerrit = getGerritInfo();
     info.noteDbEnabled = toBoolean(isNoteDbEnabled());
     info.plugin = getPluginInfo();
-    if (Files.exists(sitePaths.site_theme)) {
-      info.defaultTheme = "/static/" + SitePaths.THEME_FILENAME;
-    }
+    info.defaultTheme = getDefaultTheme();
     info.sshd = getSshdInfo();
     info.suggest = getSuggestInfo();
 
@@ -340,6 +338,17 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       }
     }
     return info;
+  }
+
+  private String getDefaultTheme() {
+    String url = config.getString("theme", null, "url");
+    if (url != null) {
+      return url;
+    }
+    if (Files.exists(sitePaths.site_theme)) {
+      return "/static/" + SitePaths.THEME_FILENAME;
+    }
+    return null;
   }
 
   private Map<String, String> getUrlAliasesInfo() {

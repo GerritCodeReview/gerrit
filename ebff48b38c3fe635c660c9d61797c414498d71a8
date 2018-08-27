@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43fc6138_b13acf15",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-27T02:21:41Z",
+      "side": 1,
+      "message": "Why do we depend on 0.7.0 of autolink?  According to the pom.xml of flexmark-ext-autolink [1] the dependency is on version 0.6.0.\n\n[1] https://search.maven.org/artifact/com.vladsch.flexmark/flexmark-ext-autolink/0.34.18/jar",
+      "range": {
+        "startLine": 506,
+        "startChar": 0,
+        "endLine": 511,
+        "endChar": 1
+      },
+      "revId": "ebff48b38c3fe635c660c9d61797c414498d71a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

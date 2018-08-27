@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d444ff00_0b90ad4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-27T05:43:00Z",
+      "side": 1,
+      "message": "Expand that this is needed to support upcoming JDK11? E.g.:\n\nWe need this update to fix this issue: [1].\n* [1] https://github.com/google/gson/issues/1310",
+      "revId": "21538514fb3411302c500c7e6bcd4ac0fef4dc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

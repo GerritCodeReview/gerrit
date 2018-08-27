@@ -46,6 +46,30 @@
       "revId": "ebff48b38c3fe635c660c9d61797c414498d71a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba3a20f5_42eb8d09",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-27T09:39:36Z",
+      "side": 1,
+      "message": "Thanks.  In that case we might want to downgrade gitiles to 0.6.0 unless there\u0027s a reason it needs 0.7.0?",
+      "parentUuid": "0b3ee3df_00b34517",
+      "range": {
+        "startLine": 506,
+        "startChar": 0,
+        "endLine": 511,
+        "endChar": 1
+      },
+      "revId": "ebff48b38c3fe635c660c9d61797c414498d71a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

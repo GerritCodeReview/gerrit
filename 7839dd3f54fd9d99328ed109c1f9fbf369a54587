@@ -93,6 +93,30 @@
       "revId": "7839dd3f54fd9d99328ed109c1f9fbf369a54587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dada0ef1_2aa259ef",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2063,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-27T18:30:23Z",
+      "side": 0,
+      "message": "No, I think we\u0027re good.",
+      "parentUuid": "6f4e830a_108f30e9",
+      "range": {
+        "startLine": 2054,
+        "startChar": 1,
+        "endLine": 2063,
+        "endChar": 0
+      },
+      "revId": "7839dd3f54fd9d99328ed109c1f9fbf369a54587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

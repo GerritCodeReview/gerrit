@@ -23,6 +23,30 @@
       "revId": "b6c40118e0f2f8a55849da72282e4e6dc2de449d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d7dd495_32ee5234",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ChromiumExternalIdTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-27T15:17:33Z",
+      "side": 1,
+      "message": "I\u0027m aware of the pitfalls of hand-written benchmarks, and I\u0027m fine if this is off by an order of magnitude. I haven\u0027t used JMH but I have used Caliper; both of those would require more than just writing a couple lines of code in this case. *shrug*",
+      "parentUuid": "7f37b873_def60b76",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 45
+      },
+      "revId": "b6c40118e0f2f8a55849da72282e4e6dc2de449d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

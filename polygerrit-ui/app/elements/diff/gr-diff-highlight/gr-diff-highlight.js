@@ -156,11 +156,10 @@
 
     /**
      * Adjust triple click selection for the whole line.
-     * domRange.endContainer may be one of the following:
-     * 1) 0 offset at right column's line number cell, or
-     * 2) 0 offset at left column's line number at the next line.
-     * Case 1 means left column was triple clicked.
-     * Case 2 means right column or unified view triple clicked.
+     * A triple click always results in:
+     * - start.column == end.column == 0
+     * - end.line == start.line + 1
+     *
      * @param {!Object} range Normalized range, ie column/line numbers
      * @param {!Range} domRange DOM Range object
      * @return {!Object} fixed normalized range
@@ -172,20 +171,13 @@
       }
       const start = range.start;
       const end = range.end;
-      const endsAtOtherSideLineNum =
-          domRange.endOffset === 0 &&
-          domRange.endContainer.nodeName === 'TD' &&
-          (domRange.endContainer.classList.contains('left') ||
-              domRange.endContainer.classList.contains('right'));
-      const endsOnOtherSideStart = endsAtOtherSideLineNum ||
-          end &&
+      const endsAtBeginningOfNextLine = end &&
+          start.column === 0 &&
           end.column === 0 &&
-          end.line === start.line &&
-          end.side != start.side;
+          end.line === start.line + 1;
       const content = domRange.cloneContents().querySelector('.contentText');
       const lineLength = content && this._getLength(content) || 0;
-      if (lineLength && endsOnOtherSideStart || endsAtOtherSideLineNum) {
-        // Selection ends at the beginning of the next line.
+      if (lineLength && endsAtBeginningOfNextLine) {
         // Move the selection to the end of the previous line.
         range.end = {
           node: start.node,

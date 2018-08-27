@@ -576,54 +576,18 @@ limitations under the License.
         assert.equal(result, 0);
       });
 
-      // TODO (viktard): Selection starts in line number.
-      // TODO (viktard): Empty lines in selection start.
-      // TODO (viktard): Empty lines in selection end.
-      // TODO (viktard): Only empty lines selected.
-      // TODO (viktard): Unified mode.
-
-      suite('triple click', () => {
-        test('_fixTripleClickSelection', () => {
-          const fakeRange = {
-            startContainer: '',
-            startOffset: '',
-            endContainer: '',
-            endOffset: '',
-          };
-          const fixedRange = {};
-          sandbox.stub(GrRangeNormalizer, 'normalize').returns(fakeRange);
-          sandbox.stub(element, '_normalizeSelectionSide');
-          sandbox.stub(element, '_fixTripleClickSelection').returns(fixedRange);
-          assert.strictEqual(element._normalizeRange({}), fixedRange);
-          assert.isTrue(element._fixTripleClickSelection.called);
+      test('_fixTripleClickSelection', () => {
+        const startContent = stubContent(119, 'right');
+        const endContent = stubContent(120, 'right');
+        emulateSelection(startContent.firstChild, 0, endContent.firstChild, 0);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 119,
+          startChar: 0,
+          endLine: 119,
+          endChar: element._getLength(startContent),
         });
-
-        test('left pane', () => {
-          const startNode = stubContent(138, 'left');
-          const endNode =
-              stubContent(119, 'right').parentElement.previousElementSibling;
-          builder.getLineNumberByChild.withArgs(endNode).returns(119);
-          emulateSelection(startNode, 0, endNode, 0);
-          assert.deepEqual(getActionRange(), {
-            startLine: 138,
-            startChar: 0,
-            endLine: 138,
-            endChar: 63,
-          });
-        });
-
-        test('right pane', () => {
-          const startNode = stubContent(119, 'right');
-          const endNode =
-              stubContent(140, 'left').parentElement.previousElementSibling;
-          emulateSelection(startNode, 0, endNode, 0);
-          assert.deepEqual(getActionRange(), {
-            startLine: 119,
-            startChar: 0,
-            endLine: 119,
-            endChar: 63,
-          });
-        });
+        assert.equal(getActionSide(), 'right');
       });
     });
   });

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd008d89_f45cd6e8",
+        "filename": "tools/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-27T07:10:30Z",
+      "side": 1,
+      "message": "Indent with spaces, not tab.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 1
+      },
+      "revId": "bc2d4fb4d2cad6e44fe5e945248f3622610fa17e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

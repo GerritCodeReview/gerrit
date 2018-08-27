@@ -1120,39 +1120,49 @@ limitations under the License.
       setup(() => {
         element = fixture('basic');
         renderStub = sandbox.stub(element.$.diffBuilder, 'render',
-            () => Promise.resolve());
+            () => {
+              Promise.resolve();
+              element.$.diffBuilder.dispatchEvent(
+                  new CustomEvent('render', {bubbles: true}));
+            });
         const mock = document.createElement('mock-diff-response');
         element._diff = mock.diffResponse;
         element.comments = {left: [], right: []};
         element.noRenderOnPrefsChange = true;
       });
 
-      test('lage render w/ context = 10', () => {
+      test('large render w/ context = 10', done => {
         element.prefs = {context: 10};
         sandbox.stub(element, '_diffLength', () => 10000);
-        return element._renderDiffTable().then(() => {
+        element.addEventListener('render', () => {
           assert.isTrue(renderStub.called);
           assert.isFalse(element._showWarning);
+          done();
         });
+        element._renderDiffTable();
       });
 
-      test('lage render w/ whole file and bypass', () => {
+      test('large render w/ whole file and bypass', done => {
         element.prefs = {context: -1};
         element._safetyBypass = 10;
         sandbox.stub(element, '_diffLength', () => 10000);
-        return element._renderDiffTable().then(() => {
+        element.addEventListener('render', () => {
           assert.isTrue(renderStub.called);
           assert.isFalse(element._showWarning);
+          done();
         });
+        element._renderDiffTable();
       });
 
-      test('lage render w/ whole file and no bypass', () => {
+      test('large render w/ whole file and no bypass', done => {
         element.prefs = {context: -1};
         sandbox.stub(element, '_diffLength', () => 10000);
-        return element._renderDiffTable().then(() => {
+        element.addEventListener('render', () => {
           assert.isFalse(renderStub.called);
           assert.isTrue(element._showWarning);
+          done();
         });
+        element._renderDiffTable();
       });
     });
 

@@ -41,6 +41,14 @@ import java.util.concurrent.ConcurrentMap;
  * singleton and non-singleton members.
  */
 public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
+  public interface Entry<T> {
+    String getPluginName();
+
+    String getExportName();
+
+    Provider<T> getProvider();
+  }
+
   /**
    * Declare a singleton {@code DynamicMap<T>} with a binder.
    *
@@ -178,14 +186,6 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
         throw new UnsupportedOperationException();
       }
     };
-  }
-
-  public interface Entry<T> {
-    String getPluginName();
-
-    String getExportName();
-
-    Provider<T> getProvider();
   }
 
   static class NamePair {

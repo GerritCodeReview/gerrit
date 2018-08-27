@@ -14,37 +14,38 @@
 
 package com.google.gerrit.server.account.externalids;
 
+import static com.google.common.collect.ImmutableSetMultimap.toImmutableSetMultimap;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Multimaps;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.SetMultimap;
-import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.reviewdb.client.Account;
+import java.util.Collection;
 
-/**
- * Cache value containing all external IDs.
- *
- * <p>All returned fields are unmodifiable.
- */
+/** Cache value containing all external IDs. */
 @AutoValue
 public abstract class AllExternalIds {
-  static AllExternalIds create(Multimap<Id, ExternalId> byAccount) {
-    SetMultimap<String, ExternalId> byEmailCopy =
-        MultimapBuilder.hashKeys(byAccount.size()).hashSetValues(1).build();
-    byAccount
-        .values()
-        .stream()
-        .filter(e -> !Strings.isNullOrEmpty(e.email()))
-        .forEach(e -> byEmailCopy.put(e.email(), e));
-
+  static AllExternalIds create(SetMultimap<Account.Id, ExternalId> byAccount) {
     return new AutoValue_AllExternalIds(
-        Multimaps.unmodifiableSetMultimap(
-            MultimapBuilder.hashKeys(byAccount.size()).hashSetValues(5).build(byAccount)),
-        byEmailCopy);
+        ImmutableSetMultimap.copyOf(byAccount), byEmailCopy(byAccount.values()));
   }
 
-  public abstract SetMultimap<Id, ExternalId> byAccount();
+  static AllExternalIds create(Collection<ExternalId> externalIds) {
+    return new AutoValue_AllExternalIds(
+        externalIds.stream().collect(toImmutableSetMultimap(e -> e.accountId(), e -> e)),
+        byEmailCopy(externalIds));
+  }
 
-  public abstract SetMultimap<String, ExternalId> byEmail();
+  private static ImmutableSetMultimap<String, ExternalId> byEmailCopy(
+      Collection<ExternalId> externalIds) {
+    return externalIds
+        .stream()
+        .filter(e -> !Strings.isNullOrEmpty(e.email()))
+        .collect(toImmutableSetMultimap(e -> e.email(), e -> e));
+  }
+
+  public abstract ImmutableSetMultimap<Account.Id, ExternalId> byAccount();
+
+  public abstract ImmutableSetMultimap<String, ExternalId> byEmail();
 }

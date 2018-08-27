@@ -28,7 +28,9 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.inject.Inject;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -53,6 +55,13 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class GroupsNoteDbConsistencyChecker {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final AllUsersName allUsersName;
+
+  @Inject
+  GroupsNoteDbConsistencyChecker(AllUsersName allUsersName) {
+    this.allUsersName = allUsersName;
+  }
+
   /**
    * The result of a consistency check. The UUID map is only non-null if no problems were detected.
    */
@@ -63,15 +72,15 @@ public class GroupsNoteDbConsistencyChecker {
   }
 
   /** Checks for problems with the given All-Users repo. */
-  public Result check(Repository repo) throws IOException {
-    Result r = doCheck(repo);
+  public Result check(Repository allUsersRepo) throws IOException {
+    Result r = doCheck(allUsersRepo);
     if (!r.problems.isEmpty()) {
       r.uuidToGroupMap = null;
     }
     return r;
   }
 
-  private Result doCheck(Repository repo) throws IOException {
+  private Result doCheck(Repository allUsersRepo) throws IOException {
     Result result = new Result();
     result.problems = new ArrayList<>();
     result.uuidToGroupMap = new HashMap<>();
@@ -79,9 +88,9 @@ public class GroupsNoteDbConsistencyChecker {
     BiMap<AccountGroup.UUID, String> uuidNameBiMap = HashBiMap.create();
 
     // Get all refs in an attempt to avoid seeing half committed group updates.
-    Map<String, Ref> refs = repo.getAllRefs();
-    readGroups(repo, refs, result);
-    readGroupNames(repo, refs, result, uuidNameBiMap);
+    Map<String, Ref> refs = allUsersRepo.getAllRefs();
+    readGroups(allUsersRepo, refs, result);
+    readGroupNames(allUsersRepo, refs, result, uuidNameBiMap);
     // The sequential IDs are not keys in NoteDb, so no need to check them.
 
     if (!result.problems.isEmpty()) {
@@ -94,7 +103,7 @@ public class GroupsNoteDbConsistencyChecker {
     return result;
   }
 
-  private void readGroups(Repository repo, Map<String, Ref> refs, Result result)
+  private void readGroups(Repository allUsersRepo, Map<String, Ref> refs, Result result)
       throws IOException {
     for (Map.Entry<String, Ref> entry : refs.entrySet()) {
       if (!entry.getKey().startsWith(RefNames.REFS_GROUPS)) {
@@ -108,7 +117,8 @@ public class GroupsNoteDbConsistencyChecker {
       }
       try {
         GroupConfig cfg =
-            GroupConfig.loadForGroupSnapshot(repo, uuid, entry.getValue().getObjectId());
+            GroupConfig.loadForGroupSnapshot(
+                allUsersName, allUsersRepo, uuid, entry.getValue().getObjectId());
         result.uuidToGroupMap.put(uuid, cfg.getLoadedGroup().get());
       } catch (ConfigInvalidException e) {
         result.problems.add(error("group %s does not parse: %s", uuid, e.getMessage()));

@@ -110,7 +110,7 @@ public class Schema_160 extends SchemaVersion {
     md.getCommitBuilder().setAuthor(ident);
     md.getCommitBuilder().setCommitter(ident);
     Prefs prefs = new Prefs(ref);
-    prefs.load(repo);
+    prefs.load(allUsersName, repo);
     prefs.removeMyDrafts();
     prefs.commit(md);
     if (prefs.dirty()) {

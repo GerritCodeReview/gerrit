@@ -38,6 +38,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.group.InternalGroup;
@@ -118,9 +119,10 @@ abstract class GroupBundle {
       this.auditLogReader = auditLogReader;
     }
 
-    public GroupBundle fromNoteDb(Repository repo, AccountGroup.UUID uuid)
+    public GroupBundle fromNoteDb(
+        Project.NameKey projectName, Repository repo, AccountGroup.UUID uuid)
         throws ConfigInvalidException, IOException {
-      GroupConfig groupConfig = GroupConfig.loadForGroup(repo, uuid);
+      GroupConfig groupConfig = GroupConfig.loadForGroup(projectName, repo, uuid);
       InternalGroup internalGroup = groupConfig.getLoadedGroup().get();
       AccountGroup.Id groupId = internalGroup.getId();
 

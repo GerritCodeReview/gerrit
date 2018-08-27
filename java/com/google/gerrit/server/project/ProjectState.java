@@ -229,7 +229,7 @@ public class ProjectState {
 
     ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, this);
     try (Repository git = gitMgr.openRepository(getNameKey())) {
-      cfg.load(git, config.getRevision());
+      cfg.load(getNameKey(), git, config.getRevision());
     } catch (IOException | ConfigInvalidException e) {
       logger.atWarning().withCause(e).log("Failed to load %s for %s", fileName, getName());
     }

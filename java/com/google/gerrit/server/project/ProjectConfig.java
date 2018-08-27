@@ -25,6 +25,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Shorts;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -77,6 +78,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 
 public class ProjectConfig extends VersionedMetaData implements ValidationError.Sink {
@@ -158,7 +161,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final Pattern EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN = Pattern.compile("[, \t]{1,}");
 
-  private Project.NameKey projectName;
   private Project project;
   private AccountsSection accountsSection;
   private GroupList groupList;
@@ -237,6 +239,20 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public ProjectConfig(Project.NameKey projectName) {
     this.projectName = projectName;
+  }
+
+  public void load(Repository repo) throws IOException, ConfigInvalidException {
+    super.load(projectName, repo);
+  }
+
+  public void load(Repository repo, @Nullable ObjectId revision)
+      throws IOException, ConfigInvalidException {
+    super.load(projectName, repo, revision);
+  }
+
+  public void load(RevWalk rw, @Nullable ObjectId revision)
+      throws IOException, ConfigInvalidException {
+    super.load(projectName, rw, revision);
   }
 
   public Project.NameKey getName() {

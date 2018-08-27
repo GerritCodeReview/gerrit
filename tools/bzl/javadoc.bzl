@@ -36,7 +36,7 @@ def _impl(ctx):
         "rm -rf %s" % dir,
         "mkdir %s" % dir,
         " ".join([
-            ctx.file._javadoc.path,
+            "%s/bin/javadoc" % ctx.attr._jdk[java_common.JavaRuntimeInfo].java_home,
             "-Xdoclint:-missing",
             "-protected",
             "-encoding UTF-8",
@@ -67,14 +67,10 @@ java_doc = rule(
         "pkgs": attr.string_list(),
         "title": attr.string(),
         "external_docs": attr.string_list(),
-        "_javadoc": attr.label(
-            default = Label("@local_jdk//:bin/javadoc"),
-            single_file = True,
-            allow_files = True,
-        ),
         "_jdk": attr.label(
-            default = Label("@local_jdk//:jdk-default"),
+            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
             allow_files = True,
+            providers = [java_common.JavaRuntimeInfo],
         ),
     },
     outputs = {"zip": "%{name}.zip"},

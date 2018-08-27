@@ -195,6 +195,30 @@
     },
     {
       "key": {
+        "uuid": "5638e0b2_0137cded",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-08-27T12:09:14Z",
+      "side": 1,
+      "message": "Thanks. That\u0027s easier to read and understand.\n\nWhat would be possible:\n- Generate a collection as result of the stream.\n- Pass that collection to allBuilder#addAllExternalId.",
+      "parentUuid": "ad6f850b_14d33ce7",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 27
+      },
+      "revId": "81aa0df92fec88eb0d5fc8cf3b5caeb879f1e046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26b84864_d44b8fd6",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdModule.java",
         "patchSetId": 2

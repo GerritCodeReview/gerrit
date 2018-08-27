@@ -157,9 +157,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.gerrit = getGerritInfo();
     info.noteDbEnabled = toBoolean(isNoteDbEnabled());
     info.plugin = getPluginInfo();
-    if (Files.exists(sitePaths.site_theme)) {
-      info.defaultTheme = "/static/" + SitePaths.THEME_FILENAME;
-    }
+    info.defaultTheme = getDefaultTheme();
     info.sshd = getSshdInfo();
     info.suggest = getSuggestInfo();
 
@@ -340,6 +338,22 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       }
     }
     return info;
+  }
+
+  private static final String DEFAULT_THEME = "/static/" + SitePaths.THEME_FILENAME;
+
+  private String getDefaultTheme() {
+    if (config.getString("theme", null, "enableDefault") == null) {
+      // If not explicitly enabled or disabled, check for the existence of the theme file.
+      return Files.exists(sitePaths.site_theme) ? DEFAULT_THEME : null;
+    }
+    if (config.getBoolean("theme", null, "enableDefault", true)) {
+      // Return non-null theme path without checking for file existence. Even if the file doesn't
+      // exist under the site path, it may be served from a CDN (in which case it's up to the admin
+      // to also pass a proper asset path to the index Soy template).
+      return DEFAULT_THEME;
+    }
+    return null;
   }
 
   private Map<String, String> getUrlAliasesInfo() {

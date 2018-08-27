@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -34,6 +35,8 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     RobotCommentNotes create(Change change);
   }
@@ -86,6 +89,8 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
     }
     metaId = metaId.copy();
 
+    logger.atFine().log(
+        "Load robot comment notes for change %s of project %s", getChangeId(), getProjectName());
     RevCommit tipCommit = handle.walk().parseCommit(metaId);
     ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap =

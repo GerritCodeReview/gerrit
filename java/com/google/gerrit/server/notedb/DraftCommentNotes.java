@@ -150,6 +150,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       return;
     }
 
+    logger.atFine().log(
+        "Load draft comment notes for change %s of project %s", getChangeId(), getProjectName());
     RevCommit tipCommit = handle.walk().parseCommit(rev);
     ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap =

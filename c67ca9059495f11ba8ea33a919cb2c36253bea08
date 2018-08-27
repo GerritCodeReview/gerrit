@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8054019a_c205809d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-shell-command/gr-shell-command.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-27T17:07:42Z",
+      "side": 1,
+      "message": "2018.",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "c67ca9059495f11ba8ea33a919cb2c36253bea08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd2c3446_88b07d1b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-shell-command/gr-shell-command.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-27T17:07:42Z",
+      "side": 1,
+      "message": "2018.",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "c67ca9059495f11ba8ea33a919cb2c36253bea08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34c3799b_19fb8c7f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-shell-command/gr-shell-command.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-27T17:07:42Z",
+      "side": 1,
+      "message": "Hmm, do we even need to support hiding the label now? It looks like the only place it was used in the copy-clipboard element was in the commit info.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 8
+      },
+      "revId": "c67ca9059495f11ba8ea33a919cb2c36253bea08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfd9e664_5c09e823",
+        "filename": "polygerrit-ui/app/elements/shared/gr-shell-command/gr-shell-command_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-27T17:07:42Z",
+      "side": 1,
+      "message": "2018.",
+      "range": {
+        "startLine": 4,
+        "startChar": 14,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "c67ca9059495f11ba8ea33a919cb2c36253bea08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

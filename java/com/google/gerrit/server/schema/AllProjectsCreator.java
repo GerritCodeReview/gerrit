@@ -52,6 +52,8 @@ import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -66,28 +68,28 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** Creates the {@code All-Projects} repository and initial ACLs. */
 public class AllProjectsCreator {
-  private final GitRepositoryManager mgr;
+  private final GitRepositoryManager repositoryManager;
   private final AllProjectsName allProjectsName;
   private final PersonIdent serverUser;
   private final NotesMigration notesMigration;
-  private String message;
-  private int firstChangeId = ReviewDb.FIRST_CHANGE_ID;
-
-  @Nullable private GroupReference admin;
-
-  @Nullable private GroupReference batch;
   private final GroupReference anonymous;
   private final GroupReference registered;
   private final GroupReference owners;
 
+  @Nullable private GroupReference admin;
+  @Nullable private GroupReference batch;
+  private String message;
+  private int firstChangeId = ReviewDb.FIRST_CHANGE_ID;
+  private List<LabelType> additionalLabelType;
+
   @Inject
   AllProjectsCreator(
-      GitRepositoryManager mgr,
+      GitRepositoryManager repositoryManager,
       AllProjectsName allProjectsName,
-      SystemGroupBackend systemGroupBackend,
       @GerritPersonIdent PersonIdent serverUser,
-      NotesMigration notesMigration) {
-    this.mgr = mgr;
+      NotesMigration notesMigration,
+      SystemGroupBackend systemGroupBackend) {
+    this.repositoryManager = repositoryManager;
     this.allProjectsName = allProjectsName;
     this.serverUser = serverUser;
     this.notesMigration = notesMigration;
@@ -95,6 +97,7 @@ public class AllProjectsCreator {
     this.anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS);
     this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
     this.owners = systemGroupBackend.getGroup(PROJECT_OWNERS);
+    this.additionalLabelType = new ArrayList<>();
   }
 
   /** If called, grant default permissions to this admin group */
@@ -120,13 +123,18 @@ public class AllProjectsCreator {
     return this;
   }
 
+  public AllProjectsCreator addAdditionalLabel(LabelType labelType) {
+    additionalLabelType.add(labelType);
+    return this;
+  }
+
   public void create() throws IOException, ConfigInvalidException {
-    try (Repository git = mgr.openRepository(allProjectsName)) {
+    try (Repository git = repositoryManager.openRepository(allProjectsName)) {
       initAllProjects(git);
     } catch (RepositoryNotFoundException notFound) {
       // A repository may be missing if this project existed only to store
       // inheritable permissions. For example 'All-Projects'.
-      try (Repository git = mgr.createRepository(allProjectsName)) {
+      try (Repository git = repositoryManager.createRepository(allProjectsName)) {
         initAllProjects(git);
         RefUpdate u = git.updateRef(Constants.HEAD);
         u.link(RefNames.REFS_CONFIG);
@@ -179,10 +187,11 @@ public class AllProjectsCreator {
         stream.add(rule(config, batch));
       }
 
-      LabelType cr = initCodeReviewLabel(config);
-      grant(config, heads, cr, -1, 1, registered);
+      LabelType codeReviewLabel = initCodeReviewLabel(config);
+      initAdditionalLabels(config);
+      grant(config, heads, codeReviewLabel, -1, 1, registered);
 
-      grant(config, heads, cr, -2, 2, admin, owners);
+      grant(config, heads, codeReviewLabel, -2, 2, admin, owners);
       grant(config, heads, Permission.CREATE, admin, owners);
       grant(config, heads, Permission.PUSH, admin, owners);
       grant(config, heads, Permission.SUBMIT, admin, owners);
@@ -199,7 +208,7 @@ public class AllProjectsCreator {
 
       meta.getPermission(Permission.READ, true).setExclusiveGroup(true);
       grant(config, meta, Permission.READ, admin, owners);
-      grant(config, meta, cr, -2, 2, admin, owners);
+      grant(config, meta, codeReviewLabel, -2, 2, admin, owners);
       grant(config, meta, Permission.CREATE, admin, owners);
       grant(config, meta, Permission.PUSH, admin, owners);
       grant(config, meta, Permission.SUBMIT, admin, owners);
@@ -224,6 +233,13 @@ public class AllProjectsCreator {
     type.setCopyAllScoresOnTrivialRebase(true);
     c.getLabelSections().put(type.getName(), type);
     return type;
+  }
+
+  private void initAdditionalLabels(ProjectConfig projectConfig) {
+    if (additionalLabelType.isEmpty()) {
+      return;
+    }
+    additionalLabelType.forEach(t -> projectConfig.getLabelSections().put(t.getName(), t));
   }
 
   private void initSequences(Repository git, BatchRefUpdate bru) throws IOException {

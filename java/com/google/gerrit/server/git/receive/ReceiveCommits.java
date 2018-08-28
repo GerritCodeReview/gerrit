@@ -361,6 +361,7 @@ class ReceiveCommits {
   private final ReceivePack receivePack;
 
   // Immutable fields derived from constructor arguments.
+  private final boolean allowProjectOwnersToChangeParent;
   private final boolean allowPushToRefsChanges;
   private final LabelTypes labelTypes;
   private final NoteMap rejectCommits;
@@ -504,6 +505,9 @@ class ReceiveCommits {
     replaceByChange = new LinkedHashMap<>();
     updateGroups = new ArrayList<>();
     validCommits = new HashSet<>();
+
+    this.allowProjectOwnersToChangeParent =
+        cfg.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
 
     // Other settings populated during processing.
     newChangeForAllNotInTarget =
@@ -1113,11 +1117,24 @@ class ReceiveCommits {
               }
             } else {
               if (!oldParent.equals(newParent)) {
-                try {
-                  permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-                } catch (AuthException e) {
-                  reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
-                  return;
+                if (allowProjectOwnersToChangeParent) {
+                  try {
+                    permissionBackend
+                        .user(user)
+                        .project(project.getNameKey())
+                        .check(ProjectPermission.WRITE_CONFIG);
+                  } catch (AuthException e) {
+                    reject(
+                        cmd, "invalid project configuration: only project owners can set parent");
+                    return;
+                  }
+                } else {
+                  try {
+                    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+                  } catch (AuthException e) {
+                    reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
+                    return;
+                  }
                 }
               }
 

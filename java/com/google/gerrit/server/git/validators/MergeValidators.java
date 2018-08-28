@@ -32,12 +32,14 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -48,6 +50,7 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -114,12 +117,17 @@ public class MergeValidators {
         "Change contains a project configuration that changes the parent"
             + " project.\n"
             + "The change must be submitted by a Gerrit administrator.";
+    private static final String SET_BY_OWNER =
+        "Change contains a project configuration that changes the parent"
+            + " project.\n"
+            + "The change must be submitted by a Gerrit administrator or the project owner.";
 
     private final AllProjectsName allProjectsName;
     private final AllUsersName allUsersName;
     private final ProjectCache projectCache;
     private final PermissionBackend permissionBackend;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+    private final boolean allowProjectOwnersToChangeParent;
 
     public interface Factory {
       ProjectConfigValidator create();
@@ -131,12 +139,15 @@ public class MergeValidators {
         AllUsersName allUsersName,
         ProjectCache projectCache,
         PermissionBackend permissionBackend,
-        DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
+        DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+        @GerritServerConfig Config config) {
       this.allProjectsName = allProjectsName;
       this.allUsersName = allUsersName;
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
       this.pluginConfigEntries = pluginConfigEntries;
+      this.allowProjectOwnersToChangeParent =
+          config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
     }
 
     @Override
@@ -162,13 +173,27 @@ public class MergeValidators {
             }
           } else {
             if (!oldParent.equals(newParent)) {
-              try {
-                permissionBackend.user(caller).check(GlobalPermission.ADMINISTRATE_SERVER);
-              } catch (AuthException e) {
-                throw new MergeValidationException(SET_BY_ADMIN);
-              } catch (PermissionBackendException e) {
-                logger.atWarning().withCause(e).log("Cannot check ADMINISTRATE_SERVER");
-                throw new MergeValidationException("validation unavailable");
+              if (!allowProjectOwnersToChangeParent) {
+                try {
+                  permissionBackend.user(caller).check(GlobalPermission.ADMINISTRATE_SERVER);
+                } catch (AuthException e) {
+                  throw new MergeValidationException(SET_BY_ADMIN);
+                } catch (PermissionBackendException e) {
+                  logger.atWarning().withCause(e).log("Cannot check ADMINISTRATE_SERVER");
+                  throw new MergeValidationException("validation unavailable");
+                }
+              } else {
+                try {
+                  permissionBackend
+                      .user(caller)
+                      .project(destProject.getNameKey())
+                      .check(ProjectPermission.WRITE_CONFIG);
+                } catch (AuthException e) {
+                  throw new MergeValidationException(SET_BY_OWNER);
+                } catch (PermissionBackendException e) {
+                  logger.atWarning().withCause(e).log("Cannot check WRITE_CONFIG");
+                  throw new MergeValidationException("validation unavailable");
+                }
               }
               if (allUsersName.equals(destProject.getNameKey())
                   && !allProjectsName.equals(newParent)) {

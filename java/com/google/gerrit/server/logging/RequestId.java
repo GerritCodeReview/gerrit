@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.util;
+package com.google.gerrit.server.logging;
 
 import com.google.common.base.Enums;
 import com.google.common.hash.Hasher;
@@ -21,7 +21,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.logging.LoggingContext;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 

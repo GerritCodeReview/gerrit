@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import com.google.gerrit.server.util.RequestId;
 
 public class TraceContext implements AutoCloseable {
   public static final TraceContext DISABLED = new TraceContext();

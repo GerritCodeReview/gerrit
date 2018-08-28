@@ -116,6 +116,7 @@ public class GroupCacheImpl implements GroupCache {
   @Override
   public void evict(AccountGroup.Id groupId) {
     if (groupId != null) {
+      logger.atFine().log("Evict group %s by ID", groupId.get());
       byId.invalidate(groupId);
     }
   }
@@ -123,6 +124,7 @@ public class GroupCacheImpl implements GroupCache {
   @Override
   public void evict(AccountGroup.NameKey groupName) {
     if (groupName != null) {
+      logger.atFine().log("Evict group '%s' by name", groupName.get());
       byName.invalidate(groupName.get());
     }
   }
@@ -130,6 +132,7 @@ public class GroupCacheImpl implements GroupCache {
   @Override
   public void evict(AccountGroup.UUID groupUuid) {
     if (groupUuid != null) {
+      logger.atFine().log("Evict group %s by UUID", groupUuid.get());
       byUUID.invalidate(groupUuid.get());
     }
   }

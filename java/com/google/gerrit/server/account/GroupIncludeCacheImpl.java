@@ -112,6 +112,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   @Override
   public void evictGroupsWithMember(Account.Id memberId) {
     if (memberId != null) {
+      logger.atFine().log("Evict groups with member %d", memberId.get());
       groupsWithMember.invalidate(memberId);
     }
   }
@@ -119,9 +120,11 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   @Override
   public void evictParentGroupsOf(AccountGroup.UUID groupId) {
     if (groupId != null) {
+      logger.atFine().log("Evict parent groups of %s", groupId.get());
       parentGroups.invalidate(groupId);
 
       if (!AccountGroup.isInternalGroup(groupId)) {
+        logger.atFine().log("Evict external group %s", groupId.get());
         external.invalidate(EXTERNAL_NAME);
       }
     }

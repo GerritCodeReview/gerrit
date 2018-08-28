@@ -154,12 +154,14 @@ public class AccountCacheImpl implements AccountCache {
   @Override
   public void evict(@Nullable Account.Id accountId) {
     if (accountId != null) {
+      logger.atFine().log("Evict account %d", accountId.get());
       byId.invalidate(accountId);
     }
   }
 
   @Override
   public void evictAll() {
+    logger.atFine().log("Evict all accounts");
     byId.invalidateAll();
   }
 

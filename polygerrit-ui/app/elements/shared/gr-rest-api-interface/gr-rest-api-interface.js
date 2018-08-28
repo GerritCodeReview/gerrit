@@ -1502,8 +1502,7 @@
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       return this._fetchSharedCacheURL({
-        url: `/projects/?d&n=${reposPerPage + 1}&S=${offset}` +
-            this._computeFilter(filter),
+        url: `/projects/?n=${reposPerPage + 1}&S=${offset}&query=` + encodeURIComponent(filter),
         anonymizedUrl: '/projects/?*',
       });
     },

@@ -115,17 +115,17 @@
     },
 
     _getRepos(filter, reposPerPage, offset) {
+      const defaultFilter = 'state:active OR state:read-only';
       this._repos = [];
+      if (!filter) {
+        filter = defaultFilter;
+      }
+      filter = filter.trim();
       return this.$.restAPI.getRepos(filter, reposPerPage, offset)
           .then(repos => {
             // Late response.
-            if (filter !== this._filter || !repos) { return; }
-            this._repos = Object.keys(repos)
-             .map(key => {
-               const repo = repos[key];
-               repo.name = key;
-               return repo;
-             });
+            if (filter !== this._filter && filter != defaultFilter || !repos) { return; }
+            this._repos = repos;
             this._loading = false;
           });
     },

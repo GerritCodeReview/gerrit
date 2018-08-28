@@ -326,8 +326,8 @@ public class CmdLineParser {
   }
 
   private static class PrefixedOption implements Option {
-    String prefix;
-    Option o;
+    private final String prefix;
+    private final Option o;
 
     PrefixedOption(String prefix, Option o) {
       this.prefix = prefix;

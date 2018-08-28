@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0600834_a2d21b04",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-28T22:11:22Z",
+      "side": 1,
+      "message": "Optional: this might be a little simpler returning the promise and calling `_renderDiffTable` from within the promise definition. That way it\u0027s totally impossible for the event to fire before the listener is attached (e.g. if `_renderDiffTable` short-circuits and the event is emitted immediately).\n\nreturn new Promise(resolve \u003d\u003e {\n  const callback \u003d () \u003d\u003e {\n    resolve();\n    this.removeEventListener(\u0027render\u0027, callback);\n  };\n  this.addEventListener(\u0027render\u0027, callback);\n  this._renderDiffTable();\n});",
+      "range": {
+        "startLine": 264,
+        "startChar": 8,
+        "endLine": 272,
+        "endChar": 29
+      },
+      "revId": "7eb6e13b8b45291b0cff8de38787bd0131e68011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

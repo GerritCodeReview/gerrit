@@ -81,6 +81,24 @@
       "revId": "d0854c2a6e478f00500b8029ccd013348673430c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81192554_6e5616a4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-28T22:11:22Z",
+      "side": 1,
+      "message": "Aha, I lost track of that aspect. Thanks for the explanation.",
+      "parentUuid": "1078a050_a16fdab3",
+      "revId": "d0854c2a6e478f00500b8029ccd013348673430c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -262,9 +262,9 @@
         this.filesWeblinks = this._getFilesWeblinks(diff);
         this._diff = diff;
         return this._renderDiffTable();
-      }).finally(() => {
-        this._loading = false;
-      });
+      })
+      .catch(err => { console.warn('Error encountered loading diff:', err); })
+      .then(() => { this._loading = false; });
     },
 
     /** Cancel any remaining diff builder rendering work. */

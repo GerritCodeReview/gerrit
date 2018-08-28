@@ -448,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "6ed77a01_a17d7018",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-28T21:40:59Z",
+      "side": 1,
+      "message": "This was my confusion. I\u0027ve removed the wording. Hopefully, that helps.",
+      "parentUuid": "47d4758f_d98d5953",
+      "range": {
+        "startLine": 148,
+        "startChar": 1,
+        "endLine": 148,
+        "endChar": 41
+      },
+      "revId": "dd3dcb3a4df85c48ab98376cc1883d53da5e7a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fc18b28_f89e3c56",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 3

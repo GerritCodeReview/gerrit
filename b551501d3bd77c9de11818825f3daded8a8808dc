@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0cc5f264_8ff048d6",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-28T21:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6889f0f3_27be595c",
+      "revId": "b551501d3bd77c9de11818825f3daded8a8808dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e42dfaaf_409db5e8",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "dcefa5fe_eb062e0d",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-28T21:40:59Z",
+      "side": 1,
+      "message": "No reluctance on my end! I think this speaks to the need to orient the Gerrit user docs around actual customer journeys. There\u0027s a difference between the actions req\u0027d to create a change and those needed to find and edit a change.",
+      "parentUuid": "e42dfaaf_409db5e8",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 21
+      },
+      "revId": "b551501d3bd77c9de11818825f3daded8a8808dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea16e1bb_43663b6e",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 6
@@ -62,6 +104,30 @@
       "revId": "b551501d3bd77c9de11818825f3daded8a8808dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35217e2f_b97b1130",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-08-28T21:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea16e1bb_43663b6e",
+      "range": {
+        "startLine": 190,
+        "startChar": 15,
+        "endLine": 190,
+        "endChar": 21
+      },
+      "revId": "b551501d3bd77c9de11818825f3daded8a8808dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

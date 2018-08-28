@@ -24,7 +24,7 @@ import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.util.RequestId;
+import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestChanges;
 import java.util.Date;

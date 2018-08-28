@@ -14,8 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.util.RequestId;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.apache.sshd.server.Environment;

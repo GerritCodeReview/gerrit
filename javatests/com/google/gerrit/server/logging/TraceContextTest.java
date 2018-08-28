@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.server.util.RequestId;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;

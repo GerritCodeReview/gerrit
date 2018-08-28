@@ -213,7 +213,7 @@
             for (const key in response) {
               if (!response.hasOwnProperty(key)) { continue; }
               projects.push({
-                name: key,
+                name: response[key].name,
                 value: response[key].id,
               });
             }

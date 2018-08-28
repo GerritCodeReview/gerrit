@@ -930,33 +930,38 @@ limitations under the License.
       });
     });
 
-    test('getRepos', () => {
-      sandbox.stub(element, '_fetchSharedCacheURL');
-      element.getRepos('test', 25);
-      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
-          '/projects/?d&n=26&S=0&m=test');
+    suite('getRepos', () => {
+      const defaultQuery = 'state%3Aactive%20OR%20state%3Aread-only';
 
-      element.getRepos(null, 25);
-      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
-          '/projects/?d&n=26&S=0');
+      setup(() => {
+        sandbox.stub(element, '_fetchSharedCacheURL');
+      });
 
-      element.getRepos('test', 25, 25);
-      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
-          '/projects/?d&n=26&S=25&m=test');
-    });
+      test('normal use', () => {
+        element.getRepos('test', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?n=26&S=0&query=test');
 
-    test('getRepos filter', () => {
-      sandbox.stub(element, '_fetchSharedCacheURL');
-      element.getRepos('test/test/test', 25);
-      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
-          '/projects/?d&n=26&S=0&m=test%2Ftest%2Ftest');
-    });
+        element.getRepos(null, 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            `/projects/?n=26&S=0&query=${defaultQuery}`);
 
-    test('getRepos filter regex', () => {
-      sandbox.stub(element, '_fetchSharedCacheURL');
-      element.getRepos('^test.*', 25);
-      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
-          '/projects/?d&n=26&S=0&r=%5Etest.*');
+        element.getRepos('test', 25, 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?n=26&S=25&query=test');
+      });
+
+      test('with filter', () => {
+        element.getRepos('test/test/test', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?n=26&S=0&query=test%2Ftest%2Ftest');
+      });
+
+      test('with regex filter', () => {
+        element.getRepos('^test.*', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?n=26&S=0&query=%5Etest.*');
+      });
     });
 
     test('getGroups filter regex', () => {

@@ -1497,13 +1497,20 @@
      * @return {!Promise<?Object>}
      */
     getRepos(filter, reposPerPage, opt_offset) {
+      const defaultFilter = 'state:active OR state:read-only';
       const offset = opt_offset || 0;
+
+      if (!filter) {
+        filter = defaultFilter;
+      }
+      filter = filter.trim();
+      const encodedFilter = encodeURIComponent(filter);
 
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       return this._fetchSharedCacheURL({
-        url: `/projects/?d&n=${reposPerPage + 1}&S=${offset}` +
-            this._computeFilter(filter),
+        url: `/projects/?n=${reposPerPage + 1}&S=${offset}` +
+            `&query=${encodedFilter}`,
         anonymizedUrl: '/projects/?*',
       });
     },

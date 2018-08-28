@@ -938,7 +938,7 @@ class ReceiveCommits {
     List<String> noteDbValues = pushOptions.get("notedb");
     if (!noteDbValues.isEmpty()) {
       // These semantics for duplicates/errors are somewhat arbitrary and may not match e.g. the
-      // CommandLineParser behavior used by MagicBranchInput.
+      // CmdLineParser behavior used by MagicBranchInput.
       String value = noteDbValues.get(noteDbValues.size() - 1);
       noteDbPushOption = NoteDbPushOption.parse(value);
       if (!noteDbPushOption.isPresent()) {

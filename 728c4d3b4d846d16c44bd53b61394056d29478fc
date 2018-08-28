@@ -46,6 +46,30 @@
       "revId": "728c4d3b4d846d16c44bd53b61394056d29478fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326a07db_dd9d57a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-28T05:50:26Z",
+      "side": 1,
+      "message": "As pointed out by Liam, compatibility mode is required for Bazel 0.16.1 to work. Now, this should work:\n\n  bazel build --java_toolchain //tools:error_prone_warnings_toolchain_bazel_0.16 //java/com/google/gerrit/server:server",
+      "parentUuid": "f4c38449_efb1a982",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "728c4d3b4d846d16c44bd53b61394056d29478fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

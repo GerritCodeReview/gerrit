@@ -21,7 +21,7 @@ import java.net.URISyntaxException;
 import org.junit.Test;
 
 public class IndexServletTest {
-  class TestIndexServlet extends IndexServlet {
+  static class TestIndexServlet extends IndexServlet {
     private static final long serialVersionUID = 1L;
 
     TestIndexServlet(String canonicalURL, String cdnPath, String faviconPath)

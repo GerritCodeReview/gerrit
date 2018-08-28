@@ -73,7 +73,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     String content = "";
     if (responseEntity != null) {
       InputStream contentStream = responseEntity.getContent();
-      try (Reader reader = new InputStreamReader(contentStream)) {
+      try (Reader reader = new InputStreamReader(contentStream, UTF_8)) {
         content = CharStreams.toString(reader);
       }
     }

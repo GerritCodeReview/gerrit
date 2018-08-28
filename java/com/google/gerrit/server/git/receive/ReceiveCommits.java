@@ -579,6 +579,8 @@ class ReceiveCommits {
         RequestId traceId = new RequestId();
         traceContext.forceLogging().addTag(RequestId.Type.TRACE_ID, traceId);
         addMessage(RequestId.Type.TRACE_ID.name() + ": " + traceId);
+
+        logger.atFine().log("push options: %s", receivePack.getPushOptions());
       }
 
       try {

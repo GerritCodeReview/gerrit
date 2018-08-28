@@ -52,6 +52,24 @@
       "revId": "ce362c3ba5d7368f99c6105bc1865739ccb63901",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3f39893_8d31e173",
+        "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-28T04:27:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f6bf3a2_64ff596a",
+      "revId": "ce362c3ba5d7368f99c6105bc1865739ccb63901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

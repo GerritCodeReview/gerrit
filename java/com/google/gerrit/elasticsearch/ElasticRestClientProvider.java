@@ -39,7 +39,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   private final ElasticConfiguration cfg;
 
-  private RestClient client;
+  private volatile RestClient client;
   private ElasticQueryAdapter adapter;
 
   @Inject

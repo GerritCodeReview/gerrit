@@ -1343,7 +1343,7 @@
 
     _computeCanStartReview(loggedIn, change, account) {
       return !!(loggedIn && change.work_in_progress &&
-          change.owner._account_id === account._account_id);
+          change.actions["ready"] && change.actions["ready"].enabled);
     },
 
     _computeReplyDisabled() { return false; },

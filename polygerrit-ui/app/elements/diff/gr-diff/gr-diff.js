@@ -254,17 +254,20 @@
         return this._loadDiffAssets(diff);
       });
 
-      return Promise.all([diffRequest, assetRequest]).then(results => {
-        const diff = results[0];
-        if (!diff) {
-          return Promise.resolve();
-        }
-        this.filesWeblinks = this._getFilesWeblinks(diff);
-        this._diff = diff;
-        return this._renderDiffTable();
-      }).finally(() => {
-        this._loading = false;
-      });
+      return Promise.all([diffRequest, assetRequest])
+          .then(results => {
+            const diff = results[0];
+            if (!diff) {
+              return Promise.resolve();
+            }
+            this.filesWeblinks = this._getFilesWeblinks(diff);
+            this._diff = diff;
+            return this._renderDiffTable();
+          })
+          .catch(err => {
+            console.warn('Error encountered loading diff:', err);
+          })
+          .then(() => { this._loading = false; });
     },
 
     /** Cancel any remaining diff builder rendering work. */

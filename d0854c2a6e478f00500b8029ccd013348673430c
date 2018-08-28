@@ -39,6 +39,24 @@
       "revId": "d0854c2a6e478f00500b8029ccd013348673430c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1078a050_a16fdab3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-08-28T07:30:06Z",
+      "side": 1,
+      "message": "The problem is that in the next change, reload moves to gr-diff-host, and this event is meant to be the way gr-diff informs gr-diff-host that the rendering was done. This is why \"reloaded\" is not the ideal name (the gr-diff element that will emit it knows nothing about reloading - it got a new diff and renders it) and why we cannot move it to (that) finally (which will move to gr-diff-host). \n\nWe can of course make a separate event, but it will be slightly hard to name. Something like gr-diff-render to distinguish it from the (gr-diff-builder-)render? I am really not sure it is worth it though given that only the tests care about this \u0027render\u0027 event in the first place - all production code uses the promise, in which we have the new proposed meaning of render.\n\nWhat do you think?",
+      "parentUuid": "42ad8bcc_9326ed5a",
+      "revId": "d0854c2a6e478f00500b8029ccd013348673430c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

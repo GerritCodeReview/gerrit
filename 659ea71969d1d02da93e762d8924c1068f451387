@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92849afe_cc8420bf",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-28T06:59:46Z",
+      "side": 0,
+      "message": "This change missed to adjust PolyGerrit UI to reflect widen the ACLs to administrators group. On PG UI, the fact that SetReady button was erroneously computed on the client side, instead of purely rely on availability of \"ready\" endpoint in from server provided change action list: [1]. This was reported here: [2].\n\n* [1] https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js#L1344-L1347\n* [2] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d9642",
+      "range": {
+        "startLine": 96,
+        "startChar": 12,
+        "endLine": 98,
+        "endChar": 56
+      },
+      "revId": "659ea71969d1d02da93e762d8924c1068f451387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

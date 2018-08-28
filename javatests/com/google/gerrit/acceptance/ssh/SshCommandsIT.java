@@ -39,7 +39,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   // TODO: It would be better to dynamically generate these lists
-  private static final List<String> COMMON_ROOT_COMMANDS =
+  private static final ImmutableList<String> COMMON_ROOT_COMMANDS =
       ImmutableList.of(
           "apropos",
           "close-connection",
@@ -57,7 +57,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
           "show-queue",
           "version");
 
-  private static final List<String> MASTER_ONLY_ROOT_COMMANDS =
+  private static final ImmutableList<String> MASTER_ONLY_ROOT_COMMANDS =
       ImmutableList.of(
           "ban-commit",
           "create-account",
@@ -79,7 +79,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
           "stream-events",
           "test-submit");
 
-  private static final Map<String, List<String>> MASTER_COMMANDS =
+  private static final ImmutableMap<String, List<String>> MASTER_COMMANDS =
       ImmutableMap.of(
           Commands.ROOT,
           ImmutableList.copyOf(
@@ -102,7 +102,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
           "test-submit",
           ImmutableList.of("rule", "type"));
 
-  private static final Map<String, List<String>> SLAVE_COMMANDS =
+  private static final ImmutableMap<String, List<String>> SLAVE_COMMANDS =
       ImmutableMap.of(
           Commands.ROOT,
           COMMON_ROOT_COMMANDS,

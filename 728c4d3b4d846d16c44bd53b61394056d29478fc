@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a98f4b77_b762e127",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-28T02:09:27Z",
+      "side": 1,
+      "message": "Specifically which version of bazel adds this support?\n\nWhen I run the below command on 0.16.1 it fails with this:\n\nhttp://paste.openstack.org/show/728890/",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "728c4d3b4d846d16c44bd53b61394056d29478fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

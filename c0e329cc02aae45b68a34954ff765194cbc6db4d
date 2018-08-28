@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5981a7e4_6b8d7f81",
+        "filename": "tools/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-28T06:21:59Z",
+      "side": 1,
+      "message": "Liam suggested a working solution for 0.16 and latest Bazel releases: just to copy \"based on\" in this BUILD file and duplicate the toolchains. I you prefer I could rename the toolchain:\n\n* error_prone_warnings_toolchain \u003d\u003e without prefix, that would work with Bazel 0.16.1\n* error_prone_warnings_toolchain_bazel_latest that would work with Bazel 0.17 and later",
+      "parentUuid": "3b99c8a0_0966b757",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "c0e329cc02aae45b68a34954ff765194cbc6db4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63dc293f_f6583136",
         "filename": "tools/BUILD",
         "patchSetId": 5
@@ -69,6 +93,30 @@
       "revId": "c0e329cc02aae45b68a34954ff765194cbc6db4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64b5b19e_d4b5b7db",
+        "filename": "tools/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-28T06:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63dc293f_f6583136",
+      "range": {
+        "startLine": 34,
+        "startChar": 24,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "c0e329cc02aae45b68a34954ff765194cbc6db4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99da060d_dfe75309",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-08-28T08:25:29Z",
+      "side": 1,
+      "message": "Is the \"inheritedValue\" name still good after this change?\nShouldn\u0027t it rather be named \"description\" or \"summary\" or something like that?",
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88d909e9_ba0ca259",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-08-28T08:25:29Z",
+      "side": 1,
+      "message": "Convert this comment into javadoc?",
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c12cf14_390a453a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-08-28T08:25:29Z",
+      "side": 1,
+      "message": "line too long",
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9f59251_a61c97d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-08-28T08:25:29Z",
+      "side": 1,
+      "message": "As commented in the commit message, maybe this is not a good name any more?",
+      "range": {
+        "startLine": 251,
+        "startChar": 18,
+        "endLine": 251,
+        "endChar": 31
+      },
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c20e5c7d_3c58af38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-08-28T08:25:29Z",
+      "side": 1,
+      "message": "Remove this space",
+      "range": {
+        "startLine": 254,
+        "startChar": 45,
+        "endLine": 254,
+        "endChar": 46
+      },
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a4b79dd_4b16b39a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-08-28T08:25:29Z",
+      "side": 1,
+      "message": "If this is going to be displayed in the UI, shouldn\u0027t this message be defined in a \".properties\" file?",
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

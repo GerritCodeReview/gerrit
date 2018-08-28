@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1535438878 +0200\nnonce ACQ0Hpx2bXRKyfZiGmCJ5mEy2PiGGCXHlqc8TOgUqJtQyCJe2ZnfEMS1RoOQdNgaAmMJy2YfEhKe\n\n0000000000000000000000000000000000000000 fa158a516b8ab958aa97d54025bd46fed7d96843 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluE8B4ACgkQUbX9l6DQ\n71HNwwf9EzxDRzBGZTH0AsS9YZHc4LLWCgG2SUkaJVtNS2oHDliIcykXzH+JR8fa\n+alyvSkx2iM0Lrt52eOqyyWrIr9C8+Du2VJ18weP+WOF2wTp3nO6URUPNg7813sR\nqFGYmNx5kHwEUYOQiu8Gke4/ojprBg6wFkk9g8a1fWJaAI3CBBhErn4CGCJ02/qm\nsOeG5EHNIHc3UAOJh3TVVmIUwliajGl+L4SJ6cjTxTgRqeAPhBNvKQejlw0vZbBo\nbd3yYFgeOw9v5cjJz31Bgbsc1Yo8VIn0aw4U4IM6KkzO7SGdVIc3cnN03E2KVEDG\nnfIr4W0UG3z8bOyPob1htICcPibS5g\u003d\u003d\n\u003ds6sQ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "787b908f_573eac66",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-28T19:45:33Z",
+      "side": 1,
+      "message": "I would move this outside the if block. Prior to introducing tracing, we just turned on FINE logs for this specific class; this log line is consistent with the other kinds of lots we already see.",
+      "revId": "fa158a516b8ab958aa97d54025bd46fed7d96843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -70,6 +70,30 @@
       "revId": "d4645a08d30108fe1bf20afebf0ecec5a0b667d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b002085d_43d2645b",
+        "filename": "Documentation/error-multiple-changeid-lines.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-28T12:46:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d59de35_9ededb93",
+      "range": {
+        "startLine": 1,
+        "startChar": 9,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "d4645a08d30108fe1bf20afebf0ecec5a0b667d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

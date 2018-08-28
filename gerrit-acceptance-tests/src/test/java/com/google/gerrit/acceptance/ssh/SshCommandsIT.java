@@ -26,7 +26,6 @@ import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.sshd.Commands;
 import java.util.List;
-import java.util.Map;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +36,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
   private static final Logger log = LoggerFactory.getLogger(SshCommandsIT.class);
 
   // TODO: It would be better to dynamically generate this list
-  private static final Map<String, List<String>> COMMANDS =
+  private static final ImmutableMap<String, List<String>> COMMANDS =
       ImmutableMap.of(
           Commands.ROOT,
           ImmutableList.of(

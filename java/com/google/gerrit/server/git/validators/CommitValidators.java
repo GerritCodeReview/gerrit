@@ -827,36 +827,28 @@ public class CommitValidators {
       IdentifiedUser currentUser,
       String canonicalWebUrl) {
     StringBuilder sb = new StringBuilder();
-    sb.append("\n");
-    sb.append("ERROR:  In commit ").append(c.name()).append("\n");
-    sb.append("ERROR:  ")
-        .append(type)
-        .append(" email address ")
+
+    sb.append(" email address ")
         .append(who.getEmailAddress())
-        .append("\n");
-    sb.append("ERROR:  does not match your user account and you have no 'forge ")
+        .append(" is not registered in your account, and you lack 'forge ")
         .append(type)
         .append("' permission.\n");
-    sb.append("ERROR:\n");
+
     if (currentUser.getEmailAddresses().isEmpty()) {
-      sb.append("ERROR:  You have not registered any email addresses.\n");
+      sb.append("You have not registered any email addresses.\n");
     } else {
-      sb.append("ERROR:  The following addresses are currently registered:\n");
+      sb.append("The following addresses are currently registered:\n");
       for (String address : currentUser.getEmailAddresses()) {
-        sb.append("ERROR:    ").append(address).append("\n");
+        sb.append("   ").append(address).append("\n");
       }
     }
-    sb.append("ERROR:\n");
+
     if (canonicalWebUrl != null) {
-      sb.append("ERROR:  To register an email address, please visit:\n");
-      sb.append("ERROR:  ")
-          .append(canonicalWebUrl)
-          .append("#")
-          .append(PageLinks.SETTINGS_CONTACT)
-          .append("\n");
+      sb.append("To register an email address, visit:\n");
+      sb.append(canonicalWebUrl).append("#").append(PageLinks.SETTINGS_CONTACT).append("\n");
     }
     sb.append("\n");
-    return new CommitValidationMessage(sb.toString(), false);
+    return new CommitValidationMessage(sb.toString(), true);
   }
 
   /**

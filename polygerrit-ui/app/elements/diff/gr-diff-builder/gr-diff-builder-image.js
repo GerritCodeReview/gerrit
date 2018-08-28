@@ -35,7 +35,6 @@
   GrDiffBuilderImage.prototype.constructor = GrDiffBuilderImage;
 
   GrDiffBuilderImage.prototype.renderDiff = function() {
-    this._outputEl.classList.add('image-diff');
     const section = this._createElement('tbody', 'image-diff');
 
     this._emitImagePair(section);

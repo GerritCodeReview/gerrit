@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.group;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -30,6 +31,8 @@ import java.util.Collections;
 import java.util.Optional;
 
 public class GroupIndexerImpl implements GroupIndexer {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     GroupIndexerImpl create(GroupIndexCollection indexes);
 
@@ -73,6 +76,12 @@ public class GroupIndexerImpl implements GroupIndexer {
     // Evict the cache to get an up-to-date value for sure.
     groupCache.evict(uuid);
     Optional<InternalGroup> internalGroup = groupCache.get(uuid);
+
+    if (internalGroup.isPresent()) {
+      logger.atInfo().log("Replace group %s in index", uuid.get());
+    } else {
+      logger.atInfo().log("Delete group %s from index", uuid.get());
+    }
 
     for (Index<AccountGroup.UUID, InternalGroup> i : getWriteIndexes()) {
       if (internalGroup.isPresent()) {

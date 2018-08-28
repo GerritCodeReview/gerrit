@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.account;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -30,6 +31,8 @@ import java.util.Collections;
 import java.util.Optional;
 
 public class AccountIndexerImpl implements AccountIndexer {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     AccountIndexerImpl create(AccountIndexCollection indexes);
 
@@ -72,6 +75,12 @@ public class AccountIndexerImpl implements AccountIndexer {
   public void index(Account.Id id) throws IOException {
     byIdCache.evict(id);
     Optional<AccountState> accountState = byIdCache.get(id);
+
+    if (accountState.isPresent()) {
+      logger.atInfo().log("Replace account %d in index", id.get());
+    } else {
+      logger.atInfo().log("Delete account %d from index", id.get());
+    }
 
     for (Index<Account.Id, AccountState> i : getWriteIndexes()) {
       // Evict the cache to get an up-to-date value for sure.

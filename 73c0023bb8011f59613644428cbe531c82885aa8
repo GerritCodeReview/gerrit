@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b56fcc4b_aedf4630",
+        "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-28T04:28:37Z",
+      "side": 1,
+      "message": "Formatting issue.",
+      "range": {
+        "startLine": 743,
+        "startChar": 8,
+        "endLine": 747,
+        "endChar": 9
+      },
+      "revId": "73c0023bb8011f59613644428cbe531c82885aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

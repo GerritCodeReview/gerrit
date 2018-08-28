@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6889f0f3_27be595c",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-28T20:16:48Z",
+      "side": 1,
+      "message": "Not rendering as an image. Maybe it\u0027s confused by the newline in the middle?",
+      "revId": "b551501d3bd77c9de11818825f3daded8a8808dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e42dfaaf_409db5e8",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-28T20:16:48Z",
+      "side": 1,
+      "message": "This and several other sections are still using the term \"change\" where I think \"change edit\" would be more technically accurate.\n\n\"Searching for changes\" encompasses a broad topic discussed elsewhere (in user-search.txt). This section is about \"searching for changes *that have a pending edit on them*\"\n\nIs there a specific reason you don\u0027t want to use the term \"change edit\"? Is it too awkward since \"edit\" is normally a verb, but is being used here as a noun? The term \"change edit\" is mostly set in stone in the REST API, so it\u0027s going to continue to be the most technically accurate way to refer to the concept. But if there is a less-awkward suggestion you have, then I\u0027m willing to adopt it within this documentation page.",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 21
+      },
+      "revId": "b551501d3bd77c9de11818825f3daded8a8808dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea16e1bb_43663b6e",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-28T20:16:48Z",
+      "side": 1,
+      "message": "\"Change Edit\" would be more technically accurate.",
+      "range": {
+        "startLine": 190,
+        "startChar": 15,
+        "endLine": 190,
+        "endChar": 21
+      },
+      "revId": "b551501d3bd77c9de11818825f3daded8a8808dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

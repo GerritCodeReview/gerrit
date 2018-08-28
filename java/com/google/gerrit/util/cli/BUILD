@@ -9,5 +9,6 @@ java_library(
         "//lib:guava",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "@flogger//jar",
     ],
 )

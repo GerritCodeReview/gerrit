@@ -224,7 +224,7 @@
             this.$.reporting.dashboardDisplayed();
           }).catch(err => {
             console.warn(err);
-          }).finally(() => { this._loading = false; });
+          }).then(() => { this._loading = false; });
     },
 
     /**

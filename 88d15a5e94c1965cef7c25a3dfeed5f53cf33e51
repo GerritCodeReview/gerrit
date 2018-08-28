@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "46ff8f67_fee59e49",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-08-28T07:33:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8297fd43_60ff7648",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "88d15a5e94c1965cef7c25a3dfeed5f53cf33e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c87e39fc_14ad38c2",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "3ddc6743_d87560f0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-08-28T07:33:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c87e39fc_14ad38c2",
+      "revId": "88d15a5e94c1965cef7c25a3dfeed5f53cf33e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cce3e65_48b61216",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.html",
         "patchSetId": 6
@@ -56,6 +98,24 @@
       "revId": "88d15a5e94c1965cef7c25a3dfeed5f53cf33e51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de54cbb3_d524b5a7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-08-28T07:33:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cce3e65_48b61216",
+      "revId": "88d15a5e94c1965cef7c25a3dfeed5f53cf33e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

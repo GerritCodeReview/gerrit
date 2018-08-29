@@ -16,6 +16,24 @@
       "revId": "71c3ab158b9c8184377158778eae7a5feb6552d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef3f719d_9f5643d1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-29T08:42:34Z",
+      "side": 1,
+      "message": "Can we do this in a follow up change?",
+      "parentUuid": "420b6c8e_5b599fb9",
+      "revId": "71c3ab158b9c8184377158778eae7a5feb6552d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

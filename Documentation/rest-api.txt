@@ -193,8 +193,17 @@ specified in the request body cannot be resolved.
 
 [[tracing]]
 === Request Tracing
-For each REST endpoint tracing can be enabled by setting the `trace`
-request parameter.
+For each REST endpoint tracing can be enabled by setting the
+`trace=<trace-id>` request parameter. It is recommended to use the ID
+of the issue that is being investigated as trace ID.
+
+.Example Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/suggest_reviewers?trace=issue/123&q=J
+----
+
+It is also possible to omit the trace ID and get a unique trace ID
+generated.
 
 .Example Request
 ----
@@ -203,8 +212,8 @@ request parameter.
 
 Enabling tracing results in additional logs with debug information that
 are written to the `error_log`. All logs that correspond to the traced
-request are associated with a unique trace ID. This trace ID is
-returned with the REST response in the `X-Gerrit-Trace` header.
+request are associated with the trace ID. The trace ID is returned with
+the REST response in the `X-Gerrit-Trace` header.
 
 .Example Response
 ----

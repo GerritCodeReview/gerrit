@@ -397,7 +397,7 @@ class ReceiveCommits {
   private String setFullNameTo;
   private boolean setChangeAsPrivate;
   private Optional<NoteDbPushOption> noteDbPushOption;
-  private Optional<Boolean> tracePushOption;
+  private Optional<String> tracePushOption;
 
   private MessageSender messageSender;
 
@@ -578,7 +578,8 @@ class ReceiveCommits {
     parsePushOptions();
     try (TraceContext traceContext =
         TraceContext.newTrace(
-            tracePushOption.orElse(false),
+            tracePushOption.isPresent(),
+            tracePushOption.orElse(null),
             (tagName, traceId) -> addMessage(tagName + ": " + traceId))) {
       traceContext.addTag(RequestId.Type.RECEIVE_ID, RequestId.forProject(project.getNameKey()));
       try {
@@ -951,7 +952,7 @@ class ReceiveCommits {
     List<String> traceValues = pushOptions.get("trace");
     if (!traceValues.isEmpty()) {
       String value = traceValues.get(traceValues.size() - 1);
-      tracePushOption = Optional.of(value.isEmpty() || Boolean.parseBoolean(value));
+      tracePushOption = Optional.of(value);
     } else {
       tracePushOption = Optional.empty();
     }
@@ -1371,7 +1372,7 @@ class ReceiveCommits {
     Set<String> hashtags = new HashSet<>();
 
     @Option(name = "--trace", metaVar = "NAME", usage = "enable tracing")
-    boolean trace;
+    String trace;
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;

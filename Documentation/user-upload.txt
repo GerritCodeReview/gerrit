@@ -424,17 +424,26 @@ branches, consider adding a custom remote block to your project's
 [[trace]]
 ==== Trace
 
-When pushing to Gerrit tracing can be enabled by setting the `trace`
-push option.
+When pushing to Gerrit tracing can be enabled by setting the
+`trace=<trace-id>` push option. It is recommended to use the ID of the
+issue that is being investigated as trace ID.
 
+----
+  git push -o trace=issue/123 ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master
+----
+
+It is also possible to omit the trace ID and get a unique trace ID
+generated.
+
+.Example Request
 ----
   git push -o trace ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master
 ----
 
 Enabling tracing results in additional logs with debug information that
 are written to the `error_log`. All logs that correspond to the traced
-request are associated with a unique trace ID. This trace ID is
-returned in the command output:
+request are associated with the trace ID. This trace ID is returned in
+the command output:
 
 ----
   remote: TRACE_ID: 1534174322774-7edf2a7b

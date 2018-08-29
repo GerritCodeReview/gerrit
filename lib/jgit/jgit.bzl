@@ -18,6 +18,7 @@ def jgit_repos():
             name = "jgit",
             path = LOCAL_JGIT_REPO,
         )
+        jgit_maven_repos_dev()
     else:
         jgit_maven_repos()
 
@@ -49,6 +50,43 @@ def jgit_maven_repos():
         repository = _JGIT_REPO,
         sha1 = "fe28963520e19c918eb26747e678ec9772ba800f",
         unsign = True,
+    )
+
+def jgit_maven_repos_dev():
+    # Transitive dependencies from JGit's WORKSPACE.
+    maven_jar(
+        name = "hamcrest-library",
+        artifact = "org.hamcrest:hamcrest-library:1.3",
+        sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
+    )
+    maven_jar(
+        name = "jzlib",
+        artifact = "com.jcraft:jzlib:1.1.1",
+        sha1 = "a1551373315ffc2f96130a0e5704f74e151777ba",
+    )
+
+    # Below are duplicate dependencies from Gerrit's WORKSPACE, but with rule
+    # names using an underscore rather than a dash, as expected by JGit's BUILD
+    # files. The rule names got diverged with a change that harmonized them in
+    # Gerrit for external dependencies (commit f98a60b35f) and Bazel does not
+    # allow you to alias rules in the WORKSPACE
+    # (https://github.com/bazelbuild/bazel/issues/3219)
+    # TODO(gertvdijk): Remove when JGit's external repository rules are
+    # harmonized as well.
+    maven_jar(
+        name = "log_api",
+        artifact = "org.slf4j:slf4j-api:1.7.2",
+        sha1 = "0081d61b7f33ebeab314e07de0cc596f8e858d97",
+    )
+    maven_jar(
+        name = "commons_compress",
+        artifact = "org.apache.commons:commons-compress:1.15",
+        sha1 = "b686cd04abaef1ea7bc5e143c080563668eec17e",
+    )
+    maven_jar(
+        name = "servlet_api_3_1",
+        artifact = "javax.servlet:javax.servlet-api:3.1.0",
+        sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
     )
 
 def jgit_dep(name):

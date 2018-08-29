@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.CommentDetail;
@@ -55,13 +56,7 @@ class PatchScriptBuilder {
   static final int MAX_CONTEXT = 5000000;
   static final int BIG_FILE = 9000;
 
-  private static final Comparator<Edit> EDIT_SORT =
-      new Comparator<Edit>() {
-        @Override
-        public int compare(Edit o1, Edit o2) {
-          return o1.getBeginA() - o2.getBeginA();
-        }
-      };
+  private static final Comparator<Edit> EDIT_SORT = comparing(Edit::getBeginA);
 
   private Repository db;
   private Project.NameKey projectKey;

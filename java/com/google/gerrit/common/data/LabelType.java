@@ -147,6 +147,11 @@ public class LabelType {
     setCopyMaxScore(DEF_COPY_MAX_SCORE);
     setCopyMinScore(DEF_COPY_MIN_SCORE);
     setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
+
+    byValue = new HashMap<>();
+    for (LabelValue v : values) {
+      byValue.put(v.getValue(), v);
+    }
   }
 
   public String getName() {
@@ -280,22 +285,11 @@ public class LabelType {
   }
 
   public LabelValue getValue(short value) {
-    initByValue();
     return byValue.get(value);
   }
 
   public LabelValue getValue(PatchSetApproval ca) {
-    initByValue();
     return byValue.get(ca.getValue());
-  }
-
-  private void initByValue() {
-    if (byValue == null) {
-      byValue = new HashMap<>();
-      for (LabelValue v : values) {
-        byValue.put(v.getValue(), v);
-      }
-    }
   }
 
   public LabelId getLabelId() {

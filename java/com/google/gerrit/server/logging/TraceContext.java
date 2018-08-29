@@ -20,10 +20,39 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
 public class TraceContext implements AutoCloseable {
-  public static final TraceContext DISABLED = new TraceContext();
-
   public static TraceContext open() {
     return new TraceContext();
+  }
+
+  /**
+   * Opens a new trace context for request tracing.
+   *
+   * <ul>
+   *   <li>sets a tag with a generated trace ID
+   *   <li>enables force logging
+   * </ul>
+   *
+   * <p>No-op if {@code trace} is {@code false}.
+   *
+   * @param trace whether tracing should be started
+   * @param traceIdConsumer consumer for the trace ID, should be used to return the generated trace
+   *     ID to the client, not invoked if {@code trace} is {@code false}
+   * @return the trace context
+   */
+  public static TraceContext newTrace(boolean trace, TraceIdConsumer traceIdConsumer) {
+    if (!trace) {
+      // Create an empty trace context.
+      return open();
+    }
+
+    RequestId traceId = new RequestId();
+    traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), traceId.toString());
+    return TraceContext.open().addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
+  }
+
+  @FunctionalInterface
+  public interface TraceIdConsumer {
+    void accept(String tagName, String traceId);
   }
 
   // Table<TAG_NAME, TAG_VALUE, REMOVE_ON_CLOSE>

@@ -577,14 +577,10 @@ class ReceiveCommits {
       Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
     parsePushOptions();
     try (TraceContext traceContext =
-        TraceContext.open()
-            .addTag(RequestId.Type.RECEIVE_ID, RequestId.forProject(project.getNameKey()))) {
-      if (tracePushOption.orElse(false)) {
-        RequestId traceId = new RequestId();
-        traceContext.forceLogging().addTag(RequestId.Type.TRACE_ID, traceId);
-        addMessage(RequestId.Type.TRACE_ID.name() + ": " + traceId);
-      }
-
+        TraceContext.newTrace(
+            tracePushOption.orElse(false),
+            (tagName, traceId) -> addMessage(tagName + ": " + traceId))) {
+      traceContext.addTag(RequestId.Type.RECEIVE_ID, RequestId.forProject(project.getNameKey()));
       try {
         if (!projectState.getProject().getState().permitsWrite()) {
           for (ReceiveCommand cmd : commands) {

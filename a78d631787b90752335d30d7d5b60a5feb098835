@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1535524608 +0200\nnonce ACQ0HpwVEvbkSxY+PUSHM3uYwWYFTpwQs2gnUQs0tuValyQKYnk0UJuZgw28KdgxhbnQvZcScJLY\n\n0000000000000000000000000000000000000000 a78d631787b90752335d30d7d5b60a5feb098835 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluGPwAACgkQUbX9l6DQ\n71HtcAf8CBLexvLXxrCsOsLEzcEfN7qYwyKOhHRqVx9LJromAtB2LGCx7wsg7P48\nYGb5AOqRZ5V1zhzY4SHojLL61Y4iOAgArsIexGK8uFVz8IvTyLb4m8fsJ3giyGlX\nyXwoXLDKbgyACDEBxfeDizSRAVhGrhMCl4H1seavO8ELAsw3ub/PfDT+MSIGK2A2\nw4EEU4Crr1xQl3d4OO1saa6/lOhXp1i4Y+ns1oNGAKK2s1kQQeudN3apOzWil4SY\n5DPPsEDhIStSaBqgllzlqaNSluY9W460zRk++HXo8fO1hvBa6OUfu3os0SL67bGO\ns0mF0sJ9vaWwDBUDyQKD4RauqkwTjg\u003d\u003d\n\u003d8X+g\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5aed78e_bd53d5bf",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-29T06:58:06Z",
+      "side": 1,
+      "message": "Should this also be fixed?",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 39
+      },
+      "revId": "a78d631787b90752335d30d7d5b60a5feb098835",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

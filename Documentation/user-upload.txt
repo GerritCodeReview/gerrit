@@ -428,7 +428,7 @@ When pushing to Gerrit tracing can be enabled by setting the `trace`
 push option.
 
 ----
-  git push -o trace=true ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master
+  git push -o trace ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master
 ----
 
 Enabling tracing results in additional logs with debug information that

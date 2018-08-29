@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.dashboards;
 
+import static java.util.Comparator.comparing;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -26,7 +28,6 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,14 +76,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
       table.removeRow(table.getRowCount() - 1);
     }
 
-    Collections.sort(
-        list,
-        new Comparator<DashboardInfo>() {
-          @Override
-          public int compare(DashboardInfo a, DashboardInfo b) {
-            return a.id().compareTo(b.id());
-          }
-        });
+    Collections.sort(list, comparing(DashboardInfo::id));
 
     String ref = null;
     for (DashboardInfo d : list) {

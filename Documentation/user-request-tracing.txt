@@ -58,4 +58,5 @@ that correspond to the request can be found.
 * Index queries (with parameters and matches)
 * reindex events
 * permission checks (e.g. which rule is responsible for a deny)
+* timer metrics
 * all other logs

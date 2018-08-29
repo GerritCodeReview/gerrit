@@ -14,13 +14,16 @@
 
 package com.google.gerrit.common.data;
 
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -148,10 +151,12 @@ public class LabelType {
     setCopyMinScore(DEF_COPY_MIN_SCORE);
     setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
 
-    byValue = new HashMap<>();
-    for (LabelValue v : values) {
-      byValue.put(v.getValue(), v);
-    }
+    byValue =
+        values
+            .stream()
+            .collect(
+                collectingAndThen(
+                    toMap(LabelValue::getValue, v -> v), Collections::unmodifiableMap));
   }
 
   public String getName() {
@@ -198,7 +203,12 @@ public class LabelType {
   }
 
   public void setRefPatterns(List<String> refPatterns) {
-    this.refPatterns = refPatterns;
+    if (refPatterns != null) {
+      this.refPatterns =
+          refPatterns.stream().collect(collectingAndThen(toList(), Collections::unmodifiableList));
+    } else {
+      this.refPatterns = null;
+    }
   }
 
   public List<LabelValue> getValues() {

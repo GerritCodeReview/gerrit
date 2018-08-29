@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97bffc1e_77cce9e8",
+        "filename": "plugins/commit-message-length-validator",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-29T01:40:17Z",
+      "side": 1,
+      "message": "Unrelated submodule update.",
+      "revId": "f74a5263a5beeda1446bfd6d867a96e9761d7aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

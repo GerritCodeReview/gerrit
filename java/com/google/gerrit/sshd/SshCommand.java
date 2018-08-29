@@ -14,7 +14,6 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -50,11 +49,7 @@ public abstract class SshCommand extends BaseCommand {
   protected abstract void run() throws UnloggedFailure, Failure, Exception;
 
   private TraceContext enableTracing() {
-    if (trace) {
-      RequestId traceId = new RequestId();
-      stderr.println(String.format("%s: %s", RequestId.Type.TRACE_ID, traceId));
-      return TraceContext.open().forceLogging().addTag(RequestId.Type.TRACE_ID, traceId);
-    }
-    return TraceContext.DISABLED;
+    return TraceContext.newTrace(
+        trace, (tagName, traceId) -> stderr.println(String.format("%s: %s", tagName, traceId)));
   }
 }

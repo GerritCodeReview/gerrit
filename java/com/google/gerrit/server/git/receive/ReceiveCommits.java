@@ -579,11 +579,9 @@ class ReceiveCommits {
     try (TraceContext traceContext =
         TraceContext.open()
             .addTag(RequestId.Type.RECEIVE_ID, RequestId.forProject(project.getNameKey()))) {
-      if (tracePushOption.orElse(false)) {
-        RequestId traceId = new RequestId();
-        traceContext.forceLogging().addTag(RequestId.Type.TRACE_ID, traceId);
-        addMessage(RequestId.Type.TRACE_ID.name() + ": " + traceId);
-      }
+      traceContext.startTracing(
+          tracePushOption.orElse(false),
+          (tagName, traceId) -> addMessage(tagName + ": " + traceId));
 
       try {
         if (!projectState.getProject().getState().permitsWrite()) {

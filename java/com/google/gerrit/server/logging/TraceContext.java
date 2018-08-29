@@ -26,12 +26,50 @@ public class TraceContext implements AutoCloseable {
     return new TraceContext();
   }
 
+  public static TraceContext newTrace(boolean trace, TraceIdConsumer traceIdConsumder) {
+    if (!trace) {
+      return DISABLED;
+    }
+
+    return TraceContext.open().startTracing(trace, traceIdConsumder);
+  }
+
+  @FunctionalInterface
+  public interface TraceIdConsumer {
+    void accept(String tagName, RequestId traceId);
+  }
+
   // Table<TAG_NAME, TAG_VALUE, REMOVE_ON_CLOSE>
   private final Table<String, String, Boolean> tags = HashBasedTable.create();
 
   private boolean stopForceLoggingOnClose;
 
   private TraceContext() {}
+
+  /**
+   * Starts request tracing:
+   *
+   * <ul>
+   *   <li>sets a tag with a generated trace ID
+   *   <li>enables force logging
+   * </ul>
+   *
+   * No-op if {@code trace} is {@code false}.
+   *
+   * @param trace whether tracing should be started
+   * @param traceIdConsumder consumer for the trace ID, should be used to return the generated trace
+   *     ID to the client, not invoked if {@code trace} is {@code false}
+   * @return the trace context
+   */
+  public TraceContext startTracing(boolean trace, TraceIdConsumer traceIdConsumder) {
+    if (!trace) {
+      return this;
+    }
+
+    RequestId traceId = new RequestId();
+    traceIdConsumder.accept(RequestId.Type.TRACE_ID.name(), traceId);
+    return addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
+  }
 
   public TraceContext addTag(RequestId.Type requestId, Object tagValue) {
     return addTag(checkNotNull(requestId, "request ID is required").name(), tagValue);

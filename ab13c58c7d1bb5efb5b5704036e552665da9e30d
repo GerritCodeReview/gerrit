@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "360da646_d10b7cdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-29T05:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf52414c_1247e70e",
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88d909e9_ba0ca259",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
         "patchSetId": 5
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "fbdb2e0e_40fcd369",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-29T05:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88d909e9_ba0ca259",
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c12cf14_390a453a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
         "patchSetId": 5
@@ -68,6 +104,24 @@
       "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c93c2c8_f50b860b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-29T05:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c12cf14_390a453a",
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -91,6 +145,30 @@
       "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b3aaddb_df86d47a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-29T05:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9f59251_a61c97d2",
+      "range": {
+        "startLine": 251,
+        "startChar": 18,
+        "endLine": 251,
+        "endChar": 31
+      },
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

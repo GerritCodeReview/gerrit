@@ -974,6 +974,7 @@ class ReceiveCommits {
       // The referenced change must exist and must still be open.
       Change.Id changeId = Change.Id.parse(m.group(1));
       parseReplaceCommand(cmd, changeId);
+      messages.add(new ValidationMessage("warning: pushes to refs/changes are deprecated", false));
     } else {
       reject(cmd, "upload to refs/changes not allowed");
     }

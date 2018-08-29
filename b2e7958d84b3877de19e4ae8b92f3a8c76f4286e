@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bfcfab3_6e6f4e73",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-08-29T17:01:31Z",
+      "side": 1,
+      "message": "Indent these two spaces.",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 54,
+        "endChar": 54
+      },
+      "revId": "b2e7958d84b3877de19e4ae8b92f3a8c76f4286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

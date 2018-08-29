@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -154,6 +155,29 @@ public class TraceContextTest {
     assertForceLogging(false);
   }
 
+  @Test
+  public void newTrace() {
+    TestTraceIdConsumer traceIdConsumer = new TestTraceIdConsumer();
+    try (TraceContext traceContext = TraceContext.newTrace(true, traceIdConsumer)) {
+      assertForceLogging(true);
+      assertThat(LoggingContext.getInstance().getTagsAsMap().keySet())
+          .containsExactly(RequestId.Type.TRACE_ID.name());
+    }
+    assertThat(traceIdConsumer.tagName).isEqualTo(RequestId.Type.TRACE_ID.name());
+    assertThat(traceIdConsumer.traceId).isNotNull();
+  }
+
+  @Test
+  public void newTraceDisabled() {
+    TestTraceIdConsumer traceIdConsumer = new TestTraceIdConsumer();
+    try (TraceContext traceContext = TraceContext.newTrace(false, traceIdConsumer)) {
+      assertForceLogging(false);
+      assertTags(ImmutableMap.of());
+    }
+    assertThat(traceIdConsumer.tagName).isNull();
+    assertThat(traceIdConsumer.traceId).isNull();
+  }
+
   private void assertTags(ImmutableMap<String, ImmutableSet<String>> expectedTagMap) {
     SortedMap<String, SortedSet<Object>> actualTagMap =
         LoggingContext.getInstance().getTags().asMap();
@@ -167,5 +191,16 @@ public class TraceContextTest {
   private void assertForceLogging(boolean expected) {
     assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
         .isEqualTo(expected);
+  }
+
+  private static class TestTraceIdConsumer implements TraceIdConsumer {
+    String tagName;
+    String traceId;
+
+    @Override
+    public void accept(String tagName, String traceId) {
+      this.tagName = tagName;
+      this.traceId = traceId;
+    }
   }
 }

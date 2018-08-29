@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import java.util.Optional;
 
 public class TraceContext implements AutoCloseable {
   public static final TraceContext DISABLED = new TraceContext();
@@ -54,6 +55,10 @@ public class TraceContext implements AutoCloseable {
    *   <li>enables force logging
    * </ul>
    *
+   * <p>A new trace ID is only generated if request tracing was not started yet. If request tracing
+   * was already started the given {@code traceIdConsumer} is invoked with the existing trace ID and
+   * no new logging tag is set.
+   *
    * <p>No-op if {@code trace} is {@code false}.
    *
    * @param trace whether tracing should be started
@@ -66,9 +71,21 @@ public class TraceContext implements AutoCloseable {
       return this;
     }
 
-    RequestId traceId = new RequestId();
-    traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), traceId.toString());
-    return addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
+    Optional<String> traceId =
+        LoggingContext.getInstance()
+            .getTagsAsMap()
+            .get(RequestId.Type.TRACE_ID.name())
+            .stream()
+            .findAny();
+    if (traceId.isPresent()) {
+      // request tracing was already started, no need to generate a new trace ID
+      traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), traceId.get());
+      return this;
+    }
+
+    RequestId newTraceId = new RequestId();
+    traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), newTraceId.toString());
+    return addTag(RequestId.Type.TRACE_ID, newTraceId).forceLogging();
   }
 
   public TraceContext addTag(RequestId.Type requestId, Object tagValue) {

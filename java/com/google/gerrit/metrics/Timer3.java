@@ -16,6 +16,7 @@ package com.google.gerrit.metrics;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +36,8 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
   public static class Context extends TimerContext {
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
     private final Timer3<Object, Object, Object> timer;
     private final Object field1;
     private final Object field2;
@@ -50,8 +53,17 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
 
     @Override
     public void record(long elapsed) {
+      logger.atFinest().log(
+          "%s (%s, %s, %s) took %dms",
+          timer.name, field1, field2, field3, TimeUnit.NANOSECONDS.toMillis(elapsed));
       timer.record(field1, field2, field3, elapsed, NANOSECONDS);
     }
+  }
+
+  protected final String name;
+
+  public Timer3(String name) {
+    this.name = name;
   }
 
   /**

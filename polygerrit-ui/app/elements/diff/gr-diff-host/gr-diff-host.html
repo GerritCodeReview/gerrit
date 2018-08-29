@@ -16,6 +16,9 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
 <link rel="import" href="../gr-diff/gr-diff.html">
 
 <dom-module id="gr-diff-host">
@@ -30,17 +33,23 @@ limitations under the License.
         project-config="[[projectConfig]]"
         project-name="[[projectName]]"
         display-line="[[displayLine]]"
-        is-image-diff="{{isImageDiff}}"
+        is-image-diff="[[isImageDiff]]"
         commit-range="[[commitRange]]"
-        files-weblinks="{{filesWeblinks}}"
         hidden$="[[hidden]]"
         no-render-on-prefs-change="[[noRenderOnPrefsChange]]"
         comments="[[comments]]"
         line-wrapping="[[lineWrapping]]"
         view-mode="[[viewMode]]"
         line-of-interest="[[lineOfInterest]]"
-        show-load-failure="[[showLoadFailure]]"
-        is-blame-loaded="{{isBlameLoaded}}"></gr-diff>
+        logged-in="[[_loggedIn]]"
+        loading="[[_loading]]"
+        error-message="[[_errorMessage]]"
+        base-image="[[_baseImage]]"
+        revision-image=[[_revisionImage]]
+        blame="[[_blame]]"
+        diff="[[_diff]]"></gr-diff>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+    <gr-reporting id="reporting" category="diff"></gr-reporting>
   </template>
   <script src="gr-diff-host.js"></script>
 </dom-module>

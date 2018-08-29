@@ -18,9 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-diff-builder/gr-diff-builder.html">
 <link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
 <link rel="import" href="../gr-diff-highlight/gr-diff-highlight.html">
@@ -272,26 +270,26 @@ limitations under the License.
         <div>[[item]]</div>
       </template>
     </div>
-    <div class$="[[_computeContainerClass(_loggedIn, viewMode, displayLine)]]"
+    <div class$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]"
         on-tap="_handleTap">
-      <gr-diff-selection diff="[[_diff]]">
+      <gr-diff-selection diff="[[diff]]">
         <gr-diff-highlight
             id="highlights"
-            logged-in="[[_loggedIn]]"
+            logged-in="[[loggedIn]]"
             comments="{{comments}}">
           <gr-diff-builder
               id="diffBuilder"
               comments="[[comments]]"
               project-name="[[projectName]]"
-              diff="[[_diff]]"
+              diff="[[diff]]"
               diff-path="[[path]]"
               change-num="[[changeNum]]"
               patch-num="[[patchRange.patchNum]]"
               view-mode="[[viewMode]]"
               line-wrapping="[[lineWrapping]]"
               is-image-diff="[[isImageDiff]]"
-              base-image="[[_baseImage]]"
-              revision-image="[[_revisionImage]]"
+              base-image="[[baseImage]]"
+              revision-image="[[revisionImage]]"
               parent-index="[[_parentIndex]]"
               create-comment-fn="[[_createThreadGroupFn]]"
               line-of-interest="[[lineOfInterest]]">
@@ -303,16 +301,16 @@ limitations under the License.
         </gr-diff-highlight>
       </gr-diff-selection>
     </div>
-    <div class$="[[_computeNewlineWarningClass(_newlineWarning, _loading)]]">
+    <div class$="[[_computeNewlineWarningClass(_newlineWarning, loading)]]">
       [[_newlineWarning]]
     </div>
-    <div id="loadingError" class$="[[_computeErrorClass(_errorMessage)]]">
-      [[_errorMessage]]
+    <div id="loadingError" class$="[[_computeErrorClass(errorMessage)]]">
+      [[errorMessage]]
     </div>
     <div id="sizeWarning" class$="[[_computeWarningClass(_showWarning)]]">
       <p>
         Prevented render because "Whole file" is enabled and this diff is very
-        large (about [[_diffLength(_diff)]] lines).
+        large (about [[_diffLength(diff)]] lines).
       </p>
       <gr-button on-tap="_handleLimitedBypass">
         Render with limited context
@@ -321,8 +319,6 @@ limitations under the License.
         Render anyway (may be slow)
       </gr-button>
     </div>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-reporting id="reporting" category="diff"></gr-reporting>
   </template>
   <script src="gr-diff-line.js"></script>
   <script src="gr-diff-group.js"></script>

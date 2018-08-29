@@ -178,6 +178,24 @@ public class TraceContextTest {
     assertThat(traceIdConsumer.traceId).isNull();
   }
 
+  @Test
+  public void onlyOneTraceId() {
+    TestTraceIdConsumer traceIdConsumer1 = new TestTraceIdConsumer();
+    try (TraceContext traceContext1 = TraceContext.newTrace(true, traceIdConsumer1)) {
+      String expectedTraceId = traceIdConsumer1.traceId;
+      assertThat(expectedTraceId).isNotNull();
+
+      TestTraceIdConsumer traceIdConsumer2 = new TestTraceIdConsumer();
+      try (TraceContext traceContext2 = TraceContext.newTrace(true, traceIdConsumer2)) {
+        assertForceLogging(true);
+        assertTags(
+            ImmutableMap.of(RequestId.Type.TRACE_ID.name(), ImmutableSet.of(expectedTraceId)));
+      }
+      assertThat(traceIdConsumer2.tagName).isEqualTo(RequestId.Type.TRACE_ID.name());
+      assertThat(traceIdConsumer2.traceId).isEqualTo(expectedTraceId);
+    }
+  }
+
   private void assertTags(ImmutableMap<String, ImmutableSet<String>> expectedTagMap) {
     SortedMap<String, SortedSet<Object>> actualTagMap =
         LoggingContext.getInstance().getTags().asMap();

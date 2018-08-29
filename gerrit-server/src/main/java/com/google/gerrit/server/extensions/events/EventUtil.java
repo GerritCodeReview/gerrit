@@ -125,9 +125,10 @@ public class EventUtil {
           error);
     } else {
       log.warn(
-          "Error in event listener {} for event {}: {}",
+          "Error in event listener {} for event {}: {} - {}",
           listener.getClass().getName(),
           event.getClass().getName(),
+          error.getClass().getName(),
           error.getMessage());
     }
   }

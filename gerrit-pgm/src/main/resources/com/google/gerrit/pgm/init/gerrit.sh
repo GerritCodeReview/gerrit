@@ -440,8 +440,8 @@ case "$ACTION" in
             fi
         fi
     elif [ "$(uname -s)"=="Linux" ] && test -d "/proc/${PID}"; then
-        echo "WARNING: Could not adjust Gerrit's process for the kernel's out-of-memory killer,"
-        echo "         one of the possible causes are ${0} not run as root."
+        echo "WARNING: Could not adjust Gerrit's process for the kernel's out-of-memory killer."
+        echo "         This may be caused by ${0} not being run as root."
         echo "         Consider changing the OOM score adjustment manually for Gerrit's PID=${PID} with e.g.:"
         echo "         echo '-1000' | sudo tee /proc/${PID}/oom_score_adj"
     fi

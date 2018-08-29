@@ -23,6 +23,30 @@
       "revId": "a78d631787b90752335d30d7d5b60a5feb098835",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce565ac6_63232c25",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-29T07:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5aed78e_bd53d5bf",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 39
+      },
+      "revId": "a78d631787b90752335d30d7d5b60a5feb098835",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

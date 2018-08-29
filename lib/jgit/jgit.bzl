@@ -18,8 +18,22 @@ def jgit_repos():
             name = "jgit",
             path = LOCAL_JGIT_REPO,
         )
+        jgit_maven_repos_dev()
     else:
         jgit_maven_repos()
+
+def jgit_maven_repos_dev():
+    # Transitive dependencies from JGit's WORKSPACE.
+    maven_jar(
+        name = "hamcrest-library",
+        artifact = "org.hamcrest:hamcrest-library:1.3",
+        sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
+    )
+    maven_jar(
+        name = "jzlib",
+        artifact = "com.jcraft:jzlib:1.1.1",
+        sha1 = "a1551373315ffc2f96130a0e5704f74e151777ba",
+    )
 
 def jgit_maven_repos():
     maven_jar(

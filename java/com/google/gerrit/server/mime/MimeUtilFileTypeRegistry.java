@@ -114,7 +114,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
       return MimeUtil2.UNKNOWN_MIME_TYPE;
     }
 
-    return Collections.min(mimeTypes, comparing(this::getCorrectedMimeSpecificity).reversed());
+    return Collections.max(mimeTypes, comparing(this::getCorrectedMimeSpecificity));
   }
 
   @Override

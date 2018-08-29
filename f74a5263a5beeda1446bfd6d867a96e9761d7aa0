@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4f2bcb6_e997dc7c",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-29T04:09:09Z",
+      "side": 0,
+      "message": "The reason this was added is so that it\u0027s clear which commit is referred to.  Does that still get added somewhere else?",
+      "range": {
+        "startLine": 831,
+        "startChar": 14,
+        "endLine": 831,
+        "endChar": 66
+      },
+      "revId": "f74a5263a5beeda1446bfd6d867a96e9761d7aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

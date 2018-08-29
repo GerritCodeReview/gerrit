@@ -1319,9 +1319,10 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private TraceContext enableTracing(HttpServletRequest req, HttpServletResponse res) {
-    String v = req.getParameter(ParameterParser.TRACE_PARAMETER);
+    String traceValue = req.getParameter(ParameterParser.TRACE_PARAMETER);
     return TraceContext.newTrace(
-        v != null && (v.isEmpty() || Boolean.parseBoolean(v)),
+        traceValue != null,
+        traceValue,
         (tagName, traceId) -> res.setHeader(X_GERRIT_TRACE, traceId.toString()));
   }
 

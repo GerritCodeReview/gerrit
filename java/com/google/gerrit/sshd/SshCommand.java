@@ -24,6 +24,9 @@ public abstract class SshCommand extends BaseCommand {
   @Option(name = "--trace", usage = "enable request tracing")
   private boolean trace;
 
+  @Option(name = "--traceId", usage = "trace ID")
+  private String traceId;
+
   protected PrintWriter stdout;
   protected PrintWriter stderr;
 
@@ -48,8 +51,13 @@ public abstract class SshCommand extends BaseCommand {
 
   protected abstract void run() throws UnloggedFailure, Failure, Exception;
 
-  private TraceContext enableTracing() {
+  private TraceContext enableTracing() throws UnloggedFailure {
+    if (!trace && traceId != null) {
+      throw die("A trace ID can only be set if --trace was specified.");
+    }
     return TraceContext.newTrace(
-        trace, (tagName, traceId) -> stderr.println(String.format("%s: %s", tagName, traceId)));
+        trace,
+        traceId,
+        (tagName, traceId) -> stderr.println(String.format("%s: %s", tagName, traceId)));
   }
 }

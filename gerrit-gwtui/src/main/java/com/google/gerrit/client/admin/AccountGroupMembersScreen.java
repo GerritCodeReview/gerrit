@@ -31,7 +31,6 @@ import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -308,10 +307,6 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       }
     }
 
-    private String nullToEmpty(String str) {
-      return str == null ? "" : str;
-    }
-
     void populate(int row, AccountInfo i) {
       CheckBox checkBox = new CheckBox();
       table.setWidget(row, 1, checkBox);
@@ -394,20 +389,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
 
     void insert(GroupInfo info) {
       Comparator<GroupInfo> c =
-          new Comparator<GroupInfo>() {
-            @Override
-            public int compare(GroupInfo a, GroupInfo b) {
-              int cmp = nullToEmpty(a.name()).compareTo(nullToEmpty(b.name()));
-              if (cmp != 0) {
-                return cmp;
-              }
-              return a.getGroupUUID().compareTo(b.getGroupUUID());
-            }
-
-            private String nullToEmpty(@Nullable String str) {
-              return (str == null) ? "" : str;
-            }
-          };
+          comparing((GroupInfo g) -> nullToEmpty(g.name())).thenComparing(GroupInfo::getGroupUUID);
       int insertPos = getInsertRow(c, info);
       if (insertPos >= 0) {
         table.insertRow(insertPos);
@@ -445,5 +427,10 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
 
       setRowItem(row, i);
     }
+  }
+
+  // Like Guava's Strings#nullToEmpty, which can't be used in GWT UI code.
+  private static String nullToEmpty(String str) {
+    return str == null ? "" : str;
   }
 }

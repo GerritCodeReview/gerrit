@@ -16,6 +16,24 @@
       "revId": "b1a7967be288e545581ae4502447b3eb845b1d06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b074c59b_af8f0259",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-08-29T18:50:03Z",
+      "side": 1,
+      "message": "I could put it into _compute... but I thought that was meant to only be called by Polymer through computed properties. I need this logic also in _loadDiffAssets (line 393) to check a diff that has not yet been set to this._diff (because that would trigger re-rendering, which we only want to do after having loaded the assets).\n\nI am submitting this as is for now - you can still respond on the comment if you\u0027d prefer me to call _compute... instead and I will clean it up. I just thought such a method might be useful separately anyways in other parts of the app.",
+      "parentUuid": "676d9a92_9753fcb4",
+      "revId": "b1a7967be288e545581ae4502447b3eb845b1d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

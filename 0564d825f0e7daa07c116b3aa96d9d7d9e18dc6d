@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75b6267d_26677c39",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-29T04:07:48Z",
+      "side": 1,
+      "message": "This is no longer used.",
+      "range": {
+        "startLine": 824,
+        "startChar": 6,
+        "endLine": 824,
+        "endChar": 18
+      },
+      "revId": "0564d825f0e7daa07c116b3aa96d9d7d9e18dc6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

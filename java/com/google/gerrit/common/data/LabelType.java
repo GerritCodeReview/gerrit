@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -23,7 +24,6 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -73,22 +73,13 @@ public class LabelType {
 
   private static List<LabelValue> sortValues(List<LabelValue> values) {
     values = new ArrayList<>(values);
-    if (values.size() <= 1) {
-      return Collections.unmodifiableList(values);
+    if (values.isEmpty()) {
+      return Collections.emptyList();
     }
-    Collections.sort(
-        values,
-        new Comparator<LabelValue>() {
-          @Override
-          public int compare(LabelValue o1, LabelValue o2) {
-            return o1.getValue() - o2.getValue();
-          }
-        });
-    short min = values.get(0).getValue();
-    short max = values.get(values.size() - 1).getValue();
-    short v = min;
+    values = values.stream().sorted(comparing(LabelValue::getValue)).collect(toList());
+    short v = values.get(0).getValue();
     short i = 0;
-    List<LabelValue> result = new ArrayList<>(max - min + 1);
+    ArrayList<LabelValue> result = new ArrayList<>();
     // Fill in any missing values with empty text.
     while (i < values.size()) {
       while (v < values.get(i).getValue()) {
@@ -97,6 +88,7 @@ public class LabelType {
       v++;
       result.add(values.get(i++));
     }
+    result.trimToSize();
     return Collections.unmodifiableList(result);
   }
 

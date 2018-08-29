@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.diff;
 
+import static java.util.Comparator.comparing;
+
 import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentApi;
@@ -28,7 +30,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.Collections;
-import java.util.Comparator;
 
 /** Collection of published and draft comments loaded from the server. */
 class CommentsCollections {
@@ -158,14 +159,7 @@ class CommentsCollections {
       for (CommentInfo c : Natives.asList(in)) {
         c.path(path);
       }
-      Collections.sort(
-          Natives.asList(in),
-          new Comparator<CommentInfo>() {
-            @Override
-            public int compare(CommentInfo a, CommentInfo b) {
-              return a.updated().compareTo(b.updated());
-            }
-          });
+      Collections.sort(Natives.asList(in), comparing(CommentInfo::updated));
     }
     return in;
   }

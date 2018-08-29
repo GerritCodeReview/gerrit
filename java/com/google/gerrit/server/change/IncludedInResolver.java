@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static java.util.Comparator.comparing;
+
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -22,7 +24,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -151,15 +152,7 @@ public class IncludedInResolver {
    */
   private void partition(List<RevCommit> before, List<RevCommit> after) {
     int insertionPoint =
-        Collections.binarySearch(
-            tipsByCommitTime,
-            target,
-            new Comparator<RevCommit>() {
-              @Override
-              public int compare(RevCommit c1, RevCommit c2) {
-                return c1.getCommitTime() - c2.getCommitTime();
-              }
-            });
+        Collections.binarySearch(tipsByCommitTime, target, comparing(RevCommit::getCommitTime));
     if (insertionPoint < 0) {
       insertionPoint = -(insertionPoint + 1);
     }
@@ -215,16 +208,7 @@ public class IncludedInResolver {
     sortOlderFirst(tipsByCommitTime);
   }
 
-  private void sortOlderFirst(List<RevCommit> tips) {
-    Collections.sort(
-        tips,
-        new Comparator<RevCommit>() {
-          @Override
-          public int compare(RevCommit c1, RevCommit c2) {
-            return c1.getCommitTime() - c2.getCommitTime();
-          }
-        });
-  }
+  private void sortOlderFirst(List<RevCommit> tips) {}
 
   public static class Result {
     private List<String> branches;

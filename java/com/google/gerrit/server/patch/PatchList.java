@@ -47,12 +47,7 @@ public class PatchList implements Serializable {
   private static final long serialVersionUID = PatchListKey.serialVersionUID;
 
   private static final Comparator<PatchListEntry> PATCH_CMP =
-      new Comparator<PatchListEntry>() {
-        @Override
-        public int compare(PatchListEntry a, PatchListEntry b) {
-          return comparePaths(a.getNewName(), b.getNewName());
-        }
-      };
+      Comparator.comparing(PatchListEntry::getNewName, PatchList::comparePaths);
 
   @VisibleForTesting
   static int comparePaths(String a, String b) {

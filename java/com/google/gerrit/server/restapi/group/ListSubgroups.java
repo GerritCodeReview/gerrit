@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.group;
 
 import static com.google.common.base.Strings.nullToEmpty;
+import static java.util.Comparator.comparing;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupDescription;
@@ -30,7 +31,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Singleton
@@ -74,16 +74,7 @@ public class ListSubgroups implements RestReadView<GroupResource> {
     }
     Collections.sort(
         included,
-        new Comparator<GroupInfo>() {
-          @Override
-          public int compare(GroupInfo a, GroupInfo b) {
-            int cmp = nullToEmpty(a.name).compareTo(nullToEmpty(b.name));
-            if (cmp != 0) {
-              return cmp;
-            }
-            return nullToEmpty(a.id).compareTo(nullToEmpty(b.id));
-          }
-        });
+        comparing((GroupInfo g) -> nullToEmpty(g.name)).thenComparing(g -> nullToEmpty(g.id)));
     return included;
   }
 }

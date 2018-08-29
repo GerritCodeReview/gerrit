@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import static java.util.Comparator.comparing;
+
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupList;
@@ -33,7 +35,6 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class GroupTable extends NavigationTable<GroupInfo> {
@@ -105,14 +106,7 @@ public class GroupTable extends NavigationTable<GroupInfo> {
       table.removeRow(table.getRowCount() - 1);
     }
 
-    Collections.sort(
-        list,
-        new Comparator<GroupInfo>() {
-          @Override
-          public int compare(GroupInfo a, GroupInfo b) {
-            return a.name().compareTo(b.name());
-          }
-        });
+    Collections.sort(list, comparing(GroupInfo::name));
     for (GroupInfo group : list.subList(fromIndex, toIndex)) {
       final int row = table.getRowCount();
       table.insertRow(row);

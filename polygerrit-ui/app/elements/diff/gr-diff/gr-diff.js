@@ -262,7 +262,14 @@
             }
             this.filesWeblinks = this._getFilesWeblinks(diff);
             this._diff = diff;
-            return this._renderDiffTable();
+            return new Promise(resolve => {
+              const callback = () => {
+                resolve();
+                this.removeEventListener('render', callback);
+              };
+              this.addEventListener('render', callback);
+              this._renderDiffTable();
+            });
           })
           .catch(err => {
             console.warn('Error encountered loading diff:', err);
@@ -715,16 +722,20 @@
     },
 
     _renderDiffTable() {
-      if (!this.prefs) { return Promise.resolve(); }
+      if (!this.prefs) {
+        this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
+        return;
+      }
       if (this.prefs.context === -1 &&
           this._diffLength(this._diff) >= LARGE_DIFF_THRESHOLD_LINES &&
           this._safetyBypass === null) {
         this._showWarning = true;
-        return Promise.resolve();
+        this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
+        return;
       }
 
       this._showWarning = false;
-      return this.$.diffBuilder.render(this.comments, this._getBypassPrefs());
+      this.$.diffBuilder.render(this.comments, this._getBypassPrefs());
     },
 
     /**

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "676d9a92_9753fcb4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-08-29T18:14:02Z",
+      "side": 1,
+      "message": "Why separate this method like this rather than putting this implementation in `_computeIsImageDiff`?",
+      "revId": "b1a7967be288e545581ae4502447b3eb845b1d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

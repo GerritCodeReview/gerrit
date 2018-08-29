@@ -81,6 +81,7 @@ public class AllProjectsCreator {
   @Nullable private GroupReference batch;
   private String message;
   private int firstChangeId = ReviewDb.FIRST_CHANGE_ID;
+  private LabelType codeReviewLabel;
   private List<LabelType> additionalLabelType;
 
   @Inject
@@ -98,6 +99,7 @@ public class AllProjectsCreator {
     this.anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS);
     this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
     this.owners = systemGroupBackend.getGroup(PROJECT_OWNERS);
+    this.codeReviewLabel = getDefaultCodeReviewLabel();
     this.additionalLabelType = new ArrayList<>();
   }
 
@@ -122,6 +124,15 @@ public class AllProjectsCreator {
   public AllProjectsCreator setFirstChangeIdForNoteDb(int id) {
     checkArgument(id > 0, "id must be positive: %s", id);
     firstChangeId = id;
+    return this;
+  }
+
+  /** If called, the provided "Code-Review" label will be used rather than the default. */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public AllProjectsCreator setCodeReviewLabel(LabelType labelType) {
+    checkArgument(
+        labelType.getName().equals("Code-Review"), "label should have 'Code-Review' as its name");
+    this.codeReviewLabel = labelType;
     return this;
   }
 
@@ -190,8 +201,7 @@ public class AllProjectsCreator {
         stream.add(rule(config, batch));
       }
 
-      LabelType codeReviewLabel = initCodeReviewLabel(config);
-      initAdditionalLabels(config);
+      initLabels(config);
       grant(config, heads, codeReviewLabel, -1, 1, registered);
 
       grant(config, heads, codeReviewLabel, -2, 2, admin, owners);
@@ -222,14 +232,7 @@ public class AllProjectsCreator {
     }
   }
 
-  public static LabelType initCodeReviewLabel(ProjectConfig c) {
-    LabelType type = getDefaultCodeReviewLabel();
-    c.getLabelSections().put(type.getName(), type);
-    return type;
-  }
-
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public static LabelType getDefaultCodeReviewLabel() {
+  static LabelType getDefaultCodeReviewLabel() {
     LabelType type =
         new LabelType(
             "Code-Review",
@@ -244,10 +247,8 @@ public class AllProjectsCreator {
     return type;
   }
 
-  private void initAdditionalLabels(ProjectConfig projectConfig) {
-    if (additionalLabelType.isEmpty()) {
-      return;
-    }
+  private void initLabels(ProjectConfig projectConfig) {
+    projectConfig.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel);
     additionalLabelType.forEach(t -> projectConfig.getLabelSections().put(t.getName(), t));
   }
 

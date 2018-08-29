@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "d94af3f8_58dc06f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-29T11:25:31Z",
+      "side": 1,
+      "message": "May be make it shorter:\n\n  Update JGit\u0027s dependencies to fix building from source",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 72
+      },
+      "revId": "75fc9ce0d120f54682d07e3fc69656ffdc55d205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6799f0c9_6c8f7aa6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-29T11:25:31Z",
+      "side": 1,
+      "message": "Just re-phrase the problem outlined in this thread instead of referencing it?",
+      "revId": "75fc9ce0d120f54682d07e3fc69656ffdc55d205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f874bc9c_521944e8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -13,6 +53,24 @@
       "writtenOn": "2018-08-29T11:16:21Z",
       "side": 1,
       "message": "Perhaps I could the fact that jzlib is a new dependency since https://git.eclipse.org/r/#/c/114907/",
+      "revId": "75fc9ce0d120f54682d07e3fc69656ffdc55d205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "453cba97_14cd6619",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-29T11:25:31Z",
+      "side": 1,
+      "message": "+1.",
+      "parentUuid": "f874bc9c_521944e8",
       "revId": "75fc9ce0d120f54682d07e3fc69656ffdc55d205",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -36,6 +94,23 @@
         "endLine": 67,
         "endChar": 38
       },
+      "revId": "75fc9ce0d120f54682d07e3fc69656ffdc55d205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "718b1f17_d21343d2",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-29T11:25:31Z",
+      "side": 1,
+      "message": "Add a TODO(user): Remove when JGit\u0027s external repository rules are harmonized as well.",
       "revId": "75fc9ce0d120f54682d07e3fc69656ffdc55d205",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

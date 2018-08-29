@@ -393,11 +393,10 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   class TimerImpl extends Timer0 {
-    private final String name;
     final com.codahale.metrics.Timer metric;
 
     private TimerImpl(String name, com.codahale.metrics.Timer metric) {
-      this.name = name;
+      super(name);
       this.metric = metric;
     }
 

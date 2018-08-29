@@ -14,16 +14,18 @@
 
 package com.google.gerrit.common.data;
 
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class LabelType {
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
@@ -70,22 +72,13 @@ public class LabelType {
 
   private static List<LabelValue> sortValues(List<LabelValue> values) {
     values = new ArrayList<>(values);
-    if (values.size() <= 1) {
-      return Collections.unmodifiableList(values);
+    if (values.isEmpty()) {
+      return Collections.emptyList();
     }
-    Collections.sort(
-        values,
-        new Comparator<LabelValue>() {
-          @Override
-          public int compare(LabelValue o1, LabelValue o2) {
-            return o1.getValue() - o2.getValue();
-          }
-        });
-    short min = values.get(0).getValue();
-    short max = values.get(values.size() - 1).getValue();
-    short v = min;
+    values = values.stream().sorted(comparing(LabelValue::getValue)).collect(toList());
+    short v = values.get(0).getValue();
     short i = 0;
-    List<LabelValue> result = new ArrayList<>(max - min + 1);
+    ArrayList<LabelValue> result = new ArrayList<>();
     // Fill in any missing values with empty text.
     while (i < values.size()) {
       while (v < values.get(i).getValue()) {
@@ -94,6 +87,7 @@ public class LabelType {
       v++;
       result.add(values.get(i++));
     }
+    result.trimToSize();
     return Collections.unmodifiableList(result);
   }
 
@@ -117,7 +111,6 @@ public class LabelType {
 
   private transient boolean canOverride;
   private transient List<String> refPatterns;
-  private transient List<Integer> intList;
   private transient Map<Short, LabelValue> byValue;
 
   protected LabelType() {}
@@ -148,6 +141,13 @@ public class LabelType {
     setCopyMaxScore(DEF_COPY_MAX_SCORE);
     setCopyMinScore(DEF_COPY_MIN_SCORE);
     setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
+
+    byValue =
+        values
+            .stream()
+            .collect(
+                collectingAndThen(
+                    toMap(LabelValue::getValue, v -> v), Collections::unmodifiableMap));
   }
 
   public String getName() {
@@ -162,11 +162,8 @@ public class LabelType {
     if (functionName == null) {
       return null;
     }
-    Optional<LabelFunction> f = LabelFunction.parse(functionName);
-    if (!f.isPresent()) {
-      throw new IllegalStateException("Unsupported functionName: " + functionName);
-    }
-    return f.get();
+    return LabelFunction.parse(functionName)
+        .orElseThrow(() -> new IllegalStateException("Unsupported functionName: " + functionName));
   }
 
   public void setFunction(@Nullable LabelFunction function) {
@@ -194,7 +191,12 @@ public class LabelType {
   }
 
   public void setRefPatterns(List<String> refPatterns) {
-    this.refPatterns = refPatterns;
+    if (refPatterns != null) {
+      this.refPatterns =
+          refPatterns.stream().collect(collectingAndThen(toList(), Collections::unmodifiableList));
+    } else {
+      this.refPatterns = null;
+    }
   }
 
   public List<LabelValue> getValues() {
@@ -281,34 +283,11 @@ public class LabelType {
   }
 
   public LabelValue getValue(short value) {
-    initByValue();
     return byValue.get(value);
   }
 
   public LabelValue getValue(PatchSetApproval ca) {
-    initByValue();
     return byValue.get(ca.getValue());
-  }
-
-  private void initByValue() {
-    if (byValue == null) {
-      byValue = new HashMap<>();
-      for (LabelValue v : values) {
-        byValue.put(v.getValue(), v);
-      }
-    }
-  }
-
-  public List<Integer> getValuesAsList() {
-    if (intList == null) {
-      intList = new ArrayList<>(values.size());
-      for (LabelValue v : values) {
-        intList.add(Integer.valueOf(v.getValue()));
-      }
-      Collections.sort(intList);
-      Collections.reverse(intList);
-    }
-    return intList;
   }
 
   public LabelId getLabelId() {

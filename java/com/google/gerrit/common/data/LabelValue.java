@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common.data;
 
+import java.util.Objects;
+
 public class LabelValue {
   public static String formatValue(short value) {
     if (value < 0) {
@@ -53,6 +55,20 @@ public class LabelValue {
       sb.append(' ').append(text);
     }
     return sb.toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof LabelValue)) {
+      return false;
+    }
+    LabelValue v = (LabelValue) o;
+    return value == v.value && Objects.equals(text, v.text);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(value, text);
   }
 
   @Override

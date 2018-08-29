@@ -15,8 +15,8 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
@@ -36,6 +36,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -108,15 +109,22 @@ public class SchemaCreatorTest {
     assertThat(codeReview.getDefaultValue()).isEqualTo(0);
     assertThat(codeReview.getFunction()).isEqualTo(LabelFunction.MAX_WITH_BLOCK);
     assertThat(codeReview.isCopyMinScore()).isTrue();
-    assertValueRange(codeReview, 2, 1, 0, -1, -2);
+    assertValueRange(codeReview, -2, -1, 0, 1, 2);
   }
 
   private void assertValueRange(LabelType label, Integer... range) {
-    assertThat(label.getValuesAsList()).containsExactlyElementsIn(Arrays.asList(range)).inOrder();
-    assertThat(label.getMax().getValue()).isEqualTo(range[0]);
-    assertThat(label.getMin().getValue()).isEqualTo(range[range.length - 1]);
+    List<Integer> rangeList = Arrays.asList(range);
+    assertThat(rangeList).isNotEmpty();
+    assertThat(rangeList).isStrictlyOrdered();
+
+    assertThat(label.getValues().stream().map(v -> (int) v.getValue()))
+        .containsExactly(range)
+        .inOrder();
+    assertThat(label.getMax().getValue()).isEqualTo(Collections.max(rangeList));
+    assertThat(label.getMin().getValue()).isEqualTo(Collections.min(rangeList));
     for (LabelValue v : label.getValues()) {
-      assertThat(Strings.isNullOrEmpty(v.getText())).isFalse();
+      assertThat(v.getText()).isNotNull();
+      assertThat(v.getText()).isNotEmpty();
     }
   }
 }

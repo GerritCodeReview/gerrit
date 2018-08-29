@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2efc0f1d_be1ec959",
+        "filename": "java/com/google/gerrit/util/cli/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-29T18:48:05Z",
+      "side": 1,
+      "message": "Is there a reason this is the maven_jar target and not the wrapper in //lib/flogger:api?",
+      "revId": "ac4b68caf11f4ca8b30152427cd8fe22b8e59e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

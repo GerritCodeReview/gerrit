@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1535545550 +0200\nnonce ACQ0Hpw5fogOuVceiq4xs//D4vX7aaQCEOoMrsEqWZVIv3l45pZB8JxE2IRFK6ZZVcM63F1jWL2C\n\n0000000000000000000000000000000000000000 62e71ebdce6cc14c3d0cadc398d1a5454593cf91 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluGkM4ACgkQUbX9l6DQ\n71HNYAgAkRF8UwZQRBk1SAuJe7RhqbkpZcOidlX1r31bR4rvc6UoN5b4v4SYegWu\nm+bJSSowQpvaNdr+YI1X/720L/00LUvnkPJekn9eDEqmy8H02qHuWgzYkNiFe5P7\nYSpFiUovxUwpxM5OG7NYqQGcU9858EFa+E296O4YmZ0sWXRkn9fELt350gW/ntKb\nSSRI+2XEGhpYJwmlKqXLeWqL46ZagfCxmM3pnLOIiHDczSANAuCZdnuwiYoshiJM\nfn/dSA0jYZ0z0A4k+0KUQeAkIY+GUhPoZrzAIkZguspKPX+ZPwsqK3LSrvAj3IJb\nzUwfIIYQ32B3Df0rUDgK7woRLs1q7w\u003d\u003d\n\u003dflAJ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b08f6942_46adc6ac",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-29T21:39:10Z",
+      "side": 1,
+      "message": "I think I don\u0027t fully understand the difference between static TraceContext#newTrace and non-static TraceContext#startTracing. Why can\u0027t this one be newTrace? Is it because this uses RECEIVE_ID instead of TRACE_ID? Is there a way to make an overload of newTrace that could be used by this caller?",
+      "range": {
+        "startLine": 578,
+        "startChar": 23,
+        "endLine": 584,
+        "endChar": 70
+      },
+      "revId": "0899396022da0a538c023f335dc1551cf8678256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

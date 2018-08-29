@@ -117,7 +117,6 @@ public class LabelType {
 
   private transient boolean canOverride;
   private transient List<String> refPatterns;
-  private transient List<Integer> intList;
   private transient Map<Short, LabelValue> byValue;
 
   protected LabelType() {}
@@ -297,18 +296,6 @@ public class LabelType {
         byValue.put(v.getValue(), v);
       }
     }
-  }
-
-  public List<Integer> getValuesAsList() {
-    if (intList == null) {
-      intList = new ArrayList<>(values.size());
-      for (LabelValue v : values) {
-        intList.add(Integer.valueOf(v.getValue()));
-      }
-      Collections.sort(intList);
-      Collections.reverse(intList);
-    }
-    return intList;
   }
 
   public LabelId getLabelId() {

@@ -44,3 +44,18 @@ request have a `TRACE_ID` tag set, e.g.:
 
 By doing a grep with the trace ID over the error log the log entries
 that correspond to the request can be found.
+
+== Which information is captured in a trace?
+
+* request details
+** REST API: request URL, request parameter names, calling user,
+   response code, response body on errors
+** SSH API: parameter names
+** Git API: push options, magic branch parameter names
+* cache misses, cache evictions
+* reads from NoteDb, writes to NoteDb
+* reads of meta data files, writes of meta data files
+* Index queries (with parameters and matches)
+* reindex events
+* permission checks (e.g. which rule is responsible for a deny)
+* all other logs

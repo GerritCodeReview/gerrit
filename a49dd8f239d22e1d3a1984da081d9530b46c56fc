@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "757cd1f2_d2a98e9f",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-08-29T09:16:18Z",
+      "side": 1,
+      "message": "Also here?",
+      "range": {
+        "startLine": 1246,
+        "startChar": 10,
+        "endLine": 1246,
+        "endChar": 54
+      },
+      "revId": "a49dd8f239d22e1d3a1984da081d9530b46c56fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

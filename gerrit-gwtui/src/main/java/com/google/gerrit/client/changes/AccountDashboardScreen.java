@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.changes;
 
+import static java.util.Comparator.comparing;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotFoundScreen;
 import com.google.gerrit.client.info.ChangeInfo;
@@ -187,16 +189,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   }
 
   private Comparator<ChangeInfo> outComparator() {
-    return new Comparator<ChangeInfo>() {
-      @Override
-      public int compare(ChangeInfo a, ChangeInfo b) {
-        int cmp = a.created().compareTo(b.created());
-        if (cmp != 0) {
-          return cmp;
-        }
-        return a._number() - b._number();
-      }
-    };
+    return comparing(ChangeInfo::created).thenComparing(ChangeInfo::_number);
   }
 
   private boolean hasChanges(JsArray<ChangeList> result) {

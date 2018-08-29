@@ -14,6 +14,9 @@
 
 package com.google.gwtexpui.globalkey.client;
 
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -31,10 +34,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -228,15 +228,6 @@ public class KeyHelpPopup extends PopupPanel implements KeyPressHandler, KeyDown
   }
 
   private List<KeyCommand> sort(KeyCommandSet set) {
-    final List<KeyCommand> keys = new ArrayList<>(set.getKeys());
-    Collections.sort(
-        keys,
-        new Comparator<KeyCommand>() {
-          @Override
-          public int compare(KeyCommand arg0, KeyCommand arg1) {
-            return arg0.getHelpText().compareTo(arg1.getHelpText());
-          }
-        });
-    return keys;
+    return set.getKeys().stream().sorted(comparing(KeyCommand::getHelpText)).collect(toList());
   }
 }

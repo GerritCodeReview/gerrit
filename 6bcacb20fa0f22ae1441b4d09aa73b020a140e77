@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3703def_e4eb606c",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-29T21:35:16Z",
+      "side": 1,
+      "message": "Thanks, I like the phrasing \"Changes with Pending Edits\".",
+      "revId": "6bcacb20fa0f22ae1441b4d09aa73b020a140e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

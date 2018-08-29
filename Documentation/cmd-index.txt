@@ -18,12 +18,14 @@ To download a client command or hook, use scp or an http client:
 For more details on how to determine the correct SSH port number,
 see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 
-=== [[client_commands]]Commands
+[[client_commands]]
+=== Commands
 
 link:cmd-cherry-pick.html[gerrit-cherry-pick]::
 	Download and cherry-pick one or more changes (commits).
 
-=== [[client_hooks]]Hooks
+[[client_hooks]]
+=== Hooks
 
 Client hooks can be installed into a local Git repository, improving
 the developer experience when working with a Gerrit Code Review
@@ -47,7 +49,8 @@ from an ssh client, for example:
 For more details on how to determine the correct SSH port number,
 see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 
-=== [[user_commands]]User Commands
+[[user_commands]]
+=== User Commands
 
 link:cmd-apropos.html[gerrit apropos]::
 	Search Gerrit documentation index.
@@ -103,8 +106,8 @@ review.  See link:user-upload.html#push_create[Creating Changes].
 git upload-pack::
 	Standard Git server side command for client side `git fetch`.
 
-[[admin_commands]]Administrator Commands
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[admin_commands]]
+=== Administrator Commands
 
 link:cmd-close-connection.html[gerrit close-connection]::
 	Close the specified SSH connection.

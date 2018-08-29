@@ -7,14 +7,28 @@ load(
     "js_component",
 )
 
-def polygerrit_bundle(name, srcs, outs, app):
+# TODO(davido): Clean up these issues: http://paste.openstack.org/show/608548
+# and remove this supression
+DEFAULT_SUPPRESS = [
+    "JSC_JSDOC_MISSING_TYPE_WARNING",
+    "JSC_UNNECESSARY_ESCAPE",
+    "JSC_UNUSED_LOCAL_ASSIGNMENT",
+]
+
+# Known issue: Closure compilation not compatible with Polymer behaviors.
+# See: https://github.com/google/closure-compiler/issues/2042
+def polygerrit_bundle(
+        name,
+        srcs,
+        outs,
+        app,
+        compilation_level = "WHITESPACE_ONLY",
+        suppress = DEFAULT_SUPPRESS):
     appName = app.split(".html")[0].split("/").pop()  # eg: gr-app
 
     closure_js_binary(
         name = name + "_closure_bin",
-        # Known issue: Closure compilation not compatible with Polymer behaviors.
-        # See: https://github.com/google/closure-compiler/issues/2042
-        compilation_level = "WHITESPACE_ONLY",
+        compilation_level = compilation_level,
         defs = [
             "--polymer_version=1",
             "--jscomp_off=duplicate",
@@ -28,13 +42,7 @@ def polygerrit_bundle(name, srcs, outs, app):
         name = name + "_closure_lib",
         srcs = [appName + ".js"],
         convention = "GOOGLE",
-        # TODO(davido): Clean up these issues: http://paste.openstack.org/show/608548
-        # and remove this supression
-        suppress = [
-            "JSC_JSDOC_MISSING_TYPE_WARNING",
-            "JSC_UNNECESSARY_ESCAPE",
-            "JSC_UNUSED_LOCAL_ASSIGNMENT",
-        ],
+        suppress = DEFAULT_SUPPRESS,
         deps = [
             "//lib/polymer_externs:polymer_closure",
             "@io_bazel_rules_closure//closure/library",

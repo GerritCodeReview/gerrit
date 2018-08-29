@@ -23,6 +23,24 @@ polygerrit_bundle(
     app = "elements/gr-app.html",
 )
 
+polygerrit_bundle(
+    name = "gr-diff_bundle",
+    srcs = glob(
+        [
+            "**/*.html",
+            "**/*.js",
+        ],
+        exclude = [
+            "bower_components/**",
+            "test/**",
+            "**/*_test.html",
+        ],
+    ),
+    outs = ["gr-diff.zip"],
+    app = "elements/diff/gr-diff/gr-diff.html",
+    compilation_level = "SIMPLE",
+)
+
 bower_component_bundle(
     name = "test_components",
     testonly = 1,

@@ -26,6 +26,11 @@ request type:
   link:user-upload.html[upload documentation]. Tracing for Git requests
   other than Git push is not supported.
 
+Since tracing consumes additional server resources tracing should only
+be enabled for single requests if there is a concrete need for
+debugging. In particular bots should never enable tracing for all their
+requests by default.
+
 == Find log entries for a trace ID
 
 If tracing is enabled all log messages that correspond to the traced

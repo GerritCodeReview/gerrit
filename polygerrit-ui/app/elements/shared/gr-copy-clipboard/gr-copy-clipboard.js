@@ -24,17 +24,12 @@
 
     properties: {
       text: String,
-      title: String,
       buttonTitle: String,
       hasTooltip: {
         type: Boolean,
         value: false,
       },
       hideInput: {
-        type: Boolean,
-        value: false,
-      },
-      hideLabel: {
         type: Boolean,
         value: false,
       },
@@ -46,10 +41,6 @@
 
     _computeInputClass(hideInput) {
       return hideInput ? 'hideInput' : '';
-    },
-
-    _computeLabelClass(hideLabel) {
-      return hideLabel ? 'hideLabel' : '';
     },
 
     _handleInputTap(e) {

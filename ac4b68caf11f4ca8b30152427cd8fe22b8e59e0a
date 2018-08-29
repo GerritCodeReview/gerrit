@@ -16,6 +16,24 @@
       "revId": "ac4b68caf11f4ca8b30152427cd8fe22b8e59e0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb088517_f6b3541f",
+        "filename": "java/com/google/gerrit/util/cli/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-29T19:38:04Z",
+      "side": 1,
+      "message": "This wasn\u0027t intended. It happened because I used the suggested command to add this dependency when the bazel build failed...\n\nFixed by: https://gerrit-review.googlesource.com/c/gerrit/+/194452",
+      "parentUuid": "2efc0f1d_be1ec959",
+      "revId": "ac4b68caf11f4ca8b30152427cd8fe22b8e59e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

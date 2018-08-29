@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f874bc9c_521944e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-08-29T11:16:21Z",
+      "side": 1,
+      "message": "Perhaps I could the fact that jzlib is a new dependency since https://git.eclipse.org/r/#/c/114907/",
+      "revId": "75fc9ce0d120f54682d07e3fc69656ffdc55d205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbfb5db8_54d3d549",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-08-29T11:16:21Z",
+      "side": 1,
+      "message": "Not sure about the best wording here, maybe \"overlapping dependencies\" or something?",
+      "range": {
+        "startLine": 67,
+        "startChar": 16,
+        "endLine": 67,
+        "endChar": 38
+      },
+      "revId": "75fc9ce0d120f54682d07e3fc69656ffdc55d205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "254a702b_f1c9c3a9",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-08-29T11:16:21Z",
+      "side": 1,
+      "message": "Perhaps I could also add a pointer to not having the ability to alias them as per https://github.com/bazelbuild/bazel/issues/3219 ?",
+      "revId": "75fc9ce0d120f54682d07e3fc69656ffdc55d205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

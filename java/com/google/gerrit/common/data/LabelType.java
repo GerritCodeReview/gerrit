@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class LabelType {
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
@@ -163,11 +162,8 @@ public class LabelType {
     if (functionName == null) {
       return null;
     }
-    Optional<LabelFunction> f = LabelFunction.parse(functionName);
-    if (!f.isPresent()) {
-      throw new IllegalStateException("Unsupported functionName: " + functionName);
-    }
-    return f.get();
+    return LabelFunction.parse(functionName)
+        .orElseThrow(() -> new IllegalStateException("Unsupported functionName: " + functionName));
   }
 
   public void setFunction(@Nullable LabelFunction function) {

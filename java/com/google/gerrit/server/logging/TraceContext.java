@@ -19,6 +19,72 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
+/**
+ * TraceContext that allows to set logging tags and enforce logging.
+ *
+ * <p>The logging tags are attached to all log entries that are triggered while the trace context is
+ * open. If force logging is enabled all logs that are triggered while the trace context is open are
+ * written to the log file regardless of the configured log level.
+ *
+ * <pre>
+ * try (TraceContext traceContext = TraceContext.open()
+ *         .addTag("tag-name", "tag-value")
+ *         .forceLogging()) {
+ *     // This gets logged as: A log [CONTEXT forced=true tag-name="tag-value" ]
+ *     // Since force logging is enabled this gets logged independently of the configured log
+ *     // level.
+ *     logger.atFinest().log("A log");
+ *
+ *     // do stuff
+ * }
+ * </pre>
+ *
+ * <p>The logging tags and the force logging flag are stored in the {@link LoggingContext}. {@link
+ * LoggingContextAwareThreadFactory} ensures that the logging context is automatically copied to
+ * background threads.
+ *
+ * <p>On close of the trace context newly set tags are unset. Force logging is disabled on close if
+ * it got enabled while the trace context was open.
+ *
+ * <p>Trace contexts can be nested:
+ *
+ * <pre>
+ * // Initially there are no tags
+ * logger.atSevere().log("log without tag");
+ *
+ * // a tag can be set by opening a trace context
+ * try (TraceContext ctx = TraceContext.open().addTag("tag1", "value1")) {
+ *   logger.atSevere().log("log with tag1=value1");
+ *
+ *   // while a trace context is open further tags can be added.
+ *   ctx.addTag("tag2", "value2")
+ *   logger.atSevere().log("log with tag1=value1 and tag2=value2");
+ *
+ *   // also by opening another trace context a another tag can be added
+ *   try (TraceContext ctx2 = TraceContext.open().addTag("tag3", "value3")) {
+ *     logger.atSevere().log("log with tag1=value1, tag2=value2 and tag3=value3");
+ *
+ *     // it's possible to have the same tag name with multiple values
+ *     ctx2.addTag("tag3", "value3a")
+ *     logger.atSevere().log("log with tag1=value1, tag2=value2, tag3=value3 and tag3=value3a");
+ *
+ *     // adding a tag with the same name and value as an existing tag has no effect
+ *     try (TraceContext ctx3 = TraceContext.open().addTag("tag3", "value3a")) {
+ *       logger.atSevere().log("log with tag1=value1, tag2=value2, tag3=value3 and tag3=value3a");
+ *     }
+ *
+ *     // closing ctx3 didn't remove tag3=value3a since it was already set before opening ctx3
+ *     logger.atSevere().log("log with tag1=value1, tag2=value2, tag3=value3 and tag3=value3a");
+ *   }
+ *
+ *   // closing ctx2 removed tag3=value3 and tag3-value3a
+ *   logger.atSevere().log("with tag1=value1 and tag2=value2");
+ * }
+ *
+ * // closing ctx1 removed tag1=value1 and tag2=value2
+ * logger.atSevere().log("log without tag");
+ * </pre>
+ */
 public class TraceContext implements AutoCloseable {
   public static final TraceContext DISABLED = new TraceContext();
 

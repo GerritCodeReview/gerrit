@@ -17,11 +17,16 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSortedMap.toImmutableSortedMap;
 import static com.google.gerrit.common.TimeUtil.truncateToSecond;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.checkColumns;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.nullsFirst;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
@@ -31,7 +36,6 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
-import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -43,13 +47,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -70,7 +75,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TreeMap;
 
 /**
  * A bundle of all entities rooted at a single {@link Change} entity.
@@ -105,110 +109,65 @@ public class ChangeBundle {
         Source.NOTE_DB);
   }
 
-  private static Map<ChangeMessage.Key, ChangeMessage> changeMessageMap(
-      Iterable<ChangeMessage> in) {
-    Map<ChangeMessage.Key, ChangeMessage> out =
-        new TreeMap<>(
-            new Comparator<ChangeMessage.Key>() {
-              @Override
-              public int compare(ChangeMessage.Key a, ChangeMessage.Key b) {
-                return ComparisonChain.start()
-                    .compare(a.getParentKey().get(), b.getParentKey().get())
-                    .compare(a.get(), b.get())
-                    .result();
-              }
-            });
-    for (ChangeMessage cm : in) {
-      out.put(cm.getKey(), cm);
-    }
-    return out;
+  private static ImmutableSortedMap<ChangeMessage.Key, ChangeMessage> changeMessageMap(
+      Collection<ChangeMessage> in) {
+    return in.stream()
+        .collect(
+            toImmutableSortedMap(
+                comparing((ChangeMessage.Key k) -> k.getParentKey().get())
+                    .thenComparing(k -> k.get()),
+                cm -> cm.getKey(),
+                cm -> cm));
   }
 
   // Unlike the *Map comparators, which are intended to make key lists diffable,
   // this comparator sorts first on timestamp, then on every other field.
-  private static final Ordering<ChangeMessage> CHANGE_MESSAGE_ORDER =
-      new Ordering<ChangeMessage>() {
-        final Ordering<Comparable<?>> nullsFirst = Ordering.natural().nullsFirst();
-
-        @Override
-        public int compare(ChangeMessage a, ChangeMessage b) {
-          return ComparisonChain.start()
-              .compare(a.getWrittenOn(), b.getWrittenOn())
-              .compare(a.getKey().getParentKey().get(), b.getKey().getParentKey().get())
-              .compare(psId(a), psId(b), nullsFirst)
-              .compare(a.getAuthor(), b.getAuthor(), intKeyOrdering())
-              .compare(a.getMessage(), b.getMessage(), nullsFirst)
-              .result();
-        }
-
-        private Integer psId(ChangeMessage m) {
-          return m.getPatchSetId() != null ? m.getPatchSetId().get() : null;
-        }
-      };
+  private static final Comparator<ChangeMessage> CHANGE_MESSAGE_COMPARATOR =
+      comparing(ChangeMessage::getWrittenOn)
+          .thenComparing(m -> m.getKey().getParentKey().get())
+          .thenComparing(
+              m -> m.getPatchSetId() != null ? m.getPatchSetId().get() : null,
+              nullsFirst(naturalOrder()))
+          .thenComparing(ChangeMessage::getAuthor, intKeyOrdering())
+          .thenComparing(ChangeMessage::getMessage, nullsFirst(naturalOrder()));
 
   private static ImmutableList<ChangeMessage> changeMessageList(Iterable<ChangeMessage> in) {
-    return CHANGE_MESSAGE_ORDER.immutableSortedCopy(in);
+    return Streams.stream(in).sorted(CHANGE_MESSAGE_COMPARATOR).collect(toImmutableList());
   }
 
-  private static TreeMap<PatchSet.Id, PatchSet> patchSetMap(Iterable<PatchSet> in) {
-    TreeMap<PatchSet.Id, PatchSet> out =
-        new TreeMap<>(
-            new Comparator<PatchSet.Id>() {
-              @Override
-              public int compare(PatchSet.Id a, PatchSet.Id b) {
-                return patchSetIdChain(a, b).result();
-              }
-            });
-    for (PatchSet ps : in) {
-      out.put(ps.getId(), ps);
-    }
-    return out;
+  private static ImmutableSortedMap<Id, PatchSet> patchSetMap(Iterable<PatchSet> in) {
+    return Streams.stream(in)
+        .collect(toImmutableSortedMap(patchSetIdComparator(), PatchSet::getId, ps -> ps));
   }
 
-  private static Map<PatchSetApproval.Key, PatchSetApproval> patchSetApprovalMap(
+  private static ImmutableSortedMap<PatchSetApproval.Key, PatchSetApproval> patchSetApprovalMap(
       Iterable<PatchSetApproval> in) {
-    Map<PatchSetApproval.Key, PatchSetApproval> out =
-        new TreeMap<>(
-            new Comparator<PatchSetApproval.Key>() {
-              @Override
-              public int compare(PatchSetApproval.Key a, PatchSetApproval.Key b) {
-                return patchSetIdChain(a.getParentKey(), b.getParentKey())
-                    .compare(a.getAccountId().get(), b.getAccountId().get())
-                    .compare(a.getLabelId(), b.getLabelId())
-                    .result();
-              }
-            });
-    for (PatchSetApproval psa : in) {
-      out.put(psa.getKey(), psa);
-    }
-    return out;
+    return Streams.stream(in)
+        .collect(
+            toImmutableSortedMap(
+                comparing(PatchSetApproval.Key::getParentKey, patchSetIdComparator())
+                    .thenComparing(PatchSetApproval.Key::getAccountId, intKeyOrdering())
+                    .thenComparing(PatchSetApproval.Key::getLabelId),
+                PatchSetApproval::getKey,
+                a -> a));
   }
 
-  private static Map<PatchLineComment.Key, PatchLineComment> patchLineCommentMap(
+  private static ImmutableSortedMap<PatchLineComment.Key, PatchLineComment> patchLineCommentMap(
       Iterable<PatchLineComment> in) {
-    Map<PatchLineComment.Key, PatchLineComment> out =
-        new TreeMap<>(
-            new Comparator<PatchLineComment.Key>() {
-              @Override
-              public int compare(PatchLineComment.Key a, PatchLineComment.Key b) {
-                Patch.Key pka = a.getParentKey();
-                Patch.Key pkb = b.getParentKey();
-                return patchSetIdChain(pka.getParentKey(), pkb.getParentKey())
-                    .compare(pka.get(), pkb.get())
-                    .compare(a.get(), b.get())
-                    .result();
-              }
-            });
-    for (PatchLineComment plc : in) {
-      out.put(plc.getKey(), plc);
-    }
-    return out;
+    return Streams.stream(in)
+        .collect(
+            toImmutableSortedMap(
+                comparing(
+                        (PatchLineComment.Key k) -> k.getParentKey().getParentKey(),
+                        patchSetIdComparator())
+                    .thenComparing(PatchLineComment.Key::getParentKey)
+                    .thenComparing(PatchLineComment.Key::get),
+                PatchLineComment::getKey,
+                c -> c));
   }
 
-  private static ComparisonChain patchSetIdChain(PatchSet.Id a, PatchSet.Id b) {
-    return ComparisonChain.start()
-        .compare(a.getParentKey().get(), b.getParentKey().get())
-        .compare(a.get(), b.get());
+  private static Comparator<PatchSet.Id> patchSetIdComparator() {
+    return comparing((PatchSet.Id id) -> id.getParentKey().get()).thenComparing(id -> id.get());
   }
 
   static {
@@ -598,9 +557,10 @@ public class ChangeBundle {
     }
     if (!bs.isEmpty()) {
       sb.append("Only in B:");
-      for (ChangeMessage cm : CHANGE_MESSAGE_ORDER.sortedCopy(bs.values())) {
-        sb.append("\n  ").append(cm);
-      }
+      bs.values()
+          .stream()
+          .sorted(CHANGE_MESSAGE_COMPARATOR)
+          .forEach(cm -> sb.append("\n  ").append(cm));
     }
     diffs.add(sb.toString());
   }

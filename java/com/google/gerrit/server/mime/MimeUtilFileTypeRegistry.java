@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mime;
 
+import static java.util.Comparator.comparing;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -22,12 +24,9 @@ import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
@@ -115,16 +114,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
       return MimeUtil2.UNKNOWN_MIME_TYPE;
     }
 
-    final List<MimeType> types = new ArrayList<>(mimeTypes);
-    Collections.sort(
-        types,
-        new Comparator<MimeType>() {
-          @Override
-          public int compare(MimeType a, MimeType b) {
-            return getCorrectedMimeSpecificity(b) - getCorrectedMimeSpecificity(a);
-          }
-        });
-    return types.get(0);
+    return Collections.min(mimeTypes, comparing(this::getCorrectedMimeSpecificity).reversed());
   }
 
   @Override

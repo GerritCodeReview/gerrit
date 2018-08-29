@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -25,10 +28,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Singleton
 public class GetEmails implements RestReadView<AccountResource> {
@@ -47,24 +48,19 @@ public class GetEmails implements RestReadView<AccountResource> {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
+    return rsrc.getUser()
+        .getEmailAddresses()
+        .stream()
+        .filter(Objects::nonNull)
+        .map(e -> toEmailInfo(rsrc, e))
+        .sorted(comparing((EmailInfo e) -> e.email))
+        .collect(toList());
+  }
 
-    List<EmailInfo> emails = new ArrayList<>();
-    for (String email : rsrc.getUser().getEmailAddresses()) {
-      if (email != null) {
-        EmailInfo e = new EmailInfo();
-        e.email = email;
-        e.preferred(rsrc.getUser().getAccount().getPreferredEmail());
-        emails.add(e);
-      }
-    }
-    Collections.sort(
-        emails,
-        new Comparator<EmailInfo>() {
-          @Override
-          public int compare(EmailInfo a, EmailInfo b) {
-            return a.email.compareTo(b.email);
-          }
-        });
-    return emails;
+  private static EmailInfo toEmailInfo(AccountResource rsrc, String email) {
+    EmailInfo e = new EmailInfo();
+    e.email = email;
+    e.preferred(rsrc.getUser().getAccount().getPreferredEmail());
+    return e;
   }
 }

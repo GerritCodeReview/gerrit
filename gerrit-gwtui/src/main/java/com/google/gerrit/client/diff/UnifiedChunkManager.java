@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.diff;
 
+import static java.util.Comparator.comparing;
+
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
 import com.google.gerrit.client.rpc.Natives;
@@ -227,12 +229,7 @@ class UnifiedChunkManager extends ChunkManager {
 
   /** Diff chunks are ordered by their starting lines in CodeMirror */
   private Comparator<UnifiedDiffChunkInfo> getDiffChunkComparatorCmLine() {
-    return new Comparator<UnifiedDiffChunkInfo>() {
-      @Override
-      public int compare(UnifiedDiffChunkInfo o1, UnifiedDiffChunkInfo o2) {
-        return o1.getCmLine() - o2.getCmLine();
-      }
-    };
+    return comparing(UnifiedDiffChunkInfo::getCmLine);
   }
 
   @Override

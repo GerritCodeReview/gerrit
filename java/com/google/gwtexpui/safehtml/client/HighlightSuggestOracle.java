@@ -14,11 +14,12 @@
 
 package com.google.gwtexpui.safehtml.client;
 
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gwt.user.client.ui.SuggestOracle;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -115,15 +116,8 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
      * terms.
      */
     private static List<String> splitQuery(String query) {
-      List<String> queryTerms = Arrays.asList(query.split("\\s+"));
-      Collections.sort(
-          queryTerms,
-          new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-              return Integer.compare(s2.length(), s1.length());
-            }
-          });
+      List<String> queryTerms =
+          Arrays.stream(query.split("\\s+")).sorted(comparing(String::length)).collect(toList());
 
       List<String> result = new ArrayList<>();
       for (String s : queryTerms) {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import static java.util.Comparator.comparing;
+
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
@@ -295,32 +297,19 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
 
     void insert(AccountInfo info) {
       Comparator<AccountInfo> c =
-          new Comparator<AccountInfo>() {
-            @Override
-            public int compare(AccountInfo a, AccountInfo b) {
-              int cmp = nullToEmpty(a.name()).compareTo(nullToEmpty(b.name()));
-              if (cmp != 0) {
-                return cmp;
-              }
-
-              cmp = nullToEmpty(a.email()).compareTo(nullToEmpty(b.email()));
-              if (cmp != 0) {
-                return cmp;
-              }
-
-              return a._accountId() - b._accountId();
-            }
-
-            public String nullToEmpty(String str) {
-              return str == null ? "" : str;
-            }
-          };
+          comparing((AccountInfo a) -> nullToEmpty(a.name()))
+              .thenComparing(a -> nullToEmpty(a.email()))
+              .thenComparing(AccountInfo::_accountId);
       int insertPos = getInsertRow(c, info);
       if (insertPos >= 0) {
         table.insertRow(insertPos);
         applyDataRowStyle(insertPos);
         populate(insertPos, info);
       }
+    }
+
+    private String nullToEmpty(String str) {
+      return str == null ? "" : str;
     }
 
     void populate(int row, AccountInfo i) {

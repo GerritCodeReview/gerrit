@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.plugins;
 
+import static java.util.Comparator.comparing;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
@@ -28,13 +30,7 @@ import java.util.Optional;
 public class PluginEntry {
   public static final String ATTR_CHARACTER_ENCODING = "Character-Encoding";
   public static final String ATTR_CONTENT_TYPE = "Content-Type";
-  public static final Comparator<PluginEntry> COMPARATOR_BY_NAME =
-      new Comparator<PluginEntry>() {
-        @Override
-        public int compare(PluginEntry a, PluginEntry b) {
-          return a.getName().compareTo(b.getName());
-        }
-      };
+  public static final Comparator<PluginEntry> COMPARATOR_BY_NAME = comparing(PluginEntry::getName);
 
   private static final Map<Object, String> EMPTY_ATTRS = Collections.emptyMap();
   private static final Optional<Long> NO_SIZE = Optional.empty();

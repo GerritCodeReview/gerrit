@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.ui;
 
+import static java.util.Comparator.comparing;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
@@ -21,7 +23,6 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class ProjectsTable extends NavigationTable<ProjectInfo> {
@@ -69,14 +70,7 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
     }
 
     List<ProjectInfo> list = Natives.asList(projects.values());
-    Collections.sort(
-        list,
-        new Comparator<ProjectInfo>() {
-          @Override
-          public int compare(ProjectInfo a, ProjectInfo b) {
-            return a.name().compareTo(b.name());
-          }
-        });
+    Collections.sort(list, comparing(ProjectInfo::name));
     for (ProjectInfo p : list.subList(fromIndex, toIndex)) {
       insert(table.getRowCount(), p);
     }

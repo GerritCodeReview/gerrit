@@ -2,6 +2,7 @@ package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -39,6 +40,7 @@ public class SshTraceIT extends AbstractDaemonTest {
   public void sshCallWithoutTrace() throws Exception {
     adminSshSession.exec("gerrit create-project new1");
     adminSshSession.assertSuccess();
+    assertThat(projectCreationListener.traceId).isNull();
     assertThat(projectCreationListener.foundTraceId).isFalse();
     assertThat(projectCreationListener.isLoggingForced).isFalse();
   }
@@ -50,18 +52,40 @@ public class SshTraceIT extends AbstractDaemonTest {
     // The trace ID is written to stderr.
     adminSshSession.assertFailure(RequestId.Type.TRACE_ID.name());
 
+    assertThat(projectCreationListener.traceId).isNotNull();
     assertThat(projectCreationListener.foundTraceId).isTrue();
     assertThat(projectCreationListener.isLoggingForced).isTrue();
   }
 
+  @Test
+  public void sshCallWithTraceAndProvidedTraceId() throws Exception {
+    adminSshSession.exec("gerrit create-project --trace --traceId foo new3");
+
+    // The trace ID is written to stderr.
+    adminSshSession.assertFailure(RequestId.Type.TRACE_ID.name());
+
+    assertThat(projectCreationListener.traceId).isEqualTo("foo");
+    assertThat(projectCreationListener.foundTraceId).isTrue();
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+  }
+
+  @Test
+  public void sshCallWithTraceIdAndWithoutTraceFails() throws Exception {
+    adminSshSession.exec("gerrit create-project --traceId foo new3");
+    adminSshSession.assertFailure("A trace ID can only be set if --trace was specified.");
+  }
+
   private static class TraceValidatingProjectCreationValidationListener
       implements ProjectCreationValidationListener {
+    String traceId;
     Boolean foundTraceId;
     Boolean isLoggingForced;
 
     @Override
     public void validateNewProject(CreateProjectArgs args) throws ValidationException {
-      this.foundTraceId = LoggingContext.getInstance().getTagsAsMap().containsKey("TRACE_ID");
+      this.traceId =
+          Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
+      this.foundTraceId = traceId != null;
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
     }
   }

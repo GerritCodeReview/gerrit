@@ -118,7 +118,7 @@ public class SchemaCreatorTest {
     assertThat(rangeList).isStrictlyOrdered();
 
     assertThat(label.getValues().stream().map(v -> (int) v.getValue()))
-        .containsExactly(range)
+        .containsExactlyElementsIn(rangeList)
         .inOrder();
     assertThat(label.getMax().getValue()).isEqualTo(Collections.max(rangeList));
     assertThat(label.getMin().getValue()).isEqualTo(Collections.min(rangeList));

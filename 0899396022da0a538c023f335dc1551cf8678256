@@ -71,6 +71,30 @@
       "revId": "0899396022da0a538c023f335dc1551cf8678256",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44ca6dea_40419b0f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-30T19:56:01Z",
+      "side": 1,
+      "message": "I like the new approach better, thanks.\n\nWith the old approach, even after you explained the difference to me, I went back and re-read the code and it was still not at all obvious from the method names or signatures what the semantic difference between \"open a new TraceContext\" and \"start tracing\" are. IMO there shouldn\u0027t be such a thing as \"open a TraceContext but don\u0027t start tracing yet\".",
+      "parentUuid": "3b955efd_1fbd96cc",
+      "range": {
+        "startLine": 578,
+        "startChar": 23,
+        "endLine": 584,
+        "endChar": 70
+      },
+      "revId": "0899396022da0a538c023f335dc1551cf8678256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

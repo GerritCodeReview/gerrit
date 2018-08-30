@@ -18,7 +18,7 @@ limitations under the License.
 <link rel="import" href="../../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 
 <script>
-(function(window) {
+(function() {
   'use strict';
 
   // Must be declared outside behavior implementation to be accessed inside
@@ -35,7 +35,7 @@ limitations under the License.
   window.Gerrit = window.Gerrit || {};
 
   /** @polymerBehavior KeyboardShortcutBehavior */
-  Gerrit.KeyboardShortcutBehavior = [{
+  window.Gerrit.KeyboardShortcutBehavior = [{
     modifierPressed(e) {
       e = getKeyboardEvent(e);
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
@@ -71,5 +71,5 @@ limitations under the License.
   },
     Polymer.IronA11yKeysBehavior,
   ];
-})(window);
+})();
 </script>

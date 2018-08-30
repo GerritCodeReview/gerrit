@@ -48,7 +48,8 @@ limitations under the License.
   <script src="gr-diff-builder-image.js"></script>
   <script src="gr-diff-builder-binary.js"></script>
   <script>
-    (function() {
+    (function(GrAnnotation, GrDiffLine, GrDiffBuilder, GrDiffBuilderImage,
+        GrDiffBuilderBinary, GrDiffBuilderUnified, GrDiffBuilderSideBySide) {
       'use strict';
 
       const Defs = {};
@@ -478,6 +479,13 @@ limitations under the License.
           this._builder.setBlame(blame);
         },
       });
-    })();
+    })(
+        window.GrAnnotation,
+        window.GrDiffLine,
+        window.GrDiffBuilder,
+        window.GrDiffBuilderImage,
+        window.GrDiffBuilderBinary,
+        window.GrDiffBuilderUnified,
+        window.GrDiffBuilderSideBySide);
   </script>
 </dom-module>

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
+(function(util) {
   'use strict';
 
   const UNRESOLVED_EXPAND_COUNT = 5;
@@ -93,8 +93,8 @@
     },
 
     behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PathListBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.PathListBehavior,
     ],
 
     listeners: {
@@ -462,4 +462,4 @@
       });
     },
   });
-})();
+})(window.util);

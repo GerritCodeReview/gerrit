@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
+(function(GrRangeNormalizer) {
   'use strict';
 
   /**
@@ -53,7 +53,7 @@
     },
 
     behaviors: [
-      Gerrit.DomUtilBehavior,
+      window.Gerrit.DomUtilBehavior,
     ],
 
     attached() {
@@ -301,4 +301,4 @@
       return text;
     },
   });
-})();
+})(window.GrRangeNormalizer);

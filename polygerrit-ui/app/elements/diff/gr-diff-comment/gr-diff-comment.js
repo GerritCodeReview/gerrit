@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
+(function(page) {
   'use strict';
 
   const STORAGE_DEBOUNCE_INTERVAL = 400;
@@ -155,7 +155,7 @@
     ],
 
     behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
     ],
 
     keyBindings: {
@@ -656,4 +656,4 @@
           });
     },
   });
-})();
+})(window.page);

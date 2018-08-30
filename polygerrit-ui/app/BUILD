@@ -25,20 +25,18 @@ polygerrit_bundle(
 
 polygerrit_bundle(
     name = "gr-diff_bundle",
-    srcs = glob(
-        [
-            "**/*.html",
-            "**/*.js",
-        ],
-        exclude = [
-            "bower_components/**",
-            "test/**",
-            "**/*_test.html",
-        ],
-    ),
+    srcs = [
+        ":gr-diff_code",
+    ],
     outs = ["gr-diff.zip"],
     app = "elements/diff/gr-diff/gr-diff.html",
     compilation_level = "SIMPLE",
+    suppress = [
+        "JSC_JSDOC_MISSING_TYPE_WARNING",
+        "JSC_UNNECESSARY_ESCAPE",
+        "JSC_UNUSED_LOCAL_ASSIGNMENT",
+        "JSC_USELESS_CODE",
+    ]
 )
 
 bower_component_bundle(
@@ -58,6 +56,21 @@ filegroup(
         [
             "**/*.html",
             "**/*.js",
+        ],
+        exclude = [
+            "bower_components/**",
+        ],
+    ),
+)
+
+filegroup(
+    name = "gr-diff_code",
+    srcs = glob(
+        [
+            "elements/diff/**/*.html",
+            "elements/diff/**/*.js",
+            "behaviors/**/*.html",
+            "behaviors/**/*.js",
         ],
         exclude = [
             "bower_components/**",

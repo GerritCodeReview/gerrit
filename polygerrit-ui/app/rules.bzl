@@ -42,7 +42,7 @@ def polygerrit_bundle(
         name = name + "_closure_lib",
         srcs = [appName + ".js"],
         convention = "GOOGLE",
-        suppress = DEFAULT_SUPPRESS,
+        suppress = suppress,
         deps = [
             "//lib/polymer_externs:polymer_closure",
             "@io_bazel_rules_closure//closure/library",

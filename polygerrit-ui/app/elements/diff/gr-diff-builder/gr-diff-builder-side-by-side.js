@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window, GrDiffBuilder) {
+(function(GrDiffBuilder) {
   'use strict';
 
   // Prevent redefinition.
@@ -119,4 +119,4 @@
   };
 
   window.GrDiffBuilderSideBySide = GrDiffBuilderSideBySide;
-})(window, GrDiffBuilder);
+})(window.GrDiffBuilder);

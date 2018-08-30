@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
+(function(GrDiffGroup, GrDiffLine) {
   'use strict';
 
   const WHOLE_FILE = -1;
@@ -541,4 +541,4 @@
       return this._breakdown(head, size).concat([tail]);
     },
   });
-})();
+})(window.GrDiffGroup, window.GrDiffLine);

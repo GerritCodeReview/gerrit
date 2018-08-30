@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
+(function(GrAnnotation, GrRangeNormalizer) {
   'use strict';
 
   Polymer({
@@ -382,4 +382,4 @@
       }
     },
   });
-})();
+})(window.GrAnnotation, window.GrRangeNormalizer);

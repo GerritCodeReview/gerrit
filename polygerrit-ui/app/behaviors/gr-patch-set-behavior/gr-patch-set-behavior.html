@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <script>
-(function(window) {
+(function() {
   'use strict';
 
   // Tags identifying ChangeMessages that move change into WIP state.
@@ -31,8 +31,7 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior this */
-  Gerrit.PatchSetBehavior = {
+  const PatchSetBehavior = {
     EDIT_NAME: 'edit',
     PARENT_NAME: 'PARENT',
 
@@ -69,7 +68,7 @@ limitations under the License.
      */
     getRevisionByPatchNum(revisions, patchNum) {
       for (const rev of Object.values(revisions || {})) {
-        if (Gerrit.PatchSetBehavior.patchNumEquals(rev._number, patchNum)) {
+        if (PatchSetBehavior.patchNumEquals(rev._number, patchNum)) {
           return rev;
         }
       }
@@ -84,8 +83,7 @@ limitations under the License.
      */
     findEditParentRevision(revisions) {
       const editInfo =
-          revisions.find(info => info._number ===
-              Gerrit.PatchSetBehavior.EDIT_NAME);
+          revisions.find(info => info._number === PatchSetBehavior.EDIT_NAME);
 
       if (!editInfo) { return null; }
 
@@ -100,8 +98,7 @@ limitations under the License.
      * @return {number} Change edit patch set number or -1.
      */
     findEditParentPatchNum(revisions) {
-      const revisionInfo =
-          Gerrit.PatchSetBehavior.findEditParentRevision(revisions);
+      const revisionInfo = PatchSetBehavior.findEditParentRevision(revisions);
       return revisionInfo ? revisionInfo._number : -1;
     },
 
@@ -118,12 +115,11 @@ limitations under the License.
      * @return {!Array<!Object>} The sorted {revisions} array
      */
     sortRevisions(revisions) {
-      const editParent =
-          Gerrit.PatchSetBehavior.findEditParentPatchNum(revisions);
+      const editParent = PatchSetBehavior.findEditParentPatchNum(revisions);
       // Map a normal patchNum to 2 * (patchNum - 1) + 1... I.e. 1 -> 1,
       // 2 -> 3, 3 -> 5, etc.
       // Map an edit to the patchNum of parent*2... I.e. edit on 2 -> 4.
-      const num = r => r._number === Gerrit.PatchSetBehavior.EDIT_NAME ?
+      const num = r => r._number === PatchSetBehavior.EDIT_NAME ?
           2 * editParent :
           2 * (r._number - 1) + 1;
       return revisions.sort((a, b) => num(b) - num(a));
@@ -149,7 +145,7 @@ limitations under the License.
       let patchNums = [];
       if (change.revisions && Object.keys(change.revisions).length) {
         patchNums =
-          Gerrit.PatchSetBehavior.sortRevisions(Object.values(change.revisions))
+            PatchSetBehavior.sortRevisions(Object.values(change.revisions))
               .map(e => {
                 // TODO(kaspern): Mark which patchset an edit was made on, if an
                 // edit exists -- perhaps with a temporary description.
@@ -159,7 +155,7 @@ limitations under the License.
                 };
               });
       }
-      return Gerrit.PatchSetBehavior._computeWipForPatchSets(change, patchNums);
+      return PatchSetBehavior._computeWipForPatchSets(change, patchNums);
     },
 
     /**
@@ -198,7 +194,7 @@ limitations under the License.
     /** @return {number|undefined} */
     computeLatestPatchNum(allPatchSets) {
       if (!allPatchSets || !allPatchSets.length) { return undefined; }
-      if (allPatchSets[0].num === Gerrit.PatchSetBehavior.EDIT_NAME) {
+      if (allPatchSets[0].num === PatchSetBehavior.EDIT_NAME) {
         return allPatchSets[1].num;
       }
       return allPatchSets[0].num;
@@ -207,15 +203,15 @@ limitations under the License.
     /** @return {Boolean} */
     hasEditBasedOnCurrentPatchSet(allPatchSets) {
       if (!allPatchSets || allPatchSets.length < 2) { return false; }
-      return allPatchSets[0].num === Gerrit.PatchSetBehavior.EDIT_NAME;
+      return allPatchSets[0].num === PatchSetBehavior.EDIT_NAME;
     },
 
     /** @return {Boolean} */
     hasEditPatchsetLoaded(patchRangeRecord) {
       const patchRange = patchRangeRecord.base;
       if (!patchRange) { return false; }
-      return patchRange.patchNum === Gerrit.PatchSetBehavior.EDIT_NAME ||
-          patchRange.basePatchNum === Gerrit.PatchSetBehavior.EDIT_NAME;
+      return patchRange.patchNum === PatchSetBehavior.EDIT_NAME ||
+          patchRange.basePatchNum === PatchSetBehavior.EDIT_NAME;
     },
 
     /**
@@ -227,15 +223,15 @@ limitations under the License.
      *     meantime. The promise is rejected on network error.
      */
     fetchChangeUpdates(change, restAPI) {
-      const knownLatest = Gerrit.PatchSetBehavior.computeLatestPatchNum(
-          Gerrit.PatchSetBehavior.computeAllPatchSets(change));
+      const knownLatest = PatchSetBehavior.computeLatestPatchNum(
+          PatchSetBehavior.computeAllPatchSets(change));
       return restAPI.getChangeDetail(change._number)
           .then(detail => {
             if (!detail) {
               return Promise.reject('Unable to check for latest patchset.');
             }
-            const actualLatest = Gerrit.PatchSetBehavior.computeLatestPatchNum(
-                Gerrit.PatchSetBehavior.computeAllPatchSets(detail));
+            const actualLatest = PatchSetBehavior.computeLatestPatchNum(
+                PatchSetBehavior.computeAllPatchSets(detail));
             return {
               isLatest: actualLatest <= knownLatest,
               newStatus: change.status !== detail.status ? detail.status : null,
@@ -266,5 +262,8 @@ limitations under the License.
       return -parseInt(rangeBase + '', 10);
     },
   };
-})(window);
+
+  /** @polymerBehavior Gerrit.PatchSetBehavior */
+  window.Gerrit.PatchSetBehavior = PatchSetBehavior;
+})();
 </script>

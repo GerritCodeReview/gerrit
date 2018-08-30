@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "880729c4_33b5bba2",
+        "filename": "contrib/abandon_stale.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-30T07:13:24Z",
+      "side": 1,
+      "message": "This can be simplified.",
+      "range": {
+        "startLine": 155,
+        "startChar": 8,
+        "endLine": 156,
+        "endChar": 31
+      },
+      "revId": "78761b5f605cebb0d17c782f729af4fd56ec995a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "bbd69e8725f79e2c0f4054fc7f9ab9305f6234b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "687cfaa6_e56bca37",
+        "filename": "java/com/google/gerrit/server/schema/AllUsersCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-08-30T07:48:06Z",
+      "side": 1,
+      "message": "It\u0027s removed in the new ps.",
+      "parentUuid": "bdcd9f8b_e2fccd8b",
+      "range": {
+        "startLine": 82,
+        "startChar": 28,
+        "endLine": 82,
+        "endChar": 34
+      },
+      "revId": "bbd69e8725f79e2c0f4054fc7f9ab9305f6234b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

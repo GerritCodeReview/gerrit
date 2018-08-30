@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.grant;
+import static com.google.gerrit.server.schema.AllProjectsCreator.getDefaultCodeReviewLabel;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
@@ -26,6 +28,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -50,6 +53,7 @@ public class AllUsersCreator {
   private final GroupReference registered;
 
   @Nullable private GroupReference admin;
+  private LabelType codeReviewLabel;
 
   @Inject
   AllUsersCreator(
@@ -61,6 +65,7 @@ public class AllUsersCreator {
     this.allUsersName = allUsersName;
     this.serverUser = serverUser;
     this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
+    this.codeReviewLabel = getDefaultCodeReviewLabel();
   }
 
   /**
@@ -69,6 +74,15 @@ public class AllUsersCreator {
    */
   public AllUsersCreator setAdministrators(GroupReference admin) {
     this.admin = admin;
+    return this;
+  }
+
+  /** If called, the provided "Code-Review" label will be used rather than the default. */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public AllUsersCreator setCodeReviewLabel(LabelType labelType) {
+    checkArgument(
+        labelType.getName().equals("Code-Review"), "label should have 'Code-Review' as its name");
+    this.codeReviewLabel = labelType;
     return this;
   }
 
@@ -100,11 +114,14 @@ public class AllUsersCreator {
       AccessSection users =
           config.getAccessSection(
               RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true);
-      LabelType cr = AllProjectsCreator.initCodeReviewLabel(config);
+
+      // Initialize "Code-Review" label.
+      config.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel);
+
       grant(config, users, Permission.READ, false, true, registered);
       grant(config, users, Permission.PUSH, false, true, registered);
       grant(config, users, Permission.SUBMIT, false, true, registered);
-      grant(config, users, cr, -2, 2, true, registered);
+      grant(config, users, codeReviewLabel, -2, 2, true, registered);
 
       if (admin != null) {
         AccessSection defaults = config.getAccessSection(RefNames.REFS_USERS_DEFAULT, true);

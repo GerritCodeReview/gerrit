@@ -37,16 +37,8 @@ public class ChangeUtil {
   private static final Random UUID_RANDOM = new SecureRandom();
   private static final BaseEncoding UUID_ENCODING = BaseEncoding.base16().lowerCase();
 
-  private static final int SUBJECT_MAX_LENGTH = 80;
-  private static final String SUBJECT_CROP_APPENDIX = "...";
-  private static final int SUBJECT_CROP_RANGE = 10;
-
   public static final Ordering<PatchSet> PS_ID_ORDER =
       Ordering.from(comparingInt(PatchSet::getPatchSetId));
-
-  public static String formatChangeUrl(String canonicalWebUrl, Change change) {
-    return canonicalWebUrl + "c/" + change.getProject().get() + "/+/" + change.getChangeId();
-  }
 
   /** @return a new unique identifier for change message entities. */
   public static String messageUuid() {
@@ -121,21 +113,6 @@ public class ChangeUtil {
         Maps.transformValues(
             git.getRefDatabase().getRefs(id.getParentKey().toRefPrefix()), Ref::getObjectId),
         id);
-  }
-
-  public static String cropSubject(String subject) {
-    if (subject.length() > SUBJECT_MAX_LENGTH) {
-      int maxLength = SUBJECT_MAX_LENGTH - SUBJECT_CROP_APPENDIX.length();
-      for (int cropPosition = maxLength;
-          cropPosition > maxLength - SUBJECT_CROP_RANGE;
-          cropPosition--) {
-        if (Character.isWhitespace(subject.charAt(cropPosition - 1))) {
-          return subject.substring(0, cropPosition) + SUBJECT_CROP_APPENDIX;
-        }
-      }
-      return subject.substring(0, maxLength) + SUBJECT_CROP_APPENDIX;
-    }
-    return subject;
   }
 
   public static String status(Change c) {

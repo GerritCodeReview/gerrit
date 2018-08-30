@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -154,6 +155,87 @@ public class TraceContextTest {
     assertForceLogging(false);
   }
 
+  @Test
+  public void newTrace() {
+    TestTraceIdConsumer traceIdConsumer = new TestTraceIdConsumer();
+    try (TraceContext traceContext = TraceContext.newTrace(true, null, traceIdConsumer)) {
+      assertForceLogging(true);
+      assertThat(LoggingContext.getInstance().getTagsAsMap().keySet())
+          .containsExactly(RequestId.Type.TRACE_ID.name());
+    }
+    assertThat(traceIdConsumer.tagName).isEqualTo(RequestId.Type.TRACE_ID.name());
+    assertThat(traceIdConsumer.traceId).isNotNull();
+  }
+
+  @Test
+  public void newTraceWithProvidedTraceId() {
+    TestTraceIdConsumer traceIdConsumer = new TestTraceIdConsumer();
+    String traceId = "foo";
+    try (TraceContext traceContext = TraceContext.newTrace(true, traceId, traceIdConsumer)) {
+      assertForceLogging(true);
+      assertTags(ImmutableMap.of(RequestId.Type.TRACE_ID.name(), ImmutableSet.of(traceId)));
+    }
+    assertThat(traceIdConsumer.tagName).isEqualTo(RequestId.Type.TRACE_ID.name());
+    assertThat(traceIdConsumer.traceId).isEqualTo(traceId);
+  }
+
+  @Test
+  public void newTraceDisabled() {
+    TestTraceIdConsumer traceIdConsumer = new TestTraceIdConsumer();
+    try (TraceContext traceContext = TraceContext.newTrace(false, null, traceIdConsumer)) {
+      assertForceLogging(false);
+      assertTags(ImmutableMap.of());
+    }
+    assertThat(traceIdConsumer.tagName).isNull();
+    assertThat(traceIdConsumer.traceId).isNull();
+  }
+
+  @Test
+  public void newTraceDisabledWithProvidedTraceId() {
+    TestTraceIdConsumer traceIdConsumer = new TestTraceIdConsumer();
+    try (TraceContext traceContext = TraceContext.newTrace(false, "foo", traceIdConsumer)) {
+      assertForceLogging(false);
+      assertTags(ImmutableMap.of());
+    }
+    assertThat(traceIdConsumer.tagName).isNull();
+    assertThat(traceIdConsumer.traceId).isNull();
+  }
+
+  @Test
+  public void onlyOneTraceId() {
+    TestTraceIdConsumer traceIdConsumer1 = new TestTraceIdConsumer();
+    try (TraceContext traceContext1 = TraceContext.newTrace(true, null, traceIdConsumer1)) {
+      String expectedTraceId = traceIdConsumer1.traceId;
+      assertThat(expectedTraceId).isNotNull();
+
+      TestTraceIdConsumer traceIdConsumer2 = new TestTraceIdConsumer();
+      try (TraceContext traceContext2 = TraceContext.newTrace(true, null, traceIdConsumer2)) {
+        assertForceLogging(true);
+        assertTags(
+            ImmutableMap.of(RequestId.Type.TRACE_ID.name(), ImmutableSet.of(expectedTraceId)));
+      }
+      assertThat(traceIdConsumer2.tagName).isEqualTo(RequestId.Type.TRACE_ID.name());
+      assertThat(traceIdConsumer2.traceId).isEqualTo(expectedTraceId);
+    }
+  }
+
+  @Test
+  public void multipleTraceIdsIfTraceIdProvided() {
+    String traceId1 = "foo";
+    try (TraceContext traceContext1 =
+        TraceContext.newTrace(true, traceId1, (tagName, traceId) -> {})) {
+      TestTraceIdConsumer traceIdConsumer = new TestTraceIdConsumer();
+      String traceId2 = "bar";
+      try (TraceContext traceContext2 = TraceContext.newTrace(true, traceId2, traceIdConsumer)) {
+        assertForceLogging(true);
+        assertTags(
+            ImmutableMap.of(RequestId.Type.TRACE_ID.name(), ImmutableSet.of(traceId1, traceId2)));
+      }
+      assertThat(traceIdConsumer.tagName).isEqualTo(RequestId.Type.TRACE_ID.name());
+      assertThat(traceIdConsumer.traceId).isEqualTo(traceId2);
+    }
+  }
+
   private void assertTags(ImmutableMap<String, ImmutableSet<String>> expectedTagMap) {
     SortedMap<String, SortedSet<Object>> actualTagMap =
         LoggingContext.getInstance().getTags().asMap();
@@ -167,5 +249,16 @@ public class TraceContextTest {
   private void assertForceLogging(boolean expected) {
     assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
         .isEqualTo(expected);
+  }
+
+  private static class TestTraceIdConsumer implements TraceIdConsumer {
+    String tagName;
+    String traceId;
+
+    @Override
+    public void accept(String tagName, String traceId) {
+      this.tagName = tagName;
+      this.traceId = traceId;
+    }
   }
 }

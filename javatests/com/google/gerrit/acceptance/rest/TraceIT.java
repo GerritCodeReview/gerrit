@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_CREATED;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -69,6 +70,7 @@ public class TraceIT extends AbstractDaemonTest {
     RestResponse response = adminRestSession.put("/projects/new1");
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isNull();
     assertThat(projectCreationListener.foundTraceId).isFalse();
     assertThat(projectCreationListener.isLoggingForced).isFalse();
   }
@@ -79,28 +81,20 @@ public class TraceIT extends AbstractDaemonTest {
         adminRestSession.put("/projects/new2?" + ParameterParser.TRACE_PARAMETER);
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
+    assertThat(projectCreationListener.traceId).isNotNull();
     assertThat(projectCreationListener.foundTraceId).isTrue();
     assertThat(projectCreationListener.isLoggingForced).isTrue();
   }
 
   @Test
-  public void restCallWithTraceTrue() throws Exception {
+  public void restCallWithTraceAndProvidedTraceId() throws Exception {
     RestResponse response =
-        adminRestSession.put("/projects/new3?" + ParameterParser.TRACE_PARAMETER + "=true");
+        adminRestSession.put("/projects/new3?" + ParameterParser.TRACE_PARAMETER + "=issue/123");
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
+    assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
     assertThat(projectCreationListener.foundTraceId).isTrue();
     assertThat(projectCreationListener.isLoggingForced).isTrue();
-  }
-
-  @Test
-  public void restCallWithTraceFalse() throws Exception {
-    RestResponse response =
-        adminRestSession.put("/projects/new4?" + ParameterParser.TRACE_PARAMETER + "=false");
-    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
-    assertThat(projectCreationListener.foundTraceId).isFalse();
-    assertThat(projectCreationListener.isLoggingForced).isFalse();
   }
 
   @Test
@@ -108,6 +102,7 @@ public class TraceIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
+    assertThat(commitValidationListener.traceId).isNull();
     assertThat(commitValidationListener.foundTraceId).isFalse();
     assertThat(commitValidationListener.isLoggingForced).isFalse();
   }
@@ -118,28 +113,20 @@ public class TraceIT extends AbstractDaemonTest {
     push.setPushOptions(ImmutableList.of("trace"));
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
+    assertThat(commitValidationListener.traceId).isNotNull();
     assertThat(commitValidationListener.foundTraceId).isTrue();
     assertThat(commitValidationListener.isLoggingForced).isTrue();
   }
 
   @Test
-  public void pushWithTraceTrue() throws Exception {
+  public void pushWithTraceAndProvidedTraceId() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    push.setPushOptions(ImmutableList.of("trace=true"));
+    push.setPushOptions(ImmutableList.of("trace=issue/123"));
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
+    assertThat(commitValidationListener.traceId).isEqualTo("issue/123");
     assertThat(commitValidationListener.foundTraceId).isTrue();
     assertThat(commitValidationListener.isLoggingForced).isTrue();
-  }
-
-  @Test
-  public void pushWithTraceFalse() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    push.setPushOptions(ImmutableList.of("trace=false"));
-    PushOneCommit.Result r = push.to("refs/heads/master");
-    r.assertOkStatus();
-    assertThat(commitValidationListener.foundTraceId).isFalse();
-    assertThat(commitValidationListener.isLoggingForced).isFalse();
   }
 
   @Test
@@ -147,6 +134,7 @@ public class TraceIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
+    assertThat(commitValidationListener.traceId).isNull();
     assertThat(commitValidationListener.foundTraceId).isFalse();
     assertThat(commitValidationListener.isLoggingForced).isFalse();
   }
@@ -157,50 +145,48 @@ public class TraceIT extends AbstractDaemonTest {
     push.setPushOptions(ImmutableList.of("trace"));
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
+    assertThat(commitValidationListener.traceId).isNotNull();
     assertThat(commitValidationListener.foundTraceId).isTrue();
     assertThat(commitValidationListener.isLoggingForced).isTrue();
   }
 
   @Test
-  public void pushForReviewWithTraceTrue() throws Exception {
+  public void pushForReviewWithTraceAndProvidedTraceId() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    push.setPushOptions(ImmutableList.of("trace=true"));
+    push.setPushOptions(ImmutableList.of("trace=issue/123"));
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
+    assertThat(commitValidationListener.traceId).isEqualTo("issue/123");
     assertThat(commitValidationListener.foundTraceId).isTrue();
     assertThat(commitValidationListener.isLoggingForced).isTrue();
-  }
-
-  @Test
-  public void pushForReviewWithTraceFalse() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    push.setPushOptions(ImmutableList.of("trace=false"));
-    PushOneCommit.Result r = push.to("refs/for/master");
-    r.assertOkStatus();
-    assertThat(commitValidationListener.foundTraceId).isFalse();
-    assertThat(commitValidationListener.isLoggingForced).isFalse();
   }
 
   private static class TraceValidatingProjectCreationValidationListener
       implements ProjectCreationValidationListener {
+    String traceId;
     Boolean foundTraceId;
     Boolean isLoggingForced;
 
     @Override
     public void validateNewProject(CreateProjectArgs args) throws ValidationException {
-      this.foundTraceId = LoggingContext.getInstance().getTagsAsMap().containsKey("TRACE_ID");
+      this.traceId =
+          Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
+      this.foundTraceId = traceId != null;
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
     }
   }
 
   private static class TraceValidatingCommitValidationListener implements CommitValidationListener {
+    String traceId;
     Boolean foundTraceId;
     Boolean isLoggingForced;
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      this.foundTraceId = LoggingContext.getInstance().getTagsAsMap().containsKey("TRACE_ID");
+      this.traceId =
+          Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
+      this.foundTraceId = traceId != null;
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
       return ImmutableList.of();
     }

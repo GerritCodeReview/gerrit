@@ -212,7 +212,15 @@ link:cmd-suexec.html[suexec]::
 === Trace
 
 For executing SSH commands tracing can be enabled by setting the
-`--trace` option.
+`--trace` and `--trace-id <trace-id>` options. It is recommended to use
+the ID of the issue that is being investigated as trace ID.
+
+----
+  $ ssh -p 29418 review.example.com gerrit create-project --trace --trace-id issue/123 foo/bar
+----
+
+It is also possible to omit the trace ID and get a unique trace ID
+generated.
 
 ----
   $ ssh -p 29418 review.example.com gerrit create-project --trace foo/bar
@@ -220,8 +228,8 @@ For executing SSH commands tracing can be enabled by setting the
 
 Enabling tracing results in additional logs with debug information that
 are written to the `error_log`. All logs that correspond to the traced
-request are associated with a unique trace ID. This trace ID is printed
-to the stderr command output:
+request are associated with the trace ID. The trace ID is printed to
+the stderr command output:
 
 ----
   TRACE_ID: 1534174322774-7edf2a7b

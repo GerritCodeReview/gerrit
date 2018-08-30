@@ -26,6 +26,16 @@ request type:
   link:user-upload.html[upload documentation]. Tracing for Git requests
   other than Git push is not supported.
 
+When request tracing is enabled it is possible to provide an ID that
+should be used as trace ID. If a trace ID is not provided a trace ID is
+automatically generated. The trace ID must be provided to the support
+team so that they can find the trace.
+
+When doing traces it is recommended to specify the ID of the issue
+that is being investigated as trace ID so that the traces of the issue
+can be found more easily. When the issue ID is used as trace ID there
+is no need to find the generated trace ID and report it in the issue.
+
 Since tracing consumes additional server resources tracing should only
 be enabled for single requests if there is a concrete need for
 debugging. In particular bots should never enable tracing for all their

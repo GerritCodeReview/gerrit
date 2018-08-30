@@ -110,7 +110,6 @@ import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
-import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -1323,13 +1322,11 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private TraceContext enableTracing(HttpServletRequest req, HttpServletResponse res) {
-    String v = req.getParameter(ParameterParser.TRACE_PARAMETER);
-    if (v != null && (v.isEmpty() || Boolean.parseBoolean(v))) {
-      RequestId traceId = new RequestId();
-      res.setHeader(X_GERRIT_TRACE, traceId.toString());
-      return TraceContext.open().forceLogging().addTag(RequestId.Type.TRACE_ID, traceId);
-    }
-    return TraceContext.DISABLED;
+    String traceValue = req.getParameter(ParameterParser.TRACE_PARAMETER);
+    return TraceContext.newTrace(
+        traceValue != null,
+        traceValue,
+        (tagName, traceId) -> res.setHeader(X_GERRIT_TRACE, traceId.toString()));
   }
 
   private boolean isDelete(HttpServletRequest req) {

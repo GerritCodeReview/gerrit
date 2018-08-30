@@ -16,14 +16,70 @@ package com.google.gerrit.server.logging;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.gerrit.common.Nullable;
+import java.util.Optional;
 
 public class TraceContext implements AutoCloseable {
-  public static final TraceContext DISABLED = new TraceContext();
-
   public static TraceContext open() {
     return new TraceContext();
+  }
+
+  /**
+   * Opens a new trace context for request tracing.
+   *
+   * <ul>
+   *   <li>sets a tag with a trace ID
+   *   <li>enables force logging
+   * </ul>
+   *
+   * <p>if no trace ID is provided a new trace ID is only generated if request tracing was not
+   * started yet. If request tracing was already started the given {@code traceIdConsumer} is
+   * invoked with the existing trace ID and no new logging tag is set.
+   *
+   * <p>No-op if {@code trace} is {@code false}.
+   *
+   * @param trace whether tracing should be started
+   * @param traceId trace ID that should be used for tracing, if {@code null} a trace ID is
+   *     generated
+   * @param traceIdConsumer consumer for the trace ID, should be used to return the generated trace
+   *     ID to the client, not invoked if {@code trace} is {@code false}
+   * @return the trace context
+   */
+  public static TraceContext newTrace(
+      boolean trace, @Nullable String traceId, TraceIdConsumer traceIdConsumer) {
+    if (!trace) {
+      // Create an empty trace context.
+      return open();
+    }
+
+    if (!Strings.isNullOrEmpty(traceId)) {
+      traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), traceId);
+      return open().addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
+    }
+
+    Optional<String> existingTraceId =
+        LoggingContext.getInstance()
+            .getTagsAsMap()
+            .get(RequestId.Type.TRACE_ID.name())
+            .stream()
+            .findAny();
+    if (existingTraceId.isPresent()) {
+      // request tracing was already started, no need to generate a new trace ID
+      traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), existingTraceId.get());
+      return open();
+    }
+
+    RequestId newTraceId = new RequestId();
+    traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), newTraceId.toString());
+    return open().addTag(RequestId.Type.TRACE_ID, newTraceId).forceLogging();
+  }
+
+  @FunctionalInterface
+  public interface TraceIdConsumer {
+    void accept(String tagName, String traceId);
   }
 
   // Table<TAG_NAME, TAG_VALUE, REMOVE_ON_CLOSE>

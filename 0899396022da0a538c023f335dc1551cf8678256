@@ -47,6 +47,30 @@
       "revId": "0899396022da0a538c023f335dc1551cf8678256",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b955efd_1fbd96cc",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T09:10:11Z",
+      "side": 1,
+      "message": "Actually I think it becomes nicer if we use TraceContext.newTrace(...) to create the TraceContext and then add the RECEIVE_ID tag on that context.\n\nDone.",
+      "parentUuid": "9d314abd_e38e4d09",
+      "range": {
+        "startLine": 578,
+        "startChar": 23,
+        "endLine": 584,
+        "endChar": 70
+      },
+      "revId": "0899396022da0a538c023f335dc1551cf8678256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.restapi;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.httpd.restapi.RestApiServlet.ViewData;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Counter2;
@@ -79,7 +80,8 @@ public class RestApiMetrics {
         break;
       }
     }
-    if (!Strings.isNullOrEmpty(viewData.pluginName) && !"gerrit".equals(viewData.pluginName)) {
+    if (!Strings.isNullOrEmpty(viewData.pluginName)
+        && !PluginName.GERRIT.equals(viewData.pluginName)) {
       impl = viewData.pluginName + '-' + impl;
     }
     return impl;

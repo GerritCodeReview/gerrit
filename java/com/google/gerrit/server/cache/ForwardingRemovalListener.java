@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -36,7 +37,7 @@ public class ForwardingRemovalListener<K, V> implements RemovalListener<K, V> {
 
   private final DynamicSet<CacheRemovalListener> listeners;
   private final String cacheName;
-  private String pluginName = "gerrit";
+  private String pluginName = PluginName.GERRIT;
 
   @Inject
   ForwardingRemovalListener(

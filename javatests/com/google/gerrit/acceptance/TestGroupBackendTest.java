@@ -39,7 +39,7 @@ public class TestGroupBackendTest extends AbstractDaemonTest {
 
   @Test
   public void universalGroupBackendHandlesTestGroup() throws Exception {
-    RegistrationHandle registrationHandle = groupBackends.add(testGroupBackend);
+    RegistrationHandle registrationHandle = groupBackends.add("gerrit", testGroupBackend);
     try {
       assertThat(universalGroupBackend.handles(testUUID)).isTrue();
     } finally {

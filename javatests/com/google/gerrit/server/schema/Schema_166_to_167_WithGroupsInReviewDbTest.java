@@ -586,7 +586,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     AccountGroup group = createInReviewDb("group");
 
     TestGroupBackend testGroupBackend = new TestGroupBackend();
-    backends.add(testGroupBackend);
+    backends.add("gerrit", testGroupBackend);
     AccountGroup.UUID subgroupUuid = testGroupBackend.create("test").getGroupUUID();
     assertThat(groupBackend.handles(subgroupUuid)).isTrue();
     addSubgroupsInReviewDb(group.getId(), subgroupUuid);

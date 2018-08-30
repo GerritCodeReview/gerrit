@@ -15,9 +15,12 @@
 package com.google.gerrit.extensions.registration;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.inject.Key;
+import com.google.inject.Provider;
 import com.google.inject.util.Providers;
+import java.util.Iterator;
 import org.junit.Test;
 
 public class DynamicSetTest {
@@ -40,7 +43,7 @@ public class DynamicSetTest {
   @Test
   public void containsTrueWithSingleElement() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
-    ds.add(2);
+    ds.add("gerrit", 2);
 
     assertThat(ds.contains(2)).isTrue(); // See above comment about ds.contains
   }
@@ -48,7 +51,7 @@ public class DynamicSetTest {
   @Test
   public void containsFalseWithSingleElement() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
-    ds.add(2);
+    ds.add("gerrit", 2);
 
     assertThat(ds.contains(3)).isFalse(); // See above comment about ds.contains
   }
@@ -56,8 +59,8 @@ public class DynamicSetTest {
   @Test
   public void containsTrueWithTwoElements() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
-    ds.add(2);
-    ds.add(4);
+    ds.add("gerrit", 2);
+    ds.add("gerrit", 4);
 
     assertThat(ds.contains(4)).isTrue(); // See above comment about ds.contains
   }
@@ -65,8 +68,8 @@ public class DynamicSetTest {
   @Test
   public void containsFalseWithTwoElements() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
-    ds.add(2);
-    ds.add(4);
+    ds.add("gerrit", 2);
+    ds.add("gerrit", 4);
 
     assertThat(ds.contains(3)).isFalse(); // See above comment about ds.contains
   }
@@ -74,12 +77,12 @@ public class DynamicSetTest {
   @Test
   public void containsDynamic() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
-    ds.add(2);
+    ds.add("gerrit", 2);
 
     Key<Integer> key = Key.get(Integer.class);
-    ReloadableRegistrationHandle<Integer> handle = ds.add(key, Providers.of(4));
+    ReloadableRegistrationHandle<Integer> handle = ds.add("gerrit", key, Providers.of(4));
 
-    ds.add(6);
+    ds.add("gerrit", 6);
 
     // At first, 4 is contained.
     assertThat(ds.contains(4)).isTrue(); // See above comment about ds.contains
@@ -89,5 +92,50 @@ public class DynamicSetTest {
 
     // And now 4 should no longer be contained.
     assertThat(ds.contains(4)).isFalse(); // See above comment about ds.contains
+  }
+
+  @Test
+  public void plugins() {
+    DynamicSet<Integer> ds = new DynamicSet<>();
+    ds.add("foo", 1);
+    ds.add("bar", 2);
+    ds.add("bar", 3);
+
+    assertThat(ds.plugins()).containsExactly("bar", "foo").inOrder();
+  }
+
+  @Test
+  public void byPlugin() {
+    DynamicSet<Integer> ds = new DynamicSet<>();
+    ds.add("foo", 1);
+    ds.add("bar", 2);
+    ds.add("bar", 3);
+
+    assertThat(ds.byPlugin("foo").stream().map(Provider::get).collect(toSet())).containsExactly(1);
+    assertThat(ds.byPlugin("bar").stream().map(Provider::get).collect(toSet()))
+        .containsExactly(2, 3);
+  }
+
+  @Test
+  public void entryIterator() {
+    DynamicSet<Integer> ds = new DynamicSet<>();
+    ds.add("foo", 1);
+    ds.add("bar", 2);
+    ds.add("bar", 3);
+
+    Iterator<DynamicSet.Entry<Integer>> entryIterator = ds.entryIterator();
+    DynamicSet.Entry<Integer> next = entryIterator.next();
+    assertThat(next.getPluginName()).isEqualTo("foo");
+    assertThat(next.getProvider().get()).isEqualTo(1);
+
+    next = entryIterator.next();
+    assertThat(next.getPluginName()).isEqualTo("bar");
+    assertThat(next.getProvider().get()).isEqualTo(2);
+
+    next = entryIterator.next();
+    assertThat(next.getPluginName()).isEqualTo("bar");
+    assertThat(next.getProvider().get()).isEqualTo(3);
+
+    assertThat(entryIterator.hasNext()).isFalse();
   }
 }

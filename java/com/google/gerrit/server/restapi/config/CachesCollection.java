@@ -20,6 +20,7 @@ import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -66,7 +67,7 @@ public class CachesCollection implements ChildCollection<ConfigResource, CacheRe
     permissionBackend.currentUser().check(GlobalPermission.VIEW_CACHES);
 
     String cacheName = id.get();
-    String pluginName = "gerrit";
+    String pluginName = PluginName.GERRIT;
     int i = cacheName.lastIndexOf('-');
     if (i != -1) {
       pluginName = cacheName.substring(0, i);

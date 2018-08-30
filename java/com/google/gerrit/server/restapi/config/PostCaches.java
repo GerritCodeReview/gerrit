@@ -20,6 +20,7 @@ import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -110,7 +111,7 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
     List<CacheResource> cacheResources = new ArrayList<>(cacheNames.size());
 
     for (String n : cacheNames) {
-      String pluginName = "gerrit";
+      String pluginName = PluginName.GERRIT;
       String cacheName = n;
       int i = cacheName.lastIndexOf('-');
       if (i != -1) {

@@ -18,6 +18,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.metrics.CallbackMetric;
 import com.google.gerrit.metrics.CallbackMetric1;
 import com.google.gerrit.metrics.Description;
@@ -95,7 +96,7 @@ public class CacheMetrics {
   }
 
   private static String metricNameOf(DynamicMap.Entry<Cache<?, ?>> e) {
-    if ("gerrit".equals(e.getPluginName())) {
+    if (PluginName.GERRIT.equals(e.getPluginName())) {
       return e.getExportName();
     }
     return String.format("plugin/%s/%s", e.getPluginName(), e.getExportName());

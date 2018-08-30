@@ -1324,7 +1324,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected void addOnSubmitValidationListener(OnSubmitValidationListener listener) {
     assertThat(onSubmitValidatorHandle).isNull();
-    onSubmitValidatorHandle = onSubmitValidationListeners.add(listener);
+    onSubmitValidatorHandle = onSubmitValidationListeners.add("gerrit", listener);
   }
 
   private String getLatestDiff(Repository repo) throws Exception {

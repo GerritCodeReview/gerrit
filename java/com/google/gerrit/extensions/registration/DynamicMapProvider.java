@@ -37,7 +37,7 @@ class DynamicMapProvider<T> implements Provider<DynamicMap<T>> {
     if (bindings != null) {
       for (Binding<T> b : bindings) {
         if (b.getKey().getAnnotation() != null) {
-          m.put("gerrit", b.getKey(), b.getProvider());
+          m.put(PluginName.GERRIT, b.getKey(), b.getProvider());
         }
       }
     }

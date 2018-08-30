@@ -203,7 +203,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Before
   public void addChangeIndexedCounter() {
     changeIndexedCounter = new ChangeIndexedCounter();
-    changeIndexedCounterHandle = changeIndexedListeners.add(changeIndexedCounter);
+    changeIndexedCounterHandle = changeIndexedListeners.add("gerrit", changeIndexedCounter);
   }
 
   @After
@@ -2599,6 +2599,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result change = createChange();
     RegistrationHandle handle =
         changeMessageModifiers.add(
+            "gerrit",
             new ChangeMessageModifier() {
               @Override
               public String onSubmit(

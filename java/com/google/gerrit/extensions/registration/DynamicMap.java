@@ -41,12 +41,26 @@ import java.util.concurrent.ConcurrentMap;
  * singleton and non-singleton members.
  */
 public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
-  public interface Entry<T> {
-    String getPluginName();
+  public static class Entry<T> {
+    private final NamePair namePair;
+    private final Provider<T> provider;
 
-    String getExportName();
+    private Entry(NamePair namePair, Provider<T> provider) {
+      this.namePair = namePair;
+      this.provider = provider;
+    }
 
-    Provider<T> getProvider();
+    public String getPluginName() {
+      return namePair.pluginName;
+    }
+
+    public String getExportName() {
+      return namePair.exportName;
+    }
+
+    public Provider<T> getProvider() {
+      return provider;
+    }
   }
 
   /**
@@ -162,23 +176,8 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
 
       @Override
       public Entry<T> next() {
-        final Map.Entry<NamePair, Provider<T>> e = i.next();
-        return new Entry<T>() {
-          @Override
-          public String getPluginName() {
-            return e.getKey().pluginName;
-          }
-
-          @Override
-          public String getExportName() {
-            return e.getKey().exportName;
-          }
-
-          @Override
-          public Provider<T> getProvider() {
-            return e.getValue();
-          }
-        };
+        Map.Entry<NamePair, Provider<T>> e = i.next();
+        return new Entry<>(e.getKey(), e.getValue());
       }
 
       @Override

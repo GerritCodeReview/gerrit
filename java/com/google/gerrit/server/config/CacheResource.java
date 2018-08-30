@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
@@ -52,7 +53,7 @@ public class CacheResource extends ConfigResource {
   }
 
   public static String cacheNameOf(String plugin, String name) {
-    if ("gerrit".equals(plugin)) {
+    if (PluginName.GERRIT.equals(plugin)) {
       return name;
     }
     return plugin + "-" + name;

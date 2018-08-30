@@ -89,6 +89,7 @@ public class AccessIT extends AbstractDaemonTest {
   public void webLink() throws Exception {
     RegistrationHandle handle =
         fileHistoryWebLinkDynamicSet.add(
+            "gerrit",
             new FileHistoryWebLink() {
               @Override
               public WebLinkInfo getFileHistoryWebLink(
@@ -111,6 +112,7 @@ public class AccessIT extends AbstractDaemonTest {
   public void webLinkNoRefsMetaConfig() throws Exception {
     RegistrationHandle handle =
         fileHistoryWebLinkDynamicSet.add(
+            "gerrit",
             new FileHistoryWebLink() {
               @Override
               public WebLinkInfo getFileHistoryWebLink(

@@ -76,7 +76,7 @@ public class AllRequestFilterFilterProxyTest {
    */
   private ReloadableRegistrationHandle<AllRequestFilter> addFilter(AllRequestFilter filter) {
     Key<AllRequestFilter> key = Key.get(AllRequestFilter.class);
-    return filters.add(key, Providers.of(filter));
+    return filters.add("gerrit", key, Providers.of(filter));
   }
 
   @Test

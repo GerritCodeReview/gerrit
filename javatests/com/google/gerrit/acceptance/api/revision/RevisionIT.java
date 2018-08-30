@@ -920,6 +920,7 @@ public class RevisionIT extends AbstractDaemonTest {
     CountDownLatch reindexed = new CountDownLatch(1);
     RegistrationHandle handle =
         changeIndexedListeners.add(
+            "gerrit",
             new ChangeIndexedListener() {
               @Override
               public void onChangeIndexed(String projectName, int id) {
@@ -1086,6 +1087,7 @@ public class RevisionIT extends AbstractDaemonTest {
     WebLinkInfo expectedWebLinkInfo = new WebLinkInfo("foo", "imageUrl", "url");
     RegistrationHandle handle =
         patchSetLinks.add(
+            "gerrit",
             new PatchSetWebLink() {
               @Override
               public WebLinkInfo getPatchSetWebLink(String projectName, String commit) {

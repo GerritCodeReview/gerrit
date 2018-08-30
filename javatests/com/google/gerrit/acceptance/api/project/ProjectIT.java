@@ -68,7 +68,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @Before
   public void addProjectIndexedCounter() {
     projectIndexedCounter = new ProjectIndexedCounter();
-    projectIndexedCounterHandle = projectIndexedListeners.add(projectIndexedCounter);
+    projectIndexedCounterHandle = projectIndexedListeners.add("gerrit", projectIndexedCounter);
   }
 
   @After

@@ -16,6 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
@@ -60,7 +61,7 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
 
   @Override
   public String getProviderPluginName() {
-    return "gerrit";
+    return PluginName.GERRIT;
   }
 
   private ServerPluginProvider providerOf(Path srcPath) {

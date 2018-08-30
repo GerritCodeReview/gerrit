@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.registration;
 
+import com.google.gerrit.common.Nullable;
 import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -126,6 +127,7 @@ public class DynamicItem<T> {
    * @return the configured item instance; null if no implementation has been bound to the item.
    *     This is common if no plugin registered an implementation for the type.
    */
+  @Nullable
   public T get() {
     NamedProvider<T> item = ref.get();
     return item != null ? item.impl.get() : null;
@@ -222,6 +224,7 @@ public class DynamicItem<T> {
     }
 
     @Override
+    @Nullable
     public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
       NamedProvider<T> n = new NamedProvider<>(newItem, item.pluginName);
       if (ref.compareAndSet(item, n)) {

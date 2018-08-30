@@ -121,8 +121,11 @@ public class EventUtil {
 
   public void logEventListenerError(Object event, Object listener, Exception error) {
     logger.atWarning().log(
-        "Error in event listener %s for event %s: %s",
-        listener.getClass().getName(), event.getClass().getName(), error.getMessage());
+        "Error in event listener %s for event %s: %s - %s",
+        listener.getClass().getName(),
+        event.getClass().getName(),
+        error.getClass().getName(),
+        error.getMessage());
     logger.atFine().withCause(error).log(
         "Cause of error in event listener %s:", listener.getClass().getName());
   }

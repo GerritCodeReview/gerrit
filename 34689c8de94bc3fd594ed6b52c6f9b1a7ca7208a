@@ -35,6 +35,24 @@
       "revId": "34689c8de94bc3fd594ed6b52c6f9b1a7ca7208a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "117af06d_49f443ff",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T16:42:38Z",
+      "side": 1,
+      "message": "\u003e Please annotate @Nullable (pretty sure that\u0027s allowed in the extensions package)\n\nDone\n\n\u003e Note that if it\u0027s added here, it should also be added in this class\u0027s other\n\u003e methods that may return null. \n\nDone in predecessor change: https://gerrit-review.googlesource.com/c/gerrit/+/194479",
+      "parentUuid": "a700de7a_11cce190",
+      "revId": "34689c8de94bc3fd594ed6b52c6f9b1a7ca7208a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

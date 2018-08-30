@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1535566555 -0700\nnonce ACQ0HpxXtbuUksdaxM/YpZNidLhHtXF2WYehdzwrxPWMkSGXFFbvUlfVqIGZESyk3xkmKVof+lMY\n\n0000000000000000000000000000000000000000 6573e62f5eccad5dac2ea18ae28c7165755b0bf5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAluG4tsVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMS/EQALGQsIzbnuTF0f9QplnRWErVXMAA\ncMjwkVXmJzbHaiCXh15iEZpJ++vCO0DwtbfgwlmLnPDo26VNsAMfJUeDZkl58KyZ\ndKMBHrOTY3fMiWdiWIPpmL+rM400zkZtCd3VfmdlvXTuCZ3XbWk5JPmH++CMbohB\n6pg2SauHLUc8YCX7lNg5DTJfMfxvVkH0G8Kg6bfmgTNuOWHBYoSx/tB/+5/nlu+U\nbnuHS63+lVVQ0uhoy4hZzKy5w0a2Q8zDn1nrNtmW2CPLvl1IYcZF6JHfT8brtsRz\n7itQ8srpM5VLNU3ht2jtGdT6hL6h+0ZeG5YMCwYoZp4SpRmTFeSQ/EBhQCldysoX\nfTOEnj8reohJAVY34H7w04MnuvZPn6yTDENrmvTvxjQF6Syax8I/WX2BzmbTFOZc\nyuTx6OHYLK8Kby9oRw/hE42sqKjxzAjaAkxQnse+ZWy4uP2w6qLg7QoukOU4yKAT\nhpQF1f1ULnceeRqY780pTRs/yndgT2N4T4vc6R5WjOfOGN1xpJxgvSJ/5pZMvVZr\ny91c0SQyNmn5TPjRVnmTsOSWDd1RHsXTf0jRyA9Vli/I4xbbwzifI5xc0KAFB4k2\nZW1zKOXeFhAM2sL6s2tCiR+X4DRWS/CZNt2DA9o/R47TP9NOQyfmMX0ETBsxusk7\nuk3bJzzKXcN31xIt\n\u003dHjMt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad9c709_d6c7ea0c",
+        "filename": "javatests/com/google/gerrit/server/schema/SchemaCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-30T03:52:21Z",
+      "side": 1,
+      "message": "This causes a varags warning.  Changing it to:\n\n  .containsExactlyElementsIn(rangeList)\n\nfixes it.  Done in https://gerrit-review.googlesource.com/c/gerrit/+/194446",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 121,
+        "endChar": 31
+      },
+      "revId": "f65dd496640cbde9ad2eaf454dbd73bc66a5343e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

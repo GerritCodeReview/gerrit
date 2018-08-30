@@ -70,3 +70,18 @@ genrule2(
         "zip -qr $$ROOT/$@ .",
     ]),
 )
+
+# Formatting for BUILD / BUILD.bazel and WORKSPACE files
+
+load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
+
+buildifier(
+    name = "buildifier_check",
+    mode = "check",
+    verbose = True,
+)
+
+buildifier(
+    name = "buildifier_format",
+    mode = "fix",
+)

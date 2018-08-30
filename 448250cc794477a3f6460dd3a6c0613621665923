@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1535580896 -0700\nnonce ACQ0HpxlzZWkYYIf7R0UOoOpe4Uzyr/AFuBCzBT+AWWeiFtt2Bp0RDax3MbxWCnitALehmhYMVnK\n\n0000000000000000000000000000000000000000 711d2fb8d37bb1721102d6d2c8fad1069fee2703 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAluHGuAVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMC9wP/0hZSblUExXeXAG4RdVqDut2314p\nTXoO3A9GitJFkqy7hmxnlLMH6mwOTNdkGc8lJ1kNnzFhW8PBMAGb4NIWPzn/stwU\n0R4rEH+k3oUxMc1FsbANgwozKw6hcfDjQkvBcu7RjguzNkHyYKFjzqjIL+/2mkQx\n2yS0JkrerRDUhUPidvlgubS/TX6lmZjv0DUz1NY5HC7JU8NIldhNyazgI3D/bieq\n2p/7jdtAP+d8SRCFYpBQ6iBcG+h5kkpYqSTq5hWdVzIYWRS3SONCBDIi7xaabaoj\nlivnX6SXg3plZe8eKh/zNViQ+YhjZ8E8XesvXkgD7d0DAih6ZPraukFM5972MBgG\nesC3IMn/AMHSoZVpSo9p7wWv4llE26WV83yIn/qi+OvfKID6KlXlU4tImhD3YWJB\ngurOmYyEWV5+k756OUo9KY70XaMmeKagpJlAnm9x9TBv2AJ+cb5ICBbX18DNbgic\nA1FbVsF9dK4S7Urml86izTPRYMWSSEcn20qR5eFL210ltkk80yoq1LjXoz6u8RYp\n/CSCVz+UEZ4caCDHKKE4nw63nEUuXS7tU4HZuablVRtH4DvaGw7TpI4dkjBkctUg\nX1SsaENjyXrdj8VSWIDie0DYa3GzZcc0d4LY/1yuhrpDCjFjO02ybh+Lesr68uk0\nrYL6adtgVXfBXtQi\n\u003d3N/9\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e22b4479_a45b5878",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-30T01:54:02Z",
+      "side": 1,
+      "message": "Optional: Maybe add a comment here that this local method is because we can\u0027t use Guava\u0027s Strings class in GWT code?",
+      "revId": "448250cc794477a3f6460dd3a6c0613621665923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cd99beb_64904c2d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-30T01:54:02Z",
+      "side": 1,
+      "message": "This one should be converted too.",
+      "range": {
+        "startLine": 396,
+        "startChar": 6,
+        "endLine": 410,
+        "endChar": 12
+      },
+      "revId": "448250cc794477a3f6460dd3a6c0613621665923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "373d6003_8c579412",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetEmails.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-30T01:54:02Z",
+      "side": 1,
+      "message": "Can nonNull be static imported, or does this need to be explicit Class::method syntax?",
+      "range": {
+        "startLine": 54,
+        "startChar": 16,
+        "endLine": 54,
+        "endChar": 32
+      },
+      "revId": "448250cc794477a3f6460dd3a6c0613621665923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

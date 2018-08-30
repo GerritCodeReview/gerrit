@@ -46,6 +46,30 @@
       "revId": "125406c641e252ae9e61b17864f05589eb168066",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73838fbc_002e0424",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-30T05:00:29Z",
+      "side": 1,
+      "message": "OK. The jgit change is going into master, but I\u0027ll back port it to the branch that corresponds to gerrit\u0027s stable-2.14 later.\n\nI suggest we let change go into master and then backport it too.",
+      "parentUuid": "03243002_b3221426",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 41
+      },
+      "revId": "125406c641e252ae9e61b17864f05589eb168066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

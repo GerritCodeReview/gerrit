@@ -120,12 +120,7 @@
           .then(repos => {
             // Late response.
             if (filter !== this._filter || !repos) { return; }
-            this._repos = Object.keys(repos)
-             .map(key => {
-               const repo = repos[key];
-               repo.name = key;
-               return repo;
-             });
+            this._repos = repos;
             this._loading = false;
           });
     },

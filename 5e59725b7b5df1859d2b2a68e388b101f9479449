@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c2013e7_25062791",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T06:36:51Z",
+      "side": 1,
+      "message": "remove this from the method name?",
+      "range": {
+        "startLine": 132,
+        "startChar": 31,
+        "endLine": 132,
+        "endChar": 37
+      },
+      "revId": "5e59725b7b5df1859d2b2a68e388b101f9479449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64c5a107_3b051312",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T06:36:51Z",
+      "side": 1,
+      "message": "Should this be moved into AllUsersCreator now which is the only caller?\n\nAlso is it intended that if a custom code-review label is provided to AllProjectsCreator that AllUsersCreator is still using the default code-review label?? Shouldn\u0027t both use the custom code-review label in this case?",
+      "range": {
+        "startLine": 235,
+        "startChar": 2,
+        "endLine": 239,
+        "endChar": 3
+      },
+      "revId": "5e59725b7b5df1859d2b2a68e388b101f9479449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

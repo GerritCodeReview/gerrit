@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1535654767 +0200\nnonce ACQ0HpzYiqky30yhSIfYRgvzV7+b4TFUtMbDjAAnv0zILwXBa8uOdyHxROKb3BYPoMy8zRtJzJHd\n\n0000000000000000000000000000000000000000 812635aae2f5a66aaaa47cc389af82bce28e7e6e refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluIO28ACgkQUbX9l6DQ\n71HqXAf+KMrxmCL7zcR9DM+qPm7phza1daIflwE+CnrTO+bNB0k89LG0e65ZB+5O\n8OC7Ssfjj+0/TLESYKpVr6l/NMpCVM4CjhfHTnlPV/mA4oTu/BvwKqmSpuqFgYyR\n8ebjLOWlqTIsDcOISA/5LXu5IfRt9q9QT4qZJPnXNuNh4OtoWJqSpJcacyvWwDp8\nZz6QEkYYr+JYvcZERcAOGLe5IgVaJayuvVMhzlqH36jXxTpTAIFJ6u5V0GTdz1Kw\nv4rsdD/5vsrr5sUi4azmonKoaIBFjxPChyZJUMlymnNelafV4clgvaA1N77Wpeqa\ns0Ys+pciKzWJ+7sD3bzfKEoeYhxi4w\u003d\u003d\n\u003dZTgK\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e8ddb7a_731a1c5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-30T19:43:03Z",
+      "side": 1,
+      "message": "Really? I thought AutoValue generated classes were entirely self-contained with no dependencies. Adding some package-private AutoValue_Foo.class files in the extension jar should be ok.\n\n(For this particular instance it wouldn\u0027t be a big win so I\u0027m fine with this as-is.)",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "1609a936d267f03529505d83b7d081c99c6b56a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

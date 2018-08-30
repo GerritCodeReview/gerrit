@@ -23,6 +23,30 @@
       "revId": "0899396022da0a538c023f335dc1551cf8678256",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d314abd_e38e4d09",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T08:00:14Z",
+      "side": 1,
+      "message": "\u003e I think I don\u0027t fully understand the difference between static TraceContext#newTrace\n\u003e and non-static TraceContext#startTracing. Why can\u0027t this one be newTrace? Is it because\n\u003e this uses RECEIVE_ID instead of TRACE_ID? \n\nNo, the usage of RECEIVE_ID and TRACE_ID are orthogonal.\nRECEIVE_ID is always set. TRACE_ID is set in addition, but only if tracing is enabled.\n\nWe could do this with nested TraceContext\u0027s and use TraceContext#newTrace here:\n\n  try (TraceContext traceContext \u003d TraceContext.open()\n          .addTag(RequestId.Type.RECEIVE_ID, RequestId.forProject(project.getNameKey()))) {\n    try (TraceContext traceContext \u003d TraceContext.newTrace(\n            tracePushOption.orElse(false),\n            (tagName, traceId) -\u003e addMessage(tagName + \": \" + traceId)) {\n      ...\n    }\n  }\n\nBut then we have yet another indention level, which I was trying to avoid.\n\nSince we always have a TraceContext for setting RECEIVE_ID, we can reuse this TraceContext to also set TRACE_ID if tracing is enabled. This is what we are doing here. So instead of opening a new TraceContext with TraceContext#newTrace, we tell the existing TraceContext to start the request trace by invoking the startTracing method on it.\n\n\u003e Is there a way to make an overload of newTrace that could be used by this caller?\n\nUnfortunately not, since both methods (newTrace and startTracing) have exactly the same parameters (just one is static (newTrace) and one is non-static (startTracing)) they cannot have the same method name.\n\nMaybe having nested contexts as shown above is not that bad if it improves readability?",
+      "parentUuid": "b08f6942_46adc6ac",
+      "range": {
+        "startLine": 578,
+        "startChar": 23,
+        "endLine": 584,
+        "endChar": 70
+      },
+      "revId": "0899396022da0a538c023f335dc1551cf8678256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "f05167ba_22da18c1",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T20:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a4fa176_501c5a9a",
+      "range": {
+        "startLine": 193,
+        "startChar": 45,
+        "endLine": 193,
+        "endChar": 58
+      },
+      "revId": "de9b547a84a07764475b800ba9f3ff04b95d1e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed01585d_25f0bf65",
         "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "cde16c96_8c8b58ce",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T20:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed01585d_25f0bf65",
+      "range": {
+        "startLine": 195,
+        "startChar": 51,
+        "endLine": 195,
+        "endChar": 64
+      },
+      "revId": "de9b547a84a07764475b800ba9f3ff04b95d1e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51ac4f1f_d6c0e33c",
         "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
         "patchSetId": 1
@@ -60,6 +108,24 @@
       "writtenOn": "2018-08-30T19:48:18Z",
       "side": 1,
       "message": "Optional: distinguish the other combinations of these two booleans?",
+      "revId": "de9b547a84a07764475b800ba9f3ff04b95d1e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f372ce41_2a44b676",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T20:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51ac4f1f_d6c0e33c",
       "revId": "de9b547a84a07764475b800ba9f3ff04b95d1e03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

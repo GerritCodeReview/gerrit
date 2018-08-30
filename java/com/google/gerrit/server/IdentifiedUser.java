@@ -15,10 +15,12 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.flogger.LazyArgs.lazy;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
@@ -54,6 +56,8 @@ import org.eclipse.jgit.util.SystemReader;
 
 /** An authenticated user. */
 public class IdentifiedUser extends CurrentUser {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /** Create an IdentifiedUser, ignoring any per-request state. */
   @Singleton
   public static class GenericFactory {
@@ -375,8 +379,13 @@ public class IdentifiedUser extends CurrentUser {
     if (effectiveGroups == null) {
       if (authConfig.isIdentityTrustable(state().getExternalIds())) {
         effectiveGroups = groupBackend.membershipsOf(this);
+        logger.atFinest().log(
+            "Known groups of %s: %s", getLoggableName(), lazy(effectiveGroups::getKnownGroups));
       } else {
         effectiveGroups = registeredGroups;
+        logger.atFinest().log(
+            "%s has a non-trusted identity, falling back to %s as known groups",
+            getLoggableName(), lazy(registeredGroups::getKnownGroups));
       }
     }
     return effectiveGroups;

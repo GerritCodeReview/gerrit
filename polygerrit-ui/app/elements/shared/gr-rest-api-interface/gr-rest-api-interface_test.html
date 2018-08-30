@@ -951,16 +951,40 @@ limitations under the License.
             '/projects/?n=26&S=25&query=test');
       });
 
-      test('with filter', () => {
+      test('with blank', () => {
         element.getRepos('test/test/test', 25);
         assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
-            '/projects/?n=26&S=0&query=test%2Ftest%2Ftest');
+            '/projects/?n=26&S=0&query=inname%3Atest%20AND%20inname%3Atest%20AND%20inname%3Atest');
       });
 
-      test('with regex filter', () => {
-        element.getRepos('^test.*', 25);
+      test('with hyphen', () => {
+        element.getRepos('foo-bar', 25);
         assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
-            '/projects/?n=26&S=0&query=%5Etest.*');
+            '/projects/?n=26&S=0&query=inname%3Afoo%20AND%20inname%3Abar');
+      });
+
+      test('with leading hyphen', () => {
+        element.getRepos('-bar', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?n=26&S=0&query=inname%3Abar');
+      });
+
+      test('with trailing hyphen', () => {
+        element.getRepos('foo-bar-', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?n=26&S=0&query=inname%3Afoo%20AND%20inname%3Abar');
+      });
+
+      test('with underscore', () => {
+        element.getRepos('foo_bar', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?n=26&S=0&query=inname%3Afoo%20AND%20inname%3Abar');
+      });
+
+      test('with underscore', () => {
+        element.getRepos('foo_bar', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?n=26&S=0&query=inname%3Afoo%20AND%20inname%3Abar');
       });
     });
 

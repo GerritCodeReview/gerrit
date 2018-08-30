@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /** Abstract timer broken down into buckets by {@link Field} values. */
 abstract class BucketedTimer implements BucketedMetric {
   private final DropWizardMetricMaker metrics;
-  private final String name;
+  protected final String name;
   private final Description.FieldOrdering ordering;
   protected final Field<?>[] fields;
   protected final TimerImpl total;

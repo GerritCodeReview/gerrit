@@ -22,6 +22,30 @@
       "revId": "125406c641e252ae9e61b17864f05589eb168066",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03243002_b3221426",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-30T04:34:28Z",
+      "side": 1,
+      "message": "Yes moving this change and JGit change to earlier branches would be good. It\u0027s much less dance needed if we able to build JGit from the source in gerrit development tree.",
+      "parentUuid": "bdc2332a_6581ad57",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 41
+      },
+      "revId": "125406c641e252ae9e61b17864f05589eb168066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

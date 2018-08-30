@@ -19,6 +19,7 @@ import static com.google.gerrit.server.permissions.DefaultPermissionMappings.glo
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
@@ -46,6 +47,8 @@ import java.util.Set;
 
 @Singleton
 public class DefaultPermissionBackend extends PermissionBackend {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final CurrentUser.PropertyKey<Boolean> IS_ADMIN = CurrentUser.PropertyKey.create();
 
   private final Provider<CurrentUser> currentUser;
@@ -186,6 +189,15 @@ public class DefaultPermissionBackend extends PermissionBackend {
     private boolean isAdmin() {
       if (admin == null) {
         admin = computeAdmin();
+        if (admin) {
+          logger
+              .atFinest()
+              .log("user %s is an administrator of the server", user.getLoggableName());
+        } else {
+          logger
+              .atFinest()
+              .log("user %s is not an administrator of the server", user.getLoggableName());
+        }
       }
       return admin;
     }
@@ -210,11 +222,38 @@ public class DefaultPermissionBackend extends PermissionBackend {
 
     private boolean canEmailReviewers() {
       List<PermissionRule> email = capabilities().emailReviewers;
-      return allow(email) || notDenied(email);
+      if (allow(email)) {
+        logger
+            .atFinest()
+            .log("user %s can email reviewers (allowed by %s)", user.getLoggableName(), email);
+        return true;
+      }
+
+      if (notDenied(email)) {
+        logger
+            .atFinest()
+            .log("user %s can email reviewers (not denied by %s)", user.getLoggableName(), email);
+        return true;
+      }
+
+      logger.atFinest().log("user %s canot email reviewers", user.getLoggableName());
+      return false;
     }
 
     private boolean has(String permissionName) {
-      return allow(capabilities().getPermission(checkNotNull(permissionName)));
+      boolean has = allow(capabilities().getPermission(checkNotNull(permissionName)));
+      if (has) {
+        logger
+            .atFinest()
+            .log("user %s has global capability %s", user.getLoggableName(), permissionName);
+      } else {
+        logger
+            .atFinest()
+            .log(
+                "user %s doesn't have global capability %s",
+                user.getLoggableName(), permissionName);
+      }
+      return has;
     }
 
     private boolean allow(Collection<PermissionRule> rules) {

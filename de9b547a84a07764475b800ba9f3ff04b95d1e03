@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1535638067 +0200\nnonce ACQ0Hpypazk9FyNQIDMd5mb+NuUXCR1xmnW99fridhZbGzCZzv2CVPfqWNK3dyj95A6xCmZ+0IFX\n\n0000000000000000000000000000000000000000 de9b547a84a07764475b800ba9f3ff04b95d1e03 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluH+jMACgkQUbX9l6DQ\n71EPYgf/XYKg/mhKkkf8Iu+PTOjUc20/o1LKaE8HyFn9lKz91jVvnLn3cwXSI4Ow\ncFXtVFNL4l8AJSG4c8FL/2QY6JCUAXFlDWTamd3nybfmttMXbApwov44i+2cOHoW\n/zqAnDThgNqRCVCM6hKK3IkzxtXgtT4xToYXad46JqVMEkbwnOCqFcSkk3qCBYuN\ne+L1ayzDuKm8svEbHnG9U6T98nLM9947PqwoTHPP50plMgMMiL9zgsWjJeiDRJM4\nE+C3DGg5wNj4Qi+fz6ycpqAZkKCXbGOdXAfFAtRkmu1/d/kHTXP3pYbg8D9YW0s8\nt3goYvbgqTjutwda5a8BX1chmo0gzA\u003d\u003d\n\u003dsDR7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a4fa176_501c5a9a",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-30T19:48:18Z",
+      "side": 1,
+      "message": "\"is an administrator of\" or \"can administrate\"",
+      "range": {
+        "startLine": 193,
+        "startChar": 45,
+        "endLine": 193,
+        "endChar": 58
+      },
+      "revId": "de9b547a84a07764475b800ba9f3ff04b95d1e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed01585d_25f0bf65",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-30T19:48:18Z",
+      "side": 1,
+      "message": "Same comment.",
+      "range": {
+        "startLine": 195,
+        "startChar": 51,
+        "endLine": 195,
+        "endChar": 64
+      },
+      "revId": "de9b547a84a07764475b800ba9f3ff04b95d1e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ac4f1f_d6c0e33c",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-30T19:48:18Z",
+      "side": 1,
+      "message": "Optional: distinguish the other combinations of these two booleans?",
+      "revId": "de9b547a84a07764475b800ba9f3ff04b95d1e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

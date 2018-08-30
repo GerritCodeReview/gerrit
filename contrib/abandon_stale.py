@@ -103,6 +103,9 @@ def _main():
                       default=None,
                       action='store',
                       help='only abandon changes owned by the given user')
+    parser.add_option('--no-wip', dest='no_wip',
+                      action='store_true',
+                      help='Exclude changes that are Work-in-Progress')
     parser.add_option('-v', '--verbose', dest='verbose',
                       action='store_true',
                       help='enable verbose (debug) logging')
@@ -148,7 +151,9 @@ def _main():
         if options.testmode:
             query_terms = ["status:new", "owner:self", "topic:test-abandon"]
         else:
-            query_terms = ["status:new", "-is:wip", "age:%s" % options.age]
+            query_terms = ["status:new", "age:%s" % options.age]
+        wip_term = ["-is:wip"] if options.no_wip else []
+        query_terms += wip_term
         if options.branches:
             query_terms += ["branch:%s" % b for b in options.branches]
         elif options.exclude_branches:

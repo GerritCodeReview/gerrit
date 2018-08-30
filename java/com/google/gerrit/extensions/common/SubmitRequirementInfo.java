@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.common.base.MoreObjects;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,5 +50,15 @@ public class SubmitRequirementInfo {
   @Override
   public int hashCode() {
     return Objects.hash(status, fallbackText, type, data);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("status", status)
+        .add("fallbackText", fallbackText)
+        .add("type", type)
+        .add("data", data)
+        .toString();
   }
 }

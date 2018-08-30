@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "273ecc89_a86c8b99",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T18:46:55Z",
+      "side": 1,
+      "message": "I copied this pattern from DynamicMap, but I agree that a concrete would be better.\n\nDone\n\nAlso converted the Entry interface in DynamicMap into a concrete class (see predecessor change).",
+      "parentUuid": "50e8e576_7c959db4",
+      "revId": "8a395eee2e7446a7a40cb5e541a5bb88ed686d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a233a3be_7307b209",
         "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "93eb513f_dcd402b6",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T18:46:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5df3dd3b_0015d24d",
+      "revId": "8a395eee2e7446a7a40cb5e541a5bb88ed686d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dcbd3c5_6024c9b4",
         "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
         "patchSetId": 1
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "4573350a_37bec828",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T18:46:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dcbd3c5_6024c9b4",
+      "revId": "8a395eee2e7446a7a40cb5e541a5bb88ed686d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be9c661a_6ad3dcea",
         "filename": "java/com/google/gerrit/sshd/commands/StreamEvents.java",
         "patchSetId": 1
@@ -85,6 +139,24 @@
       "revId": "8a395eee2e7446a7a40cb5e541a5bb88ed686d08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0fb0ab8_d8b3fe02",
+        "filename": "java/com/google/gerrit/sshd/commands/StreamEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-08-30T18:46:55Z",
+      "side": 1,
+      "message": "Hah, I agree. I though one more wouldn\u0027t harm...\nA predecessor change fixes all the other occurrences of where we had hard-coded the \"gerrit\" plugin name.\n\nDone",
+      "parentUuid": "be9c661a_6ad3dcea",
+      "revId": "8a395eee2e7446a7a40cb5e541a5bb88ed686d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

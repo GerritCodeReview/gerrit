@@ -59,6 +59,7 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
@@ -653,6 +654,10 @@ class ReceiveCommits {
       if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
         newChanges = selectNewAndReplacedChangesFromMagicBranch(newProgress);
       }
+
+      // Commit validation has already happened, so any changes without Change-Id are for the
+      // deprecated feature.
+      warnAboutMissingChangeId(newChanges);
       preparePatchSetsForReplace(newChanges);
       insertChangesAndPatchSets(newChanges, replaceProgress);
       newProgress.end();
@@ -974,6 +979,7 @@ class ReceiveCommits {
       // The referenced change must exist and must still be open.
       Change.Id changeId = Change.Id.parse(m.group(1));
       parseReplaceCommand(cmd, changeId);
+      messages.add(new ValidationMessage("warning: pushes to refs/changes are deprecated", false));
     } else {
       reject(cmd, "upload to refs/changes not allowed");
     }
@@ -1939,6 +1945,23 @@ class ReceiveCommits {
     }
     replaceByChange.put(req.ontoChange, req);
     return true;
+  }
+
+  private void warnAboutMissingChangeId(List<CreateRequest> newChanges) {
+    for (CreateRequest create : newChanges) {
+      try {
+        receivePack.getRevWalk().parseBody(create.commit);
+      } catch (IOException e) {
+        continue;
+      }
+      List<String> idList = create.commit.getFooterLines(FooterConstants.CHANGE_ID);
+
+      if (idList.isEmpty()) {
+        messages.add(
+            new ValidationMessage("warning: pushing without Change-Id is deprecated", false));
+        break;
+      }
+    }
   }
 
   private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch(Task newProgress) {

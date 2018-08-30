@@ -103,6 +103,7 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
@@ -337,6 +338,20 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(r.getChange().getId().get()).get();
     assertThat(Iterables.getLast(change.messages).message)
         .isEqualTo("Change has been successfully pushed.");
+  }
+
+  @Test
+  public void pushWithoutChangeIdDeprecated() throws Exception {
+    setRequireChangeId(InheritableBoolean.FALSE);
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .message("A change")
+        .author(admin.getIdent())
+        .committer(new PersonIdent(admin.getIdent(), testRepo.getDate()))
+        .create();
+    PushResult result = pushHead(testRepo, "refs/for/master");
+    assertThat(result.getMessages()).contains("warning: pushing without Change-Id is deprecated");
   }
 
   @Test

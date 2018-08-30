@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -59,6 +60,10 @@ public class Section {
     return flags.cfg.getString(section, subsection, name);
   }
 
+  public String[] getList(String name) {
+    return flags.cfg.getStringList(section, subsection, name);
+  }
+
   public void set(String name, String value) {
     final ArrayList<String> all = new ArrayList<>();
     all.addAll(Arrays.asList(flags.cfg.getStringList(section, subsection, name)));
@@ -77,6 +82,10 @@ public class Section {
       all.remove(0);
       flags.cfg.setStringList(section, subsection, name, all);
     }
+  }
+
+  public void setList(String name, List<String> values) {
+    flags.cfg.setStringList(section, subsection, name, values);
   }
 
   public <T extends Enum<?>> void set(String name, T value) {

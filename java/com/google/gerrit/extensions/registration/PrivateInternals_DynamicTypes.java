@@ -175,7 +175,7 @@ public class PrivateInternals_DynamicTypes {
         Injector parent = self.getParent();
         while (parent != null) {
           handles.addAll(attachSets(self, dynamicSetsOf(parent)));
-          handles.addAll(attachMaps(self, "gerrit", dynamicMapsOf(parent)));
+          handles.addAll(attachMaps(self, PluginName.GERRIT, dynamicMapsOf(parent)));
           parent = parent.getParent();
         }
         if (handles.isEmpty()) {

@@ -16,6 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.SitePaths;
@@ -90,7 +91,7 @@ public class JarPluginProvider implements ServerPluginProvider {
 
   @Override
   public String getProviderPluginName() {
-    return "gerrit";
+    return PluginName.GERRIT;
   }
 
   private static String getExtension(Path path) {

@@ -70,6 +70,7 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -324,7 +325,7 @@ public class RestApiServlet extends HttpServlet {
             viewData = new ViewData(null, rc.list());
           } else if (isPost(req)) {
             RestView<RestResource> restCollectionView =
-                rc.views().get("gerrit", "POST_ON_COLLECTION./");
+                rc.views().get(PluginName.GERRIT, "POST_ON_COLLECTION./");
             if (restCollectionView != null) {
               viewData = new ViewData(null, restCollectionView);
             } else {
@@ -347,7 +348,7 @@ public class RestApiServlet extends HttpServlet {
             }
 
             if (isPost(req) || isPut(req)) {
-              RestView<RestResource> createView = rc.views().get("gerrit", "CREATE./");
+              RestView<RestResource> createView = rc.views().get(PluginName.GERRIT, "CREATE./");
               if (createView != null) {
                 viewData = new ViewData(null, createView);
                 status = SC_CREATED;
@@ -356,7 +357,8 @@ public class RestApiServlet extends HttpServlet {
                 throw e;
               }
             } else if (isDelete(req)) {
-              RestView<RestResource> deleteView = rc.views().get("gerrit", "DELETE_MISSING./");
+              RestView<RestResource> deleteView =
+                  rc.views().get(PluginName.GERRIT, "DELETE_MISSING./");
               if (deleteView != null) {
                 viewData = new ViewData(null, deleteView);
                 status = SC_NO_CONTENT;
@@ -414,7 +416,7 @@ public class RestApiServlet extends HttpServlet {
             }
 
             if (isPost(req) || isPut(req)) {
-              RestView<RestResource> createView = c.views().get("gerrit", "CREATE./");
+              RestView<RestResource> createView = c.views().get(PluginName.GERRIT, "CREATE./");
               if (createView != null) {
                 viewData = new ViewData(null, createView);
                 status = SC_CREATED;
@@ -423,7 +425,8 @@ public class RestApiServlet extends HttpServlet {
                 throw e;
               }
             } else if (isDelete(req)) {
-              RestView<RestResource> deleteView = c.views().get("gerrit", "DELETE_MISSING./");
+              RestView<RestResource> deleteView =
+                  c.views().get(PluginName.GERRIT, "DELETE_MISSING./");
               if (deleteView != null) {
                 viewData = new ViewData(null, deleteView);
                 status = SC_NO_CONTENT;
@@ -1245,14 +1248,14 @@ public class RestApiServlet extends HttpServlet {
     }
 
     String name = method + "." + p.get(0);
-    RestView<RestResource> core = views.get("gerrit", name);
+    RestView<RestResource> core = views.get(PluginName.GERRIT, name);
     if (core != null) {
-      return new ViewData("gerrit", core);
+      return new ViewData(PluginName.GERRIT, core);
     }
 
-    core = views.get("gerrit", "GET." + p.get(0));
+    core = views.get(PluginName.GERRIT, "GET." + p.get(0));
     if (core != null) {
-      return new ViewData("gerrit", core);
+      return new ViewData(PluginName.GERRIT, core);
     }
 
     Map<String, RestView<RestResource>> r = new TreeMap<>();

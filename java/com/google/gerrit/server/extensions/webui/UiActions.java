@@ -26,6 +26,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -169,7 +170,7 @@ public class UiActions {
 
     PrivateInternals_UiActionDescription.setMethod(dsc, e.getExportName().substring(0, d));
     PrivateInternals_UiActionDescription.setId(
-        dsc, "gerrit".equals(e.getPluginName()) ? name : e.getPluginName() + '~' + name);
+        dsc, PluginName.GERRIT.equals(e.getPluginName()) ? name : e.getPluginName() + '~' + name);
     return dsc;
   }
 }

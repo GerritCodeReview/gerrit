@@ -36,7 +36,7 @@ class DynamicItemProvider<T> implements Provider<DynamicItem<T>> {
 
   @Override
   public DynamicItem<T> get() {
-    return new DynamicItem<>(key, find(injector, type), "gerrit");
+    return new DynamicItem<>(key, find(injector, type), PluginName.GERRIT);
   }
 
   private static <T> Provider<T> find(Injector src, TypeLiteral<T> type) {

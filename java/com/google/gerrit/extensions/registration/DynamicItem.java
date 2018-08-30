@@ -78,7 +78,8 @@ public class DynamicItem<T> {
    * @param item item to store.
    */
   public static <T> DynamicItem<T> itemOf(Class<T> member, T item) {
-    return new DynamicItem<>(keyFor(TypeLiteral.get(member)), Providers.of(item), "gerrit");
+    return new DynamicItem<>(
+        keyFor(TypeLiteral.get(member)), Providers.of(item), PluginName.GERRIT);
   }
 
   @SuppressWarnings("unchecked")
@@ -169,7 +170,7 @@ public class DynamicItem<T> {
     NamedProvider<T> old = null;
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
-      if (old != null && !"gerrit".equals(old.pluginName)) {
+      if (old != null && !PluginName.GERRIT.equals(old.pluginName)) {
         throw new ProvisionException(
             String.format(
                 "%s already provided by %s, ignoring plugin %s",
@@ -201,7 +202,9 @@ public class DynamicItem<T> {
     NamedProvider<T> old = null;
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
-      if (old != null && !"gerrit".equals(old.pluginName) && !pluginName.equals(old.pluginName)) {
+      if (old != null
+          && !PluginName.GERRIT.equals(old.pluginName)
+          && !pluginName.equals(old.pluginName)) {
         // We allow to replace:
         // 1. Gerrit core items, e.g. websession cache
         //    can be replaced by plugin implementation

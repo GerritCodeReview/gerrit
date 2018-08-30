@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.access.GerritPermission;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
+import com.google.gerrit.extensions.registration.PluginName;
 import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -116,7 +117,7 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
       Class<?> annotationClass)
       throws PermissionBackendException {
     if (pluginName != null
-        && !"gerrit".equals(pluginName)
+        && !PluginName.GERRIT.equals(pluginName)
         && (scope == CapabilityScope.PLUGIN || scope == CapabilityScope.CONTEXT)) {
       return new PluginPermission(pluginName, capability, fallBackToAdmin);
     }

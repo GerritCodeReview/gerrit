@@ -1207,6 +1207,12 @@ public class ChangeJson {
     Collection<LabelInfo> labels = out.labels.values();
     Set<Account.Id> fixed = Sets.newHashSetWithExpectedSize(labels.size());
     Set<Account.Id> removable = Sets.newHashSetWithExpectedSize(labels.size());
+
+    // Check if the user has the permission to remove a reviewer. This means we can bypass the
+    // testRemoveReviewer check for a specific reviewer in the loop saving potentially many
+    // permission checks.
+    boolean canRemoveAnyReviewer =
+        permissionBackendForChange(userProvider.get(), cd).test(ChangePermission.REMOVE_REVIEWER);
     for (LabelInfo label : labels) {
       if (label.all == null) {
         continue;
@@ -1214,8 +1220,9 @@ public class ChangeJson {
       for (ApprovalInfo ai : label.all) {
         Account.Id id = new Account.Id(ai._accountId);
 
-        if (removeReviewerControl.testRemoveReviewer(
-            cd, userProvider.get(), id, MoreObjects.firstNonNull(ai.value, 0))) {
+        if (canRemoveAnyReviewer
+            || removeReviewerControl.testRemoveReviewer(
+                cd, userProvider.get(), id, MoreObjects.firstNonNull(ai.value, 0))) {
           removable.add(id);
         } else {
           fixed.add(id);
@@ -1232,7 +1239,8 @@ public class ChangeJson {
       for (AccountInfo ai : ccs) {
         if (ai._accountId != null) {
           Account.Id id = new Account.Id(ai._accountId);
-          if (removeReviewerControl.testRemoveReviewer(cd, userProvider.get(), id, 0)) {
+          if (canRemoveAnyReviewer
+              || removeReviewerControl.testRemoveReviewer(cd, userProvider.get(), id, 0)) {
             removable.add(id);
           }
         }

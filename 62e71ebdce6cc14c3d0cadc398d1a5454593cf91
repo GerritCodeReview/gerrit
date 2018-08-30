@@ -47,6 +47,30 @@
       "revId": "62e71ebdce6cc14c3d0cadc398d1a5454593cf91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a2ea7af_980bd963",
+        "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-30T19:59:45Z",
+      "side": 1,
+      "message": "*facepalm* I totally missed that this was stored in an Optional\u003cString\u003e",
+      "parentUuid": "9b26667b_af0e8af7",
+      "range": {
+        "startLine": 77,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 23
+      },
+      "revId": "62e71ebdce6cc14c3d0cadc398d1a5454593cf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

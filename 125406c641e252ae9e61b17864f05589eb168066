@@ -70,6 +70,30 @@
       "revId": "125406c641e252ae9e61b17864f05589eb168066",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a7b5947_c248ac0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-30T05:01:01Z",
+      "side": 1,
+      "message": "s/we let/we let this/",
+      "parentUuid": "73838fbc_002e0424",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 41
+      },
+      "revId": "125406c641e252ae9e61b17864f05589eb168066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

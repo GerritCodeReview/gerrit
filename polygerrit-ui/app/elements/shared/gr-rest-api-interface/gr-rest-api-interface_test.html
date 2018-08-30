@@ -962,6 +962,24 @@ limitations under the License.
         assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
             '/projects/?n=26&S=0&query=%5Etest.*');
       });
+
+      test('with hyphen', () => {
+        element.getRepos('foo-bar', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?n=26&S=0&query=inname%3Afoo%20AND%20inname%3Abar');
+      });
+
+      test('with leading hyphen', () => {
+        element.getRepos('-bar', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?n=26&S=0&query=inname%3Abar');
+      });
+
+      test('with trailing hyphen', () => {
+        element.getRepos('foo-bar-', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?n=26&S=0&query=inname%3Afoo%20AND%20inname%3Abar');
+      });
     });
 
     test('getGroups filter regex', () => {

@@ -1502,6 +1502,18 @@
 
       if (!filter) {
         filter = defaultFilter;
+      } else if (!filter.includes(':') && filter.includes('-')) {
+        // The query language specifies hyphens as operators. Split the string
+        // by hyphens and 'AND' the parts together as 'inname:' queries.
+        // If the filter includes a semicolon, the user is using a more complex
+        // query so we trust them and don't do any magic under the hood.
+        const originalFilter = filter;
+        filter = '';
+        originalFilter.split('-').forEach(function (part) {
+          if (part) {
+            filter += (filter === '' ? 'inname:' : ' AND inname:') + part;
+          }
+        });
       }
       filter = filter.trim();
       const encodedFilter = encodeURIComponent(filter);

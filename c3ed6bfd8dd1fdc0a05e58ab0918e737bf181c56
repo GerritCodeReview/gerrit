@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb656cd_8400f315",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-30T00:28:05Z",
+      "side": 1,
+      "message": "Rather than doing this, let\u0027s fix it upstream.\n\nhttps://git.eclipse.org/r/#/c/128348/",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "c3ed6bfd8dd1fdc0a05e58ab0918e737bf181c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

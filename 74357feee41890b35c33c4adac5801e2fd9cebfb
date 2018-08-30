@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1535635662 +0200\nnonce ACQ0Hpz/d2dF+oNKAGWEcsLXpqjR3nZ2vhMN+Rq0yAmUdw/Xo9xuLTeGDbhSoa0qBBGpyxv50trc\n\n0000000000000000000000000000000000000000 74357feee41890b35c33c4adac5801e2fd9cebfb refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluH8M4ACgkQUbX9l6DQ\n71Huawf/Uc8ToliumiCe0kUGwbeOJvj+OFFFMbU8D/t2WRMb1iSm6eYe76mBiWhK\nR09IDkjqd7JzeQ7jF9XCZ+5nDPikoloMV036lBL3Qdy1IL0xTXOprAVrJd4zSkoR\n9ajCU/qZSYflparDatP6u2wGmQll7z3pI3MDoQUY9C0RDajkAfZkEhMWsQ2fU4z6\nfZ+RS7Qau6MWFApjasbCVAC6SosXjK5uDJoCpzE3hUG0ARApmJc7n1FGrd7ho9ry\nchUCj+jw/6b3DOrc98NI5WzS5v1ADAD0+HYHVSKuhYLLvDzIHKgawYLeRUjE3Q1r\nxOgbWNuVx6AGfayrXOrfTsLz5LwniA\u003d\u003d\n\u003dQKba\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bb95755_0e4454a1",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-30T19:49:37Z",
+      "side": 1,
+      "message": "Optional: effectiveGroups::getKnownGroups",
+      "range": {
+        "startLine": 384,
+        "startChar": 36,
+        "endLine": 384,
+        "endChar": 74
+      },
+      "revId": "74357feee41890b35c33c4adac5801e2fd9cebfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90789d7e_315d63d0",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-30T19:49:37Z",
+      "side": 1,
+      "message": "I know it\u0027s equivalent but I would have found this easier to read as registeredGroups.getKnownGroups()",
+      "revId": "74357feee41890b35c33c4adac5801e2fd9cebfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

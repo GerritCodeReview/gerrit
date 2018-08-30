@@ -7,8 +7,8 @@ java_library(
         "//java/com/google/gerrit/common:server",
         "//lib:args4j",
         "//lib:guava",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
-        "@flogger//jar",
     ],
 )

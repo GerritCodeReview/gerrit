@@ -14,12 +14,16 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 
 /** Print a change description for use in git command-line progress. */
 public class DefaultChangeReportFormatter implements ChangeReportFormatter {
+  private static final int SUBJECT_MAX_LENGTH = 80;
+  private static final String SUBJECT_CROP_APPENDIX = "...";
+  private static final int SUBJECT_CROP_RANGE = 10;
+
   private final String canonicalWebUrl;
 
   @Inject
@@ -37,19 +41,37 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
     return formatChangeUrl(canonicalWebUrl, input);
   }
 
-  @Override
-  public String changeClosed(ChangeReportFormatter.Input input) {
-    return String.format(
-        "change %s closed", ChangeUtil.formatChangeUrl(canonicalWebUrl, input.change()));
+  public static String formatChangeUrl(String canonicalWebUrl, Change change) {
+    return canonicalWebUrl + "c/" + change.getProject().get() + "/+/" + change.getChangeId();
   }
 
-  private String formatChangeUrl(String url, Input input) {
+  @Override
+  public String changeClosed(ChangeReportFormatter.Input input) {
+    return String.format("change %s closed", formatChangeUrl(canonicalWebUrl, input.change()));
+  }
+
+  protected String cropSubject(String subject) {
+    if (subject.length() > SUBJECT_MAX_LENGTH) {
+      int maxLength = SUBJECT_MAX_LENGTH - SUBJECT_CROP_APPENDIX.length();
+      for (int cropPosition = maxLength;
+          cropPosition > maxLength - SUBJECT_CROP_RANGE;
+          cropPosition--) {
+        if (Character.isWhitespace(subject.charAt(cropPosition - 1))) {
+          return subject.substring(0, cropPosition) + SUBJECT_CROP_APPENDIX;
+        }
+      }
+      return subject.substring(0, maxLength) + SUBJECT_CROP_APPENDIX;
+    }
+    return subject;
+  }
+
+  protected String formatChangeUrl(String url, Input input) {
     StringBuilder m =
         new StringBuilder()
             .append("  ")
-            .append(ChangeUtil.formatChangeUrl(url, input.change()))
+            .append(formatChangeUrl(url, input.change()))
             .append(" ")
-            .append(ChangeUtil.cropSubject(input.subject()));
+            .append(cropSubject(input.subject()));
     if (input.isEdit()) {
       m.append(" [EDIT]");
     }

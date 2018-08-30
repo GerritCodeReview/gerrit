@@ -782,7 +782,7 @@
       } else if (action.label === 'WIP') {
         return 'Mark as work in progress';
       }
-      // Otherwise, just map the anme to sentence case.
+      // Otherwise, just map the name to sentence case.
       return this._toSentenceCase(action.label);
     },
 

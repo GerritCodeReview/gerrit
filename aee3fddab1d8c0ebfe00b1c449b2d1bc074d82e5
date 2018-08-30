@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69101fcb_bb05817f",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-30T00:46:49Z",
+      "side": 1,
+      "message": "It would be good to test that the message is only included once even if there are multiple commits without the change-id.",
+      "revId": "aee3fddab1d8c0ebfe00b1c449b2d1bc074d82e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

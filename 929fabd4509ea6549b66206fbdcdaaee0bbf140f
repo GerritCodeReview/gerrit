@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "316aa228_a1debf2d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-30T00:42:20Z",
+      "side": 1,
+      "message": "Do we have any documentation about refs/changes being deprecated?  If so, it would be nice to add a link to that documentation here.\n\nThis can be done in a follow-up change.",
+      "revId": "929fabd4509ea6549b66206fbdcdaaee0bbf140f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

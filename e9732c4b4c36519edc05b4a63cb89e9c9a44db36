@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b0a54f1d_aba289af",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-30T13:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0a54f1d_cbe39599",
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_0ca8172a",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 1
@@ -36,6 +54,24 @@
         "endLine": 83,
         "endChar": 4
       },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_cf9ba162",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-30T13:02:55Z",
+      "side": 1,
+      "message": "probably, but it\u0027s not done yet.",
+      "parentUuid": "d0a803f6_0ca8172a",
       "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +118,24 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_2fb185e7",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-30T13:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a803f6_6ca55b52",
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_ac57432a",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 1
@@ -122,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_0fae4987",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-30T13:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a803f6_ec614b0c",
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a54f1d_0bf63d56",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 1
@@ -139,6 +211,24 @@
         "endLine": 108,
         "endChar": 86
       },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a803f6_6fab8d77",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-30T13:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0a54f1d_0bf63d56",
       "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -168,6 +258,24 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_4fa85179",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-30T13:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a803f6_8c5c074e",
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_cc660f22",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 1
@@ -191,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "d0a803f6_afc57536",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-30T13:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a803f6_cc660f22",
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0a803f6_2c6cf3fe",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 1
@@ -208,6 +334,24 @@
         "endLine": 201,
         "endChar": 31
       },
+      "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0a54f1d_8ba7cdbf",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-30T13:02:55Z",
+      "side": 1,
+      "message": "these come from the .py tooling, and it\u0027s easier to have this be called buck.",
+      "parentUuid": "d0a803f6_2c6cf3fe",
       "revId": "e9732c4b4c36519edc05b4a63cb89e9c9a44db36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

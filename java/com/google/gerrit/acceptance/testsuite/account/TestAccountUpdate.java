@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.testsuite.account;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
+import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
 import java.util.Optional;
 
 @AutoValue
@@ -32,9 +32,9 @@ public abstract class TestAccountUpdate {
 
   public abstract Optional<Boolean> active();
 
-  abstract ThrowingFunction<TestAccountUpdate, TestAccount> accountUpdater();
+  abstract ThrowingConsumer<TestAccountUpdate> accountUpdater();
 
-  public static Builder builder(ThrowingFunction<TestAccountUpdate, TestAccount> accountUpdater) {
+  public static Builder builder(ThrowingConsumer<TestAccountUpdate> accountUpdater) {
     return new AutoValue_TestAccountUpdate.Builder()
         .accountUpdater(accountUpdater)
         .httpPassword("http-pass");
@@ -82,14 +82,13 @@ public abstract class TestAccountUpdate {
       return active(false);
     }
 
-    abstract Builder accountUpdater(
-        ThrowingFunction<TestAccountUpdate, TestAccount> accountUpdater);
+    abstract Builder accountUpdater(ThrowingConsumer<TestAccountUpdate> accountUpdater);
 
     abstract TestAccountUpdate autoBuild();
 
-    public TestAccount update() throws Exception {
+    public void update() throws Exception {
       TestAccountUpdate accountUpdate = autoBuild();
-      return accountUpdate.accountUpdater().apply(accountUpdate);
+      accountUpdate.accountUpdater().accept(accountUpdate);
     }
   }
 }

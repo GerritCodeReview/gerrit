@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "613a3e5f_195fd2b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-30T10:55:16Z",
+      "side": 1,
+      "message": "necessary",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "614af6860ce4ac864e63b4a29bf7b6fb8cbc54bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0bfd8db_28826b95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-08-30T10:55:16Z",
+      "side": 1,
+      "message": "redundant",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "614af6860ce4ac864e63b4a29bf7b6fb8cbc54bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "166e7d6a_9b27f571",
         "filename": "Documentation/cmd-index.txt",
         "patchSetId": 2

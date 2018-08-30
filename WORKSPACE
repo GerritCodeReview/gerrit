@@ -32,6 +32,36 @@ load("@bazel_skylib//:lib.bzl", "versions")
 
 versions.check(minimum_bazel_version = "0.14.0")
 
+# Buildifier: formatter for Bazel files as part of the 'buildtools' project:
+# https://github.com/bazelbuild/buildtools/tree/master/buildifier
+
+# buildifier is written in Go and hence needs rules_go to be built.
+# See https://github.com/bazelbuild/rules_go for the up to date setup instructions.
+http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = "5f3b0304cdf0c505ec9e5b3c4fc4a87b5ca21b13d8ecc780c97df3d1809b9ce6",
+    url = "https://github.com/bazelbuild/rules_go/releases/download/0.15.1/rules_go-0.15.1.tar.gz",
+)
+
+load("@io_bazel_rules_go//go:def.bzl", "go_register_toolchains", "go_rules_dependencies")
+
+go_rules_dependencies()
+
+go_register_toolchains()
+
+bazel_buildtools_version = "0.15.0"
+
+http_archive(
+    name = "com_github_bazelbuild_buildtools",
+    sha256 = "62afb69f40946342804776f96e00236e98ed43e12c0ffdbc44b1ce0a759915fb",
+    strip_prefix = "buildtools-%s" % bazel_buildtools_version,
+    url = "https://github.com/bazelbuild/buildtools/archive/%s.tar.gz" % bazel_buildtools_version,
+)
+
+load("@com_github_bazelbuild_buildtools//buildifier:deps.bzl", "buildifier_dependencies")
+
+buildifier_dependencies()
+
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 
 # Prevent redundant loading of dependencies.

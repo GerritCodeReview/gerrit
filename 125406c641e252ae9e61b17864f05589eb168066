@@ -135,6 +135,24 @@
       "revId": "125406c641e252ae9e61b17864f05589eb168066",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5633da2f_99a8138e",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-30T05:30:04Z",
+      "side": 1,
+      "message": "I don\u0027t know why this specific version is used.  Maybe related to the version used by com.jcraft.jsch.\n\nYes, I think a CQ is needed.  There was one for the change that adds it to JGit.",
+      "parentUuid": "15090e76_48140584",
+      "revId": "125406c641e252ae9e61b17864f05589eb168066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

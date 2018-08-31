@@ -104,7 +104,7 @@ class InitSshd implements InitStep {
                 "-q" /* quiet */,
                 "-t",
                 "rsa",
-                "-P",
+                "-N",
                 emptyPassphraseArg,
                 "-C",
                 comment,

@@ -6,9 +6,9 @@ junit_tests(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
+        "//antlr3:query_parser",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
-        "//java/com/google/gerrit/index:query_parser",
         "//lib:guava",
         "//lib:junit",
         "//lib/antlr:java-runtime",

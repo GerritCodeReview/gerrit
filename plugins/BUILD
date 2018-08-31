@@ -27,12 +27,12 @@ PLUGIN_API = [
 ]
 
 EXPORTS = [
+    "//antlr3:query_parser",
     "//java/com/google/gerrit/common:annotations",
     "//java/com/google/gerrit/common:server",
     "//java/com/google/gerrit/extensions:api",
     "//java/com/google/gerrit/index",
     "//java/com/google/gerrit/index:query_exception",
-    "//java/com/google/gerrit/index:query_parser",
     "//java/com/google/gerrit/lifecycle",
     "//java/com/google/gerrit/metrics",
     "//java/com/google/gerrit/metrics/dropwizard",
@@ -100,13 +100,13 @@ java_binary(
     main_class = "Dummy",
     visibility = ["//visibility:public"],
     runtime_deps = [
+        "//antlr3:libquery_parser-src.jar",
         "//java/com/google/gerrit/common:libannotations-src.jar",
         "//java/com/google/gerrit/common:libserver-src.jar",
         "//java/com/google/gerrit/extensions:libapi-src.jar",
         "//java/com/google/gerrit/httpd:libhttpd-src.jar",
         "//java/com/google/gerrit/index:libindex-src.jar",
         "//java/com/google/gerrit/index:libquery_exception-src.jar",
-        "//java/com/google/gerrit/index:libquery_parser-src.jar",
         "//java/com/google/gerrit/pgm/init/api:libapi-src.jar",
         "//java/com/google/gerrit/reviewdb:libserver-src.jar",
         "//java/com/google/gerrit/server:libserver-src.jar",
@@ -121,9 +121,9 @@ load("//tools/bzl:javadoc.bzl", "java_doc")
 java_doc(
     name = "plugin-api-javadoc",
     libs = PLUGIN_API + [
+        "//antlr3:query_parser",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
-        "//java/com/google/gerrit/index:query_parser",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",

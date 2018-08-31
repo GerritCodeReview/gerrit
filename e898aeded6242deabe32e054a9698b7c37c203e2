@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c17f222_0a99757a",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-31T17:42:38Z",
+      "side": 1,
+      "message": "Interestingly enough, constructors that take Charsets were finally introduced in Java 10. Doesn\u0027t do us any good on master of course, much less stable-2.14.",
+      "revId": "e898aeded6242deabe32e054a9698b7c37c203e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

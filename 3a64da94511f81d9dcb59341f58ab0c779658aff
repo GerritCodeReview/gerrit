@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a589ce5c_cc5e9531",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2018-08-31T14:35:37Z",
+      "side": 1,
+      "message": "\u003e Does this mean backporting code from newer branches into stable-2.7?\n\nYes\n\n\u003e It would make it easier to review if the existing code was cherry-picked, and then the new code added as a separate commit.\n\nAgreed, I don\u0027t have the code in that format, these are the two changes we currently have on our branch. :(\n\nI believe that much of this backported code came in via many large changes that would not cherry-pick back to 2.7 easily, and at the time I found it much easier to just incorporate the small pieces that were needed to support the new code.",
+      "parentUuid": "f6373ddb_a1286bc6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 5
+      },
+      "revId": "3a64da94511f81d9dcb59341f58ab0c779658aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e552f04_6f7f9b6f",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1

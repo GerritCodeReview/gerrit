@@ -23,6 +23,30 @@
       "revId": "62210a3166c678b1622d30d11f5431e5e9bfdf9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e941d277_14a7fb74",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-08-31T18:32:22Z",
+      "side": 1,
+      "message": "Ah, this is a really good point, I forgot about this new Java 8 method. I wonder if doing this will also fix the type inference issue that requires explicit argument types for many of the lambdas introduced this change.\n\nLet me do a full sweep of Collections#sort invocations as a followup change.",
+      "parentUuid": "f3802d35_ee1e6d63",
+      "range": {
+        "startLine": 122,
+        "startChar": 20,
+        "endLine": 122,
+        "endChar": 70
+      },
+      "revId": "62210a3166c678b1622d30d11f5431e5e9bfdf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

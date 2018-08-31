@@ -15,3 +15,17 @@ genrule2(
     ],
     visibility = ["//visibility:public"],
 )
+
+java_library(
+    name = "query_parser",
+    srcs = [":query"],
+    visibility = [
+        "//java/com/google/gerrit/index:__pkg__",
+        "//javatests/com/google/gerrit/index:__pkg__",
+        "//plugins:__pkg__",
+    ],
+    deps = [
+        "//java/com/google/gerrit/index:query_exception",
+        "//lib/antlr:java-runtime",
+    ],
+)

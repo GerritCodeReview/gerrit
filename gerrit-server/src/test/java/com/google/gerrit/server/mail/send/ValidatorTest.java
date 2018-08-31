@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -36,7 +37,7 @@ public class ValidatorTest {
       if (in == null) {
         throw new Exception("TLD list not found");
       }
-      BufferedReader r = new BufferedReader(new InputStreamReader(in));
+      BufferedReader r = new BufferedReader(new InputStreamReader(in, UTF_8));
       String tld;
       while ((tld = r.readLine()) != null) {
         if (tld.startsWith("# ") || tld.startsWith("XN--")) {

@@ -32,7 +32,7 @@ AUTO = '//lib/auto:auto-value'
 JRE = '/'.join([
     'org.eclipse.jdt.launching.JRE_CONTAINER',
     'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType',
-    'JavaSE-9',
+    'JavaSE-1.8',
 ])
 # Map of targets to corresponding classpath collector rules
 cp_targets = {

@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -66,8 +65,9 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
           break;
       }
     }
-    Collections.sort(r);
     return new DiffSummary(
-        r.toArray(new String[r.size()]), patchList.getInsertions(), patchList.getDeletions());
+        r.stream().sorted().toArray(String[]::new),
+        patchList.getInsertions(),
+        patchList.getDeletions());
   }
 }

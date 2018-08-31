@@ -22,7 +22,6 @@ import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.Image;
-import java.util.Collections;
 import java.util.List;
 
 public class ProjectsTable extends NavigationTable<ProjectInfo> {
@@ -70,7 +69,7 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
     }
 
     List<ProjectInfo> list = Natives.asList(projects.values());
-    Collections.sort(list, comparing(ProjectInfo::name));
+    list.sort(comparing(ProjectInfo::name));
     for (ProjectInfo p : list.subList(fromIndex, toIndex)) {
       insert(table.getRowCount(), p);
     }

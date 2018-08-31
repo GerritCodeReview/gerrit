@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import java.util.Collections;
 
 /** Collection of published and draft comments loaded from the server. */
 class CommentsCollections {
@@ -159,7 +158,7 @@ class CommentsCollections {
       for (CommentInfo c : Natives.asList(in)) {
         c.path(path);
       }
-      Collections.sort(Natives.asList(in), comparing(CommentInfo::updated));
+      Natives.asList(in).sort(comparing(CommentInfo::updated));
     }
     return in;
   }

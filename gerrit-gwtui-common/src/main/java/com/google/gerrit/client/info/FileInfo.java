@@ -19,7 +19,6 @@ import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class FileInfo extends JavaScriptObject {
@@ -55,8 +54,7 @@ public class FileInfo extends JavaScriptObject {
   public final native void _row(int r) /*-{ this._row = r }-*/;
 
   public static void sortFileInfoByPath(JsArray<FileInfo> list) {
-    Collections.sort(
-        Natives.asList(list), Comparator.comparing(FileInfo::path, FilenameComparator.INSTANCE));
+    Natives.asList(list).sort(Comparator.comparing(FileInfo::path, FilenameComparator.INSTANCE));
   }
 
   public static String getFileName(String path) {

@@ -79,7 +79,6 @@ import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -297,9 +296,7 @@ class ChangeNotesParser {
       }
       result.put(a.getPatchSetId(), a);
     }
-    for (Collection<PatchSetApproval> v : result.asMap().values()) {
-      Collections.sort((List<PatchSetApproval>) v, ChangeNotes.PSA_BY_TIME);
-    }
+    result.keySet().forEach(k -> result.get(k).sort(ChangeNotes.PSA_BY_TIME));
     return result;
   }
 

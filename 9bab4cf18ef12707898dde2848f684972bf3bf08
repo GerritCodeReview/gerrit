@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee91b311_b9c0cd8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-31T03:19:38Z",
+      "side": 1,
+      "message": "Nice.\n\nI wonder if we can do something similar for google-java-format?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "9bab4cf18ef12707898dde2848f684972bf3bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ea8812f_415530ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-31T03:19:38Z",
+      "side": 1,
+      "message": "Disadvantage: People using buildifier for other projects will still need to manually install it.",
+      "revId": "9bab4cf18ef12707898dde2848f684972bf3bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0050ccb8_0e117711",
+        "filename": "BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-31T03:19:38Z",
+      "side": 1,
+      "message": "Is this referring to .bzl files?",
+      "range": {
+        "startLine": 74,
+        "startChar": 25,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "9bab4cf18ef12707898dde2848f684972bf3bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61a70ab7_a0d3446d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-31T03:19:38Z",
+      "side": 1,
+      "message": "Can we change this to say \"you may download and run on your own, or...\" like at L170?",
+      "revId": "9bab4cf18ef12707898dde2848f684972bf3bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de470662_e1451656",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-31T03:19:38Z",
+      "side": 1,
+      "message": "Which files will this run on?",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 67
+      },
+      "revId": "9bab4cf18ef12707898dde2848f684972bf3bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

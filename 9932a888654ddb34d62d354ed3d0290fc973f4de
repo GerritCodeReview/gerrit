@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49602c7b_f1ac3557",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-31T03:19:38Z",
+      "side": 0,
+      "message": "I\u0027d rather keep this, in case people want to manually install it instead of using the new method.",
+      "range": {
+        "startLine": 158,
+        "startChar": 4,
+        "endLine": 158,
+        "endChar": 22
+      },
+      "revId": "9932a888654ddb34d62d354ed3d0290fc973f4de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

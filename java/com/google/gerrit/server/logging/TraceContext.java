@@ -19,7 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.TimeUtil;
 import java.util.Optional;
 
 /**
@@ -146,6 +148,97 @@ public class TraceContext implements AutoCloseable {
   @FunctionalInterface
   public interface TraceIdConsumer {
     void accept(String tagName, String traceId);
+  }
+
+  /**
+   * Opens a new timer that logs the time for an operation if request tracing is enabled.
+   *
+   * <p>If request tracing is not enabled this is a no-op.
+   *
+   * @param message the message
+   * @return the trace timer
+   */
+  public static TraceTimer newTimer(String message) {
+    return new TraceTimer(message);
+  }
+
+  /**
+   * Opens a new timer that logs the time for an operation if request tracing is enabled.
+   *
+   * <p>If request tracing is not enabled this is a no-op.
+   *
+   * @param format the message format string
+   * @param arg argument for the message
+   * @return the trace timer
+   */
+  public static TraceTimer newTimer(String format, Object arg) {
+    return new TraceTimer(format, arg);
+  }
+
+  /**
+   * Opens a new timer that logs the time for an operation if request tracing is enabled.
+   *
+   * <p>If request tracing is not enabled this is a no-op.
+   *
+   * @param format the message format string
+   * @param arg1 first argument for the message
+   * @param arg2 second argument for the message
+   * @return the trace timer
+   */
+  public static TraceTimer newTimer(String format, Object arg1, Object arg2) {
+    return new TraceTimer(format, arg1, arg2);
+  }
+
+  public static class TraceTimer implements AutoCloseable {
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+    private final String format;
+    private final int argNumber;
+    private final Object arg1;
+    private final Object arg2;
+    private final long startMs;
+
+    private TraceTimer(String message) {
+      this.format = message;
+      this.argNumber = 0;
+      this.arg1 = null;
+      this.arg2 = null;
+      this.startMs = TimeUtil.nowMs();
+    }
+
+    private TraceTimer(String format, @Nullable Object arg1) {
+      this.format = format;
+      this.argNumber = 1;
+      this.arg1 = arg1;
+      this.arg2 = null;
+      this.startMs = TimeUtil.nowMs();
+    }
+
+    private TraceTimer(String format, @Nullable Object arg1, @Nullable Object arg2) {
+      this.format = format;
+      this.argNumber = 2;
+      this.arg1 = arg1;
+      this.arg2 = arg2;
+      this.startMs = TimeUtil.nowMs();
+    }
+
+    @Override
+    public void close() {
+      long deltaMs = TimeUtil.nowMs() - startMs;
+      String msg = format + " took %d ms";
+      switch (argNumber) {
+        case 0:
+          logger.atFine().log(msg, deltaMs);
+          return;
+        case 1:
+          logger.atFine().log(msg, arg1, deltaMs);
+          return;
+        case 2:
+          logger.atFine().log(msg, arg1, arg2, deltaMs);
+          return;
+      }
+      throw new IllegalStateException("unexpected number of message arguments");
+    }
   }
 
   // Table<TAG_NAME, TAG_VALUE, REMOVE_ON_CLOSE>

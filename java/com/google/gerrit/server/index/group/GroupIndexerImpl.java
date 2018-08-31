@@ -23,6 +23,8 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -85,9 +87,17 @@ public class GroupIndexerImpl implements GroupIndexer {
 
     for (Index<AccountGroup.UUID, InternalGroup> i : getWriteIndexes()) {
       if (internalGroup.isPresent()) {
-        i.replace(internalGroup.get());
+        try (TraceTimer traceTimer =
+            TraceContext.newTimer(
+                "Replacing group %s in index version %d", uuid.get(), i.getSchema().getVersion())) {
+          i.replace(internalGroup.get());
+        }
       } else {
-        i.delete(uuid);
+        try (TraceTimer traceTimer =
+            TraceContext.newTimer(
+                "Deleting group %s in index version %d", uuid.get(), i.getSchema().getVersion())) {
+          i.delete(uuid);
+        }
       }
     }
     fireGroupIndexedEvent(uuid.get());

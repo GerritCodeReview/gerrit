@@ -23,6 +23,8 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -85,9 +87,17 @@ public class AccountIndexerImpl implements AccountIndexer {
     for (Index<Account.Id, AccountState> i : getWriteIndexes()) {
       // Evict the cache to get an up-to-date value for sure.
       if (accountState.isPresent()) {
-        i.replace(accountState.get());
+        try (TraceTimer traceTimer =
+            TraceContext.newTimer(
+                "Replacing account %d in index version %d", id.get(), i.getSchema().getVersion())) {
+          i.replace(accountState.get());
+        }
       } else {
-        i.delete(id);
+        try (TraceTimer traceTimer =
+            TraceContext.newTimer(
+                "Deleteing account %d in index version %d", id.get(), i.getSchema().getVersion())) {
+          i.delete(id);
+        }
       }
     }
     fireAccountIndexedEvent(id.get());

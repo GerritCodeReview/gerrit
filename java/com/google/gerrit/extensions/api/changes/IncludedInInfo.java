@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.google.gerrit.extensions.api.changes;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +24,11 @@ public class IncludedInInfo {
   public Map<String, Collection<String>> external;
 
   public IncludedInInfo(
-      List<String> branches, List<String> tags, Map<String, Collection<String>> external) {
-    this.branches = branches;
-    this.tags = tags;
+      Collection<String> branches,
+      Collection<String> tags,
+      Map<String, Collection<String>> external) {
+    this.branches = new ArrayList<>(branches);
+    this.tags = new ArrayList<>(tags);
     this.external = external;
   }
 }

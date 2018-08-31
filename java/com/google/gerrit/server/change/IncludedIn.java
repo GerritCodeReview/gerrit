@@ -63,13 +63,13 @@ public class IncludedIn {
       ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
       for (ExternalIncludedIn ext : externalIncludedIn) {
         ListMultimap<String, String> extIncludedIns =
-            ext.getIncludedIn(project.get(), rev.name(), d.getTags(), d.getBranches());
+            ext.getIncludedIn(project.get(), rev.name(), d.tags(), d.branches());
         if (extIncludedIns != null) {
           external.putAll(extIncludedIns);
         }
       }
       return new IncludedInInfo(
-          d.getBranches(), d.getTags(), (!external.isEmpty() ? external.asMap() : null));
+          d.branches(), d.tags(), (!external.isEmpty() ? external.asMap() : null));
     }
   }
 }

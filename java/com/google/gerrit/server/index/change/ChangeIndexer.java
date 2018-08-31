@@ -33,6 +33,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -214,7 +216,12 @@ public class ChangeIndexer {
   private void indexImpl(ChangeData cd) throws IOException {
     logger.atInfo().log("Replace change %d in index.", cd.getId().get());
     for (Index<?, ChangeData> i : getWriteIndexes()) {
-      i.replace(cd);
+      try (TraceTimer traceTimer =
+          TraceContext.newTimer(
+              "Replacing change %d in index version %d",
+              cd.getId().get(), i.getSchema().getVersion())) {
+        i.replace(cd);
+      }
     }
     fireChangeIndexedEvent(cd.project().get(), cd.getId().get());
   }
@@ -417,7 +424,11 @@ public class ChangeIndexer {
       // Implementations should not need to access the DB in order to delete a
       // change ID.
       for (ChangeIndex i : getWriteIndexes()) {
-        i.delete(id);
+        try (TraceTimer traceTimer =
+            TraceContext.newTimer(
+                "Deleteing change %d in index version %d", id.get(), i.getSchema().getVersion())) {
+          i.delete(id);
+        }
       }
       fireChangeDeletedFromIndexEvent(id.get());
       return null;

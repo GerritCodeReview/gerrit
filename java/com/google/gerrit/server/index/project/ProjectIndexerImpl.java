@@ -24,6 +24,8 @@ import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.assistedinject.Assisted;
@@ -75,13 +77,23 @@ public class ProjectIndexerImpl implements ProjectIndexer {
       logger.atInfo().log("Replace project %s in index", nameKey.get());
       ProjectData projectData = projectState.toProjectData();
       for (ProjectIndex i : getWriteIndexes()) {
-        i.replace(projectData);
+        try (TraceTimer traceTimer =
+            TraceContext.newTimer(
+                "Replacing project %s in index version %d",
+                nameKey.get(), i.getSchema().getVersion())) {
+          i.replace(projectData);
+        }
       }
       fireProjectIndexedEvent(nameKey.get());
     } else {
       logger.atInfo().log("Delete project %s from index", nameKey.get());
       for (ProjectIndex i : getWriteIndexes()) {
-        i.delete(nameKey);
+        try (TraceTimer traceTimer =
+            TraceContext.newTimer(
+                "Deleting project %s in index version %d",
+                nameKey.get(), i.getSchema().getVersion())) {
+          i.delete(nameKey);
+        }
       }
     }
   }

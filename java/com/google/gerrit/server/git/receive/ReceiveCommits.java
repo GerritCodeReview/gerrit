@@ -583,6 +583,11 @@ class ReceiveCommits {
             tracePushOption.orElse(null),
             (tagName, traceId) -> addMessage(tagName + ": " + traceId))) {
       traceContext.addTag(RequestId.Type.RECEIVE_ID, RequestId.forProject(project.getNameKey()));
+
+      // Log the push options here, rather than in parsePushOptions(), so that they are included
+      // into the trace if tracing is enabled.
+      logger.atFine().log("push options: %s", receivePack.getPushOptions());
+
       try {
         if (!projectState.getProject().getState().permitsWrite()) {
           for (ReceiveCommand cmd : commands) {

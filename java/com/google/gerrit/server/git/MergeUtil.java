@@ -220,7 +220,7 @@ public class MergeUtil {
     } catch (IOException e) {
       throw new IntegrationException("Branch head sorting failed", e);
     }
-    Collections.sort(result, CodeReviewCommit.ORDER);
+    result.sort(CodeReviewCommit.ORDER);
     return result;
   }
 

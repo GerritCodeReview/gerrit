@@ -35,7 +35,6 @@ import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -364,7 +363,7 @@ class PatchScriptBuilder {
     // them correctly later.
     //
     edits.addAll(empty);
-    Collections.sort(edits, EDIT_SORT);
+    edits.sort(EDIT_SORT);
   }
 
   private void safeAdd(List<Edit> empty, Edit toAdd) {

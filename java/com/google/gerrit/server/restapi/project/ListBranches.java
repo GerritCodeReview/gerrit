@@ -46,7 +46,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -226,7 +225,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
         // Do nothing.
       }
     }
-    Collections.sort(branches, new BranchComparator());
+    branches.sort(new BranchComparator());
     return branches;
   }
 

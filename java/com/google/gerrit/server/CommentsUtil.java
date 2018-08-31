@@ -502,7 +502,7 @@ public class CommentsUtil {
   }
 
   private static <T extends Comment> List<T> sort(List<T> comments) {
-    Collections.sort(comments, COMMENT_ORDER);
+    comments.sort(COMMENT_ORDER);
     return comments;
   }
 

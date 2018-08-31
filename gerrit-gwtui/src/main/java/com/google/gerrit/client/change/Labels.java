@@ -14,6 +14,9 @@
 
 package com.google.gerrit.client.change;
 
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.Util;
@@ -135,9 +138,12 @@ class Labels extends Grid {
   }
 
   void set(ChangeInfo info) {
-    List<String> names = new ArrayList<>(info.labels());
+    List<String> names =
+        info.labels()
+            .stream()
+            .sorted()
+            .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     Set<Integer> removable = info.removableReviewerIds();
-    Collections.sort(names);
 
     resize(names.size(), 2);
 
@@ -197,8 +203,7 @@ class Labels extends Grid {
   }
 
   private static List<Integer> sort(Set<Integer> keySet, int a, int b) {
-    List<Integer> r = new ArrayList<>(keySet);
-    Collections.sort(r);
+    List<Integer> r = keySet.stream().sorted().collect(toList());
     if (keySet.contains(a)) {
       r.remove(Integer.valueOf(a));
       r.add(0, a);
@@ -238,31 +243,32 @@ class Labels extends Grid {
       Set<Integer> removable,
       String label,
       Map<Integer, VotableInfo> votable) {
-    List<AccountInfo> users = new ArrayList<>(in);
-    Collections.sort(
-        users,
-        new Comparator<AccountInfo>() {
-          @Override
-          public int compare(AccountInfo a, AccountInfo b) {
-            String as = name(a);
-            String bs = name(b);
-            if (as.isEmpty()) {
-              return 1;
-            } else if (bs.isEmpty()) {
-              return -1;
-            }
-            return as.compareTo(bs);
-          }
+    List<AccountInfo> users =
+        in.stream()
+            .sorted(
+                new Comparator<AccountInfo>() {
+                  @Override
+                  public int compare(AccountInfo a, AccountInfo b) {
+                    String as = name(a);
+                    String bs = name(b);
+                    if (as.isEmpty()) {
+                      return 1;
+                    } else if (bs.isEmpty()) {
+                      return -1;
+                    }
+                    return as.compareTo(bs);
+                  }
 
-          private String name(AccountInfo a) {
-            if (a.name() != null) {
-              return a.name();
-            } else if (a.email() != null) {
-              return a.email();
-            }
-            return "";
-          }
-        });
+                  private String name(AccountInfo a) {
+                    if (a.name() != null) {
+                      return a.name();
+                    } else if (a.email() != null) {
+                      return a.email();
+                    }
+                    return "";
+                  }
+                })
+            .collect(collectingAndThen(toList(), Collections::unmodifiableList));
 
     SafeHtmlBuilder html = new SafeHtmlBuilder();
     Iterator<? extends AccountInfo> itr = users.iterator();

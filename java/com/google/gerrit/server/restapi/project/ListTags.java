@@ -40,7 +40,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -135,7 +134,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       }
     }
 
-    Collections.sort(tags, comparing(t -> t.ref));
+    tags.sort(comparing(t -> t.ref));
 
     return new RefFilter<TagInfo>(Constants.R_TAGS)
         .start(start)

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.common.data.Permission.isPermission;
 import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
 import static java.util.stream.Collectors.toList;
@@ -1451,10 +1452,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     validationErrors.add(error);
   }
 
-  private static <T extends Comparable<? super T>> List<T> sort(Collection<T> m) {
-    ArrayList<T> r = new ArrayList<>(m);
-    Collections.sort(r);
-    return r;
+  private static <T extends Comparable<? super T>> ImmutableList<T> sort(Collection<T> m) {
+    return m.stream().sorted().collect(toImmutableList());
   }
 
   public boolean hasLegacyPermissions() {

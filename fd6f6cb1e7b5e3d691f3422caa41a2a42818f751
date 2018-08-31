@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cd1cf1b_7b4bbecc",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2080,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-31T00:19:59Z",
+      "side": 0,
+      "message": "Replace this with a test of the opposite behavior?  I.e. pushing to refs/publish/master now fails?",
+      "range": {
+        "startLine": 2072,
+        "startChar": 2,
+        "endLine": 2080,
+        "endChar": 3
+      },
+      "revId": "fd6f6cb1e7b5e3d691f3422caa41a2a42818f751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

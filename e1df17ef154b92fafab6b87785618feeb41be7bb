@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "582d729e_5c48e2d5",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1399,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-31T00:19:59Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 1399,
+        "startChar": 4,
+        "endLine": 1399,
+        "endChar": 20
+      },
+      "revId": "e1df17ef154b92fafab6b87785618feeb41be7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

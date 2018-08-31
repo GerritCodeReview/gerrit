@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9caf6ad8_ff4adc1e",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-31T11:19:48Z",
+      "side": 1,
+      "message": "On Linux it shows 9. Done.\n\nI meant now, after the two earlier steps but I think it\u0027s confusing.",
+      "parentUuid": "2b2c46f3_08d63ed6",
+      "range": {
+        "startLine": 59,
+        "startChar": 64,
+        "endLine": 59,
+        "endChar": 73
+      },
+      "revId": "0f06fa7cf30785fd3ac82a11296179087f606634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b151e071_b02407e8",
         "filename": "Documentation/dev-eclipse.txt",
         "patchSetId": 17
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "aba0146d_c0fc06c0",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-31T11:19:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b151e071_b02407e8",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 14
+      },
+      "revId": "0f06fa7cf30785fd3ac82a11296179087f606634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "deea376b_a152d82f",
         "filename": "Documentation/dev-eclipse.txt",
         "patchSetId": 17
@@ -68,6 +116,30 @@
       "revId": "0f06fa7cf30785fd3ac82a11296179087f606634",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a36aa3ec_f79a2a56",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-08-31T11:19:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure if also space works, but it worked for me as-is on Linux. It was also recently documented like this in dev-bazel.txt file: [1].\n\n* [1] https://github.com/GerritCodeReview/gerrit/blob/master/Documentation/dev-bazel.txt#L34-L36",
+      "parentUuid": "deea376b_a152d82f",
+      "range": {
+        "startLine": 63,
+        "startChar": 13,
+        "endLine": 63,
+        "endChar": 14
+      },
+      "revId": "0f06fa7cf30785fd3ac82a11296179087f606634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

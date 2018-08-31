@@ -856,7 +856,13 @@ public class AccountIT extends AbstractDaemonTest {
   public void createUserWithValidUsername() throws Exception {
     ImmutableList<String> names =
         ImmutableList.of(
-            "user@domain", "user-name", "user_name", "1234", "user1234", "1234@domain");
+            "user@domain",
+            "user-name",
+            "user_name",
+            "1234",
+            "user1234",
+            "1234@domain",
+            "user!+alias{*}#$%&’^=~|@domain");
     for (String name : names) {
       gApi.accounts().create(name);
     }
@@ -864,7 +870,10 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void createUserWithInvalidUsername() throws Exception {
-    ImmutableList<String> invalidNames = ImmutableList.of("@", "@foo", "-", "-foo", "_", "_foo");
+    ImmutableList<String> invalidNames =
+        ImmutableList.of(
+            "@", "@foo", "-", "-foo", "_", "_foo", "!", "+", "{", "}", "*", "%", "#", "$", "&", "’",
+            "^", "=", "~");
     for (String name : invalidNames) {
       try {
         gApi.accounts().create(name);

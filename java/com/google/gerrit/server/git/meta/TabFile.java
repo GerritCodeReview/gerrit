@@ -14,13 +14,15 @@
 
 package com.google.gerrit.server.git.meta;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.git.ValidationError;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,10 +124,8 @@ public class TabFile {
     return buf.toString();
   }
 
-  protected static <T extends Comparable<? super T>> List<T> sort(Collection<T> m) {
-    ArrayList<T> r = new ArrayList<>(m);
-    Collections.sort(r);
-    return r;
+  protected static <T extends Comparable<? super T>> ImmutableList<T> sort(Collection<T> m) {
+    return m.stream().sorted().collect(toImmutableList());
   }
 
   protected static String pad(int len, String src) {

@@ -16,6 +16,7 @@ package com.google.gerrit.client.change;
 
 import static com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER;
 import static com.google.gwt.event.dom.client.KeyCodes.KEY_MAC_ENTER;
+import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
@@ -123,11 +124,10 @@ public class ReplyBox extends Composite {
     this.lc = new LocalComments(project, psId.getParentKey());
     initWidget(uiBinder.createAndBindUi(this));
 
-    List<String> names = new ArrayList<>(permitted.keySet());
+    List<String> names = permitted.keySet().stream().sorted().collect(toList());
     if (names.isEmpty()) {
       UIObject.setVisible(labelsParent, false);
     } else {
-      Collections.sort(names);
       renderLabels(names, all, permitted);
     }
 
@@ -439,8 +439,7 @@ public class ReplyBox extends Composite {
               clp, project, psId, Util.C.commitMessage(), copyPath(Patch.MERGE_LIST, l)));
     }
 
-    List<String> paths = new ArrayList<>(m.keySet());
-    Collections.sort(paths);
+    List<String> paths = m.keySet().stream().sorted().collect(toList());
 
     for (String path : paths) {
       if (!Patch.isMagic(path)) {

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import com.google.common.collect.ComparisonChain;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -35,8 +37,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,20 +106,14 @@ public class ListTasks implements RestReadView<ConfigResource> {
   }
 
   private List<TaskInfo> getTasks() {
-    List<TaskInfo> taskInfos = workQueue.getTaskInfos(TaskInfo::new);
-    Collections.sort(
-        taskInfos,
-        new Comparator<TaskInfo>() {
-          @Override
-          public int compare(TaskInfo a, TaskInfo b) {
-            return ComparisonChain.start()
-                .compare(a.state.ordinal(), b.state.ordinal())
-                .compare(a.delay, b.delay)
-                .compare(a.command, b.command)
-                .result();
-          }
-        });
-    return taskInfos;
+    return workQueue
+        .getTaskInfos(TaskInfo::new)
+        .stream()
+        .sorted(
+            comparing((TaskInfo t) -> t.state.ordinal())
+                .thenComparing(t -> t.delay)
+                .thenComparing(t -> t.command))
+        .collect(toList());
   }
 
   public static class TaskInfo {

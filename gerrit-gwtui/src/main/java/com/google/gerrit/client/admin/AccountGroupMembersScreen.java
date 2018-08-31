@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import static java.util.Comparator.comparing;
+
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
@@ -29,7 +31,6 @@ import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -295,26 +296,9 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
 
     void insert(AccountInfo info) {
       Comparator<AccountInfo> c =
-          new Comparator<AccountInfo>() {
-            @Override
-            public int compare(AccountInfo a, AccountInfo b) {
-              int cmp = nullToEmpty(a.name()).compareTo(nullToEmpty(b.name()));
-              if (cmp != 0) {
-                return cmp;
-              }
-
-              cmp = nullToEmpty(a.email()).compareTo(nullToEmpty(b.email()));
-              if (cmp != 0) {
-                return cmp;
-              }
-
-              return a._accountId() - b._accountId();
-            }
-
-            public String nullToEmpty(String str) {
-              return str == null ? "" : str;
-            }
-          };
+          comparing((AccountInfo a) -> nullToEmpty(a.name()))
+              .thenComparing(a -> nullToEmpty(a.email()))
+              .thenComparing(AccountInfo::_accountId);
       int insertPos = getInsertRow(c, info);
       if (insertPos >= 0) {
         table.insertRow(insertPos);
@@ -405,20 +389,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
 
     void insert(GroupInfo info) {
       Comparator<GroupInfo> c =
-          new Comparator<GroupInfo>() {
-            @Override
-            public int compare(GroupInfo a, GroupInfo b) {
-              int cmp = nullToEmpty(a.name()).compareTo(nullToEmpty(b.name()));
-              if (cmp != 0) {
-                return cmp;
-              }
-              return a.getGroupUUID().compareTo(b.getGroupUUID());
-            }
-
-            private String nullToEmpty(@Nullable String str) {
-              return (str == null) ? "" : str;
-            }
-          };
+          comparing((GroupInfo g) -> nullToEmpty(g.name())).thenComparing(GroupInfo::getGroupUUID);
       int insertPos = getInsertRow(c, info);
       if (insertPos >= 0) {
         table.insertRow(insertPos);
@@ -456,5 +427,10 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
 
       setRowItem(row, i);
     }
+  }
+
+  // Like Guava's Strings#nullToEmpty, which can't be used in GWT UI code.
+  private static String nullToEmpty(String str) {
+    return str == null ? "" : str;
   }
 }

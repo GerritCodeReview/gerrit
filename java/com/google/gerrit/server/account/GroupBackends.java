@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import static java.util.Comparator.comparing;
+
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
@@ -25,12 +27,7 @@ import java.util.Comparator;
 public class GroupBackends {
 
   public static final Comparator<GroupReference> GROUP_REF_NAME_COMPARATOR =
-      new Comparator<GroupReference>() {
-        @Override
-        public int compare(GroupReference a, GroupReference b) {
-          return a.getName().compareTo(b.getName());
-        }
-      };
+      comparing(GroupReference::getName);
 
   /**
    * Runs {@link GroupBackend#suggest(String, ProjectState)} and filters the result to return the

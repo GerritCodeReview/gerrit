@@ -14,10 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -27,7 +26,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,9 +52,6 @@ public class IncludedInResolverTest extends RepositoryTestCase {
   private RevCommit commit_initial;
   private RevCommit commit_v1_3;
   private RevCommit commit_v2_5;
-
-  private List<String> expTags = new ArrayList<>();
-  private List<String> expBranches = new ArrayList<>();
 
   private RevWalk revWalk;
 
@@ -140,12 +135,8 @@ public class IncludedInResolverTest extends RepositoryTestCase {
     IncludedInResolver.Result detail = resolve(commit_v2_5);
 
     // Check that only tags and branches which refer the tip are returned
-    expTags.add(TAG_2_5);
-    expTags.add(TAG_2_5_ANNOTATED);
-    expTags.add(TAG_2_5_ANNOTATED_TWICE);
-    assertEquals(expTags, detail.getTags());
-    expBranches.add(BRANCH_2_5);
-    assertEquals(expBranches, detail.getBranches());
+    assertThat(detail.tags()).containsExactly(TAG_2_5, TAG_2_5_ANNOTATED, TAG_2_5_ANNOTATED_TWICE);
+    assertThat(detail.branches()).containsExactly(BRANCH_2_5);
   }
 
   @Test
@@ -154,22 +145,18 @@ public class IncludedInResolverTest extends RepositoryTestCase {
     IncludedInResolver.Result detail = resolve(commit_initial);
 
     // Check whether all tags and branches are returned
-    expTags.add(TAG_1_0);
-    expTags.add(TAG_1_0_1);
-    expTags.add(TAG_1_3);
-    expTags.add(TAG_2_0);
-    expTags.add(TAG_2_0_1);
-    expTags.add(TAG_2_5);
-    expTags.add(TAG_2_5_ANNOTATED);
-    expTags.add(TAG_2_5_ANNOTATED_TWICE);
-    assertEquals(expTags, detail.getTags());
-
-    expBranches.add(BRANCH_MASTER);
-    expBranches.add(BRANCH_1_0);
-    expBranches.add(BRANCH_1_3);
-    expBranches.add(BRANCH_2_0);
-    expBranches.add(BRANCH_2_5);
-    assertEquals(expBranches, detail.getBranches());
+    assertThat(detail.tags())
+        .containsExactly(
+            TAG_1_0,
+            TAG_1_0_1,
+            TAG_1_3,
+            TAG_2_0,
+            TAG_2_0_1,
+            TAG_2_5,
+            TAG_2_5_ANNOTATED,
+            TAG_2_5_ANNOTATED_TWICE);
+    assertThat(detail.branches())
+        .containsExactly(BRANCH_MASTER, BRANCH_1_0, BRANCH_1_3, BRANCH_2_0, BRANCH_2_5);
   }
 
   @Test
@@ -178,25 +165,13 @@ public class IncludedInResolverTest extends RepositoryTestCase {
     IncludedInResolver.Result detail = resolve(commit_v1_3);
 
     // Check whether all succeeding tags and branches are returned
-    expTags.add(TAG_1_3);
-    expTags.add(TAG_2_5);
-    expTags.add(TAG_2_5_ANNOTATED);
-    expTags.add(TAG_2_5_ANNOTATED_TWICE);
-    assertEquals(expTags, detail.getTags());
-
-    expBranches.add(BRANCH_1_3);
-    expBranches.add(BRANCH_2_5);
-    assertEquals(expBranches, detail.getBranches());
+    assertThat(detail.tags())
+        .containsExactly(TAG_1_3, TAG_2_5, TAG_2_5_ANNOTATED, TAG_2_5_ANNOTATED_TWICE);
+    assertThat(detail.branches()).containsExactly(BRANCH_1_3, BRANCH_2_5);
   }
 
   private IncludedInResolver.Result resolve(RevCommit commit) throws Exception {
     return IncludedInResolver.resolve(db, revWalk, commit);
-  }
-
-  private void assertEquals(List<String> list1, List<String> list2) {
-    Collections.sort(list1);
-    Collections.sort(list2);
-    Assert.assertEquals(list1, list2);
   }
 
   private void createAndCheckoutBranch(ObjectId objectId, String branchName) throws IOException {

@@ -43,8 +43,9 @@ import java.util.Optional;
  * </pre>
  *
  * <p>The logging tags and the force logging flag are stored in the {@link LoggingContext}. {@link
- * LoggingContextAwareThreadFactory} ensures that the logging context is automatically copied to
- * background threads.
+ * LoggingContextAwareExecutorService}, {@link LoggingContextAwareScheduledExecutorService} and the
+ * executor in {@link com.google.gerrit.server.git.WorkQueue} ensure that the logging context is
+ * automatically copied to background threads.
  *
  * <p>On close of the trace context newly set tags are unset. Force logging is disabled on close if
  * it got enabled while the trace context was open.

@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.git.WorkQueue;
 import java.util.Optional;
 
 /**
@@ -43,7 +44,8 @@ import java.util.Optional;
  * </pre>
  *
  * <p>The logging tags and the force logging flag are stored in the {@link LoggingContext}. {@link
- * LoggingContextAwareThreadFactory} ensures that the logging context is automatically copied to
+ * LoggingContextAwareExecutorService}, {@link LoggingContextAwareScheduledExecutorService} and the
+ * executor in {@link WorkQueue} ensure that the logging context is automatically copied to
  * background threads.
  *
  * <p>On close of the trace context newly set tags are unset. Force logging is disabled on close if

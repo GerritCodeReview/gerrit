@@ -16,6 +16,7 @@ package com.google.gerrit.server.logging;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.flogger.backend.Tags;
+import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
 /**
@@ -40,6 +41,20 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
   /** This method is expected to be called via reflection (and might otherwise be unused). */
   public static LoggingContext getInstance() {
     return INSTANCE;
+  }
+
+  public static Runnable copy(Runnable runnable) {
+    if (runnable instanceof LoggingContextAwareRunnable) {
+      return runnable;
+    }
+    return new LoggingContextAwareRunnable(runnable);
+  }
+
+  public static <T> Callable<T> copy(Callable<T> callable) {
+    if (callable instanceof LoggingContextAwareCallable) {
+      return callable;
+    }
+    return new LoggingContextAwareCallable<>(callable);
   }
 
   @Override

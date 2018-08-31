@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6373ddb_a1286bc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-31T01:05:52Z",
+      "side": 1,
+      "message": "Does this mean backporting code from newer branches into stable-2.7?\n\nIt would make it easier to review if the existing code was cherry-picked, and then the new code added as a separate commit.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 5
+      },
+      "revId": "3a64da94511f81d9dcb59341f58ab0c779658aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e552f04_6f7f9b6f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-31T01:05:52Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 402,
+        "startChar": 0,
+        "endLine": 402,
+        "endChar": 20
+      },
+      "revId": "3a64da94511f81d9dcb59341f58ab0c779658aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

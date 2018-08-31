@@ -178,7 +178,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
       }
     }
 
-    Collections.sort(Natives.asList(out), outComparator());
+    Natives.asList(out).sort(outComparator());
 
     table.updateColumnsForLabels(wip, out, in, done);
     workInProgress.display(wip);

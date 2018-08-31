@@ -30,7 +30,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -66,7 +65,7 @@ public class InitPlugins implements InitStep {
           }
           result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
         });
-    Collections.sort(result, comparing(p -> p.name));
+    result.sort(comparing(p -> p.name));
     return result;
   }
 

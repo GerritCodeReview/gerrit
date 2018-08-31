@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.account;
 
+import static java.util.Comparator.naturalOrder;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -29,7 +31,6 @@ import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -169,7 +170,7 @@ public class MyIdentitiesScreen extends SettingsScreen {
 
     void display(JsArray<ExternalIdInfo> results) {
       List<ExternalIdInfo> idList = Natives.asList(results);
-      Collections.sort(idList);
+      idList.sort(naturalOrder());
 
       while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);

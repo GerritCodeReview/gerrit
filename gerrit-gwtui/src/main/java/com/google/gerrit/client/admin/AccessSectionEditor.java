@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.LabelType;
@@ -45,7 +47,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ValueListBox;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AccessSectionEditor extends Composite
@@ -205,9 +206,8 @@ public class AccessSectionEditor extends Composite
   }
 
   private void sortPermissions(AccessSection accessSection) {
-    List<Permission> permissionList = new ArrayList<>(accessSection.getPermissions());
-    Collections.sort(permissionList);
-    accessSection.setPermissions(permissionList);
+    accessSection.setPermissions(
+        accessSection.getPermissions().stream().sorted().collect(toList()));
   }
 
   void setEditing(boolean editing) {

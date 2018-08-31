@@ -42,7 +42,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MyGpgKeysScreen extends SettingsScreen {
@@ -119,7 +118,7 @@ public class MyGpgKeysScreen extends SettingsScreen {
                     List<GpgKeyInfo> list = Natives.asList(result.values());
                     // TODO(dborowitz): Sort on something more meaningful, like
                     // created date?
-                    Collections.sort(list, comparing(GpgKeyInfo::id));
+                    list.sort(comparing(GpgKeyInfo::id));
                     keys.clear();
                     keyText.setText("");
                     errorPanel.setVisible(false);

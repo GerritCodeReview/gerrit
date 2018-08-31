@@ -23,7 +23,6 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.safehtml.shared.SafeUri;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -243,7 +242,7 @@ public class ModeInfo extends JavaScriptObject {
         byMime.put(m.mode(), m);
       }
     }
-    Collections.sort(Natives.asList(filtered), comparing((ModeInfo m) -> m.name().toLowerCase()));
+    Natives.asList(filtered).sort(comparing(m -> m.name().toLowerCase()));
     setAll(filtered);
   }
 

@@ -239,7 +239,7 @@ public class CommentSender extends ReplyToChangeSender {
       }
     }
 
-    Collections.sort(groups, Comparator.comparing(g -> g.filename, FilenameComparator.INSTANCE));
+    groups.sort(Comparator.comparing(g -> g.filename, FilenameComparator.INSTANCE));
     return groups;
   }
 

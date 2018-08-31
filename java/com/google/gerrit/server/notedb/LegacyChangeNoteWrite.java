@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ListMultimap;
@@ -30,8 +31,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -87,8 +86,7 @@ public class LegacyChangeNoteWrite {
       return;
     }
 
-    List<Integer> psIds = new ArrayList<>(comments.keySet());
-    Collections.sort(psIds);
+    List<Integer> psIds = comments.keySet().stream().sorted().collect(toList());
 
     OutputStreamWriter streamWriter = new OutputStreamWriter(out, UTF_8);
     try (PrintWriter writer = new PrintWriter(streamWriter)) {

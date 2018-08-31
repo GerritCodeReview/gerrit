@@ -53,7 +53,6 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -184,8 +183,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         continue; // Bogus ref, can't be merged into tip so we don't care.
       }
     }
-    Collections.sort(
-        commits,
+    commits.sort(
         ReviewDbUtil.intKeyOrdering().reverse().onResultOf(CodeReviewCommit::getPatchsetId));
     CodeReviewCommit result = MergeUtil.findAnyMergedInto(rw, commits, tip);
     if (result == null) {

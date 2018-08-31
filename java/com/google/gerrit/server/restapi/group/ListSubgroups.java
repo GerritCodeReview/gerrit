@@ -30,7 +30,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Singleton
@@ -72,8 +71,7 @@ public class ListSubgroups implements RestReadView<GroupResource> {
         continue;
       }
     }
-    Collections.sort(
-        included,
+    included.sort(
         comparing((GroupInfo g) -> nullToEmpty(g.name)).thenComparing(g -> nullToEmpty(g.id)));
     return included;
   }

@@ -15,8 +15,10 @@
 package com.google.gerrit.sshd.commands;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -33,11 +35,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
@@ -92,25 +90,27 @@ final class ShowConnections extends SshCommand {
       throw new Failure(1, "fatal: sshd no longer running");
     }
 
-    final List<IoSession> list = new ArrayList<>(acceptor.getManagedSessions().values());
-    Collections.sort(
-        list,
-        new Comparator<IoSession>() {
-          @Override
-          public int compare(IoSession arg0, IoSession arg1) {
-            if (arg0 instanceof MinaSession) {
-              MinaSession mArg0 = (MinaSession) arg0;
-              MinaSession mArg1 = (MinaSession) arg1;
-              if (mArg0.getSession().getCreationTime() < mArg1.getSession().getCreationTime()) {
-                return -1;
-              } else if (mArg0.getSession().getCreationTime()
-                  > mArg1.getSession().getCreationTime()) {
-                return 1;
-              }
-            }
-            return (int) (arg0.getId() - arg1.getId());
-          }
-        });
+    final ImmutableList<IoSession> list =
+        acceptor
+            .getManagedSessions()
+            .values()
+            .stream()
+            .sorted(
+                (arg0, arg1) -> {
+                  if (arg0 instanceof MinaSession) {
+                    MinaSession mArg0 = (MinaSession) arg0;
+                    MinaSession mArg1 = (MinaSession) arg1;
+                    if (mArg0.getSession().getCreationTime()
+                        < mArg1.getSession().getCreationTime()) {
+                      return -1;
+                    } else if (mArg0.getSession().getCreationTime()
+                        > mArg1.getSession().getCreationTime()) {
+                      return 1;
+                    }
+                  }
+                  return (int) (arg0.getId() - arg1.getId());
+                })
+            .collect(toImmutableList());
 
     hostNameWidth = wide ? Integer.MAX_VALUE : columns - 9 - 9 - 10 - 32;
 

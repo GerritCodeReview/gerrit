@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -61,7 +62,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
         .format(listComments(rsrc));
   }
 
-  public List<CommentInfo> getComments(RevisionResource rsrc)
+  public ImmutableList<CommentInfo> getComments(RevisionResource rsrc)
       throws OrmException, PermissionBackendException {
     return commentJson
         .get()

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "471d34bd_7b2ab2a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-08-31T08:36:12Z",
+      "side": 1,
+      "message": "\u003e Nice.\n\nanother advantage I missed: it can automatically find the relevant Bazel files in your workspace - no need for providing \u0027buildifier\u0027 command line arguments for all files.\n\n\u003e I wonder if we can do something similar for google-java-format?\n\nPerhaps, haven\u0027t looked into that. I don\u0027t want to do that in this change actually.",
+      "parentUuid": "ee91b311_b9c0cd8c",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "9bab4cf18ef12707898dde2848f684972bf3bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5ea8812f_415530ab",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2018-08-31T03:19:38Z",
       "side": 1,
       "message": "Disadvantage: People using buildifier for other projects will still need to manually install it.",
+      "revId": "9bab4cf18ef12707898dde2848f684972bf3bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e4ebb1d_2f123b78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-08-31T08:36:12Z",
+      "side": 1,
+      "message": "Yes, I guess that\u0027s trade-off here. (Because it\u0027s basically part to your Bazel workspace.)",
+      "parentUuid": "5ea8812f_415530ab",
       "revId": "9bab4cf18ef12707898dde2848f684972bf3bf08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "26de88e3_e57ff531",
+        "filename": "BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-08-31T08:36:12Z",
+      "side": 1,
+      "message": "No. \u0027BUILD\u0027 files should be \u0027BUILD.bazel\u0027 files as recommended by the Bazel team [1] (but documentation isn\u0027t adjusted for yet [2]).\n\nHowever, yes, it will format your .bzl files, apparently. (see other comment)\n\n[1]: https://github.com/bazelbuild/bazel/issues/552\n[2]: https://github.com/bazelbuild/bazel/issues/4517",
+      "parentUuid": "0050ccb8_0e117711",
+      "range": {
+        "startLine": 74,
+        "startChar": 25,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "9bab4cf18ef12707898dde2848f684972bf3bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61a70ab7_a0d3446d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 3
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "994b6ede_8f88efaf",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-08-31T08:36:12Z",
+      "side": 1,
+      "message": "Agree.",
+      "parentUuid": "61a70ab7_a0d3446d",
+      "revId": "9bab4cf18ef12707898dde2848f684972bf3bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de470662_e1451656",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 3
@@ -93,6 +177,30 @@
       "writtenOn": "2018-08-31T03:19:38Z",
       "side": 1,
       "message": "Which files will this run on?",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 67
+      },
+      "revId": "9bab4cf18ef12707898dde2848f684972bf3bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d61e9c08_d75b049e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-08-31T08:36:12Z",
+      "side": 1,
+      "message": "IIUC:\n\n* WORKSPACE\n* BUILD\n* BUILD.bazel\n* *.bzl\n\nThe latter one isn\u0027t documented, but it works by making a formatting error in one of them:\n\n $ bazel run --direct_run //:buildifier_check\n [...]\n ./tools/maven/package.bzl # reformat \n $ echo $?\n 4",
+      "parentUuid": "de470662_e1451656",
       "range": {
         "startLine": 166,
         "startChar": 2,

@@ -19,6 +19,7 @@ import static org.apache.http.HttpStatus.SC_CREATED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.truth.Expect;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -27,22 +28,30 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.restapi.ParameterParser;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.logging.LoggingContext;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.SortedSet;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class TraceIT extends AbstractDaemonTest {
+  @Rule public final Expect expect = Expect.create();
+
   @Inject private DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   @Inject private DynamicSet<CommitValidationListener> commitValidationListeners;
+  @Inject private WorkQueue workQueue;
 
   private TraceValidatingProjectCreationValidationListener projectCreationListener;
   private RegistrationHandle projectCreationListenerRegistrationHandle;
@@ -159,6 +168,47 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(commitValidationListener.traceId).isEqualTo("issue/123");
     assertThat(commitValidationListener.foundTraceId).isTrue();
     assertThat(commitValidationListener.isLoggingForced).isTrue();
+  }
+
+  @Test
+  public void workQueueCopyLoggingContext() throws Exception {
+    assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
+    assertForceLogging(false);
+    try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar")) {
+      SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
+      assertThat(tagMap.keySet()).containsExactly("foo");
+      assertThat(tagMap.get("foo")).containsExactly("bar");
+      assertForceLogging(true);
+
+      workQueue
+          .createQueue(1, "test-queue")
+          .submit(
+              () -> {
+                // Verify that the tags and force logging flag have been propagated to the new
+                // thread.
+                SortedMap<String, SortedSet<Object>> threadTagMap =
+                    LoggingContext.getInstance().getTags().asMap();
+                expect.that(threadTagMap.keySet()).containsExactly("foo");
+                expect.that(threadTagMap.get("foo")).containsExactly("bar");
+                expect
+                    .that(LoggingContext.getInstance().shouldForceLogging(null, null, false))
+                    .isTrue();
+              })
+          .get();
+
+      // Verify that tags and force logging flag in the outer thread are still set.
+      tagMap = LoggingContext.getInstance().getTags().asMap();
+      assertThat(tagMap.keySet()).containsExactly("foo");
+      assertThat(tagMap.get("foo")).containsExactly("bar");
+      assertForceLogging(true);
+    }
+    assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
+    assertForceLogging(false);
+  }
+
+  private void assertForceLogging(boolean expected) {
+    assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
+        .isEqualTo(expected);
   }
 
   private static class TraceValidatingProjectCreationValidationListener

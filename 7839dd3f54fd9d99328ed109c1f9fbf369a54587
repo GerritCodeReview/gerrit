@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "883ac38c_a589ce64",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-08-31T00:17:20Z",
+      "side": 0,
+      "message": "FYI upstream git-review has been fixed [1] to stop using refs/publish.  That doesn\u0027t seem to be included in any release yet, though.\n\n[1] https://github.com/openstack-infra/git-review/commit/694f532ca803882d7b3446c31f5fc690e9669042",
+      "parentUuid": "d0a974bb_10ad96b2",
+      "revId": "7839dd3f54fd9d99328ed109c1f9fbf369a54587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f4e830a_108f30e9",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 6

@@ -37,7 +37,6 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -98,9 +97,7 @@ class CommentJson {
         list.add(o);
       }
 
-      for (List<T> list : out.values()) {
-        Collections.sort(list, COMMENT_INFO_ORDER);
-      }
+      out.values().forEach(l -> l.sort(COMMENT_INFO_ORDER));
 
       if (loader != null) {
         loader.fill();

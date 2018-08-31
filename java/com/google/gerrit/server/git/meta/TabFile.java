@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.git.meta;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.server.git.ValidationError;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -123,9 +124,7 @@ public class TabFile {
   }
 
   protected static <T extends Comparable<? super T>> List<T> sort(Collection<T> m) {
-    ArrayList<T> r = new ArrayList<>(m);
-    Collections.sort(r);
-    return r;
+    return m.stream().sorted().collect(toList());
   }
 
   protected static String pad(int len, String src) {

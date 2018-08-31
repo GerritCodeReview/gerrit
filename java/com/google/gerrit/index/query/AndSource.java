@@ -15,6 +15,7 @@
 package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
@@ -26,7 +27,6 @@ import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -176,9 +176,7 @@ public class AndSource<T> extends AndPredicate<T>
   }
 
   private List<Predicate<T>> sort(Collection<? extends Predicate<T>> that) {
-    List<Predicate<T>> r = new ArrayList<>(that);
-    Collections.sort(r, this);
-    return r;
+    return that.stream().sorted(this).collect(toList());
   }
 
   @Override

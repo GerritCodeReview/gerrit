@@ -32,7 +32,6 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -448,9 +447,8 @@ public class ChangeInfo extends JavaScriptObject {
 
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
       final int editParent = findEditParent(list);
-      Collections.sort(
-          Natives.asList(list),
-          comparing(r -> !r.isEdit() ? 2 * (r._number() - 1) + 1 : 2 * editParent));
+      Natives.asList(list)
+          .sort(comparing(r -> !r.isEdit() ? 2 * (r._number() - 1) + 1 : 2 * editParent));
     }
 
     public static int findEditParent(JsArray<RevisionInfo> list) {

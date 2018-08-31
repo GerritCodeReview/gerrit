@@ -1452,9 +1452,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private static <T extends Comparable<? super T>> List<T> sort(Collection<T> m) {
-    ArrayList<T> r = new ArrayList<>(m);
-    Collections.sort(r);
-    return r;
+    return m.stream().sorted().collect(toList());
   }
 
   public boolean hasLegacyPermissions() {

@@ -456,8 +456,8 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       }
     }
 
-    Collections.sort(cmds, PluginEntry.COMPARATOR_BY_NAME);
-    Collections.sort(docs, PluginEntry.COMPARATOR_BY_NAME);
+    cmds.sort(PluginEntry.COMPARATOR_BY_NAME);
+    docs.sort(PluginEntry.COMPARATOR_BY_NAME);
 
     StringBuilder md = new StringBuilder();
     md.append(String.format("# Plugin %s #\n", pluginName));

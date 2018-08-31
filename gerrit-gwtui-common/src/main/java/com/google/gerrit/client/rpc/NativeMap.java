@@ -14,11 +14,11 @@
 
 package com.google.gerrit.client.rpc;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -57,10 +57,7 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
   }
 
   public final List<String> sortedKeys() {
-    Set<String> keys = keySet();
-    List<String> sorted = new ArrayList<>(keys);
-    Collections.sort(sorted);
-    return sorted;
+    return keySet().stream().sorted().collect(toList());
   }
 
   public final native JsArray<T> values() /*-{

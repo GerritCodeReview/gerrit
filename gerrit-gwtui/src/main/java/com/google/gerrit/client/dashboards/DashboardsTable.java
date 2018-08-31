@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +75,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
       table.removeRow(table.getRowCount() - 1);
     }
 
-    Collections.sort(list, comparing(DashboardInfo::id));
+    list.sort(comparing(DashboardInfo::id));
 
     String ref = null;
     for (DashboardInfo d : list) {

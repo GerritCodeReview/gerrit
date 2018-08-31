@@ -34,7 +34,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
-import java.util.Collections;
 import java.util.List;
 
 public class GroupTable extends NavigationTable<GroupInfo> {
@@ -106,7 +105,7 @@ public class GroupTable extends NavigationTable<GroupInfo> {
       table.removeRow(table.getRowCount() - 1);
     }
 
-    Collections.sort(list, comparing(GroupInfo::name));
+    list.sort(comparing(GroupInfo::name));
     for (GroupInfo group : list.subList(fromIndex, toIndex)) {
       final int row = table.getRowCount();
       table.insertRow(row);

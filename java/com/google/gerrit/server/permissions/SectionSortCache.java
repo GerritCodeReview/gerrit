@@ -26,7 +26,6 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.List;
 
@@ -88,7 +87,7 @@ public class SectionSortCache {
         poison |= srcMap.put(sections.get(i), i) != null;
       }
 
-      Collections.sort(sections, new MostSpecificComparator(ref));
+      sections.sort(new MostSpecificComparator(ref));
 
       int[] srcIdx;
       if (isIdentityTransform(sections, srcMap)) {

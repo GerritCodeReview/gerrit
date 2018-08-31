@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
@@ -110,7 +109,7 @@ public class WalkSorter {
     for (Map.Entry<Project.NameKey, Collection<ChangeData>> e : byProject.asMap().entrySet()) {
       sortedByProject.add(sortProject(e.getKey(), e.getValue()));
     }
-    Collections.sort(sortedByProject, PROJECT_LIST_SORTER);
+    sortedByProject.sort(PROJECT_LIST_SORTER);
     return Iterables.concat(sortedByProject);
   }
 

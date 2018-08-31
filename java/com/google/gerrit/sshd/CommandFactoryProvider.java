@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.logging.LoggingContextAwareThreadFactory;
+import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -78,12 +78,12 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     int threads = cfg.getInt("sshd", "commandStartThreads", 2);
     startExecutor = workQueue.createQueue(threads, "SshCommandStart", true);
     destroyExecutor =
-        Executors.newSingleThreadExecutor(
-            new ThreadFactoryBuilder()
-                .setThreadFactory(new LoggingContextAwareThreadFactory())
-                .setNameFormat("SshCommandDestroy-%s")
-                .setDaemon(true)
-                .build());
+        new LoggingContextAwareExecutorService(
+            Executors.newSingleThreadExecutor(
+                new ThreadFactoryBuilder()
+                    .setNameFormat("SshCommandDestroy-%s")
+                    .setDaemon(true)
+                    .build()));
   }
 
   @Override

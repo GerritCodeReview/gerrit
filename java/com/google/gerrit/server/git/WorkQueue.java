@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Supplier;
 import com.google.common.flogger.FluentLogger;
@@ -24,7 +26,8 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
-import com.google.gerrit.server.logging.LoggingContextAwareThreadFactory;
+import com.google.gerrit.server.logging.LoggingContext;
+import com.google.gerrit.server.logging.LoggingContextAwareRunnable;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -43,6 +46,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
@@ -166,12 +170,11 @@ public class WorkQueue {
     if (threadPriority != Thread.NORM_PRIORITY) {
       ThreadFactory parent = executor.getThreadFactory();
       executor.setThreadFactory(
-          new LoggingContextAwareThreadFactory(
-              task -> {
-                Thread t = parent.newThread(task);
-                t.setPriority(threadPriority);
-                return t;
-              }));
+          task -> {
+            Thread t = parent.newThread(task);
+            t.setPriority(threadPriority);
+            return t;
+          });
     }
 
     return executor;
@@ -253,19 +256,18 @@ public class WorkQueue {
     Executor(int corePoolSize, final String queueName) {
       super(
           corePoolSize,
-          new LoggingContextAwareThreadFactory(
-              new ThreadFactory() {
-                private final ThreadFactory parent = Executors.defaultThreadFactory();
-                private final AtomicInteger tid = new AtomicInteger(1);
+          new ThreadFactory() {
+            private final ThreadFactory parent = Executors.defaultThreadFactory();
+            private final AtomicInteger tid = new AtomicInteger(1);
 
-                @Override
-                public Thread newThread(Runnable task) {
-                  final Thread t = parent.newThread(task);
-                  t.setName(queueName + "-" + tid.getAndIncrement());
-                  t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
-                  return t;
-                }
-              }));
+            @Override
+            public Thread newThread(Runnable task) {
+              final Thread t = parent.newThread(task);
+              t.setName(queueName + "-" + tid.getAndIncrement());
+              t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
+              return t;
+            }
+          });
 
       all =
           new ConcurrentHashMap<>( //
@@ -274,6 +276,75 @@ public class WorkQueue {
               corePoolSize + 4 // concurrency level
               );
       this.queueName = queueName;
+    }
+
+    @Override
+    public void execute(Runnable command) {
+      super.execute(LoggingContext.copy(command));
+    }
+
+    @Override
+    public <T> Future<T> submit(Callable<T> task) {
+      return super.submit(LoggingContext.copy(task));
+    }
+
+    @Override
+    public <T> Future<T> submit(Runnable task, T result) {
+      return super.submit(LoggingContext.copy(task), result);
+    }
+
+    @Override
+    public Future<?> submit(Runnable task) {
+      return super.submit(LoggingContext.copy(task));
+    }
+
+    @Override
+    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+        throws InterruptedException {
+      return super.invokeAll(tasks.stream().map(LoggingContext::copy).collect(toSet()));
+    }
+
+    @Override
+    public <T> List<Future<T>> invokeAll(
+        Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
+        throws InterruptedException {
+      return super.invokeAll(
+          tasks.stream().map(LoggingContext::copy).collect(toSet()), timeout, unit);
+    }
+
+    @Override
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
+        throws InterruptedException, ExecutionException {
+      return super.invokeAny(tasks.stream().map(LoggingContext::copy).collect(toSet()));
+    }
+
+    @Override
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
+        throws InterruptedException, ExecutionException, TimeoutException {
+      return super.invokeAny(
+          tasks.stream().map(LoggingContext::copy).collect(toSet()), timeout, unit);
+    }
+
+    @Override
+    public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
+      return super.schedule(LoggingContext.copy(command), delay, unit);
+    }
+
+    @Override
+    public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
+      return super.schedule(LoggingContext.copy(callable), delay, unit);
+    }
+
+    @Override
+    public ScheduledFuture<?> scheduleAtFixedRate(
+        Runnable command, long initialDelay, long period, TimeUnit unit) {
+      return super.scheduleAtFixedRate(LoggingContext.copy(command), initialDelay, period, unit);
+    }
+
+    @Override
+    public ScheduledFuture<?> scheduleWithFixedDelay(
+        Runnable command, long initialDelay, long delay, TimeUnit unit) {
+      return super.scheduleWithFixedDelay(LoggingContext.copy(command), initialDelay, delay, unit);
     }
 
     @Override
@@ -370,6 +441,10 @@ public class WorkQueue {
 
         Task<V> task;
 
+        if (runnable instanceof LoggingContextAwareRunnable) {
+          runnable = ((LoggingContextAwareRunnable) runnable).unwrap();
+        }
+
         if (runnable instanceof ProjectRunnable) {
           task = new ProjectTask<>((ProjectRunnable) runnable, r, this, id);
         } else {
@@ -393,7 +468,8 @@ public class WorkQueue {
     }
 
     Task<?> getTask(int id) {
-      return all.get(id);
+      Task<?> task = all.get(id);
+      return task;
     }
 
     void addAllTo(List<Task<?>> list) {

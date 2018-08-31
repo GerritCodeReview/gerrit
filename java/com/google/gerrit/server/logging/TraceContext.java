@@ -43,7 +43,7 @@ import java.util.Optional;
  * </pre>
  *
  * <p>The logging tags and the force logging flag are stored in the {@link LoggingContext}. {@link
- * LoggingContextAwareThreadFactory} ensures that the logging context is automatically copied to
+ * LoggingContextAwareExecutorService} ensures that the logging context is automatically copied to
  * background threads.
  *
  * <p>On close of the trace context newly set tags are unset. Force logging is disabled on close if

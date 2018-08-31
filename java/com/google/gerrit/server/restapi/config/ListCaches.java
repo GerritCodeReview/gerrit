@@ -14,14 +14,16 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
 import static com.google.gerrit.server.config.CacheResource.cacheNameOf;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.joining;
 
-import com.google.common.base.Joiner;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
+import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -29,11 +31,9 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 import org.kohsuke.args4j.Option;
 
 @RequiresAnyCapability({VIEW_CACHES, MAINTAIN_SERVER})
@@ -72,19 +72,17 @@ public class ListCaches implements RestReadView<ConfigResource> {
     if (format == null) {
       return getCacheInfos();
     }
-    List<String> cacheNames = new ArrayList<>();
-    for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
-      cacheNames.add(cacheNameOf(e.getPluginName(), e.getExportName()));
-    }
-    Collections.sort(cacheNames);
-
+    Stream<String> cacheNames =
+        Streams.stream(cacheMap)
+            .map(e -> cacheNameOf(e.getPluginName(), e.getExportName()))
+            .sorted();
     if (OutputFormat.TEXT_LIST.equals(format)) {
-      return BinaryResult.create(Joiner.on('\n').join(cacheNames))
+      return BinaryResult.create(cacheNames.collect(joining("\n")))
           .base64()
           .setContentType("text/plain")
           .setCharacterEncoding(UTF_8);
     }
-    return cacheNames;
+    return cacheNames.collect(toImmutableList());
   }
 
   public enum CacheType {

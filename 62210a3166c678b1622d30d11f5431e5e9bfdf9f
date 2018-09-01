@@ -47,6 +47,30 @@
       "revId": "62210a3166c678b1622d30d11f5431e5e9bfdf9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "447c4a4b_d7f9ec4c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-01T00:29:15Z",
+      "side": 1,
+      "message": "I wouldn\u0027t make a lot of effort to fix these in GWT code that\u0027s (hopefully) going to be removed soon.",
+      "parentUuid": "e941d277_14a7fb74",
+      "range": {
+        "startLine": 122,
+        "startChar": 20,
+        "endLine": 122,
+        "endChar": 70
+      },
+      "revId": "62210a3166c678b1622d30d11f5431e5e9bfdf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

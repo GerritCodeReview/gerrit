@@ -16,6 +16,24 @@
       "revId": "e898aeded6242deabe32e054a9698b7c37c203e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b277c0a_b172eee1",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-01T05:51:47Z",
+      "side": 1,
+      "message": "Do you (or anyone else @Google) have any ETA for leaving Java 8 behind us on gerrit\u0027s master and switching to Java 9 or even skipping Java 9 and jumping directly to Java 10? I\u0027m asking because Bazel started to thinking about removal of JDK8 as default toolchain in Bazel 0.17.rc1:\n\n  $ sh bazel-0.17.1rc1-installer-linux-x86_64.sh --user\n  [...]\n    - Use VanillaJavaBuilder and disable header compilation in\n    toolchain_hostjdk8. The default toolchain will soon drop\n    compatibility with JDK 8. Using a JDK 8 host_javabase\n    will only be supported when using \u0027VanillaJavaBuilder\u0027 (which\n    does not support Error Prone, Strict Java Deps, or reduced classpaths) and with header\n    compilation disabled.\n\nAnd as you can see from discussion in: [1] to continue support for JDK 8 is going to be more verbose:\n\n  $ bazel build --host_java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_java8 --java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_java8\n\nMoreover, as we have seen in recent Bazel outage in 0.16.1 release: [2], it\u0027s becoming harder to maintain compatibility with ancient JDK version like Java 8.\n\n* [1] https://github.com/bazelbuild/bazel/issues/6035\n* [2] https://github.com/bazelbuild/bazel/issues/6027",
+      "parentUuid": "2c17f222_0a99757a",
+      "revId": "e898aeded6242deabe32e054a9698b7c37c203e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

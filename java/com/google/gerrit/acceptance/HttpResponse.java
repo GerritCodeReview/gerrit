@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Preconditions;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,7 +36,7 @@ public class HttpResponse {
 
   public Reader getReader() throws IllegalStateException, IOException {
     if (reader == null && response.getEntity() != null) {
-      reader = new InputStreamReader(response.getEntity().getContent());
+      reader = new InputStreamReader(response.getEntity().getContent(), UTF_8);
     }
     return reader;
   }

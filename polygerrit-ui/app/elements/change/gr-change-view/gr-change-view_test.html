@@ -1411,18 +1411,24 @@ limitations under the License.
       });
 
       test('canStartReview computation', () => {
-        const account1 = {_account_id: 1};
-        const account2 = {_account_id: 2};
-        const change = {
-          owner: {_account_id: 1},
+        const change1 = {};
+        const change2 = {
+          actions: {
+            ready: {
+              enabled: true,
+            },
+          },
         };
-        assert.isFalse(element._computeCanStartReview(true, change, account1));
-        change.work_in_progress = false;
-        assert.isFalse(element._computeCanStartReview(true, change, account1));
-        change.work_in_progress = true;
-        assert.isTrue(element._computeCanStartReview(true, change, account1));
-        assert.isFalse(element._computeCanStartReview(false, change, account1));
-        assert.isFalse(element._computeCanStartReview(true, change, account2));
+        const change3 = {
+          actions: {
+            ready: {
+              label: 'Ready for Review',
+            },
+          },
+        };
+        assert.isFalse(element._computeCanStartReview(change1));
+        assert.isTrue(element._computeCanStartReview(change2));
+        assert.isFalse(element._computeCanStartReview(change3));
       });
     });
 

@@ -184,7 +184,7 @@ public class PushCertificateCheckerTest {
     }
 
     String cert = payload + new String(bout.toByteArray(), UTF_8);
-    Reader reader = new InputStreamReader(new ByteArrayInputStream(cert.getBytes(UTF_8)));
+    Reader reader = new InputStreamReader(new ByteArrayInputStream(cert.getBytes(UTF_8)), UTF_8);
     PushCertificateParser parser = new PushCertificateParser(repo, signedPushConfig);
     return parser.parse(reader);
   }

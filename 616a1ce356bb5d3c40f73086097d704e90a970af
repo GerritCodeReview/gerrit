@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "770ca11c_c3684526",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-09-03T15:43:40Z",
+      "side": 1,
+      "message": "it should be \u0027single character\u0027 - will fix it",
+      "parentUuid": "cf4853f1_20da335e",
+      "range": {
+        "startLine": 20,
+        "startChar": 5,
+        "endLine": 20,
+        "endChar": 17
+      },
+      "revId": "616a1ce356bb5d3c40f73086097d704e90a970af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed1c445b_5fac9562",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-09-03T01:34:45Z",
       "side": 1,
       "message": "If the only difference between this pattern and the previous one is the @ character, it would be better to extract the common part to a separate constant.",
+      "range": {
+        "startLine": 48,
+        "startChar": 54,
+        "endLine": 48,
+        "endChar": 92
+      },
+      "revId": "616a1ce356bb5d3c40f73086097d704e90a970af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "904e4402_7c85458d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-09-03T15:43:40Z",
+      "side": 1,
+      "message": "addressed in preceding change",
+      "parentUuid": "ed1c445b_5fac9562",
       "range": {
         "startLine": 48,
         "startChar": 54,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3a065658_417bb707",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-09-03T15:43:40Z",
+      "side": 1,
+      "message": "String.format is not compatible with GWT hence cannot be used here :/",
+      "parentUuid": "566b0271_35ab9fc2",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 14
+      },
+      "revId": "616a1ce356bb5d3c40f73086097d704e90a970af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "94d3efb8_27a32b47",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2018-09-03T01:34:45Z",
       "side": 1,
       "message": "The message doesn\u0027t include the @ character.\n\nMaybe it would be better to change this to \"...must match the pattern %s\" and use string format to include the regex pattern. This will also make it so future changes to the pattern don\u0027t require this line to be changed again.",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 81
+      },
+      "revId": "616a1ce356bb5d3c40f73086097d704e90a970af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1b7a172_81d4a1d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-09-03T15:43:40Z",
+      "side": 1,
+      "message": "it never included \u0027@\u0027 so that is nothing introduced with this change :/\nanyway fix was applied in preceding change.",
+      "parentUuid": "94d3efb8_27a32b47",
       "range": {
         "startLine": 115,
         "startChar": 6,

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.reviewdb.client.Account.USER_NAME_PATTERN;
 import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
 
 import com.google.gerrit.audit.AuditService;
@@ -113,7 +114,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     if (!username.matches(Account.USER_NAME_PATTERN)) {
       throw new BadRequestException(
-          "Username '" + username + "' must contain only letters, numbers, _, - or .");
+          "Username '" + username + "' must comply with [" + USER_NAME_PATTERN + "] pattern.");
     }
 
     Set<AccountGroup.Id> groups = parseGroups(input.groups);

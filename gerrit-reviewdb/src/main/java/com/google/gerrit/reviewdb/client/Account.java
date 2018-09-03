@@ -44,15 +44,14 @@ import java.sql.Timestamp;
  * </ul>
  */
 public final class Account {
-  public static final String USER_NAME_PATTERN_FIRST = "[a-zA-Z0-9]";
-  public static final String USER_NAME_PATTERN_REST = "[a-zA-Z0-9._@-]";
-  public static final String USER_NAME_PATTERN_LAST = "[a-zA-Z0-9]";
+  private static final String USER_NAME_COMMON_PATTERN = "a-zA-Z0-9";
+  public static final String USER_NAME_PATTERN_FIRST = "[" + USER_NAME_COMMON_PATTERN + "]";
+  public static final String USER_NAME_PATTERN_REST = "[" + USER_NAME_COMMON_PATTERN + "._@-]";
+  public static final String USER_NAME_PATTERN_LAST = USER_NAME_PATTERN_FIRST;
 
   /** Regular expression that {@link #userName} must match. */
   public static final String USER_NAME_PATTERN =
-      "^"
-          + //
-          "("
+      "^("
           + //
           USER_NAME_PATTERN_FIRST
           + //
@@ -65,9 +64,7 @@ public final class Account {
           + //
           USER_NAME_PATTERN_FIRST
           + //
-          ")"
-          + //
-          "$";
+          ")$";
 
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {

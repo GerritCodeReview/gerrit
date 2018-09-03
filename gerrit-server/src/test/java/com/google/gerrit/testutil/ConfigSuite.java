@@ -148,7 +148,7 @@ public class ConfigSuite extends Suite {
 
     @Override
     public Object createTest() throws Exception {
-      Object test = getTestClass().getJavaClass().newInstance();
+      Object test = getTestClass().getJavaClass().getDeclaredConstructor().newInstance();
       parameterField.set(test, new org.eclipse.jgit.lib.Config(cfg));
       if (nameField != null) {
         nameField.set(test, name);

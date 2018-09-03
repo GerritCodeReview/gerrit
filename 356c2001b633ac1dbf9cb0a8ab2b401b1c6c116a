@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46ef4cee_4d91078f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-03T09:08:46Z",
+      "side": 1,
+      "message": "I\u0027m confused, as you added some strack traces in the gerrit issue linked to this commit. One of the ES issues, that you linked to the gerrit isse, pointig to this discussion thread, that is not a part of official ES documentation: [1].\n\n* [1] https://discuss.elastic.co/t/dec-15th-2017-en-elasticsearch-going-from-multiple-types-to-one-type-with-the-reindex-api/111315",
+      "revId": "356c2001b633ac1dbf9cb0a8ab2b401b1c6c116a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

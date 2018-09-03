@@ -76,6 +76,7 @@ import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.gerrit.server.rules.PrologModule;
+import com.google.gerrit.server.rules.RequireNonAuthorApprovalRule;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
@@ -188,6 +189,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(SubmitRuleEvaluator.Factory.class);
     install(new PrologModule());
     install(new DefaultSubmitRule.Module());
+    install(new RequireNonAuthorApprovalRule.Module());
 
     bind(ChangeJson.Factory.class).toProvider(Providers.<ChangeJson.Factory>of(null));
     bind(EventUtil.class).toProvider(Providers.<EventUtil>of(null));

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf4853f1_20da335e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-03T01:34:45Z",
+      "side": 1,
+      "message": "Not sure what \"single digit\" means here.  Should be \"single word\" i.e. not using email address format?",
+      "range": {
+        "startLine": 20,
+        "startChar": 5,
+        "endLine": 20,
+        "endChar": 17
+      },
+      "revId": "616a1ce356bb5d3c40f73086097d704e90a970af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed1c445b_5fac9562",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-03T01:34:45Z",
+      "side": 1,
+      "message": "If the only difference between this pattern and the previous one is the @ character, it would be better to extract the common part to a separate constant.",
+      "range": {
+        "startLine": 48,
+        "startChar": 54,
+        "endLine": 48,
+        "endChar": 92
+      },
+      "revId": "616a1ce356bb5d3c40f73086097d704e90a970af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "566b0271_35ab9fc2",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-03T01:34:45Z",
+      "side": 1,
+      "message": "Can we convert this to a String.format expression so that we don\u0027t need all the // line breaks and it\u0027ll be easier to read?",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 14
+      },
+      "revId": "616a1ce356bb5d3c40f73086097d704e90a970af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94d3efb8_27a32b47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-03T01:34:45Z",
+      "side": 1,
+      "message": "The message doesn\u0027t include the @ character.\n\nMaybe it would be better to change this to \"...must match the pattern %s\" and use string format to include the regex pattern. This will also make it so future changes to the pattern don\u0027t require this line to be changed again.",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 81
+      },
+      "revId": "616a1ce356bb5d3c40f73086097d704e90a970af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

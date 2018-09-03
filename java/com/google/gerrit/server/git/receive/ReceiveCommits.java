@@ -1810,7 +1810,7 @@ class ReceiveCommits {
       return;
     }
 
-    if (validateConnected(magicBranch.dest, tip)) {
+    if (validateConnected(magicBranch.cmd, magicBranch.dest, tip)) {
       this.magicBranch = magicBranch;
     }
   }
@@ -1819,7 +1819,7 @@ class ReceiveCommits {
   // branch.  If they aren't, we want to abort. We do this check by
   // looking to see if we can compute a merge base between the new
   // commits and the target branch head.
-  private boolean validateConnected(Branch.NameKey dest, RevCommit tip) {
+  private boolean validateConnected(ReceiveCommand cmd, Branch.NameKey dest, RevCommit tip) {
     RevWalk walk = receivePack.getRevWalk();
     try {
       Ref targetRef = receivePack.getAdvertisedRefs().get(dest.get());
@@ -1842,7 +1842,7 @@ class ReceiveCommits {
         walk.markStart(tip);
         walk.markStart(h);
         if (walk.next() == null) {
-          reject(magicBranch.cmd, "no common ancestry");
+          reject(cmd, "no common ancestry");
           return false;
         }
       } finally {
@@ -1850,7 +1850,7 @@ class ReceiveCommits {
         walk.setRevFilter(oldRevFilter);
       }
     } catch (IOException e) {
-      magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
+      cmd.setResult(REJECTED_MISSING_OBJECT);
       logger.atSevere().withCause(e).log("Invalid pack upload; one or more objects weren't sent");
       return false;
     }

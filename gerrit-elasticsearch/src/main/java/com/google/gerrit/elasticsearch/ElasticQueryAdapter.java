@@ -38,6 +38,7 @@ public class ElasticQueryAdapter {
       case V5_6:
       case V6_2:
       case V6_3:
+      case V6_4:
         this.searchFilteringName = "_source";
         this.indicesExistParam = "?allow_no_indices=false";
         this.exactFieldType = "keyword";
@@ -56,7 +57,7 @@ public class ElasticQueryAdapter {
   }
 
   private boolean isV6(ElasticVersion version) {
-    return version == ElasticVersion.V6_2 || version == ElasticVersion.V6_3;
+    return version.toString().startsWith("6.");
   }
 
   void setIgnoreUnmapped(JsonObject properties) {

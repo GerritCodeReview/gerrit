@@ -122,7 +122,7 @@
       _changeComments: Object,
       _canStartReview: {
         type: Boolean,
-        computed: '_computeCanStartReview(_loggedIn, _change, _account)',
+        computed: '_computeCanStartReview(_change)',
       },
       _comments: Object,
       /** @type {?} */
@@ -1341,9 +1341,9 @@
       });
     },
 
-    _computeCanStartReview(loggedIn, change, account) {
-      return !!(loggedIn && change.work_in_progress &&
-          change.owner._account_id === account._account_id);
+    _computeCanStartReview(change) {
+      return !!(change.actions && change.actions.ready &&
+          change.actions.ready.enabled);
     },
 
     _computeReplyDisabled() { return false; },

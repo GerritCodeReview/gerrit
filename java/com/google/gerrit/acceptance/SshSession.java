@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.jcraft.jsch.ChannelExec;
@@ -54,10 +55,10 @@ public class SshSession {
       InputStream err = channel.getErrStream();
       channel.connect();
 
-      Scanner s = new Scanner(err).useDelimiter("\\A");
+      Scanner s = new Scanner(err, UTF_8.name()).useDelimiter("\\A");
       error = s.hasNext() ? s.next() : null;
 
-      s = new Scanner(in).useDelimiter("\\A");
+      s = new Scanner(in, UTF_8.name()).useDelimiter("\\A");
       return s.hasNext() ? s.next() : "";
     } finally {
       channel.disconnect();

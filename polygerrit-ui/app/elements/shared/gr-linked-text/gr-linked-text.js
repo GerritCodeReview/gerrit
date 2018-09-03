@@ -60,7 +60,7 @@
      *     commentLink patterns
      */
     _contentOrConfigChanged(content, config) {
-      config = Gerrit.Nav.overrideCommentlinks(config);
+      config = Gerrit.Nav.mapCommentlinks(config);
       const output = Polymer.dom(this.$.output);
       output.textContent = '';
       const parser = new GrLinkTextParser(config,

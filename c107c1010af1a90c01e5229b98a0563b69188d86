@@ -23,6 +23,30 @@
       "revId": "c107c1010af1a90c01e5229b98a0563b69188d86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07488baa_584f441e",
+        "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-03T11:24:09Z",
+      "side": 1,
+      "message": "Yes, I think this is fine. It\u0027s actually better than the interface name, as one plugin may implement the same interface multiple times.",
+      "parentUuid": "28c1b85c_9e3c88ec",
+      "range": {
+        "startLine": 45,
+        "startChar": 50,
+        "endLine": 45,
+        "endChar": 62
+      },
+      "revId": "c107c1010af1a90c01e5229b98a0563b69188d86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,4 +46,11 @@ public class ElasticVersionTest {
         "Invalid version: [4.0.0]. Supported versions: " + ElasticVersion.supportedVersions());
     ElasticVersion.forVersion("4.0.0");
   }
+
+  @Test
+  public void version6() throws Exception {
+    assertThat(ElasticVersion.V6_2.isV6()).isTrue();
+    assertThat(ElasticVersion.V6_3.isV6()).isTrue();
+    assertThat(ElasticVersion.V5_6.isV6()).isFalse();
+  }
 }

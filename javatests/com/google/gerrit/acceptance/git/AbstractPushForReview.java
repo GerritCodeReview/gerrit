@@ -213,6 +213,24 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void validateConnected() throws Exception {
+    RevCommit c = testRepo.commit().message("Initial commit").insertChangeId().create();
+    testRepo.reset(c);
+
+    String r = "refs/heads/master";
+    PushResult pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+
+    RevCommit amended =
+        testRepo.amend(c).message("different initial commit").insertChangeId().create();
+    testRepo.reset(amended);
+    r = "refs/for/master";
+    pr = pushHead(testRepo, r, false);
+    assertPushRejected(pr, r, "no common ancestry");
+  }
+
+  @Test
   public void pushInitialCommitForRefsMetaConfigBranch() throws Exception {
     // delete refs/meta/config
     try (Repository repo = repoManager.openRepository(project);

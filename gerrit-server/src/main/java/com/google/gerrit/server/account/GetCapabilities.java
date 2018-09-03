@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
@@ -157,8 +157,8 @@ class GetCapabilities implements RestReadView<AccountResource> {
   @Singleton
   static class CheckOne implements RestReadView<AccountResource.Capability> {
     @Override
-    public BinaryResult apply(Capability resource) {
-      return BinaryResult.create("ok\n");
+    public Response<String> apply(Capability resource) {
+      return Response.ok("ok");
     }
   }
 }

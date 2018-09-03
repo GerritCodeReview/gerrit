@@ -120,7 +120,7 @@ public class ConfigSuite extends Suite {
 
     @Override
     public Object createTest() throws Exception {
-      Object test = getTestClass().getJavaClass().newInstance();
+      Object test = getTestClass().getJavaClass().getDeclaredConstructor().newInstance();
       parameterField.set(test, callConfigMethod(configMethod));
       if (nameField != null) {
         nameField.set(test, name);

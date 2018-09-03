@@ -168,7 +168,7 @@ public class DynamicSet<T> implements Iterable<T> {
 
   @Override
   public Iterator<T> iterator() {
-    Iterator<Entry<T>> entryIterator = entryIterator();
+    Iterator<Entry<T>> entryIterator = entries().iterator();
     return new Iterator<T>() {
       @Override
       public boolean hasNext() {
@@ -183,39 +183,44 @@ public class DynamicSet<T> implements Iterable<T> {
     };
   }
 
-  public Iterator<Entry<T>> entryIterator() {
+  public Iterable<Entry<T>> entries() {
     final Iterator<AtomicReference<NamedProvider<T>>> itr = items.iterator();
-    return new Iterator<Entry<T>>() {
-      private Entry<T> next;
-
+    return new Iterable<Entry<T>>() {
       @Override
-      public boolean hasNext() {
-        while (next == null && itr.hasNext()) {
-          NamedProvider<T> p = itr.next().get();
-          if (p != null) {
-            try {
-              next = new Entry<>(p.pluginName, p.impl);
-            } catch (RuntimeException e) {
-              // TODO Log failed member of DynamicSet.
+      public Iterator<Entry<T>> iterator() {
+        return new Iterator<Entry<T>>() {
+          private Entry<T> next;
+
+          @Override
+          public boolean hasNext() {
+            while (next == null && itr.hasNext()) {
+              NamedProvider<T> p = itr.next().get();
+              if (p != null) {
+                try {
+                  next = new Entry<>(p.pluginName, p.impl);
+                } catch (RuntimeException e) {
+                  // TODO Log failed member of DynamicSet.
+                }
+              }
             }
+            return next != null;
           }
-        }
-        return next != null;
-      }
 
-      @Override
-      public Entry<T> next() {
-        if (hasNext()) {
-          Entry<T> result = next;
-          next = null;
-          return result;
-        }
-        throw new NoSuchElementException();
-      }
+          @Override
+          public Entry<T> next() {
+            if (hasNext()) {
+              Entry<T> result = next;
+              next = null;
+              return result;
+            }
+            throw new NoSuchElementException();
+          }
 
-      @Override
-      public void remove() {
-        throw new UnsupportedOperationException();
+          @Override
+          public void remove() {
+            throw new UnsupportedOperationException();
+          }
+        };
       }
     };
   }

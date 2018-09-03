@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04d6ae97_89d76253",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-03T14:52:22Z",
+      "side": 1,
+      "message": "core",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "6868dfd6d40becd592c3ed229ad9543a11236eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07cf73be_3eaa6295",
+        "filename": "java/com/google/gerrit/server/rules/RequireNonAuthorApprovalRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-03T14:52:22Z",
+      "side": 1,
+      "message": "I\u0027m confused by the naming here. \nThe rule name and the documentation speaks about requiring a non-author approval, but the implementation requires an approval from a non-change-owner. But the change owner can be different from the commit author.",
+      "range": {
+        "startLine": 41,
+        "startChar": 13,
+        "endLine": 41,
+        "endChar": 41
+      },
+      "revId": "6868dfd6d40becd592c3ed229ad9543a11236eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

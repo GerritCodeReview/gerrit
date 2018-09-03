@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1535748209 -0700\nnonce ACQ0HpzHk/V8yOwx779Hwsc+2zp7lw/a6kbUbzHQrQUQ+BHMfRjsctEfKc30fZHcOEhdRhm7Czw6\n\n0000000000000000000000000000000000000000 fa6c853c61ca4821f2fc911d2909b379102cbbbe refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAluJqHEVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMwv8P/i80bgmBLdjcGIqUqIM60XHL7Vu3\nO7/GddNchMK5wY2/ND0IKBeGMFVGjvupt8GS+leaaGWzf2LI72EF4JrTEIDHh1d0\ns2R+v2hD8NEkURxqnvhlsHbRrIWtUsxYmaX3tBbvIF6o8EfUvNWSVF3/OEtlA9hW\nEQFdqoWVzzRDc7Ee8+zpkcnutB1QAuyXBom+hmwZUVh7/OVsKuOriT6y575ITRU7\n65hBH4IwjPOTmeFpzCsIVlw+do1541ZPOfMXLkGrwD6tpLgaJZWrzNNW0LKD5qL4\ngHZKd5B3tibzddALfhtkPemaVCw6poHOZDTtC4DO7OsHKJ9V2CA7Sihv0jLDZgk6\nwwFC9BvMybv0rBf4LYIfktwafV//FENKUGcKbQE5gznlOVs/vRPnBEk9B07OTM1R\nAIvgaMEABspDvus9GIAB0Ad+NWylQ62HYVbyFtbUgE/lnoDi2XM7RrG7OEiJztib\n3KyQtf9TR1sBpoNs7D2+kAoG/29PaKqNkTUimHu150P3EcOnUMO1oYPcEPBCu8u7\nqavxTuHydAYWTJKI1NfXJSYEcCjHVPxvsCRoFpRpbm5o2Zqgw9M1YKrxnFCGo2Gd\nzt3+xSdE6jiFtbVZhWvwReSJGmq722ytqAoMVENW5guwnZPcUde7KalEnBMFZa0P\nC8Ut1EWm611s5Msv\n\u003diiit\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a18b105_eac7e62f",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1323,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-03T13:00:32Z",
+      "side": 1,
+      "message": "this breaks google\u0027s internal build with \n\nRestApiServlet.java:1323: error: incompatible types: Object cannot be converted to ImmutableSortedSet\u003cString\u003e\n    return req.getParameterMap().keySet().stream().collect(toImmutableSortedSet(naturalOrder()));",
+      "range": {
+        "startLine": 1323,
+        "startChar": 59,
+        "endLine": 1323,
+        "endChar": 79
+      },
+      "revId": "b8cd1ff6ba8f4b3e6640479b89e2bee629a15de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -59,6 +59,46 @@
     },
     {
       "key": {
+        "uuid": "0445ad43_24d36949",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-09-03T21:59:39Z",
+      "side": 1,
+      "message": "to allow",
+      "range": {
+        "startLine": 3,
+        "startChar": 46,
+        "endLine": 3,
+        "endChar": 54
+      },
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ef849b8_93d17c49",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-09-03T21:59:39Z",
+      "side": 1,
+      "message": "... in lines or in code blocks.",
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16d17c91_ad6123bd",
         "filename": "Documentation/concept-comments.txt",
         "patchSetId": 10
@@ -73,6 +113,29 @@
       "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac682dcc_2cf81c79",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-09-03T21:59:39Z",
+      "side": 1,
+      "message": "To create an inline comment, click on the line number of a file or press `c`.",
+      "range": {
+        "startLine": 26,
+        "startChar": 70,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -113,6 +176,75 @@
       "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a97f93b2_2ec47663",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-09-03T21:59:39Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 34,
+        "startChar": 44,
+        "endLine": 34,
+        "endChar": 52
+      },
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f8de265_838b0255",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-09-03T21:59:39Z",
+      "side": 1,
+      "message": "To add file comments, click the *File* link.",
+      "range": {
+        "startLine": 40,
+        "startChar": 51,
+        "endLine": 41,
+        "endChar": 27
+      },
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "114cb8e4_24b7d753",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-09-03T21:59:39Z",
+      "side": 1,
+      "message": "Remove.",
+      "range": {
+        "startLine": 43,
+        "startChar": 44,
+        "endLine": 43,
+        "endChar": 52
+      },
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

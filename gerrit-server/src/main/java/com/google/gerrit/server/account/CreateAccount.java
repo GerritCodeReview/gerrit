@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.reviewdb.client.Account.USER_NAME_PATTERN;
+import static com.google.gerrit.reviewdb.client.Account.USER_NAME_PATTERN_COMPILED;
 import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
 
 import com.google.gerrit.audit.AuditService;
@@ -112,7 +113,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       throw new BadRequestException("username must match URL");
     }
 
-    if (!username.matches(Account.USER_NAME_PATTERN)) {
+    if (!USER_NAME_PATTERN_COMPILED.matcher(username).matches()) {
       throw new BadRequestException(
           "Username '" + username + "' must comply with [" + USER_NAME_PATTERN + "] pattern.");
     }

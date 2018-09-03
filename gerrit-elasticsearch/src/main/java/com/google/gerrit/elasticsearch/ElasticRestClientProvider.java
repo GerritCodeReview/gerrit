@@ -28,6 +28,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
@@ -106,7 +107,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   private ElasticVersion getVersion() throws ElasticException {
     try {
-      Response response = client.performRequest("GET", "");
+      Response response = client.performRequest(new Request("GET", ""));
       StatusLine statusLine = response.getStatusLine();
       if (statusLine.getStatusCode() != HttpStatus.SC_OK) {
         throw new FailedToGetVersion(statusLine);

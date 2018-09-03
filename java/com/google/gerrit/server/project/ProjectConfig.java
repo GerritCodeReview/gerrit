@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.common.data.Permission.isPermission;
 import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -70,6 +71,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -1162,21 +1164,20 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void saveNotifySections(Config rc, Set<AccountGroup.UUID> keepGroups) {
     for (NotifyConfig nc : sort(notifySections.values())) {
-      List<String> email = new ArrayList<>();
-      for (GroupReference gr : nc.getGroups()) {
-        if (gr.getUUID() != null) {
-          keepGroups.add(gr.getUUID());
-        }
-        email.add(new PermissionRule(gr).asString(false));
-      }
-      Collections.sort(email);
+      nc.getGroups()
+          .stream()
+          .map(gr -> gr.getUUID())
+          .filter(Objects::nonNull)
+          .forEach(keepGroups::add);
+      List<String> email =
+          nc.getGroups()
+              .stream()
+              .map(gr -> new PermissionRule(gr).asString(false))
+              .sorted()
+              .collect(toList());
 
-      List<String> addrs = new ArrayList<>();
-      for (Address addr : nc.getAddresses()) {
-        addrs.add(addr.toString());
-      }
-      Collections.sort(addrs);
-      email.addAll(addrs);
+      // Separate stream operation so that emails list contains 2 sorted sub-lists.
+      nc.getAddresses().stream().map(Address::toString).sorted().forEach(email::add);
 
       set(rc, NOTIFY, nc.getName(), KEY_HEADER, nc.getHeader(), NotifyConfig.Header.BCC);
       if (email.isEmpty()) {

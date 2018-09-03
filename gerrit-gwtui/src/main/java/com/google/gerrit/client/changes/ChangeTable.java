@@ -16,11 +16,13 @@ package com.google.gerrit.client.changes;
 
 import static com.google.gerrit.client.FormatUtil.relativeFormat;
 import static com.google.gerrit.client.FormatUtil.shortFormat;
+import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
@@ -45,6 +47,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -185,17 +188,13 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   public void updateColumnsForLabels(ChangeList... lists) {
-    labelNames = new ArrayList<>();
-    for (ChangeList list : lists) {
-      for (int i = 0; i < list.length(); i++) {
-        for (String name : list.get(i).labels()) {
-          if (!labelNames.contains(name)) {
-            labelNames.add(name);
-          }
-        }
-      }
-    }
-    Collections.sort(labelNames);
+    labelNames =
+        Arrays.stream(lists)
+            .flatMap(l -> Natives.asList(l).stream())
+            .flatMap(c -> c.labels().stream())
+            .distinct()
+            .sorted()
+            .collect(toList());
 
     int baseColumns = BASE_COLUMNS;
     if (baseColumns + labelNames.size() < columns) {

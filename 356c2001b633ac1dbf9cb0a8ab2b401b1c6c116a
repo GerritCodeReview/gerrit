@@ -16,6 +16,24 @@
       "revId": "356c2001b633ac1dbf9cb0a8ab2b401b1c6c116a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c997060c_e7202a61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-03T11:54:23Z",
+      "side": 1,
+      "message": "That was because I missed to update something and it wasn\u0027t using the correct integration.",
+      "parentUuid": "46ef4cee_4d91078f",
+      "revId": "356c2001b633ac1dbf9cb0a8ab2b401b1c6c116a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

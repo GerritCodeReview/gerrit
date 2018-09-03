@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77836889_9f7e0252",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-03T11:54:23Z",
+      "side": 0,
+      "message": "When I wrote on the issue before, I had missed to do this update, so it wasn\u0027t running with the v6 adaptations.\n\nWith this change it works fine.",
+      "revId": "87bb52bcaede9da0e3d88d44b38731ab273eff13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

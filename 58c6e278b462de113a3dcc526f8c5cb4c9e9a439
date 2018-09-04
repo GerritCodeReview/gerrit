@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "379bae19_3197754e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-04T22:53:46Z",
+      "side": 1,
+      "message": "It doesn\u0027t need to be mutable but it is UI code which doesn\u0027t have Guava.\n\nIf you feel really strongly about making this safe against mutations, I can wrap it in Collections#unmodifiableList, but I don\u0027t think it\u0027s a big win.",
+      "parentUuid": "754ece2b_c95d06a0",
+      "revId": "58c6e278b462de113a3dcc526f8c5cb4c9e9a439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0d41916_3fe6bb9d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
         "patchSetId": 3
@@ -34,6 +52,24 @@
       "revId": "58c6e278b462de113a3dcc526f8c5cb4c9e9a439",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84cd23f5_8a335d3f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-04T22:53:46Z",
+      "side": 1,
+      "message": "UI code",
+      "parentUuid": "e0d41916_3fe6bb9d",
+      "revId": "58c6e278b462de113a3dcc526f8c5cb4c9e9a439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "0e818aa4_8d4203ec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-04T22:53:46Z",
+      "side": 1,
+      "message": "UI code",
+      "parentUuid": "4fabc82d_5180e602",
+      "revId": "58c6e278b462de113a3dcc526f8c5cb4c9e9a439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb043087_584cfac2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
         "patchSetId": 3
@@ -68,6 +122,24 @@
       "revId": "58c6e278b462de113a3dcc526f8c5cb4c9e9a439",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f74ca6f9_86d0be4d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-04T22:53:46Z",
+      "side": 1,
+      "message": "UI code",
+      "parentUuid": "bb043087_584cfac2",
+      "revId": "58c6e278b462de113a3dcc526f8c5cb4c9e9a439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

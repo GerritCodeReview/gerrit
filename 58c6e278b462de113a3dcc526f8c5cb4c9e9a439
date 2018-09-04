@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "4bc71d54_b087a575",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-04T23:14:33Z",
+      "side": 1,
+      "message": "It\u0027s possible to use Guava collections from GWT in general but it is not and never has been wired up to our GWT build. The amount of effort I\u0027m willing to put into our GWT build is literally zero. I would sooner revert all the hunks in gerrit-gwtui from this change.",
+      "parentUuid": "2310134b_957a3507",
+      "revId": "58c6e278b462de113a3dcc526f8c5cb4c9e9a439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0d41916_3fe6bb9d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
         "patchSetId": 3

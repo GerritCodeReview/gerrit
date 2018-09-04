@@ -31,23 +31,23 @@ public enum ElasticVersion {
     this.pattern = Pattern.compile(version);
   }
 
-  public static class InvalidVersion extends ElasticException {
+  public static class UnsupportedVersion extends ElasticException {
     private static final long serialVersionUID = 1L;
 
-    InvalidVersion(String version) {
+    UnsupportedVersion(String version) {
       super(
           String.format(
-              "Invalid version: [%s]. Supported versions: %s", version, supportedVersions()));
+              "Unsupported version: [%s]. Supported versions: %s", version, supportedVersions()));
     }
   }
 
-  public static ElasticVersion forVersion(String version) throws InvalidVersion {
+  public static ElasticVersion forVersion(String version) throws UnsupportedVersion {
     for (ElasticVersion value : ElasticVersion.values()) {
       if (value.pattern.matcher(version).matches()) {
         return value;
       }
     }
-    throw new InvalidVersion(version);
+    throw new UnsupportedVersion(version);
   }
 
   public static String supportedVersions() {

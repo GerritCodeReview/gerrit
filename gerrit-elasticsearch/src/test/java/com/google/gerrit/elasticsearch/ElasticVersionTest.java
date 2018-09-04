@@ -41,9 +41,9 @@ public class ElasticVersionTest {
 
   @Test
   public void unsupportedVersion() throws Exception {
-    exception.expect(ElasticVersion.InvalidVersion.class);
+    exception.expect(ElasticVersion.UnsupportedVersion.class);
     exception.expectMessage(
-        "Invalid version: [4.0.0]. Supported versions: " + ElasticVersion.supportedVersions());
+        "Unsupported version: [4.0.0]. Supported versions: " + ElasticVersion.supportedVersions());
     ElasticVersion.forVersion("4.0.0");
   }
 

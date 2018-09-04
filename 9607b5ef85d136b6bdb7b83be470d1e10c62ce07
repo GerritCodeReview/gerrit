@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5e900ce_28a2fc0c",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-04T23:29:16Z",
+      "side": 1,
+      "message": "Why only this GWT target?  Don\u0027t we need to include gerrit-gwtexpui, gerrit-gwtui, and gerrit-gwtui-common?",
+      "range": {
+        "startLine": 133,
+        "startChar": 8,
+        "endLine": 133,
+        "endChar": 31
+      },
+      "revId": "9607b5ef85d136b6bdb7b83be470d1e10c62ce07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -39,6 +39,24 @@
       "revId": "df5992e2ad86d9768d567a6cdde1cd5d712a4a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d360aa4_70876439",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/ElasticReindexIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-04T05:15:16Z",
+      "side": 1,
+      "message": "Agreed, these can probably be removed.  I would prefer to do it in a follow up change.",
+      "parentUuid": "6b61a92d_96b2c47d",
+      "revId": "df5992e2ad86d9768d567a6cdde1cd5d712a4a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

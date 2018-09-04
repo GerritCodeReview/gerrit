@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79f45a22_3bc40db0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-04T11:43:59Z",
+      "side": 1,
+      "message": "Mention that this is done to avoid doing it twice, since it\u0027s already been done in ReceiveCommits.",
+      "revId": "58daff1ee124d79c8508d9b49e0597bf88af1cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

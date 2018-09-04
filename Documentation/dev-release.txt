@@ -365,6 +365,17 @@ link:https://gerrit.googlesource.com/bazlets/+/master/gerrit_api.bzl#8[gerrit_ap
 must reference the new version. Upload a change to bazlets repository with
 api version upgrade.
 
+[[clean-up-on-master]]
+=== Clean up on master
+
+Once you are done with the release, check if there are any code changes in the
+master branch that were gated on the next release. Mostly, these are
+feature-deprecations that we were holding off on to have a stable release where
+the feature is still contained, but marked as deprecated.
+
+See link:dev-contributing.html#deprecating-features[Deprecating features] for
+details.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

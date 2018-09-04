@@ -39,7 +39,6 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -106,7 +105,6 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ChangeReportFormatter;
 import com.google.gerrit.server.git.GroupCollector;
@@ -116,9 +114,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
-import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.ValidationMessage;
@@ -145,7 +141,6 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.submit.SubmoduleException;
@@ -328,7 +323,7 @@ class ReceiveCommits {
   private final ChangeNotes.Factory notesFactory;
   private final ChangeReportFormatter changeFormatter;
   private final CmdLineParser.Factory optionParserFactory;
-  private final CommitValidators.Factory commitValidatorsFactory;
+  private final ReceiveCommitsCommitValidator.Factory commitValidatorFactory;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -350,7 +345,6 @@ class ReceiveCommits {
   private final ReviewDb db;
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
-  private final SshInfo sshInfo;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
 
@@ -379,15 +373,6 @@ class ReceiveCommits {
   private final ListMultimap<String, String> pushOptions;
   private final Map<Change.Id, ReplaceRequest> replaceByChange;
 
-  @AutoValue
-  protected abstract static class ValidCommitKey {
-    abstract ObjectId getObjectId();
-
-    abstract Branch.NameKey getBranch();
-  }
-
-  private final Set<ValidCommitKey> validCommits;
-
   // Collections lazily populated during processing.
   private ListMultimap<Change.Id, Ref> refsByChange;
   private ListMultimap<ObjectId, Ref> refsById;
@@ -415,7 +400,7 @@ class ReceiveCommits {
       ChangeNotes.Factory notesFactory,
       DynamicItem<ChangeReportFormatter> changeFormatterProvider,
       CmdLineParser.Factory optionParserFactory,
-      CommitValidators.Factory commitValidatorsFactory,
+      ReceiveCommitsCommitValidator.Factory commitValidatorFactory,
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
       CreateRefControl createRefControl,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
@@ -437,7 +422,6 @@ class ReceiveCommits {
       ReviewDb db,
       Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,
-      SshInfo sshInfo,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
       @Assisted ProjectState projectState,
@@ -454,7 +438,7 @@ class ReceiveCommits {
     this.batchUpdateFactory = batchUpdateFactory;
     this.changeFormatter = changeFormatterProvider.get();
     this.changeInserterFactory = changeInserterFactory;
-    this.commitValidatorsFactory = commitValidatorsFactory;
+    this.commitValidatorFactory = commitValidatorFactory;
     this.createRefControl = createRefControl;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
     this.db = db;
@@ -480,7 +464,6 @@ class ReceiveCommits {
     this.retryHelper = retryHelper;
     this.requestScopePropagator = requestScopePropagator;
     this.seq = seq;
-    this.sshInfo = sshInfo;
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
 
@@ -505,7 +488,6 @@ class ReceiveCommits {
     pushOptions = LinkedListMultimap.create();
     replaceByChange = new LinkedHashMap<>();
     updateGroups = new ArrayList<>();
-    validCommits = new HashSet<>();
 
     this.allowProjectOwnersToChangeParent =
         cfg.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
@@ -1910,13 +1892,16 @@ class ReceiveCommits {
       return;
     }
 
+    ReceiveCommitsCommitValidator validator = commitValidatorFactory.create(projectState, user);
     try {
-      if (validCommit(
+      if (validator.validCommit(
           receivePack.getRevWalk().getObjectReader(),
+          repo,
           changeEnt.getDest(),
           cmd,
           newCommit,
           false,
+          messages,
           changeEnt)) {
         logger.atFine().log("Replacing change %s", changeEnt.getId());
         requestReplace(cmd, true, changeEnt, newCommit);
@@ -1974,6 +1959,7 @@ class ReceiveCommits {
     GroupCollector groupCollector =
         GroupCollector.create(changeRefsById(), db, psUtil, notesFactory, project.getNameKey());
 
+    ReceiveCommitsCommitValidator validator = commitValidatorFactory.create(projectState, user);
     try {
       RevCommit start = setUpWalkForSelectingChanges();
       if (start == null) {
@@ -2073,12 +2059,14 @@ class ReceiveCommits {
           logger.atFine().log("Creating new change for %s even though it is already tracked", name);
         }
 
-        if (!validCommit(
+        if (!validator.validCommit(
             receivePack.getRevWalk().getObjectReader(),
+            repo,
             magicBranch.dest,
             magicBranch.cmd,
             c,
             magicBranch.merged,
+            messages,
             null)) {
           // Not a change the user can propose? Abort as early as possible.
           logger.atFine().log("Aborting early due to invalid commit");
@@ -3038,6 +3026,7 @@ class ReceiveCommits {
       return;
     }
 
+    ReceiveCommitsCommitValidator validator = commitValidatorFactory.create(projectState, user);
     boolean missingFullName = Strings.isNullOrEmpty(user.getAccount().getFullName());
     RevWalk walk = receivePack.getRevWalk();
     walk.reset();
@@ -3065,7 +3054,8 @@ class ReceiveCommits {
           continue;
         }
 
-        if (!validCommit(walk.getObjectReader(), branch, cmd, c, false, null)) {
+        if (!validator.validCommit(
+            walk.getObjectReader(), repo, branch, cmd, c, false, messages, null)) {
           break;
         }
 
@@ -3080,73 +3070,6 @@ class ReceiveCommits {
       cmd.setResult(REJECTED_MISSING_OBJECT);
       logger.atSevere().withCause(err).log("Invalid pack upload; one or more objects weren't sent");
     }
-  }
-
-  private String messageForCommit(RevCommit c, String msg) {
-    return String.format("commit %s: %s", c.abbreviate(RevId.ABBREV_LEN).name(), msg);
-  }
-
-  /**
-   * Validates a single commit. If the commit does not validate, the command is rejected.
-   *
-   * @param objectReader the object reader to use.
-   * @param branch the branch to which this commit is pushed
-   * @param cmd the ReceiveCommand executing the push.
-   * @param commit the commit being validated.
-   * @param isMerged whether this is a merge commit created by magicBranch --merge option
-   * @param change the change for which this is a new patchset.
-   */
-  private boolean validCommit(
-      ObjectReader objectReader,
-      Branch.NameKey branch,
-      ReceiveCommand cmd,
-      RevCommit commit,
-      boolean isMerged,
-      @Nullable Change change)
-      throws IOException {
-    PermissionBackend.ForRef perm = permissions.ref(branch.get());
-
-    ValidCommitKey key = new AutoValue_ReceiveCommits_ValidCommitKey(commit.copy(), branch);
-    if (validCommits.contains(key)) {
-      return true;
-    }
-
-    try (CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, branch.get(), objectReader, commit, user)) {
-      CommitValidators validators;
-      if (isMerged) {
-        validators =
-            commitValidatorsFactory.forMergedCommits(
-                project.getNameKey(), perm, user.asIdentifiedUser());
-      } else {
-        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, receiveEvent.revWalk);
-        validators =
-            commitValidatorsFactory.forReceiveCommits(
-                perm,
-                branch,
-                user.asIdentifiedUser(),
-                sshInfo,
-                rejectCommits,
-                receiveEvent.revWalk,
-                change);
-      }
-
-      for (CommitValidationMessage m : validators.validate(receiveEvent)) {
-        messages.add(
-            new CommitValidationMessage(messageForCommit(commit, m.getMessage()), m.isError()));
-      }
-    } catch (CommitValidationException e) {
-      logger.atFine().log("Commit validation failed on %s", commit.name());
-      for (CommitValidationMessage m : e.getMessages()) {
-        // TODO(hanwen): drop the non-error messages?
-        messages.add(
-            new CommitValidationMessage(messageForCommit(commit, m.getMessage()), m.isError()));
-      }
-      reject(cmd, messageForCommit(commit, e.getMessage()));
-      return false;
-    }
-    validCommits.add(key);
-    return true;
   }
 
   private void autoCloseChanges(ReceiveCommand cmd, Task progress) {

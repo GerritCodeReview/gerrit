@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d652579_1c4d0d97",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-04T13:03:14Z",
+      "side": 1,
+      "message": "nit: remove this second \u0027if\u0027",
+      "range": {
+        "startLine": 397,
+        "startChar": 21,
+        "endLine": 397,
+        "endChar": 24
+      },
+      "revId": "74dd912eafcfa602f1aee5db12761ed4a4e84077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

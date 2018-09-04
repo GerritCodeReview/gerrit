@@ -96,7 +96,10 @@
         reflectToAttribute: true,
       },
       noRenderOnPrefsChange: Boolean,
-      comments: Object,
+      comments: {
+        type: Object,
+        value: {left: [], right: []},
+      },
       lineWrapping: {
         type: Boolean,
         value: false,

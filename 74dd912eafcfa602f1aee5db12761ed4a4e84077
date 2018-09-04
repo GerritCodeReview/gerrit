@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7133d32b_f2a94a55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-04T23:31:40Z",
+      "side": 1,
+      "message": "guideline",
+      "range": {
+        "startLine": 14,
+        "startChar": 40,
+        "endLine": 14,
+        "endChar": 48
+      },
+      "revId": "74dd912eafcfa602f1aee5db12761ed4a4e84077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2caae0f7_770fd6bd",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-04T23:31:40Z",
+      "side": 1,
+      "message": "Where is this annotation defined?",
+      "range": {
+        "startLine": 389,
+        "startChar": 44,
+        "endLine": 389,
+        "endChar": 62
+      },
+      "revId": "74dd912eafcfa602f1aee5db12761ed4a4e84077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6d652579_1c4d0d97",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1

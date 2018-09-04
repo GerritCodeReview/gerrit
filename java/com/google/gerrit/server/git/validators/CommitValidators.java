@@ -45,7 +45,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -127,11 +126,10 @@ public class CommitValidators {
         Branch.NameKey branch,
         IdentifiedUser user,
         SshInfo sshInfo,
-        Repository repo,
+        NoteMap rejectCommits,
         RevWalk rw,
         @Nullable Change change)
         throws IOException {
-      NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
       ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
       return new CommitValidators(
           ImmutableList.of(

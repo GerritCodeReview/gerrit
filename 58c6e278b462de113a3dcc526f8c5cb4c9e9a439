@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "2310134b_957a3507",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-09-04T23:00:24Z",
+      "side": 1,
+      "message": "I thought ImmutableList was @GwtCompatible.",
+      "parentUuid": "379bae19_3197754e",
+      "revId": "58c6e278b462de113a3dcc526f8c5cb4c9e9a439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0d41916_3fe6bb9d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
         "patchSetId": 3

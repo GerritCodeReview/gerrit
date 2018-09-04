@@ -45,6 +45,46 @@
       "revId": "6868dfd6d40becd592c3ed229ad9543a11236eec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8a8ed3b_4fd2e899",
+        "filename": "java/com/google/gerrit/server/rules/RequireNonAuthorApprovalRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-09-04T09:08:16Z",
+      "side": 1,
+      "message": "It feels like the if condition would be easier to read if it would test exactly what is written in this comment:\n\n  if (labelCheckPassed(authorCheckResult) \u0026\u0026 !labelCheckPassed(ignoreAuthorCheckResult))",
+      "revId": "6868dfd6d40becd592c3ed229ad9543a11236eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6379e0d0_68c449ec",
+        "filename": "java/com/google/gerrit/server/rules/RequireNonAuthorApprovalRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-09-04T09:08:16Z",
+      "side": 1,
+      "message": "READY",
+      "range": {
+        "startLine": 111,
+        "startChar": 18,
+        "endLine": 111,
+        "endChar": 22
+      },
+      "revId": "6868dfd6d40becd592c3ed229ad9543a11236eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "404d9421_25148567",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/ElasticReindexIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-04T05:06:34Z",
+      "side": 1,
+      "message": "Can this be removed? Here and in other tests?",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 3
+      },
+      "revId": "df5992e2ad86d9768d567a6cdde1cd5d712a4a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b61a92d_96b2c47d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/ElasticReindexIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-04T05:06:34Z",
+      "side": 1,
+      "message": "Do we really need all those tests also for minor release numbers? What is our recommendation? If a gerrit site upgrade to ES 6.x it should probably upgrade to the latest ES version, right? Shouldn\u0027t we consistently replace the tests with the latest ES version? in this case also remove V6_2 and V6_3?",
+      "revId": "df5992e2ad86d9768d567a6cdde1cd5d712a4a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

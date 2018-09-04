@@ -54,6 +54,10 @@ public enum ElasticVersion {
     return Joiner.on(", ").join(ElasticVersion.values());
   }
 
+  public boolean isV6() {
+    return version.startsWith("6.");
+  }
+
   @Override
   public String toString() {
     return version;

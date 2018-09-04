@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.reviewdb.client.Account.USER_NAME_PATTERN_COMPILED;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -32,7 +32,6 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.Callable;
-import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,6 @@ import org.slf4j.LoggerFactory;
 /** Operation to change the username of an account. */
 public class ChangeUserName implements Callable<VoidResult> {
   private static final Logger log = LoggerFactory.getLogger(ChangeUserName.class);
-  private static final Pattern USER_NAME_PATTERN = Pattern.compile(Account.USER_NAME_PATTERN);
 
   public static final String USERNAME_CANNOT_BE_CHANGED = "Username cannot be changed.";
 
@@ -84,7 +82,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
     ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     if (newUsername != null && !newUsername.isEmpty()) {
-      if (!USER_NAME_PATTERN.matcher(newUsername).matches()) {
+      if (!USER_NAME_PATTERN_COMPILED.matcher(newUsername).matches()) {
         throw new InvalidUserNameException();
       }
 

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
+import static com.google.gerrit.reviewdb.client.Account.USER_NAME_PATTERN_COMPILED;
+
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountException;
@@ -90,7 +92,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   }
 
   private Account.Id createAccountByLdap(String user) throws CmdLineException, IOException {
-    if (!user.matches(Account.USER_NAME_PATTERN)) {
+    if (!USER_NAME_PATTERN_COMPILED.matcher(user).matches()) {
       throw new CmdLineException(owner, "user \"" + user + "\" not found");
     }
 

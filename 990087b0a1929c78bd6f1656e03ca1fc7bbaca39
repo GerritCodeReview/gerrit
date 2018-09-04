@@ -34,6 +34,24 @@
       "revId": "990087b0a1929c78bd6f1656e03ca1fc7bbaca39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "697c2252_18db2ee9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-09-04T11:02:37Z",
+      "side": 1,
+      "message": "I think someone should report it as we will be stuck on 9.3 until they fix the issue.",
+      "parentUuid": "616f940c_75bdaf5a",
+      "revId": "990087b0a1929c78bd6f1656e03ca1fc7bbaca39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

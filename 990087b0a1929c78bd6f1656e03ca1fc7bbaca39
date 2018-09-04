@@ -52,6 +52,24 @@
       "revId": "990087b0a1929c78bd6f1656e03ca1fc7bbaca39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d52308b_c8b33d68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-04T11:15:39Z",
+      "side": 1,
+      "message": "One option is to try tp upgrade to recently released Jetty 9.4.12: [1], and check if the problem still exists.\n\n* [1] http://central.maven.org/maven2/org/eclipse/jetty/jetty-server/9.4.12.v20180830",
+      "parentUuid": "697c2252_18db2ee9",
+      "revId": "990087b0a1929c78bd6f1656e03ca1fc7bbaca39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

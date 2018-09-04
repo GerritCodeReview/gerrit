@@ -3113,18 +3113,23 @@ class ReceiveCommits {
 
     try (CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, branch.get(), objectReader, commit, user)) {
-      CommitValidators validators =
-          isMerged
-              ? commitValidatorsFactory.forMergedCommits(
-                  project.getNameKey(), perm, user.asIdentifiedUser())
-              : commitValidatorsFactory.forReceiveCommits(
-                  perm,
-                  branch,
-                  user.asIdentifiedUser(),
-                  sshInfo,
-                  repo,
-                  receiveEvent.revWalk,
-                  change);
+      CommitValidators validators;
+      if (isMerged) {
+        validators =
+            commitValidatorsFactory.forMergedCommits(
+                project.getNameKey(), perm, user.asIdentifiedUser());
+      } else {
+        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, receiveEvent.revWalk);
+        validators =
+            commitValidatorsFactory.forReceiveCommits(
+                perm,
+                branch,
+                user.asIdentifiedUser(),
+                sshInfo,
+                rejectCommits,
+                receiveEvent.revWalk,
+                change);
+      }
 
       for (CommitValidationMessage m : validators.validate(receiveEvent)) {
         messages.add(

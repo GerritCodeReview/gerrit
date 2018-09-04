@@ -48,6 +48,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
+import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
@@ -146,10 +147,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   public void deleteAll() throws IOException {
     // Delete the index, if it exists.
     String endpoint = indexName + client.adapter().indicesExistParam();
-    Response response = client.get().performRequest("HEAD", endpoint);
+    Response response = client.get().performRequest(new Request("HEAD", endpoint));
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode == HttpStatus.SC_OK) {
-      response = client.get().performRequest("DELETE", indexName);
+      response = client.get().performRequest(new Request("DELETE", indexName));
       statusCode = response.getStatusLine().getStatusCode();
       if (statusCode != HttpStatus.SC_OK) {
         throw new IOException(
@@ -238,8 +239,12 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   private Response performRequest(
       String method, Object payload, String uri, Map<String, String> params) throws IOException {
+    Request request = new Request(method, uri);
     String payloadStr = payload instanceof String ? (String) payload : payload.toString();
-    HttpEntity entity = new NStringEntity(payloadStr, ContentType.APPLICATION_JSON);
-    return client.get().performRequest(method, uri, params, entity);
+    request.setEntity(new NStringEntity(payloadStr, ContentType.APPLICATION_JSON));
+    for (Map.Entry<String, String> entry : params.entrySet()) {
+      request.addParameter(entry.getKey(), entry.getValue());
+    }
+    return client.get().performRequest(request);
   }
 }

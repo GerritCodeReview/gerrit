@@ -879,8 +879,8 @@ maven_jar(
 
 maven_jar(
     name = "elasticsearch-rest-client",
-    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.3.2",
-    sha1 = "2077ea5f00fdd2d6af85223b730ba8047303297f",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.4.0",
+    sha1 = "0eaa13decb9796eb671c5841d0770ae68b348da5",
 )
 
 JACKSON_VERSION = "2.6.6"

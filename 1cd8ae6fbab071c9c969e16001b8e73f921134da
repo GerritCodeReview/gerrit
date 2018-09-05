@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b591468_db77da0b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-05T07:26:45Z",
+      "side": 1,
+      "message": "These were move to ExternalId.",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 0
+      },
+      "revId": "1cd8ae6fbab071c9c969e16001b8e73f921134da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

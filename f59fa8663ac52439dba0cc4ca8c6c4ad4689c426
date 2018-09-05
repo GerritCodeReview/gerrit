@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc806699_91604d5b",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-05T09:59:10Z",
+      "side": 1,
+      "message": "Does it make sense to control this on project level?\nE.g. if the parent enforces a limit that I do not like, can I simply switch off inheriting it?",
+      "revId": "f59fa8663ac52439dba0cc4ca8c6c4ad4689c426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

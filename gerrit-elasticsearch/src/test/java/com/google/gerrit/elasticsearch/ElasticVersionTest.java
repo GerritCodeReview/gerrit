@@ -54,6 +54,7 @@ public class ElasticVersionTest {
   public void version6() throws Exception {
     assertThat(ElasticVersion.V6_2.isV6()).isTrue();
     assertThat(ElasticVersion.V6_3.isV6()).isTrue();
+    assertThat(ElasticVersion.V6_4.isV6()).isTrue();
     assertThat(ElasticVersion.V5_6.isV6()).isFalse();
   }
 }

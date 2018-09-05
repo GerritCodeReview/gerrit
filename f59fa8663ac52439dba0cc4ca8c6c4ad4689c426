@@ -16,6 +16,29 @@
       "revId": "f59fa8663ac52439dba0cc4ca8c6c4ad4689c426",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6b3f3bd_abc465cd",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-09-05T09:59:47Z",
+      "side": 1,
+      "message": "If this is not inherited then you would have to set it to true for all projects\nin order to enable inheritance of the maxObjectSizeLimit. This way we have the same\nissue again just for a different property. Right?",
+      "range": {
+        "startLine": 161,
+        "startChar": 18,
+        "endLine": 161,
+        "endChar": 44
+      },
+      "revId": "f59fa8663ac52439dba0cc4ca8c6c4ad4689c426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

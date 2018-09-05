@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fd84fb61_9706944a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-05T07:11:10Z",
+      "side": 1,
+      "message": "File that here: [1].\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d9679",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 33,
+        "endChar": 13
+      },
+      "revId": "a303d9db9f0d92942cc910ed54fa23da05330fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2c6a3d0_7d08942c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3

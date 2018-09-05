@@ -1205,8 +1205,10 @@ public class PostReview
       }
 
       forceCallerAsReviewer(projectState, ctx, current, ups, del);
-      ctx.getDb().patchSetApprovals().delete(del);
-      ctx.getDb().patchSetApprovals().upsert(ups);
+      if (ctx.getDb().changesTablesEnabled()) {
+        ctx.getDb().patchSetApprovals().delete(del);
+        ctx.getDb().patchSetApprovals().upsert(ups);
+      }
       return !del.isEmpty() || !ups.isEmpty();
     }
 

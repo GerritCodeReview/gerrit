@@ -206,7 +206,9 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       }
 
       ctx.getUpdate(psId).removeApprovalFor(account.getId(), label);
-      ctx.getDb().patchSetApprovals().upsert(Collections.singleton(deletedApproval(ctx)));
+      if (ctx.getDb().changesTablesEnabled()) {
+        ctx.getDb().patchSetApprovals().upsert(Collections.singleton(deletedApproval(ctx)));
+      }
 
       StringBuilder msg = new StringBuilder();
       msg.append("Removed ");

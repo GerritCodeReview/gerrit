@@ -131,7 +131,9 @@ public class ChangeMessagesUtil {
         update.getNullableAccountId());
     update.setChangeMessage(changeMessage.getMessage());
     update.setTag(changeMessage.getTag());
-    db.changeMessages().insert(Collections.singleton(changeMessage));
+    if (db.changesTablesEnabled()) {
+      db.changeMessages().insert(Collections.singleton(changeMessage));
+    }
   }
 
   /**

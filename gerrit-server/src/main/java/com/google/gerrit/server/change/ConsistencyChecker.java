@@ -669,10 +669,12 @@ public class ConsistencyChecker {
       // Delete dangling key references.
       ReviewDb db = DeleteChangeOp.unwrap(ctx.getDb());
       accountPatchReviewStore.get().clearReviewed(psId);
-      db.changeMessages().delete(db.changeMessages().byChange(psId.getParentKey()));
-      db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
-      db.patchComments().delete(db.patchComments().byPatchSet(psId));
-      db.patchSets().deleteKeys(Collections.singleton(psId));
+      if (db.changesTablesEnabled()) {
+        db.changeMessages().delete(db.changeMessages().byChange(psId.getParentKey()));
+        db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
+        db.patchComments().delete(db.patchComments().byPatchSet(psId));
+        db.patchSets().deleteKeys(Collections.singleton(psId));
+      }
 
       // NoteDb requires no additional fiddling; setting the state to deleted is
       // sufficient to filter everything else out.

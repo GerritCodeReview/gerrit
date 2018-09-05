@@ -166,7 +166,9 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     } else {
       msg.append(".");
     }
-    ctx.getDb().patchSetApprovals().delete(del);
+    if (ctx.getDb().changesTablesEnabled()) {
+      ctx.getDb().patchSetApprovals().delete(del);
+    }
     ChangeUpdate update = ctx.getUpdate(currPs.getId());
     update.removeReviewer(reviewerId);
 

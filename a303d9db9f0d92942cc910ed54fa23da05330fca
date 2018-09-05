@@ -93,6 +93,30 @@
       "revId": "a303d9db9f0d92942cc910ed54fa23da05330fca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "661f1552_5c2733de",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-09-05T07:50:34Z",
+      "side": 1,
+      "message": "We could consider that. I would also want to have a check method that doesn\u0027t throw an AuthException as there are a lot of places that just do try{} catch{//drop}. Something like checkOrFalse.",
+      "parentUuid": "ee86d2a4_73350d31",
+      "range": {
+        "startLine": 1167,
+        "startChar": 9,
+        "endLine": 1167,
+        "endChar": 20
+      },
+      "revId": "a303d9db9f0d92942cc910ed54fa23da05330fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

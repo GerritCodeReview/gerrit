@@ -24,26 +24,19 @@ public class ElasticVersionTest {
   @Rule public ExpectedException exception = ExpectedException.none();
 
   @Test
-  public void supportedVersion() throws Exception {
+  public void supportedVersion() {
     assertThat(ElasticVersion.forVersion("2.4.0")).isEqualTo(ElasticVersion.V2_4);
     assertThat(ElasticVersion.forVersion("2.4.6")).isEqualTo(ElasticVersion.V2_4);
 
     assertThat(ElasticVersion.forVersion("5.6.0")).isEqualTo(ElasticVersion.V5_6);
-    assertThat(ElasticVersion.forVersion("5.6.9")).isEqualTo(ElasticVersion.V5_6);
-    assertThat(ElasticVersion.forVersion("5.6.10")).isEqualTo(ElasticVersion.V5_6);
-
-    assertThat(ElasticVersion.forVersion("6.2.0")).isEqualTo(ElasticVersion.V6_2);
-    assertThat(ElasticVersion.forVersion("6.2.4")).isEqualTo(ElasticVersion.V6_2);
-
-    assertThat(ElasticVersion.forVersion("6.3.0")).isEqualTo(ElasticVersion.V6_3);
-    assertThat(ElasticVersion.forVersion("6.3.1")).isEqualTo(ElasticVersion.V6_3);
+    assertThat(ElasticVersion.forVersion("5.6.11")).isEqualTo(ElasticVersion.V5_6);
 
     assertThat(ElasticVersion.forVersion("6.4.0")).isEqualTo(ElasticVersion.V6_4);
     assertThat(ElasticVersion.forVersion("6.4.1")).isEqualTo(ElasticVersion.V6_4);
   }
 
   @Test
-  public void unsupportedVersion() throws Exception {
+  public void unsupportedVersion() {
     exception.expect(ElasticVersion.UnsupportedVersion.class);
     exception.expectMessage(
         "Unsupported version: [4.0.0]. Supported versions: " + ElasticVersion.supportedVersions());
@@ -51,9 +44,8 @@ public class ElasticVersionTest {
   }
 
   @Test
-  public void version6() throws Exception {
-    assertThat(ElasticVersion.V6_2.isV6()).isTrue();
-    assertThat(ElasticVersion.V6_3.isV6()).isTrue();
+  public void version6() {
+    assertThat(ElasticVersion.V6_4.isV6()).isTrue();
     assertThat(ElasticVersion.V5_6.isV6()).isFalse();
   }
 }

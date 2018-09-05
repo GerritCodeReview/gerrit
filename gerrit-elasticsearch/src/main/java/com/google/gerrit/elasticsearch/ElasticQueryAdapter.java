@@ -36,8 +36,6 @@ public class ElasticQueryAdapter {
 
     switch (version) {
       case V5_6:
-      case V6_2:
-      case V6_3:
       case V6_4:
         this.searchFilteringName = "_source";
         this.indicesExistParam = "?allow_no_indices=false";

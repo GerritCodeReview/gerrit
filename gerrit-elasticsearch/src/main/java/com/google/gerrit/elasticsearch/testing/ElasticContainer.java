@@ -47,10 +47,6 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
         return "elasticsearch:2.4.6-alpine";
       case V5_6:
         return "docker.elastic.co/elasticsearch/elasticsearch:5.6.11";
-      case V6_2:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.4";
-      case V6_3:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.2";
       case V6_4:
         return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.4.0";
     }

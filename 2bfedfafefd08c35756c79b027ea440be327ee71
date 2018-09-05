@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fa88755_13886ffa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-05T23:19:52Z",
+      "side": 1,
+      "message": "We should not remove support for these versions.  It will prevent gerrit working for users who are running them, and not able to immediately upgrade.\n\nThe scope of this change should only be to remove the additional tests for 6.2 and 6.3.",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "2bfedfafefd08c35756c79b027ea440be327ee71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fc51f72_63582352",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-05T23:19:52Z",
+      "side": 1,
+      "message": "Unrelated change.  See also the other inline comment.",
+      "revId": "2bfedfafefd08c35756c79b027ea440be327ee71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac0ecc10_32c58d06",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-05T23:19:52Z",
+      "side": 0,
+      "message": "This will prevent gerrit from working with 6.2 and 6.3.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "3f9c740c4a18da4380b91bc9120fcccf1b6e35c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2123f63_611c6f1b",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-05T23:19:52Z",
+      "side": 0,
+      "message": "I would rather not remove this.  I prefer to have this on all tests so that if we add additional code later, that does throw an exception (I mean other than the ones thrown by assert failures) we don\u0027t need to add it later.",
+      "range": {
+        "startLine": 27,
+        "startChar": 32,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "3f9c740c4a18da4380b91bc9120fcccf1b6e35c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

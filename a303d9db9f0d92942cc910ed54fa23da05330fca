@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2c6a3d0_7d08942c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-09-05T07:05:54Z",
+      "side": 1,
+      "message": "Test is the wrong method for an authoritative check. Please use check instead and catch the AuthException, then continue in case of an AuthException.",
+      "range": {
+        "startLine": 1167,
+        "startChar": 9,
+        "endLine": 1167,
+        "endChar": 20
+      },
+      "revId": "a303d9db9f0d92942cc910ed54fa23da05330fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

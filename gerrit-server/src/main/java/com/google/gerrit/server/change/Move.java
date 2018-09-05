@@ -48,6 +48,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -84,6 +85,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   private final ApprovalsUtil approvalsUtil;
   private final ProjectCache projectCache;
   private final Provider<CurrentUser> userProvider;
+  private final NotesMigration migration;
 
   @Inject
   Move(
@@ -97,7 +99,8 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       PatchSetUtil psUtil,
       ApprovalsUtil approvalsUtil,
       ProjectCache projectCache,
-      Provider<CurrentUser> userProvider) {
+      Provider<CurrentUser> userProvider,
+      NotesMigration migration) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
@@ -109,6 +112,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     this.approvalsUtil = approvalsUtil;
     this.projectCache = projectCache;
     this.userProvider = userProvider;
+    this.migration = migration;
   }
 
   @Override
@@ -140,7 +144,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       throw new AuthException("move not permitted", denied);
     }
 
-    Op op = new Op(input);
+    Op op = new Op(input, migration);
     try (BatchUpdate u =
         updateFactory.create(dbProvider.get(), project, caller, TimeUtil.nowTs())) {
       u.addOp(change.getId(), op);
@@ -151,12 +155,14 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
   private class Op implements BatchUpdateOp {
     private final MoveInput input;
+    private final NotesMigration migration;
 
     private Change change;
     private Branch.NameKey newDestKey;
 
-    Op(MoveInput input) {
+    Op(MoveInput input, NotesMigration migration) {
       this.input = input;
+      this.migration = migration;
     }
 
     @Nullable
@@ -275,8 +281,10 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
                 (short) 0,
                 ctx.getWhen()));
       }
-      // Remove votes from ReviewDb.
-      ctx.getDb().patchSetApprovals().upsert(approvals);
+      if (!migration.rawWriteChangesSetting()) {
+        // Remove votes from ReviewDb.
+        ctx.getDb().patchSetApprovals().upsert(approvals);
+      }
     }
   }
 

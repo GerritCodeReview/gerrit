@@ -405,7 +405,9 @@ public class CommentsUtil {
     for (Comment c : comments) {
       update.putComment(status, c);
     }
-    db.patchComments().upsert(toPatchLineComments(update.getId(), status, comments));
+    if (!migration.rawWriteChangesSetting()) {
+      db.patchComments().upsert(toPatchLineComments(update.getId(), status, comments));
+    }
   }
 
   public void putRobotComments(ChangeUpdate update, Iterable<RobotComment> comments) {
@@ -419,8 +421,10 @@ public class CommentsUtil {
     for (Comment c : comments) {
       update.deleteComment(c);
     }
-    db.patchComments()
-        .delete(toPatchLineComments(update.getId(), PatchLineComment.Status.DRAFT, comments));
+    if (!migration.rawWriteChangesSetting()) {
+      db.patchComments()
+          .delete(toPatchLineComments(update.getId(), PatchLineComment.Status.DRAFT, comments));
+    }
   }
 
   public void deleteCommentByRewritingHistory(

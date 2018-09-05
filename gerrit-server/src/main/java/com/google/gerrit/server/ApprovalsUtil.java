@@ -256,7 +256,9 @@ public class ApprovalsUtil {
               new PatchSetApproval.Key(psId, account, labelId), (short) 0, update.getWhen()));
       update.putReviewer(account, REVIEWER);
     }
-    db.patchSetApprovals().upsert(cells);
+    if (!migration.rawWriteChangesSetting()) {
+      db.patchSetApprovals().upsert(cells);
+    }
     return Collections.unmodifiableList(cells);
   }
 

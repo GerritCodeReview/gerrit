@@ -49,6 +49,7 @@ import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -119,6 +120,7 @@ public abstract class SubmitStrategy {
     final OnSubmitValidators.Factory onSubmitValidatorsFactory;
     final TagCache tagCache;
     final Provider<InternalChangeQuery> queryProvider;
+    final NotesMigration migration;
 
     final Branch.NameKey destBranch;
     final CodeReviewRevWalk rw;
@@ -158,6 +160,7 @@ public abstract class SubmitStrategy {
         OnSubmitValidators.Factory onSubmitValidatorsFactory,
         TagCache tagCache,
         Provider<InternalChangeQuery> queryProvider,
+        NotesMigration migration,
         @Assisted Branch.NameKey destBranch,
         @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
@@ -186,6 +189,7 @@ public abstract class SubmitStrategy {
       this.rebaseFactory = rebaseFactory;
       this.tagCache = tagCache;
       this.queryProvider = queryProvider;
+      this.migration = migration;
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;

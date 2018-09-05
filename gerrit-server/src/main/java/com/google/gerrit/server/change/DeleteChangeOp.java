@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateReviewDb;
@@ -55,6 +56,7 @@ class DeleteChangeOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
+  private final NotesMigration migration;
 
   private Change.Id id;
 
@@ -62,10 +64,12 @@ class DeleteChangeOp implements BatchUpdateOp {
   DeleteChangeOp(
       PatchSetUtil psUtil,
       StarredChangesUtil starredChangesUtil,
-      DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
+      DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
+      NotesMigration migration) {
     this.psUtil = psUtil;
     this.starredChangesUtil = starredChangesUtil;
     this.accountPatchReviewStore = accountPatchReviewStore;
+    this.migration = migration;
   }
 
   @Override
@@ -118,6 +122,9 @@ class DeleteChangeOp implements BatchUpdateOp {
   private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id) throws OrmException {
     // Only delete from ReviewDb here; deletion from NoteDb is handled in
     // BatchUpdate.
+    if (migration.rawWriteChangesSetting()) {
+      return;
+    }
     ReviewDb db = unwrap(ctx.getDb());
     db.patchComments().delete(db.patchComments().byChange(id));
     db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));

@@ -40,6 +40,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -78,6 +79,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   private final NotifyUtil notifyUtil;
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
+  private final NotesMigration migration;
 
   @Inject
   DeleteVote(
@@ -91,7 +93,8 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       DeleteVoteSender.Factory deleteVoteSenderFactory,
       NotifyUtil notifyUtil,
       RemoveReviewerControl removeReviewerControl,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      NotesMigration migration) {
     super(retryHelper);
     this.db = db;
     this.approvalsUtil = approvalsUtil;
@@ -103,6 +106,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     this.notifyUtil = notifyUtil;
     this.removeReviewerControl = removeReviewerControl;
     this.projectCache = projectCache;
+    this.migration = migration;
   }
 
   @Override
@@ -134,7 +138,8 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
               projectCache.checkedGet(r.getChange().getProject()),
               r.getReviewerUser().getAccount(),
               rsrc.getLabel(),
-              input));
+              input,
+              migration));
       bu.execute();
     }
 
@@ -146,6 +151,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     private final Account account;
     private final String label;
     private final DeleteVoteInput input;
+    private final NotesMigration migration;
 
     private ChangeMessage changeMessage;
     private Change change;
@@ -153,11 +159,17 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     private Map<String, Short> newApprovals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
 
-    private Op(ProjectState projectState, Account account, String label, DeleteVoteInput input) {
+    private Op(
+        ProjectState projectState,
+        Account account,
+        String label,
+        DeleteVoteInput input,
+        NotesMigration migration) {
       this.projectState = projectState;
       this.account = account;
       this.label = label;
       this.input = input;
+      this.migration = migration;
     }
 
     @Override
@@ -206,7 +218,9 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       }
 
       ctx.getUpdate(psId).removeApprovalFor(account.getId(), label);
-      ctx.getDb().patchSetApprovals().upsert(Collections.singleton(deletedApproval(ctx)));
+      if (!migration.rawWriteChangesSetting()) {
+        ctx.getDb().patchSetApprovals().upsert(Collections.singleton(deletedApproval(ctx)));
+      }
 
       StringBuilder msg = new StringBuilder();
       msg.append("Removed ");

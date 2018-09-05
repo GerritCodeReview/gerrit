@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -47,6 +48,7 @@ public class PutDescription
   private final Provider<ReviewDb> dbProvider;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
+  private final NotesMigration migration;
 
   public static class Input {
     @DefaultInput public String description;
@@ -57,11 +59,13 @@ public class PutDescription
       Provider<ReviewDb> dbProvider,
       ChangeMessagesUtil cmUtil,
       RetryHelper retryHelper,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      NotesMigration migration) {
     super(retryHelper);
     this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
+    this.migration = migration;
   }
 
   @Override
@@ -115,7 +119,9 @@ public class PutDescription
       ps.setDescription(newDescription);
       update.setPsDescription(newDescription);
 
-      ctx.getDb().patchSets().update(Collections.singleton(ps));
+      if (!migration.rawWriteChangesSetting()) {
+        ctx.getDb().patchSets().update(Collections.singleton(ps));
+      }
 
       ChangeMessage cmsg =
           ChangeMessagesUtil.newMessage(

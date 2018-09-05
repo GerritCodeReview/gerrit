@@ -388,8 +388,10 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       boolean includeUnchanged)
       throws OrmException {
     PatchSet.Id psId = update.getPatchSetId();
-    ctx.getDb().patchSetApprovals().upsert(convertPatchSet(normalized.getNormalized(), psId));
-    ctx.getDb().patchSetApprovals().upsert(zero(convertPatchSet(normalized.deleted(), psId)));
+    if (!args.migration.rawWriteChangesSetting()) {
+      ctx.getDb().patchSetApprovals().upsert(convertPatchSet(normalized.getNormalized(), psId));
+      ctx.getDb().patchSetApprovals().upsert(zero(convertPatchSet(normalized.deleted(), psId)));
+    }
     for (PatchSetApproval psa : normalized.updated()) {
       update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
     }

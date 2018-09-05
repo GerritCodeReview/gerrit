@@ -178,22 +178,22 @@ class NoChangesReviewDbWrapper extends ReviewDbWrapper {
 
     @Override
     public final void insert(Iterable<T> instances) {
-      // Do nothing.
+      throw new UnsupportedOperationException();
     }
 
     @Override
     public final void update(Iterable<T> instances) {
-      // Do nothing.
+      throw new UnsupportedOperationException();
     }
 
     @Override
     public final void upsert(Iterable<T> instances) {
-      // Do nothing.
+      throw new UnsupportedOperationException();
     }
 
     @Override
     public final void deleteKeys(Iterable<K> keys) {
-      // Do nothing.
+      throw new UnsupportedOperationException();
     }
 
     @Override

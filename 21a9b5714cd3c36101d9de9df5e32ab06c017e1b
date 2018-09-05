@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05671486_0c62450f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-05T01:24:14Z",
+      "side": 1,
+      "message": "These changes caused some merge conflicts with Edwin\u0027s refactoring of the username checks from Account to ExternalId.  I\u0027m going to have a look to see if those can be backported to stable-2.14.",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 49
+      },
+      "revId": "21a9b5714cd3c36101d9de9df5e32ab06c017e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

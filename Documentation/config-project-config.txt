@@ -144,8 +144,10 @@ The project specific setting in `project.config` may not set a value higher
 than the global limit (if configured). In other words, it is only honored when
 it further reduces the global limit.
 +
-The setting is not inherited from the parent project; it must be explicitly
-set per project.
+When link:config-gerrit.html#receive.inheritProjectMaxObjectSizeLimit[
+`receive.inheritProjectmaxObjectSizeLimit`] is enabled in the global config,
+the value is inherited from the parent project. Otherwise, it is not inherited
+and must be explicitly set per project.
 +
 Default is zero.
 +

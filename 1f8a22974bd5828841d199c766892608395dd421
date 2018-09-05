@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "622f8f7b_2d4c61ce",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-05T17:11:01Z",
+      "side": 1,
+      "message": "In general, AbstractDaemonTests have a NotesMigration instance available, so you can check notesMigration.readChanges()",
+      "parentUuid": "8184af2c_1b13c7aa",
+      "revId": "1f8a22974bd5828841d199c766892608395dd421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "851b6f89_9ee217c3",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 8

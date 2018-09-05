@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b12febf7_e6de37a7",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-09-05T10:01:03Z",
+      "side": 1,
+      "message": "Edwin just commented the same thing which I did below :-)\nI agree with Edwin that inheritProjectMaxObjectSizeLimit should rather be a global setting.",
+      "parentUuid": "bc806699_91604d5b",
+      "revId": "f59fa8663ac52439dba0cc4ca8c6c4ad4689c426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d6b3f3bd_abc465cd",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 1

@@ -69,6 +69,30 @@
       "revId": "a303d9db9f0d92942cc910ed54fa23da05330fca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee86d2a4_73350d31",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-05T07:48:00Z",
+      "side": 1,
+      "message": "I know where the test/check naming comes from, but wouldn\u0027t it be better to rename these to (say)\n\n  fastTest()\n  authoritativeCheck()\n\nso we stop confusing them?",
+      "parentUuid": "722d3f01_6785d5a7",
+      "range": {
+        "startLine": 1167,
+        "startChar": 9,
+        "endLine": 1167,
+        "endChar": 20
+      },
+      "revId": "a303d9db9f0d92942cc910ed54fa23da05330fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

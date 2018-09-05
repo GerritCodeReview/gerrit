@@ -16,6 +16,24 @@
       "revId": "58daff1ee124d79c8508d9b49e0597bf88af1cb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e94dd605_a13cf988",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-05T13:32:59Z",
+      "side": 1,
+      "message": "this was not the motivation, but your comment made me realize we do this inside of a loop.\n\nfixed.",
+      "parentUuid": "79f45a22_3bc40db0",
+      "revId": "58daff1ee124d79c8508d9b49e0597bf88af1cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

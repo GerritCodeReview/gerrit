@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec1fb41f_a29e8858",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-05T03:34:48Z",
+      "side": 1,
+      "message": "Maybe it was better not to do this.  On the master branch the check on L115 is replaced with a method call, and the constant was made private.",
+      "revId": "cf97d694febd26aeea66c6f16355a721860f80fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

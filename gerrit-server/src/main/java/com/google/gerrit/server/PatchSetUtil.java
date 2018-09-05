@@ -116,7 +116,9 @@ public class PatchSetUtil {
     ps.setGroups(groups);
     ps.setPushCertificate(pushCertificate);
     ps.setDescription(description);
-    db.patchSets().insert(Collections.singleton(ps));
+    if (db.changesTablesEnabled()) {
+      db.patchSets().insert(Collections.singleton(ps));
+    }
 
     update.setCommit(rw, commit, pushCertificate);
     update.setPsDescription(description);
@@ -153,6 +155,8 @@ public class PatchSetUtil {
       throws OrmException {
     ps.setGroups(groups);
     update.setGroups(groups);
-    db.patchSets().update(Collections.singleton(ps));
+    if (db.changesTablesEnabled()) {
+      db.patchSets().update(Collections.singleton(ps));
+    }
   }
 }

@@ -256,7 +256,9 @@ public class ApprovalsUtil {
               new PatchSetApproval.Key(psId, account, labelId), (short) 0, update.getWhen()));
       update.putReviewer(account, REVIEWER);
     }
-    db.patchSetApprovals().upsert(cells);
+    if (db.changesTablesEnabled()) {
+      db.patchSetApprovals().upsert(cells);
+    }
     return Collections.unmodifiableList(cells);
   }
 
@@ -338,7 +340,9 @@ public class ApprovalsUtil {
     for (PatchSetApproval psa : cells) {
       update.putApproval(psa.getLabel(), psa.getValue());
     }
-    db.patchSetApprovals().insert(cells);
+    if (db.changesTablesEnabled()) {
+      db.patchSetApprovals().insert(cells);
+    }
     return cells;
   }
 

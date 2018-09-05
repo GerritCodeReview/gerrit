@@ -251,6 +251,30 @@
       "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b78d7cbc_361f8e9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-09-05T07:19:15Z",
+      "side": 1,
+      "message": "What I meant is that string constants should not assume anything about how they will be\nused/concatenated etc... They should just hold their value and the logic which uses\nthem should care about inserting delimiters.",
+      "parentUuid": "dec84012_0f6aea2e",
+      "range": {
+        "startLine": 254,
+        "startChar": 45,
+        "endLine": 254,
+        "endChar": 46
+      },
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

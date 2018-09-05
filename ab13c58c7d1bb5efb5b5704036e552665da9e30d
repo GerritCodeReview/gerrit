@@ -275,6 +275,30 @@
       "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eee958e7_47b00fec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-05T07:21:40Z",
+      "side": 1,
+      "message": "OK.  But it\u0027s a private constant that\u0027s only used in the two places below.  I can change it it you prefer, though.",
+      "parentUuid": "b78d7cbc_361f8e9d",
+      "range": {
+        "startLine": 254,
+        "startChar": 45,
+        "endLine": 254,
+        "endChar": 46
+      },
+      "revId": "ab13c58c7d1bb5efb5b5704036e552665da9e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

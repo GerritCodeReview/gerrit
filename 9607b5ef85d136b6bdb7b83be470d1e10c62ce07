@@ -22,6 +22,30 @@
       "revId": "9607b5ef85d136b6bdb7b83be470d1e10c62ce07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47598f48_e1579afd",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-05T05:55:01Z",
+      "side": 1,
+      "message": "On master we also havn\u0027t included GWT and friends. I tried to include it here and it a breakage during the build, that validation not found. I decided not track it down and just disable it like it was done on master. I could add a comment why gerrit-antlr and gerrit-gwt* and friends are not listed here.",
+      "parentUuid": "f5e900ce_28a2fc0c",
+      "range": {
+        "startLine": 133,
+        "startChar": 8,
+        "endLine": 133,
+        "endChar": 31
+      },
+      "revId": "9607b5ef85d136b6bdb7b83be470d1e10c62ce07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

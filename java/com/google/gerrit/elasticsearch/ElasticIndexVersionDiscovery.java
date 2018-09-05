@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.List;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
-import org.apache.http.client.methods.HttpGet;
+import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 
 @Singleton
@@ -40,10 +40,8 @@ class ElasticIndexVersionDiscovery {
 
   List<String> discover(String prefix, String indexName) throws IOException {
     String name = prefix + indexName + "_";
-    Response response =
-        client
-            .get()
-            .performRequest(HttpGet.METHOD_NAME, client.adapter().getVersionDiscoveryUrl(name));
+    Request request = new Request("GET", client.adapter().getVersionDiscoveryUrl(name));
+    Response response = client.get().performRequest(request);
 
     StatusLine statusLine = response.getStatusLine();
     if (statusLine.getStatusCode() != HttpStatus.SC_OK) {

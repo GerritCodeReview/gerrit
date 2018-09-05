@@ -55,6 +55,11 @@ public class ElasticIndexIT extends AbstractIndexTests {
     return getConfig(ElasticVersion.V6_3);
   }
 
+  @ConfigSuite.Config
+  public static Config elasticsearchV6_4() {
+    return getConfig(ElasticVersion.V6_4);
+  }
+
   @Override
   public void configureIndex(Injector injector) throws Exception {
     ElasticTestUtils.createAllIndexes(injector);

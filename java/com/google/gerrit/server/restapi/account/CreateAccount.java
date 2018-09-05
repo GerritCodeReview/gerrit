@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.externalids.ExternalId.USER_NAME_PATTERN;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -116,7 +117,7 @@ public class CreateAccount
     }
     if (!ExternalId.isValidUsername(username)) {
       throw new BadRequestException(
-          "Username '" + username + "' must contain only letters, numbers, _, - or .");
+          "Username '" + username + "' must comply with [" + USER_NAME_PATTERN + "] pattern.");
     }
 
     Set<AccountGroup.UUID> groups = parseGroups(input.groups);

@@ -51,10 +51,8 @@ public abstract class ExternalId implements Serializable {
   private static final String USER_NAME_PATTERN_LAST_REGEX = "[a-zA-Z0-9]";
 
   /** Regular expression that a username must match. */
-  private static final String USER_NAME_PATTERN_REGEX =
-      "^"
-          + //
-          "("
+  public static final String USER_NAME_PATTERN =
+      "^("
           + //
           USER_NAME_PATTERN_FIRST_REGEX
           + //
@@ -67,14 +65,12 @@ public abstract class ExternalId implements Serializable {
           + //
           USER_NAME_PATTERN_FIRST_REGEX
           + //
-          ")"
-          + //
-          "$";
+          ")$";
 
-  private static final Pattern USER_NAME_PATTERN = Pattern.compile(USER_NAME_PATTERN_REGEX);
+  private static final Pattern USER_NAME_PATTERN_COMPILED = Pattern.compile(USER_NAME_PATTERN);
 
   public static boolean isValidUsername(String username) {
-    return USER_NAME_PATTERN.matcher(username).matches();
+    return USER_NAME_PATTERN_COMPILED.matcher(username).matches();
   }
 
   /**

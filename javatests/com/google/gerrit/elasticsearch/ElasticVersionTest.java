@@ -37,13 +37,23 @@ public class ElasticVersionTest {
 
     assertThat(ElasticVersion.forVersion("6.3.0")).isEqualTo(ElasticVersion.V6_3);
     assertThat(ElasticVersion.forVersion("6.3.1")).isEqualTo(ElasticVersion.V6_3);
+
+    assertThat(ElasticVersion.forVersion("6.4.0")).isEqualTo(ElasticVersion.V6_4);
+    assertThat(ElasticVersion.forVersion("6.4.1")).isEqualTo(ElasticVersion.V6_4);
   }
 
   @Test
   public void unsupportedVersion() throws Exception {
-    exception.expect(ElasticVersion.InvalidVersion.class);
+    exception.expect(ElasticVersion.UnsupportedVersion.class);
     exception.expectMessage(
-        "Invalid version: [4.0.0]. Supported versions: " + ElasticVersion.supportedVersions());
+        "Unsupported version: [4.0.0]. Supported versions: " + ElasticVersion.supportedVersions());
     ElasticVersion.forVersion("4.0.0");
+  }
+
+  @Test
+  public void version6() throws Exception {
+    assertThat(ElasticVersion.V6_2.isV6()).isTrue();
+    assertThat(ElasticVersion.V6_3.isV6()).isTrue();
+    assertThat(ElasticVersion.V5_6.isV6()).isFalse();
   }
 }

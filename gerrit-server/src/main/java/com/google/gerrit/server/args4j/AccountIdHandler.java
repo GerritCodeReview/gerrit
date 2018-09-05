@@ -21,6 +21,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -90,7 +91,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   }
 
   private Account.Id createAccountByLdap(String user) throws CmdLineException, IOException {
-    if (!user.matches(Account.USER_NAME_PATTERN)) {
+    if (!ExternalId.isValidUsername(user)) {
       throw new CmdLineException(owner, "user \"" + user + "\" not found");
     }
 

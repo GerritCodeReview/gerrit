@@ -852,6 +852,29 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().id(admin.username).index();
   }
 
+  @Test
+  public void createUserWithValidUsername() throws Exception {
+    ImmutableList<String> names =
+        ImmutableList.of(
+            "user@domain", "user-name", "user_name", "1234", "user1234", "1234@domain");
+    for (String name : names) {
+      gApi.accounts().create(name);
+    }
+  }
+
+  @Test
+  public void createUserWithInvalidUsername() throws Exception {
+    ImmutableList<String> invalidNames = ImmutableList.of("@", "@foo", "-", "-foo", "_", "_foo");
+    for (String name : invalidNames) {
+      try {
+        gApi.accounts().create(name);
+        fail(String.format("Expected BadRequestException for username [%s]", name));
+      } catch (BadRequestException e) {
+        assertThat(e).hasMessageThat().contains("must contain only");
+      }
+    }
+  }
+
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {
     int seq = 1;
     for (SshKeyInfo key : sshKeys) {

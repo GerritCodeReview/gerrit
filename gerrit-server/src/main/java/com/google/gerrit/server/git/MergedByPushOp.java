@@ -156,7 +156,9 @@ public class MergedByPushOp implements BatchUpdateOp {
         ApprovalsUtil.newApproval(
             change.currentPatchSetId(), ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen());
     update.putApproval(submitter.getLabel(), submitter.getValue());
-    ctx.getDb().patchSetApprovals().upsert(Collections.singleton(submitter));
+    if (ctx.getDb().changesTablesEnabled()) {
+      ctx.getDb().patchSetApprovals().upsert(Collections.singleton(submitter));
+    }
 
     return true;
   }

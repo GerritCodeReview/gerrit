@@ -119,10 +119,12 @@ class DeleteChangeOp implements BatchUpdateOp {
     // Only delete from ReviewDb here; deletion from NoteDb is handled in
     // BatchUpdate.
     ReviewDb db = unwrap(ctx.getDb());
-    db.patchComments().delete(db.patchComments().byChange(id));
-    db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
-    db.patchSets().delete(db.patchSets().byChange(id));
-    db.changeMessages().delete(db.changeMessages().byChange(id));
+    if (db.changesTablesEnabled()) {
+      db.patchComments().delete(db.patchComments().byChange(id));
+      db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
+      db.patchSets().delete(db.patchSets().byChange(id));
+      db.changeMessages().delete(db.changeMessages().byChange(id));
+    }
   }
 
   private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)

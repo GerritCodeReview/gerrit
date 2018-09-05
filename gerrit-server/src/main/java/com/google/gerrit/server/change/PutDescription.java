@@ -115,7 +115,9 @@ public class PutDescription
       ps.setDescription(newDescription);
       update.setPsDescription(newDescription);
 
-      ctx.getDb().patchSets().update(Collections.singleton(ps));
+      if (ctx.getDb().changesTablesEnabled()) {
+        ctx.getDb().patchSets().update(Collections.singleton(ps));
+      }
 
       ChangeMessage cmsg =
           ChangeMessagesUtil.newMessage(

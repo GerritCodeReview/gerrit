@@ -870,7 +870,7 @@ public class AccountIT extends AbstractDaemonTest {
         gApi.accounts().create(name);
         fail(String.format("Expected BadRequestException for username [%s]", name));
       } catch (BadRequestException e) {
-        assertThat(e).hasMessageThat().contains("must contain only");
+        assertThat(e).hasMessageThat().isEqualTo(String.format("Invalid username '%s'", name));
       }
     }
   }

@@ -112,8 +112,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     }
 
     if (!ExternalId.isValidUsername(username)) {
-      throw new BadRequestException(
-          "Username '" + username + "' must contain only letters, numbers, _, - or .");
+      throw new BadRequestException("Invalid username '" + username + "'");
     }
 
     Set<AccountGroup.Id> groups = parseGroups(input.groups);

@@ -96,6 +96,7 @@ public class ProjectState {
   private final Map<String, ProjectLevelConfig> configs;
   private final Set<AccountGroup.UUID> localOwners;
   private final long globalMaxObjectSizeLimit;
+  private final boolean inheritProjectMaxObjectSizeLimit;
 
   /** Prolog rule state. */
   private volatile PrologMachineCopy rulesMachine;
@@ -143,6 +144,7 @@ public class ProjectState {
             ? capabilityFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
             : null;
     this.globalMaxObjectSizeLimit = transferConfig.getMaxObjectSizeLimit();
+    this.inheritProjectMaxObjectSizeLimit = transferConfig.getInheritProjectMaxObjectSizeLimit();
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
@@ -271,16 +273,19 @@ public class ProjectState {
     EffectiveMaxObjectSizeLimit result = new EffectiveMaxObjectSizeLimit();
 
     result.value = config.getMaxObjectSizeLimit();
-    for (ProjectState parent : parents()) {
-      long parentValue = parent.config.getMaxObjectSizeLimit();
-      if (parentValue > 0 && result.value > 0) {
-        if (parentValue < result.value) {
+
+    if (inheritProjectMaxObjectSizeLimit) {
+      for (ProjectState parent : parents()) {
+        long parentValue = parent.config.getMaxObjectSizeLimit();
+        if (parentValue > 0 && result.value > 0) {
+          if (parentValue < result.value) {
+            result.value = parentValue;
+            result.summary = String.format(OVERRIDDEN_BY_PARENT, parent.config.getName());
+          }
+        } else if (parentValue > 0) {
           result.value = parentValue;
-          result.summary = String.format(OVERRIDDEN_BY_PARENT, parent.config.getName());
+          result.summary = String.format(INHERITED_FROM_PARENT, parent.config.getName());
         }
-      } else if (parentValue > 0) {
-        result.value = parentValue;
-        result.summary = String.format(INHERITED_FROM_PARENT, parent.config.getName());
       }
     }
 

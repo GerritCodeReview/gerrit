@@ -144,12 +144,21 @@ The project specific setting in `project.config` may not set a value higher
 than the global limit (if configured). In other words, it is only honored when
 it further reduces the global limit.
 +
-The setting is not inherited from the parent project; it must be explicitly
+If `receive.inheritProjectMaxObjectSizeLimit` is true, the value is inherited
+from the parent project. Otherwise, it is not inherited and must be explicitly
 set per project.
 +
 Default is zero.
 +
 Common unit suffixes of k, m, or g are supported.
+
+[[receive.inheritProjectMaxObjectSizeLimit]]receive.inheritProjectMaxObjectSizeLimit::
++
+Controls whether the `receive.maxObjectSizeLimit` value is inherited from
+the parent project. When `true`, the value is inherited, otherwise it is
+not inherited.
++
+Default is false, the value is not inherited.
 
 [[receive.checkReceivedObjects]]receive.checkReceivedObjects::
 +

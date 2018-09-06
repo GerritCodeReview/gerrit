@@ -212,7 +212,7 @@ public class ChangeIndexer {
   }
 
   private void indexImpl(ChangeData cd) throws IOException {
-    logger.atInfo().log("Replace change %d in index.", cd.getId().get());
+    logger.atFine().log("Replace change %d in index.", cd.getId().get());
     for (Index<?, ChangeData> i : getWriteIndexes()) {
       i.replace(cd);
     }
@@ -412,7 +412,7 @@ public class ChangeIndexer {
 
     @Override
     public Void call() throws IOException {
-      logger.atInfo().log("Delete change %d from index.", id.get());
+      logger.atFine().log("Delete change %d from index.", id.get());
       // Don't bother setting a RequestContext to provide the DB.
       // Implementations should not need to access the DB in order to delete a
       // change ID.

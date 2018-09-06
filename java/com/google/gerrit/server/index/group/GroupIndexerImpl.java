@@ -78,9 +78,9 @@ public class GroupIndexerImpl implements GroupIndexer {
     Optional<InternalGroup> internalGroup = groupCache.get(uuid);
 
     if (internalGroup.isPresent()) {
-      logger.atInfo().log("Replace group %s in index", uuid.get());
+      logger.atFine().log("Replace group %s in index", uuid.get());
     } else {
-      logger.atInfo().log("Delete group %s from index", uuid.get());
+      logger.atFine().log("Delete group %s from index", uuid.get());
     }
 
     for (Index<AccountGroup.UUID, InternalGroup> i : getWriteIndexes()) {

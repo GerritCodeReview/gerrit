@@ -72,14 +72,14 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   public void index(Project.NameKey nameKey) throws IOException {
     ProjectState projectState = projectCache.get(nameKey);
     if (projectState != null) {
-      logger.atInfo().log("Replace project %s in index", nameKey.get());
+      logger.atFine().log("Replace project %s in index", nameKey.get());
       ProjectData projectData = projectState.toProjectData();
       for (ProjectIndex i : getWriteIndexes()) {
         i.replace(projectData);
       }
       fireProjectIndexedEvent(nameKey.get());
     } else {
-      logger.atInfo().log("Delete project %s from index", nameKey.get());
+      logger.atFine().log("Delete project %s from index", nameKey.get());
       for (ProjectIndex i : getWriteIndexes()) {
         i.delete(nameKey);
       }

@@ -524,9 +524,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     try (Repository git = repoManager.openRepository(projectName)) {
       for (int i = 0; i < showBranch.size(); i++) {
         Ref ref = git.findRef(showBranch.get(i));
-        if (ref != null
+        if ((ref != null
                 && ref.getObjectId() != null
-                && (projectControl.controlForRef(ref.getLeaf().getName()).isVisible())
+                && (projectControl.controlForRef(ref.getLeaf().getName()).isVisible()))
             || (all && projectControl.isOwner())) {
           result[i] = ref;
         }

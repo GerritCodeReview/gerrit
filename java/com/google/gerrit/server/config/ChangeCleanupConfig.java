@@ -31,7 +31,7 @@ public class ChangeCleanupConfig {
   private static String KEY_ABANDON_MESSAGE = "abandonMessage";
   private static String DEFAULT_ABANDON_MESSAGE =
       "Auto-Abandoned due to inactivity, see "
-          + "${URL}Documentation/user-change-cleanup.html#auto-abandon\n"
+          + "${URL}\n"
           + "\n"
           + "If this change is still wanted it should be restored.";
 

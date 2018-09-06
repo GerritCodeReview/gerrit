@@ -568,44 +568,44 @@ class ReceiveCommits {
       // into the trace if tracing is enabled.
       logger.atFine().log("push options: %s", receivePack.getPushOptions());
 
-      try {
-        if (!projectState.getProject().getState().permitsWrite()) {
-          for (ReceiveCommand cmd : commands) {
-            reject(cmd, "prohibited by Gerrit: project state does not permit write");
-          }
-          return;
-        }
-
-        logger.atFine().log("Parsing %d commands", commands.size());
-
-        List<ReceiveCommand> magicCommands = new ArrayList<>();
-        List<ReceiveCommand> directPatchSetPushCommands = new ArrayList<>();
-        List<ReceiveCommand> regularCommands = new ArrayList<>();
-
+      if (!projectState.getProject().getState().permitsWrite()) {
         for (ReceiveCommand cmd : commands) {
-          if (MagicBranch.isMagicBranch(cmd.getRefName())) {
-            magicCommands.add(cmd);
-          } else if (isDirectChangesPush(cmd.getRefName())) {
-            directPatchSetPushCommands.add(cmd);
-          } else {
-            regularCommands.add(cmd);
+          reject(cmd, "prohibited by Gerrit: project state does not permit write");
+        }
+        return;
+      }
+
+      logger.atFine().log("Parsing %d commands", commands.size());
+
+      List<ReceiveCommand> magicCommands = new ArrayList<>();
+      List<ReceiveCommand> directPatchSetPushCommands = new ArrayList<>();
+      List<ReceiveCommand> regularCommands = new ArrayList<>();
+
+      for (ReceiveCommand cmd : commands) {
+        if (MagicBranch.isMagicBranch(cmd.getRefName())) {
+          magicCommands.add(cmd);
+        } else if (isDirectChangesPush(cmd.getRefName())) {
+          directPatchSetPushCommands.add(cmd);
+        } else {
+          regularCommands.add(cmd);
+        }
+      }
+
+      int commandTypes =
+          (magicCommands.isEmpty() ? 0 : 1)
+              + (directPatchSetPushCommands.isEmpty() ? 0 : 1)
+              + (regularCommands.isEmpty() ? 0 : 1);
+
+      if (commandTypes > 1) {
+        for (ReceiveCommand cmd : commands) {
+          if (cmd.getResult() == NOT_ATTEMPTED) {
+            cmd.setResult(REJECTED_OTHER_REASON, "cannot combine normal pushes and magic pushes");
           }
         }
+        return;
+      }
 
-        int commandTypes =
-            (magicCommands.isEmpty() ? 0 : 1)
-                + (directPatchSetPushCommands.isEmpty() ? 0 : 1)
-                + (regularCommands.isEmpty() ? 0 : 1);
-
-        if (commandTypes > 1) {
-          for (ReceiveCommand cmd : commands) {
-            if (cmd.getResult() == NOT_ATTEMPTED) {
-              cmd.setResult(REJECTED_OTHER_REASON, "cannot combine normal pushes and magic pushes");
-            }
-          }
-          return;
-        }
-
+      try {
         if (!regularCommands.isEmpty()) {
           handleRegularCommands(regularCommands, progress);
           return;

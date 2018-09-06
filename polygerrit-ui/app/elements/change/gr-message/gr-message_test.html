@@ -242,7 +242,7 @@ limitations under the License.
 
       test('just change message', () => {
         const str = [
-          'Patch Set 2:',
+          'Patch Set 20:',
           '',
           'I think you should reconsider this approach.',
           'It really makes no sense.',
@@ -251,7 +251,7 @@ limitations under the License.
         element._consumeMessage(str);
 
         assert.isTrue(element._successfulParse);
-        assert.equal(element._parsedPatchNum, '2');
+        assert.equal(element._parsedPatchNum, '20');
         assert.equal(element._parsedCommentCount, '');
         assert.deepEqual(element._parsedVotes, []);
         assert.equal(element._parsedChangeMessage, [
@@ -339,6 +339,26 @@ limitations under the License.
           '',
           'Nice work.',
         ].join('\n'));
+      });
+
+      test('vote parsing happened already', () => {
+        const str = [
+          'Patch Set 2: Code-Review-Label+2 Verified+1',
+          '',
+          'LGTM',
+          '',
+          'Nice work.',
+        ].join('\n');
+
+        element._successfulParse = true;
+        element._consumeMessage(str);
+
+        assert.notOk(element._parsedPatchNum);
+
+        element._successfulParse = false;
+        element._consumeMessage(str);
+
+        assert.notOk(element._parsedPatchNum);
       });
     });
   });

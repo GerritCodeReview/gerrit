@@ -224,6 +224,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.canUpload =
         toBoolean(pc.isOwner() || (metaConfigControl.isVisible() && metaConfigControl.canUpload()));
     info.canAdd = toBoolean(pc.canAddRefs());
+    info.canAddTags = toBoolean(pc.canAddTagRefs());
     info.configVisible = pc.isOwner() || metaConfigControl.isVisible();
 
     return info;

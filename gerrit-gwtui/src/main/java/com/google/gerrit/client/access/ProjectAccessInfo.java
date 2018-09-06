@@ -19,6 +19,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class ProjectAccessInfo extends JavaScriptObject {
   public final native boolean canAddRefs() /*-{ return this.can_add ? true : false; }-*/;
 
+  public final native boolean canAddTagRefs() /*-{ return this.can_add_tags ? true : false; }-*/;
+
   public final native boolean isOwner() /*-{ return this.is_owner ? true : false; }-*/;
 
   public final native boolean configVisible() /*-{ return this.config_visible ? true : false; }-*/;

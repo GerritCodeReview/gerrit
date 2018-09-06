@@ -760,7 +760,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             try (RevWalk rw = args.newRevWalk()) {
               rw.parseBody(rw.parseCommit(args.getCommands().get("refs/heads/master").getNewId()));
             } catch (IOException e) {
-              assertThat(e).isNull();
+              throw new ValidationException("Unexpected exception", e);
             }
             projectsCalled.add(args.getProject().get());
             if (projectsCalled.size() == 2) {

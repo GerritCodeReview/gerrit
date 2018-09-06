@@ -3115,7 +3115,6 @@ class ReceiveCommits {
       @Nullable Change change,
       NoteMap rejectCommits)
       throws IOException {
-    PermissionBackend.ForRef perm = permissions.ref(branch.get());
 
     ValidCommitKey key = new AutoValue_ReceiveCommits_ValidCommitKey(commit.copy(), branch);
     if (validCommits.contains(key)) {
@@ -3127,12 +3126,11 @@ class ReceiveCommits {
       CommitValidators validators;
       if (isMerged) {
         validators =
-            commitValidatorsFactory.forMergedCommits(
-                project.getNameKey(), perm, user.asIdentifiedUser());
+            commitValidatorsFactory.forMergedCommits(permissions, branch, user.asIdentifiedUser());
       } else {
         validators =
             commitValidatorsFactory.forReceiveCommits(
-                perm,
+                permissions,
                 branch,
                 user.asIdentifiedUser(),
                 sshInfo,

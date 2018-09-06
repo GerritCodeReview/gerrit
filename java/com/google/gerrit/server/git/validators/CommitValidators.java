@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -45,11 +44,9 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
@@ -123,15 +120,15 @@ public class CommitValidators {
     }
 
     public CommitValidators forReceiveCommits(
-        PermissionBackend.ForRef perm,
+        PermissionBackend.ForProject forProject,
         Branch.NameKey branch,
         IdentifiedUser user,
         SshInfo sshInfo,
-        Repository repo,
+        NoteMap rejectCommits,
         RevWalk rw,
         @Nullable Change change)
         throws IOException {
-      NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
+      PermissionBackend.ForRef perm = forProject.ref(branch.get());
       ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
       return new CommitValidators(
           ImmutableList.of(
@@ -157,13 +154,14 @@ public class CommitValidators {
     }
 
     public CommitValidators forGerritCommits(
-        ForRef perm,
+        PermissionBackend.ForProject forProject,
         NameKey branch,
         IdentifiedUser user,
         SshInfo sshInfo,
         RevWalk rw,
         @Nullable Change change)
         throws IOException {
+      PermissionBackend.ForRef perm = forProject.ref(branch.get());
       ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
       return new CommitValidators(
           ImmutableList.of(
@@ -187,7 +185,7 @@ public class CommitValidators {
     }
 
     public CommitValidators forMergedCommits(
-        Project.NameKey project, PermissionBackend.ForRef perm, IdentifiedUser user)
+        PermissionBackend.ForProject forProject, Branch.NameKey branch, IdentifiedUser user)
         throws IOException {
       // Generally only include validators that are based on permissions of the
       // user creating a change for a merged commit; generally exclude
@@ -202,10 +200,11 @@ public class CommitValidators {
       //    discuss what to do about it.
       //  - Plugin validators may do things like require certain commit message
       //    formats, so we play it safe and exclude them.
+      PermissionBackend.ForRef perm = forProject.ref(branch.get());
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
-              new ProjectStateValidationListener(projectCache.checkedGet(project)),
+              new ProjectStateValidationListener(projectCache.checkedGet(branch.getParentKey())),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new CommitterUploaderValidator(user, perm, canonicalWebUrl)));
     }

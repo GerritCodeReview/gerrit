@@ -1911,13 +1911,15 @@ class ReceiveCommits {
     }
 
     try {
+      NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, receivePack.getRevWalk());
       if (validCommit(
           receivePack.getRevWalk().getObjectReader(),
           changeEnt.getDest(),
           cmd,
           newCommit,
           false,
-          changeEnt)) {
+          changeEnt,
+          rejectCommits)) {
         logger.atFine().log("Replacing change %s", changeEnt.getId());
         requestReplace(cmd, true, changeEnt, newCommit);
       }
@@ -1966,6 +1968,10 @@ class ReceiveCommits {
     }
   }
 
+  private NoteMap loadRejectCommits() throws IOException {
+    return BanCommit.loadRejectCommitsMap(repo, receivePack.getRevWalk());
+  }
+
   private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch(Task newProgress) {
     logger.atFine().log("Finding new and replaced changes");
     List<CreateRequest> newChanges = new ArrayList<>();
@@ -1975,6 +1981,7 @@ class ReceiveCommits {
         GroupCollector.create(changeRefsById(), db, psUtil, notesFactory, project.getNameKey());
 
     try {
+      NoteMap rejectCommits = loadRejectCommits();
       RevCommit start = setUpWalkForSelectingChanges();
       if (start == null) {
         return Collections.emptyList();
@@ -2079,7 +2086,8 @@ class ReceiveCommits {
             magicBranch.cmd,
             c,
             magicBranch.merged,
-            null)) {
+            null,
+            loadRejectCommits())) {
           // Not a change the user can propose? Abort as early as possible.
           logger.atFine().log("Aborting early due to invalid commit");
           return Collections.emptyList();
@@ -3043,6 +3051,8 @@ class ReceiveCommits {
     walk.reset();
     walk.sort(RevSort.NONE);
     try {
+      NoteMap rejectCommits = loadRejectCommits();
+
       RevObject parsedObject = walk.parseAny(cmd.getNewId());
       if (!(parsedObject instanceof RevCommit)) {
         return;
@@ -3065,7 +3075,7 @@ class ReceiveCommits {
           continue;
         }
 
-        if (!validCommit(walk.getObjectReader(), branch, cmd, c, false, null)) {
+        if (!validCommit(walk.getObjectReader(), branch, cmd, c, false, null, rejectCommits)) {
           break;
         }
 
@@ -3102,9 +3112,9 @@ class ReceiveCommits {
       ReceiveCommand cmd,
       RevCommit commit,
       boolean isMerged,
-      @Nullable Change change)
+      @Nullable Change change,
+      NoteMap rejectCommits)
       throws IOException {
-    PermissionBackend.ForRef perm = permissions.ref(branch.get());
 
     ValidCommitKey key = new AutoValue_ReceiveCommits_ValidCommitKey(commit.copy(), branch);
     if (validCommits.contains(key)) {
@@ -3113,18 +3123,21 @@ class ReceiveCommits {
 
     try (CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, branch.get(), objectReader, commit, user)) {
-      CommitValidators validators =
-          isMerged
-              ? commitValidatorsFactory.forMergedCommits(
-                  project.getNameKey(), perm, user.asIdentifiedUser())
-              : commitValidatorsFactory.forReceiveCommits(
-                  perm,
-                  branch,
-                  user.asIdentifiedUser(),
-                  sshInfo,
-                  repo,
-                  receiveEvent.revWalk,
-                  change);
+      CommitValidators validators;
+      if (isMerged) {
+        validators =
+            commitValidatorsFactory.forMergedCommits(permissions, branch, user.asIdentifiedUser());
+      } else {
+        validators =
+            commitValidatorsFactory.forReceiveCommits(
+                permissions,
+                branch,
+                user.asIdentifiedUser(),
+                sshInfo,
+                rejectCommits,
+                receiveEvent.revWalk,
+                change);
+      }
 
       for (CommitValidationMessage m : validators.validate(receiveEvent)) {
         messages.add(

@@ -323,9 +323,6 @@ public class PatchSetInserter implements BatchUpdateOp {
       return;
     }
 
-    PermissionBackend.ForRef perm =
-        permissionBackend.user(ctx.getUser()).ref(origNotes.getChange().getDest());
-
     String refName = getPatchSetId().toRefName();
     try (CommitReceivedEvent event =
         new CommitReceivedEvent(
@@ -340,7 +337,7 @@ public class PatchSetInserter implements BatchUpdateOp {
             ctx.getIdentifiedUser())) {
       commitValidatorsFactory
           .forGerritCommits(
-              perm,
+              permissionBackend.user(ctx.getUser()).project(ctx.getProject()),
               origNotes.getChange().getDest(),
               ctx.getIdentifiedUser(),
               new NoSshInfo(),

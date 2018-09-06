@@ -552,8 +552,6 @@ public class ChangeInserter implements InsertChangeOp {
       return;
     }
 
-    PermissionBackend.ForRef perm =
-        permissionBackend.user(ctx.getUser()).project(ctx.getProject()).ref(refName);
     try {
       try (CommitReceivedEvent event =
           new CommitReceivedEvent(
@@ -565,7 +563,7 @@ public class ChangeInserter implements InsertChangeOp {
               ctx.getIdentifiedUser())) {
         commitValidatorsFactory
             .forGerritCommits(
-                perm,
+                permissionBackend.user(ctx.getUser()).project(ctx.getProject()),
                 new Branch.NameKey(ctx.getProject(), refName),
                 ctx.getIdentifiedUser(),
                 new NoSshInfo(),

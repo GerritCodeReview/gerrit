@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d515ea55_01e8c239",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-06T01:13:09Z",
+      "side": 1,
+      "message": "Agree. I underestimated the likelihood of such existing deployments.",
+      "parentUuid": "5fa88755_13886ffa",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "2bfedfafefd08c35756c79b027ea440be327ee71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5fc51f72_63582352",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2018-09-05T23:19:52Z",
       "side": 1,
       "message": "Unrelated change.  See also the other inline comment.",
+      "revId": "2bfedfafefd08c35756c79b027ea440be327ee71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2750628f_50d959be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-06T01:13:09Z",
+      "side": 1,
+      "message": "Had a feeling about the unrelatedness, but thought of including these as they touched the same file. Will reconsider better next time.",
+      "parentUuid": "5fc51f72_63582352",
       "revId": "2bfedfafefd08c35756c79b027ea440be327ee71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

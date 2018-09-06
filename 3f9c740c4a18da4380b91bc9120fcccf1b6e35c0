@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d62af487_f4fe0ee4",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-06T01:13:09Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "ac0ecc10_32c58d06",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "3f9c740c4a18da4380b91bc9120fcccf1b6e35c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1748d7e9_facf559d",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "3f9c740c4a18da4380b91bc9120fcccf1b6e35c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e83071a_c5e0fc68",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-06T01:13:09Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "1748d7e9_facf559d",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 73
+      },
+      "revId": "3f9c740c4a18da4380b91bc9120fcccf1b6e35c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ad6ee5d4_6bb2f46d",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-06T01:13:09Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "d2123f63_611c6f1b",
+      "range": {
+        "startLine": 27,
+        "startChar": 32,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "3f9c740c4a18da4380b91bc9120fcccf1b6e35c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a597eee_b9dec171",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "06391829_93c4918c",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-06T01:13:09Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "5a597eee_b9dec171",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 0
+      },
+      "revId": "3f9c740c4a18da4380b91bc9120fcccf1b6e35c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c55e2288_f0c65c0e",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2018-09-05T23:22:56Z",
       "side": 0,
       "message": "Shouldn\u0027t be removed, but the addition of V6_4 which I missed before is OK.",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "3f9c740c4a18da4380b91bc9120fcccf1b6e35c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64f10c84_8a1181be",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-06T01:13:09Z",
+      "side": 0,
+      "message": "Agree.",
+      "parentUuid": "c55e2288_f0c65c0e",
       "range": {
         "startLine": 55,
         "startChar": 4,

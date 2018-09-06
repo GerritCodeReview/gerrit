@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a61aecf7_041d3214",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-06T01:13:09Z",
+      "side": 1,
+      "message": "Should we still consider removing the 5.6.9 line, and replace the 5.6.10 one with 5.6.11 (in another change)?",
+      "revId": "0839ebdee5656c288dd0268cd3ab97002e923892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "da2034f1a357f54237203975e68a47255318e1f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e0168e1_317f0739",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2018-09-06T15:52:12Z",
+      "side": 1,
+      "message": "\u003e was it simply to cause a test failure if the exception was thrown?\n\nYes.",
+      "parentUuid": "0f4198c2_e4e1a9bb",
+      "range": {
+        "startLine": 736,
+        "startChar": 10,
+        "endLine": 736,
+        "endChar": 33
+      },
+      "revId": "da2034f1a357f54237203975e68a47255318e1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

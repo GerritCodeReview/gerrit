@@ -22,6 +22,30 @@
       "revId": "08fca6a7d51046fb2aa1c335ebf4cd107c122654",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1edde0e_a221c125",
+        "filename": "tools/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-06T08:29:14Z",
+      "side": 1,
+      "message": "It was needed to run against the latest Bazel@HEAD, that wasn\u0027t released yet. What Bazel version are you using? I\u0027m fine to revert to the version without \u00278\u0027 suffix, and fix that later.",
+      "parentUuid": "9ab69d14_6e8dec9c",
+      "range": {
+        "startLine": 47,
+        "startChar": 46,
+        "endLine": 47,
+        "endChar": 64
+      },
+      "revId": "08fca6a7d51046fb2aa1c335ebf4cd107c122654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

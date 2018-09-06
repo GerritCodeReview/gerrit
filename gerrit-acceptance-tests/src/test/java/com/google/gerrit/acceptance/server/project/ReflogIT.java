@@ -19,6 +19,8 @@ import static com.google.gerrit.common.data.Permission.OWNER;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
@@ -29,7 +31,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
+import com.google.gson.reflect.TypeToken;
 import java.util.List;
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Before;
@@ -49,7 +53,7 @@ public class ReflogIT extends AbstractDaemonTest {
   @Test
   @UseLocalDisk
   public void reflogUpdatedBySubmittingChange() throws Exception {
-    List<ReflogEntryInfo> reflog = getReflog();
+    List<ReflogEntryInfo> reflog = getReflog(true);
     assertThat(reflog).isNotEmpty();
 
     // Current number of entries in the reflog
@@ -67,14 +71,13 @@ public class ReflogIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).revision(revision).submit();
 
     // Submitting the change causes a new entry in the reflog
-    reflog = getReflog();
+    reflog = getReflog(true);
     assertThat(reflog).hasSize(refLogLen + 1);
   }
 
   @Test
   @UseLocalDisk
   public void regularUserIsNotAllowedToGetReflog() throws Exception {
-    setApiUser(user);
     exception.expect(AuthException.class);
     getReflog();
   }
@@ -89,18 +92,41 @@ public class ReflogIT extends AbstractDaemonTest {
     Util.allow(cfg, OWNER, new AccountGroup.UUID(groupApi.get().id), "refs/*");
     saveProjectConfig(testProject, cfg);
 
-    setApiUser(user);
     getReflog();
   }
 
   @Test
   @UseLocalDisk
   public void adminUserIsAllowedToGetReflog() throws Exception {
-    setApiUser(admin);
-    getReflog();
+    getReflog(true);
+  }
+
+  protected boolean useHTTP() {
+    return false;
   }
 
   private List<ReflogEntryInfo> getReflog() throws Exception {
+    return getReflog(false);
+  }
+
+  private List<ReflogEntryInfo> getReflog(boolean isAdmin) throws Exception {
+    if (useHTTP()) {
+      RestSession session = isAdmin ? adminRestSession : userRestSession;
+      RestResponse r =
+          session.get(String.format("/projects/%s/branches/master/reflog", testProject.get()));
+      switch (r.getStatusCode()) {
+        case HttpStatus.SC_OK:
+          break;
+        case HttpStatus.SC_FORBIDDEN:
+          throw new AuthException(r.getEntityContent());
+        default:
+          throw new Exception("Unexpected response: " + r.getStatusCode());
+      }
+      return (newGson())
+          .fromJson(r.getReader(), new TypeToken<List<ReflogEntryInfo>>() {}.getType());
+    }
+
+    setApiUser(isAdmin ? admin : user);
     return gApi.projects().name(testProject.get()).branch("master").reflog();
   }
 }

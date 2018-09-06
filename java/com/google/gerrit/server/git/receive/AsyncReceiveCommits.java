@@ -94,7 +94,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       // Don't expose the binding for ReceiveCommits.Factory. All callers should
       // be using AsyncReceiveCommits.Factory instead.
       install(new FactoryModuleBuilder().build(ReceiveCommits.Factory.class));
-      install(new FactoryModuleBuilder().build(CommitValidatorCache.Factory.class));
+      install(new FactoryModuleBuilder().build(BranchCommitValidator.Factory.class));
     }
 
     @Provides

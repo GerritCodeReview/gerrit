@@ -220,34 +220,9 @@ import org.kohsuke.args4j.Option;
 class ReceiveCommits {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private enum ReceiveError {
-    CONFIG_UPDATE(
-        "You are not allowed to perform this operation.\n"
-            + "Configuration changes can only be pushed by project owners\n"
-            + "who also have 'Push' rights on "
-            + RefNames.REFS_CONFIG),
-    UPDATE(
-        "You are not allowed to perform this operation.\n"
-            + "To push into this reference you need 'Push' rights."),
-    DELETE(
-        "You need 'Delete Reference' rights or 'Push' rights with the \n"
-            + "'Force Push' flag set to delete references."),
-    DELETE_CHANGES("Cannot delete from '" + REFS_CHANGES + "'"),
-    CODE_REVIEW(
+  private static final String CODE_REVIEW_ERROR =
         "You need 'Push' rights to upload code review requests.\n"
-            + "Verify that you are pushing to the right branch.");
-
-    private final String value;
-
-    ReceiveError(String value) {
-      this.value = value;
-    }
-
-    String get() {
-      return value;
-    }
-  }
-
+            + "Verify that you are pushing to the right branch.";
   private static final String CANNOT_DELETE_CHANGES = "Cannot delete from '" + REFS_CHANGES + "'";
   private static final String CANNOT_DELETE_CONFIG =
       "Cannot delete project configuration from '" + RefNames.REFS_CONFIG + "'";
@@ -1691,7 +1666,7 @@ class ReceiveCommits {
     // TODO(davido): Remove legacy support for drafts magic branch option
     // after repo-tool supports private and work-in-progress changes.
     if (magicBranch.draft && !receiveConfig.allowDrafts) {
-      errors.put(ReceiveError.CODE_REVIEW.get(), ref);
+      errors.put(CODE_REVIEW_ERROR, ref);
       reject(cmd, "draft workflow is disabled");
       return;
     }

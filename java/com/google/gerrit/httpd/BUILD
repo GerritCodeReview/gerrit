@@ -16,6 +16,7 @@ java_library(
         "//java/com/google/gerrit/server/audit",
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/ioutil",
+        "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/util/cli",
         "//java/com/google/gerrit/util/http",

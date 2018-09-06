@@ -4,7 +4,10 @@ acceptance_tests(
     srcs = glob(["*IT.java"]),
     group = "rest_bindings",
     labels = ["rest"],
-    deps = [":util"],
+    deps = [
+        ":util",
+        "//java/com/google/gerrit/server/logging",
+    ],
 )
 
 java_library(

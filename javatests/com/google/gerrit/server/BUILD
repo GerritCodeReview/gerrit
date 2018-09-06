@@ -49,6 +49,7 @@ junit_tests(
         "//java/com/google/gerrit/server/cache/testing",
         "//java/com/google/gerrit/server/group/testing",
         "//java/com/google/gerrit/server/ioutil",
+        "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",

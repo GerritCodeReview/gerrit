@@ -33,6 +33,7 @@ java_library(
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/logging",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/flogger:api",

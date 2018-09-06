@@ -8,6 +8,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/util/cli",
         "//lib:args4j",
         "//lib:guava",

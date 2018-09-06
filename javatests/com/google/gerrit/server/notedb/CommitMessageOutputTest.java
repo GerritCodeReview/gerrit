@@ -151,7 +151,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
 
-    RequestId submissionId = RequestId.forChange(c);
+    RequestId submissionId = submissionId(c);
     update.merge(
         submissionId,
         ImmutableList.of(
@@ -220,7 +220,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
 
-    RequestId submissionId = RequestId.forChange(c);
+    RequestId submissionId = submissionId(c);
     update.merge(
         submissionId, ImmutableList.of(submitRecord("RULE_ERROR", "Problem with patch set:\n1")));
     update.commit();
@@ -423,5 +423,9 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   private void assertBodyEquals(String expected, ObjectId commitId) throws Exception {
     RevCommit commit = parseCommit(commitId);
     assertThat(commit.getFullMessage()).isEqualTo(expected);
+  }
+
+  private RequestId submissionId(Change c) {
+    return new RequestId(c.getId().toString());
   }
 }

@@ -16,6 +16,24 @@
       "revId": "0839ebdee5656c288dd0268cd3ab97002e923892",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3015a9e_a1e21c1f",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-06T14:35:19Z",
+      "side": 1,
+      "message": "Done; proposed through Iafc734d5 -which I hope is related (within itself) enough.",
+      "parentUuid": "a61aecf7_041d3214",
+      "revId": "0839ebdee5656c288dd0268cd3ab97002e923892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

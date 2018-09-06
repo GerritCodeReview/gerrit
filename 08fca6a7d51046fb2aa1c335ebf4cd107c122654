@@ -46,6 +46,30 @@
       "revId": "08fca6a7d51046fb2aa1c335ebf4cd107c122654",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a2d66d5_9e05693e",
+        "filename": "tools/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-06T08:54:37Z",
+      "side": 1,
+      "message": "I\u0027m using 0.16.1 and didn\u0027t actually test this patch before submitting it.  The version that was submitted on master doesn\u0027t have the \u00278\u0027 suffix, and that worked for me when I was testing it.",
+      "parentUuid": "b1edde0e_a221c125",
+      "range": {
+        "startLine": 47,
+        "startChar": 46,
+        "endLine": 47,
+        "endChar": 64
+      },
+      "revId": "08fca6a7d51046fb2aa1c335ebf4cd107c122654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

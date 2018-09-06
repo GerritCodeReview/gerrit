@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab69d14_6e8dec9c",
+        "filename": "tools/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-06T08:06:43Z",
+      "side": 1,
+      "message": "In the version on master this is just platformclasspath.  With the \u00278\u0027 suffix the build fails:\n\nhttp://paste.openstack.org/show/729586/\n\nI have a local patch and will upload it.",
+      "range": {
+        "startLine": 47,
+        "startChar": 46,
+        "endLine": 47,
+        "endChar": 64
+      },
+      "revId": "08fca6a7d51046fb2aa1c335ebf4cd107c122654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

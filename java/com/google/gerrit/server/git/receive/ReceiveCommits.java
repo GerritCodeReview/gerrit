@@ -301,7 +301,7 @@ class ReceiveCommits {
   private final ChangeNotes.Factory notesFactory;
   private final ChangeReportFormatter changeFormatter;
   private final CmdLineParser.Factory optionParserFactory;
-  private final CommitValidatorCache.Factory commitValidatorFactory;
+  private final BranchCommitValidator.Factory commitValidatorFactory;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -378,7 +378,7 @@ class ReceiveCommits {
       ChangeNotes.Factory notesFactory,
       DynamicItem<ChangeReportFormatter> changeFormatterProvider,
       CmdLineParser.Factory optionParserFactory,
-      CommitValidatorCache.Factory commitValidatorFactory,
+      BranchCommitValidator.Factory commitValidatorFactory,
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
       CreateRefControl createRefControl,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
@@ -1878,11 +1878,11 @@ class ReceiveCommits {
       return;
     }
 
-    CommitValidatorCache validator = commitValidatorFactory.create(projectState, user);
+    BranchCommitValidator validator =
+        commitValidatorFactory.create(projectState, changeEnt.getDest(), user);
     try {
       if (validator.validCommit(
           receivePack.getRevWalk().getObjectReader(),
-          changeEnt.getDest(),
           cmd,
           newCommit,
           false,
@@ -1945,7 +1945,9 @@ class ReceiveCommits {
     GroupCollector groupCollector =
         GroupCollector.create(changeRefsById(), db, psUtil, notesFactory, project.getNameKey());
 
-    CommitValidatorCache validator = commitValidatorFactory.create(projectState, user);
+    BranchCommitValidator validator =
+        commitValidatorFactory.create(projectState, magicBranch.dest, user);
+
     try {
       RevCommit start = setUpWalkForSelectingChanges();
       if (start == null) {
@@ -2047,7 +2049,6 @@ class ReceiveCommits {
 
         if (!validator.validCommit(
             receivePack.getRevWalk().getObjectReader(),
-            magicBranch.dest,
             magicBranch.cmd,
             c,
             magicBranch.merged,
@@ -3012,7 +3013,7 @@ class ReceiveCommits {
       return;
     }
 
-    CommitValidatorCache validator = commitValidatorFactory.create(projectState, user);
+    BranchCommitValidator validator = commitValidatorFactory.create(projectState, branch, user);
     boolean missingFullName = Strings.isNullOrEmpty(user.getAccount().getFullName());
     RevWalk walk = receivePack.getRevWalk();
     walk.reset();
@@ -3041,7 +3042,7 @@ class ReceiveCommits {
         }
 
         if (!validator.validCommit(
-            walk.getObjectReader(), branch, cmd, c, false, messages, rejectCommits, null)) {
+            walk.getObjectReader(), cmd, c, false, messages, rejectCommits, null)) {
           break;
         }
 

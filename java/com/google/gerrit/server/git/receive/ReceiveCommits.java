@@ -1065,131 +1065,139 @@ class ReceiveCommits {
     }
 
     if (isConfig(cmd)) {
-      logger.atFine().log("Processing %s command", cmd.getRefName());
-      try {
-        permissions.check(ProjectPermission.WRITE_CONFIG);
-      } catch (AuthException e) {
-        reject(
-            cmd,
-            String.format(
-                "must be either project owner or have %s permission",
-                ProjectPermission.WRITE_CONFIG.describeForException()));
-        return;
-      }
+      validateConfigPush(cmd);
+    }
+  }
 
-      switch (cmd.getType()) {
-        case CREATE:
-        case UPDATE:
-        case UPDATE_NONFASTFORWARD:
-          try {
-            ProjectConfig cfg = new ProjectConfig(project.getNameKey());
-            cfg.load(project.getNameKey(), receivePack.getRevWalk(), cmd.getNewId());
-            if (!cfg.getValidationErrors().isEmpty()) {
-              addError("Invalid project configuration:");
-              for (ValidationError err : cfg.getValidationErrors()) {
-                addError("  " + err.getMessage());
-              }
-              reject(cmd, "invalid project configuration");
-              logger.atSevere().log(
-                  "User %s tried to push invalid project configuration %s for %s",
-                  user.getLoggableName(), cmd.getNewId().name(), project.getName());
-              return;
+  /** Validates a push to refs/meta/config, and reject the command if it fails. */
+  private void validateConfigPush(ReceiveCommand cmd) throws PermissionBackendException {
+    logger.atFine().log("Processing %s command", cmd.getRefName());
+    try {
+      permissions.check(ProjectPermission.WRITE_CONFIG);
+    } catch (AuthException e) {
+      reject(
+          cmd,
+          String.format(
+              "must be either project owner or have %s permission",
+              ProjectPermission.WRITE_CONFIG.describeForException()));
+      return;
+    }
+
+    switch (cmd.getType()) {
+      case CREATE:
+      case UPDATE:
+      case UPDATE_NONFASTFORWARD:
+        try {
+          ProjectConfig cfg = new ProjectConfig(project.getNameKey());
+          cfg.load(project.getNameKey(), receivePack.getRevWalk(), cmd.getNewId());
+          if (!cfg.getValidationErrors().isEmpty()) {
+            addError("Invalid project configuration:");
+            for (ValidationError err : cfg.getValidationErrors()) {
+              addError("  " + err.getMessage());
             }
-            Project.NameKey newParent = cfg.getProject().getParent(allProjectsName);
-            Project.NameKey oldParent = project.getParent(allProjectsName);
-            if (oldParent == null) {
-              // update of the 'All-Projects' project
-              if (newParent != null) {
-                reject(cmd, "invalid project configuration: root project cannot have parent");
-                return;
-              }
-            } else {
-              if (!oldParent.equals(newParent)) {
-                if (allowProjectOwnersToChangeParent) {
-                  try {
-                    permissionBackend
-                        .user(user)
-                        .project(project.getNameKey())
-                        .check(ProjectPermission.WRITE_CONFIG);
-                  } catch (AuthException e) {
-                    reject(
-                        cmd, "invalid project configuration: only project owners can set parent");
-                    return;
-                  }
-                } else {
-                  try {
-                    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-                  } catch (AuthException e) {
-                    reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
-                    return;
-                  }
-                }
-              }
-
-              if (projectCache.get(newParent) == null) {
-                reject(cmd, "invalid project configuration: parent does not exist");
-                return;
-              }
-            }
-
-            for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
-              PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
-              ProjectConfigEntry configEntry = e.getProvider().get();
-              String value = pluginCfg.getString(e.getExportName());
-              String oldValue =
-                  projectState
-                      .getConfig()
-                      .getPluginConfig(e.getPluginName())
-                      .getString(e.getExportName());
-              if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
-                oldValue =
-                    Arrays.stream(
-                            projectState
-                                .getConfig()
-                                .getPluginConfig(e.getPluginName())
-                                .getStringList(e.getExportName()))
-                        .collect(joining("\n"));
-              }
-
-              if ((value == null ? oldValue != null : !value.equals(oldValue))
-                  && !configEntry.isEditable(projectState)) {
-                reject(
-                    cmd,
-                    String.format(
-                        "invalid project configuration: Not allowed to set parameter"
-                            + " '%s' of plugin '%s' on project '%s'.",
-                        e.getExportName(), e.getPluginName(), project.getName()));
-                continue;
-              }
-
-              if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
-                  && value != null
-                  && !configEntry.getPermittedValues().contains(value)) {
-                reject(
-                    cmd,
-                    String.format(
-                        "invalid project configuration: The value '%s' is "
-                            + "not permitted for parameter '%s' of plugin '%s'.",
-                        value, e.getExportName(), e.getPluginName()));
-              }
-            }
-          } catch (Exception e) {
             reject(cmd, "invalid project configuration");
-            logger.atSevere().withCause(e).log(
+            logger.atSevere().log(
                 "User %s tried to push invalid project configuration %s for %s",
                 user.getLoggableName(), cmd.getNewId().name(), project.getName());
             return;
           }
-          break;
+          Project.NameKey newParent = cfg.getProject().getParent(allProjectsName);
+          Project.NameKey oldParent = project.getParent(allProjectsName);
+          if (oldParent == null) {
+            // update of the 'All-Projects' project
+            if (newParent != null) {
+              reject(cmd, "invalid project configuration: root project cannot have parent");
+              return;
+            }
+          } else {
+            if (!oldParent.equals(newParent)) {
+              if (allowProjectOwnersToChangeParent) {
+                try {
+                  permissionBackend
+                      .user(user)
+                      .project(project.getNameKey())
+                      .check(ProjectPermission.WRITE_CONFIG);
+                } catch (AuthException e) {
+                  reject(cmd, "invalid project configuration: only project owners can set parent");
+                  return;
+                }
+              } else {
+                try {
+                  permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+                } catch (AuthException e) {
+                  reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
+                  return;
+                }
+              }
+            }
 
-        case DELETE:
-          break;
+            if (projectCache.get(newParent) == null) {
+              reject(cmd, "invalid project configuration: parent does not exist");
+              return;
+            }
+          }
+          validatePluginConfig(cmd, cfg);
+        } catch (Exception e) {
+          reject(cmd, "invalid project configuration");
+          logger.atSevere().withCause(e).log(
+              "User %s tried to push invalid project configuration %s for %s",
+              user.getLoggableName(), cmd.getNewId().name(), project.getName());
+          return;
+        }
+        break;
 
-        default:
-          reject(
-              cmd,
-              "prohibited by Gerrit: don't know how to handle config update of type "
-                  + cmd.getType());
+      case DELETE:
+        break;
+
+      default:
+        reject(
+            cmd,
+            "prohibited by Gerrit: don't know how to handle config update of type "
+                + cmd.getType());
+    }
+  }
+
+  /**
+   * validates a push to refs/meta/config for plugin configuration, and rejects the push if it
+   * fails.
+   */
+  private void validatePluginConfig(ReceiveCommand cmd, ProjectConfig cfg) {
+    for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+      PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
+      ProjectConfigEntry configEntry = e.getProvider().get();
+      String value = pluginCfg.getString(e.getExportName());
+      String oldValue =
+          projectState.getConfig().getPluginConfig(e.getPluginName()).getString(e.getExportName());
+      if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
+        oldValue =
+            Arrays.stream(
+                    projectState
+                        .getConfig()
+                        .getPluginConfig(e.getPluginName())
+                        .getStringList(e.getExportName()))
+                .collect(joining("\n"));
+      }
+
+      if ((value == null ? oldValue != null : !value.equals(oldValue))
+          && !configEntry.isEditable(projectState)) {
+        reject(
+            cmd,
+            String.format(
+                "invalid project configuration: Not allowed to set parameter"
+                    + " '%s' of plugin '%s' on project '%s'.",
+                e.getExportName(), e.getPluginName(), project.getName()));
+        continue;
+      }
+
+      if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
+          && value != null
+          && !configEntry.getPermittedValues().contains(value)) {
+        reject(
+            cmd,
+            String.format(
+                "invalid project configuration: The value '%s' is "
+                    + "not permitted for parameter '%s' of plugin '%s'.",
+                value, e.getExportName(), e.getPluginName()));
       }
     }
   }

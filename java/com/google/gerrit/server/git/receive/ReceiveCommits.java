@@ -95,7 +95,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
@@ -292,7 +291,6 @@ class ReceiveCommits {
 
   // Injected fields.
   private final AccountResolver accountResolver;
-  private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final AllProjectsName allProjectsName;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeEditUtil editUtil;
@@ -358,7 +356,6 @@ class ReceiveCommits {
   // Other settings populated during processing.
   private MagicBranchInput magicBranch;
   private boolean newChangeForAllNotInTarget;
-  private String setFullNameTo;
   private boolean setChangeAsPrivate;
   private Optional<NoteDbPushOption> noteDbPushOption;
   private Optional<String> tracePushOption;
@@ -411,7 +408,6 @@ class ReceiveCommits {
       throws IOException {
     // Injected fields.
     this.accountResolver = accountResolver;
-    this.accountsUpdateProvider = accountsUpdateProvider;
     this.allProjectsName = allProjectsName;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changeFormatter = changeFormatterProvider.get();
@@ -527,10 +523,6 @@ class ReceiveCommits {
 
     commandProgress.end();
     progress.end();
-
-    // Update account info with details discovered during commit walking. The account update happens
-    // in a separate batch update, and failure doesn't cause the push itself to fail.
-    updateAccountInfo();
   }
 
   // Process as many commands as possible, but may leave some commands in state NOT_ATTEMPTED.
@@ -3019,7 +3011,6 @@ class ReceiveCommits {
     }
 
     BranchCommitValidator validator = commitValidatorFactory.create(projectState, branch, user);
-    boolean missingFullName = Strings.isNullOrEmpty(user.getAccount().getFullName());
     RevWalk walk = receivePack.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
@@ -3051,12 +3042,6 @@ class ReceiveCommits {
         if (!validator.validCommit(
             walk.getObjectReader(), cmd, c, false, messages, rejectCommits, null)) {
           break;
-        }
-
-        if (missingFullName && user.hasEmailAddress(c.getCommitterIdent().getEmailAddress())) {
-          logger.atFine().log("Will update full name of caller");
-          setFullNameTo = c.getCommitterIdent().getName();
-          missingFullName = false;
         }
       }
       logger.atFine().log("Validated %d new commits", n);
@@ -3183,31 +3168,6 @@ class ReceiveCommits {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, OrmException.class);
       throw new OrmException(e);
-    }
-  }
-
-  private void updateAccountInfo() {
-    if (setFullNameTo == null) {
-      return;
-    }
-    logger.atFine().log("Updating full name of caller");
-    try {
-      Optional<AccountState> accountState =
-          accountsUpdateProvider
-              .get()
-              .update(
-                  "Set Full Name on Receive Commits",
-                  user.getAccountId(),
-                  (a, u) -> {
-                    if (Strings.isNullOrEmpty(a.getAccount().getFullName())) {
-                      u.setFullName(setFullNameTo);
-                    }
-                  });
-      accountState
-          .map(AccountState::getAccount)
-          .ifPresent(a -> user.getAccount().setFullName(a.getFullName()));
-    } catch (OrmException | IOException | ConfigInvalidException e) {
-      logger.atWarning().withCause(e).log("Failed to update full name of caller");
     }
   }
 

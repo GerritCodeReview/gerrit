@@ -162,10 +162,6 @@ public class MailMetadataIT extends AbstractDaemonTest {
   }
 
   private String getChangeUrl(ChangeData changeData) {
-    return canonicalWebUrl.get()
-        + "c/"
-        + changeData.project().get()
-        + "/+/"
-        + changeData.getId().get();
+    return canonicalWebUrl.get() + changeData.project().get() + "/+/" + changeData.getId().get();
   }
 }

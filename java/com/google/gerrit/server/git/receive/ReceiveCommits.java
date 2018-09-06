@@ -3082,10 +3082,6 @@ class ReceiveCommits {
   private void autoCloseChanges(ReceiveCommand cmd, Task progress) {
     logger.atFine().log("Starting auto-closing of changes");
     String refName = cmd.getRefName();
-    checkState(
-        !MagicBranch.isMagicBranch(refName),
-        "shouldn't be auto-closing changes on magic branch %s",
-        refName);
 
     // TODO(dborowitz): Combine this BatchUpdate with the main one in
     // handleRegularCommands

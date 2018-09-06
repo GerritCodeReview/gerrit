@@ -1014,6 +1014,7 @@ As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
     ],
     "can_upload": true,
     "can_add": true,
+    "can_add_tags": true,
     "config_visible": true
   }
 ----
@@ -1097,6 +1098,7 @@ As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
     ],
     "can_upload": true,
     "can_add": true,
+    "can_add_tags": true,
     "config_visible": true
   }
 ----

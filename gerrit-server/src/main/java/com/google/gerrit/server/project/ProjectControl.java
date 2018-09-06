@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_TAGS;
+
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -293,6 +295,10 @@ public class ProjectControl {
     return (canPerformOnAnyRef(Permission.CREATE) || isOwnerAnyRef());
   }
 
+  public boolean canAddTagRefs() {
+    return (canPerformOnTagRef(Permission.CREATE) || isOwnerAnyRef());
+  }
+
   public boolean canUpload() {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
@@ -409,6 +415,26 @@ public class ProjectControl {
     return new Capable(msg.toString());
   }
 
+  private boolean canPerformOnTagRef(String permissionName) {
+    for (SectionMatcher matcher : access()) {
+      AccessSection section = matcher.section;
+
+      if (section.getName().startsWith(REFS_TAGS)) {
+        Permission permission = section.getPermission(permissionName);
+        if (permission == null) {
+          continue;
+        }
+
+        Boolean can = canPerform(permissionName, section, permission);
+        if (can != null) {
+          return can;
+        }
+      }
+    }
+
+    return false;
+  }
+
   private boolean canPerformOnAnyRef(String permissionName) {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
@@ -417,23 +443,31 @@ public class ProjectControl {
         continue;
       }
 
-      for (PermissionRule rule : permission.getRules()) {
-        if (rule.isBlock() || rule.isDeny() || !match(rule)) {
-          continue;
-        }
-
-        // Being in a group that was granted this permission is only an
-        // approximation.  There might be overrides and doNotInherit
-        // that would render this to be false.
-        //
-        if (controlForRef(section.getName()).canPerform(permissionName)) {
-          return true;
-        }
-        break;
+      Boolean can = canPerform(permissionName, section, permission);
+      if (can != null) {
+        return can;
       }
     }
 
     return false;
+  }
+
+  private Boolean canPerform(String permissionName, AccessSection section, Permission permission) {
+    for (PermissionRule rule : permission.getRules()) {
+      if (rule.isBlock() || rule.isDeny() || !match(rule)) {
+        continue;
+      }
+
+      // Being in a group that was granted this permission is only an
+      // approximation.  There might be overrides and doNotInherit
+      // that would render this to be false.
+      //
+      if (controlForRef(section.getName()).canPerform(permissionName)) {
+        return true;
+      }
+      break;
+    }
+    return null;
   }
 
   private boolean canPerformOnAllRefs(String permission, Set<String> ignore) {

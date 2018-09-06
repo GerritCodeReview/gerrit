@@ -213,6 +213,9 @@ import org.kohsuke.args4j.Option;
  *
  * <p>Conceptually, most use of Gerrit is a push of some commits to refs/for/BRANCH. However, the
  * receive-pack protocol that this is based on allows multiple ref updates to be processed at once.
+ * So we have to be prepared to also handle normal pushes (refs/heads/BRANCH), and legacy pushes
+ * (refs/changes/CHANGE). It is hard to split this class up further, because normal pushes can also
+ * result in updates to reviews, through the autoclose mechanism.
  */
 class ReceiveCommits {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

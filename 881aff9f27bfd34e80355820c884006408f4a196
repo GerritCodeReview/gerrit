@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da0d2755_aba06491",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchSetUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-06T16:01:39Z",
+      "side": 1,
+      "message": "This condition seems to be the root cause for the CI breakage. E.g. for the test: OnlineNoteDbMigrationIT#rebuildSubsetOfChanges, db instance here is:\n\n  com.google.gerrit.server.update.BatchUpdateReviewDb\n\nand the insert is in fact performed in the base version (and is missing now): [1].\n\n* [1] http://paste.openstack.org/show/729621",
+      "range": {
+        "startLine": 119,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "881aff9f27bfd34e80355820c884006408f4a196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

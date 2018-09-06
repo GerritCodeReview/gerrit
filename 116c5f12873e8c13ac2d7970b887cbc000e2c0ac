@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "002c07d6_01d2b7c9",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-06T09:55:57Z",
+      "side": 1,
+      "message": "I agree it should be toList(). Also fixed it in the other places.\n\nDone.",
+      "parentUuid": "2787422a_f9473dc9",
+      "range": {
+        "startLine": 304,
+        "startChar": 78,
+        "endLine": 304,
+        "endChar": 85
+      },
+      "revId": "116c5f12873e8c13ac2d7970b887cbc000e2c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1735e07c_f5ba348e",
         "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
         "patchSetId": 3
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "ab8da345_4841b0d0",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-06T09:55:57Z",
+      "side": 1,
+      "message": "\u003e This makes a copy of the context at construction time, but I honestly\n\u003e don\u0027t know whether that\u0027s what we want.\n\nThat\u0027s what I intended.\n\nI think it\u0027s better because it always produces the same result. E.g. for the example that you have given foo\u003dbar would always not be set for the callable. With the other approach it depends on when the callable is executed and you can\u0027t know whether the tag will be there or not.\n\nLet me turn your example around:\n\n  try (TraceContext ctx \u003d TraceContext.newTrace()) {\n    someContextAwareExecutor.submit(callable);\n  }\n\nIn this case I would expect that tracing is enabled for the callable, but with the other approach we don\u0027t know if it happens.",
+      "parentUuid": "1735e07c_f5ba348e",
+      "revId": "116c5f12873e8c13ac2d7970b887cbc000e2c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7875146c_b183a40a",
         "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
         "patchSetId": 3
@@ -57,6 +99,24 @@
       "revId": "116c5f12873e8c13ac2d7970b887cbc000e2c0ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdd76bee_c4c63518",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-06T09:55:57Z",
+      "side": 1,
+      "message": "I thought that should not happen. But better to be on the safe side.\n\nDone.",
+      "parentUuid": "7875146c_b183a40a",
+      "revId": "116c5f12873e8c13ac2d7970b887cbc000e2c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

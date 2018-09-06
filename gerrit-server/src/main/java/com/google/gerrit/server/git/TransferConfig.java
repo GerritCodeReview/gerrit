@@ -28,6 +28,7 @@ public class TransferConfig {
   private final PackConfig packConfig;
   private final long maxObjectSizeLimit;
   private final String maxObjectSizeLimitFormatted;
+  private final boolean inheritProjectMaxObjectSizeLimit;
 
   @Inject
   TransferConfig(@GerritServerConfig Config cfg) {
@@ -42,6 +43,8 @@ public class TransferConfig {
                 TimeUnit.SECONDS);
     maxObjectSizeLimit = cfg.getLong("receive", "maxObjectSizeLimit", 0);
     maxObjectSizeLimitFormatted = cfg.getString("receive", null, "maxObjectSizeLimit");
+    inheritProjectMaxObjectSizeLimit =
+        cfg.getBoolean("receive", "inheritProjectMaxObjectSizeLimit", false);
 
     packConfig = new PackConfig();
     packConfig.setDeltaCompress(false);
@@ -64,5 +67,9 @@ public class TransferConfig {
 
   public String getFormattedMaxObjectSizeLimit() {
     return maxObjectSizeLimitFormatted;
+  }
+
+  public boolean getInheritProjectMaxObjectSizeLimit() {
+    return inheritProjectMaxObjectSizeLimit;
   }
 }

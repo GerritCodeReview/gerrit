@@ -54,14 +54,17 @@ public class ConfigInfo {
   }
 
   public static class MaxObjectSizeLimitInfo {
-    /* The effective value. Null if not set. */
+    /** The effective value in bytes. Null if not set. */
     @Nullable public String value;
 
-    /* The value configured on the project. Null if not set. */
+    /** The value configured explicitly on the project as a formatted string. Null if not set. */
     @Nullable public String configuredValue;
 
-    /* The value configured globally. Null if not set. */
-    @Nullable public String inheritedValue;
+    /**
+     * Whether the value was inherited or overridden from the project's parent hierarchy or global
+     * config. Null if not inherited or overridden.
+     */
+    @Nullable public String summary;
   }
 
   public static class ConfigParameterInfo {

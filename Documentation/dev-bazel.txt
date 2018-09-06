@@ -121,6 +121,11 @@ The output JAR file will be be placed in:
 Note that when building an individual plugin, the `core.zip` package
 is not regenerated.
 
+To build with all Error Prone warnings activated, run:
+
+----
+  bazel build --java_toolchain //tools:error_prone_warnings_toolchain //...
+----
 
 
 [[IDEs]]

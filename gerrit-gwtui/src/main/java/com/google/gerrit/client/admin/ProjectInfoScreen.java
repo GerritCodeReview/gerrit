@@ -432,9 +432,8 @@ public class ProjectInfoScreen extends ProjectScreen {
     if (result.maxObjectSizeLimit().value() != null) {
       effectiveMaxObjectSizeLimit.setText(
           AdminMessages.I.effectiveMaxObjectSizeLimit(result.maxObjectSizeLimit().value()));
-      if (result.maxObjectSizeLimit().inheritedValue() != null) {
-        effectiveMaxObjectSizeLimit.setTitle(
-            AdminMessages.I.globalMaxObjectSizeLimit(result.maxObjectSizeLimit().inheritedValue()));
+      if (result.maxObjectSizeLimit().summary() != null) {
+        effectiveMaxObjectSizeLimit.setTitle(result.maxObjectSizeLimit().summary());
       }
     } else {
       effectiveMaxObjectSizeLimit.setText(AdminMessages.I.noMaxObjectSizeLimit());

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.reviewdb.client.Account.USER_NAME_PATTERN_COMPILED;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.common.Nullable;
@@ -82,7 +81,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
     ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     if (newUsername != null && !newUsername.isEmpty()) {
-      if (!USER_NAME_PATTERN_COMPILED.matcher(newUsername).matches()) {
+      if (!ExternalId.isValidUsername(newUsername)) {
         throw new InvalidUserNameException();
       }
 

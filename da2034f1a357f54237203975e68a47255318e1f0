@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f4198c2_e4e1a9bb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-06T08:46:18Z",
+      "side": 1,
+      "message": "What was the intention of this?  Can we ever get a thrown exception that is null?  Or was it simply to cause a test failure if the exception was thrown?",
+      "range": {
+        "startLine": 736,
+        "startChar": 10,
+        "endLine": 736,
+        "endChar": 33
+      },
+      "revId": "da2034f1a357f54237203975e68a47255318e1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f957e228_048d521c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-06T19:12:00Z",
+      "side": 1,
+      "message": "Newly summarised through the new/proposed Issue 9689.",
+      "parentUuid": "29569c73_c3048fbf",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "54c353a03f6a12fa396fa3c7513814258f4b5338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1c85e731_4d8386c9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

@@ -98,6 +98,24 @@
       "revId": "2bfedfafefd08c35756c79b027ea440be327ee71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3e88b20_ff42dad6",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-06T01:18:57Z",
+      "side": 1,
+      "message": "Think not (anymore) -sorry.",
+      "parentUuid": "b84c1fd0_2c8e8204",
+      "revId": "2bfedfafefd08c35756c79b027ea440be327ee71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

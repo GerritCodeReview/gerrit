@@ -17,7 +17,7 @@
 (function() {
   'use strict';
 
-  const PATCH_SET_PREFIX_PATTERN = /^Patch Set (\d)+:[ ]?/;
+  const PATCH_SET_PREFIX_PATTERN = /^Patch Set (\d+):[ ]?/;
   const COMMENTS_COUNT_PATTERN = /^\((\d+)( inline)? comments?\)$/;
   const LABEL_TITLE_SCORE_PATTERN = /^([A-Za-z0-9-]+)([+-]\d+)$/;
 
@@ -268,6 +268,9 @@
      * @param {string} text
      */
     _consumeMessage(text) {
+      // If this variable is defined, the parsing process has already executed.
+      if (this._successfulParse !== undefined) { return; }
+
       this._parsedPatchNum = '';
       this._parsedCommentCount = '';
       this._parsedChangeMessage = '';

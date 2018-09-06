@@ -79,9 +79,9 @@ public class AccountIndexerImpl implements AccountIndexer {
     Optional<AccountState> accountState = byIdCache.get(id);
 
     if (accountState.isPresent()) {
-      logger.atInfo().log("Replace account %d in index", id.get());
+      logger.atFine().log("Replace account %d in index", id.get());
     } else {
-      logger.atInfo().log("Delete account %d from index", id.get());
+      logger.atFine().log("Delete account %d from index", id.get());
     }
 
     for (Index<Account.Id, AccountState> i : getWriteIndexes()) {

@@ -94,7 +94,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
         new GerritCallback<ProjectAccessInfo>() {
           @Override
           public void onSuccess(ProjectAccessInfo result) {
-            addPanel.setVisible(result.canAddRefs());
+            addPanel.setVisible(result.canAddTagRefs());
           }
         });
     query = new Query(match).start(start).run();

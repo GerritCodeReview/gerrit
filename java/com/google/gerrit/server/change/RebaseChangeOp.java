@@ -165,8 +165,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
       rw.parseBody(baseCommit);
       newCommitMessage =
           newMergeUtil()
-              .createCommitMessageOnSubmit(
-                  original, baseCommit, notes, changeOwner, originalPatchSet.getId());
+              .createCommitMessageOnSubmit(original, baseCommit, notes, originalPatchSet.getId());
     } else {
       newCommitMessage = original.getFullMessage();
     }

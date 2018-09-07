@@ -41,7 +41,6 @@ import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -315,12 +314,10 @@ public class MergeUtil {
    *
    * @param n
    * @param notes
-   * @param user
    * @param psId
    * @return new message
    */
-  private String createDetailedCommitMessage(
-      RevCommit n, ChangeNotes notes, CurrentUser user, PatchSet.Id psId) {
+  private String createDetailedCommitMessage(RevCommit n, ChangeNotes notes, PatchSet.Id psId) {
     Change c = notes.getChange();
     final List<FooterLine> footers = n.getFooterLines();
     final StringBuilder msgbuf = new StringBuilder();
@@ -424,12 +421,7 @@ public class MergeUtil {
   }
 
   public String createCommitMessageOnSubmit(CodeReviewCommit n, RevCommit mergeTip) {
-    return createCommitMessageOnSubmit(
-        n,
-        mergeTip,
-        n.notes(),
-        identifiedUserFactory.create(n.notes().getChange().getOwner()),
-        n.getPatchsetId());
+    return createCommitMessageOnSubmit(n, mergeTip, n.notes(), n.getPatchsetId());
   }
 
   /**
@@ -442,14 +434,13 @@ public class MergeUtil {
    * @param n
    * @param mergeTip
    * @param notes
-   * @param user
    * @param id
    * @return new message
    */
   public String createCommitMessageOnSubmit(
-      RevCommit n, RevCommit mergeTip, ChangeNotes notes, CurrentUser user, Id id) {
+      RevCommit n, RevCommit mergeTip, ChangeNotes notes, Id id) {
     return commitMessageGenerator.generate(
-        n, mergeTip, notes.getChange().getDest(), createDetailedCommitMessage(n, notes, user, id));
+        n, mergeTip, notes.getChange().getDest(), createDetailedCommitMessage(n, notes, id));
   }
 
   private static boolean isCodeReview(LabelId id) {

@@ -1405,8 +1405,7 @@ public class ChangeJson {
         out.commitWithFooters =
             mergeUtilFactory
                 .create(projectCache.get(project))
-                .createCommitMessageOnSubmit(
-                    commit, mergeTip, cd.notes(), userProvider.get(), in.getId());
+                .createCommitMessageOnSubmit(commit, mergeTip, cd.notes(), in.getId());
       }
     }
 

@@ -36,6 +36,7 @@ public class LabelType {
   public static final boolean DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE = false;
   public static final boolean DEF_COPY_MAX_SCORE = false;
   public static final boolean DEF_COPY_MIN_SCORE = false;
+  public static final boolean DEF_IGNORE_SELF_APPROVAL = false;
 
   public static LabelType withDefaultValues(String name) {
     checkName(name);
@@ -103,6 +104,7 @@ public class LabelType {
   protected boolean copyAllScoresIfNoCodeChange;
   protected boolean copyAllScoresIfNoChange;
   protected boolean allowPostSubmit;
+  protected boolean ignoreSelfApproval;
   protected short defaultValue;
 
   protected List<LabelValue> values;
@@ -141,6 +143,7 @@ public class LabelType {
     setCopyMaxScore(DEF_COPY_MAX_SCORE);
     setCopyMinScore(DEF_COPY_MIN_SCORE);
     setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
+    setIgnoreSelfApproval(DEF_IGNORE_SELF_APPROVAL);
 
     byValue = new HashMap<>();
     for (LabelValue v : values) {
@@ -186,6 +189,14 @@ public class LabelType {
 
   public void setAllowPostSubmit(boolean allowPostSubmit) {
     this.allowPostSubmit = allowPostSubmit;
+  }
+
+  public boolean ignoreSelfApproval() {
+    return ignoreSelfApproval;
+  }
+
+  public void setIgnoreSelfApproval(boolean ignoreSelfApproval) {
+    this.ignoreSelfApproval = ignoreSelfApproval;
   }
 
   public void setRefPatterns(List<String> refPatterns) {

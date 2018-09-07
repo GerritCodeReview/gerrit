@@ -7,9 +7,11 @@ junit_tests(
     resources = ["//prologtests:gerrit_common_test"],
     deps = [
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//lib:guava",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/prolog:runtime",

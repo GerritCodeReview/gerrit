@@ -374,6 +374,15 @@ Branch can be a ref pattern similar to what is documented
 link:access-control.html#reference[here], but must not contain `${username}` or
 `${shardeduserid}`.
 
+[[label_ignoreSelfApproval]]
+=== `label.Label-Name.ignoreSelfApproval`
+
+If true, the label may be voted on by the uploader of the latest patch set,
+but their approval does not make a change submittable. Instead, a
+non-uploader who has the right to vote has to approve the change.
+
+Defaults to false.
+
 [[label_example]]
 === Example
 

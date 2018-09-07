@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import org.apache.sshd.server.Command;
+import org.apache.sshd.server.command.Command;
 
 @Singleton
 class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListener {

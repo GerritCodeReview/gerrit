@@ -24,7 +24,7 @@ import com.google.inject.TypeLiteral;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-import org.apache.sshd.server.Command;
+import org.apache.sshd.server.command.Command;
 
 /** Creates DispatchCommand using commands registered by {@link CommandModule}. */
 public class DispatchCommandProvider implements Provider<DispatchCommand> {

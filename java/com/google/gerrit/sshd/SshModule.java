@@ -45,9 +45,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
+import org.apache.sshd.server.command.CommandFactory;
 import org.eclipse.jgit.lib.Config;
 
 /** Configures standard dependencies for {@link SshDaemon}. */

@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../change-list/gr-change-list/gr-change-list.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-create-help-dialogs/gr-create-help-dialogs.html">
 <link rel="import" href="../gr-user-header/gr-user-header.html">
 
 <dom-module id="gr-dashboard-view">
@@ -43,9 +44,41 @@ limitations under the License.
       gr-user-header {
         border-bottom: 1px solid var(--border-color);
       }
+      #emptyOutgoing {
+        display: block;
+      }
+      #emptyOutgoing #graphic,
+      #emptyOutgoing #help {
+        display: inline-block;
+        margin: .5em;
+      }
+      #emptyOutgoing #graphic {
+        fill: var(--deemphasized-text-color);
+        max-width: 12em;
+      }
+      #emptyOutgoing #graphic svg {
+        display: block;
+        margin: 0 auto;
+        max-width: 100px;
+      }
+      #emptyOutgoing #graphic p {
+        text-align: center;
+      }
+      #emptyOutgoing #help {
+        vertical-align: top;
+      }
+      #emptyOutgoing #help h1 {
+        font-size: var(--font-size-large);
+      }
+      #emptyOutgoing #help p {
+        max-width: 35em;
+      }
       @media only screen and (max-width: 50em) {
         .loading {
           padding: 0 var(--default-horizontal-margin);
+        }
+        #emptyOutgoing #graphic {
+          display: none;
         }
       }
     </style>
@@ -62,7 +95,28 @@ limitations under the License.
           selected-index="{{viewState.selectedChangeIndex}}"
           sections="[[_results]]"
           on-toggle-star="_handleToggleStar"
-          on-toggle-reviewed="_handleToggleReviewed"></gr-change-list>
+          on-toggle-reviewed="_handleToggleReviewed">
+        <div id="emptyOutgoing" slot="empty-outgoing">
+          <div id="graphic">
+            <svg width="150" height="100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <p>
+              No outgoing changes yet
+            </p>
+          </div>
+          <div id="help">
+            <h1>Push your first changes for code review</h1>
+            <p>
+              Pushing a change for review is easy, but a little different from
+              other git code review tools. Click on the `Create Change' button
+              and follow the step by step instructions.
+            </p>
+            <gr-button on-tap="_createChangeTap">Create Change</gr-button>
+          </div>
+          <gr-create-help-dialogs id="helpDialogs"></gr-create-help-dialogs>
+        </div>
+      </gr-change-list>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting"></gr-reporting>

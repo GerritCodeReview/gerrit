@@ -5,6 +5,7 @@ java_library(
     exports = [
         ":eddsa",
         "@sshd//jar",
+        "@sshd-mina//jar",
     ],
     runtime_deps = [":core"],
 )

@@ -473,6 +473,24 @@
       "revId": "468c703f99bf2b41ef541f67fc6cbcb2812816c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26830937_58ddff24",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/RequireNonUploaderApprovalRuleIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-09-07T13:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9d1a7e1_7077c320",
+      "revId": "468c703f99bf2b41ef541f67fc6cbcb2812816c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

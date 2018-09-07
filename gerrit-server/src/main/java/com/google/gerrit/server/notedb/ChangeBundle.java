@@ -454,7 +454,7 @@ public class ChangeBundle {
       excludeOrigSubj = true;
       String aTopic = trimOrNull(a.getTopic());
       excludeTopic =
-          Objects.equals(aTopic, b.getTopic()) || "".equals(aTopic) && b.getTopic() == null;
+          Objects.equals(aTopic, b.getTopic()) || ("".equals(aTopic) && b.getTopic() == null);
       aUpdated = bundleA.getLatestTimestamp();
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
       boolean createdOnMatchesFirstPs =
@@ -472,7 +472,7 @@ public class ChangeBundle {
       excludeOrigSubj = true;
       String bTopic = trimOrNull(b.getTopic());
       excludeTopic =
-          Objects.equals(bTopic, a.getTopic()) || a.getTopic() == null && "".equals(bTopic);
+          Objects.equals(bTopic, a.getTopic()) || (a.getTopic() == null && "".equals(bTopic));
       bUpdated = bundleB.getLatestTimestamp();
     }
 
@@ -776,7 +776,8 @@ public class ChangeBundle {
         excludePostSubmit = a.getValue() == 0 && b.isPostSubmit();
       } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
         excludeGranted =
-            tb.before(psb.getCreatedOn()) && ta.equals(psa.getCreatedOn()) || tb.compareTo(ta) < 0;
+            (tb.before(psb.getCreatedOn()) && ta.equals(psa.getCreatedOn()))
+                || (tb.compareTo(ta) < 0);
         excludePostSubmit = b.getValue() == 0 && a.isPostSubmit();
       }
 

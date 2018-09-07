@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.project.CommentLinkInfoImpl;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
 import java.io.IOException;
@@ -482,6 +483,19 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                 + "     \t"
                 + staff.getName()
                 + "\n");
+  }
+
+  @Test
+  public void addCommentLink() throws Exception {
+    RevCommit rev = util.commit().create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    CommentLinkInfoImpl cm = new CommentLinkInfoImpl("Test", "abc.*", null, "<a>link</a>", true);
+    cfg.addCommentLinkSection(cm);
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[commentlink \"Test\"]\n\tmatch = abc.*\n\thtml = <a>link</a>\n");
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {

@@ -44,7 +44,7 @@ default_java_toolchain(
 
 default_java_toolchain(
     name = "error_prone_warnings_toolchain",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath8.jar"],
+    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
     package_configuration = [
         ":error_prone",
     ],

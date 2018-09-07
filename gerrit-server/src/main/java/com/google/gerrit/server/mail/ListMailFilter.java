@@ -54,7 +54,8 @@ public class ListMailFilter implements MailFilter {
     }
 
     boolean match = mailPattern.matcher(message.from().email).find();
-    if (mode == ListFilterMode.WHITELIST && !match || mode == ListFilterMode.BLACKLIST && match) {
+    if ((mode == ListFilterMode.WHITELIST && !match)
+        || (mode == ListFilterMode.BLACKLIST && match)) {
       log.info("Mail message from " + message.from() + " rejected by list filter");
       return false;
     }

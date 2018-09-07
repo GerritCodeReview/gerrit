@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.reviewdb.client.Account.USER_NAME_PATTERN;
-import static com.google.gerrit.reviewdb.client.Account.USER_NAME_PATTERN_COMPILED;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 
 import com.google.gerrit.common.Nullable;
@@ -122,9 +120,8 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       throw new BadRequestException("username must match URL");
     }
 
-    if (!USER_NAME_PATTERN_COMPILED.matcher(username).matches()) {
-      throw new BadRequestException(
-          "Username '" + username + "' must comply with [" + USER_NAME_PATTERN + "] pattern.");
+    if (!ExternalId.isValidUsername(username)) {
+      throw new BadRequestException("Invalid username '" + username + "'");
     }
 
     Set<AccountGroup.UUID> groups = parseGroups(input.groups);

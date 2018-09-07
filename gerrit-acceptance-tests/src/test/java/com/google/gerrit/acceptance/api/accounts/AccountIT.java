@@ -1775,6 +1775,38 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createUserWithValidUsername() throws Exception {
+    ImmutableList<String> names =
+        ImmutableList.of(
+            "user@domain",
+            "user-name",
+            "user_name",
+            "1234",
+            "user1234",
+            "1234@domain",
+            "user!+alias{*}#$%&’^=~|@domain");
+    for (String name : names) {
+      gApi.accounts().create(name);
+    }
+  }
+
+  @Test
+  public void createUserWithInvalidUsername() throws Exception {
+    ImmutableList<String> invalidNames =
+        ImmutableList.of(
+            "@", "@foo", "-", "-foo", "_", "_foo", "!", "+", "{", "}", "*", "%", "#", "$", "&", "’",
+            "^", "=", "~");
+    for (String name : invalidNames) {
+      try {
+        gApi.accounts().create(name);
+        fail(String.format("Expected BadRequestException for username [%s]", name));
+      } catch (BadRequestException e) {
+        assertThat(e).hasMessageThat().isEqualTo(String.format("Invalid username '%s'", name));
+      }
+    }
+  }
+
+  @Test
   public void groups() throws Exception {
     assertGroups(
         admin.username, ImmutableList.of("Anonymous Users", "Registered Users", "Administrators"));

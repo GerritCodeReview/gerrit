@@ -18,13 +18,11 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_STARRED_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import java.sql.Timestamp;
-import java.util.regex.Pattern;
 
 /**
  * Information about a single user.
@@ -48,31 +46,6 @@ import java.util.regex.Pattern;
  * </ul>
  */
 public final class Account {
-  private static final String USER_NAME_COMMON_PATTERN = "a-zA-Z0-9";
-  public static final String USER_NAME_PATTERN_FIRST = "[" + USER_NAME_COMMON_PATTERN + "]";
-  public static final String USER_NAME_PATTERN_REST = "[" + USER_NAME_COMMON_PATTERN + "._@-]";
-  public static final String USER_NAME_PATTERN_LAST = USER_NAME_PATTERN_FIRST;
-
-  /** Regular expression that {@link #userName} must match. */
-  public static final String USER_NAME_PATTERN =
-      "^("
-          + //
-          USER_NAME_PATTERN_FIRST
-          + //
-          USER_NAME_PATTERN_REST
-          + "*"
-          + //
-          USER_NAME_PATTERN_LAST
-          + //
-          "|"
-          + //
-          USER_NAME_PATTERN_FIRST
-          + //
-          ")$";
-
-  @GwtIncompatible("Unemulated class java.util.regex.Pattern")
-  public static final Pattern USER_NAME_PATTERN_COMPILED = Pattern.compile(USER_NAME_PATTERN);
-
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;

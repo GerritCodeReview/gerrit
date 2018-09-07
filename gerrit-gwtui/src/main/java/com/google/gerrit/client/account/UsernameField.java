@@ -23,7 +23,6 @@ import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -38,6 +37,12 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class UsernameField extends Composite {
+  // If these regular expressions are modified the same modifications should be done to the
+  // corresponding regular expressions in the
+  // com.google.gerrit.server.account.ExternalId class.
+  private static final String USER_NAME_PATTERN_FIRST_REGEX = "[a-zA-Z0-9]";
+  private static final String USER_NAME_PATTERN_REST_REGEX = "[a-zA-Z0-9.!#$%&’*+=?^_`\\{|\\}~@-]";
+
   private CopyableLabel userNameLbl;
   private NpTextBox userNameTxt;
   private Button setUserName;
@@ -185,9 +190,9 @@ class UsernameField extends Composite {
           final TextBox box = (TextBox) event.getSource();
           final String re;
           if (box.getCursorPos() == 0) {
-            re = Account.USER_NAME_PATTERN_FIRST;
+            re = USER_NAME_PATTERN_FIRST_REGEX;
           } else {
-            re = Account.USER_NAME_PATTERN_REST;
+            re = USER_NAME_PATTERN_REST_REGEX;
           }
           if (!String.valueOf(code).matches("^" + re + "$")) {
             event.preventDefault();

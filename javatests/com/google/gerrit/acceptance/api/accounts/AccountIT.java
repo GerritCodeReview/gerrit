@@ -15,8 +15,10 @@
 package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
@@ -62,8 +64,11 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
+import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
@@ -73,6 +78,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccoun
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -92,6 +98,7 @@ import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -2581,6 +2588,160 @@ public class AccountIT extends AbstractDaemonTest {
     // Reindex fixes staleness
     accountIndexer.index(accountId);
     assertThat(stalenessChecker.isStale(accountId)).isFalse();
+  }
+
+  @Test
+  public void deleteAllDraftComments() throws Exception {
+    try {
+      TestTimeUtil.resetWithClockStep(1, SECONDS);
+      Project.NameKey project2 = createProject("project2");
+      PushOneCommit.Result r1 = createChange();
+
+      TestRepository<?> tr2 = cloneProject(project2);
+      PushOneCommit.Result r2 =
+          createChange(
+              tr2,
+              "refs/heads/master",
+              "Change in project2",
+              PushOneCommit.FILE_NAME,
+              "content2",
+              null);
+
+      // Create 2 drafts each on both changes for user.
+      setApiUser(user);
+      createDraft(r1, PushOneCommit.FILE_NAME, "draft 1a");
+      createDraft(r1, PushOneCommit.FILE_NAME, "draft 1b");
+      createDraft(r2, PushOneCommit.FILE_NAME, "draft 2a");
+      createDraft(r2, PushOneCommit.FILE_NAME, "draft 2b");
+      assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).hasSize(2);
+      assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).hasSize(2);
+
+      // Create 1 draft on first change for admin.
+      setApiUser(admin);
+      createDraft(r1, PushOneCommit.FILE_NAME, "admin draft");
+      assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).hasSize(1);
+
+      // Delete user's draft comments; leave admin's alone.
+      setApiUser(user);
+      List<DeletedDraftCommentInfo> result =
+          gApi.accounts().self().deleteDraftComments(new DeleteDraftCommentsInput());
+
+      // Results are ordered according to the change search, most recently updated first.
+      assertThat(result).hasSize(2);
+      DeletedDraftCommentInfo del2 = result.get(0);
+      assertThat(del2.change.changeId).isEqualTo(r2.getChangeId());
+      assertThat(del2.deleted.stream().map(c -> c.message)).containsExactly("draft 2a", "draft 2b");
+      DeletedDraftCommentInfo del1 = result.get(1);
+      assertThat(del1.change.changeId).isEqualTo(r1.getChangeId());
+      assertThat(del1.deleted.stream().map(c -> c.message)).containsExactly("draft 1a", "draft 1b");
+
+      assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).isEmpty();
+      assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).isEmpty();
+
+      setApiUser(admin);
+      assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).hasSize(1);
+    } finally {
+      cleanUpDrafts();
+    }
+  }
+
+  @Test
+  public void deleteDraftCommentsByQuery() throws Exception {
+    try {
+      PushOneCommit.Result r1 = createChange();
+      PushOneCommit.Result r2 = createChange();
+
+      createDraft(r1, PushOneCommit.FILE_NAME, "draft a");
+      createDraft(r2, PushOneCommit.FILE_NAME, "draft b");
+      assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).hasSize(1);
+      assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).hasSize(1);
+
+      List<DeletedDraftCommentInfo> result =
+          gApi.accounts()
+              .self()
+              .deleteDraftComments(new DeleteDraftCommentsInput("change:" + r1.getChangeId()));
+      assertThat(result).hasSize(1);
+      assertThat(result.get(0).change.changeId).isEqualTo(r1.getChangeId());
+      assertThat(result.get(0).deleted.stream().map(c -> c.message)).containsExactly("draft a");
+
+      assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).isEmpty();
+      assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).hasSize(1);
+    } finally {
+      cleanUpDrafts();
+    }
+  }
+
+  @Test
+  public void deleteOtherUsersDraftCommentsDisallowed() throws Exception {
+    try {
+      PushOneCommit.Result r = createChange();
+      setApiUser(user);
+      createDraft(r, PushOneCommit.FILE_NAME, "draft");
+      setApiUser(admin);
+      try {
+        gApi.accounts().id(user.id.get()).deleteDraftComments(new DeleteDraftCommentsInput());
+        assert_().fail("expected AuthException");
+      } catch (AuthException e) {
+        assertThat(e).hasMessageThat().isEqualTo("Cannot delete drafts of other user");
+      }
+    } finally {
+      cleanUpDrafts();
+    }
+  }
+
+  @Test
+  public void deleteDraftCommentsSkipsInvisibleChanges() throws Exception {
+    try {
+      createBranch(new Branch.NameKey(project, "secret"));
+      PushOneCommit.Result r1 = createChange();
+      PushOneCommit.Result r2 = createChange("refs/for/secret");
+
+      setApiUser(user);
+      createDraft(r1, PushOneCommit.FILE_NAME, "draft a");
+      createDraft(r2, PushOneCommit.FILE_NAME, "draft b");
+      assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).hasSize(1);
+      assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).hasSize(1);
+
+      block(project, "refs/heads/secret", Permission.READ, REGISTERED_USERS);
+      List<DeletedDraftCommentInfo> result =
+          gApi.accounts().self().deleteDraftComments(new DeleteDraftCommentsInput());
+      assertThat(result).hasSize(1);
+      assertThat(result.get(0).change.changeId).isEqualTo(r1.getChangeId());
+      assertThat(result.get(0).deleted.stream().map(c -> c.message)).containsExactly("draft a");
+
+      removePermission(project, "refs/heads/secret", Permission.READ);
+      assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).isEmpty();
+      // Draft still exists since change wasn't visible when drafts where deleted.
+      assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).hasSize(1);
+    } finally {
+      cleanUpDrafts();
+    }
+  }
+
+  private void createDraft(PushOneCommit.Result r, String path, String message) throws Exception {
+    DraftInput in = new DraftInput();
+    in.path = path;
+    in.line = 1;
+    in.message = message;
+    gApi.changes().id(r.getChangeId()).current().createDraft(in);
+  }
+
+  private void cleanUpDrafts() throws Exception {
+    for (TestAccount testAccount : accountCreator.getAll()) {
+      setApiUser(testAccount);
+      for (ChangeInfo changeInfo : gApi.changes().query("has:draft").get()) {
+        for (CommentInfo c :
+            gApi.changes()
+                .id(changeInfo.id)
+                .drafts()
+                .values()
+                .stream()
+                .flatMap(List::stream)
+                .collect(toImmutableList())) {
+          gApi.changes().id(changeInfo.id).revision(c.patchSet).draft(c.id).delete();
+        }
+      }
+    }
   }
 
   private static Correspondence<GroupInfo, String> getGroupToNameCorrespondence() {

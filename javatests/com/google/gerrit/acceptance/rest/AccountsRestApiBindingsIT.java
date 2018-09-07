@@ -88,6 +88,7 @@ public class AccountsRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.put("/accounts/%s/agreements"),
           RestCall.get("/accounts/%s/external.ids"),
           RestCall.post("/accounts/%s/external.ids:delete"),
+          RestCall.post("/accounts/%s/drafts:delete"),
           RestCall.get("/accounts/%s/oauthtoken"),
           RestCall.get("/accounts/%s/capabilities"),
           RestCall.get("/accounts/%s/capabilities/viewPlugins"),

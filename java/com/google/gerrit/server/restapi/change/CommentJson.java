@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-class CommentJson {
+public class CommentJson {
 
   private final AccountLoader.Factory accountLoaderFactory;
 
@@ -161,7 +161,7 @@ class CommentJson {
     }
   }
 
-  class CommentFormatter extends BaseCommentFormatter<Comment, CommentInfo> {
+  public class CommentFormatter extends BaseCommentFormatter<Comment, CommentInfo> {
     @Override
     protected CommentInfo toInfo(Comment c, AccountLoader loader) {
       CommentInfo ci = new CommentInfo();

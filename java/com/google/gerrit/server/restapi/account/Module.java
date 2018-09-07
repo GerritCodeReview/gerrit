@@ -107,6 +107,8 @@ public class Module extends RestApiModule {
     get(ACCOUNT_KIND, "external.ids").to(GetExternalIds.class);
     post(ACCOUNT_KIND, "external.ids:delete").to(DeleteExternalIds.class);
 
+    post(ACCOUNT_KIND, "drafts:delete").to(DeleteDraftComments.class);
+
     // The gpgkeys REST endpoints are bound via GpgApiModule.
 
     factory(AccountsUpdate.Factory.class);

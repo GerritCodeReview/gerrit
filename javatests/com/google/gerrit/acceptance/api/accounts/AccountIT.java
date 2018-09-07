@@ -62,8 +62,10 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
@@ -2554,6 +2556,71 @@ public class AccountIT extends AbstractDaemonTest {
     // Reindex fixes staleness
     accountIndexer.index(accountId);
     assertThat(stalenessChecker.isStale(accountId)).isFalse();
+  }
+
+  @Test
+  public void deleteAllDraftComments() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+
+    Project.NameKey project2 = createProject("project2");
+    TestRepository<?> tr2 = cloneProject(project2);
+    PushOneCommit.Result r2 =
+        createChange(
+            tr2,
+            "refs/heads/master",
+            "Change in project2",
+            PushOneCommit.FILE_NAME,
+            "content2",
+            null);
+
+    // Create 2 drafts each on both changes for user.
+    setApiUser(user);
+    createDraft(r1, PushOneCommit.FILE_NAME, "draft a");
+    createDraft(r1, PushOneCommit.FILE_NAME, "draft b");
+    createDraft(r2, PushOneCommit.FILE_NAME, "draft a");
+    createDraft(r2, PushOneCommit.FILE_NAME, "draft b");
+    assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).hasSize(2);
+    assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).hasSize(2);
+
+    // Create 1 draft on first change for admin.
+    setApiUser(admin);
+    createDraft(r1, PushOneCommit.FILE_NAME, "admin draft");
+    assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).hasSize(1);
+
+    // Delete user's draft comments; leave admin's alone.
+    setApiUser(user);
+    gApi.accounts().id(user.id.get()).deleteDraftComments(new DeleteDraftCommentsInput());
+    assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).isEmpty();
+    assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).isEmpty();
+
+    setApiUser(admin);
+    assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).hasSize(1);
+  }
+
+  @Test
+  public void deleteDraftCommentsByQuery() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+
+    createDraft(r1, PushOneCommit.FILE_NAME, "draft a");
+    createDraft(r2, PushOneCommit.FILE_NAME, "draft b");
+    assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).hasSize(1);
+    assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).hasSize(1);
+
+    gApi.accounts()
+        .id(admin.id.get())
+        .deleteDraftComments(new DeleteDraftCommentsInput("change:" + r1.getChangeId()));
+
+    assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).isEmpty();
+    assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).hasSize(1);
+  }
+
+  private void createDraft(PushOneCommit.Result r, String path, String message) throws Exception {
+    DraftInput in = new DraftInput();
+    in.path = path;
+    in.line = 1;
+    in.message = message;
+    gApi.changes().id(r.getChangeId()).current().createDraft(in);
   }
 
   private static Correspondence<GroupInfo, String> getGroupToNameCorrespondence() {

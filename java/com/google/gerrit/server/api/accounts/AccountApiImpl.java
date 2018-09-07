@@ -20,6 +20,8 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.AgreementInput;
+import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
+import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
 import com.google.gerrit.extensions.api.accounts.EmailApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
@@ -51,6 +53,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.restapi.account.AddSshKey;
 import com.google.gerrit.server.restapi.account.CreateEmail;
 import com.google.gerrit.server.restapi.account.DeleteActive;
+import com.google.gerrit.server.restapi.account.DeleteDraftComments;
 import com.google.gerrit.server.restapi.account.DeleteEmail;
 import com.google.gerrit.server.restapi.account.DeleteExternalIds;
 import com.google.gerrit.server.restapi.account.DeleteSshKey;
@@ -125,6 +128,7 @@ public class AccountApiImpl implements AccountApi {
   private final Index index;
   private final GetExternalIds getExternalIds;
   private final DeleteExternalIds deleteExternalIds;
+  private final DeleteDraftComments deleteDraftComments;
   private final PutStatus putStatus;
   private final GetGroups getGroups;
   private final EmailApiImpl.Factory emailApi;
@@ -165,6 +169,7 @@ public class AccountApiImpl implements AccountApi {
       Index index,
       GetExternalIds getExternalIds,
       DeleteExternalIds deleteExternalIds,
+      DeleteDraftComments deleteDraftComments,
       PutStatus putStatus,
       GetGroups getGroups,
       EmailApiImpl.Factory emailApi,
@@ -204,6 +209,7 @@ public class AccountApiImpl implements AccountApi {
     this.index = index;
     this.getExternalIds = getExternalIds;
     this.deleteExternalIds = deleteExternalIds;
+    this.deleteDraftComments = deleteDraftComments;
     this.putStatus = putStatus;
     this.getGroups = getGroups;
     this.emailApi = emailApi;
@@ -559,6 +565,16 @@ public class AccountApiImpl implements AccountApi {
       deleteExternalIds.apply(account, externalIds);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete external IDs", e);
+    }
+  }
+
+  @Override
+  public List<DeletedDraftCommentInfo> deleteDraftComments(DeleteDraftCommentsInput input)
+      throws RestApiException {
+    try {
+      return deleteDraftComments.apply(account, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete draft comments", e);
     }
   }
 }

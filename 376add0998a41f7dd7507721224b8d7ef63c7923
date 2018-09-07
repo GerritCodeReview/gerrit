@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "820eb5d8_43299a03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-07T04:33:53Z",
+      "side": 1,
+      "message": "Can this be startsWith(REFS_TAGS) or can the string concatenation bemoved outside of the for loop?",
+      "range": {
+        "startLine": 422,
+        "startChar": 28,
+        "endLine": 422,
+        "endChar": 51
+      },
+      "revId": "376add0998a41f7dd7507721224b8d7ef63c7923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

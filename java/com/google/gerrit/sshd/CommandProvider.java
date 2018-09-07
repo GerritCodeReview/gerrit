@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.inject.Provider;
-import org.apache.sshd.server.Command;
+import org.apache.sshd.server.command.Command;
 
 final class CommandProvider {
 

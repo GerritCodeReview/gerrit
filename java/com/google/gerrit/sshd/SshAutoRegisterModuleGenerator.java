@@ -28,7 +28,7 @@ import com.google.inject.TypeLiteral;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.sshd.server.Command;
+import org.apache.sshd.server.command.Command;
 
 class SshAutoRegisterModuleGenerator extends AbstractModule implements ModuleGenerator {
   private final Map<String, Class<Command>> commands = new HashMap<>();

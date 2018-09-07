@@ -34,8 +34,8 @@ import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.command.Command;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 

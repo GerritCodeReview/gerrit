@@ -740,13 +740,10 @@ maven_jar(
     sha1 = "d0c46320fbc07be3a24eb13a56cee4e3d38e0c75",
 )
 
-# TODO(davido): Remove exlusion of file system provider, when this issue is fixed:
-# https://issues.apache.org/jira/browse/SSHD-736
 maven_jar(
     name = "sshd",
-    artifact = "org.apache.sshd:sshd-core:1.7.0",
-    exclude = ["META-INF/services/java.nio.file.spi.FileSystemProvider"],
-    sha1 = "2e8b14f6d841b098e46bf407b6fdccab4c19fa41",
+    artifact = "org.apache.sshd:sshd-core:2.0.0",
+    sha1 = "f4275079a2463cfd2bf1548a80e1683288a8e86b",
 )
 
 maven_jar(
@@ -757,8 +754,14 @@ maven_jar(
 
 maven_jar(
     name = "mina-core",
-    artifact = "org.apache.mina:mina-core:2.0.16",
-    sha1 = "f720f17643eaa7b0fec07c1d7f6272972c02bba4",
+    artifact = "org.apache.mina:mina-core:2.0.17",
+    sha1 = "7e10ec974760436d931f3e58be507d1957bcc8db",
+)
+
+maven_jar(
+    name = "sshd-mina",
+    artifact = "org.apache.sshd:sshd-mina:2.0.0",
+    sha1 = "50f2669312494f6c1996d8bd0d266c1fca7be6f6",
 )
 
 maven_jar(

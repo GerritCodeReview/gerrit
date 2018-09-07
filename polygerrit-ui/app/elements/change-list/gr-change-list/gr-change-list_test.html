@@ -40,6 +40,16 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="empty-outgoing">
+  <template>
+    <gr-change-list>
+      <div id="emptyOutgoing" slot="empty-outgoing">
+        <h1>Hello</h1>
+      </div>
+    </gr-change-list>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-change-list basic tests', () => {
     let element;
@@ -268,6 +278,33 @@ limitations under the License.
       const noChangesMsg = Polymer.dom(element.root).querySelectorAll(
           '.noChanges');
       assert.equal(noChangesMsg.length, 2);
+    });
+
+    suite('empty outgoing', () => {
+      setup(() => {
+        element = fixture('empty-outgoing');
+        element.account = null;
+        element.preferences = null;
+      });
+
+      test('not shown on empty non-outgoing sections', () => {
+        element.sections = [{results: []}];
+        flushAsynchronousOperations();
+        const slot = element.querySelector('#emptyOutgoing');
+        assert.isNotOk(slot);
+      });
+
+      test('shown on empty outgoing sections', () => {
+        element.sections = [{results: [], isOutgoing: true}];
+        flushAsynchronousOperations();
+        const slot = element.querySelector('#emptyOutgoing');
+        assert.isOk(slot);
+      });
+    });
+
+    test('_isOutgoing', () => {
+      assert.isTrue(element._isOutgoing({results: [], isOutgoing: true}));
+      assert.isFalse(element._isOutgoing({results: []}));
     });
 
     suite('empty column preference', () => {

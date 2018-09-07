@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-create-help-dialogs</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-create-help-dialogs.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-create-help-dialogs></gr-create-help-dialogs>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-create-help-dialogs tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      element = fixture('basic');
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('_computeRepoAndBranchSelected', () => {
+      element._repo = '';
+      element._branch = '';
+      assert.isFalse(element._repoAndBranchSelected);
+
+      element._repo = 'gerrit';
+      assert.isFalse(element._repoAndBranchSelected);
+
+      element._repo = '';
+      element._branch = 'master';
+      assert.isFalse(element._repoAndBranchSelected);
+
+      element._repo = 'gerrit';
+      element._branch = 'master';
+      assert.isTrue(element._repoAndBranchSelected);
+    });
+
+    test('_computePushCommand', () => {
+      element._branch = 'master';
+      assert.equal(element._pushCommand,
+          'git push origin HEAD:refs/for/master');
+
+      element._branch = 'stable-2.15';
+      assert.equal(element._pushCommand,
+          'git push origin HEAD:refs/for/stable-2.15');
+    });
+  });
+</script>

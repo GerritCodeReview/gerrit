@@ -17,7 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.auto.value.AutoAnnotation;
 import com.google.inject.Key;
 import java.lang.annotation.Annotation;
-import org.apache.sshd.server.Command;
+import org.apache.sshd.server.command.Command;
 
 /** Utilities to support {@link CommandName} construction. */
 public class Commands {

@@ -16,7 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.inject.binder.LinkedBindingBuilder;
-import org.apache.sshd.server.Command;
+import org.apache.sshd.server.command.Command;
 
 /** Module to register commands in the SSH daemon. */
 public abstract class CommandModule extends LifecycleModule {

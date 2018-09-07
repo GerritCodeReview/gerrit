@@ -18,7 +18,7 @@ import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
 import com.google.inject.binder.LinkedBindingBuilder;
-import org.apache.sshd.server.Command;
+import org.apache.sshd.server.command.Command;
 
 /**
  * Binds one SSH command to the plugin name itself.

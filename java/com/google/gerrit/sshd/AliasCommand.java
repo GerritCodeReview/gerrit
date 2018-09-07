@@ -26,8 +26,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
-import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.command.Command;
 
 /** Command that executes some other command. */
 public class AliasCommand extends BaseCommand {

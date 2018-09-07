@@ -85,6 +85,24 @@
     },
     {
       "key": {
+        "uuid": "2b2c19ac_c8df7842",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-07T08:33:38Z",
+      "side": 1,
+      "message": "I\u0027ve also added some notes about this to the JavaDoc.",
+      "parentUuid": "ab8da345_4841b0d0",
+      "revId": "116c5f12873e8c13ac2d7970b887cbc000e2c0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7875146c_b183a40a",
         "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
         "patchSetId": 3

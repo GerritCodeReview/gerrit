@@ -1981,7 +1981,6 @@ class ReceiveCommits {
         GroupCollector.create(changeRefsById(), db, psUtil, notesFactory, project.getNameKey());
 
     try {
-      NoteMap rejectCommits = loadRejectCommits();
       RevCommit start = setUpWalkForSelectingChanges();
       if (start == null) {
         return Collections.emptyList();

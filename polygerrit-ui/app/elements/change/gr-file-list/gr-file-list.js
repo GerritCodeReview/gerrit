@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import {AsyncForeachBehavior} from '/polygerrit-ui/app/behaviors/async-foreach-behavior/async-foreach-behavior.js';
+
 (function() {
   'use strict';
 
@@ -182,7 +185,7 @@
     },
 
     behaviors: [
-      Gerrit.AsyncForeachBehavior,
+      AsyncForeachBehavior,
       Gerrit.DomUtilBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,

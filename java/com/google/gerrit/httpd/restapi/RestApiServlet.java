@@ -110,6 +110,7 @@ import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
+import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -1322,11 +1323,42 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private TraceContext enableTracing(HttpServletRequest req, HttpServletResponse res) {
-    String traceValue = req.getParameter(ParameterParser.TRACE_PARAMETER);
-    return TraceContext.newTrace(
-        traceValue != null,
-        traceValue,
-        (tagName, traceId) -> res.setHeader(X_GERRIT_TRACE, traceId.toString()));
+    // There are 2 ways to enable tracing for REST calls:
+    // 1. by using the 'trace' or 'trace=<trace-id>' request parameter
+    // 2. by setting the 'X-Gerrit-Trace:' or 'X-Gerrit-Trace:<trace-id>' header
+    String traceValueFromHeader = req.getHeader(X_GERRIT_TRACE);
+    String traceValueFromRequestParam = req.getParameter(ParameterParser.TRACE_PARAMETER);
+    boolean doTrace = traceValueFromHeader != null || traceValueFromRequestParam != null;
+
+    // Check whether no trace ID, one trace ID or 2 different trace IDs have been specified.
+    String traceId1;
+    String traceId2;
+    if (!Strings.isNullOrEmpty(traceValueFromHeader)) {
+      traceId1 = traceValueFromHeader;
+      if (!Strings.isNullOrEmpty(traceValueFromRequestParam)
+          && !traceValueFromHeader.equals(traceValueFromRequestParam)) {
+        traceId2 = traceValueFromRequestParam;
+      } else {
+        traceId2 = null;
+      }
+    } else {
+      traceId1 = Strings.emptyToNull(traceValueFromRequestParam);
+      traceId2 = null;
+    }
+
+    // Use the first trace ID to start tracing. If this trace ID is null, a trace ID will be
+    // generated.
+    TraceContext traceContext =
+        TraceContext.newTrace(
+            doTrace,
+            traceId1,
+            (tagName, traceId) -> res.setHeader(X_GERRIT_TRACE, traceId.toString()));
+    // If a second trace ID was specified, add a tag for it as well.
+    if (traceId2 != null) {
+      traceContext.addTag(RequestId.Type.TRACE_ID, traceId2);
+      res.addHeader(X_GERRIT_TRACE, traceId2);
+    }
+    return traceContext;
   }
 
   private boolean isDelete(HttpServletRequest req) {

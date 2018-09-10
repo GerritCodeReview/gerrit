@@ -11,10 +11,10 @@ How tracing is enabled and how the trace ID is returned depends on the
 request type:
 
 * REST API: For REST calls tracing can be enabled by setting the
-  `trace` request parameter, the trace ID is returned as
-  `X-Gerrit-Trace` header. More information about this can be found in
-  the link:rest-api.html#tracing[Request Tracing] section of the
-  link:rest-api.html[REST API documentation].
+  `trace` request parameter or the `X-Gerrit-Trace` header, the trace
+  ID is returned as `X-Gerrit-Trace` header. More information about
+  this can be found in the link:rest-api.html#tracing[Request Tracing]
+  section of the link:rest-api.html[REST API documentation].
 * SSH API: For SSH calls tracing can be enabled by setting the
   `--trace` option. More information about this can be found in
   the link:cmd-index.html#trace[Trace] section of the

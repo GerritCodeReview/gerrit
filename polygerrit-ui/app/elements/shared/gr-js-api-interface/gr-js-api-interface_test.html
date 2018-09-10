@@ -32,7 +32,9 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
+<script type="module">
+  import {BaseUrlBehavior} from '../../../base-url-behavior/base-url-behavior.js';
+
   suite('gr-js-api-interface tests', () => {
     let element;
     let plugin;
@@ -451,7 +453,7 @@ limitations under the License.
 
     suite('test plugin with base url', () => {
       setup(() => {
-        sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/r');
+        sandbox.stub(BaseUrlBehavior, 'getBaseUrl').returns('/r');
 
         Gerrit._setPluginsCount(1);
         Gerrit.install(p => { plugin = p; }, '0.1',
@@ -535,7 +537,7 @@ limitations under the License.
 
     suite('screen', () => {
       test('screenUrl()', () => {
-        sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/base');
+        sandbox.stub(BaseUrlBehavior, 'getBaseUrl').returns('/base');
         assert.equal(plugin.screenUrl(), 'http://test.com/base/x/testplugin');
         assert.equal(
             plugin.screenUrl('foo'), 'http://test.com/base/x/testplugin/foo');

@@ -29,7 +29,7 @@
     is: 'gr-error-manager',
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
+      BaseUrlBehavior,
     ],
 
     properties: {

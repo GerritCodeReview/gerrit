@@ -27,7 +27,6 @@ limitations under the License.
   window.CANONICAL_PATH = '/r';
 </script>
 
-<link rel="import" href="../base-url-behavior/base-url-behavior.html">
 <link rel="import" href="rest-client-behavior.html">
 
 <test-fixture id="basic">
@@ -44,7 +43,9 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
+<script type="module">
+  import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
+
   suite('rest-client-behavior tests', () => {
     let element;
     // eslint-disable-next-line no-unused-vars
@@ -55,7 +56,7 @@ limitations under the License.
       Polymer({
         is: 'test-element',
         behaviors: [
-          Gerrit.BaseUrlBehavior,
+          BaseUrlBehavior,
           Gerrit.RESTClientBehavior,
         ],
       });

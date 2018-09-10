@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import {BaseUrlBehavior} from '/polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior.js';
+
 (function() {
   'use strict';
 
@@ -36,7 +39,7 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
+      BaseUrlBehavior,
       Gerrit.URLEncodingBehavior,
     ],
 

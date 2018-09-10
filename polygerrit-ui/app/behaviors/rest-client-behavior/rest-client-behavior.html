@@ -15,8 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../base-url-behavior/base-url-behavior.html">
-<script>
+
+<script type="module">
+import {BaseUrlBehavior} from '/polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior.js';
+
 (function(window) {
   'use strict';
 
@@ -168,7 +170,7 @@ limitations under the License.
       return this.changeStatuses(change).join(', ');
     },
   },
-    Gerrit.BaseUrlBehavior,
+    BaseUrlBehavior,
   ];
 })(window);
 </script>

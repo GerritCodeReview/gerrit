@@ -22,11 +22,12 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 
 <script src="gr-auth.js"></script>
 
-<script>
+<script type="module">
+  import {BaseUrlBehavior} from '../../../base-url-behavior/base-url-behavior.js';
+
   suite('gr-auth', () => {
     let auth;
     let sandbox;
@@ -81,7 +82,7 @@ limitations under the License.
 
       test('base url support', () => {
         const baseUrl = 'http://foo';
-        sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
+        sandbox.stub(BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
         return auth.fetch(baseUrl + '/url', {bar: 'bar'}).then(() => {
           const [url] = fetch.lastCall.args;
           assert.equal(url, 'http://foo/a/url?access_token=zbaz');

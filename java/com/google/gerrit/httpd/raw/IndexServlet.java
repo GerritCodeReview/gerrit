@@ -37,7 +37,8 @@ public class IndexServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   protected final byte[] indexSource;
 
-  IndexServlet(String canonicalURL, @Nullable String cdnPath, @Nullable String faviconPath)
+  IndexServlet(
+      @Nullable String canonicalURL, @Nullable String cdnPath, @Nullable String faviconPath)
       throws URISyntaxException {
     String resourcePath = "com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy";
     SoyFileSet.Builder builder = SoyFileSet.builder();
@@ -62,7 +63,7 @@ public class IndexServlet extends HttpServlet {
     }
   }
 
-  static String computeCanonicalPath(String canonicalURL) throws URISyntaxException {
+  static String computeCanonicalPath(@Nullable String canonicalURL) throws URISyntaxException {
     if (Strings.isNullOrEmpty(canonicalURL)) {
       return "";
     }

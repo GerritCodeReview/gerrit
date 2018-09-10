@@ -15,7 +15,6 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -31,7 +30,7 @@ public class ChangeCleanupConfig {
   private static String KEY_ABANDON_MESSAGE = "abandonMessage";
   private static String DEFAULT_ABANDON_MESSAGE =
       "Auto-Abandoned due to inactivity, see "
-          + "${URL}Documentation/user-change-cleanup.html#auto-abandon\n"
+          + "${URL}\n"
           + "\n"
           + "If this change is still wanted it should be restored.";
 
@@ -41,12 +40,11 @@ public class ChangeCleanupConfig {
   private final String abandonMessage;
 
   @Inject
-  ChangeCleanupConfig(
-      @GerritServerConfig Config cfg, @CanonicalWebUrl @Nullable String canonicalWebUrl) {
+  ChangeCleanupConfig(@GerritServerConfig Config cfg, BrowseUrls browseUrls) {
     schedule = ScheduleConfig.createSchedule(cfg, SECTION);
     abandonAfter = readAbandonAfter(cfg);
     abandonIfMergeable = cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
-    abandonMessage = readAbandonMessage(cfg, canonicalWebUrl);
+    abandonMessage = readAbandonMessage(cfg, browseUrls);
   }
 
   private long readAbandonAfter(Config cfg) {
@@ -55,14 +53,16 @@ public class ChangeCleanupConfig {
     return abandonAfter >= 0 ? abandonAfter : 0;
   }
 
-  private String readAbandonMessage(Config cfg, String webUrl) {
+  private String readAbandonMessage(Config cfg, BrowseUrls browseUrls) {
     String abandonMessage = cfg.getString(SECTION, null, KEY_ABANDON_MESSAGE);
     if (Strings.isNullOrEmpty(abandonMessage)) {
       abandonMessage = DEFAULT_ABANDON_MESSAGE;
     }
-    if (!Strings.isNullOrEmpty(webUrl)) {
-      abandonMessage = abandonMessage.replaceAll("\\$\\{URL\\}", webUrl);
-    }
+
+    abandonMessage =
+        abandonMessage.replaceAll(
+            "\\$\\{URL\\}", browseUrls.getDocUrl("user-change-cleanup.html", "auto-abandon").orElse(""));
+
     return abandonMessage;
   }
 

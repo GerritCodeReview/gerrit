@@ -220,10 +220,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Get a link to the change; null if the server doesn't know its own address. */
   public String getChangeUrl() {
-    if (getGerritUrl() != null) {
-      return getGerritUrl() + "c/" + change.getProject().get() + "/+/" + change.getChangeId();
-    }
-    return null;
+    return args.browseUrls.reviewUrl(change.getProject(), change.getId(), null, null);
   }
 
   public String getChangeMessageThreadId() {

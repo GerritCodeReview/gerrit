@@ -91,7 +91,7 @@ public class TraceIT extends AbstractDaemonTest {
     RestResponse response =
         adminRestSession.put("/projects/new3?" + ParameterParser.TRACE_PARAMETER + "=issue/123");
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
     assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
     assertThat(projectCreationListener.foundTraceId).isTrue();
     assertThat(projectCreationListener.isLoggingForced).isTrue();

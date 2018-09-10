@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.BrowseUrls;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -33,7 +33,6 @@ import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.GarbageCollect.Input;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -54,16 +53,16 @@ public class GarbageCollect
   private final boolean canGC;
   private final GarbageCollection.Factory garbageCollectionFactory;
   private final WorkQueue workQueue;
-  private final Provider<String> canonicalUrl;
+  private final BrowseUrls browseUrls;
 
   @Inject
   GarbageCollect(
       GitRepositoryManager repoManager,
       GarbageCollection.Factory garbageCollectionFactory,
       WorkQueue workQueue,
-      @CanonicalWebUrl Provider<String> canonicalUrl) {
+      BrowseUrls browseUrls) {
     this.workQueue = workQueue;
-    this.canonicalUrl = canonicalUrl;
+    this.browseUrls = browseUrls;
     this.canGC = repoManager instanceof LocalDiskRepositoryManager;
     this.garbageCollectionFactory = garbageCollectionFactory;
   }
@@ -98,7 +97,7 @@ public class GarbageCollect
     WorkQueue.Task<Void> task = (WorkQueue.Task<Void>) workQueue.getDefaultQueue().submit(job);
 
     String location =
-        canonicalUrl.get() + "a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId());
+        browseUrls.restUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
 
     return Response.accepted(location);
   }

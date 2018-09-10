@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9b774a4_2f4c4829",
+        "filename": "java/com/google/gerrit/server/config/CanonicalWebUrlProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-10T12:16:43Z",
+      "side": 1,
+      "message": "maybe better make this an URL with placeholder, like: \"https://\u003cGERRIT-HOST\u003e/\"",
+      "range": {
+        "startLine": 27,
+        "startChar": 48,
+        "endLine": 27,
+        "endChar": 71
+      },
+      "revId": "0fff1ed2018cefa6f3ff2f3690152409895ba09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

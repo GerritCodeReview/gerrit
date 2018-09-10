@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "331c6874_130e88bf",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T21:52:27Z",
+      "side": 1,
+      "message": "I don\u0027t think this is strictly true, for example we provide clone URLs which aren\u0027t expected to render in the browser (or they render with Gitiles rather than Gerrit). Would it be accurate to describe this as \"all URLs that may appear in the address bar of the PolyGerrit web application\" or something?",
+      "range": {
+        "startLine": 21,
+        "startChar": 32,
+        "endLine": 21,
+        "endChar": 63
+      },
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8beb8f94_ed60f3c1",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T21:52:27Z",
+      "side": 1,
+      "message": "This is a Go-ism which doesn\u0027t match our normal doc conventions.",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 14
+      },
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cf1a872_aa4a0c50",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T21:52:27Z",
+      "side": 1,
+      "message": "I\u0027m not sold on this interface with lots of nullable arguments. ISTM many if not most instances will just have (project, change ID) without files and line numbers, so you may want an overload for just those two parameters.\n\nBut nor does this particular method include all possible optional arguments for a URL. Off the top of my head it\u0027s missing the LHS/RHS patch set numbers, and a bit indicating whether the line number refers to the LHS or the RHS.\n\nWhat if we avoid a general term like \"reviewUrl\" and instead use a more specific description for this URL type, like \"changeViewUrl\"? Then it would make sense to have only a (project, change ID).\n\nAnother option (not mutually exclusive with the above suggestion) is the builder pattern.",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c0a6d08_356c5366",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T21:52:27Z",
+      "side": 1,
+      "message": "I hope the plan is to implement this and write small tests before submitting.",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76dd257b_86fc7295",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T21:52:27Z",
+      "side": 1,
+      "message": "I don\u0027t understand what \"this\" is referring to. This code generates exactly the URL as used by PolyGerrit, but it sounds like \"this\" is something other than what PG is using?",
+      "range": {
+        "startLine": 29,
+        "startChar": 54,
+        "endLine": 29,
+        "endChar": 58
+      },
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80a20427_041e076c",
+        "filename": "java/com/google/gerrit/server/config/CanonicalWebUrlModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T21:52:27Z",
+      "side": 1,
+      "message": "Our googlesource.com implementation binds CanonicalWebUrlModule directly so this won\u0027t give us a chance to swap it out. I\u0027m fine with it for now, but it will need to be hoisted out somehow later.\n\n(I feel like we have some way these days to allow an interface to be provided by a plugin but also fall back to a default implementation if there is no plugin. But the only thing I could find at a quick glance was SecureStore, which uses a class name specified in gerrit.config, and I don\u0027t think I recommend emulating that. Let me poke a bit more.)",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1886be8b_b3394b5f",
+        "filename": "java/com/google/gerrit/server/config/DefaultBrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T21:52:27Z",
+      "side": 1,
+      "message": "Optional nit: I don\u0027t think using a local variable improves readability here.",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1f7f146_ff8cfa56",
+        "filename": "java/com/google/gerrit/server/git/DefaultChangeReportFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T21:52:27Z",
+      "side": 1,
+      "message": "Part of me wants to have overloads in BrowseUrls that take an Appendable, so you can avoid the intermediate string concatenation, but another part of me doesn\u0027t care.",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb0da55c_d90ab116",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T21:52:27Z",
+      "side": 1,
+      "message": "This is a good illustrating example of why I prefer more methods with descriptive names and shorter argument lists. From just reading this, it\u0027s hard to tell what are these parameters that the caller is choosing not to pass.\n\nAlso, note that the interface as you\u0027ve defined it doesn\u0027t allow the project to be nullable.",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93a6d661_942e3914",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2588,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T21:52:27Z",
+      "side": 1,
+      "message": "I would slightly prefer to keep these behavior changes separate from the change that introduces the interface, so we can revert just the behavior change if someone complains.",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

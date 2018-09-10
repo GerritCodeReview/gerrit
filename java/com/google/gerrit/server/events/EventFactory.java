@@ -20,7 +20,6 @@ import static java.util.Comparator.comparing;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -42,7 +41,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.ChangeKindCache;
-import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.BrowseUrls;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
@@ -86,8 +85,8 @@ public class EventFactory {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AccountCache accountCache;
+  private final BrowseUrls browseUrls;
   private final Emails emails;
-  private final Provider<String> urlProvider;
   private final PatchListCache patchListCache;
   private final Provider<PersonIdent> myIdent;
   private final ChangeData.Factory changeDataFactory;
@@ -101,7 +100,7 @@ public class EventFactory {
   EventFactory(
       AccountCache accountCache,
       Emails emails,
-      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      BrowseUrls browseUrls,
       PatchListCache patchListCache,
       @GerritPersonIdent Provider<PersonIdent> myIdent,
       ChangeData.Factory changeDataFactory,
@@ -111,8 +110,8 @@ public class EventFactory {
       SchemaFactory<ReviewDb> schema,
       IndexConfig indexConfig) {
     this.accountCache = accountCache;
+    this.browseUrls = browseUrls;
     this.emails = emails;
-    this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
     this.myIdent = myIdent;
     this.changeDataFactory = changeDataFactory;
@@ -678,11 +677,8 @@ public class EventFactory {
 
   /** Get a link to the change; null if the server doesn't know its own address. */
   private String getChangeUrl(Change change) {
-    if (change != null && urlProvider.get() != null) {
-      StringBuilder r = new StringBuilder();
-      r.append(urlProvider.get());
-      r.append(change.getChangeId());
-      return r.toString();
+    if (change != null && browseUrls.hasUrl()) {
+      return browseUrls.changeViewUrl(change.getProject(), change.getId());
     }
     return null;
   }

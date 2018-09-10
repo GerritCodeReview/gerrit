@@ -47,7 +47,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.EmailReviewComments;
-import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.BrowseUrls;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
@@ -97,7 +97,7 @@ public class MailProcessor {
   private final CommentAdded commentAdded;
   private final ApprovalsUtil approvalsUtil;
   private final AccountCache accountCache;
-  private final Provider<String> canonicalUrl;
+  private final BrowseUrls browseUrls;
 
   @Inject
   public MailProcessor(
@@ -115,7 +115,7 @@ public class MailProcessor {
       ApprovalsUtil approvalsUtil,
       CommentAdded commentAdded,
       AccountCache accountCache,
-      @CanonicalWebUrl Provider<String> canonicalUrl) {
+      BrowseUrls browseUrls) {
     this.emails = emails;
     this.emailRejectionSender = emailRejectionSender;
     this.retryHelper = retryHelper;
@@ -130,7 +130,7 @@ public class MailProcessor {
     this.commentAdded = commentAdded;
     this.approvalsUtil = approvalsUtil;
     this.accountCache = accountCache;
-    this.canonicalUrl = canonicalUrl;
+    this.browseUrls = browseUrls;
   }
 
   /**
@@ -237,7 +237,7 @@ public class MailProcessor {
               .sorted(CommentsUtil.COMMENT_ORDER)
               .collect(toList());
       Project.NameKey project = cd.project();
-      String changeUrl = canonicalUrl.get() + "c/" + cd.project().get() + "/+/" + cd.getId().get();
+      String changeUrl = browseUrls.changeViewUrl(cd.project(), cd.getId());
 
       List<MailComment> parsedComments;
       if (useHtmlParser(message)) {

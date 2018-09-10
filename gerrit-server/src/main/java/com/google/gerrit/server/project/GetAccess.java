@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.server.permissions.GlobalPermission.ADMINISTRATE_SERVER;
 import static com.google.gerrit.server.permissions.ProjectPermission.CREATE_REF;
+import static com.google.gerrit.server.permissions.ProjectPermission.CREATE_TAG_REF;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.permissions.RefPermission.READ;
 import static java.util.stream.Collectors.toMap;
@@ -248,6 +249,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
             pc.isOwner()
                 || (checkReadConfig && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)));
     info.canAdd = toBoolean(perm.testOrFalse(CREATE_REF));
+    info.canAddTags = toBoolean(perm.testOrFalse(CREATE_TAG_REF));
     info.configVisible = checkReadConfig || pc.isOwner();
 
     info.groups =

@@ -263,6 +263,7 @@ The entries in the map are sorted by project name.
       ],
       "can_upload": true,
       "can_add": true,
+      "can_add_tags": true,
       "config_visible": true,
       "groups": {
          "53a4f647a89ea57992571187d8025f830625192a": {
@@ -313,6 +314,7 @@ The entries in the map are sorted by project name.
       ],
       "can_upload": true,
       "can_add": true,
+      "can_add_tags": true,
       "config_visible": true
     }
   }
@@ -399,6 +401,8 @@ Whether the calling user owns this project.
 Whether the calling user can upload to any ref.
 |`can_add`            |not set if `false`|
 Whether the calling user can add any ref.
+|`can_add_tags`       |not set if `false`|
+Whether the calling user can add any tag ref.
 |`config_visible`     |not set if `false`|
 Whether the calling user can see the `refs/meta/config` branch of the
 project.

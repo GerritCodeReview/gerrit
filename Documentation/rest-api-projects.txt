@@ -1034,6 +1034,7 @@ entity is returned.
     ],
     "can_upload": true,
     "can_add": true,
+    "can_add_tags": true,
     "config_visible": true,
     "groups": {
       "c2ce4749a32ceb82cd6adcce65b8216e12afb41c": {
@@ -1135,6 +1136,7 @@ entity is returned.
     ],
     "can_upload": true,
     "can_add": true,
+    "can_add_tags": true,
     "config_visible": true,
     "groups": {
       "global:Anonymous-Users": {

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_TAGS;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -251,6 +252,10 @@ public class ProjectControl {
     return (canPerformOnAnyRef(Permission.CREATE) || isAdmin());
   }
 
+  private boolean canAddTagRefs() {
+    return (canPerformOnTagRef(Permission.CREATE) || isAdmin());
+  }
+
   private boolean canCreateChanges() {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
@@ -281,6 +286,26 @@ public class ProjectControl {
     return declaredOwner;
   }
 
+  private boolean canPerformOnTagRef(String permissionName) {
+    for (SectionMatcher matcher : access()) {
+      AccessSection section = matcher.section;
+
+      if (section.getName().startsWith(REFS_TAGS)) {
+        Permission permission = section.getPermission(permissionName);
+        if (permission == null) {
+          continue;
+        }
+
+        Boolean can = canPerform(permissionName, section, permission);
+        if (can != null) {
+          return can;
+        }
+      }
+    }
+
+    return false;
+  }
+
   private boolean canPerformOnAnyRef(String permissionName) {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
@@ -289,23 +314,31 @@ public class ProjectControl {
         continue;
       }
 
-      for (PermissionRule rule : permission.getRules()) {
-        if (rule.isBlock() || rule.isDeny() || !match(rule)) {
-          continue;
-        }
-
-        // Being in a group that was granted this permission is only an
-        // approximation.  There might be overrides and doNotInherit
-        // that would render this to be false.
-        //
-        if (controlForRef(section.getName()).canPerform(permissionName)) {
-          return true;
-        }
-        break;
+      Boolean can = canPerform(permissionName, section, permission);
+      if (can != null) {
+        return can;
       }
     }
 
     return false;
+  }
+
+  private Boolean canPerform(String permissionName, AccessSection section, Permission permission) {
+    for (PermissionRule rule : permission.getRules()) {
+      if (rule.isBlock() || rule.isDeny() || !match(rule)) {
+        continue;
+      }
+
+      // Being in a group that was granted this permission is only an
+      // approximation.  There might be overrides and doNotInherit
+      // that would render this to be false.
+      //
+      if (controlForRef(section.getName()).canPerform(permissionName)) {
+        return true;
+      }
+      break;
+    }
+    return null;
   }
 
   private boolean canPerformOnAllRefs(String permission, Set<String> ignore) {
@@ -463,6 +496,8 @@ public class ProjectControl {
 
         case CREATE_REF:
           return canAddRefs();
+        case CREATE_TAG_REF:
+          return canAddTagRefs();
         case CREATE_CHANGE:
           return canCreateChanges();
 

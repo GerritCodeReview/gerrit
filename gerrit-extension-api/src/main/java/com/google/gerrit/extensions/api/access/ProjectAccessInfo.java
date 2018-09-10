@@ -27,6 +27,7 @@ public class ProjectAccessInfo {
   public Set<String> ownerOf;
   public Boolean canUpload;
   public Boolean canAdd;
+  public Boolean canAddTags;
   public Boolean configVisible;
   public Map<String, GroupInfo> groups;
 }

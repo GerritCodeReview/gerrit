@@ -60,4 +60,8 @@ public interface BrowseUrls {
   default String docUrl(String page, String anchor) {
     return webUrl() + "Documentation/" + page + "#" + anchor;
   }
+
+  default String restUrl(String suffix) {
+    return webUrl() + suffix;
+  }
 }

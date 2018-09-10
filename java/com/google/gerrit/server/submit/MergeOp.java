@@ -457,7 +457,7 @@ public class MergeOp implements AutoCloseable {
     this.caller = caller;
     this.ts = TimeUtil.nowTs();
     this.db = db;
-    this.submissionId = RequestId.forChange(change);
+    this.submissionId = new RequestId(change.getId().toString());
 
     try (TraceContext traceContext =
         TraceContext.open().addTag(RequestId.Type.SUBMISSION_ID, submissionId)) {

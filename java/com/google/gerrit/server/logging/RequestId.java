@@ -19,8 +19,6 @@ import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -52,21 +50,13 @@ public class RequestId {
     return LoggingContext.getInstance().getTagsAsMap().keySet().stream().anyMatch(Type::isId);
   }
 
-  public static RequestId forChange(Change c) {
-    return new RequestId(c.getId().toString());
-  }
-
-  public static RequestId forProject(Project.NameKey p) {
-    return new RequestId(p.toString());
-  }
-
   private final String str;
 
   public RequestId() {
     this(null);
   }
 
-  private RequestId(@Nullable String resourceId) {
+  public RequestId(@Nullable String resourceId) {
     Hasher h = Hashing.murmur3_128().newHasher();
     h.putLong(Thread.currentThread().getId()).putUnencodedChars(MACHINE_ID);
     str =

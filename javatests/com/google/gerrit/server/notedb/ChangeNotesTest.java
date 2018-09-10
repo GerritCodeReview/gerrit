@@ -426,7 +426,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void approvalsPostSubmit() throws Exception {
     Change c = newChange();
-    RequestId submissionId = RequestId.forChange(c);
+    RequestId submissionId = submissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) 1);
     update.putApproval("Verified", (short) 1);
@@ -461,7 +461,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void approvalsDuringSubmit() throws Exception {
     Change c = newChange();
-    RequestId submissionId = RequestId.forChange(c);
+    RequestId submissionId = submissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) 1);
     update.putApproval("Verified", (short) 1);
@@ -598,7 +598,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void submitRecords() throws Exception {
     Change c = newChange();
-    RequestId submissionId = RequestId.forChange(c);
+    RequestId submissionId = submissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
 
@@ -640,7 +640,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void latestSubmitRecordsOnly() throws Exception {
     Change c = newChange();
-    RequestId submissionId = RequestId.forChange(c);
+    RequestId submissionId = submissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
     update.merge(
@@ -941,7 +941,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // Finish off by merging the change.
     update = newUpdate(c, changeOwner);
     update.merge(
-        RequestId.forChange(c),
+        submissionId(c),
         ImmutableList.of(
             submitRecord(
                 "NOT_READY",
@@ -3140,5 +3140,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setCommit(rw, commit);
     update.commit();
     return tr.parseBody(commit);
+  }
+
+  private RequestId submissionId(Change c) {
+    return new RequestId(c.getId().toString());
   }
 }

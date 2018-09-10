@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.thirdparty.guava.common.base.Strings;
 
 /**
  * Formats URLs to different parts of the Gerrit API and UI.
@@ -45,5 +46,14 @@ public interface BrowseUrls {
     // the
     // /+/ separator unambiguously defines how to parse the path.
     return webUrl() + "c/" + (project != null ? project.get() + "/+/" : "") + id.get();
+  }
+
+  default String settingsUrl(String section) {
+    String u = webUrl() + "/settings/";
+    if (!Strings.isNullOrEmpty(section)) {
+      u += "#" + section;
+    }
+
+    return u;
   }
 }

@@ -77,14 +77,15 @@ public class GitModules {
           return;
         }
       }
-      BlobBasedConfig bbc;
+      BlobBasedConfig config;
       try {
-        bbc = new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
+        config = new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
       } catch (ConfigInvalidException e) {
         throw new IOException(
             "Could not read .gitmodules of super project: " + branch.getParentKey(), e);
       }
-      subscriptions = new SubmoduleSectionParser(bbc, canonicalWebUrl, branch).parseAllSections();
+      subscriptions =
+          new SubmoduleSectionParser(config, canonicalWebUrl, branch).parseAllSections();
     } catch (NoSuchProjectException e) {
       throw new IOException(e);
     }

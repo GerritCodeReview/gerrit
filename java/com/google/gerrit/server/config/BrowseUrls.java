@@ -52,4 +52,8 @@ public interface BrowseUrls {
     return getWebUrl().map(url -> url + "settings" +
         (Strings.isNullOrEmpty(section) ? "" :"#" + section));
   }
+
+  default Optional<String> getDocUrl(String page, String anchor) {
+    return getWebUrl().map(url -> url + "Documentation/" + page + "#" + anchor);
+  }
 }

@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-diff</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 <script src="../../../scripts/util.js"></script>
 
-<link rel="import" href="../../shared/gr-rest-api-interface/mock-diff-response_test.html">
-<link rel="import" href="gr-diff.html">
+<script type="module" src="../../shared/gr-rest-api-interface/mock-diff-response_test.js"></script>
+<script type="module" src="./gr-diff.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
+import './gr-diff.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,170 +40,768 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-diff tests', () => {
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
+import './gr-diff.js';
+import { a11ySuite } from '../../../../wct-browser-legacy/a11ySuite.js';
+suite('gr-diff tests', () => {
+  let element;
+  let sandbox;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('cancel', () => {
+    element = fixture('basic');
+    const cancelStub = sandbox.stub(element.$.diffBuilder, 'cancel');
+    element.cancel();
+    assert.isTrue(cancelStub.calledOnce);
+  });
+
+  test('_diffLength', () => {
+    element = fixture('basic');
+    const mock = document.createElement('mock-diff-response');
+    assert.equal(element._diffLength(mock.diffResponse), 52);
+  });
+
+  test('line limit with line_wrapping', () => {
+    element = fixture('basic');
+    element.prefs = {line_wrapping: true, line_length: 80, tab_size: 2};
+    flushAsynchronousOperations();
+    assert.equal(element.customStyle['--line-limit'], '80ch');
+  });
+
+  test('line limit without line_wrapping', () => {
+    element = fixture('basic');
+    element.prefs = {line_wrapping: false, line_length: 80, tab_size: 2};
+    flushAsynchronousOperations();
+    assert.isNotOk(element.customStyle['--line-limit']);
+  });
+
+  suite('_get{PatchNum|IsParentComment}ByLineAndContent', () => {
+    let lineEl;
+    let contentEl;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('cancel', () => {
       element = fixture('basic');
-      const cancelStub = sandbox.stub(element.$.diffBuilder, 'cancel');
-      element.cancel();
-      assert.isTrue(cancelStub.calledOnce);
+      lineEl = document.createElement('td');
+      contentEl = document.createElement('span');
     });
 
-    test('_diffLength', () => {
-      element = fixture('basic');
-      const mock = document.createElement('mock-diff-response');
-      assert.equal(element._diffLength(mock.diffResponse), 52);
-    });
-
-    test('line limit with line_wrapping', () => {
-      element = fixture('basic');
-      element.prefs = {line_wrapping: true, line_length: 80, tab_size: 2};
-      flushAsynchronousOperations();
-      assert.equal(element.customStyle['--line-limit'], '80ch');
-    });
-
-    test('line limit without line_wrapping', () => {
-      element = fixture('basic');
-      element.prefs = {line_wrapping: false, line_length: 80, tab_size: 2};
-      flushAsynchronousOperations();
-      assert.isNotOk(element.customStyle['--line-limit']);
-    });
-
-    suite('_get{PatchNum|IsParentComment}ByLineAndContent', () => {
-      let lineEl;
-      let contentEl;
-
-      setup(() => {
-        element = fixture('basic');
-        lineEl = document.createElement('td');
-        contentEl = document.createElement('span');
+    suite('_getPatchNumByLineAndContent', () => {
+      test('right side', () => {
+        element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
+        lineEl.classList.add('right');
+        assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
+            4);
       });
 
-      suite('_getPatchNumByLineAndContent', () => {
-        test('right side', () => {
-          element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
-          lineEl.classList.add('right');
-          assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-              4);
-        });
-
-        test('left side parent by linenum', () => {
-          element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
-          lineEl.classList.add('left');
-          assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-              4);
-        });
-
-        test('left side parent by content', () => {
-          element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
-          contentEl.classList.add('remove');
-          assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-              4);
-        });
-
-        test('left side merge parent', () => {
-          element.patchRange = {patchNum: 4, basePatchNum: -2};
-          contentEl.classList.add('remove');
-          assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-              4);
-        });
-
-        test('left side non parent', () => {
-          element.patchRange = {patchNum: 4, basePatchNum: 3};
-          contentEl.classList.add('remove');
-          assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
-              3);
-        });
+      test('left side parent by linenum', () => {
+        element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
+        lineEl.classList.add('left');
+        assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
+            4);
       });
 
-      suite('_getIsParentCommentByLineAndContent', () => {
-        test('right side', () => {
-          element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
-          lineEl.classList.add('right');
-          assert.isFalse(
-              element._getIsParentCommentByLineAndContent(lineEl, contentEl));
-        });
+      test('left side parent by content', () => {
+        element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
+        contentEl.classList.add('remove');
+        assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
+            4);
+      });
 
-        test('left side parent by linenum', () => {
-          element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
-          lineEl.classList.add('left');
-          assert.isTrue(
-              element._getIsParentCommentByLineAndContent(lineEl, contentEl));
-        });
+      test('left side merge parent', () => {
+        element.patchRange = {patchNum: 4, basePatchNum: -2};
+        contentEl.classList.add('remove');
+        assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
+            4);
+      });
 
-        test('left side parent by content', () => {
-          element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
-          contentEl.classList.add('remove');
-          assert.isTrue(
-              element._getIsParentCommentByLineAndContent(lineEl, contentEl));
-        });
-
-        test('left side merge parent', () => {
-          element.patchRange = {patchNum: 4, basePatchNum: -2};
-          contentEl.classList.add('remove');
-          assert.isTrue(
-              element._getIsParentCommentByLineAndContent(lineEl, contentEl));
-        });
-
-        test('left side non parent', () => {
-          element.patchRange = {patchNum: 4, basePatchNum: 3};
-          contentEl.classList.add('remove');
-          assert.isFalse(
-              element._getIsParentCommentByLineAndContent(lineEl, contentEl));
-        });
+      test('left side non parent', () => {
+        element.patchRange = {patchNum: 4, basePatchNum: 3};
+        contentEl.classList.add('remove');
+        assert.equal(element._getPatchNumByLineAndContent(lineEl, contentEl),
+            3);
       });
     });
 
-    suite('not logged in', () => {
-      setup(() => {
-        const getLoggedInPromise = Promise.resolve(false);
-        stub('gr-rest-api-interface', {
-          getLoggedIn() { return getLoggedInPromise; },
-        });
-        element = fixture('basic');
-        return getLoggedInPromise;
-      });
-
-      test('toggleLeftDiff', () => {
-        element.toggleLeftDiff();
-        assert.isTrue(element.classList.contains('no-left'));
-        element.toggleLeftDiff();
-        assert.isFalse(element.classList.contains('no-left'));
-      });
-
-      test('addDraftAtLine', () => {
-        sandbox.stub(element, '_selectLine');
-        const loggedInErrorSpy = sandbox.spy();
-        element.addEventListener('show-auth-required', loggedInErrorSpy);
-        element.addDraftAtLine();
-        assert.isTrue(loggedInErrorSpy.called);
-      });
-
-      test('view does not start with displayLine classList', () => {
+    suite('_getIsParentCommentByLineAndContent', () => {
+      test('right side', () => {
+        element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
+        lineEl.classList.add('right');
         assert.isFalse(
-            element.$$('.diffContainer').classList.contains('displayLine'));
+            element._getIsParentCommentByLineAndContent(lineEl, contentEl));
       });
 
-      test('displayLine class added called when displayLine is true', () => {
-        const spy = sandbox.spy(element, '_computeContainerClass');
-        element.displayLine = true;
-        assert.isTrue(spy.called);
+      test('left side parent by linenum', () => {
+        element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
+        lineEl.classList.add('left');
         assert.isTrue(
-            element.$$('.diffContainer').classList.contains('displayLine'));
+            element._getIsParentCommentByLineAndContent(lineEl, contentEl));
       });
 
-      test('remove comment', () => {
+      test('left side parent by content', () => {
+        element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
+        contentEl.classList.add('remove');
+        assert.isTrue(
+            element._getIsParentCommentByLineAndContent(lineEl, contentEl));
+      });
+
+      test('left side merge parent', () => {
+        element.patchRange = {patchNum: 4, basePatchNum: -2};
+        contentEl.classList.add('remove');
+        assert.isTrue(
+            element._getIsParentCommentByLineAndContent(lineEl, contentEl));
+      });
+
+      test('left side non parent', () => {
+        element.patchRange = {patchNum: 4, basePatchNum: 3};
+        contentEl.classList.add('remove');
+        assert.isFalse(
+            element._getIsParentCommentByLineAndContent(lineEl, contentEl));
+      });
+    });
+  });
+
+  suite('not logged in', () => {
+    setup(() => {
+      const getLoggedInPromise = Promise.resolve(false);
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return getLoggedInPromise; },
+      });
+      element = fixture('basic');
+      return getLoggedInPromise;
+    });
+
+    test('toggleLeftDiff', () => {
+      element.toggleLeftDiff();
+      assert.isTrue(element.classList.contains('no-left'));
+      element.toggleLeftDiff();
+      assert.isFalse(element.classList.contains('no-left'));
+    });
+
+    test('addDraftAtLine', () => {
+      sandbox.stub(element, '_selectLine');
+      const loggedInErrorSpy = sandbox.spy();
+      element.addEventListener('show-auth-required', loggedInErrorSpy);
+      element.addDraftAtLine();
+      assert.isTrue(loggedInErrorSpy.called);
+    });
+
+    test('view does not start with displayLine classList', () => {
+      assert.isFalse(
+          element.$$('.diffContainer').classList.contains('displayLine'));
+    });
+
+    test('displayLine class added called when displayLine is true', () => {
+      const spy = sandbox.spy(element, '_computeContainerClass');
+      element.displayLine = true;
+      assert.isTrue(spy.called);
+      assert.isTrue(
+          element.$$('.diffContainer').classList.contains('displayLine'));
+    });
+
+    test('remove comment', () => {
+      element.comments = {
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
+        },
+        left: [
+          {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+          {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
+          {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+          {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        ],
+        right: [
+          {id: 'c1', __commentSide: 'right'},
+          {id: 'c2', __commentSide: 'right'},
+          {id: 'd1', __draft: true, __commentSide: 'right'},
+          {id: 'd2', __draft: true, __commentSide: 'right'},
+        ],
+      };
+
+      element._removeComment({});
+      // Using JSON.stringify because Safari 9.1 (11601.5.17.1) doesn’t seem
+      // to believe that one object deepEquals another even when they do :-/.
+      assert.equal(JSON.stringify(element.comments), JSON.stringify({
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
+        },
+        left: [
+          {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+          {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
+          {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+          {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        ],
+        right: [
+          {id: 'c1', __commentSide: 'right'},
+          {id: 'c2', __commentSide: 'right'},
+          {id: 'd1', __draft: true, __commentSide: 'right'},
+          {id: 'd2', __draft: true, __commentSide: 'right'},
+        ],
+      }));
+
+      element._removeComment({id: 'bc2', side: 'PARENT',
+        __commentSide: 'left'});
+      assert.deepEqual(element.comments, {
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
+        },
+        left: [
+          {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+          {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+          {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        ],
+        right: [
+          {id: 'c1', __commentSide: 'right'},
+          {id: 'c2', __commentSide: 'right'},
+          {id: 'd1', __draft: true, __commentSide: 'right'},
+          {id: 'd2', __draft: true, __commentSide: 'right'},
+        ],
+      });
+
+      element._removeComment({id: 'd2', __commentSide: 'right'});
+      assert.deepEqual(element.comments, {
+        meta: {
+          changeNum: '42',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 3,
+          },
+          path: '/path/to/foo',
+          projectConfig: {foo: 'bar'},
+        },
+        left: [
+          {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+          {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+          {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
+        ],
+        right: [
+          {id: 'c1', __commentSide: 'right'},
+          {id: 'c2', __commentSide: 'right'},
+          {id: 'd1', __draft: true, __commentSide: 'right'},
+        ],
+      });
+    });
+
+    test('thread groups', () => {
+      const contentEl = document.createElement('div');
+      const commentSide = 'left';
+      const patchNum = 1;
+      const side = 'PARENT';
+      let range = {
+        startLine: 1,
+        startChar: 1,
+        endLine: 1,
+        endChar: 2,
+      };
+
+      element.changeNum = 123;
+      element.patchRange = {basePatchNum: 1, patchNum: 2};
+      element.path = 'file.txt';
+
+      const mock = document.createElement('mock-diff-response');
+      element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder(
+          mock.diffResponse, {}, {tab_size: 2, line_length: 80});
+
+      // No thread groups.
+      assert.isNotOk(element._getThreadGroupForLine(contentEl));
+
+      // A thread group gets created.
+      assert.isOk(element._getOrCreateThread(contentEl,
+          patchNum, commentSide, side));
+
+      // Try to fetch a thread with a different range.
+      range = {
+        startLine: 1,
+        startChar: 1,
+        endLine: 1,
+        endChar: 3,
+      };
+
+      assert.isOk(element._getOrCreateThread(
+          contentEl, patchNum, commentSide, side, range));
+      // The new thread group can be fetched.
+      assert.isOk(element._getThreadGroupForLine(contentEl));
+
+      assert.equal(contentEl.querySelectorAll(
+          'gr-diff-comment-thread-group').length, 1);
+
+      const threadGroup = contentEl.querySelector(
+          'gr-diff-comment-thread-group');
+      const threadLength = Polymer.dom(threadGroup.root).
+            querySelectorAll('gr-diff-comment-thread').length;
+      assert.equal(threadLength, 2);
+    });
+
+    suite('image diffs', () => {
+      let mockFile1;
+      let mockFile2;
+      setup(() => {
+        mockFile1 = {
+          body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+          'wsAAAAAAAAAAAAAAAAA/w==',
+          type: 'image/bmp',
+        };
+        mockFile2 = {
+          body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+          'wsAAAAAAAAAAAAA/////w==',
+          type: 'image/bmp',
+        };
+
+        element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
+        element.comments = {left: [], right: []};
+        element.isImageDiff = true;
+        element.prefs = {
+          auto_hide_diff_table_header: true,
+          context: 10,
+          cursor_blink_rate: 0,
+          font_size: 12,
+          ignore_whitespace: 'IGNORE_NONE',
+          intraline_difference: true,
+          line_length: 100,
+          line_wrapping: false,
+          show_line_endings: true,
+          show_tabs: true,
+          show_whitespace_errors: true,
+          syntax_highlighting: true,
+          tab_size: 8,
+          theme: 'DEFAULT',
+        };
+      });
+
+      test('renders image diffs with same file name', done => {
+        const rendered = () => {
+          // Recognizes that it should be an image diff.
+          assert.isTrue(element.isImageDiff);
+          assert.instanceOf(
+              element.$.diffBuilder._builder, GrDiffBuilderImage);
+
+          // Left image rendered with the parent commit's version of the file.
+          const leftImage = element.$.diffTable.querySelector('td.left img');
+          const leftLabel =
+              element.$.diffTable.querySelector('td.left label');
+          const leftLabelContent = leftLabel.querySelector('.label');
+          const leftLabelName = leftLabel.querySelector('.name');
+
+          const rightImage =
+              element.$.diffTable.querySelector('td.right img');
+          const rightLabel = element.$.diffTable.querySelector(
+              'td.right label');
+          const rightLabelContent = rightLabel.querySelector('.label');
+          const rightLabelName = rightLabel.querySelector('.name');
+
+          assert.isNotOk(rightLabelName);
+          assert.isNotOk(leftLabelName);
+
+          let leftLoaded = false;
+          let rightLoaded = false;
+
+          leftImage.addEventListener('load', () => {
+            assert.isOk(leftImage);
+            assert.equal(leftImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile1.body);
+            assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
+            leftLoaded = true;
+            if (rightLoaded) {
+              element.removeEventListener('render', rendered);
+              done();
+            }
+          });
+
+          rightImage.addEventListener('load', () => {
+            assert.isOk(rightImage);
+            assert.equal(rightImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile2.body);
+            assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
+
+            rightLoaded = true;
+            if (leftLoaded) {
+              element.removeEventListener('render', rendered);
+              done();
+            }
+          });
+        };
+
+        element.addEventListener('render', rendered);
+
+        element.baseImage = mockFile1;
+        element.revisionImage = mockFile2;
+        element.diff = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
+            lines: 560},
+          intraline_status: 'OK',
+          change_type: 'MODIFIED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index 2adc47d..f9c2f2c 100644',
+            '--- a/carrot.jpg',
+            '+++ b/carrot.jpg',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+      });
+
+      test('renders image diffs with a different file name', done => {
+        const mockDiff = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+          meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg',
+            lines: 560},
+          intraline_status: 'OK',
+          change_type: 'MODIFIED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot2.jpg',
+            'index 2adc47d..f9c2f2c 100644',
+            '--- a/carrot.jpg',
+            '+++ b/carrot2.jpg',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+
+        const rendered = () => {
+          // Recognizes that it should be an image diff.
+          assert.isTrue(element.isImageDiff);
+          assert.instanceOf(
+              element.$.diffBuilder._builder, GrDiffBuilderImage);
+
+          // Left image rendered with the parent commit's version of the file.
+          const leftImage = element.$.diffTable.querySelector('td.left img');
+          const leftLabel =
+              element.$.diffTable.querySelector('td.left label');
+          const leftLabelContent = leftLabel.querySelector('.label');
+          const leftLabelName = leftLabel.querySelector('.name');
+
+          const rightImage =
+              element.$.diffTable.querySelector('td.right img');
+          const rightLabel = element.$.diffTable.querySelector(
+              'td.right label');
+          const rightLabelContent = rightLabel.querySelector('.label');
+          const rightLabelName = rightLabel.querySelector('.name');
+
+          assert.isOk(rightLabelName);
+          assert.isOk(leftLabelName);
+          assert.equal(leftLabelName.textContent, mockDiff.meta_a.name);
+          assert.equal(rightLabelName.textContent, mockDiff.meta_b.name);
+
+          let leftLoaded = false;
+          let rightLoaded = false;
+
+          leftImage.addEventListener('load', () => {
+            assert.isOk(leftImage);
+            assert.equal(leftImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile1.body);
+            assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
+            leftLoaded = true;
+            if (rightLoaded) {
+              element.removeEventListener('render', rendered);
+              done();
+            }
+          });
+
+          rightImage.addEventListener('load', () => {
+            assert.isOk(rightImage);
+            assert.equal(rightImage.getAttribute('src'),
+                'data:image/bmp;base64, ' + mockFile2.body);
+            assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
+
+            rightLoaded = true;
+            if (leftLoaded) {
+              element.removeEventListener('render', rendered);
+              done();
+            }
+          });
+        };
+
+        element.addEventListener('render', rendered);
+
+        element.baseImage = mockFile1;
+        element.baseImage._name = mockDiff.meta_a.name;
+        element.revisionImage = mockFile2;
+        element.revisionImage._name = mockDiff.meta_b.name;
+        element.diff = mockDiff;
+      });
+
+      test('renders added image', done => {
+        const mockDiff = {
+          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
+            lines: 560},
+          intraline_status: 'OK',
+          change_type: 'ADDED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index 0000000..f9c2f2c 100644',
+            '--- /dev/null',
+            '+++ b/carrot.jpg',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+
+        element.addEventListener('render', () => {
+          // Recognizes that it should be an image diff.
+          assert.isTrue(element.isImageDiff);
+          assert.instanceOf(
+              element.$.diffBuilder._builder, GrDiffBuilderImage);
+
+          const leftImage = element.$.diffTable.querySelector('td.left img');
+          const rightImage = element.$.diffTable.querySelector('td.right img');
+
+          assert.isNotOk(leftImage);
+          assert.isOk(rightImage);
+          done();
+        });
+
+        element.revisionImage = mockFile2;
+        element.diff = mockDiff;
+      });
+
+      test('renders removed image', done => {
+        const mockDiff = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg',
+            lines: 560},
+          intraline_status: 'OK',
+          change_type: 'DELETED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index f9c2f2c..0000000 100644',
+            '--- a/carrot.jpg',
+            '+++ /dev/null',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+
+        element.addEventListener('render', () => {
+          // Recognizes that it should be an image diff.
+          assert.isTrue(element.isImageDiff);
+          assert.instanceOf(
+              element.$.diffBuilder._builder, GrDiffBuilderImage);
+
+          const leftImage = element.$.diffTable.querySelector('td.left img');
+          const rightImage = element.$.diffTable.querySelector('td.right img');
+
+          assert.isOk(leftImage);
+          assert.isNotOk(rightImage);
+          done();
+        });
+
+        element.baseImage = mockFile1;
+        element.diff = mockDiff;
+      });
+
+      test('does not render disallowed image type', done => {
+        const mockDiff = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg-evil',
+            lines: 560},
+          intraline_status: 'OK',
+          change_type: 'DELETED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index f9c2f2c..0000000 100644',
+            '--- a/carrot.jpg',
+            '+++ /dev/null',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+        mockFile1.type = 'image/jpeg-evil';
+
+        element.addEventListener('render', () => {
+          // Recognizes that it should be an image diff.
+          assert.isTrue(element.isImageDiff);
+          assert.instanceOf(
+              element.$.diffBuilder._builder, GrDiffBuilderImage);
+          const leftImage = element.$.diffTable.querySelector('td.left img');
+          assert.isNotOk(leftImage);
+          done();
+        });
+
+        element.baseImage = mockFile1;
+        element.diff = mockDiff;
+      });
+    });
+
+    test('_handleTap lineNum', done => {
+      const addDraftStub = sandbox.stub(element, 'addDraftAtLine');
+      const el = document.createElement('div');
+      el.className = 'lineNum';
+      el.addEventListener('click', e => {
+        element._handleTap(e);
+        assert.isTrue(addDraftStub.called);
+        assert.equal(addDraftStub.lastCall.args[0], el);
+        done();
+      });
+      el.click();
+    });
+
+    test('_handleTap context', done => {
+      const showContextStub =
+          sandbox.stub(element.$.diffBuilder, 'showContext');
+      const el = document.createElement('div');
+      el.className = 'showContext';
+      el.addEventListener('click', e => {
+        element._handleTap(e);
+        assert.isTrue(showContextStub.called);
+        done();
+      });
+      el.click();
+    });
+
+    test('_handleTap content', done => {
+      const content = document.createElement('div');
+      const lineEl = document.createElement('div');
+
+      const selectStub = sandbox.stub(element, '_selectLine');
+      sandbox.stub(element.$.diffBuilder, 'getLineElByChild', () => lineEl);
+
+      content.className = 'content';
+      content.addEventListener('click', e => {
+        element._handleTap(e);
+        assert.isTrue(selectStub.called);
+        assert.equal(selectStub.lastCall.args[0], lineEl);
+        done();
+      });
+      content.click();
+    });
+
+    suite('getCursorStops', () => {
+      const setupDiff = function() {
+        const mock = document.createElement('mock-diff-response');
+        element.diff = mock.diffResponse;
+        element.comments = {
+          left: [],
+          right: [],
+        };
+        element.prefs = {
+          context: 10,
+          tab_size: 8,
+          font_size: 12,
+          line_length: 100,
+          cursor_blink_rate: 0,
+          line_wrapping: false,
+          intraline_difference: true,
+          show_line_endings: true,
+          show_tabs: true,
+          show_whitespace_errors: true,
+          syntax_highlighting: true,
+          auto_hide_diff_table_header: true,
+          theme: 'DEFAULT',
+          ignore_whitespace: 'IGNORE_NONE',
+        };
+
+        element._renderDiffTable();
+        flushAsynchronousOperations();
+      };
+
+      test('getCursorStops returns [] when hidden and noAutoRender', () => {
+        element.noAutoRender = true;
+        setupDiff();
+        element.hidden = true;
+        assert.equal(element.getCursorStops().length, 0);
+      });
+
+      test('getCursorStops', () => {
+        setupDiff();
+        assert.equal(element.getCursorStops().length, 50);
+      });
+    });
+
+    test('adds .hiddenscroll', () => {
+      Gerrit.hiddenscroll = true;
+      element.displayLine = true;
+      assert.include(element.$$('.diffContainer').className, 'hiddenscroll');
+    });
+  });
+
+  suite('logged in', () => {
+    let fakeLineEl;
+    setup(() => {
+      element = fixture('basic');
+      element.loggedIn = true;
+      element.patchRange = {};
+
+      fakeLineEl = {
+        getAttribute: sandbox.stub().returns(42),
+        classList: {
+          contains: sandbox.stub().returns(true),
+        },
+      };
+    });
+
+    test('addDraftAtLine', () => {
+      sandbox.stub(element, '_selectLine');
+      sandbox.stub(element, '_createComment');
+      element.addDraftAtLine(fakeLineEl);
+      assert.isTrue(element._createComment
+          .calledWithExactly(fakeLineEl, 42));
+    });
+
+    test('addDraftAtLine on an edit', () => {
+      element.patchRange.basePatchNum = element.EDIT_NAME;
+      sandbox.stub(element, '_selectLine');
+      sandbox.stub(element, '_createComment');
+      const alertSpy = sandbox.spy();
+      element.addEventListener('show-alert', alertSpy);
+      element.addDraftAtLine(fakeLineEl);
+      assert.isTrue(alertSpy.called);
+      assert.isFalse(element._createComment.called);
+    });
+
+    test('addDraftAtLine on an edit base', () => {
+      element.patchRange.patchNum = element.EDIT_NAME;
+      element.patchRange.basePatchNum = element.PARENT_NAME;
+      sandbox.stub(element, '_selectLine');
+      sandbox.stub(element, '_createComment');
+      const alertSpy = sandbox.spy();
+      element.addEventListener('show-alert', alertSpy);
+      element.addDraftAtLine(fakeLineEl);
+      assert.isTrue(alertSpy.called);
+      assert.isFalse(element._createComment.called);
+    });
+
+    suite('change in preferences', () => {
+      setup(() => {
+        element.diff = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
+            lines: 560},
+          diff_header: [],
+          intraline_status: 'OK',
+          change_type: 'MODIFIED',
+          content: [{skip: 66}],
+        };
         element.comments = {
           meta: {
             changeNum: '42',
@@ -222,11 +825,28 @@ limitations under the License.
             {id: 'd2', __draft: true, __commentSide: 'right'},
           ],
         };
+      });
 
-        element._removeComment({});
-        // Using JSON.stringify because Safari 9.1 (11601.5.17.1) doesn’t seem
-        // to believe that one object deepEquals another even when they do :-/.
-        assert.equal(JSON.stringify(element.comments), JSON.stringify({
+      test('change in preferences re-renders diff', () => {
+        sandbox.stub(element, '_renderDiffTable');
+        element.prefs = {};
+        element.prefs = {time_format: 'HHMM_12'};
+        assert.isTrue(element._renderDiffTable.called);
+      });
+
+      test('change in preferences does not re-renders diff with ' +
+          'noRenderOnPrefsChange', () => {
+        sandbox.stub(element, '_renderDiffTable');
+        element.noRenderOnPrefsChange = true;
+        element.prefs = {};
+        element.prefs = {time_format: 'HHMM_12'};
+        assert.isFalse(element._renderDiffTable.called);
+      });
+    });
+
+    suite('handle comment-update', () => {
+      setup(() => {
+        element.comments = {
           meta: {
             changeNum: '42',
             patchRange: {
@@ -248,915 +868,304 @@ limitations under the License.
             {id: 'd1', __draft: true, __commentSide: 'right'},
             {id: 'd2', __draft: true, __commentSide: 'right'},
           ],
-        }));
-
-        element._removeComment({id: 'bc2', side: 'PARENT',
-          __commentSide: 'left'});
-        assert.deepEqual(element.comments, {
-          meta: {
-            changeNum: '42',
-            patchRange: {
-              basePatchNum: 'PARENT',
-              patchNum: 3,
-            },
-            path: '/path/to/foo',
-            projectConfig: {foo: 'bar'},
-          },
-          left: [
-            {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-            {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-            {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
-          ],
-          right: [
-            {id: 'c1', __commentSide: 'right'},
-            {id: 'c2', __commentSide: 'right'},
-            {id: 'd1', __draft: true, __commentSide: 'right'},
-            {id: 'd2', __draft: true, __commentSide: 'right'},
-          ],
-        });
-
-        element._removeComment({id: 'd2', __commentSide: 'right'});
-        assert.deepEqual(element.comments, {
-          meta: {
-            changeNum: '42',
-            patchRange: {
-              basePatchNum: 'PARENT',
-              patchNum: 3,
-            },
-            path: '/path/to/foo',
-            projectConfig: {foo: 'bar'},
-          },
-          left: [
-            {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-            {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-            {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
-          ],
-          right: [
-            {id: 'c1', __commentSide: 'right'},
-            {id: 'c2', __commentSide: 'right'},
-            {id: 'd1', __draft: true, __commentSide: 'right'},
-          ],
-        });
-      });
-
-      test('thread groups', () => {
-        const contentEl = document.createElement('div');
-        const commentSide = 'left';
-        const patchNum = 1;
-        const side = 'PARENT';
-        let range = {
-          startLine: 1,
-          startChar: 1,
-          endLine: 1,
-          endChar: 2,
-        };
-
-        element.changeNum = 123;
-        element.patchRange = {basePatchNum: 1, patchNum: 2};
-        element.path = 'file.txt';
-
-        const mock = document.createElement('mock-diff-response');
-        element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder(
-            mock.diffResponse, {}, {tab_size: 2, line_length: 80});
-
-        // No thread groups.
-        assert.isNotOk(element._getThreadGroupForLine(contentEl));
-
-        // A thread group gets created.
-        assert.isOk(element._getOrCreateThread(contentEl,
-            patchNum, commentSide, side));
-
-        // Try to fetch a thread with a different range.
-        range = {
-          startLine: 1,
-          startChar: 1,
-          endLine: 1,
-          endChar: 3,
-        };
-
-        assert.isOk(element._getOrCreateThread(
-            contentEl, patchNum, commentSide, side, range));
-        // The new thread group can be fetched.
-        assert.isOk(element._getThreadGroupForLine(contentEl));
-
-        assert.equal(contentEl.querySelectorAll(
-            'gr-diff-comment-thread-group').length, 1);
-
-        const threadGroup = contentEl.querySelector(
-            'gr-diff-comment-thread-group');
-        const threadLength = Polymer.dom(threadGroup.root).
-              querySelectorAll('gr-diff-comment-thread').length;
-        assert.equal(threadLength, 2);
-      });
-
-      suite('image diffs', () => {
-        let mockFile1;
-        let mockFile2;
-        setup(() => {
-          mockFile1 = {
-            body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
-            'wsAAAAAAAAAAAAAAAAA/w==',
-            type: 'image/bmp',
-          };
-          mockFile2 = {
-            body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
-            'wsAAAAAAAAAAAAA/////w==',
-            type: 'image/bmp',
-          };
-
-          element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
-          element.comments = {left: [], right: []};
-          element.isImageDiff = true;
-          element.prefs = {
-            auto_hide_diff_table_header: true,
-            context: 10,
-            cursor_blink_rate: 0,
-            font_size: 12,
-            ignore_whitespace: 'IGNORE_NONE',
-            intraline_difference: true,
-            line_length: 100,
-            line_wrapping: false,
-            show_line_endings: true,
-            show_tabs: true,
-            show_whitespace_errors: true,
-            syntax_highlighting: true,
-            tab_size: 8,
-            theme: 'DEFAULT',
-          };
-        });
-
-        test('renders image diffs with same file name', done => {
-          const rendered = () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diffBuilder._builder, GrDiffBuilderImage);
-
-            // Left image rendered with the parent commit's version of the file.
-            const leftImage = element.$.diffTable.querySelector('td.left img');
-            const leftLabel =
-                element.$.diffTable.querySelector('td.left label');
-            const leftLabelContent = leftLabel.querySelector('.label');
-            const leftLabelName = leftLabel.querySelector('.name');
-
-            const rightImage =
-                element.$.diffTable.querySelector('td.right img');
-            const rightLabel = element.$.diffTable.querySelector(
-                'td.right label');
-            const rightLabelContent = rightLabel.querySelector('.label');
-            const rightLabelName = rightLabel.querySelector('.name');
-
-            assert.isNotOk(rightLabelName);
-            assert.isNotOk(leftLabelName);
-
-            let leftLoaded = false;
-            let rightLoaded = false;
-
-            leftImage.addEventListener('load', () => {
-              assert.isOk(leftImage);
-              assert.equal(leftImage.getAttribute('src'),
-                  'data:image/bmp;base64, ' + mockFile1.body);
-              assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
-              leftLoaded = true;
-              if (rightLoaded) {
-                element.removeEventListener('render', rendered);
-                done();
-              }
-            });
-
-            rightImage.addEventListener('load', () => {
-              assert.isOk(rightImage);
-              assert.equal(rightImage.getAttribute('src'),
-                  'data:image/bmp;base64, ' + mockFile2.body);
-              assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
-
-              rightLoaded = true;
-              if (leftLoaded) {
-                element.removeEventListener('render', rendered);
-                done();
-              }
-            });
-          };
-
-          element.addEventListener('render', rendered);
-
-          element.baseImage = mockFile1;
-          element.revisionImage = mockFile2;
-          element.diff = {
-            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-            meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-              lines: 560},
-            intraline_status: 'OK',
-            change_type: 'MODIFIED',
-            diff_header: [
-              'diff --git a/carrot.jpg b/carrot.jpg',
-              'index 2adc47d..f9c2f2c 100644',
-              '--- a/carrot.jpg',
-              '+++ b/carrot.jpg',
-              'Binary files differ',
-            ],
-            content: [{skip: 66}],
-            binary: true,
-          };
-        });
-
-        test('renders image diffs with a different file name', done => {
-          const mockDiff = {
-            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-            meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg',
-              lines: 560},
-            intraline_status: 'OK',
-            change_type: 'MODIFIED',
-            diff_header: [
-              'diff --git a/carrot.jpg b/carrot2.jpg',
-              'index 2adc47d..f9c2f2c 100644',
-              '--- a/carrot.jpg',
-              '+++ b/carrot2.jpg',
-              'Binary files differ',
-            ],
-            content: [{skip: 66}],
-            binary: true,
-          };
-
-          const rendered = () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diffBuilder._builder, GrDiffBuilderImage);
-
-            // Left image rendered with the parent commit's version of the file.
-            const leftImage = element.$.diffTable.querySelector('td.left img');
-            const leftLabel =
-                element.$.diffTable.querySelector('td.left label');
-            const leftLabelContent = leftLabel.querySelector('.label');
-            const leftLabelName = leftLabel.querySelector('.name');
-
-            const rightImage =
-                element.$.diffTable.querySelector('td.right img');
-            const rightLabel = element.$.diffTable.querySelector(
-                'td.right label');
-            const rightLabelContent = rightLabel.querySelector('.label');
-            const rightLabelName = rightLabel.querySelector('.name');
-
-            assert.isOk(rightLabelName);
-            assert.isOk(leftLabelName);
-            assert.equal(leftLabelName.textContent, mockDiff.meta_a.name);
-            assert.equal(rightLabelName.textContent, mockDiff.meta_b.name);
-
-            let leftLoaded = false;
-            let rightLoaded = false;
-
-            leftImage.addEventListener('load', () => {
-              assert.isOk(leftImage);
-              assert.equal(leftImage.getAttribute('src'),
-                  'data:image/bmp;base64, ' + mockFile1.body);
-              assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
-              leftLoaded = true;
-              if (rightLoaded) {
-                element.removeEventListener('render', rendered);
-                done();
-              }
-            });
-
-            rightImage.addEventListener('load', () => {
-              assert.isOk(rightImage);
-              assert.equal(rightImage.getAttribute('src'),
-                  'data:image/bmp;base64, ' + mockFile2.body);
-              assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
-
-              rightLoaded = true;
-              if (leftLoaded) {
-                element.removeEventListener('render', rendered);
-                done();
-              }
-            });
-          };
-
-          element.addEventListener('render', rendered);
-
-          element.baseImage = mockFile1;
-          element.baseImage._name = mockDiff.meta_a.name;
-          element.revisionImage = mockFile2;
-          element.revisionImage._name = mockDiff.meta_b.name;
-          element.diff = mockDiff;
-        });
-
-        test('renders added image', done => {
-          const mockDiff = {
-            meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-              lines: 560},
-            intraline_status: 'OK',
-            change_type: 'ADDED',
-            diff_header: [
-              'diff --git a/carrot.jpg b/carrot.jpg',
-              'index 0000000..f9c2f2c 100644',
-              '--- /dev/null',
-              '+++ b/carrot.jpg',
-              'Binary files differ',
-            ],
-            content: [{skip: 66}],
-            binary: true,
-          };
-
-          element.addEventListener('render', () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diffBuilder._builder, GrDiffBuilderImage);
-
-            const leftImage = element.$.diffTable.querySelector('td.left img');
-            const rightImage = element.$.diffTable.querySelector('td.right img');
-
-            assert.isNotOk(leftImage);
-            assert.isOk(rightImage);
-            done();
-          });
-
-          element.revisionImage = mockFile2;
-          element.diff = mockDiff;
-        });
-
-        test('renders removed image', done => {
-          const mockDiff = {
-            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg',
-              lines: 560},
-            intraline_status: 'OK',
-            change_type: 'DELETED',
-            diff_header: [
-              'diff --git a/carrot.jpg b/carrot.jpg',
-              'index f9c2f2c..0000000 100644',
-              '--- a/carrot.jpg',
-              '+++ /dev/null',
-              'Binary files differ',
-            ],
-            content: [{skip: 66}],
-            binary: true,
-          };
-
-          element.addEventListener('render', () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diffBuilder._builder, GrDiffBuilderImage);
-
-            const leftImage = element.$.diffTable.querySelector('td.left img');
-            const rightImage = element.$.diffTable.querySelector('td.right img');
-
-            assert.isOk(leftImage);
-            assert.isNotOk(rightImage);
-            done();
-          });
-
-          element.baseImage = mockFile1;
-          element.diff = mockDiff;
-        });
-
-        test('does not render disallowed image type', done => {
-          const mockDiff = {
-            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg-evil',
-              lines: 560},
-            intraline_status: 'OK',
-            change_type: 'DELETED',
-            diff_header: [
-              'diff --git a/carrot.jpg b/carrot.jpg',
-              'index f9c2f2c..0000000 100644',
-              '--- a/carrot.jpg',
-              '+++ /dev/null',
-              'Binary files differ',
-            ],
-            content: [{skip: 66}],
-            binary: true,
-          };
-          mockFile1.type = 'image/jpeg-evil';
-
-          element.addEventListener('render', () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diffBuilder._builder, GrDiffBuilderImage);
-            const leftImage = element.$.diffTable.querySelector('td.left img');
-            assert.isNotOk(leftImage);
-            done();
-          });
-
-          element.baseImage = mockFile1;
-          element.diff = mockDiff;
-        });
-      });
-
-      test('_handleTap lineNum', done => {
-        const addDraftStub = sandbox.stub(element, 'addDraftAtLine');
-        const el = document.createElement('div');
-        el.className = 'lineNum';
-        el.addEventListener('click', e => {
-          element._handleTap(e);
-          assert.isTrue(addDraftStub.called);
-          assert.equal(addDraftStub.lastCall.args[0], el);
-          done();
-        });
-        el.click();
-      });
-
-      test('_handleTap context', done => {
-        const showContextStub =
-            sandbox.stub(element.$.diffBuilder, 'showContext');
-        const el = document.createElement('div');
-        el.className = 'showContext';
-        el.addEventListener('click', e => {
-          element._handleTap(e);
-          assert.isTrue(showContextStub.called);
-          done();
-        });
-        el.click();
-      });
-
-      test('_handleTap content', done => {
-        const content = document.createElement('div');
-        const lineEl = document.createElement('div');
-
-        const selectStub = sandbox.stub(element, '_selectLine');
-        sandbox.stub(element.$.diffBuilder, 'getLineElByChild', () => lineEl);
-
-        content.className = 'content';
-        content.addEventListener('click', e => {
-          element._handleTap(e);
-          assert.isTrue(selectStub.called);
-          assert.equal(selectStub.lastCall.args[0], lineEl);
-          done();
-        });
-        content.click();
-      });
-
-      suite('getCursorStops', () => {
-        const setupDiff = function() {
-          const mock = document.createElement('mock-diff-response');
-          element.diff = mock.diffResponse;
-          element.comments = {
-            left: [],
-            right: [],
-          };
-          element.prefs = {
-            context: 10,
-            tab_size: 8,
-            font_size: 12,
-            line_length: 100,
-            cursor_blink_rate: 0,
-            line_wrapping: false,
-            intraline_difference: true,
-            show_line_endings: true,
-            show_tabs: true,
-            show_whitespace_errors: true,
-            syntax_highlighting: true,
-            auto_hide_diff_table_header: true,
-            theme: 'DEFAULT',
-            ignore_whitespace: 'IGNORE_NONE',
-          };
-
-          element._renderDiffTable();
-          flushAsynchronousOperations();
-        };
-
-        test('getCursorStops returns [] when hidden and noAutoRender', () => {
-          element.noAutoRender = true;
-          setupDiff();
-          element.hidden = true;
-          assert.equal(element.getCursorStops().length, 0);
-        });
-
-        test('getCursorStops', () => {
-          setupDiff();
-          assert.equal(element.getCursorStops().length, 50);
-        });
-      });
-
-      test('adds .hiddenscroll', () => {
-        Gerrit.hiddenscroll = true;
-        element.displayLine = true;
-        assert.include(element.$$('.diffContainer').className, 'hiddenscroll');
-      });
-    });
-
-    suite('logged in', () => {
-      let fakeLineEl;
-      setup(() => {
-        element = fixture('basic');
-        element.loggedIn = true;
-        element.patchRange = {};
-
-        fakeLineEl = {
-          getAttribute: sandbox.stub().returns(42),
-          classList: {
-            contains: sandbox.stub().returns(true),
-          },
         };
       });
 
-      test('addDraftAtLine', () => {
-        sandbox.stub(element, '_selectLine');
-        sandbox.stub(element, '_createComment');
-        element.addDraftAtLine(fakeLineEl);
-        assert.isTrue(element._createComment
-            .calledWithExactly(fakeLineEl, 42));
+      test('creating a draft', () => {
+        const comment = {__draft: true, __draftID: 'tempID', side: 'PARENT',
+          __commentSide: 'left'};
+        element.fire('comment-update', {comment});
+        assert.include(element.comments.left, comment);
       });
 
-      test('addDraftAtLine on an edit', () => {
-        element.patchRange.basePatchNum = element.EDIT_NAME;
-        sandbox.stub(element, '_selectLine');
-        sandbox.stub(element, '_createComment');
-        const alertSpy = sandbox.spy();
-        element.addEventListener('show-alert', alertSpy);
-        element.addDraftAtLine(fakeLineEl);
-        assert.isTrue(alertSpy.called);
-        assert.isFalse(element._createComment.called);
-      });
-
-      test('addDraftAtLine on an edit base', () => {
-        element.patchRange.patchNum = element.EDIT_NAME;
-        element.patchRange.basePatchNum = element.PARENT_NAME;
-        sandbox.stub(element, '_selectLine');
-        sandbox.stub(element, '_createComment');
-        const alertSpy = sandbox.spy();
-        element.addEventListener('show-alert', alertSpy);
-        element.addDraftAtLine(fakeLineEl);
-        assert.isTrue(alertSpy.called);
-        assert.isFalse(element._createComment.called);
-      });
-
-      suite('change in preferences', () => {
-        setup(() => {
-          element.diff = {
-            meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-            meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-              lines: 560},
-            diff_header: [],
-            intraline_status: 'OK',
-            change_type: 'MODIFIED',
-            content: [{skip: 66}],
-          };
-          element.comments = {
-            meta: {
-              changeNum: '42',
-              patchRange: {
-                basePatchNum: 'PARENT',
-                patchNum: 3,
-              },
-              path: '/path/to/foo',
-              projectConfig: {foo: 'bar'},
-            },
-            left: [
-              {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-              {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
-              {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-              {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
-            ],
-            right: [
-              {id: 'c1', __commentSide: 'right'},
-              {id: 'c2', __commentSide: 'right'},
-              {id: 'd1', __draft: true, __commentSide: 'right'},
-              {id: 'd2', __draft: true, __commentSide: 'right'},
-            ],
-          };
-        });
-
-        test('change in preferences re-renders diff', () => {
-          sandbox.stub(element, '_renderDiffTable');
-          element.prefs = {};
-          element.prefs = {time_format: 'HHMM_12'};
-          assert.isTrue(element._renderDiffTable.called);
-        });
-
-        test('change in preferences does not re-renders diff with ' +
-            'noRenderOnPrefsChange', () => {
-          sandbox.stub(element, '_renderDiffTable');
-          element.noRenderOnPrefsChange = true;
-          element.prefs = {};
-          element.prefs = {time_format: 'HHMM_12'};
-          assert.isFalse(element._renderDiffTable.called);
-        });
-      });
-
-      suite('handle comment-update', () => {
-        setup(() => {
-          element.comments = {
-            meta: {
-              changeNum: '42',
-              patchRange: {
-                basePatchNum: 'PARENT',
-                patchNum: 3,
-              },
-              path: '/path/to/foo',
-              projectConfig: {foo: 'bar'},
-            },
-            left: [
-              {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
-              {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
-              {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
-              {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
-            ],
-            right: [
-              {id: 'c1', __commentSide: 'right'},
-              {id: 'c2', __commentSide: 'right'},
-              {id: 'd1', __draft: true, __commentSide: 'right'},
-              {id: 'd2', __draft: true, __commentSide: 'right'},
-            ],
-          };
-        });
-
-        test('creating a draft', () => {
-          const comment = {__draft: true, __draftID: 'tempID', side: 'PARENT',
-            __commentSide: 'left'};
-          element.fire('comment-update', {comment});
-          assert.include(element.comments.left, comment);
-        });
-
-        test('discarding a draft', () => {
-          const draftID = 'tempID';
-          const id = 'savedID';
-          const comment = {
-            __draft: true,
-            __draftID: draftID,
-            side: 'PARENT',
-            __commentSide: 'left',
-          };
-          const diffCommentsModifiedStub = sandbox.stub();
-          element.addEventListener('diff-comments-modified',
-              diffCommentsModifiedStub);
-          element.comments.left.push(comment);
-          comment.id = id;
-          element.fire('comment-discard', {comment});
-          const drafts = element.comments.left.filter(item => {
-            return item.__draftID === draftID;
-          });
-          assert.equal(drafts.length, 0);
-          assert.isTrue(diffCommentsModifiedStub.called);
-        });
-
-        test('saving a draft', () => {
-          const draftID = 'tempID';
-          const id = 'savedID';
-          const comment = {
-            __draft: true,
-            __draftID: draftID,
-            side: 'PARENT',
-            __commentSide: 'left',
-          };
-          const diffCommentsModifiedStub = sandbox.stub();
-          element.addEventListener('diff-comments-modified',
-              diffCommentsModifiedStub);
-          element.comments.left.push(comment);
-          comment.id = id;
-          element.fire('comment-save', {comment});
-          const drafts = element.comments.left.filter(item => {
-            return item.__draftID === draftID;
-          });
-          assert.equal(drafts.length, 1);
-          assert.equal(drafts[0].id, id);
-          assert.isTrue(diffCommentsModifiedStub.called);
-        });
-      });
-    });
-
-    suite('diff header', () => {
-      setup(() => {
-        element = fixture('basic');
-        element.diff = {
-          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-            lines: 560},
-          diff_header: [],
-          intraline_status: 'OK',
-          change_type: 'MODIFIED',
-          content: [{skip: 66}],
+      test('discarding a draft', () => {
+        const draftID = 'tempID';
+        const id = 'savedID';
+        const comment = {
+          __draft: true,
+          __draftID: draftID,
+          side: 'PARENT',
+          __commentSide: 'left',
         };
-      });
-
-      test('hidden', () => {
-        assert.equal(element._diffHeaderItems.length, 0);
-        element.push('diff.diff_header', 'diff --git a/test.jpg b/test.jpg');
-        assert.equal(element._diffHeaderItems.length, 0);
-        element.push('diff.diff_header', 'index 2adc47d..f9c2f2c 100644');
-        assert.equal(element._diffHeaderItems.length, 0);
-        element.push('diff.diff_header', '--- a/test.jpg');
-        assert.equal(element._diffHeaderItems.length, 0);
-        element.push('diff.diff_header', '+++ b/test.jpg');
-        assert.equal(element._diffHeaderItems.length, 0);
-        element.push('diff.diff_header', 'test');
-        assert.equal(element._diffHeaderItems.length, 1);
-        flushAsynchronousOperations();
-
-        assert.equal(element.$.diffHeader.textContent.trim(), 'test');
-      });
-
-      test('binary files', () => {
-        element.diff.binary = true;
-        assert.equal(element._diffHeaderItems.length, 0);
-        element.push('diff.diff_header', 'diff --git a/test.jpg b/test.jpg');
-        assert.equal(element._diffHeaderItems.length, 0);
-        element.push('diff.diff_header', 'test');
-        assert.equal(element._diffHeaderItems.length, 1);
-        element.push('diff.diff_header', 'Binary files differ');
-        assert.equal(element._diffHeaderItems.length, 1);
-      });
-    });
-
-    suite('safety and bypass', () => {
-      let renderStub;
-
-      setup(() => {
-        element = fixture('basic');
-        renderStub = sandbox.stub(element.$.diffBuilder, 'render',
-            () => {
-              Promise.resolve();
-              element.$.diffBuilder.dispatchEvent(
-                  new CustomEvent('render', {bubbles: true}));
-            });
-        const mock = document.createElement('mock-diff-response');
-        element.diff = mock.diffResponse;
-        element.comments = {left: [], right: []};
-        element.noRenderOnPrefsChange = true;
-      });
-
-      test('large render w/ context = 10', done => {
-        element.prefs = {context: 10};
-        sandbox.stub(element, '_diffLength', () => 10000);
-        element.addEventListener('render', () => {
-          assert.isTrue(renderStub.called);
-          assert.isFalse(element._showWarning);
-          done();
+        const diffCommentsModifiedStub = sandbox.stub();
+        element.addEventListener('diff-comments-modified',
+            diffCommentsModifiedStub);
+        element.comments.left.push(comment);
+        comment.id = id;
+        element.fire('comment-discard', {comment});
+        const drafts = element.comments.left.filter(item => {
+          return item.__draftID === draftID;
         });
-        element._renderDiffTable();
+        assert.equal(drafts.length, 0);
+        assert.isTrue(diffCommentsModifiedStub.called);
       });
 
-      test('large render w/ whole file and bypass', done => {
-        element.prefs = {context: -1};
-        element._safetyBypass = 10;
-        sandbox.stub(element, '_diffLength', () => 10000);
-        element.addEventListener('render', () => {
-          assert.isTrue(renderStub.called);
-          assert.isFalse(element._showWarning);
-          done();
+      test('saving a draft', () => {
+        const draftID = 'tempID';
+        const id = 'savedID';
+        const comment = {
+          __draft: true,
+          __draftID: draftID,
+          side: 'PARENT',
+          __commentSide: 'left',
+        };
+        const diffCommentsModifiedStub = sandbox.stub();
+        element.addEventListener('diff-comments-modified',
+            diffCommentsModifiedStub);
+        element.comments.left.push(comment);
+        comment.id = id;
+        element.fire('comment-save', {comment});
+        const drafts = element.comments.left.filter(item => {
+          return item.__draftID === draftID;
         });
-        element._renderDiffTable();
-      });
-
-      test('large render w/ whole file and no bypass', done => {
-        element.prefs = {context: -1};
-        sandbox.stub(element, '_diffLength', () => 10000);
-        element.addEventListener('render', () => {
-          assert.isFalse(renderStub.called);
-          assert.isTrue(element._showWarning);
-          done();
-        });
-        element._renderDiffTable();
-      });
-    });
-
-    suite('blame', () => {
-      setup(() => {
-        element = fixture('basic');
-      });
-
-      test('unsetting', () => {
-        element.blame = [];
-        const setBlameSpy = sandbox.spy(element.$.diffBuilder, 'setBlame');
-        element.classList.add('showBlame');
-        element.blame = null;
-        assert.isTrue(setBlameSpy.calledWithExactly(null));
-        assert.isFalse(element.classList.contains('showBlame'));
-      });
-
-      test('setting', () => {
-        const mockBlame = [{id: 'commit id', ranges: [{start: 1, end: 2}]}];
-        element.blame = mockBlame;
-        assert.isTrue(element.classList.contains('showBlame'));
-      });
-    });
-
-    suite('trailing newlines', () => {
-      setup(() => {
-        element = fixture('basic');
-      });
-
-      suite('_lastChunkForSide', () => {
-        test('deltas', () => {
-          const diff = {content: [
-            {a: ['foo', 'bar'], b: ['baz']},
-            {ab: ['foo', 'bar', 'baz']},
-            {b: ['foo']},
-          ]};
-          assert.equal(element._lastChunkForSide(diff, false), diff.content[2]);
-          assert.equal(element._lastChunkForSide(diff, true), diff.content[1]);
-
-          diff.content.push({a: ['foo'], b: ['bar']});
-          assert.equal(element._lastChunkForSide(diff, false), diff.content[3]);
-          assert.equal(element._lastChunkForSide(diff, true), diff.content[3]);
-        });
-
-        test('addition', () => {
-          const diff = {content: [
-            {b: ['foo', 'bar', 'baz']},
-          ]};
-          assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
-          assert.isNull(element._lastChunkForSide(diff, true));
-        });
-
-        test('deletion', () => {
-          const diff = {content: [
-            {a: ['foo', 'bar', 'baz']},
-          ]};
-          assert.isNull(element._lastChunkForSide(diff, false));
-          assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
-        });
-
-        test('empty', () => {
-          const diff = {content: []};
-          assert.isNull(element._lastChunkForSide(diff, false));
-          assert.isNull(element._lastChunkForSide(diff, true));
-        });
-      });
-
-      suite('_hasTrailingNewlines', () => {
-        test('shared no trailing', () => {
-          const diff = undefined;
-          sandbox.stub(element, '_lastChunkForSide')
-              .returns({ab: ['foo', 'bar']});
-          assert.isFalse(element._hasTrailingNewlines(diff, false));
-          assert.isFalse(element._hasTrailingNewlines(diff, true));
-        });
-
-        test('delta trailing in right', () => {
-          const diff = undefined;
-          sandbox.stub(element, '_lastChunkForSide')
-              .returns({a: ['foo', 'bar'], b: ['baz', '']});
-          assert.isTrue(element._hasTrailingNewlines(diff, false));
-          assert.isFalse(element._hasTrailingNewlines(diff, true));
-        });
-
-        test('addition', () => {
-          const diff = undefined;
-          sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
-            if (leftSide) { return null; }
-            return {b: ['foo', '']};
-          });
-          assert.isTrue(element._hasTrailingNewlines(diff, false));
-          assert.isNull(element._hasTrailingNewlines(diff, true));
-        });
-
-        test('deletion', () => {
-          const diff = undefined;
-          sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
-            if (!leftSide) { return null; }
-            return {a: ['foo']};
-          });
-          assert.isNull(element._hasTrailingNewlines(diff, false));
-          assert.isFalse(element._hasTrailingNewlines(diff, true));
-        });
-      });
-
-      test('_computeNewlineWarning', () => {
-        const NO_NEWLINE_BASE = 'No newline at end of base file.';
-        const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
-
-        let hasLeft;
-        let hasRight;
-        sandbox.stub(element, '_hasTrailingNewlines', (diff, left) => {
-          if (left) { return hasLeft; }
-          return hasRight;
-        });
-        const diff = undefined;
-
-        // The revision has a trailing newline, but the base doesn't.
-        hasLeft = true;
-        hasRight = false;
-        assert.equal(element._computeNewlineWarning(diff), NO_NEWLINE_REVISION);
-
-        // Trailing newlines were undetermined in the revision.
-        hasLeft = true;
-        hasRight = null;
-        assert.isNull(element._computeNewlineWarning(diff));
-
-        // Missing trailing newlines in the base.
-        hasLeft = false;
-        hasRight = null;
-        assert.equal(element._computeNewlineWarning(diff), NO_NEWLINE_BASE);
-
-        // Missing trailing newlines in both.
-        hasLeft = false;
-        hasRight = false;
-        assert.equal(element._computeNewlineWarning(diff),
-            NO_NEWLINE_BASE + ' — ' + NO_NEWLINE_REVISION);
-      });
-
-      test('_computeNewlineWarningClass', () => {
-        const hidden = 'newlineWarning hidden';
-        const shown = 'newlineWarning';
-        assert.equal(element._computeNewlineWarningClass(null, true), hidden);
-        assert.equal(element._computeNewlineWarningClass('foo', true), hidden);
-        assert.equal(element._computeNewlineWarningClass(null, false), hidden);
-        assert.equal(element._computeNewlineWarningClass('foo', false), shown);
+        assert.equal(drafts.length, 1);
+        assert.equal(drafts[0].id, id);
+        assert.isTrue(diffCommentsModifiedStub.called);
       });
     });
   });
 
-  a11ySuite('basic');
+  suite('diff header', () => {
+    setup(() => {
+      element = fixture('basic');
+      element.diff = {
+        meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+        meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
+          lines: 560},
+        diff_header: [],
+        intraline_status: 'OK',
+        change_type: 'MODIFIED',
+        content: [{skip: 66}],
+      };
+    });
+
+    test('hidden', () => {
+      assert.equal(element._diffHeaderItems.length, 0);
+      element.push('diff.diff_header', 'diff --git a/test.jpg b/test.jpg');
+      assert.equal(element._diffHeaderItems.length, 0);
+      element.push('diff.diff_header', 'index 2adc47d..f9c2f2c 100644');
+      assert.equal(element._diffHeaderItems.length, 0);
+      element.push('diff.diff_header', '--- a/test.jpg');
+      assert.equal(element._diffHeaderItems.length, 0);
+      element.push('diff.diff_header', '+++ b/test.jpg');
+      assert.equal(element._diffHeaderItems.length, 0);
+      element.push('diff.diff_header', 'test');
+      assert.equal(element._diffHeaderItems.length, 1);
+      flushAsynchronousOperations();
+
+      assert.equal(element.$.diffHeader.textContent.trim(), 'test');
+    });
+
+    test('binary files', () => {
+      element.diff.binary = true;
+      assert.equal(element._diffHeaderItems.length, 0);
+      element.push('diff.diff_header', 'diff --git a/test.jpg b/test.jpg');
+      assert.equal(element._diffHeaderItems.length, 0);
+      element.push('diff.diff_header', 'test');
+      assert.equal(element._diffHeaderItems.length, 1);
+      element.push('diff.diff_header', 'Binary files differ');
+      assert.equal(element._diffHeaderItems.length, 1);
+    });
+  });
+
+  suite('safety and bypass', () => {
+    let renderStub;
+
+    setup(() => {
+      element = fixture('basic');
+      renderStub = sandbox.stub(element.$.diffBuilder, 'render',
+          () => {
+            Promise.resolve();
+            element.$.diffBuilder.dispatchEvent(
+                new CustomEvent('render', {bubbles: true}));
+          });
+      const mock = document.createElement('mock-diff-response');
+      element.diff = mock.diffResponse;
+      element.comments = {left: [], right: []};
+      element.noRenderOnPrefsChange = true;
+    });
+
+    test('large render w/ context = 10', done => {
+      element.prefs = {context: 10};
+      sandbox.stub(element, '_diffLength', () => 10000);
+      element.addEventListener('render', () => {
+        assert.isTrue(renderStub.called);
+        assert.isFalse(element._showWarning);
+        done();
+      });
+      element._renderDiffTable();
+    });
+
+    test('large render w/ whole file and bypass', done => {
+      element.prefs = {context: -1};
+      element._safetyBypass = 10;
+      sandbox.stub(element, '_diffLength', () => 10000);
+      element.addEventListener('render', () => {
+        assert.isTrue(renderStub.called);
+        assert.isFalse(element._showWarning);
+        done();
+      });
+      element._renderDiffTable();
+    });
+
+    test('large render w/ whole file and no bypass', done => {
+      element.prefs = {context: -1};
+      sandbox.stub(element, '_diffLength', () => 10000);
+      element.addEventListener('render', () => {
+        assert.isFalse(renderStub.called);
+        assert.isTrue(element._showWarning);
+        done();
+      });
+      element._renderDiffTable();
+    });
+  });
+
+  suite('blame', () => {
+    setup(() => {
+      element = fixture('basic');
+    });
+
+    test('unsetting', () => {
+      element.blame = [];
+      const setBlameSpy = sandbox.spy(element.$.diffBuilder, 'setBlame');
+      element.classList.add('showBlame');
+      element.blame = null;
+      assert.isTrue(setBlameSpy.calledWithExactly(null));
+      assert.isFalse(element.classList.contains('showBlame'));
+    });
+
+    test('setting', () => {
+      const mockBlame = [{id: 'commit id', ranges: [{start: 1, end: 2}]}];
+      element.blame = mockBlame;
+      assert.isTrue(element.classList.contains('showBlame'));
+    });
+  });
+
+  suite('trailing newlines', () => {
+    setup(() => {
+      element = fixture('basic');
+    });
+
+    suite('_lastChunkForSide', () => {
+      test('deltas', () => {
+        const diff = {content: [
+          {a: ['foo', 'bar'], b: ['baz']},
+          {ab: ['foo', 'bar', 'baz']},
+          {b: ['foo']},
+        ]};
+        assert.equal(element._lastChunkForSide(diff, false), diff.content[2]);
+        assert.equal(element._lastChunkForSide(diff, true), diff.content[1]);
+
+        diff.content.push({a: ['foo'], b: ['bar']});
+        assert.equal(element._lastChunkForSide(diff, false), diff.content[3]);
+        assert.equal(element._lastChunkForSide(diff, true), diff.content[3]);
+      });
+
+      test('addition', () => {
+        const diff = {content: [
+          {b: ['foo', 'bar', 'baz']},
+        ]};
+        assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
+        assert.isNull(element._lastChunkForSide(diff, true));
+      });
+
+      test('deletion', () => {
+        const diff = {content: [
+          {a: ['foo', 'bar', 'baz']},
+        ]};
+        assert.isNull(element._lastChunkForSide(diff, false));
+        assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
+      });
+
+      test('empty', () => {
+        const diff = {content: []};
+        assert.isNull(element._lastChunkForSide(diff, false));
+        assert.isNull(element._lastChunkForSide(diff, true));
+      });
+    });
+
+    suite('_hasTrailingNewlines', () => {
+      test('shared no trailing', () => {
+        const diff = undefined;
+        sandbox.stub(element, '_lastChunkForSide')
+            .returns({ab: ['foo', 'bar']});
+        assert.isFalse(element._hasTrailingNewlines(diff, false));
+        assert.isFalse(element._hasTrailingNewlines(diff, true));
+      });
+
+      test('delta trailing in right', () => {
+        const diff = undefined;
+        sandbox.stub(element, '_lastChunkForSide')
+            .returns({a: ['foo', 'bar'], b: ['baz', '']});
+        assert.isTrue(element._hasTrailingNewlines(diff, false));
+        assert.isFalse(element._hasTrailingNewlines(diff, true));
+      });
+
+      test('addition', () => {
+        const diff = undefined;
+        sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
+          if (leftSide) { return null; }
+          return {b: ['foo', '']};
+        });
+        assert.isTrue(element._hasTrailingNewlines(diff, false));
+        assert.isNull(element._hasTrailingNewlines(diff, true));
+      });
+
+      test('deletion', () => {
+        const diff = undefined;
+        sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
+          if (!leftSide) { return null; }
+          return {a: ['foo']};
+        });
+        assert.isNull(element._hasTrailingNewlines(diff, false));
+        assert.isFalse(element._hasTrailingNewlines(diff, true));
+      });
+    });
+
+    test('_computeNewlineWarning', () => {
+      const NO_NEWLINE_BASE = 'No newline at end of base file.';
+      const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
+
+      let hasLeft;
+      let hasRight;
+      sandbox.stub(element, '_hasTrailingNewlines', (diff, left) => {
+        if (left) { return hasLeft; }
+        return hasRight;
+      });
+      const diff = undefined;
+
+      // The revision has a trailing newline, but the base doesn't.
+      hasLeft = true;
+      hasRight = false;
+      assert.equal(element._computeNewlineWarning(diff), NO_NEWLINE_REVISION);
+
+      // Trailing newlines were undetermined in the revision.
+      hasLeft = true;
+      hasRight = null;
+      assert.isNull(element._computeNewlineWarning(diff));
+
+      // Missing trailing newlines in the base.
+      hasLeft = false;
+      hasRight = null;
+      assert.equal(element._computeNewlineWarning(diff), NO_NEWLINE_BASE);
+
+      // Missing trailing newlines in both.
+      hasLeft = false;
+      hasRight = false;
+      assert.equal(element._computeNewlineWarning(diff),
+          NO_NEWLINE_BASE + ' — ' + NO_NEWLINE_REVISION);
+    });
+
+    test('_computeNewlineWarningClass', () => {
+      const hidden = 'newlineWarning hidden';
+      const shown = 'newlineWarning';
+      assert.equal(element._computeNewlineWarningClass(null, true), hidden);
+      assert.equal(element._computeNewlineWarningClass('foo', true), hidden);
+      assert.equal(element._computeNewlineWarningClass(null, false), hidden);
+      assert.equal(element._computeNewlineWarningClass('foo', false), shown);
+    });
+  });
+});
+
+a11ySuite('basic');
 </script>

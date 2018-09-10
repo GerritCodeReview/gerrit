@@ -1,285 +1,308 @@
 /**
- * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2015 The Android Open Source Project
 
-  // Possible static search options for auto complete, without negations.
-  const SEARCH_OPERATORS = [
-    'added:',
-    'age:',
-    'age:1week', // Give an example age
-    'assignee:',
-    'author:',
-    'branch:',
-    'bug:',
-    'cc:',
-    'cc:self',
-    'change:',
-    'comment:',
-    'commentby:',
-    'commit:',
-    'committer:',
-    'conflicts:',
-    'deleted:',
-    'delta:',
-    'file:',
-    'from:',
-    'has:',
-    'has:draft',
-    'has:edit',
-    'has:star',
-    'has:stars',
-    'has:unresolved',
-    'hashtag:',
-    'intopic:',
-    'is:',
-    'is:abandoned',
-    'is:assigned',
-    'is:closed',
-    'is:ignored',
-    'is:mergeable',
-    'is:merged',
-    'is:open',
-    'is:owner',
-    'is:pending',
-    'is:private',
-    'is:reviewed',
-    'is:reviewer',
-    'is:starred',
-    'is:watched',
-    'is:wip',
-    'label:',
-    'message:',
-    'owner:',
-    'ownerin:',
-    'parentproject:',
-    'project:',
-    'projects:',
-    'query:',
-    'ref:',
-    'reviewedby:',
-    'reviewer:',
-    'reviewer:self',
-    'reviewerin:',
-    'size:',
-    'star:',
-    'status:',
-    'status:abandoned',
-    'status:closed',
-    'status:merged',
-    'status:open',
-    'status:pending',
-    'status:reviewed',
-    'topic:',
-    'tr:',
-  ];
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-  // All of the ops, with corresponding negations.
-  const SEARCH_OPERATORS_WITH_NEGATIONS =
-      SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`));
+http://www.apache.org/licenses/LICENSE-2.0
 
-  const MAX_AUTOCOMPLETE_RESULTS = 10;
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
-  const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
+import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import '../../../../@polymer/polymer/polymer-legacy.js';
+import '../../shared/gr-autocomplete/gr-autocomplete.js';
+import '../../../styles/shared-styles.js';
 
-  Polymer({
-    is: 'gr-search-bar',
+// Possible static search options for auto complete, without negations.
+const SEARCH_OPERATORS = [
+  'added:',
+  'age:',
+  'age:1week', // Give an example age
+  'assignee:',
+  'author:',
+  'branch:',
+  'bug:',
+  'cc:',
+  'cc:self',
+  'change:',
+  'comment:',
+  'commentby:',
+  'commit:',
+  'committer:',
+  'conflicts:',
+  'deleted:',
+  'delta:',
+  'file:',
+  'from:',
+  'has:',
+  'has:draft',
+  'has:edit',
+  'has:star',
+  'has:stars',
+  'has:unresolved',
+  'hashtag:',
+  'intopic:',
+  'is:',
+  'is:abandoned',
+  'is:assigned',
+  'is:closed',
+  'is:ignored',
+  'is:mergeable',
+  'is:merged',
+  'is:open',
+  'is:owner',
+  'is:pending',
+  'is:private',
+  'is:reviewed',
+  'is:reviewer',
+  'is:starred',
+  'is:watched',
+  'is:wip',
+  'label:',
+  'message:',
+  'owner:',
+  'ownerin:',
+  'parentproject:',
+  'project:',
+  'projects:',
+  'query:',
+  'ref:',
+  'reviewedby:',
+  'reviewer:',
+  'reviewer:self',
+  'reviewerin:',
+  'size:',
+  'star:',
+  'status:',
+  'status:abandoned',
+  'status:closed',
+  'status:merged',
+  'status:open',
+  'status:pending',
+  'status:reviewed',
+  'topic:',
+  'tr:',
+];
 
-    /**
-     * Fired when a search is committed
-     *
-     * @event handle-search
-     */
+// All of the ops, with corresponding negations.
+const SEARCH_OPERATORS_WITH_NEGATIONS =
+    SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`));
 
-    behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
+const MAX_AUTOCOMPLETE_RESULTS = 10;
 
-    keyBindings: {
-      '/': '_handleForwardSlashKey',
-    },
+const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
 
-    properties: {
-      value: {
-        type: String,
-        value: '',
-        notify: true,
-        observer: '_valueChanged',
-      },
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      query: {
-        type: Function,
-        value() {
-          return this._getSearchSuggestions.bind(this);
-        },
-      },
-      projectSuggestions: {
-        type: Function,
-        value() {
-          return () => Promise.resolve([]);
-        },
-      },
-      groupSuggestions: {
-        type: Function,
-        value() {
-          return () => Promise.resolve([]);
-        },
-      },
-      accountSuggestions: {
-        type: Function,
-        value() {
-          return () => Promise.resolve([]);
-        },
-      },
-      _inputVal: String,
-      _threshold: {
-        type: Number,
-        value: 1,
-      },
-    },
-
-    _valueChanged(value) {
-      this._inputVal = value;
-    },
-
-    _handleInputCommit(e) {
-      this._preventDefaultAndNavigateToInputVal(e);
-    },
-
-    /**
-     * This function is called in a few different cases:
-     *   - e.target is the search button
-     *   - e.target is the gr-autocomplete widget (#searchInput)
-     *   - e.target is the input element wrapped within #searchInput
-     *
-     * @param {!Event} e
-     */
-    _preventDefaultAndNavigateToInputVal(e) {
-      e.preventDefault();
-      const target = Polymer.dom(e).rootTarget;
-      // If the target is the #searchInput or has a sub-input component, that
-      // is what holds the focus as opposed to the target from the DOM event.
-      if (target.$.input) {
-        target.$.input.blur();
-      } else {
-        target.blur();
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles">
+      form {
+        display: flex;
       }
-      if (this._inputVal) {
-        this.dispatchEvent(new CustomEvent('handle-search', {
-          detail: {inputVal: this._inputVal},
-        }));
+      gr-autocomplete {
+        background-color: var(--view-background-color);
+        border: 1px solid var(--border-color);
+        border-radius: 2px;
+        flex: 1;
+        font: inherit;
+        outline: none;
+        padding: .25em;
       }
+    </style>
+    <form>
+      <gr-autocomplete show-search-icon="" id="searchInput" text="{{_inputVal}}" query="[[query]]" on-commit="_handleInputCommit" allow-non-suggested-values="" multi="" borderless="" threshold="[[_threshold]]" tab-complete="" vertical-offset="30"></gr-autocomplete>
+    </form>
+`,
+
+  is: 'gr-search-bar',
+
+  /**
+   * Fired when a search is committed
+   *
+   * @event handle-search
+   */
+
+  behaviors: [
+    Gerrit.KeyboardShortcutBehavior,
+    Gerrit.URLEncodingBehavior,
+  ],
+
+  keyBindings: {
+    '/': '_handleForwardSlashKey',
+  },
+
+  properties: {
+    value: {
+      type: String,
+      value: '',
+      notify: true,
+      observer: '_valueChanged',
     },
-
-    /**
-     * Determine what array of possible suggestions should be provided
-     *     to _getSearchSuggestions.
-     * @param {string} input - The full search term, in lowercase.
-     * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
-     */
-    _fetchSuggestions(input) {
-      // Split the input on colon to get a two part predicate/expression.
-      const splitInput = input.split(':');
-      const predicate = splitInput[0];
-      const expression = splitInput[1] || '';
-      // Switch on the predicate to determine what to autocomplete.
-      switch (predicate) {
-        case 'ownerin':
-        case 'reviewerin':
-          // Fetch groups.
-          return this.groupSuggestions(predicate, expression);
-
-        case 'parentproject':
-        case 'project':
-          // Fetch projects.
-          return this.projectSuggestions(predicate, expression);
-
-        case 'author':
-        case 'cc':
-        case 'commentby':
-        case 'committer':
-        case 'from':
-        case 'owner':
-        case 'reviewedby':
-        case 'reviewer':
-          // Fetch accounts.
-          return this.accountSuggestions(predicate, expression);
-
-        default:
-          return Promise.resolve(SEARCH_OPERATORS_WITH_NEGATIONS
-              .filter(operator => operator.includes(input)));
-      }
+    keyEventTarget: {
+      type: Object,
+      value() { return document.body; },
     },
-
-    /**
-     * Get the sorted, pruned list of suggestions for the current search query.
-     * @param {string} input - The complete search query.
-     * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
-     */
-    _getSearchSuggestions(input) {
-      // Allow spaces within quoted terms.
-      const tokens = input.match(TOKENIZE_REGEX);
-      const trimmedInput = tokens[tokens.length - 1].toLowerCase();
-
-      return this._fetchSuggestions(trimmedInput)
-          .then(operators => {
-            if (!operators || !operators.length) { return []; }
-            return operators
-                // Prioritize results that start with the input.
-                .sort((a, b) => {
-                  const aContains = a.toLowerCase().indexOf(trimmedInput);
-                  const bContains = b.toLowerCase().indexOf(trimmedInput);
-                  if (aContains === bContains) {
-                    return a.localeCompare(b);
-                  }
-                  if (aContains === -1) {
-                    return 1;
-                  }
-                  if (bContains === -1) {
-                    return -1;
-                  }
-                  return aContains - bContains;
-                })
-                // Return only the first {MAX_AUTOCOMPLETE_RESULTS} results.
-                .slice(0, MAX_AUTOCOMPLETE_RESULTS - 1)
-                // Map to an object to play nice with gr-autocomplete.
-                .map(operator => {
-                  return {
-                    name: operator,
-                    value: operator,
-                  };
-                });
-          });
+    query: {
+      type: Function,
+      value() {
+        return this._getSearchSuggestions.bind(this);
+      },
     },
-
-    _handleForwardSlashKey(e) {
-      const keyboardEvent = this.getKeyboardEvent(e);
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          (this.modifierPressed(e) && !keyboardEvent.shiftKey)) { return; }
-
-      e.preventDefault();
-      this.$.searchInput.focus();
-      this.$.searchInput.selectAll();
+    projectSuggestions: {
+      type: Function,
+      value() {
+        return () => Promise.resolve([]);
+      },
     },
-  });
-})();
+    groupSuggestions: {
+      type: Function,
+      value() {
+        return () => Promise.resolve([]);
+      },
+    },
+    accountSuggestions: {
+      type: Function,
+      value() {
+        return () => Promise.resolve([]);
+      },
+    },
+    _inputVal: String,
+    _threshold: {
+      type: Number,
+      value: 1,
+    },
+  },
+
+  _valueChanged(value) {
+    this._inputVal = value;
+  },
+
+  _handleInputCommit(e) {
+    this._preventDefaultAndNavigateToInputVal(e);
+  },
+
+  /**
+   * This function is called in a few different cases:
+   *   - e.target is the search button
+   *   - e.target is the gr-autocomplete widget (#searchInput)
+   *   - e.target is the input element wrapped within #searchInput
+   *
+   * @param {!Event} e
+   */
+  _preventDefaultAndNavigateToInputVal(e) {
+    e.preventDefault();
+    const target = Polymer.dom(e).rootTarget;
+    // If the target is the #searchInput or has a sub-input component, that
+    // is what holds the focus as opposed to the target from the DOM event.
+    if (target.$.input) {
+      target.$.input.blur();
+    } else {
+      target.blur();
+    }
+    if (this._inputVal) {
+      this.dispatchEvent(new CustomEvent('handle-search', {
+        detail: {inputVal: this._inputVal},
+      }));
+    }
+  },
+
+  /**
+   * Determine what array of possible suggestions should be provided
+   *     to _getSearchSuggestions.
+   * @param {string} input - The full search term, in lowercase.
+   * @return {!Promise} This returns a promise that resolves to an array of
+   *     strings.
+   */
+  _fetchSuggestions(input) {
+    // Split the input on colon to get a two part predicate/expression.
+    const splitInput = input.split(':');
+    const predicate = splitInput[0];
+    const expression = splitInput[1] || '';
+    // Switch on the predicate to determine what to autocomplete.
+    switch (predicate) {
+      case 'ownerin':
+      case 'reviewerin':
+        // Fetch groups.
+        return this.groupSuggestions(predicate, expression);
+
+      case 'parentproject':
+      case 'project':
+        // Fetch projects.
+        return this.projectSuggestions(predicate, expression);
+
+      case 'author':
+      case 'cc':
+      case 'commentby':
+      case 'committer':
+      case 'from':
+      case 'owner':
+      case 'reviewedby':
+      case 'reviewer':
+        // Fetch accounts.
+        return this.accountSuggestions(predicate, expression);
+
+      default:
+        return Promise.resolve(SEARCH_OPERATORS_WITH_NEGATIONS
+            .filter(operator => operator.includes(input)));
+    }
+  },
+
+  /**
+   * Get the sorted, pruned list of suggestions for the current search query.
+   * @param {string} input - The complete search query.
+   * @return {!Promise} This returns a promise that resolves to an array of
+   *     strings.
+   */
+  _getSearchSuggestions(input) {
+    // Allow spaces within quoted terms.
+    const tokens = input.match(TOKENIZE_REGEX);
+    const trimmedInput = tokens[tokens.length - 1].toLowerCase();
+
+    return this._fetchSuggestions(trimmedInput)
+        .then(operators => {
+          if (!operators || !operators.length) { return []; }
+          return operators
+              // Prioritize results that start with the input.
+              .sort((a, b) => {
+                const aContains = a.toLowerCase().indexOf(trimmedInput);
+                const bContains = b.toLowerCase().indexOf(trimmedInput);
+                if (aContains === bContains) {
+                  return a.localeCompare(b);
+                }
+                if (aContains === -1) {
+                  return 1;
+                }
+                if (bContains === -1) {
+                  return -1;
+                }
+                return aContains - bContains;
+              })
+              // Return only the first {MAX_AUTOCOMPLETE_RESULTS} results.
+              .slice(0, MAX_AUTOCOMPLETE_RESULTS - 1)
+              // Map to an object to play nice with gr-autocomplete.
+              .map(operator => {
+                return {
+                  name: operator,
+                  value: operator,
+                };
+              });
+        });
+  },
+
+  _handleForwardSlashKey(e) {
+    const keyboardEvent = this.getKeyboardEvent(e);
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        (this.modifierPressed(e) && !keyboardEvent.shiftKey)) { return; }
+
+    e.preventDefault();
+    this.$.searchInput.focus();
+    this.$.searchInput.selectAll();
+  }
+});

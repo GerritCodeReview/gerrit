@@ -19,15 +19,20 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-change-view</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="../../../bower_components/page/page.js"></script>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script src="../../../../page/page.js"></script>
 
-<link rel="import" href="../../edit/gr-edit-constants.html">
-<link rel="import" href="gr-change-view.html">
+<script type="module" src="../../edit/gr-edit-constants.js"></script>
+<script type="module" src="./gr-change-view.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import '../../edit/gr-edit-constants.js';
+import './gr-change-view.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -41,1719 +46,1722 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-change-view tests', () => {
-    let element;
-    let sandbox;
-    let navigateToChangeStub;
-    const TEST_SCROLL_TOP_PX = 100;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import '../../edit/gr-edit-constants.js';
+import './gr-change-view.js';
+suite('gr-change-view tests', () => {
+  let element;
+  let sandbox;
+  let navigateToChangeStub;
+  const TEST_SCROLL_TOP_PX = 100;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-endpoint-decorator', {
-        _import: sandbox.stub().returns(Promise.resolve()),
-      });
-      // Since _endpoints are global, must reset state.
-      Gerrit._endpoints = new GrPluginEndpoints();
-      navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({test: 'config'}); },
-        getAccount() { return Promise.resolve(null); },
-        getDiffComments() { return Promise.resolve({}); },
-        getDiffRobotComments() { return Promise.resolve({}); },
-        getDiffDrafts() { return Promise.resolve({}); },
-        _fetchSharedCacheURL() { return Promise.resolve({}); },
-      });
-      element = fixture('basic');
-      sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
-      Gerrit._setPluginsCount(0);
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-endpoint-decorator', {
+      _import: sandbox.stub().returns(Promise.resolve()),
+    });
+    // Since _endpoints are global, must reset state.
+    Gerrit._endpoints = new GrPluginEndpoints();
+    navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({test: 'config'}); },
+      getAccount() { return Promise.resolve(null); },
+      getDiffComments() { return Promise.resolve({}); },
+      getDiffRobotComments() { return Promise.resolve({}); },
+      getDiffDrafts() { return Promise.resolve({}); },
+      _fetchSharedCacheURL() { return Promise.resolve({}); },
+    });
+    element = fixture('basic');
+    sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
+    Gerrit._setPluginsCount(0);
+  });
+
+  teardown(done => {
+    flush(() => {
+      sandbox.restore();
+      done();
+    });
+  });
+
+  getCustomCssValue = cssParam => {
+    // TODO: Update to be compatible with 2.x when we upgrade from
+    // 1.x to 2.x.
+    return element.getComputedStyleValue(cssParam);
+  };
+
+  suite('keyboard shortcuts', () => {
+    test('S should toggle the CL star', () => {
+      const starStub = sandbox.stub(element.$.changeStar, 'toggleStar');
+      MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
+      assert(starStub.called);
     });
 
-    teardown(done => {
+    test('U should navigate to root if no backPage set', () => {
+      const relativeNavStub = sandbox.stub(Gerrit.Nav,
+          'navigateToRelativeUrl');
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      assert.isTrue(relativeNavStub.called);
+      assert.isTrue(relativeNavStub.lastCall.calledWithExactly(
+          Gerrit.Nav.getUrlForRoot()));
+    });
+
+    test('U should navigate to backPage if set', () => {
+      const relativeNavStub = sandbox.stub(Gerrit.Nav,
+          'navigateToRelativeUrl');
+      element.backPage = '/dashboard/self';
+      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      assert.isTrue(relativeNavStub.called);
+      assert.isTrue(relativeNavStub.lastCall.calledWithExactly(
+          '/dashboard/self'));
+    });
+
+    test('A fires an error event when not logged in', done => {
+      sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
+      const loggedInErrorSpy = sandbox.spy();
+      element.addEventListener('show-auth-required', loggedInErrorSpy);
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       flush(() => {
-        sandbox.restore();
+        assert.isFalse(element.$.replyOverlay.opened);
+        assert.isTrue(loggedInErrorSpy.called);
         done();
       });
     });
 
-    getCustomCssValue = cssParam => {
-      // TODO: Update to be compatible with 2.x when we upgrade from
-      // 1.x to 2.x.
-      return element.getComputedStyleValue(cssParam);
-    };
-
-    suite('keyboard shortcuts', () => {
-      test('S should toggle the CL star', () => {
-        const starStub = sandbox.stub(element.$.changeStar, 'toggleStar');
-        MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
-        assert(starStub.called);
-      });
-
-      test('U should navigate to root if no backPage set', () => {
-        const relativeNavStub = sandbox.stub(Gerrit.Nav,
-            'navigateToRelativeUrl');
-        MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-        assert.isTrue(relativeNavStub.called);
-        assert.isTrue(relativeNavStub.lastCall.calledWithExactly(
-            Gerrit.Nav.getUrlForRoot()));
-      });
-
-      test('U should navigate to backPage if set', () => {
-        const relativeNavStub = sandbox.stub(Gerrit.Nav,
-            'navigateToRelativeUrl');
-        element.backPage = '/dashboard/self';
-        MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-        assert.isTrue(relativeNavStub.called);
-        assert.isTrue(relativeNavStub.lastCall.calledWithExactly(
-            '/dashboard/self'));
-      });
-
-      test('A fires an error event when not logged in', done => {
-        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
-        const loggedInErrorSpy = sandbox.spy();
-        element.addEventListener('show-auth-required', loggedInErrorSpy);
-        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-        flush(() => {
-          assert.isFalse(element.$.replyOverlay.opened);
-          assert.isTrue(loggedInErrorSpy.called);
-          done();
-        });
-      });
-
-      test('shift A does not open reply overlay', done => {
-        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-        MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
-        flush(() => {
-          assert.isFalse(element.$.replyOverlay.opened);
-          done();
-        });
-      });
-
-      test('A toggles overlay when logged in', done => {
-        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-        sandbox.stub(element.$.replyDialog, 'fetchChangeUpdates')
-            .returns(Promise.resolve({isLatest: true}));
-        element._change = {labels: {}};
-        const openSpy = sandbox.spy(element, '_openReplyDialog');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-        flush(() => {
-          assert.isTrue(element.$.replyOverlay.opened);
-          element.$.replyOverlay.close();
-          assert.isFalse(element.$.replyOverlay.opened);
-          assert(openSpy.lastCall.calledWithExactly(
-              element.$.replyDialog.FocusTarget.ANY),
-              '_openReplyDialog should have been passed ANY');
-          assert.equal(openSpy.callCount, 1);
-          done();
-        });
-      });
-
-      test('fullscreen-overlay-opened hides content', () => {
-        element._loggedIn = true;
-        element._loading = false;
-        element._change = {
-          owner: {_account_id: 1},
-          labels: {},
-          actions: {
-            abandon: {
-              enabled: true,
-              label: 'Abandon',
-              method: 'POST',
-              title: 'Abandon',
-            },
-          },
-        };
-        sandbox.spy(element, '_handleHideBackgroundContent');
-        element.$.replyDialog.fire('fullscreen-overlay-opened');
-        assert.isTrue(element._handleHideBackgroundContent.called);
-        assert.isTrue(element.$.mainContent.classList.contains('overlayOpen'));
-        assert.equal(getComputedStyle(element.$.actions).display, 'flex');
-      });
-
-      test('fullscreen-overlay-closed shows content', () => {
-        element._loggedIn = true;
-        element._loading = false;
-        element._change = {
-          owner: {_account_id: 1},
-          labels: {},
-          actions: {
-            abandon: {
-              enabled: true,
-              label: 'Abandon',
-              method: 'POST',
-              title: 'Abandon',
-            },
-          },
-        };
-        sandbox.spy(element, '_handleShowBackgroundContent');
-        element.$.replyDialog.fire('fullscreen-overlay-closed');
-        assert.isTrue(element._handleShowBackgroundContent.called);
-        assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
-      });
-
-      test('expand all messages when expand-diffs fired', () => {
-        const handleExpand =
-            sandbox.stub(element.$.fileList, 'expandAllDiffs');
-        element.$.fileListHeader.fire('expand-diffs');
-        assert.isTrue(handleExpand.called);
-      });
-
-      test('collapse all messages when collapse-diffs fired', () => {
-        const handleCollapse =
-        sandbox.stub(element.$.fileList, 'collapseAllDiffs');
-        element.$.fileListHeader.fire('collapse-diffs');
-        assert.isTrue(handleCollapse.called);
-      });
-
-      test('X should expand all messages', done => {
-        flush(() => {
-          const handleExpand = sandbox.stub(element.messagesList,
-              'handleExpandCollapse');
-          MockInteractions.pressAndReleaseKeyOn(element, 88, null, 'x');
-          assert(handleExpand.calledWith(true));
-          done();
-        });
-      });
-
-      test('Z should collapse all messages', done => {
-        flush(() => {
-          const handleExpand = sandbox.stub(element.messagesList,
-              'handleExpandCollapse');
-          MockInteractions.pressAndReleaseKeyOn(element, 90, null, 'z');
-          assert(handleExpand.calledWith(false));
-          done();
-        });
-      });
-
-      test('shift + R should fetch and navigate to the latest patch set',
-          done => {
-            element._changeNum = '42';
-            element._patchRange = {
-              basePatchNum: 'PARENT',
-              patchNum: 1,
-            };
-            element._change = {
-              change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-              _number: 42,
-              revisions: {
-                rev1: {_number: 1, commit: {parents: []}},
-              },
-              current_revision: 'rev1',
-              status: 'NEW',
-              labels: {},
-              actions: {},
-            };
-
-            navigateToChangeStub.restore();
-            navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange',
-                (change, patchNum, basePatchNum) => {
-                  assert.equal(change, element._change);
-                  assert.isUndefined(patchNum);
-                  assert.isUndefined(basePatchNum);
-                  done();
-                });
-
-            MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
-          });
-
-      test('d should open download overlay', () => {
-        const stub = sandbox.stub(element.$.downloadOverlay, 'open');
-        MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
-        assert.isTrue(stub.called);
-      });
-
-      test(', should open diff preferences', () => {
-        const stub = sandbox.stub(element.$.fileList.$.diffPreferences, 'open');
-        MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
-        assert.isTrue(stub.called);
-      });
-
-      test('m should toggle diff mode', () => {
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        const setModeStub = sandbox.stub(element.$.fileListHeader,
-            'setDiffViewMode');
-        const e = {preventDefault: () => {}};
-        flushAsynchronousOperations();
-
-        element.viewState.diffMode = 'SIDE_BY_SIDE';
-        element._handleMKey(e);
-        assert.isTrue(setModeStub.calledWith('UNIFIED_DIFF'));
-
-        element.viewState.diffMode = 'UNIFIED_DIFF';
-        element._handleMKey(e);
-        assert.isTrue(setModeStub.calledWith('SIDE_BY_SIDE'));
-      });
-    });
-
-    suite('reloading drafts', () => {
-      let reloadStub;
-      const drafts = {
-        'testfile.txt': [
-          {
-            patch_set: 5,
-            id: 'dd2982f5_c01c9e6a',
-            line: 1,
-            updated: '2017-11-08 18:47:45.000000000',
-            message: 'test',
-            unresolved: true,
-          },
-        ],
-      };
-      setup(() => {
-        reloadStub = sandbox.stub(element.$.commentAPI, 'reloadDrafts')
-            .returns(Promise.resolve({drafts}));
-      });
-
-      test('drafts are reloaded when reload-drafts fired', done => {
-        element.$.fileList.fire('reload-drafts', {
-          resolve: () => {
-            assert.isTrue(reloadStub.called);
-            assert.deepEqual(element._diffDrafts, drafts);
-            done();
-          },
-        });
-      });
-
-      test('drafts are reloaded when comment-refresh fired', () => {
-        element.fire('comment-refresh');
-        assert.isTrue(reloadStub.called);
-      });
-    });
-
-    test('diff comments modified', () => {
-      sandbox.spy(element, '_handleReloadCommentThreads');
-      return element._reloadComments().then(() => {
-        element.fire('diff-comments-modified');
-        assert.isTrue(element._handleReloadCommentThreads.called);
-      });
-    });
-
-    test('thread list modified', () => {
-      sandbox.spy(element, '_handleReloadDiffComments');
-      element._showMessagesView = false;
-      flushAsynchronousOperations();
-
-      return element._reloadComments().then(() => {
-        element.threadList.fire('thread-list-modified');
-        assert.isTrue(element._handleReloadDiffComments.called);
-
-        let draftStub = sinon.stub(element._changeComments, 'computeDraftCount')
-            .returns(1);
-        assert.equal(element._computeTotalCommentCounts(5,
-            element._changeComments), '5 unresolved, 1 draft');
-        assert.equal(element._computeTotalCommentCounts(0,
-            element._changeComments), '1 draft');
-        draftStub.restore();
-        draftStub = sinon.stub(element._changeComments, 'computeDraftCount')
-            .returns(0);
-        assert.equal(element._computeTotalCommentCounts(0,
-            element._changeComments), '');
-        assert.equal(element._computeTotalCommentCounts(1,
-            element._changeComments), '1 unresolved');
-        draftStub.restore();
-        draftStub = sinon.stub(element._changeComments, 'computeDraftCount')
-            .returns(2);
-        assert.equal(element._computeTotalCommentCounts(1,
-            element._changeComments), '1 unresolved, 2 drafts');
-        draftStub.restore();
-      });
-    });
-
-    test('thread list and change log tabs', done => {
-      element._changeNum = '1';
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 1,
-      };
-      element._change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev2: {_number: 2, commit: {parents: []}},
-          rev1: {_number: 1, commit: {parents: []}},
-          rev13: {_number: 13, commit: {parents: []}},
-          rev3: {_number: 3, commit: {parents: []}},
-        },
-        current_revision: 'rev3',
-        status: 'NEW',
-        labels: {
-          test: {
-            all: [],
-            default_value: 0,
-            values: [],
-            approved: {},
-          },
-        },
-      };
-      sandbox.stub(element.$.relatedChanges, 'reload');
-      sandbox.stub(element, '_reload').returns(Promise.resolve());
-      sandbox.spy(element, '_paramsChanged');
-      element.params = {view: 'change', changeNum: '1'};
-
-      // When the change is hard reloaded, paramsChanged will not set the tab.
-      // It will be set in postLoadTasks, which requires the flush() to detect.
-      assert.isTrue(element._paramsChanged.called);
-      assert.isUndefined(element.$.commentTabs.selected);
-
-      // Wait for tab to get selected
+    test('shift A does not open reply overlay', done => {
+      sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
       flush(() => {
-        assert.equal(element.$.commentTabs.selected, 0);
-        assert.isTrue(element._showMessagesView);
-        // Switch to comment thread tab
-        MockInteractions.tap(element.$$('paper-tab.commentThreads'));
-        assert.equal(element.$.commentTabs.selected, 1);
-        assert.isFalse(element._showMessagesView);
-
-        // When the change is partially reloaded (ex: Shift+R), the content
-        // is swapped out before the tab, so messages list will display even
-        // though the tab for comment threads is still temporarily selected.
-        element._paramsChanged(element.params);
-        assert.equal(element.$.commentTabs.selected, 1);
-        assert.isTrue(element._showMessagesView);
+        assert.isFalse(element.$.replyOverlay.opened);
         done();
       });
     });
 
-    test('reply button is not visible when logged out', () => {
-      assert.equal(getComputedStyle(element.$.replyBtn).display, 'none');
+    test('A toggles overlay when logged in', done => {
+      sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      sandbox.stub(element.$.replyDialog, 'fetchChangeUpdates')
+          .returns(Promise.resolve({isLatest: true}));
+      element._change = {labels: {}};
+      const openSpy = sandbox.spy(element, '_openReplyDialog');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      flush(() => {
+        assert.isTrue(element.$.replyOverlay.opened);
+        element.$.replyOverlay.close();
+        assert.isFalse(element.$.replyOverlay.opened);
+        assert(openSpy.lastCall.calledWithExactly(
+            element.$.replyDialog.FocusTarget.ANY),
+            '_openReplyDialog should have been passed ANY');
+        assert.equal(openSpy.callCount, 1);
+        done();
+      });
+    });
+
+    test('fullscreen-overlay-opened hides content', () => {
       element._loggedIn = true;
-      assert.notEqual(getComputedStyle(element.$.replyBtn).display, 'none');
-    });
-
-    test('download tap calls _handleOpenDownloadDialog', () => {
-      sandbox.stub(element, '_handleOpenDownloadDialog');
-      element.$.actions.fire('download-tap');
-      assert.isTrue(element._handleOpenDownloadDialog.called);
-    });
-
-    test('fetches the server config on attached', done => {
-      flush(() => {
-        assert.equal(element._serverConfig.test, 'config');
-        done();
-      });
-    });
-
-    test('_changeStatuses', () => {
-      sandbox.stub(element, 'changeStatuses').returns(
-          ['Merged', 'WIP']);
       element._loading = false;
       element._change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev2: {_number: 2},
-          rev1: {_number: 1},
-          rev13: {_number: 13},
-          rev3: {_number: 3},
-        },
-        current_revision: 'rev3',
-        labels: {
-          test: {
-            all: [],
-            default_value: 0,
-            values: [],
-            approved: {},
-          },
-        },
-      };
-      element._mergeable = true;
-      expectedStatuses = ['Merged', 'WIP'];
-      assert.deepEqual(element._changeStatuses, expectedStatuses);
-      assert.equal(element._changeStatus, expectedStatuses.join(', '));
-      flushAsynchronousOperations();
-      const statusChips = Polymer.dom(element.root)
-          .querySelectorAll('gr-change-status');
-      assert.equal(statusChips.length, 2);
-    });
-
-    test('diff preferences open when open-diff-prefs is fired', () => {
-      const overlayOpenStub = sandbox.stub(element.$.fileList,
-          'openDiffPrefs');
-      element.$.fileListHeader.fire('open-diff-prefs');
-      assert.isTrue(overlayOpenStub.called);
-    });
-
-    test('_prepareCommitMsgForLinkify', () => {
-      let commitMessage = 'R=test@google.com';
-      let result = element._prepareCommitMsgForLinkify(commitMessage);
-      assert.equal(result, 'R=\u200Btest@google.com');
-
-      commitMessage = 'R=test@google.com\nR=test@google.com';
-      result = element._prepareCommitMsgForLinkify(commitMessage);
-      assert.equal(result, 'R=\u200Btest@google.com\nR=\u200Btest@google.com');
-
-      commitMessage = 'CC=test@google.com';
-      result = element._prepareCommitMsgForLinkify(commitMessage);
-      assert.equal(result, 'CC=\u200Btest@google.com');
-    }),
-
-    test('_updateRebaseAction', () => {
-      const currentRevisionActions = {
-        cherrypick: {
-          enabled: true,
-          label: 'Cherry Pick',
-          method: 'POST',
-          title: 'cherrypick',
-        },
-        rebase: {
-          enabled: true,
-          label: 'Rebase',
-          method: 'POST',
-          title: 'Rebase onto tip of branch or parent change',
-        },
-      };
-      element._parentIsCurrent = undefined;
-
-      // Rebase enabled should always end up true.
-      // When rebase is enabled initially, rebaseOnCurrent should be set to
-      // true.
-      assert.equal(element._updateRebaseAction(currentRevisionActions),
-          currentRevisionActions);
-
-      assert.isTrue(currentRevisionActions.rebase.enabled);
-      assert.isTrue(currentRevisionActions.rebase.rebaseOnCurrent);
-      assert.isFalse(element._parentIsCurrent);
-
-      delete currentRevisionActions.rebase.enabled;
-
-      // When rebase is not enabled initially, rebaseOnCurrent should be set to
-      // false.
-      assert.equal(element._updateRebaseAction(currentRevisionActions),
-          currentRevisionActions);
-
-      assert.isTrue(currentRevisionActions.rebase.enabled);
-      assert.isFalse(currentRevisionActions.rebase.rebaseOnCurrent);
-      assert.isTrue(element._parentIsCurrent);
-    });
-
-    test('_isSubmitEnabled', () => {
-      assert.isFalse(element._isSubmitEnabled({}));
-      assert.isFalse(element._isSubmitEnabled({actions: {}}));
-      assert.isFalse(element._isSubmitEnabled({actions: {submit: {}}}));
-      assert.isTrue(element._isSubmitEnabled(
-          {actions: {submit: {enabled: true}}}));
-    });
-
-    test('_updateRebaseAction sets _parentIsCurrent on no rebase', () => {
-      const currentRevisionActions = {
-        cherrypick: {
-          enabled: true,
-          label: 'Cherry Pick',
-          method: 'POST',
-          title: 'cherrypick',
-        },
-      };
-      element._parentIsCurrent = undefined;
-      element._updateRebaseAction(currentRevisionActions);
-      assert.isTrue(element._parentIsCurrent);
-    });
-
-    test('_reload is called when an approved label is removed', () => {
-      const vote = {_account_id: 1, name: 'bojack', value: 1};
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 1,
-      };
-      element._change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev2: {_number: 2, commit: {parents: []}},
-          rev1: {_number: 1, commit: {parents: []}},
-          rev13: {_number: 13, commit: {parents: []}},
-          rev3: {_number: 3, commit: {parents: []}},
-        },
-        current_revision: 'rev3',
-        status: 'NEW',
-        labels: {
-          test: {
-            all: [vote],
-            default_value: 0,
-            values: [],
-            approved: {},
-          },
-        },
-      };
-      flushAsynchronousOperations();
-      const reloadStub = sandbox.stub(element, '_reload');
-      element.splice('_change.labels.test.all', 0, 1);
-      assert.isFalse(reloadStub.called);
-      element._change.labels.test.all.push(vote);
-      element._change.labels.test.all.push(vote);
-      element._change.labels.test.approved = vote;
-      flushAsynchronousOperations();
-      element.splice('_change.labels.test.all', 0, 2);
-      assert.isTrue(reloadStub.called);
-      assert.isTrue(reloadStub.calledOnce);
-    });
-
-    test('reply button has updated count when there are drafts', () => {
-      const getLabel = element._computeReplyButtonLabel;
-
-      assert.equal(getLabel(null, false), 'Reply');
-      assert.equal(getLabel(null, true), 'Start review');
-
-      const changeRecord = {base: null};
-      assert.equal(getLabel(changeRecord, false), 'Reply');
-
-      changeRecord.base = {};
-      assert.equal(getLabel(changeRecord, false), 'Reply');
-
-      changeRecord.base = {
-        'file1.txt': [{}],
-        'file2.txt': [{}, {}],
-      };
-      assert.equal(getLabel(changeRecord, false), 'Reply (3)');
-    });
-
-    test('start review button when owner of WIP change', () => {
-      assert.equal(
-          element._computeReplyButtonLabel(null, true),
-          'Start review');
-    });
-
-    test('comment events properly update diff drafts', () => {
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
-      };
-      const draft = {
-        __draft: true,
-        id: 'id1',
-        path: '/foo/bar.txt',
-        text: 'hello',
-      };
-      element._handleCommentSave({target: {comment: draft}});
-      draft.patch_set = 2;
-      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
-      draft.patch_set = null;
-      draft.text = 'hello, there';
-      element._handleCommentSave({target: {comment: draft}});
-      draft.patch_set = 2;
-      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
-      const draft2 = {
-        __draft: true,
-        id: 'id2',
-        path: '/foo/bar.txt',
-        text: 'hola',
-      };
-      element._handleCommentSave({target: {comment: draft2}});
-      draft2.patch_set = 2;
-      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft, draft2]});
-      draft.patch_set = null;
-      element._handleCommentDiscard({target: {comment: draft}});
-      draft.patch_set = 2;
-      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft2]});
-      element._handleCommentDiscard({target: {comment: draft2}});
-      assert.deepEqual(element._diffDrafts, {});
-    });
-
-    test('change num change', () => {
-      element._changeNum = null;
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
-      };
-      element._change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {_account_id: 1},
         labels: {},
+        actions: {
+          abandon: {
+            enabled: true,
+            label: 'Abandon',
+            method: 'POST',
+            title: 'Abandon',
+          },
+        },
       };
-      element.viewState.changeNum = null;
-      element.viewState.diffMode = 'UNIFIED';
-      assert.equal(element.viewState.numFilesShown, 200);
-      assert.equal(element._numFilesShown, 200);
-      element._numFilesShown = 150;
-      flushAsynchronousOperations();
-      assert.equal(element.viewState.diffMode, 'UNIFIED');
-      assert.equal(element.viewState.numFilesShown, 150);
-
-      element._changeNum = '1';
-      element.params = {changeNum: '1'};
-      element._change.newProp = '1';
-      flushAsynchronousOperations();
-      assert.equal(element.viewState.diffMode, 'UNIFIED');
-      assert.equal(element.viewState.changeNum, '1');
-
-      element._changeNum = '2';
-      element.params = {changeNum: '2'};
-      element._change.newProp = '2';
-      flushAsynchronousOperations();
-      assert.equal(element.viewState.diffMode, 'UNIFIED');
-      assert.equal(element.viewState.changeNum, '2');
-      assert.equal(element.viewState.numFilesShown, 200);
-      assert.equal(element._numFilesShown, 200);
+      sandbox.spy(element, '_handleHideBackgroundContent');
+      element.$.replyDialog.fire('fullscreen-overlay-opened');
+      assert.isTrue(element._handleHideBackgroundContent.called);
+      assert.isTrue(element.$.mainContent.classList.contains('overlayOpen'));
+      assert.equal(getComputedStyle(element.$.actions).display, 'flex');
     });
 
-    test('_setDiffViewMode is called with reset when new change is loaded',
-        () => {
-          sandbox.stub(element, '_setDiffViewMode');
-          element.viewState = {changeNum: 1};
-          element._changeNum = 2;
-          element._resetFileListViewState();
-          assert.isTrue(
-              element._setDiffViewMode.lastCall.calledWithExactly(true));
-        });
-
-    test('diffViewMode is propagated from file list header', () => {
-      element.viewState = {diffMode: 'UNIFIED'};
-      element.$.fileListHeader.diffViewMode = 'SIDE_BY_SIDE';
-      assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
+    test('fullscreen-overlay-closed shows content', () => {
+      element._loggedIn = true;
+      element._loading = false;
+      element._change = {
+        owner: {_account_id: 1},
+        labels: {},
+        actions: {
+          abandon: {
+            enabled: true,
+            label: 'Abandon',
+            method: 'POST',
+            title: 'Abandon',
+          },
+        },
+      };
+      sandbox.spy(element, '_handleShowBackgroundContent');
+      element.$.replyDialog.fire('fullscreen-overlay-closed');
+      assert.isTrue(element._handleShowBackgroundContent.called);
+      assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
     });
 
-    test('diffMode defaults to side by side without preferences', done => {
-      sandbox.stub(element.$.restAPI, 'getPreferences').returns(
-          Promise.resolve({}));
-      // No user prefs or diff view mode set.
+    test('expand all messages when expand-diffs fired', () => {
+      const handleExpand =
+          sandbox.stub(element.$.fileList, 'expandAllDiffs');
+      element.$.fileListHeader.fire('expand-diffs');
+      assert.isTrue(handleExpand.called);
+    });
 
-      element._setDiffViewMode().then(() => {
-        assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
+    test('collapse all messages when collapse-diffs fired', () => {
+      const handleCollapse =
+      sandbox.stub(element.$.fileList, 'collapseAllDiffs');
+      element.$.fileListHeader.fire('collapse-diffs');
+      assert.isTrue(handleCollapse.called);
+    });
+
+    test('X should expand all messages', done => {
+      flush(() => {
+        const handleExpand = sandbox.stub(element.messagesList,
+            'handleExpandCollapse');
+        MockInteractions.pressAndReleaseKeyOn(element, 88, null, 'x');
+        assert(handleExpand.calledWith(true));
         done();
       });
     });
 
-    test('diffMode defaults to preference when not already set', done => {
-      sandbox.stub(element.$.restAPI, 'getPreferences').returns(
-          Promise.resolve({default_diff_view: 'UNIFIED'}));
-
-      element._setDiffViewMode().then(() => {
-        assert.equal(element.viewState.diffMode, 'UNIFIED');
+    test('Z should collapse all messages', done => {
+      flush(() => {
+        const handleExpand = sandbox.stub(element.messagesList,
+            'handleExpandCollapse');
+        MockInteractions.pressAndReleaseKeyOn(element, 90, null, 'z');
+        assert(handleExpand.calledWith(false));
         done();
       });
     });
 
-    test('existing diffMode overrides preference', done => {
-      element.viewState.diffMode = 'SIDE_BY_SIDE';
-      sandbox.stub(element.$.restAPI, 'getPreferences').returns(
-          Promise.resolve({default_diff_view: 'UNIFIED'}));
-      element._setDiffViewMode().then(() => {
-        assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
-        done();
-      });
-    });
-
-    test('don’t reload entire page when patchRange changes', () => {
-      const reloadStub = sandbox.stub(element, '_reload',
-          () => { return Promise.resolve(); });
-      const reloadPatchDependentStub = sandbox.stub(element,
-          '_reloadPatchNumDependentResources',
-          () => { return Promise.resolve(); });
-      const relatedClearSpy = sandbox.spy(element.$.relatedChanges, 'clear');
-      const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
-
-      const value = {
-        view: Gerrit.Nav.View.CHANGE,
-        patchNum: '1',
-      };
-      element._paramsChanged(value);
-      assert.isTrue(reloadStub.calledOnce);
-      assert.isTrue(relatedClearSpy.calledOnce);
-
-      element._initialLoadComplete = true;
-
-      value.basePatchNum = '1';
-      value.patchNum = '2';
-      element._paramsChanged(value);
-      assert.isFalse(reloadStub.calledTwice);
-      assert.isTrue(reloadPatchDependentStub.calledOnce);
-      assert.isTrue(relatedClearSpy.calledOnce);
-      assert.isTrue(collapseStub.calledTwice);
-    });
-
-    test('reload entire page when patchRange doesnt change', () => {
-      const reloadStub = sandbox.stub(element, '_reload',
-          () => { return Promise.resolve(); });
-      const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
-      const value = {
-        view: Gerrit.Nav.View.CHANGE,
-      };
-      element._paramsChanged(value);
-      assert.isTrue(reloadStub.calledOnce);
-      element._initialLoadComplete = true;
-      element._paramsChanged(value);
-      assert.isTrue(reloadStub.calledTwice);
-      assert.isTrue(collapseStub.calledTwice);
-    });
-
-    test('related changes are updated and new patch selected after rebase',
+    test('shift + R should fetch and navigate to the latest patch set',
         done => {
           element._changeNum = '42';
-          sandbox.stub(element, 'computeLatestPatchNum', () => {
-            return 1;
-          });
-          sandbox.stub(element, '_reload',
-              () => { return Promise.resolve(); });
-          const e = {detail: {action: 'rebase'}};
-          element._handleReloadChange(e).then(() => {
-            assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-                element._change));
+          element._patchRange = {
+            basePatchNum: 'PARENT',
+            patchNum: 1,
+          };
+          element._change = {
+            change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+            _number: 42,
+            revisions: {
+              rev1: {_number: 1, commit: {parents: []}},
+            },
+            current_revision: 'rev1',
+            status: 'NEW',
+            labels: {},
+            actions: {},
+          };
+
+          navigateToChangeStub.restore();
+          navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange',
+              (change, patchNum, basePatchNum) => {
+                assert.equal(change, element._change);
+                assert.isUndefined(patchNum);
+                assert.isUndefined(basePatchNum);
+                done();
+              });
+
+          MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
+        });
+
+    test('d should open download overlay', () => {
+      const stub = sandbox.stub(element.$.downloadOverlay, 'open');
+      MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
+      assert.isTrue(stub.called);
+    });
+
+    test(', should open diff preferences', () => {
+      const stub = sandbox.stub(element.$.fileList.$.diffPreferences, 'open');
+      MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
+      assert.isTrue(stub.called);
+    });
+
+    test('m should toggle diff mode', () => {
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      const setModeStub = sandbox.stub(element.$.fileListHeader,
+          'setDiffViewMode');
+      const e = {preventDefault: () => {}};
+      flushAsynchronousOperations();
+
+      element.viewState.diffMode = 'SIDE_BY_SIDE';
+      element._handleMKey(e);
+      assert.isTrue(setModeStub.calledWith('UNIFIED_DIFF'));
+
+      element.viewState.diffMode = 'UNIFIED_DIFF';
+      element._handleMKey(e);
+      assert.isTrue(setModeStub.calledWith('SIDE_BY_SIDE'));
+    });
+  });
+
+  suite('reloading drafts', () => {
+    let reloadStub;
+    const drafts = {
+      'testfile.txt': [
+        {
+          patch_set: 5,
+          id: 'dd2982f5_c01c9e6a',
+          line: 1,
+          updated: '2017-11-08 18:47:45.000000000',
+          message: 'test',
+          unresolved: true,
+        },
+      ],
+    };
+    setup(() => {
+      reloadStub = sandbox.stub(element.$.commentAPI, 'reloadDrafts')
+          .returns(Promise.resolve({drafts}));
+    });
+
+    test('drafts are reloaded when reload-drafts fired', done => {
+      element.$.fileList.fire('reload-drafts', {
+        resolve: () => {
+          assert.isTrue(reloadStub.called);
+          assert.deepEqual(element._diffDrafts, drafts);
+          done();
+        },
+      });
+    });
+
+    test('drafts are reloaded when comment-refresh fired', () => {
+      element.fire('comment-refresh');
+      assert.isTrue(reloadStub.called);
+    });
+  });
+
+  test('diff comments modified', () => {
+    sandbox.spy(element, '_handleReloadCommentThreads');
+    return element._reloadComments().then(() => {
+      element.fire('diff-comments-modified');
+      assert.isTrue(element._handleReloadCommentThreads.called);
+    });
+  });
+
+  test('thread list modified', () => {
+    sandbox.spy(element, '_handleReloadDiffComments');
+    element._showMessagesView = false;
+    flushAsynchronousOperations();
+
+    return element._reloadComments().then(() => {
+      element.threadList.fire('thread-list-modified');
+      assert.isTrue(element._handleReloadDiffComments.called);
+
+      let draftStub = sinon.stub(element._changeComments, 'computeDraftCount')
+          .returns(1);
+      assert.equal(element._computeTotalCommentCounts(5,
+          element._changeComments), '5 unresolved, 1 draft');
+      assert.equal(element._computeTotalCommentCounts(0,
+          element._changeComments), '1 draft');
+      draftStub.restore();
+      draftStub = sinon.stub(element._changeComments, 'computeDraftCount')
+          .returns(0);
+      assert.equal(element._computeTotalCommentCounts(0,
+          element._changeComments), '');
+      assert.equal(element._computeTotalCommentCounts(1,
+          element._changeComments), '1 unresolved');
+      draftStub.restore();
+      draftStub = sinon.stub(element._changeComments, 'computeDraftCount')
+          .returns(2);
+      assert.equal(element._computeTotalCommentCounts(1,
+          element._changeComments), '1 unresolved, 2 drafts');
+      draftStub.restore();
+    });
+  });
+
+  test('thread list and change log tabs', done => {
+    element._changeNum = '1';
+    element._patchRange = {
+      basePatchNum: 'PARENT',
+      patchNum: 1,
+    };
+    element._change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev2: {_number: 2, commit: {parents: []}},
+        rev1: {_number: 1, commit: {parents: []}},
+        rev13: {_number: 13, commit: {parents: []}},
+        rev3: {_number: 3, commit: {parents: []}},
+      },
+      current_revision: 'rev3',
+      status: 'NEW',
+      labels: {
+        test: {
+          all: [],
+          default_value: 0,
+          values: [],
+          approved: {},
+        },
+      },
+    };
+    sandbox.stub(element.$.relatedChanges, 'reload');
+    sandbox.stub(element, '_reload').returns(Promise.resolve());
+    sandbox.spy(element, '_paramsChanged');
+    element.params = {view: 'change', changeNum: '1'};
+
+    // When the change is hard reloaded, paramsChanged will not set the tab.
+    // It will be set in postLoadTasks, which requires the flush() to detect.
+    assert.isTrue(element._paramsChanged.called);
+    assert.isUndefined(element.$.commentTabs.selected);
+
+    // Wait for tab to get selected
+    flush(() => {
+      assert.equal(element.$.commentTabs.selected, 0);
+      assert.isTrue(element._showMessagesView);
+      // Switch to comment thread tab
+      MockInteractions.tap(element.$$('paper-tab.commentThreads'));
+      assert.equal(element.$.commentTabs.selected, 1);
+      assert.isFalse(element._showMessagesView);
+
+      // When the change is partially reloaded (ex: Shift+R), the content
+      // is swapped out before the tab, so messages list will display even
+      // though the tab for comment threads is still temporarily selected.
+      element._paramsChanged(element.params);
+      assert.equal(element.$.commentTabs.selected, 1);
+      assert.isTrue(element._showMessagesView);
+      done();
+    });
+  });
+
+  test('reply button is not visible when logged out', () => {
+    assert.equal(getComputedStyle(element.$.replyBtn).display, 'none');
+    element._loggedIn = true;
+    assert.notEqual(getComputedStyle(element.$.replyBtn).display, 'none');
+  });
+
+  test('download tap calls _handleOpenDownloadDialog', () => {
+    sandbox.stub(element, '_handleOpenDownloadDialog');
+    element.$.actions.fire('download-tap');
+    assert.isTrue(element._handleOpenDownloadDialog.called);
+  });
+
+  test('fetches the server config on attached', done => {
+    flush(() => {
+      assert.equal(element._serverConfig.test, 'config');
+      done();
+    });
+  });
+
+  test('_changeStatuses', () => {
+    sandbox.stub(element, 'changeStatuses').returns(
+        ['Merged', 'WIP']);
+    element._loading = false;
+    element._change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev2: {_number: 2},
+        rev1: {_number: 1},
+        rev13: {_number: 13},
+        rev3: {_number: 3},
+      },
+      current_revision: 'rev3',
+      labels: {
+        test: {
+          all: [],
+          default_value: 0,
+          values: [],
+          approved: {},
+        },
+      },
+    };
+    element._mergeable = true;
+    expectedStatuses = ['Merged', 'WIP'];
+    assert.deepEqual(element._changeStatuses, expectedStatuses);
+    assert.equal(element._changeStatus, expectedStatuses.join(', '));
+    flushAsynchronousOperations();
+    const statusChips = Polymer.dom(element.root)
+        .querySelectorAll('gr-change-status');
+    assert.equal(statusChips.length, 2);
+  });
+
+  test('diff preferences open when open-diff-prefs is fired', () => {
+    const overlayOpenStub = sandbox.stub(element.$.fileList,
+        'openDiffPrefs');
+    element.$.fileListHeader.fire('open-diff-prefs');
+    assert.isTrue(overlayOpenStub.called);
+  });
+
+  test('_prepareCommitMsgForLinkify', () => {
+    let commitMessage = 'R=test@google.com';
+    let result = element._prepareCommitMsgForLinkify(commitMessage);
+    assert.equal(result, 'R=\u200Btest@google.com');
+
+    commitMessage = 'R=test@google.com\nR=test@google.com';
+    result = element._prepareCommitMsgForLinkify(commitMessage);
+    assert.equal(result, 'R=\u200Btest@google.com\nR=\u200Btest@google.com');
+
+    commitMessage = 'CC=test@google.com';
+    result = element._prepareCommitMsgForLinkify(commitMessage);
+    assert.equal(result, 'CC=\u200Btest@google.com');
+  }),
+
+  test('_updateRebaseAction', () => {
+    const currentRevisionActions = {
+      cherrypick: {
+        enabled: true,
+        label: 'Cherry Pick',
+        method: 'POST',
+        title: 'cherrypick',
+      },
+      rebase: {
+        enabled: true,
+        label: 'Rebase',
+        method: 'POST',
+        title: 'Rebase onto tip of branch or parent change',
+      },
+    };
+    element._parentIsCurrent = undefined;
+
+    // Rebase enabled should always end up true.
+    // When rebase is enabled initially, rebaseOnCurrent should be set to
+    // true.
+    assert.equal(element._updateRebaseAction(currentRevisionActions),
+        currentRevisionActions);
+
+    assert.isTrue(currentRevisionActions.rebase.enabled);
+    assert.isTrue(currentRevisionActions.rebase.rebaseOnCurrent);
+    assert.isFalse(element._parentIsCurrent);
+
+    delete currentRevisionActions.rebase.enabled;
+
+    // When rebase is not enabled initially, rebaseOnCurrent should be set to
+    // false.
+    assert.equal(element._updateRebaseAction(currentRevisionActions),
+        currentRevisionActions);
+
+    assert.isTrue(currentRevisionActions.rebase.enabled);
+    assert.isFalse(currentRevisionActions.rebase.rebaseOnCurrent);
+    assert.isTrue(element._parentIsCurrent);
+  });
+
+  test('_isSubmitEnabled', () => {
+    assert.isFalse(element._isSubmitEnabled({}));
+    assert.isFalse(element._isSubmitEnabled({actions: {}}));
+    assert.isFalse(element._isSubmitEnabled({actions: {submit: {}}}));
+    assert.isTrue(element._isSubmitEnabled(
+        {actions: {submit: {enabled: true}}}));
+  });
+
+  test('_updateRebaseAction sets _parentIsCurrent on no rebase', () => {
+    const currentRevisionActions = {
+      cherrypick: {
+        enabled: true,
+        label: 'Cherry Pick',
+        method: 'POST',
+        title: 'cherrypick',
+      },
+    };
+    element._parentIsCurrent = undefined;
+    element._updateRebaseAction(currentRevisionActions);
+    assert.isTrue(element._parentIsCurrent);
+  });
+
+  test('_reload is called when an approved label is removed', () => {
+    const vote = {_account_id: 1, name: 'bojack', value: 1};
+    element._changeNum = '42';
+    element._patchRange = {
+      basePatchNum: 'PARENT',
+      patchNum: 1,
+    };
+    element._change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev2: {_number: 2, commit: {parents: []}},
+        rev1: {_number: 1, commit: {parents: []}},
+        rev13: {_number: 13, commit: {parents: []}},
+        rev3: {_number: 3, commit: {parents: []}},
+      },
+      current_revision: 'rev3',
+      status: 'NEW',
+      labels: {
+        test: {
+          all: [vote],
+          default_value: 0,
+          values: [],
+          approved: {},
+        },
+      },
+    };
+    flushAsynchronousOperations();
+    const reloadStub = sandbox.stub(element, '_reload');
+    element.splice('_change.labels.test.all', 0, 1);
+    assert.isFalse(reloadStub.called);
+    element._change.labels.test.all.push(vote);
+    element._change.labels.test.all.push(vote);
+    element._change.labels.test.approved = vote;
+    flushAsynchronousOperations();
+    element.splice('_change.labels.test.all', 0, 2);
+    assert.isTrue(reloadStub.called);
+    assert.isTrue(reloadStub.calledOnce);
+  });
+
+  test('reply button has updated count when there are drafts', () => {
+    const getLabel = element._computeReplyButtonLabel;
+
+    assert.equal(getLabel(null, false), 'Reply');
+    assert.equal(getLabel(null, true), 'Start review');
+
+    const changeRecord = {base: null};
+    assert.equal(getLabel(changeRecord, false), 'Reply');
+
+    changeRecord.base = {};
+    assert.equal(getLabel(changeRecord, false), 'Reply');
+
+    changeRecord.base = {
+      'file1.txt': [{}],
+      'file2.txt': [{}, {}],
+    };
+    assert.equal(getLabel(changeRecord, false), 'Reply (3)');
+  });
+
+  test('start review button when owner of WIP change', () => {
+    assert.equal(
+        element._computeReplyButtonLabel(null, true),
+        'Start review');
+  });
+
+  test('comment events properly update diff drafts', () => {
+    element._patchRange = {
+      basePatchNum: 'PARENT',
+      patchNum: 2,
+    };
+    const draft = {
+      __draft: true,
+      id: 'id1',
+      path: '/foo/bar.txt',
+      text: 'hello',
+    };
+    element._handleCommentSave({target: {comment: draft}});
+    draft.patch_set = 2;
+    assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
+    draft.patch_set = null;
+    draft.text = 'hello, there';
+    element._handleCommentSave({target: {comment: draft}});
+    draft.patch_set = 2;
+    assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
+    const draft2 = {
+      __draft: true,
+      id: 'id2',
+      path: '/foo/bar.txt',
+      text: 'hola',
+    };
+    element._handleCommentSave({target: {comment: draft2}});
+    draft2.patch_set = 2;
+    assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft, draft2]});
+    draft.patch_set = null;
+    element._handleCommentDiscard({target: {comment: draft}});
+    draft.patch_set = 2;
+    assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft2]});
+    element._handleCommentDiscard({target: {comment: draft2}});
+    assert.deepEqual(element._diffDrafts, {});
+  });
+
+  test('change num change', () => {
+    element._changeNum = null;
+    element._patchRange = {
+      basePatchNum: 'PARENT',
+      patchNum: 2,
+    };
+    element._change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      labels: {},
+    };
+    element.viewState.changeNum = null;
+    element.viewState.diffMode = 'UNIFIED';
+    assert.equal(element.viewState.numFilesShown, 200);
+    assert.equal(element._numFilesShown, 200);
+    element._numFilesShown = 150;
+    flushAsynchronousOperations();
+    assert.equal(element.viewState.diffMode, 'UNIFIED');
+    assert.equal(element.viewState.numFilesShown, 150);
+
+    element._changeNum = '1';
+    element.params = {changeNum: '1'};
+    element._change.newProp = '1';
+    flushAsynchronousOperations();
+    assert.equal(element.viewState.diffMode, 'UNIFIED');
+    assert.equal(element.viewState.changeNum, '1');
+
+    element._changeNum = '2';
+    element.params = {changeNum: '2'};
+    element._change.newProp = '2';
+    flushAsynchronousOperations();
+    assert.equal(element.viewState.diffMode, 'UNIFIED');
+    assert.equal(element.viewState.changeNum, '2');
+    assert.equal(element.viewState.numFilesShown, 200);
+    assert.equal(element._numFilesShown, 200);
+  });
+
+  test('_setDiffViewMode is called with reset when new change is loaded',
+      () => {
+        sandbox.stub(element, '_setDiffViewMode');
+        element.viewState = {changeNum: 1};
+        element._changeNum = 2;
+        element._resetFileListViewState();
+        assert.isTrue(
+            element._setDiffViewMode.lastCall.calledWithExactly(true));
+      });
+
+  test('diffViewMode is propagated from file list header', () => {
+    element.viewState = {diffMode: 'UNIFIED'};
+    element.$.fileListHeader.diffViewMode = 'SIDE_BY_SIDE';
+    assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
+  });
+
+  test('diffMode defaults to side by side without preferences', done => {
+    sandbox.stub(element.$.restAPI, 'getPreferences').returns(
+        Promise.resolve({}));
+    // No user prefs or diff view mode set.
+
+    element._setDiffViewMode().then(() => {
+      assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
+      done();
+    });
+  });
+
+  test('diffMode defaults to preference when not already set', done => {
+    sandbox.stub(element.$.restAPI, 'getPreferences').returns(
+        Promise.resolve({default_diff_view: 'UNIFIED'}));
+
+    element._setDiffViewMode().then(() => {
+      assert.equal(element.viewState.diffMode, 'UNIFIED');
+      done();
+    });
+  });
+
+  test('existing diffMode overrides preference', done => {
+    element.viewState.diffMode = 'SIDE_BY_SIDE';
+    sandbox.stub(element.$.restAPI, 'getPreferences').returns(
+        Promise.resolve({default_diff_view: 'UNIFIED'}));
+    element._setDiffViewMode().then(() => {
+      assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
+      done();
+    });
+  });
+
+  test('don’t reload entire page when patchRange changes', () => {
+    const reloadStub = sandbox.stub(element, '_reload',
+        () => { return Promise.resolve(); });
+    const reloadPatchDependentStub = sandbox.stub(element,
+        '_reloadPatchNumDependentResources',
+        () => { return Promise.resolve(); });
+    const relatedClearSpy = sandbox.spy(element.$.relatedChanges, 'clear');
+    const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
+
+    const value = {
+      view: Gerrit.Nav.View.CHANGE,
+      patchNum: '1',
+    };
+    element._paramsChanged(value);
+    assert.isTrue(reloadStub.calledOnce);
+    assert.isTrue(relatedClearSpy.calledOnce);
+
+    element._initialLoadComplete = true;
+
+    value.basePatchNum = '1';
+    value.patchNum = '2';
+    element._paramsChanged(value);
+    assert.isFalse(reloadStub.calledTwice);
+    assert.isTrue(reloadPatchDependentStub.calledOnce);
+    assert.isTrue(relatedClearSpy.calledOnce);
+    assert.isTrue(collapseStub.calledTwice);
+  });
+
+  test('reload entire page when patchRange doesnt change', () => {
+    const reloadStub = sandbox.stub(element, '_reload',
+        () => { return Promise.resolve(); });
+    const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
+    const value = {
+      view: Gerrit.Nav.View.CHANGE,
+    };
+    element._paramsChanged(value);
+    assert.isTrue(reloadStub.calledOnce);
+    element._initialLoadComplete = true;
+    element._paramsChanged(value);
+    assert.isTrue(reloadStub.calledTwice);
+    assert.isTrue(collapseStub.calledTwice);
+  });
+
+  test('related changes are updated and new patch selected after rebase',
+      done => {
+        element._changeNum = '42';
+        sandbox.stub(element, 'computeLatestPatchNum', () => {
+          return 1;
+        });
+        sandbox.stub(element, '_reload',
+            () => { return Promise.resolve(); });
+        const e = {detail: {action: 'rebase'}};
+        element._handleReloadChange(e).then(() => {
+          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
+              element._change));
+          done();
+        });
+      });
+
+  test('related changes are not updated after other action', done => {
+    sandbox.stub(element, '_reload', () => { return Promise.resolve(); });
+    sandbox.stub(element.$.relatedChanges, 'reload');
+    const e = {detail: {action: 'abandon'}};
+    element._handleReloadChange(e).then(() => {
+      assert.isFalse(navigateToChangeStub.called);
+      done();
+    });
+  });
+
+  test('_computeMergedCommitInfo', () => {
+    const dummyRevs = {
+      1: {commit: {commit: 1}},
+      2: {commit: {}},
+    };
+    assert.deepEqual(element._computeMergedCommitInfo(0, dummyRevs), {});
+    assert.deepEqual(element._computeMergedCommitInfo(1, dummyRevs),
+        dummyRevs[1].commit);
+
+    // Regression test for issue 5337.
+    const commit = element._computeMergedCommitInfo(2, dummyRevs);
+    assert.notDeepEqual(commit, dummyRevs[2]);
+    assert.deepEqual(commit, {commit: 2});
+  });
+
+  test('get latest revision', () => {
+    let change = {
+      revisions: {
+        rev1: {_number: 1},
+        rev3: {_number: 3},
+      },
+      current_revision: 'rev3',
+    };
+    assert.equal(element._getLatestRevisionSHA(change), 'rev3');
+    change = {
+      revisions: {
+        rev1: {_number: 1},
+      },
+    };
+    assert.equal(element._getLatestRevisionSHA(change), 'rev1');
+  });
+
+  test('show commit message edit button', () => {
+    const _change = {
+      status: element.ChangeStatus.MERGED,
+    };
+    assert.isTrue(element._computeHideEditCommitMessage(false, false, {}));
+    assert.isTrue(element._computeHideEditCommitMessage(true, true, {}));
+    assert.isTrue(element._computeHideEditCommitMessage(false, true, {}));
+    assert.isFalse(element._computeHideEditCommitMessage(true, false, {}));
+    assert.isTrue(element._computeHideEditCommitMessage(true, false,
+        _change));
+    assert.isTrue(element._computeHideEditCommitMessage(true, false, {},
+        true));
+    assert.isFalse(element._computeHideEditCommitMessage(true, false, {},
+        false));
+  });
+
+  test('_handleCommitMessageSave trims trailing whitespace', () => {
+    const putStub = sandbox.stub(element.$.restAPI, 'putChangeCommitMessage')
+        .returns(Promise.resolve({}));
+
+    const mockEvent = content => { return {detail: {content}}; };
+
+    element._handleCommitMessageSave(mockEvent('test \n  test '));
+    assert.equal(putStub.lastCall.args[1], 'test\n  test');
+
+    element._handleCommitMessageSave(mockEvent('  test\ntest'));
+    assert.equal(putStub.lastCall.args[1], '  test\ntest');
+
+    element._handleCommitMessageSave(mockEvent('\n\n\n\n\n\n\n\n'));
+    assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
+  });
+
+  test('_computeChangeIdCommitMessageError', () => {
+    let commitMessage =
+      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483';
+    let change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483'};
+    assert.equal(
+        element._computeChangeIdCommitMessageError(commitMessage, change),
+        null);
+
+    change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484'};
+    assert.equal(
+        element._computeChangeIdCommitMessageError(commitMessage, change),
+        'mismatch');
+
+    commitMessage = 'This is the greatest change.';
+    assert.equal(
+        element._computeChangeIdCommitMessageError(commitMessage, change),
+        'missing');
+  });
+
+  test('multiple change Ids in commit message picks last', () => {
+    const commitMessage = [
+      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282484',
+      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483',
+    ].join('\n');
+    let change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483'};
+    assert.equal(
+        element._computeChangeIdCommitMessageError(commitMessage, change),
+        null);
+    change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484'};
+    assert.equal(
+        element._computeChangeIdCommitMessageError(commitMessage, change),
+        'mismatch');
+  });
+
+  test('does not count change Id that starts mid line', () => {
+    const commitMessage = [
+      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282484',
+      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483',
+    ].join(' and ');
+    let change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484'};
+    assert.equal(
+        element._computeChangeIdCommitMessageError(commitMessage, change),
+        null);
+    change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483'};
+    assert.equal(
+        element._computeChangeIdCommitMessageError(commitMessage, change),
+        'mismatch');
+  });
+
+  test('_computeTitleAttributeWarning', () => {
+    let changeIdCommitMessageError = 'missing';
+    assert.equal(
+        element._computeTitleAttributeWarning(changeIdCommitMessageError),
+        'No Change-Id in commit message');
+
+    changeIdCommitMessageError = 'mismatch';
+    assert.equal(
+        element._computeTitleAttributeWarning(changeIdCommitMessageError),
+        'Change-Id mismatch');
+  });
+
+  test('_computeChangeIdClass', () => {
+    let changeIdCommitMessageError = 'missing';
+    assert.equal(
+        element._computeChangeIdClass(changeIdCommitMessageError), '');
+
+    changeIdCommitMessageError = 'mismatch';
+    assert.equal(
+        element._computeChangeIdClass(changeIdCommitMessageError), 'warning');
+  });
+
+  test('topic is coalesced to null', done => {
+    sandbox.stub(element, '_changeChanged');
+    sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
+      return Promise.resolve({
+        id: '123456789',
+        labels: {},
+        current_revision: 'foo',
+        revisions: {foo: {commit: {}}},
+      });
+    });
+
+    element._getChangeDetail().then(() => {
+      assert.isNull(element._change.topic);
+      done();
+    });
+  });
+
+  test('commit sha is populated from getChangeDetail', done => {
+    sandbox.stub(element, '_changeChanged');
+    sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
+      return Promise.resolve({
+        id: '123456789',
+        labels: {},
+        current_revision: 'foo',
+        revisions: {foo: {commit: {}}},
+      });
+    });
+
+    element._getChangeDetail().then(() => {
+      assert.equal('foo', element._commitInfo.commit);
+      done();
+    });
+  });
+
+  test('edit is added to change', () => {
+    sandbox.stub(element, '_changeChanged');
+    sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
+      return Promise.resolve({
+        id: '123456789',
+        labels: {},
+        current_revision: 'foo',
+        revisions: {foo: {commit: {}}},
+      });
+    });
+    sandbox.stub(element, '_getEdit', () => {
+      return Promise.resolve({
+        base_patch_set_number: 1,
+        commit: {commit: 'bar'},
+      });
+    });
+    element._patchRange = {};
+
+    return element._getChangeDetail().then(() => {
+      const revs = element._change.revisions;
+      assert.equal(Object.keys(revs).length, 2);
+      assert.deepEqual(revs['foo'], {commit: {commit: 'foo'}});
+      assert.deepEqual(revs['bar'], {
+        _number: element.EDIT_NAME,
+        basePatchNum: 1,
+        commit: {commit: 'bar'},
+        fetch: undefined,
+      });
+    });
+  });
+
+  test('_openReplyDialog called with `ANY` when coming from tap event',
+      () => {
+        const openStub = sandbox.stub(element, '_openReplyDialog');
+        element._serverConfig = {};
+        MockInteractions.tap(element.$.replyBtn);
+        assert(openStub.lastCall.calledWithExactly(
+            element.$.replyDialog.FocusTarget.ANY),
+            '_openReplyDialog should have been passed ANY');
+        assert.equal(openStub.callCount, 1);
+      });
+
+  test('_openReplyDialog called with `BODY` when coming from message reply' +
+      'event', done => {
+    flush(() => {
+      const openStub = sandbox.stub(element, '_openReplyDialog');
+      element.messagesList.fire('reply',
+          {message: {message: 'text'}});
+      assert(openStub.lastCall.calledWithExactly(
+          element.$.replyDialog.FocusTarget.BODY),
+          '_openReplyDialog should have been passed BODY');
+      assert.equal(openStub.callCount, 1);
+      done();
+    });
+  });
+
+  test('reply dialog focus can be controlled', () => {
+    const FocusTarget = element.$.replyDialog.FocusTarget;
+    const openStub = sandbox.stub(element, '_openReplyDialog');
+
+    const e = {detail: {}};
+    element._handleShowReplyDialog(e);
+    assert(openStub.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
+        '_openReplyDialog should have been passed REVIEWERS');
+    assert.equal(openStub.callCount, 1);
+
+    e.detail.value = {ccsOnly: true};
+    element._handleShowReplyDialog(e);
+    assert(openStub.lastCall.calledWithExactly(FocusTarget.CCS),
+        '_openReplyDialog should have been passed CCS');
+    assert.equal(openStub.callCount, 2);
+  });
+
+  test('getUrlParameter functionality', () => {
+    const locationStub = sandbox.stub(element, '_getLocationSearch');
+
+    locationStub.returns('?test');
+    assert.equal(element._getUrlParameter('test'), 'test');
+    locationStub.returns('?test2=12&test=3');
+    assert.equal(element._getUrlParameter('test'), 'test');
+    locationStub.returns('');
+    assert.isNull(element._getUrlParameter('test'));
+    locationStub.returns('?');
+    assert.isNull(element._getUrlParameter('test'));
+    locationStub.returns('?test2');
+    assert.isNull(element._getUrlParameter('test'));
+  });
+
+  test('revert dialog opened with revert param', done => {
+    sandbox.stub(element.$.restAPI, 'getLoggedIn', () => {
+      return Promise.resolve(true);
+    });
+    sandbox.stub(Gerrit, 'awaitPluginsLoaded', () => {
+      return Promise.resolve();
+    });
+
+    element._patchRange = {
+      basePatchNum: 'PARENT',
+      patchNum: 2,
+    };
+    element._change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev1: {_number: 1, commit: {parents: []}},
+        rev2: {_number: 2, commit: {parents: []}},
+      },
+      current_revision: 'rev1',
+      status: element.ChangeStatus.MERGED,
+      labels: {},
+      actions: {},
+    };
+
+    sandbox.stub(element, '_getUrlParameter',
+        param => {
+          assert.equal(param, 'revert');
+          return param;
+        });
+
+    sandbox.stub(element.$.actions, 'showRevertDialog',
+        done);
+
+    element._maybeShowRevertDialog();
+    assert.isTrue(Gerrit.awaitPluginsLoaded.called);
+  });
+
+  suite('scroll related tests', () => {
+    test('document scrolling calls function to set scroll height', done => {
+      const originalHeight = document.body.scrollHeight;
+      const scrollStub = sandbox.stub(element, '_handleScroll',
+          () => {
+            assert.isTrue(scrollStub.called);
+            document.body.style.height = originalHeight + 'px';
+            scrollStub.restore();
             done();
           });
-        });
-
-    test('related changes are not updated after other action', done => {
-      sandbox.stub(element, '_reload', () => { return Promise.resolve(); });
-      sandbox.stub(element.$.relatedChanges, 'reload');
-      const e = {detail: {action: 'abandon'}};
-      element._handleReloadChange(e).then(() => {
-        assert.isFalse(navigateToChangeStub.called);
-        done();
-      });
+      document.body.style.height = '10000px';
+      element._handleScroll();
     });
 
-    test('_computeMergedCommitInfo', () => {
-      const dummyRevs = {
-        1: {commit: {commit: 1}},
-        2: {commit: {}},
-      };
-      assert.deepEqual(element._computeMergedCommitInfo(0, dummyRevs), {});
-      assert.deepEqual(element._computeMergedCommitInfo(1, dummyRevs),
-          dummyRevs[1].commit);
+    test('scrollTop is set correctly', () => {
+      element.viewState = {scrollTop: TEST_SCROLL_TOP_PX};
 
-      // Regression test for issue 5337.
-      const commit = element._computeMergedCommitInfo(2, dummyRevs);
-      assert.notDeepEqual(commit, dummyRevs[2]);
-      assert.deepEqual(commit, {commit: 2});
-    });
-
-    test('get latest revision', () => {
-      let change = {
-        revisions: {
-          rev1: {_number: 1},
-          rev3: {_number: 3},
-        },
-        current_revision: 'rev3',
-      };
-      assert.equal(element._getLatestRevisionSHA(change), 'rev3');
-      change = {
-        revisions: {
-          rev1: {_number: 1},
-        },
-      };
-      assert.equal(element._getLatestRevisionSHA(change), 'rev1');
-    });
-
-    test('show commit message edit button', () => {
-      const _change = {
-        status: element.ChangeStatus.MERGED,
-      };
-      assert.isTrue(element._computeHideEditCommitMessage(false, false, {}));
-      assert.isTrue(element._computeHideEditCommitMessage(true, true, {}));
-      assert.isTrue(element._computeHideEditCommitMessage(false, true, {}));
-      assert.isFalse(element._computeHideEditCommitMessage(true, false, {}));
-      assert.isTrue(element._computeHideEditCommitMessage(true, false,
-          _change));
-      assert.isTrue(element._computeHideEditCommitMessage(true, false, {},
-          true));
-      assert.isFalse(element._computeHideEditCommitMessage(true, false, {},
-          false));
-    });
-
-    test('_handleCommitMessageSave trims trailing whitespace', () => {
-      const putStub = sandbox.stub(element.$.restAPI, 'putChangeCommitMessage')
-          .returns(Promise.resolve({}));
-
-      const mockEvent = content => { return {detail: {content}}; };
-
-      element._handleCommitMessageSave(mockEvent('test \n  test '));
-      assert.equal(putStub.lastCall.args[1], 'test\n  test');
-
-      element._handleCommitMessageSave(mockEvent('  test\ntest'));
-      assert.equal(putStub.lastCall.args[1], '  test\ntest');
-
-      element._handleCommitMessageSave(mockEvent('\n\n\n\n\n\n\n\n'));
-      assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
-    });
-
-    test('_computeChangeIdCommitMessageError', () => {
-      let commitMessage =
-        'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483';
-      let change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483'};
-      assert.equal(
-          element._computeChangeIdCommitMessageError(commitMessage, change),
-          null);
-
-      change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484'};
-      assert.equal(
-          element._computeChangeIdCommitMessageError(commitMessage, change),
-          'mismatch');
-
-      commitMessage = 'This is the greatest change.';
-      assert.equal(
-          element._computeChangeIdCommitMessageError(commitMessage, change),
-          'missing');
-    });
-
-    test('multiple change Ids in commit message picks last', () => {
-      const commitMessage = [
-        'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282484',
-        'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483',
-      ].join('\n');
-      let change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483'};
-      assert.equal(
-          element._computeChangeIdCommitMessageError(commitMessage, change),
-          null);
-      change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484'};
-      assert.equal(
-          element._computeChangeIdCommitMessageError(commitMessage, change),
-          'mismatch');
-    });
-
-    test('does not count change Id that starts mid line', () => {
-      const commitMessage = [
-        'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282484',
-        'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483',
-      ].join(' and ');
-      let change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484'};
-      assert.equal(
-          element._computeChangeIdCommitMessageError(commitMessage, change),
-          null);
-      change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483'};
-      assert.equal(
-          element._computeChangeIdCommitMessageError(commitMessage, change),
-          'mismatch');
-    });
-
-    test('_computeTitleAttributeWarning', () => {
-      let changeIdCommitMessageError = 'missing';
-      assert.equal(
-          element._computeTitleAttributeWarning(changeIdCommitMessageError),
-          'No Change-Id in commit message');
-
-      changeIdCommitMessageError = 'mismatch';
-      assert.equal(
-          element._computeTitleAttributeWarning(changeIdCommitMessageError),
-          'Change-Id mismatch');
-    });
-
-    test('_computeChangeIdClass', () => {
-      let changeIdCommitMessageError = 'missing';
-      assert.equal(
-          element._computeChangeIdClass(changeIdCommitMessageError), '');
-
-      changeIdCommitMessageError = 'mismatch';
-      assert.equal(
-          element._computeChangeIdClass(changeIdCommitMessageError), 'warning');
-    });
-
-    test('topic is coalesced to null', done => {
-      sandbox.stub(element, '_changeChanged');
-      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
-        return Promise.resolve({
-          id: '123456789',
-          labels: {},
-          current_revision: 'foo',
-          revisions: {foo: {commit: {}}},
-        });
+      sandbox.stub(element, '_reload', () => {
+        // When element is reloaded, ensure that the history
+        // state has the scrollTop set earlier. This will then
+        // be reset.
+        assert.isTrue(element.viewState.scrollTop == TEST_SCROLL_TOP_PX);
+        return Promise.resolve({});
       });
 
-      element._getChangeDetail().then(() => {
-        assert.isNull(element._change.topic);
-        done();
-      });
+      // simulate reloading component, which is done when route
+      // changes to match a regex of change view type.
+      element._paramsChanged({view: Gerrit.Nav.View.CHANGE});
     });
 
-    test('commit sha is populated from getChangeDetail', done => {
-      sandbox.stub(element, '_changeChanged');
-      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
-        return Promise.resolve({
-          id: '123456789',
-          labels: {},
-          current_revision: 'foo',
-          revisions: {foo: {commit: {}}},
-        });
-      });
+    test('scrollTop is reset when new change is loaded', () => {
+      element._resetFileListViewState();
+      assert.equal(element.viewState.scrollTop, 0);
+    });
+  });
 
-      element._getChangeDetail().then(() => {
-        assert.equal('foo', element._commitInfo.commit);
-        done();
-      });
+  suite('reply dialog tests', () => {
+    setup(() => {
+      sandbox.stub(element.$.replyDialog, '_draftChanged');
+      sandbox.stub(element.$.replyDialog, 'fetchChangeUpdates',
+          () => { return Promise.resolve({isLatest: true}); });
+      element._change = {labels: {}};
     });
 
-    test('edit is added to change', () => {
-      sandbox.stub(element, '_changeChanged');
-      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
-        return Promise.resolve({
-          id: '123456789',
-          labels: {},
-          current_revision: 'foo',
-          revisions: {foo: {commit: {}}},
-        });
-      });
-      sandbox.stub(element, '_getEdit', () => {
-        return Promise.resolve({
-          base_patch_set_number: 1,
-          commit: {commit: 'bar'},
-        });
-      });
+    test('reply from comment adds quote text', () => {
+      const e = {detail: {message: {message: 'quote text'}}};
+      element._handleMessageReply(e);
+      assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+    });
+
+    test('reply from comment replaces quote text', () => {
+      element.$.replyDialog.draft = '> old quote text\n\n some draft text';
+      element.$.replyDialog.quote = '> old quote text\n\n';
+      const e = {detail: {message: {message: 'quote text'}}};
+      element._handleMessageReply(e);
+      assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+    });
+
+    test('reply from same comment preserves quote text', () => {
+      element.$.replyDialog.draft = '> quote text\n\n some draft text';
+      element.$.replyDialog.quote = '> quote text\n\n';
+      const e = {detail: {message: {message: 'quote text'}}};
+      element._handleMessageReply(e);
+      assert.equal(element.$.replyDialog.draft,
+          '> quote text\n\n some draft text');
+      assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+    });
+
+    test('reply from top of page contains previous draft', () => {
+      const div = document.createElement('div');
+      element.$.replyDialog.draft = '> quote text\n\n some draft text';
+      element.$.replyDialog.quote = '> quote text\n\n';
+      const e = {target: div, preventDefault: sandbox.spy()};
+      element._handleReplyTap(e);
+      assert.equal(element.$.replyDialog.draft,
+          '> quote text\n\n some draft text');
+      assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+    });
+  });
+
+  test('reply button is disabled until server config is loaded', () => {
+    assert.isTrue(element._replyDisabled);
+    element._serverConfig = {};
+    assert.isFalse(element._replyDisabled);
+  });
+
+  suite('commit message expand/collapse', () => {
+    setup(() => {
+      sandbox.stub(element, 'fetchChangeUpdates',
+          () => { return Promise.resolve({isLatest: false}); });
+    });
+
+    test('commitCollapseToggle hidden for short commit message', () => {
+      element._latestCommitMessage = '';
+      assert.isTrue(element.$.commitCollapseToggle.hasAttribute('hidden'));
+    });
+
+    test('commitCollapseToggle shown for long commit message', () => {
+      element._latestCommitMessage = _.times(31, String).join('\n');
+      assert.isFalse(element.$.commitCollapseToggle.hasAttribute('hidden'));
+    });
+
+    test('commitCollapseToggle functions', () => {
+      element._latestCommitMessage = _.times(31, String).join('\n');
+      assert.isTrue(element._commitCollapsed);
+      assert.isTrue(
+          element.$.commitMessage.classList.contains('collapsed'));
+      MockInteractions.tap(element.$.commitCollapseToggleButton);
+      assert.isFalse(element._commitCollapsed);
+      assert.isFalse(
+          element.$.commitMessage.classList.contains('collapsed'));
+    });
+  });
+
+  suite('related changes expand/collapse', () => {
+    let updateHeightSpy;
+    setup(() => {
+      updateHeightSpy = sandbox.spy(element, '_updateRelatedChangeMaxHeight');
+    });
+
+    test('_showRelatedToggle is reset when a new change is loaded', () => {
       element._patchRange = {};
-
-      return element._getChangeDetail().then(() => {
-        const revs = element._change.revisions;
-        assert.equal(Object.keys(revs).length, 2);
-        assert.deepEqual(revs['foo'], {commit: {commit: 'foo'}});
-        assert.deepEqual(revs['bar'], {
-          _number: element.EDIT_NAME,
-          basePatchNum: 1,
-          commit: {commit: 'bar'},
-          fetch: undefined,
-        });
-      });
-    });
-
-    test('_openReplyDialog called with `ANY` when coming from tap event',
-        () => {
-          const openStub = sandbox.stub(element, '_openReplyDialog');
-          element._serverConfig = {};
-          MockInteractions.tap(element.$.replyBtn);
-          assert(openStub.lastCall.calledWithExactly(
-              element.$.replyDialog.FocusTarget.ANY),
-              '_openReplyDialog should have been passed ANY');
-          assert.equal(openStub.callCount, 1);
-        });
-
-    test('_openReplyDialog called with `BODY` when coming from message reply' +
-        'event', done => {
-      flush(() => {
-        const openStub = sandbox.stub(element, '_openReplyDialog');
-        element.messagesList.fire('reply',
-            {message: {message: 'text'}});
-        assert(openStub.lastCall.calledWithExactly(
-            element.$.replyDialog.FocusTarget.BODY),
-            '_openReplyDialog should have been passed BODY');
-        assert.equal(openStub.callCount, 1);
-        done();
-      });
-    });
-
-    test('reply dialog focus can be controlled', () => {
-      const FocusTarget = element.$.replyDialog.FocusTarget;
-      const openStub = sandbox.stub(element, '_openReplyDialog');
-
-      const e = {detail: {}};
-      element._handleShowReplyDialog(e);
-      assert(openStub.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
-          '_openReplyDialog should have been passed REVIEWERS');
-      assert.equal(openStub.callCount, 1);
-
-      e.detail.value = {ccsOnly: true};
-      element._handleShowReplyDialog(e);
-      assert(openStub.lastCall.calledWithExactly(FocusTarget.CCS),
-          '_openReplyDialog should have been passed CCS');
-      assert.equal(openStub.callCount, 2);
-    });
-
-    test('getUrlParameter functionality', () => {
-      const locationStub = sandbox.stub(element, '_getLocationSearch');
-
-      locationStub.returns('?test');
-      assert.equal(element._getUrlParameter('test'), 'test');
-      locationStub.returns('?test2=12&test=3');
-      assert.equal(element._getUrlParameter('test'), 'test');
-      locationStub.returns('');
-      assert.isNull(element._getUrlParameter('test'));
-      locationStub.returns('?');
-      assert.isNull(element._getUrlParameter('test'));
-      locationStub.returns('?test2');
-      assert.isNull(element._getUrlParameter('test'));
-    });
-
-    test('revert dialog opened with revert param', done => {
-      sandbox.stub(element.$.restAPI, 'getLoggedIn', () => {
-        return Promise.resolve(true);
-      });
-      sandbox.stub(Gerrit, 'awaitPluginsLoaded', () => {
-        return Promise.resolve();
-      });
-
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
-      };
+      assert.isFalse(element._showRelatedToggle);
+      element._showRelatedToggle = true;
       element._change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        _number: 42,
         revisions: {
           rev1: {_number: 1, commit: {parents: []}},
-          rev2: {_number: 2, commit: {parents: []}},
         },
         current_revision: 'rev1',
-        status: element.ChangeStatus.MERGED,
+        status: 'NEW',
         labels: {},
         actions: {},
       };
-
-      sandbox.stub(element, '_getUrlParameter',
-          param => {
-            assert.equal(param, 'revert');
-            return param;
-          });
-
-      sandbox.stub(element.$.actions, 'showRevertDialog',
-          done);
-
-      element._maybeShowRevertDialog();
-      assert.isTrue(Gerrit.awaitPluginsLoaded.called);
+      assert.isFalse(element._showRelatedToggle);
     });
 
-    suite('scroll related tests', () => {
-      test('document scrolling calls function to set scroll height', done => {
-        const originalHeight = document.body.scrollHeight;
-        const scrollStub = sandbox.stub(element, '_handleScroll',
-            () => {
-              assert.isTrue(scrollStub.called);
-              document.body.style.height = originalHeight + 'px';
-              scrollStub.restore();
-              done();
-            });
-        document.body.style.height = '10000px';
-        element._handleScroll();
-      });
-
-      test('scrollTop is set correctly', () => {
-        element.viewState = {scrollTop: TEST_SCROLL_TOP_PX};
-
-        sandbox.stub(element, '_reload', () => {
-          // When element is reloaded, ensure that the history
-          // state has the scrollTop set earlier. This will then
-          // be reset.
-          assert.isTrue(element.viewState.scrollTop == TEST_SCROLL_TOP_PX);
-          return Promise.resolve({});
+    test('relatedChangesToggle shown height greater than changeInfo height',
+        () => {
+          assert.isFalse(element.$.relatedChangesToggle.classList
+              .contains('showToggle'));
+          sandbox.stub(element, '_getOffsetHeight', () => 50);
+          sandbox.stub(element, '_getScrollHeight', () => 60);
+          sandbox.stub(element, '_getLineHeight', () => 5);
+          sandbox.stub(window, 'matchMedia', () => ({matches: true}));
+          element.$.relatedChanges.dispatchEvent(
+              new CustomEvent('new-section-loaded'));
+          assert.isTrue(element.$.relatedChangesToggle.classList
+              .contains('showToggle'));
+          assert.equal(updateHeightSpy.callCount, 1);
         });
 
-        // simulate reloading component, which is done when route
-        // changes to match a regex of change view type.
-        element._paramsChanged({view: Gerrit.Nav.View.CHANGE});
-      });
+    test('relatedChangesToggle hidden height less than changeInfo height',
+        () => {
+          assert.isFalse(element.$.relatedChangesToggle.classList
+              .contains('showToggle'));
+          sandbox.stub(element, '_getOffsetHeight', () => 50);
+          sandbox.stub(element, '_getScrollHeight', () => 40);
+          sandbox.stub(element, '_getLineHeight', () => 5);
+          sandbox.stub(window, 'matchMedia', () => ({matches: true}));
+          element.$.relatedChanges.dispatchEvent(
+              new CustomEvent('new-section-loaded'));
+          assert.isFalse(element.$.relatedChangesToggle.classList
+              .contains('showToggle'));
+          assert.equal(updateHeightSpy.callCount, 1);
+        });
 
-      test('scrollTop is reset when new change is loaded', () => {
-        element._resetFileListViewState();
-        assert.equal(element.viewState.scrollTop, 0);
-      });
+    test('relatedChangesToggle functions', () => {
+      sandbox.stub(element, '_getOffsetHeight', () => 50);
+      sandbox.stub(window, 'matchMedia', () => ({matches: false}));
+      element._relatedChangesLoading = false;
+      assert.isTrue(element._relatedChangesCollapsed);
+      assert.isTrue(
+          element.$.relatedChanges.classList.contains('collapsed'));
+      MockInteractions.tap(element.$.relatedChangesToggleButton);
+      assert.isFalse(element._relatedChangesCollapsed);
+      assert.isFalse(
+          element.$.relatedChanges.classList.contains('collapsed'));
     });
 
-    suite('reply dialog tests', () => {
+    test('_updateRelatedChangeMaxHeight without commit toggle', () => {
+      sandbox.stub(element, '_getOffsetHeight', () => 50);
+      sandbox.stub(element, '_getLineHeight', () => 12);
+      sandbox.stub(window, 'matchMedia', () => ({matches: false}));
+
+      // 50 (existing height) - 30 (extra height) = 20 (adjusted height).
+      // 20 (max existing height)  % 12 (line height) = 6 (remainder).
+      // 20 (adjusted height) - 8 (remainder) = 12 (max height to set).
+
+      element._updateRelatedChangeMaxHeight();
+      assert.equal(getCustomCssValue('--relation-chain-max-height'),
+          '12px');
+      assert.equal(getCustomCssValue('--related-change-btn-top-padding'),
+          '');
+    });
+
+    test('_updateRelatedChangeMaxHeight with commit toggle', () => {
+      element._latestCommitMessage = _.times(31, String).join('\n');
+      sandbox.stub(element, '_getOffsetHeight', () => 50);
+      sandbox.stub(element, '_getLineHeight', () => 12);
+      sandbox.stub(window, 'matchMedia', () => ({matches: false}));
+
+      // 50 (existing height) % 12 (line height) = 2 (remainder).
+      // 50 (existing height)  - 2 (remainder) = 48 (max height to set).
+
+      element._updateRelatedChangeMaxHeight();
+      assert.equal(getCustomCssValue('--relation-chain-max-height'),
+          '48px');
+      assert.equal(getCustomCssValue('--related-change-btn-top-padding'),
+          '2px');
+    });
+
+    test('_updateRelatedChangeMaxHeight in small screen mode', () => {
+      element._latestCommitMessage = _.times(31, String).join('\n');
+      sandbox.stub(element, '_getOffsetHeight', () => 50);
+      sandbox.stub(element, '_getLineHeight', () => 12);
+      sandbox.stub(window, 'matchMedia', () => ({matches: true}));
+
+      element._updateRelatedChangeMaxHeight();
+
+      // 400 (new height) % 12 (line height) = 4 (remainder).
+      // 400 (new height) - 4 (remainder) = 396.
+
+      assert.equal(getCustomCssValue('--relation-chain-max-height'),
+          '396px');
+    });
+
+    test('_updateRelatedChangeMaxHeight in medium screen mode', () => {
+      element._latestCommitMessage = _.times(31, String).join('\n');
+      sandbox.stub(element, '_getOffsetHeight', () => 50);
+      sandbox.stub(element, '_getLineHeight', () => 12);
+      sandbox.stub(window, 'matchMedia', () => {
+        if (window.matchMedia.lastCall.args[0] === '(max-width: 75em)') {
+          return {matches: true};
+        } else {
+          return {matches: false};
+        }
+      });
+
+      // 100 (new height) % 12 (line height) = 4 (remainder).
+      // 100 (new height) - 4 (remainder) = 96.
+      element._updateRelatedChangeMaxHeight();
+      assert.equal(getCustomCssValue('--relation-chain-max-height'),
+          '96px');
+    });
+
+
+    suite('update checks', () => {
       setup(() => {
-        sandbox.stub(element.$.replyDialog, '_draftChanged');
-        sandbox.stub(element.$.replyDialog, 'fetchChangeUpdates',
+        sandbox.spy(element, '_startUpdateCheckTimer');
+        sandbox.stub(element, 'async', f => {
+          // Only fire the async callback one time.
+          if (element.async.callCount > 1) { return; }
+          f.call(element);
+        });
+      });
+
+      test('_startUpdateCheckTimer negative delay', () => {
+        sandbox.stub(element, 'fetchChangeUpdates');
+
+        element._serverConfig = {change: {update_delay: -1}};
+
+        assert.isTrue(element._startUpdateCheckTimer.called);
+        assert.isFalse(element.fetchChangeUpdates.called);
+      });
+
+      test('_startUpdateCheckTimer up-to-date', () => {
+        sandbox.stub(element, 'fetchChangeUpdates',
             () => { return Promise.resolve({isLatest: true}); });
-        element._change = {labels: {}};
+
+        element._serverConfig = {change: {update_delay: 12345}};
+
+        assert.isTrue(element._startUpdateCheckTimer.called);
+        assert.isTrue(element.fetchChangeUpdates.called);
+        assert.equal(element.async.lastCall.args[1], 12345 * 1000);
       });
 
-      test('reply from comment adds quote text', () => {
-        const e = {detail: {message: {message: 'quote text'}}};
-        element._handleMessageReply(e);
-        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
-      });
-
-      test('reply from comment replaces quote text', () => {
-        element.$.replyDialog.draft = '> old quote text\n\n some draft text';
-        element.$.replyDialog.quote = '> old quote text\n\n';
-        const e = {detail: {message: {message: 'quote text'}}};
-        element._handleMessageReply(e);
-        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
-      });
-
-      test('reply from same comment preserves quote text', () => {
-        element.$.replyDialog.draft = '> quote text\n\n some draft text';
-        element.$.replyDialog.quote = '> quote text\n\n';
-        const e = {detail: {message: {message: 'quote text'}}};
-        element._handleMessageReply(e);
-        assert.equal(element.$.replyDialog.draft,
-            '> quote text\n\n some draft text');
-        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
-      });
-
-      test('reply from top of page contains previous draft', () => {
-        const div = document.createElement('div');
-        element.$.replyDialog.draft = '> quote text\n\n some draft text';
-        element.$.replyDialog.quote = '> quote text\n\n';
-        const e = {target: div, preventDefault: sandbox.spy()};
-        element._handleReplyTap(e);
-        assert.equal(element.$.replyDialog.draft,
-            '> quote text\n\n some draft text');
-        assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
-      });
-    });
-
-    test('reply button is disabled until server config is loaded', () => {
-      assert.isTrue(element._replyDisabled);
-      element._serverConfig = {};
-      assert.isFalse(element._replyDisabled);
-    });
-
-    suite('commit message expand/collapse', () => {
-      setup(() => {
+      test('_startUpdateCheckTimer out-of-date shows an alert', done => {
         sandbox.stub(element, 'fetchChangeUpdates',
             () => { return Promise.resolve({isLatest: false}); });
+        element.addEventListener('show-alert', e => {
+          assert.equal(e.detail.message,
+              'A newer patch set has been uploaded');
+          done();
+        });
+        element._serverConfig = {change: {update_delay: 12345}};
       });
 
-      test('commitCollapseToggle hidden for short commit message', () => {
-        element._latestCommitMessage = '';
-        assert.isTrue(element.$.commitCollapseToggle.hasAttribute('hidden'));
+      test('_startUpdateCheckTimer new status shows an alert', done => {
+        sandbox.stub(element, 'fetchChangeUpdates')
+            .returns(Promise.resolve({
+              isLatest: true,
+              newStatus: element.ChangeStatus.MERGED,
+            }));
+        element.addEventListener('show-alert', e => {
+          assert.equal(e.detail.message, 'This change has been merged');
+          done();
+        });
+        element._serverConfig = {change: {update_delay: 12345}};
       });
 
-      test('commitCollapseToggle shown for long commit message', () => {
-        element._latestCommitMessage = _.times(31, String).join('\n');
-        assert.isFalse(element.$.commitCollapseToggle.hasAttribute('hidden'));
-      });
-
-      test('commitCollapseToggle functions', () => {
-        element._latestCommitMessage = _.times(31, String).join('\n');
-        assert.isTrue(element._commitCollapsed);
-        assert.isTrue(
-            element.$.commitMessage.classList.contains('collapsed'));
-        MockInteractions.tap(element.$.commitCollapseToggleButton);
-        assert.isFalse(element._commitCollapsed);
-        assert.isFalse(
-            element.$.commitMessage.classList.contains('collapsed'));
+      test('_startUpdateCheckTimer new messages shows an alert', done => {
+        sandbox.stub(element, 'fetchChangeUpdates')
+            .returns(Promise.resolve({
+              isLatest: true,
+              newMessages: true,
+            }));
+        element.addEventListener('show-alert', e => {
+          assert.equal(e.detail.message,
+              'There are new messages on this change');
+          done();
+        });
+        element._serverConfig = {change: {update_delay: 12345}};
       });
     });
 
-    suite('related changes expand/collapse', () => {
-      let updateHeightSpy;
-      setup(() => {
-        updateHeightSpy = sandbox.spy(element, '_updateRelatedChangeMaxHeight');
-      });
-
-      test('_showRelatedToggle is reset when a new change is loaded', () => {
-        element._patchRange = {};
-        assert.isFalse(element._showRelatedToggle);
-        element._showRelatedToggle = true;
-        element._change = {
-          change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-          _number: 42,
-          revisions: {
-            rev1: {_number: 1, commit: {parents: []}},
+    test('canStartReview computation', () => {
+      const change1 = {};
+      const change2 = {
+        actions: {
+          ready: {
+            enabled: true,
           },
-          current_revision: 'rev1',
-          status: 'NEW',
-          labels: {},
-          actions: {},
-        };
-        assert.isFalse(element._showRelatedToggle);
-      });
-
-      test('relatedChangesToggle shown height greater than changeInfo height',
-          () => {
-            assert.isFalse(element.$.relatedChangesToggle.classList
-                .contains('showToggle'));
-            sandbox.stub(element, '_getOffsetHeight', () => 50);
-            sandbox.stub(element, '_getScrollHeight', () => 60);
-            sandbox.stub(element, '_getLineHeight', () => 5);
-            sandbox.stub(window, 'matchMedia', () => ({matches: true}));
-            element.$.relatedChanges.dispatchEvent(
-                new CustomEvent('new-section-loaded'));
-            assert.isTrue(element.$.relatedChangesToggle.classList
-                .contains('showToggle'));
-            assert.equal(updateHeightSpy.callCount, 1);
-          });
-
-      test('relatedChangesToggle hidden height less than changeInfo height',
-          () => {
-            assert.isFalse(element.$.relatedChangesToggle.classList
-                .contains('showToggle'));
-            sandbox.stub(element, '_getOffsetHeight', () => 50);
-            sandbox.stub(element, '_getScrollHeight', () => 40);
-            sandbox.stub(element, '_getLineHeight', () => 5);
-            sandbox.stub(window, 'matchMedia', () => ({matches: true}));
-            element.$.relatedChanges.dispatchEvent(
-                new CustomEvent('new-section-loaded'));
-            assert.isFalse(element.$.relatedChangesToggle.classList
-                .contains('showToggle'));
-            assert.equal(updateHeightSpy.callCount, 1);
-          });
-
-      test('relatedChangesToggle functions', () => {
-        sandbox.stub(element, '_getOffsetHeight', () => 50);
-        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
-        element._relatedChangesLoading = false;
-        assert.isTrue(element._relatedChangesCollapsed);
-        assert.isTrue(
-            element.$.relatedChanges.classList.contains('collapsed'));
-        MockInteractions.tap(element.$.relatedChangesToggleButton);
-        assert.isFalse(element._relatedChangesCollapsed);
-        assert.isFalse(
-            element.$.relatedChanges.classList.contains('collapsed'));
-      });
-
-      test('_updateRelatedChangeMaxHeight without commit toggle', () => {
-        sandbox.stub(element, '_getOffsetHeight', () => 50);
-        sandbox.stub(element, '_getLineHeight', () => 12);
-        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
-
-        // 50 (existing height) - 30 (extra height) = 20 (adjusted height).
-        // 20 (max existing height)  % 12 (line height) = 6 (remainder).
-        // 20 (adjusted height) - 8 (remainder) = 12 (max height to set).
-
-        element._updateRelatedChangeMaxHeight();
-        assert.equal(getCustomCssValue('--relation-chain-max-height'),
-            '12px');
-        assert.equal(getCustomCssValue('--related-change-btn-top-padding'),
-            '');
-      });
-
-      test('_updateRelatedChangeMaxHeight with commit toggle', () => {
-        element._latestCommitMessage = _.times(31, String).join('\n');
-        sandbox.stub(element, '_getOffsetHeight', () => 50);
-        sandbox.stub(element, '_getLineHeight', () => 12);
-        sandbox.stub(window, 'matchMedia', () => ({matches: false}));
-
-        // 50 (existing height) % 12 (line height) = 2 (remainder).
-        // 50 (existing height)  - 2 (remainder) = 48 (max height to set).
-
-        element._updateRelatedChangeMaxHeight();
-        assert.equal(getCustomCssValue('--relation-chain-max-height'),
-            '48px');
-        assert.equal(getCustomCssValue('--related-change-btn-top-padding'),
-            '2px');
-      });
-
-      test('_updateRelatedChangeMaxHeight in small screen mode', () => {
-        element._latestCommitMessage = _.times(31, String).join('\n');
-        sandbox.stub(element, '_getOffsetHeight', () => 50);
-        sandbox.stub(element, '_getLineHeight', () => 12);
-        sandbox.stub(window, 'matchMedia', () => ({matches: true}));
-
-        element._updateRelatedChangeMaxHeight();
-
-        // 400 (new height) % 12 (line height) = 4 (remainder).
-        // 400 (new height) - 4 (remainder) = 396.
-
-        assert.equal(getCustomCssValue('--relation-chain-max-height'),
-            '396px');
-      });
-
-      test('_updateRelatedChangeMaxHeight in medium screen mode', () => {
-        element._latestCommitMessage = _.times(31, String).join('\n');
-        sandbox.stub(element, '_getOffsetHeight', () => 50);
-        sandbox.stub(element, '_getLineHeight', () => 12);
-        sandbox.stub(window, 'matchMedia', () => {
-          if (window.matchMedia.lastCall.args[0] === '(max-width: 75em)') {
-            return {matches: true};
-          } else {
-            return {matches: false};
-          }
-        });
-
-        // 100 (new height) % 12 (line height) = 4 (remainder).
-        // 100 (new height) - 4 (remainder) = 96.
-        element._updateRelatedChangeMaxHeight();
-        assert.equal(getCustomCssValue('--relation-chain-max-height'),
-            '96px');
-      });
-
-
-      suite('update checks', () => {
-        setup(() => {
-          sandbox.spy(element, '_startUpdateCheckTimer');
-          sandbox.stub(element, 'async', f => {
-            // Only fire the async callback one time.
-            if (element.async.callCount > 1) { return; }
-            f.call(element);
-          });
-        });
-
-        test('_startUpdateCheckTimer negative delay', () => {
-          sandbox.stub(element, 'fetchChangeUpdates');
-
-          element._serverConfig = {change: {update_delay: -1}};
-
-          assert.isTrue(element._startUpdateCheckTimer.called);
-          assert.isFalse(element.fetchChangeUpdates.called);
-        });
-
-        test('_startUpdateCheckTimer up-to-date', () => {
-          sandbox.stub(element, 'fetchChangeUpdates',
-              () => { return Promise.resolve({isLatest: true}); });
-
-          element._serverConfig = {change: {update_delay: 12345}};
-
-          assert.isTrue(element._startUpdateCheckTimer.called);
-          assert.isTrue(element.fetchChangeUpdates.called);
-          assert.equal(element.async.lastCall.args[1], 12345 * 1000);
-        });
-
-        test('_startUpdateCheckTimer out-of-date shows an alert', done => {
-          sandbox.stub(element, 'fetchChangeUpdates',
-              () => { return Promise.resolve({isLatest: false}); });
-          element.addEventListener('show-alert', e => {
-            assert.equal(e.detail.message,
-                'A newer patch set has been uploaded');
-            done();
-          });
-          element._serverConfig = {change: {update_delay: 12345}};
-        });
-
-        test('_startUpdateCheckTimer new status shows an alert', done => {
-          sandbox.stub(element, 'fetchChangeUpdates')
-              .returns(Promise.resolve({
-                isLatest: true,
-                newStatus: element.ChangeStatus.MERGED,
-              }));
-          element.addEventListener('show-alert', e => {
-            assert.equal(e.detail.message, 'This change has been merged');
-            done();
-          });
-          element._serverConfig = {change: {update_delay: 12345}};
-        });
-
-        test('_startUpdateCheckTimer new messages shows an alert', done => {
-          sandbox.stub(element, 'fetchChangeUpdates')
-              .returns(Promise.resolve({
-                isLatest: true,
-                newMessages: true,
-              }));
-          element.addEventListener('show-alert', e => {
-            assert.equal(e.detail.message,
-                'There are new messages on this change');
-            done();
-          });
-          element._serverConfig = {change: {update_delay: 12345}};
-        });
-      });
-
-      test('canStartReview computation', () => {
-        const change1 = {};
-        const change2 = {
-          actions: {
-            ready: {
-              enabled: true,
-            },
+        },
+      };
+      const change3 = {
+        actions: {
+          ready: {
+            label: 'Ready for Review',
           },
-        };
-        const change3 = {
-          actions: {
-            ready: {
-              label: 'Ready for Review',
-            },
-          },
-        };
-        assert.isFalse(element._computeCanStartReview(change1));
-        assert.isTrue(element._computeCanStartReview(change2));
-        assert.isFalse(element._computeCanStartReview(change3));
-      });
-    });
-
-    test('header class computation', () => {
-      assert.equal(element._computeHeaderClass(), 'header');
-      assert.equal(element._computeHeaderClass(true), 'header editMode');
-    });
-
-    test('_maybeScrollToMessage', done => {
-      flush(() => {
-        const scrollStub = sandbox.stub(element.messagesList,
-            'scrollToMessage');
-
-        element._maybeScrollToMessage('');
-        assert.isFalse(scrollStub.called);
-        element._maybeScrollToMessage('message');
-        assert.isFalse(scrollStub.called);
-        element._maybeScrollToMessage('#message-TEST');
-        assert.isTrue(scrollStub.called);
-        assert.equal(scrollStub.lastCall.args[0], 'TEST');
-        done();
-      });
-    });
-
-    test('topic update reloads related changes', () => {
-      sandbox.stub(element.$.relatedChanges, 'reload');
-      element.dispatchEvent(new CustomEvent('topic-changed'));
-      assert.isTrue(element.$.relatedChanges.reload.calledOnce);
-    });
-
-    test('_computeEditMode', () => {
-      const callCompute = (range, params) =>
-          element._computeEditMode({base: range}, {base: params});
-      assert.isFalse(callCompute({}, {}));
-      assert.isTrue(callCompute({}, {edit: true}));
-      assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}, {}));
-      assert.isFalse(callCompute({basePatchNum: 'edit', patchNum: 1}, {}));
-      assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}, {}));
-    });
-
-    test('_processEdit', () => {
-      element._patchRange = {};
-      const change = {
-        current_revision: 'foo',
-        revisions: {foo: {commit: {}, actions: {cherrypick: {enabled: true}}}},
+        },
       };
-      let mockChange;
-
-      // With no edit, mockChange should be unmodified.
-      element._processEdit(mockChange = _.cloneDeep(change), null);
-      assert.deepEqual(mockChange, change);
-
-      // When edit is not based on the latest PS, current_revision should be
-      // unmodified.
-      const edit = {
-        base_patch_set_number: 1,
-        commit: {commit: 'bar'},
-        fetch: true,
-      };
-      element._processEdit(mockChange = _.cloneDeep(change), edit);
-      assert.notDeepEqual(mockChange, change);
-      assert.equal(mockChange.revisions.bar._number, element.EDIT_NAME);
-      assert.equal(mockChange.current_revision, change.current_revision);
-      assert.deepEqual(mockChange.revisions.bar.commit, {commit: 'bar'});
-      assert.notOk(mockChange.revisions.bar.actions);
-
-      edit.base_revision = 'foo';
-      element._processEdit(mockChange = _.cloneDeep(change), edit);
-      assert.notDeepEqual(mockChange, change);
-      assert.equal(mockChange.current_revision, 'bar');
-      assert.deepEqual(mockChange.revisions.bar.actions,
-          mockChange.revisions.foo.actions);
-
-      // If _patchRange.patchNum is defined, do not load edit.
-      element._patchRange.patchNum = 'baz';
-      change.current_revision = 'baz';
-      element._processEdit(mockChange = _.cloneDeep(change), edit);
-      assert.equal(element._patchRange.patchNum, 'baz');
-      assert.notOk(mockChange.revisions.bar.actions);
-    });
-
-    test('file-action-tap handling', () => {
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 1,
-      };
-      const fileList = element.$.fileList;
-      const Actions = GrEditConstants.Actions;
-      const controls = element.$.fileListHeader.$.editControls;
-      sandbox.stub(controls, 'openDeleteDialog');
-      sandbox.stub(controls, 'openRenameDialog');
-      sandbox.stub(controls, 'openRestoreDialog');
-      sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
-      sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
-
-      // Delete
-      fileList.dispatchEvent(new CustomEvent('file-action-tap',
-          {detail: {action: Actions.DELETE.id, path: 'foo'}, bubbles: true}));
-      flushAsynchronousOperations();
-
-      assert.isTrue(controls.openDeleteDialog.called);
-      assert.equal(controls.openDeleteDialog.lastCall.args[0], 'foo');
-
-      // Restore
-      fileList.dispatchEvent(new CustomEvent('file-action-tap',
-          {detail: {action: Actions.RESTORE.id, path: 'foo'}, bubbles: true}));
-      flushAsynchronousOperations();
-
-      assert.isTrue(controls.openRestoreDialog.called);
-      assert.equal(controls.openRestoreDialog.lastCall.args[0], 'foo');
-
-      // Rename
-      fileList.dispatchEvent(new CustomEvent('file-action-tap',
-          {detail: {action: Actions.RENAME.id, path: 'foo'}, bubbles: true}));
-      flushAsynchronousOperations();
-
-      assert.isTrue(controls.openRenameDialog.called);
-      assert.equal(controls.openRenameDialog.lastCall.args[0], 'foo');
-
-      // Open
-      fileList.dispatchEvent(new CustomEvent('file-action-tap',
-          {detail: {action: Actions.OPEN.id, path: 'foo'}, bubbles: true}));
-      flushAsynchronousOperations();
-
-      assert.isTrue(Gerrit.Nav.getEditUrlForDiff.called);
-      assert.equal(Gerrit.Nav.getEditUrlForDiff.lastCall.args[1], 'foo');
-      assert.equal(Gerrit.Nav.getEditUrlForDiff.lastCall.args[2], '1');
-      assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.called);
-    });
-
-    test('_selectedRevision updates when patchNum is changed', () => {
-      const revision1 = {_number: 1, commit: {}};
-      const revision2 = {_number: 2, commit: {}};
-      sandbox.stub(element.$.restAPI, 'getChangeDetail').returns(
-          Promise.resolve({
-            revisions: {
-              aaa: revision1,
-              bbb: revision2,
-            },
-            labels: {},
-            actions: {},
-            current_revision: 'bbb',
-            change_id: 'loremipsumdolorsitamet',
-          }));
-      sandbox.stub(element, '_getEdit').returns(Promise.resolve());
-      element._patchRange = {patchNum: '2'};
-      return element._getChangeDetail().then(() => {
-        assert.strictEqual(element._selectedRevision, revision2);
-
-        element.set('_patchRange.patchNum', '1');
-        assert.strictEqual(element._selectedRevision, revision1);
-      });
-    });
-
-    test('_sendShowChangeEvent', () => {
-      element._change = {labels: {}};
-      element._patchRange = {patchNum: 4};
-      element._mergeable = true;
-      const showStub = sandbox.stub(element.$.jsAPI, 'handleEvent');
-      element._sendShowChangeEvent();
-      assert.isTrue(showStub.calledOnce);
-      assert.equal(
-          showStub.lastCall.args[0], element.$.jsAPI.EventType.SHOW_CHANGE);
-      assert.deepEqual(showStub.lastCall.args[1], {
-        change: {labels: {}},
-        patchNum: 4,
-        info: {mergeable: true},
-      });
-    });
-
-    suite('_handleEditTap', () => {
-      let fireEdit;
-
-      setup(() => {
-        fireEdit = () => {
-          element.$.actions.dispatchEvent(new CustomEvent('edit-tap'));
-        };
-        navigateToChangeStub.restore();
-
-        element._change = {revisions: {rev1: {_number: 1}}};
-      });
-
-      test('edit exists in revisions', done => {
-        sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
-          assert.equal(args.length, 2);
-          assert.equal(args[1], element.EDIT_NAME); // patchNum
-          done();
-        });
-
-        element.set('_change.revisions.rev2', {_number: element.EDIT_NAME});
-        flushAsynchronousOperations();
-
-        fireEdit();
-      });
-
-      test('no edit exists in revisions, non-latest patchset', done => {
-        sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
-          assert.equal(args.length, 4);
-          assert.equal(args[1], 1); // patchNum
-          assert.equal(args[3], true); // opt_isEdit
-          done();
-        });
-
-        element.set('_change.revisions.rev2', {_number: 2});
-        element._patchRange = {patchNum: 1};
-        flushAsynchronousOperations();
-
-        fireEdit();
-      });
-
-      test('no edit exists in revisions, latest patchset', done => {
-        sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
-          assert.equal(args.length, 4);
-          // No patch should be specified when patchNum == latest.
-          assert.isNotOk(args[1]); // patchNum
-          assert.equal(args[3], true); // opt_isEdit
-          done();
-        });
-
-        element.set('_change.revisions.rev2', {_number: 2});
-        element._patchRange = {patchNum: 2};
-        flushAsynchronousOperations();
-
-        fireEdit();
-      });
-    });
-
-    test('_handleStopEditTap', done => {
-      sandbox.stub(element.$.metadata, '_computeLabelNames');
-      navigateToChangeStub.restore();
-      sandbox.stub(element, 'computeLatestPatchNum').returns(1);
-      sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
-        assert.equal(args.length, 2);
-        assert.equal(args[1], 1); // patchNum
-        done();
-      });
-
-      element._patchRange = {patchNum: 1};
-      element.$.actions.dispatchEvent(new CustomEvent('stop-edit-tap',
-            {bubbles: false}));
-    });
-
-    suite('plugin endpoints', () => {
-      test('endpoint params', done => {
-        element._change = {labels: {}};
-        element._selectedRevision = {};
-        let hookEl;
-        let plugin;
-        Gerrit.install(
-            p => {
-              plugin = p;
-              plugin.hook('change-view-integration').getLastAttached().then(
-                  el => hookEl = el);
-            },
-            '0.1',
-            'http://some/plugins/url.html');
-        flush(() => {
-          assert.strictEqual(hookEl.plugin, plugin);
-          assert.strictEqual(hookEl.change, element._change);
-          assert.strictEqual(hookEl.revision, element._selectedRevision);
-          done();
-        });
-      });
-    });
-
-    suite('_getMergeability', () => {
-      let getMergeableStub;
-
-      setup(() => {
-        element._change = {labels: {}};
-        getMergeableStub = sandbox.stub(element.$.restAPI, 'getMergeable')
-            .returns(Promise.resolve({mergeable: true}));
-      });
-
-      test('merged change', () => {
-        element._mergeable = null;
-        element._change.status = element.ChangeStatus.MERGED;
-        return element._getMergeability().then(() => {
-          assert.isFalse(element._mergeable);
-          assert.isFalse(getMergeableStub.called);
-        });
-      });
-
-      test('abandoned change', () => {
-        element._mergeable = null;
-        element._change.status = element.ChangeStatus.ABANDONED;
-        return element._getMergeability().then(() => {
-          assert.isFalse(element._mergeable);
-          assert.isFalse(getMergeableStub.called);
-        });
-      });
-
-      test('open change', () => {
-        element._mergeable = null;
-        return element._getMergeability().then(() => {
-          assert.isTrue(element._mergeable);
-          assert.isTrue(getMergeableStub.called);
-        });
-      });
-    });
-
-    test('_paramsChanged sets in projectLookup', () => {
-      sandbox.stub(element.$.relatedChanges, 'reload');
-      sandbox.stub(element, '_reload').returns(Promise.resolve());
-      const setStub = sandbox.stub(element.$.restAPI, 'setInProjectLookup');
-      element._paramsChanged({
-        view: Gerrit.Nav.View.CHANGE,
-        changeNum: 101,
-        project: 'test-project',
-      });
-      assert.isTrue(setStub.calledOnce);
-      assert.isTrue(setStub.calledWith(101, 'test-project'));
-    });
-
-    test('_handleToggleStar called when star is tapped', () => {
-      element._change = {
-        owner: {_account_id: 1},
-        starred: false,
-      };
-      element._loggedIn = true;
-      const stub = sandbox.stub(element, '_handleToggleStar');
-      flushAsynchronousOperations();
-
-      MockInteractions.tap(element.$.changeStar.$$('button'));
-      assert.isTrue(stub.called);
+      assert.isFalse(element._computeCanStartReview(change1));
+      assert.isTrue(element._computeCanStartReview(change2));
+      assert.isFalse(element._computeCanStartReview(change3));
     });
   });
+
+  test('header class computation', () => {
+    assert.equal(element._computeHeaderClass(), 'header');
+    assert.equal(element._computeHeaderClass(true), 'header editMode');
+  });
+
+  test('_maybeScrollToMessage', done => {
+    flush(() => {
+      const scrollStub = sandbox.stub(element.messagesList,
+          'scrollToMessage');
+
+      element._maybeScrollToMessage('');
+      assert.isFalse(scrollStub.called);
+      element._maybeScrollToMessage('message');
+      assert.isFalse(scrollStub.called);
+      element._maybeScrollToMessage('#message-TEST');
+      assert.isTrue(scrollStub.called);
+      assert.equal(scrollStub.lastCall.args[0], 'TEST');
+      done();
+    });
+  });
+
+  test('topic update reloads related changes', () => {
+    sandbox.stub(element.$.relatedChanges, 'reload');
+    element.dispatchEvent(new CustomEvent('topic-changed'));
+    assert.isTrue(element.$.relatedChanges.reload.calledOnce);
+  });
+
+  test('_computeEditMode', () => {
+    const callCompute = (range, params) =>
+        element._computeEditMode({base: range}, {base: params});
+    assert.isFalse(callCompute({}, {}));
+    assert.isTrue(callCompute({}, {edit: true}));
+    assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}, {}));
+    assert.isFalse(callCompute({basePatchNum: 'edit', patchNum: 1}, {}));
+    assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}, {}));
+  });
+
+  test('_processEdit', () => {
+    element._patchRange = {};
+    const change = {
+      current_revision: 'foo',
+      revisions: {foo: {commit: {}, actions: {cherrypick: {enabled: true}}}},
+    };
+    let mockChange;
+
+    // With no edit, mockChange should be unmodified.
+    element._processEdit(mockChange = _.cloneDeep(change), null);
+    assert.deepEqual(mockChange, change);
+
+    // When edit is not based on the latest PS, current_revision should be
+    // unmodified.
+    const edit = {
+      base_patch_set_number: 1,
+      commit: {commit: 'bar'},
+      fetch: true,
+    };
+    element._processEdit(mockChange = _.cloneDeep(change), edit);
+    assert.notDeepEqual(mockChange, change);
+    assert.equal(mockChange.revisions.bar._number, element.EDIT_NAME);
+    assert.equal(mockChange.current_revision, change.current_revision);
+    assert.deepEqual(mockChange.revisions.bar.commit, {commit: 'bar'});
+    assert.notOk(mockChange.revisions.bar.actions);
+
+    edit.base_revision = 'foo';
+    element._processEdit(mockChange = _.cloneDeep(change), edit);
+    assert.notDeepEqual(mockChange, change);
+    assert.equal(mockChange.current_revision, 'bar');
+    assert.deepEqual(mockChange.revisions.bar.actions,
+        mockChange.revisions.foo.actions);
+
+    // If _patchRange.patchNum is defined, do not load edit.
+    element._patchRange.patchNum = 'baz';
+    change.current_revision = 'baz';
+    element._processEdit(mockChange = _.cloneDeep(change), edit);
+    assert.equal(element._patchRange.patchNum, 'baz');
+    assert.notOk(mockChange.revisions.bar.actions);
+  });
+
+  test('file-action-tap handling', () => {
+    element._patchRange = {
+      basePatchNum: 'PARENT',
+      patchNum: 1,
+    };
+    const fileList = element.$.fileList;
+    const Actions = GrEditConstants.Actions;
+    const controls = element.$.fileListHeader.$.editControls;
+    sandbox.stub(controls, 'openDeleteDialog');
+    sandbox.stub(controls, 'openRenameDialog');
+    sandbox.stub(controls, 'openRestoreDialog');
+    sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
+    sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+
+    // Delete
+    fileList.dispatchEvent(new CustomEvent('file-action-tap',
+        {detail: {action: Actions.DELETE.id, path: 'foo'}, bubbles: true}));
+    flushAsynchronousOperations();
+
+    assert.isTrue(controls.openDeleteDialog.called);
+    assert.equal(controls.openDeleteDialog.lastCall.args[0], 'foo');
+
+    // Restore
+    fileList.dispatchEvent(new CustomEvent('file-action-tap',
+        {detail: {action: Actions.RESTORE.id, path: 'foo'}, bubbles: true}));
+    flushAsynchronousOperations();
+
+    assert.isTrue(controls.openRestoreDialog.called);
+    assert.equal(controls.openRestoreDialog.lastCall.args[0], 'foo');
+
+    // Rename
+    fileList.dispatchEvent(new CustomEvent('file-action-tap',
+        {detail: {action: Actions.RENAME.id, path: 'foo'}, bubbles: true}));
+    flushAsynchronousOperations();
+
+    assert.isTrue(controls.openRenameDialog.called);
+    assert.equal(controls.openRenameDialog.lastCall.args[0], 'foo');
+
+    // Open
+    fileList.dispatchEvent(new CustomEvent('file-action-tap',
+        {detail: {action: Actions.OPEN.id, path: 'foo'}, bubbles: true}));
+    flushAsynchronousOperations();
+
+    assert.isTrue(Gerrit.Nav.getEditUrlForDiff.called);
+    assert.equal(Gerrit.Nav.getEditUrlForDiff.lastCall.args[1], 'foo');
+    assert.equal(Gerrit.Nav.getEditUrlForDiff.lastCall.args[2], '1');
+    assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.called);
+  });
+
+  test('_selectedRevision updates when patchNum is changed', () => {
+    const revision1 = {_number: 1, commit: {}};
+    const revision2 = {_number: 2, commit: {}};
+    sandbox.stub(element.$.restAPI, 'getChangeDetail').returns(
+        Promise.resolve({
+          revisions: {
+            aaa: revision1,
+            bbb: revision2,
+          },
+          labels: {},
+          actions: {},
+          current_revision: 'bbb',
+          change_id: 'loremipsumdolorsitamet',
+        }));
+    sandbox.stub(element, '_getEdit').returns(Promise.resolve());
+    element._patchRange = {patchNum: '2'};
+    return element._getChangeDetail().then(() => {
+      assert.strictEqual(element._selectedRevision, revision2);
+
+      element.set('_patchRange.patchNum', '1');
+      assert.strictEqual(element._selectedRevision, revision1);
+    });
+  });
+
+  test('_sendShowChangeEvent', () => {
+    element._change = {labels: {}};
+    element._patchRange = {patchNum: 4};
+    element._mergeable = true;
+    const showStub = sandbox.stub(element.$.jsAPI, 'handleEvent');
+    element._sendShowChangeEvent();
+    assert.isTrue(showStub.calledOnce);
+    assert.equal(
+        showStub.lastCall.args[0], element.$.jsAPI.EventType.SHOW_CHANGE);
+    assert.deepEqual(showStub.lastCall.args[1], {
+      change: {labels: {}},
+      patchNum: 4,
+      info: {mergeable: true},
+    });
+  });
+
+  suite('_handleEditTap', () => {
+    let fireEdit;
+
+    setup(() => {
+      fireEdit = () => {
+        element.$.actions.dispatchEvent(new CustomEvent('edit-tap'));
+      };
+      navigateToChangeStub.restore();
+
+      element._change = {revisions: {rev1: {_number: 1}}};
+    });
+
+    test('edit exists in revisions', done => {
+      sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+        assert.equal(args.length, 2);
+        assert.equal(args[1], element.EDIT_NAME); // patchNum
+        done();
+      });
+
+      element.set('_change.revisions.rev2', {_number: element.EDIT_NAME});
+      flushAsynchronousOperations();
+
+      fireEdit();
+    });
+
+    test('no edit exists in revisions, non-latest patchset', done => {
+      sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+        assert.equal(args.length, 4);
+        assert.equal(args[1], 1); // patchNum
+        assert.equal(args[3], true); // opt_isEdit
+        done();
+      });
+
+      element.set('_change.revisions.rev2', {_number: 2});
+      element._patchRange = {patchNum: 1};
+      flushAsynchronousOperations();
+
+      fireEdit();
+    });
+
+    test('no edit exists in revisions, latest patchset', done => {
+      sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+        assert.equal(args.length, 4);
+        // No patch should be specified when patchNum == latest.
+        assert.isNotOk(args[1]); // patchNum
+        assert.equal(args[3], true); // opt_isEdit
+        done();
+      });
+
+      element.set('_change.revisions.rev2', {_number: 2});
+      element._patchRange = {patchNum: 2};
+      flushAsynchronousOperations();
+
+      fireEdit();
+    });
+  });
+
+  test('_handleStopEditTap', done => {
+    sandbox.stub(element.$.metadata, '_computeLabelNames');
+    navigateToChangeStub.restore();
+    sandbox.stub(element, 'computeLatestPatchNum').returns(1);
+    sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+      assert.equal(args.length, 2);
+      assert.equal(args[1], 1); // patchNum
+      done();
+    });
+
+    element._patchRange = {patchNum: 1};
+    element.$.actions.dispatchEvent(new CustomEvent('stop-edit-tap',
+          {bubbles: false}));
+  });
+
+  suite('plugin endpoints', () => {
+    test('endpoint params', done => {
+      element._change = {labels: {}};
+      element._selectedRevision = {};
+      let hookEl;
+      let plugin;
+      Gerrit.install(
+          p => {
+            plugin = p;
+            plugin.hook('change-view-integration').getLastAttached().then(
+                el => hookEl = el);
+          },
+          '0.1',
+          'http://some/plugins/url.html');
+      flush(() => {
+        assert.strictEqual(hookEl.plugin, plugin);
+        assert.strictEqual(hookEl.change, element._change);
+        assert.strictEqual(hookEl.revision, element._selectedRevision);
+        done();
+      });
+    });
+  });
+
+  suite('_getMergeability', () => {
+    let getMergeableStub;
+
+    setup(() => {
+      element._change = {labels: {}};
+      getMergeableStub = sandbox.stub(element.$.restAPI, 'getMergeable')
+          .returns(Promise.resolve({mergeable: true}));
+    });
+
+    test('merged change', () => {
+      element._mergeable = null;
+      element._change.status = element.ChangeStatus.MERGED;
+      return element._getMergeability().then(() => {
+        assert.isFalse(element._mergeable);
+        assert.isFalse(getMergeableStub.called);
+      });
+    });
+
+    test('abandoned change', () => {
+      element._mergeable = null;
+      element._change.status = element.ChangeStatus.ABANDONED;
+      return element._getMergeability().then(() => {
+        assert.isFalse(element._mergeable);
+        assert.isFalse(getMergeableStub.called);
+      });
+    });
+
+    test('open change', () => {
+      element._mergeable = null;
+      return element._getMergeability().then(() => {
+        assert.isTrue(element._mergeable);
+        assert.isTrue(getMergeableStub.called);
+      });
+    });
+  });
+
+  test('_paramsChanged sets in projectLookup', () => {
+    sandbox.stub(element.$.relatedChanges, 'reload');
+    sandbox.stub(element, '_reload').returns(Promise.resolve());
+    const setStub = sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+    element._paramsChanged({
+      view: Gerrit.Nav.View.CHANGE,
+      changeNum: 101,
+      project: 'test-project',
+    });
+    assert.isTrue(setStub.calledOnce);
+    assert.isTrue(setStub.calledWith(101, 'test-project'));
+  });
+
+  test('_handleToggleStar called when star is tapped', () => {
+    element._change = {
+      owner: {_account_id: 1},
+      starred: false,
+    };
+    element._loggedIn = true;
+    const stub = sandbox.stub(element, '_handleToggleStar');
+    flushAsynchronousOperations();
+
+    MockInteractions.tap(element.$.changeStar.$$('button'));
+    assert.isTrue(stub.called);
+  });
+});
 </script>

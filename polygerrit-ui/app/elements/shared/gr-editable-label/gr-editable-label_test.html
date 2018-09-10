@@ -19,14 +19,18 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-editable-label</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="../../../bower_components/iron-test-helpers/mock-interactions.js"></script>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script src="../../../../@polymer/iron-test-helpers/mock-interactions.js" type="module"></script>
 
-<link rel="import" href="gr-editable-label.html">
+<script type="module" src="./gr-editable-label.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-editable-label.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -51,191 +55,193 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-editable-label tests', () => {
-    let element;
-    let elementNoPlaceholder;
-    let input;
-    let label;
-    let sandbox;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-editable-label.js';
+suite('gr-editable-label tests', () => {
+  let element;
+  let elementNoPlaceholder;
+  let input;
+  let label;
+  let sandbox;
 
-    setup(() => {
-      element = fixture('basic');
-      elementNoPlaceholder = fixture('no-placeholder');
+  setup(() => {
+    element = fixture('basic');
+    elementNoPlaceholder = fixture('no-placeholder');
 
-      input = element.$.input.$.input;
-      label = element.$$('label');
-      sandbox = sinon.sandbox.create();
+    input = element.$.input.$.input;
+    label = element.$$('label');
+    sandbox = sinon.sandbox.create();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('element render', () => {
+    // The dropdown is closed and the label is visible:
+    assert.isFalse(element.$.dropdown.opened);
+    assert.isTrue(label.classList.contains('editable'));
+    assert.equal(label.textContent, 'value text');
+    const focusSpy = sandbox.spy(element.$.input.$.input, 'focus');
+    const showSpy = sandbox.spy(element, '_showDropdown');
+
+    MockInteractions.tap(label);
+
+    return showSpy.lastCall.returnValue.then(() => {
+      // The dropdown is open (which covers up the label):
+      assert.isTrue(element.$.dropdown.opened);
+      assert.isTrue(focusSpy.called);
+      assert.equal(input.value, 'value text');
     });
+  });
 
-    teardown(() => {
-      sandbox.restore();
+  test('title with placeholder', done => {
+    assert.equal(element.title, 'value text');
+    element.value = '';
+
+    element.async(() => {
+      assert.equal(element.title, 'label text');
+      done();
     });
+  });
 
-    test('element render', () => {
-      // The dropdown is closed and the label is visible:
-      assert.isFalse(element.$.dropdown.opened);
-      assert.isTrue(label.classList.contains('editable'));
-      assert.equal(label.textContent, 'value text');
-      const focusSpy = sandbox.spy(element.$.input.$.input, 'focus');
-      const showSpy = sandbox.spy(element, '_showDropdown');
+  test('title without placeholder', done => {
+    assert.equal(elementNoPlaceholder.title, '');
+    element.value = 'value text';
 
-      MockInteractions.tap(label);
-
-      return showSpy.lastCall.returnValue.then(() => {
-        // The dropdown is open (which covers up the label):
-        assert.isTrue(element.$.dropdown.opened);
-        assert.isTrue(focusSpy.called);
-        assert.equal(input.value, 'value text');
-      });
-    });
-
-    test('title with placeholder', done => {
+    element.async(() => {
       assert.equal(element.title, 'value text');
-      element.value = '';
-
-      element.async(() => {
-        assert.equal(element.title, 'label text');
-        done();
-      });
-    });
-
-    test('title without placeholder', done => {
-      assert.equal(elementNoPlaceholder.title, '');
-      element.value = 'value text';
-
-      element.async(() => {
-        assert.equal(element.title, 'value text');
-        done();
-      });
-    });
-
-    test('edit value', done => {
-      const editedStub = sandbox.stub();
-      element.addEventListener('changed', editedStub);
-      assert.isFalse(element.editing);
-
-      MockInteractions.tap(label);
-
-      Polymer.dom.flush();
-
-      assert.isTrue(element.editing);
-      element._inputText = 'new text';
-
-      assert.isFalse(editedStub.called);
-
-      element.async(() => {
-        assert.isTrue(editedStub.called);
-        assert.equal(input.value, 'new text');
-        assert.isFalse(element.editing);
-        done();
-      });
-
-      // Press enter:
-      MockInteractions.keyDownOn(input, 13);
-    });
-
-    test('save button', done => {
-      const editedStub = sandbox.stub();
-      element.addEventListener('changed', editedStub);
-      assert.isFalse(element.editing);
-
-      MockInteractions.tap(label);
-
-      Polymer.dom.flush();
-
-      assert.isTrue(element.editing);
-      element._inputText = 'new text';
-
-      assert.isFalse(editedStub.called);
-
-      element.async(() => {
-        assert.isTrue(editedStub.called);
-        assert.equal(input.value, 'new text');
-        assert.isFalse(element.editing);
-        done();
-      });
-
-      // Press enter:
-      MockInteractions.tap(element.$.saveBtn, 13);
-    });
-
-
-    test('edit and then escape key', done => {
-      const editedStub = sandbox.stub();
-      element.addEventListener('changed', editedStub);
-      assert.isFalse(element.editing);
-
-      MockInteractions.tap(label);
-
-      Polymer.dom.flush();
-
-      assert.isTrue(element.editing);
-      element._inputText = 'new text';
-
-      assert.isFalse(editedStub.called);
-
-      element.async(() => {
-        assert.isFalse(editedStub.called);
-        // Text changes sould be discarded.
-        assert.equal(input.value, 'value text');
-        assert.isFalse(element.editing);
-        done();
-      });
-
-      // Press escape:
-      MockInteractions.keyDownOn(input, 27);
-    });
-
-    test('cancel button', done => {
-      const editedStub = sandbox.stub();
-      element.addEventListener('changed', editedStub);
-      assert.isFalse(element.editing);
-
-      MockInteractions.tap(label);
-
-      Polymer.dom.flush();
-
-      assert.isTrue(element.editing);
-      element._inputText = 'new text';
-
-      assert.isFalse(editedStub.called);
-
-      element.async(() => {
-        assert.isFalse(editedStub.called);
-        // Text changes sould be discarded.
-        assert.equal(input.value, 'value text');
-        assert.isFalse(element.editing);
-        done();
-      });
-
-      // Press escape:
-      MockInteractions.tap(element.$.cancelBtn);
+      done();
     });
   });
 
-  suite('gr-editable-label read-only tests', () => {
-    let element;
-    let label;
+  test('edit value', done => {
+    const editedStub = sandbox.stub();
+    element.addEventListener('changed', editedStub);
+    assert.isFalse(element.editing);
 
-    setup(() => {
-      element = fixture('read-only');
-      label = element.$$('label');
+    MockInteractions.tap(label);
+
+    Polymer.dom.flush();
+
+    assert.isTrue(element.editing);
+    element._inputText = 'new text';
+
+    assert.isFalse(editedStub.called);
+
+    element.async(() => {
+      assert.isTrue(editedStub.called);
+      assert.equal(input.value, 'new text');
+      assert.isFalse(element.editing);
+      done();
     });
 
-    test('disallows edit when read-only', () => {
-      // The dropdown is closed.
-      assert.isFalse(element.$.dropdown.opened);
-      MockInteractions.tap(label);
-
-      Polymer.dom.flush();
-
-      // The dropdown is still closed.
-      assert.isFalse(element.$.dropdown.opened);
-    });
-
-    test('label is not marked as editable', () => {
-      assert.isFalse(label.classList.contains('editable'));
-    });
+    // Press enter:
+    MockInteractions.keyDownOn(input, 13);
   });
+
+  test('save button', done => {
+    const editedStub = sandbox.stub();
+    element.addEventListener('changed', editedStub);
+    assert.isFalse(element.editing);
+
+    MockInteractions.tap(label);
+
+    Polymer.dom.flush();
+
+    assert.isTrue(element.editing);
+    element._inputText = 'new text';
+
+    assert.isFalse(editedStub.called);
+
+    element.async(() => {
+      assert.isTrue(editedStub.called);
+      assert.equal(input.value, 'new text');
+      assert.isFalse(element.editing);
+      done();
+    });
+
+    // Press enter:
+    MockInteractions.tap(element.$.saveBtn, 13);
+  });
+
+
+  test('edit and then escape key', done => {
+    const editedStub = sandbox.stub();
+    element.addEventListener('changed', editedStub);
+    assert.isFalse(element.editing);
+
+    MockInteractions.tap(label);
+
+    Polymer.dom.flush();
+
+    assert.isTrue(element.editing);
+    element._inputText = 'new text';
+
+    assert.isFalse(editedStub.called);
+
+    element.async(() => {
+      assert.isFalse(editedStub.called);
+      // Text changes sould be discarded.
+      assert.equal(input.value, 'value text');
+      assert.isFalse(element.editing);
+      done();
+    });
+
+    // Press escape:
+    MockInteractions.keyDownOn(input, 27);
+  });
+
+  test('cancel button', done => {
+    const editedStub = sandbox.stub();
+    element.addEventListener('changed', editedStub);
+    assert.isFalse(element.editing);
+
+    MockInteractions.tap(label);
+
+    Polymer.dom.flush();
+
+    assert.isTrue(element.editing);
+    element._inputText = 'new text';
+
+    assert.isFalse(editedStub.called);
+
+    element.async(() => {
+      assert.isFalse(editedStub.called);
+      // Text changes sould be discarded.
+      assert.equal(input.value, 'value text');
+      assert.isFalse(element.editing);
+      done();
+    });
+
+    // Press escape:
+    MockInteractions.tap(element.$.cancelBtn);
+  });
+});
+
+suite('gr-editable-label read-only tests', () => {
+  let element;
+  let label;
+
+  setup(() => {
+    element = fixture('read-only');
+    label = element.$$('label');
+  });
+
+  test('disallows edit when read-only', () => {
+    // The dropdown is closed.
+    assert.isFalse(element.$.dropdown.opened);
+    MockInteractions.tap(label);
+
+    Polymer.dom.flush();
+
+    // The dropdown is still closed.
+    assert.isFalse(element.$.dropdown.opened);
+  });
+
+  test('label is not marked as editable', () => {
+    assert.isFalse(label.classList.contains('editable'));
+  });
+});
 </script>

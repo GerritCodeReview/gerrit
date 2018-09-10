@@ -19,12 +19,16 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-confirm-abandon-dialog</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-confirm-abandon-dialog.html">
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-confirm-abandon-dialog.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-confirm-abandon-dialog.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -32,36 +36,38 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-confirm-abandon-dialog tests', () => {
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-confirm-abandon-dialog.js';
+suite('gr-confirm-abandon-dialog tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('_handleConfirmTap', () => {
-      const confirmHandler = sandbox.stub();
-      element.addEventListener('confirm', confirmHandler);
-      sandbox.stub(element, '_confirm');
-      element.$$('gr-dialog').fire('confirm');
-      assert.isTrue(confirmHandler.called);
-      assert.isTrue(element._confirm.called);
-    });
-
-    test('_handleCancelTap', () => {
-      const cancelHandler = sandbox.stub();
-      element.addEventListener('cancel', cancelHandler);
-      sandbox.stub(element, '_handleCancelTap');
-      element.$$('gr-dialog').fire('cancel');
-      assert.isTrue(cancelHandler.called);
-      assert.isTrue(element._handleCancelTap.called);
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('_handleConfirmTap', () => {
+    const confirmHandler = sandbox.stub();
+    element.addEventListener('confirm', confirmHandler);
+    sandbox.stub(element, '_confirm');
+    element.$$('gr-dialog').fire('confirm');
+    assert.isTrue(confirmHandler.called);
+    assert.isTrue(element._confirm.called);
+  });
+
+  test('_handleCancelTap', () => {
+    const cancelHandler = sandbox.stub();
+    element.addEventListener('cancel', cancelHandler);
+    sandbox.stub(element, '_handleCancelTap');
+    element.$$('gr-dialog').fire('cancel');
+    assert.isTrue(cancelHandler.called);
+    assert.isTrue(element._handleCancelTap.called);
+  });
+});
 </script>

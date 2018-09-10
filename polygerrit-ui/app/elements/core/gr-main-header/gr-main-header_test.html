@@ -19,12 +19,16 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-main-header</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-main-header.html">
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-main-header.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-main-header.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -32,133 +36,135 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-main-header tests', () => {
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-main-header.js';
+suite('gr-main-header tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        probePath(path) { return Promise.resolve(false); },
-      });
-      stub('gr-main-header', {
-        _loadAccount() {},
-      });
-      element = fixture('basic');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({}); },
+      probePath(path) { return Promise.resolve(false); },
     });
-
-    teardown(() => {
-      sandbox.restore();
+    stub('gr-main-header', {
+      _loadAccount() {},
     });
+    element = fixture('basic');
+  });
 
-    test('link visibility', () => {
-      element.loading = true;
-      assert.equal(getComputedStyle(element.$$('.accountContainer')).display,
-          'none');
-      element.loading = false;
-      element.loggedIn = false;
-      assert.notEqual(getComputedStyle(element.$$('.accountContainer')).display,
-          'none');
-      assert.notEqual(getComputedStyle(element.$$('.loginButton')).display,
-          'none');
-      assert.equal(getComputedStyle(element.$$('gr-account-dropdown')).display,
-          'none');
-      assert.equal(getComputedStyle(element.$$('.settingsButton')).display,
-          'none');
-      element.loggedIn = true;
-      assert.equal(getComputedStyle(element.$$('.loginButton')).display,
-          'none');
-      assert.notEqual(getComputedStyle(element.$$('gr-account-dropdown'))
-          .display,
-          'none');
-      assert.notEqual(getComputedStyle(element.$$('.settingsButton')).display,
-          'none');
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('fix my menu item', () => {
-      assert.deepEqual([
-        {url: 'https://awesometown.com/#hashyhash'},
-        {url: 'url', target: '_blank'},
-      ].map(element._fixMyMenuItem), [
-        {url: 'https://awesometown.com/#hashyhash', external: true},
-        {url: 'url', external: true},
-      ]);
-    });
+  test('link visibility', () => {
+    element.loading = true;
+    assert.equal(getComputedStyle(element.$$('.accountContainer')).display,
+        'none');
+    element.loading = false;
+    element.loggedIn = false;
+    assert.notEqual(getComputedStyle(element.$$('.accountContainer')).display,
+        'none');
+    assert.notEqual(getComputedStyle(element.$$('.loginButton')).display,
+        'none');
+    assert.equal(getComputedStyle(element.$$('gr-account-dropdown')).display,
+        'none');
+    assert.equal(getComputedStyle(element.$$('.settingsButton')).display,
+        'none');
+    element.loggedIn = true;
+    assert.equal(getComputedStyle(element.$$('.loginButton')).display,
+        'none');
+    assert.notEqual(getComputedStyle(element.$$('gr-account-dropdown'))
+        .display,
+        'none');
+    assert.notEqual(getComputedStyle(element.$$('.settingsButton')).display,
+        'none');
+  });
 
-    test('filter unsupported urls', () => {
-      assert.deepEqual([
-        {url: '/c/331788/'},
-        {url: '/groups/self'},
-        {url: 'https://awesometown.com/#hashyhash'},
-      ].filter(element._isSupportedLink), [
-        {url: '/c/331788/'},
-        {url: 'https://awesometown.com/#hashyhash'},
-      ]);
-    });
+  test('fix my menu item', () => {
+    assert.deepEqual([
+      {url: 'https://awesometown.com/#hashyhash'},
+      {url: 'url', target: '_blank'},
+    ].map(element._fixMyMenuItem), [
+      {url: 'https://awesometown.com/#hashyhash', external: true},
+      {url: 'url', external: true},
+    ]);
+  });
+
+  test('filter unsupported urls', () => {
+    assert.deepEqual([
+      {url: '/c/331788/'},
+      {url: '/groups/self'},
+      {url: 'https://awesometown.com/#hashyhash'},
+    ].filter(element._isSupportedLink), [
+      {url: '/c/331788/'},
+      {url: 'https://awesometown.com/#hashyhash'},
+    ]);
+  });
 
 
-    test('user links', () => {
-      const defaultLinks = [{
-        title: 'Faves',
-        links: [{
-          name: 'Pinterest',
-          url: 'https://pinterest.com',
-        }],
-      }];
-      const userLinks = [{
-        name: 'Facebook',
-        url: 'https://facebook.com',
-      }];
-      const adminLinks = [{
-        name: 'Repos',
-        url: '/repos',
-      }];
+  test('user links', () => {
+    const defaultLinks = [{
+      title: 'Faves',
+      links: [{
+        name: 'Pinterest',
+        url: 'https://pinterest.com',
+      }],
+    }];
+    const userLinks = [{
+      name: 'Facebook',
+      url: 'https://facebook.com',
+    }];
+    const adminLinks = [{
+      name: 'Repos',
+      url: '/repos',
+    }];
 
-      // When no admin links are passed, it should use the default.
-      assert.deepEqual(element._computeLinks(defaultLinks, [], adminLinks),
-          defaultLinks.concat({
+    // When no admin links are passed, it should use the default.
+    assert.deepEqual(element._computeLinks(defaultLinks, [], adminLinks),
+        defaultLinks.concat({
+          title: 'Browse',
+          links: adminLinks,
+        }));
+    assert.deepEqual(
+        element._computeLinks(defaultLinks, userLinks, adminLinks),
+        defaultLinks.concat([
+          {
+            title: 'Your',
+            links: userLinks,
+          },
+          {
             title: 'Browse',
             links: adminLinks,
-          }));
-      assert.deepEqual(
-          element._computeLinks(defaultLinks, userLinks, adminLinks),
-          defaultLinks.concat([
-            {
-              title: 'Your',
-              links: userLinks,
-            },
-            {
-              title: 'Browse',
-              links: adminLinks,
-            }]));
-    });
-
-    test('documentation links', () => {
-      const docLinks = [
-        {
-          name: 'Table of Contents',
-          url: '/index.html',
-        },
-      ];
-
-      assert.deepEqual(element._getDocLinks(null, docLinks), []);
-      assert.deepEqual(element._getDocLinks('', docLinks), []);
-      assert.deepEqual(element._getDocLinks('base', null), []);
-      assert.deepEqual(element._getDocLinks('base', []), []);
-
-      assert.deepEqual(element._getDocLinks('base', docLinks), [{
-        name: 'Table of Contents',
-        target: '_blank',
-        url: 'base/index.html',
-      }]);
-
-      assert.deepEqual(element._getDocLinks('base/', docLinks), [{
-        name: 'Table of Contents',
-        target: '_blank',
-        url: 'base/index.html',
-      }]);
-    });
+          }]));
   });
+
+  test('documentation links', () => {
+    const docLinks = [
+      {
+        name: 'Table of Contents',
+        url: '/index.html',
+      },
+    ];
+
+    assert.deepEqual(element._getDocLinks(null, docLinks), []);
+    assert.deepEqual(element._getDocLinks('', docLinks), []);
+    assert.deepEqual(element._getDocLinks('base', null), []);
+    assert.deepEqual(element._getDocLinks('base', []), []);
+
+    assert.deepEqual(element._getDocLinks('base', docLinks), [{
+      name: 'Table of Contents',
+      target: '_blank',
+      url: 'base/index.html',
+    }]);
+
+    assert.deepEqual(element._getDocLinks('base/', docLinks), [{
+      name: 'Table of Contents',
+      target: '_blank',
+      url: 'base/index.html',
+    }]);
+  });
+});
 </script>

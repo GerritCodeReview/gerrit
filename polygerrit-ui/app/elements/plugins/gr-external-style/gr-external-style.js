@@ -1,70 +1,74 @@
 /**
- * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2017 The Android Open Source Project
 
-  Polymer({
-    is: 'gr-external-style',
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    properties: {
-      name: String,
-      _urlsImported: {
-        type: Array,
-        value() { return []; },
-      },
-      _stylesApplied: {
-        type: Array,
-        value() { return []; },
-      },
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../../@polymer/polymer/polymer-legacy.js';
+
+import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
+
+Polymer({
+  _template: Polymer.html`
+    <slot></slot>
+`,
+
+  is: 'gr-external-style',
+
+  properties: {
+    name: String,
+    _urlsImported: {
+      type: Array,
+      value() { return []; },
     },
-
-    _import(url) {
-      if (this._urlsImported.includes(url)) { return Promise.resolve(); }
-      this._urlsImported.push(url);
-      return new Promise((resolve, reject) => {
-        this.importHref(url, resolve, reject);
-      });
+    _stylesApplied: {
+      type: Array,
+      value() { return []; },
     },
+  },
 
-    _applyStyle(name) {
-      if (this._stylesApplied.includes(name)) { return; }
-      this._stylesApplied.push(name);
-      const s = document.createElement('style', 'custom-style');
-      s.setAttribute('include', name);
-      Polymer.dom(this.root).appendChild(s);
-    },
+  _import(url) {
+    if (this._urlsImported.includes(url)) { return Promise.resolve(); }
+    this._urlsImported.push(url);
+    return new Promise((resolve, reject) => {
+      this.importHref(url, resolve, reject);
+    });
+  },
 
-    _importAndApply() {
-      Promise.all(Gerrit._endpoints.getPlugins(this.name).map(
-          pluginUrl => this._import(pluginUrl))
-      ).then(() => {
-        const moduleNames = Gerrit._endpoints.getModules(this.name);
-        for (const name of moduleNames) {
-          this._applyStyle(name);
-        }
-      });
-    },
+  _applyStyle(name) {
+    if (this._stylesApplied.includes(name)) { return; }
+    this._stylesApplied.push(name);
+    const s = document.createElement('style', 'custom-style');
+    s.setAttribute('include', name);
+    Polymer.dom(this.root).appendChild(s);
+  },
 
-    attached() {
-      this._importAndApply();
-    },
+  _importAndApply() {
+    Promise.all(Gerrit._endpoints.getPlugins(this.name).map(
+        pluginUrl => this._import(pluginUrl))
+    ).then(() => {
+      const moduleNames = Gerrit._endpoints.getModules(this.name);
+      for (const name of moduleNames) {
+        this._applyStyle(name);
+      }
+    });
+  },
 
-    ready() {
-      Gerrit.awaitPluginsLoaded().then(() => this._importAndApply());
-    },
-  });
-})();
+  attached() {
+    this._importAndApply();
+  },
+
+  ready() {
+    Gerrit.awaitPluginsLoaded().then(() => this._importAndApply());
+  }
+});

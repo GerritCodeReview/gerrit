@@ -1,87 +1,102 @@
 /**
- * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2015 The Android Open Source Project
 
-  Polymer({
-    is: 'gr-avatar',
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    properties: {
-      account: {
-        type: Object,
-        observer: '_accountChanged',
-      },
-      imageSize: {
-        type: Number,
-        value: 16,
-      },
-      _hasAvatars: {
-        type: Boolean,
-        value: false,
-      },
-    },
+http://www.apache.org/licenses/LICENSE-2.0
 
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-    ],
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../../@polymer/polymer/polymer-legacy.js';
 
-    attached() {
-      Promise.all([
-        this.$.restAPI.getConfig(),
-        Gerrit.awaitPluginsLoaded(),
-      ]).then(([cfg]) => {
-        this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-        if (this._hasAvatars && this.account) {
-          // src needs to be set if avatar becomes visible
-          this._updateAvatarURL();
-        } else {
-          this.hidden = true;
-        }
-      });
-    },
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import '../../../styles/shared-styles.js';
+import '../gr-js-api-interface/gr-js-api-interface.js';
+import '../gr-rest-api-interface/gr-rest-api-interface.js';
 
-    _accountChanged(account) {
-      this._updateAvatarURL();
-    },
-
-    _updateAvatarURL() {
-      if (this.hidden || !this._hasAvatars) { return; }
-      const url = this._buildAvatarURL(this.account);
-      if (url) {
-        this.style.backgroundImage = 'url("' + url + '")';
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles">
+      :host {
+        display: inline-block;
+        border-radius: 50%;
+        background-size: cover;
+        background-color: var(--background-color, #f1f2f3);
       }
-    },
+    </style>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+`,
 
-    _getAccounts(account) {
-      return account._account_id || account.email || account.username ||
-          account.name;
-    },
+  is: 'gr-avatar',
 
-    _buildAvatarURL(account) {
-      if (!account) { return ''; }
-      const avatars = account.avatars || [];
-      for (let i = 0; i < avatars.length; i++) {
-        if (avatars[i].height === this.imageSize) {
-          return avatars[i].url;
-        }
+  properties: {
+    account: {
+      type: Object,
+      observer: '_accountChanged',
+    },
+    imageSize: {
+      type: Number,
+      value: 16,
+    },
+    _hasAvatars: {
+      type: Boolean,
+      value: false,
+    },
+  },
+
+  behaviors: [
+    Gerrit.BaseUrlBehavior,
+  ],
+
+  attached() {
+    Promise.all([
+      this.$.restAPI.getConfig(),
+      Gerrit.awaitPluginsLoaded(),
+    ]).then(([cfg]) => {
+      this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+      if (this._hasAvatars && this.account) {
+        // src needs to be set if avatar becomes visible
+        this._updateAvatarURL();
+      } else {
+        this.hidden = true;
       }
-      return this.getBaseUrl() + '/accounts/' +
-        encodeURIComponent(this._getAccounts(account)) +
-        '/avatar?s=' + this.imageSize;
-    },
-  });
-})();
+    });
+  },
+
+  _accountChanged(account) {
+    this._updateAvatarURL();
+  },
+
+  _updateAvatarURL() {
+    if (this.hidden || !this._hasAvatars) { return; }
+    const url = this._buildAvatarURL(this.account);
+    if (url) {
+      this.style.backgroundImage = 'url("' + url + '")';
+    }
+  },
+
+  _getAccounts(account) {
+    return account._account_id || account.email || account.username ||
+        account.name;
+  },
+
+  _buildAvatarURL(account) {
+    if (!account) { return ''; }
+    const avatars = account.avatars || [];
+    for (let i = 0; i < avatars.length; i++) {
+      if (avatars[i].height === this.imageSize) {
+        return avatars[i].url;
+      }
+    }
+    return this.getBaseUrl() + '/accounts/' +
+      encodeURIComponent(this._getAccounts(account)) +
+      '/avatar?s=' + this.imageSize;
+  }
+});

@@ -1,250 +1,309 @@
 /**
- * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2015 The Android Open Source Project
 
-  // Maximum length for patch set descriptions.
-  const PATCH_DESC_MAX_LENGTH = 500;
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../../@polymer/polymer/polymer-legacy.js';
+
+import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-dropdown-list/gr-dropdown-list.js';
+import '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
+import '../../shared/gr-select/gr-select.js';
+
+// Maximum length for patch set descriptions.
+const PATCH_DESC_MAX_LENGTH = 500;
+
+/**
+ * Fired when the patch range changes
+ *
+ * @event patch-range-change
+ *
+ * @property {string} patchNum
+ * @property {string} basePatchNum
+ */
+
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles">
+      :host {
+        align-items: center;
+        display: flex;
+      }
+      select {
+        max-width: 15em;
+      }
+      .arrow {
+        color: var(--deemphasized-text-color);
+        margin: 0 .5em;
+      }
+      gr-dropdown-list {
+        --trigger-style: {
+          color: var(--deemphasized-text-color);
+          text-transform: none;
+          font-family: var(--font-family);
+        }
+        --trigger-hover-color: rgba(0,0,0,.6);
+      }
+      @media screen and (max-width: 50em) {
+        .filesWeblinks {
+          display: none;
+        }
+        gr-dropdown-list {
+          --native-select-style: {
+            max-width: 5.25em;
+          }
+          --dropdown-content-stype: {
+            max-width: 300px;
+          }
+        }
+      }
+    </style>
+    <span class="patchRange">
+      <gr-dropdown-list id="basePatchDropdown" value="[[basePatchNum]]" on-value-change="_handlePatchChange" items="[[_baseDropdownContent]]">
+      </gr-dropdown-list>
+    </span>
+    <span is="dom-if" if="[[filesWeblinks.meta_a]]" class="filesWeblinks">
+      <template is="dom-repeat" items="[[filesWeblinks.meta_a]]" as="weblink">
+        <a target="_blank" rel="noopener" href\$="[[weblink.url]]">[[weblink.name]]</a>
+      </template>
+    </span>
+    <span class="arrow">→</span>
+    <span class="patchRange">
+      <gr-dropdown-list id="patchNumDropdown" value="[[patchNum]]" on-value-change="_handlePatchChange" items="[[_patchDropdownContent]]">
+      </gr-dropdown-list>
+      <span is="dom-if" if="[[filesWeblinks.meta_b]]" class="filesWeblinks">
+        <template is="dom-repeat" items="[[filesWeblinks.meta_b]]" as="weblink">
+          <a target="_blank" href\$="[[weblink.url]]">[[weblink.name]]</a>
+        </template>
+      </span>
+    </span>
+`,
+
+  is: 'gr-patch-range-select',
+
+  properties: {
+    availablePatches: Array,
+    _baseDropdownContent: {
+      type: Object,
+      computed: '_computeBaseDropdownContent(availablePatches, patchNum,' +
+          '_sortedRevisions, changeComments, revisionInfo)',
+    },
+    _patchDropdownContent: {
+      type: Object,
+      computed: '_computePatchDropdownContent(availablePatches,' +
+          'basePatchNum, _sortedRevisions, changeComments)',
+    },
+    changeNum: String,
+    changeComments: Object,
+    /** @type {{ meta_a: !Array, meta_b: !Array}} */
+    filesWeblinks: Object,
+    patchNum: String,
+    basePatchNum: String,
+    revisions: Object,
+    revisionInfo: Object,
+    _sortedRevisions: Array,
+  },
+
+  observers: [
+    '_updateSortedRevisions(revisions.*)',
+  ],
+
+  behaviors: [Gerrit.PatchSetBehavior],
+
+  _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
+      changeComments, revisionInfo) {
+    const parentCounts = revisionInfo.getParentCountMap();
+    const currentParentCount = parentCounts.hasOwnProperty(patchNum) ?
+        parentCounts[patchNum] : 1;
+    const maxParents = revisionInfo.getMaxParents();
+    const isMerge = currentParentCount > 1;
+
+    const dropdownContent = [];
+    for (const basePatch of availablePatches) {
+      const basePatchNum = basePatch.num;
+      const entry = this._createDropdownEntry(basePatchNum, 'Patchset ',
+          _sortedRevisions, changeComments);
+      dropdownContent.push(Object.assign({}, entry, {
+        disabled: this._computeLeftDisabled(
+            basePatch.num, patchNum, _sortedRevisions),
+      }));
+    }
+
+    dropdownContent.push({
+      text: isMerge ? 'Auto Merge' : 'Base',
+      value: 'PARENT',
+    });
+
+    for (let idx = 0; isMerge && idx < maxParents; idx++) {
+      dropdownContent.push({
+        disabled: idx >= currentParentCount,
+        triggerText: `Parent ${idx + 1}`,
+        text: `Parent ${idx + 1}`,
+        mobileText: `Parent ${idx + 1}`,
+        value: -(idx + 1),
+      });
+    }
+
+    return dropdownContent;
+  },
+
+  _computeMobileText(patchNum, changeComments, revisions) {
+    return `${patchNum}` +
+        `${this._computePatchSetCommentsString(changeComments, patchNum)}` +
+        `${this._computePatchSetDescription(revisions, patchNum, true)}`;
+  },
+
+  _computePatchDropdownContent(availablePatches, basePatchNum,
+      _sortedRevisions, changeComments) {
+    const dropdownContent = [];
+    for (const patch of availablePatches) {
+      const patchNum = patch.num;
+      const entry = this._createDropdownEntry(
+          patchNum, patchNum === 'edit' ? '' : 'Patchset ', _sortedRevisions,
+          changeComments);
+      dropdownContent.push(Object.assign({}, entry, {
+        disabled: this._computeRightDisabled(basePatchNum, patchNum,
+            _sortedRevisions),
+      }));
+    }
+    return dropdownContent;
+  },
+
+  _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments) {
+    const entry = {
+      triggerText: `${prefix}${patchNum}`,
+      text: `${prefix}${patchNum}` +
+          `${this._computePatchSetCommentsString(
+              changeComments, patchNum)}`,
+      mobileText: this._computeMobileText(patchNum, changeComments,
+          sortedRevisions),
+      bottomText: `${this._computePatchSetDescription(
+          sortedRevisions, patchNum)}`,
+      value: patchNum,
+    };
+    const date = this._computePatchSetDate(sortedRevisions, patchNum);
+    if (date) {
+      entry['date'] = date;
+    }
+    return entry;
+  },
+
+  _updateSortedRevisions(revisionsRecord) {
+    const revisions = revisionsRecord.base;
+    this._sortedRevisions = this.sortRevisions(Object.values(revisions));
+  },
 
   /**
-   * Fired when the patch range changes
-   *
-   * @event patch-range-change
-   *
-   * @property {string} patchNum
-   * @property {string} basePatchNum
+   * The basePatchNum should always be <= patchNum -- because sortedRevisions
+   * is sorted in reverse order (higher patchset nums first), invalid base
+   * patch nums have an index greater than the index of patchNum.
+   * @param {number|string} basePatchNum The possible base patch num.
+   * @param {number|string} patchNum The current selected patch num.
+   * @param {!Array} sortedRevisions
    */
+  _computeLeftDisabled(basePatchNum, patchNum, sortedRevisions) {
+    return this.findSortedIndex(basePatchNum, sortedRevisions) <=
+        this.findSortedIndex(patchNum, sortedRevisions);
+  },
 
-  Polymer({
-    is: 'gr-patch-range-select',
+  /**
+   * The basePatchNum should always be <= patchNum -- because sortedRevisions
+   * is sorted in reverse order (higher patchset nums first), invalid patch
+   * nums have an index greater than the index of basePatchNum.
+   *
+   * In addition, if the current basePatchNum is 'PARENT', all patchNums are
+   * valid.
+   *
+   * If the curent basePatchNum is a parent index, then only patches that have
+   * at least that many parents are valid.
+   *
+   * @param {number|string} basePatchNum The current selected base patch num.
+   * @param {number|string} patchNum The possible patch num.
+   * @param {!Array} sortedRevisions
+   * @return {boolean}
+   */
+  _computeRightDisabled(basePatchNum, patchNum, sortedRevisions) {
+    if (this.patchNumEquals(basePatchNum, 'PARENT')) { return false; }
 
-    properties: {
-      availablePatches: Array,
-      _baseDropdownContent: {
-        type: Object,
-        computed: '_computeBaseDropdownContent(availablePatches, patchNum,' +
-            '_sortedRevisions, changeComments, revisionInfo)',
-      },
-      _patchDropdownContent: {
-        type: Object,
-        computed: '_computePatchDropdownContent(availablePatches,' +
-            'basePatchNum, _sortedRevisions, changeComments)',
-      },
-      changeNum: String,
-      changeComments: Object,
-      /** @type {{ meta_a: !Array, meta_b: !Array}} */
-      filesWeblinks: Object,
-      patchNum: String,
-      basePatchNum: String,
-      revisions: Object,
-      revisionInfo: Object,
-      _sortedRevisions: Array,
-    },
+    if (this.isMergeParent(basePatchNum)) {
+      // Note: parent indices use 1-offset.
+      return this.revisionInfo.getParentCount(patchNum) <
+          this.getParentIndex(basePatchNum);
+    }
 
-    observers: [
-      '_updateSortedRevisions(revisions.*)',
-    ],
+    return this.findSortedIndex(basePatchNum, sortedRevisions) <=
+        this.findSortedIndex(patchNum, sortedRevisions);
+  },
 
-    behaviors: [Gerrit.PatchSetBehavior],
+  _computePatchSetCommentsString(changeComments, patchNum) {
+    if (!changeComments) { return; }
 
-    _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
-        changeComments, revisionInfo) {
-      const parentCounts = revisionInfo.getParentCountMap();
-      const currentParentCount = parentCounts.hasOwnProperty(patchNum) ?
-          parentCounts[patchNum] : 1;
-      const maxParents = revisionInfo.getMaxParents();
-      const isMerge = currentParentCount > 1;
+    const commentCount = changeComments.computeCommentCount(patchNum);
+    const commentString = GrCountStringFormatter.computePluralString(
+        commentCount, 'comment');
 
-      const dropdownContent = [];
-      for (const basePatch of availablePatches) {
-        const basePatchNum = basePatch.num;
-        const entry = this._createDropdownEntry(basePatchNum, 'Patchset ',
-            _sortedRevisions, changeComments);
-        dropdownContent.push(Object.assign({}, entry, {
-          disabled: this._computeLeftDisabled(
-              basePatch.num, patchNum, _sortedRevisions),
-        }));
-      }
+    const unresolvedCount = changeComments.computeUnresolvedNum(patchNum);
+    const unresolvedString = GrCountStringFormatter.computeString(
+        unresolvedCount, 'unresolved');
 
-      dropdownContent.push({
-        text: isMerge ? 'Auto Merge' : 'Base',
-        value: 'PARENT',
-      });
+    if (!commentString.length && !unresolvedString.length) {
+      return '';
+    }
 
-      for (let idx = 0; isMerge && idx < maxParents; idx++) {
-        dropdownContent.push({
-          disabled: idx >= currentParentCount,
-          triggerText: `Parent ${idx + 1}`,
-          text: `Parent ${idx + 1}`,
-          mobileText: `Parent ${idx + 1}`,
-          value: -(idx + 1),
-        });
-      }
+    return ` (${commentString}` +
+        // Add a comma + space if both comments and unresolved
+        (commentString && unresolvedString ? ', ' : '') +
+        `${unresolvedString})`;
+  },
 
-      return dropdownContent;
-    },
+  /**
+   * @param {!Array} revisions
+   * @param {number|string} patchNum
+   * @param {boolean=} opt_addFrontSpace
+   */
+  _computePatchSetDescription(revisions, patchNum, opt_addFrontSpace) {
+    const rev = this.getRevisionByPatchNum(revisions, patchNum);
+    return (rev && rev.description) ?
+        (opt_addFrontSpace ? ' ' : '') +
+        rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+  },
 
-    _computeMobileText(patchNum, changeComments, revisions) {
-      return `${patchNum}` +
-          `${this._computePatchSetCommentsString(changeComments, patchNum)}` +
-          `${this._computePatchSetDescription(revisions, patchNum, true)}`;
-    },
+  /**
+   * @param {!Array} revisions
+   * @param {number|string} patchNum
+   */
+  _computePatchSetDate(revisions, patchNum) {
+    const rev = this.getRevisionByPatchNum(revisions, patchNum);
+    return rev ? rev.created : undefined;
+  },
 
-    _computePatchDropdownContent(availablePatches, basePatchNum,
-        _sortedRevisions, changeComments) {
-      const dropdownContent = [];
-      for (const patch of availablePatches) {
-        const patchNum = patch.num;
-        const entry = this._createDropdownEntry(
-            patchNum, patchNum === 'edit' ? '' : 'Patchset ', _sortedRevisions,
-            changeComments);
-        dropdownContent.push(Object.assign({}, entry, {
-          disabled: this._computeRightDisabled(basePatchNum, patchNum,
-              _sortedRevisions),
-        }));
-      }
-      return dropdownContent;
-    },
+  /**
+   * Catches value-change events from the patchset dropdowns and determines
+   * whether or not a patch change event should be fired.
+   */
+  _handlePatchChange(e) {
+    const detail = {patchNum: this.patchNum, basePatchNum: this.basePatchNum};
+    const target = Polymer.dom(e).localTarget;
 
-    _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments) {
-      const entry = {
-        triggerText: `${prefix}${patchNum}`,
-        text: `${prefix}${patchNum}` +
-            `${this._computePatchSetCommentsString(
-                changeComments, patchNum)}`,
-        mobileText: this._computeMobileText(patchNum, changeComments,
-            sortedRevisions),
-        bottomText: `${this._computePatchSetDescription(
-            sortedRevisions, patchNum)}`,
-        value: patchNum,
-      };
-      const date = this._computePatchSetDate(sortedRevisions, patchNum);
-      if (date) {
-        entry['date'] = date;
-      }
-      return entry;
-    },
+    if (target === this.$.patchNumDropdown) {
+      detail.patchNum = e.detail.value;
+    } else {
+      detail.basePatchNum = e.detail.value;
+    }
 
-    _updateSortedRevisions(revisionsRecord) {
-      const revisions = revisionsRecord.base;
-      this._sortedRevisions = this.sortRevisions(Object.values(revisions));
-    },
-
-    /**
-     * The basePatchNum should always be <= patchNum -- because sortedRevisions
-     * is sorted in reverse order (higher patchset nums first), invalid base
-     * patch nums have an index greater than the index of patchNum.
-     * @param {number|string} basePatchNum The possible base patch num.
-     * @param {number|string} patchNum The current selected patch num.
-     * @param {!Array} sortedRevisions
-     */
-    _computeLeftDisabled(basePatchNum, patchNum, sortedRevisions) {
-      return this.findSortedIndex(basePatchNum, sortedRevisions) <=
-          this.findSortedIndex(patchNum, sortedRevisions);
-    },
-
-    /**
-     * The basePatchNum should always be <= patchNum -- because sortedRevisions
-     * is sorted in reverse order (higher patchset nums first), invalid patch
-     * nums have an index greater than the index of basePatchNum.
-     *
-     * In addition, if the current basePatchNum is 'PARENT', all patchNums are
-     * valid.
-     *
-     * If the curent basePatchNum is a parent index, then only patches that have
-     * at least that many parents are valid.
-     *
-     * @param {number|string} basePatchNum The current selected base patch num.
-     * @param {number|string} patchNum The possible patch num.
-     * @param {!Array} sortedRevisions
-     * @return {boolean}
-     */
-    _computeRightDisabled(basePatchNum, patchNum, sortedRevisions) {
-      if (this.patchNumEquals(basePatchNum, 'PARENT')) { return false; }
-
-      if (this.isMergeParent(basePatchNum)) {
-        // Note: parent indices use 1-offset.
-        return this.revisionInfo.getParentCount(patchNum) <
-            this.getParentIndex(basePatchNum);
-      }
-
-      return this.findSortedIndex(basePatchNum, sortedRevisions) <=
-          this.findSortedIndex(patchNum, sortedRevisions);
-    },
-
-
-    _computePatchSetCommentsString(changeComments, patchNum) {
-      if (!changeComments) { return; }
-
-      const commentCount = changeComments.computeCommentCount(patchNum);
-      const commentString = GrCountStringFormatter.computePluralString(
-          commentCount, 'comment');
-
-      const unresolvedCount = changeComments.computeUnresolvedNum(patchNum);
-      const unresolvedString = GrCountStringFormatter.computeString(
-          unresolvedCount, 'unresolved');
-
-      if (!commentString.length && !unresolvedString.length) {
-        return '';
-      }
-
-      return ` (${commentString}` +
-          // Add a comma + space if both comments and unresolved
-          (commentString && unresolvedString ? ', ' : '') +
-          `${unresolvedString})`;
-    },
-
-    /**
-     * @param {!Array} revisions
-     * @param {number|string} patchNum
-     * @param {boolean=} opt_addFrontSpace
-     */
-    _computePatchSetDescription(revisions, patchNum, opt_addFrontSpace) {
-      const rev = this.getRevisionByPatchNum(revisions, patchNum);
-      return (rev && rev.description) ?
-          (opt_addFrontSpace ? ' ' : '') +
-          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
-    },
-
-    /**
-     * @param {!Array} revisions
-     * @param {number|string} patchNum
-     */
-    _computePatchSetDate(revisions, patchNum) {
-      const rev = this.getRevisionByPatchNum(revisions, patchNum);
-      return rev ? rev.created : undefined;
-    },
-
-    /**
-     * Catches value-change events from the patchset dropdowns and determines
-     * whether or not a patch change event should be fired.
-     */
-    _handlePatchChange(e) {
-      const detail = {patchNum: this.patchNum, basePatchNum: this.basePatchNum};
-      const target = Polymer.dom(e).localTarget;
-
-      if (target === this.$.patchNumDropdown) {
-        detail.patchNum = e.detail.value;
-      } else {
-        detail.basePatchNum = e.detail.value;
-      }
-
-      this.dispatchEvent(
-          new CustomEvent('patch-range-change', {detail, bubbles: false}));
-    },
-  });
-})();
+    this.dispatchEvent(
+        new CustomEvent('patch-range-change', {detail, bubbles: false}));
+  }
+});

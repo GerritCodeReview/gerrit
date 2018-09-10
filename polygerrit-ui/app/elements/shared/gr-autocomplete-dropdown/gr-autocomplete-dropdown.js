@@ -1,4 +1,26 @@
 /**
+@license
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../../@polymer/polymer/polymer-legacy.js';
+
+import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import '../../../../@polymer/iron-dropdown/iron-dropdown.js';
+import '../gr-cursor-manager/gr-cursor-manager.js';
+import '../../../styles/shared-styles.js';
+/**
  * @license
  * Copyright (C) 2017 The Android Open Source Project
  *
@@ -14,157 +36,204 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
 
-  Polymer({
-    is: 'gr-autocomplete-dropdown',
+(function(window) {
+  window.Gerrit = window.Gerrit || {};
+  if (window.Gerrit.hasOwnProperty('getRootElement')) { return; }
 
-    /**
-     * Fired when the dropdown is closed.
-     *
-     * @event dropdown-closed
-     */
+  window.Gerrit.getRootElement = () => document.body;
+})(window);
 
-    /**
-     * Fired when item is selected.
-     *
-     * @event item-selected
-     */
-
-    properties: {
-      index: Number,
-      isHidden: {
-        type: Boolean,
-        value: true,
-        reflectToAttribute: true,
-      },
-      verticalOffset: {
-        type: Number,
-        value: null,
-      },
-      horizontalOffset: {
-        type: Number,
-        value: null,
-      },
-      suggestions: {
-        type: Array,
-        value: () => [],
-        observer: '_resetCursorStops',
-      },
-      _suggestionEls: {
-        type: Array,
-        observer: '_resetCursorIndex',
-      },
-    },
-
-    behaviors: [
-      Polymer.IronFitBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
-
-    keyBindings: {
-      up: '_handleUp',
-      down: '_handleDown',
-      enter: '_handleEnter',
-      esc: '_handleEscape',
-      tab: '_handleTab',
-    },
-
-    close() {
-      this.isHidden = true;
-    },
-
-    open() {
-      this.isHidden = false;
-      this.refit();
-      this._resetCursorStops();
-      this._resetCursorIndex();
-    },
-
-    getCurrentText() {
-      return this.getCursorTarget().dataset.value;
-    },
-
-    _handleUp(e) {
-      if (!this.isHidden) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.cursorUp();
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles">
+      :host {
+        z-index: 100;
       }
-    },
-
-    _handleDown(e) {
-      if (!this.isHidden) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.cursorDown();
+      :host([is-hidden]) {
+        display: none;
       }
-    },
-
-    cursorDown() {
-      if (!this.isHidden) {
-        this.$.cursor.next();
+      ul {
+        list-style: none;
       }
-    },
-
-    cursorUp() {
-      if (!this.isHidden) {
-        this.$.cursor.previous();
+      li {
+        border-bottom: 1px solid var(--border-color);
+        cursor: pointer;
+        padding: .5em .75em;
       }
-    },
+      li:last-of-type {
+        border: none;
+      }
+      li:focus {
+        outline: none;
+      }
+      li:hover {
+        background-color: var(--hover-background-color);
+      }
+      li.selected {
+        background-color: var(--selection-background-color);
+      }
+      .dropdown-content {
+        background: var(--dropdown-background-color);
+        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      }
+    </style>
+    <div class="dropdown-content" slot="dropdown-content" id="suggestions" role="listbox">
+      <ul>
+        <template is="dom-repeat" items="[[suggestions]]">
+          <li data-index\$="[[index]]" data-value\$="[[item.dataValue]]" tabindex="-1" aria-label\$="[[item.name]]" role="option" on-tap="_handleTapItem">[[item.text]]</li>
+        </template>
+      </ul>
+    </div>
+    <gr-cursor-manager id="cursor" index="{{index}}" cursor-target-class="selected" scroll-behavior="never" focus-on-move="" stops="[[_suggestionEls]]"></gr-cursor-manager>
+`,
 
-    _handleTab(e) {
+  is: 'gr-autocomplete-dropdown',
+
+  /**
+   * Fired when the dropdown is closed.
+   *
+   * @event dropdown-closed
+   */
+
+  /**
+   * Fired when item is selected.
+   *
+   * @event item-selected
+   */
+
+  properties: {
+    index: Number,
+    isHidden: {
+      type: Boolean,
+      value: true,
+      reflectToAttribute: true,
+    },
+    verticalOffset: {
+      type: Number,
+      value: null,
+    },
+    horizontalOffset: {
+      type: Number,
+      value: null,
+    },
+    suggestions: {
+      type: Array,
+      value: () => [],
+      observer: '_resetCursorStops',
+    },
+    _suggestionEls: {
+      type: Array,
+      observer: '_resetCursorIndex',
+    },
+  },
+
+  behaviors: [
+    Polymer.IronFitBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+  ],
+
+  keyBindings: {
+    up: '_handleUp',
+    down: '_handleDown',
+    enter: '_handleEnter',
+    esc: '_handleEscape',
+    tab: '_handleTab',
+  },
+
+  close() {
+    this.isHidden = true;
+  },
+
+  open() {
+    this.isHidden = false;
+    this.refit();
+    this._resetCursorStops();
+    this._resetCursorIndex();
+  },
+
+  getCurrentText() {
+    return this.getCursorTarget().dataset.value;
+  },
+
+  _handleUp(e) {
+    if (!this.isHidden) {
       e.preventDefault();
       e.stopPropagation();
-      this.fire('item-selected', {
-        trigger: 'tab',
-        selected: this.$.cursor.target,
-      });
-    },
+      this.cursorUp();
+    }
+  },
 
-    _handleEnter(e) {
+  _handleDown(e) {
+    if (!this.isHidden) {
       e.preventDefault();
       e.stopPropagation();
-      this.fire('item-selected', {
-        trigger: 'enter',
-        selected: this.$.cursor.target,
-      });
-    },
+      this.cursorDown();
+    }
+  },
 
-    _handleEscape() {
-      this._fireClose();
-      this.close();
-    },
+  cursorDown() {
+    if (!this.isHidden) {
+      this.$.cursor.next();
+    }
+  },
 
-    _handleTapItem(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.fire('item-selected', {
-        trigger: 'tap',
-        selected: e.target,
-      });
-    },
+  cursorUp() {
+    if (!this.isHidden) {
+      this.$.cursor.previous();
+    }
+  },
 
-    _fireClose() {
-      this.fire('dropdown-closed');
-    },
+  _handleTab(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.fire('item-selected', {
+      trigger: 'tab',
+      selected: this.$.cursor.target,
+    });
+  },
 
-    getCursorTarget() {
-      return this.$.cursor.target;
-    },
+  _handleEnter(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.fire('item-selected', {
+      trigger: 'enter',
+      selected: this.$.cursor.target,
+    });
+  },
 
-    _resetCursorStops() {
-      if (this.suggestions.length > 0) {
-        Polymer.dom.flush();
-        this._suggestionEls = this.$.suggestions.querySelectorAll('li');
-      } else {
-        this._suggestionEls = [];
-      }
-    },
+  _handleEscape() {
+    this._fireClose();
+    this.close();
+  },
 
-    _resetCursorIndex() {
-      this.$.cursor.setCursorAtIndex(0);
-    },
-  });
-})();
+  _handleTapItem(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.fire('item-selected', {
+      trigger: 'tap',
+      selected: e.target,
+    });
+  },
+
+  _fireClose() {
+    this.fire('dropdown-closed');
+  },
+
+  getCursorTarget() {
+    return this.$.cursor.target;
+  },
+
+  _resetCursorStops() {
+    if (this.suggestions.length > 0) {
+      Polymer.dom.flush();
+      this._suggestionEls = this.$.suggestions.querySelectorAll('li');
+    } else {
+      this._suggestionEls = [];
+    }
+  },
+
+  _resetCursorIndex() {
+    this.$.cursor.setCursorAtIndex(0);
+  }
+});

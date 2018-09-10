@@ -19,14 +19,18 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-linked-text</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 <script src="../../../scripts/util.js"></script>
 
-<link rel="import" href="gr-linked-text.html">
+<script type="module" src="./gr-linked-text.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-linked-text.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -36,249 +40,251 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-linked-text tests', () => {
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-linked-text.js';
+suite('gr-linked-text tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(Gerrit.Nav, 'mapCommentlinks', x => x);
-      element.config = {
-        ph: {
-          match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',
-          link: 'https://code.google.com/p/gerrit/issues/detail?id=$2',
-        },
-        changeid: {
-          match: '(I[0-9a-f]{8,40})',
-          link: '#/q/$1',
-        },
-        changeid2: {
-          match: 'Change-Id: +(I[0-9a-f]{8,40})',
-          link: '#/q/$1',
-        },
-        googlesearch: {
-          match: 'google:(.+)',
-          link: 'https://bing.com/search?q=$1', // html should supercede link.
-          html: '<a href="https://google.com/search?q=$1">$1</a>',
-        },
-        hashedhtml: {
-          match: 'hash:(.+)',
-          html: '<a href="#/awesomesauce">$1</a>',
-        },
-        disabledconfig: {
-          match: 'foo:(.+)',
-          link: 'https://google.com/search?q=$1',
-          enabled: false,
-        },
-      };
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('URL pattern was parsed and linked.', () => {
-      // Regular inline link.
-      const url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
-      element.content = url;
-      const linkEl = element.$.output.childNodes[0];
-      assert.equal(linkEl.target, '_blank');
-      assert.equal(linkEl.rel, 'noopener');
-      assert.equal(linkEl.href, url);
-      assert.equal(linkEl.textContent, url);
-    });
-
-    test('Bug pattern was parsed and linked', () => {
-      // "Issue/Bug" pattern.
-      element.content = 'Issue 3650';
-
-      let linkEl = element.$.output.childNodes[0];
-      const url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
-      assert.equal(linkEl.target, '_blank');
-      assert.equal(linkEl.href, url);
-      assert.equal(linkEl.textContent, 'Issue 3650');
-
-      element.content = 'Bug 3650';
-      linkEl = element.$.output.childNodes[0];
-      assert.equal(linkEl.target, '_blank');
-      assert.equal(linkEl.rel, 'noopener');
-      assert.equal(linkEl.href, url);
-      assert.equal(linkEl.textContent, 'Bug 3650');
-    });
-
-    test('Change-Id pattern was parsed and linked', () => {
-      // "Change-Id:" pattern.
-      const changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
-      const prefix = 'Change-Id: ';
-      element.content = prefix + changeID;
-
-      const textNode = element.$.output.childNodes[0];
-      const linkEl = element.$.output.childNodes[1];
-      assert.equal(textNode.textContent, prefix);
-      const url = '/q/' + changeID;
-      assert.equal(linkEl.target, '_blank');
-      // Since url is a path, the host is added automatically.
-      assert.isTrue(linkEl.href.endsWith(url));
-      assert.equal(linkEl.textContent, changeID);
-    });
-
-    test('Multiple matches', () => {
-      element.content = 'Issue 3650\nIssue 3450';
-      const linkEl1 = element.$.output.childNodes[0];
-      const linkEl2 = element.$.output.childNodes[2];
-
-      assert.equal(linkEl1.target, '_blank');
-      assert.equal(linkEl1.href,
-          'https://code.google.com/p/gerrit/issues/detail?id=3650');
-      assert.equal(linkEl1.textContent, 'Issue 3650');
-
-      assert.equal(linkEl2.target, '_blank');
-      assert.equal(linkEl2.href,
-          'https://code.google.com/p/gerrit/issues/detail?id=3450');
-      assert.equal(linkEl2.textContent, 'Issue 3450');
-    });
-
-    test('Change-Id pattern parsed before bug pattern', () => {
-      // "Change-Id:" pattern.
-      const changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
-      const prefix = 'Change-Id: ';
-
-      // "Issue/Bug" pattern.
-      const bug = 'Issue 3650';
-
-      const changeUrl = '/q/' + changeID;
-      const bugUrl = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
-
-      element.content = prefix + changeID + bug;
-
-      const textNode = element.$.output.childNodes[0];
-      const changeLinkEl = element.$.output.childNodes[1];
-      const bugLinkEl = element.$.output.childNodes[2];
-
-      assert.equal(textNode.textContent, prefix);
-
-      assert.equal(changeLinkEl.target, '_blank');
-      assert.isTrue(changeLinkEl.href.endsWith(changeUrl));
-      assert.equal(changeLinkEl.textContent, changeID);
-
-      assert.equal(bugLinkEl.target, '_blank');
-      assert.equal(bugLinkEl.href, bugUrl);
-      assert.equal(bugLinkEl.textContent, 'Issue 3650');
-    });
-
-    test('html field in link config', () => {
-      element.content = 'google:do a barrel roll';
-      const linkEl = element.$.output.childNodes[0];
-      assert.equal(linkEl.getAttribute('href'),
-          'https://google.com/search?q=do a barrel roll');
-      assert.equal(linkEl.textContent, 'do a barrel roll');
-    });
-
-    test('removing hash from links', () => {
-      element.content = 'hash:foo';
-      const linkEl = element.$.output.childNodes[0];
-      assert.isTrue(linkEl.href.endsWith('/awesomesauce'));
-      assert.equal(linkEl.textContent, 'foo');
-    });
-
-    test('disabled config', () => {
-      element.content = 'foo:baz';
-      assert.equal(element.$.output.innerHTML, 'foo:baz');
-    });
-
-    test('R=email labels link correctly', () => {
-      element.removeZeroWidthSpace = true;
-      element.content = 'R=\u200Btest@google.com';
-      assert.equal(element.$.output.textContent, 'R=test@google.com');
-      assert.equal(element.$.output.innerHTML.match(/(R=<a)/g).length, 1);
-    });
-
-    test('CC=email labels link correctly', () => {
-      element.removeZeroWidthSpace = true;
-      element.content = 'CC=\u200Btest@google.com';
-      assert.equal(element.$.output.textContent, 'CC=test@google.com');
-      assert.equal(element.$.output.innerHTML.match(/(CC=<a)/g).length, 1);
-    });
-
-    test('only {http,https,mailto} protocols are linkified', () => {
-      element.content = 'xx mailto:test@google.com yy';
-      let links = element.$.output.querySelectorAll('a');
-      assert.equal(links.length, 1);
-      assert.equal(links[0].getAttribute('href'), 'mailto:test@google.com');
-
-      element.content = 'xx http://google.com yy';
-      links = element.$.output.querySelectorAll('a');
-      assert.equal(links.length, 1);
-      assert.equal(links[0].getAttribute('href'), 'http://google.com');
-
-      element.content = 'xx https://google.com yy';
-      links = element.$.output.querySelectorAll('a');
-      assert.equal(links.length, 1);
-      assert.equal(links[0].getAttribute('href'), 'https://google.com');
-
-      element.content = 'xx ssh://google.com yy';
-      links = element.$.output.querySelectorAll('a');
-      assert.equal(links.length, 0);
-
-      element.content = 'xx ftp://google.com yy';
-      links = element.$.output.querySelectorAll('a');
-      assert.equal(links.length, 0);
-    });
-
-    test('overlapping links', () => {
-      element.config = {
-        b1: {
-          match: '(B:\\s*)(\\d+)',
-          html: '$1<a href="ftp://foo/$2">$2</a>',
-        },
-        b2: {
-          match: '(B:\\s*\\d+\\s*,\\s*)(\\d+)',
-          html: '$1<a href="ftp://foo/$2">$2</a>',
-        },
-      };
-      element.content = '- B: 123, 45';
-      const links = Polymer.dom(element.root).querySelectorAll('a');
-
-      assert.equal(links.length, 2);
-      assert.equal(element.$$('span').textContent, '- B: 123, 45');
-
-      assert.equal(links[0].href, 'ftp://foo/123');
-      assert.equal(links[0].textContent, '123');
-
-      assert.equal(links[1].href, 'ftp://foo/45');
-      assert.equal(links[1].textContent, '45');
-    });
-
-    test('_contentOrConfigChanged called with config', () => {
-      const contentStub = sandbox.stub(element, '_contentChanged');
-      const contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
-      element.content = 'some text';
-      assert.isTrue(contentStub.called);
-      assert.isTrue(contentConfigStub.called);
-    });
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(Gerrit.Nav, 'mapCommentlinks', x => x);
+    element.config = {
+      ph: {
+        match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',
+        link: 'https://code.google.com/p/gerrit/issues/detail?id=$2',
+      },
+      changeid: {
+        match: '(I[0-9a-f]{8,40})',
+        link: '#/q/$1',
+      },
+      changeid2: {
+        match: 'Change-Id: +(I[0-9a-f]{8,40})',
+        link: '#/q/$1',
+      },
+      googlesearch: {
+        match: 'google:(.+)',
+        link: 'https://bing.com/search?q=$1', // html should supercede link.
+        html: '<a href="https://google.com/search?q=$1">$1</a>',
+      },
+      hashedhtml: {
+        match: 'hash:(.+)',
+        html: '<a href="#/awesomesauce">$1</a>',
+      },
+      disabledconfig: {
+        match: 'foo:(.+)',
+        link: 'https://google.com/search?q=$1',
+        enabled: false,
+      },
+    };
   });
 
-  suite('gr-linked-text with null config', () => {
-    let element;
-    let sandbox;
-
-    setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('_contentOrConfigChanged not called without config', () => {
-      const contentStub = sandbox.stub(element, '_contentChanged');
-      const contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
-      element.content = 'some text';
-      assert.isTrue(contentStub.called);
-      assert.isFalse(contentConfigStub.called);
-    });
+  teardown(() => {
+    sandbox.restore();
   });
+
+  test('URL pattern was parsed and linked.', () => {
+    // Regular inline link.
+    const url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+    element.content = url;
+    const linkEl = element.$.output.childNodes[0];
+    assert.equal(linkEl.target, '_blank');
+    assert.equal(linkEl.rel, 'noopener');
+    assert.equal(linkEl.href, url);
+    assert.equal(linkEl.textContent, url);
+  });
+
+  test('Bug pattern was parsed and linked', () => {
+    // "Issue/Bug" pattern.
+    element.content = 'Issue 3650';
+
+    let linkEl = element.$.output.childNodes[0];
+    const url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+    assert.equal(linkEl.target, '_blank');
+    assert.equal(linkEl.href, url);
+    assert.equal(linkEl.textContent, 'Issue 3650');
+
+    element.content = 'Bug 3650';
+    linkEl = element.$.output.childNodes[0];
+    assert.equal(linkEl.target, '_blank');
+    assert.equal(linkEl.rel, 'noopener');
+    assert.equal(linkEl.href, url);
+    assert.equal(linkEl.textContent, 'Bug 3650');
+  });
+
+  test('Change-Id pattern was parsed and linked', () => {
+    // "Change-Id:" pattern.
+    const changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
+    const prefix = 'Change-Id: ';
+    element.content = prefix + changeID;
+
+    const textNode = element.$.output.childNodes[0];
+    const linkEl = element.$.output.childNodes[1];
+    assert.equal(textNode.textContent, prefix);
+    const url = '/q/' + changeID;
+    assert.equal(linkEl.target, '_blank');
+    // Since url is a path, the host is added automatically.
+    assert.isTrue(linkEl.href.endsWith(url));
+    assert.equal(linkEl.textContent, changeID);
+  });
+
+  test('Multiple matches', () => {
+    element.content = 'Issue 3650\nIssue 3450';
+    const linkEl1 = element.$.output.childNodes[0];
+    const linkEl2 = element.$.output.childNodes[2];
+
+    assert.equal(linkEl1.target, '_blank');
+    assert.equal(linkEl1.href,
+        'https://code.google.com/p/gerrit/issues/detail?id=3650');
+    assert.equal(linkEl1.textContent, 'Issue 3650');
+
+    assert.equal(linkEl2.target, '_blank');
+    assert.equal(linkEl2.href,
+        'https://code.google.com/p/gerrit/issues/detail?id=3450');
+    assert.equal(linkEl2.textContent, 'Issue 3450');
+  });
+
+  test('Change-Id pattern parsed before bug pattern', () => {
+    // "Change-Id:" pattern.
+    const changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
+    const prefix = 'Change-Id: ';
+
+    // "Issue/Bug" pattern.
+    const bug = 'Issue 3650';
+
+    const changeUrl = '/q/' + changeID;
+    const bugUrl = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+
+    element.content = prefix + changeID + bug;
+
+    const textNode = element.$.output.childNodes[0];
+    const changeLinkEl = element.$.output.childNodes[1];
+    const bugLinkEl = element.$.output.childNodes[2];
+
+    assert.equal(textNode.textContent, prefix);
+
+    assert.equal(changeLinkEl.target, '_blank');
+    assert.isTrue(changeLinkEl.href.endsWith(changeUrl));
+    assert.equal(changeLinkEl.textContent, changeID);
+
+    assert.equal(bugLinkEl.target, '_blank');
+    assert.equal(bugLinkEl.href, bugUrl);
+    assert.equal(bugLinkEl.textContent, 'Issue 3650');
+  });
+
+  test('html field in link config', () => {
+    element.content = 'google:do a barrel roll';
+    const linkEl = element.$.output.childNodes[0];
+    assert.equal(linkEl.getAttribute('href'),
+        'https://google.com/search?q=do a barrel roll');
+    assert.equal(linkEl.textContent, 'do a barrel roll');
+  });
+
+  test('removing hash from links', () => {
+    element.content = 'hash:foo';
+    const linkEl = element.$.output.childNodes[0];
+    assert.isTrue(linkEl.href.endsWith('/awesomesauce'));
+    assert.equal(linkEl.textContent, 'foo');
+  });
+
+  test('disabled config', () => {
+    element.content = 'foo:baz';
+    assert.equal(element.$.output.innerHTML, 'foo:baz');
+  });
+
+  test('R=email labels link correctly', () => {
+    element.removeZeroWidthSpace = true;
+    element.content = 'R=\u200Btest@google.com';
+    assert.equal(element.$.output.textContent, 'R=test@google.com');
+    assert.equal(element.$.output.innerHTML.match(/(R=<a)/g).length, 1);
+  });
+
+  test('CC=email labels link correctly', () => {
+    element.removeZeroWidthSpace = true;
+    element.content = 'CC=\u200Btest@google.com';
+    assert.equal(element.$.output.textContent, 'CC=test@google.com');
+    assert.equal(element.$.output.innerHTML.match(/(CC=<a)/g).length, 1);
+  });
+
+  test('only {http,https,mailto} protocols are linkified', () => {
+    element.content = 'xx mailto:test@google.com yy';
+    let links = element.$.output.querySelectorAll('a');
+    assert.equal(links.length, 1);
+    assert.equal(links[0].getAttribute('href'), 'mailto:test@google.com');
+
+    element.content = 'xx http://google.com yy';
+    links = element.$.output.querySelectorAll('a');
+    assert.equal(links.length, 1);
+    assert.equal(links[0].getAttribute('href'), 'http://google.com');
+
+    element.content = 'xx https://google.com yy';
+    links = element.$.output.querySelectorAll('a');
+    assert.equal(links.length, 1);
+    assert.equal(links[0].getAttribute('href'), 'https://google.com');
+
+    element.content = 'xx ssh://google.com yy';
+    links = element.$.output.querySelectorAll('a');
+    assert.equal(links.length, 0);
+
+    element.content = 'xx ftp://google.com yy';
+    links = element.$.output.querySelectorAll('a');
+    assert.equal(links.length, 0);
+  });
+
+  test('overlapping links', () => {
+    element.config = {
+      b1: {
+        match: '(B:\\s*)(\\d+)',
+        html: '$1<a href="ftp://foo/$2">$2</a>',
+      },
+      b2: {
+        match: '(B:\\s*\\d+\\s*,\\s*)(\\d+)',
+        html: '$1<a href="ftp://foo/$2">$2</a>',
+      },
+    };
+    element.content = '- B: 123, 45';
+    const links = Polymer.dom(element.root).querySelectorAll('a');
+
+    assert.equal(links.length, 2);
+    assert.equal(element.$$('span').textContent, '- B: 123, 45');
+
+    assert.equal(links[0].href, 'ftp://foo/123');
+    assert.equal(links[0].textContent, '123');
+
+    assert.equal(links[1].href, 'ftp://foo/45');
+    assert.equal(links[1].textContent, '45');
+  });
+
+  test('_contentOrConfigChanged called with config', () => {
+    const contentStub = sandbox.stub(element, '_contentChanged');
+    const contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
+    element.content = 'some text';
+    assert.isTrue(contentStub.called);
+    assert.isTrue(contentConfigStub.called);
+  });
+});
+
+suite('gr-linked-text with null config', () => {
+  let element;
+  let sandbox;
+
+  setup(() => {
+    element = fixture('basic');
+    sandbox = sinon.sandbox.create();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('_contentOrConfigChanged not called without config', () => {
+    const contentStub = sandbox.stub(element, '_contentChanged');
+    const contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
+    element.content = 'some text';
+    assert.isTrue(contentStub.called);
+    assert.isFalse(contentConfigStub.called);
+  });
+});
 </script>

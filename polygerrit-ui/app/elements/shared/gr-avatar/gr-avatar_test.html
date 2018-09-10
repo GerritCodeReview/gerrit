@@ -19,12 +19,16 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-avatar</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-avatar.html">
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-avatar.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-avatar.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -32,101 +36,103 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-avatar tests', () => {
-    let element;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-avatar.js';
+suite('gr-avatar tests', () => {
+  let element;
 
-    setup(() => {
-      stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({plugin: {has_avatars: true}}); },
-      });
-      element = fixture('basic');
+  setup(() => {
+    stub('gr-rest-api-interface', {
+      getConfig() { return Promise.resolve({plugin: {has_avatars: true}}); },
     });
+    element = fixture('basic');
+  });
 
-    test('methods', () => {
-      assert.equal(element._buildAvatarURL(
-          {
-            _account_id: 123,
-          }),
-          '/accounts/123/avatar?s=16');
-      assert.equal(element._buildAvatarURL(
-          {
-            email: 'test@example.com',
-          }),
-          '/accounts/test%40example.com/avatar?s=16');
-      assert.equal(element._buildAvatarURL(
-          {
-            name: 'John Doe',
-          }),
-          '/accounts/John%20Doe/avatar?s=16');
-      assert.equal(element._buildAvatarURL(
-          {
-            username: 'John_Doe',
-          }),
-          '/accounts/John_Doe/avatar?s=16');
-      assert.equal(element._buildAvatarURL(
-          {
-            _account_id: 123,
-            avatars: [
-              {
-                url: 'https://cdn.example.com/s12-p/photo.jpg',
-                height: 12,
-              },
-              {
-                url: 'https://cdn.example.com/s16-p/photo.jpg',
-                height: 16,
-              },
-              {
-                url: 'https://cdn.example.com/s100-p/photo.jpg',
-                height: 100,
-              },
-            ],
-          }),
-          'https://cdn.example.com/s16-p/photo.jpg');
-      assert.equal(element._buildAvatarURL(
-          {
-            _account_id: 123,
-            avatars: [
-              {
-                url: 'https://cdn.example.com/s95-p/photo.jpg',
-                height: 95,
-              },
-            ],
-          }),
-          '/accounts/123/avatar?s=16');
-    });
+  test('methods', () => {
+    assert.equal(element._buildAvatarURL(
+        {
+          _account_id: 123,
+        }),
+        '/accounts/123/avatar?s=16');
+    assert.equal(element._buildAvatarURL(
+        {
+          email: 'test@example.com',
+        }),
+        '/accounts/test%40example.com/avatar?s=16');
+    assert.equal(element._buildAvatarURL(
+        {
+          name: 'John Doe',
+        }),
+        '/accounts/John%20Doe/avatar?s=16');
+    assert.equal(element._buildAvatarURL(
+        {
+          username: 'John_Doe',
+        }),
+        '/accounts/John_Doe/avatar?s=16');
+    assert.equal(element._buildAvatarURL(
+        {
+          _account_id: 123,
+          avatars: [
+            {
+              url: 'https://cdn.example.com/s12-p/photo.jpg',
+              height: 12,
+            },
+            {
+              url: 'https://cdn.example.com/s16-p/photo.jpg',
+              height: 16,
+            },
+            {
+              url: 'https://cdn.example.com/s100-p/photo.jpg',
+              height: 100,
+            },
+          ],
+        }),
+        'https://cdn.example.com/s16-p/photo.jpg');
+    assert.equal(element._buildAvatarURL(
+        {
+          _account_id: 123,
+          avatars: [
+            {
+              url: 'https://cdn.example.com/s95-p/photo.jpg',
+              height: 95,
+            },
+          ],
+        }),
+        '/accounts/123/avatar?s=16');
+  });
 
-    test('dom for existing account', () => {
+  test('dom for existing account', () => {
+    assert.isFalse(element.hasAttribute('hidden'));
+    element.imageSize = 64;
+    element.account = {
+      _account_id: 123,
+    };
+    assert.strictEqual(element.style.backgroundImage, '');
+    // Emulate plugins loaded.
+    Gerrit._setPluginsPending([]);
+    return Promise.all([
+      element.$.restAPI.getConfig(),
+      Gerrit.awaitPluginsLoaded(),
+    ]).then(() => {
       assert.isFalse(element.hasAttribute('hidden'));
-      element.imageSize = 64;
-      element.account = {
-        _account_id: 123,
-      };
-      assert.strictEqual(element.style.backgroundImage, '');
-      // Emulate plugins loaded.
-      Gerrit._setPluginsPending([]);
-      return Promise.all([
-        element.$.restAPI.getConfig(),
-        Gerrit.awaitPluginsLoaded(),
-      ]).then(() => {
-        assert.isFalse(element.hasAttribute('hidden'));
-        assert.isTrue(
-            element.style.backgroundImage.includes('/accounts/123/avatar?s=64'));
-      });
-    });
-
-    test('dom for non available account', () => {
-      assert.isFalse(element.hasAttribute('hidden'));
-      element.account = null;
-      assert.isFalse(element.hasAttribute('hidden'));
-      // Emulate plugins loaded.
-      Gerrit._setPluginsPending([]);
-      return Promise.all([
-        element.$.restAPI.getConfig(),
-        Gerrit.awaitPluginsLoaded(),
-      ]).then(() => {
-        assert.isTrue(element.hasAttribute('hidden'));
-      });
+      assert.isTrue(
+          element.style.backgroundImage.includes('/accounts/123/avatar?s=64'));
     });
   });
+
+  test('dom for non available account', () => {
+    assert.isFalse(element.hasAttribute('hidden'));
+    element.account = null;
+    assert.isFalse(element.hasAttribute('hidden'));
+    // Emulate plugins loaded.
+    Gerrit._setPluginsPending([]);
+    return Promise.all([
+      element.$.restAPI.getConfig(),
+      Gerrit.awaitPluginsLoaded(),
+    ]).then(() => {
+      assert.isTrue(element.hasAttribute('hidden'));
+    });
+  });
+});
 </script>

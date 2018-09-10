@@ -19,10 +19,10 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>keyboard-shortcut-behavior</title>
 
-<script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
-<script src="../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
-<link rel="import" href="gr-list-view-behavior.html">
+<script src="../../../@webcomponents/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-list-view-behavior.js"></script>
 
 <test-fixture id="basic">
   <template>
@@ -30,61 +30,63 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-list-view-behavior tests', () => {
-    let element;
-    // eslint-disable-next-line no-unused-vars
-    let overlay;
+<script type="module">
+import '../../test/common-test-setup.js';
+import './gr-list-view-behavior.js';
+suite('gr-list-view-behavior tests', () => {
+  let element;
+  // eslint-disable-next-line no-unused-vars
+  let overlay;
 
-    suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [Gerrit.ListViewBehavior],
-      });
-    });
-
-    setup(() => {
-      element = fixture('basic');
-    });
-
-    test('computeLoadingClass', () => {
-      assert.equal(element.computeLoadingClass(true), 'loading');
-      assert.equal(element.computeLoadingClass(false), '');
-    });
-
-    test('computeShownItems', () => {
-      const myArr = new Array(26);
-      assert.equal(element.computeShownItems(myArr).length, 25);
-    });
-
-    test('getUrl', () => {
-      assert.equal(element.getUrl('/path/to/something/', 'item'),
-          '/path/to/something/item');
-      assert.equal(element.getUrl('/path/to/something/', 'item%test'),
-          '/path/to/something/item%2525test');
-    });
-
-    test('getFilterValue', () => {
-      let params;
-      assert.equal(element.getFilterValue(params), null);
-
-      params = {filter: null};
-      assert.equal(element.getFilterValue(params), null);
-
-      params = {filter: 'test'};
-      assert.equal(element.getFilterValue(params), 'test');
-    });
-
-    test('getOffsetValue', () => {
-      let params;
-      assert.equal(element.getOffsetValue(params), 0);
-
-      params = {offset: null};
-      assert.equal(element.getOffsetValue(params), 0);
-
-      params = {offset: 1};
-      assert.equal(element.getOffsetValue(params), 1);
+  suiteSetup(() => {
+    // Define a Polymer element that uses this behavior.
+    Polymer({
+      is: 'test-element',
+      behaviors: [Gerrit.ListViewBehavior],
     });
   });
+
+  setup(() => {
+    element = fixture('basic');
+  });
+
+  test('computeLoadingClass', () => {
+    assert.equal(element.computeLoadingClass(true), 'loading');
+    assert.equal(element.computeLoadingClass(false), '');
+  });
+
+  test('computeShownItems', () => {
+    const myArr = new Array(26);
+    assert.equal(element.computeShownItems(myArr).length, 25);
+  });
+
+  test('getUrl', () => {
+    assert.equal(element.getUrl('/path/to/something/', 'item'),
+        '/path/to/something/item');
+    assert.equal(element.getUrl('/path/to/something/', 'item%test'),
+        '/path/to/something/item%2525test');
+  });
+
+  test('getFilterValue', () => {
+    let params;
+    assert.equal(element.getFilterValue(params), null);
+
+    params = {filter: null};
+    assert.equal(element.getFilterValue(params), null);
+
+    params = {filter: 'test'};
+    assert.equal(element.getFilterValue(params), 'test');
+  });
+
+  test('getOffsetValue', () => {
+    let params;
+    assert.equal(element.getOffsetValue(params), 0);
+
+    params = {offset: null};
+    assert.equal(element.getOffsetValue(params), 0);
+
+    params = {offset: 1};
+    assert.equal(element.getOffsetValue(params), 1);
+  });
+});
 </script>

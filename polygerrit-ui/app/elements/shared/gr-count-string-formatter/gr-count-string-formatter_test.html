@@ -19,37 +19,39 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-count-string-formatter</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-count-string-formatter.html"/>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-count-string-formatter.js"></script>
 
-<script>
-  suite('gr-count-string-formatter tests', () => {
-    test('computeString', () => {
-      const noun = 'unresolved';
-      assert.equal(GrCountStringFormatter.computeString(0, noun), '');
-      assert.equal(GrCountStringFormatter.computeString(1, noun),
-          '1 unresolved');
-      assert.equal(GrCountStringFormatter.computeString(2, noun),
-          '2 unresolved');
-    });
-
-    test('computeShortString', () => {
-      const noun = 'c';
-      assert.equal(GrCountStringFormatter.computeShortString(0, noun), '');
-      assert.equal(GrCountStringFormatter.computeShortString(1, noun), '1c');
-      assert.equal(GrCountStringFormatter.computeShortString(2, noun), '2c');
-    });
-
-    test('computePluralString', () => {
-      const noun = 'comment';
-      assert.equal(GrCountStringFormatter.computePluralString(0, noun), '');
-      assert.equal(GrCountStringFormatter.computePluralString(1, noun),
-          '1 comment');
-      assert.equal(GrCountStringFormatter.computePluralString(2, noun),
-          '2 comments');
-    });
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-count-string-formatter.js';
+suite('gr-count-string-formatter tests', () => {
+  test('computeString', () => {
+    const noun = 'unresolved';
+    assert.equal(GrCountStringFormatter.computeString(0, noun), '');
+    assert.equal(GrCountStringFormatter.computeString(1, noun),
+        '1 unresolved');
+    assert.equal(GrCountStringFormatter.computeString(2, noun),
+        '2 unresolved');
   });
+
+  test('computeShortString', () => {
+    const noun = 'c';
+    assert.equal(GrCountStringFormatter.computeShortString(0, noun), '');
+    assert.equal(GrCountStringFormatter.computeShortString(1, noun), '1c');
+    assert.equal(GrCountStringFormatter.computeShortString(2, noun), '2c');
+  });
+
+  test('computePluralString', () => {
+    const noun = 'comment';
+    assert.equal(GrCountStringFormatter.computePluralString(0, noun), '');
+    assert.equal(GrCountStringFormatter.computePluralString(1, noun),
+        '1 comment');
+    assert.equal(GrCountStringFormatter.computePluralString(2, noun),
+        '2 comments');
+  });
+});
 </script>
 

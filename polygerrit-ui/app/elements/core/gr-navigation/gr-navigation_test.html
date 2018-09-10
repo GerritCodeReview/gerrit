@@ -19,15 +19,16 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-navigation</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<script>
-  suite('gr-navigation tests', () => {
-    test('invalid patch ranges throw exceptions', () => {
-      assert.throw(() => Gerrit.Nav.getUrlForChange('123', undefined, 12));
-      assert.throw(() => Gerrit.Nav.getUrlForDiff('123', 'x.c', undefined, 12));
-    });
+<script type="module">
+import '../../../test/common-test-setup.js';
+suite('gr-navigation tests', () => {
+  test('invalid patch ranges throw exceptions', () => {
+    assert.throw(() => Gerrit.Nav.getUrlForChange('123', undefined, 12));
+    assert.throw(() => Gerrit.Nav.getUrlForDiff('123', 'x.c', undefined, 12));
   });
+});
 </script>

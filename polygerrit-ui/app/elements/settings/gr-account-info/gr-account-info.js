@@ -1,171 +1,215 @@
 /**
- * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2016 The Android Open Source Project
 
-  Polymer({
-    is: 'gr-account-info',
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    /**
-     * Fired when account details are changed.
-     *
-     * @event account-detail-update
-     */
+http://www.apache.org/licenses/LICENSE-2.0
 
-    properties: {
-      usernameMutable: {
-        type: Boolean,
-        notify: true,
-        computed: '_computeUsernameMutable(_serverConfig, _account.username)',
-      },
-      nameMutable: {
-        type: Boolean,
-        notify: true,
-        computed: '_computeNameMutable(_serverConfig)',
-      },
-      hasUnsavedChanges: {
-        type: Boolean,
-        notify: true,
-        computed: '_computeHasUnsavedChanges(_hasNameChange, ' +
-            '_hasUsernameChange, _hasStatusChange)',
-      },
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../../@polymer/polymer/polymer-legacy.js';
 
-      _hasNameChange: Boolean,
-      _hasUsernameChange: Boolean,
-      _hasStatusChange: Boolean,
-      _loading: {
-        type: Boolean,
-        value: false,
-      },
-      _saving: {
-        type: Boolean,
-        value: false,
-      },
-      /** @type {?} */
-      _account: Object,
-      _serverConfig: Object,
-      _username: {
-        type: String,
-        observer: '_usernameChanged',
-      },
+import '../../shared/gr-date-formatter/gr-date-formatter.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../../../styles/gr-form-styles.js';
+import '../../../styles/shared-styles.js';
+
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles"></style>
+    <style include="gr-form-styles"></style>
+    <div class="gr-form-styles">
+      <section>
+        <span class="title">ID</span>
+        <span class="value">[[_account._account_id]]</span>
+      </section>
+      <section>
+        <span class="title">Email</span>
+        <span class="value">[[_account.email]]</span>
+      </section>
+      <section>
+        <span class="title">Registered</span>
+        <span class="value">
+          <gr-date-formatter has-tooltip="" date-str="[[_account.registered_on]]"></gr-date-formatter>
+        </span>
+      </section>
+      <section id="usernameSection">
+        <span class="title">Username</span>
+        <span hidden\$="[[usernameMutable]]" class="value">[[_username]]</span>
+        <span hidden\$="[[!usernameMutable]]" class="value">
+          <input is="iron-input" id="usernameInput" disabled="[[_saving]]" on-keydown="_handleKeydown" bind-value="{{_username}}">
+      </span></section>
+      <section id="nameSection">
+        <span class="title">Full name</span>
+        <span hidden\$="[[nameMutable]]" class="value">[[_account.name]]</span>
+        <span hidden\$="[[!nameMutable]]" class="value">
+          <input is="iron-input" id="nameInput" disabled="[[_saving]]" on-keydown="_handleKeydown" bind-value="{{_account.name}}">
+        </span>
+      </section>
+      <section>
+        <span class="title">Status (e.g. "Vacation")</span>
+        <span class="value">
+          <input is="iron-input" id="statusInput" disabled="[[_saving]]" on-keydown="_handleKeydown" bind-value="{{_account.status}}">
+          </span>
+      </section>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+`,
+
+  is: 'gr-account-info',
+
+  /**
+   * Fired when account details are changed.
+   *
+   * @event account-detail-update
+   */
+
+  properties: {
+    usernameMutable: {
+      type: Boolean,
+      notify: true,
+      computed: '_computeUsernameMutable(_serverConfig, _account.username)',
+    },
+    nameMutable: {
+      type: Boolean,
+      notify: true,
+      computed: '_computeNameMutable(_serverConfig)',
+    },
+    hasUnsavedChanges: {
+      type: Boolean,
+      notify: true,
+      computed: '_computeHasUnsavedChanges(_hasNameChange, ' +
+          '_hasUsernameChange, _hasStatusChange)',
     },
 
-    observers: [
-      '_nameChanged(_account.name)',
-      '_statusChanged(_account.status)',
-    ],
-
-    loadData() {
-      const promises = [];
-
-      this._loading = true;
-
-      promises.push(this.$.restAPI.getConfig().then(config => {
-        this._serverConfig = config;
-      }));
-
-      promises.push(this.$.restAPI.getAccount().then(account => {
-        this._hasNameChange = false;
-        this._hasUsernameChange = false;
-        this._hasStatusChange = false;
-        // Provide predefined value for username to trigger computation of
-        // username mutability.
-        account.username = account.username || '';
-        this._account = account;
-        this._username = account.username;
-      }));
-
-      return Promise.all(promises).then(() => {
-        this._loading = false;
-      });
+    _hasNameChange: Boolean,
+    _hasUsernameChange: Boolean,
+    _hasStatusChange: Boolean,
+    _loading: {
+      type: Boolean,
+      value: false,
     },
-
-    save() {
-      if (!this.hasUnsavedChanges) {
-        return Promise.resolve();
-      }
-
-      this._saving = true;
-      // Set only the fields that have changed.
-      // Must be done in sequence to avoid race conditions (@see Issue 5721)
-      return this._maybeSetName()
-          .then(this._maybeSetUsername.bind(this))
-          .then(this._maybeSetStatus.bind(this))
-          .then(() => {
-            this._hasNameChange = false;
-            this._hasStatusChange = false;
-            this._saving = false;
-            this.fire('account-detail-update');
-          });
+    _saving: {
+      type: Boolean,
+      value: false,
     },
-
-    _maybeSetName() {
-      return this._hasNameChange && this.nameMutable ?
-          this.$.restAPI.setAccountName(this._account.name) :
-          Promise.resolve();
+    /** @type {?} */
+    _account: Object,
+    _serverConfig: Object,
+    _username: {
+      type: String,
+      observer: '_usernameChanged',
     },
+  },
 
-    _maybeSetUsername() {
-      return this._hasUsernameChange && this.usernameMutable ?
-          this.$.restAPI.setAccountUsername(this._username) :
-          Promise.resolve();
-    },
+  observers: [
+    '_nameChanged(_account.name)',
+    '_statusChanged(_account.status)',
+  ],
 
-    _maybeSetStatus() {
-      return this._hasStatusChange ?
-          this.$.restAPI.setAccountStatus(this._account.status) :
-          Promise.resolve();
-    },
+  loadData() {
+    const promises = [];
 
-    _computeHasUnsavedChanges(nameChanged, usernameChanged, statusChanged) {
-      return nameChanged || usernameChanged || statusChanged;
-    },
+    this._loading = true;
 
-    _computeUsernameMutable(config, username) {
-      // Username may not be changed once it is set.
-      return config.auth.editable_account_fields.includes('USER_NAME') &&
-          !username;
-    },
+    promises.push(this.$.restAPI.getConfig().then(config => {
+      this._serverConfig = config;
+    }));
 
-    _computeNameMutable(config) {
-      return config.auth.editable_account_fields.includes('FULL_NAME');
-    },
+    promises.push(this.$.restAPI.getAccount().then(account => {
+      this._hasNameChange = false;
+      this._hasUsernameChange = false;
+      this._hasStatusChange = false;
+      // Provide predefined value for username to trigger computation of
+      // username mutability.
+      account.username = account.username || '';
+      this._account = account;
+      this._username = account.username;
+    }));
 
-    _statusChanged() {
-      if (this._loading) { return; }
-      this._hasStatusChange = true;
-    },
+    return Promise.all(promises).then(() => {
+      this._loading = false;
+    });
+  },
 
-    _usernameChanged() {
-      if (this._loading || !this._account) { return; }
-      this._hasUsernameChange =
-          (this._account.username || '') !== (this._username || '');
-    },
+  save() {
+    if (!this.hasUnsavedChanges) {
+      return Promise.resolve();
+    }
 
-    _nameChanged() {
-      if (this._loading) { return; }
-      this._hasNameChange = true;
-    },
+    this._saving = true;
+    // Set only the fields that have changed.
+    // Must be done in sequence to avoid race conditions (@see Issue 5721)
+    return this._maybeSetName()
+        .then(this._maybeSetUsername.bind(this))
+        .then(this._maybeSetStatus.bind(this))
+        .then(() => {
+          this._hasNameChange = false;
+          this._hasStatusChange = false;
+          this._saving = false;
+          this.fire('account-detail-update');
+        });
+  },
 
-    _handleKeydown(e) {
-      if (e.keyCode === 13) { // Enter
-        e.stopPropagation();
-        this.save();
-      }
-    },
-  });
-})();
+  _maybeSetName() {
+    return this._hasNameChange && this.nameMutable ?
+        this.$.restAPI.setAccountName(this._account.name) :
+        Promise.resolve();
+  },
+
+  _maybeSetUsername() {
+    return this._hasUsernameChange && this.usernameMutable ?
+        this.$.restAPI.setAccountUsername(this._username) :
+        Promise.resolve();
+  },
+
+  _maybeSetStatus() {
+    return this._hasStatusChange ?
+        this.$.restAPI.setAccountStatus(this._account.status) :
+        Promise.resolve();
+  },
+
+  _computeHasUnsavedChanges(nameChanged, usernameChanged, statusChanged) {
+    return nameChanged || usernameChanged || statusChanged;
+  },
+
+  _computeUsernameMutable(config, username) {
+    // Username may not be changed once it is set.
+    return config.auth.editable_account_fields.includes('USER_NAME') &&
+        !username;
+  },
+
+  _computeNameMutable(config) {
+    return config.auth.editable_account_fields.includes('FULL_NAME');
+  },
+
+  _statusChanged() {
+    if (this._loading) { return; }
+    this._hasStatusChange = true;
+  },
+
+  _usernameChanged() {
+    if (this._loading || !this._account) { return; }
+    this._hasUsernameChange =
+        (this._account.username || '') !== (this._username || '');
+  },
+
+  _nameChanged() {
+    if (this._loading) { return; }
+    this._hasNameChange = true;
+  },
+
+  _handleKeydown(e) {
+    if (e.keyCode === 13) { // Enter
+      e.stopPropagation();
+      this.save();
+    }
+  }
+});

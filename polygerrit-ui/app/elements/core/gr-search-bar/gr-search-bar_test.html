@@ -19,15 +19,19 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-search-bar</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<script src="../../../bower_components/page/page.js"></script>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script src="../../../../page/page.js"></script>
 
-<link rel="import" href="gr-search-bar.html">
+<script type="module" src="./gr-search-bar.js"></script>
 <script src="../../../scripts/util.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-search-bar.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -35,120 +39,122 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-search-bar tests', () => {
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-search-bar.js';
+suite('gr-search-bar tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('value is propagated to _inputVal', () => {
+    element.value = 'foo';
+    assert.equal(element._inputVal, 'foo');
+  });
+
+  getActiveElement = () => {
+    return document.activeElement.shadowRoot ?
+        document.activeElement.shadowRoot.activeElement :
+        document.activeElement;
+  };
+
+  test('enter in search input fires event', done => {
+    element.addEventListener('handle-search', () => {
+      assert.notEqual(getActiveElement(), element.$.searchInput);
+      assert.notEqual(getActiveElement(), element.$.searchButton);
+      done();
+    });
+    element.value = 'test';
+    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+        null, 'enter');
+  });
+
+  test('input blurred after commit', () => {
+    const blurSpy = sandbox.spy(element.$.searchInput.$.input, 'blur');
+    element.$.searchInput.text = 'fate/stay';
+    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+        null, 'enter');
+    assert.isTrue(blurSpy.called);
+  });
+
+  test('empty search query does not trigger nav', () => {
+    const searchSpy = sandbox.spy();
+    element.addEventListener('handle-search', searchSpy);
+    element.value = '';
+    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+        null, 'enter');
+    assert.isFalse(searchSpy.called);
+  });
+
+  test('keyboard shortcuts', () => {
+    const focusSpy = sandbox.spy(element.$.searchInput, 'focus');
+    const selectAllSpy = sandbox.spy(element.$.searchInput, 'selectAll');
+    MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
+    assert.isTrue(focusSpy.called);
+    assert.isTrue(selectAllSpy.called);
+  });
+
+  suite('_getSearchSuggestions', () => {
+    test('Autocompletes accounts', () => {
+      sandbox.stub(element, 'accountSuggestions', () =>
+        Promise.resolve(['owner:fred@goog.co'])
+      );
+      return element._getSearchSuggestions('owner:fr').then(s => {
+        assert.equal(s[0].value, 'owner:fred@goog.co');
+      });
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('value is propagated to _inputVal', () => {
-      element.value = 'foo';
-      assert.equal(element._inputVal, 'foo');
-    });
-
-    getActiveElement = () => {
-      return document.activeElement.shadowRoot ?
-          document.activeElement.shadowRoot.activeElement :
-          document.activeElement;
-    };
-
-    test('enter in search input fires event', done => {
-      element.addEventListener('handle-search', () => {
-        assert.notEqual(getActiveElement(), element.$.searchInput);
-        assert.notEqual(getActiveElement(), element.$.searchButton);
+    test('Autocompletes groups', done => {
+      sandbox.stub(element, 'groupSuggestions', () =>
+        Promise.resolve([
+          'ownerin:Polygerrit',
+          'ownerin:gerrit',
+        ])
+      );
+      element._getSearchSuggestions('ownerin:pol').then(s => {
+        assert.equal(s[0].value, 'ownerin:Polygerrit');
         done();
       });
-      element.value = 'test';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
     });
 
-    test('input blurred after commit', () => {
-      const blurSpy = sandbox.spy(element.$.searchInput.$.input, 'blur');
-      element.$.searchInput.text = 'fate/stay';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
-      assert.isTrue(blurSpy.called);
+    test('Autocompletes projects', done => {
+      sandbox.stub(element, 'projectSuggestions', () =>
+        Promise.resolve([
+          'project:Polygerrit',
+          'project:gerrit',
+          'project:gerrittest',
+        ])
+      );
+      element._getSearchSuggestions('project:pol').then(s => {
+        assert.equal(s[0].value, 'project:Polygerrit');
+        done();
+      });
     });
 
-    test('empty search query does not trigger nav', () => {
-      const searchSpy = sandbox.spy();
-      element.addEventListener('handle-search', searchSpy);
-      element.value = '';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
-      assert.isFalse(searchSpy.called);
+    test('Autocompletes simple searches', done => {
+      element._getSearchSuggestions('is:o').then(s => {
+        assert.equal(s[0].name, 'is:open');
+        assert.equal(s[0].value, 'is:open');
+        assert.equal(s[1].name, 'is:owner');
+        assert.equal(s[1].value, 'is:owner');
+        done();
+      });
     });
 
-    test('keyboard shortcuts', () => {
-      const focusSpy = sandbox.spy(element.$.searchInput, 'focus');
-      const selectAllSpy = sandbox.spy(element.$.searchInput, 'selectAll');
-      MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
-      assert.isTrue(focusSpy.called);
-      assert.isTrue(selectAllSpy.called);
-    });
-
-    suite('_getSearchSuggestions', () => {
-      test('Autocompletes accounts', () => {
-        sandbox.stub(element, 'accountSuggestions', () =>
-          Promise.resolve(['owner:fred@goog.co'])
-        );
-        return element._getSearchSuggestions('owner:fr').then(s => {
-          assert.equal(s[0].value, 'owner:fred@goog.co');
-        });
-      });
-
-      test('Autocompletes groups', done => {
-        sandbox.stub(element, 'groupSuggestions', () =>
-          Promise.resolve([
-            'ownerin:Polygerrit',
-            'ownerin:gerrit',
-          ])
-        );
-        element._getSearchSuggestions('ownerin:pol').then(s => {
-          assert.equal(s[0].value, 'ownerin:Polygerrit');
-          done();
-        });
-      });
-
-      test('Autocompletes projects', done => {
-        sandbox.stub(element, 'projectSuggestions', () =>
-          Promise.resolve([
-            'project:Polygerrit',
-            'project:gerrit',
-            'project:gerrittest',
-          ])
-        );
-        element._getSearchSuggestions('project:pol').then(s => {
-          assert.equal(s[0].value, 'project:Polygerrit');
-          done();
-        });
-      });
-
-      test('Autocompletes simple searches', done => {
-        element._getSearchSuggestions('is:o').then(s => {
-          assert.equal(s[0].name, 'is:open');
-          assert.equal(s[0].value, 'is:open');
-          assert.equal(s[1].name, 'is:owner');
-          assert.equal(s[1].value, 'is:owner');
-          done();
-        });
-      });
-
-      test('Does not autocomplete with no match', done => {
-        element._getSearchSuggestions('asdasdasdasd').then(s => {
-          assert.equal(s.length, 0);
-          done();
-        });
+    test('Does not autocomplete with no match', done => {
+      element._getSearchSuggestions('asdasdasdasd').then(s => {
+        assert.equal(s.length, 0);
+        done();
       });
     });
   });
+});
 </script>

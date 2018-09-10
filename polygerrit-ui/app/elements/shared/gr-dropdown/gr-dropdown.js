@@ -1,294 +1,402 @@
 /**
- * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2016 The Android Open Source Project
 
-  const REL_NOOPENER = 'noopener';
-  const REL_EXTERNAL = 'external';
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-  Polymer({
-    is: 'gr-dropdown',
+http://www.apache.org/licenses/LICENSE-2.0
 
-    /**
-     * Fired when a non-link dropdown item with the given ID is tapped.
-     *
-     * @event tap-item-<id>
-     */
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
 
-    /**
-     * Fired when a non-link dropdown item is tapped.
-     *
-     * @event tap-item
-     */
+import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import '../../../../@polymer/polymer/polymer-legacy.js';
+import '../../../../@polymer/iron-dropdown/iron-dropdown.js';
+import '../gr-button/gr-button.js';
+import '../gr-cursor-manager/gr-cursor-manager.js';
+import '../gr-rest-api-interface/gr-rest-api-interface.js';
+import '../gr-tooltip-content/gr-tooltip-content.js';
+import '../../../styles/shared-styles.js';
 
-    properties: {
-      items: {
-        type: Array,
-        observer: '_resetCursorStops',
-      },
-      downArrow: Boolean,
-      topContent: Object,
-      horizontalAlign: {
-        type: String,
-        value: 'left',
-      },
+const REL_NOOPENER = 'noopener';
+const REL_EXTERNAL = 'external';
 
-      /**
-       * Style the dropdown trigger as a link (rather than a button).
-       */
-      link: {
-        type: Boolean,
-        value: false,
-      },
-
-      verticalOffset: {
-        type: Number,
-        value: 40,
-      },
-
-      /**
-       * List the IDs of dropdown buttons to be disabled. (Note this only
-       * diisables bittons and not link entries.)
-       */
-      disabledIds: {
-        type: Array,
-        value() { return []; },
-      },
-
-      /**
-       * The elements of the list.
-       */
-      _listElements: {
-        type: Array,
-        value() { return []; },
-      },
-    },
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
-
-    keyBindings: {
-      'down': '_handleDown',
-      'enter space': '_handleEnter',
-      'tab': '_handleTab',
-      'up': '_handleUp',
-    },
-
-    /**
-     * Handle the up key.
-     * @param {!Event} e
-     */
-    _handleUp(e) {
-      if (this.$.dropdown.opened) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.$.cursor.previous();
-      } else {
-        this._open();
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles">
+      :host {
+        display: inline-block;
       }
-    },
-
-    /**
-     * Handle the down key.
-     * @param {!Event} e
-     */
-    _handleDown(e) {
-      if (this.$.dropdown.opened) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.$.cursor.next();
-      } else {
-        this._open();
+      .dropdown-trigger {
+        text-decoration: none;
+        width: 100%;
       }
-    },
-
-    /**
-     * Handle the tab key.
-     * @param {!Event} e
-     */
-    _handleTab(e) {
-      if (this.$.dropdown.opened) {
-        // Tab in a native select is a no-op. Emulate this.
-        e.preventDefault();
-        e.stopPropagation();
+      .dropdown-content {
+        background-color: var(--dropdown-background-color);
+        box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
       }
+      gr-button {
+        @apply --gr-button;
+      }
+      gr-avatar {
+        height: 2em;
+        width: 2em;
+        vertical-align: middle;
+      }
+      gr-button[link]:focus {
+        outline: 5px auto -webkit-focus-ring-color;
+      }
+      ul {
+        list-style: none;
+      }
+      .topContent,
+      li {
+        border-bottom: 1px solid var(--border-color);
+      }
+      li:last-of-type {
+        border: none;
+      }
+      li .itemAction {
+        cursor: pointer;
+        display: block;
+        padding: .85em 1em;
+      }
+      li .itemAction {
+        @apply --gr-dropdown-item;
+      }
+      li .itemAction.disabled {
+        color: var(--deemphasized-text-color);
+        cursor: default;
+      }
+      li .itemAction:link,
+      li .itemAction:visited {
+        text-decoration: none;
+      }
+      li .itemAction:not(.disabled):hover {
+        background-color: var(--hover-background-color);
+      }
+      li:focus,
+      li.selected {
+        background-color: var(--selection-background-color);
+        outline: none;
+      }
+      li:focus .itemAction,
+      li.selected .itemAction {
+        background-color: transparent;
+      }
+      .topContent {
+        display: block;
+        padding: .85em 1em;
+        @apply --gr-dropdown-item;
+      }
+      .bold-text {
+        font-family: var(--font-family-bold);
+      }
+    </style>
+    <gr-button link="[[link]]" class="dropdown-trigger" id="trigger" down-arrow="[[downArrow]]" on-tap="_dropdownTriggerTapHandler">
+      <content></content>
+    </gr-button>
+    <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="[[verticalOffset]]" allow-outside-scroll="true" horizontal-align="[[horizontalAlign]]" on-tap="_handleDropdownTap">
+      <div class="dropdown-content" slot="dropdown-content">
+        <ul>
+          <template is="dom-if" if="[[topContent]]">
+            <div class="topContent">
+              <template is="dom-repeat" items="[[topContent]]" as="item" initial-count="75">
+                <div class\$="[[_getClassIfBold(item.bold)]] top-item" tabindex="-1">
+                  [[item.text]]
+                </div>
+              </template>
+            </div>
+          </template>
+          <template is="dom-repeat" items="[[items]]" as="link" initial-count="75">
+            <li tabindex="-1">
+              <gr-tooltip-content has-tooltip="[[_computeHasTooltip(link.tooltip)]]" title\$="[[link.tooltip]]">
+                <span class\$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]" data-id\$="[[link.id]]" on-tap="_handleItemTap" hidden\$="[[link.url]]" tabindex="-1">[[link.name]]</span>
+                <a class="itemAction" href\$="[[_computeLinkURL(link)]]" download\$="[[_computeIsDownload(link)]]" rel\$="[[_computeLinkRel(link)]]" target\$="[[link.target]]" hidden\$="[[!link.url]]" tabindex="-1">[[link.name]]</a>
+              </gr-tooltip-content>
+            </li>
+          </template>
+        </ul>
+      </div>
+    </iron-dropdown>
+    <gr-cursor-manager id="cursor" cursor-target-class="selected" scroll-behavior="never" focus-on-move="" stops="[[_listElements]]"></gr-cursor-manager>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+`,
+
+  is: 'gr-dropdown',
+
+  /**
+   * Fired when a non-link dropdown item with the given ID is tapped.
+   *
+   * @event tap-item-<id>
+   */
+
+  /**
+   * Fired when a non-link dropdown item is tapped.
+   *
+   * @event tap-item
+   */
+
+  properties: {
+    items: {
+      type: Array,
+      observer: '_resetCursorStops',
+    },
+    downArrow: Boolean,
+    topContent: Object,
+    horizontalAlign: {
+      type: String,
+      value: 'left',
     },
 
     /**
-     * Handle the enter key.
-     * @param {!Event} e
+     * Style the dropdown trigger as a link (rather than a button).
      */
-    _handleEnter(e) {
+    link: {
+      type: Boolean,
+      value: false,
+    },
+
+    verticalOffset: {
+      type: Number,
+      value: 40,
+    },
+
+    /**
+     * List the IDs of dropdown buttons to be disabled. (Note this only
+     * diisables bittons and not link entries.)
+     */
+    disabledIds: {
+      type: Array,
+      value() { return []; },
+    },
+
+    /**
+     * The elements of the list.
+     */
+    _listElements: {
+      type: Array,
+      value() { return []; },
+    },
+  },
+
+  behaviors: [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+  ],
+
+  keyBindings: {
+    'down': '_handleDown',
+    'enter space': '_handleEnter',
+    'tab': '_handleTab',
+    'up': '_handleUp',
+  },
+
+  /**
+   * Handle the up key.
+   * @param {!Event} e
+   */
+  _handleUp(e) {
+    if (this.$.dropdown.opened) {
       e.preventDefault();
       e.stopPropagation();
-      if (this.$.dropdown.opened) {
-        // TODO(kaspern): This solution will not work in Shadow DOM, and
-        // is not particularly robust in general. Find a better solution
-        // when page.js has been abstracted away from components.
-        const el = this.$.cursor.target.querySelector(':not([hidden])');
-        if (el) { el.click(); }
-      } else {
-        this._open();
-      }
-    },
+      this.$.cursor.previous();
+    } else {
+      this._open();
+    }
+  },
 
-    /**
-     * Handle a click on the iron-dropdown element.
-     * @param {!Event} e
-     */
-    _handleDropdownTap(e) {
+  /**
+   * Handle the down key.
+   * @param {!Event} e
+   */
+  _handleDown(e) {
+    if (this.$.dropdown.opened) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.$.cursor.next();
+    } else {
+      this._open();
+    }
+  },
+
+  /**
+   * Handle the tab key.
+   * @param {!Event} e
+   */
+  _handleTab(e) {
+    if (this.$.dropdown.opened) {
+      // Tab in a native select is a no-op. Emulate this.
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  },
+
+  /**
+   * Handle the enter key.
+   * @param {!Event} e
+   */
+  _handleEnter(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (this.$.dropdown.opened) {
+      // TODO(kaspern): This solution will not work in Shadow DOM, and
+      // is not particularly robust in general. Find a better solution
+      // when page.js has been abstracted away from components.
+      const el = this.$.cursor.target.querySelector(':not([hidden])');
+      if (el) { el.click(); }
+    } else {
+      this._open();
+    }
+  },
+
+  /**
+   * Handle a click on the iron-dropdown element.
+   * @param {!Event} e
+   */
+  _handleDropdownTap(e) {
+    this._close();
+  },
+
+  /**
+   * Hanlde a click on the button to open the dropdown.
+   * @param {!Event} e
+   */
+  _dropdownTriggerTapHandler(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (this.$.dropdown.opened) {
       this._close();
-    },
+    } else {
+      this._open();
+    }
+  },
 
-    /**
-     * Hanlde a click on the button to open the dropdown.
-     * @param {!Event} e
-     */
-    _dropdownTriggerTapHandler(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (this.$.dropdown.opened) {
-        this._close();
-      } else {
-        this._open();
+  /**
+   * Open the dropdown and initialize the cursor.
+   */
+  _open() {
+    this.$.dropdown.open();
+    this.$.cursor.setCursorAtIndex(0);
+    Polymer.dom.flush();
+    this.$.cursor.target.focus();
+  },
+
+  _close() {
+    // async is needed so that that the click event is fired before the
+    // dropdown closes (This was a bug for touch devices).
+    this.async(() => {
+      this.$.dropdown.close();
+    }, 1);
+  },
+
+  /**
+   * Get the class for a top-content item based on the given boolean.
+   * @param {boolean} bold Whether the item is bold.
+   * @return {string} The class for the top-content item.
+   */
+  _getClassIfBold(bold) {
+    return bold ? 'bold-text' : '';
+  },
+
+  /**
+   * Build a URL for the given host and path. If there is a base URL, it will
+   * be included between the host and the path.
+   * @param {!string} host
+   * @param {!string} path
+   * @return {!string} The scheme-relative URL.
+   */
+  _computeURLHelper(host, path) {
+    return '//' + host + this.getBaseUrl() + path;
+  },
+
+  /**
+   * Build a scheme-relative URL for the current host. Will include the base
+   * URL if one is present. Note: the URL will be scheme-relative but absolute
+   * with regard to the host.
+   * @param {!string} path The path for the URL.
+   * @return {!string} The scheme-relative URL.
+   */
+  _computeRelativeURL(path) {
+    const host = window.location.host;
+    return this._computeURLHelper(host, path);
+  },
+
+  /**
+   * Compute the URL for a link object.
+   * @param {!Object} link The object describing the link.
+   * @return {!string} The URL.
+   */
+  _computeLinkURL(link) {
+    if (typeof link.url === 'undefined') {
+      return '';
+    }
+    if (link.target) {
+      return link.url;
+    }
+    return this._computeRelativeURL(link.url);
+  },
+
+  /**
+   * Compute the value for the rel attribute of an anchor for the given link
+   * object. If the link has a target value, then the rel must be "noopener"
+   * for security reasons.
+   * @param {!Object} link The object describing the link.
+   * @return {?string} The rel value for the link.
+   */
+  _computeLinkRel(link) {
+    // Note: noopener takes precedence over external.
+    if (link.target) { return REL_NOOPENER; }
+    if (link.external) { return REL_EXTERNAL; }
+    return null;
+  },
+
+  /**
+   * Handle a click on an item of the dropdown.
+   * @param {!Event} e
+   */
+  _handleItemTap(e) {
+    const id = e.target.getAttribute('data-id');
+    const item = this.items.find(item => item.id === id);
+    if (id && !this.disabledIds.includes(id)) {
+      if (item) {
+        this.dispatchEvent(new CustomEvent('tap-item', {detail: item}));
       }
-    },
+      this.dispatchEvent(new CustomEvent('tap-item-' + id));
+    }
+  },
 
-    /**
-     * Open the dropdown and initialize the cursor.
-     */
-    _open() {
-      this.$.dropdown.open();
-      this.$.cursor.setCursorAtIndex(0);
-      Polymer.dom.flush();
-      this.$.cursor.target.focus();
-    },
+  /**
+   * If a dropdown item is shown as a button, get the class for the button.
+   * @param {string} id
+   * @param {!Object} disabledIdsRecord The change record for the disabled IDs
+   *     list.
+   * @return {!string} The class for the item button.
+   */
+  _computeDisabledClass(id, disabledIdsRecord) {
+    return disabledIdsRecord.base.includes(id) ? 'disabled' : '';
+  },
 
-    _close() {
-      // async is needed so that that the click event is fired before the
-      // dropdown closes (This was a bug for touch devices).
-      this.async(() => {
-        this.$.dropdown.close();
-      }, 1);
-    },
+  /**
+   * Recompute the stops for the dropdown item cursor.
+   */
+  _resetCursorStops() {
+    Polymer.dom.flush();
+    this._listElements = Polymer.dom(this.root).querySelectorAll('li');
+  },
 
-    /**
-     * Get the class for a top-content item based on the given boolean.
-     * @param {boolean} bold Whether the item is bold.
-     * @return {string} The class for the top-content item.
-     */
-    _getClassIfBold(bold) {
-      return bold ? 'bold-text' : '';
-    },
+  _computeHasTooltip(tooltip) {
+    return !!tooltip;
+  },
 
-    /**
-     * Build a URL for the given host and path. If there is a base URL, it will
-     * be included between the host and the path.
-     * @param {!string} host
-     * @param {!string} path
-     * @return {!string} The scheme-relative URL.
-     */
-    _computeURLHelper(host, path) {
-      return '//' + host + this.getBaseUrl() + path;
-    },
-
-    /**
-     * Build a scheme-relative URL for the current host. Will include the base
-     * URL if one is present. Note: the URL will be scheme-relative but absolute
-     * with regard to the host.
-     * @param {!string} path The path for the URL.
-     * @return {!string} The scheme-relative URL.
-     */
-    _computeRelativeURL(path) {
-      const host = window.location.host;
-      return this._computeURLHelper(host, path);
-    },
-
-    /**
-     * Compute the URL for a link object.
-     * @param {!Object} link The object describing the link.
-     * @return {!string} The URL.
-     */
-    _computeLinkURL(link) {
-      if (typeof link.url === 'undefined') {
-        return '';
-      }
-      if (link.target) {
-        return link.url;
-      }
-      return this._computeRelativeURL(link.url);
-    },
-
-    /**
-     * Compute the value for the rel attribute of an anchor for the given link
-     * object. If the link has a target value, then the rel must be "noopener"
-     * for security reasons.
-     * @param {!Object} link The object describing the link.
-     * @return {?string} The rel value for the link.
-     */
-    _computeLinkRel(link) {
-      // Note: noopener takes precedence over external.
-      if (link.target) { return REL_NOOPENER; }
-      if (link.external) { return REL_EXTERNAL; }
-      return null;
-    },
-
-    /**
-     * Handle a click on an item of the dropdown.
-     * @param {!Event} e
-     */
-    _handleItemTap(e) {
-      const id = e.target.getAttribute('data-id');
-      const item = this.items.find(item => item.id === id);
-      if (id && !this.disabledIds.includes(id)) {
-        if (item) {
-          this.dispatchEvent(new CustomEvent('tap-item', {detail: item}));
-        }
-        this.dispatchEvent(new CustomEvent('tap-item-' + id));
-      }
-    },
-
-    /**
-     * If a dropdown item is shown as a button, get the class for the button.
-     * @param {string} id
-     * @param {!Object} disabledIdsRecord The change record for the disabled IDs
-     *     list.
-     * @return {!string} The class for the item button.
-     */
-    _computeDisabledClass(id, disabledIdsRecord) {
-      return disabledIdsRecord.base.includes(id) ? 'disabled' : '';
-    },
-
-    /**
-     * Recompute the stops for the dropdown item cursor.
-     */
-    _resetCursorStops() {
-      Polymer.dom.flush();
-      this._listElements = Polymer.dom(this.root).querySelectorAll('li');
-    },
-
-    _computeHasTooltip(tooltip) {
-      return !!tooltip;
-    },
-
-    _computeIsDownload(link) {
-      return !!link.download;
-    },
-  });
-})();
+  _computeIsDownload(link) {
+    return !!link.download;
+  }
+});

@@ -18,13 +18,17 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-edit-controls</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<link rel="import" href="gr-edit-controls.html">
+<script type="module" src="./gr-edit-controls.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-edit-controls.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -32,7 +36,9 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-edit-controls.js';
 suite('gr-edit-controls tests', () => {
   let element;
   let sandbox;

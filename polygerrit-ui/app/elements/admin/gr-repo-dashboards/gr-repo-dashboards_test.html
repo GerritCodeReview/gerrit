@@ -19,12 +19,16 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-repo-dashboards</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-repo-dashboards.html">
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-repo-dashboards.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-repo-dashboards.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -32,243 +36,245 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-repo-dashboards tests', () => {
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-repo-dashboards.js';
+suite('gr-repo-dashboards tests', () => {
+  let element;
+  let sandbox;
 
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('with default only', () => {
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
+      sandbox.stub(element.$.restAPI, 'getRepoDashboards').returns(
+          Promise.resolve([
+            [
+              {
+                id: 'default:contributor',
+                project: 'gerrit',
+                defining_project: 'gerrit',
+                ref: 'default',
+                path: 'contributor',
+                description: 'Own contributions.',
+                foreach: 'owner:self',
+                url: '/dashboard/?params',
+                title: 'Contributor Dashboard',
+                sections: [
+                  {
+                    name: 'Mine To Rebase',
+                    query: 'is:open -is:mergeable',
+                  },
+                  {
+                    name: 'My Recently Merged',
+                    query: 'is:merged limit:10',
+                  },
+                ],
+              },
+            ],
+            [
+              {
+                id: 'default:open',
+                project: 'gerrit',
+                defining_project: 'Public-Projects',
+                ref: 'default',
+                path: 'open',
+                description: 'Recent open changes.',
+                url: '/dashboard/?params',
+                title: 'Open Changes',
+                sections: [
+                  {
+                    name: 'Open Changes',
+                    query: 'status:open project:${project} -age:7w',
+                  },
+                ],
+              },
+            ],
+          ]));
     });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    suite('with default only', () => {
-      setup(() => {
-        sandbox.stub(element.$.restAPI, 'getRepoDashboards').returns(
-            Promise.resolve([
-              [
-                {
-                  id: 'default:contributor',
-                  project: 'gerrit',
-                  defining_project: 'gerrit',
-                  ref: 'default',
-                  path: 'contributor',
-                  description: 'Own contributions.',
-                  foreach: 'owner:self',
-                  url: '/dashboard/?params',
-                  title: 'Contributor Dashboard',
-                  sections: [
-                    {
-                      name: 'Mine To Rebase',
-                      query: 'is:open -is:mergeable',
-                    },
-                    {
-                      name: 'My Recently Merged',
-                      query: 'is:merged limit:10',
-                    },
-                  ],
-                },
-              ],
-              [
-                {
-                  id: 'default:open',
-                  project: 'gerrit',
-                  defining_project: 'Public-Projects',
-                  ref: 'default',
-                  path: 'open',
-                  description: 'Recent open changes.',
-                  url: '/dashboard/?params',
-                  title: 'Open Changes',
-                  sections: [
-                    {
-                      name: 'Open Changes',
-                      query: 'status:open project:${project} -age:7w',
-                    },
-                  ],
-                },
-              ],
-            ]));
-      });
-      test('loading', done => {
-        assert.isTrue(element._loading);
-        assert.notEqual(getComputedStyle(element.$.loadingContainer).display,
+    test('loading', done => {
+      assert.isTrue(element._loading);
+      assert.notEqual(getComputedStyle(element.$.loadingContainer).display,
+          'none');
+      assert.equal(getComputedStyle(element.$.dashboards).display,
+          'none');
+      element.repo = 'test';
+      flush(() => {
+        assert.equal(element._dashboards.length, 1);
+        assert.equal(element._dashboards[0].section, 'Default');
+        assert.equal(element._dashboards[0].dashboards.length, 2);
+        assert.equal(getComputedStyle(element.$.loadingContainer).display,
             'none');
-        assert.equal(getComputedStyle(element.$.dashboards).display,
+        assert.notEqual(getComputedStyle(element.$.dashboards).display,
             'none');
-        element.repo = 'test';
-        flush(() => {
-          assert.equal(element._dashboards.length, 1);
-          assert.equal(element._dashboards[0].section, 'Default');
-          assert.equal(element._dashboards[0].dashboards.length, 2);
-          assert.equal(getComputedStyle(element.$.loadingContainer).display,
-              'none');
-          assert.notEqual(getComputedStyle(element.$.dashboards).display,
-              'none');
-          done();
-        });
-      });
-
-      test('dispatched command-tap on button tap', done => {
-        element.repo = 'test';
-        flush(() => {
-          assert.equal(element._dashboards.length, 1);
-          assert.equal(element._dashboards[0].section, 'Default');
-          assert.equal(element._dashboards[0].dashboards.length, 2);
-          done();
-        });
+        done();
       });
     });
 
-    suite('with custom only', () => {
-      setup(() => {
-        sandbox.stub(element.$.restAPI, 'getRepoDashboards').returns(
-            Promise.resolve([
-              [
-                {
-                  id: 'custom:custom1',
-                  project: 'gerrit',
-                  defining_project: 'gerrit',
-                  ref: 'custom',
-                  path: 'contributor',
-                  description: 'Own contributions.',
-                  foreach: 'owner:self',
-                  url: '/dashboard/?params',
-                  title: 'Contributor Dashboard',
-                  sections: [
-                    {
-                      name: 'Mine To Rebase',
-                      query: 'is:open -is:mergeable',
-                    },
-                    {
-                      name: 'My Recently Merged',
-                      query: 'is:merged limit:10',
-                    },
-                  ],
-                },
-              ],
-              [
-                {
-                  id: 'custom:custom2',
-                  project: 'gerrit',
-                  defining_project: 'Public-Projects',
-                  ref: 'custom',
-                  path: 'open',
-                  description: 'Recent open changes.',
-                  url: '/dashboard/?params',
-                  title: 'Open Changes',
-                  sections: [
-                    {
-                      name: 'Open Changes',
-                      query: 'status:open project:${project} -age:7w',
-                    },
-                  ],
-                },
-              ],
-            ]));
-      });
-
-      test('dispatched command-tap on button tap', done => {
-        element.repo = 'test';
-        flush(() => {
-          assert.equal(element._dashboards.length, 1);
-          assert.equal(element._dashboards[0].section, 'Custom');
-          assert.equal(element._dashboards[0].dashboards.length, 2);
-          done();
-        });
-      });
-    });
-
-    suite('with custom and default', () => {
-      setup(() => {
-        sandbox.stub(element.$.restAPI, 'getRepoDashboards').returns(
-            Promise.resolve([
-              [
-                {
-                  id: 'default:contributor',
-                  project: 'gerrit',
-                  defining_project: 'gerrit',
-                  ref: 'default',
-                  path: 'contributor',
-                  description: 'Own contributions.',
-                  foreach: 'owner:self',
-                  url: '/dashboard/?params',
-                  title: 'Contributor Dashboard',
-                  sections: [
-                    {
-                      name: 'Mine To Rebase',
-                      query: 'is:open -is:mergeable',
-                    },
-                    {
-                      name: 'My Recently Merged',
-                      query: 'is:merged limit:10',
-                    },
-                  ],
-                },
-              ],
-              [
-                {
-                  id: 'custom:custom2',
-                  project: 'gerrit',
-                  defining_project: 'Public-Projects',
-                  ref: 'custom',
-                  path: 'open',
-                  description: 'Recent open changes.',
-                  url: '/dashboard/?params',
-                  title: 'Open Changes',
-                  sections: [
-                    {
-                      name: 'Open Changes',
-                      query: 'status:open project:${project} -age:7w',
-                    },
-                  ],
-                },
-              ],
-            ]));
-      });
-
-      test('dispatched command-tap on button tap', done => {
-        element.repo = 'test';
-        flush(() => {
-          assert.equal(element._dashboards.length, 2);
-          assert.equal(element._dashboards[0].section, 'Custom');
-          assert.equal(element._dashboards[1].section, 'Default');
-          assert.equal(element._dashboards[0].dashboards.length, 1);
-          assert.equal(element._dashboards[1].dashboards.length, 1);
-          done();
-        });
-      });
-    });
-
-    suite('test url', () => {
-      test('_getUrl', () => {
-        sandbox.stub(Gerrit.Nav, 'getUrlForCustomDashboard',
-            () => '/r/dashboard/test');
-
-        assert.equal(element._getUrl('/dashboard/test', {}), '/r/dashboard/test');
-
-        assert.equal(element._getUrl(undefined, undefined), '');
-      });
-    });
-
-    suite('404', () => {
-      test('fires page-error', done => {
-        const response = {status: 404};
-        sandbox.stub(
-            element.$.restAPI, 'getRepoDashboards', (repo, errFn) => {
-              errFn(response);
-            });
-
-        element.addEventListener('page-error', e => {
-          assert.deepEqual(e.detail.response, response);
-          done();
-        });
-
-        element.repo = 'test';
+    test('dispatched command-tap on button tap', done => {
+      element.repo = 'test';
+      flush(() => {
+        assert.equal(element._dashboards.length, 1);
+        assert.equal(element._dashboards[0].section, 'Default');
+        assert.equal(element._dashboards[0].dashboards.length, 2);
+        done();
       });
     });
   });
+
+  suite('with custom only', () => {
+    setup(() => {
+      sandbox.stub(element.$.restAPI, 'getRepoDashboards').returns(
+          Promise.resolve([
+            [
+              {
+                id: 'custom:custom1',
+                project: 'gerrit',
+                defining_project: 'gerrit',
+                ref: 'custom',
+                path: 'contributor',
+                description: 'Own contributions.',
+                foreach: 'owner:self',
+                url: '/dashboard/?params',
+                title: 'Contributor Dashboard',
+                sections: [
+                  {
+                    name: 'Mine To Rebase',
+                    query: 'is:open -is:mergeable',
+                  },
+                  {
+                    name: 'My Recently Merged',
+                    query: 'is:merged limit:10',
+                  },
+                ],
+              },
+            ],
+            [
+              {
+                id: 'custom:custom2',
+                project: 'gerrit',
+                defining_project: 'Public-Projects',
+                ref: 'custom',
+                path: 'open',
+                description: 'Recent open changes.',
+                url: '/dashboard/?params',
+                title: 'Open Changes',
+                sections: [
+                  {
+                    name: 'Open Changes',
+                    query: 'status:open project:${project} -age:7w',
+                  },
+                ],
+              },
+            ],
+          ]));
+    });
+
+    test('dispatched command-tap on button tap', done => {
+      element.repo = 'test';
+      flush(() => {
+        assert.equal(element._dashboards.length, 1);
+        assert.equal(element._dashboards[0].section, 'Custom');
+        assert.equal(element._dashboards[0].dashboards.length, 2);
+        done();
+      });
+    });
+  });
+
+  suite('with custom and default', () => {
+    setup(() => {
+      sandbox.stub(element.$.restAPI, 'getRepoDashboards').returns(
+          Promise.resolve([
+            [
+              {
+                id: 'default:contributor',
+                project: 'gerrit',
+                defining_project: 'gerrit',
+                ref: 'default',
+                path: 'contributor',
+                description: 'Own contributions.',
+                foreach: 'owner:self',
+                url: '/dashboard/?params',
+                title: 'Contributor Dashboard',
+                sections: [
+                  {
+                    name: 'Mine To Rebase',
+                    query: 'is:open -is:mergeable',
+                  },
+                  {
+                    name: 'My Recently Merged',
+                    query: 'is:merged limit:10',
+                  },
+                ],
+              },
+            ],
+            [
+              {
+                id: 'custom:custom2',
+                project: 'gerrit',
+                defining_project: 'Public-Projects',
+                ref: 'custom',
+                path: 'open',
+                description: 'Recent open changes.',
+                url: '/dashboard/?params',
+                title: 'Open Changes',
+                sections: [
+                  {
+                    name: 'Open Changes',
+                    query: 'status:open project:${project} -age:7w',
+                  },
+                ],
+              },
+            ],
+          ]));
+    });
+
+    test('dispatched command-tap on button tap', done => {
+      element.repo = 'test';
+      flush(() => {
+        assert.equal(element._dashboards.length, 2);
+        assert.equal(element._dashboards[0].section, 'Custom');
+        assert.equal(element._dashboards[1].section, 'Default');
+        assert.equal(element._dashboards[0].dashboards.length, 1);
+        assert.equal(element._dashboards[1].dashboards.length, 1);
+        done();
+      });
+    });
+  });
+
+  suite('test url', () => {
+    test('_getUrl', () => {
+      sandbox.stub(Gerrit.Nav, 'getUrlForCustomDashboard',
+          () => '/r/dashboard/test');
+
+      assert.equal(element._getUrl('/dashboard/test', {}), '/r/dashboard/test');
+
+      assert.equal(element._getUrl(undefined, undefined), '');
+    });
+  });
+
+  suite('404', () => {
+    test('fires page-error', done => {
+      const response = {status: 404};
+      sandbox.stub(
+          element.$.restAPI, 'getRepoDashboards', (repo, errFn) => {
+            errFn(response);
+          });
+
+      element.addEventListener('page-error', e => {
+        assert.deepEqual(e.detail.response, response);
+        done();
+      });
+
+      element.repo = 'test';
+    });
+  });
+});
 </script>

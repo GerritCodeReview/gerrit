@@ -1,1234 +1,1612 @@
 /**
- * @license
- * Copyright (C) 2016 The Android Open Source Project
+@license
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../../@polymer/polymer/polymer-legacy.js';
+
+import '../../../behaviors/async-foreach-behavior/async-foreach-behavior.js';
+import '../../../behaviors/dom-util-behavior/dom-util-behavior.js';
+import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import '../../../styles/shared-styles.js';
+import '../../core/gr-navigation/gr-navigation.js';
+import '../../core/gr-reporting/gr-reporting.js';
+import '../../diff/gr-diff-host/gr-diff-host.js';
+import '../../diff/gr-diff-cursor/gr-diff-cursor.js';
+import '../../edit/gr-edit-file-controls/gr-edit-file-controls.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-cursor-manager/gr-cursor-manager.js';
+import '../../shared/gr-icons/gr-icons.js';
+import '../../shared/gr-linked-text/gr-linked-text.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../../shared/gr-select/gr-select.js';
+import '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
+import '../../shared/gr-tooltip-content/gr-tooltip-content.js';
+import '../gr-file-list-constants.js';
+
+// Maximum length for patch set descriptions.
+const PATCH_DESC_MAX_LENGTH = 500;
+const WARN_SHOW_ALL_THRESHOLD = 1000;
+const LOADING_DEBOUNCE_INTERVAL = 100;
+
+const SIZE_BAR_MAX_WIDTH = 61;
+const SIZE_BAR_GAP_WIDTH = 1;
+const SIZE_BAR_MIN_WIDTH = 1.5;
+
+const RENDER_TIMING_LABEL = 'FileListRenderTime';
+const RENDER_AVG_TIMING_LABEL = 'FileListRenderTimePerFile';
+const EXPAND_ALL_TIMING_LABEL = 'ExpandAllDiffs';
+const EXPAND_ALL_AVG_TIMING_LABEL = 'ExpandAllPerDiff';
+
+const FileStatus = {
+  A: 'Added',
+  C: 'Copied',
+  D: 'Deleted',
+  R: 'Renamed',
+  W: 'Rewritten',
+  U: 'Unchanged',
+};
+
+const Defs = {};
+
+/**
+ * Object containing layout values to be used in rendering size-bars.
+ * `max{Inserted,Deleted}` represent the largest values of the
+ * `lines_inserted` and `lines_deleted` fields of the files respectively. The
+ * `max{Addition,Deletion}Width` represent the width of the graphic allocated
+ * to the insertion or deletion side respectively. Finally, the
+ * `deletionOffset` value represents the x-position for the deletion bar.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @typedef {{
+ *    maxInserted: number,
+ *    maxDeleted: number,
+ *    maxAdditionWidth: number,
+ *    maxDeletionWidth: number,
+ *    deletionOffset: number,
+ * }}
  */
-(function() {
-  'use strict';
+Defs.LayoutStats;
 
-  // Maximum length for patch set descriptions.
-  const PATCH_DESC_MAX_LENGTH = 500;
-  const WARN_SHOW_ALL_THRESHOLD = 1000;
-  const LOADING_DEBOUNCE_INTERVAL = 100;
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+      .row {
+        align-items: center;
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        min-height: 2.25em;
+        padding: .2em var(--default-horizontal-margin) .2em calc(var(--default-horizontal-margin) - .35rem);
+      }
+      :host(.loading) .row {
+        opacity: .5;
+      };
+      :host(.editMode) .hideOnEdit {
+        display: none;
+      }
+      .showOnEdit {
+        display: none;
+      }
+      :host(.editMode) .showOnEdit {
+        display: initial;
+      }
+      .invisible {
+        visibility: hidden;
+      }
+      .controlRow {
+        align-items: center;
+        display: flex;
+        height: 2.25em;
+        justify-content: center;
+      }
+      .controlRow.invisible,
+      .show-hide.invisible {
+        display: none;
+      }
+      .reviewed,
+      .status {
+        align-items: center;
+        display: inline-flex;
+      }
+      .reviewed,
+      .status {
+        display: inline-block;
+        text-align: left;
+        width: 1.5em;
+      }
+      .file-row {
+        cursor: pointer;
+      }
+      .file-row.expanded {
+        border-bottom: 1px solid var(--border-color);
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        /* Has to visible above the diff view, and by default has a lower
+         z-index. setting to 1 places it directly above. */
+        z-index: 1;
+      }
+      .file-row:hover {
+        background-color: var(--hover-background-color);
+      }
+      .file-row.selected {
+        background-color: var(--selection-background-color);
+      }
+      .file-row.expanded,
+      .file-row.expanded:hover {
+        background-color: var(--expanded-background-color);
+      }
+      .path {
+        cursor: pointer;
+        flex: 1;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .path:hover :first-child {
+        text-decoration: underline;
+      }
+      .path,
+      .path div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .oldPath {
+        color: var(--deemphasized-text-color);
+      }
+      .comments,
+      .stats {
+        text-align: right;
+      }
+      .comments {
+        padding-left: 2em;
+      }
+      .stats {
+        min-width: 7em;
+      }
+      .row:not(.header) .stats,
+      .total-stats {
+        font-family: var(--monospace-font-family);
+      }
+      .sizeBars {
+        margin-left: .5em;
+      }
+      .sizeBars.hide {
+        display: none;
+      }
+      .added,
+      .removed {
+        display: inline-block;
+        min-width: 3.5em;
+      }
+      .added {
+        color: var(--vote-text-color-recommended);
+      }
+      .removed {
+        color: var(--vote-text-color-disliked);
+        text-align: left;
+      }
+      .drafts {
+        color: #C62828;
+        font-family: var(--font-family-bold);
+      }
+      .show-hide {
+        margin-left: .35em;
+        width: 1.9em;
+      }
+      .fileListButton {
+        margin: .5em;
+      }
+      .totalChanges {
+        justify-content: flex-end;
+        text-align: right;
+      }
+      .warning {
+        color: var(--deemphasized-text-color);
+      }
+      input.show-hide {
+        display: none;
+      }
+      label.show-hide {
+        cursor: pointer;
+        display: block;
+        min-width: 2em;
+      }
+      gr-diff {
+        display: block;
+        overflow-x: auto;
+      }
+      .truncatedFileName {
+        display: none;
+      }
+      .expanded .fullFileName {
+        white-space: normal;
+        word-wrap: break-word;
+      }
+      .mobile {
+        display: none;
+      }
+      .reviewed {
+        margin-left: 2em;
+        width: 15em;
+      }
+      .reviewed label {
+        color: var(--link-color);
+        opacity: 0;
+        justify-content: flex-end;
+        width: 100%;
+      }
+      .reviewed label:hover {
+        cursor: pointer;
+        opacity: 100;
+      }
+      .row:focus {
+        outline: none;
+      }
+      .row:hover .reviewed label,
+      .row:focus .reviewed label,
+      .row.expanded .reviewed label {
+        opacity: 100;
+      }
+      .reviewed input {
+        display: none;
+      }
+      .reviewedLabel {
+        color: var(--deemphasized-text-color);
+        margin-right: 1em;
+        opacity: 0;
+      }
+      .reviewedLabel.isReviewed {
+        display: initial;
+        opacity: 100;
+      }
+      .editFileControls {
+        width: 7em;
+      }
+      .markReviewed,
+      .pathLink {
+        display: inline-block;
+        margin: -.2em 0;
+        padding: .4em 0;
+      }
+      @media screen and (max-width: 50em) {
+        .desktop {
+          display: none;
+        }
+        .mobile {
+          display: block;
+        }
+        .row.selected {
+          background-color: var(--view-background-color);
+        }
+        .stats {
+          display: none;
+        }
+        .reviewed,
+        .status {
+          justify-content: flex-start;
+        }
+        .reviewed {
+          display: none;
+        }
+        .comments {
+          min-width: initial;
+        }
+        .expanded .fullFileName,
+        .truncatedFileName {
+          display: block;
+        }
+        .expanded .truncatedFileName,
+        .fullFileName {
+          display: none;
+        }
+      }
+    </style>
+    <div id="container" on-tap="_handleFileListTap">
+      <template is="dom-repeat" items="[[_shownFiles]]" id="files" as="file" initial-count="[[fileListIncrement]]" target-framerate="1">
+        [[_reportRenderedRow(index)]]
+        <div class="stickyArea">
+          <div class\$="file-row row [[_computePathClass(file.__path, _expandedFilePaths.*)]]" data-path\$="[[file.__path]]" tabindex="-1">
+              <div class\$="[[_computeClass('status', file.__path)]]" tabindex="0" aria-label\$="[[_computeFileStatusLabel(file.status)]]">
+              [[_computeFileStatus(file.status)]]
+            </div>
+            <span data-url="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]" class="path">
+              <a class="pathLink" href\$="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]">
+                <span title\$="[[computeDisplayPath(file.__path)]]" class="fullFileName">
+                  [[computeDisplayPath(file.__path)]]
+                </span>
+                <span title\$="[[computeDisplayPath(file.__path)]]" class="truncatedFileName">
+                  [[computeTruncatedPath(file.__path)]]
+                </span>
+              </a>
+              <div class="oldPath" hidden\$="[[!file.old_path]]" hidden="" title\$="[[file.old_path]]">
+                [[file.old_path]]
+              </div>
+            </span>
+            <div class="comments desktop">
+              <span class="drafts">
+                [[_computeDraftsString(changeComments, patchRange, file.__path)]]
+              </span>
+              [[_computeCommentsString(changeComments, patchRange, file.__path)]]
+            </div>
+            <div class="comments mobile">
+              <span class="drafts">
+                [[_computeDraftsStringMobile(changeComments, patchRange,
+                    file.__path)]]
+              </span>
+              [[_computeCommentsStringMobile(changeComments, patchRange,
+                  file.__path)]]
+            </div>
+            <div class\$="[[_computeSizeBarsClass(_showSizeBars, file.__path)]]">
+              <svg width="61" height="8">
+                <rect x\$="[[_computeBarAdditionX(file, _sizeBarLayout)]]" y="0" height="8" fill="#388E3C" width\$="[[_computeBarAdditionWidth(file, _sizeBarLayout)]]"></rect>
+                <rect x\$="[[_computeBarDeletionX(_sizeBarLayout)]]" y="0" height="8" fill="#D32F2F" width\$="[[_computeBarDeletionWidth(file, _sizeBarLayout)]]"></rect>
+              </svg>
+            </div>
+            <div class\$="[[_computeClass('stats', file.__path)]]">
+              <span class="added" tabindex="0" aria-label\$="[[file.lines_inserted]] lines added" hidden\$="[[file.binary]]">
+                +[[file.lines_inserted]]
+              </span>
+              <span class="removed" tabindex="0" aria-label\$="[[file.lines_deleted]] lines removed" hidden\$="[[file.binary]]">
+                -[[file.lines_deleted]]
+              </span>
+              <span class\$="[[_computeBinaryClass(file.size_delta)]]" hidden\$="[[!file.binary]]">
+                [[_formatBytes(file.size_delta)]]
+                [[_formatPercentage(file.size, file.size_delta)]]
+              </span>
+            </div>
+            <div class="reviewed hideOnEdit" hidden\$="[[!_loggedIn]]" hidden="">
+              <span class\$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]">Reviewed</span>
+              <label>
+                <input class="reviewed" type="checkbox" checked="[[file.isReviewed]]">
+                <span class="markReviewed" title="Mark as reviewed (shortcut: r)">[[_computeReviewedText(file.isReviewed)]]</span>
+              </label>
+            </div>
+            <div class="editFileControls showOnEdit">
+              <template is="dom-if" if="[[editMode]]">
+                <gr-edit-file-controls class\$="[[_computeClass('', file.__path)]]" file-path="[[file.__path]]"></gr-edit-file-controls>
+              </template>
+            </div>
+            <div class="show-hide">
+              <label class="show-hide" data-path\$="[[file.__path]]" data-expand="true">
+                <input type="checkbox" class="show-hide" checked\$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]" data-path\$="[[file.__path]]" data-expand="true">
+                  <iron-icon id="icon" icon="[[_computeShowHideIcon(file.__path, _expandedFilePaths.*)]]">
+                  </iron-icon>
+              </label>
+            </div>
+          </div>
+          <template is="dom-if" if="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]">
+            <gr-diff-host no-auto-render="" show-load-failure="" display-line="[[_displayLine]]" inline-index="[[index]]" hidden="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]" change-num="[[changeNum]]" patch-range="[[patchRange]]" path="[[file.__path]]" prefs="[[diffPrefs]]" project-name="[[change.project]]" project-config="[[projectConfig]]" on-line-selected="_onLineSelected" no-render-on-prefs-change="" view-mode="[[diffViewMode]]"></gr-diff-host>
+          </template>
+        </div>
+      </template>
+    </div>
+    <div class="row totalChanges" hidden\$="[[_hideChangeTotals]]">
+      <div class="total-stats">
+        <span class="added" tabindex="0" aria-label\$="[[_patchChange.inserted]] lines added">
+          +[[_patchChange.inserted]]
+        </span>
+        <span class="removed" tabindex="0" aria-label\$="[[_patchChange.deleted]] lines removed">
+          -[[_patchChange.deleted]]
+        </span>
+      </div>
+      <!-- Empty div here exists to keep spacing in sync with file rows. -->
+      <div class="reviewed hideOnEdit" hidden\$="[[!_loggedIn]]" hidden=""></div>
+      <div class="editFileControls showOnEdit"></div>
+      <div class="show-hide"></div>
+    </div>
+    <div class="row totalChanges" hidden\$="[[_hideBinaryChangeTotals]]">
+      <div class="total-stats">
+        <span class="added" aria-label="Total lines added">
+          [[_formatBytes(_patchChange.size_delta_inserted)]]
+          [[_formatPercentage(_patchChange.total_size,
+              _patchChange.size_delta_inserted)]]
+        </span>
+        <span class="removed" aria-label="Total lines removed">
+          [[_formatBytes(_patchChange.size_delta_deleted)]]
+          [[_formatPercentage(_patchChange.total_size,
+              _patchChange.size_delta_deleted)]]
+        </span>
+      </div>
+    </div>
+    <div class\$="row controlRow [[_computeFileListControlClass(numFilesShown, _files)]]">
+      <gr-button class="fileListButton" id="incrementButton" link="" on-tap="_incrementNumFilesShown">
+        [[_computeIncrementText(numFilesShown, _files)]]
+      </gr-button>
+      <gr-tooltip-content has-tooltip="[[_computeWarnShowAll(_files)]]" show-icon="[[_computeWarnShowAll(_files)]]" title\$="[[_computeShowAllWarning(_files)]]">
+        <gr-button class="fileListButton" id="showAllButton" link="" on-tap="_showAllFiles">
+          [[_computeShowAllText(_files)]]
+        </gr-button><!--
+  --></gr-tooltip-content>
+    </div>
+    <gr-diff-preferences id="diffPreferences" prefs="{{diffPrefs}}" local-prefs="{{_localPrefs}}"></gr-diff-preferences>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+    <gr-storage id="storage"></gr-storage>
+    <gr-diff-cursor id="diffCursor"></gr-diff-cursor>
+    <gr-cursor-manager id="fileCursor" scroll-behavior="keep-visible" focus-on-move="" cursor-target-class="selected"></gr-cursor-manager>
+    <gr-reporting id="reporting"></gr-reporting>
+`,
 
-  const SIZE_BAR_MAX_WIDTH = 61;
-  const SIZE_BAR_GAP_WIDTH = 1;
-  const SIZE_BAR_MIN_WIDTH = 1.5;
-
-  const RENDER_TIMING_LABEL = 'FileListRenderTime';
-  const RENDER_AVG_TIMING_LABEL = 'FileListRenderTimePerFile';
-  const EXPAND_ALL_TIMING_LABEL = 'ExpandAllDiffs';
-  const EXPAND_ALL_AVG_TIMING_LABEL = 'ExpandAllPerDiff';
-
-  const FileStatus = {
-    A: 'Added',
-    C: 'Copied',
-    D: 'Deleted',
-    R: 'Renamed',
-    W: 'Rewritten',
-    U: 'Unchanged',
-  };
-
-  const Defs = {};
+  is: 'gr-file-list',
 
   /**
-   * Object containing layout values to be used in rendering size-bars.
-   * `max{Inserted,Deleted}` represent the largest values of the
-   * `lines_inserted` and `lines_deleted` fields of the files respectively. The
-   * `max{Addition,Deletion}Width` represent the width of the graphic allocated
-   * to the insertion or deletion side respectively. Finally, the
-   * `deletionOffset` value represents the x-position for the deletion bar.
+   * Fired when a draft refresh should get triggered
    *
-   * @typedef {{
-   *    maxInserted: number,
-   *    maxDeleted: number,
-   *    maxAdditionWidth: number,
-   *    maxDeletionWidth: number,
-   *    deletionOffset: number,
-   * }}
+   * @event reload-drafts
    */
-  Defs.LayoutStats;
 
-  Polymer({
-    is: 'gr-file-list',
-
-    /**
-     * Fired when a draft refresh should get triggered
-     *
-     * @event reload-drafts
-     */
-
-    properties: {
-      /** @type {?} */
-      patchRange: Object,
-      patchNum: String,
-      changeNum: String,
-      /** @type {?} */
-      changeComments: Object,
-      drafts: Object,
-      revisions: Array,
-      projectConfig: Object,
-      selectedIndex: {
-        type: Number,
-        notify: true,
-      },
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      /** @type {?} */
-      change: Object,
-      diffViewMode: {
-        type: String,
-        notify: true,
-        observer: '_updateDiffPreferences',
-      },
-      editMode: {
-        type: Boolean,
-        observer: '_editModeChanged',
-      },
-      filesExpanded: {
-        type: String,
-        value: GrFileListConstants.FilesExpandedState.NONE,
-        notify: true,
-      },
-      _filesByPath: Object,
-      _files: {
-        type: Array,
-        observer: '_filesChanged',
-        value() { return []; },
-      },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
-      _reviewed: {
-        type: Array,
-        value() { return []; },
-      },
-      diffPrefs: {
-        type: Object,
-        notify: true,
-        observer: '_updateDiffPreferences',
-      },
-      /** @type {?} */
-      _userPrefs: Object,
-      _localPrefs: Object,
-      _showInlineDiffs: Boolean,
-      numFilesShown: {
-        type: Number,
-        notify: true,
-      },
-      /** @type {?} */
-      _patchChange: {
-        type: Object,
-        computed: '_calculatePatchChange(_files)',
-      },
-      fileListIncrement: Number,
-      _hideChangeTotals: {
-        type: Boolean,
-        computed: '_shouldHideChangeTotals(_patchChange)',
-      },
-      _hideBinaryChangeTotals: {
-        type: Boolean,
-        computed: '_shouldHideBinaryChangeTotals(_patchChange)',
-      },
-
-      _shownFiles: {
-        type: Array,
-        computed: '_computeFilesShown(numFilesShown, _files.*)',
-      },
-
-      /**
-       * The amount of files added to the shown files list the last time it was
-       * updated. This is used for reporting the average render time.
-       */
-      _reportinShownFilesIncrement: Number,
-
-      _expandedFilePaths: {
-        type: Array,
-        value() { return []; },
-      },
-      _displayLine: Boolean,
-      _loading: {
-        type: Boolean,
-        observer: '_loadingChanged',
-      },
-      /** @type {Defs.LayoutStats|undefined} */
-      _sizeBarLayout: {
-        type: Object,
-        computed: '_computeSizeBarLayout(_shownFiles.*)',
-      },
-
-      _showSizeBars: {
-        type: Boolean,
-        value: true,
-        computed: '_computeShowSizeBars(_userPrefs)',
-      },
-
-      /** @type {Function} */
-      _cancelForEachDiff: Function,
+  properties: {
+    /** @type {?} */
+    patchRange: Object,
+    patchNum: String,
+    changeNum: String,
+    /** @type {?} */
+    changeComments: Object,
+    drafts: Object,
+    revisions: Array,
+    projectConfig: Object,
+    selectedIndex: {
+      type: Number,
+      notify: true,
+    },
+    keyEventTarget: {
+      type: Object,
+      value() { return document.body; },
+    },
+    /** @type {?} */
+    change: Object,
+    diffViewMode: {
+      type: String,
+      notify: true,
+      observer: '_updateDiffPreferences',
+    },
+    editMode: {
+      type: Boolean,
+      observer: '_editModeChanged',
+    },
+    filesExpanded: {
+      type: String,
+      value: GrFileListConstants.FilesExpandedState.NONE,
+      notify: true,
+    },
+    _filesByPath: Object,
+    _files: {
+      type: Array,
+      observer: '_filesChanged',
+      value() { return []; },
+    },
+    _loggedIn: {
+      type: Boolean,
+      value: false,
+    },
+    _reviewed: {
+      type: Array,
+      value() { return []; },
+    },
+    diffPrefs: {
+      type: Object,
+      notify: true,
+      observer: '_updateDiffPreferences',
+    },
+    /** @type {?} */
+    _userPrefs: Object,
+    _localPrefs: Object,
+    _showInlineDiffs: Boolean,
+    numFilesShown: {
+      type: Number,
+      notify: true,
+    },
+    /** @type {?} */
+    _patchChange: {
+      type: Object,
+      computed: '_calculatePatchChange(_files)',
+    },
+    fileListIncrement: Number,
+    _hideChangeTotals: {
+      type: Boolean,
+      computed: '_shouldHideChangeTotals(_patchChange)',
+    },
+    _hideBinaryChangeTotals: {
+      type: Boolean,
+      computed: '_shouldHideBinaryChangeTotals(_patchChange)',
     },
 
-    behaviors: [
-      Gerrit.AsyncForeachBehavior,
-      Gerrit.DomUtilBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.PathListBehavior,
-    ],
-
-    observers: [
-      '_expandedPathsChanged(_expandedFilePaths.splices)',
-      '_computeFiles(_filesByPath, changeComments, patchRange, _reviewed, ' +
-          '_loading)',
-    ],
-
-    keyBindings: {
-      'shift+left': '_handleShiftLeftKey',
-      'shift+right': '_handleShiftRightKey',
-      'i:keyup': '_handleIKey',
-      'shift+i:keyup': '_handleCapitalIKey',
-      'down j': '_handleDownKey',
-      'up k': '_handleUpKey',
-      'c': '_handleCKey',
-      '[': '_handleLeftBracketKey',
-      ']': '_handleRightBracketKey',
-      'o': '_handleOKey',
-      'n': '_handleNKey',
-      'p': '_handlePKey',
-      'r': '_handleRKey',
-      'shift+a': '_handleCapitalAKey',
-      'esc': '_handleEscKey',
-    },
-
-    listeners: {
-      keydown: '_scopedKeydownHandler',
-    },
-
-    detached() {
-      this._cancelDiffs();
+    _shownFiles: {
+      type: Array,
+      computed: '_computeFilesShown(numFilesShown, _files.*)',
     },
 
     /**
-     * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
-     * events must be scoped to a component level (e.g. `enter`) in order to not
-     * override native browser functionality.
-     *
-     * Context: Issue 7277
+     * The amount of files added to the shown files list the last time it was
+     * updated. This is used for reporting the average render time.
      */
-    _scopedKeydownHandler(e) {
-      if (e.keyCode === 13) {
-        // Enter.
-        this._handleOKey(e);
-      }
+    _reportinShownFilesIncrement: Number,
+
+    _expandedFilePaths: {
+      type: Array,
+      value() { return []; },
+    },
+    _displayLine: Boolean,
+    _loading: {
+      type: Boolean,
+      observer: '_loadingChanged',
+    },
+    /** @type {Defs.LayoutStats|undefined} */
+    _sizeBarLayout: {
+      type: Object,
+      computed: '_computeSizeBarLayout(_shownFiles.*)',
     },
 
-    reload() {
-      if (!this.changeNum || !this.patchRange.patchNum) {
-        return Promise.resolve();
-      }
+    _showSizeBars: {
+      type: Boolean,
+      value: true,
+      computed: '_computeShowSizeBars(_userPrefs)',
+    },
 
-      this._loading = true;
+    /** @type {Function} */
+    _cancelForEachDiff: Function,
+  },
 
-      this.collapseAllDiffs();
-      const promises = [];
+  behaviors: [
+    Gerrit.AsyncForeachBehavior,
+    Gerrit.DomUtilBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+    Gerrit.PatchSetBehavior,
+    Gerrit.PathListBehavior,
+  ],
 
-      promises.push(this._getFiles().then(filesByPath => {
-        this._filesByPath = filesByPath;
-      }));
-      promises.push(this._getLoggedIn().then(loggedIn => {
-        return this._loggedIn = loggedIn;
-      }).then(loggedIn => {
-        if (!loggedIn) { return; }
+  observers: [
+    '_expandedPathsChanged(_expandedFilePaths.splices)',
+    '_computeFiles(_filesByPath, changeComments, patchRange, _reviewed, ' +
+        '_loading)',
+  ],
 
-        return this._getReviewedFiles().then(reviewed => {
-          this._reviewed = reviewed;
-        });
-      }));
+  keyBindings: {
+    'shift+left': '_handleShiftLeftKey',
+    'shift+right': '_handleShiftRightKey',
+    'i:keyup': '_handleIKey',
+    'shift+i:keyup': '_handleCapitalIKey',
+    'down j': '_handleDownKey',
+    'up k': '_handleUpKey',
+    'c': '_handleCKey',
+    '[': '_handleLeftBracketKey',
+    ']': '_handleRightBracketKey',
+    'o': '_handleOKey',
+    'n': '_handleNKey',
+    'p': '_handlePKey',
+    'r': '_handleRKey',
+    'shift+a': '_handleCapitalAKey',
+    'esc': '_handleEscKey',
+  },
 
-      this._localPrefs = this.$.storage.getPreferences();
-      promises.push(this._getDiffPreferences().then(prefs => {
-        this.diffPrefs = prefs;
-      }));
+  listeners: {
+    keydown: '_scopedKeydownHandler',
+  },
 
-      promises.push(this._getPreferences().then(prefs => {
-        this._userPrefs = prefs;
-      }));
+  detached() {
+    this._cancelDiffs();
+  },
 
-      return Promise.all(promises).then(() => {
-        this._loading = false;
-        this._detectChromiteButler();
-        this.$.reporting.fileListDisplayed();
+  /**
+   * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
+   * events must be scoped to a component level (e.g. `enter`) in order to not
+   * override native browser functionality.
+   *
+   * Context: Issue 7277
+   */
+  _scopedKeydownHandler(e) {
+    if (e.keyCode === 13) {
+      // Enter.
+      this._handleOKey(e);
+    }
+  },
+
+  reload() {
+    if (!this.changeNum || !this.patchRange.patchNum) {
+      return Promise.resolve();
+    }
+
+    this._loading = true;
+
+    this.collapseAllDiffs();
+    const promises = [];
+
+    promises.push(this._getFiles().then(filesByPath => {
+      this._filesByPath = filesByPath;
+    }));
+    promises.push(this._getLoggedIn().then(loggedIn => {
+      return this._loggedIn = loggedIn;
+    }).then(loggedIn => {
+      if (!loggedIn) { return; }
+
+      return this._getReviewedFiles().then(reviewed => {
+        this._reviewed = reviewed;
       });
-    },
-
-    _detectChromiteButler() {
-      const hasButler = !!document.getElementById('butler-suggested-owners');
-      if (hasButler) {
-        this.$.reporting.reportExtension('butler');
-      }
-    },
-
-    get diffs() {
-      return Polymer.dom(this.root).querySelectorAll('gr-diff-host');
-    },
-
-    openDiffPrefs() {
-      this.$.diffPreferences.open();
-    },
-
-    _calculatePatchChange(files) {
-      const filesNoCommitMsg = files.filter(files => {
-        return files.__path !== '/COMMIT_MSG';
-      });
-
-      return filesNoCommitMsg.reduce((acc, obj) => {
-        const inserted = obj.lines_inserted ? obj.lines_inserted : 0;
-        const deleted = obj.lines_deleted ? obj.lines_deleted : 0;
-        const total_size = (obj.size && obj.binary) ? obj.size : 0;
-        const size_delta_inserted =
-            obj.binary && obj.size_delta > 0 ? obj.size_delta : 0;
-        const size_delta_deleted =
-            obj.binary && obj.size_delta < 0 ? obj.size_delta : 0;
-
-        return {
-          inserted: acc.inserted + inserted,
-          deleted: acc.deleted + deleted,
-          size_delta_inserted: acc.size_delta_inserted + size_delta_inserted,
-          size_delta_deleted: acc.size_delta_deleted + size_delta_deleted,
-          total_size: acc.total_size + total_size,
-        };
-      }, {inserted: 0, deleted: 0, size_delta_inserted: 0,
-        size_delta_deleted: 0, total_size: 0});
-    },
-
-    _getDiffPreferences() {
-      return this.$.restAPI.getDiffPreferences();
-    },
-
-    _getPreferences() {
-      return this.$.restAPI.getPreferences();
-    },
-
-    _togglePathExpanded(path) {
-      // Is the path in the list of expanded diffs? IF so remove it, otherwise
-      // add it to the list.
-      const pathIndex = this._expandedFilePaths.indexOf(path);
-      if (pathIndex === -1) {
-        this.push('_expandedFilePaths', path);
-      } else {
-        this.splice('_expandedFilePaths', pathIndex, 1);
-      }
-    },
-
-    _togglePathExpandedByIndex(index) {
-      this._togglePathExpanded(this._files[index].__path);
-    },
-
-    _updateDiffPreferences() {
-      if (!this.diffs.length) { return; }
-      // Re-render all expanded diffs sequentially.
-      this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
-      this._renderInOrder(this._expandedFilePaths, this.diffs,
-          this._expandedFilePaths.length);
-    },
-
-    _forEachDiff(fn) {
-      const diffs = this.diffs;
-      for (let i = 0; i < diffs.length; i++) {
-        fn(diffs[i]);
-      }
-    },
-
-    expandAllDiffs() {
-      this._showInlineDiffs = true;
-
-      // Find the list of paths that are in the file list, but not in the
-      // expanded list.
-      const newPaths = [];
-      let path;
-      for (let i = 0; i < this._shownFiles.length; i++) {
-        path = this._shownFiles[i].__path;
-        if (!this._expandedFilePaths.includes(path)) {
-          newPaths.push(path);
-        }
-      }
-
-      this.splice(...['_expandedFilePaths', 0, 0].concat(newPaths));
-    },
-
-    collapseAllDiffs() {
-      this._showInlineDiffs = false;
-      this._expandedFilePaths = [];
-      this.filesExpanded = this._computeExpandedFiles(
-          this._expandedFilePaths.length, this._files.length);
-      this.$.diffCursor.handleDiffUpdate();
-    },
-
-    /**
-     * Computes a string with the number of comments and unresolved comments.
-     *
-     * @param {!Object} changeComments
-     * @param {!Object} patchRange
-     * @param {string} path
-     * @return {string}
-     */
-    _computeCommentsString(changeComments, patchRange, path) {
-      const unresolvedCount =
-          changeComments.computeUnresolvedNum(patchRange.basePatchNum, path) +
-          changeComments.computeUnresolvedNum(patchRange.patchNum, path);
-      const commentCount =
-          changeComments.computeCommentCount(patchRange.basePatchNum, path) +
-          changeComments.computeCommentCount(patchRange.patchNum, path);
-      const commentString = GrCountStringFormatter.computePluralString(
-          commentCount, 'comment');
-      const unresolvedString = GrCountStringFormatter.computeString(
-          unresolvedCount, 'unresolved');
-
-      return commentString +
-          // Add a space if both comments and unresolved
-          (commentString && unresolvedString ? ' ' : '') +
-          // Add parentheses around unresolved if it exists.
-          (unresolvedString ? `(${unresolvedString})` : '');
-    },
-
-    /**
-     * Computes a string with the number of drafts.
-     *
-     * @param {!Object} changeComments
-     * @param {!Object} patchRange
-     * @param {string} path
-     * @return {string}
-     */
-    _computeDraftsString(changeComments, patchRange, path) {
-      const draftCount =
-          changeComments.computeDraftCount(patchRange.basePatchNum, path) +
-          changeComments.computeDraftCount(patchRange.patchNum, path);
-      return GrCountStringFormatter.computePluralString(draftCount, 'draft');
-    },
-
-    /**
-     * Computes a shortened string with the number of drafts.
-     *
-     * @param {!Object} changeComments
-     * @param {!Object} patchRange
-     * @param {string} path
-     * @return {string}
-     */
-    _computeDraftsStringMobile(changeComments, patchRange, path) {
-      const draftCount =
-          changeComments.computeDraftCount(patchRange.basePatchNum, path) +
-          changeComments.computeDraftCount(patchRange.patchNum, path);
-      return GrCountStringFormatter.computeShortString(draftCount, 'd');
-    },
-
-    /**
-     * Computes a shortened string with the number of comments.
-     *
-     * @param {!Object} changeComments
-     * @param {!Object} patchRange
-     * @param {string} path
-     * @return {string}
-     */
-    _computeCommentsStringMobile(changeComments, patchRange, path) {
-      const commentCount =
-          changeComments.computeCommentCount(patchRange.basePatchNum, path) +
-          changeComments.computeCommentCount(patchRange.patchNum, path);
-      return GrCountStringFormatter.computeShortString(commentCount, 'c');
-    },
-
-    /**
-     * @param {string} path
-     * @param {boolean=} opt_reviewed
-     */
-    _reviewFile(path, opt_reviewed) {
-      if (this.editMode) { return; }
-      const index = this._files.findIndex(file => file.__path === path);
-      const reviewed = opt_reviewed || !this._files[index].isReviewed;
-
-      this.set(['_files', index, 'isReviewed'], reviewed);
-      if (index < this._shownFiles.length) {
-        this.set(['_shownFiles', index, 'isReviewed'], reviewed);
-      }
-
-      this._saveReviewedState(path, reviewed);
-    },
-
-    _saveReviewedState(path, reviewed) {
-      return this.$.restAPI.saveFileReviewed(this.changeNum,
-          this.patchRange.patchNum, path, reviewed);
-    },
-
-    _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
-    },
-
-    _getReviewedFiles() {
-      if (this.editMode) { return Promise.resolve([]); }
-      return this.$.restAPI.getReviewedFiles(this.changeNum,
-          this.patchRange.patchNum);
-    },
-
-    _getFiles() {
-      return this.$.restAPI.getChangeOrEditFiles(
-          this.changeNum, this.patchRange);
-    },
-
-    /**
-     * The closure compiler doesn't realize this.specialFilePathCompare is
-     * valid.
-     * @suppress {checkTypes}
-     */
-    _normalizeChangeFilesResponse(response) {
-      if (!response) { return []; }
-      const paths = Object.keys(response).sort(this.specialFilePathCompare);
-      const files = [];
-      for (let i = 0; i < paths.length; i++) {
-        const info = response[paths[i]];
-        info.__path = paths[i];
-        info.lines_inserted = info.lines_inserted || 0;
-        info.lines_deleted = info.lines_deleted || 0;
-        files.push(info);
-      }
-      return files;
-    },
-
-    /**
-     * Handle all events from the file list dom-repeat so event handleers don't
-     * have to get registered for potentially very long lists.
-     */
-    _handleFileListTap(e) {
-      // Traverse upwards to find the row element if the target is not the row.
-      let row = e.target;
-      while (!row.classList.contains('row') && row.parentElement) {
-        row = row.parentElement;
-      }
-
-      const path = row.dataset.path;
-      // Handle checkbox mark as reviewed.
-      if (e.target.classList.contains('markReviewed')) {
-        e.preventDefault();
-        return this._reviewFile(path);
-      }
-
-      // If a path cannot be interpreted from the click target (meaning it's not
-      // somewhere in the row, e.g. diff content) or if the user clicked the
-      // link, defer to the native behavior.
-      if (!path || this.descendedFromClass(e.target, 'pathLink')) { return; }
-
-      // Disregard the event if the click target is in the edit controls.
-      if (this.descendedFromClass(e.target, 'editFileControls')) { return; }
-
-      e.preventDefault();
-      this._togglePathExpanded(path);
-    },
-
-    _handleShiftLeftKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
-        return;
-      }
-
-      e.preventDefault();
-      this.$.diffCursor.moveLeft();
-    },
-
-    _handleShiftRightKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
-        return;
-      }
-
-      e.preventDefault();
-      this.$.diffCursor.moveRight();
-    },
-
-    _handleIKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e) ||
-          this.$.fileCursor.index === -1) { return; }
-
-      e.preventDefault();
-      this._togglePathExpandedByIndex(this.$.fileCursor.index);
-    },
-
-    _handleCapitalIKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-
-      e.preventDefault();
-      this._toggleInlineDiffs();
-    },
-
-    _handleDownKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
-        return;
-      }
-
-      if (this._showInlineDiffs) {
-        e.preventDefault();
-        this.$.diffCursor.moveDown();
-        this._displayLine = true;
-      } else {
-        // Down key
-        if (this.getKeyboardEvent(e).keyCode === 40) { return; }
-        e.preventDefault();
-        this.$.fileCursor.next();
-        this.selectedIndex = this.$.fileCursor.index;
-      }
-    },
-
-    _handleUpKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
-        return;
-      }
-
-      if (this._showInlineDiffs) {
-        e.preventDefault();
-        this.$.diffCursor.moveUp();
-        this._displayLine = true;
-      } else {
-        // Up key
-        if (this.getKeyboardEvent(e).keyCode === 38) { return; }
-        e.preventDefault();
-        this.$.fileCursor.previous();
-        this.selectedIndex = this.$.fileCursor.index;
-      }
-    },
-
-    _handleCKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
-
-      const isRangeSelected = this.diffs.some(diff => {
-        return diff.isRangeSelected();
-      }, this);
-      if (!isRangeSelected) {
-        e.preventDefault();
-        this._addDraftAtTarget();
-      }
-    },
-
-    _handleLeftBracketKey(e) {
-      // Check for meta key to avoid overriding native chrome shortcut.
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.getKeyboardEvent(e).metaKey) { return; }
-
-      e.preventDefault();
-      this._openSelectedFile(this._files.length - 1);
-    },
-
-    _handleRightBracketKey(e) {
-      // Check for meta key to avoid overriding native chrome shortcut.
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.getKeyboardEvent(e).metaKey) { return; }
-
-      e.preventDefault();
-      this._openSelectedFile(0);
-    },
-
-    _handleOKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
-      e.preventDefault();
-
-      if (this._showInlineDiffs) {
-        this._openCursorFile();
-        return;
-      }
-
-      this._openSelectedFile();
-    },
-
-    _handleNKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
-          this._noDiffsExpanded()) {
-        return;
-      }
-
-      e.preventDefault();
-      if (this.isModifierPressed(e, 'shiftKey')) {
-        this.$.diffCursor.moveToNextCommentThread();
-      } else {
-        this.$.diffCursor.moveToNextChunk();
-      }
-    },
-
-    _handlePKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
-          this._noDiffsExpanded()) {
-        return;
-      }
-
-      e.preventDefault();
-      if (this.isModifierPressed(e, 'shiftKey')) {
-        this.$.diffCursor.moveToPreviousCommentThread();
-      } else {
-        this.$.diffCursor.moveToPreviousChunk();
-      }
-    },
-
-    _handleRKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
-        return;
-      }
-
-      e.preventDefault();
-      if (!this._files[this.$.fileCursor.index]) { return; }
-      this._reviewFile(this._files[this.$.fileCursor.index].__path);
-    },
-
-    _handleCapitalAKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-
-      e.preventDefault();
-      this._forEachDiff(diff => {
-        diff.toggleLeftDiff();
-      });
-    },
-
-    _toggleInlineDiffs() {
-      if (this._showInlineDiffs) {
-        this.collapseAllDiffs();
-      } else {
-        this.expandAllDiffs();
-      }
-    },
-
-    _openCursorFile() {
-      const diff = this.$.diffCursor.getTargetDiffElement();
-      Gerrit.Nav.navigateToDiff(this.change, diff.path,
-          diff.patchRange.patchNum, this.patchRange.basePatchNum);
-    },
-
-    /**
-     * @param {number=} opt_index
-     */
-    _openSelectedFile(opt_index) {
-      if (opt_index != null) {
-        this.$.fileCursor.setCursorAtIndex(opt_index);
-      }
-      if (!this._files[this.$.fileCursor.index]) { return; }
-      Gerrit.Nav.navigateToDiff(this.change,
-          this._files[this.$.fileCursor.index].__path, this.patchRange.patchNum,
-          this.patchRange.basePatchNum);
-    },
-
-    _addDraftAtTarget() {
-      const diff = this.$.diffCursor.getTargetDiffElement();
-      const target = this.$.diffCursor.getTargetLineElement();
-      if (diff && target) {
-        diff.addDraftAtLine(target);
-      }
-    },
-
-    _shouldHideChangeTotals(_patchChange) {
-      return _patchChange.inserted === 0 && _patchChange.deleted === 0;
-    },
-
-    _shouldHideBinaryChangeTotals(_patchChange) {
-      return _patchChange.size_delta_inserted === 0 &&
-          _patchChange.size_delta_deleted === 0;
-    },
-
-    _computeFileStatus(status) {
-      return status || 'M';
-    },
-
-    _computeDiffURL(change, patchNum, basePatchNum, path, editMode) {
-      // TODO(kaspern): Fix editing for commit messages and merge lists.
-      if (editMode && path !== this.COMMIT_MESSAGE_PATH &&
-          path !== this.MERGE_LIST_PATH) {
-        return Gerrit.Nav.getEditUrlForDiff(change, path, patchNum,
-            basePatchNum);
-      }
-      return Gerrit.Nav.getUrlForDiff(change, path, patchNum, basePatchNum);
-    },
-
-    _formatBytes(bytes) {
-      if (bytes == 0) return '+/-0 B';
-      const bits = 1024;
-      const decimals = 1;
-      const sizes =
-          ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-      const exponent = Math.floor(Math.log(Math.abs(bytes)) / Math.log(bits));
-      const prepend = bytes > 0 ? '+' : '';
-      return prepend + parseFloat((bytes / Math.pow(bits, exponent))
-          .toFixed(decimals)) + ' ' + sizes[exponent];
-    },
-
-    _formatPercentage(size, delta) {
-      const oldSize = size - delta;
-
-      if (oldSize === 0) { return ''; }
-
-      const percentage = Math.round(Math.abs(delta * 100 / oldSize));
-      return '(' + (delta > 0 ? '+' : '-') + percentage + '%)';
-    },
-
-    _computeBinaryClass(delta) {
-      if (delta === 0) { return; }
-      return delta >= 0 ? 'added' : 'removed';
-    },
-
-    /**
-     * @param {string} baseClass
-     * @param {string} path
-     */
-    _computeClass(baseClass, path) {
-      const classes = [baseClass];
-      if (path === this.COMMIT_MESSAGE_PATH || path === this.MERGE_LIST_PATH) {
-        classes.push('invisible');
-      }
-      return classes.join(' ');
-    },
-
-    _computePathClass(path, expandedFilesRecord) {
-      return this._isFileExpanded(path, expandedFilesRecord) ? 'expanded' : '';
-    },
-
-    _computeShowHideIcon(path, expandedFilesRecord) {
-      return this._isFileExpanded(path, expandedFilesRecord) ?
-          'gr-icons:expand-less' : 'gr-icons:expand-more';
-    },
-
-    _computeFiles(filesByPath, changeComments, patchRange, reviewed, loading) {
-      // Await all promises resolving from reload. @See Issue 9057
-      if (loading) { return; }
-
-      const commentedPaths = changeComments.getPaths(patchRange);
-      const files = Object.assign({}, filesByPath);
-      Object.keys(commentedPaths).forEach(commentedPath => {
-        if (files.hasOwnProperty(commentedPath)) { return; }
-        files[commentedPath] = {status: 'U'};
-      });
-      const reviewedSet = new Set(reviewed || []);
-      for (const filePath in files) {
-        if (!files.hasOwnProperty(filePath)) { continue; }
-        files[filePath].isReviewed = reviewedSet.has(filePath);
-      }
-
-      this._files = this._normalizeChangeFilesResponse(files);
-    },
-
-    _computeFilesShown(numFilesShown, files) {
-      const previousNumFilesShown = this._shownFiles ?
-          this._shownFiles.length : 0;
-
-      const filesShown = files.base.slice(0, numFilesShown);
-      this.fire('files-shown-changed', {length: filesShown.length});
-
-      // Start the timer for the rendering work hwere because this is where the
-      // _shownFiles property is being set, and _shownFiles is used in the
-      // dom-repeat binding.
-      this.$.reporting.time(RENDER_TIMING_LABEL);
-
-      // How many more files are being shown (if it's an increase).
-      this._reportinShownFilesIncrement =
-          Math.max(0, filesShown.length - previousNumFilesShown);
-
-      return filesShown;
-    },
-
-    _updateDiffCursor() {
-      // Overwrite the cursor's list of diffs:
-      this.$.diffCursor.splice(
-          ...['diffs', 0, this.$.diffCursor.diffs.length].concat(this.diffs));
-    },
-
-    _filesChanged() {
-      Polymer.dom.flush();
-      const files = Polymer.dom(this.root).querySelectorAll('.file-row');
-      this.$.fileCursor.stops = files;
-      this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
-    },
-
-    _incrementNumFilesShown() {
-      this.numFilesShown += this.fileListIncrement;
-    },
-
-    _computeFileListControlClass(numFilesShown, files) {
-      return numFilesShown >= files.length ? 'invisible' : '';
-    },
-
-    _computeIncrementText(numFilesShown, files) {
-      if (!files) { return ''; }
-      const text =
-          Math.min(this.fileListIncrement, files.length - numFilesShown);
-      return 'Show ' + text + ' more';
-    },
-
-    _computeShowAllText(files) {
-      if (!files) { return ''; }
-      return 'Show all ' + files.length + ' files';
-    },
-
-    _computeWarnShowAll(files) {
-      return files.length > WARN_SHOW_ALL_THRESHOLD;
-    },
-
-    _computeShowAllWarning(files) {
-      if (!this._computeWarnShowAll(files)) { return ''; }
-      return 'Warning: showing all ' + files.length +
-          ' files may take several seconds.';
-    },
-
-    _showAllFiles() {
-      this.numFilesShown = this._files.length;
-    },
-
-    _computePatchSetDescription(revisions, patchNum) {
-      const rev = this.getRevisionByPatchNum(revisions, patchNum);
-      return (rev && rev.description) ?
-          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
-    },
-
-    _computeFileStatusLabel(status) {
-      const statusCode = this._computeFileStatus(status);
-      return FileStatus.hasOwnProperty(statusCode) ?
-          FileStatus[statusCode] : 'Status Unknown';
-    },
-
-    _isFileExpanded(path, expandedFilesRecord) {
-      return expandedFilesRecord.base.includes(path);
-    },
-
-    _onLineSelected(e, detail) {
-      this.$.diffCursor.moveToLineNumber(detail.number, detail.side,
-          detail.path);
-    },
-
-    _computeExpandedFiles(expandedCount, totalCount) {
-      if (expandedCount === 0) {
-        return GrFileListConstants.FilesExpandedState.NONE;
-      } else if (expandedCount === totalCount) {
-        return GrFileListConstants.FilesExpandedState.ALL;
-      }
-      return GrFileListConstants.FilesExpandedState.SOME;
-    },
-
-    /**
-     * Handle splices to the list of expanded file paths. If there are any new
-     * entries in the expanded list, then render each diff corresponding in
-     * order by waiting for the previous diff to finish before starting the next
-     * one.
-     * @param {!Array} record The splice record in the expanded paths list.
-     */
-    _expandedPathsChanged(record) {
-      // Clear content for any diffs that are not open so if they get re-opened
-      // the stale content does not flash before it is cleared and reloaded.
-      const collapsedDiffs = this.diffs.filter(diff =>
-          this._expandedFilePaths.indexOf(diff.path) === -1);
-      this._clearCollapsedDiffs(collapsedDiffs);
-
-      if (!record) { return; } // Happens after "Collapse all" clicked.
-
-      this.filesExpanded = this._computeExpandedFiles(
-          this._expandedFilePaths.length, this._files.length);
-
-      // Find the paths introduced by the new index splices:
-      const newPaths = record.indexSplices
-            .map(splice => splice.object.slice(
-                splice.index, splice.index + splice.addedCount))
-            .reduce((acc, paths) => acc.concat(paths), []);
-
-      // Required so that the newly created diff view is included in this.diffs.
-      Polymer.dom.flush();
-
-      this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
-
-      if (newPaths.length) {
-        this._renderInOrder(newPaths, this.diffs, newPaths.length);
-      }
-
-      this._updateDiffCursor();
-      this.$.diffCursor.handleDiffUpdate();
-    },
-
-    _clearCollapsedDiffs(collapsedDiffs) {
-      for (const diff of collapsedDiffs) {
-        diff.cancel();
-        diff.clearDiffContent();
-      }
-    },
-
-    /**
-     * Given an array of paths and a NodeList of diff elements, render the diff
-     * for each path in order, awaiting the previous render to complete before
-     * continung.
-     * @param  {!Array<string>} paths
-     * @param  {!NodeList<!Object>} diffElements (GrDiffHostElement)
-     * @param  {number} initialCount The total number of paths in the pass. This
-     *   is used to generate log messages.
-     * @return {!Promise}
-     */
-    _renderInOrder(paths, diffElements, initialCount) {
-      let iter = 0;
-
-      return (new Promise(resolve => {
-        this.fire('reload-drafts', {resolve});
-      })).then(() => {
-        return this.asyncForeach(paths, (path, cancel) => {
-          this._cancelForEachDiff = cancel;
-
-          iter++;
-          console.log('Expanding diff', iter, 'of', initialCount, ':',
-              path);
-          const diffElem = this._findDiffByPath(path, diffElements);
-          diffElem.comments = this.changeComments.getCommentsBySideForPath(
-              path, this.patchRange, this.projectConfig);
-          const promises = [diffElem.reload()];
-          if (this._loggedIn && !this.diffPrefs.manual_review) {
-            promises.push(this._reviewFile(path, true));
-          }
-          return Promise.all(promises);
-        }).then(() => {
-          this._cancelForEachDiff = null;
-          this._nextRenderParams = null;
-          console.log('Finished expanding', initialCount, 'diff(s)');
-          this.$.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
-              EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
-          this.$.diffCursor.handleDiffUpdate();
-        });
-      });
-    },
-
-    /** Cancel the rendering work of every diff in the list */
-    _cancelDiffs() {
-      if (this._cancelForEachDiff) { this._cancelForEachDiff(); }
-      this._forEachDiff(d => d.cancel());
-    },
-
-    /**
-     * In the given NodeList of diff elements, find the diff for the given path.
-     * @param  {string} path
-     * @param  {!NodeList<!Object>} diffElements (GrDiffElement)
-     * @return {!Object|undefined} (GrDiffElement)
-     */
-    _findDiffByPath(path, diffElements) {
-      for (let i = 0; i < diffElements.length; i++) {
-        if (diffElements[i].path === path) {
-          return diffElements[i];
-        }
-      }
-    },
-
-    /**
-     * Reset the comments of a modified thread
-     * @param  {string} rootId
-     * @param  {string} path
-     */
-    reloadCommentsForThreadWithRootId(rootId, path) {
-      // Don't bother continuing if we already know that the path that contains
-      // the updated comment thread is not expanded.
-      if (!this._expandedFilePaths.includes(path)) { return; }
-      const diff = this.diffs.find(d => d.path === path);
-
-      const threadEl = diff.getThreadEls().find(t => t.rootId === rootId);
-      if (!threadEl) { return; }
-
-      const newComments = this.changeComments.getCommentsForThread(rootId);
-
-      // If newComments is null, it means that a single draft was
-      // removed from a thread in the thread view, and the thread should
-      // no longer exist. Remove the existing thread element in the diff
-      // view.
-      if (!newComments) {
-        threadEl.fireRemoveSelf();
-        return;
-      }
-
-      // Comments are not returned with the commentSide attribute from
-      // the api, but it's necessary to be stored on the diff's
-      // comments due to use in the _handleCommentUpdate function.
-      // The comment thread already has a side associated with it, so
-      // set the comment's side to match.
-      threadEl.comments = newComments.map(c => {
-        return Object.assign(c, {__commentSide: threadEl.commentSide});
-      });
-      Polymer.dom.flush();
-      return;
-    },
-
-    _handleEscKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
-      e.preventDefault();
-      this._displayLine = false;
-    },
-
-    /**
-     * Update the loading class for the file list rows. The update is inside a
-     * debouncer so that the file list doesn't flash gray when the API requests
-     * are reasonably fast.
-     * @param {boolean} loading
-     */
-    _loadingChanged(loading) {
-      this.debounce('loading-change', () => {
-        // Only show set the loading if there have been files loaded to show. In
-        // this way, the gray loading style is not shown on initial loads.
-        this.classList.toggle('loading', loading && !!this._files.length);
-      }, LOADING_DEBOUNCE_INTERVAL);
-    },
-
-    _editModeChanged(editMode) {
-      this.classList.toggle('editMode', editMode);
-    },
-
-    _computeReviewedClass(isReviewed) {
-      return isReviewed ? 'isReviewed' : '';
-    },
-
-    _computeReviewedText(isReviewed) {
-      return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
-    },
-
-    /**
-     * Given a file path, return whether that path should have visible size bars
-     * and be included in the size bars calculation.
-     * @param {string} path
-     * @return {boolean}
-     */
-    _showBarsForPath(path) {
-      return path !== this.COMMIT_MESSAGE_PATH && path !== this.MERGE_LIST_PATH;
-    },
-
-    /**
-     * Compute size bar layout values from the file list.
-     * @return {Defs.LayoutStats|undefined}
-     */
-    _computeSizeBarLayout(shownFilesRecord) {
-      if (!shownFilesRecord || !shownFilesRecord.base) { return undefined; }
-      const stats = {
-        maxInserted: 0,
-        maxDeleted: 0,
-        maxAdditionWidth: 0,
-        maxDeletionWidth: 0,
-        deletionOffset: 0,
+    }));
+
+    this._localPrefs = this.$.storage.getPreferences();
+    promises.push(this._getDiffPreferences().then(prefs => {
+      this.diffPrefs = prefs;
+    }));
+
+    promises.push(this._getPreferences().then(prefs => {
+      this._userPrefs = prefs;
+    }));
+
+    return Promise.all(promises).then(() => {
+      this._loading = false;
+      this._detectChromiteButler();
+      this.$.reporting.fileListDisplayed();
+    });
+  },
+
+  _detectChromiteButler() {
+    const hasButler = !!document.getElementById('butler-suggested-owners');
+    if (hasButler) {
+      this.$.reporting.reportExtension('butler');
+    }
+  },
+
+  get diffs() {
+    return Polymer.dom(this.root).querySelectorAll('gr-diff-host');
+  },
+
+  openDiffPrefs() {
+    this.$.diffPreferences.open();
+  },
+
+  _calculatePatchChange(files) {
+    const filesNoCommitMsg = files.filter(files => {
+      return files.__path !== '/COMMIT_MSG';
+    });
+
+    return filesNoCommitMsg.reduce((acc, obj) => {
+      const inserted = obj.lines_inserted ? obj.lines_inserted : 0;
+      const deleted = obj.lines_deleted ? obj.lines_deleted : 0;
+      const total_size = (obj.size && obj.binary) ? obj.size : 0;
+      const size_delta_inserted =
+          obj.binary && obj.size_delta > 0 ? obj.size_delta : 0;
+      const size_delta_deleted =
+          obj.binary && obj.size_delta < 0 ? obj.size_delta : 0;
+
+      return {
+        inserted: acc.inserted + inserted,
+        deleted: acc.deleted + deleted,
+        size_delta_inserted: acc.size_delta_inserted + size_delta_inserted,
+        size_delta_deleted: acc.size_delta_deleted + size_delta_deleted,
+        total_size: acc.total_size + total_size,
       };
-      shownFilesRecord.base
-          .filter(f => this._showBarsForPath(f.__path))
-          .forEach(f => {
-            if (f.lines_inserted) {
-              stats.maxInserted = Math.max(stats.maxInserted, f.lines_inserted);
-            }
-            if (f.lines_deleted) {
-              stats.maxDeleted = Math.max(stats.maxDeleted, f.lines_deleted);
-            }
-          });
-      const ratio = stats.maxInserted / (stats.maxInserted + stats.maxDeleted);
-      if (!isNaN(ratio)) {
-        stats.maxAdditionWidth =
-            (SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH) * ratio;
-        stats.maxDeletionWidth =
-            SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH - stats.maxAdditionWidth;
-        stats.deletionOffset = stats.maxAdditionWidth + SIZE_BAR_GAP_WIDTH;
+    }, {inserted: 0, deleted: 0, size_delta_inserted: 0,
+      size_delta_deleted: 0, total_size: 0});
+  },
+
+  _getDiffPreferences() {
+    return this.$.restAPI.getDiffPreferences();
+  },
+
+  _getPreferences() {
+    return this.$.restAPI.getPreferences();
+  },
+
+  _togglePathExpanded(path) {
+    // Is the path in the list of expanded diffs? IF so remove it, otherwise
+    // add it to the list.
+    const pathIndex = this._expandedFilePaths.indexOf(path);
+    if (pathIndex === -1) {
+      this.push('_expandedFilePaths', path);
+    } else {
+      this.splice('_expandedFilePaths', pathIndex, 1);
+    }
+  },
+
+  _togglePathExpandedByIndex(index) {
+    this._togglePathExpanded(this._files[index].__path);
+  },
+
+  _updateDiffPreferences() {
+    if (!this.diffs.length) { return; }
+    // Re-render all expanded diffs sequentially.
+    this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
+    this._renderInOrder(this._expandedFilePaths, this.diffs,
+        this._expandedFilePaths.length);
+  },
+
+  _forEachDiff(fn) {
+    const diffs = this.diffs;
+    for (let i = 0; i < diffs.length; i++) {
+      fn(diffs[i]);
+    }
+  },
+
+  expandAllDiffs() {
+    this._showInlineDiffs = true;
+
+    // Find the list of paths that are in the file list, but not in the
+    // expanded list.
+    const newPaths = [];
+    let path;
+    for (let i = 0; i < this._shownFiles.length; i++) {
+      path = this._shownFiles[i].__path;
+      if (!this._expandedFilePaths.includes(path)) {
+        newPaths.push(path);
       }
-      return stats;
-    },
+    }
 
-    /**
-     * Get the width of the addition bar for a file.
-     * @param {Object} file
-     * @param {Defs.LayoutStats} stats
-     * @return {number}
-     */
-    _computeBarAdditionWidth(file, stats) {
-      if (stats.maxInserted === 0 ||
-          !file.lines_inserted ||
-          !this._showBarsForPath(file.__path)) {
-        return 0;
+    this.splice(...['_expandedFilePaths', 0, 0].concat(newPaths));
+  },
+
+  collapseAllDiffs() {
+    this._showInlineDiffs = false;
+    this._expandedFilePaths = [];
+    this.filesExpanded = this._computeExpandedFiles(
+        this._expandedFilePaths.length, this._files.length);
+    this.$.diffCursor.handleDiffUpdate();
+  },
+
+  /**
+   * Computes a string with the number of comments and unresolved comments.
+   *
+   * @param {!Object} changeComments
+   * @param {!Object} patchRange
+   * @param {string} path
+   * @return {string}
+   */
+  _computeCommentsString(changeComments, patchRange, path) {
+    const unresolvedCount =
+        changeComments.computeUnresolvedNum(patchRange.basePatchNum, path) +
+        changeComments.computeUnresolvedNum(patchRange.patchNum, path);
+    const commentCount =
+        changeComments.computeCommentCount(patchRange.basePatchNum, path) +
+        changeComments.computeCommentCount(patchRange.patchNum, path);
+    const commentString = GrCountStringFormatter.computePluralString(
+        commentCount, 'comment');
+    const unresolvedString = GrCountStringFormatter.computeString(
+        unresolvedCount, 'unresolved');
+
+    return commentString +
+        // Add a space if both comments and unresolved
+        (commentString && unresolvedString ? ' ' : '') +
+        // Add parentheses around unresolved if it exists.
+        (unresolvedString ? `(${unresolvedString})` : '');
+  },
+
+  /**
+   * Computes a string with the number of drafts.
+   *
+   * @param {!Object} changeComments
+   * @param {!Object} patchRange
+   * @param {string} path
+   * @return {string}
+   */
+  _computeDraftsString(changeComments, patchRange, path) {
+    const draftCount =
+        changeComments.computeDraftCount(patchRange.basePatchNum, path) +
+        changeComments.computeDraftCount(patchRange.patchNum, path);
+    return GrCountStringFormatter.computePluralString(draftCount, 'draft');
+  },
+
+  /**
+   * Computes a shortened string with the number of drafts.
+   *
+   * @param {!Object} changeComments
+   * @param {!Object} patchRange
+   * @param {string} path
+   * @return {string}
+   */
+  _computeDraftsStringMobile(changeComments, patchRange, path) {
+    const draftCount =
+        changeComments.computeDraftCount(patchRange.basePatchNum, path) +
+        changeComments.computeDraftCount(patchRange.patchNum, path);
+    return GrCountStringFormatter.computeShortString(draftCount, 'd');
+  },
+
+  /**
+   * Computes a shortened string with the number of comments.
+   *
+   * @param {!Object} changeComments
+   * @param {!Object} patchRange
+   * @param {string} path
+   * @return {string}
+   */
+  _computeCommentsStringMobile(changeComments, patchRange, path) {
+    const commentCount =
+        changeComments.computeCommentCount(patchRange.basePatchNum, path) +
+        changeComments.computeCommentCount(patchRange.patchNum, path);
+    return GrCountStringFormatter.computeShortString(commentCount, 'c');
+  },
+
+  /**
+   * @param {string} path
+   * @param {boolean=} opt_reviewed
+   */
+  _reviewFile(path, opt_reviewed) {
+    if (this.editMode) { return; }
+    const index = this._files.findIndex(file => file.__path === path);
+    const reviewed = opt_reviewed || !this._files[index].isReviewed;
+
+    this.set(['_files', index, 'isReviewed'], reviewed);
+    if (index < this._shownFiles.length) {
+      this.set(['_shownFiles', index, 'isReviewed'], reviewed);
+    }
+
+    this._saveReviewedState(path, reviewed);
+  },
+
+  _saveReviewedState(path, reviewed) {
+    return this.$.restAPI.saveFileReviewed(this.changeNum,
+        this.patchRange.patchNum, path, reviewed);
+  },
+
+  _getLoggedIn() {
+    return this.$.restAPI.getLoggedIn();
+  },
+
+  _getReviewedFiles() {
+    if (this.editMode) { return Promise.resolve([]); }
+    return this.$.restAPI.getReviewedFiles(this.changeNum,
+        this.patchRange.patchNum);
+  },
+
+  _getFiles() {
+    return this.$.restAPI.getChangeOrEditFiles(
+        this.changeNum, this.patchRange);
+  },
+
+  /**
+   * The closure compiler doesn't realize this.specialFilePathCompare is
+   * valid.
+   * @suppress {checkTypes}
+   */
+  _normalizeChangeFilesResponse(response) {
+    if (!response) { return []; }
+    const paths = Object.keys(response).sort(this.specialFilePathCompare);
+    const files = [];
+    for (let i = 0; i < paths.length; i++) {
+      const info = response[paths[i]];
+      info.__path = paths[i];
+      info.lines_inserted = info.lines_inserted || 0;
+      info.lines_deleted = info.lines_deleted || 0;
+      files.push(info);
+    }
+    return files;
+  },
+
+  /**
+   * Handle all events from the file list dom-repeat so event handleers don't
+   * have to get registered for potentially very long lists.
+   */
+  _handleFileListTap(e) {
+    // Traverse upwards to find the row element if the target is not the row.
+    let row = e.target;
+    while (!row.classList.contains('row') && row.parentElement) {
+      row = row.parentElement;
+    }
+
+    const path = row.dataset.path;
+    // Handle checkbox mark as reviewed.
+    if (e.target.classList.contains('markReviewed')) {
+      e.preventDefault();
+      return this._reviewFile(path);
+    }
+
+    // If a path cannot be interpreted from the click target (meaning it's not
+    // somewhere in the row, e.g. diff content) or if the user clicked the
+    // link, defer to the native behavior.
+    if (!path || this.descendedFromClass(e.target, 'pathLink')) { return; }
+
+    // Disregard the event if the click target is in the edit controls.
+    if (this.descendedFromClass(e.target, 'editFileControls')) { return; }
+
+    e.preventDefault();
+    this._togglePathExpanded(path);
+  },
+
+  _handleShiftLeftKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
+      return;
+    }
+
+    e.preventDefault();
+    this.$.diffCursor.moveLeft();
+  },
+
+  _handleShiftRightKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
+      return;
+    }
+
+    e.preventDefault();
+    this.$.diffCursor.moveRight();
+  },
+
+  _handleIKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e) ||
+        this.$.fileCursor.index === -1) { return; }
+
+    e.preventDefault();
+    this._togglePathExpandedByIndex(this.$.fileCursor.index);
+  },
+
+  _handleCapitalIKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+    e.preventDefault();
+    this._toggleInlineDiffs();
+  },
+
+  _handleDownKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
+
+    if (this._showInlineDiffs) {
+      e.preventDefault();
+      this.$.diffCursor.moveDown();
+      this._displayLine = true;
+    } else {
+      // Down key
+      if (this.getKeyboardEvent(e).keyCode === 40) { return; }
+      e.preventDefault();
+      this.$.fileCursor.next();
+      this.selectedIndex = this.$.fileCursor.index;
+    }
+  },
+
+  _handleUpKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
+
+    if (this._showInlineDiffs) {
+      e.preventDefault();
+      this.$.diffCursor.moveUp();
+      this._displayLine = true;
+    } else {
+      // Up key
+      if (this.getKeyboardEvent(e).keyCode === 38) { return; }
+      e.preventDefault();
+      this.$.fileCursor.previous();
+      this.selectedIndex = this.$.fileCursor.index;
+    }
+  },
+
+  _handleCKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e)) { return; }
+
+    const isRangeSelected = this.diffs.some(diff => {
+      return diff.isRangeSelected();
+    }, this);
+    if (!isRangeSelected) {
+      e.preventDefault();
+      this._addDraftAtTarget();
+    }
+  },
+
+  _handleLeftBracketKey(e) {
+    // Check for meta key to avoid overriding native chrome shortcut.
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.getKeyboardEvent(e).metaKey) { return; }
+
+    e.preventDefault();
+    this._openSelectedFile(this._files.length - 1);
+  },
+
+  _handleRightBracketKey(e) {
+    // Check for meta key to avoid overriding native chrome shortcut.
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.getKeyboardEvent(e).metaKey) { return; }
+
+    e.preventDefault();
+    this._openSelectedFile(0);
+  },
+
+  _handleOKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e)) { return; }
+    e.preventDefault();
+
+    if (this._showInlineDiffs) {
+      this._openCursorFile();
+      return;
+    }
+
+    this._openSelectedFile();
+  },
+
+  _handleNKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
+        this._noDiffsExpanded()) {
+      return;
+    }
+
+    e.preventDefault();
+    if (this.isModifierPressed(e, 'shiftKey')) {
+      this.$.diffCursor.moveToNextCommentThread();
+    } else {
+      this.$.diffCursor.moveToNextChunk();
+    }
+  },
+
+  _handlePKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
+        this._noDiffsExpanded()) {
+      return;
+    }
+
+    e.preventDefault();
+    if (this.isModifierPressed(e, 'shiftKey')) {
+      this.$.diffCursor.moveToPreviousCommentThread();
+    } else {
+      this.$.diffCursor.moveToPreviousChunk();
+    }
+  },
+
+  _handleRKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
+
+    e.preventDefault();
+    if (!this._files[this.$.fileCursor.index]) { return; }
+    this._reviewFile(this._files[this.$.fileCursor.index].__path);
+  },
+
+  _handleCapitalAKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+    e.preventDefault();
+    this._forEachDiff(diff => {
+      diff.toggleLeftDiff();
+    });
+  },
+
+  _toggleInlineDiffs() {
+    if (this._showInlineDiffs) {
+      this.collapseAllDiffs();
+    } else {
+      this.expandAllDiffs();
+    }
+  },
+
+  _openCursorFile() {
+    const diff = this.$.diffCursor.getTargetDiffElement();
+    Gerrit.Nav.navigateToDiff(this.change, diff.path,
+        diff.patchRange.patchNum, this.patchRange.basePatchNum);
+  },
+
+  /**
+   * @param {number=} opt_index
+   */
+  _openSelectedFile(opt_index) {
+    if (opt_index != null) {
+      this.$.fileCursor.setCursorAtIndex(opt_index);
+    }
+    if (!this._files[this.$.fileCursor.index]) { return; }
+    Gerrit.Nav.navigateToDiff(this.change,
+        this._files[this.$.fileCursor.index].__path, this.patchRange.patchNum,
+        this.patchRange.basePatchNum);
+  },
+
+  _addDraftAtTarget() {
+    const diff = this.$.diffCursor.getTargetDiffElement();
+    const target = this.$.diffCursor.getTargetLineElement();
+    if (diff && target) {
+      diff.addDraftAtLine(target);
+    }
+  },
+
+  _shouldHideChangeTotals(_patchChange) {
+    return _patchChange.inserted === 0 && _patchChange.deleted === 0;
+  },
+
+  _shouldHideBinaryChangeTotals(_patchChange) {
+    return _patchChange.size_delta_inserted === 0 &&
+        _patchChange.size_delta_deleted === 0;
+  },
+
+  _computeFileStatus(status) {
+    return status || 'M';
+  },
+
+  _computeDiffURL(change, patchNum, basePatchNum, path, editMode) {
+    // TODO(kaspern): Fix editing for commit messages and merge lists.
+    if (editMode && path !== this.COMMIT_MESSAGE_PATH &&
+        path !== this.MERGE_LIST_PATH) {
+      return Gerrit.Nav.getEditUrlForDiff(change, path, patchNum,
+          basePatchNum);
+    }
+    return Gerrit.Nav.getUrlForDiff(change, path, patchNum, basePatchNum);
+  },
+
+  _formatBytes(bytes) {
+    if (bytes == 0) return '+/-0 B';
+    const bits = 1024;
+    const decimals = 1;
+    const sizes =
+        ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    const exponent = Math.floor(Math.log(Math.abs(bytes)) / Math.log(bits));
+    const prepend = bytes > 0 ? '+' : '';
+    return prepend + parseFloat((bytes / Math.pow(bits, exponent))
+        .toFixed(decimals)) + ' ' + sizes[exponent];
+  },
+
+  _formatPercentage(size, delta) {
+    const oldSize = size - delta;
+
+    if (oldSize === 0) { return ''; }
+
+    const percentage = Math.round(Math.abs(delta * 100 / oldSize));
+    return '(' + (delta > 0 ? '+' : '-') + percentage + '%)';
+  },
+
+  _computeBinaryClass(delta) {
+    if (delta === 0) { return; }
+    return delta >= 0 ? 'added' : 'removed';
+  },
+
+  /**
+   * @param {string} baseClass
+   * @param {string} path
+   */
+  _computeClass(baseClass, path) {
+    const classes = [baseClass];
+    if (path === this.COMMIT_MESSAGE_PATH || path === this.MERGE_LIST_PATH) {
+      classes.push('invisible');
+    }
+    return classes.join(' ');
+  },
+
+  _computePathClass(path, expandedFilesRecord) {
+    return this._isFileExpanded(path, expandedFilesRecord) ? 'expanded' : '';
+  },
+
+  _computeShowHideIcon(path, expandedFilesRecord) {
+    return this._isFileExpanded(path, expandedFilesRecord) ?
+        'gr-icons:expand-less' : 'gr-icons:expand-more';
+  },
+
+  _computeFiles(filesByPath, changeComments, patchRange, reviewed, loading) {
+    // Await all promises resolving from reload. @See Issue 9057
+    if (loading) { return; }
+
+    const commentedPaths = changeComments.getPaths(patchRange);
+    const files = Object.assign({}, filesByPath);
+    Object.keys(commentedPaths).forEach(commentedPath => {
+      if (files.hasOwnProperty(commentedPath)) { return; }
+      files[commentedPath] = {status: 'U'};
+    });
+    const reviewedSet = new Set(reviewed || []);
+    for (const filePath in files) {
+      if (!files.hasOwnProperty(filePath)) { continue; }
+      files[filePath].isReviewed = reviewedSet.has(filePath);
+    }
+
+    this._files = this._normalizeChangeFilesResponse(files);
+  },
+
+  _computeFilesShown(numFilesShown, files) {
+    const previousNumFilesShown = this._shownFiles ?
+        this._shownFiles.length : 0;
+
+    const filesShown = files.base.slice(0, numFilesShown);
+    this.fire('files-shown-changed', {length: filesShown.length});
+
+    // Start the timer for the rendering work hwere because this is where the
+    // _shownFiles property is being set, and _shownFiles is used in the
+    // dom-repeat binding.
+    this.$.reporting.time(RENDER_TIMING_LABEL);
+
+    // How many more files are being shown (if it's an increase).
+    this._reportinShownFilesIncrement =
+        Math.max(0, filesShown.length - previousNumFilesShown);
+
+    return filesShown;
+  },
+
+  _updateDiffCursor() {
+    // Overwrite the cursor's list of diffs:
+    this.$.diffCursor.splice(
+        ...['diffs', 0, this.$.diffCursor.diffs.length].concat(this.diffs));
+  },
+
+  _filesChanged() {
+    Polymer.dom.flush();
+    const files = Polymer.dom(this.root).querySelectorAll('.file-row');
+    this.$.fileCursor.stops = files;
+    this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
+  },
+
+  _incrementNumFilesShown() {
+    this.numFilesShown += this.fileListIncrement;
+  },
+
+  _computeFileListControlClass(numFilesShown, files) {
+    return numFilesShown >= files.length ? 'invisible' : '';
+  },
+
+  _computeIncrementText(numFilesShown, files) {
+    if (!files) { return ''; }
+    const text =
+        Math.min(this.fileListIncrement, files.length - numFilesShown);
+    return 'Show ' + text + ' more';
+  },
+
+  _computeShowAllText(files) {
+    if (!files) { return ''; }
+    return 'Show all ' + files.length + ' files';
+  },
+
+  _computeWarnShowAll(files) {
+    return files.length > WARN_SHOW_ALL_THRESHOLD;
+  },
+
+  _computeShowAllWarning(files) {
+    if (!this._computeWarnShowAll(files)) { return ''; }
+    return 'Warning: showing all ' + files.length +
+        ' files may take several seconds.';
+  },
+
+  _showAllFiles() {
+    this.numFilesShown = this._files.length;
+  },
+
+  _computePatchSetDescription(revisions, patchNum) {
+    const rev = this.getRevisionByPatchNum(revisions, patchNum);
+    return (rev && rev.description) ?
+        rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+  },
+
+  _computeFileStatusLabel(status) {
+    const statusCode = this._computeFileStatus(status);
+    return FileStatus.hasOwnProperty(statusCode) ?
+        FileStatus[statusCode] : 'Status Unknown';
+  },
+
+  _isFileExpanded(path, expandedFilesRecord) {
+    return expandedFilesRecord.base.includes(path);
+  },
+
+  _onLineSelected(e, detail) {
+    this.$.diffCursor.moveToLineNumber(detail.number, detail.side,
+        detail.path);
+  },
+
+  _computeExpandedFiles(expandedCount, totalCount) {
+    if (expandedCount === 0) {
+      return GrFileListConstants.FilesExpandedState.NONE;
+    } else if (expandedCount === totalCount) {
+      return GrFileListConstants.FilesExpandedState.ALL;
+    }
+    return GrFileListConstants.FilesExpandedState.SOME;
+  },
+
+  /**
+   * Handle splices to the list of expanded file paths. If there are any new
+   * entries in the expanded list, then render each diff corresponding in
+   * order by waiting for the previous diff to finish before starting the next
+   * one.
+   * @param {!Array} record The splice record in the expanded paths list.
+   */
+  _expandedPathsChanged(record) {
+    // Clear content for any diffs that are not open so if they get re-opened
+    // the stale content does not flash before it is cleared and reloaded.
+    const collapsedDiffs = this.diffs.filter(diff =>
+        this._expandedFilePaths.indexOf(diff.path) === -1);
+    this._clearCollapsedDiffs(collapsedDiffs);
+
+    if (!record) { return; } // Happens after "Collapse all" clicked.
+
+    this.filesExpanded = this._computeExpandedFiles(
+        this._expandedFilePaths.length, this._files.length);
+
+    // Find the paths introduced by the new index splices:
+    const newPaths = record.indexSplices
+          .map(splice => splice.object.slice(
+              splice.index, splice.index + splice.addedCount))
+          .reduce((acc, paths) => acc.concat(paths), []);
+
+    // Required so that the newly created diff view is included in this.diffs.
+    Polymer.dom.flush();
+
+    this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
+
+    if (newPaths.length) {
+      this._renderInOrder(newPaths, this.diffs, newPaths.length);
+    }
+
+    this._updateDiffCursor();
+    this.$.diffCursor.handleDiffUpdate();
+  },
+
+  _clearCollapsedDiffs(collapsedDiffs) {
+    for (const diff of collapsedDiffs) {
+      diff.cancel();
+      diff.clearDiffContent();
+    }
+  },
+
+  /**
+   * Given an array of paths and a NodeList of diff elements, render the diff
+   * for each path in order, awaiting the previous render to complete before
+   * continung.
+   * @param  {!Array<string>} paths
+   * @param  {!NodeList<!Object>} diffElements (GrDiffHostElement)
+   * @param  {number} initialCount The total number of paths in the pass. This
+   *   is used to generate log messages.
+   * @return {!Promise}
+   */
+  _renderInOrder(paths, diffElements, initialCount) {
+    let iter = 0;
+
+    return (new Promise(resolve => {
+      this.fire('reload-drafts', {resolve});
+    })).then(() => {
+      return this.asyncForeach(paths, (path, cancel) => {
+        this._cancelForEachDiff = cancel;
+
+        iter++;
+        console.log('Expanding diff', iter, 'of', initialCount, ':',
+            path);
+        const diffElem = this._findDiffByPath(path, diffElements);
+        diffElem.comments = this.changeComments.getCommentsBySideForPath(
+            path, this.patchRange, this.projectConfig);
+        const promises = [diffElem.reload()];
+        if (this._loggedIn && !this.diffPrefs.manual_review) {
+          promises.push(this._reviewFile(path, true));
+        }
+        return Promise.all(promises);
+      }).then(() => {
+        this._cancelForEachDiff = null;
+        this._nextRenderParams = null;
+        console.log('Finished expanding', initialCount, 'diff(s)');
+        this.$.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
+            EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
+        this.$.diffCursor.handleDiffUpdate();
+      });
+    });
+  },
+
+  /** Cancel the rendering work of every diff in the list */
+  _cancelDiffs() {
+    if (this._cancelForEachDiff) { this._cancelForEachDiff(); }
+    this._forEachDiff(d => d.cancel());
+  },
+
+  /**
+   * In the given NodeList of diff elements, find the diff for the given path.
+   * @param  {string} path
+   * @param  {!NodeList<!Object>} diffElements (GrDiffElement)
+   * @return {!Object|undefined} (GrDiffElement)
+   */
+  _findDiffByPath(path, diffElements) {
+    for (let i = 0; i < diffElements.length; i++) {
+      if (diffElements[i].path === path) {
+        return diffElements[i];
       }
-      const width =
-          stats.maxAdditionWidth * file.lines_inserted / stats.maxInserted;
-      return width === 0 ? 0 : Math.max(SIZE_BAR_MIN_WIDTH, width);
-    },
+    }
+  },
 
-    /**
-     * Get the x-offset of the addition bar for a file.
-     * @param {Object} file
-     * @param {Defs.LayoutStats} stats
-     * @return {number}
-     */
-    _computeBarAdditionX(file, stats) {
-      return stats.maxAdditionWidth -
-          this._computeBarAdditionWidth(file, stats);
-    },
+  /**
+   * Reset the comments of a modified thread
+   * @param  {string} rootId
+   * @param  {string} path
+   */
+  reloadCommentsForThreadWithRootId(rootId, path) {
+    // Don't bother continuing if we already know that the path that contains
+    // the updated comment thread is not expanded.
+    if (!this._expandedFilePaths.includes(path)) { return; }
+    const diff = this.diffs.find(d => d.path === path);
 
-    /**
-     * Get the width of the deletion bar for a file.
-     * @param {Object} file
-     * @param {Defs.LayoutStats} stats
-     * @return {number}
-     */
-    _computeBarDeletionWidth(file, stats) {
-      if (stats.maxDeleted === 0 ||
-          !file.lines_deleted ||
-          !this._showBarsForPath(file.__path)) {
-        return 0;
-      }
-      const width =
-          stats.maxDeletionWidth * file.lines_deleted / stats.maxDeleted;
-      return width === 0 ? 0 : Math.max(SIZE_BAR_MIN_WIDTH, width);
-    },
+    const threadEl = diff.getThreadEls().find(t => t.rootId === rootId);
+    if (!threadEl) { return; }
 
-    /**
-     * Get the x-offset of the deletion bar for a file.
-     * @param {Defs.LayoutStats} stats
-     * @return {number}
-     */
-    _computeBarDeletionX(stats) {
-      return stats.deletionOffset;
-    },
+    const newComments = this.changeComments.getCommentsForThread(rootId);
 
-    _computeShowSizeBars(userPrefs) {
-      return !!userPrefs.size_bar_in_change_table;
-    },
+    // If newComments is null, it means that a single draft was
+    // removed from a thread in the thread view, and the thread should
+    // no longer exist. Remove the existing thread element in the diff
+    // view.
+    if (!newComments) {
+      threadEl.fireRemoveSelf();
+      return;
+    }
 
-    _computeSizeBarsClass(showSizeBars, path) {
-      let hideClass = '';
-      if (!showSizeBars) {
-        hideClass = 'hide';
-      } else if (!this._showBarsForPath(path)) {
-        hideClass = 'invisible';
-      }
-      return `sizeBars desktop ${hideClass}`;
-    },
+    // Comments are not returned with the commentSide attribute from
+    // the api, but it's necessary to be stored on the diff's
+    // comments due to use in the _handleCommentUpdate function.
+    // The comment thread already has a side associated with it, so
+    // set the comment's side to match.
+    threadEl.comments = newComments.map(c => {
+      return Object.assign(c, {__commentSide: threadEl.commentSide});
+    });
+    Polymer.dom.flush();
+    return;
+  },
 
-    /**
-     * Returns true if none of the inline diffs have been expanded.
-     * @return {boolean}
-     */
-    _noDiffsExpanded() {
-      return this.filesExpanded === GrFileListConstants.FilesExpandedState.NONE;
-    },
+  _handleEscKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e)) { return; }
+    e.preventDefault();
+    this._displayLine = false;
+  },
 
-    /**
-     * Method to call via binding when each file list row is rendered. This
-     * allows approximate detection of when the dom-repeat has completed
-     * rendering.
-     * @param {number} index The index of the row being rendered.
-     * @return {string} an empty string.
-     */
-    _reportRenderedRow(index) {
-      if (index === this._shownFiles.length - 1) {
-        this.async(() => {
-          this.$.reporting.timeEndWithAverage(RENDER_TIMING_LABEL,
-              RENDER_AVG_TIMING_LABEL, this._reportinShownFilesIncrement);
-        }, 1);
-      }
-      return '';
-    },
-  });
-})();
+  /**
+   * Update the loading class for the file list rows. The update is inside a
+   * debouncer so that the file list doesn't flash gray when the API requests
+   * are reasonably fast.
+   * @param {boolean} loading
+   */
+  _loadingChanged(loading) {
+    this.debounce('loading-change', () => {
+      // Only show set the loading if there have been files loaded to show. In
+      // this way, the gray loading style is not shown on initial loads.
+      this.classList.toggle('loading', loading && !!this._files.length);
+    }, LOADING_DEBOUNCE_INTERVAL);
+  },
+
+  _editModeChanged(editMode) {
+    this.classList.toggle('editMode', editMode);
+  },
+
+  _computeReviewedClass(isReviewed) {
+    return isReviewed ? 'isReviewed' : '';
+  },
+
+  _computeReviewedText(isReviewed) {
+    return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
+  },
+
+  /**
+   * Given a file path, return whether that path should have visible size bars
+   * and be included in the size bars calculation.
+   * @param {string} path
+   * @return {boolean}
+   */
+  _showBarsForPath(path) {
+    return path !== this.COMMIT_MESSAGE_PATH && path !== this.MERGE_LIST_PATH;
+  },
+
+  /**
+   * Compute size bar layout values from the file list.
+   * @return {Defs.LayoutStats|undefined}
+   */
+  _computeSizeBarLayout(shownFilesRecord) {
+    if (!shownFilesRecord || !shownFilesRecord.base) { return undefined; }
+    const stats = {
+      maxInserted: 0,
+      maxDeleted: 0,
+      maxAdditionWidth: 0,
+      maxDeletionWidth: 0,
+      deletionOffset: 0,
+    };
+    shownFilesRecord.base
+        .filter(f => this._showBarsForPath(f.__path))
+        .forEach(f => {
+          if (f.lines_inserted) {
+            stats.maxInserted = Math.max(stats.maxInserted, f.lines_inserted);
+          }
+          if (f.lines_deleted) {
+            stats.maxDeleted = Math.max(stats.maxDeleted, f.lines_deleted);
+          }
+        });
+    const ratio = stats.maxInserted / (stats.maxInserted + stats.maxDeleted);
+    if (!isNaN(ratio)) {
+      stats.maxAdditionWidth =
+          (SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH) * ratio;
+      stats.maxDeletionWidth =
+          SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH - stats.maxAdditionWidth;
+      stats.deletionOffset = stats.maxAdditionWidth + SIZE_BAR_GAP_WIDTH;
+    }
+    return stats;
+  },
+
+  /**
+   * Get the width of the addition bar for a file.
+   * @param {Object} file
+   * @param {Defs.LayoutStats} stats
+   * @return {number}
+   */
+  _computeBarAdditionWidth(file, stats) {
+    if (stats.maxInserted === 0 ||
+        !file.lines_inserted ||
+        !this._showBarsForPath(file.__path)) {
+      return 0;
+    }
+    const width =
+        stats.maxAdditionWidth * file.lines_inserted / stats.maxInserted;
+    return width === 0 ? 0 : Math.max(SIZE_BAR_MIN_WIDTH, width);
+  },
+
+  /**
+   * Get the x-offset of the addition bar for a file.
+   * @param {Object} file
+   * @param {Defs.LayoutStats} stats
+   * @return {number}
+   */
+  _computeBarAdditionX(file, stats) {
+    return stats.maxAdditionWidth -
+        this._computeBarAdditionWidth(file, stats);
+  },
+
+  /**
+   * Get the width of the deletion bar for a file.
+   * @param {Object} file
+   * @param {Defs.LayoutStats} stats
+   * @return {number}
+   */
+  _computeBarDeletionWidth(file, stats) {
+    if (stats.maxDeleted === 0 ||
+        !file.lines_deleted ||
+        !this._showBarsForPath(file.__path)) {
+      return 0;
+    }
+    const width =
+        stats.maxDeletionWidth * file.lines_deleted / stats.maxDeleted;
+    return width === 0 ? 0 : Math.max(SIZE_BAR_MIN_WIDTH, width);
+  },
+
+  /**
+   * Get the x-offset of the deletion bar for a file.
+   * @param {Defs.LayoutStats} stats
+   * @return {number}
+   */
+  _computeBarDeletionX(stats) {
+    return stats.deletionOffset;
+  },
+
+  _computeShowSizeBars(userPrefs) {
+    return !!userPrefs.size_bar_in_change_table;
+  },
+
+  _computeSizeBarsClass(showSizeBars, path) {
+    let hideClass = '';
+    if (!showSizeBars) {
+      hideClass = 'hide';
+    } else if (!this._showBarsForPath(path)) {
+      hideClass = 'invisible';
+    }
+    return `sizeBars desktop ${hideClass}`;
+  },
+
+  /**
+   * Returns true if none of the inline diffs have been expanded.
+   * @return {boolean}
+   */
+  _noDiffsExpanded() {
+    return this.filesExpanded === GrFileListConstants.FilesExpandedState.NONE;
+  },
+
+  /**
+   * Method to call via binding when each file list row is rendered. This
+   * allows approximate detection of when the dom-repeat has completed
+   * rendering.
+   * @param {number} index The index of the row being rendered.
+   * @return {string} an empty string.
+   */
+  _reportRenderedRow(index) {
+    if (index === this._shownFiles.length - 1) {
+      this.async(() => {
+        this.$.reporting.timeEndWithAverage(RENDER_TIMING_LABEL,
+            RENDER_AVG_TIMING_LABEL, this._reportinShownFilesIncrement);
+      }, 1);
+    }
+    return '';
+  }
+});

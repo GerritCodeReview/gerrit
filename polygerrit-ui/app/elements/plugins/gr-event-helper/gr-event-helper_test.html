@@ -19,25 +19,31 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-event-helper</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-event-helper.html"/>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-event-helper.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-event-helper.js';
+void(0);
+</script>
 
 <dom-element id="some-element">
-  <script>
-    Polymer({
-      is: 'some-element',
-      properties: {
-        fooBar: {
-          type: Object,
-          notify: true,
-        },
-      },
-    });
-  </script>
+  <script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-event-helper.js';
+Polymer({
+  is: 'some-element',
+  properties: {
+    fooBar: {
+      type: Object,
+      notify: true,
+    },
+  },
+});
+</script>
 </dom-element>
 
 <test-fixture id="basic">
@@ -46,59 +52,61 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-event-helper tests', () => {
-    let element;
-    let instance;
-    let sandbox;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-event-helper.js';
+suite('gr-event-helper tests', () => {
+  let element;
+  let instance;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-      instance = new GrEventHelper(element);
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('onTap()', done => {
-      instance.onTap(() => {
-        done();
-      });
-      element.fire('tap');
-    });
-
-    test('onTap() cancel', () => {
-      const tapStub = sandbox.stub();
-      element.parentElement.addEventListener('tap', tapStub);
-      instance.onTap(() => false);
-      element.fire('tap');
-      flushAsynchronousOperations();
-      assert.isFalse(tapStub.called);
-    });
-
-    test('captureTap()', done => {
-      instance.captureTap(() => {
-        done();
-      });
-      element.fire('tap');
-    });
-
-    test('captureTap() cancels tap()', () => {
-      const tapStub = sandbox.stub();
-      element.addEventListener('tap', tapStub);
-      instance.captureTap(() => false);
-      element.fire('tap');
-      flushAsynchronousOperations();
-      assert.isFalse(tapStub.called);
-    });
-
-    test('on()', done => {
-      instance.on('foo', () => {
-        done();
-      });
-      element.fire('foo');
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    instance = new GrEventHelper(element);
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('onTap()', done => {
+    instance.onTap(() => {
+      done();
+    });
+    element.fire('tap');
+  });
+
+  test('onTap() cancel', () => {
+    const tapStub = sandbox.stub();
+    element.parentElement.addEventListener('tap', tapStub);
+    instance.onTap(() => false);
+    element.fire('tap');
+    flushAsynchronousOperations();
+    assert.isFalse(tapStub.called);
+  });
+
+  test('captureTap()', done => {
+    instance.captureTap(() => {
+      done();
+    });
+    element.fire('tap');
+  });
+
+  test('captureTap() cancels tap()', () => {
+    const tapStub = sandbox.stub();
+    element.addEventListener('tap', tapStub);
+    instance.captureTap(() => false);
+    element.fire('tap');
+    flushAsynchronousOperations();
+    assert.isFalse(tapStub.called);
+  });
+
+  test('on()', done => {
+    instance.on('foo', () => {
+      done();
+    });
+    element.fire('foo');
+  });
+});
 </script>

@@ -19,19 +19,24 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-diff-builder</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 <script src="../../../scripts/util.js"></script>
 <script src="../gr-diff/gr-diff-line.js"></script>
 <script src="../gr-diff/gr-diff-group.js"></script>
 <script src="../gr-diff-highlight/gr-annotation.js"></script>
-<script src="gr-diff-builder.js"></script>
+<script src="./gr-diff-builder.js"></script>
 
-<link rel="import" href="../../shared/gr-rest-api-interface/mock-diff-response_test.html">
-<link rel="import" href="gr-diff-builder.html">
+<script type="module" src="../../shared/gr-rest-api-interface/mock-diff-response_test.js"></script>
+<script type="module" src="./gr-diff-builder.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
+import './gr-diff-builder.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -55,1077 +60,1109 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-diff-builder tests', () => {
-    let element;
-    let builder;
-    let createThreadGroupFn;
-    let sandbox;
-    const LINE_FEED_HTML = '<span class="style-scope gr-diff br"></span>';
+<script type="module">
+import '../../../test/common-test-setup.js';
+import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
+import './gr-diff-builder.js';
+suite('gr-diff-builder tests', () => {
+  let element;
+  let builder;
+  let createThreadGroupFn;
+  let sandbox;
+  const LINE_FEED_HTML = '<span class="style-scope gr-diff br"></span>';
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(false); },
+      getProjectConfig() { return Promise.resolve({}); },
+    });
+    const prefs = {
+      line_length: 10,
+      show_tabs: true,
+      tab_size: 4,
+    };
+    createThreadGroupFn = sinon.spy(() => ({
+      setAttribute: sinon.spy(),
+    }));
+    builder = new GrDiffBuilder(
+        {content: []}, {left: [], right: []}, createThreadGroupFn, prefs);
+  });
+
+  teardown(() => { sandbox.restore(); });
+
+  test('_createElement classStr applies all classes', () => {
+    const node = builder._createElement('div', 'test classes');
+    assert.isTrue(node.classList.contains('gr-diff'));
+    assert.isTrue(node.classList.contains('test'));
+    assert.isTrue(node.classList.contains('classes'));
+  });
+
+  test('context control buttons', () => {
+    const section = {};
+    const line = {contextGroup: {lines: []}};
+
+    // Create 10 lines.
+    for (let i = 0; i < 10; i++) {
+      line.contextGroup.lines.push('lorem upsum');
+    }
+
+    // Does not include +10 buttons when there are fewer than 11 lines.
+    let td = builder._createContextControl(section, line);
+    let buttons = td.querySelectorAll('gr-button.showContext');
+
+    assert.equal(buttons.length, 1);
+    assert.equal(Polymer.dom(buttons[0]).textContent, 'Show 10 common lines');
+
+    // Add another line.
+    line.contextGroup.lines.push('lorem upsum');
+
+    // Includes +10 buttons when there are at least 11 lines.
+    td = builder._createContextControl(section, line);
+    buttons = td.querySelectorAll('gr-button.showContext');
+
+    assert.equal(buttons.length, 3);
+    assert.equal(Polymer.dom(buttons[0]).textContent, '+10↑');
+    assert.equal(Polymer.dom(buttons[1]).textContent, 'Show 11 common lines');
+    assert.equal(Polymer.dom(buttons[2]).textContent, '+10↓');
+  });
+
+  test('newlines 1', () => {
+    let text = 'abcdef';
+
+    assert.equal(builder._formatText(text, 4, 10).innerHTML, text);
+    text = 'a'.repeat(20);
+    assert.equal(builder._formatText(text, 4, 10).innerHTML,
+        'a'.repeat(10) +
+        LINE_FEED_HTML +
+        'a'.repeat(10));
+  });
+
+  test('newlines 2', () => {
+    const text = '<span class="thumbsup">👍</span>';
+    assert.equal(builder._formatText(text, 4, 10).innerHTML,
+        '&lt;span clas' +
+        LINE_FEED_HTML +
+        's="thumbsu' +
+        LINE_FEED_HTML +
+        'p"&gt;👍&lt;/span' +
+        LINE_FEED_HTML +
+        '&gt;');
+  });
+
+  test('newlines 3', () => {
+    const text = '01234\t56789';
+    assert.equal(builder._formatText(text, 4, 10).innerHTML,
+        '01234' + builder._getTabWrapper(3).outerHTML + '56' +
+        LINE_FEED_HTML +
+        '789');
+  });
+
+  test('newlines 4', () => {
+    const text = '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍';
+    assert.equal(builder._formatText(text, 4, 20).innerHTML,
+        '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍' +
+        LINE_FEED_HTML +
+        '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍' +
+        LINE_FEED_HTML +
+        '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍');
+  });
+
+
+  test('line_length ignored if line_wrapping is true', () => {
+    builder._prefs = {line_wrapping: true, tab_size: 4, line_length: 50};
+    const text = 'a'.repeat(51);
+
+    const line = {text, highlights: []};
+    const result = builder._createTextEl(line).firstChild.innerHTML;
+    assert.equal(result, text);
+  });
+
+  test('line_length applied if line_wrapping is false', () => {
+    builder._prefs = {line_wrapping: false, tab_size: 4, line_length: 50};
+    const text = 'a'.repeat(51);
+
+    const line = {text, highlights: []};
+    const expected = 'a'.repeat(50) + LINE_FEED_HTML + 'a';
+    const result = builder._createTextEl(line).firstChild.innerHTML;
+    assert.equal(result, expected);
+  });
+
+  test('_createTextEl linewrap with tabs', () => {
+    const text = '\t'.repeat(7) + '!';
+    const line = {text, highlights: []};
+    const el = builder._createTextEl(line);
+    assert.equal(el.innerText, text);
+    // With line length 10 and tab size 2, there should be a line break
+    // after every two tabs.
+    const newlineEl = el.querySelector('.contentText > .br');
+    assert.isOk(newlineEl);
+    assert.equal(
+        el.querySelector('.contentText .tab:nth-child(2)').nextSibling,
+        newlineEl);
+  });
+
+  test('text length with tabs and unicode', () => {
+    function expectTextLength(text, tabSize, expected) {
+      // Formatting to |expected| columns should not introduce line breaks.
+      const result = builder._formatText(text, tabSize, expected);
+      assert.isNotOk(result.querySelector('.contentText > .br'),
+          `  Expected the result of: \n` +
+          `      _formatText(${text}', ${tabSize}, ${expected})\n` +
+          `  to not contain a br. But the actual result HTML was:\n` +
+          `      '${result.innerHTML}'\nwhereupon`);
+
+      // Increasing the line limit should produce the same markup.
+      assert.equal(builder._formatText(text, tabSize, Infinity).innerHTML,
+          result.innerHTML);
+      assert.equal(builder._formatText(text, tabSize, expected + 1).innerHTML,
+          result.innerHTML);
+
+      // Decreasing the line limit should introduce line breaks.
+      if (expected > 0) {
+        const tooSmall = builder._formatText(text, tabSize, expected - 1);
+        assert.isOk(tooSmall.querySelector('.contentText > .br'),
+            `  Expected the result of: \n` +
+            `      _formatText(${text}', ${tabSize}, ${expected - 1})\n` +
+            `  to contain a br. But the actual result HTML was:\n` +
+            `      '${tooSmall.innerHTML}'\nwhereupon`);
+      }
+    }
+    expectTextLength('12345', 4, 5);
+    expectTextLength('\t\t12', 4, 10);
+    expectTextLength('abc💢123', 4, 7);
+    expectTextLength('abc\t', 8, 8);
+    expectTextLength('abc\t\t', 10, 20);
+    expectTextLength('', 10, 0);
+    expectTextLength('', 10, 0);
+    // 17 Thai combining chars.
+    expectTextLength('ก้้้้้้้้้้้้้้้้', 4, 17);
+    expectTextLength('abc\tde', 10, 12);
+    expectTextLength('abc\tde\t', 10, 20);
+    expectTextLength('\t\t\t\t\t', 20, 100);
+  });
+
+  test('tab wrapper insertion', () => {
+    const html = 'abc\tdef';
+    const tabSize = builder._prefs.tab_size;
+    const wrapper = builder._getTabWrapper(tabSize - 3);
+    assert.ok(wrapper);
+    assert.equal(wrapper.innerText, '\t');
+    assert.equal(
+        builder._formatText(html, tabSize, Infinity).innerHTML,
+        'abc' + wrapper.outerHTML + 'def');
+  });
+
+  test('tab wrapper style', () => {
+    const pattern = new RegExp('^<span class="style-scope gr-diff tab" '
+        + 'style="(?:-moz-)?tab-size: (\\d+);">\\t<\\/span>$');
+
+    for (const size of [1, 3, 8, 55]) {
+      const html = builder._getTabWrapper(size).outerHTML;
+      expect(html).to.match(pattern);
+      assert.equal(html.match(pattern)[1], size);
+    }
+  });
+
+  test('comments', () => {
+    const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+    line.beforeNumber = 3;
+    line.afterNumber = 5;
+
+    let comments = {left: [], right: []};
+    assert.deepEqual(builder._getCommentsForLine(comments, line), []);
+    assert.deepEqual(builder._getCommentsForLine(comments, line,
+        GrDiffBuilder.Side.LEFT), []);
+    assert.deepEqual(builder._getCommentsForLine(comments, line,
+        GrDiffBuilder.Side.RIGHT), []);
+
+    comments = {
+      left: [
+        {id: 'l3', line: 3},
+        {id: 'l5', line: 5},
+      ],
+      right: [
+        {id: 'r3', line: 3},
+        {id: 'r5', line: 5},
+      ],
+    };
+    assert.deepEqual(builder._getCommentsForLine(comments, line),
+        [{id: 'l3', line: 3, __commentSide: 'left'},
+        {id: 'r5', line: 5, __commentSide: 'right'}]);
+    assert.deepEqual(builder._getCommentsForLine(comments, line,
+        GrDiffBuilder.Side.LEFT), [{id: 'l3', line: 3,
+          __commentSide: 'left'}]);
+    assert.deepEqual(builder._getCommentsForLine(comments, line,
+        GrDiffBuilder.Side.RIGHT), [{id: 'r5', line: 5,
+          __commentSide: 'right'}]);
+  });
+
+  test('comment thread group creation', () => {
+    const l3 = {id: 'l3', line: 3, updated: '2016-08-09 00:42:32.000000000',
+      __commentSide: 'left'};
+    const l5 = {id: 'l5', line: 5, updated: '2016-08-09 00:42:32.000000000',
+      __commentSide: 'left'};
+    const r5 = {id: 'r5', line: 5, updated: '2016-08-09 00:42:32.000000000',
+      __commentSide: 'right'};
+
+    builder._comments = {
+      meta: {
+        changeNum: '42',
+        patchRange: {
+          basePatchNum: 'PARENT',
+          patchNum: '3',
+        },
+        path: '/path/to/foo',
+        projectConfig: {foo: 'bar'},
+      },
+      left: [l3, l5],
+      right: [r5],
+    };
+
+    function checkThreadGroupProps(threadGroupEl, patchNum, isOnParent,
+        comments) {
+      assert.equal(createThreadGroupFn.lastCall.args[0], patchNum);
+      assert.equal(createThreadGroupFn.lastCall.args[1], isOnParent);
+      assert.deepEqual(threadGroupEl.comments, comments);
+    }
+
+    let line = new GrDiffLine(GrDiffLine.Type.BOTH);
+    line.beforeNumber = 5;
+    line.afterNumber = 5;
+    let threadGroupEl = builder._commentThreadGroupForLine(line);
+    assert.isTrue(createThreadGroupFn.calledOnce);
+    checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5]);
+
+    threadGroupEl =
+        builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
+    assert.isTrue(createThreadGroupFn.calledTwice);
+    checkThreadGroupProps(threadGroupEl, '3', false, [r5]);
+
+    threadGroupEl =
+        builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
+    assert.isTrue(createThreadGroupFn.calledThrice);
+    checkThreadGroupProps(threadGroupEl, '3', true, [l5]);
+
+    builder._comments.meta.patchRange.basePatchNum = '1';
+
+    threadGroupEl = builder._commentThreadGroupForLine(line);
+    assert.equal(createThreadGroupFn.callCount, 4);
+    checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5]);
+
+    threadEl =
+        builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
+    assert.equal(createThreadGroupFn.callCount, 5);
+    checkThreadGroupProps(threadEl, '1', false, [l5]);
+
+    threadGroupEl =
+        builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
+    assert.equal(createThreadGroupFn.callCount, 6);
+    checkThreadGroupProps(threadGroupEl, '3', false, [r5]);
+
+    builder._comments.meta.patchRange.basePatchNum = 'PARENT';
+
+    line = new GrDiffLine(GrDiffLine.Type.REMOVE);
+    line.beforeNumber = 5;
+    line.afterNumber = 5;
+    threadGroupEl = builder._commentThreadGroupForLine(line);
+    assert.equal(createThreadGroupFn.callCount, 7);
+    checkThreadGroupProps(threadGroupEl, '3', true, [l5, r5]);
+
+    line = new GrDiffLine(GrDiffLine.Type.ADD);
+    line.beforeNumber = 3;
+    line.afterNumber = 5;
+    threadGroupEl = builder._commentThreadGroupForLine(line);
+    assert.equal(createThreadGroupFn.callCount, 8);
+    checkThreadGroupProps(threadGroupEl, '3', false, [l3, r5]);
+  });
+
+
+  test('_handlePreferenceError called with invalid preference', () => {
+    sandbox.stub(element, '_handlePreferenceError');
+    const prefs = {tab_size: 0};
+    element._getDiffBuilder(element.diff, element.comments, prefs);
+    assert.isTrue(element._handlePreferenceError.lastCall
+        .calledWithExactly('tab size'));
+  });
+
+  test('_handlePreferenceError triggers alert and javascript error', () => {
+    const errorStub = sinon.stub();
+    element.addEventListener('show-alert', errorStub);
+    assert.throws(element._handlePreferenceError.bind(element, 'tab size'));
+    assert.equal(errorStub.lastCall.args[0].detail.message,
+        `The value of the 'tab size' user preference is invalid. ` +
+      `Fix in diff preferences`);
+  });
+
+  test('_getKeyLocations', () => {
+    assert.deepEqual(element._getKeyLocations({left: [], right: []}, null),
+        {left: {}, right: {}});
+    const comments = {
+      left: [{line: 123}, {}],
+      right: [{line: 456}],
+    };
+    assert.deepEqual(element._getKeyLocations(comments, null), {
+      left: {FILE: true, 123: true},
+      right: {456: true},
+    });
+
+    const lineOfInterest = {number: 789, leftSide: true};
+    assert.deepEqual(element._getKeyLocations(comments, lineOfInterest), {
+      left: {FILE: true, 123: true, 789: true},
+      right: {456: true},
+    });
+
+    delete lineOfInterest.leftSide;
+    assert.deepEqual(element._getKeyLocations(comments, lineOfInterest), {
+      left: {FILE: true, 123: true},
+      right: {456: true, 789: true},
+    });
+  });
+
+  suite('_isTotal', () => {
+    test('is total for add', () => {
+      const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+      for (let idx = 0; idx < 10; idx++) {
+        group.addLine(new GrDiffLine(GrDiffLine.Type.ADD));
+      }
+      assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
+    });
+
+    test('is total for remove', () => {
+      const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+      for (let idx = 0; idx < 10; idx++) {
+        group.addLine(new GrDiffLine(GrDiffLine.Type.REMOVE));
+      }
+      assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
+    });
+
+    test('not total for empty', () => {
+      const group = new GrDiffGroup(GrDiffGroup.Type.BOTH);
+      assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
+    });
+
+    test('not total for non-delta', () => {
+      const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+      for (let idx = 0; idx < 10; idx++) {
+        group.addLine(new GrDiffLine(GrDiffLine.Type.BOTH));
+      }
+      assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
+    });
+  });
+
+  suite('intraline differences', () => {
+    let el;
+    let str;
+    let annotateElementSpy;
+    let layer;
+
+    function slice(str, start, end) {
+      return Array.from(str).slice(start, end).join('');
+    }
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      el = fixture('div-with-text');
+      str = el.textContent;
+      annotateElementSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+      layer = document.createElement('gr-diff-builder')
+          ._createIntralineLayer();
+    });
+
+    test('annotate no highlights', () => {
+      const line = {
+        text: str,
+        highlights: [],
+      };
+
+      layer.annotate(el, line);
+
+      // The content is unchanged.
+      assert.isFalse(annotateElementSpy.called);
+      assert.equal(el.childNodes.length, 1);
+      assert.instanceOf(el.childNodes[0], Text);
+      assert.equal(str, el.childNodes[0].textContent);
+    });
+
+    test('annotate with highlights', () => {
+      const line = {
+        text: str,
+        highlights: [
+          {startIndex: 6, endIndex: 12},
+          {startIndex: 18, endIndex: 22},
+        ],
+      };
+      const str0 = slice(str, 0, 6);
+      const str1 = slice(str, 6, 12);
+      const str2 = slice(str, 12, 18);
+      const str3 = slice(str, 18, 22);
+      const str4 = slice(str, 22);
+
+      layer.annotate(el, line);
+
+      assert.isTrue(annotateElementSpy.called);
+      assert.equal(el.childNodes.length, 5);
+
+      assert.instanceOf(el.childNodes[0], Text);
+      assert.equal(el.childNodes[0].textContent, str0);
+
+      assert.notInstanceOf(el.childNodes[1], Text);
+      assert.equal(el.childNodes[1].textContent, str1);
+
+      assert.instanceOf(el.childNodes[2], Text);
+      assert.equal(el.childNodes[2].textContent, str2);
+
+      assert.notInstanceOf(el.childNodes[3], Text);
+      assert.equal(el.childNodes[3].textContent, str3);
+
+      assert.instanceOf(el.childNodes[4], Text);
+      assert.equal(el.childNodes[4].textContent, str4);
+    });
+
+    test('annotate without endIndex', () => {
+      const line = {
+        text: str,
+        highlights: [
+          {startIndex: 28},
+        ],
+      };
+
+      const str0 = slice(str, 0, 28);
+      const str1 = slice(str, 28);
+
+      layer.annotate(el, line);
+
+      assert.isTrue(annotateElementSpy.called);
+      assert.equal(el.childNodes.length, 2);
+
+      assert.instanceOf(el.childNodes[0], Text);
+      assert.equal(el.childNodes[0].textContent, str0);
+
+      assert.notInstanceOf(el.childNodes[1], Text);
+      assert.equal(el.childNodes[1].textContent, str1);
+    });
+
+    test('annotate ignores empty highlights', () => {
+      const line = {
+        text: str,
+        highlights: [
+          {startIndex: 28, endIndex: 28},
+        ],
+      };
+
+      layer.annotate(el, line);
+
+      assert.isFalse(annotateElementSpy.called);
+      assert.equal(el.childNodes.length, 1);
+    });
+
+    test('annotate handles unicode', () => {
+      // Put some unicode into the string:
+      str = str.replace(/\s/g, '💢');
+      el.textContent = str;
+      const line = {
+        text: str,
+        highlights: [
+          {startIndex: 6, endIndex: 12},
+        ],
+      };
+
+      const str0 = slice(str, 0, 6);
+      const str1 = slice(str, 6, 12);
+      const str2 = slice(str, 12);
+
+      layer.annotate(el, line);
+
+      assert.isTrue(annotateElementSpy.called);
+      assert.equal(el.childNodes.length, 3);
+
+      assert.instanceOf(el.childNodes[0], Text);
+      assert.equal(el.childNodes[0].textContent, str0);
+
+      assert.notInstanceOf(el.childNodes[1], Text);
+      assert.equal(el.childNodes[1].textContent, str1);
+
+      assert.instanceOf(el.childNodes[2], Text);
+      assert.equal(el.childNodes[2].textContent, str2);
+    });
+
+    test('annotate handles unicode w/o endIndex', () => {
+      // Put some unicode into the string:
+      str = str.replace(/\s/g, '💢');
+      el.textContent = str;
+
+      const line = {
+        text: str,
+        highlights: [
+          {startIndex: 6},
+        ],
+      };
+
+      const str0 = slice(str, 0, 6);
+      const str1 = slice(str, 6);
+
+      layer.annotate(el, line);
+
+      assert.isTrue(annotateElementSpy.called);
+      assert.equal(el.childNodes.length, 2);
+
+      assert.instanceOf(el.childNodes[0], Text);
+      assert.equal(el.childNodes[0].textContent, str0);
+
+      assert.notInstanceOf(el.childNodes[1], Text);
+      assert.equal(el.childNodes[1].textContent, str1);
+    });
+  });
+
+  suite('tab indicators', () => {
+    let element;
+    let layer;
+
+    setup(() => {
       element = fixture('basic');
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
-        getProjectConfig() { return Promise.resolve({}); },
+      element._showTabs = true;
+      layer = element._createTabIndicatorLayer();
+    });
+
+    test('does nothing with empty line', () => {
+      const line = {text: ''};
+      const el = document.createElement('div');
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+
+      layer.annotate(el, line);
+
+      assert.isFalse(annotateElementStub.called);
+    });
+
+    test('does nothing with no tabs', () => {
+      const str = 'lorem ipsum no tabs';
+      const line = {text: str};
+      const el = document.createElement('div');
+      el.textContent = str;
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+
+      layer.annotate(el, line);
+
+      assert.isFalse(annotateElementStub.called);
+    });
+
+    test('annotates tab at beginning', () => {
+      const str = '\tlorem upsum';
+      const line = {text: str};
+      const el = document.createElement('div');
+      el.textContent = str;
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+
+      layer.annotate(el, line);
+
+      assert.equal(annotateElementStub.callCount, 1);
+      const args = annotateElementStub.getCalls()[0].args;
+      assert.equal(args[0], el);
+      assert.equal(args[1], 0, 'offset of tab indicator');
+      assert.equal(args[2], 1, 'length of tab indicator');
+      assert.include(args[3], 'tab-indicator');
+    });
+
+    test('does not annotate when disabled', () => {
+      element._showTabs = false;
+
+      const str = '\tlorem upsum';
+      const line = {text: str};
+      const el = document.createElement('div');
+      el.textContent = str;
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+
+      layer.annotate(el, line);
+
+      assert.isFalse(annotateElementStub.called);
+    });
+
+    test('annotates multiple in beginning', () => {
+      const str = '\t\tlorem upsum';
+      const line = {text: str};
+      const el = document.createElement('div');
+      el.textContent = str;
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+
+      layer.annotate(el, line);
+
+      assert.equal(annotateElementStub.callCount, 2);
+
+      let args = annotateElementStub.getCalls()[0].args;
+      assert.equal(args[0], el);
+      assert.equal(args[1], 0, 'offset of tab indicator');
+      assert.equal(args[2], 1, 'length of tab indicator');
+      assert.include(args[3], 'tab-indicator');
+
+      args = annotateElementStub.getCalls()[1].args;
+      assert.equal(args[0], el);
+      assert.equal(args[1], 1, 'offset of tab indicator');
+      assert.equal(args[2], 1, 'length of tab indicator');
+      assert.include(args[3], 'tab-indicator');
+    });
+
+    test('annotates intermediate tabs', () => {
+      const str = 'lorem\tupsum';
+      const line = {text: str};
+      const el = document.createElement('div');
+      el.textContent = str;
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+
+      layer.annotate(el, line);
+
+      assert.equal(annotateElementStub.callCount, 1);
+      const args = annotateElementStub.getCalls()[0].args;
+      assert.equal(args[0], el);
+      assert.equal(args[1], 5, 'offset of tab indicator');
+      assert.equal(args[2], 1, 'length of tab indicator');
+      assert.include(args[3], 'tab-indicator');
+    });
+  });
+
+  suite('layers from plugins', () => {
+    let element;
+    let initialLayersCount;
+
+    setup(() => {
+      element = fixture('basic');
+      element._showTrailingWhitespace = true;
+      initialLayersCount = element._layers.length;
+    });
+
+    test('no plugin layers', () => {
+      const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
+                                     .returns([]);
+      element.attached();
+      assert.isTrue(getDiffLayersStub.called);
+      assert.equal(element._layers.length, initialLayersCount);
+    });
+
+    test('with plugin layers', () => {
+      const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
+                                     .returns([{}, {}]);
+      element.attached();
+      assert.isTrue(getDiffLayersStub.called);
+      assert.equal(element._layers.length, initialLayersCount+2);
+    });
+  });
+
+  suite('trailing whitespace', () => {
+    let element;
+    let layer;
+
+    setup(() => {
+      element = fixture('basic');
+      element._showTrailingWhitespace = true;
+      layer = element._createTrailingWhitespaceLayer();
+    });
+
+    test('does nothing with empty line', () => {
+      const line = {text: ''};
+      const el = document.createElement('div');
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, line);
+      assert.isFalse(annotateElementStub.called);
+    });
+
+    test('does nothing with no trailing whitespace', () => {
+      const str = 'lorem ipsum blah blah';
+      const line = {text: str};
+      const el = document.createElement('div');
+      el.textContent = str;
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, line);
+      assert.isFalse(annotateElementStub.called);
+    });
+
+    test('annotates trailing spaces', () => {
+      const str = 'lorem ipsum   ';
+      const line = {text: str};
+      const el = document.createElement('div');
+      el.textContent = str;
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, line);
+      assert.isTrue(annotateElementStub.called);
+      assert.equal(annotateElementStub.lastCall.args[1], 11);
+      assert.equal(annotateElementStub.lastCall.args[2], 3);
+    });
+
+    test('annotates trailing tabs', () => {
+      const str = 'lorem ipsum\t\t\t';
+      const line = {text: str};
+      const el = document.createElement('div');
+      el.textContent = str;
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, line);
+      assert.isTrue(annotateElementStub.called);
+      assert.equal(annotateElementStub.lastCall.args[1], 11);
+      assert.equal(annotateElementStub.lastCall.args[2], 3);
+    });
+
+    test('annotates mixed trailing whitespace', () => {
+      const str = 'lorem ipsum\t \t';
+      const line = {text: str};
+      const el = document.createElement('div');
+      el.textContent = str;
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, line);
+      assert.isTrue(annotateElementStub.called);
+      assert.equal(annotateElementStub.lastCall.args[1], 11);
+      assert.equal(annotateElementStub.lastCall.args[2], 3);
+    });
+
+    test('unicode preceding trailing whitespace', () => {
+      const str = '💢\t';
+      const line = {text: str};
+      const el = document.createElement('div');
+      el.textContent = str;
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, line);
+      assert.isTrue(annotateElementStub.called);
+      assert.equal(annotateElementStub.lastCall.args[1], 1);
+      assert.equal(annotateElementStub.lastCall.args[2], 1);
+    });
+
+    test('does not annotate when disabled', () => {
+      element._showTrailingWhitespace = false;
+      const str = 'lorem upsum\t \t ';
+      const line = {text: str};
+      const el = document.createElement('div');
+      el.textContent = str;
+      const annotateElementStub =
+          sandbox.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, line);
+      assert.isFalse(annotateElementStub.called);
+    });
+  });
+
+  suite('rendering text, images and binary files', () => {
+    let processStub;
+    let comments;
+    let prefs;
+    let content;
+
+    setup(() => {
+      element = fixture('basic');
+      element.viewMode = 'SIDE_BY_SIDE';
+      processStub = sandbox.stub(element.$.processor, 'process')
+          .returns(Promise.resolve());
+      sandbox.stub(element, '_anyLineTooLong').returns(true);
+      comments = {left: [], right: []};
+      prefs = {
+        line_length: 10,
+        show_tabs: true,
+        tab_size: 4,
+        context: -1,
+        syntax_highlighting: true,
+      };
+      content = [{
+        a: ['all work and no play make andybons a dull boy'],
+        b: ['elgoog elgoog elgoog'],
+      }, {
+        ab: [
+          'Non eram nescius, Brute, cum, quae summis ingeniis ',
+          'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+        ],
+      }];
+    });
+
+    test('text', () => {
+      element.diff = {content};
+      return element.render(comments, prefs).then(() => {
+        assert.isTrue(processStub.calledOnce);
+        assert.isFalse(processStub.lastCall.args[1]);
+      });
+    });
+
+    test('image', () => {
+      element.diff = {content, binary: true};
+      element.isImageDiff = true;
+      return element.render(comments, prefs).then(() => {
+        assert.isTrue(processStub.calledOnce);
+        assert.isTrue(processStub.lastCall.args[1]);
+      });
+    });
+
+    test('binary', () => {
+      element.diff = {content, binary: true};
+      return element.render(comments, prefs).then(() => {
+        assert.isTrue(processStub.calledOnce);
+        assert.isTrue(processStub.lastCall.args[1]);
+      });
+    });
+  });
+
+  suite('rendering', () => {
+    let content;
+    let outputEl;
+
+    setup(done => {
+      const prefs = {
+        line_length: 10,
+        show_tabs: true,
+        tab_size: 4,
+        context: -1,
+        syntax_highlighting: true,
+      };
+      content = [
+        {
+          a: ['all work and no play make andybons a dull boy'],
+          b: ['elgoog elgoog elgoog'],
+        },
+        {
+          ab: [
+            'Non eram nescius, Brute, cum, quae summis ingeniis ',
+            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+          ],
+        },
+      ];
+      stub('gr-reporting', {
+        time: sandbox.stub(),
+        timeEnd: sandbox.stub(),
+      });
+      element = fixture('basic');
+      outputEl = element.queryEffectiveChildren('#diffTable');
+      sandbox.stub(element, '_getDiffBuilder', () => {
+        const builder = new GrDiffBuilder(
+            {content}, {left: [], right: []}, null, prefs, outputEl);
+        sandbox.stub(builder, 'addColumns');
+        builder.buildSectionElement = function(group) {
+          const section = document.createElement('stub');
+          section.textContent = group.lines.reduce((acc, line) => {
+            return acc + line.text;
+          }, '');
+          return section;
+        };
+        return builder;
+      });
+      element.diff = {content};
+      element.render({left: [], right: []}, prefs).then(done);
+    });
+
+    test('reporting', done => {
+      const timeStub = element.$.reporting.time;
+      const timeEndStub = element.$.reporting.timeEnd;
+      assert.isTrue(timeStub.calledWithExactly('Diff Total Render'));
+      assert.isTrue(timeStub.calledWithExactly('Diff Content Render'));
+      assert.isTrue(timeStub.calledWithExactly('Diff Syntax Render'));
+      assert.isTrue(timeEndStub.calledWithExactly('Diff Total Render'));
+      assert.isTrue(timeEndStub.calledWithExactly('Diff Content Render'));
+      assert.isTrue(timeEndStub.calledWithExactly('Diff Syntax Render'));
+      done();
+    });
+
+    test('renderSection', () => {
+      let section = outputEl.querySelector('stub:nth-of-type(2)');
+      const prevInnerHTML = section.innerHTML;
+      section.innerHTML = 'wiped';
+      element._builder.renderSection(section);
+      section = outputEl.querySelector('stub:nth-of-type(2)');
+      assert.equal(section.innerHTML, prevInnerHTML);
+    });
+
+    test('addColumns is called', done => {
+      element.render({left: [], right: []}, {}).then(done);
+      assert.isTrue(element._builder.addColumns.called);
+    });
+
+    test('getSectionsByLineRange one line', () => {
+      const section = outputEl.querySelector('stub:nth-of-type(2)');
+      const sections = element._builder.getSectionsByLineRange(1, 1, 'left');
+      assert.equal(sections.length, 1);
+      assert.strictEqual(sections[0], section);
+    });
+
+    test('getSectionsByLineRange over diff', () => {
+      const section = [
+        outputEl.querySelector('stub:nth-of-type(2)'),
+        outputEl.querySelector('stub:nth-of-type(3)'),
+      ];
+      const sections = element._builder.getSectionsByLineRange(1, 2, 'left');
+      assert.equal(sections.length, 2);
+      assert.strictEqual(sections[0], section[0]);
+      assert.strictEqual(sections[1], section[1]);
+    });
+
+    test('render-start and render are fired', done => {
+      const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
+      element.render({left: [], right: []}, {}).then(() => {
+        const firedEventTypes = dispatchEventStub.getCalls()
+            .map(c => { return c.args[0].type; });
+        assert.include(firedEventTypes, 'render-start');
+        assert.include(firedEventTypes, 'render-content');
+        assert.include(firedEventTypes, 'render');
+        done();
+      });
+    });
+
+    test('rendering normal-sized diff does not disable syntax', () => {
+      assert.isTrue(element.$.syntaxLayer.enabled);
+    });
+
+    test('rendering large diff disables syntax', done => {
+      // Before it renders, set the first diff line to 500 '*' characters.
+      element.diff.content[0].a = [new Array(501).join('*')];
+      element.addEventListener('render', () => {
+        assert.isFalse(element.$.syntaxLayer.enabled);
+        done();
       });
       const prefs = {
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
+        context: -1,
+        syntax_highlighting: true,
       };
-      createThreadGroupFn = sinon.spy(() => ({
-        setAttribute: sinon.spy(),
-      }));
-      builder = new GrDiffBuilder(
-          {content: []}, {left: [], right: []}, createThreadGroupFn, prefs);
+      element.render({left: [], right: []}, prefs);
     });
 
-    teardown(() => { sandbox.restore(); });
-
-    test('_createElement classStr applies all classes', () => {
-      const node = builder._createElement('div', 'test classes');
-      assert.isTrue(node.classList.contains('gr-diff'));
-      assert.isTrue(node.classList.contains('test'));
-      assert.isTrue(node.classList.contains('classes'));
+    test('cancel', () => {
+      const processorCancelStub = sandbox.stub(element.$.processor, 'cancel');
+      const syntaxCancelStub = sandbox.stub(element.$.syntaxLayer, 'cancel');
+      element.cancel();
+      assert.isTrue(processorCancelStub.called);
+      assert.isTrue(syntaxCancelStub.called);
     });
+  });
 
-    test('context control buttons', () => {
-      const section = {};
-      const line = {contextGroup: {lines: []}};
+  suite('mock-diff', () => {
+    let element;
+    let builder;
+    let diff;
+    let prefs;
 
-      // Create 10 lines.
-      for (let i = 0; i < 10; i++) {
-        line.contextGroup.lines.push('lorem upsum');
-      }
+    setup(done => {
+      element = fixture('mock-diff');
+      diff = document.createElement('mock-diff-response').diffResponse;
+      element.diff = diff;
 
-      // Does not include +10 buttons when there are fewer than 11 lines.
-      let td = builder._createContextControl(section, line);
-      let buttons = td.querySelectorAll('gr-button.showContext');
-
-      assert.equal(buttons.length, 1);
-      assert.equal(Polymer.dom(buttons[0]).textContent, 'Show 10 common lines');
-
-      // Add another line.
-      line.contextGroup.lines.push('lorem upsum');
-
-      // Includes +10 buttons when there are at least 11 lines.
-      td = builder._createContextControl(section, line);
-      buttons = td.querySelectorAll('gr-button.showContext');
-
-      assert.equal(buttons.length, 3);
-      assert.equal(Polymer.dom(buttons[0]).textContent, '+10↑');
-      assert.equal(Polymer.dom(buttons[1]).textContent, 'Show 11 common lines');
-      assert.equal(Polymer.dom(buttons[2]).textContent, '+10↓');
-    });
-
-    test('newlines 1', () => {
-      let text = 'abcdef';
-
-      assert.equal(builder._formatText(text, 4, 10).innerHTML, text);
-      text = 'a'.repeat(20);
-      assert.equal(builder._formatText(text, 4, 10).innerHTML,
-          'a'.repeat(10) +
-          LINE_FEED_HTML +
-          'a'.repeat(10));
-    });
-
-    test('newlines 2', () => {
-      const text = '<span class="thumbsup">👍</span>';
-      assert.equal(builder._formatText(text, 4, 10).innerHTML,
-          '&lt;span clas' +
-          LINE_FEED_HTML +
-          's="thumbsu' +
-          LINE_FEED_HTML +
-          'p"&gt;👍&lt;/span' +
-          LINE_FEED_HTML +
-          '&gt;');
-    });
-
-    test('newlines 3', () => {
-      const text = '01234\t56789';
-      assert.equal(builder._formatText(text, 4, 10).innerHTML,
-          '01234' + builder._getTabWrapper(3).outerHTML + '56' +
-          LINE_FEED_HTML +
-          '789');
-    });
-
-    test('newlines 4', () => {
-      const text = '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍';
-      assert.equal(builder._formatText(text, 4, 20).innerHTML,
-          '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍' +
-          LINE_FEED_HTML +
-          '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍' +
-          LINE_FEED_HTML +
-          '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍');
-    });
-
-
-    test('line_length ignored if line_wrapping is true', () => {
-      builder._prefs = {line_wrapping: true, tab_size: 4, line_length: 50};
-      const text = 'a'.repeat(51);
-
-      const line = {text, highlights: []};
-      const result = builder._createTextEl(line).firstChild.innerHTML;
-      assert.equal(result, text);
-    });
-
-    test('line_length applied if line_wrapping is false', () => {
-      builder._prefs = {line_wrapping: false, tab_size: 4, line_length: 50};
-      const text = 'a'.repeat(51);
-
-      const line = {text, highlights: []};
-      const expected = 'a'.repeat(50) + LINE_FEED_HTML + 'a';
-      const result = builder._createTextEl(line).firstChild.innerHTML;
-      assert.equal(result, expected);
-    });
-
-    test('_createTextEl linewrap with tabs', () => {
-      const text = '\t'.repeat(7) + '!';
-      const line = {text, highlights: []};
-      const el = builder._createTextEl(line);
-      assert.equal(el.innerText, text);
-      // With line length 10 and tab size 2, there should be a line break
-      // after every two tabs.
-      const newlineEl = el.querySelector('.contentText > .br');
-      assert.isOk(newlineEl);
-      assert.equal(
-          el.querySelector('.contentText .tab:nth-child(2)').nextSibling,
-          newlineEl);
-    });
-
-    test('text length with tabs and unicode', () => {
-      function expectTextLength(text, tabSize, expected) {
-        // Formatting to |expected| columns should not introduce line breaks.
-        const result = builder._formatText(text, tabSize, expected);
-        assert.isNotOk(result.querySelector('.contentText > .br'),
-            `  Expected the result of: \n` +
-            `      _formatText(${text}', ${tabSize}, ${expected})\n` +
-            `  to not contain a br. But the actual result HTML was:\n` +
-            `      '${result.innerHTML}'\nwhereupon`);
-
-        // Increasing the line limit should produce the same markup.
-        assert.equal(builder._formatText(text, tabSize, Infinity).innerHTML,
-            result.innerHTML);
-        assert.equal(builder._formatText(text, tabSize, expected + 1).innerHTML,
-            result.innerHTML);
-
-        // Decreasing the line limit should introduce line breaks.
-        if (expected > 0) {
-          const tooSmall = builder._formatText(text, tabSize, expected - 1);
-          assert.isOk(tooSmall.querySelector('.contentText > .br'),
-              `  Expected the result of: \n` +
-              `      _formatText(${text}', ${tabSize}, ${expected - 1})\n` +
-              `  to contain a br. But the actual result HTML was:\n` +
-              `      '${tooSmall.innerHTML}'\nwhereupon`);
-        }
-      }
-      expectTextLength('12345', 4, 5);
-      expectTextLength('\t\t12', 4, 10);
-      expectTextLength('abc💢123', 4, 7);
-      expectTextLength('abc\t', 8, 8);
-      expectTextLength('abc\t\t', 10, 20);
-      expectTextLength('', 10, 0);
-      expectTextLength('', 10, 0);
-      // 17 Thai combining chars.
-      expectTextLength('ก้้้้้้้้้้้้้้้้', 4, 17);
-      expectTextLength('abc\tde', 10, 12);
-      expectTextLength('abc\tde\t', 10, 20);
-      expectTextLength('\t\t\t\t\t', 20, 100);
-    });
-
-    test('tab wrapper insertion', () => {
-      const html = 'abc\tdef';
-      const tabSize = builder._prefs.tab_size;
-      const wrapper = builder._getTabWrapper(tabSize - 3);
-      assert.ok(wrapper);
-      assert.equal(wrapper.innerText, '\t');
-      assert.equal(
-          builder._formatText(html, tabSize, Infinity).innerHTML,
-          'abc' + wrapper.outerHTML + 'def');
-    });
-
-    test('tab wrapper style', () => {
-      const pattern = new RegExp('^<span class="style-scope gr-diff tab" '
-          + 'style="(?:-moz-)?tab-size: (\\d+);">\\t<\\/span>$');
-
-      for (const size of [1, 3, 8, 55]) {
-        const html = builder._getTabWrapper(size).outerHTML;
-        expect(html).to.match(pattern);
-        assert.equal(html.match(pattern)[1], size);
-      }
-    });
-
-    test('comments', () => {
-      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
-      line.beforeNumber = 3;
-      line.afterNumber = 5;
-
-      let comments = {left: [], right: []};
-      assert.deepEqual(builder._getCommentsForLine(comments, line), []);
-      assert.deepEqual(builder._getCommentsForLine(comments, line,
-          GrDiffBuilder.Side.LEFT), []);
-      assert.deepEqual(builder._getCommentsForLine(comments, line,
-          GrDiffBuilder.Side.RIGHT), []);
-
-      comments = {
-        left: [
-          {id: 'l3', line: 3},
-          {id: 'l5', line: 5},
-        ],
-        right: [
-          {id: 'r3', line: 3},
-          {id: 'r5', line: 5},
-        ],
-      };
-      assert.deepEqual(builder._getCommentsForLine(comments, line),
-          [{id: 'l3', line: 3, __commentSide: 'left'},
-          {id: 'r5', line: 5, __commentSide: 'right'}]);
-      assert.deepEqual(builder._getCommentsForLine(comments, line,
-          GrDiffBuilder.Side.LEFT), [{id: 'l3', line: 3,
-            __commentSide: 'left'}]);
-      assert.deepEqual(builder._getCommentsForLine(comments, line,
-          GrDiffBuilder.Side.RIGHT), [{id: 'r5', line: 5,
-            __commentSide: 'right'}]);
-    });
-
-    test('comment thread group creation', () => {
-      const l3 = {id: 'l3', line: 3, updated: '2016-08-09 00:42:32.000000000',
-        __commentSide: 'left'};
-      const l5 = {id: 'l5', line: 5, updated: '2016-08-09 00:42:32.000000000',
-        __commentSide: 'left'};
-      const r5 = {id: 'r5', line: 5, updated: '2016-08-09 00:42:32.000000000',
-        __commentSide: 'right'};
-
-      builder._comments = {
-        meta: {
-          changeNum: '42',
-          patchRange: {
-            basePatchNum: 'PARENT',
-            patchNum: '3',
-          },
-          path: '/path/to/foo',
-          projectConfig: {foo: 'bar'},
-        },
-        left: [l3, l5],
-        right: [r5],
+      prefs = {
+        line_length: 80,
+        show_tabs: true,
+        tab_size: 4,
       };
 
-      function checkThreadGroupProps(threadGroupEl, patchNum, isOnParent,
-          comments) {
-        assert.equal(createThreadGroupFn.lastCall.args[0], patchNum);
-        assert.equal(createThreadGroupFn.lastCall.args[1], isOnParent);
-        assert.deepEqual(threadGroupEl.comments, comments);
-      }
-
-      let line = new GrDiffLine(GrDiffLine.Type.BOTH);
-      line.beforeNumber = 5;
-      line.afterNumber = 5;
-      let threadGroupEl = builder._commentThreadGroupForLine(line);
-      assert.isTrue(createThreadGroupFn.calledOnce);
-      checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5]);
-
-      threadGroupEl =
-          builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
-      assert.isTrue(createThreadGroupFn.calledTwice);
-      checkThreadGroupProps(threadGroupEl, '3', false, [r5]);
-
-      threadGroupEl =
-          builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
-      assert.isTrue(createThreadGroupFn.calledThrice);
-      checkThreadGroupProps(threadGroupEl, '3', true, [l5]);
-
-      builder._comments.meta.patchRange.basePatchNum = '1';
-
-      threadGroupEl = builder._commentThreadGroupForLine(line);
-      assert.equal(createThreadGroupFn.callCount, 4);
-      checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5]);
-
-      threadEl =
-          builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
-      assert.equal(createThreadGroupFn.callCount, 5);
-      checkThreadGroupProps(threadEl, '1', false, [l5]);
-
-      threadGroupEl =
-          builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
-      assert.equal(createThreadGroupFn.callCount, 6);
-      checkThreadGroupProps(threadGroupEl, '3', false, [r5]);
-
-      builder._comments.meta.patchRange.basePatchNum = 'PARENT';
-
-      line = new GrDiffLine(GrDiffLine.Type.REMOVE);
-      line.beforeNumber = 5;
-      line.afterNumber = 5;
-      threadGroupEl = builder._commentThreadGroupForLine(line);
-      assert.equal(createThreadGroupFn.callCount, 7);
-      checkThreadGroupProps(threadGroupEl, '3', true, [l5, r5]);
-
-      line = new GrDiffLine(GrDiffLine.Type.ADD);
-      line.beforeNumber = 3;
-      line.afterNumber = 5;
-      threadGroupEl = builder._commentThreadGroupForLine(line);
-      assert.equal(createThreadGroupFn.callCount, 8);
-      checkThreadGroupProps(threadGroupEl, '3', false, [l3, r5]);
-    });
-
-
-    test('_handlePreferenceError called with invalid preference', () => {
-      sandbox.stub(element, '_handlePreferenceError');
-      const prefs = {tab_size: 0};
-      element._getDiffBuilder(element.diff, element.comments, prefs);
-      assert.isTrue(element._handlePreferenceError.lastCall
-          .calledWithExactly('tab size'));
-    });
-
-    test('_handlePreferenceError triggers alert and javascript error', () => {
-      const errorStub = sinon.stub();
-      element.addEventListener('show-alert', errorStub);
-      assert.throws(element._handlePreferenceError.bind(element, 'tab size'));
-      assert.equal(errorStub.lastCall.args[0].detail.message,
-          `The value of the 'tab size' user preference is invalid. ` +
-        `Fix in diff preferences`);
-    });
-
-    test('_getKeyLocations', () => {
-      assert.deepEqual(element._getKeyLocations({left: [], right: []}, null),
-          {left: {}, right: {}});
-      const comments = {
-        left: [{line: 123}, {}],
-        right: [{line: 456}],
-      };
-      assert.deepEqual(element._getKeyLocations(comments, null), {
-        left: {FILE: true, 123: true},
-        right: {456: true},
-      });
-
-      const lineOfInterest = {number: 789, leftSide: true};
-      assert.deepEqual(element._getKeyLocations(comments, lineOfInterest), {
-        left: {FILE: true, 123: true, 789: true},
-        right: {456: true},
-      });
-
-      delete lineOfInterest.leftSide;
-      assert.deepEqual(element._getKeyLocations(comments, lineOfInterest), {
-        left: {FILE: true, 123: true},
-        right: {456: true, 789: true},
-      });
-    });
-
-    suite('_isTotal', () => {
-      test('is total for add', () => {
-        const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
-        for (let idx = 0; idx < 10; idx++) {
-          group.addLine(new GrDiffLine(GrDiffLine.Type.ADD));
-        }
-        assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
-      });
-
-      test('is total for remove', () => {
-        const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
-        for (let idx = 0; idx < 10; idx++) {
-          group.addLine(new GrDiffLine(GrDiffLine.Type.REMOVE));
-        }
-        assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
-      });
-
-      test('not total for empty', () => {
-        const group = new GrDiffGroup(GrDiffGroup.Type.BOTH);
-        assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
-      });
-
-      test('not total for non-delta', () => {
-        const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
-        for (let idx = 0; idx < 10; idx++) {
-          group.addLine(new GrDiffLine(GrDiffLine.Type.BOTH));
-        }
-        assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
-      });
-    });
-
-    suite('intraline differences', () => {
-      let el;
-      let str;
-      let annotateElementSpy;
-      let layer;
-
-      function slice(str, start, end) {
-        return Array.from(str).slice(start, end).join('');
-      }
-
-      setup(() => {
-        el = fixture('div-with-text');
-        str = el.textContent;
-        annotateElementSpy = sandbox.spy(GrAnnotation, 'annotateElement');
-        layer = document.createElement('gr-diff-builder')
-            ._createIntralineLayer();
-      });
-
-      test('annotate no highlights', () => {
-        const line = {
-          text: str,
-          highlights: [],
-        };
-
-        layer.annotate(el, line);
-
-        // The content is unchanged.
-        assert.isFalse(annotateElementSpy.called);
-        assert.equal(el.childNodes.length, 1);
-        assert.instanceOf(el.childNodes[0], Text);
-        assert.equal(str, el.childNodes[0].textContent);
-      });
-
-      test('annotate with highlights', () => {
-        const line = {
-          text: str,
-          highlights: [
-            {startIndex: 6, endIndex: 12},
-            {startIndex: 18, endIndex: 22},
-          ],
-        };
-        const str0 = slice(str, 0, 6);
-        const str1 = slice(str, 6, 12);
-        const str2 = slice(str, 12, 18);
-        const str3 = slice(str, 18, 22);
-        const str4 = slice(str, 22);
-
-        layer.annotate(el, line);
-
-        assert.isTrue(annotateElementSpy.called);
-        assert.equal(el.childNodes.length, 5);
-
-        assert.instanceOf(el.childNodes[0], Text);
-        assert.equal(el.childNodes[0].textContent, str0);
-
-        assert.notInstanceOf(el.childNodes[1], Text);
-        assert.equal(el.childNodes[1].textContent, str1);
-
-        assert.instanceOf(el.childNodes[2], Text);
-        assert.equal(el.childNodes[2].textContent, str2);
-
-        assert.notInstanceOf(el.childNodes[3], Text);
-        assert.equal(el.childNodes[3].textContent, str3);
-
-        assert.instanceOf(el.childNodes[4], Text);
-        assert.equal(el.childNodes[4].textContent, str4);
-      });
-
-      test('annotate without endIndex', () => {
-        const line = {
-          text: str,
-          highlights: [
-            {startIndex: 28},
-          ],
-        };
-
-        const str0 = slice(str, 0, 28);
-        const str1 = slice(str, 28);
-
-        layer.annotate(el, line);
-
-        assert.isTrue(annotateElementSpy.called);
-        assert.equal(el.childNodes.length, 2);
-
-        assert.instanceOf(el.childNodes[0], Text);
-        assert.equal(el.childNodes[0].textContent, str0);
-
-        assert.notInstanceOf(el.childNodes[1], Text);
-        assert.equal(el.childNodes[1].textContent, str1);
-      });
-
-      test('annotate ignores empty highlights', () => {
-        const line = {
-          text: str,
-          highlights: [
-            {startIndex: 28, endIndex: 28},
-          ],
-        };
-
-        layer.annotate(el, line);
-
-        assert.isFalse(annotateElementSpy.called);
-        assert.equal(el.childNodes.length, 1);
-      });
-
-      test('annotate handles unicode', () => {
-        // Put some unicode into the string:
-        str = str.replace(/\s/g, '💢');
-        el.textContent = str;
-        const line = {
-          text: str,
-          highlights: [
-            {startIndex: 6, endIndex: 12},
-          ],
-        };
-
-        const str0 = slice(str, 0, 6);
-        const str1 = slice(str, 6, 12);
-        const str2 = slice(str, 12);
-
-        layer.annotate(el, line);
-
-        assert.isTrue(annotateElementSpy.called);
-        assert.equal(el.childNodes.length, 3);
-
-        assert.instanceOf(el.childNodes[0], Text);
-        assert.equal(el.childNodes[0].textContent, str0);
-
-        assert.notInstanceOf(el.childNodes[1], Text);
-        assert.equal(el.childNodes[1].textContent, str1);
-
-        assert.instanceOf(el.childNodes[2], Text);
-        assert.equal(el.childNodes[2].textContent, str2);
-      });
-
-      test('annotate handles unicode w/o endIndex', () => {
-        // Put some unicode into the string:
-        str = str.replace(/\s/g, '💢');
-        el.textContent = str;
-
-        const line = {
-          text: str,
-          highlights: [
-            {startIndex: 6},
-          ],
-        };
-
-        const str0 = slice(str, 0, 6);
-        const str1 = slice(str, 6);
-
-        layer.annotate(el, line);
-
-        assert.isTrue(annotateElementSpy.called);
-        assert.equal(el.childNodes.length, 2);
-
-        assert.instanceOf(el.childNodes[0], Text);
-        assert.equal(el.childNodes[0].textContent, str0);
-
-        assert.notInstanceOf(el.childNodes[1], Text);
-        assert.equal(el.childNodes[1].textContent, str1);
-      });
-    });
-
-    suite('tab indicators', () => {
-      let element;
-      let layer;
-
-      setup(() => {
-        element = fixture('basic');
-        element._showTabs = true;
-        layer = element._createTabIndicatorLayer();
-      });
-
-      test('does nothing with empty line', () => {
-        const line = {text: ''};
-        const el = document.createElement('div');
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-
-        layer.annotate(el, line);
-
-        assert.isFalse(annotateElementStub.called);
-      });
-
-      test('does nothing with no tabs', () => {
-        const str = 'lorem ipsum no tabs';
-        const line = {text: str};
-        const el = document.createElement('div');
-        el.textContent = str;
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-
-        layer.annotate(el, line);
-
-        assert.isFalse(annotateElementStub.called);
-      });
-
-      test('annotates tab at beginning', () => {
-        const str = '\tlorem upsum';
-        const line = {text: str};
-        const el = document.createElement('div');
-        el.textContent = str;
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-
-        layer.annotate(el, line);
-
-        assert.equal(annotateElementStub.callCount, 1);
-        const args = annotateElementStub.getCalls()[0].args;
-        assert.equal(args[0], el);
-        assert.equal(args[1], 0, 'offset of tab indicator');
-        assert.equal(args[2], 1, 'length of tab indicator');
-        assert.include(args[3], 'tab-indicator');
-      });
-
-      test('does not annotate when disabled', () => {
-        element._showTabs = false;
-
-        const str = '\tlorem upsum';
-        const line = {text: str};
-        const el = document.createElement('div');
-        el.textContent = str;
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-
-        layer.annotate(el, line);
-
-        assert.isFalse(annotateElementStub.called);
-      });
-
-      test('annotates multiple in beginning', () => {
-        const str = '\t\tlorem upsum';
-        const line = {text: str};
-        const el = document.createElement('div');
-        el.textContent = str;
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-
-        layer.annotate(el, line);
-
-        assert.equal(annotateElementStub.callCount, 2);
-
-        let args = annotateElementStub.getCalls()[0].args;
-        assert.equal(args[0], el);
-        assert.equal(args[1], 0, 'offset of tab indicator');
-        assert.equal(args[2], 1, 'length of tab indicator');
-        assert.include(args[3], 'tab-indicator');
-
-        args = annotateElementStub.getCalls()[1].args;
-        assert.equal(args[0], el);
-        assert.equal(args[1], 1, 'offset of tab indicator');
-        assert.equal(args[2], 1, 'length of tab indicator');
-        assert.include(args[3], 'tab-indicator');
-      });
-
-      test('annotates intermediate tabs', () => {
-        const str = 'lorem\tupsum';
-        const line = {text: str};
-        const el = document.createElement('div');
-        el.textContent = str;
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-
-        layer.annotate(el, line);
-
-        assert.equal(annotateElementStub.callCount, 1);
-        const args = annotateElementStub.getCalls()[0].args;
-        assert.equal(args[0], el);
-        assert.equal(args[1], 5, 'offset of tab indicator');
-        assert.equal(args[2], 1, 'length of tab indicator');
-        assert.include(args[3], 'tab-indicator');
-      });
-    });
-
-    suite('layers from plugins', () => {
-      let element;
-      let initialLayersCount;
-
-      setup(() => {
-        element = fixture('basic');
-        element._showTrailingWhitespace = true;
-        initialLayersCount = element._layers.length;
-      });
-
-      test('no plugin layers', () => {
-        const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
-                                       .returns([]);
-        element.attached();
-        assert.isTrue(getDiffLayersStub.called);
-        assert.equal(element._layers.length, initialLayersCount);
-      });
-
-      test('with plugin layers', () => {
-        const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
-                                       .returns([{}, {}]);
-        element.attached();
-        assert.isTrue(getDiffLayersStub.called);
-        assert.equal(element._layers.length, initialLayersCount+2);
-      });
-    });
-
-    suite('trailing whitespace', () => {
-      let element;
-      let layer;
-
-      setup(() => {
-        element = fixture('basic');
-        element._showTrailingWhitespace = true;
-        layer = element._createTrailingWhitespaceLayer();
-      });
-
-      test('does nothing with empty line', () => {
-        const line = {text: ''};
-        const el = document.createElement('div');
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
-        assert.isFalse(annotateElementStub.called);
-      });
-
-      test('does nothing with no trailing whitespace', () => {
-        const str = 'lorem ipsum blah blah';
-        const line = {text: str};
-        const el = document.createElement('div');
-        el.textContent = str;
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
-        assert.isFalse(annotateElementStub.called);
-      });
-
-      test('annotates trailing spaces', () => {
-        const str = 'lorem ipsum   ';
-        const line = {text: str};
-        const el = document.createElement('div');
-        el.textContent = str;
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
-        assert.isTrue(annotateElementStub.called);
-        assert.equal(annotateElementStub.lastCall.args[1], 11);
-        assert.equal(annotateElementStub.lastCall.args[2], 3);
-      });
-
-      test('annotates trailing tabs', () => {
-        const str = 'lorem ipsum\t\t\t';
-        const line = {text: str};
-        const el = document.createElement('div');
-        el.textContent = str;
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
-        assert.isTrue(annotateElementStub.called);
-        assert.equal(annotateElementStub.lastCall.args[1], 11);
-        assert.equal(annotateElementStub.lastCall.args[2], 3);
-      });
-
-      test('annotates mixed trailing whitespace', () => {
-        const str = 'lorem ipsum\t \t';
-        const line = {text: str};
-        const el = document.createElement('div');
-        el.textContent = str;
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
-        assert.isTrue(annotateElementStub.called);
-        assert.equal(annotateElementStub.lastCall.args[1], 11);
-        assert.equal(annotateElementStub.lastCall.args[2], 3);
-      });
-
-      test('unicode preceding trailing whitespace', () => {
-        const str = '💢\t';
-        const line = {text: str};
-        const el = document.createElement('div');
-        el.textContent = str;
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
-        assert.isTrue(annotateElementStub.called);
-        assert.equal(annotateElementStub.lastCall.args[1], 1);
-        assert.equal(annotateElementStub.lastCall.args[2], 1);
-      });
-
-      test('does not annotate when disabled', () => {
-        element._showTrailingWhitespace = false;
-        const str = 'lorem upsum\t \t ';
-        const line = {text: str};
-        const el = document.createElement('div');
-        el.textContent = str;
-        const annotateElementStub =
-            sandbox.stub(GrAnnotation, 'annotateElement');
-        layer.annotate(el, line);
-        assert.isFalse(annotateElementStub.called);
-      });
-    });
-
-    suite('rendering text, images and binary files', () => {
-      let processStub;
-      let comments;
-      let prefs;
-      let content;
-
-      setup(() => {
-        element = fixture('basic');
-        element.viewMode = 'SIDE_BY_SIDE';
-        processStub = sandbox.stub(element.$.processor, 'process')
-            .returns(Promise.resolve());
-        sandbox.stub(element, '_anyLineTooLong').returns(true);
-        comments = {left: [], right: []};
-        prefs = {
-          line_length: 10,
-          show_tabs: true,
-          tab_size: 4,
-          context: -1,
-          syntax_highlighting: true,
-        };
-        content = [{
-          a: ['all work and no play make andybons a dull boy'],
-          b: ['elgoog elgoog elgoog'],
-        }, {
-          ab: [
-            'Non eram nescius, Brute, cum, quae summis ingeniis ',
-            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-          ],
-        }];
-      });
-
-      test('text', () => {
-        element.diff = {content};
-        return element.render(comments, prefs).then(() => {
-          assert.isTrue(processStub.calledOnce);
-          assert.isFalse(processStub.lastCall.args[1]);
-        });
-      });
-
-      test('image', () => {
-        element.diff = {content, binary: true};
-        element.isImageDiff = true;
-        return element.render(comments, prefs).then(() => {
-          assert.isTrue(processStub.calledOnce);
-          assert.isTrue(processStub.lastCall.args[1]);
-        });
-      });
-
-      test('binary', () => {
-        element.diff = {content, binary: true};
-        return element.render(comments, prefs).then(() => {
-          assert.isTrue(processStub.calledOnce);
-          assert.isTrue(processStub.lastCall.args[1]);
-        });
-      });
-    });
-
-    suite('rendering', () => {
-      let content;
-      let outputEl;
-
-      setup(done => {
-        const prefs = {
-          line_length: 10,
-          show_tabs: true,
-          tab_size: 4,
-          context: -1,
-          syntax_highlighting: true,
-        };
-        content = [
-          {
-            a: ['all work and no play make andybons a dull boy'],
-            b: ['elgoog elgoog elgoog'],
-          },
-          {
-            ab: [
-              'Non eram nescius, Brute, cum, quae summis ingeniis ',
-              'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-            ],
-          },
-        ];
-        stub('gr-reporting', {
-          time: sandbox.stub(),
-          timeEnd: sandbox.stub(),
-        });
-        element = fixture('basic');
-        outputEl = element.queryEffectiveChildren('#diffTable');
-        sandbox.stub(element, '_getDiffBuilder', () => {
-          const builder = new GrDiffBuilder(
-              {content}, {left: [], right: []}, null, prefs, outputEl);
-          sandbox.stub(builder, 'addColumns');
-          builder.buildSectionElement = function(group) {
-            const section = document.createElement('stub');
-            section.textContent = group.lines.reduce((acc, line) => {
-              return acc + line.text;
-            }, '');
-            return section;
-          };
-          return builder;
-        });
-        element.diff = {content};
-        element.render({left: [], right: []}, prefs).then(done);
-      });
-
-      test('reporting', done => {
-        const timeStub = element.$.reporting.time;
-        const timeEndStub = element.$.reporting.timeEnd;
-        assert.isTrue(timeStub.calledWithExactly('Diff Total Render'));
-        assert.isTrue(timeStub.calledWithExactly('Diff Content Render'));
-        assert.isTrue(timeStub.calledWithExactly('Diff Syntax Render'));
-        assert.isTrue(timeEndStub.calledWithExactly('Diff Total Render'));
-        assert.isTrue(timeEndStub.calledWithExactly('Diff Content Render'));
-        assert.isTrue(timeEndStub.calledWithExactly('Diff Syntax Render'));
+      element.render({left: [], right: []}, prefs).then(() => {
+        builder = element._builder;
         done();
       });
+    });
 
-      test('renderSection', () => {
-        let section = outputEl.querySelector('stub:nth-of-type(2)');
-        const prevInnerHTML = section.innerHTML;
-        section.innerHTML = 'wiped';
-        element._builder.renderSection(section);
-        section = outputEl.querySelector('stub:nth-of-type(2)');
-        assert.equal(section.innerHTML, prevInnerHTML);
-      });
+    test('getContentByLine', () => {
+      let actual;
 
-      test('addColumns is called', done => {
-        element.render({left: [], right: []}, {}).then(done);
-        assert.isTrue(element._builder.addColumns.called);
-      });
+      actual = builder.getContentByLine(2, 'left');
+      assert.equal(actual.textContent, diff.content[0].ab[1]);
 
-      test('getSectionsByLineRange one line', () => {
-        const section = outputEl.querySelector('stub:nth-of-type(2)');
-        const sections = element._builder.getSectionsByLineRange(1, 1, 'left');
-        assert.equal(sections.length, 1);
-        assert.strictEqual(sections[0], section);
-      });
+      actual = builder.getContentByLine(2, 'right');
+      assert.equal(actual.textContent, diff.content[0].ab[1]);
 
-      test('getSectionsByLineRange over diff', () => {
-        const section = [
-          outputEl.querySelector('stub:nth-of-type(2)'),
-          outputEl.querySelector('stub:nth-of-type(3)'),
-        ];
-        const sections = element._builder.getSectionsByLineRange(1, 2, 'left');
-        assert.equal(sections.length, 2);
-        assert.strictEqual(sections[0], section[0]);
-        assert.strictEqual(sections[1], section[1]);
-      });
+      actual = builder.getContentByLine(5, 'left');
+      assert.equal(actual.textContent, diff.content[2].ab[0]);
 
-      test('render-start and render are fired', done => {
-        const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
-        element.render({left: [], right: []}, {}).then(() => {
-          const firedEventTypes = dispatchEventStub.getCalls()
-              .map(c => { return c.args[0].type; });
-          assert.include(firedEventTypes, 'render-start');
-          assert.include(firedEventTypes, 'render-content');
-          assert.include(firedEventTypes, 'render');
-          done();
-        });
-      });
+      actual = builder.getContentByLine(5, 'right');
+      assert.equal(actual.textContent, diff.content[1].b[0]);
+    });
 
-      test('rendering normal-sized diff does not disable syntax', () => {
-        assert.isTrue(element.$.syntaxLayer.enabled);
-      });
+    test('findLinesByRange', () => {
+      const lines = [];
+      const elems = [];
+      const start = 6;
+      const end = 10;
+      const count = end - start + 1;
 
-      test('rendering large diff disables syntax', done => {
-        // Before it renders, set the first diff line to 500 '*' characters.
-        element.diff.content[0].a = [new Array(501).join('*')];
-        element.addEventListener('render', () => {
-          assert.isFalse(element.$.syntaxLayer.enabled);
-          done();
-        });
-        const prefs = {
-          line_length: 10,
-          show_tabs: true,
-          tab_size: 4,
-          context: -1,
-          syntax_highlighting: true,
-        };
-        element.render({left: [], right: []}, prefs);
-      });
+      builder.findLinesByRange(start, end, 'right', lines, elems);
 
-      test('cancel', () => {
-        const processorCancelStub = sandbox.stub(element.$.processor, 'cancel');
-        const syntaxCancelStub = sandbox.stub(element.$.syntaxLayer, 'cancel');
-        element.cancel();
-        assert.isTrue(processorCancelStub.called);
-        assert.isTrue(syntaxCancelStub.called);
+      assert.equal(lines.length, count);
+      assert.equal(elems.length, count);
+
+      for (let i = 0; i < 5; i++) {
+        assert.instanceOf(lines[i], GrDiffLine);
+        assert.equal(lines[i].afterNumber, start + i);
+        assert.instanceOf(elems[i], HTMLElement);
+        assert.equal(lines[i].text, elems[i].textContent);
+      }
+    });
+
+    test('_renderContentByRange', () => {
+      const spy = sandbox.spy(builder, '_createTextEl');
+      const start = 9;
+      const end = 14;
+      const count = end - start + 1;
+
+      builder._renderContentByRange(start, end, 'left');
+
+      assert.equal(spy.callCount, count);
+      spy.getCalls().forEach((call, i) => {
+        assert.equal(call.args[0].beforeNumber, start + i);
       });
     });
 
-    suite('mock-diff', () => {
-      let element;
-      let builder;
-      let diff;
-      let prefs;
+    test('_renderContentByRange notexistent elements', () => {
+      const spy = sandbox.spy(builder, '_createTextEl');
 
-      setup(done => {
-        element = fixture('mock-diff');
-        diff = document.createElement('mock-diff-response').diffResponse;
-        element.diff = diff;
+      sandbox.stub(builder, 'findLinesByRange',
+          (s, e, d, lines, elements) => {
+            // Add a line and a corresponding element.
+            lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
+            const parEl = document.createElement('div');
+            const el = document.createElement('div');
+            parEl.appendChild(el);
+            elements.push(el);
 
-        prefs = {
-          line_length: 80,
-          show_tabs: true,
-          tab_size: 4,
-        };
+            // Add 2 lines without corresponding elements.
+            lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
+            lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
+          });
 
-        element.render({left: [], right: []}, prefs).then(() => {
-          builder = element._builder;
-          done();
-        });
-      });
+      builder._renderContentByRange(1, 10, 'left');
+      // Should be called only once because only one line had a corresponding
+      // element.
+      assert.equal(spy.callCount, 1);
+    });
 
-      test('getContentByLine', () => {
-        let actual;
+    test('_getNextContentOnSide side-by-side left', () => {
+      const startElem = builder.getContentByLine(5, 'left',
+          element.$.diffTable);
+      const expectedStartString = diff.content[2].ab[0];
+      const expectedNextString = diff.content[2].ab[1];
+      assert.equal(startElem.textContent, expectedStartString);
 
-        actual = builder.getContentByLine(2, 'left');
-        assert.equal(actual.textContent, diff.content[0].ab[1]);
+      const nextElem = builder._getNextContentOnSide(startElem,
+          'left');
+      assert.equal(nextElem.textContent, expectedNextString);
+    });
 
-        actual = builder.getContentByLine(2, 'right');
-        assert.equal(actual.textContent, diff.content[0].ab[1]);
+    test('_getNextContentOnSide side-by-side right', () => {
+      const startElem = builder.getContentByLine(5, 'right',
+          element.$.diffTable);
+      const expectedStartString = diff.content[1].b[0];
+      const expectedNextString = diff.content[1].b[1];
+      assert.equal(startElem.textContent, expectedStartString);
 
-        actual = builder.getContentByLine(5, 'left');
-        assert.equal(actual.textContent, diff.content[2].ab[0]);
+      const nextElem = builder._getNextContentOnSide(startElem,
+          'right');
+      assert.equal(nextElem.textContent, expectedNextString);
+    });
 
-        actual = builder.getContentByLine(5, 'right');
-        assert.equal(actual.textContent, diff.content[1].b[0]);
-      });
+    test('_getNextContentOnSide unified left', done => {
+      // Re-render as unified:
+      element.viewMode = 'UNIFIED_DIFF';
+      element.render({left: [], right: []}, prefs).then(() => {
+        builder = element._builder;
 
-      test('findLinesByRange', () => {
-        const lines = [];
-        const elems = [];
-        const start = 6;
-        const end = 10;
-        const count = end - start + 1;
-
-        builder.findLinesByRange(start, end, 'right', lines, elems);
-
-        assert.equal(lines.length, count);
-        assert.equal(elems.length, count);
-
-        for (let i = 0; i < 5; i++) {
-          assert.instanceOf(lines[i], GrDiffLine);
-          assert.equal(lines[i].afterNumber, start + i);
-          assert.instanceOf(elems[i], HTMLElement);
-          assert.equal(lines[i].text, elems[i].textContent);
-        }
-      });
-
-      test('_renderContentByRange', () => {
-        const spy = sandbox.spy(builder, '_createTextEl');
-        const start = 9;
-        const end = 14;
-        const count = end - start + 1;
-
-        builder._renderContentByRange(start, end, 'left');
-
-        assert.equal(spy.callCount, count);
-        spy.getCalls().forEach((call, i) => {
-          assert.equal(call.args[0].beforeNumber, start + i);
-        });
-      });
-
-      test('_renderContentByRange notexistent elements', () => {
-        const spy = sandbox.spy(builder, '_createTextEl');
-
-        sandbox.stub(builder, 'findLinesByRange',
-            (s, e, d, lines, elements) => {
-              // Add a line and a corresponding element.
-              lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
-              const parEl = document.createElement('div');
-              const el = document.createElement('div');
-              parEl.appendChild(el);
-              elements.push(el);
-
-              // Add 2 lines without corresponding elements.
-              lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
-              lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
-            });
-
-        builder._renderContentByRange(1, 10, 'left');
-        // Should be called only once because only one line had a corresponding
-        // element.
-        assert.equal(spy.callCount, 1);
-      });
-
-      test('_getNextContentOnSide side-by-side left', () => {
         const startElem = builder.getContentByLine(5, 'left',
             element.$.diffTable);
         const expectedStartString = diff.content[2].ab[0];
@@ -1135,9 +1172,17 @@ limitations under the License.
         const nextElem = builder._getNextContentOnSide(startElem,
             'left');
         assert.equal(nextElem.textContent, expectedNextString);
-      });
 
-      test('_getNextContentOnSide side-by-side right', () => {
+        done();
+      });
+    });
+
+    test('_getNextContentOnSide unified right', done => {
+      // Re-render as unified:
+      element.viewMode = 'UNIFIED_DIFF';
+      element.render({left: [], right: []}, prefs).then(() => {
+        builder = element._builder;
+
         const startElem = builder.getContentByLine(5, 'right',
             element.$.diffTable);
         const expectedStartString = diff.content[1].b[0];
@@ -1147,112 +1192,75 @@ limitations under the License.
         const nextElem = builder._getNextContentOnSide(startElem,
             'right');
         assert.equal(nextElem.textContent, expectedNextString);
-      });
 
-      test('_getNextContentOnSide unified left', done => {
-        // Re-render as unified:
-        element.viewMode = 'UNIFIED_DIFF';
-        element.render({left: [], right: []}, prefs).then(() => {
-          builder = element._builder;
-
-          const startElem = builder.getContentByLine(5, 'left',
-              element.$.diffTable);
-          const expectedStartString = diff.content[2].ab[0];
-          const expectedNextString = diff.content[2].ab[1];
-          assert.equal(startElem.textContent, expectedStartString);
-
-          const nextElem = builder._getNextContentOnSide(startElem,
-              'left');
-          assert.equal(nextElem.textContent, expectedNextString);
-
-          done();
-        });
-      });
-
-      test('_getNextContentOnSide unified right', done => {
-        // Re-render as unified:
-        element.viewMode = 'UNIFIED_DIFF';
-        element.render({left: [], right: []}, prefs).then(() => {
-          builder = element._builder;
-
-          const startElem = builder.getContentByLine(5, 'right',
-              element.$.diffTable);
-          const expectedStartString = diff.content[1].b[0];
-          const expectedNextString = diff.content[1].b[1];
-          assert.equal(startElem.textContent, expectedStartString);
-
-          const nextElem = builder._getNextContentOnSide(startElem,
-              'right');
-          assert.equal(nextElem.textContent, expectedNextString);
-
-          done();
-        });
-      });
-
-      test('escaping HTML', () => {
-        let input = '<script>alert("XSS");<' + '/script>';
-        let expected = '&lt;script&gt;alert("XSS");&lt;/script&gt;';
-        let result = builder._formatText(input, 1, Infinity).innerHTML;
-        assert.equal(result, expected);
-
-        input = '& < > " \' / `';
-        expected = '&amp; &lt; &gt; " \' / `';
-        result = builder._formatText(input, 1, Infinity).innerHTML;
-        assert.equal(result, expected);
+        done();
       });
     });
 
-    suite('blame', () => {
-      let mockBlame;
+    test('escaping HTML', () => {
+      let input = '<script>alert("XSS");<' + '/script>';
+      let expected = '&lt;script&gt;alert("XSS");&lt;/script&gt;';
+      let result = builder._formatText(input, 1, Infinity).innerHTML;
+      assert.equal(result, expected);
 
-      setup(() => {
-        mockBlame = [
-          {id: 'commit 1', ranges: [{start: 1, end: 2}, {start: 10, end: 16}]},
-          {id: 'commit 2', ranges: [{start: 4, end: 10}, {start: 17, end: 32}]},
-        ];
-      });
-
-      test('setBlame attempts to render each blamed line', () => {
-        const getBlameStub = sandbox.stub(builder, '_getBlameByLineNum')
-            .returns(null);
-        builder.setBlame(mockBlame);
-        assert.equal(getBlameStub.callCount, 32);
-      });
-
-      test('_getBlameCommitForBaseLine', () => {
-        builder.setBlame(mockBlame);
-        assert.isOk(builder._getBlameCommitForBaseLine(1));
-        assert.equal(builder._getBlameCommitForBaseLine(1).id, 'commit 1');
-
-        assert.isOk(builder._getBlameCommitForBaseLine(11));
-        assert.equal(builder._getBlameCommitForBaseLine(11).id, 'commit 1');
-
-        assert.isOk(builder._getBlameCommitForBaseLine(32));
-        assert.equal(builder._getBlameCommitForBaseLine(32).id, 'commit 2');
-
-        assert.isNull(builder._getBlameCommitForBaseLine(33));
-      });
-
-      test('_getBlameCommitForBaseLine w/o blame returns null', () => {
-        assert.isNull(builder._getBlameCommitForBaseLine(1));
-        assert.isNull(builder._getBlameCommitForBaseLine(11));
-        assert.isNull(builder._getBlameCommitForBaseLine(31));
-      });
-
-      test('_createBlameCell', () => {
-        const mocbBlameCell = document.createElement('span');
-        const getBlameStub = sinon.stub(builder, '_getBlameForBaseLine')
-            .returns(mocbBlameCell);
-        const line = new GrDiffLine(GrDiffLine.Type.BOTH);
-        line.beforeNumber = 3;
-        line.afterNumber = 5;
-
-        const result = builder._createBlameCell(line);
-
-        assert.isTrue(getBlameStub.calledWithExactly(3));
-        assert.equal(result.getAttribute('data-line-number'), '3');
-        assert.equal(result.firstChild, mocbBlameCell);
-      });
+      input = '& < > " \' / `';
+      expected = '&amp; &lt; &gt; " \' / `';
+      result = builder._formatText(input, 1, Infinity).innerHTML;
+      assert.equal(result, expected);
     });
   });
+
+  suite('blame', () => {
+    let mockBlame;
+
+    setup(() => {
+      mockBlame = [
+        {id: 'commit 1', ranges: [{start: 1, end: 2}, {start: 10, end: 16}]},
+        {id: 'commit 2', ranges: [{start: 4, end: 10}, {start: 17, end: 32}]},
+      ];
+    });
+
+    test('setBlame attempts to render each blamed line', () => {
+      const getBlameStub = sandbox.stub(builder, '_getBlameByLineNum')
+          .returns(null);
+      builder.setBlame(mockBlame);
+      assert.equal(getBlameStub.callCount, 32);
+    });
+
+    test('_getBlameCommitForBaseLine', () => {
+      builder.setBlame(mockBlame);
+      assert.isOk(builder._getBlameCommitForBaseLine(1));
+      assert.equal(builder._getBlameCommitForBaseLine(1).id, 'commit 1');
+
+      assert.isOk(builder._getBlameCommitForBaseLine(11));
+      assert.equal(builder._getBlameCommitForBaseLine(11).id, 'commit 1');
+
+      assert.isOk(builder._getBlameCommitForBaseLine(32));
+      assert.equal(builder._getBlameCommitForBaseLine(32).id, 'commit 2');
+
+      assert.isNull(builder._getBlameCommitForBaseLine(33));
+    });
+
+    test('_getBlameCommitForBaseLine w/o blame returns null', () => {
+      assert.isNull(builder._getBlameCommitForBaseLine(1));
+      assert.isNull(builder._getBlameCommitForBaseLine(11));
+      assert.isNull(builder._getBlameCommitForBaseLine(31));
+    });
+
+    test('_createBlameCell', () => {
+      const mocbBlameCell = document.createElement('span');
+      const getBlameStub = sinon.stub(builder, '_getBlameForBaseLine')
+          .returns(mocbBlameCell);
+      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+      line.beforeNumber = 3;
+      line.afterNumber = 5;
+
+      const result = builder._createBlameCell(line);
+
+      assert.isTrue(getBlameStub.calledWithExactly(3));
+      assert.equal(result.getAttribute('data-line-number'), '3');
+      assert.equal(result.firstChild, mocbBlameCell);
+    });
+  });
+});
 </script>

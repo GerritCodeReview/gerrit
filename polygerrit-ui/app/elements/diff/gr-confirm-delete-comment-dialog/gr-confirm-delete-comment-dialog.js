@@ -1,53 +1,95 @@
 /**
- * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2017 The Android Open Source Project
 
-  Polymer({
-    is: 'gr-confirm-delete-comment-dialog',
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    /**
-     * Fired when the confirm button is pressed.
-     *
-     * @event confirm
-     */
+http://www.apache.org/licenses/LICENSE-2.0
 
-    /**
-     * Fired when the cancel button is pressed.
-     *
-     * @event cancel
-     */
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../../@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 
-    properties: {
-      message: String,
-    },
+import '../../../../@polymer/polymer/polymer-legacy.js';
+import '../../shared/gr-dialog/gr-dialog.js';
+import '../../../styles/shared-styles.js';
 
-    resetFocus() {
-      this.$.messageInput.textarea.focus();
-    },
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+      :host([disabled]) {
+        opacity: .5;
+        pointer-events: none;
+      }
+      .main {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      label {
+        cursor: pointer;
+        display: block;
+        width: 100%;
+      }
+      iron-autogrow-textarea {
+        font-family: var(--monospace-font-family);
+        padding: 0;
+        width: 73ch; /* Add a char to account for the border. */
 
-    _handleConfirmTap(e) {
-      e.preventDefault();
-      this.fire('confirm', {reason: this.message}, {bubbles: false});
-    },
+        --iron-autogrow-textarea {
+          border: 1px solid var(--border-color);
+          box-sizing: border-box;
+          font-family: var(--monospace-font-family);
+        }
+      }
+    </style>
+    <gr-dialog confirm-label="Delete" on-confirm="_handleConfirmTap" on-cancel="_handleCancelTap">
+      <div class="header" slot="header">Delete Comment</div>
+      <div class="main" slot="main">
+        <label for="messageInput">Enter comment delete reason</label>
+        <iron-autogrow-textarea id="messageInput" class="message" autocomplete="on" placeholder="<Insert reasoning here>" bind-value="{{message}}"></iron-autogrow-textarea>
+      </div>
+    </gr-dialog>
+`,
 
-    _handleCancelTap(e) {
-      e.preventDefault();
-      this.fire('cancel', null, {bubbles: false});
-    },
-  });
-})();
+  is: 'gr-confirm-delete-comment-dialog',
+
+  /**
+   * Fired when the confirm button is pressed.
+   *
+   * @event confirm
+   */
+
+  /**
+   * Fired when the cancel button is pressed.
+   *
+   * @event cancel
+   */
+
+  properties: {
+    message: String,
+  },
+
+  resetFocus() {
+    this.$.messageInput.textarea.focus();
+  },
+
+  _handleConfirmTap(e) {
+    e.preventDefault();
+    this.fire('confirm', {reason: this.message}, {bubbles: false});
+  },
+
+  _handleCancelTap(e) {
+    e.preventDefault();
+    this.fire('cancel', null, {bubbles: false});
+  }
+});

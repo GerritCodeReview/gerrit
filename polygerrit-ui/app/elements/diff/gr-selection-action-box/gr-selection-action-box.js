@@ -1,116 +1,130 @@
 /**
- * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2016 The Android Open Source Project
 
-  Polymer({
-    is: 'gr-selection-action-box',
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    /**
-     * Fired when the comment creation action was taken (hotkey, click).
-     *
-     * @event create-comment
-     */
+http://www.apache.org/licenses/LICENSE-2.0
 
-    properties: {
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      range: {
-        type: Object,
-        value: {
-          startLine: NaN,
-          startChar: NaN,
-          endLine: NaN,
-          endChar: NaN,
-        },
-      },
-      positionBelow: Boolean,
-      side: {
-        type: String,
-        value: '',
-      },
-    },
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../../@polymer/polymer/polymer-legacy.js';
 
-    behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-    ],
+import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-tooltip/gr-tooltip.js';
 
-    listeners: {
-      mousedown: '_handleMouseDown', // See https://crbug.com/gerrit/4767
-    },
-
-    keyBindings: {
-      c: '_handleCKey',
-    },
-
-    placeAbove(el) {
-      Polymer.dom.flush();
-      const rect = this._getTargetBoundingRect(el);
-      const boxRect = this.$.tooltip.getBoundingClientRect();
-      const parentRect = this.parentElement.getBoundingClientRect();
-      this.style.top =
-          rect.top - parentRect.top - boxRect.height - 6 + 'px';
-      this.style.left =
-          rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
-    },
-
-    placeBelow(el) {
-      Polymer.dom.flush();
-      const rect = this._getTargetBoundingRect(el);
-      const boxRect = this.$.tooltip.getBoundingClientRect();
-      const parentRect = this.parentElement.getBoundingClientRect();
-      this.style.top =
-          rect.top - parentRect.top + boxRect.height - 6 + 'px';
-      this.style.left =
-          rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
-    },
-
-    _getTargetBoundingRect(el) {
-      let rect;
-      if (el instanceof Text) {
-        const range = document.createRange();
-        range.selectNode(el);
-        rect = range.getBoundingClientRect();
-        range.detach();
-      } else {
-        rect = el.getBoundingClientRect();
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles">
+      :host {
+        cursor: pointer;
+        font-family: var(--font-family);
+        position: absolute;
+        white-space: nowrap;
       }
-      return rect;
-    },
+    </style>
+    <gr-tooltip id="tooltip" text="Press c to comment" position-below="[[positionBelow]]"></gr-tooltip>
+`,
 
-    _handleCKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+  is: 'gr-selection-action-box',
 
-      e.preventDefault();
-      this._fireCreateComment();
-    },
+  /**
+   * Fired when the comment creation action was taken (hotkey, click).
+   *
+   * @event create-comment
+   */
 
-    _handleMouseDown(e) {
-      if (e.button !== 0) { return; } // 0 = main button
-      e.preventDefault();
-      e.stopPropagation();
-      this._fireCreateComment();
+  properties: {
+    keyEventTarget: {
+      type: Object,
+      value() { return document.body; },
     },
+    range: {
+      type: Object,
+      value: {
+        startLine: NaN,
+        startChar: NaN,
+        endLine: NaN,
+        endChar: NaN,
+      },
+    },
+    positionBelow: Boolean,
+    side: {
+      type: String,
+      value: '',
+    },
+  },
 
-    _fireCreateComment() {
-      this.fire('create-comment', {side: this.side, range: this.range});
-    },
-  });
-})();
+  behaviors: [
+    Gerrit.KeyboardShortcutBehavior,
+  ],
+
+  listeners: {
+    mousedown: '_handleMouseDown', // See https://crbug.com/gerrit/4767
+  },
+
+  keyBindings: {
+    c: '_handleCKey',
+  },
+
+  placeAbove(el) {
+    Polymer.dom.flush();
+    const rect = this._getTargetBoundingRect(el);
+    const boxRect = this.$.tooltip.getBoundingClientRect();
+    const parentRect = this.parentElement.getBoundingClientRect();
+    this.style.top =
+        rect.top - parentRect.top - boxRect.height - 6 + 'px';
+    this.style.left =
+        rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
+  },
+
+  placeBelow(el) {
+    Polymer.dom.flush();
+    const rect = this._getTargetBoundingRect(el);
+    const boxRect = this.$.tooltip.getBoundingClientRect();
+    const parentRect = this.parentElement.getBoundingClientRect();
+    this.style.top =
+        rect.top - parentRect.top + boxRect.height - 6 + 'px';
+    this.style.left =
+        rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
+  },
+
+  _getTargetBoundingRect(el) {
+    let rect;
+    if (el instanceof Text) {
+      const range = document.createRange();
+      range.selectNode(el);
+      rect = range.getBoundingClientRect();
+      range.detach();
+    } else {
+      rect = el.getBoundingClientRect();
+    }
+    return rect;
+  },
+
+  _handleCKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e)) { return; }
+
+    e.preventDefault();
+    this._fireCreateComment();
+  },
+
+  _handleMouseDown(e) {
+    if (e.button !== 0) { return; } // 0 = main button
+    e.preventDefault();
+    e.stopPropagation();
+    this._fireCreateComment();
+  },
+
+  _fireCreateComment() {
+    this.fire('create-comment', {side: this.side, range: this.range});
+  }
+});

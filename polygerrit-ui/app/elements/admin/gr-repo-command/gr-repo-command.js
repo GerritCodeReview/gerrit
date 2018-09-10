@@ -1,39 +1,53 @@
 /**
- * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2017 The Android Open Source Project
 
-  Polymer({
-    is: 'gr-repo-command',
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    properties: {
-      title: String,
-      disabled: Boolean,
-      tooltip: String,
-    },
+http://www.apache.org/licenses/LICENSE-2.0
 
-    /**
-     * Fired when command button is tapped.
-     *
-     * @event command-tap
-     */
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../../@polymer/polymer/polymer-legacy.js';
 
-    _onCommandTap() {
-      this.dispatchEvent(new CustomEvent('command-tap', {bubbles: true}));
-    },
-  });
-})();
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-button/gr-button.js';
+
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles">
+      :host {
+        display: block;
+        margin-bottom: 2em;
+      }
+    </style>
+    <h3>[[title]]</h3>
+    <gr-button title\$="[[tooltip]]" disabled\$="[[disabled]]" on-tap="_onCommandTap">
+      [[title]]
+    </gr-button>
+`,
+
+  is: 'gr-repo-command',
+
+  properties: {
+    title: String,
+    disabled: Boolean,
+    tooltip: String,
+  },
+
+  /**
+   * Fired when command button is tapped.
+   *
+   * @event command-tap
+   */
+
+  _onCommandTap() {
+    this.dispatchEvent(new CustomEvent('command-tap', {bubbles: true}));
+  }
+});

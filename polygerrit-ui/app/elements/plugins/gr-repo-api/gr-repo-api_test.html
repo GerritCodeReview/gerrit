@@ -19,13 +19,18 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-repo-api</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="../gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="gr-repo-api.html">
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="../gr-endpoint-decorator/gr-endpoint-decorator.js"></script>
+<script type="module" src="./gr-repo-api.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import '../gr-endpoint-decorator/gr-endpoint-decorator.js';
+import './gr-repo-api.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -34,48 +39,51 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-repo-api tests', () => {
-    let sandbox;
-    let repoApi;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import '../gr-endpoint-decorator/gr-endpoint-decorator.js';
+import './gr-repo-api.js';
+suite('gr-repo-api tests', () => {
+  let sandbox;
+  let repoApi;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      let plugin;
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
-      repoApi = plugin.project();
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    let plugin;
+    Gerrit.install(p => { plugin = p; }, '0.1',
+        'http://test.com/plugins/testplugin/static/test.js');
+    sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
+    repoApi = plugin.project();
+  });
 
-    teardown(() => {
-      repoApi = null;
-      sandbox.restore();
-    });
+  teardown(() => {
+    repoApi = null;
+    sandbox.restore();
+  });
 
-    test('exists', () => {
-      assert.isOk(repoApi);
-    });
+  test('exists', () => {
+    assert.isOk(repoApi);
+  });
 
-    test('works', done => {
-      const attachedStub = sandbox.stub();
-      const tapStub = sandbox.stub();
-      repoApi
-          .createCommand('foo', attachedStub)
-          .onTap(tapStub);
-      const element = fixture('basic');
-      flush(() => {
-        assert.isTrue(attachedStub.called);
-        const pluginCommand = element.$$('gr-plugin-repo-command');
-        assert.isOk(pluginCommand);
-        const command = pluginCommand.$$('gr-repo-command');
-        assert.isOk(command);
-        assert.equal(command.title, 'foo');
-        assert.isFalse(tapStub.called);
-        MockInteractions.tap(command.$$('gr-button'));
-        assert.isTrue(tapStub.called);
-        done();
-      });
+  test('works', done => {
+    const attachedStub = sandbox.stub();
+    const tapStub = sandbox.stub();
+    repoApi
+        .createCommand('foo', attachedStub)
+        .onTap(tapStub);
+    const element = fixture('basic');
+    flush(() => {
+      assert.isTrue(attachedStub.called);
+      const pluginCommand = element.$$('gr-plugin-repo-command');
+      assert.isOk(pluginCommand);
+      const command = pluginCommand.$$('gr-repo-command');
+      assert.isOk(command);
+      assert.equal(command.title, 'foo');
+      assert.isFalse(tapStub.called);
+      MockInteractions.tap(command.$$('gr-button'));
+      assert.isTrue(tapStub.called);
+      done();
     });
   });
+});
 </script>

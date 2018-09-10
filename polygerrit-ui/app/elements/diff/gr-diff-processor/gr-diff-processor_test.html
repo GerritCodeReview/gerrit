@@ -19,12 +19,16 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-diff-processor test</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-diff-processor.html">
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-diff-processor.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-diff-processor.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -32,629 +36,631 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-diff-processor tests', () => {
-    const WHOLE_FILE = -1;
-    const loremIpsum =
-        'Lorem ipsum dolor sit amet, ei nonumes vituperata ius. ' +
-        'Duo  animal omnesque fabellas et. Id has phaedrum dignissim ' +
-        'deterruisset, pro ei petentium comprehensam, ut vis solum dicta. ' +
-        'Eos cu aliquam labores qualisque, usu postea inermis te, et solum ' +
-        'fugit assum per.';
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-diff-processor.js';
+suite('gr-diff-processor tests', () => {
+  const WHOLE_FILE = -1;
+  const loremIpsum =
+      'Lorem ipsum dolor sit amet, ei nonumes vituperata ius. ' +
+      'Duo  animal omnesque fabellas et. Id has phaedrum dignissim ' +
+      'deterruisset, pro ei petentium comprehensam, ut vis solum dicta. ' +
+      'Eos cu aliquam labores qualisque, usu postea inermis te, et solum ' +
+      'fugit assum per.';
 
-    let element;
-    let sandbox;
+  let element;
+  let sandbox;
 
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  suite('not logged in', () => {
     setup(() => {
-      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+
+      element.context = 4;
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    suite('not logged in', () => {
-      setup(() => {
-        element = fixture('basic');
-
-        element.context = 4;
-      });
-
-      test('process loaded content', done => {
-        const content = [
-          {
-            ab: [
-              '<!DOCTYPE html>',
-              '<meta charset="utf-8">',
-            ],
-          },
-          {
-            a: [
-              '  Welcome ',
-              '  to the wooorld of tomorrow!',
-            ],
-            b: [
-              '  Hello, world!',
-            ],
-          },
-          {
-            ab: [
-              'Leela: This is the only place the ship can’t hear us, so ',
-              'everyone pretend to shower.',
-              'Fry: Same as every day. Got it.',
-            ],
-          },
-        ];
-
-        element.process(content).then(() => {
-          const groups = element.groups;
-
-          assert.equal(groups.length, 4);
-
-          let group = groups[0];
-          assert.equal(group.type, GrDiffGroup.Type.BOTH);
-          assert.equal(group.lines.length, 1);
-          assert.equal(group.lines[0].text, '');
-          assert.equal(group.lines[0].beforeNumber, GrDiffLine.FILE);
-          assert.equal(group.lines[0].afterNumber, GrDiffLine.FILE);
-
-          group = groups[1];
-          assert.equal(group.type, GrDiffGroup.Type.BOTH);
-          assert.equal(group.lines.length, 2);
-          assert.equal(group.lines.length, 2);
-
-          function beforeNumberFn(l) { return l.beforeNumber; }
-          function afterNumberFn(l) { return l.afterNumber; }
-          function textFn(l) { return l.text; }
-
-          assert.deepEqual(group.lines.map(beforeNumberFn), [1, 2]);
-          assert.deepEqual(group.lines.map(afterNumberFn), [1, 2]);
-          assert.deepEqual(group.lines.map(textFn), [
+    test('process loaded content', done => {
+      const content = [
+        {
+          ab: [
             '<!DOCTYPE html>',
             '<meta charset="utf-8">',
-          ]);
-
-          group = groups[2];
-          assert.equal(group.type, GrDiffGroup.Type.DELTA);
-          assert.equal(group.lines.length, 3);
-          assert.equal(group.adds.length, 1);
-          assert.equal(group.removes.length, 2);
-          assert.deepEqual(group.removes.map(beforeNumberFn), [3, 4]);
-          assert.deepEqual(group.adds.map(afterNumberFn), [3]);
-          assert.deepEqual(group.removes.map(textFn), [
+          ],
+        },
+        {
+          a: [
             '  Welcome ',
             '  to the wooorld of tomorrow!',
-          ]);
-          assert.deepEqual(group.adds.map(textFn), [
+          ],
+          b: [
             '  Hello, world!',
-          ]);
-
-          group = groups[3];
-          assert.equal(group.type, GrDiffGroup.Type.BOTH);
-          assert.equal(group.lines.length, 3);
-          assert.deepEqual(group.lines.map(beforeNumberFn), [5, 6, 7]);
-          assert.deepEqual(group.lines.map(afterNumberFn), [4, 5, 6]);
-          assert.deepEqual(group.lines.map(textFn), [
+          ],
+        },
+        {
+          ab: [
             'Leela: This is the only place the ship can’t hear us, so ',
             'everyone pretend to shower.',
             'Fry: Same as every day. Got it.',
-          ]);
-
-          done();
-        });
-      });
-
-      test('insert context groups', done => {
-        const content = [
-          {ab: []},
-          {a: ['all work and no play make andybons a dull boy']},
-          {ab: []},
-          {b: ['elgoog elgoog elgoog']},
-          {ab: []},
-        ];
-        for (let i = 0; i < 100; i++) {
-          content[0].ab.push('all work and no play make jack a dull boy');
-          content[4].ab.push('all work and no play make jill a dull girl');
-        }
-        for (let i = 0; i < 5; i++) {
-          content[2].ab.push('no tv and no beer make homer go crazy');
-        }
-
-        const context = 10;
-        element.context = context;
-
-        element.process(content).then(() => {
-          const groups = element.groups;
-
-          assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[0].lines.length, 1);
-          assert.equal(groups[0].lines[0].text, '');
-          assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
-          assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
-
-          assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[1].lines[0].contextGroup, GrDiffGroup);
-          assert.equal(groups[1].lines[0].contextGroup.lines.length, 90);
-          for (const l of groups[1].lines[0].contextGroup.lines) {
-            assert.equal(l.text, content[0].ab[0]);
-          }
-
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[2].lines.length, context);
-          for (const l of groups[2].lines) {
-            assert.equal(l.text, content[0].ab[0]);
-          }
-
-          assert.equal(groups[3].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[3].lines.length, 1);
-          assert.equal(groups[3].removes.length, 1);
-          assert.equal(groups[3].removes[0].text,
-              'all work and no play make andybons a dull boy');
-
-          assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[4].lines.length, 5);
-          for (const l of groups[4].lines) {
-            assert.equal(l.text, content[2].ab[0]);
-          }
-
-          assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[5].lines.length, 1);
-          assert.equal(groups[5].adds.length, 1);
-          assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
-
-          assert.equal(groups[6].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[6].lines.length, context);
-          for (const l of groups[6].lines) {
-            assert.equal(l.text, content[4].ab[0]);
-          }
-
-          assert.equal(groups[7].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[7].lines[0].contextGroup, GrDiffGroup);
-          assert.equal(groups[7].lines[0].contextGroup.lines.length, 90);
-          for (const l of groups[7].lines[0].contextGroup.lines) {
-            assert.equal(l.text, content[4].ab[0]);
-          }
-
-          done();
-        });
-      });
-
-      test('insert context groups', done => {
-        const content = [
-          {a: ['all work and no play make andybons a dull boy']},
-          {ab: []},
-          {b: ['elgoog elgoog elgoog']},
-        ];
-        for (let i = 0; i < 50; i++) {
-          content[1].ab.push('no tv and no beer make homer go crazy');
-        }
-
-        const context = 10;
-        element.context = context;
-
-        element.process(content).then(() => {
-          const groups = element.groups;
-
-          assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[0].lines.length, 1);
-          assert.equal(groups[0].lines[0].text, '');
-          assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
-          assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
-
-          assert.equal(groups[1].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[1].lines.length, 1);
-          assert.equal(groups[1].removes.length, 1);
-          assert.equal(groups[1].removes[0].text,
-              'all work and no play make andybons a dull boy');
-
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[2].lines.length, context);
-          for (const l of groups[2].lines) {
-            assert.equal(l.text, content[1].ab[0]);
-          }
-
-          assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[3].lines[0].contextGroup, GrDiffGroup);
-          assert.equal(groups[3].lines[0].contextGroup.lines.length, 30);
-          for (const l of groups[3].lines[0].contextGroup.lines) {
-            assert.equal(l.text, content[1].ab[0]);
-          }
-
-          assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[4].lines.length, context);
-          for (const l of groups[4].lines) {
-            assert.equal(l.text, content[1].ab[0]);
-          }
-
-          assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[5].lines.length, 1);
-          assert.equal(groups[5].adds.length, 1);
-          assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
-
-          done();
-        });
-      });
-
-      test('break up common diff chunks', () => {
-        element.keyLocations = {
-          left: {1: true},
-          right: {10: true},
-        };
-        const lineNums = {left: 0, right: 0};
-
-        const content = [
-          {
-            ab: [
-              'Copyright (C) 2015 The Android Open Source Project',
-              '',
-              'Licensed under the Apache License, Version 2.0 (the "License");',
-              'you may not use this file except in compliance with the ' +
-                  'License.',
-              'You may obtain a copy of the License at',
-              '',
-              'http://www.apache.org/licenses/LICENSE-2.0',
-              '',
-              'Unless required by applicable law or agreed to in writing, ',
-              'software distributed under the License is distributed on an ',
-              '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
-              'either express or implied. See the License for the specific ',
-              'language governing permissions and limitations under the ' +
-                  'License.',
-            ],
-          },
-        ];
-        const result =
-            element._splitCommonGroupsWithComments(content, lineNums);
-        assert.deepEqual(result, [
-          {
-            ab: ['Copyright (C) 2015 The Android Open Source Project'],
-          },
-          {
-            ab: [
-              '',
-              'Licensed under the Apache License, Version 2.0 (the "License");',
-              'you may not use this file except in compliance with the ' +
-                  'License.',
-              'You may obtain a copy of the License at',
-              '',
-              'http://www.apache.org/licenses/LICENSE-2.0',
-              '',
-              'Unless required by applicable law or agreed to in writing, ',
-            ],
-          },
-          {
-            ab: [
-              'software distributed under the License is distributed on an '],
-          },
-          {
-            ab: [
-              '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
-              'either express or implied. See the License for the specific ',
-              'language governing permissions and limitations under the ' +
-                  'License.',
-            ],
-          },
-        ]);
-      });
-
-      test('breaks-down shared chunks w/ whole-file', () => {
-        const size = 120 * 2 + 5;
-        const lineNums = {left: 0, right: 0};
-        const content = [{
-          ab: _.times(size, () => { return `${Math.random()}`; }),
-        }];
-        element.context = -1;
-        const result =
-            element._splitCommonGroupsWithComments(content, lineNums);
-        assert.equal(result.length, 2);
-        assert.deepEqual(result[0].ab, content[0].ab.slice(0, 120));
-        assert.deepEqual(result[1].ab, content[0].ab.slice(120));
-      });
-
-      test('does not break-down shared chunks w/ context', () => {
-        const lineNums = {left: 0, right: 0};
-        const content = [{
-          ab: _.times(75, () => { return `${Math.random()}`; }),
-        }];
-        element.context = 4;
-        const result =
-            element._splitCommonGroupsWithComments(content, lineNums);
-        assert.deepEqual(result, content);
-      });
-
-      test('intraline normalization', () => {
-        // The content and highlights are in the format returned by the Gerrit
-        // REST API.
-        let content = [
-          '      <section class="summary">',
-          '        <gr-linked-text content="' +
-              '[[_computeCurrentRevisionMessage(change)]]"></gr-linked-text>',
-          '      </section>',
-        ];
-        let highlights = [
-          [31, 34], [42, 26],
-        ];
-
-        let results = element._normalizeIntralineHighlights(content,
-            highlights);
-        assert.deepEqual(results, [
-          {
-            contentIndex: 0,
-            startIndex: 31,
-          },
-          {
-            contentIndex: 1,
-            startIndex: 0,
-            endIndex: 33,
-          },
-          {
-            contentIndex: 1,
-            startIndex: 75,
-          },
-          {
-            contentIndex: 2,
-            startIndex: 0,
-            endIndex: 6,
-          },
-        ]);
-
-        content = [
-          '        this._path = value.path;',
-          '',
-          '        // When navigating away from the page, there is a ' +
-            'possibility that the',
-          '        // patch number is no longer a part of the URL ' +
-            '(say when navigating to',
-          '        // the top-level change info view) and therefore ' +
-            'undefined in `params`.',
-          '        if (!this._patchRange.patchNum) {',
-        ];
-        highlights = [
-          [14, 17],
-          [11, 70],
-          [12, 67],
-          [12, 67],
-          [14, 29],
-        ];
-        results = element._normalizeIntralineHighlights(content, highlights);
-        assert.deepEqual(results, [
-          {
-            contentIndex: 0,
-            startIndex: 14,
-            endIndex: 31,
-          },
-          {
-            contentIndex: 2,
-            startIndex: 8,
-            endIndex: 78,
-          },
-          {
-            contentIndex: 3,
-            startIndex: 11,
-            endIndex: 78,
-          },
-          {
-            contentIndex: 4,
-            startIndex: 11,
-            endIndex: 78,
-          },
-          {
-            contentIndex: 5,
-            startIndex: 12,
-            endIndex: 41,
-          },
-        ]);
-      });
-
-      test('scrolling pauses rendering', () => {
-        const contentRow = {
-          ab: [
-            '<!DOCTYPE html>',
-            '<meta charset="utf-8">',
           ],
-        };
-        const content = _.times(200, _.constant(contentRow));
-        sandbox.stub(element, 'async');
-        element._isScrolling = true;
-        element.process(content);
-        assert.equal(element.groups.length, 1);
-        element._isScrolling = false;
-        element.process(content);
-        assert.equal(element.groups.length, 33);
-      });
+        },
+      ];
 
-      test('image diffs', () => {
-        const contentRow = {
-          ab: [
-            '<!DOCTYPE html>',
-            '<meta charset="utf-8">',
-          ],
-        };
-        const content = _.times(200, _.constant(contentRow));
-        sandbox.stub(element, 'async');
-        element.process(content, true);
-        assert.equal(element.groups.length, 1);
+      element.process(content).then(() => {
+        const groups = element.groups;
 
-        // Image diffs don't process content, just the 'FILE' line.
-        assert.equal(element.groups[0].lines.length, 1);
-      });
+        assert.equal(groups.length, 4);
 
+        let group = groups[0];
+        assert.equal(group.type, GrDiffGroup.Type.BOTH);
+        assert.equal(group.lines.length, 1);
+        assert.equal(group.lines[0].text, '');
+        assert.equal(group.lines[0].beforeNumber, GrDiffLine.FILE);
+        assert.equal(group.lines[0].afterNumber, GrDiffLine.FILE);
 
-      suite('gr-diff-processor helpers', () => {
-        let rows;
+        group = groups[1];
+        assert.equal(group.type, GrDiffGroup.Type.BOTH);
+        assert.equal(group.lines.length, 2);
+        assert.equal(group.lines.length, 2);
 
-        setup(() => {
-          rows = loremIpsum.split(' ');
-        });
+        function beforeNumberFn(l) { return l.beforeNumber; }
+        function afterNumberFn(l) { return l.afterNumber; }
+        function textFn(l) { return l.text; }
 
-        test('_sharedGroupsFromRows WHOLE_FILE', () => {
-          const context = WHOLE_FILE;
-          const lineNumbers = {left: 10, right: 100};
-          const result = element._sharedGroupsFromRows(
-              rows, context, lineNumbers.left, lineNumbers.right, null);
+        assert.deepEqual(group.lines.map(beforeNumberFn), [1, 2]);
+        assert.deepEqual(group.lines.map(afterNumberFn), [1, 2]);
+        assert.deepEqual(group.lines.map(textFn), [
+          '<!DOCTYPE html>',
+          '<meta charset="utf-8">',
+        ]);
 
-          // Results in one, uncollapsed group with all rows.
-          assert.equal(result.length, 1);
-          assert.equal(result[0].type, GrDiffGroup.Type.BOTH);
-          assert.equal(result[0].lines.length, rows.length);
+        group = groups[2];
+        assert.equal(group.type, GrDiffGroup.Type.DELTA);
+        assert.equal(group.lines.length, 3);
+        assert.equal(group.adds.length, 1);
+        assert.equal(group.removes.length, 2);
+        assert.deepEqual(group.removes.map(beforeNumberFn), [3, 4]);
+        assert.deepEqual(group.adds.map(afterNumberFn), [3]);
+        assert.deepEqual(group.removes.map(textFn), [
+          '  Welcome ',
+          '  to the wooorld of tomorrow!',
+        ]);
+        assert.deepEqual(group.adds.map(textFn), [
+          '  Hello, world!',
+        ]);
 
-          // Line numbers are set correctly.
-          assert.equal(result[0].lines[0].beforeNumber, lineNumbers.left + 1);
-          assert.equal(result[0].lines[0].afterNumber, lineNumbers.right + 1);
+        group = groups[3];
+        assert.equal(group.type, GrDiffGroup.Type.BOTH);
+        assert.equal(group.lines.length, 3);
+        assert.deepEqual(group.lines.map(beforeNumberFn), [5, 6, 7]);
+        assert.deepEqual(group.lines.map(afterNumberFn), [4, 5, 6]);
+        assert.deepEqual(group.lines.map(textFn), [
+          'Leela: This is the only place the ship can’t hear us, so ',
+          'everyone pretend to shower.',
+          'Fry: Same as every day. Got it.',
+        ]);
 
-          assert.equal(result[0].lines[rows.length - 1].beforeNumber,
-              lineNumbers.left + rows.length);
-          assert.equal(result[0].lines[rows.length - 1].afterNumber,
-              lineNumbers.right + rows.length);
-        });
-
-        test('_sharedGroupsFromRows context', () => {
-          const context = 10;
-          const result = element._sharedGroupsFromRows(
-              rows, context, 10, 100, null);
-          const expectedCollapseSize = rows.length - 2 * context;
-
-          assert.equal(result.length, 3, 'Results in three groups');
-
-          // The first and last are uncollapsed context, whereas the middle has
-          // a single context-control line.
-          assert.equal(result[0].lines.length, context);
-          assert.equal(result[1].lines.length, 1);
-          assert.equal(result[2].lines.length, context);
-
-          // The collapsed group has the hidden lines as its context group.
-          assert.equal(result[1].lines[0].contextGroup.lines.length,
-              expectedCollapseSize);
-        });
-
-        test('_sharedGroupsFromRows first', () => {
-          const context = 10;
-          const result = element._sharedGroupsFromRows(
-              rows, context, 10, 100, 'first');
-          const expectedCollapseSize = rows.length - context;
-
-          assert.equal(result.length, 2, 'Results in two groups');
-
-          // Only the first group is collapsed.
-          assert.equal(result[0].lines.length, 1);
-          assert.equal(result[1].lines.length, context);
-
-          // The collapsed group has the hidden lines as its context group.
-          assert.equal(result[0].lines[0].contextGroup.lines.length,
-              expectedCollapseSize);
-        });
-
-        test('_sharedGroupsFromRows few-rows', () => {
-          // Only ten rows.
-          rows = rows.slice(0, 10);
-          const context = 10;
-          const result = element._sharedGroupsFromRows(
-              rows, context, 10, 100, 'first');
-
-          // Results in one uncollapsed group with all rows.
-          assert.equal(result.length, 1, 'Results in one group');
-          assert.equal(result[0].lines.length, rows.length);
-        });
-
-        test('_sharedGroupsFromRows no single line collapse', () => {
-          rows = rows.slice(0, 7);
-          const context = 3;
-          const result = element._sharedGroupsFromRows(
-              rows, context, 10, 100);
-
-          // Results in one uncollapsed group with all rows.
-          assert.equal(result.length, 1, 'Results in one group');
-          assert.equal(result[0].lines.length, rows.length);
-        });
-
-        test('_deltaLinesFromRows', () => {
-          const startLineNum = 10;
-          let result = element._deltaLinesFromRows(GrDiffLine.Type.ADD, rows,
-              startLineNum);
-
-          assert.equal(result.length, rows.length);
-          assert.equal(result[0].type, GrDiffLine.Type.ADD);
-          assert.equal(result[0].afterNumber, startLineNum + 1);
-          assert.notOk(result[0].beforeNumber);
-          assert.equal(result[result.length - 1].afterNumber,
-              startLineNum + rows.length);
-          assert.notOk(result[result.length - 1].beforeNumber);
-
-          result = element._deltaLinesFromRows(GrDiffLine.Type.REMOVE, rows,
-              startLineNum);
-
-          assert.equal(result.length, rows.length);
-          assert.equal(result[0].type, GrDiffLine.Type.REMOVE);
-          assert.equal(result[0].beforeNumber, startLineNum + 1);
-          assert.notOk(result[0].afterNumber);
-          assert.equal(result[result.length - 1].beforeNumber,
-              startLineNum + rows.length);
-          assert.notOk(result[result.length - 1].afterNumber);
-        });
-      });
-
-      suite('_breakdown*', () => {
-        test('_breakdownGroup breaks down additions', () => {
-          sandbox.spy(element, '_breakdown');
-          const chunk = {b: ['blah', 'blah', 'blah']};
-          const result = element._breakdownGroup(chunk);
-          assert.deepEqual(result, [chunk]);
-          assert.isTrue(element._breakdown.called);
-        });
-
-        test('_breakdownGroup keeps due_to_rebase for broken down additions',
-            () => {
-              sandbox.spy(element, '_breakdown');
-              const chunk = {b: ['blah', 'blah', 'blah'], due_to_rebase: true};
-              const result = element._breakdownGroup(chunk);
-              for (const subResult of result) {
-                assert.isTrue(subResult.due_to_rebase);
-              }
-            });
-
-        test('_breakdown common case', () => {
-          const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
-              .split(' ');
-          const size = 3;
-
-          const result = element._breakdown(array, size);
-
-          for (const subResult of result) {
-            assert.isAtMost(subResult.length, size);
-          }
-          const flattened = result
-              .reduce((a, b) => { return a.concat(b); }, []);
-          assert.deepEqual(flattened, array);
-        });
-
-        test('_breakdown smaller than size', () => {
-          const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
-              .split(' ');
-          const size = 10;
-          const expected = [array];
-
-          const result = element._breakdown(array, size);
-
-          assert.deepEqual(result, expected);
-        });
-
-        test('_breakdown empty', () => {
-          const array = [];
-          const size = 10;
-          const expected = [];
-
-          const result = element._breakdown(array, size);
-
-          assert.deepEqual(result, expected);
-        });
+        done();
       });
     });
 
-    test('detaching cancels', () => {
-      element = fixture('basic');
-      sandbox.stub(element, 'cancel');
-      element.detached();
-      assert(element.cancel.called);
+    test('insert context groups', done => {
+      const content = [
+        {ab: []},
+        {a: ['all work and no play make andybons a dull boy']},
+        {ab: []},
+        {b: ['elgoog elgoog elgoog']},
+        {ab: []},
+      ];
+      for (let i = 0; i < 100; i++) {
+        content[0].ab.push('all work and no play make jack a dull boy');
+        content[4].ab.push('all work and no play make jill a dull girl');
+      }
+      for (let i = 0; i < 5; i++) {
+        content[2].ab.push('no tv and no beer make homer go crazy');
+      }
+
+      const context = 10;
+      element.context = context;
+
+      element.process(content).then(() => {
+        const groups = element.groups;
+
+        assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[0].lines.length, 1);
+        assert.equal(groups[0].lines[0].text, '');
+        assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
+        assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
+
+        assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+        assert.instanceOf(groups[1].lines[0].contextGroup, GrDiffGroup);
+        assert.equal(groups[1].lines[0].contextGroup.lines.length, 90);
+        for (const l of groups[1].lines[0].contextGroup.lines) {
+          assert.equal(l.text, content[0].ab[0]);
+        }
+
+        assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[2].lines.length, context);
+        for (const l of groups[2].lines) {
+          assert.equal(l.text, content[0].ab[0]);
+        }
+
+        assert.equal(groups[3].type, GrDiffGroup.Type.DELTA);
+        assert.equal(groups[3].lines.length, 1);
+        assert.equal(groups[3].removes.length, 1);
+        assert.equal(groups[3].removes[0].text,
+            'all work and no play make andybons a dull boy');
+
+        assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[4].lines.length, 5);
+        for (const l of groups[4].lines) {
+          assert.equal(l.text, content[2].ab[0]);
+        }
+
+        assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
+        assert.equal(groups[5].lines.length, 1);
+        assert.equal(groups[5].adds.length, 1);
+        assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
+
+        assert.equal(groups[6].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[6].lines.length, context);
+        for (const l of groups[6].lines) {
+          assert.equal(l.text, content[4].ab[0]);
+        }
+
+        assert.equal(groups[7].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+        assert.instanceOf(groups[7].lines[0].contextGroup, GrDiffGroup);
+        assert.equal(groups[7].lines[0].contextGroup.lines.length, 90);
+        for (const l of groups[7].lines[0].contextGroup.lines) {
+          assert.equal(l.text, content[4].ab[0]);
+        }
+
+        done();
+      });
+    });
+
+    test('insert context groups', done => {
+      const content = [
+        {a: ['all work and no play make andybons a dull boy']},
+        {ab: []},
+        {b: ['elgoog elgoog elgoog']},
+      ];
+      for (let i = 0; i < 50; i++) {
+        content[1].ab.push('no tv and no beer make homer go crazy');
+      }
+
+      const context = 10;
+      element.context = context;
+
+      element.process(content).then(() => {
+        const groups = element.groups;
+
+        assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[0].lines.length, 1);
+        assert.equal(groups[0].lines[0].text, '');
+        assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
+        assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
+
+        assert.equal(groups[1].type, GrDiffGroup.Type.DELTA);
+        assert.equal(groups[1].lines.length, 1);
+        assert.equal(groups[1].removes.length, 1);
+        assert.equal(groups[1].removes[0].text,
+            'all work and no play make andybons a dull boy');
+
+        assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[2].lines.length, context);
+        for (const l of groups[2].lines) {
+          assert.equal(l.text, content[1].ab[0]);
+        }
+
+        assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+        assert.instanceOf(groups[3].lines[0].contextGroup, GrDiffGroup);
+        assert.equal(groups[3].lines[0].contextGroup.lines.length, 30);
+        for (const l of groups[3].lines[0].contextGroup.lines) {
+          assert.equal(l.text, content[1].ab[0]);
+        }
+
+        assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[4].lines.length, context);
+        for (const l of groups[4].lines) {
+          assert.equal(l.text, content[1].ab[0]);
+        }
+
+        assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
+        assert.equal(groups[5].lines.length, 1);
+        assert.equal(groups[5].adds.length, 1);
+        assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
+
+        done();
+      });
+    });
+
+    test('break up common diff chunks', () => {
+      element.keyLocations = {
+        left: {1: true},
+        right: {10: true},
+      };
+      const lineNums = {left: 0, right: 0};
+
+      const content = [
+        {
+          ab: [
+            'Copyright (C) 2015 The Android Open Source Project',
+            '',
+            'Licensed under the Apache License, Version 2.0 (the "License");',
+            'you may not use this file except in compliance with the ' +
+                'License.',
+            'You may obtain a copy of the License at',
+            '',
+            'http://www.apache.org/licenses/LICENSE-2.0',
+            '',
+            'Unless required by applicable law or agreed to in writing, ',
+            'software distributed under the License is distributed on an ',
+            '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
+            'either express or implied. See the License for the specific ',
+            'language governing permissions and limitations under the ' +
+                'License.',
+          ],
+        },
+      ];
+      const result =
+          element._splitCommonGroupsWithComments(content, lineNums);
+      assert.deepEqual(result, [
+        {
+          ab: ['Copyright (C) 2015 The Android Open Source Project'],
+        },
+        {
+          ab: [
+            '',
+            'Licensed under the Apache License, Version 2.0 (the "License");',
+            'you may not use this file except in compliance with the ' +
+                'License.',
+            'You may obtain a copy of the License at',
+            '',
+            'http://www.apache.org/licenses/LICENSE-2.0',
+            '',
+            'Unless required by applicable law or agreed to in writing, ',
+          ],
+        },
+        {
+          ab: [
+            'software distributed under the License is distributed on an '],
+        },
+        {
+          ab: [
+            '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
+            'either express or implied. See the License for the specific ',
+            'language governing permissions and limitations under the ' +
+                'License.',
+          ],
+        },
+      ]);
+    });
+
+    test('breaks-down shared chunks w/ whole-file', () => {
+      const size = 120 * 2 + 5;
+      const lineNums = {left: 0, right: 0};
+      const content = [{
+        ab: _.times(size, () => { return `${Math.random()}`; }),
+      }];
+      element.context = -1;
+      const result =
+          element._splitCommonGroupsWithComments(content, lineNums);
+      assert.equal(result.length, 2);
+      assert.deepEqual(result[0].ab, content[0].ab.slice(0, 120));
+      assert.deepEqual(result[1].ab, content[0].ab.slice(120));
+    });
+
+    test('does not break-down shared chunks w/ context', () => {
+      const lineNums = {left: 0, right: 0};
+      const content = [{
+        ab: _.times(75, () => { return `${Math.random()}`; }),
+      }];
+      element.context = 4;
+      const result =
+          element._splitCommonGroupsWithComments(content, lineNums);
+      assert.deepEqual(result, content);
+    });
+
+    test('intraline normalization', () => {
+      // The content and highlights are in the format returned by the Gerrit
+      // REST API.
+      let content = [
+        '      <section class="summary">',
+        '        <gr-linked-text content="' +
+            '[[_computeCurrentRevisionMessage(change)]]"></gr-linked-text>',
+        '      </section>',
+      ];
+      let highlights = [
+        [31, 34], [42, 26],
+      ];
+
+      let results = element._normalizeIntralineHighlights(content,
+          highlights);
+      assert.deepEqual(results, [
+        {
+          contentIndex: 0,
+          startIndex: 31,
+        },
+        {
+          contentIndex: 1,
+          startIndex: 0,
+          endIndex: 33,
+        },
+        {
+          contentIndex: 1,
+          startIndex: 75,
+        },
+        {
+          contentIndex: 2,
+          startIndex: 0,
+          endIndex: 6,
+        },
+      ]);
+
+      content = [
+        '        this._path = value.path;',
+        '',
+        '        // When navigating away from the page, there is a ' +
+          'possibility that the',
+        '        // patch number is no longer a part of the URL ' +
+          '(say when navigating to',
+        '        // the top-level change info view) and therefore ' +
+          'undefined in `params`.',
+        '        if (!this._patchRange.patchNum) {',
+      ];
+      highlights = [
+        [14, 17],
+        [11, 70],
+        [12, 67],
+        [12, 67],
+        [14, 29],
+      ];
+      results = element._normalizeIntralineHighlights(content, highlights);
+      assert.deepEqual(results, [
+        {
+          contentIndex: 0,
+          startIndex: 14,
+          endIndex: 31,
+        },
+        {
+          contentIndex: 2,
+          startIndex: 8,
+          endIndex: 78,
+        },
+        {
+          contentIndex: 3,
+          startIndex: 11,
+          endIndex: 78,
+        },
+        {
+          contentIndex: 4,
+          startIndex: 11,
+          endIndex: 78,
+        },
+        {
+          contentIndex: 5,
+          startIndex: 12,
+          endIndex: 41,
+        },
+      ]);
+    });
+
+    test('scrolling pauses rendering', () => {
+      const contentRow = {
+        ab: [
+          '<!DOCTYPE html>',
+          '<meta charset="utf-8">',
+        ],
+      };
+      const content = _.times(200, _.constant(contentRow));
+      sandbox.stub(element, 'async');
+      element._isScrolling = true;
+      element.process(content);
+      assert.equal(element.groups.length, 1);
+      element._isScrolling = false;
+      element.process(content);
+      assert.equal(element.groups.length, 33);
+    });
+
+    test('image diffs', () => {
+      const contentRow = {
+        ab: [
+          '<!DOCTYPE html>',
+          '<meta charset="utf-8">',
+        ],
+      };
+      const content = _.times(200, _.constant(contentRow));
+      sandbox.stub(element, 'async');
+      element.process(content, true);
+      assert.equal(element.groups.length, 1);
+
+      // Image diffs don't process content, just the 'FILE' line.
+      assert.equal(element.groups[0].lines.length, 1);
+    });
+
+
+    suite('gr-diff-processor helpers', () => {
+      let rows;
+
+      setup(() => {
+        rows = loremIpsum.split(' ');
+      });
+
+      test('_sharedGroupsFromRows WHOLE_FILE', () => {
+        const context = WHOLE_FILE;
+        const lineNumbers = {left: 10, right: 100};
+        const result = element._sharedGroupsFromRows(
+            rows, context, lineNumbers.left, lineNumbers.right, null);
+
+        // Results in one, uncollapsed group with all rows.
+        assert.equal(result.length, 1);
+        assert.equal(result[0].type, GrDiffGroup.Type.BOTH);
+        assert.equal(result[0].lines.length, rows.length);
+
+        // Line numbers are set correctly.
+        assert.equal(result[0].lines[0].beforeNumber, lineNumbers.left + 1);
+        assert.equal(result[0].lines[0].afterNumber, lineNumbers.right + 1);
+
+        assert.equal(result[0].lines[rows.length - 1].beforeNumber,
+            lineNumbers.left + rows.length);
+        assert.equal(result[0].lines[rows.length - 1].afterNumber,
+            lineNumbers.right + rows.length);
+      });
+
+      test('_sharedGroupsFromRows context', () => {
+        const context = 10;
+        const result = element._sharedGroupsFromRows(
+            rows, context, 10, 100, null);
+        const expectedCollapseSize = rows.length - 2 * context;
+
+        assert.equal(result.length, 3, 'Results in three groups');
+
+        // The first and last are uncollapsed context, whereas the middle has
+        // a single context-control line.
+        assert.equal(result[0].lines.length, context);
+        assert.equal(result[1].lines.length, 1);
+        assert.equal(result[2].lines.length, context);
+
+        // The collapsed group has the hidden lines as its context group.
+        assert.equal(result[1].lines[0].contextGroup.lines.length,
+            expectedCollapseSize);
+      });
+
+      test('_sharedGroupsFromRows first', () => {
+        const context = 10;
+        const result = element._sharedGroupsFromRows(
+            rows, context, 10, 100, 'first');
+        const expectedCollapseSize = rows.length - context;
+
+        assert.equal(result.length, 2, 'Results in two groups');
+
+        // Only the first group is collapsed.
+        assert.equal(result[0].lines.length, 1);
+        assert.equal(result[1].lines.length, context);
+
+        // The collapsed group has the hidden lines as its context group.
+        assert.equal(result[0].lines[0].contextGroup.lines.length,
+            expectedCollapseSize);
+      });
+
+      test('_sharedGroupsFromRows few-rows', () => {
+        // Only ten rows.
+        rows = rows.slice(0, 10);
+        const context = 10;
+        const result = element._sharedGroupsFromRows(
+            rows, context, 10, 100, 'first');
+
+        // Results in one uncollapsed group with all rows.
+        assert.equal(result.length, 1, 'Results in one group');
+        assert.equal(result[0].lines.length, rows.length);
+      });
+
+      test('_sharedGroupsFromRows no single line collapse', () => {
+        rows = rows.slice(0, 7);
+        const context = 3;
+        const result = element._sharedGroupsFromRows(
+            rows, context, 10, 100);
+
+        // Results in one uncollapsed group with all rows.
+        assert.equal(result.length, 1, 'Results in one group');
+        assert.equal(result[0].lines.length, rows.length);
+      });
+
+      test('_deltaLinesFromRows', () => {
+        const startLineNum = 10;
+        let result = element._deltaLinesFromRows(GrDiffLine.Type.ADD, rows,
+            startLineNum);
+
+        assert.equal(result.length, rows.length);
+        assert.equal(result[0].type, GrDiffLine.Type.ADD);
+        assert.equal(result[0].afterNumber, startLineNum + 1);
+        assert.notOk(result[0].beforeNumber);
+        assert.equal(result[result.length - 1].afterNumber,
+            startLineNum + rows.length);
+        assert.notOk(result[result.length - 1].beforeNumber);
+
+        result = element._deltaLinesFromRows(GrDiffLine.Type.REMOVE, rows,
+            startLineNum);
+
+        assert.equal(result.length, rows.length);
+        assert.equal(result[0].type, GrDiffLine.Type.REMOVE);
+        assert.equal(result[0].beforeNumber, startLineNum + 1);
+        assert.notOk(result[0].afterNumber);
+        assert.equal(result[result.length - 1].beforeNumber,
+            startLineNum + rows.length);
+        assert.notOk(result[result.length - 1].afterNumber);
+      });
+    });
+
+    suite('_breakdown*', () => {
+      test('_breakdownGroup breaks down additions', () => {
+        sandbox.spy(element, '_breakdown');
+        const chunk = {b: ['blah', 'blah', 'blah']};
+        const result = element._breakdownGroup(chunk);
+        assert.deepEqual(result, [chunk]);
+        assert.isTrue(element._breakdown.called);
+      });
+
+      test('_breakdownGroup keeps due_to_rebase for broken down additions',
+          () => {
+            sandbox.spy(element, '_breakdown');
+            const chunk = {b: ['blah', 'blah', 'blah'], due_to_rebase: true};
+            const result = element._breakdownGroup(chunk);
+            for (const subResult of result) {
+              assert.isTrue(subResult.due_to_rebase);
+            }
+          });
+
+      test('_breakdown common case', () => {
+        const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
+            .split(' ');
+        const size = 3;
+
+        const result = element._breakdown(array, size);
+
+        for (const subResult of result) {
+          assert.isAtMost(subResult.length, size);
+        }
+        const flattened = result
+            .reduce((a, b) => { return a.concat(b); }, []);
+        assert.deepEqual(flattened, array);
+      });
+
+      test('_breakdown smaller than size', () => {
+        const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
+            .split(' ');
+        const size = 10;
+        const expected = [array];
+
+        const result = element._breakdown(array, size);
+
+        assert.deepEqual(result, expected);
+      });
+
+      test('_breakdown empty', () => {
+        const array = [];
+        const size = 10;
+        const expected = [];
+
+        const result = element._breakdown(array, size);
+
+        assert.deepEqual(result, expected);
+      });
     });
   });
+
+  test('detaching cancels', () => {
+    element = fixture('basic');
+    sandbox.stub(element, 'cancel');
+    element.detached();
+    assert(element.cancel.called);
+  });
+});
 </script>

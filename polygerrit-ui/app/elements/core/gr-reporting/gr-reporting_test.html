@@ -19,12 +19,16 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-reporting</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-reporting.html">
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-reporting.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-reporting.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -32,331 +36,333 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-reporting tests', () => {
-    let element;
-    let sandbox;
-    let clock;
-    let fakePerformance;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-reporting.js';
+suite('gr-reporting tests', () => {
+  let element;
+  let sandbox;
+  let clock;
+  let fakePerformance;
 
-    const NOW_TIME = 100;
+  const NOW_TIME = 100;
 
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    clock = sinon.useFakeTimers(NOW_TIME);
+    element = fixture('basic');
+    element._baselines = Object.assign({}, GrReporting.STARTUP_TIMERS);
+    fakePerformance = {
+      navigationStart: 1,
+      loadEventEnd: 2,
+    };
+    sinon.stub(element, 'performanceTiming',
+        {get() { return fakePerformance; }});
+    sandbox.stub(element, 'reporter');
+  });
+
+  teardown(() => {
+    sandbox.restore();
+    clock.restore();
+  });
+
+  test('appStarted', () => {
+    element.appStarted(true);
+    assert.isTrue(
+        element.reporter.calledWithExactly(
+            'timing-report', 'UI Latency', 'App Started',
+            NOW_TIME - fakePerformance.navigationStart
+    ));
+    assert.isTrue(
+        element.reporter.calledWithExactly(
+            'lifecycle', 'Page Visibility', 'hidden'
+    ));
+  });
+
+  test('WebComponentsReady', () => {
+    sandbox.stub(element, 'now').returns(42);
+    element.timeEnd('WebComponentsReady');
+    assert.isTrue(element.reporter.calledWithExactly(
+        'timing-report', 'UI Latency', 'WebComponentsReady', 42
+    ));
+  });
+
+  test('pageLoaded', () => {
+    element.pageLoaded();
+    assert.isTrue(
+        element.reporter.calledWithExactly(
+            'timing-report', 'UI Latency', 'Page Loaded',
+            fakePerformance.loadEventEnd - fakePerformance.navigationStart)
+    );
+  });
+
+  test('beforeLocationChanged', () => {
+    element._baselines['garbage'] = 'monster';
+    sandbox.stub(element, 'time');
+    GrJankDetector.jank = 42;
+    element.beforeLocationChanged();
+    assert.equal(GrJankDetector.jank, 0);
+    assert.isTrue(element.reporter.calledWithExactly(
+        'lifecycle', 'UI Latency', 'Jank count', 42));
+    assert.isTrue(element.time.calledWithExactly('DashboardDisplayed'));
+    assert.isTrue(element.time.calledWithExactly('ChangeDisplayed'));
+    assert.isTrue(element.time.calledWithExactly('ChangeFullyLoaded'));
+    assert.isTrue(element.time.calledWithExactly('DiffViewDisplayed'));
+    assert.isTrue(element.time.calledWithExactly('FileListDisplayed'));
+    assert.isFalse(element._baselines.hasOwnProperty('garbage'));
+  });
+
+  test('changeDisplayed', () => {
+    sandbox.spy(element, 'timeEnd');
+    element.changeDisplayed();
+    assert.isFalse(
+        element.timeEnd.calledWithExactly('ChangeDisplayed'));
+    assert.isTrue(
+        element.timeEnd.calledWithExactly('StartupChangeDisplayed'));
+    element.changeDisplayed();
+    assert.isTrue(element.timeEnd.calledWithExactly('ChangeDisplayed'));
+  });
+
+  test('changeFullyLoaded', () => {
+    sandbox.spy(element, 'timeEnd');
+    element.changeFullyLoaded();
+    assert.isFalse(
+        element.timeEnd.calledWithExactly('ChangeFullyLoaded'));
+    assert.isTrue(
+        element.timeEnd.calledWithExactly('StartupChangeFullyLoaded'));
+    element.changeFullyLoaded();
+    assert.isTrue(element.timeEnd.calledWithExactly('ChangeFullyLoaded'));
+  });
+
+  test('diffViewDisplayed', () => {
+    sandbox.spy(element, 'timeEnd');
+    element.diffViewDisplayed();
+    assert.isFalse(
+        element.timeEnd.calledWithExactly('DiffViewDisplayed'));
+    assert.isTrue(
+        element.timeEnd.calledWithExactly('StartupDiffViewDisplayed'));
+    element.diffViewDisplayed();
+    assert.isTrue(element.timeEnd.calledWithExactly('DiffViewDisplayed'));
+  });
+
+  test('fileListDisplayed', () => {
+    sandbox.spy(element, 'timeEnd');
+    element.fileListDisplayed();
+    assert.isFalse(
+        element.timeEnd.calledWithExactly('FileListDisplayed'));
+    assert.isTrue(
+        element.timeEnd.calledWithExactly('StartupFileListDisplayed'));
+    element.fileListDisplayed();
+    assert.isTrue(element.timeEnd.calledWithExactly('FileListDisplayed'));
+  });
+
+  test('dashboardDisplayed', () => {
+    sandbox.spy(element, 'timeEnd');
+    element.dashboardDisplayed();
+    assert.isFalse(
+        element.timeEnd.calledWithExactly('DashboardDisplayed'));
+    assert.isTrue(
+        element.timeEnd.calledWithExactly('StartupDashboardDisplayed'));
+    element.dashboardDisplayed();
+    assert.isTrue(element.timeEnd.calledWithExactly('DashboardDisplayed'));
+  });
+
+  test('time and timeEnd', () => {
+    const nowStub = sandbox.stub(element, 'now').returns(0);
+    element.time('foo');
+    nowStub.returns(1.1);
+    element.time('bar');
+    nowStub.returns(2);
+    element.timeEnd('bar');
+    nowStub.returns(3.511);
+    element.timeEnd('foo');
+    assert.isTrue(element.reporter.calledWithExactly(
+        'timing-report', 'UI Latency', 'foo', 4
+    ));
+    assert.isTrue(element.reporter.calledWithExactly(
+        'timing-report', 'UI Latency', 'bar', 1
+    ));
+  });
+
+  test('timer object', () => {
+    const nowStub = sandbox.stub(element, 'now').returns(100);
+    const timer = element.getTimer('foo-bar');
+    nowStub.returns(150);
+    timer.end();
+    assert.isTrue(element.reporter.calledWithExactly(
+        'timing-report', 'UI Latency', 'foo-bar', 50));
+  });
+
+  test('timer object double call', () => {
+    const timer = element.getTimer('foo-bar');
+    timer.end();
+    assert.isTrue(element.reporter.calledOnce);
+    assert.throws(() => {
+      timer.end();
+      done();
+    }, 'Timer for "foo-bar" already ended.');
+  });
+
+  test('timer object maximum', () => {
+    const nowStub = sandbox.stub(element, 'now').returns(100);
+    const timer = element.getTimer('foo-bar').withMaximum(100);
+    nowStub.returns(150);
+    timer.end();
+    assert.isTrue(element.reporter.calledOnce);
+
+    timer.reset();
+    nowStub.returns(260);
+    timer.end();
+    assert.isTrue(element.reporter.calledOnce);
+  });
+
+  test('recordDraftInteraction', () => {
+    const key = 'TimeBetweenDraftActions';
+    const nowStub = sandbox.stub(element, 'now').returns(100);
+    const timingStub = sandbox.stub(element, '_reportTiming');
+    element.recordDraftInteraction();
+    assert.isFalse(timingStub.called);
+
+    nowStub.returns(200);
+    element.recordDraftInteraction();
+    assert.isTrue(timingStub.calledOnce);
+    assert.equal(timingStub.lastCall.args[0], key);
+    assert.equal(timingStub.lastCall.args[1], 100);
+
+    nowStub.returns(350);
+    element.recordDraftInteraction();
+    assert.isTrue(timingStub.calledTwice);
+    assert.equal(timingStub.lastCall.args[0], key);
+    assert.equal(timingStub.lastCall.args[1], 150);
+
+    nowStub.returns(370 + 2 * 60 * 1000);
+    element.recordDraftInteraction();
+    assert.isFalse(timingStub.calledThrice);
+  });
+
+  test('timeEndWithAverage', () => {
+    const nowStub = sandbox.stub(element, 'now').returns(0);
+    nowStub.returns(1000);
+    element.time('foo');
+    nowStub.returns(1100);
+    element.timeEndWithAverage('foo', 'bar', 10);
+    assert.isTrue(element.reporter.calledTwice);
+    assert.isTrue(element.reporter.calledWithExactly(
+        'timing-report', 'UI Latency', 'foo', 100));
+    assert.isTrue(element.reporter.calledWithExactly(
+        'timing-report', 'UI Latency', 'bar', 10));
+  });
+
+  test('reportExtension', () => {
+    element.reportExtension('foo');
+    assert.isTrue(element.reporter.calledWithExactly(
+        'lifecycle', 'Extension detected', 'foo'
+    ));
+  });
+
+  suite('plugins', () => {
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      clock = sinon.useFakeTimers(NOW_TIME);
-      element = fixture('basic');
-      element._baselines = Object.assign({}, GrReporting.STARTUP_TIMERS);
-      fakePerformance = {
-        navigationStart: 1,
-        loadEventEnd: 2,
-      };
-      sinon.stub(element, 'performanceTiming',
-          {get() { return fakePerformance; }});
-      sandbox.stub(element, 'reporter');
+      element.reporter.restore();
+      sandbox.stub(element, 'defaultReporter');
     });
 
-    teardown(() => {
-      sandbox.restore();
-      clock.restore();
-    });
-
-    test('appStarted', () => {
-      element.appStarted(true);
-      assert.isTrue(
-          element.reporter.calledWithExactly(
-              'timing-report', 'UI Latency', 'App Started',
-              NOW_TIME - fakePerformance.navigationStart
-      ));
-      assert.isTrue(
-          element.reporter.calledWithExactly(
-              'lifecycle', 'Page Visibility', 'hidden'
-      ));
-    });
-
-    test('WebComponentsReady', () => {
+    test('pluginsLoaded reports time', () => {
       sandbox.stub(element, 'now').returns(42);
-      element.timeEnd('WebComponentsReady');
-      assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'WebComponentsReady', 42
+      element.pluginsLoaded();
+      assert.isTrue(element.defaultReporter.calledWithExactly(
+          'timing-report', 'UI Latency', 'PluginsLoaded', 42, undefined
       ));
     });
 
-    test('pageLoaded', () => {
-      element.pageLoaded();
-      assert.isTrue(
-          element.reporter.calledWithExactly(
-              'timing-report', 'UI Latency', 'Page Loaded',
-              fakePerformance.loadEventEnd - fakePerformance.navigationStart)
-      );
+    test('pluginsLoaded reports plugins', () => {
+      element.pluginsLoaded(['foo', 'bar']);
+      assert.isTrue(element.defaultReporter.calledWith(
+          'lifecycle', 'Plugins installed', 'foo,bar'
+      ));
     });
 
-    test('beforeLocationChanged', () => {
-      element._baselines['garbage'] = 'monster';
-      sandbox.stub(element, 'time');
-      GrJankDetector.jank = 42;
-      element.beforeLocationChanged();
-      assert.equal(GrJankDetector.jank, 0);
-      assert.isTrue(element.reporter.calledWithExactly(
-          'lifecycle', 'UI Latency', 'Jank count', 42));
-      assert.isTrue(element.time.calledWithExactly('DashboardDisplayed'));
-      assert.isTrue(element.time.calledWithExactly('ChangeDisplayed'));
-      assert.isTrue(element.time.calledWithExactly('ChangeFullyLoaded'));
-      assert.isTrue(element.time.calledWithExactly('DiffViewDisplayed'));
-      assert.isTrue(element.time.calledWithExactly('FileListDisplayed'));
-      assert.isFalse(element._baselines.hasOwnProperty('garbage'));
-    });
-
-    test('changeDisplayed', () => {
-      sandbox.spy(element, 'timeEnd');
-      element.changeDisplayed();
-      assert.isFalse(
-          element.timeEnd.calledWithExactly('ChangeDisplayed'));
-      assert.isTrue(
-          element.timeEnd.calledWithExactly('StartupChangeDisplayed'));
-      element.changeDisplayed();
-      assert.isTrue(element.timeEnd.calledWithExactly('ChangeDisplayed'));
-    });
-
-    test('changeFullyLoaded', () => {
-      sandbox.spy(element, 'timeEnd');
-      element.changeFullyLoaded();
-      assert.isFalse(
-          element.timeEnd.calledWithExactly('ChangeFullyLoaded'));
-      assert.isTrue(
-          element.timeEnd.calledWithExactly('StartupChangeFullyLoaded'));
-      element.changeFullyLoaded();
-      assert.isTrue(element.timeEnd.calledWithExactly('ChangeFullyLoaded'));
-    });
-
-    test('diffViewDisplayed', () => {
-      sandbox.spy(element, 'timeEnd');
-      element.diffViewDisplayed();
-      assert.isFalse(
-          element.timeEnd.calledWithExactly('DiffViewDisplayed'));
-      assert.isTrue(
-          element.timeEnd.calledWithExactly('StartupDiffViewDisplayed'));
-      element.diffViewDisplayed();
-      assert.isTrue(element.timeEnd.calledWithExactly('DiffViewDisplayed'));
-    });
-
-    test('fileListDisplayed', () => {
-      sandbox.spy(element, 'timeEnd');
-      element.fileListDisplayed();
-      assert.isFalse(
-          element.timeEnd.calledWithExactly('FileListDisplayed'));
-      assert.isTrue(
-          element.timeEnd.calledWithExactly('StartupFileListDisplayed'));
-      element.fileListDisplayed();
-      assert.isTrue(element.timeEnd.calledWithExactly('FileListDisplayed'));
-    });
-
-    test('dashboardDisplayed', () => {
-      sandbox.spy(element, 'timeEnd');
-      element.dashboardDisplayed();
-      assert.isFalse(
-          element.timeEnd.calledWithExactly('DashboardDisplayed'));
-      assert.isTrue(
-          element.timeEnd.calledWithExactly('StartupDashboardDisplayed'));
-      element.dashboardDisplayed();
-      assert.isTrue(element.timeEnd.calledWithExactly('DashboardDisplayed'));
-    });
-
-    test('time and timeEnd', () => {
-      const nowStub = sandbox.stub(element, 'now').returns(0);
-      element.time('foo');
-      nowStub.returns(1.1);
-      element.time('bar');
-      nowStub.returns(2);
-      element.timeEnd('bar');
-      nowStub.returns(3.511);
+    test('caches reports if plugins are not loaded', () => {
       element.timeEnd('foo');
-      assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'foo', 4
-      ));
-      assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'bar', 1
-      ));
+      assert.isFalse(element.defaultReporter.called);
     });
 
-    test('timer object', () => {
-      const nowStub = sandbox.stub(element, 'now').returns(100);
-      const timer = element.getTimer('foo-bar');
-      nowStub.returns(150);
-      timer.end();
-      assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'foo-bar', 50));
+    test('reports if plugins are loaded', () => {
+      element.pluginsLoaded();
+      assert.isTrue(element.defaultReporter.called);
     });
 
-    test('timer object double call', () => {
-      const timer = element.getTimer('foo-bar');
-      timer.end();
-      assert.isTrue(element.reporter.calledOnce);
-      assert.throws(() => {
-        timer.end();
-        done();
-      }, 'Timer for "foo-bar" already ended.');
-    });
-
-    test('timer object maximum', () => {
-      const nowStub = sandbox.stub(element, 'now').returns(100);
-      const timer = element.getTimer('foo-bar').withMaximum(100);
-      nowStub.returns(150);
-      timer.end();
-      assert.isTrue(element.reporter.calledOnce);
-
-      timer.reset();
-      nowStub.returns(260);
-      timer.end();
-      assert.isTrue(element.reporter.calledOnce);
-    });
-
-    test('recordDraftInteraction', () => {
-      const key = 'TimeBetweenDraftActions';
-      const nowStub = sandbox.stub(element, 'now').returns(100);
-      const timingStub = sandbox.stub(element, '_reportTiming');
-      element.recordDraftInteraction();
-      assert.isFalse(timingStub.called);
-
-      nowStub.returns(200);
-      element.recordDraftInteraction();
-      assert.isTrue(timingStub.calledOnce);
-      assert.equal(timingStub.lastCall.args[0], key);
-      assert.equal(timingStub.lastCall.args[1], 100);
-
-      nowStub.returns(350);
-      element.recordDraftInteraction();
-      assert.isTrue(timingStub.calledTwice);
-      assert.equal(timingStub.lastCall.args[0], key);
-      assert.equal(timingStub.lastCall.args[1], 150);
-
-      nowStub.returns(370 + 2 * 60 * 1000);
-      element.recordDraftInteraction();
-      assert.isFalse(timingStub.calledThrice);
-    });
-
-    test('timeEndWithAverage', () => {
-      const nowStub = sandbox.stub(element, 'now').returns(0);
-      nowStub.returns(1000);
+    test('reports cached events preserving order', () => {
       element.time('foo');
-      nowStub.returns(1100);
-      element.timeEndWithAverage('foo', 'bar', 10);
-      assert.isTrue(element.reporter.calledTwice);
-      assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'foo', 100));
-      assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'bar', 10));
-    });
-
-    test('reportExtension', () => {
-      element.reportExtension('foo');
-      assert.isTrue(element.reporter.calledWithExactly(
-          'lifecycle', 'Extension detected', 'foo'
+      element.time('bar');
+      element.timeEnd('foo');
+      element.pluginsLoaded();
+      element.timeEnd('bar');
+      assert.isTrue(element.defaultReporter.getCall(0).calledWith(
+          'timing-report', 'UI Latency', 'foo'
       ));
-    });
-
-    suite('plugins', () => {
-      setup(() => {
-        element.reporter.restore();
-        sandbox.stub(element, 'defaultReporter');
-      });
-
-      test('pluginsLoaded reports time', () => {
-        sandbox.stub(element, 'now').returns(42);
-        element.pluginsLoaded();
-        assert.isTrue(element.defaultReporter.calledWithExactly(
-            'timing-report', 'UI Latency', 'PluginsLoaded', 42, undefined
-        ));
-      });
-
-      test('pluginsLoaded reports plugins', () => {
-        element.pluginsLoaded(['foo', 'bar']);
-        assert.isTrue(element.defaultReporter.calledWith(
-            'lifecycle', 'Plugins installed', 'foo,bar'
-        ));
-      });
-
-      test('caches reports if plugins are not loaded', () => {
-        element.timeEnd('foo');
-        assert.isFalse(element.defaultReporter.called);
-      });
-
-      test('reports if plugins are loaded', () => {
-        element.pluginsLoaded();
-        assert.isTrue(element.defaultReporter.called);
-      });
-
-      test('reports cached events preserving order', () => {
-        element.time('foo');
-        element.time('bar');
-        element.timeEnd('foo');
-        element.pluginsLoaded();
-        element.timeEnd('bar');
-        assert.isTrue(element.defaultReporter.getCall(0).calledWith(
-            'timing-report', 'UI Latency', 'foo'
-        ));
-        assert.isTrue(element.defaultReporter.getCall(1).calledWith(
-            'timing-report', 'UI Latency', 'PluginsLoaded'
-        ));
-        assert.isTrue(element.defaultReporter.getCall(2).calledWith(
-            'lifecycle', 'Plugins installed'
-        ));
-        assert.isTrue(element.defaultReporter.getCall(3).calledWith(
-            'timing-report', 'UI Latency', 'bar'
-        ));
-      });
-    });
-
-    test('search', () => {
-      element.locationChanged('_handleSomeRoute');
-      assert.isTrue(element.reporter.calledWithExactly(
-          'nav-report', 'Location Changed', 'Page', '_handleSomeRoute'));
-    });
-
-    suite('exception logging', () => {
-      let fakeWindow;
-      let reporter;
-
-      const emulateThrow = function(msg, url, line, column, error) {
-        return fakeWindow.onerror(msg, url, line, column, error);
-      };
-
-      setup(() => {
-        reporter = sandbox.stub(GrReporting.prototype, 'reporter');
-        fakeWindow = {
-          handlers: {},
-          addEventListener(type, handler) {
-            this.handlers[type] = handler;
-          },
-        };
-        sandbox.stub(console, 'error');
-        window.GrReporting._catchErrors(fakeWindow);
-      });
-
-      test('is reported', () => {
-        const error = new Error('bar');
-        emulateThrow('bar', 'http://url', 4, 2, error);
-        assert.isTrue(reporter.calledWith('error', 'exception', 'bar'));
-        const payload = reporter.lastCall.args[3];
-        assert.deepEqual(payload, {
-          url: 'http://url',
-          line: 4,
-          column: 2,
-          error,
-        });
-      });
-
-      test('prevent default event handler', () => {
-        assert.isTrue(emulateThrow());
-      });
-
-      test('unhandled rejection', () => {
-        fakeWindow.handlers['unhandledrejection']({
-          reason: {
-            message: 'bar',
-          },
-        });
-        assert.isTrue(reporter.calledWith('error', 'exception', 'bar'));
-      });
+      assert.isTrue(element.defaultReporter.getCall(1).calledWith(
+          'timing-report', 'UI Latency', 'PluginsLoaded'
+      ));
+      assert.isTrue(element.defaultReporter.getCall(2).calledWith(
+          'lifecycle', 'Plugins installed'
+      ));
+      assert.isTrue(element.defaultReporter.getCall(3).calledWith(
+          'timing-report', 'UI Latency', 'bar'
+      ));
     });
   });
+
+  test('search', () => {
+    element.locationChanged('_handleSomeRoute');
+    assert.isTrue(element.reporter.calledWithExactly(
+        'nav-report', 'Location Changed', 'Page', '_handleSomeRoute'));
+  });
+
+  suite('exception logging', () => {
+    let fakeWindow;
+    let reporter;
+
+    const emulateThrow = function(msg, url, line, column, error) {
+      return fakeWindow.onerror(msg, url, line, column, error);
+    };
+
+    setup(() => {
+      reporter = sandbox.stub(GrReporting.prototype, 'reporter');
+      fakeWindow = {
+        handlers: {},
+        addEventListener(type, handler) {
+          this.handlers[type] = handler;
+        },
+      };
+      sandbox.stub(console, 'error');
+      window.GrReporting._catchErrors(fakeWindow);
+    });
+
+    test('is reported', () => {
+      const error = new Error('bar');
+      emulateThrow('bar', 'http://url', 4, 2, error);
+      assert.isTrue(reporter.calledWith('error', 'exception', 'bar'));
+      const payload = reporter.lastCall.args[3];
+      assert.deepEqual(payload, {
+        url: 'http://url',
+        line: 4,
+        column: 2,
+        error,
+      });
+    });
+
+    test('prevent default event handler', () => {
+      assert.isTrue(emulateThrow());
+    });
+
+    test('unhandled rejection', () => {
+      fakeWindow.handlers['unhandledrejection']({
+        reason: {
+          message: 'bar',
+        },
+      });
+      assert.isTrue(reporter.calledWith('error', 'exception', 'bar'));
+    });
+  });
+});
 </script>

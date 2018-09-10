@@ -68,8 +68,8 @@
     <link rel="import" href="{$assetsPath + $assetsBundle}">{\n}
   {/if}
 
-  <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}
-  <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
+  // <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}
+  <script type="module" src="{$staticResourcePath}/elements/gr-app.js"></script>
 
   <body unresolved>{\n}
   <gr-app id="app"></gr-app>{\n}

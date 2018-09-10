@@ -1,91 +1,130 @@
 /**
- * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2017 The Android Open Source Project
 
-  const DETAIL_TYPES = {
-    branches: 'branches',
-    tags: 'tags',
-  };
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-  Polymer({
-    is: 'gr-create-pointer-dialog',
+http://www.apache.org/licenses/LICENSE-2.0
 
-    properties: {
-      detailType: String,
-      repoName: String,
-      hasNewItemName: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-      itemDetail: String,
-      _itemName: String,
-      _itemRevision: String,
-      _itemAnnotation: String,
-    },
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../../@polymer/polymer/polymer-legacy.js';
 
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
+import '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import '../../../../@polymer/iron-input/iron-input.js';
+import '../../../styles/gr-form-styles.js';
+import '../../../styles/shared-styles.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../../shared/gr-select/gr-select.js';
 
-    observers: [
-      '_updateItemName(_itemName)',
-    ],
+const DETAIL_TYPES = {
+  branches: 'branches',
+  tags: 'tags',
+};
 
-    _updateItemName(name) {
-      this.hasNewItemName = !!name;
-    },
-
-    _computeItemUrl(project) {
-      if (this.itemDetail === DETAIL_TYPES.branches) {
-        return this.getBaseUrl() + '/admin/repos/' +
-            this.encodeURL(this.repoName, true) + ',branches';
-      } else if (this.itemDetail === DETAIL_TYPES.tags) {
-        return this.getBaseUrl() + '/admin/repos/' +
-            this.encodeURL(this.repoName, true) + ',tags';
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles"></style>
+    <style include="gr-form-styles">
+      :host {
+        display: inline-block;
       }
-    },
-
-    handleCreateItem() {
-      const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
-      if (this.itemDetail === DETAIL_TYPES.branches) {
-        return this.$.restAPI.createRepoBranch(this.repoName,
-            this._itemName, {revision: USE_HEAD})
-            .then(itemRegistered => {
-              if (itemRegistered.status === 201) {
-                page.show(this._computeItemUrl(this.itemDetail));
-              }
-            });
-      } else if (this.itemDetail === DETAIL_TYPES.tags) {
-        return this.$.restAPI.createRepoTag(this.repoName,
-            this._itemName,
-            {revision: USE_HEAD, message: this._itemAnnotation || null})
-            .then(itemRegistered => {
-              if (itemRegistered.status === 201) {
-                page.show(this._computeItemUrl(this.itemDetail));
-              }
-            });
+      input {
+        width: 20em;
       }
-    },
+      .hideItem {
+        display: none;
+      }
+    </style>
+    <div class="gr-form-styles">
+      <div id="form">
+        <section>
+          <span class="title">[[detailType]] name</span>
+          <input is="iron-input" id="itemNameInput" placeholder="[[detailType]] Name" bind-value="{{_itemName}}">
+        </section>
+        <section>
+          <span class="title">Initial Revision</span>
+          <input is="iron-input" id="itemRevisionInput" placeholder="Revision (Branch or SHA-1)" bind-value="{{_itemRevision}}">
+        </section>
+        <section class\$="[[_computeHideItemClass(itemDetail)]]">
+          <span class="title">Annotation</span>
+          <input is="iron-input" id="itemAnnotationInput" placeholder="Annotation (Optional)" bind-value="{{_itemAnnotation}}">
+        </section>
+      </div>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+`,
 
-    _computeHideItemClass(type) {
-      return type === DETAIL_TYPES.branches ? 'hideItem' : '';
+  is: 'gr-create-pointer-dialog',
+
+  properties: {
+    detailType: String,
+    repoName: String,
+    hasNewItemName: {
+      type: Boolean,
+      notify: true,
+      value: false,
     },
-  });
-})();
+    itemDetail: String,
+    _itemName: String,
+    _itemRevision: String,
+    _itemAnnotation: String,
+  },
+
+  behaviors: [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.URLEncodingBehavior,
+  ],
+
+  observers: [
+    '_updateItemName(_itemName)',
+  ],
+
+  _updateItemName(name) {
+    this.hasNewItemName = !!name;
+  },
+
+  _computeItemUrl(project) {
+    if (this.itemDetail === DETAIL_TYPES.branches) {
+      return this.getBaseUrl() + '/admin/repos/' +
+          this.encodeURL(this.repoName, true) + ',branches';
+    } else if (this.itemDetail === DETAIL_TYPES.tags) {
+      return this.getBaseUrl() + '/admin/repos/' +
+          this.encodeURL(this.repoName, true) + ',tags';
+    }
+  },
+
+  handleCreateItem() {
+    const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
+    if (this.itemDetail === DETAIL_TYPES.branches) {
+      return this.$.restAPI.createRepoBranch(this.repoName,
+          this._itemName, {revision: USE_HEAD})
+          .then(itemRegistered => {
+            if (itemRegistered.status === 201) {
+              page.show(this._computeItemUrl(this.itemDetail));
+            }
+          });
+    } else if (this.itemDetail === DETAIL_TYPES.tags) {
+      return this.$.restAPI.createRepoTag(this.repoName,
+          this._itemName,
+          {revision: USE_HEAD, message: this._itemAnnotation || null})
+          .then(itemRegistered => {
+            if (itemRegistered.status === 201) {
+              page.show(this._computeItemUrl(this.itemDetail));
+            }
+          });
+    }
+  },
+
+  _computeHideItemClass(type) {
+    return type === DETAIL_TYPES.branches ? 'hideItem' : '';
+  }
+});

@@ -18,14 +18,18 @@ limitations under the License.
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-list-view</title>
-<script src="../../../bower_components/page/page.js"></script>
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../../page/page.js"></script>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
 
-<link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-list-view.html">
+<script type="module" src="../../../test/common-test-setup.js"></script>
+<script type="module" src="./gr-list-view.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-list-view.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -33,125 +37,127 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-list-view tests', () => {
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-list-view.js';
+suite('gr-list-view tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('_computeNavLink', () => {
+    const offset = 25;
+    const projectsPerPage = 25;
+    let filter = 'test';
+    const path = '/admin/projects';
+
+    sandbox.stub(element, 'getBaseUrl', () => '');
+
+    assert.equal(
+        element._computeNavLink(offset, 1, projectsPerPage, filter, path),
+        '/admin/projects/q/filter:test,50');
+
+    assert.equal(
+        element._computeNavLink(offset, -1, projectsPerPage, filter, path),
+        '/admin/projects/q/filter:test');
+
+    assert.equal(
+        element._computeNavLink(offset, 1, projectsPerPage, null, path),
+        '/admin/projects,50');
+
+    assert.equal(
+        element._computeNavLink(offset, -1, projectsPerPage, null, path),
+        '/admin/projects');
+
+    filter = 'plugins/';
+    assert.equal(
+        element._computeNavLink(offset, 1, projectsPerPage, filter, path),
+        '/admin/projects/q/filter:plugins%252F,50');
+  });
+
+  test('_onValueChange', done => {
+    element.path = '/admin/projects';
+    sandbox.stub(page, 'show', url => {
+      assert.equal(url, '/admin/projects/q/filter:test');
+      done();
     });
+    element.filter = 'test';
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  test('_filterChanged not reload when swap between falsy values', () => {
+    sandbox.stub(element, '_debounceReload');
+    element.filter = null;
+    element.filter = undefined;
+    element.filter = '';
+    assert.isFalse(element._debounceReload.called);
+  });
 
-    test('_computeNavLink', () => {
-      const offset = 25;
-      const projectsPerPage = 25;
-      let filter = 'test';
-      const path = '/admin/projects';
+  test('next button', done => {
+    element.itemsPerPage = 25;
+    projects = new Array(26);
 
-      sandbox.stub(element, 'getBaseUrl', () => '');
-
-      assert.equal(
-          element._computeNavLink(offset, 1, projectsPerPage, filter, path),
-          '/admin/projects/q/filter:test,50');
-
-      assert.equal(
-          element._computeNavLink(offset, -1, projectsPerPage, filter, path),
-          '/admin/projects/q/filter:test');
-
-      assert.equal(
-          element._computeNavLink(offset, 1, projectsPerPage, null, path),
-          '/admin/projects,50');
-
-      assert.equal(
-          element._computeNavLink(offset, -1, projectsPerPage, null, path),
-          '/admin/projects');
-
-      filter = 'plugins/';
-      assert.equal(
-          element._computeNavLink(offset, 1, projectsPerPage, filter, path),
-          '/admin/projects/q/filter:plugins%252F,50');
-    });
-
-    test('_onValueChange', done => {
-      element.path = '/admin/projects';
-      sandbox.stub(page, 'show', url => {
-        assert.equal(url, '/admin/projects/q/filter:test');
-        done();
-      });
-      element.filter = 'test';
-    });
-
-    test('_filterChanged not reload when swap between falsy values', () => {
-      sandbox.stub(element, '_debounceReload');
-      element.filter = null;
-      element.filter = undefined;
-      element.filter = '';
-      assert.isFalse(element._debounceReload.called);
-    });
-
-    test('next button', done => {
-      element.itemsPerPage = 25;
-      projects = new Array(26);
-
-      flush(() => {
-        let loading;
-        assert.isFalse(element._hideNextArrow(loading, projects));
-        loading = true;
-        assert.isTrue(element._hideNextArrow(loading, projects));
-        loading = false;
-        assert.isFalse(element._hideNextArrow(loading, projects));
-        element._projects = [];
-        assert.isTrue(element._hideNextArrow(loading, element._projects));
-        projects = new Array(4);
-        assert.isTrue(element._hideNextArrow(loading, projects));
-        done();
-      });
-    });
-
-    test('prev button', () => {
-      assert.isTrue(element._hidePrevArrow(true, 0));
-      flush(() => {
-        let offset = 0;
-        assert.isTrue(element._hidePrevArrow(false, offset));
-        offset = 5;
-        assert.isFalse(element._hidePrevArrow(false, offset));
-      });
-    });
-
-    test('createNew link appears correctly', () => {
-      assert.isFalse(element.$$('#createNewContainer').classList
-          .contains('show'));
-      element.createNew = true;
-      flushAsynchronousOperations();
-      assert.isTrue(element.$$('#createNewContainer').classList
-          .contains('show'));
-    });
-
-    test('fires create clicked event when button tapped', () => {
-      const clickHandler = sandbox.stub();
-      element.addEventListener('create-clicked', clickHandler);
-      element.createNew = true;
-      flushAsynchronousOperations();
-      MockInteractions.tap(element.$$('#createNew'));
-      assert.isTrue(clickHandler.called);
-    });
-
-    test('next/prev links change when path changes', () => {
-      const BRANCHES_PATH = '/path/to/branches';
-      const TAGS_PATH = '/path/to/tags';
-      sandbox.stub(element, '_computeNavLink');
-      element.offset = 0;
-      element.itemsPerPage = 25;
-      element.filter = '';
-      element.path = BRANCHES_PATH;
-      assert.equal(element._computeNavLink.lastCall.args[4], BRANCHES_PATH);
-      element.path = TAGS_PATH;
-      assert.equal(element._computeNavLink.lastCall.args[4], TAGS_PATH);
+    flush(() => {
+      let loading;
+      assert.isFalse(element._hideNextArrow(loading, projects));
+      loading = true;
+      assert.isTrue(element._hideNextArrow(loading, projects));
+      loading = false;
+      assert.isFalse(element._hideNextArrow(loading, projects));
+      element._projects = [];
+      assert.isTrue(element._hideNextArrow(loading, element._projects));
+      projects = new Array(4);
+      assert.isTrue(element._hideNextArrow(loading, projects));
+      done();
     });
   });
+
+  test('prev button', () => {
+    assert.isTrue(element._hidePrevArrow(true, 0));
+    flush(() => {
+      let offset = 0;
+      assert.isTrue(element._hidePrevArrow(false, offset));
+      offset = 5;
+      assert.isFalse(element._hidePrevArrow(false, offset));
+    });
+  });
+
+  test('createNew link appears correctly', () => {
+    assert.isFalse(element.$$('#createNewContainer').classList
+        .contains('show'));
+    element.createNew = true;
+    flushAsynchronousOperations();
+    assert.isTrue(element.$$('#createNewContainer').classList
+        .contains('show'));
+  });
+
+  test('fires create clicked event when button tapped', () => {
+    const clickHandler = sandbox.stub();
+    element.addEventListener('create-clicked', clickHandler);
+    element.createNew = true;
+    flushAsynchronousOperations();
+    MockInteractions.tap(element.$$('#createNew'));
+    assert.isTrue(clickHandler.called);
+  });
+
+  test('next/prev links change when path changes', () => {
+    const BRANCHES_PATH = '/path/to/branches';
+    const TAGS_PATH = '/path/to/tags';
+    sandbox.stub(element, '_computeNavLink');
+    element.offset = 0;
+    element.itemsPerPage = 25;
+    element.filter = '';
+    element.path = BRANCHES_PATH;
+    assert.equal(element._computeNavLink.lastCall.args[4], BRANCHES_PATH);
+    element.path = TAGS_PATH;
+    assert.equal(element._computeNavLink.lastCall.args[4], TAGS_PATH);
+  });
+});
 </script>

@@ -1,4 +1,23 @@
 /**
+@license
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../../@polymer/polymer/polymer-legacy.js';
+
+import '../../shared/gr-lib-loader/gr-lib-loader.js';
+/**
  * @license
  * Copyright (C) 2016 The Android Open Source Project
  *
@@ -14,434 +33,682 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
+(function(window) {
   'use strict';
 
-  const LANGUAGE_MAP = {
-    'application/dart': 'dart',
-    'application/json': 'json',
-    'application/typescript': 'typescript',
-    'application/x-erb': 'erb',
-    'text/css': 'css',
-    'text/html': 'html',
-    'text/javascript': 'js',
-    'text/jsx': 'jsx',
-    'text/x-c': 'cpp',
-    'text/x-c++src': 'cpp',
-    'text/x-clojure': 'clojure',
-    'text/x-common-lisp': 'lisp',
-    'text/x-csharp': 'csharp',
-    'text/x-csrc': 'cpp',
-    'text/x-d': 'd',
-    'text/x-go': 'go',
-    'text/x-haskell': 'haskell',
-    'text/x-java': 'java',
-    'text/x-kotlin': 'kotlin',
-    'text/x-lua': 'lua',
-    'text/x-objectivec': 'objectivec',
-    'text/x-ocaml': 'ocaml',
-    'text/x-perl': 'perl',
-    'text/x-php': 'php',
-    'text/x-protobuf': 'protobuf',
-    'text/x-puppet': 'puppet',
-    'text/x-python': 'python',
-    'text/x-ruby': 'ruby',
-    'text/x-rustsrc': 'rust',
-    'text/x-scala': 'scala',
-    'text/x-shell': 'shell',
-    'text/x-sh': 'bash',
-    'text/x-sql': 'sql',
-    'text/x-swift': 'swift',
-    'text/x-yaml': 'yaml',
-  };
-  const ASYNC_DELAY = 10;
+  // Prevent redefinition.
+  if (window.GrDiffLine) { return; }
 
-  const CLASS_WHITELIST = {
-    'gr-diff gr-syntax gr-syntax-attr': true,
-    'gr-diff gr-syntax gr-syntax-attribute': true,
-    'gr-diff gr-syntax gr-syntax-built_in': true,
-    'gr-diff gr-syntax gr-syntax-comment': true,
-    'gr-diff gr-syntax gr-syntax-keyword': true,
-    'gr-diff gr-syntax gr-syntax-link': true,
-    'gr-diff gr-syntax gr-syntax-literal': true,
-    'gr-diff gr-syntax gr-syntax-meta': true,
-    'gr-diff gr-syntax gr-syntax-meta-keyword': true,
-    'gr-diff gr-syntax gr-syntax-name': true,
-    'gr-diff gr-syntax gr-syntax-number': true,
-    'gr-diff gr-syntax gr-syntax-regexp': true,
-    'gr-diff gr-syntax gr-syntax-selector-attr': true,
-    'gr-diff gr-syntax gr-syntax-selector-class': true,
-    'gr-diff gr-syntax gr-syntax-selector-id': true,
-    'gr-diff gr-syntax gr-syntax-selector-pseudo': true,
-    'gr-diff gr-syntax gr-syntax-selector-tag': true,
-    'gr-diff gr-syntax gr-syntax-string': true,
-    'gr-diff gr-syntax gr-syntax-tag': true,
-    'gr-diff gr-syntax gr-syntax-template-tag': true,
-    'gr-diff gr-syntax gr-syntax-template-variable': true,
-    'gr-diff gr-syntax gr-syntax-title': true,
-    'gr-diff gr-syntax gr-syntax-type': true,
-    'gr-diff gr-syntax gr-syntax-variable': true,
+  function GrDiffLine(type) {
+    this.type = type;
+    this.highlights = [];
+  }
+
+  GrDiffLine.prototype.afterNumber = 0;
+
+  GrDiffLine.prototype.beforeNumber = 0;
+
+  GrDiffLine.prototype.contextGroup = null;
+
+  GrDiffLine.prototype.text = '';
+
+  GrDiffLine.Type = {
+    ADD: 'add',
+    BOTH: 'both',
+    BLANK: 'blank',
+    CONTEXT_CONTROL: 'contextControl',
+    REMOVE: 'remove',
   };
 
-  const CPP_DIRECTIVE_WITH_LT_PATTERN = /^\s*#(if|define).*</;
-  const CPP_WCHAR_PATTERN = /L\'(\\)?.\'/g;
-  const JAVA_PARAM_ANNOT_PATTERN = /(@[^\s]+)\(([^)]+)\)/g;
-  const GO_BACKSLASH_LITERAL = '\'\\\\\'';
-  const GLOBAL_LT_PATTERN = /</g;
+  GrDiffLine.FILE = 'FILE';
 
-  Polymer({
-    is: 'gr-syntax-layer',
+  GrDiffLine.BLANK_LINE = new GrDiffLine(GrDiffLine.Type.BLANK);
 
-    properties: {
-      diff: {
-        type: Object,
-        observer: '_diffChanged',
-      },
-      enabled: {
-        type: Boolean,
-        value: true,
-      },
-      _baseRanges: {
-        type: Array,
-        value() { return []; },
-      },
-      _revisionRanges: {
-        type: Array,
-        value() { return []; },
-      },
-      _baseLanguage: String,
-      _revisionLanguage: String,
-      _listeners: {
-        type: Array,
-        value() { return []; },
-      },
-      /** @type {?number} */
-      _processHandle: Number,
-      _hljs: Object,
+  window.GrDiffLine = GrDiffLine;
+})(window);
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the 'License');
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an 'AS IS' BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+(function(window) {
+  'use strict';
+
+  // Prevent redefinition.
+  if (window.GrAnnotation) { return; }
+
+  // TODO(wyatta): refactor this to be <MARK> rather than <HL>.
+  const ANNOTATION_TAG = 'HL';
+
+  // Astral code point as per https://mathiasbynens.be/notes/javascript-unicode
+  const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+
+  const GrAnnotation = {
+
+    /**
+     * The DOM API textContent.length calculation is broken when the text
+     * contains Unicode. See https://mathiasbynens.be/notes/javascript-unicode .
+     * @param  {!Text} node text node.
+     * @return {number} The length of the text.
+     */
+    getLength(node) {
+      return this.getStringLength(node.textContent);
     },
 
-    addListener(fn) {
-      this.push('_listeners', fn);
+    getStringLength(str) {
+      return str.replace(REGEX_ASTRAL_SYMBOL, '_').length;
     },
 
     /**
-     * Annotation layer method to add syntax annotations to the given element
-     * for the given line.
-     * @param {!HTMLElement} el
-     * @param {!Object} line (GrDiffLine)
+     * Surrounds the element's text at specified range in an ANNOTATION_TAG
+     * element. If the element has child elements, the range is split and
+     * applied as deeply as possible.
      */
-    annotate(el, line) {
-      if (!this.enabled) { return; }
+    annotateElement(parent, offset, length, cssClass) {
+      const nodes = [].slice.apply(parent.childNodes);
+      let nodeLength;
+      let subLength;
 
-      // Determine the side.
-      let side;
-      if (line.type === GrDiffLine.Type.REMOVE || (
-          line.type === GrDiffLine.Type.BOTH &&
-          el.getAttribute('data-side') !== 'right')) {
-        side = 'left';
-      } else if (line.type === GrDiffLine.Type.ADD || (
-          el.getAttribute('data-side') !== 'left')) {
-        side = 'right';
-      }
+      for (const node of nodes) {
+        nodeLength = this.getLength(node);
 
-      // Find the relevant syntax ranges, if any.
-      let ranges = [];
-      if (side === 'left' && this._baseRanges.length >= line.beforeNumber) {
-        ranges = this._baseRanges[line.beforeNumber - 1] || [];
-      } else if (side === 'right' &&
-          this._revisionRanges.length >= line.afterNumber) {
-        ranges = this._revisionRanges[line.afterNumber - 1] || [];
-      }
-
-      // Apply the ranges to the element.
-      for (const range of ranges) {
-        GrAnnotation.annotateElement(
-            el, range.start, range.length, range.className);
-      }
-    },
-
-    /**
-     * Start processing symtax for the loaded diff and notify layer listeners
-     * as syntax info comes online.
-     * @return {Promise}
-     */
-    process() {
-      // Discard existing ranges.
-      this._baseRanges = [];
-      this._revisionRanges = [];
-
-      if (!this.enabled || !this.diff.content.length) {
-        return Promise.resolve();
-      }
-
-      this.cancel();
-
-      if (this.diff.meta_a) {
-        this._baseLanguage = LANGUAGE_MAP[this.diff.meta_a.content_type];
-      }
-      if (this.diff.meta_b) {
-        this._revisionLanguage = LANGUAGE_MAP[this.diff.meta_b.content_type];
-      }
-      if (!this._baseLanguage && !this._revisionLanguage) {
-        return Promise.resolve();
-      }
-
-      const state = {
-        sectionIndex: 0,
-        lineIndex: 0,
-        baseContext: undefined,
-        revisionContext: undefined,
-        lineNums: {left: 1, right: 1},
-        lastNotify: {left: 1, right: 1},
-      };
-
-      return this._loadHLJS().then(() => {
-        return new Promise(resolve => {
-          const nextStep = () => {
-            this._processHandle = null;
-            this._processNextLine(state);
-
-            // Move to the next line in the section.
-            state.lineIndex++;
-
-            // If the section has been exhausted, move to the next one.
-            if (this._isSectionDone(state)) {
-              state.lineIndex = 0;
-              state.sectionIndex++;
-            }
-
-            // If all sections have been exhausted, finish.
-            if (state.sectionIndex >= this.diff.content.length) {
-              resolve();
-              this._notify(state);
-              return;
-            }
-
-            if (state.lineIndex % 100 === 0) {
-              this._notify(state);
-              this._processHandle = this.async(nextStep, ASYNC_DELAY);
-            } else {
-              nextStep.call(this);
-            }
-          };
-
-          this._processHandle = this.async(nextStep, 1);
-        });
-      });
-    },
-
-    /**
-     * Cancel any asynchronous syntax processing jobs.
-     */
-    cancel() {
-      if (this._processHandle) {
-        this.cancelAsync(this._processHandle);
-        this._processHandle = null;
-      }
-    },
-
-    _diffChanged() {
-      this.cancel();
-      this._baseRanges = [];
-      this._revisionRanges = [];
-    },
-
-    /**
-     * Take a string of HTML with the (potentially nested) syntax markers
-     * Highlight.js emits and emit a list of text ranges and classes for the
-     * markers.
-     * @param {string} str The string of HTML.
-     * @return {!Array<!Object>} The list of ranges.
-     */
-    _rangesFromString(str) {
-      const div = document.createElement('div');
-      div.innerHTML = str;
-      return this._rangesFromElement(div, 0);
-    },
-
-    _rangesFromElement(elem, offset) {
-      let result = [];
-      for (const node of elem.childNodes) {
-        const nodeLength = GrAnnotation.getLength(node);
-        // Note: HLJS may emit a span with class undefined when it thinks there
-        // may be a syntax error.
-        if (node.tagName === 'SPAN' && node.className !== 'undefined') {
-          if (CLASS_WHITELIST.hasOwnProperty(node.className)) {
-            result.push({
-              start: offset,
-              length: nodeLength,
-              className: node.className,
-            });
-          }
-          if (node.children.length) {
-            result = result.concat(this._rangesFromElement(node, offset));
-          }
+        // If the current node is completely before the offset.
+        if (nodeLength <= offset) {
+          offset -= nodeLength;
+          continue;
         }
-        offset += nodeLength;
+
+        // Sublength is the annotation length for the current node.
+        subLength = Math.min(length, nodeLength - offset);
+
+        if (node instanceof Text) {
+          this._annotateText(node, offset, subLength, cssClass);
+        } else if (node instanceof HTMLElement) {
+          this.annotateElement(node, offset, subLength, cssClass);
+        }
+
+        // If there is still more to annotate, then shift the indices, otherwise
+        // work is done, so break the loop.
+        if (subLength < length) {
+          length -= subLength;
+          offset = 0;
+        } else {
+          break;
+        }
       }
-      return result;
     },
 
     /**
-     * For a given state, process the syntax for the next line (or pair of
-     * lines).
-     * @param {!Object} state The processing state for the layer.
+     * Wraps node in annotation tag with cssClass, replacing the node in DOM.
+     *
+     * @return {!Element} Wrapped node.
      */
-    _processNextLine(state) {
-      let baseLine;
-      let revisionLine;
-
-      const section = this.diff.content[state.sectionIndex];
-      if (section.ab) {
-        baseLine = section.ab[state.lineIndex];
-        revisionLine = section.ab[state.lineIndex];
-        state.lineNums.left++;
-        state.lineNums.right++;
+    wrapInHighlight(node, cssClass) {
+      let hl;
+      if (node.tagName === ANNOTATION_TAG) {
+        hl = node;
+        hl.classList.add(cssClass);
       } else {
-        if (section.a && section.a.length > state.lineIndex) {
-          baseLine = section.a[state.lineIndex];
-          state.lineNums.left++;
-        }
-        if (section.b && section.b.length > state.lineIndex) {
-          revisionLine = section.b[state.lineIndex];
-          state.lineNums.right++;
-        }
+        hl = document.createElement(ANNOTATION_TAG);
+        hl.className = cssClass;
+        Polymer.dom(node.parentElement).replaceChild(hl, node);
+        Polymer.dom(hl).appendChild(node);
       }
+      return hl;
+    },
 
-      // To store the result of the syntax highlighter.
-      let result;
-
-      if (this._baseLanguage && baseLine !== undefined) {
-        baseLine = this._workaround(this._baseLanguage, baseLine);
-        result = this._hljs.highlight(this._baseLanguage, baseLine, true,
-            state.baseContext);
-        this.push('_baseRanges', this._rangesFromString(result.value));
-        state.baseContext = result.top;
-      }
-
-      if (this._revisionLanguage && revisionLine !== undefined) {
-        revisionLine = this._workaround(this._revisionLanguage, revisionLine);
-        result = this._hljs.highlight(this._revisionLanguage, revisionLine,
-            true, state.revisionContext);
-        this.push('_revisionRanges', this._rangesFromString(result.value));
-        state.revisionContext = result.top;
+    /**
+     * Splits Text Node and wraps it in hl with cssClass.
+     * Wraps trailing part after split, tailing one if opt_firstPart is true.
+     *
+     * @param {!Node} node
+     * @param {number} offset
+     * @param {string} cssClass
+     * @param {boolean=} opt_firstPart
+     */
+    splitAndWrapInHighlight(node, offset, cssClass, opt_firstPart) {
+      if (this.getLength(node) === offset || offset === 0) {
+        return this.wrapInHighlight(node, cssClass);
+      } else {
+        if (opt_firstPart) {
+          this.splitNode(node, offset);
+          // Node points to first part of the Text, second one is sibling.
+        } else {
+          node = this.splitNode(node, offset);
+        }
+        return this.wrapInHighlight(node, cssClass);
       }
     },
 
     /**
-     * Ad hoc fixes for HLJS parsing bugs. Rewrite lines of code in constrained
-     * cases before sending them into HLJS so that they parse correctly.
+     * Splits Node at offset.
+     * If Node is Element, it's cloned and the node at offset is split too.
      *
-     * Important notes:
-     * * These tests should be as constrained as possible to avoid interfering
-     *   with code it shouldn't AND to avoid executing regexes as much as
-     *   possible.
-     * * These tests should document the issue clearly enough that the test can
-     *   be condidently removed when the issue is solved in HLJS.
-     * * These tests should rewrite the line of code to have the same number of
-     *   characters. This method rewrites the string that gets parsed, but NOT
-     *   the string that gets displayed and highlighted. Thus, the positions
-     *   must be consistent.
-     *
-     * @param {!string} language The name of the HLJS language plugin in use.
-     * @param {!string} line The line of code to potentially rewrite.
-     * @return {string} A potentially-rewritten line of code.
+     * @param {!Node} node
+     * @param {number} offset
+     * @return {!Node} Trailing Node.
      */
-    _workaround(language, line) {
-      if (language === 'cpp') {
-        /**
-         * Prevent confusing < and << operators for the start of a meta string
-         * by converting them to a different operator.
-         * {@see Issue 4864}
-         * {@see https://github.com/isagalaev/highlight.js/issues/1341}
-         */
-        if (CPP_DIRECTIVE_WITH_LT_PATTERN.test(line)) {
-          line = line.replace(GLOBAL_LT_PATTERN, '|');
-        }
+    splitNode(element, offset) {
+      if (element instanceof Text) {
+        return this.splitTextNode(element, offset);
+      }
+      const tail = element.cloneNode(false);
+      element.parentElement.insertBefore(tail, element.nextSibling);
+      // Skip nodes before offset.
+      let node = element.firstChild;
+      while (node &&
+          this.getLength(node) <= offset ||
+          this.getLength(node) === 0) {
+        offset -= this.getLength(node);
+        node = node.nextSibling;
+      }
+      if (this.getLength(node) > offset) {
+        tail.appendChild(this.splitNode(node, offset));
+      }
+      while (node.nextSibling) {
+        tail.appendChild(node.nextSibling);
+      }
+      return tail;
+    },
 
-        /**
-         * Rewrite CPP wchar_t characters literals to wchar_t string literals
-         * because HLJS only understands the string form.
-         * {@see Issue 5242}
-         * {#see https://github.com/isagalaev/highlight.js/issues/1412}
-         */
-        if (CPP_WCHAR_PATTERN.test(line)) {
-          line = line.replace(CPP_WCHAR_PATTERN, 'L"$1."');
-        }
+    /**
+     * Node.prototype.splitText Unicode-valid alternative.
+     *
+     * DOM Api for splitText() is broken for Unicode:
+     * https://mathiasbynens.be/notes/javascript-unicode
+     *
+     * @param {!Text} node
+     * @param {number} offset
+     * @return {!Text} Trailing Text Node.
+     */
+    splitTextNode(node, offset) {
+      if (node.textContent.match(REGEX_ASTRAL_SYMBOL)) {
+        // TODO (viktard): Polyfill Array.from for IE10.
+        const head = Array.from(node.textContent);
+        const tail = head.splice(offset);
+        const parent = node.parentNode;
 
-        return line;
+        // Split the content of the original node.
+        node.textContent = head.join('');
+
+        const tailNode = document.createTextNode(tail.join(''));
+        if (parent) {
+          parent.insertBefore(tailNode, node.nextSibling);
+        }
+        return tailNode;
+      } else {
+        return node.splitText(offset);
+      }
+    },
+
+    _annotateText(node, offset, length, cssClass) {
+      const nodeLength = this.getLength(node);
+
+      // There are four cases:
+      //  1) Entire node is highlighted.
+      //  2) Highlight is at the start.
+      //  3) Highlight is at the end.
+      //  4) Highlight is in the middle.
+
+      if (offset === 0 && nodeLength === length) {
+        // Case 1.
+        this.wrapInHighlight(node, cssClass);
+      } else if (offset === 0) {
+        // Case 2.
+        this.splitAndWrapInHighlight(node, length, cssClass, true);
+      } else if (offset + length === nodeLength) {
+        // Case 3
+        this.splitAndWrapInHighlight(node, offset, cssClass, false);
+      } else {
+        // Case 4
+        this.splitAndWrapInHighlight(this.splitTextNode(node, offset), length,
+            cssClass, true);
+      }
+    },
+  };
+
+  window.GrAnnotation = GrAnnotation;
+})(window);
+
+const LANGUAGE_MAP = {
+  'application/dart': 'dart',
+  'application/json': 'json',
+  'application/typescript': 'typescript',
+  'application/x-erb': 'erb',
+  'text/css': 'css',
+  'text/html': 'html',
+  'text/javascript': 'js',
+  'text/jsx': 'jsx',
+  'text/x-c': 'cpp',
+  'text/x-c++src': 'cpp',
+  'text/x-clojure': 'clojure',
+  'text/x-common-lisp': 'lisp',
+  'text/x-csharp': 'csharp',
+  'text/x-csrc': 'cpp',
+  'text/x-d': 'd',
+  'text/x-go': 'go',
+  'text/x-haskell': 'haskell',
+  'text/x-java': 'java',
+  'text/x-kotlin': 'kotlin',
+  'text/x-lua': 'lua',
+  'text/x-objectivec': 'objectivec',
+  'text/x-ocaml': 'ocaml',
+  'text/x-perl': 'perl',
+  'text/x-php': 'php',
+  'text/x-protobuf': 'protobuf',
+  'text/x-puppet': 'puppet',
+  'text/x-python': 'python',
+  'text/x-ruby': 'ruby',
+  'text/x-rustsrc': 'rust',
+  'text/x-scala': 'scala',
+  'text/x-shell': 'shell',
+  'text/x-sh': 'bash',
+  'text/x-sql': 'sql',
+  'text/x-swift': 'swift',
+  'text/x-yaml': 'yaml',
+};
+const ASYNC_DELAY = 10;
+
+const CLASS_WHITELIST = {
+  'gr-diff gr-syntax gr-syntax-attr': true,
+  'gr-diff gr-syntax gr-syntax-attribute': true,
+  'gr-diff gr-syntax gr-syntax-built_in': true,
+  'gr-diff gr-syntax gr-syntax-comment': true,
+  'gr-diff gr-syntax gr-syntax-keyword': true,
+  'gr-diff gr-syntax gr-syntax-link': true,
+  'gr-diff gr-syntax gr-syntax-literal': true,
+  'gr-diff gr-syntax gr-syntax-meta': true,
+  'gr-diff gr-syntax gr-syntax-meta-keyword': true,
+  'gr-diff gr-syntax gr-syntax-name': true,
+  'gr-diff gr-syntax gr-syntax-number': true,
+  'gr-diff gr-syntax gr-syntax-regexp': true,
+  'gr-diff gr-syntax gr-syntax-selector-attr': true,
+  'gr-diff gr-syntax gr-syntax-selector-class': true,
+  'gr-diff gr-syntax gr-syntax-selector-id': true,
+  'gr-diff gr-syntax gr-syntax-selector-pseudo': true,
+  'gr-diff gr-syntax gr-syntax-selector-tag': true,
+  'gr-diff gr-syntax gr-syntax-string': true,
+  'gr-diff gr-syntax gr-syntax-tag': true,
+  'gr-diff gr-syntax gr-syntax-template-tag': true,
+  'gr-diff gr-syntax gr-syntax-template-variable': true,
+  'gr-diff gr-syntax gr-syntax-title': true,
+  'gr-diff gr-syntax gr-syntax-type': true,
+  'gr-diff gr-syntax gr-syntax-variable': true,
+};
+
+const CPP_DIRECTIVE_WITH_LT_PATTERN = /^\s*#(if|define).*</;
+const CPP_WCHAR_PATTERN = /L\'(\\)?.\'/g;
+const JAVA_PARAM_ANNOT_PATTERN = /(@[^\s]+)\(([^)]+)\)/g;
+const GO_BACKSLASH_LITERAL = '\'\\\\\'';
+const GLOBAL_LT_PATTERN = /</g;
+
+Polymer({
+  _template: Polymer.html`
+    <gr-lib-loader id="libLoader"></gr-lib-loader>
+`,
+
+  is: 'gr-syntax-layer',
+
+  properties: {
+    diff: {
+      type: Object,
+      observer: '_diffChanged',
+    },
+    enabled: {
+      type: Boolean,
+      value: true,
+    },
+    _baseRanges: {
+      type: Array,
+      value() { return []; },
+    },
+    _revisionRanges: {
+      type: Array,
+      value() { return []; },
+    },
+    _baseLanguage: String,
+    _revisionLanguage: String,
+    _listeners: {
+      type: Array,
+      value() { return []; },
+    },
+    /** @type {?number} */
+    _processHandle: Number,
+    _hljs: Object,
+  },
+
+  addListener(fn) {
+    this.push('_listeners', fn);
+  },
+
+  /**
+   * Annotation layer method to add syntax annotations to the given element
+   * for the given line.
+   * @param {!HTMLElement} el
+   * @param {!Object} line (GrDiffLine)
+   */
+  annotate(el, line) {
+    if (!this.enabled) { return; }
+
+    // Determine the side.
+    let side;
+    if (line.type === GrDiffLine.Type.REMOVE || (
+        line.type === GrDiffLine.Type.BOTH &&
+        el.getAttribute('data-side') !== 'right')) {
+      side = 'left';
+    } else if (line.type === GrDiffLine.Type.ADD || (
+        el.getAttribute('data-side') !== 'left')) {
+      side = 'right';
+    }
+
+    // Find the relevant syntax ranges, if any.
+    let ranges = [];
+    if (side === 'left' && this._baseRanges.length >= line.beforeNumber) {
+      ranges = this._baseRanges[line.beforeNumber - 1] || [];
+    } else if (side === 'right' &&
+        this._revisionRanges.length >= line.afterNumber) {
+      ranges = this._revisionRanges[line.afterNumber - 1] || [];
+    }
+
+    // Apply the ranges to the element.
+    for (const range of ranges) {
+      GrAnnotation.annotateElement(
+          el, range.start, range.length, range.className);
+    }
+  },
+
+  /**
+   * Start processing symtax for the loaded diff and notify layer listeners
+   * as syntax info comes online.
+   * @return {Promise}
+   */
+  process() {
+    // Discard existing ranges.
+    this._baseRanges = [];
+    this._revisionRanges = [];
+
+    if (!this.enabled || !this.diff.content.length) {
+      return Promise.resolve();
+    }
+
+    this.cancel();
+
+    if (this.diff.meta_a) {
+      this._baseLanguage = LANGUAGE_MAP[this.diff.meta_a.content_type];
+    }
+    if (this.diff.meta_b) {
+      this._revisionLanguage = LANGUAGE_MAP[this.diff.meta_b.content_type];
+    }
+    if (!this._baseLanguage && !this._revisionLanguage) {
+      return Promise.resolve();
+    }
+
+    const state = {
+      sectionIndex: 0,
+      lineIndex: 0,
+      baseContext: undefined,
+      revisionContext: undefined,
+      lineNums: {left: 1, right: 1},
+      lastNotify: {left: 1, right: 1},
+    };
+
+    return this._loadHLJS().then(() => {
+      return new Promise(resolve => {
+        const nextStep = () => {
+          this._processHandle = null;
+          this._processNextLine(state);
+
+          // Move to the next line in the section.
+          state.lineIndex++;
+
+          // If the section has been exhausted, move to the next one.
+          if (this._isSectionDone(state)) {
+            state.lineIndex = 0;
+            state.sectionIndex++;
+          }
+
+          // If all sections have been exhausted, finish.
+          if (state.sectionIndex >= this.diff.content.length) {
+            resolve();
+            this._notify(state);
+            return;
+          }
+
+          if (state.lineIndex % 100 === 0) {
+            this._notify(state);
+            this._processHandle = this.async(nextStep, ASYNC_DELAY);
+          } else {
+            nextStep.call(this);
+          }
+        };
+
+        this._processHandle = this.async(nextStep, 1);
+      });
+    });
+  },
+
+  /**
+   * Cancel any asynchronous syntax processing jobs.
+   */
+  cancel() {
+    if (this._processHandle) {
+      this.cancelAsync(this._processHandle);
+      this._processHandle = null;
+    }
+  },
+
+  _diffChanged() {
+    this.cancel();
+    this._baseRanges = [];
+    this._revisionRanges = [];
+  },
+
+  /**
+   * Take a string of HTML with the (potentially nested) syntax markers
+   * Highlight.js emits and emit a list of text ranges and classes for the
+   * markers.
+   * @param {string} str The string of HTML.
+   * @return {!Array<!Object>} The list of ranges.
+   */
+  _rangesFromString(str) {
+    const div = document.createElement('div');
+    div.innerHTML = str;
+    return this._rangesFromElement(div, 0);
+  },
+
+  _rangesFromElement(elem, offset) {
+    let result = [];
+    for (const node of elem.childNodes) {
+      const nodeLength = GrAnnotation.getLength(node);
+      // Note: HLJS may emit a span with class undefined when it thinks there
+      // may be a syntax error.
+      if (node.tagName === 'SPAN' && node.className !== 'undefined') {
+        if (CLASS_WHITELIST.hasOwnProperty(node.className)) {
+          result.push({
+            start: offset,
+            length: nodeLength,
+            className: node.className,
+          });
+        }
+        if (node.children.length) {
+          result = result.concat(this._rangesFromElement(node, offset));
+        }
+      }
+      offset += nodeLength;
+    }
+    return result;
+  },
+
+  /**
+   * For a given state, process the syntax for the next line (or pair of
+   * lines).
+   * @param {!Object} state The processing state for the layer.
+   */
+  _processNextLine(state) {
+    let baseLine;
+    let revisionLine;
+
+    const section = this.diff.content[state.sectionIndex];
+    if (section.ab) {
+      baseLine = section.ab[state.lineIndex];
+      revisionLine = section.ab[state.lineIndex];
+      state.lineNums.left++;
+      state.lineNums.right++;
+    } else {
+      if (section.a && section.a.length > state.lineIndex) {
+        baseLine = section.a[state.lineIndex];
+        state.lineNums.left++;
+      }
+      if (section.b && section.b.length > state.lineIndex) {
+        revisionLine = section.b[state.lineIndex];
+        state.lineNums.right++;
+      }
+    }
+
+    // To store the result of the syntax highlighter.
+    let result;
+
+    if (this._baseLanguage && baseLine !== undefined) {
+      baseLine = this._workaround(this._baseLanguage, baseLine);
+      result = this._hljs.highlight(this._baseLanguage, baseLine, true,
+          state.baseContext);
+      this.push('_baseRanges', this._rangesFromString(result.value));
+      state.baseContext = result.top;
+    }
+
+    if (this._revisionLanguage && revisionLine !== undefined) {
+      revisionLine = this._workaround(this._revisionLanguage, revisionLine);
+      result = this._hljs.highlight(this._revisionLanguage, revisionLine,
+          true, state.revisionContext);
+      this.push('_revisionRanges', this._rangesFromString(result.value));
+      state.revisionContext = result.top;
+    }
+  },
+
+  /**
+   * Ad hoc fixes for HLJS parsing bugs. Rewrite lines of code in constrained
+   * cases before sending them into HLJS so that they parse correctly.
+   *
+   * Important notes:
+   * * These tests should be as constrained as possible to avoid interfering
+   *   with code it shouldn't AND to avoid executing regexes as much as
+   *   possible.
+   * * These tests should document the issue clearly enough that the test can
+   *   be condidently removed when the issue is solved in HLJS.
+   * * These tests should rewrite the line of code to have the same number of
+   *   characters. This method rewrites the string that gets parsed, but NOT
+   *   the string that gets displayed and highlighted. Thus, the positions
+   *   must be consistent.
+   *
+   * @param {!string} language The name of the HLJS language plugin in use.
+   * @param {!string} line The line of code to potentially rewrite.
+   * @return {string} A potentially-rewritten line of code.
+   */
+  _workaround(language, line) {
+    if (language === 'cpp') {
+      /**
+       * Prevent confusing < and << operators for the start of a meta string
+       * by converting them to a different operator.
+       * {@see Issue 4864}
+       * {@see https://github.com/isagalaev/highlight.js/issues/1341}
+       */
+      if (CPP_DIRECTIVE_WITH_LT_PATTERN.test(line)) {
+        line = line.replace(GLOBAL_LT_PATTERN, '|');
       }
 
       /**
-       * Prevent confusing the closing paren of a parameterized Java annotation
-       * being applied to a formal argument as the closing paren of the argument
-       * list. Rewrite the parens as spaces.
-       * {@see Issue 4776}
-       * {@see https://github.com/isagalaev/highlight.js/issues/1324}
+       * Rewrite CPP wchar_t characters literals to wchar_t string literals
+       * because HLJS only understands the string form.
+       * {@see Issue 5242}
+       * {#see https://github.com/isagalaev/highlight.js/issues/1412}
        */
-      if (language === 'java' && JAVA_PARAM_ANNOT_PATTERN.test(line)) {
-        return line.replace(JAVA_PARAM_ANNOT_PATTERN, '$1 $2 ');
-      }
-
-      /**
-       * HLJS misunderstands backslash character literals in Go.
-       * {@see Issue 5007}
-       * {#see https://github.com/isagalaev/highlight.js/issues/1411}
-       */
-      if (language === 'go' && line.includes(GO_BACKSLASH_LITERAL)) {
-        return line.replace(GO_BACKSLASH_LITERAL, '"\\\\"');
+      if (CPP_WCHAR_PATTERN.test(line)) {
+        line = line.replace(CPP_WCHAR_PATTERN, 'L"$1."');
       }
 
       return line;
-    },
+    }
 
     /**
-     * Tells whether the state has exhausted its current section.
-     * @param {!Object} state
-     * @return {boolean}
+     * Prevent confusing the closing paren of a parameterized Java annotation
+     * being applied to a formal argument as the closing paren of the argument
+     * list. Rewrite the parens as spaces.
+     * {@see Issue 4776}
+     * {@see https://github.com/isagalaev/highlight.js/issues/1324}
      */
-    _isSectionDone(state) {
-      const section = this.diff.content[state.sectionIndex];
-      if (section.ab) {
-        return state.lineIndex >= section.ab.length;
-      } else {
-        return (!section.a || state.lineIndex >= section.a.length) &&
-            (!section.b || state.lineIndex >= section.b.length);
-      }
-    },
+    if (language === 'java' && JAVA_PARAM_ANNOT_PATTERN.test(line)) {
+      return line.replace(JAVA_PARAM_ANNOT_PATTERN, '$1 $2 ');
+    }
 
     /**
-     * For a given state, notify layer listeners of any processed line ranges
-     * that have not yet been notified.
-     * @param {!Object} state
+     * HLJS misunderstands backslash character literals in Go.
+     * {@see Issue 5007}
+     * {#see https://github.com/isagalaev/highlight.js/issues/1411}
      */
-    _notify(state) {
-      if (state.lineNums.left - state.lastNotify.left) {
-        this._notifyRange(
-            state.lastNotify.left,
-            state.lineNums.left,
-            'left');
-        state.lastNotify.left = state.lineNums.left;
-      }
-      if (state.lineNums.right - state.lastNotify.right) {
-        this._notifyRange(
-            state.lastNotify.right,
-            state.lineNums.right,
-            'right');
-        state.lastNotify.right = state.lineNums.right;
-      }
-    },
+    if (language === 'go' && line.includes(GO_BACKSLASH_LITERAL)) {
+      return line.replace(GO_BACKSLASH_LITERAL, '"\\\\"');
+    }
 
-    _notifyRange(start, end, side) {
-      for (const fn of this._listeners) {
-        fn(start, end, side);
-      }
-    },
+    return line;
+  },
 
-    _loadHLJS() {
-      return this.$.libLoader.getHLJS().then(hljs => {
-        this._hljs = hljs;
-      });
-    },
-  });
-})();
+  /**
+   * Tells whether the state has exhausted its current section.
+   * @param {!Object} state
+   * @return {boolean}
+   */
+  _isSectionDone(state) {
+    const section = this.diff.content[state.sectionIndex];
+    if (section.ab) {
+      return state.lineIndex >= section.ab.length;
+    } else {
+      return (!section.a || state.lineIndex >= section.a.length) &&
+          (!section.b || state.lineIndex >= section.b.length);
+    }
+  },
+
+  /**
+   * For a given state, notify layer listeners of any processed line ranges
+   * that have not yet been notified.
+   * @param {!Object} state
+   */
+  _notify(state) {
+    if (state.lineNums.left - state.lastNotify.left) {
+      this._notifyRange(
+          state.lastNotify.left,
+          state.lineNums.left,
+          'left');
+      state.lastNotify.left = state.lineNums.left;
+    }
+    if (state.lineNums.right - state.lastNotify.right) {
+      this._notifyRange(
+          state.lastNotify.right,
+          state.lineNums.right,
+          'right');
+      state.lastNotify.right = state.lineNums.right;
+    }
+  },
+
+  _notifyRange(start, end, side) {
+    for (const fn of this._listeners) {
+      fn(start, end, side);
+    }
+  },
+
+  _loadHLJS() {
+    return this.$.libLoader.getHLJS().then(hljs => {
+      this._hljs = hljs;
+    });
+  }
+});

@@ -19,12 +19,16 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-app</title>
 
-<script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../test/common-test-setup.html"/>
-<link rel="import" href="gr-app.html">
+<script src="../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../test/common-test-setup.js"></script>
+<script type="module" src="./gr-app.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../test/common-test-setup.js';
+import './gr-app.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -32,137 +36,139 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-app tests', () => {
-    let sandbox;
-    let element;
+<script type="module">
+import '../test/common-test-setup.js';
+import './gr-app.js';
+suite('gr-app tests', () => {
+  let sandbox;
+  let element;
 
-    setup(done => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-reporting', {
-        appStarted: sandbox.stub(),
-      });
-      stub('gr-account-dropdown', {
-        _getTopContent: sinon.stub(),
-      });
-      stub('gr-rest-api-interface', {
-        getAccount() { return Promise.resolve({}); },
-        getAccountCapabilities() { return Promise.resolve({}); },
-        getConfig() {
-          return Promise.resolve({
-            gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
-            plugin: {},
-          });
-        },
-        getPreferences() { return Promise.resolve({my: []}); },
-        getDiffPreferences() { return Promise.resolve({}); },
-        getEditPreferences() { return Promise.resolve({}); },
-        getVersion() { return Promise.resolve(42); },
-        probePath() { return Promise.resolve(42); },
-      });
-
-      element = fixture('basic');
-      flush(done);
+  setup(done => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-reporting', {
+      appStarted: sandbox.stub(),
+    });
+    stub('gr-account-dropdown', {
+      _getTopContent: sinon.stub(),
+    });
+    stub('gr-rest-api-interface', {
+      getAccount() { return Promise.resolve({}); },
+      getAccountCapabilities() { return Promise.resolve({}); },
+      getConfig() {
+        return Promise.resolve({
+          gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
+          plugin: {},
+        });
+      },
+      getPreferences() { return Promise.resolve({my: []}); },
+      getDiffPreferences() { return Promise.resolve({}); },
+      getEditPreferences() { return Promise.resolve({}); },
+      getVersion() { return Promise.resolve(42); },
+      probePath() { return Promise.resolve(42); },
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+    element = fixture('basic');
+    flush(done);
+  });
 
-    test('reporting', () => {
-      assert.isTrue(element.$.reporting.appStarted.calledOnce);
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('location change updates gwt footer', done => {
-      element._path = '/test/path';
-      flush(() => {
-        const gwtLink = element.$$('#gwtLink');
-        assert.equal(gwtLink.href, 'http://' + location.host +
-            element.getBaseUrl() + '/?polygerrit=0#/test/path');
-        done();
-      });
-    });
+  test('reporting', () => {
+    assert.isTrue(element.$.reporting.appStarted.calledOnce);
+  });
 
-    test('_handleLocationChange handles hashes', done => {
-      const curLocation = {
-        pathname: '/c/1/1/testfile.txt',
-        hash: '#2',
-        host: location.host,
-      };
-      element._handleLocationChange({detail: curLocation});
-
-      flush(() => {
-        const gwtLink = element.$$('#gwtLink');
-        assert.equal(
-            gwtLink.href,
-            'http://' + location.host + element.getBaseUrl() +
-            '/?polygerrit=0#/c/1/1/testfile.txt@2'
-        );
-        done();
-      });
-    });
-
-    test('passes config to gr-plugin-host', () => {
-      return element.$.restAPI.getConfig.lastCall.returnValue.then(config => {
-        assert.deepEqual(element.$.plugins.config, config);
-      });
-    });
-
-    test('_paramsChanged sets search page', () => {
-      element._paramsChanged({base: {view: Gerrit.Nav.View.CHANGE}});
-      assert.notOk(element._lastSearchPage);
-      element._paramsChanged({base: {view: Gerrit.Nav.View.SEARCH}});
-      assert.ok(element._lastSearchPage);
-    });
-
-    suite('_jumpKeyPressed', () => {
-      let navStub;
-
-      setup(() => {
-        navStub = sandbox.stub(Gerrit.Nav, 'navigateToStatusSearch');
-        sandbox.stub(Date, 'now').returns(10000);
-      });
-
-      test('success', () => {
-        const e = {detail: {key: 'a'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._lastGKeyPressTimestamp = 9000;
-        element._jumpKeyPressed(e);
-        assert.isTrue(navStub.calledOnce);
-        assert.equal(navStub.lastCall.args[0], 'abandoned');
-      });
-
-      test('no g key', () => {
-        const e = {detail: {key: 'a'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._lastGKeyPressTimestamp = null;
-        element._jumpKeyPressed(e);
-        assert.isFalse(navStub.called);
-      });
-
-      test('g key too long ago', () => {
-        const e = {detail: {key: 'a'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._lastGKeyPressTimestamp = 3000;
-        element._jumpKeyPressed(e);
-        assert.isFalse(navStub.called);
-      });
-
-      test('should suppress', () => {
-        const e = {detail: {key: 'a'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(true);
-        element._lastGKeyPressTimestamp = 9000;
-        element._jumpKeyPressed(e);
-        assert.isFalse(navStub.called);
-      });
-
-      test('unrecognized key', () => {
-        const e = {detail: {key: 'f'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._lastGKeyPressTimestamp = 9000;
-        element._jumpKeyPressed(e);
-        assert.isFalse(navStub.called);
-      });
+  test('location change updates gwt footer', done => {
+    element._path = '/test/path';
+    flush(() => {
+      const gwtLink = element.$$('#gwtLink');
+      assert.equal(gwtLink.href, 'http://' + location.host +
+          element.getBaseUrl() + '/?polygerrit=0#/test/path');
+      done();
     });
   });
+
+  test('_handleLocationChange handles hashes', done => {
+    const curLocation = {
+      pathname: '/c/1/1/testfile.txt',
+      hash: '#2',
+      host: location.host,
+    };
+    element._handleLocationChange({detail: curLocation});
+
+    flush(() => {
+      const gwtLink = element.$$('#gwtLink');
+      assert.equal(
+          gwtLink.href,
+          'http://' + location.host + element.getBaseUrl() +
+          '/?polygerrit=0#/c/1/1/testfile.txt@2'
+      );
+      done();
+    });
+  });
+
+  test('passes config to gr-plugin-host', () => {
+    return element.$.restAPI.getConfig.lastCall.returnValue.then(config => {
+      assert.deepEqual(element.$.plugins.config, config);
+    });
+  });
+
+  test('_paramsChanged sets search page', () => {
+    element._paramsChanged({base: {view: Gerrit.Nav.View.CHANGE}});
+    assert.notOk(element._lastSearchPage);
+    element._paramsChanged({base: {view: Gerrit.Nav.View.SEARCH}});
+    assert.ok(element._lastSearchPage);
+  });
+
+  suite('_jumpKeyPressed', () => {
+    let navStub;
+
+    setup(() => {
+      navStub = sandbox.stub(Gerrit.Nav, 'navigateToStatusSearch');
+      sandbox.stub(Date, 'now').returns(10000);
+    });
+
+    test('success', () => {
+      const e = {detail: {key: 'a'}, preventDefault: () => {}};
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      element._lastGKeyPressTimestamp = 9000;
+      element._jumpKeyPressed(e);
+      assert.isTrue(navStub.calledOnce);
+      assert.equal(navStub.lastCall.args[0], 'abandoned');
+    });
+
+    test('no g key', () => {
+      const e = {detail: {key: 'a'}, preventDefault: () => {}};
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      element._lastGKeyPressTimestamp = null;
+      element._jumpKeyPressed(e);
+      assert.isFalse(navStub.called);
+    });
+
+    test('g key too long ago', () => {
+      const e = {detail: {key: 'a'}, preventDefault: () => {}};
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      element._lastGKeyPressTimestamp = 3000;
+      element._jumpKeyPressed(e);
+      assert.isFalse(navStub.called);
+    });
+
+    test('should suppress', () => {
+      const e = {detail: {key: 'a'}, preventDefault: () => {}};
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(true);
+      element._lastGKeyPressTimestamp = 9000;
+      element._jumpKeyPressed(e);
+      assert.isFalse(navStub.called);
+    });
+
+    test('unrecognized key', () => {
+      const e = {detail: {key: 'f'}, preventDefault: () => {}};
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      element._lastGKeyPressTimestamp = 9000;
+      element._jumpKeyPressed(e);
+      assert.isFalse(navStub.called);
+    });
+  });
+});
 </script>

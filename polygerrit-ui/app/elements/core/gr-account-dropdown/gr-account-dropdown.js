@@ -1,102 +1,130 @@
 /**
- * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function() {
-  'use strict';
+@license
+Copyright (C) 2015 The Android Open Source Project
 
-  const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-  Polymer({
-    is: 'gr-account-dropdown',
+http://www.apache.org/licenses/LICENSE-2.0
 
-    properties: {
-      account: Object,
-      config: Object,
-      links: {
-        type: Array,
-        computed: '_getLinks(_switchAccountUrl, _path)',
-      },
-      topContent: {
-        type: Array,
-        computed: '_getTopContent(account)',
-      },
-      _path: {
-        type: String,
-        value: '/',
-      },
-      _hasAvatars: Boolean,
-      _switchAccountUrl: String,
-    },
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+import '../../../behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.js';
 
-    attached() {
-      this._handleLocationChange();
-      this.listen(window, 'location-change', '_handleLocationChange');
-      this.$.restAPI.getConfig().then(cfg => {
-        this.config = cfg;
+import '../../../../@polymer/polymer/polymer-legacy.js';
+import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-dropdown/gr-dropdown.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import '../../../styles/shared-styles.js';
 
-        if (cfg && cfg.auth && cfg.auth.switch_account_url) {
-          this._switchAccountUrl = cfg.auth.switch_account_url;
-        } else {
-          this._switchAccountUrl = '';
+const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
+
+Polymer({
+  _template: Polymer.html`
+    <style include="shared-styles">
+      gr-dropdown {
+        padding: 0 .5em;
+        --gr-button: {
+          color: var(--header-text-color);
         }
-        this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-      });
-    },
-
-    behaviors: [
-      Gerrit.AnonymousNameBehavior,
-    ],
-
-    detached() {
-      this.unlisten(window, 'location-change', '_handleLocationChange');
-    },
-
-    _getLinks(switchAccountUrl, path) {
-      const links = [{name: 'Settings', url: '/settings/'}];
-      if (switchAccountUrl) {
-        const replacements = {path};
-        const url = this._interpolateUrl(switchAccountUrl, replacements);
-        links.push({name: 'Switch account', url, external: true});
+        --gr-dropdown-item: {
+          color: var(--primary-text-color);
+        }
       }
-      links.push({name: 'Sign out', url: '/logout'});
-      return links;
-    },
+      gr-avatar {
+        height: 2em;
+        width: 2em;
+        vertical-align: middle;
+      }
+    </style>
+    <gr-dropdown link="" items="[[links]]" top-content="[[topContent]]" horizontal-align="right">
+        <span hidden\$="[[_hasAvatars]]" hidden="">[[_accountName(account)]]</span>
+        <gr-avatar account="[[account]]" hidden\$="[[!_hasAvatars]]" hidden="" image-size="56" aria-label="Account avatar"></gr-avatar>
+    </gr-dropdown>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+`,
 
-    _getTopContent(account) {
-      return [
-        {text: this._accountName(account), bold: true},
-        {text: account.email ? account.email : ''},
-      ];
-    },
+  is: 'gr-account-dropdown',
 
-    _handleLocationChange() {
-      this._path =
-          window.location.pathname +
-          window.location.search +
-          window.location.hash;
+  properties: {
+    account: Object,
+    config: Object,
+    links: {
+      type: Array,
+      computed: '_getLinks(_switchAccountUrl, _path)',
     },
+    topContent: {
+      type: Array,
+      computed: '_getTopContent(account)',
+    },
+    _path: {
+      type: String,
+      value: '/',
+    },
+    _hasAvatars: Boolean,
+    _switchAccountUrl: String,
+  },
 
-    _interpolateUrl(url, replacements) {
-      return url.replace(INTERPOLATE_URL_PATTERN, (match, p1) => {
-        return replacements[p1] || '';
-      });
-    },
+  attached() {
+    this._handleLocationChange();
+    this.listen(window, 'location-change', '_handleLocationChange');
+    this.$.restAPI.getConfig().then(cfg => {
+      this.config = cfg;
 
-    _accountName(account) {
-      return this.getUserName(this.config, account, true);
-    },
-  });
-})();
+      if (cfg && cfg.auth && cfg.auth.switch_account_url) {
+        this._switchAccountUrl = cfg.auth.switch_account_url;
+      } else {
+        this._switchAccountUrl = '';
+      }
+      this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+    });
+  },
+
+  behaviors: [
+    Gerrit.AnonymousNameBehavior,
+  ],
+
+  detached() {
+    this.unlisten(window, 'location-change', '_handleLocationChange');
+  },
+
+  _getLinks(switchAccountUrl, path) {
+    const links = [{name: 'Settings', url: '/settings/'}];
+    if (switchAccountUrl) {
+      const replacements = {path};
+      const url = this._interpolateUrl(switchAccountUrl, replacements);
+      links.push({name: 'Switch account', url, external: true});
+    }
+    links.push({name: 'Sign out', url: '/logout'});
+    return links;
+  },
+
+  _getTopContent(account) {
+    return [
+      {text: this._accountName(account), bold: true},
+      {text: account.email ? account.email : ''},
+    ];
+  },
+
+  _handleLocationChange() {
+    this._path =
+        window.location.pathname +
+        window.location.search +
+        window.location.hash;
+  },
+
+  _interpolateUrl(url, replacements) {
+    return url.replace(INTERPOLATE_URL_PATTERN, (match, p1) => {
+      return replacements[p1] || '';
+    });
+  },
+
+  _accountName(account) {
+    return this.getUserName(this.config, account, true);
+  }
+});

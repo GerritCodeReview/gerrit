@@ -19,60 +19,61 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-jank-detector</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 
-<script src="gr-jank-detector.js"></script>
+<script src="./gr-jank-detector.js"></script>
 
-<script>
-  suite('gr-jank-detector tests', () => {
-    let sandbox;
-    let clock;
-    let instance;
+<script type="module">
+import '../../../test/common-test-setup.js';
+suite('gr-jank-detector tests', () => {
+  let sandbox;
+  let clock;
+  let instance;
 
-    const NOW_TIME = 100;
+  const NOW_TIME = 100;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      clock = sinon.useFakeTimers(NOW_TIME);
-      instance = GrJankDetector;
-      instance._lastFrameTime = 0;
-      sandbox.stub(instance, '_requestAnimationFrame');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('start() installs frame callback', () => {
-      sandbox.stub(instance, '_detect');
-      instance._requestAnimationFrame.callsArg(0);
-      instance.start();
-      assert.isTrue(instance._detect.calledOnce);
-    });
-
-    test('measures fps', () => {
-      instance._detect(10);
-      instance._detect(30);
-      assert.equal(instance.fps, 50);
-    });
-
-    test('detects jank', () => {
-      let now = 10;
-      instance._detect(now);
-      const fastFrame = () => instance._detect(now += 20);
-      const slowFrame = () => instance._detect(now += 300);
-      fastFrame();
-      assert.equal(instance.jank, 0);
-      _.times(4, slowFrame);
-      assert.equal(instance.jank, 0);
-      instance._requestAnimationFrame.reset();
-      slowFrame();
-      assert.equal(instance.jank, 1);
-      assert.isFalse(instance._requestAnimationFrame.called);
-      clock.tick(1000);
-      assert.isTrue(instance._requestAnimationFrame.called);
-    });
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    clock = sinon.useFakeTimers(NOW_TIME);
+    instance = GrJankDetector;
+    instance._lastFrameTime = 0;
+    sandbox.stub(instance, '_requestAnimationFrame');
   });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('start() installs frame callback', () => {
+    sandbox.stub(instance, '_detect');
+    instance._requestAnimationFrame.callsArg(0);
+    instance.start();
+    assert.isTrue(instance._detect.calledOnce);
+  });
+
+  test('measures fps', () => {
+    instance._detect(10);
+    instance._detect(30);
+    assert.equal(instance.fps, 50);
+  });
+
+  test('detects jank', () => {
+    let now = 10;
+    instance._detect(now);
+    const fastFrame = () => instance._detect(now += 20);
+    const slowFrame = () => instance._detect(now += 300);
+    fastFrame();
+    assert.equal(instance.jank, 0);
+    _.times(4, slowFrame);
+    assert.equal(instance.jank, 0);
+    instance._requestAnimationFrame.reset();
+    slowFrame();
+    assert.equal(instance.jank, 1);
+    assert.isFalse(instance._requestAnimationFrame.called);
+    clock.tick(1000);
+    assert.isTrue(instance._requestAnimationFrame.called);
+  });
+});
 </script>

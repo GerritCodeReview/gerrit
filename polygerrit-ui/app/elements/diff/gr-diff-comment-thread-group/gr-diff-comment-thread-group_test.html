@@ -19,14 +19,18 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-diff-comment-thread-group</title>
 
-<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-<script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="../../../../@webcomponents/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../../wct-browser-legacy/browser.js"></script>
+<script type="module" src="../../../test/common-test-setup.js"></script>
 <script src="../../../scripts/util.js"></script>
 
-<link rel="import" href="gr-diff-comment-thread-group.html">
+<script type="module" src="./gr-diff-comment-thread-group.js"></script>
 
-<script>void(0);</script>
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-diff-comment-thread-group.js';
+void(0);
+</script>
 
 <test-fixture id="basic">
   <template>
@@ -34,27 +38,54 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-diff-comment-thread-group tests', () => {
-    let element;
-    let sandbox;
+<script type="module">
+import '../../../test/common-test-setup.js';
+import './gr-diff-comment-thread-group.js';
+suite('gr-diff-comment-thread-group tests', () => {
+  let element;
+  let sandbox;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
-      });
-      element = fixture('basic');
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(false); },
     });
+    element = fixture('basic');
+  });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+  teardown(() => {
+    sandbox.restore();
+  });
 
-    test('_getThreads', () => {
-      element.patchForNewThreads = 3;
-      const comments = [
-        {
+  test('_getThreads', () => {
+    element.patchForNewThreads = 3;
+    const comments = [
+      {
+        id: 'sallys_confession',
+        message: 'i like you, jack',
+        updated: '2015-12-23 15:00:20.396000000',
+        __commentSide: 'left',
+      }, {
+        id: 'jacks_reply',
+        message: 'i like you, too',
+        updated: '2015-12-24 15:01:20.396000000',
+        __commentSide: 'left',
+        in_reply_to: 'sallys_confession',
+      },
+      {
+        id: 'new_draft',
+        message: 'i do not like either of you',
+        __commentSide: 'left',
+        __draft: true,
+        updated: '2015-12-20 15:01:20.396000000',
+      },
+    ];
+
+    let expectedThreadGroups = [
+      {
+        start_datetime: '2015-12-23 15:00:20.396000000',
+        commentSide: 'left',
+        comments: [{
           id: 'sallys_confession',
           message: 'i like you, jack',
           updated: '2015-12-23 15:00:20.396000000',
@@ -65,328 +96,303 @@ limitations under the License.
           updated: '2015-12-24 15:01:20.396000000',
           __commentSide: 'left',
           in_reply_to: 'sallys_confession',
-        },
-        {
-          id: 'new_draft',
-          message: 'i do not like either of you',
+        }],
+        rootId: 'sallys_confession',
+        patchNum: 3,
+      },
+      {
+        start_datetime: '2015-12-20 15:01:20.396000000',
+        commentSide: 'left',
+        comments: [
+          {
+            id: 'new_draft',
+            message: 'i do not like either of you',
+            __commentSide: 'left',
+            __draft: true,
+            updated: '2015-12-20 15:01:20.396000000',
+          },
+        ],
+        rootId: 'new_draft',
+        patchNum: 3,
+      },
+    ];
+
+    assert.deepEqual(element._getThreads(comments), expectedThreadGroups);
+
+    // Patch num should get inherited from comment rather
+    comments.push({
+      id: 'betsys_confession',
+      message: 'i like you, jack',
+      updated: '2015-12-24 15:00:10.396000000',
+      range: {
+        start_line: 1,
+        start_character: 1,
+        end_line: 1,
+        end_character: 2,
+      },
+      __commentSide: 'left',
+    });
+
+    expectedThreadGroups = [
+      {
+        start_datetime: '2015-12-23 15:00:20.396000000',
+        commentSide: 'left',
+        comments: [{
+          id: 'sallys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-23 15:00:20.396000000',
           __commentSide: 'left',
-          __draft: true,
-          updated: '2015-12-20 15:01:20.396000000',
-        },
-      ];
-
-      let expectedThreadGroups = [
-        {
-          start_datetime: '2015-12-23 15:00:20.396000000',
-          commentSide: 'left',
-          comments: [{
-            id: 'sallys_confession',
-            message: 'i like you, jack',
-            updated: '2015-12-23 15:00:20.396000000',
-            __commentSide: 'left',
-          }, {
-            id: 'jacks_reply',
-            message: 'i like you, too',
-            updated: '2015-12-24 15:01:20.396000000',
-            __commentSide: 'left',
-            in_reply_to: 'sallys_confession',
-          }],
-          rootId: 'sallys_confession',
-          patchNum: 3,
-        },
-        {
-          start_datetime: '2015-12-20 15:01:20.396000000',
-          commentSide: 'left',
-          comments: [
-            {
-              id: 'new_draft',
-              message: 'i do not like either of you',
-              __commentSide: 'left',
-              __draft: true,
-              updated: '2015-12-20 15:01:20.396000000',
-            },
-          ],
-          rootId: 'new_draft',
-          patchNum: 3,
-        },
-      ];
-
-      assert.deepEqual(element._getThreads(comments), expectedThreadGroups);
-
-      // Patch num should get inherited from comment rather
-      comments.push({
-        id: 'betsys_confession',
-        message: 'i like you, jack',
-        updated: '2015-12-24 15:00:10.396000000',
-        range: {
-          start_line: 1,
-          start_character: 1,
-          end_line: 1,
-          end_character: 2,
-        },
-        __commentSide: 'left',
-      });
-
-      expectedThreadGroups = [
-        {
-          start_datetime: '2015-12-23 15:00:20.396000000',
-          commentSide: 'left',
-          comments: [{
-            id: 'sallys_confession',
-            message: 'i like you, jack',
-            updated: '2015-12-23 15:00:20.396000000',
-            __commentSide: 'left',
-          }, {
-            id: 'jacks_reply',
-            in_reply_to: 'sallys_confession',
-            message: 'i like you, too',
-            updated: '2015-12-24 15:01:20.396000000',
-            __commentSide: 'left',
-          }],
-          patchNum: 3,
-          rootId: 'sallys_confession',
-        },
-        {
-          start_datetime: '2015-12-24 15:00:10.396000000',
-          commentSide: 'left',
-          comments: [{
-            id: 'betsys_confession',
-            message: 'i like you, jack',
-            updated: '2015-12-24 15:00:10.396000000',
-            range: {
-              start_line: 1,
-              start_character: 1,
-              end_line: 1,
-              end_character: 2,
-            },
-            __commentSide: 'left',
-          }],
-          patchNum: 3,
-          rootId: 'betsys_confession',
+        }, {
+          id: 'jacks_reply',
+          in_reply_to: 'sallys_confession',
+          message: 'i like you, too',
+          updated: '2015-12-24 15:01:20.396000000',
+          __commentSide: 'left',
+        }],
+        patchNum: 3,
+        rootId: 'sallys_confession',
+      },
+      {
+        start_datetime: '2015-12-24 15:00:10.396000000',
+        commentSide: 'left',
+        comments: [{
+          id: 'betsys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:10.396000000',
           range: {
             start_line: 1,
             start_character: 1,
             end_line: 1,
             end_character: 2,
           },
-        },
-        {
-          start_datetime: '2015-12-20 15:01:20.396000000',
-          commentSide: 'left',
-          comments: [
-            {
-              id: 'new_draft',
-              message: 'i do not like either of you',
-              __commentSide: 'left',
-              __draft: true,
-              updated: '2015-12-20 15:01:20.396000000',
-            },
-          ],
-          rootId: 'new_draft',
-          patchNum: 3,
-        },
-      ];
-
-      assert.deepEqual(element._getThreads(comments), expectedThreadGroups);
-    });
-
-    test('getThread', () => {
-      const range = {
-        start_line: 1,
-        start_character: 1,
-        end_line: 1,
-        end_character: 2,
-      };
-      element.comments = [
-        {
-          id: 'sallys_confession',
-          message: 'i like you, jack',
-          updated: '2015-12-23 15:00:20.396000000',
           __commentSide: 'left',
-        }, {
-          id: 'jacks_reply',
-          message: 'i like you, too',
-          updated: '2015-12-24 15:01:20.396000000',
-          __commentSide: 'left',
-          in_reply_to: 'sallys_confession',
-        }, {
-          id: 'new_draft',
-          message: 'i do not like either of you',
-          __commentSide: 'left',
-          __draft: true,
-          in_reply_to: 'sallys_confession',
-          updated: '2015-12-20 15:01:20.396000000',
-        }, {
-          id: 'right_side_comment',
-          message: 'right side comment',
-          __commentSide: 'right',
-          __draft: true,
-          updated: '2015-12-20 15:01:20.396000000',
-        }, {
-          id: 'betsys_confession',
-          message: 'i like you more, jack',
-          updated: '2015-12-24 15:00:10.396000000',
-          range,
-          __commentSide: 'left',
+        }],
+        patchNum: 3,
+        rootId: 'betsys_confession',
+        range: {
+          start_line: 1,
+          start_character: 1,
+          end_line: 1,
+          end_character: 2,
         },
-      ];
+      },
+      {
+        start_datetime: '2015-12-20 15:01:20.396000000',
+        commentSide: 'left',
+        comments: [
+          {
+            id: 'new_draft',
+            message: 'i do not like either of you',
+            __commentSide: 'left',
+            __draft: true,
+            updated: '2015-12-20 15:01:20.396000000',
+          },
+        ],
+        rootId: 'new_draft',
+        patchNum: 3,
+      },
+    ];
 
-      flushAsynchronousOperations();
-      assert.deepEqual(element.getThread('right').rootId, 'right_side_comment');
-      assert.deepEqual(element.getThread('right').comments.length, 1);
-      assert.deepEqual(element.getThread('left').rootId, 'sallys_confession');
-      assert.deepEqual(element.getThread('left').comments.length, 3);
-      assert.deepEqual(element.getThread('left', range).rootId,
-          'betsys_confession');
-      assert.deepEqual(element.getThread('left', range).comments.length, 1);
-    });
-
-    test('multiple comments at same location but not threaded', () => {
-      element.patchForNewThreads = 3;
-      const comments = [
-        {
-          id: 'sallys_confession',
-          message: 'i like you, jack',
-          updated: '2015-12-23 15:00:20.396000000',
-          __commentSide: 'left',
-        }, {
-          id: 'jacks_reply',
-          message: 'i like you, too',
-          updated: '2015-12-24 15:01:20.396000000',
-          __commentSide: 'left',
-        },
-      ];
-      assert.equal(element._getThreads(comments).length, 2);
-    });
-
-    test('_sortByDate', () => {
-      let threadGroups = [
-        {
-          start_datetime: '2015-12-23 15:00:20.396000000',
-          comments: [],
-          locationRange: 'line',
-        },
-        {
-          start_datetime: '2015-12-22 15:00:10.396000000',
-          comments: [],
-          locationRange: 'range-1-1-1-2',
-        },
-      ];
-
-      let expectedResult = [
-        {
-          start_datetime: '2015-12-22 15:00:10.396000000',
-          comments: [],
-          locationRange: 'range-1-1-1-2',
-        }, {
-          start_datetime: '2015-12-23 15:00:20.396000000',
-          comments: [],
-          locationRange: 'line',
-        },
-      ];
-
-      assert.deepEqual(element._sortByDate(threadGroups), expectedResult);
-
-      // When a comment doesn't have a date, the one without the date should be
-      // last.
-      threadGroups = [
-        {
-          start_datetime: '2015-12-23 15:00:20.396000000',
-          comments: [],
-          locationRange: 'line',
-        },
-        {
-          comments: [],
-          locationRange: 'range-1-1-1-2',
-        },
-      ];
-
-      expectedResult = [
-        {
-          start_datetime: '2015-12-23 15:00:20.396000000',
-          comments: [],
-          locationRange: 'line',
-        },
-        {
-          comments: [],
-          locationRange: 'range-1-1-1-2',
-        },
-      ];
-
-      assert.deepEqual(element._sortByDate(threadGroups), expectedResult);
-    });
-
-    test('_calculateLocationRange', () => {
-      const comment = {__commentSide: 'left'};
-      const range = {
-        start_line: 1,
-        start_character: 2,
-        end_line: 3,
-        end_character: 4,
-      };
-      assert.equal(
-          element._calculateLocationRange(range, comment),
-          'range-1-2-3-4-left');
-    });
-
-    test('thread groups are updated when comments change', () => {
-      const commentsChangedStub = sandbox.stub(element, '_commentsChanged');
-      element.comments = [];
-      element.comments.push({
-        id: 'sallys_confession',
-        message: 'i like you, jack',
-        updated: '2015-12-23 15:00:20.396000000',
-      });
-      assert(commentsChangedStub.called);
-    });
-
-    test('addNewThread', () => {
-      const locationRange = 'range-1-2-3-4';
-      element._threads = [{locationRange: 'line'}];
-      element.addNewThread(locationRange);
-      assert(element._threads.length, 2);
-    });
-
-    test('_getPatchNum', () => {
-      element.patchForNewThreads = 3;
-      const comment = {
-        id: 'sallys_confession',
-        message: 'i like you, jack',
-        updated: '2015-12-23 15:00:20.396000000',
-      };
-      assert.equal(element._getPatchNum(comment), 3);
-      comment.patch_set = 4;
-      assert.equal(element._getPatchNum(comment), 4);
-    });
-
-    test('removeThread', () => {
-      const locationRange = 'range-1-2-3-4';
-      element._threads = [
-        {locationRange: 'range-1-2-3-4', comments: []},
-        {locationRange: 'line', comments: []},
-      ];
-      flushAsynchronousOperations();
-      element.removeThread(locationRange);
-      flushAsynchronousOperations();
-      assert(element._threads.length, 1);
-    });
-
-    test('_rangesEqual', () => {
-      const range1 =
-          {startLine: 123, startChar: 345, endLine: 234, endChar: 456};
-      const range2 =
-          {startLine: 1, startChar: 2, endLine: 3, endChar: 4};
-
-      assert.isTrue(element._rangesEqual(null, null));
-      assert.isTrue(element._rangesEqual(null, undefined));
-      assert.isTrue(element._rangesEqual(undefined, null));
-      assert.isTrue(element._rangesEqual(undefined, undefined));
-
-      assert.isFalse(element._rangesEqual(range1, null));
-      assert.isFalse(element._rangesEqual(null, range1));
-      assert.isFalse(element._rangesEqual(range1, range2));
-
-      assert.isTrue(element._rangesEqual(range1, Object.assign({}, range1)));
-    });
+    assert.deepEqual(element._getThreads(comments), expectedThreadGroups);
   });
+
+  test('getThread', () => {
+    const range = {
+      start_line: 1,
+      start_character: 1,
+      end_line: 1,
+      end_character: 2,
+    };
+    element.comments = [
+      {
+        id: 'sallys_confession',
+        message: 'i like you, jack',
+        updated: '2015-12-23 15:00:20.396000000',
+        __commentSide: 'left',
+      }, {
+        id: 'jacks_reply',
+        message: 'i like you, too',
+        updated: '2015-12-24 15:01:20.396000000',
+        __commentSide: 'left',
+        in_reply_to: 'sallys_confession',
+      }, {
+        id: 'new_draft',
+        message: 'i do not like either of you',
+        __commentSide: 'left',
+        __draft: true,
+        in_reply_to: 'sallys_confession',
+        updated: '2015-12-20 15:01:20.396000000',
+      }, {
+        id: 'right_side_comment',
+        message: 'right side comment',
+        __commentSide: 'right',
+        __draft: true,
+        updated: '2015-12-20 15:01:20.396000000',
+      }, {
+        id: 'betsys_confession',
+        message: 'i like you more, jack',
+        updated: '2015-12-24 15:00:10.396000000',
+        range,
+        __commentSide: 'left',
+      },
+    ];
+
+    flushAsynchronousOperations();
+    assert.deepEqual(element.getThread('right').rootId, 'right_side_comment');
+    assert.deepEqual(element.getThread('right').comments.length, 1);
+    assert.deepEqual(element.getThread('left').rootId, 'sallys_confession');
+    assert.deepEqual(element.getThread('left').comments.length, 3);
+    assert.deepEqual(element.getThread('left', range).rootId,
+        'betsys_confession');
+    assert.deepEqual(element.getThread('left', range).comments.length, 1);
+  });
+
+  test('multiple comments at same location but not threaded', () => {
+    element.patchForNewThreads = 3;
+    const comments = [
+      {
+        id: 'sallys_confession',
+        message: 'i like you, jack',
+        updated: '2015-12-23 15:00:20.396000000',
+        __commentSide: 'left',
+      }, {
+        id: 'jacks_reply',
+        message: 'i like you, too',
+        updated: '2015-12-24 15:01:20.396000000',
+        __commentSide: 'left',
+      },
+    ];
+    assert.equal(element._getThreads(comments).length, 2);
+  });
+
+  test('_sortByDate', () => {
+    let threadGroups = [
+      {
+        start_datetime: '2015-12-23 15:00:20.396000000',
+        comments: [],
+        locationRange: 'line',
+      },
+      {
+        start_datetime: '2015-12-22 15:00:10.396000000',
+        comments: [],
+        locationRange: 'range-1-1-1-2',
+      },
+    ];
+
+    let expectedResult = [
+      {
+        start_datetime: '2015-12-22 15:00:10.396000000',
+        comments: [],
+        locationRange: 'range-1-1-1-2',
+      }, {
+        start_datetime: '2015-12-23 15:00:20.396000000',
+        comments: [],
+        locationRange: 'line',
+      },
+    ];
+
+    assert.deepEqual(element._sortByDate(threadGroups), expectedResult);
+
+    // When a comment doesn't have a date, the one without the date should be
+    // last.
+    threadGroups = [
+      {
+        start_datetime: '2015-12-23 15:00:20.396000000',
+        comments: [],
+        locationRange: 'line',
+      },
+      {
+        comments: [],
+        locationRange: 'range-1-1-1-2',
+      },
+    ];
+
+    expectedResult = [
+      {
+        start_datetime: '2015-12-23 15:00:20.396000000',
+        comments: [],
+        locationRange: 'line',
+      },
+      {
+        comments: [],
+        locationRange: 'range-1-1-1-2',
+      },
+    ];
+
+    assert.deepEqual(element._sortByDate(threadGroups), expectedResult);
+  });
+
+  test('_calculateLocationRange', () => {
+    const comment = {__commentSide: 'left'};
+    const range = {
+      start_line: 1,
+      start_character: 2,
+      end_line: 3,
+      end_character: 4,
+    };
+    assert.equal(
+        element._calculateLocationRange(range, comment),
+        'range-1-2-3-4-left');
+  });
+
+  test('thread groups are updated when comments change', () => {
+    const commentsChangedStub = sandbox.stub(element, '_commentsChanged');
+    element.comments = [];
+    element.comments.push({
+      id: 'sallys_confession',
+      message: 'i like you, jack',
+      updated: '2015-12-23 15:00:20.396000000',
+    });
+    assert(commentsChangedStub.called);
+  });
+
+  test('addNewThread', () => {
+    const locationRange = 'range-1-2-3-4';
+    element._threads = [{locationRange: 'line'}];
+    element.addNewThread(locationRange);
+    assert(element._threads.length, 2);
+  });
+
+  test('_getPatchNum', () => {
+    element.patchForNewThreads = 3;
+    const comment = {
+      id: 'sallys_confession',
+      message: 'i like you, jack',
+      updated: '2015-12-23 15:00:20.396000000',
+    };
+    assert.equal(element._getPatchNum(comment), 3);
+    comment.patch_set = 4;
+    assert.equal(element._getPatchNum(comment), 4);
+  });
+
+  test('removeThread', () => {
+    const locationRange = 'range-1-2-3-4';
+    element._threads = [
+      {locationRange: 'range-1-2-3-4', comments: []},
+      {locationRange: 'line', comments: []},
+    ];
+    flushAsynchronousOperations();
+    element.removeThread(locationRange);
+    flushAsynchronousOperations();
+    assert(element._threads.length, 1);
+  });
+
+  test('_rangesEqual', () => {
+    const range1 =
+        {startLine: 123, startChar: 345, endLine: 234, endChar: 456};
+    const range2 =
+        {startLine: 1, startChar: 2, endLine: 3, endChar: 4};
+
+    assert.isTrue(element._rangesEqual(null, null));
+    assert.isTrue(element._rangesEqual(null, undefined));
+    assert.isTrue(element._rangesEqual(undefined, null));
+    assert.isTrue(element._rangesEqual(undefined, undefined));
+
+    assert.isFalse(element._rangesEqual(range1, null));
+    assert.isFalse(element._rangesEqual(null, range1));
+    assert.isFalse(element._rangesEqual(range1, range2));
+
+    assert.isTrue(element._rangesEqual(range1, Object.assign({}, range1)));
+  });
+});
 </script>

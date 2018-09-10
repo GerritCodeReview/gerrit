@@ -1911,7 +1911,6 @@ class ReceiveCommits {
     }
 
     try {
-      NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, receivePack.getRevWalk());
       if (validCommit(
           receivePack.getRevWalk().getObjectReader(),
           changeEnt.getDest(),
@@ -1966,10 +1965,6 @@ class ReceiveCommits {
         break;
       }
     }
-  }
-
-  private NoteMap loadRejectCommits() throws IOException {
-    return BanCommit.loadRejectCommitsMap(repo, receivePack.getRevWalk());
   }
 
   private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch(Task newProgress) {
@@ -2086,7 +2081,7 @@ class ReceiveCommits {
             c,
             magicBranch.merged,
             null,
-            loadRejectCommits())) {
+            rejectCommits)) {
           // Not a change the user can propose? Abort as early as possible.
           logger.atFine().log("Aborting early due to invalid commit");
           return Collections.emptyList();
@@ -3050,8 +3045,6 @@ class ReceiveCommits {
     walk.reset();
     walk.sort(RevSort.NONE);
     try {
-      NoteMap rejectCommits = loadRejectCommits();
-
       RevObject parsedObject = walk.parseAny(cmd.getNewId());
       if (!(parsedObject instanceof RevCommit)) {
         return;
@@ -3111,8 +3104,7 @@ class ReceiveCommits {
       ReceiveCommand cmd,
       RevCommit commit,
       boolean isMerged,
-      @Nullable Change change,
-      NoteMap rejectCommits)
+      @Nullable Change change)
       throws IOException {
 
     ValidCommitKey key = new AutoValue_ReceiveCommits_ValidCommitKey(commit.copy(), branch);

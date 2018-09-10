@@ -56,4 +56,8 @@ public interface BrowseUrls {
   default Optional<String> getDocUrl(String page, String anchor) {
     return getWebUrl().map(url -> url + "Documentation/" + page + "#" + anchor);
   }
+
+  default Optional<String> getRestUrl(String suffix) {
+    return getWebUrl().map(url -> url + suffix);
+  }
 }

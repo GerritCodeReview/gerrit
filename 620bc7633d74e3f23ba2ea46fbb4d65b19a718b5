@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "a9ef1b09_ca53bf8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-10T06:24:21Z",
+      "side": 1,
+      "message": "Please also extend AccountsRestApiBindingsIT to cover the new REST endpoint.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 56
+      },
+      "revId": "620bc7633d74e3f23ba2ea46fbb4d65b19a718b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c142c4fc_387a5690",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-10T06:24:21Z",
+      "side": 1,
+      "message": "Also check that the calling user is the same that was specified in the URL to prevent that users delete draft comments of other users (unless they are admin).",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 5
+      },
+      "revId": "620bc7633d74e3f23ba2ea46fbb4d65b19a718b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34b2b743_7186d34d",
         "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftComments.java",
         "patchSetId": 1

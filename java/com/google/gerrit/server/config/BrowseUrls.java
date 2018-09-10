@@ -43,4 +43,8 @@ public interface BrowseUrls {
 
     return u;
   }
+
+  default String docUrl(String page, String anchor) {
+    return webUrl() + "Documentation/" + page + "#" + anchor;
+  }
 }

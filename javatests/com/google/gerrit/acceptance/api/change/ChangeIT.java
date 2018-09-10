@@ -2214,13 +2214,12 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // notify unrelated account as TO
     String email = "user2@example.com";
-    Account.Id user2Id =
-        accountOperations
-            .newAccount()
-            .username("user2")
-            .preferredEmail(email)
-            .fullname("User2")
-            .create();
+    accountOperations
+        .newAccount()
+        .username("user2")
+        .preferredEmail(email)
+        .fullname("User2")
+        .create();
     setApiUser(user);
     recommend(r.getChangeId());
     setApiUser(admin);

@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.thirdparty.guava.common.base.Strings;
 
 /** BrowseUrls defines all URLs we provide to users as messages. */
 public interface BrowseUrls {
@@ -32,5 +33,14 @@ public interface BrowseUrls {
         + (project != null ? project.get() + "/+/" : "")
         + id.get()
         + (file == null ? "" : "/" + file + (lineNumber == null ? "" : "#" + lineNumber));
+  }
+
+  default String settingsUrl(String section) {
+    String u = webUrl() + "/settings/";
+    if (!Strings.isNullOrEmpty(section)) {
+      u += "#" + section;
+    }
+
+    return u;
   }
 }

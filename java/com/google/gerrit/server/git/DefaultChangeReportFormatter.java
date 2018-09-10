@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.BrowseUrls;
 import com.google.inject.Inject;
 
 /** Print a change description for use in git command-line progress. */
@@ -24,30 +24,29 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
   private static final String SUBJECT_CROP_APPENDIX = "...";
   private static final int SUBJECT_CROP_RANGE = 10;
 
-  private final String canonicalWebUrl;
+  private final BrowseUrls browseUrls;
 
   @Inject
-  DefaultChangeReportFormatter(@CanonicalWebUrl String canonicalWebUrl) {
-    this.canonicalWebUrl = canonicalWebUrl;
+  DefaultChangeReportFormatter(BrowseUrls browseUrls) {
+    this.browseUrls = browseUrls;
   }
 
   @Override
   public String newChange(ChangeReportFormatter.Input input) {
-    return formatChangeUrl(canonicalWebUrl, input);
+    return formatChangeUrl(input);
   }
 
   @Override
   public String changeUpdated(ChangeReportFormatter.Input input) {
-    return formatChangeUrl(canonicalWebUrl, input);
-  }
-
-  public static String formatChangeUrl(String canonicalWebUrl, Change change) {
-    return canonicalWebUrl + "c/" + change.getProject().get() + "/+/" + change.getChangeId();
+    return formatChangeUrl(input);
   }
 
   @Override
   public String changeClosed(ChangeReportFormatter.Input input) {
-    return String.format("change %s closed", formatChangeUrl(canonicalWebUrl, input.change()));
+    Change c = input.change();
+    return String.format(
+        "change %s closed",
+        browseUrls.getChangeViewUrl(c.getProject(), c.getId()).orElse(c.getId().toString()));
   }
 
   protected String cropSubject(String subject) {
@@ -65,11 +64,12 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
     return subject;
   }
 
-  protected String formatChangeUrl(String url, Input input) {
+  protected String formatChangeUrl(Input input) {
+    Change c = input.change();
     StringBuilder m =
         new StringBuilder()
             .append("  ")
-            .append(formatChangeUrl(url, input.change()))
+            .append(browseUrls.getChangeViewUrl(c.getProject(), c.getId()))
             .append(" ")
             .append(cropSubject(input.subject()));
     if (input.isEdit()) {

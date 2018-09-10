@@ -71,7 +71,6 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
     assertThat(projectCreationListener.traceId).isNull();
-    assertThat(projectCreationListener.foundTraceId).isFalse();
     assertThat(projectCreationListener.isLoggingForced).isFalse();
   }
 
@@ -82,7 +81,6 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
     assertThat(projectCreationListener.traceId).isNotNull();
-    assertThat(projectCreationListener.foundTraceId).isTrue();
     assertThat(projectCreationListener.isLoggingForced).isTrue();
   }
 
@@ -93,7 +91,6 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
     assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
-    assertThat(projectCreationListener.foundTraceId).isTrue();
     assertThat(projectCreationListener.isLoggingForced).isTrue();
   }
 
@@ -103,7 +100,6 @@ public class TraceIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isNull();
-    assertThat(commitValidationListener.foundTraceId).isFalse();
     assertThat(commitValidationListener.isLoggingForced).isFalse();
   }
 
@@ -114,7 +110,6 @@ public class TraceIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isNotNull();
-    assertThat(commitValidationListener.foundTraceId).isTrue();
     assertThat(commitValidationListener.isLoggingForced).isTrue();
   }
 
@@ -125,7 +120,6 @@ public class TraceIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isEqualTo("issue/123");
-    assertThat(commitValidationListener.foundTraceId).isTrue();
     assertThat(commitValidationListener.isLoggingForced).isTrue();
   }
 
@@ -135,7 +129,6 @@ public class TraceIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isNull();
-    assertThat(commitValidationListener.foundTraceId).isFalse();
     assertThat(commitValidationListener.isLoggingForced).isFalse();
   }
 
@@ -146,7 +139,6 @@ public class TraceIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isNotNull();
-    assertThat(commitValidationListener.foundTraceId).isTrue();
     assertThat(commitValidationListener.isLoggingForced).isTrue();
   }
 
@@ -157,28 +149,24 @@ public class TraceIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isEqualTo("issue/123");
-    assertThat(commitValidationListener.foundTraceId).isTrue();
     assertThat(commitValidationListener.isLoggingForced).isTrue();
   }
 
   private static class TraceValidatingProjectCreationValidationListener
       implements ProjectCreationValidationListener {
     String traceId;
-    Boolean foundTraceId;
     Boolean isLoggingForced;
 
     @Override
     public void validateNewProject(CreateProjectArgs args) throws ValidationException {
       this.traceId =
           Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
-      this.foundTraceId = traceId != null;
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
     }
   }
 
   private static class TraceValidatingCommitValidationListener implements CommitValidationListener {
     String traceId;
-    Boolean foundTraceId;
     Boolean isLoggingForced;
 
     @Override
@@ -186,7 +174,6 @@ public class TraceIT extends AbstractDaemonTest {
         throws CommitValidationException {
       this.traceId =
           Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
-      this.foundTraceId = traceId != null;
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
       return ImmutableList.of();
     }

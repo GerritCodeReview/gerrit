@@ -1,4 +1,279 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1536326573 +0200\nnonce ACQ0Hpx8zALiiIW2i1iGvmwHFiPllICxEsynyIcKE2gtzQhfRyuE1182I4ERP50AcltfEOuLMfr+\n\n0000000000000000000000000000000000000000 45f92ee17fcd72b587f5bd2eab94a886bfe195ab refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluSe64ACgkQUbX9l6DQ\n71FLfAf9G0+c38M4NPebNM7yDqJrbAg1JBonKpJlN0/MnIWzRLXNQLhrfQC5Q4FM\nyBBfa5gfcNe8GJ2EYEUq/qKieNPkjTtI0EPzmydStqw82PqzaTYcYJtncgD4OZ4w\nc08rApqelxNGuhExLaIi4e2WtMJib036K2jffgIb+15AzXLuIO3Pwi7ZRiim6FvZ\n0sYH79Jdrrj/Tm4DmgHt1CpbGj+ekVDgd8k3cpNBAXf/5pwpVv3kbOTrol5+GU1r\nUyunYET9bK7Fo3XYC+fgPzwiYGInRkzVluMdDiFCmEV9Yc33tyGV//MdKYGg8z9c\n7I07UY52MfASvOMyphK33p1mxj8maw\u003d\u003d\n\u003d81fd\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4493289f_9d45b2d9",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "After this change, is there actually a use case for iterating over the elements in a DynamicSet rather than their Entry wrappers? ISTM it would be programmer error to forget to call .entries() on your DynamicSet. If there is no use case, maybe we should consider making this an Iterable\u003cDynamicSet.Entry\u003cT\u003e\u003e instead.\n\nUnfortunately I think there\u0027s no way to enforce that callers remember to call TraceContext.newTrace and/or to eliminate the extra level of nesting. But I\u0027m hoping that the fact that they are handed an Entry instance is a reminder that you should do something else in addition to calling .get() on it.",
+      "range": {
+        "startLine": 47,
+        "startChar": 38,
+        "endLine": 47,
+        "endChar": 50
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "976a47ca_a07e79ad",
+        "filename": "java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "Can this use .invoke()?",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdba31cd_e20bee88",
+        "filename": "java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "Not related to this change, but I don\u0027t see why this method should ever need to return null. But I guess it\u0027s an extension point so we don\u0027t necessarily have control over implementations :/",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16b3bfa3_5a2ca4c1",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "This doesn\u0027t throw, so I think this could use .invoke, right?",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bac55c82_f99ce548",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "This is repeated quite a bit. Could it go in the class Javadoc instead?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffcce38e_60d80605",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "Please extract a class-level constant. Private is fine.",
+      "range": {
+        "startLine": 96,
+        "startChar": 38,
+        "endLine": 96,
+        "endChar": 46
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25ae61e1_45a37586",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "See below, would this make sense as a method on DynamicItem?",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce185329_46b0c8bc",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "To me, \"ignore exceptions\" says do nothing, whereas the implementation actually logs exceptions. This was jarring to me when I was reading usages, because it looked like you were replacing exception-handling (logging) code with something that says \"ignore exceptions\". Is there a clearer name we can use, like \"invokeAndLogExceptions\"?\n\nIf we choose to stick with \"ignore\" instead of mentioning logging, I think \"invokeIgnoring\" would be more grammatical, as in \"invoke [this method], ignoring any exceptions that arise\".",
+      "range": {
+        "startLine": 114,
+        "startChar": 25,
+        "endLine": 114,
+        "endChar": 47
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3111ce30_6edd55d5",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "This is redundant with the class Javadoc.",
+      "range": {
+        "startLine": 128,
+        "startChar": 86,
+        "endLine": 129,
+        "endChar": 87
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8390eacc_3f09c321",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "Would this be better as a .forEach() or .forEachIgnoringExceptions() method on DynamicSet itself? Analogous to Collection#forEach.",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3232af47_ee8b091a",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "I expected to see somewhere a description of when to use invoke (when the function doesn\u0027t throw), when to use invokeIngoreExceptions (when it can throw but ignoring exception is ok), and what to do when neither of those applies (iterate manually).\n\nI don\u0027t necessarily think this needs to be repeated in each method Javadoc; it could go in the class Javadoc.",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b99971a_87095d74",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "Throwing bare Throwable is rare. Is there a reason this can\u0027t be \"throws Exception\"?",
+      "range": {
+        "startLine": 277,
+        "startChar": 28,
+        "endLine": 277,
+        "endChar": 37
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29c91ac1_4f076316",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "Unrelated: this should use Streams.stream",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47a2c49a_a2fd838e",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:18:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure factoring out a named variable actually improves readability, given that it then has to be split into a multi-statement block.",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -68,7 +68,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
-import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelFunction;
@@ -1688,7 +1687,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // create a group named "ab" with one user: testUser
     String email = "abcd@test.com";
     String fullname = "abcd";
-    TestAccount testUser =
+    Account.Id accountIdOfTestUser =
         accountOperations
             .newAccount()
             .username("abcd")
@@ -1721,7 +1720,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
     assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
-    assertThat(reviewers.iterator().next()._accountId).isEqualTo(testUser.accountId().get());
+    assertThat(reviewers.iterator().next()._accountId).isEqualTo(accountIdOfTestUser.get());
 
     // Ensure ETag and lastUpdatedOn are updated.
     rsrc = parseResource(r);
@@ -1748,7 +1747,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     String myGroupUserEmail = "lee@test.com";
     String myGroupUserFullname = "lee";
-    TestAccount myGroupUser =
+    Account.Id accountIdOfGroupUser =
         accountOperations
             .newAccount()
             .username("lee")
@@ -1785,7 +1784,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
     assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
-    assertThat(reviewers.iterator().next()._accountId).isEqualTo(myGroupUser.accountId().get());
+    assertThat(reviewers.iterator().next()._accountId).isEqualTo(accountIdOfGroupUser.get());
 
     // Ensure ETag and lastUpdatedOn are updated.
     rsrc = parseResource(r);
@@ -2215,7 +2214,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // notify unrelated account as TO
     String email = "user2@example.com";
-    TestAccount user2 =
+    Account.Id user2Id =
         accountOperations
             .newAccount()
             .username("user2")
@@ -2229,7 +2228,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.notifyDetails = new HashMap<>();
     in.notifyDetails.put(RecipientType.TO, new NotifyInfo(ImmutableList.of(email)));
     gApi.changes().id(r.getChangeId()).reviewer(user.getId().toString()).deleteVote(in);
-    assertNotifyTo(user2);
+    assertNotifyTo(email, "User2");
 
     // notify unrelated account as CC
     setApiUser(user);
@@ -2239,7 +2238,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.notifyDetails = new HashMap<>();
     in.notifyDetails.put(RecipientType.CC, new NotifyInfo(ImmutableList.of(email)));
     gApi.changes().id(r.getChangeId()).reviewer(user.getId().toString()).deleteVote(in);
-    assertNotifyCc(user2);
+    assertNotifyCc(email, "User2");
 
     // notify unrelated account as BCC
     setApiUser(user);
@@ -2249,7 +2248,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.notifyDetails = new HashMap<>();
     in.notifyDetails.put(RecipientType.BCC, new NotifyInfo(ImmutableList.of(email)));
     gApi.changes().id(r.getChangeId()).reviewer(user.getId().toString()).deleteVote(in);
-    assertNotifyBcc(user2);
+    assertNotifyBcc(email, "User2");
   }
 
   @Test

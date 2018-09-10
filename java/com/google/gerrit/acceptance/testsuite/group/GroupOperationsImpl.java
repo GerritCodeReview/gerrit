@@ -69,13 +69,13 @@ public class GroupOperationsImpl implements GroupOperations {
     return TestGroupCreation.builder(this::createNewGroup);
   }
 
-  private TestGroup createNewGroup(TestGroupCreation groupCreation)
+  private AccountGroup.UUID createNewGroup(TestGroupCreation groupCreation)
       throws ConfigInvalidException, IOException, OrmException {
     InternalGroupCreation internalGroupCreation = toInternalGroupCreation(groupCreation);
     InternalGroupUpdate internalGroupUpdate = toInternalGroupUpdate(groupCreation);
     InternalGroup internalGroup =
         groupsUpdate.createGroup(internalGroupCreation, internalGroupUpdate);
-    return toTestGroup(internalGroup);
+    return internalGroup.getGroupUUID();
   }
 
   private InternalGroupCreation toInternalGroupCreation(TestGroupCreation groupCreation)
@@ -101,20 +101,6 @@ public class GroupOperationsImpl implements GroupOperations {
     return builder.build();
   }
 
-  private static TestGroup toTestGroup(InternalGroup internalGroup) {
-    return TestGroup.builder()
-        .groupUuid(internalGroup.getGroupUUID())
-        .groupId(internalGroup.getId())
-        .nameKey(internalGroup.getNameKey())
-        .description(Optional.ofNullable(internalGroup.getDescription()))
-        .ownerGroupUuid(internalGroup.getOwnerGroupUUID())
-        .visibleToAll(internalGroup.isVisibleToAll())
-        .createdOn(internalGroup.getCreatedOn())
-        .members(internalGroup.getMembers())
-        .subgroups(internalGroup.getSubgroups())
-        .build();
-  }
-
   private class MoreGroupOperationsImpl implements MoreGroupOperations {
     private final AccountGroup.UUID groupUuid;
 
@@ -132,6 +118,20 @@ public class GroupOperationsImpl implements GroupOperations {
       Optional<InternalGroup> group = groups.getGroup(groupUuid);
       checkState(group.isPresent(), "Tried to get non-existing test group");
       return toTestGroup(group.get());
+    }
+
+    private TestGroup toTestGroup(InternalGroup internalGroup) {
+      return TestGroup.builder()
+          .groupUuid(internalGroup.getGroupUUID())
+          .groupId(internalGroup.getId())
+          .nameKey(internalGroup.getNameKey())
+          .description(Optional.ofNullable(internalGroup.getDescription()))
+          .ownerGroupUuid(internalGroup.getOwnerGroupUUID())
+          .visibleToAll(internalGroup.isVisibleToAll())
+          .createdOn(internalGroup.getCreatedOn())
+          .members(internalGroup.getMembers())
+          .subgroups(internalGroup.getSubgroups())
+          .build();
     }
 
     @Override

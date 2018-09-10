@@ -59,12 +59,12 @@ public class AccountOperationsImpl implements AccountOperations {
     return TestAccountCreation.builder(this::createAccount);
   }
 
-  private TestAccount createAccount(TestAccountCreation accountCreation) throws Exception {
+  private Account.Id createAccount(TestAccountCreation accountCreation) throws Exception {
     AccountsUpdate.AccountUpdater accountUpdater =
         (account, updateBuilder) ->
             fillBuilder(updateBuilder, accountCreation, account.getAccount().getId());
     AccountState createdAccount = createAccount(accountUpdater);
-    return toTestAccount(createdAccount);
+    return createdAccount.getAccount().getId();
   }
 
   private AccountState createAccount(AccountsUpdate.AccountUpdater accountUpdater)
@@ -83,17 +83,6 @@ public class AccountOperationsImpl implements AccountOperations {
     accountCreation.username().ifPresent(u -> setUsername(builder, accountId, u, httpPassword));
     accountCreation.status().ifPresent(builder::setStatus);
     accountCreation.active().ifPresent(builder::setActive);
-  }
-
-  private static TestAccount toTestAccount(AccountState accountState) {
-    Account createdAccount = accountState.getAccount();
-    return TestAccount.builder()
-        .accountId(createdAccount.getId())
-        .preferredEmail(Optional.ofNullable(createdAccount.getPreferredEmail()))
-        .fullname(Optional.ofNullable(createdAccount.getFullName()))
-        .username(accountState.getUserName())
-        .active(accountState.getAccount().isActive())
-        .build();
   }
 
   private static InternalAccountUpdate.Builder setPreferredEmail(
@@ -131,6 +120,17 @@ public class AccountOperationsImpl implements AccountOperations {
               .orElseThrow(
                   () -> new IllegalStateException("Tried to get non-existing test account"));
       return toTestAccount(account);
+    }
+
+    private TestAccount toTestAccount(AccountState accountState) {
+      Account account = accountState.getAccount();
+      return TestAccount.builder()
+          .accountId(account.getId())
+          .preferredEmail(Optional.ofNullable(account.getPreferredEmail()))
+          .fullname(Optional.ofNullable(account.getFullName()))
+          .username(accountState.getUserName())
+          .active(accountState.getAccount().isActive())
+          .build();
     }
 
     @Override

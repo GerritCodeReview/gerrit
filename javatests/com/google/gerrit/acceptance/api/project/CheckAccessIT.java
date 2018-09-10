@@ -21,7 +21,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
-import com.google.gerrit.acceptance.testsuite.group.TestGroup;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
@@ -54,8 +53,8 @@ public class CheckAccessIT extends AbstractDaemonTest {
     normalProject = createProject("normal");
     secretProject = createProject("secret");
     secretRefProject = createProject("secretRef");
-    TestGroup privilegedGroup = groupOperations.newGroup().name(name("privilegedGroup")).create();
-    AccountGroup.UUID privilegedGroupUuid = privilegedGroup.groupUuid();
+    AccountGroup.UUID privilegedGroupUuid =
+        groupOperations.newGroup().name(name("privilegedGroup")).create();
 
     privilegedUser = accountCreator.create("privilegedUser", "snowden@nsa.gov", "Ed Snowden");
     groupOperations.group(privilegedGroupUuid).forUpdate().addMember(privilegedUser.id).update();

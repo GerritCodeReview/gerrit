@@ -41,7 +41,7 @@ public interface GroupOperations {
    * <p>Example:
    *
    * <pre>
-   * TestGroup createdGroup = groupOperations
+   * AccountGroup.UUID createdGroupUuid = groupOperations
    *     .newGroup()
    *     .name("verifiers")
    *     .description("All verifiers of this server")

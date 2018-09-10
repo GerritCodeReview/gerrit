@@ -38,9 +38,10 @@ public abstract class TestGroupCreation {
 
   public abstract ImmutableSet<AccountGroup.UUID> subgroups();
 
-  abstract ThrowingFunction<TestGroupCreation, TestGroup> groupCreator();
+  abstract ThrowingFunction<TestGroupCreation, AccountGroup.UUID> groupCreator();
 
-  public static Builder builder(ThrowingFunction<TestGroupCreation, TestGroup> groupCreator) {
+  public static Builder builder(
+      ThrowingFunction<TestGroupCreation, AccountGroup.UUID> groupCreator) {
     return new AutoValue_TestGroupCreation.Builder().groupCreator(groupCreator);
   }
 
@@ -93,16 +94,17 @@ public abstract class TestGroupCreation {
       return this;
     }
 
-    abstract Builder groupCreator(ThrowingFunction<TestGroupCreation, TestGroup> groupCreator);
+    abstract Builder groupCreator(
+        ThrowingFunction<TestGroupCreation, AccountGroup.UUID> groupCreator);
 
     abstract TestGroupCreation autoBuild();
 
     /**
      * Executes the group creation as specified.
      *
-     * @return the created {@code TestGroup}
+     * @return the UUID of the created group
      */
-    public TestGroup create() throws Exception {
+    public AccountGroup.UUID create() throws Exception {
       TestGroupCreation groupCreation = autoBuild();
       return groupCreation.groupCreator().apply(groupCreation);
     }

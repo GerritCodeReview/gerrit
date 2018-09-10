@@ -1487,12 +1487,7 @@ public abstract class AbstractDaemonTest {
     assertNotifyTo(expected.email, expected.fullName);
   }
 
-  protected void assertNotifyTo(
-      com.google.gerrit.acceptance.testsuite.account.TestAccount expected) {
-    assertNotifyTo(expected.preferredEmail().orElse(null), expected.fullname().orElse(null));
-  }
-
-  private void assertNotifyTo(String expectedEmail, String expectedFullname) {
+  protected void assertNotifyTo(String expectedEmail, String expectedFullname) {
     Address expectedAddress = new Address(expectedFullname, expectedEmail);
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
@@ -1504,11 +1499,6 @@ public abstract class AbstractDaemonTest {
 
   protected void assertNotifyCc(TestAccount expected) {
     assertNotifyCc(expected.emailAddress);
-  }
-
-  protected void assertNotifyCc(
-      com.google.gerrit.acceptance.testsuite.account.TestAccount expected) {
-    assertNotifyCc(expected.preferredEmail().orElse(null), expected.fullname().orElse(null));
   }
 
   protected void assertNotifyCc(String expectedEmail, String expectedFullname) {
@@ -1533,13 +1523,10 @@ public abstract class AbstractDaemonTest {
     assertThat(m.headers().get("Cc").isEmpty()).isTrue();
   }
 
-  protected void assertNotifyBcc(
-      com.google.gerrit.acceptance.testsuite.account.TestAccount expected) {
+  protected void assertNotifyBcc(String expectedEmail, String expectedFullName) {
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt())
-        .containsExactly(
-            new Address(expected.fullname().orElse(null), expected.preferredEmail().orElse(null)));
+    assertThat(m.rcpt()).containsExactly(new Address(expectedFullName, expectedEmail));
     assertThat(m.headers().get("To").isEmpty()).isTrue();
     assertThat(m.headers().get("Cc").isEmpty()).isTrue();
   }

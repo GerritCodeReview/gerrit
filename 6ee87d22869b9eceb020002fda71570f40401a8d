@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa2a893f_f807e3c1",
+        "filename": "java/com/google/gerrit/server/git/receive/CommitValidatorCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:35:32Z",
+      "side": 1,
+      "message": "Please document that instances are single-use and not threadsafe.",
+      "revId": "6ee87d22869b9eceb020002fda71570f40401a8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

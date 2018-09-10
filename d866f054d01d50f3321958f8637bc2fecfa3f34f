@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4a67120_daa23036",
+        "filename": "java/com/google/gerrit/server/config/ChangeCleanupConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-10T09:54:51Z",
+      "side": 0,
+      "message": "Where does this come from now?",
+      "range": {
+        "startLine": 34,
+        "startChar": 19,
+        "endLine": 34,
+        "endChar": 71
+      },
+      "revId": "d866f054d01d50f3321958f8637bc2fecfa3f34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

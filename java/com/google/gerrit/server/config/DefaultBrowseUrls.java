@@ -30,6 +30,6 @@ public class DefaultBrowseUrls implements BrowseUrls {
 
   @Override
   public Optional<String> getWebUrl() {
-    Optional.ofNullable(canonicalWebUrlProvider.get());
+    return Optional.ofNullable(canonicalWebUrlProvider.get());
   }
 }

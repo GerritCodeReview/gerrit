@@ -365,7 +365,6 @@ class ReceiveCommits {
   private final boolean allowProjectOwnersToChangeParent;
   private final boolean allowPushToRefsChanges;
   private final LabelTypes labelTypes;
-  private final NoteMap rejectCommits;
   private final PermissionBackend.ForProject permissions;
   private final Project project;
   private final Repository repo;
@@ -497,7 +496,6 @@ class ReceiveCommits {
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());
-    rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
 
     // Collections populated during processing.
     errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();
@@ -1249,7 +1247,7 @@ class ReceiveCommits {
     }
   }
 
-  private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException {
+  private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException, IOException {
     logger.atFine().log("Updating %s", cmd);
     Optional<AuthException> err = checkRefPermission(cmd, RefPermission.UPDATE);
     if (!err.isPresent()) {
@@ -1302,7 +1300,7 @@ class ReceiveCommits {
     }
   }
 
-  private void parseRewind(ReceiveCommand cmd) throws PermissionBackendException {
+  private void parseRewind(ReceiveCommand cmd) throws PermissionBackendException, IOException {
     RevCommit newObject;
     try {
       newObject = receivePack.getRevWalk().parseCommit(cmd.getNewId());
@@ -1911,7 +1909,7 @@ class ReceiveCommits {
     }
 
     try {
-      NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, receivePack.getRevWalk());
+      NoteMap rejectCommits = loadRejectCommits();
       if (validCommit(
           receivePack.getRevWalk().getObjectReader(),
           changeEnt.getDest(),
@@ -1981,6 +1979,7 @@ class ReceiveCommits {
         GroupCollector.create(changeRefsById(), db, psUtil, notesFactory, project.getNameKey());
 
     try {
+      NoteMap rejectCommits = loadRejectCommits();
       RevCommit start = setUpWalkForSelectingChanges();
       if (start == null) {
         return Collections.emptyList();
@@ -2086,7 +2085,7 @@ class ReceiveCommits {
             c,
             magicBranch.merged,
             null,
-            loadRejectCommits())) {
+            rejectCommits)) {
           // Not a change the user can propose? Abort as early as possible.
           logger.atFine().log("Aborting early due to invalid commit");
           return Collections.emptyList();
@@ -3022,7 +3021,9 @@ class ReceiveCommits {
    * <p>On validation failure, the command is rejected.
    */
   private void validateRegularPushCommits(Branch.NameKey branch, ReceiveCommand cmd)
-      throws PermissionBackendException {
+      throws PermissionBackendException, IOException {
+    NoteMap rejectCommits = loadRejectCommits();
+
     if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
             || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
@@ -3050,7 +3051,6 @@ class ReceiveCommits {
     walk.reset();
     walk.sort(RevSort.NONE);
     try {
-      NoteMap rejectCommits = loadRejectCommits();
 
       RevObject parsedObject = walk.parseAny(cmd.getNewId());
       if (!(parsedObject instanceof RevCommit)) {

@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.UnsupportedEncodingException;
@@ -34,7 +35,11 @@ public class CanonicalWebUrl {
 
   public String get(HttpServletRequest req) {
     String url = configured.get();
-    return url != null ? url : computeFromRequest(req);
+    if (url != null && !url.equals(CanonicalWebUrlProvider.PLACEHOLDER_URL)) {
+      return url;
+    }
+
+    return computeFromRequest(req);
   }
 
   static String computeFromRequest(HttpServletRequest req) {

@@ -20,13 +20,13 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -41,7 +41,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.BrowseUrls;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -63,6 +63,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -87,7 +88,7 @@ public class CommitValidators {
   @Singleton
   public static class Factory {
     private final PersonIdent gerritIdent;
-    private final String canonicalWebUrl;
+    private final BrowseUrls browseUrls;
     private final DynamicSet<CommitValidationListener> pluginValidators;
     private final GitRepositoryManager repoManager;
     private final AllUsersName allUsers;
@@ -100,7 +101,7 @@ public class CommitValidators {
     @Inject
     Factory(
         @GerritPersonIdent PersonIdent gerritIdent,
-        @CanonicalWebUrl @Nullable String canonicalWebUrl,
+        BrowseUrls browseUrls,
         @GerritServerConfig Config cfg,
         DynamicSet<CommitValidationListener> pluginValidators,
         GitRepositoryManager repoManager,
@@ -110,7 +111,7 @@ public class CommitValidators {
         AccountValidator accountValidator,
         ProjectCache projectCache) {
       this.gerritIdent = gerritIdent;
-      this.canonicalWebUrl = canonicalWebUrl;
+      this.browseUrls = browseUrls;
       this.pluginValidators = pluginValidators;
       this.repoManager = repoManager;
       this.allUsers = allUsers;
@@ -138,16 +139,11 @@ public class CommitValidators {
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
-              new AuthorUploaderValidator(user, perm, canonicalWebUrl),
-              new CommitterUploaderValidator(user, perm, canonicalWebUrl),
+              new AuthorUploaderValidator(user, perm, browseUrls),
+              new CommitterUploaderValidator(user, perm, browseUrls),
               new SignedOffByValidator(user, perm, projectState),
               new ChangeIdValidator(
-                  projectState,
-                  user,
-                  canonicalWebUrl,
-                  installCommitMsgHookCommand,
-                  sshInfo,
-                  change),
+                  projectState, user, browseUrls, installCommitMsgHookCommand, sshInfo, change),
               new ConfigValidator(branch, user, rw, allUsers, allProjects),
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
@@ -171,15 +167,10 @@ public class CommitValidators {
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
-              new AuthorUploaderValidator(user, perm, canonicalWebUrl),
+              new AuthorUploaderValidator(user, perm, browseUrls),
               new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.getParentKey())),
               new ChangeIdValidator(
-                  projectState,
-                  user,
-                  canonicalWebUrl,
-                  installCommitMsgHookCommand,
-                  sshInfo,
-                  change),
+                  projectState, user, browseUrls, installCommitMsgHookCommand, sshInfo, change),
               new ConfigValidator(branch, user, rw, allUsers, allProjects),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
@@ -208,8 +199,8 @@ public class CommitValidators {
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectCache.checkedGet(branch.getParentKey())),
-              new AuthorUploaderValidator(user, perm, canonicalWebUrl),
-              new CommitterUploaderValidator(user, perm, canonicalWebUrl)));
+              new AuthorUploaderValidator(user, perm, browseUrls),
+              new CommitterUploaderValidator(user, perm, browseUrls)));
     }
   }
 
@@ -253,7 +244,7 @@ public class CommitValidators {
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
     private final ProjectState projectState;
-    private final String canonicalWebUrl;
+    private final BrowseUrls browseUrls;
     private final String installCommitMsgHookCommand;
     private final SshInfo sshInfo;
     private final IdentifiedUser user;
@@ -262,12 +253,12 @@ public class CommitValidators {
     public ChangeIdValidator(
         ProjectState projectState,
         IdentifiedUser user,
-        String canonicalWebUrl,
+        BrowseUrls browseUrls,
         String installCommitMsgHookCommand,
         SshInfo sshInfo,
         Change change) {
       this.projectState = projectState;
-      this.canonicalWebUrl = canonicalWebUrl;
+      this.browseUrls = browseUrls;
       this.installCommitMsgHookCommand = installCommitMsgHookCommand;
       this.sshInfo = sshInfo;
       this.user = user;
@@ -352,10 +343,13 @@ public class CommitValidators {
 
       // If there are no SSH keys, the commit-msg hook must be installed via
       // HTTP(S)
+      Optional<String> webUrl = browseUrls.getWebUrl();
       if (hostKeys.isEmpty()) {
+        Preconditions.checkState(webUrl.isPresent());
         return String.format(
             "  f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\" %stools/hooks/commit-msg ; chmod +x \"$f\"",
-            canonicalWebUrl);
+            webUrl.get()
+            );
       }
 
       // SSH keys exist, so the hook can be installed with scp.
@@ -365,7 +359,8 @@ public class CommitValidators {
       int c = host.lastIndexOf(':');
       if (0 <= c) {
         if (host.startsWith("*:")) {
-          sshHost = getGerritHost(canonicalWebUrl);
+          Preconditions.checkState(webUrl.isPresent());
+          sshHost = getGerritHost(webUrl.get());
         } else {
           sshHost = host.substring(0, c);
         }
@@ -547,13 +542,13 @@ public class CommitValidators {
   public static class AuthorUploaderValidator implements CommitValidationListener {
     private final IdentifiedUser user;
     private final PermissionBackend.ForRef perm;
-    private final String canonicalWebUrl;
+    private final BrowseUrls browseUrls;
 
     public AuthorUploaderValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, String canonicalWebUrl) {
+        IdentifiedUser user, PermissionBackend.ForRef perm, BrowseUrls browseUrls) {
       this.user = user;
       this.perm = perm;
-      this.canonicalWebUrl = canonicalWebUrl;
+      this.browseUrls = browseUrls;
     }
 
     @Override
@@ -568,7 +563,7 @@ public class CommitValidators {
         return Collections.emptyList();
       } catch (AuthException e) {
         throw new CommitValidationException(
-            "invalid author", invalidEmail("author", author, user, canonicalWebUrl));
+            "invalid author", invalidEmail("author", author, user, browseUrls));
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check FORGE_AUTHOR");
         throw new CommitValidationException("internal auth error");
@@ -580,13 +575,13 @@ public class CommitValidators {
   public static class CommitterUploaderValidator implements CommitValidationListener {
     private final IdentifiedUser user;
     private final PermissionBackend.ForRef perm;
-    private final String canonicalWebUrl;
+    private final BrowseUrls browseUrls;
 
     public CommitterUploaderValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, String canonicalWebUrl) {
+        IdentifiedUser user, PermissionBackend.ForRef perm, BrowseUrls browseUrls) {
       this.user = user;
       this.perm = perm;
-      this.canonicalWebUrl = canonicalWebUrl;
+      this.browseUrls = browseUrls;
     }
 
     @Override
@@ -601,7 +596,7 @@ public class CommitValidators {
         return Collections.emptyList();
       } catch (AuthException e) {
         throw new CommitValidationException(
-            "invalid committer", invalidEmail("committer", committer, user, canonicalWebUrl));
+            "invalid committer", invalidEmail("committer", committer, user, browseUrls));
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check FORGE_COMMITTER");
         throw new CommitValidationException("internal auth error");
@@ -821,7 +816,7 @@ public class CommitValidators {
   }
 
   private static CommitValidationMessage invalidEmail(
-      String type, PersonIdent who, IdentifiedUser currentUser, String canonicalWebUrl) {
+      String type, PersonIdent who, IdentifiedUser currentUser, BrowseUrls browseUrls) {
     StringBuilder sb = new StringBuilder();
 
     sb.append("email address ")
@@ -839,11 +834,10 @@ public class CommitValidators {
       }
     }
 
-    if (canonicalWebUrl != null) {
-      sb.append("To register an email address, visit:\n");
-      sb.append(canonicalWebUrl).append("#").append(PageLinks.SETTINGS_CONTACT).append("\n");
+    if (browseUrls.getSettingsUrl("").isPresent()) {
+      sb.append("To register an email address, visit:\n")
+      .append(browseUrls.getSettingsUrl("EmailAddresses").get()).append("\n\n");
     }
-    sb.append("\n");
     return new CommitValidationMessage(sb.toString(), true);
   }
 

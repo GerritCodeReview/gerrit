@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -45,5 +46,10 @@ public interface BrowseUrls {
     // the /+/ separator unambiguously defines how to parse the path.
     return getWebUrl()
         .map(url -> url + "c/" + (project != null ? project.get() + "/+/" : "") + id.get());
+  }
+
+  default Optional<String> getSettingsUrl(String section) {
+    return getWebUrl().map(url -> url + "settings" +
+        (Strings.isNullOrEmpty(section) ? "" :"#" + section));
   }
 }

@@ -20,6 +20,13 @@ import org.eclipse.jgit.lib.Config;
 
 /** Provides {@link CanonicalWebUrl} from {@code gerrit.canonicalWebUrl}. */
 public class CanonicalWebUrlProvider implements Provider<String> {
+
+  /**
+   * An invalid URL for this gerrit server. This lets the rest of the code avoid having to handle
+   * the null case.
+   */
+  public static final String PLACEHOLDER_URL = "https://gerrit.invalid/";
+
   private final String canonicalUrl;
 
   @Inject
@@ -28,9 +35,14 @@ public class CanonicalWebUrlProvider implements Provider<String> {
     if (u != null && !u.endsWith("/")) {
       u += "/";
     }
+    if (u == null) {
+      u = PLACEHOLDER_URL;
+    }
+
     canonicalUrl = u;
   }
 
+  /** Returns the a canonical URL. This is never null. */
   @Override
   public String get() {
     return canonicalUrl;

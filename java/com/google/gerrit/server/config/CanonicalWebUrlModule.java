@@ -30,6 +30,7 @@ public abstract class CanonicalWebUrlModule extends AbstractModule {
     //
     final Class<? extends Provider<String>> provider = provider();
     bind(String.class).annotatedWith(CanonicalWebUrl.class).toProvider(provider);
+    bind(BrowseUrls.class).to(DefaultBrowseUrls.class);
   }
 
   protected abstract Class<? extends Provider<String>> provider();

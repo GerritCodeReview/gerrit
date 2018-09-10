@@ -14,13 +14,16 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import org.apache.http.Header;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -59,6 +62,13 @@ public class HttpResponse {
   public String getHeader(String name) {
     Header hdr = response.getFirstHeader(name);
     return hdr != null ? hdr.getValue() : null;
+  }
+
+  public ImmutableList<String> getHeaders(String name) {
+    return Arrays.asList(response.getHeaders(name))
+        .stream()
+        .map(Header::getValue)
+        .collect(toImmutableList());
   }
 
   public boolean hasContent() {

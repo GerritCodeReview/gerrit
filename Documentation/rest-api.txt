@@ -210,6 +210,15 @@ generated.
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/suggest_reviewers?trace&q=J
 ----
 
+Alternatively request tracing can also be enabled by setting the
+`X-Gerrit-Trace` header:
+
+.Example Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/suggest_reviewers?q=J
+  X-Gerrit-Trace: issue/123
+----
+
 Enabling tracing results in additional logs with debug information that
 are written to the `error_log`. All logs that correspond to the traced
 request are associated with the trace ID. The trace ID is returned with

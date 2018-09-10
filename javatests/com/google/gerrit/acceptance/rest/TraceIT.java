@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_CREATED;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.List;
+import org.apache.http.message.BasicHeader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,7 +77,7 @@ public class TraceIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void restCallWithTrace() throws Exception {
+  public void restCallWithTraceRequestParam() throws Exception {
     RestResponse response =
         adminRestSession.put("/projects/new2?" + ParameterParser.TRACE_PARAMETER);
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
@@ -85,12 +87,76 @@ public class TraceIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void restCallWithTraceAndProvidedTraceId() throws Exception {
+  public void restCallWithTraceRequestParamAndProvidedTraceId() throws Exception {
     RestResponse response =
         adminRestSession.put("/projects/new3?" + ParameterParser.TRACE_PARAMETER + "=issue/123");
     assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
     assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+  }
+
+  @Test
+  public void restCallWithTraceHeader() throws Exception {
+    RestResponse response =
+        adminRestSession.putWithHeader(
+            "/projects/new4", new BasicHeader(RestApiServlet.X_GERRIT_TRACE, null));
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
+    assertThat(projectCreationListener.traceId).isNotNull();
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+  }
+
+  @Test
+  public void restCallWithTraceHeaderAndProvidedTraceId() throws Exception {
+    RestResponse response =
+        adminRestSession.putWithHeader(
+            "/projects/new5", new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/123"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
+    assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+  }
+
+  @Test
+  public void restCallWithTraceRequestParamAndTraceHeader() throws Exception {
+    // trace ID only specified by trace header
+    RestResponse response =
+        adminRestSession.putWithHeader(
+            "/projects/new6?trace", new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/123"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
+    assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+
+    // trace ID only specified by trace request parameter
+    response =
+        adminRestSession.putWithHeader(
+            "/projects/new7?trace=issue/123", new BasicHeader(RestApiServlet.X_GERRIT_TRACE, null));
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
+    assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+
+    // same trace ID specified by trace header and trace request parameter
+    response =
+        adminRestSession.putWithHeader(
+            "/projects/new8?trace=issue/123",
+            new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/123"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
+    assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+
+    // different trace IDs specified by trace header and trace request parameter
+    response =
+        adminRestSession.putWithHeader(
+            "/projects/new9?trace=issue/123",
+            new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/456"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeaders(RestApiServlet.X_GERRIT_TRACE))
+        .containsExactly("issue/123", "issue/456");
+    assertThat(projectCreationListener.traceIds).containsExactly("issue/123", "issue/456");
     assertThat(projectCreationListener.isLoggingForced).isTrue();
   }
 
@@ -155,12 +221,14 @@ public class TraceIT extends AbstractDaemonTest {
   private static class TraceValidatingProjectCreationValidationListener
       implements ProjectCreationValidationListener {
     String traceId;
+    ImmutableSet<String> traceIds;
     Boolean isLoggingForced;
 
     @Override
     public void validateNewProject(CreateProjectArgs args) throws ValidationException {
       this.traceId =
           Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
+      this.traceIds = LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID");
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
     }
   }

@@ -203,6 +203,24 @@
     },
     {
       "key": {
+        "uuid": "15b807eb_0fbeb46d",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-10T18:23:41Z",
+      "side": 1,
+      "message": "To elaborate a little bit: it feels like the intent of these static methods in PluginContext might be to decouple the tracing behavior from the DynamicSet plugin execution behavior. But I\u0027m not sure that decoupling is actually desirable; IMO we should aim to *require* consumers of DynamicSet to use tracing as much as possible. From that perspective, moving more of the tracing logic into DynamicSet makes sense.",
+      "parentUuid": "8390eacc_3f09c321",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3232af47_ee8b091a",
         "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
         "patchSetId": 8

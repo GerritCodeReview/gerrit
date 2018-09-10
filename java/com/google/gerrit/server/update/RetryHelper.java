@@ -31,6 +31,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.metrics.Counter1;
@@ -52,6 +53,8 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class RetryHelper {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @FunctionalInterface
   public interface ChangeAction<T> {
     T call(BatchUpdate.Factory batchUpdateFactory) throws Exception;
@@ -277,6 +280,9 @@ public class RetryHelper {
       retryerBuilder.withRetryListener(listener);
       return executeWithTimeoutCount(actionType, action, retryerBuilder.build());
     } finally {
+      if (listener.getAttemptCount() > 1) {
+        logger.atFine().log("%s was attempted %d times", actionType, listener.getAttemptCount());
+      }
       metrics.attemptCounts.record(actionType, listener.getAttemptCount());
     }
   }

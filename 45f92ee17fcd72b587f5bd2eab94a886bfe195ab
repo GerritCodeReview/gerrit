@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d67d0daf_0e15c295",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-11T15:00:40Z",
+      "side": 1,
+      "message": "\u003e After this change, is there actually a use case for iterating over the elements in a DynamicSet rather than \n\u003e their Entry wrappers? ISTM it would be programmer error to forget to call .entries() on your DynamicSet. If \n\u003e there is no use case, maybe we should consider making this an Iterable\u003cDynamicSet.Entry\u003cT\u003e\u003e instead.\n\nGood point. I think it makes sense to change it to Iterable\u003cDynamicSet.Entry\u003cT\u003e\u003e.\n\n\u003e Unfortunately I think there\u0027s no way to enforce that callers remember to call TraceContext.newTrace and/or to \n\u003e eliminate the extra level of nesting. But I\u0027m hoping that the fact that they are handed an Entry instance is a \n\u003e reminder that you should do something else in addition to calling .get() on it.\n\nIf we find a way to handle all plugin invocations through an invoke method (not sure if this is feasible), we could only offer \u0027invoke\u0027 on the Entry but not \u0027get\u0027. Maybe in any case having the \u0027invoke\u0027 methods directly on the Entry would be nice.",
+      "parentUuid": "4493289f_9d45b2d9",
+      "range": {
+        "startLine": 47,
+        "startChar": 38,
+        "endLine": 47,
+        "endChar": 50
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "976a47ca_a07e79ad",
         "filename": "java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 8
@@ -71,6 +95,24 @@
       "writtenOn": "2018-09-10T18:18:42Z",
       "side": 1,
       "message": "This doesn\u0027t throw, so I think this could use .invoke, right?",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d33ddf24_4a59baf1",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-11T15:00:40Z",
+      "side": 1,
+      "message": "This one is a bit tricky. The problem here is that we do 2 calls to the extension point\n\n1. listener.getUser()\n2. listener.onEvent(event)\n\nThese methods don\u0027t throw but we need to call isVisibleTo for each extension point once, and this method throws.",
+      "parentUuid": "16b3bfa3_5a2ca4c1",
       "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -163,6 +205,30 @@
     },
     {
       "key": {
+        "uuid": "ed0c20ee_ba7f3793",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-11T15:00:40Z",
+      "side": 1,
+      "message": "I agree that \u0027invokeAndLogExceptions\u0027 is a better name. Thanks for the suggestion.",
+      "parentUuid": "ce185329_46b0c8bc",
+      "range": {
+        "startLine": 114,
+        "startChar": 25,
+        "endLine": 114,
+        "endChar": 47
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3111ce30_6edd55d5",
         "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
         "patchSetId": 8
@@ -215,6 +281,24 @@
       "side": 1,
       "message": "To elaborate a little bit: it feels like the intent of these static methods in PluginContext might be to decouple the tracing behavior from the DynamicSet plugin execution behavior. But I\u0027m not sure that decoupling is actually desirable; IMO we should aim to *require* consumers of DynamicSet to use tracing as much as possible. From that perspective, moving more of the tracing logic into DynamicSet makes sense.",
       "parentUuid": "8390eacc_3f09c321",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03ea317f_37dfa1f8",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-11T15:00:40Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. I think it\u0027s a good idea to put more of this logic into DynamicSet. Let me give it a try.",
+      "parentUuid": "15b807eb_0fbeb46d",
       "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -289,6 +373,24 @@
       "writtenOn": "2018-09-10T18:18:42Z",
       "side": 1,
       "message": "I\u0027m not sure factoring out a named variable actually improves readability, given that it then has to be split into a multi-statement block.",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34b092c1_436e7be5",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-11T15:00:40Z",
+      "side": 1,
+      "message": "My Eclipse doesn\u0027t like it:\n\n  Type mismatch: cannot convert from Stream\u003cObject\u003e to \u003cunknown\u003e\n\nBut it works with the Bazel build. *shrug*\nI will change it then. Maybe time to upgrade my Eclipse.",
+      "parentUuid": "47a2c49a_a2fd838e",
       "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

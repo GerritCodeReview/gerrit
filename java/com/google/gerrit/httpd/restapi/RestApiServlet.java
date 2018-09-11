@@ -1392,10 +1392,18 @@ public class RestApiServlet extends HttpServlet {
 
   private void checkRequiresCapability(ViewData d)
       throws AuthException, PermissionBackendException {
-    globals
-        .permissionBackend
-        .currentUser()
-        .checkAny(GlobalPermission.fromAnnotation(d.pluginName, d.view.getClass()));
+    try {
+      globals
+          .permissionBackend
+          .user(globals.currentUser.get())
+          .check(GlobalPermission.ADMINISTRATE_SERVER);
+    } catch (AuthException e) {
+      // Skiping
+      globals
+          .permissionBackend
+          .user(globals.currentUser.get())
+          .checkAny(GlobalPermission.fromAnnotation(d.pluginName, d.view.getClass()));
+    }
   }
 
   private static long handleException(

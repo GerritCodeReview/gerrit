@@ -115,8 +115,7 @@ public class CreateAccount
       throw new BadRequestException("username must match URL");
     }
     if (!ExternalId.isValidUsername(username)) {
-      throw new BadRequestException(
-          "Username '" + username + "' must contain only letters, numbers, _, - or .");
+      throw new BadRequestException("Invalid username '" + username + "'");
     }
 
     Set<AccountGroup.UUID> groups = parseGroups(input.groups);

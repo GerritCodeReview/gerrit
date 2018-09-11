@@ -122,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "25c9ac5b_8d9df152",
+        "filename": "java/com/google/gerrit/server/config/CanonicalWebUrlModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-11T07:02:38Z",
+      "side": 1,
+      "message": "AccountPatchReviewStore should work like this:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/78816/1/gerrit-server/src/main/java/com/google/gerrit/server/change/AccountPatchReviewStoreImpl.java",
+      "parentUuid": "80a20427_041e076c",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1886be8b_b3394b5f",
         "filename": "java/com/google/gerrit/server/config/DefaultBrowseUrls.java",
         "patchSetId": 4

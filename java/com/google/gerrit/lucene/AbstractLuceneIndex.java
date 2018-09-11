@@ -39,7 +39,8 @@ import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
-import com.google.gerrit.server.logging.LoggingContextAwareThreadFactory;
+import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
+import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import java.io.IOException;
@@ -55,6 +56,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -100,7 +102,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final ReferenceManager<IndexSearcher> searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
-  private ScheduledThreadPoolExecutor autoCommitExecutor;
+  private ScheduledExecutorService autoCommitExecutor;
 
   AbstractLuceneIndex(
       Schema<V> schema,
@@ -129,13 +131,13 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       delegateWriter = autoCommitWriter;
 
       autoCommitExecutor =
-          new ScheduledThreadPoolExecutor(
-              1,
-              new ThreadFactoryBuilder()
-                  .setThreadFactory(new LoggingContextAwareThreadFactory())
-                  .setNameFormat(index + " Commit-%d")
-                  .setDaemon(true)
-                  .build());
+          new LoggingContextAwareScheduledExecutorService(
+              new ScheduledThreadPoolExecutor(
+                  1,
+                  new ThreadFactoryBuilder()
+                      .setNameFormat(index + " Commit-%d")
+                      .setDaemon(true)
+                      .build()));
       @SuppressWarnings("unused") // Error handling within Runnable.
       Future<?> possiblyIgnoredError =
           autoCommitExecutor.scheduleAtFixedRate(
@@ -170,13 +172,13 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
     writerThread =
         MoreExecutors.listeningDecorator(
-            Executors.newFixedThreadPool(
-                1,
-                new ThreadFactoryBuilder()
-                    .setThreadFactory(new LoggingContextAwareThreadFactory())
-                    .setNameFormat(index + " Write-%d")
-                    .setDaemon(true)
-                    .build()));
+            new LoggingContextAwareExecutorService(
+                Executors.newFixedThreadPool(
+                    1,
+                    new ThreadFactoryBuilder()
+                        .setNameFormat(index + " Write-%d")
+                        .setDaemon(true)
+                        .build())));
 
     reopenThread =
         new ControlledRealTimeReopenThread<>(

@@ -75,6 +75,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.SystemReader;
 
+/**
+ * Represents a list of CommitValidationListeners to run for a push to one branch of one project.
+ */
 public class CommitValidators {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

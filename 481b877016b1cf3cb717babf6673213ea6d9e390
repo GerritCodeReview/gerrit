@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17df4e86_8669e957",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-11T06:45:58Z",
+      "side": 1,
+      "message": "Any context for this? I.e. upstream issue or release note?",
+      "revId": "481b877016b1cf3cb717babf6673213ea6d9e390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

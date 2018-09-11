@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "05fd6d01_2b8cb3e0",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-11T14:58:37Z",
+      "side": 1,
+      "message": "not really, one of the follow-up changes introduces a restUrl() as well. I tried to rephrase.",
+      "parentUuid": "331c6874_130e88bf",
+      "range": {
+        "startLine": 21,
+        "startChar": 32,
+        "endLine": 21,
+        "endChar": 63
+      },
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e89ee8f3_097b8575",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-11T14:58:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8beb8f94_ed60f3c1",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 14
+      },
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cf1a872_aa4a0c50",
         "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
         "patchSetId": 4
@@ -59,6 +107,24 @@
       "writtenOn": "2018-09-10T21:52:27Z",
       "side": 1,
       "message": "I\u0027m not sold on this interface with lots of nullable arguments. ISTM many if not most instances will just have (project, change ID) without files and line numbers, so you may want an overload for just those two parameters.\n\nBut nor does this particular method include all possible optional arguments for a URL. Off the top of my head it\u0027s missing the LHS/RHS patch set numbers, and a bit indicating whether the line number refers to the LHS or the RHS.\n\nWhat if we avoid a general term like \"reviewUrl\" and instead use a more specific description for this URL type, like \"changeViewUrl\"? Then it would make sense to have only a (project, change ID).\n\nAnother option (not mutually exclusive with the above suggestion) is the builder pattern.",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cce764a_120278aa",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-11T14:58:37Z",
+      "side": 1,
+      "message": "I reduced to changeViewUrl.",
+      "parentUuid": "9cf1a872_aa4a0c50",
       "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "ca306192_7488a5c5",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-11T14:58:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c0a6d08_356c5366",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76dd257b_86fc7295",
         "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
         "patchSetId": 4
@@ -102,6 +186,30 @@
       "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2b1790c_e45ad49f",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-11T14:58:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76dd257b_86fc7295",
+      "range": {
+        "startLine": 29,
+        "startChar": 54,
+        "endLine": 29,
+        "endChar": 58
+      },
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "94aa4ea8_57a7b610",
+        "filename": "java/com/google/gerrit/server/config/CanonicalWebUrlModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-11T14:58:37Z",
+      "side": 1,
+      "message": "thanks for the note. I wanted to have the interface in first before I worry about how to rebind it.",
+      "parentUuid": "25c9ac5b_8d9df152",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1886be8b_b3394b5f",
         "filename": "java/com/google/gerrit/server/config/DefaultBrowseUrls.java",
         "patchSetId": 4
@@ -151,6 +277,24 @@
       "writtenOn": "2018-09-10T21:52:27Z",
       "side": 1,
       "message": "Optional nit: I don\u0027t think using a local variable improves readability here.",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d906cf17_9d5d9684",
+        "filename": "java/com/google/gerrit/server/config/DefaultBrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-11T14:58:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1886be8b_b3394b5f",
       "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "d75e725d_e5d944f3",
+        "filename": "java/com/google/gerrit/server/git/DefaultChangeReportFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-11T14:58:37Z",
+      "side": 1,
+      "message": "it\u0027s hard to imagine this makes a big difference.\n\nAccording to this\n\nhttps://stackoverflow.com/questions/4648607/stringbuilder-stringbuffer-vs-operator\n\nthe java compiler already rewrite string addition to string builder anyway, which would be an  argument to get rid of the verbose StringBuilder uses, such as this one here, to improve readability.",
+      "parentUuid": "d1f7f146_ff8cfa56",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb0da55c_d90ab116",
         "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 4
@@ -191,6 +353,24 @@
     },
     {
       "key": {
+        "uuid": "7b557687_ea1cb52c",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-11T14:58:37Z",
+      "side": 1,
+      "message": "added @Nullable to project.",
+      "parentUuid": "cb0da55c_d90ab116",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93a6d661_942e3914",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 4
@@ -202,6 +382,24 @@
       "writtenOn": "2018-09-10T21:52:27Z",
       "side": 1,
       "message": "I would slightly prefer to keep these behavior changes separate from the change that introduces the interface, so we can revert just the behavior change if someone complains.",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bd32552_e8dcd14b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2588,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-11T14:58:37Z",
+      "side": 1,
+      "message": "I can separate out this change, but half of the code adds \"c/\" and the other doesn\u0027t, and that will not be rollbackable once this starts using BrowseUrls.",
+      "parentUuid": "93a6d661_942e3914",
       "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

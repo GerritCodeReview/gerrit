@@ -718,11 +718,11 @@ public class ChangeField {
 
   public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_STRICT =
       storedOnly("full_submit_record_strict")
-          .buildRepeatable(cd -> storedSubmitRecords(cd, SUBMIT_RULE_OPTIONS_STRICT));
+          .buildRepeatable(cd -> storedSubmitRecords(cd.submitRecords()));
 
   public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_LENIENT =
       storedOnly("full_submit_record_lenient")
-          .buildRepeatable(cd -> storedSubmitRecords(cd, SUBMIT_RULE_OPTIONS_LENIENT));
+          .buildRepeatable(cd -> storedSubmitRecords(cd.submitRecordsForceRecomputationOnClosed()));
 
   public static void parseSubmitRecords(
       Collection<String> values, SubmitRuleOptions opts, ChangeData out) {
@@ -748,13 +748,8 @@ public class ChangeField {
     return Lists.transform(records, r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
   }
 
-  private static Iterable<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts) {
-    return storedSubmitRecords(cd.submitRecords(opts));
-  }
-
   public static List<String> formatSubmitRecordValues(ChangeData cd) throws OrmException {
-    return formatSubmitRecordValues(
-        cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
+    return formatSubmitRecordValues(cd.submitRecords(), cd.change().getOwner());
   }
 
   @VisibleForTesting

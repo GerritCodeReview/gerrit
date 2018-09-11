@@ -63,6 +63,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffSummary;
@@ -355,7 +356,7 @@ public class ChangeData {
   // Lazily populated fields, including optional assisted injected fields.
 
   private final Map<SubmitRuleOptions, List<SubmitRecord>> submitRecords =
-      Maps.newLinkedHashMapWithExpectedSize(1);
+      Maps.newLinkedHashMapWithExpectedSize(2);
 
   private boolean lazyLoad = true;
   private Change change;
@@ -935,7 +936,15 @@ public class ChangeData {
     return messages;
   }
 
-  public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
+  public List<SubmitRecord> submitRecords() {
+    return submitRecords(ChangeField.SUBMIT_RULE_OPTIONS_STRICT);
+  }
+
+  public List<SubmitRecord> submitRecordsForceRecomputationOnClosed() {
+    return submitRecords(ChangeField.SUBMIT_RULE_OPTIONS_LENIENT);
+  }
+
+  private List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
     List<SubmitRecord> records = submitRecords.get(options);
     if (records == null) {
       if (!lazyLoad) {

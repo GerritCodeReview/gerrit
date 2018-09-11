@@ -17,7 +17,7 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:java.bzl", "java_library2")
 
-jar_filetype = FileType([".jar"])
+jar_filetype = [".jar"]
 
 BROWSERS = [
     "chrome",

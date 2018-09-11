@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
@@ -123,7 +124,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -134,7 +134,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RemoveReviewerControl;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gerrit.server.query.change.PluginDefinedAttributesFactory;
@@ -160,6 +159,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -175,12 +175,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class ChangeJson {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
-      ChangeField.SUBMIT_RULE_OPTIONS_LENIENT.toBuilder().build();
-
-  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
-      ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().build();
 
   public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(
@@ -448,7 +442,7 @@ public class ChangeJson {
 
   private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
     Collection<SubmitRequirementInfo> reqInfos = new ArrayList<>();
-    for (SubmitRecord submitRecord : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
+    for (SubmitRecord submitRecord : cd.submitRecords()) {
       if (submitRecord.requirements == null) {
         continue;
       }
@@ -755,11 +749,7 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) {
-    return SubmitRecord.allRecordsOK(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT));
-  }
-
-  private List<SubmitRecord> submitRecords(ChangeData cd) {
-    return cd.submitRecords(SUBMIT_RULE_OPTIONS_LENIENT);
+    return SubmitRecord.allRecordsOK(cd.submitRecords());
   }
 
   private Map<String, LabelInfo> labelsFor(ChangeData cd, boolean standard, boolean detailed)
@@ -807,36 +797,45 @@ public class ChangeJson {
   private Map<String, LabelWithStatus> initLabels(
       ChangeData cd, LabelTypes labelTypes, boolean standard) {
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
-    for (SubmitRecord rec : submitRecords(cd)) {
-      if (rec.labels == null) {
-        continue;
-      }
-      for (SubmitRecord.Label r : rec.labels) {
-        LabelWithStatus p = labels.get(r.label);
-        if (p == null || p.status().compareTo(r.status) < 0) {
-          LabelInfo n = new LabelInfo();
-          if (standard) {
-            switch (r.status) {
-              case OK:
-                n.approved = accountLoader.get(r.appliedBy);
-                break;
-              case REJECT:
-                n.rejected = accountLoader.get(r.appliedBy);
-                n.blocking = true;
-                break;
-              case IMPOSSIBLE:
-              case MAY:
-              case NEED:
-              default:
-                break;
-            }
-          }
 
-          n.optional = r.status == SubmitRecord.Label.Status.MAY ? true : null;
-          labels.put(r.label, LabelWithStatus.create(n, r.status));
+    // Look at the submit records at the time that the change was merged (if already) and
+    // unify them with a fresh run of the submit rules. This gives us a set of:
+    //   - Labels that were granted upon submission (even if they were removed afterwards)
+    //   - Labels that were added after submission and voted on (only positive votes are allowed)
+    Set<SubmitRecord.Label> labelsToInspect =
+        Stream.concat(
+                cd.submitRecords().stream(), cd.submitRecordsForceRecomputationOnClosed().stream())
+            .filter(r -> r.labels != null)
+            .map(r -> r.labels)
+            .flatMap(List::stream)
+            .collect(toImmutableSet());
+
+    for (SubmitRecord.Label r : labelsToInspect) {
+      LabelWithStatus p = labels.get(r.label);
+      if (p == null || p.status().compareTo(r.status) < 0) {
+        LabelInfo n = new LabelInfo();
+        if (standard) {
+          switch (r.status) {
+            case OK:
+              n.approved = accountLoader.get(r.appliedBy);
+              break;
+            case REJECT:
+              n.rejected = accountLoader.get(r.appliedBy);
+              n.blocking = true;
+              break;
+            case IMPOSSIBLE:
+            case MAY:
+            case NEED:
+            default:
+              break;
+          }
         }
+
+        n.optional = r.status == SubmitRecord.Label.Status.MAY ? true : null;
+        labels.put(r.label, LabelWithStatus.create(n, r.status));
       }
     }
+
     return labels;
   }
 
@@ -1110,7 +1109,7 @@ public class ChangeJson {
     boolean isMerged = cd.change().getStatus() == Change.Status.MERGED;
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelType> toCheck = new HashMap<>();
-    for (SubmitRecord rec : submitRecords(cd)) {
+    for (SubmitRecord rec : cd.submitRecordsForceRecomputationOnClosed()) {
       if (rec.labels != null) {
         for (SubmitRecord.Label r : rec.labels) {
           LabelType type = labelTypes.byLabel(r.label);
@@ -1125,7 +1124,7 @@ public class ChangeJson {
     Set<LabelPermission.WithValue> can =
         permissionBackendForChange(filterApprovalsBy, cd).testLabels(toCheck.values());
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
-    for (SubmitRecord rec : submitRecords(cd)) {
+    for (SubmitRecord rec : cd.submitRecordsForceRecomputationOnClosed()) {
       if (rec.labels == null) {
         continue;
       }

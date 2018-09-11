@@ -39,7 +39,6 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -96,7 +95,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
@@ -106,7 +104,6 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ChangeReportFormatter;
 import com.google.gerrit.server.git.GroupCollector;
@@ -116,9 +113,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
-import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.ValidationMessage;
@@ -145,7 +140,6 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.submit.SubmoduleException;
@@ -218,38 +212,16 @@ import org.kohsuke.args4j.Option;
  *
  * <p>Conceptually, most use of Gerrit is a push of some commits to refs/for/BRANCH. However, the
  * receive-pack protocol that this is based on allows multiple ref updates to be processed at once.
+ * So we have to be prepared to also handle normal pushes (refs/heads/BRANCH), and legacy pushes
+ * (refs/changes/CHANGE). It is hard to split this class up further, because normal pushes can also
+ * result in updates to reviews, through the autoclose mechanism.
  */
 class ReceiveCommits {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private enum ReceiveError {
-    CONFIG_UPDATE(
-        "You are not allowed to perform this operation.\n"
-            + "Configuration changes can only be pushed by project owners\n"
-            + "who also have 'Push' rights on "
-            + RefNames.REFS_CONFIG),
-    UPDATE(
-        "You are not allowed to perform this operation.\n"
-            + "To push into this reference you need 'Push' rights."),
-    DELETE(
-        "You need 'Delete Reference' rights or 'Push' rights with the \n"
-            + "'Force Push' flag set to delete references."),
-    DELETE_CHANGES("Cannot delete from '" + REFS_CHANGES + "'"),
-    CODE_REVIEW(
-        "You need 'Push' rights to upload code review requests.\n"
-            + "Verify that you are pushing to the right branch.");
-
-    private final String value;
-
-    ReceiveError(String value) {
-      this.value = value;
-    }
-
-    String get() {
-      return value;
-    }
-  }
-
+  private static final String CODE_REVIEW_ERROR =
+      "You need 'Push' rights to upload code review requests.\n"
+          + "Verify that you are pushing to the right branch.";
   private static final String CANNOT_DELETE_CHANGES = "Cannot delete from '" + REFS_CHANGES + "'";
   private static final String CANNOT_DELETE_CONFIG =
       "Cannot delete project configuration from '" + RefNames.REFS_CONFIG + "'";
@@ -319,7 +291,6 @@ class ReceiveCommits {
 
   // Injected fields.
   private final AccountResolver accountResolver;
-  private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final AllProjectsName allProjectsName;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeEditUtil editUtil;
@@ -328,7 +299,7 @@ class ReceiveCommits {
   private final ChangeNotes.Factory notesFactory;
   private final ChangeReportFormatter changeFormatter;
   private final CmdLineParser.Factory optionParserFactory;
-  private final CommitValidators.Factory commitValidatorsFactory;
+  private final BranchCommitValidator.Factory commitValidatorFactory;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -350,7 +321,6 @@ class ReceiveCommits {
   private final ReviewDb db;
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
-  private final SshInfo sshInfo;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
 
@@ -379,15 +349,6 @@ class ReceiveCommits {
   private final ListMultimap<String, String> pushOptions;
   private final Map<Change.Id, ReplaceRequest> replaceByChange;
 
-  @AutoValue
-  protected abstract static class ValidCommitKey {
-    abstract ObjectId getObjectId();
-
-    abstract Branch.NameKey getBranch();
-  }
-
-  private final Set<ValidCommitKey> validCommits;
-
   // Collections lazily populated during processing.
   private ListMultimap<Change.Id, Ref> refsByChange;
   private ListMultimap<ObjectId, Ref> refsById;
@@ -395,7 +356,6 @@ class ReceiveCommits {
   // Other settings populated during processing.
   private MagicBranchInput magicBranch;
   private boolean newChangeForAllNotInTarget;
-  private String setFullNameTo;
   private boolean setChangeAsPrivate;
   private Optional<NoteDbPushOption> noteDbPushOption;
   private Optional<String> tracePushOption;
@@ -415,7 +375,7 @@ class ReceiveCommits {
       ChangeNotes.Factory notesFactory,
       DynamicItem<ChangeReportFormatter> changeFormatterProvider,
       CmdLineParser.Factory optionParserFactory,
-      CommitValidators.Factory commitValidatorsFactory,
+      BranchCommitValidator.Factory commitValidatorFactory,
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
       CreateRefControl createRefControl,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
@@ -437,7 +397,6 @@ class ReceiveCommits {
       ReviewDb db,
       Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,
-      SshInfo sshInfo,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
       @Assisted ProjectState projectState,
@@ -449,12 +408,11 @@ class ReceiveCommits {
       throws IOException {
     // Injected fields.
     this.accountResolver = accountResolver;
-    this.accountsUpdateProvider = accountsUpdateProvider;
     this.allProjectsName = allProjectsName;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changeFormatter = changeFormatterProvider.get();
     this.changeInserterFactory = changeInserterFactory;
-    this.commitValidatorsFactory = commitValidatorsFactory;
+    this.commitValidatorFactory = commitValidatorFactory;
     this.createRefControl = createRefControl;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
     this.db = db;
@@ -480,7 +438,6 @@ class ReceiveCommits {
     this.retryHelper = retryHelper;
     this.requestScopePropagator = requestScopePropagator;
     this.seq = seq;
-    this.sshInfo = sshInfo;
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
 
@@ -505,7 +462,6 @@ class ReceiveCommits {
     pushOptions = LinkedListMultimap.create();
     replaceByChange = new LinkedHashMap<>();
     updateGroups = new ArrayList<>();
-    validCommits = new HashSet<>();
 
     this.allowProjectOwnersToChangeParent =
         cfg.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
@@ -567,10 +523,6 @@ class ReceiveCommits {
 
     commandProgress.end();
     progress.end();
-
-    // Update account info with details discovered during commit walking. The account update happens
-    // in a separate batch update, and failure doesn't cause the push itself to fail.
-    updateAccountInfo();
   }
 
   // Process as many commands as possible, but may leave some commands in state NOT_ATTEMPTED.
@@ -588,44 +540,44 @@ class ReceiveCommits {
       // into the trace if tracing is enabled.
       logger.atFine().log("push options: %s", receivePack.getPushOptions());
 
-      try {
-        if (!projectState.getProject().getState().permitsWrite()) {
-          for (ReceiveCommand cmd : commands) {
-            reject(cmd, "prohibited by Gerrit: project state does not permit write");
-          }
-          return;
-        }
-
-        logger.atFine().log("Parsing %d commands", commands.size());
-
-        List<ReceiveCommand> magicCommands = new ArrayList<>();
-        List<ReceiveCommand> directPatchSetPushCommands = new ArrayList<>();
-        List<ReceiveCommand> regularCommands = new ArrayList<>();
-
+      if (!projectState.getProject().getState().permitsWrite()) {
         for (ReceiveCommand cmd : commands) {
-          if (MagicBranch.isMagicBranch(cmd.getRefName())) {
-            magicCommands.add(cmd);
-          } else if (isDirectChangesPush(cmd.getRefName())) {
-            directPatchSetPushCommands.add(cmd);
-          } else {
-            regularCommands.add(cmd);
+          reject(cmd, "prohibited by Gerrit: project state does not permit write");
+        }
+        return;
+      }
+
+      logger.atFine().log("Parsing %d commands", commands.size());
+
+      List<ReceiveCommand> magicCommands = new ArrayList<>();
+      List<ReceiveCommand> directPatchSetPushCommands = new ArrayList<>();
+      List<ReceiveCommand> regularCommands = new ArrayList<>();
+
+      for (ReceiveCommand cmd : commands) {
+        if (MagicBranch.isMagicBranch(cmd.getRefName())) {
+          magicCommands.add(cmd);
+        } else if (isDirectChangesPush(cmd.getRefName())) {
+          directPatchSetPushCommands.add(cmd);
+        } else {
+          regularCommands.add(cmd);
+        }
+      }
+
+      int commandTypes =
+          (magicCommands.isEmpty() ? 0 : 1)
+              + (directPatchSetPushCommands.isEmpty() ? 0 : 1)
+              + (regularCommands.isEmpty() ? 0 : 1);
+
+      if (commandTypes > 1) {
+        for (ReceiveCommand cmd : commands) {
+          if (cmd.getResult() == NOT_ATTEMPTED) {
+            cmd.setResult(REJECTED_OTHER_REASON, "cannot combine normal pushes and magic pushes");
           }
         }
+        return;
+      }
 
-        int commandTypes =
-            (magicCommands.isEmpty() ? 0 : 1)
-                + (directPatchSetPushCommands.isEmpty() ? 0 : 1)
-                + (regularCommands.isEmpty() ? 0 : 1);
-
-        if (commandTypes > 1) {
-          for (ReceiveCommand cmd : commands) {
-            if (cmd.getResult() == NOT_ATTEMPTED) {
-              cmd.setResult(REJECTED_OTHER_REASON, "cannot combine normal pushes and magic pushes");
-            }
-          }
-          return;
-        }
-
+      try {
         if (!regularCommands.isEmpty()) {
           handleRegularCommands(regularCommands, progress);
           return;
@@ -1085,131 +1037,139 @@ class ReceiveCommits {
     }
 
     if (isConfig(cmd)) {
-      logger.atFine().log("Processing %s command", cmd.getRefName());
-      try {
-        permissions.check(ProjectPermission.WRITE_CONFIG);
-      } catch (AuthException e) {
-        reject(
-            cmd,
-            String.format(
-                "must be either project owner or have %s permission",
-                ProjectPermission.WRITE_CONFIG.describeForException()));
-        return;
-      }
+      validateConfigPush(cmd);
+    }
+  }
 
-      switch (cmd.getType()) {
-        case CREATE:
-        case UPDATE:
-        case UPDATE_NONFASTFORWARD:
-          try {
-            ProjectConfig cfg = new ProjectConfig(project.getNameKey());
-            cfg.load(project.getNameKey(), receivePack.getRevWalk(), cmd.getNewId());
-            if (!cfg.getValidationErrors().isEmpty()) {
-              addError("Invalid project configuration:");
-              for (ValidationError err : cfg.getValidationErrors()) {
-                addError("  " + err.getMessage());
-              }
-              reject(cmd, "invalid project configuration");
-              logger.atSevere().log(
-                  "User %s tried to push invalid project configuration %s for %s",
-                  user.getLoggableName(), cmd.getNewId().name(), project.getName());
-              return;
+  /** Validates a push to refs/meta/config, and reject the command if it fails. */
+  private void validateConfigPush(ReceiveCommand cmd) throws PermissionBackendException {
+    logger.atFine().log("Processing %s command", cmd.getRefName());
+    try {
+      permissions.check(ProjectPermission.WRITE_CONFIG);
+    } catch (AuthException e) {
+      reject(
+          cmd,
+          String.format(
+              "must be either project owner or have %s permission",
+              ProjectPermission.WRITE_CONFIG.describeForException()));
+      return;
+    }
+
+    switch (cmd.getType()) {
+      case CREATE:
+      case UPDATE:
+      case UPDATE_NONFASTFORWARD:
+        try {
+          ProjectConfig cfg = new ProjectConfig(project.getNameKey());
+          cfg.load(project.getNameKey(), receivePack.getRevWalk(), cmd.getNewId());
+          if (!cfg.getValidationErrors().isEmpty()) {
+            addError("Invalid project configuration:");
+            for (ValidationError err : cfg.getValidationErrors()) {
+              addError("  " + err.getMessage());
             }
-            Project.NameKey newParent = cfg.getProject().getParent(allProjectsName);
-            Project.NameKey oldParent = project.getParent(allProjectsName);
-            if (oldParent == null) {
-              // update of the 'All-Projects' project
-              if (newParent != null) {
-                reject(cmd, "invalid project configuration: root project cannot have parent");
-                return;
-              }
-            } else {
-              if (!oldParent.equals(newParent)) {
-                if (allowProjectOwnersToChangeParent) {
-                  try {
-                    permissionBackend
-                        .user(user)
-                        .project(project.getNameKey())
-                        .check(ProjectPermission.WRITE_CONFIG);
-                  } catch (AuthException e) {
-                    reject(
-                        cmd, "invalid project configuration: only project owners can set parent");
-                    return;
-                  }
-                } else {
-                  try {
-                    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-                  } catch (AuthException e) {
-                    reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
-                    return;
-                  }
-                }
-              }
-
-              if (projectCache.get(newParent) == null) {
-                reject(cmd, "invalid project configuration: parent does not exist");
-                return;
-              }
-            }
-
-            for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
-              PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
-              ProjectConfigEntry configEntry = e.getProvider().get();
-              String value = pluginCfg.getString(e.getExportName());
-              String oldValue =
-                  projectState
-                      .getConfig()
-                      .getPluginConfig(e.getPluginName())
-                      .getString(e.getExportName());
-              if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
-                oldValue =
-                    Arrays.stream(
-                            projectState
-                                .getConfig()
-                                .getPluginConfig(e.getPluginName())
-                                .getStringList(e.getExportName()))
-                        .collect(joining("\n"));
-              }
-
-              if ((value == null ? oldValue != null : !value.equals(oldValue))
-                  && !configEntry.isEditable(projectState)) {
-                reject(
-                    cmd,
-                    String.format(
-                        "invalid project configuration: Not allowed to set parameter"
-                            + " '%s' of plugin '%s' on project '%s'.",
-                        e.getExportName(), e.getPluginName(), project.getName()));
-                continue;
-              }
-
-              if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
-                  && value != null
-                  && !configEntry.getPermittedValues().contains(value)) {
-                reject(
-                    cmd,
-                    String.format(
-                        "invalid project configuration: The value '%s' is "
-                            + "not permitted for parameter '%s' of plugin '%s'.",
-                        value, e.getExportName(), e.getPluginName()));
-              }
-            }
-          } catch (Exception e) {
             reject(cmd, "invalid project configuration");
-            logger.atSevere().withCause(e).log(
+            logger.atSevere().log(
                 "User %s tried to push invalid project configuration %s for %s",
                 user.getLoggableName(), cmd.getNewId().name(), project.getName());
             return;
           }
-          break;
+          Project.NameKey newParent = cfg.getProject().getParent(allProjectsName);
+          Project.NameKey oldParent = project.getParent(allProjectsName);
+          if (oldParent == null) {
+            // update of the 'All-Projects' project
+            if (newParent != null) {
+              reject(cmd, "invalid project configuration: root project cannot have parent");
+              return;
+            }
+          } else {
+            if (!oldParent.equals(newParent)) {
+              if (allowProjectOwnersToChangeParent) {
+                try {
+                  permissionBackend
+                      .user(user)
+                      .project(project.getNameKey())
+                      .check(ProjectPermission.WRITE_CONFIG);
+                } catch (AuthException e) {
+                  reject(cmd, "invalid project configuration: only project owners can set parent");
+                  return;
+                }
+              } else {
+                try {
+                  permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+                } catch (AuthException e) {
+                  reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
+                  return;
+                }
+              }
+            }
 
-        case DELETE:
-          break;
+            if (projectCache.get(newParent) == null) {
+              reject(cmd, "invalid project configuration: parent does not exist");
+              return;
+            }
+          }
+          validatePluginConfig(cmd, cfg);
+        } catch (Exception e) {
+          reject(cmd, "invalid project configuration");
+          logger.atSevere().withCause(e).log(
+              "User %s tried to push invalid project configuration %s for %s",
+              user.getLoggableName(), cmd.getNewId().name(), project.getName());
+          return;
+        }
+        break;
 
-        default:
-          reject(
-              cmd,
-              "prohibited by Gerrit: don't know how to handle config update of type "
-                  + cmd.getType());
+      case DELETE:
+        break;
+
+      default:
+        reject(
+            cmd,
+            "prohibited by Gerrit: don't know how to handle config update of type "
+                + cmd.getType());
+    }
+  }
+
+  /**
+   * validates a push to refs/meta/config for plugin configuration, and rejects the push if it
+   * fails.
+   */
+  private void validatePluginConfig(ReceiveCommand cmd, ProjectConfig cfg) {
+    for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+      PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
+      ProjectConfigEntry configEntry = e.getProvider().get();
+      String value = pluginCfg.getString(e.getExportName());
+      String oldValue =
+          projectState.getConfig().getPluginConfig(e.getPluginName()).getString(e.getExportName());
+      if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
+        oldValue =
+            Arrays.stream(
+                    projectState
+                        .getConfig()
+                        .getPluginConfig(e.getPluginName())
+                        .getStringList(e.getExportName()))
+                .collect(joining("\n"));
+      }
+
+      if ((value == null ? oldValue != null : !value.equals(oldValue))
+          && !configEntry.isEditable(projectState)) {
+        reject(
+            cmd,
+            String.format(
+                "invalid project configuration: Not allowed to set parameter"
+                    + " '%s' of plugin '%s' on project '%s'.",
+                e.getExportName(), e.getPluginName(), project.getName()));
+        continue;
+      }
+
+      if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
+          && value != null
+          && !configEntry.getPermittedValues().contains(value)) {
+        reject(
+            cmd,
+            String.format(
+                "invalid project configuration: The value '%s' is "
+                    + "not permitted for parameter '%s' of plugin '%s'.",
+                value, e.getExportName(), e.getPluginName()));
       }
     }
   }
@@ -1698,7 +1658,7 @@ class ReceiveCommits {
     // TODO(davido): Remove legacy support for drafts magic branch option
     // after repo-tool supports private and work-in-progress changes.
     if (magicBranch.draft && !receiveConfig.allowDrafts) {
-      errors.put(ReceiveError.CODE_REVIEW.get(), ref);
+      errors.put(CODE_REVIEW_ERROR, ref);
       reject(cmd, "draft workflow is disabled");
       return;
     }
@@ -1910,16 +1870,17 @@ class ReceiveCommits {
       return;
     }
 
+    BranchCommitValidator validator =
+        commitValidatorFactory.create(projectState, changeEnt.getDest(), user);
     try {
-      NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, receivePack.getRevWalk());
-      if (validCommit(
+      if (validator.validCommit(
           receivePack.getRevWalk().getObjectReader(),
-          changeEnt.getDest(),
           cmd,
           newCommit,
           false,
-          changeEnt,
-          rejectCommits)) {
+          messages,
+          rejectCommits,
+          changeEnt)) {
         logger.atFine().log("Replacing change %s", changeEnt.getId());
         requestReplace(cmd, true, changeEnt, newCommit);
       }
@@ -1968,10 +1929,6 @@ class ReceiveCommits {
     }
   }
 
-  private NoteMap loadRejectCommits() throws IOException {
-    return BanCommit.loadRejectCommitsMap(repo, receivePack.getRevWalk());
-  }
-
   private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch(Task newProgress) {
     logger.atFine().log("Finding new and replaced changes");
     List<CreateRequest> newChanges = new ArrayList<>();
@@ -1979,6 +1936,9 @@ class ReceiveCommits {
     ListMultimap<ObjectId, Ref> existing = changeRefsById();
     GroupCollector groupCollector =
         GroupCollector.create(changeRefsById(), db, psUtil, notesFactory, project.getNameKey());
+
+    BranchCommitValidator validator =
+        commitValidatorFactory.create(projectState, magicBranch.dest, user);
 
     try {
       RevCommit start = setUpWalkForSelectingChanges();
@@ -2079,14 +2039,14 @@ class ReceiveCommits {
           logger.atFine().log("Creating new change for %s even though it is already tracked", name);
         }
 
-        if (!validCommit(
+        if (!validator.validCommit(
             receivePack.getRevWalk().getObjectReader(),
-            magicBranch.dest,
             magicBranch.cmd,
             c,
             magicBranch.merged,
-            null,
-            loadRejectCommits())) {
+            messages,
+            rejectCommits,
+            null)) {
           // Not a change the user can propose? Abort as early as possible.
           logger.atFine().log("Aborting early due to invalid commit");
           return Collections.emptyList();
@@ -3045,13 +3005,11 @@ class ReceiveCommits {
       return;
     }
 
-    boolean missingFullName = Strings.isNullOrEmpty(user.getAccount().getFullName());
+    BranchCommitValidator validator = commitValidatorFactory.create(projectState, branch, user);
     RevWalk walk = receivePack.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
     try {
-      NoteMap rejectCommits = loadRejectCommits();
-
       RevObject parsedObject = walk.parseAny(cmd.getNewId());
       if (!(parsedObject instanceof RevCommit)) {
         return;
@@ -3074,14 +3032,9 @@ class ReceiveCommits {
           continue;
         }
 
-        if (!validCommit(walk.getObjectReader(), branch, cmd, c, false, null, rejectCommits)) {
+        if (!validator.validCommit(
+            walk.getObjectReader(), cmd, c, false, messages, rejectCommits, null)) {
           break;
-        }
-
-        if (missingFullName && user.hasEmailAddress(c.getCommitterIdent().getEmailAddress())) {
-          logger.atFine().log("Will update full name of caller");
-          setFullNameTo = c.getCommitterIdent().getName();
-          missingFullName = false;
         }
       }
       logger.atFine().log("Validated %d new commits", n);
@@ -3091,78 +3044,9 @@ class ReceiveCommits {
     }
   }
 
-  private String messageForCommit(RevCommit c, String msg) {
-    return String.format("commit %s: %s", c.abbreviate(RevId.ABBREV_LEN).name(), msg);
-  }
-
-  /**
-   * Validates a single commit. If the commit does not validate, the command is rejected.
-   *
-   * @param objectReader the object reader to use.
-   * @param branch the branch to which this commit is pushed
-   * @param cmd the ReceiveCommand executing the push.
-   * @param commit the commit being validated.
-   * @param isMerged whether this is a merge commit created by magicBranch --merge option
-   * @param change the change for which this is a new patchset.
-   */
-  private boolean validCommit(
-      ObjectReader objectReader,
-      Branch.NameKey branch,
-      ReceiveCommand cmd,
-      RevCommit commit,
-      boolean isMerged,
-      @Nullable Change change,
-      NoteMap rejectCommits)
-      throws IOException {
-
-    ValidCommitKey key = new AutoValue_ReceiveCommits_ValidCommitKey(commit.copy(), branch);
-    if (validCommits.contains(key)) {
-      return true;
-    }
-
-    try (CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, branch.get(), objectReader, commit, user)) {
-      CommitValidators validators;
-      if (isMerged) {
-        validators =
-            commitValidatorsFactory.forMergedCommits(permissions, branch, user.asIdentifiedUser());
-      } else {
-        validators =
-            commitValidatorsFactory.forReceiveCommits(
-                permissions,
-                branch,
-                user.asIdentifiedUser(),
-                sshInfo,
-                rejectCommits,
-                receiveEvent.revWalk,
-                change);
-      }
-
-      for (CommitValidationMessage m : validators.validate(receiveEvent)) {
-        messages.add(
-            new CommitValidationMessage(messageForCommit(commit, m.getMessage()), m.isError()));
-      }
-    } catch (CommitValidationException e) {
-      logger.atFine().log("Commit validation failed on %s", commit.name());
-      for (CommitValidationMessage m : e.getMessages()) {
-        // TODO(hanwen): drop the non-error messages?
-        messages.add(
-            new CommitValidationMessage(messageForCommit(commit, m.getMessage()), m.isError()));
-      }
-      reject(cmd, messageForCommit(commit, e.getMessage()));
-      return false;
-    }
-    validCommits.add(key);
-    return true;
-  }
-
   private void autoCloseChanges(ReceiveCommand cmd, Task progress) {
     logger.atFine().log("Starting auto-closing of changes");
     String refName = cmd.getRefName();
-    checkState(
-        !MagicBranch.isMagicBranch(refName),
-        "shouldn't be auto-closing changes on magic branch %s",
-        refName);
 
     // TODO(dborowitz): Combine this BatchUpdate with the main one in
     // handleRegularCommands
@@ -3277,31 +3161,6 @@ class ReceiveCommits {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, OrmException.class);
       throw new OrmException(e);
-    }
-  }
-
-  private void updateAccountInfo() {
-    if (setFullNameTo == null) {
-      return;
-    }
-    logger.atFine().log("Updating full name of caller");
-    try {
-      Optional<AccountState> accountState =
-          accountsUpdateProvider
-              .get()
-              .update(
-                  "Set Full Name on Receive Commits",
-                  user.getAccountId(),
-                  (a, u) -> {
-                    if (Strings.isNullOrEmpty(a.getAccount().getFullName())) {
-                      u.setFullName(setFullNameTo);
-                    }
-                  });
-      accountState
-          .map(AccountState::getAccount)
-          .ifPresent(a -> user.getAccount().setFullName(a.getFullName()));
-    } catch (OrmException | IOException | ConfigInvalidException e) {
-      logger.atWarning().withCause(e).log("Failed to update full name of caller");
     }
   }
 

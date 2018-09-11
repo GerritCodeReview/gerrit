@@ -288,7 +288,8 @@ public class MergeOp implements AutoCloseable {
     if (patchSet == null) {
       throw new ResourceConflictException("missing current patch set for change " + cd.getId());
     }
-    List<SubmitRecord> results = getSubmitRecords(cd, allowClosed);
+    List<SubmitRecord> results =
+        allowClosed ? cd.submitRecordsForceRecomputationOnClosed() : cd.submitRecords();
     if (SubmitRecord.allRecordsOK(results)) {
       // Rules supplied a valid solution.
       return;
@@ -328,9 +329,7 @@ public class MergeOp implements AutoCloseable {
     return allowClosed ? SUBMIT_RULE_OPTIONS_ALLOW_CLOSED : SUBMIT_RULE_OPTIONS;
   }
 
-  private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed) {
-    return cd.submitRecords(submitRuleOptions(allowClosed));
-  }
+
 
   private static String describeNotReady(ChangeData cd, SubmitRecord record) {
     List<String> blockingConditions = new ArrayList<>();
@@ -406,7 +405,9 @@ public class MergeOp implements AutoCloseable {
     checkArgument(
         !cs.furtherHiddenChanges(), "cannot bypass submit rules for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
-      List<SubmitRecord> records = new ArrayList<>(getSubmitRecords(cd, allowClosed));
+      List<SubmitRecord> records =
+          new ArrayList<>(
+              allowClosed ? cd.submitRecordsForceRecomputationOnClosed() : cd.submitRecords());
       SubmitRecord forced = new SubmitRecord();
       forced.status = SubmitRecord.Status.FORCED;
       records.add(forced);

@@ -86,7 +86,6 @@ import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
-import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -94,7 +93,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.RemoveReviewerControl;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.inject.Inject;
@@ -121,12 +119,6 @@ import org.eclipse.jgit.lib.Config;
  */
 public class ChangeJson {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
-      ChangeField.SUBMIT_RULE_OPTIONS_LENIENT.toBuilder().build();
-
-  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
-      ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().build();
 
   static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(
@@ -335,7 +327,7 @@ public class ChangeJson {
 
   private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
     Collection<SubmitRequirementInfo> reqInfos = new ArrayList<>();
-    for (SubmitRecord submitRecord : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
+    for (SubmitRecord submitRecord : cd.submitRecords()) {
       if (submitRecord.requirements == null) {
         continue;
       }
@@ -648,7 +640,7 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) {
-    return SubmitRecord.allRecordsOK(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT));
+    return SubmitRecord.allRecordsOK(cd.submitRecords());
   }
 
   private void setSubmitter(ChangeData cd, ChangeInfo out) {

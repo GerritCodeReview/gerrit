@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
@@ -64,6 +65,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 
 /**
  * Produces label-related entities, like {@link LabelInfo}s, which is serialized to JSON afterwards.
@@ -118,7 +120,7 @@ public class LabelsJson {
     boolean isMerged = cd.change().isMerged();
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelType> toCheck = new HashMap<>();
-    for (SubmitRecord rec : submitRecords(cd)) {
+    for (SubmitRecord rec : cd.submitRecordsForceRecomputationOnClosed()) {
       if (rec.labels != null) {
         for (SubmitRecord.Label r : rec.labels) {
           LabelType type = labelTypes.byLabel(r.label);
@@ -133,7 +135,7 @@ public class LabelsJson {
     Set<LabelPermission.WithValue> can =
         permissionBackendForChange(filterApprovalsBy, cd).testLabels(toCheck.values());
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
-    for (SubmitRecord rec : submitRecords(cd)) {
+    for (SubmitRecord rec : cd.submitRecordsForceRecomputationOnClosed()) {
       if (rec.labels == null) {
         continue;
       }
@@ -364,34 +366,41 @@ public class LabelsJson {
   private Map<String, LabelWithStatus> initLabels(
       AccountLoader accountLoader, ChangeData cd, LabelTypes labelTypes, boolean standard) {
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
-    for (SubmitRecord rec : submitRecords(cd)) {
-      if (rec.labels == null) {
-        continue;
-      }
-      for (SubmitRecord.Label r : rec.labels) {
-        LabelWithStatus p = labels.get(r.label);
-        if (p == null || p.status().compareTo(r.status) < 0) {
-          LabelInfo n = new LabelInfo();
-          if (standard) {
-            switch (r.status) {
-              case OK:
-                n.approved = accountLoader.get(r.appliedBy);
-                break;
-              case REJECT:
-                n.rejected = accountLoader.get(r.appliedBy);
-                n.blocking = true;
-                break;
-              case IMPOSSIBLE:
-              case MAY:
-              case NEED:
-              default:
-                break;
-            }
-          }
+    // Look at the submit records at the time that the change was merged (if already) and
+    // unify them with a fresh run of the submit rules. This gives us a set of:
+    //   - Labels that were granted upon submission (even if they were removed afterwards)
+    //   - Labels that were added after submission and voted on (only positive votes are allowed)
+    Set<SubmitRecord.Label> labelsToInspect =
+        Stream.concat(
+                cd.submitRecords().stream(), cd.submitRecordsForceRecomputationOnClosed().stream())
+            .filter(r -> r.labels != null)
+            .map(r -> r.labels)
+            .flatMap(List::stream)
+            .collect(toImmutableSet());
 
-          n.optional = r.status == SubmitRecord.Label.Status.MAY ? true : null;
-          labels.put(r.label, LabelWithStatus.create(n, r.status));
+    for (SubmitRecord.Label r : labelsToInspect) {
+      LabelWithStatus p = labels.get(r.label);
+      if (p == null || p.status().compareTo(r.status) < 0) {
+        LabelInfo n = new LabelInfo();
+        if (standard) {
+          switch (r.status) {
+          case OK:
+            n.approved = accountLoader.get(r.appliedBy);
+            break;
+          case REJECT:
+            n.rejected = accountLoader.get(r.appliedBy);
+            n.blocking = true;
+            break;
+          case IMPOSSIBLE:
+          case MAY:
+          case NEED:
+          default:
+            break;
+          }
         }
+
+        n.optional = r.status == SubmitRecord.Label.Status.MAY ? true : null;
+        labels.put(r.label, LabelWithStatus.create(n, r.status));
       }
     }
     return labels;
@@ -505,7 +514,7 @@ public class LabelsJson {
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) {
-    return cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT);
+    return cd.submitRecords();
   }
 
   private Map<String, VotingRangeInfo> getPermittedVotingRanges(

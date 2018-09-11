@@ -1141,6 +1141,7 @@ entity is returned.
     ],
     "can_upload": true,
     "can_add": true,
+    "can_add_tags": true,
     "config_visible": true,
     "groups": {
       "c2ce4749a32ceb82cd6adcce65b8216e12afb41c": {
@@ -1242,6 +1243,7 @@ entity is returned.
     ],
     "can_upload": true,
     "can_add": true,
+    "can_add_tags": true,
     "config_visible": true,
     "groups": {
       "global:Anonymous-Users": {
@@ -3442,10 +3444,10 @@ The max object size limit that is configured on the project as a
 formatted string. +
 Not set if there is no limit for the object size configured on project
 level.
-|`inherited_value` |optional|
-The max object size limit that is inherited from the global config as a
-formatted string. +
-Not set if there is no global limit for the object size.
+|`summary`         |optional|
+A string describing whether the value was inherited or overridden from
+the parent project or global config. +
+Not set if not inherited or overridden.
 |===============================
 
 [[project-access-input]]

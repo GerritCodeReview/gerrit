@@ -33,10 +33,10 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
-import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.project.BooleanProjectConfigTransformations;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectState.EffectiveMaxObjectSizeLimit;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -48,7 +48,6 @@ public class ConfigInfoImpl extends ConfigInfo {
       boolean serverEnableSignedPush,
       ProjectState projectState,
       CurrentUser user,
-      TransferConfig transferConfig,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
@@ -72,7 +71,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       this.requireSignedPush = null;
     }
 
-    this.maxObjectSizeLimit = getMaxObjectSizeLimit(projectState, transferConfig, p);
+    this.maxObjectSizeLimit = getMaxObjectSizeLimit(projectState, p);
 
     this.defaultSubmitType = new SubmitTypeInfo();
     this.defaultSubmitType.value = projectState.getSubmitType();
@@ -107,13 +106,13 @@ public class ConfigInfoImpl extends ConfigInfo {
     this.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
   }
 
-  private MaxObjectSizeLimitInfo getMaxObjectSizeLimit(
-      ProjectState projectState, TransferConfig transferConfig, Project p) {
+  private MaxObjectSizeLimitInfo getMaxObjectSizeLimit(ProjectState projectState, Project p) {
     MaxObjectSizeLimitInfo info = new MaxObjectSizeLimitInfo();
-    long value = projectState.getEffectiveMaxObjectSizeLimit();
+    EffectiveMaxObjectSizeLimit limit = projectState.getEffectiveMaxObjectSizeLimit();
+    long value = limit.value;
     info.value = value == 0 ? null : String.valueOf(value);
     info.configuredValue = p.getMaxObjectSizeLimit();
-    info.inheritedValue = transferConfig.getFormattedMaxObjectSizeLimit();
+    info.summary = limit.summary;
     return info;
   }
 

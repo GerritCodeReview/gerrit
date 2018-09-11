@@ -38,7 +38,6 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
-import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -71,7 +70,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
-  private final TransferConfig transferConfig;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
   private final AllProjectsName allProjects;
@@ -86,7 +84,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
-      TransferConfig transferConfig,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
@@ -98,7 +95,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
-    this.transferConfig = transferConfig;
     this.pluginConfigEntries = pluginConfigEntries;
     this.cfgFactory = cfgFactory;
     this.allProjects = allProjects;
@@ -173,7 +169,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           serverEnableSignedPush,
           state,
           user.get(),
-          transferConfig,
           pluginConfigEntries,
           cfgFactory,
           allProjects,

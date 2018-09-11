@@ -26,7 +26,6 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
-import com.google.gerrit.server.index.OnlineReindexMode;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologRule;
@@ -121,10 +120,8 @@ public class SubmitRuleEvaluator {
         return Collections.singletonList(ruleError("Error looking up change " + cd.getId(), e));
       }
 
-      if ((!opts.allowClosed() || OnlineReindexMode.isActive()) && change.isClosed()) {
-        SubmitRecord rec = new SubmitRecord();
-        rec.status = SubmitRecord.Status.CLOSED;
-        return Collections.singletonList(rec);
+      if (change.isClosed() && !opts.recomputeOnClosedChanges()) {
+        return cd.notes().getSubmitRecords();
       }
 
       // We evaluate all the plugin-defined evaluators,

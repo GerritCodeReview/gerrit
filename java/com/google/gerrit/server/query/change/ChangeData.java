@@ -885,7 +885,12 @@ public class ChangeData {
       submitRecords.put(options, records);
       if (!change().isClosed() && submitRecords.size() == 1) {
         // Cache the SubmitRecord with allowClosed = !allowClosed as the SubmitRecord are the same.
-        submitRecords.put(options.toBuilder().allowClosed(!options.allowClosed()).build(), records);
+        submitRecords.put(
+            options
+                .toBuilder()
+                .recomputeOnClosedChanges(!options.recomputeOnClosedChanges())
+                .build(),
+            records);
       }
     }
     return records;

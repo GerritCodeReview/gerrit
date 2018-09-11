@@ -895,6 +895,10 @@ class ChangeNotesParser {
         int s = line.indexOf(' ');
         String statusStr = s >= 0 ? line.substring(0, s) : line;
         rec.status = Enums.getIfPresent(SubmitRecord.Status.class, statusStr).orNull();
+        if (rec.status == SubmitRecord.Status.OK) {
+          // Submit records that were OK when they got merged are CLOSED now.
+          rec.status = SubmitRecord.Status.CLOSED;
+        }
         checkFooter(rec.status != null, FOOTER_SUBMITTED_WITH, line);
         if (s >= 0) {
           rec.errorMessage = line.substring(s);

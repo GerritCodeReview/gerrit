@@ -25,7 +25,7 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 public abstract class SubmitRuleOptions {
   private static final SubmitRuleOptions defaults =
-      new AutoValue_SubmitRuleOptions.Builder().allowClosed(false).build();
+      new AutoValue_SubmitRuleOptions.Builder().recomputeOnClosedChanges(false).build();
 
   public static SubmitRuleOptions defaults() {
     return defaults;
@@ -35,13 +35,16 @@ public abstract class SubmitRuleOptions {
     return defaults.toBuilder();
   }
 
-  public abstract boolean allowClosed();
+  /**
+   * True if the submit rules should be recomputed even when the change is already closed (merged).
+   */
+  public abstract boolean recomputeOnClosedChanges();
 
   public abstract Builder toBuilder();
 
   @AutoValue.Builder
   public abstract static class Builder {
-    public abstract SubmitRuleOptions.Builder allowClosed(boolean allowClosed);
+    public abstract SubmitRuleOptions.Builder recomputeOnClosedChanges(boolean allowClosed);
 
     public abstract SubmitRuleOptions build();
   }

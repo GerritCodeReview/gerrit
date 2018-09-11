@@ -3748,6 +3748,14 @@ Default is zero.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
+[[receive.inheritProjectMaxObjectSizeLimit]]receive.inheritProjectMaxObjectSizeLimit::
++
+Controls whether the project-level link:config-project-config.html[`receive.maxObjectSizeLimit`]
+value is inherited from the parent project. When `true`, the value is
+inherited, otherwise it is not inherited.
++
+Default is false, the value is not inherited.
+
 [[receive.maxTrustDepth]]receive.maxTrustDepth::
 +
 If signed push validation is link:#receive.enableSignedPush[enabled],

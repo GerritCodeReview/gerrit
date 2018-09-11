@@ -175,9 +175,9 @@ public class ConfigInfo extends JavaScriptObject {
   public static class MaxObjectSizeLimitInfo extends JavaScriptObject {
     public final native String value() /*-{ return this.value; }-*/;
 
-    public final native String inheritedValue() /*-{ return this.inherited_value; }-*/;
-
     public final native String configuredValue() /*-{ return this.configured_value }-*/;
+
+    public final native String summary() /*-{ return this.summary; }-*/;
 
     protected MaxObjectSizeLimitInfo() {}
   }

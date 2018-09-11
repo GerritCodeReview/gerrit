@@ -47,14 +47,12 @@ public abstract class ExternalId implements Serializable {
   // corresponding regular expressions in the
   // com.google.gerrit.client.account.UsernameField class.
   private static final String USER_NAME_PATTERN_FIRST_REGEX = "[a-zA-Z0-9]";
-  private static final String USER_NAME_PATTERN_REST_REGEX = "[a-zA-Z0-9._@-]";
+  private static final String USER_NAME_PATTERN_REST_REGEX = "[a-zA-Z0-9.!#$%&’*+=?^_`\\{|\\}~@-]";
   private static final String USER_NAME_PATTERN_LAST_REGEX = "[a-zA-Z0-9]";
 
   /** Regular expression that a username must match. */
   private static final String USER_NAME_PATTERN_REGEX =
-      "^"
-          + //
-          "("
+      "^("
           + //
           USER_NAME_PATTERN_FIRST_REGEX
           + //
@@ -67,9 +65,7 @@ public abstract class ExternalId implements Serializable {
           + //
           USER_NAME_PATTERN_FIRST_REGEX
           + //
-          ")"
-          + //
-          "$";
+          ")$";
 
   private static final Pattern USER_NAME_PATTERN = Pattern.compile(USER_NAME_PATTERN_REGEX);
 

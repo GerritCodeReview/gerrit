@@ -228,7 +228,7 @@ gwt_binary = rule(
             default = Label("@bazel_tools//tools/zip:zipper"),
             cfg = "host",
             executable = True,
-            single_file = True,
+            allow_single_file = True,
         ),
     },
     outputs = {

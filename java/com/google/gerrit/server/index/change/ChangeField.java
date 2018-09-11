@@ -815,7 +815,7 @@ public class ChangeField {
               });
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
-      SubmitRuleOptions.builder().allowClosed(true).build();
+      SubmitRuleOptions.builder().recomputeOnClosedChanges(true).build();
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
       SubmitRuleOptions.builder().build();

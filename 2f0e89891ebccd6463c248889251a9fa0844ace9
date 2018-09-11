@@ -17,6 +17,24 @@
       "revId": "2f0e89891ebccd6463c248889251a9fa0844ace9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6881703_9cc8832e",
+        "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-11T06:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22f80fb5_0bfd292b",
+      "revId": "2f0e89891ebccd6463c248889251a9fa0844ace9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -827,6 +827,9 @@ public class ChangeField {
   }
 
   public static List<String> formatSubmitRecordValues(ChangeData cd) {
+    if (cd.change().getStatus().isClosed()) {
+      return ImmutableList.of(SubmitRecord.Status.CLOSED.name());
+    }
     return formatSubmitRecordValues(
         cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
   }

@@ -103,9 +103,7 @@ public class SubmitRuleEvaluator {
     }
 
     if (!opts.allowClosed() && change.isClosed()) {
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.CLOSED;
-      return Collections.singletonList(rec);
+      return cd.notes().getSubmitRecords();
     }
 
     // We evaluate all the plugin-defined evaluators,

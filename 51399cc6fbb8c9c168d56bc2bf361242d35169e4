@@ -22,6 +22,30 @@
       "revId": "51399cc6fbb8c9c168d56bc2bf361242d35169e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d607dcd_da30f15b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/UsernameField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-11T07:40:32Z",
+      "side": -1,
+      "message": "Done",
+      "parentUuid": "c9fdc0c2_a92f0022",
+      "range": {
+        "startLine": 42,
+        "startChar": 37,
+        "endLine": 42,
+        "endChar": 53
+      },
+      "revId": "51399cc6fbb8c9c168d56bc2bf361242d35169e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

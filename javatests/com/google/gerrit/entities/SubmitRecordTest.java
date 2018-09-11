@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.junit.Test;
@@ -66,5 +67,20 @@ public class SubmitRecordTest {
     submitRecords.add(OK_RECORD);
 
     assertThat(SubmitRecord.allRecordsOK(submitRecords)).isFalse();
+  }
+
+  @Test
+  public void deepCopy() {
+    SubmitRecord record = new SubmitRecord();
+    record.status = SubmitRecord.Status.CLOSED;
+    record.errorMessage = "ouch";
+    record.requirements =
+        ImmutableList.of(SubmitRequirement.builder().setFallbackText("foo").setType("baz").build());
+    SubmitRecord.Label label = new SubmitRecord.Label();
+    label.label = "Code-Review";
+    record.labels = ImmutableList.of(label);
+
+    assertThat(record).isNotSameInstanceAs(record.deepCopy());
+    assertThat(record).isEqualTo(record.deepCopy());
   }
 }

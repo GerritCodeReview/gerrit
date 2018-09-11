@@ -120,7 +120,7 @@ public class MergeOp implements AutoCloseable {
 
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.builder().build();
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_ALLOW_CLOSED =
-      SUBMIT_RULE_OPTIONS.toBuilder().allowClosed(true).build();
+      SUBMIT_RULE_OPTIONS.toBuilder().recomputeOnClosedChanges(true).build();
 
   public static class CommitStatus {
     private final ImmutableMap<Change.Id, ChangeData> changes;

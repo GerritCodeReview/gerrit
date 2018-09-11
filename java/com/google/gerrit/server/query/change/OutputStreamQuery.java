@@ -262,7 +262,8 @@ public class OutputStreamQuery {
     }
 
     if (includeSubmitRecords) {
-      SubmitRuleOptions options = SubmitRuleOptions.builder().allowClosed(true).build();
+      SubmitRuleOptions options =
+          SubmitRuleOptions.builder().recomputeOnClosedChanges(true).build();
       eventFactory.addSubmitRecords(c, submitRuleEvaluatorFactory.create(options).evaluate(d));
     }
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.common.collect.Streams;
@@ -36,7 +37,6 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Evaluates a submit-like Prolog rule found in the rules.pl file of the current project and filters
@@ -121,10 +121,18 @@ public class SubmitRuleEvaluator {
         return Collections.singletonList(ruleError("Error looking up change " + cd.getId(), e));
       }
 
-      if ((!opts.allowClosed() || OnlineReindexMode.isActive()) && change.isClosed()) {
-        SubmitRecord rec = new SubmitRecord();
-        rec.status = SubmitRecord.Status.CLOSED;
-        return Collections.singletonList(rec);
+      if (change.isClosed() && (!opts.recomputeOnClosedChanges() || OnlineReindexMode.isActive())) {
+        return cd.notes().getSubmitRecords().stream()
+            .map(
+                r -> {
+                  SubmitRecord record = r.deepCopy();
+                  if (record.status == SubmitRecord.Status.OK) {
+                    // Submit records that were OK when they got merged are CLOSED now.
+                    record.status = SubmitRecord.Status.CLOSED;
+                  }
+                  return record;
+                })
+            .collect(toImmutableList());
       }
 
       // We evaluate all the plugin-defined evaluators,
@@ -133,7 +141,7 @@ public class SubmitRuleEvaluator {
           .map(c -> c.call(s -> s.evaluate(cd)))
           .filter(Optional::isPresent)
           .map(Optional::get)
-          .collect(Collectors.toList());
+          .collect(toImmutableList());
     }
   }
 

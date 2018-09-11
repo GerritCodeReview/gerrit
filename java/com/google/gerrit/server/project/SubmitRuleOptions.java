@@ -41,6 +41,9 @@ public abstract class SubmitRuleOptions {
     return defaults.toBuilder();
   }
 
+  /**
+   * True if the submit rules should be recomputed even when the change is already closed (merged).
+   */
   public abstract boolean allowClosed();
 
   public abstract boolean skipFilters();

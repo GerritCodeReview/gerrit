@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.SubmitRule;
@@ -43,6 +44,7 @@ public class SubmitRuleEvaluator {
   private final ProjectCache projectCache;
   private final PrologRule prologRule;
   private final DynamicSet<SubmitRule> submitRules;
+  private final NotesMigration notesMigration;
   private final SubmitRuleOptions opts;
 
   public interface Factory {
@@ -55,10 +57,12 @@ public class SubmitRuleEvaluator {
       ProjectCache projectCache,
       PrologRule prologRule,
       DynamicSet<SubmitRule> submitRules,
+      NotesMigration notesMigration,
       @Assisted SubmitRuleOptions options) {
     this.projectCache = projectCache;
     this.prologRule = prologRule;
     this.submitRules = submitRules;
+    this.notesMigration = notesMigration;
 
     this.opts = options;
   }
@@ -103,9 +107,18 @@ public class SubmitRuleEvaluator {
     }
 
     if (!opts.allowClosed() && change.getStatus().isClosed()) {
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.CLOSED;
-      return Collections.singletonList(rec);
+      if (!notesMigration.readChanges()) {
+        // We are still on ReviewDb which doesn't store the submit records upon submission
+        SubmitRecord rec = new SubmitRecord();
+        rec.status = SubmitRecord.Status.CLOSED;
+        return Collections.singletonList(rec);
+      }
+
+      try {
+        return cd.notes().getSubmitRecords();
+      } catch (OrmException e) {
+        return ruleError("could not load change notes", e);
+      }
     }
 
     // We evaluate all the plugin-defined evaluators,

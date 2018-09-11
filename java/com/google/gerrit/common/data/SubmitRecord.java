@@ -39,13 +39,17 @@ public class SubmitRecord {
     // NOTE: These values are persisted in the index, so deleting or changing
     // the name of any values requires a schema upgrade.
 
-    /** The change is ready for submission. */
+    /** The change is ready for submission or was submitted with valid approvals. */
     OK,
 
     /** Something is preventing this change from being submitted. */
     NOT_READY,
 
-    /** The change has been closed. */
+    /**
+     * The change has been closed. This value is deprecated and will be removed once ReviewDb is no
+     * longer used.
+     */
+    @Deprecated
     CLOSED,
 
     /** The change was submitted bypassing submit rules. */

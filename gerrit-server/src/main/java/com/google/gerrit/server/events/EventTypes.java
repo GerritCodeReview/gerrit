@@ -24,6 +24,7 @@ public class EventTypes {
   static {
     register(AssigneeChangedEvent.TYPE, AssigneeChangedEvent.class);
     register(ChangeAbandonedEvent.TYPE, ChangeAbandonedEvent.class);
+    register(ChangeDeletedEvent.TYPE, ChangeDeletedEvent.class);
     register(ChangeMergedEvent.TYPE, ChangeMergedEvent.class);
     register(ChangeRestoredEvent.TYPE, ChangeRestoredEvent.class);
     register(CommentAddedEvent.TYPE, CommentAddedEvent.class);

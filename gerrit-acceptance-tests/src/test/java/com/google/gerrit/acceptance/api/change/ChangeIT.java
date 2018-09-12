@@ -437,10 +437,13 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void deleteDraftChange() throws Exception {
     PushOneCommit.Result r = createChange("refs/drafts/master");
-    assertThat(query(r.getChangeId())).hasSize(1);
-    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
-    gApi.changes().id(r.getChangeId()).delete();
-    assertThat(query(r.getChangeId())).isEmpty();
+    String changeId = r.getChangeId();
+    assertThat(query(changeId)).hasSize(1);
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.DRAFT);
+    gApi.changes().id(changeId).delete();
+    assertThat(query(changeId)).isEmpty();
+
+    eventRecorder.assertChangeDeletedEvents(changeId, admin.email);
   }
 
   @Test
@@ -521,6 +524,8 @@ public class ChangeIT extends AbstractDaemonTest {
       gApi.changes().id(changeId).delete();
 
       assertThat(query(changeId)).isEmpty();
+
+      eventRecorder.assertChangeDeletedEvents(changeId, deleteAs.email);
     } finally {
       removePermission(Permission.DELETE_OWN_CHANGES, project, "refs/*");
       removePermission(Permission.DELETE_CHANGES, project, "refs/*");

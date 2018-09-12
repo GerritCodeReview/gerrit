@@ -32,7 +32,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,7 +66,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
 
   @Override
   public SiteIndexer.Result indexAll(GroupIndex index) {
-    ProgressMonitor progress = new TextProgressMonitor(new PrintWriter(progressOut));
+    ProgressMonitor progress = new TextProgressMonitor(newPrintWriter(progressOut));
     progress.start(2);
     Stopwatch sw = Stopwatch.createStarted();
     List<AccountGroup.UUID> uuids;

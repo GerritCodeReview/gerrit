@@ -39,7 +39,7 @@ def license_test(name, target):
     if target[0] not in ":/":
         target = ":" + target
     if target[0] != "/":
-        target = "//" + PACKAGE_NAME + target
+        target = "//" + native.package_name() + target
 
     forbidden = "//lib:LICENSE-DO_NOT_DISTRIBUTE"
     native.genquery(

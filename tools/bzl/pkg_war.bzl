@@ -14,7 +14,7 @@
 
 # War packaging.
 
-jar_filetype = FileType([".jar"])
+jar_filetype = [".jar"]
 
 LIBS = [
     "//gerrit-war:init",

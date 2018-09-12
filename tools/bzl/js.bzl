@@ -415,4 +415,4 @@ _vulcanize_rule = rule(
 
 def vulcanize(*args, **kwargs):
     """Vulcanize runs vulcanize and crisper on a set of sources."""
-    _vulcanize_rule(*args, pkg = PACKAGE_NAME, **kwargs)
+    _vulcanize_rule(*args, pkg = native.package_name(), **kwargs)

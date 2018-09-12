@@ -29,7 +29,6 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -60,7 +59,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
 
   @Override
   public SiteIndexer.Result indexAll(AccountIndex index) {
-    ProgressMonitor progress = new TextProgressMonitor(new PrintWriter(progressOut));
+    ProgressMonitor progress = new TextProgressMonitor(newPrintWriter(progressOut));
     progress.start(2);
     Stopwatch sw = Stopwatch.createStarted();
     List<Account.Id> ids;

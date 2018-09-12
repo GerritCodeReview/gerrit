@@ -46,6 +46,30 @@
       "revId": "999c2ef13ac20b1c557ba78c5726318773eccb1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13e0d40e_a0d39378",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-12T04:27:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8c981dd_cc114883",
+      "range": {
+        "startLine": 1404,
+        "startChar": 10,
+        "endLine": 1404,
+        "endChar": 42
+      },
+      "revId": "999c2ef13ac20b1c557ba78c5726318773eccb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

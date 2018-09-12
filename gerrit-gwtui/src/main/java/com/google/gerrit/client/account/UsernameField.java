@@ -41,7 +41,7 @@ class UsernameField extends Composite {
   // corresponding regular expressions in the
   // com.google.gerrit.server.account.externalids.ExternalId class.
   private static final String USER_NAME_PATTERN_FIRST_REGEX = "[a-zA-Z0-9]";
-  private static final String USER_NAME_PATTERN_REST_REGEX = "[a-zA-Z0-9._@-]";
+  private static final String USER_NAME_PATTERN_REST_REGEX = "[a-zA-Z0-9.!#$%&’*+=?^_`\\{|\\}~@-]";
 
   private CopyableLabel userNameLbl;
   private NpTextBox userNameTxt;

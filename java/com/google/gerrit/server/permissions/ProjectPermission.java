@@ -51,6 +51,21 @@ public enum ProjectPermission implements GerritPermission {
   CREATE_REF,
 
   /**
+   * Can create at least one tag reference in the project.
+   *
+   * <p>This project level permission only validates the user may create some tag reference within
+   * the project. The exact reference name must be checked at creation:
+   *
+   * <pre>permissionBackend
+   *    .user(user)
+   *    .project(proj)
+   *    .ref(ref)
+   *    .check(RefPermission.CREATE);
+   * </pre>
+   */
+  CREATE_TAG_REF,
+
+  /**
    * Can create at least one change in the project.
    *
    * <p>This project level permission only validates the user may create a change for some branch

@@ -45,6 +45,30 @@
       "revId": "4a3e0bd43508b3361fc4b1f4d9fc99a906453ade",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e301f6a9_5c612c5c",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-12T22:27:35Z",
+      "side": 1,
+      "message": "Looks like invoking \"bazel info workspace\" failed. Try again on PS4, that should output the error message from bazel.",
+      "parentUuid": "9101c16a_135c3e3d",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 32
+      },
+      "revId": "4a3e0bd43508b3361fc4b1f4d9fc99a906453ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

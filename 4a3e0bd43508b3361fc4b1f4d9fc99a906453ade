@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "053f2b0e_18b3b4e0",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-09-12T22:13:18Z",
+      "side": 1,
+      "message": "Should this be called \"test_server\", \"proxy_server\", or similar, to make it clear that it\u0027s not meant for production?",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 18
+      },
+      "revId": "4a3e0bd43508b3361fc4b1f4d9fc99a906453ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9101c16a_135c3e3d",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-09-12T22:13:18Z",
+      "side": 1,
+      "message": "This command doesn\u0027t seem to be successfully starting the server. Did I miss a step?\n\n  wyatta@wyatta:~/code/gerrit$ bazel run //polygerrit-ui:server\n  INFO: Build options have changed, discarding analysis cache.\n  INFO: Analysed target //polygerrit-ui:server (87 packages loaded).\n  INFO: Found 1 target...\n  Target //polygerrit-ui:server up-to-date:\n    bazel-bin/polygerrit-ui/linux_amd64_stripped/server\n  INFO: Elapsed time: 3.653s, Critical Path: 0.75s\n  INFO: 23 processes: 23 remote cache hit.\n  INFO: Build completed successfully, 27 total actions\n  INFO: Build completed successfully, 27 total actions\n  2018/09/12 15:10:23 exit status 2\n  wyatta@wyatta:~/code/gerrit$",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 32
+      },
+      "revId": "4a3e0bd43508b3361fc4b1f4d9fc99a906453ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.ChangeDeleted;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateReviewDb;
@@ -66,6 +67,7 @@ class DeleteChangeOp implements BatchUpdateOp {
   private final StarredChangesUtil starredChangesUtil;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
   private final boolean allowDrafts;
+  private final ChangeDeleted changeDeleted;
 
   private Change.Id id;
 
@@ -74,11 +76,13 @@ class DeleteChangeOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       StarredChangesUtil starredChangesUtil,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
-      @GerritServerConfig Config cfg) {
+      @GerritServerConfig Config cfg,
+      ChangeDeleted changeDeleted) {
     this.psUtil = psUtil;
     this.starredChangesUtil = starredChangesUtil;
     this.accountPatchReviewStore = accountPatchReviewStore;
     this.allowDrafts = allowDrafts(cfg);
+    this.changeDeleted = changeDeleted;
   }
 
   @Override
@@ -98,6 +102,7 @@ class DeleteChangeOp implements BatchUpdateOp {
     deleteChangeElementsFromDb(ctx, id);
 
     ctx.deleteChange();
+    changeDeleted.fire(ctx.getChange(), ctx.getAccount(), ctx.getWhen());
     return true;
   }
 

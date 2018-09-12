@@ -147,7 +147,7 @@ public class ProjectQoSFilter implements Filter {
   @Override
   public void destroy() {}
 
-  private final class Listener implements ContinuationListener {
+  private static final class Listener implements ContinuationListener {
     final Future<?> future;
 
     Listener(Future<?> future) {

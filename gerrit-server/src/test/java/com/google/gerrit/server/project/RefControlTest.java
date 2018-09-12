@@ -895,7 +895,7 @@ public class RefControlTest {
     return all.get(local.getProject().getNameKey());
   }
 
-  private class MockUser extends CurrentUser {
+  private static class MockUser extends CurrentUser {
     private final String username;
     private final GroupMembership groups;
 

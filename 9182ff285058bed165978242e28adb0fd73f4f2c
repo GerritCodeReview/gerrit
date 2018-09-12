@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "35cf80f4_2867bbc7",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-12T16:23:54Z",
+      "side": 1,
+      "message": "According to our style guide [1] and general Java practices, the names of interfaces are either noun phrases or (when applicable) adjective phrases. I don\u0027t have a perfect suggestion yet but let\u0027s discuss some alternatives:\n- UrlProvider\n- UrlFormatter\n- UrlBrowser (This is the noun variant of the current name. I honestly wouldn\u0027t know what to make of this class without reading the Javadoc description.)\n- Urls\n- GerritUrls (Typically, including the product name in class names just inflates all names and is thus discouraged. It might still help here to clarify the very vague \u0027Urls\u0027.)\n- BrowsableUrls (Does \"browsable\" exist as a word and in that context?)\n\nI\u0027m happy to hear more ideas.\n\n[1] https://google.github.io/styleguide/javaguide.html#s5.2.2-class-names",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 27
+      },
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2887e4f_181b436b",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-12T16:23:54Z",
+      "side": 1,
+      "message": "That\u0027s a bit confusing. Saying \"in the following circumstances\" makes me think that you provide a comprehensive list but adding \"for example\" makes me wonder which other cases aren\u0027t mentioned.",
+      "range": {
+        "startLine": 32,
+        "startChar": 61,
+        "endLine": 33,
+        "endChar": 12
+      },
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93096307_39d6203d",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-12T16:23:54Z",
+      "side": 1,
+      "message": "This is formulated from the view of somebody implementing the interface. I would rather formulate the Javadoc description for the users of the interface and hence not describe what it \"should\" do but what it\u0027s real contract is.",
+      "range": {
+        "startLine": 40,
+        "startChar": 76,
+        "endLine": 40,
+        "endChar": 96
+      },
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52cb7c8c_0c94ef6a",
         "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
         "patchSetId": 6
@@ -31,6 +100,64 @@
       "side": 1,
       "message": "currently it returns \"/\" to avoid causing null ptr exceptions, which seem unwarranted for the places where this is used.\n\nBut honestly, I would rather get rid of the hasURL \u003d\u003d false case. I don\u0027t understand what use-case it could serve, but resolving that seems a separate discussion from the one we have here.",
       "parentUuid": "52cb7c8c_0c94ef6a",
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ebd2a3c_0ea4dec1",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-12T16:23:54Z",
+      "side": 1,
+      "message": "I agree with Dave that the contract is complicated.\n\nWould it be an option to make webUrl() and changeViewUrl() return Optional\u003cString\u003e? Thus, we would have a much easier contract and callers wouldn\u0027t forget to handle the case when the URL isn\u0027t present.",
+      "parentUuid": "52cb7c8c_0c94ef6a",
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afb6e2bd_15ce4a21",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-12T16:23:54Z",
+      "side": 1,
+      "message": "According to our style guide [1] and general Java practices, the names of methods are typically verbs or verb phrases. We only make an exception for the \"method fields\" of plain DTOs like AutoValue classes. Hence, we should rather use getChangeViewUrl() and getWebUrl().\n\n[1] https://google.github.io/styleguide/javaguide.html#s5.2.3-method-names",
+      "range": {
+        "startLine": 43,
+        "startChar": 17,
+        "endLine": 43,
+        "endChar": 30
+      },
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73187628_fc70d5cc",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-12T16:23:54Z",
+      "side": 1,
+      "message": "This method also needs a Javadoc description.",
       "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -76,6 +203,29 @@
         "startChar": 11,
         "endLine": 47,
         "endChar": 19
+      },
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2df6afd8_390b0cd2",
+        "filename": "java/com/google/gerrit/server/config/DefaultBrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-12T16:23:54Z",
+      "side": 1,
+      "message": "optional: I know I\u0027m fighting Gerrit traditions but the recent ToTT 538 explicitly highlighted the importance of the use of good names. Writing \"url\" instead of \"u\" really doesn\u0027t use so many more characters.",
+      "range": {
+        "startLine": 27,
+        "startChar": 11,
+        "endLine": 27,
+        "endChar": 12
       },
       "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

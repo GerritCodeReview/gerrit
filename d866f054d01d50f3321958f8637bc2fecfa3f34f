@@ -47,6 +47,23 @@
       "revId": "d866f054d01d50f3321958f8637bc2fecfa3f34f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "beef9f02_dfe9d091",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-12T15:14:07Z",
+      "side": 0,
+      "message": "I gotta say, I like introducing this interface almost purely for the fact that we get to stop writing \"@CanonicalWebUrl @Nullable Provider\u003cString\u003e\" :)",
+      "revId": "d866f054d01d50f3321958f8637bc2fecfa3f34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

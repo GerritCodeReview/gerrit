@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52cb7c8c_0c94ef6a",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-12T15:14:07Z",
+      "side": 1,
+      "message": "What is the intended behavior of webUrl() when hasUrl() is false? Should it throw ISE? Return null? Either way, that significantly complicates the contract that implementers need to follow.\n\nOne way around this might be to make this an abstract class, where there are protected abstract methods like webUrlImpl and webUrl always calls checkState. But I think that would get pretty ugly.\n\nAnother possibility is to give hasUrl() a default implementation which returns true, and bind BrowseUrls to an implementation that returns false from hasUrl and throws ISE from all other methods.\n\nIf that all turns out to be too difficult, we can just punt and document the unfortunately complicated contract.",
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "decec1db_fc779b0c",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-12T15:14:07Z",
+      "side": 1,
+      "message": "Nit: wrapping",
+      "range": {
+        "startLine": 45,
+        "startChar": 3,
+        "endLine": 46,
+        "endChar": 20
+      },
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bca9dd87_2679f279",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-12T15:14:07Z",
+      "side": 1,
+      "message": "What if this returns null?",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 19
+      },
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "923f96f1_a39ef6f3",
+        "filename": "java/com/google/gerrit/server/config/DefaultBrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-12T15:14:07Z",
+      "side": 1,
+      "message": "It looks like this means changeViewUrl will return \"/project/+/#\" when hasUrl is false. Is that actually a reasonable thing to output?",
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "154bc68e_56560b90",
+        "filename": "java/com/google/gerrit/server/git/DefaultChangeReportFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-12T15:14:07Z",
+      "side": 1,
+      "message": "The calls to changeViewUrl in this class will both return invalid URLs if hasUrl is false. In my mind, it feels like programmer error to call changeViewUrl here in that case; this should perhaps just say \"change 1234 closed\" rather than a URL if there is no URL available.\n\nThe fact that this mistake is easy to make is an argument for implementing one of the solutions that throws ISE when this programmer error is made.",
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

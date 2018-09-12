@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "8694e7e5_852965d2",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-12T15:14:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "05fd6d01_2b8cb3e0",
+      "range": {
+        "startLine": 21,
+        "startChar": 32,
+        "endLine": 21,
+        "endChar": 63
+      },
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cf1a872_aa4a0c50",
         "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
         "patchSetId": 4
@@ -128,6 +152,24 @@
       "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba838fc4_e45710ba",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-12T15:14:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4cce764a_120278aa",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -266,6 +308,24 @@
     },
     {
       "key": {
+        "uuid": "4eddab7c_a5deb030",
+        "filename": "java/com/google/gerrit/server/config/CanonicalWebUrlModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-12T15:14:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "94aa4ea8_57a7b610",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1886be8b_b3394b5f",
         "filename": "java/com/google/gerrit/server/config/DefaultBrowseUrls.java",
         "patchSetId": 4
@@ -371,6 +431,24 @@
     },
     {
       "key": {
+        "uuid": "9833738b_0992fc21",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-12T15:14:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7b557687_ea1cb52c",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93a6d661_942e3914",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 4
@@ -403,6 +481,24 @@
       "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97a470f3_4da85ad5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2588,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-12T15:14:07Z",
+      "side": 1,
+      "message": "Yeah, that was a little optimistic on my part. The behavior change is minor enough, I can live with this.",
+      "parentUuid": "3bd32552_e8dcd14b",
+      "revId": "59c49b54cf59d043a71dbaa041e43e206c52ee5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

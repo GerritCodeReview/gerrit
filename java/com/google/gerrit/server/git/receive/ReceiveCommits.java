@@ -93,9 +93,7 @@ import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -365,7 +363,6 @@ class ReceiveCommits {
   @Inject
   ReceiveCommits(
       AccountResolver accountResolver,
-      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
       @GerritServerConfig Config cfg,

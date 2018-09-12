@@ -2,7 +2,10 @@ java_library(
     name = "httpd",
     srcs = glob(["**/*.java"]),
     resource_strip_prefix = "resources",
-    resources = ["//resources/com/google/gerrit/httpd"],
+    resources = [
+        "//resources/com/google/gerrit/httpd",
+        "//resources/com/google/gerrit/httpd/raw",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:annotations",

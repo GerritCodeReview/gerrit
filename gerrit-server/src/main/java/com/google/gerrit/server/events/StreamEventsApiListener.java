@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.AssigneeChangedListener;
 import com.google.gerrit.extensions.events.ChangeAbandonedListener;
+import com.google.gerrit.extensions.events.ChangeDeletedListener;
 import com.google.gerrit.extensions.events.ChangeMergedListener;
 import com.google.gerrit.extensions.events.ChangeRestoredListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
@@ -75,6 +76,7 @@ import org.slf4j.LoggerFactory;
 public class StreamEventsApiListener
     implements AssigneeChangedListener,
         ChangeAbandonedListener,
+        ChangeDeletedListener,
         ChangeMergedListener,
         ChangeRestoredListener,
         CommentAddedListener,
@@ -94,6 +96,7 @@ public class StreamEventsApiListener
     protected void configure() {
       DynamicSet.bind(binder(), AssigneeChangedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ChangeAbandonedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), ChangeDeletedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ChangeMergedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ChangeRestoredListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), CommentAddedListener.class).to(StreamEventsApiListener.class);
@@ -491,6 +494,22 @@ public class StreamEventsApiListener
       event.reviewer = accountAttributeSupplier(ev.getReviewer());
       event.remover = accountAttributeSupplier(ev.getWho());
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
+
+      dispatcher.get().postEvent(change, event);
+    } catch (OrmException e) {
+      log.error("Failed to dispatch event", e);
+    }
+  }
+
+  @Override
+  public void onChangeDeleted(ChangeDeletedListener.Event ev) {
+    try {
+      ChangeNotes notes = getNotes(ev.getChange());
+      Change change = notes.getChange();
+      ChangeDeletedEvent event = new ChangeDeletedEvent(change);
+
+      event.change = changeAttributeSupplier(change);
+      event.deleter = accountAttributeSupplier(ev.getWho());
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {

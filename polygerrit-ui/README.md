@@ -48,32 +48,6 @@ This is a quick and easy way to test your local changes against real data.
 Unfortunately, you can't sign in, so testing certain features will require
 you to use the "test data" technique described below.
 
-### Installing [go](https://golang.org/)
-
-This is required for running the `run-server.sh` script below.
-
-```sh
-# Debian/Ubuntu
-sudo apt-get install golang
-
-# OS X with Homebrew
-brew install go
-```
-
-All other platforms: [download from golang.org](https://golang.org/)
-
-Then add go to your path:
-
-```
-PATH=$PATH:/usr/local/go/bin
-```
-
-Install the go Soy template library:
-
-```
-go get "github.com/robfig/soy"
-```
-
 ### Running the server
 
 To test the local UI against gerrit-review.googlesource.com:

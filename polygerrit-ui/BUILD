@@ -2,6 +2,7 @@ package(
     default_visibility = ["//visibility:public"],
 )
 
+load("@io_bazel_rules_go//go:def.bzl", "go_binary")
 load("//tools/bzl:js.bzl", "bower_component_bundle")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 
@@ -51,4 +52,20 @@ genrule2(
     ]),
     output_to_bindir = 1,
     visibility = ["//visibility:public"],
+)
+
+go_binary(
+    name = "server",
+    srcs = ["server.go"],
+    deps = [
+        "@com_github_robfig_soy//:go_default_library",
+        "@com_github_robfig_soy//soyhtml:go_default_library",
+        "@org_golang_x_tools//godoc/vfs/httpfs:go_default_library",
+        "@org_golang_x_tools//godoc/vfs/zipfs:go_default_library",
+    ],
+    data = [
+        ":fonts.zip",
+        "//polygerrit-ui/app:test_components.zip",
+        "//resources/com/google/gerrit/httpd/raw",
+    ],
 )

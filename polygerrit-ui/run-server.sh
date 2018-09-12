@@ -14,23 +14,8 @@
 # limitations under the License.
 
 set -eu
-
-while [[ ! -f WORKSPACE && "$PWD" != / ]]; do
-  cd ..
-done
-if [[ ! -f WORKSPACE ]]; then
-  echo "$(basename "$0"): must be run from a gerrit checkout" 1>&2
-  exit 1
-fi
-
-bazel build \
-  //polygerrit-ui/app:test_components \
-  //polygerrit-ui:fonts.zip
-
-cd polygerrit-ui/app
-rm -rf bower_components
-unzip -q ../../bazel-bin/polygerrit-ui/app/test_components.zip
-rm -rf fonts
-unzip -q ../../bazel-bin/polygerrit-ui/fonts.zip -d fonts
-cd ..
-exec go run server.go "$@"
+WORKSPACE=$(bazel info workspace)
+SCRIPTNAME=$(mktemp)
+trap "{ rm -f $SCRIPTNAME; }" EXIT
+bazel run --script_path="$SCRIPTNAME" //polygerrit-ui:devserver
+exec "$SCRIPTNAME" "$@"

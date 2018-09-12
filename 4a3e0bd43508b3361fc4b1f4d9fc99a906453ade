@@ -69,6 +69,30 @@
       "revId": "4a3e0bd43508b3361fc4b1f4d9fc99a906453ade",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "437a1d1f_33207776",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-09-12T22:38:51Z",
+      "side": 1,
+      "message": "I think your hunch may be right. I\u0027m using bazel 0.16.1 if that\u0027s relevant.\n\n  wyatta@wyatta:~/code/gerrit$ bazel run //polygerrit-ui:server\n  Starting local Bazel server and connecting to it...\n  INFO: SHA256 (https://codeload.github.com/golang/tools/zip/8f8fd1f23985f19c387c894e5597b22d8256a495) \u003d 966292a2ab558fc12047f89657dc6d76e772a023e52eeaa99924d29\n  820432f8b\n  INFO: Analysed target //polygerrit-ui:server (87 packages loaded).\n  INFO: Found 1 target...\n  Target //polygerrit-ui:server up-to-date:\n    bazel-bin/polygerrit-ui/linux_amd64_stripped/server\n  INFO: Elapsed time: 113.116s, Critical Path: 0.85s\n  INFO: 23 processes: 21 remote cache hit, 2 linux-sandbox.\n  INFO: Build completed successfully, 27 total actions\n  INFO: Build completed successfully, 27 total actions\n  2018/09/12 15:32:02 bazel info command failed: ERROR: The \u0027info\u0027 command is only supported from within a workspace.\n  WARNING: --batch mode is deprecated. Please instead explicitly shut down your Bazel server using the command \"bazel shutdown\".\n  wyatta@wyatta:~/code/gerrit$",
+      "parentUuid": "e301f6a9_5c612c5c",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 32
+      },
+      "revId": "4a3e0bd43508b3361fc4b1f4d9fc99a906453ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

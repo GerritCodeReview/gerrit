@@ -15,37 +15,67 @@
 package main
 
 import (
+	"archive/zip"
 	"bufio"
 	"compress/gzip"
 	"encoding/json"
 	"errors"
 	"flag"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
 	"net/url"
+	"os"
+	"os/exec"
+	"path/filepath"
 	"regexp"
 	"strings"
 
 	"github.com/robfig/soy"
+	"github.com/robfig/soy/soyhtml"
+	"golang.org/x/tools/godoc/vfs/httpfs"
+	"golang.org/x/tools/godoc/vfs/zipfs"
 )
 
 var (
-	restHost = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
+	plugins  = flag.String("plugins", "", "comma seperated plugin paths to serve")
 	port     = flag.String("port", ":8081", "Port to serve HTTP requests on")
 	prod     = flag.Bool("prod", false, "Serve production assets")
+	restHost = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
 	scheme   = flag.String("scheme", "https", "URL scheme")
-	plugins  = flag.String("plugins", "", "comma seperated plugin paths to serve")
 
-	tofu, _ = soy.NewBundle().
-		AddTemplateFile("../resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy").
-		CompileToTofu()
+	tofu *soyhtml.Tofu
 )
 
 func main() {
 	flag.Parse()
+
+	workspace, err := resolveBazelWorkspace()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fontsArchive, err := openDataArchive("fonts.zip")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	componentsArchive, err := openDataArchive("app/test_components.zip")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	tofu, err = resolveIndexTemplate()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := os.Chdir(filepath.Join(workspace, "polygerrit-ui")); err != nil {
+		log.Fatal(err)
+	}
 
 	http.HandleFunc("/index.html", handleIndex)
 
@@ -54,6 +84,11 @@ func main() {
 	} else {
 		http.Handle("/", http.FileServer(http.Dir("app")))
 	}
+
+	http.Handle("/bower_components/",
+		http.FileServer(httpfs.New(zipfs.New(componentsArchive, "bower_components"))))
+	http.Handle("/fonts/",
+		http.FileServer(httpfs.New(zipfs.New(fontsArchive, "fonts"))))
 
 	http.HandleFunc("/changes/", handleRESTProxy)
 	http.HandleFunc("/accounts/", handleRESTProxy)
@@ -69,6 +104,37 @@ func main() {
 	}
 	log.Println("Serving on port", *port)
 	log.Fatal(http.ListenAndServe(*port, &server{}))
+}
+
+func resolveBazelWorkspace() (string, error) {
+	cmd := exec.Command("bazel", "info", "workspace")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return "", fmt.Errorf("bazel info command failed: %s", out)
+	}
+	return strings.Trim(string(out), "\n"), nil
+}
+
+func resolveIndexTemplate() (*soyhtml.Tofu, error) {
+	basePath, err := resourceBasePath()
+	if err != nil {
+		return nil, err
+	}
+	return soy.NewBundle().
+		AddTemplateFile(basePath + ".runfiles/gerrit/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy").
+		CompileToTofu()
+}
+
+func openDataArchive(path string) (*zip.ReadCloser, error) {
+	absBinPath, err := resourceBasePath()
+	if err != nil {
+		return nil, err
+	}
+	return zip.OpenReader(absBinPath + ".runfiles/gerrit/polygerrit-ui/" + path)
+}
+
+func resourceBasePath() (string, error) {
+	return filepath.Abs(os.Args[0])
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {

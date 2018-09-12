@@ -16,6 +16,7 @@ package com.google.gerrit.pgm;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -38,6 +39,7 @@ import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +139,7 @@ public class MigrateToNoteDb extends SiteProgram {
           migrator.migrate();
         }
       }
-      try (PrintWriter w = new PrintWriter(System.out, true)) {
+      try (PrintWriter w = new PrintWriter(new OutputStreamWriter(System.out, UTF_8), true)) {
         gcAllUsers.run(w);
       }
     } finally {

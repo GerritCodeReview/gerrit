@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efdc00d3_a64486ff",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-12T02:46:12Z",
+      "side": 1,
+      "message": "Why are we changing the base version here? The base version could be preserved:\n\n  globals\n        .permissionBackend\n        .currentUser()\n        .checkAny(GlobalPermission.fromAnnotation(d.pluginName, d.view.getClass()));\n\nThe same currentUser() idiom can be used in the new code:\n\n  try {\n      globals\n          .permissionBackend\n          .currentUser()\n          .check(GlobalPermission.ADMINISTRATE_SERVER);\n    } catch (AuthException e) {\n  [...]\n\nBoth versions work though, the only difference is where the currentUser Provide is resolved: in version in this patch set, currentUser\u0027s Provider from the RestApiServlet is used, In the base version, currentUser Provider from the DefaultPermissionBackend is used. But given the base version, I would tend to prefer the original version on master.",
+      "range": {
+        "startLine": 1404,
+        "startChar": 10,
+        "endLine": 1404,
+        "endChar": 42
+      },
+      "revId": "999c2ef13ac20b1c557ba78c5726318773eccb1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

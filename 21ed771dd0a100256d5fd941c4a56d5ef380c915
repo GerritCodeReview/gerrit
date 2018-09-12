@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a50d0ad8_84ec511c",
+        "filename": "lib/mina/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-12T20:14:04Z",
+      "side": 1,
+      "message": "Right idea, but you\u0027ve missed to fetch this new library from Central in WORKSPACE file.",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "21ed771dd0a100256d5fd941c4a56d5ef380c915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "d3f0fc59_e1ffb0cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-13T16:48:29Z",
+      "side": 1,
+      "message": "I dunno if this is something you can fix, but when the autocomplete is empty and I click the down arrow I don\u0027t receive default suggestions.",
+      "revId": "2e60175a90300952ea3c3d38405cfb49bead07c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9814e752_9bd0e1bc",
         "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.js",
         "patchSetId": 7

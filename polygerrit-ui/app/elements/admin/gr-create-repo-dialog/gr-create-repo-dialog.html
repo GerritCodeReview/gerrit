@@ -71,6 +71,15 @@ limitations under the License.
           </span>
         </section>
         <section>
+          <span class="title">Owners</span>
+          <span class="value">
+            <input is="iron-input"
+                id="ownersInput"
+                autocomplete="on"
+                bind-value="{{_repoConfig.owners}}">
+          </span>
+        </section>
+        <section>
           <span class="title">Create initial empty commit</span>
           <span class="value">
             <gr-select

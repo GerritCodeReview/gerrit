@@ -46,6 +46,30 @@
       "revId": "e171a310aed865e880e79bebc8deb00866418480",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f89ca21_0d7cc09b",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-13T04:07:00Z",
+      "side": 0,
+      "message": "Yes, with new package split this workaround is not needed any more.",
+      "parentUuid": "022a49c8_8507abcd",
+      "range": {
+        "startLine": 748,
+        "startChar": 4,
+        "endLine": 748,
+        "endChar": 73
+      },
+      "revId": "e171a310aed865e880e79bebc8deb00866418480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

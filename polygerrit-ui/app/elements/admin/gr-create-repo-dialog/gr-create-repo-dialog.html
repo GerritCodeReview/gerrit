@@ -71,6 +71,16 @@ limitations under the License.
           </span>
         </section>
         <section>
+          <span class="title">Owner</span>
+          <span class="value">
+            <gr-autocomplete
+                id="ownerInput"
+                text="{{_repoOwner}}"
+                query="[[_queryGroups]]">
+            </gr-autocomplete>
+          </span>
+        </section>
+        <section>
           <span class="title">Create initial empty commit</span>
           <span class="value">
             <gr-select

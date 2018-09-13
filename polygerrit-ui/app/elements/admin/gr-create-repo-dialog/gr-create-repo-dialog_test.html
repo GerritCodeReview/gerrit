@@ -60,6 +60,7 @@ limitations under the License.
         create_empty_commit: true,
         parent: 'All-Project',
         permissions_only: false,
+        owners: [ 'test' ],
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
@@ -74,10 +75,14 @@ limitations under the License.
         create_empty_commit: true,
         parent: 'All-Project',
         permissions_only: false,
+        owners: [ 'test' ],
       };
+
+      element._repoOwner = 'test';
 
       element.$.repoNameInput.bindValue = configInputObj.name;
       element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
+      element.$.ownerInput.bindValue = configInputObj.owners;
       element.$.initalCommit.bindValue =
           configInputObj.create_empty_commit;
       element.$.parentRepo.bindValue =
@@ -91,6 +96,11 @@ limitations under the License.
         assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
         done();
       });
+    });
+
+    test('testing observer of _repoOwner', () => {
+      element._repoOwner = 'test-5';
+      assert.equal(element._repoConfig.owners, 'test-5');
     });
   });
 </script>

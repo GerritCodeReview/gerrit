@@ -22,6 +22,30 @@
       "revId": "f40d86a070fcf94774279fa74d4c467e73832b44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df2c5184_0fe35c61",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2796,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-13T13:49:52Z",
+      "side": 1,
+      "message": "It includes previously tested versions. Although the tests are only against the latest, I have at least tested manually (by adjusting the tests) against 6.2.",
+      "parentUuid": "6f986e5d_8dfeca09",
+      "range": {
+        "startLine": 2795,
+        "startChar": 80,
+        "endLine": 2796,
+        "endChar": 17
+      },
+      "revId": "f40d86a070fcf94774279fa74d4c467e73832b44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

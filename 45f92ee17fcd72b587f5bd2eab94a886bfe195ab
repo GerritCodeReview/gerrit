@@ -67,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "3bd75b3d_af5a7b25",
+        "filename": "java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-13T16:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "976a47ca_a07e79ad",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdba31cd_e20bee88",
         "filename": "java/com/google/gerrit/server/change/IncludedIn.java",
         "patchSetId": 8
@@ -78,6 +96,24 @@
       "writtenOn": "2018-09-10T18:18:42Z",
       "side": 1,
       "message": "Not related to this change, but I don\u0027t see why this method should ever need to return null. But I guess it\u0027s an extension point so we don\u0027t necessarily have control over implementations :/",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "184402c8_60553859",
+        "filename": "java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-13T16:05:10Z",
+      "side": 1,
+      "message": "Yes, this check is here to be protected against bad-behaving plugins that return null although they shouldn\u0027t.",
+      "parentUuid": "bdba31cd_e20bee88",
       "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -116,6 +152,24 @@
       "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3fbf181_42e40e1a",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-13T16:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33ddf24_4a59baf1",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -162,6 +216,30 @@
       "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dce1d00_96dc4e02",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-13T16:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffcce38e_60d80605",
+      "range": {
+        "startLine": 96,
+        "startChar": 38,
+        "endLine": 96,
+        "endChar": 46
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -305,6 +383,24 @@
     },
     {
       "key": {
+        "uuid": "bb5906d1_12f5acc6",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-13T16:05:10Z",
+      "side": 1,
+      "message": "Ah, the Dynamic* classes are in the extensions package. Hence they cannot have a dependency to TraceContext :(\n\nMaybe we can have something like this:\n\n  PluginContext.create(dynamicSet).runEach(...)",
+      "parentUuid": "03ea317f_37dfa1f8",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3232af47_ee8b091a",
         "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
         "patchSetId": 8
@@ -345,6 +441,30 @@
     },
     {
       "key": {
+        "uuid": "5cb9d428_94303dc4",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-13T16:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b99971a_87095d74",
+      "range": {
+        "startLine": 277,
+        "startChar": 28,
+        "endLine": 277,
+        "endChar": 37
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29c91ac1_4f076316",
         "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 8
@@ -356,6 +476,24 @@
       "writtenOn": "2018-09-10T18:18:42Z",
       "side": 1,
       "message": "Unrelated: this should use Streams.stream",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "146e26ae_2e03653d",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-13T16:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29c91ac1_4f076316",
       "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -394,6 +532,24 @@
       "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eb79fd2_879542c1",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-13T16:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34b092c1_436e7be5",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

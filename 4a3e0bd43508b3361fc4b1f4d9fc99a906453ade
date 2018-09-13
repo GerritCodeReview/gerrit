@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f043e573_90a2b316",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-13T21:48:39Z",
+      "side": 1,
+      "message": "Renamed to \"devserver\".",
+      "parentUuid": "053f2b0e_18b3b4e0",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 18
+      },
+      "revId": "4a3e0bd43508b3361fc4b1f4d9fc99a906453ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9101c16a_135c3e3d",
         "filename": "polygerrit-ui/README.md",
         "patchSetId": 2
@@ -93,6 +117,30 @@
       "revId": "4a3e0bd43508b3361fc4b1f4d9fc99a906453ade",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b668a22_7cd1bb29",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-13T21:48:39Z",
+      "side": 1,
+      "message": "Maybe this new version will work better on your OS.",
+      "parentUuid": "437a1d1f_33207776",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 32
+      },
+      "revId": "4a3e0bd43508b3361fc4b1f4d9fc99a906453ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

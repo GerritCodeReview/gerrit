@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d4cde389_b3bb5048",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-13T21:48:39Z",
+      "side": 1,
+      "message": "I\u0027ve kept the logic that sets the working directory to $BUILD_WORKSPACE_DIRECTORY/polygerrit-ui/app. This is so that local modifications to html/js files under the app directory are immediately served without restarting the server.\n\nI don\u0027t see an args attr documented for the go_binary rule. Does it exist? That would be nice. My existing approach of using the argv[0] path is certainly brittle. I could reconstruct the bazel-bin path relative to the workspace, I think there are some go toolchain variables I need to incorporate into the path (e.g. on my machine it\u0027s bazel-bin/polygerrit-ui/linux_amd64_stripped/devserver.runfiles).",
+      "parentUuid": "b69cbd42_be73708d",
+      "range": {
+        "startLine": 76,
+        "startChar": 1,
+        "endLine": 78,
+        "endChar": 2
+      },
+      "revId": "1357c04d34dcadd032095fd574e511dafbe482d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "27f9542d_aaa4dc80",
         "filename": "polygerrit-ui/server.go",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "1357c04d34dcadd032095fd574e511dafbe482d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50284f0c_e07c39b2",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-13T21:48:39Z",
+      "side": 1,
+      "message": "I was playing around with the --script_path argument to bazel run, and it looks like bazel does chdir to the .runfiles/gerrit directory. It also exports a couple of useful environment variables.\n\nI\u0027ve modified the server to use BUILD_WORKSPACE_DIRECTORY instead of running \"bazel info.\" I\u0027ve also brought back run_server.sh, which uses bazel run --script_path so we can release the bazel lock while the server is running.",
+      "parentUuid": "27f9542d_aaa4dc80",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 110,
+        "endChar": 50
+      },
+      "revId": "1357c04d34dcadd032095fd574e511dafbe482d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

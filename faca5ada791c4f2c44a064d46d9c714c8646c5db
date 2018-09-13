@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f8689976_939336ec",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-help-dialogs/gr-create-help-dialogs.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-13T23:23:56Z",
+      "side": 1,
+      "message": "We don\u0027t do this elsewhere in the app. This should either be included inside some other element (change-actions style) or separated into different dialogs (like all of the rest of the app)",
+      "parentUuid": "3cf8e5cb_2328e9eb",
+      "range": {
+        "startLine": 24,
+        "startChar": 31,
+        "endLine": 24,
+        "endChar": 38
+      },
+      "revId": "faca5ada791c4f2c44a064d46d9c714c8646c5db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fd00c92_96d5f6db",
         "filename": "polygerrit-ui/app/elements/change-list/gr-create-help-dialogs/gr-create-help-dialogs.html",
         "patchSetId": 6

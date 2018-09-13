@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9814e752_9bd0e1bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-13T16:42:01Z",
+      "side": 1,
+      "message": "This is not used.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 6
+      },
+      "revId": "2e60175a90300952ea3c3d38405cfb49bead07c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

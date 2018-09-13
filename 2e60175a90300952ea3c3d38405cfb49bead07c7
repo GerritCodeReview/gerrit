@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b5c601de_5ea9c573",
+        "filename": "polygerrit-ui/app/elements/shared/gr-labeled-autocomplete/gr-labeled-autocomplete.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-09-13T23:19:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dcdcfbb_54ca2de9",
+      "range": {
+        "startLine": 29,
+        "startChar": 21,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "2e60175a90300952ea3c3d38405cfb49bead07c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3f0fc59_e1ffb0cf",
         "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.js",
         "patchSetId": 7
@@ -39,6 +63,24 @@
       "revId": "2e60175a90300952ea3c3d38405cfb49bead07c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "163b18a2_06734edc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-09-13T23:19:40Z",
+      "side": 1,
+      "message": "Done. I did not expect that to be so easy, in fact.",
+      "parentUuid": "d3f0fc59_e1ffb0cf",
+      "revId": "2e60175a90300952ea3c3d38405cfb49bead07c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "2e60175a90300952ea3c3d38405cfb49bead07c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "befdf9f2_6aed1cab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-09-13T23:19:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9814e752_9bd0e1bc",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 6
+      },
+      "revId": "2e60175a90300952ea3c3d38405cfb49bead07c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23162384_c292e591",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-13T16:50:53Z",
+      "side": 1,
+      "message": "When I test this change, I see a very mangled URL (/c/test%252B%252Btest/+/59 instead of /c/test++test/+/59). I think that should be fixed as well before the bug is marked as fixed.",
+      "revId": "c703285bc32305e3303c83d1d15de7ce436ab3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

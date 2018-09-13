@@ -43,11 +43,22 @@
         type: Boolean,
         value: false,
       },
+      _repoOwner: String,
+      _repoOwnerId: {
+        type: String,
+        observer: '_repoOwnerIdUpdate',
+      },
 
       _query: {
         type: Function,
         value() {
           return this._getRepoSuggestions.bind(this);
+        },
+      },
+      _queryGroups: {
+        type: Function,
+        value() {
+          return this._getGroupSuggestions.bind(this);
         },
       },
     },
@@ -68,6 +79,14 @@
 
     _updateRepoName(name) {
       this.hasNewRepoName = !!name;
+    },
+
+    _repoOwnerIdUpdate(id) {
+      if (id) {
+        this.set('_repoConfig.owners', [id]);
+      } else {
+        this.set('_repoConfig.owners', undefined);
+      }
     },
 
     handleCreateRepo() {
@@ -92,6 +111,21 @@
               });
             }
             return repos;
+          });
+    },
+
+    _getGroupSuggestions(input) {
+      return this.$.restAPI.getSuggestedGroups(input)
+          .then(response => {
+            const groups = [];
+            for (const key in response) {
+              if (!response.hasOwnProperty(key)) { continue; }
+              groups.push({
+                name: key,
+                value: decodeURIComponent(response[key].id),
+              });
+            }
+            return groups;
           });
     },
   });

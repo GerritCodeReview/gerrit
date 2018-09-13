@@ -102,6 +102,30 @@
       "revId": "b58d7a0e3f3b7cda99014cc692adc5be2c2d1e57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c08e45e2_95e801d6",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-13T22:17:02Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/146010/1/java/com/google/gerrit/server/group/db/GroupConfig.java#373",
+      "parentUuid": "c5fb09d3_9db5049a",
+      "range": {
+        "startLine": 240,
+        "startChar": 78,
+        "endLine": 240,
+        "endChar": 84
+      },
+      "revId": "b58d7a0e3f3b7cda99014cc692adc5be2c2d1e57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

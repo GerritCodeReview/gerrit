@@ -482,6 +482,7 @@
      */
     createRepo(config, opt_errFn) {
       if (!config.name) { return ''; }
+
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       const encodeName = encodeURIComponent(config.name);

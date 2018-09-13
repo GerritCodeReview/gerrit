@@ -60,6 +60,7 @@ limitations under the License.
         create_empty_commit: true,
         parent: 'All-Project',
         permissions_only: false,
+        owners: 'test',
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
@@ -74,10 +75,12 @@ limitations under the License.
         create_empty_commit: true,
         parent: 'All-Project',
         permissions_only: false,
+        owners: 'test',
       };
 
       element.$.repoNameInput.bindValue = configInputObj.name;
       element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
+      element.$.ownersInput.bindValue = configInputObj.owners;
       element.$.initalCommit.bindValue =
           configInputObj.create_empty_commit;
       element.$.parentRepo.bindValue =

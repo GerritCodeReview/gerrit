@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "604c0deb_fc36d97a",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-09-13T19:19:12Z",
+      "side": 1,
+      "message": "Maybe do that when we bump to lucene 7?",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 13
+      },
+      "revId": "d3ede9d3f8f0bbfe34c2a08d034b8a03349c38ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

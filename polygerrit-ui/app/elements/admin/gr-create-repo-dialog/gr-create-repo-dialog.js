@@ -50,6 +50,12 @@
           return this._getRepoSuggestions.bind(this);
         },
       },
+      _queryGroups: {
+        type: Function,
+        value() {
+          return this._getGroupSuggestions.bind(this);
+        },
+      },
     },
 
     observers: [
@@ -92,6 +98,21 @@
               });
             }
             return repos;
+          });
+    },
+
+    _getGroupSuggestions(input) {
+      return this.$.restAPI.getSuggestedGroups(input)
+          .then(response => {
+            const groups = [];
+            for (const key in response) {
+              if (!response.hasOwnProperty(key)) { continue; }
+              groups.push({
+                name: key,
+                value: response[key],
+              });
+            }
+            return groups;
           });
     },
   });

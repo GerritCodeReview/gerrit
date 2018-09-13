@@ -621,6 +621,24 @@
       "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2b93037_62d0e7db",
+        "filename": "java/com/google/gerrit/server/git/DefaultChangeReportFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-13T19:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "154bc68e_56560b90",
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

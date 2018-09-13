@@ -18,7 +18,7 @@
   'use strict';
 
   const COMMIT_COMMAND = 'git add . && git commit --amend --no-edit';
-  const PUSH_COMMAND = 'git push origin HEAD:refs/for/master';
+  const PUSH_COMMAND_PREFIX = 'git push origin HEAD:refs/for/';
 
   Polymer({
     is: 'gr-upload-help-dialog',
@@ -30,6 +30,7 @@
      */
 
     properties: {
+      targetBranch: String,
       _commitCommand: {
         type: String,
         value: COMMIT_COMMAND,
@@ -37,14 +38,17 @@
       },
       _pushCommand: {
         type: String,
-        value: PUSH_COMMAND,
-        readOnly: true,
+        computed: '_computePushCommand(targetBranch)',
       },
     },
 
     _handleCloseTap(e) {
       e.preventDefault();
       this.fire('close', null, {bubbles: false});
+    },
+
+    _computePushCommand(targetBranch) {
+      return PUSH_COMMAND_PREFIX + targetBranch;
     },
   });
 })();

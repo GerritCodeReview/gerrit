@@ -46,6 +46,30 @@
       "revId": "463858d4a09e5b4f927a25094546afa7918bc601",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bee6284f_5fde538b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-13T22:59:10Z",
+      "side": 1,
+      "message": "Hmm, this seems like it ought to be an autocomplete then.",
+      "parentUuid": "51465782_b7928e61",
+      "range": {
+        "startLine": 74,
+        "startChar": 30,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "463858d4a09e5b4f927a25094546afa7918bc601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

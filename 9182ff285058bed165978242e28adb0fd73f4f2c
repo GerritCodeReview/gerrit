@@ -355,6 +355,24 @@
     },
     {
       "key": {
+        "uuid": "3d22726d_8784a0cd",
+        "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-13T07:34:58Z",
+      "side": 1,
+      "message": "\u003e yeah, that works. I dislike how that makes the callsites more verbose, but I can live with that.\n\nBy using Optional#orElse, Optional#map, and Optional#ifPresent, most of the verbosity can typically be avoided. For instance, the implementation of getChangeViewUrl() can be written more concise with Optional#map:\n\n getWebUrl().map(url -\u003e \"c/\" + (project !\u003d null ? project.get() + \"/+/\" : \"\") + id.get());",
+      "parentUuid": "a979f009_edd1d74d",
+      "revId": "9182ff285058bed165978242e28adb0fd73f4f2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afb6e2bd_15ce4a21",
         "filename": "java/com/google/gerrit/server/config/BrowseUrls.java",
         "patchSetId": 6

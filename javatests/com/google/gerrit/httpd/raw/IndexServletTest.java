@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.template.soy.data.SoyMapData;
 import java.net.URISyntaxException;
@@ -30,7 +31,7 @@ public class IndexServletTest {
     }
 
     String getIndexSource() {
-      return new String(indexSource);
+      return new String(indexSource, UTF_8);
     }
   }
 

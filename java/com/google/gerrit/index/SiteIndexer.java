@@ -15,12 +15,14 @@
 package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.RejectedExecutionException;
@@ -64,7 +66,7 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
 
   protected int totalWork = -1;
   protected OutputStream progressOut = NullOutputStream.INSTANCE;
-  protected PrintWriter verboseWriter = new PrintWriter(NullOutputStream.INSTANCE);
+  protected PrintWriter verboseWriter = newPrintWriter(NullOutputStream.INSTANCE);
 
   public void setTotalWork(int num) {
     totalWork = num;
@@ -75,7 +77,7 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
   }
 
   public void setVerboseOut(OutputStream out) {
-    verboseWriter = new PrintWriter(checkNotNull(out));
+    verboseWriter = newPrintWriter(checkNotNull(out));
   }
 
   public abstract Result indexAll(I index);
@@ -84,6 +86,10 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
       ListenableFuture<?> future, String desc, ProgressMonitor progress, AtomicBoolean ok) {
     future.addListener(
         new ErrorListener(future, desc, progress, ok), MoreExecutors.directExecutor());
+  }
+
+  protected PrintWriter newPrintWriter(OutputStream out) {
+    return new PrintWriter(new OutputStreamWriter(out, UTF_8));
   }
 
   private static class ErrorListener implements Runnable {

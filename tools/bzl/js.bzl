@@ -426,7 +426,7 @@ _bundle_rule = rule(
 
 def bundle_assets(*args, **kwargs):
     """Combine html, js, css files and optionally split into js and html bundles."""
-    _bundle_rule(*args, pkg = PACKAGE_NAME, **kwargs)
+    _bundle_rule(*args, pkg = native.package_name(), **kwargs)
 
 def polygerrit_plugin(name, app, srcs = [], assets = None, **kwargs):
     """Bundles plugin dependencies for deployment.
@@ -447,7 +447,7 @@ def polygerrit_plugin(name, app, srcs = [], assets = None, **kwargs):
         name = name + "_combined",
         app = app,
         srcs = srcs if app in srcs else srcs + [app],
-        pkg = PACKAGE_NAME,
+        pkg = native.package_name(),
         **kwargs
     )
 

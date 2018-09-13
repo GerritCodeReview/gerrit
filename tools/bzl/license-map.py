@@ -35,7 +35,7 @@ for xml in args.xmls:
             continue
 
         handled_rules.append(rule_name)
-        for c in child.getchildren():
+        for c in list(child):
             if c.tag != "rule-input":
                 continue
 

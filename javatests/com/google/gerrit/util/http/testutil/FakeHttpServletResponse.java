@@ -25,6 +25,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.net.HttpHeaders;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.Collection;
@@ -106,7 +107,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
   public synchronized PrintWriter getWriter() {
     checkState(outputStream == null, "getOutputStream() already called");
     if (writer == null) {
-      writer = new PrintWriter(actualBody);
+      writer = new PrintWriter(new OutputStreamWriter(actualBody, UTF_8));
     }
     return writer;
   }

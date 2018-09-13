@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb47e642_a7cb42e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-upload-help-dialog/gr-upload-help-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-13T19:54:48Z",
+      "side": 1,
+      "message": "I don\u0027t think this is used, is it just SOP to include it?",
+      "revId": "955e6c1c87132700e56aa71ac3f007d57b8d9425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

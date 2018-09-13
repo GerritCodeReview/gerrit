@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f986e5d_8dfeca09",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2796,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-09-13T12:58:57Z",
+      "side": 1,
+      "message": "and 6.4.\n\nAs our current integration tests with Elasticsearch only exercise this latest version, right? (ElasticVersionTest being only unit.) -Unless our goal here is to also include previously tested versions, in which case this would hold.",
+      "range": {
+        "startLine": 2795,
+        "startChar": 80,
+        "endLine": 2796,
+        "endChar": 17
+      },
+      "revId": "f40d86a070fcf94774279fa74d4c467e73832b44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

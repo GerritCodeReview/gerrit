@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b69cbd42_be73708d",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-13T05:46:12Z",
+      "side": 1,
+      "message": "Interestingly, I had a different idea to pass in the absolute location from the polygerrit-ui/BUILD file, e.g.:\n\n  go_binary(\n    name \u003d \"server\",\n    srcs \u003d [\"server.go\"],\n    args \u003d [\"$(location //polygerrit-ui/app:test_components.zip)\"],\n\nand parse it here and extract the polygerrit-ui here from it, but then as an alternative, a different approach: Can\u0027t we just assume that the bazel run is issued from the current directory? Atr least on Bazel version: 0.18.0rc3 that worked:\n\n  if err :\u003d os.Chdir(\"polygerrit-ui\"); err !\u003d nil {\n                log.Fatal(err)\n  }\n\nas expected, here is the diff: [1], and here is the log:\n\n  $ bazel run //polygerrit-ui:server\n  INFO: Analysed target //polygerrit-ui:server (0 packages loaded).\n  INFO: Found 1 target...\n  Target //polygerrit-ui:server up-to-date:\n    bazel-bin/polygerrit-ui/linux_amd64_stripped/server\n  INFO: Elapsed time: 0.776s, Critical Path: 0.63s\n  INFO: 2 processes: 2 linux-sandbox.\n  INFO: Build completed successfully, 3 total actions\n  INFO: Build completed successfully, 3 total actions\n  2018/09/13 07:45:41 Serving on port :8081\n\n* [1] http://paste.openstack.org/show/730009",
+      "range": {
+        "startLine": 76,
+        "startChar": 1,
+        "endLine": 78,
+        "endChar": 2
+      },
+      "revId": "1357c04d34dcadd032095fd574e511dafbe482d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "27f9542d_aaa4dc80",
         "filename": "polygerrit-ui/server.go",
         "patchSetId": 4

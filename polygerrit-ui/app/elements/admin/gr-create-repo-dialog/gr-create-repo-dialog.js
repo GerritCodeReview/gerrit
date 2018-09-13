@@ -44,6 +44,11 @@
         value: false,
       },
 
+      _repoOwner: {
+        type: String,
+        value: '',
+      },
+
       _query: {
         type: Function,
         value() {
@@ -71,6 +76,9 @@
     },
 
     handleCreateRepo() {
+      if (this._repoOwner) {
+        this._repoConfig.owners = this._repoOwner;
+      }
       return this.$.restAPI.createRepo(this._repoConfig)
           .then(repoRegistered => {
             if (repoRegistered.status === 201) {

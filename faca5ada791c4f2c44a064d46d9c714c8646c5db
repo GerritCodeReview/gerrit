@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3cf8e5cb_2328e9eb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-help-dialogs/gr-create-help-dialogs.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-09-13T23:19:49Z",
+      "side": 1,
+      "message": "It\u0027s plural because there are two different dialogs in it. What\u0027s the advantage of reusing the overlay?",
+      "parentUuid": "12c0bfa2_f90e261e",
+      "range": {
+        "startLine": 24,
+        "startChar": 31,
+        "endLine": 24,
+        "endChar": 38
+      },
+      "revId": "faca5ada791c4f2c44a064d46d9c714c8646c5db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fd00c92_96d5f6db",
         "filename": "polygerrit-ui/app/elements/change-list/gr-create-help-dialogs/gr-create-help-dialogs.html",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "faca5ada791c4f2c44a064d46d9c714c8646c5db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbec4d5d_1279eaef",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-help-dialogs/gr-create-help-dialogs.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-09-13T23:19:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fd00c92_96d5f6db",
+      "range": {
+        "startLine": 49,
+        "startChar": 14,
+        "endLine": 50,
+        "endChar": 15
+      },
+      "revId": "faca5ada791c4f2c44a064d46d9c714c8646c5db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

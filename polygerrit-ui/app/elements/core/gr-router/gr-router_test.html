@@ -283,6 +283,16 @@ limitations under the License.
             '/c/test/+/1234/5..10?revert&foo=bar');
       });
 
+      test('change with repo name encoding', () => {
+        const params = {
+          view: Gerrit.Nav.View.CHANGE,
+          changeNum: '1234',
+          project: 'x+/y+/z+/w',
+        };
+        assert.equal(element._generateUrl(params),
+            '/c/x%252B/y%252B/z%252B/w/+/1234');
+      });
+
       test('diff', () => {
         const params = {
           view: Gerrit.Nav.View.DIFF,
@@ -315,6 +325,18 @@ limitations under the License.
         params.leftSide = true;
         assert.equal(element._generateUrl(params),
             '/c/test/+/42/2/file.cpp#b123');
+      });
+
+      test('diff with repo name encoding', () => {
+        const params = {
+          view: Gerrit.Nav.View.DIFF,
+          changeNum: '42',
+          path: 'x+y/path.cpp',
+          patchNum: 12,
+          project: 'x+/y',
+        };
+        assert.equal(element._generateUrl(params),
+            '/c/x%252B/y/+/42/12/x%252By/path.cpp');
       });
 
       test('edit', () => {

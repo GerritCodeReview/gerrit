@@ -396,7 +396,8 @@
         suffix += ',edit';
       }
       if (params.project) {
-        return `/c/${params.project}/+/${params.changeNum}${suffix}`;
+        const encodedProject = this.encodeURL(params.project, true);
+        return `/c/${encodedProject}/+/${params.changeNum}${suffix}`;
       } else {
         return `/c/${params.changeNum}${suffix}`;
       }
@@ -462,7 +463,8 @@
       }
 
       if (params.project) {
-        return `/c/${params.project}/+/${params.changeNum}${suffix}`;
+        const encodedProject = this.encodeURL(params.project, true);
+        return `/c/${encodedProject}/+/${params.changeNum}${suffix}`;
       } else {
         return `/c/${params.changeNum}${suffix}`;
       }

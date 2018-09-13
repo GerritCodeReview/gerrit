@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27f9542d_aaa4dc80",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-13T04:55:06Z",
+      "side": 1,
+      "message": "This doesn\u0027t work. This process already started from Bazel. In my case, Bazel 0.18.rc3 is used I\u0027m getting wrong workspace resolved:\n\n  $ bazel run //polygerrit-ui:server\n  INFO: Analysed target //polygerrit-ui:server (0 packages loaded).\n  INFO: Found 1 target...\n  Target //polygerrit-ui:server up-to-date:\n    bazel-bin/polygerrit-ui/linux_amd64_stripped/server\n  INFO: Elapsed time: 0.794s, Critical Path: 0.65s\n  INFO: 2 processes: 2 linux-sandbox.\n  INFO: Build completed successfully, 3 total actions\n  INFO: Build completed successfully, 3 total actions\n  2018/09/13 06:37:10 bazel info workspace:  /home/davido\n  2018/09/13 06:37:10 Workspace directory:  /home/davido\n  2018/09/13 06:37:10 chdir /home/davido/polygerrit-ui: no such file or directory\n\nI added some diagnostic output.\n\nHere is a similar question how to figure out workspace directory from within the build rule:[1].\n\nTo make that change work, I turned workspace to input parameter: [2] and invoked it like this:\n\n  $ bazel run //polygerrit-ui:server -- -workspace\u003d/home/davido/projects/gerrit\n\n* [1] https://stackoverflow.com/questions/48545575/how-to-get-workspace-directory-in-bazel-rule\n* [2] http://paste.openstack.org/show/730008",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 110,
+        "endChar": 50
+      },
+      "revId": "1357c04d34dcadd032095fd574e511dafbe482d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

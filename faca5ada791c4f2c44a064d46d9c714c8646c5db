@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12c0bfa2_f90e261e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-help-dialogs/gr-create-help-dialogs.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-13T16:48:36Z",
+      "side": 1,
+      "message": "Why is this plural? Seems to me like we ought to either separate this into two files or figure out how to reuse the same overlay for both actions.",
+      "range": {
+        "startLine": 24,
+        "startChar": 31,
+        "endLine": 24,
+        "endChar": 38
+      },
+      "revId": "faca5ada791c4f2c44a064d46d9c714c8646c5db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fd00c92_96d5f6db",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-help-dialogs/gr-create-help-dialogs.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-13T16:48:36Z",
+      "side": 1,
+      "message": "Spacing is wrong.",
+      "range": {
+        "startLine": 49,
+        "startChar": 14,
+        "endLine": 50,
+        "endChar": 15
+      },
+      "revId": "faca5ada791c4f2c44a064d46d9c714c8646c5db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

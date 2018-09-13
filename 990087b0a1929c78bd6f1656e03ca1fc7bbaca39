@@ -70,6 +70,24 @@
       "revId": "990087b0a1929c78bd6f1656e03ca1fc7bbaca39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13e101b5_4bd77124",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-13T05:50:27Z",
+      "side": 1,
+      "message": "I uploaded another attempt to upgrade to Jetty 9.4.12:[1] Can someone from LFS plugin users give it a try and report the status?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/195790",
+      "parentUuid": "9d52308b_c8b33d68",
+      "revId": "990087b0a1929c78bd6f1656e03ca1fc7bbaca39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.registration.PluginEntry;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginEntryConsumer;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginEntryFunction;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginEntryFunctionAllowingException;
+import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 
 /**
  * Context to invoke an entry of {@link DynamicMap} plugins.
@@ -84,11 +85,13 @@ import com.google.gerrit.server.plugincontext.PluginContext.PluginEntryFunctionA
  */
 public class PluginMapEntryContext<T> {
   private final PluginEntry<T> pluginEntry;
+  private final PluginMetrics pluginMetrics;
 
-  PluginMapEntryContext(PluginEntry<T> pluginEntry) {
+  PluginMapEntryContext(PluginEntry<T> pluginEntry, PluginMetrics pluginMetrics) {
     checkNotNull(pluginEntry);
     checkNotNull(pluginEntry.getExportName(), "export name must be set for plugin map entries");
     this.pluginEntry = pluginEntry;
+    this.pluginMetrics = pluginMetrics;
   }
 
   /**
@@ -118,7 +121,7 @@ public class PluginMapEntryContext<T> {
    * @param pluginConsumer consumer that invokes the extension point
    */
   public void run(PluginEntryConsumer<T> pluginConsumer) {
-    PluginContext.runLogExceptions(pluginEntry, pluginConsumer);
+    PluginContext.runLogExceptions(pluginMetrics, pluginEntry, pluginConsumer);
   }
 
   /**
@@ -133,7 +136,7 @@ public class PluginMapEntryContext<T> {
    */
   public <X extends Exception> void run(
       PluginEntryConsumer<T> pluginConsumer, Class<X> exceptionClass) throws X {
-    PluginContext.runLogExceptions(pluginEntry, pluginConsumer, exceptionClass);
+    PluginContext.runLogExceptions(pluginMetrics, pluginEntry, pluginConsumer, exceptionClass);
   }
 
   /**

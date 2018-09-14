@@ -22,7 +22,14 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PluginEntry;
+import com.google.gerrit.metrics.Counter3;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.DisabledMetricMaker;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * Context for invoking plugins.
@@ -92,6 +99,25 @@ public class PluginContext<T> {
     R call(PluginEntry<T> pluginEntry) throws X;
   }
 
+  @Singleton
+  public static class PluginMetrics {
+    public static final PluginMetrics DISABLED_INSTANCE =
+        new PluginMetrics(new DisabledMetricMaker());
+
+    final Counter3<String, String, String> errorCount;
+
+    @Inject
+    PluginMetrics(MetricMaker metricMaker) {
+      errorCount =
+          metricMaker.newCounter(
+              "plugin/error_count",
+              new Description("Number of plugin errors").setCumulative().setUnit("errors"),
+              Field.ofString("plugin_name"),
+              Field.ofString("export_name"),
+              Field.ofString("class_name"));
+    }
+  }
+
   /**
    * Opens a new trace context for invoking a plugin.
    *
@@ -127,7 +153,8 @@ public class PluginContext<T> {
    *     invoked
    * @param pluginConsumer the consumer that invokes the extension point
    */
-  static <T> void runLogExceptions(PluginEntry<T> pluginEntry, PluginConsumer<T> pluginConsumer) {
+  static <T> void runLogExceptions(
+      PluginMetrics pluginMetrics, PluginEntry<T> pluginEntry, PluginConsumer<T> pluginConsumer) {
     T extensionPoint = pluginEntry.get();
     if (extensionPoint == null) {
       return;
@@ -136,6 +163,10 @@ public class PluginContext<T> {
     try (TraceContext traceContext = newTrace(pluginEntry)) {
       pluginConsumer.run(extensionPoint);
     } catch (Throwable e) {
+      pluginMetrics.errorCount.increment(
+          pluginEntry.getPluginName(),
+          pluginEntry.getExportName(),
+          extensionPoint.getClass().getName());
       logger.atWarning().withCause(e).log(
           "Failure in %s of plugin %s", extensionPoint.getClass(), pluginEntry.getPluginName());
     }
@@ -152,7 +183,9 @@ public class PluginContext<T> {
    * @param pluginConsumer the consumer that invokes the extension point
    */
   static <T> void runLogExceptions(
-      PluginEntry<T> pluginEntry, PluginEntryConsumer<T> pluginConsumer) {
+      PluginMetrics pluginMetrics,
+      PluginEntry<T> pluginEntry,
+      PluginEntryConsumer<T> pluginConsumer) {
     T extensionPoint = pluginEntry.get();
     if (extensionPoint == null) {
       return;
@@ -161,6 +194,10 @@ public class PluginContext<T> {
     try (TraceContext traceContext = newTrace(pluginEntry)) {
       pluginConsumer.run(pluginEntry);
     } catch (Throwable e) {
+      pluginMetrics.errorCount.increment(
+          pluginEntry.getPluginName(),
+          pluginEntry.getExportName(),
+          extensionPoint.getClass().getName());
       logger.atWarning().withCause(e).log(
           "Failure in %s of plugin %s", extensionPoint.getClass(), pluginEntry.getPluginName());
     }
@@ -180,7 +217,10 @@ public class PluginContext<T> {
    * @throws X expected exception from the plugin
    */
   static <T, X extends Exception> void runLogExceptions(
-      PluginEntry<T> pluginEntry, PluginConsumer<T> pluginConsumer, Class<X> exceptionClass)
+      PluginMetrics pluginMetrics,
+      PluginEntry<T> pluginEntry,
+      PluginConsumer<T> pluginConsumer,
+      Class<X> exceptionClass)
       throws X {
     T extensionPoint = pluginEntry.get();
     if (extensionPoint == null) {
@@ -191,6 +231,10 @@ public class PluginContext<T> {
       pluginConsumer.run(extensionPoint);
     } catch (Throwable e) {
       Throwables.throwIfInstanceOf(e, exceptionClass);
+      pluginMetrics.errorCount.increment(
+          pluginEntry.getPluginName(),
+          pluginEntry.getExportName(),
+          extensionPoint.getClass().getName());
       logger.atWarning().withCause(e).log(
           "Failure in %s of plugin invoke%s",
           extensionPoint.getClass(), pluginEntry.getPluginName());
@@ -212,7 +256,10 @@ public class PluginContext<T> {
    * @throws X expected exception from the plugin
    */
   static <T, X extends Exception> void runLogExceptions(
-      PluginEntry<T> pluginEntry, PluginEntryConsumer<T> pluginConsumer, Class<X> exceptionClass)
+      PluginMetrics pluginMetrics,
+      PluginEntry<T> pluginEntry,
+      PluginEntryConsumer<T> pluginConsumer,
+      Class<X> exceptionClass)
       throws X {
     T extensionPoint = pluginEntry.get();
     if (extensionPoint == null) {
@@ -223,6 +270,10 @@ public class PluginContext<T> {
       pluginConsumer.run(pluginEntry);
     } catch (Throwable e) {
       Throwables.throwIfInstanceOf(e, exceptionClass);
+      pluginMetrics.errorCount.increment(
+          pluginEntry.getPluginName(),
+          pluginEntry.getExportName(),
+          extensionPoint.getClass().getName());
       logger.atWarning().withCause(e).log(
           "Failure in %s of plugin %s", extensionPoint.getClass(), pluginEntry.getPluginName());
     }

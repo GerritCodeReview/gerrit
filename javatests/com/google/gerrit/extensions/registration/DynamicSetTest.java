@@ -123,8 +123,8 @@ public class DynamicSetTest {
     ds.add("bar", 2);
     ds.add("bar", 3);
 
-    Iterator<DynamicSet.Entry<Integer>> entryIterator = ds.entries().iterator();
-    DynamicSet.Entry<Integer> next = entryIterator.next();
+    Iterator<Extension<Integer>> entryIterator = ds.entries().iterator();
+    Extension<Integer> next = entryIterator.next();
     assertThat(next.getPluginName()).isEqualTo("foo");
     assertThat(next.getProvider().get()).isEqualTo(1);
 

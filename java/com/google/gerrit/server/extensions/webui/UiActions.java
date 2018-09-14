@@ -26,6 +26,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -121,7 +122,7 @@ public class UiActions {
 
   @Nullable
   private <R extends RestResource> UiAction.Description describe(
-      DynamicMap.Entry<RestView<R>> e, R resource) {
+      Extension<RestView<R>> e, R resource) {
     int d = e.getExportName().indexOf('.');
     if (d < 0) {
       return null;

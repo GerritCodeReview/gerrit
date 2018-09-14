@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -83,7 +84,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
       return;
     }
 
-    for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
+    for (Extension<DownloadScheme> e : downloadSchemes) {
       if (e.getExportName().equals(downloadScheme) && e.getProvider().get().isEnabled()) {
         return;
       }

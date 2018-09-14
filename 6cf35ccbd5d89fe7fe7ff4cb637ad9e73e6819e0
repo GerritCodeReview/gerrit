@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "da2bcbbd_e6f3f407",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-14T06:42:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60932d89_41841dc8",
+      "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "962d101f_1cb61ab6",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeDeletedListener.java",
         "patchSetId": 2
@@ -93,6 +111,30 @@
       "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ec8a538_17eb161c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeDeletedListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-14T06:42:54Z",
+      "side": 1,
+      "message": "See comment in commit message.",
+      "parentUuid": "962d101f_1cb61ab6",
+      "range": {
+        "startLine": 19,
+        "startChar": 24,
+        "endLine": 19,
+        "endChar": 30
+      },
+      "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -119,6 +161,30 @@
     },
     {
       "key": {
+        "uuid": "d5964e50_cb09dce8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-14T06:42:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcacbc13_8cce1577",
+      "range": {
+        "startLine": 106,
+        "startChar": 73,
+        "endLine": 106,
+        "endChar": 91
+      },
+      "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0acbb6bb_3defd73b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/ChangeDeleted.java",
         "patchSetId": 2
@@ -139,6 +205,30 @@
       "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a80bc020_bfbfbec9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/ChangeDeleted.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-14T06:42:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0acbb6bb_3defd73b",
+      "range": {
+        "startLine": 65,
+        "startChar": 35,
+        "endLine": 65,
+        "endChar": 41
+      },
+      "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

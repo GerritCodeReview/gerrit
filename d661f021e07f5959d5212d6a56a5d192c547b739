@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1536959995 -0700\nnonce ACQ0HpwaMAmoFV42wI28z5Eo1PH5r2FF2HRINuGhV4uc8h1DtXAvuVBZnZ+d2Uii5WK4kTH4IV8a\n\n0000000000000000000000000000000000000000 d661f021e07f5959d5212d6a56a5d192c547b739 refs/for/master%r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlucJfsVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMgZMQALQgPgokrtUXxJktiwsTDNkeQtMl\neZVxnaJleGplWm6mZcndW2gjTBVOKbIdD2WUfNfdDsQQ2BSbPHpKUBWkrVfIeNYt\nE31BO4gjI1rd1aacYcTWOqW1chA6JTsCge1JMLmTBGhdHa+gqAWmIgl+6gJotZXu\nwMHxb1YF3z4/GA9d3guCsQAsMtXqRTTIih8MnO234iQMlkQaYSpa6YJ3+wZlE7eK\nXB9EDldttkxRTgihqLl5PGzpfwHM/j2m0PIiOhqW9a8uwgGBkDgv0G32JxXghAWM\nGDIN8xDIgPxVrK/yHuX7uz3hILCknopYFh6HBigXUR2ZeZnO2HvPsK4V7hSCaSKP\nYjNzxTaaQfUTJ3+fgU5003c6nz8E7dQlWLZ/OyoNfGPu8/PXrhWAhlAxmgBq/WfZ\nioUYsQAIPQpEi3SAMCIoyqWzmY4ndb/XjkGlbekg1gfCbPZBsiVs2ytrW5DC8/Lb\nLioHeXxB8x7oQzz2m4UdMfR1Pcbn19QiKUrsLPZHXRwQMyHoXwPO8MWtOuFPca4y\nU0+fgYvrPkHhIqpVRbBumdDYLN8jJadUWMK6CSxgNXc8j7dSkKli5P7Vj/I60/Gc\nTpNQzqgeNRMoRENML7EL9dcCBvDzdpvhdl7tf12F6bRjFd19DXRArzfi1nBjLIN7\nQ6NTaw2MZQY49yWp\n\u003dLPXI\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "667a563b_d496bd7f",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-14T21:40:31Z",
+      "side": 1,
+      "message": "Should we just remove that and only leave one below? When we bump minimum supported Bazel version to 0.17.1 then older Bazel can\u0027t be used anyway.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 1
+      },
+      "revId": "d661f021e07f5959d5212d6a56a5d192c547b739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

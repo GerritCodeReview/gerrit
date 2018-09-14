@@ -18,6 +18,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.plugincontext.PluginContext.ExtensionImplConsumer;
+import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.inject.Inject;
 import java.util.Iterator;
 import java.util.SortedSet;
@@ -83,11 +84,13 @@ import java.util.SortedSet;
  */
 public class PluginSetContext<T> implements Iterable<PluginSetEntryContext<T>> {
   private final DynamicSet<T> dynamicSet;
+  private final PluginMetrics pluginMetrics;
 
   @VisibleForTesting
   @Inject
-  public PluginSetContext(DynamicSet<T> dynamicSet) {
+  public PluginSetContext(DynamicSet<T> dynamicSet, PluginMetrics pluginMetrics) {
     this.dynamicSet = dynamicSet;
+    this.pluginMetrics = pluginMetrics;
   }
 
   /**
@@ -112,7 +115,7 @@ public class PluginSetContext<T> implements Iterable<PluginSetEntryContext<T>> {
 
       @Override
       public PluginSetEntryContext<T> next() {
-        return new PluginSetEntryContext<>(pluginIterator.next());
+        return new PluginSetEntryContext<>(pluginIterator.next(), pluginMetrics);
       }
     };
   }
@@ -149,7 +152,9 @@ public class PluginSetContext<T> implements Iterable<PluginSetEntryContext<T>> {
    * @param extensionImplConsumer consumer that invokes the extension
    */
   public void runEach(ExtensionImplConsumer<T> extensionImplConsumer) {
-    dynamicSet.entries().forEach(p -> PluginContext.runLogExceptions(p, extensionImplConsumer));
+    dynamicSet
+        .entries()
+        .forEach(p -> PluginContext.runLogExceptions(pluginMetrics, p, extensionImplConsumer));
   }
 
   /**
@@ -167,7 +172,8 @@ public class PluginSetContext<T> implements Iterable<PluginSetEntryContext<T>> {
   public <X extends Exception> void runEach(
       ExtensionImplConsumer<T> extensionImplConsumer, Class<X> exceptionClass) throws X {
     for (Extension<T> extension : dynamicSet.entries()) {
-      PluginContext.runLogExceptions(extension, extensionImplConsumer, exceptionClass);
+      PluginContext.runLogExceptions(
+          pluginMetrics, extension, extensionImplConsumer, exceptionClass);
     }
   }
 }

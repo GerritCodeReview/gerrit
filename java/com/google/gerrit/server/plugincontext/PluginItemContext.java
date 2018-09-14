@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.plugincontext.PluginContext.ExtensionImplConsumer;
 import com.google.gerrit.server.plugincontext.PluginContext.ExtensionImplFunction;
 import com.google.gerrit.server.plugincontext.PluginContext.ExtensionImplFunctionAllowingException;
+import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.inject.Inject;
 
 /**
@@ -82,11 +83,13 @@ import com.google.inject.Inject;
  */
 public class PluginItemContext<T> {
   @Nullable private final DynamicItem<T> dynamicItem;
+  private final PluginMetrics pluginMetrics;
 
   @VisibleForTesting
   @Inject
-  public PluginItemContext(DynamicItem<T> dynamicItem) {
+  public PluginItemContext(DynamicItem<T> dynamicItem, PluginMetrics pluginMetrics) {
     this.dynamicItem = dynamicItem;
+    this.pluginMetrics = pluginMetrics;
   }
 
   /**
@@ -115,7 +118,7 @@ public class PluginItemContext<T> {
     if (extension == null) {
       return;
     }
-    PluginContext.runLogExceptions(extension, extensionImplConsumer);
+    PluginContext.runLogExceptions(pluginMetrics, extension, extensionImplConsumer);
   }
 
   /**
@@ -136,7 +139,7 @@ public class PluginItemContext<T> {
     if (extension == null) {
       return;
     }
-    PluginContext.runLogExceptions(extension, extensionImplConsumer, exceptionClass);
+    PluginContext.runLogExceptions(pluginMetrics, extension, extensionImplConsumer, exceptionClass);
   }
 
   /**

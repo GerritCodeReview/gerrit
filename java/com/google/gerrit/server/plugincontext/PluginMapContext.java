@@ -18,6 +18,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.plugincontext.PluginContext.ExtensionConsumer;
+import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.inject.Inject;
 import java.util.Iterator;
 import java.util.SortedSet;
@@ -91,11 +92,13 @@ import java.util.SortedSet;
  */
 public class PluginMapContext<T> implements Iterable<PluginMapEntryContext<T>> {
   private final DynamicMap<T> dynamicMap;
+  private final PluginMetrics pluginMetrics;
 
   @VisibleForTesting
   @Inject
-  public PluginMapContext(DynamicMap<T> dynamicMap) {
+  public PluginMapContext(DynamicMap<T> dynamicMap, PluginMetrics pluginMetrics) {
     this.dynamicMap = dynamicMap;
+    this.pluginMetrics = pluginMetrics;
   }
 
   /**
@@ -120,7 +123,7 @@ public class PluginMapContext<T> implements Iterable<PluginMapEntryContext<T>> {
 
       @Override
       public PluginMapEntryContext<T> next() {
-        return new PluginMapEntryContext<>(pluginIterator.next());
+        return new PluginMapEntryContext<>(pluginIterator.next(), pluginMetrics);
       }
     };
   }
@@ -158,7 +161,7 @@ public class PluginMapContext<T> implements Iterable<PluginMapEntryContext<T>> {
    * @param extensionConsumer consumer that invokes the extension
    */
   public void runEach(ExtensionConsumer<Extension<T>> extensionConsumer) {
-    dynamicMap.forEach(p -> PluginContext.runLogExceptions(p, extensionConsumer));
+    dynamicMap.forEach(p -> PluginContext.runLogExceptions(pluginMetrics, p, extensionConsumer));
   }
 
   /**
@@ -177,7 +180,7 @@ public class PluginMapContext<T> implements Iterable<PluginMapEntryContext<T>> {
   public <X extends Exception> void runEach(
       ExtensionConsumer<Extension<T>> extensionConsumer, Class<X> exceptionClass) throws X {
     for (Extension<T> extension : dynamicMap) {
-      PluginContext.runLogExceptions(extension, extensionConsumer, exceptionClass);
+      PluginContext.runLogExceptions(pluginMetrics, extension, extensionConsumer, exceptionClass);
     }
   }
 }

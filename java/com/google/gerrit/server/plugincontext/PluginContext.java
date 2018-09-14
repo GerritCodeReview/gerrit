@@ -16,13 +16,21 @@ package com.google.gerrit.server.plugincontext;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
+import com.google.gerrit.metrics.Counter3;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.DisabledMetricMaker;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * Context for invoking plugin extensions.
@@ -93,6 +101,32 @@ public class PluginContext<T> {
     R call(T extension) throws X;
   }
 
+  @Singleton
+  public static class PluginMetrics {
+    public static final PluginMetrics DISABLED_INSTANCE =
+        new PluginMetrics(new DisabledMetricMaker());
+
+    final Counter3<String, String, String> errorCount;
+
+    @Inject
+    PluginMetrics(MetricMaker metricMaker) {
+      this.errorCount =
+          metricMaker.newCounter(
+              "plugin/error_count",
+              new Description("Number of plugin errors").setCumulative().setUnit("errors"),
+              Field.ofString("plugin_name"),
+              Field.ofString("class_name"),
+              Field.ofString("export_name"));
+    }
+
+    void incrementErrorCount(Extension<?> extension) {
+      errorCount.increment(
+          extension.getPluginName(),
+          extension.get().getClass().getName(),
+          Strings.nullToEmpty(extension.getExportName()));
+    }
+  }
+
   /**
    * Opens a new trace context for invoking a plugin extension.
    *
@@ -123,11 +157,14 @@ public class PluginContext<T> {
    *
    * <p>The consumer gets the extension implementation provided that should be invoked.
    *
+   * @param pluginMetrics the plugin metrics
    * @param extension extension that is being invoked
    * @param extensionImplConsumer the consumer that invokes the extension
    */
   static <T> void runLogExceptions(
-      Extension<T> extension, ExtensionImplConsumer<T> extensionImplConsumer) {
+      PluginMetrics pluginMetrics,
+      Extension<T> extension,
+      ExtensionImplConsumer<T> extensionImplConsumer) {
     T extensionImpl = extension.get();
     if (extensionImpl == null) {
       return;
@@ -136,6 +173,7 @@ public class PluginContext<T> {
     try (TraceContext traceContext = newTrace(extension)) {
       extensionImplConsumer.run(extensionImpl);
     } catch (Throwable e) {
+      pluginMetrics.incrementErrorCount(extension);
       logger.atWarning().withCause(e).log(
           "Failure in %s of plugin %s", extensionImpl.getClass(), extension.getPluginName());
     }
@@ -147,11 +185,14 @@ public class PluginContext<T> {
    * <p>The consumer get the {@link Extension} provided that should be invoked. The extension
    * provides access to the plugin name and the export name.
    *
+   * @param pluginMetrics the plugin metrics
    * @param extension extension that is being invoked
    * @param extensionConsumer the consumer that invokes the extension
    */
   static <T> void runLogExceptions(
-      Extension<T> extension, ExtensionConsumer<Extension<T>> extensionConsumer) {
+      PluginMetrics pluginMetrics,
+      Extension<T> extension,
+      ExtensionConsumer<Extension<T>> extensionConsumer) {
     T extensionImpl = extension.get();
     if (extensionImpl == null) {
       return;
@@ -160,6 +201,7 @@ public class PluginContext<T> {
     try (TraceContext traceContext = newTrace(extension)) {
       extensionConsumer.run(extension);
     } catch (Throwable e) {
+      pluginMetrics.incrementErrorCount(extension);
       logger.atWarning().withCause(e).log(
           "Failure in %s of plugin %s", extensionImpl.getClass(), extension.getPluginName());
     }
@@ -172,12 +214,14 @@ public class PluginContext<T> {
    *
    * <p>The consumer gets the extension implementation provided that should be invoked.
    *
+   * @param pluginMetrics the plugin metrics
    * @param extension extension that is being invoked
    * @param extensionImplConsumer the consumer that invokes the extension
    * @param exceptionClass type of the exceptions that should be thrown
    * @throws X expected exception from the plugin extension
    */
   static <T, X extends Exception> void runLogExceptions(
+      PluginMetrics pluginMetrics,
       Extension<T> extension,
       ExtensionImplConsumer<T> extensionImplConsumer,
       Class<X> exceptionClass)
@@ -191,6 +235,7 @@ public class PluginContext<T> {
       extensionImplConsumer.run(extensionImpl);
     } catch (Throwable e) {
       Throwables.throwIfInstanceOf(e, exceptionClass);
+      pluginMetrics.incrementErrorCount(extension);
       logger.atWarning().withCause(e).log(
           "Failure in %s of plugin invoke%s", extensionImpl.getClass(), extension.getPluginName());
     }
@@ -204,12 +249,14 @@ public class PluginContext<T> {
    * <p>The consumer get the {@link Extension} provided that should be invoked. The extension
    * provides access to the plugin name and the export name.
    *
+   * @param pluginMetrics the plugin metrics
    * @param extension extension that is being invoked
    * @param extensionConsumer the consumer that invokes the extension
    * @param exceptionClass type of the exceptions that should be thrown
    * @throws X expected exception from the plugin extension
    */
   static <T, X extends Exception> void runLogExceptions(
+      PluginMetrics pluginMetrics,
       Extension<T> extension,
       ExtensionConsumer<Extension<T>> extensionConsumer,
       Class<X> exceptionClass)
@@ -223,6 +270,7 @@ public class PluginContext<T> {
       extensionConsumer.run(extension);
     } catch (Throwable e) {
       Throwables.throwIfInstanceOf(e, exceptionClass);
+      pluginMetrics.incrementErrorCount(extension);
       logger.atWarning().withCause(e).log(
           "Failure in %s of plugin %s", extensionImpl.getClass(), extension.getPluginName());
     }

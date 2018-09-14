@@ -23,6 +23,30 @@
       "revId": "d661f021e07f5959d5212d6a56a5d192c547b739",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08f8177c_e2be7aff",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-14T21:42:31Z",
+      "side": 1,
+      "message": "As a Googler I have no problem with saying that 0.17.1 is the minimum required version :)",
+      "parentUuid": "667a563b_d496bd7f",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 1
+      },
+      "revId": "d661f021e07f5959d5212d6a56a5d192c547b739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

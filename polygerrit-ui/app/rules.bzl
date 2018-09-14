@@ -14,7 +14,7 @@ def polygerrit_bundle(name, srcs, outs, app):
         name = name + "_closure_bin",
         # Known issue: Closure compilation not compatible with Polymer behaviors.
         # See: https://github.com/google/closure-compiler/issues/2042
-        compilation_level = "WHITESPACE_ONLY",
+        compilation_level = "SIMPLE",
         defs = [
             "--polymer_version=1",
             "--jscomp_off=duplicate",

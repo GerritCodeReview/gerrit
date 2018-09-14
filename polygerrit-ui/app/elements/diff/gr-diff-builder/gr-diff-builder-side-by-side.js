@@ -23,7 +23,7 @@
   function GrDiffBuilderSideBySide(diff, comments, createThreadGroupFn, prefs,
       outputEl, layers) {
     GrDiffBuilder.call(this, diff, comments, createThreadGroupFn, prefs,
-        outputEl, layers);
+        outputEl, layers, 'SIDE_BY_SIDE');
   }
   GrDiffBuilderSideBySide.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderSideBySide.prototype.constructor = GrDiffBuilderSideBySide;

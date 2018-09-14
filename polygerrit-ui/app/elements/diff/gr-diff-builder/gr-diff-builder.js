@@ -43,14 +43,15 @@
   const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
   function GrDiffBuilder(diff, comments, createThreadGroupFn, prefs, outputEl,
-      layers) {
+      layers, viewMode) {
     this._diff = diff;
-    this._comments = comments;
-    this._createThreadGroupFn = createThreadGroupFn;
     this._prefs = prefs;
     this._outputEl = outputEl;
     this.groups = [];
     this._blameInfo = null;
+    // TODO(oler): Move creation of comment threads to GrDiffHost.
+    this.threadGroups = _createCommentThreadGroups(
+        comments, createThreadGroupFn, viewMode);
 
     this.layers = layers || [];
 
@@ -106,7 +107,7 @@
    * Abstract method
    * @param {Object} group
    */
-  GrDiffBuilder.prototype.buildSectionElement = function() {
+  GrDiffBuilder.prototype.buildSectionElement = function(group) {
     throw Error('Subclasses must implement buildSectionElement');
   };
 
@@ -319,39 +320,6 @@
     return button;
   };
 
-  GrDiffBuilder.prototype._getCommentsForLine = function(comments, line,
-      opt_side) {
-    function byLineNum(lineNum) {
-      return function(c) {
-        return (c.line === lineNum) ||
-               (c.line === undefined && lineNum === GrDiffLine.FILE);
-      };
-    }
-    const leftComments =
-        comments[GrDiffBuilder.Side.LEFT].filter(byLineNum(line.beforeNumber));
-    const rightComments =
-        comments[GrDiffBuilder.Side.RIGHT].filter(byLineNum(line.afterNumber));
-
-    leftComments.forEach(c => { c.__commentSide = 'left'; });
-    rightComments.forEach(c => { c.__commentSide = 'right'; });
-
-    let result;
-
-    switch (opt_side) {
-      case GrDiffBuilder.Side.LEFT:
-        result = leftComments;
-        break;
-      case GrDiffBuilder.Side.RIGHT:
-        result = rightComments;
-        break;
-      default:
-        result = leftComments.concat(rightComments);
-        break;
-    }
-
-    return result;
-  };
-
   /**
    * @param {GrDiffLine} line
    * @param {string=} opt_side
@@ -359,16 +327,40 @@
    */
   GrDiffBuilder.prototype._commentThreadGroupForLine = function(
       line, opt_side) {
-    const comments =
-        this._getCommentsForLine(this._comments, line, opt_side);
-    if (!comments || comments.length === 0) {
-      return null;
-    }
-
-    return _createCommentThreadGroupForLine(
-        this._comments.meta.patchRange, comments, this._createThreadGroupFn,
-        line, opt_side);
+    return this.threadGroups.get(line).get(opt_side);
   };
+
+  function _createCommentThreadGroups(comments, createThreadGroupFn, viewMode) {
+    const commentsByLineAndSide = groupByLineAndSide(comments);
+    const threadGroupsByLineAndSide = new Map();
+    for (const [line, bySide] of commentsByLineAndSide) {
+      const threadGroupsForLine = new Map();
+      const maybeUnifiedBySide = viewMode === 'UNIFIED' ?
+          [[undefined, [...bySide[GrDiffBuilder.Side.LEFT], ...bySide[GrDiffBuilder.Side.RIGHT]]]] :
+          bySide;
+      for (const [side, commentsForLineAndSide] of maybeUnifiedBySide) {
+        threadGroupsForLine.set(side, _createCommentThreadGroupForLine(
+            comments.meta.patchRange, commentsForLineAndSide,
+            createThreadGroupFn, line, side));
+      }
+      threadGroupsByLineAndSide.set(line, threadGroupsForLine);
+    }
+  }
+
+  function groupByLineAndSide(comments) {
+    const result = new Map();
+    for (const side of Object.values(GrDiffBuilder.Side)) {
+      for (const comment of comments[side]) {
+        // comment.line will be undefined for file comments
+        const forLine = result.get(comment.line) || new Map();
+        const forLineAndSide = forLine.get(side) || [];
+        forLineAndSide.push(comment);
+        forLine.set(side, forLineAndSide);
+        result.set(comment.line, forLine);
+      }
+    }
+    return result;
+  }
 
   function _createCommentThreadGroupForLine(
       patchRange, commentsForLine, createThreadGroupFn, line, opt_side) {

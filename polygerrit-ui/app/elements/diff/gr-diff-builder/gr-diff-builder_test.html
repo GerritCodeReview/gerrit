@@ -263,11 +263,6 @@ limitations under the License.
       line.afterNumber = 5;
 
       let comments = {left: [], right: []};
-      assert.deepEqual(builder._getCommentsForLine(comments, line), []);
-      assert.deepEqual(builder._getCommentsForLine(comments, line,
-          GrDiffBuilder.Side.LEFT), []);
-      assert.deepEqual(builder._getCommentsForLine(comments, line,
-          GrDiffBuilder.Side.RIGHT), []);
 
       comments = {
         left: [

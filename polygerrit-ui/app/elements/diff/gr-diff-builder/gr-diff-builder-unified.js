@@ -23,7 +23,7 @@
   function GrDiffBuilderUnified(diff, comments, createThreadGroupFn, prefs,
       outputEl, layers) {
     GrDiffBuilder.call(this, diff, comments, createThreadGroupFn, prefs,
-        outputEl, layers);
+        outputEl, layers, 'UNIFIED');
   }
   GrDiffBuilderUnified.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderUnified.prototype.constructor = GrDiffBuilderUnified;

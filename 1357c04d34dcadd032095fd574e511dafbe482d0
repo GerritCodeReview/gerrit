@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "a03b35af_c0cd4fd6",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-14T16:22:55Z",
+      "side": 1,
+      "message": "With a custom genrule I bet we could replicate the behavior of such an args attr. In the meantime, are we ok with the method currently implemented? If not, go ahead and unresolve this comment and I can keep working on it.",
+      "parentUuid": "31bc5e9f_114f614d",
+      "range": {
+        "startLine": 76,
+        "startChar": 1,
+        "endLine": 78,
+        "endChar": 2
+      },
+      "revId": "1357c04d34dcadd032095fd574e511dafbe482d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27f9542d_aaa4dc80",
         "filename": "polygerrit-ui/server.go",
         "patchSetId": 4

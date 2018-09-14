@@ -38,7 +38,7 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     assertThat(headAfterSubmit.getParent(0)).isEqualTo(initialHead);
     assertThat(headAfterSubmit.getParent(1)).isEqualTo(change.getCommit());
     assertSubmitter(change.getChangeId(), 1);
-    assertPersonEquals(admin.getIdent(), headAfterSubmit.getAuthorIdent());
+    assertPersonEquals(admin.newIdent(), headAfterSubmit.getAuthorIdent());
     assertPersonEquals(serverIdent.get(), headAfterSubmit.getCommitterIdent());
 
     assertRefUpdatedEvents(initialHead, headAfterSubmit);
@@ -82,7 +82,7 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     assertThat(headAfterSecondSubmit.getParent(0).getShortMessage())
         .isEqualTo(headAfterFirstSubmit.getShortMessage());
     assertThat(headAfterSecondSubmit.getParent(0).getId()).isEqualTo(headAfterFirstSubmit.getId());
-    assertPersonEquals(admin.getIdent(), headAfterSecondSubmit.getAuthorIdent());
+    assertPersonEquals(admin.newIdent(), headAfterSecondSubmit.getAuthorIdent());
     assertPersonEquals(serverIdent.get(), headAfterSecondSubmit.getCommitterIdent());
 
     assertRefUpdatedEvents(

@@ -1942,7 +1942,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void pushTo(StagedChange sc, String ref, TestAccount by, EmailStrategy emailStrategy)
       throws Exception {
     setEmailStrategy(by, emailStrategy);
-    pushFactory.create(db, by.getIdent(), sc.repo, sc.changeId).to(ref).assertOkStatus();
+    pushFactory.create(db, by.newIdent(), sc.repo, sc.changeId).to(ref).assertOkStatus();
   }
 
   @Test

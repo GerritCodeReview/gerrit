@@ -307,7 +307,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     TestRepository<?> tr2 = cloneProject(p2, admin);
 
     PushOneCommit.Result r1 = createChange();
-    PushOneCommit.Result r2 = pushFactory.create(db, admin.getIdent(), tr2).to("refs/for/master");
+    PushOneCommit.Result r2 = pushFactory.create(db, admin.newIdent(), tr2).to("refs/for/master");
     Change.Id id1 = r1.getChange().getId();
     Change.Id id2 = r2.getChange().getId();
 

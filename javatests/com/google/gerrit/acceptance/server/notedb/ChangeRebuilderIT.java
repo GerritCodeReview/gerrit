@@ -791,7 +791,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
         pushFactory
             .create(
                 db,
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 orig + " v2",
                 PushOneCommit.FILE_NAME,
@@ -851,7 +851,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             subj,
             PushOneCommit.FILE_NAME,

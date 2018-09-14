@@ -419,8 +419,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         testRepo.amendRef("HEAD").insertChangeId(changeId.substring(1));
     commitBuilder
         .message("New subject " + System.nanoTime())
-        .author(admin.getIdent())
-        .committer(new PersonIdent(admin.getIdent(), testRepo.getDate()));
+        .author(admin.newIdent())
+        .committer(new PersonIdent(admin.newIdent(), testRepo.getDate()));
     commitBuilder.create();
     GitUtil.pushHead(testRepo, "refs/for/master", false);
     assertThat(getChangeKind(changeId)).isEqualTo(NO_CODE_CHANGE);
@@ -434,8 +434,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         testRepo.amendRef("HEAD").insertChangeId(changeId.substring(1));
     commitBuilder
         .message(commitMessage)
-        .author(admin.getIdent())
-        .committer(new PersonIdent(admin.getIdent(), testRepo.getDate()));
+        .author(admin.newIdent())
+        .committer(new PersonIdent(admin.newIdent(), testRepo.getDate()));
     commitBuilder.create();
     GitUtil.pushHead(testRepo, "refs/for/master", false);
     assertThat(getChangeKind(changeId)).isEqualTo(NO_CHANGE);
@@ -445,7 +445,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME,
@@ -461,7 +461,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             "Other Change",
             "a" + System.nanoTime() + ".txt",
@@ -487,7 +487,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     testRepo.reset(parent1.getCommit());
 
-    PushOneCommit merge = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit merge = pushFactory.create(db, admin.newIdent(), testRepo);
     merge.setParents(ImmutableList.of(parent1.getCommit(), parent2.getCommit()));
     PushOneCommit.Result result = merge.to("refs/for/master");
     result.assertOkStatus();
@@ -504,7 +504,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     testRepo.reset(parent1);
     PushOneCommit.Result newParent1 = createChange("new parent 1", "p1-1.txt", "content 1-1");
 
-    PushOneCommit merge = pushFactory.create(db, admin.getIdent(), testRepo, changeId);
+    PushOneCommit merge = pushFactory.create(db, admin.newIdent(), testRepo, changeId);
     merge.setParents(ImmutableList.of(newParent1.getCommit(), commitParent2));
     PushOneCommit.Result result = merge.to("refs/for/master");
     result.assertOkStatus();
@@ -529,7 +529,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         pushFactory
             .create(
                 db,
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 PushOneCommit.SUBJECT,
                 "other.txt",

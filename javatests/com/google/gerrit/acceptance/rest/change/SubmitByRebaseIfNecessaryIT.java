@@ -42,8 +42,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
     assertApproved(change.getChangeId());
     assertCurrentRevision(change.getChangeId(), 1, head);
     assertSubmitter(change.getChangeId(), 1);
-    assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
+    assertPersonEquals(admin.newIdent(), head.getAuthorIdent());
+    assertPersonEquals(admin.newIdent(), head.getCommitterIdent());
     assertRefUpdatedEvents(oldHead, head);
     assertChangeMergedEvents(change.getChangeId(), head.name());
   }

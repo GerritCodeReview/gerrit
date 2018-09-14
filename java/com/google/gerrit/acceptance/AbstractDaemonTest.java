@@ -642,7 +642,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected PushOneCommit.Result createChange(String ref) throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(db, admin.newIdent(), testRepo);
     PushOneCommit.Result result = push.to(ref);
     result.assertOkStatus();
     return result;
@@ -659,7 +659,7 @@ public abstract class AbstractDaemonTest {
         pushFactory
             .create(
                 db,
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "parent 1",
                 ImmutableMap.of(file, "foo-1", "bar", "bar-1"))
@@ -672,7 +672,7 @@ public abstract class AbstractDaemonTest {
         pushFactory
             .create(
                 db,
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "parent 2",
                 ImmutableMap.of(file, "foo-2", "bar", "bar-2"))
@@ -681,7 +681,7 @@ public abstract class AbstractDaemonTest {
     PushOneCommit m =
         pushFactory.create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             "merge",
             ImmutableMap.of(file, "foo-1", "bar", "bar-2"));
@@ -699,7 +699,7 @@ public abstract class AbstractDaemonTest {
       String content)
       throws Exception {
     PushOneCommit.Result result =
-        pushFactory.create(db, admin.getIdent(), repo, commitMsg, fileName, content).to(ref);
+        pushFactory.create(db, admin.newIdent(), repo, commitMsg, fileName, content).to(ref);
     result.assertOkStatus();
     return result;
   }
@@ -719,7 +719,7 @@ public abstract class AbstractDaemonTest {
   protected PushOneCommit.Result createChange(String subject, String fileName, String content)
       throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
+        pushFactory.create(db, admin.newIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master");
   }
 
@@ -731,7 +731,7 @@ public abstract class AbstractDaemonTest {
       String content,
       String topic)
       throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo, subject, fileName, content);
+    PushOneCommit push = pushFactory.create(db, admin.newIdent(), repo, subject, fileName, content);
     return push.to("refs/for/" + branch + "/" + name(topic));
   }
 
@@ -785,7 +785,7 @@ public abstract class AbstractDaemonTest {
       String content)
       throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, testAccount.getIdent(), repo, subject, fileName, content, changeId);
+        pushFactory.create(db, testAccount.newIdent(), repo, subject, fileName, content, changeId);
     return push.to(ref);
   }
 
@@ -1130,7 +1130,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected PushOneCommit.Result pushTo(String ref) throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(db, admin.newIdent(), testRepo);
     return push.to(ref);
   }
 

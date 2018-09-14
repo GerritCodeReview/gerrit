@@ -44,7 +44,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             "Create Project Level Config",
             configName,
@@ -74,7 +74,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     pushFactory
         .create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             "Create Project Level Config",
             configName,
@@ -94,7 +94,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     pushFactory
         .create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             childTestRepo,
             "Create Project Level Config",
             configName,
@@ -129,7 +129,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     pushFactory
         .create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             "Create Project Level Config",
             configName,
@@ -155,7 +155,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     pushFactory
         .create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             childTestRepo,
             "Create Project Level Config",
             configName,

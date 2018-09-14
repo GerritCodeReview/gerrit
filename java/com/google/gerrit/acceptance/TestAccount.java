@@ -64,7 +64,7 @@ public abstract class TestAccount {
   @Nullable
   public abstract String httpPassword();
 
-  public PersonIdent getIdent() {
+  public PersonIdent newIdent() {
     return new PersonIdent(fullName(), email());
   }
 

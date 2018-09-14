@@ -56,7 +56,7 @@ public class MergeListIT extends AbstractDaemonTest {
         pushFactory
             .create(
                 db,
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "grand parent 1",
                 ImmutableMap.of("foo", "foo-1.1", "bar", "bar-1.1"))
@@ -67,7 +67,7 @@ public class MergeListIT extends AbstractDaemonTest {
         pushFactory
             .create(
                 db,
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "parent 1",
                 ImmutableMap.of("foo", "foo-1.2", "bar", "bar-1.2"))
@@ -81,7 +81,7 @@ public class MergeListIT extends AbstractDaemonTest {
         pushFactory
             .create(
                 db,
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "grand parent 2",
                 ImmutableMap.of("foo", "foo-2.1", "bar", "bar-2.1"))
@@ -92,7 +92,7 @@ public class MergeListIT extends AbstractDaemonTest {
         pushFactory
             .create(
                 db,
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 "parent 2",
                 ImmutableMap.of("foo", "foo-2.2", "bar", "bar-2.2"))
@@ -102,7 +102,7 @@ public class MergeListIT extends AbstractDaemonTest {
     PushOneCommit m =
         pushFactory.create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             "merge",
             ImmutableMap.of("foo", "foo-1", "bar", "bar-2"));

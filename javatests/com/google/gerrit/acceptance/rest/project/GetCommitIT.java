@@ -86,7 +86,7 @@ public class GetCommitIT extends AbstractDaemonTest {
   public void getOpenChange_Found() throws Exception {
     unblockRead();
     PushOneCommit.Result r =
-        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master");
+        pushFactory.create(db, admin.newIdent(), testRepo).to("refs/for/master");
     r.assertOkStatus();
 
     CommitInfo info = getCommit(r.getCommit());
@@ -109,7 +109,7 @@ public class GetCommitIT extends AbstractDaemonTest {
   @Test
   public void getOpenChange_NotFound() throws Exception {
     PushOneCommit.Result r =
-        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master");
+        pushFactory.create(db, admin.newIdent(), testRepo).to("refs/for/master");
     r.assertOkStatus();
     assertNotFound(r.getCommit());
   }

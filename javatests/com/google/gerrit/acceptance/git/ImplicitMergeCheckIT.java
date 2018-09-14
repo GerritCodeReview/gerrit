@@ -92,7 +92,7 @@ public class ImplicitMergeCheckIT extends AbstractDaemonTest {
   private PushOneCommit.Result push(String ref, String subject, String fileName, String content)
       throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
+        pushFactory.create(db, admin.newIdent(), testRepo, subject, fileName, content);
     return push.to(ref);
   }
 }

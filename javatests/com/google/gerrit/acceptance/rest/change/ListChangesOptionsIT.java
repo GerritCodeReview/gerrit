@@ -49,7 +49,7 @@ public class ListChangesOptionsIT extends AbstractDaemonTest {
     String fileName = "a.txt";
     PushOneCommit push =
         pushFactory.create(
-            db, admin.getIdent(), testRepo, subject, fileName, content, baseChangeId);
+            db, admin.newIdent(), testRepo, subject, fileName, content, baseChangeId);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
     return r;

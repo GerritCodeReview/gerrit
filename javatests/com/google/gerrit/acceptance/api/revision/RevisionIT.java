@@ -416,7 +416,7 @@ public class RevisionIT extends AbstractDaemonTest {
     String subject = "Test change\n\nChange-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     PushOneCommit push =
         pushFactory.create(
-            db, admin.getIdent(), testRepo, subject, "another_file.txt", "another content");
+            db, admin.newIdent(), testRepo, subject, "another_file.txt", "another content");
     PushOneCommit.Result r2 = push.to("refs/for/master");
 
     // Change 2's parent should be change 1
@@ -478,7 +478,7 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME,
@@ -498,7 +498,7 @@ public class RevisionIT extends AbstractDaemonTest {
   public void cherryPickToExistingChange() throws Exception {
     PushOneCommit.Result r1 =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "a")
+            .create(db, admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "a")
             .to("refs/for/master");
     String t1 = project.get() + "~master~" + r1.getChangeId();
 
@@ -508,7 +508,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r2 =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "b", r1.getChangeId())
+            .create(db, admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "b", r1.getChangeId())
             .to("refs/for/foo");
     String t2 = project.get() + "~foo~" + r2.getChangeId();
     gApi.changes().id(t2).abandon();
@@ -828,11 +828,11 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void canRebase() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(db, admin.newIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
     merge(r1);
 
-    push = pushFactory.create(db, admin.getIdent(), testRepo);
+    push = pushFactory.create(db, admin.newIdent(), testRepo);
     PushOneCommit.Result r2 = push.to("refs/for/master");
     boolean canRebase =
         gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).canRebase();
@@ -840,7 +840,7 @@ public class RevisionIT extends AbstractDaemonTest {
     merge(r2);
 
     testRepo.reset(r1.getCommit());
-    push = pushFactory.create(db, admin.getIdent(), testRepo);
+    push = pushFactory.create(db, admin.newIdent(), testRepo);
     PushOneCommit.Result r3 = push.to("refs/for/master");
 
     canRebase = gApi.changes().id(r3.getChangeId()).revision(r3.getCommit().name()).canRebase();
@@ -849,7 +849,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void setUnsetReviewedFlag() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(db, admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
 
     gApi.changes().id(r.getChangeId()).current().setReviewed(PushOneCommit.FILE_NAME, true);
@@ -869,7 +869,7 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit push1 =
         pushFactory.create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME,
@@ -885,7 +885,7 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit push2 =
         pushFactory.create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME,
@@ -1004,7 +1004,7 @@ public class RevisionIT extends AbstractDaemonTest {
   public void queryRevisionFiles() throws Exception {
     Map<String, String> files = ImmutableMap.of("file1.txt", "content 1", "file2.txt", "content 2");
     PushOneCommit.Result result =
-        pushFactory.create(db, admin.getIdent(), testRepo, SUBJECT, files).to("refs/for/master");
+        pushFactory.create(db, admin.newIdent(), testRepo, SUBJECT, files).to("refs/for/master");
     result.assertOkStatus();
     String changeId = result.getChangeId();
 
@@ -1377,7 +1377,7 @@ public class RevisionIT extends AbstractDaemonTest {
       throws Exception {
     PushOneCommit push =
         pushFactory.create(
-            db, admin.getIdent(), testRepo, "test commit", "a.txt", content, r.getChangeId());
+            db, admin.newIdent(), testRepo, "test commit", "a.txt", content, r.getChangeId());
     return push.to("refs/for/master");
   }
 
@@ -1403,19 +1403,19 @@ public class RevisionIT extends AbstractDaemonTest {
 
     PushOneCommit.Result changeAResult =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "change a", parent1FileName, "Content of a")
+            .create(db, admin.newIdent(), testRepo, "change a", parent1FileName, "Content of a")
             .to("refs/for/" + branchAName);
 
     testRepo.reset(initialCommit);
     PushOneCommit.Result changeBResult =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "change b", parent2FileName, "Content of b")
+            .create(db, admin.newIdent(), testRepo, "change b", parent2FileName, "Content of b")
             .to("refs/for/" + branchBName);
 
     PushOneCommit pushableMergeCommit =
         pushFactory.create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             "merge",
             ImmutableMap.of(parent1FileName, "Content of a", parent2FileName, "Content of b"));

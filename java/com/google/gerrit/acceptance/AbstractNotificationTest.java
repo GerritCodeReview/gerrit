@@ -458,7 +458,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       }
       setApiUser(owner);
       repo = cloneProject(project, owner);
-      PushOneCommit push = pushFactory.create(db, owner.getIdent(), repo);
+      PushOneCommit push = pushFactory.create(db, owner.newIdent(), repo);
       result = push.to(ref);
       result.assertOkStatus();
       changeId = result.getChangeId();

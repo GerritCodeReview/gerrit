@@ -137,7 +137,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(
             db,
-            admin.getIdent(),
+            admin.newIdent(),
             testRepo,
             subject,
             "file" + fileCounter.incrementAndGet(),

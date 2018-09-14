@@ -59,8 +59,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertThat(updatedHead.getId()).isEqualTo(change.getCommit());
     assertThat(updatedHead.getParent(0)).isEqualTo(initialHead);
     assertSubmitter(change.getChangeId(), 1);
-    assertPersonEquals(admin.getIdent(), updatedHead.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(), updatedHead.getCommitterIdent());
+    assertPersonEquals(admin.newIdent(), updatedHead.getAuthorIdent());
+    assertPersonEquals(admin.newIdent(), updatedHead.getCommitterIdent());
 
     assertRefUpdatedEvents(initialHead, updatedHead);
     assertChangeMergedEvents(change.getChangeId(), updatedHead.name());
@@ -88,8 +88,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertThat(headAfterFirstSubmit.getShortMessage())
         .isEqualTo(change2.getCommit().getShortMessage());
     assertThat(headAfterFirstSubmit.getParent(0).getId()).isEqualTo(initialHead.getId());
-    assertPersonEquals(admin.getIdent(), headAfterFirstSubmit.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(), headAfterFirstSubmit.getCommitterIdent());
+    assertPersonEquals(admin.newIdent(), headAfterFirstSubmit.getAuthorIdent());
+    assertPersonEquals(admin.newIdent(), headAfterFirstSubmit.getCommitterIdent());
 
     // We need to merge changes 3, 4 and 5.
     approve(change3.getChangeId());
@@ -102,7 +102,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertThat(headAfterSecondSubmit.getParent(0).getShortMessage())
         .isEqualTo(change2.getCommit().getShortMessage());
 
-    assertPersonEquals(admin.getIdent(), headAfterSecondSubmit.getAuthorIdent());
+    assertPersonEquals(admin.newIdent(), headAfterSecondSubmit.getAuthorIdent());
     assertPersonEquals(serverIdent.get(), headAfterSecondSubmit.getCommitterIdent());
 
     // First change stays untouched.
@@ -427,7 +427,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     // Push a change to master
     PushOneCommit push =
-        pushFactory.create(db, user.getIdent(), testRepo, "small fix", "a.txt", "2");
+        pushFactory.create(db, user.newIdent(), testRepo, "small fix", "a.txt", "2");
     PushOneCommit.Result change = push.to("refs/for/master");
     submit(change.getChangeId());
     RevCommit headAfterFirstSubmit = getRemoteLog(project, "master").get(0);
@@ -480,7 +480,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     // Propose a change for master, but leave it open for master!
     PushOneCommit change =
-        pushFactory.create(db, user.getIdent(), testRepo, "small fix", "a.txt", "2");
+        pushFactory.create(db, user.newIdent(), testRepo, "small fix", "a.txt", "2");
     PushOneCommit.Result change2result = change.to("refs/for/master");
 
     // Now cherry pick to stable

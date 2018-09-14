@@ -188,7 +188,7 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     if (force) {
       testRepo.reset(initialHead);
     }
-    commit(user.getIdent(), "subject");
+    commit(user.newIdent(), "subject");
 
     boolean createTag = tagName == null;
     tagName = MoreObjects.firstNonNull(tagName, "v1_" + System.nanoTime());
@@ -197,9 +197,9 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
         break;
       case ANNOTATED:
         if (createTag) {
-          createAnnotatedTag(testRepo, tagName, user.getIdent());
+          createAnnotatedTag(testRepo, tagName, user.newIdent());
         } else {
-          updateAnnotatedTag(testRepo, tagName, user.getIdent());
+          updateAnnotatedTag(testRepo, tagName, user.newIdent());
         }
         break;
       default:

@@ -635,7 +635,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
       // Create change as user.
       PushOneCommit push =
-          pushFactory.create(db, user.getIdent(), subRepo2, "Change 2", "b.txt", "other content");
+          pushFactory.create(db, user.newIdent(), subRepo2, "Change 2", "b.txt", "other content");
       PushOneCommit.Result pushResult2 = push.to("refs/for/master/" + name(topic));
       approve(pushResult2.getChangeId());
 

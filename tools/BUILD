@@ -34,7 +34,7 @@ JDK9_JVM_OPTS = [
 # See https://github.com/bazelbuild/bazel/issues/3427 for more context
 default_java_toolchain(
     name = "error_prone_warnings_toolchain_bazel_0.16",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
+    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath8.jar"],
     jvm_opts = JDK9_JVM_OPTS,
     package_configuration = [
         ":error_prone",
@@ -44,7 +44,7 @@ default_java_toolchain(
 
 default_java_toolchain(
     name = "error_prone_warnings_toolchain",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
+    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath8.jar"],
     package_configuration = [
         ":error_prone",
     ],

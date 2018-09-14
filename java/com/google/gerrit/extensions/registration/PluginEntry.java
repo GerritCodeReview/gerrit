@@ -14,15 +14,37 @@
 
 package com.google.gerrit.extensions.registration;
 
+import com.google.gerrit.common.Nullable;
 import com.google.inject.Provider;
 
-/** Pair of provider implementation and plugin providing it. */
-class NamedProvider<T> {
-  final Provider<T> impl;
-  final String pluginName;
+public class PluginEntry<T> {
+  private final String pluginName;
+  private final @Nullable String exportName;
+  private final Provider<T> provider;
 
-  NamedProvider(Provider<T> provider, String pluginName) {
-    this.impl = provider;
+  protected PluginEntry(String pluginName, Provider<T> provider) {
+    this(pluginName, null, provider);
+  }
+
+  protected PluginEntry(String pluginName, @Nullable String exportName, Provider<T> provider) {
     this.pluginName = pluginName;
+    this.exportName = exportName;
+    this.provider = provider;
+  }
+
+  public String getPluginName() {
+    return pluginName;
+  }
+
+  public String getExportName() {
+    return exportName;
+  }
+
+  public Provider<T> getProvider() {
+    return provider;
+  }
+
+  public T get() {
+    return provider.get();
   }
 }

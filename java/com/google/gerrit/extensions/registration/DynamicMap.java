@@ -40,29 +40,7 @@ import java.util.concurrent.ConcurrentMap;
  * resolve the provider to an instance on demand. This enables registrations to decide between
  * singleton and non-singleton members.
  */
-public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
-  public static class Entry<T> {
-    private final NamePair namePair;
-    private final Provider<T> provider;
-
-    private Entry(NamePair namePair, Provider<T> provider) {
-      this.namePair = namePair;
-      this.provider = provider;
-    }
-
-    public String getPluginName() {
-      return namePair.pluginName;
-    }
-
-    public String getExportName() {
-      return namePair.exportName;
-    }
-
-    public Provider<T> getProvider() {
-      return provider;
-    }
-  }
-
+public abstract class DynamicMap<T> implements Iterable<PluginEntry<T>> {
   /**
    * Declare a singleton {@code DynamicMap<T>} with a binder.
    *
@@ -166,18 +144,18 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
 
   /** Iterate through all entries in an undefined order. */
   @Override
-  public Iterator<Entry<T>> iterator() {
+  public Iterator<PluginEntry<T>> iterator() {
     final Iterator<Map.Entry<NamePair, Provider<T>>> i = items.entrySet().iterator();
-    return new Iterator<Entry<T>>() {
+    return new Iterator<PluginEntry<T>>() {
       @Override
       public boolean hasNext() {
         return i.hasNext();
       }
 
       @Override
-      public Entry<T> next() {
+      public PluginEntry<T> next() {
         Map.Entry<NamePair, Provider<T>> e = i.next();
-        return new Entry<>(e.getKey(), e.getValue());
+        return new PluginEntry<>(e.getKey().pluginName, e.getKey().exportName, e.getValue());
       }
 
       @Override

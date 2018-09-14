@@ -24,6 +24,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.PluginEntry;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.mail.HtmlParser;
@@ -148,7 +149,7 @@ public class MailProcessor {
 
   private void processImpl(BatchUpdate.Factory buf, MailMessage message)
       throws OrmException, UpdateException, RestApiException, IOException {
-    for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
+    for (PluginEntry<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
         logger.atWarning().log(
             "Message %s filtered by plugin %s %s. Will delete message.",

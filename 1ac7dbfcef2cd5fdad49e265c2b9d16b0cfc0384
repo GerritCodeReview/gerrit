@@ -16,6 +16,24 @@
       "revId": "1ac7dbfcef2cd5fdad49e265c2b9d16b0cfc0384",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1770630_f905f90e",
+        "filename": "java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-14T14:33:37Z",
+      "side": 1,
+      "message": "I answered why it\u0027s related on question from Matthias on patch set 9: [1]. And in fact previous patch set failed the test, because final wasn\u0027t erroneously removed (it was bad rebase). But given that you are already second reviewer, who is confused, I will end that explanation to the commit message.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/67793/9/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java#60",
+      "parentUuid": "9a118b7e_e7a66ece",
+      "revId": "1ac7dbfcef2cd5fdad49e265c2b9d16b0cfc0384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

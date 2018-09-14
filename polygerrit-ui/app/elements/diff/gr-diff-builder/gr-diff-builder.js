@@ -365,26 +365,37 @@
       return null;
     }
 
-    let patchNum = this._comments.meta.patchRange.patchNum;
-    let isOnParent = comments[0].side === 'PARENT' || false;
+    return _createCommentThreadGroupForLine(
+        this._comments.meta.patchRange, comments, this._createThreadGroupFn,
+        line, opt_side);
+  };
+
+  function _createCommentThreadGroupForLine(
+      patchRange, commentsForLine, createThreadGroupFn, line, opt_side) {
+    if (!commentsForLine || commentsForLine.length === 0) {
+      return null;
+    }
+
+    let patchNum = patchRange.patchNum;
+    let isOnParent = commentsForLine[0].side === 'PARENT' || false;
     if (line.type === GrDiffLine.Type.REMOVE ||
         opt_side === GrDiffBuilder.Side.LEFT) {
-      if (this._comments.meta.patchRange.basePatchNum === 'PARENT' ||
+      if (patchRange.basePatchNum === 'PARENT' ||
           Gerrit.PatchSetBehavior.isMergeParent(
-              this._comments.meta.patchRange.basePatchNum)) {
+              patchRange.basePatchNum)) {
         isOnParent = true;
       } else {
-        patchNum = this._comments.meta.patchRange.basePatchNum;
+        patchNum = patchRange.basePatchNum;
       }
     }
-    const threadGroupEl = this._createThreadGroupFn(patchNum, isOnParent,
+    const threadGroupEl = createThreadGroupFn(patchNum, isOnParent,
         opt_side);
-    threadGroupEl.comments = comments;
+    threadGroupEl.comments = commentsForLine;
     if (opt_side) {
       threadGroupEl.setAttribute('data-side', opt_side);
     }
     return threadGroupEl;
-  };
+  }
 
   GrDiffBuilder.prototype._createLineEl = function(
       line, number, type, opt_class) {

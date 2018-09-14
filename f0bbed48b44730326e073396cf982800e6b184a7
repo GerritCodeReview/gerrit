@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1532460659 -0700\nnonce APISObSKxpoG/j0+BVUts22rQzduQQE3f2MXZgKbgN/22pHdzQII1BFQsF+wTfPUuuF5jN4vgT8C\n\n0000000000000000000000000000000000000000 5db9b63b9469b5bb97e86cd884bc784bdd8aa931 refs/for/master%ready\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAltXfnMVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMPLIQAJWXUBsMm//qu4tkxE/YncuxCUb+\nKKbOxZaXwDzNq1ziQ2o7Eqmq2iHkEPAchXFCfiS6PHtdIYyRtH7l1HdInkneGByA\n85UguF/ytesvoE6YJkuObk15uxReVR4Hfir/9+t5Ty9J7DDQ8/N+TR2EuR0vNfqC\nZqzxNUSfSI8D/NKvUxIE9NrW+HosPAGaHcarUw+ogQq8COIWQEDfEmWUlyMHQ31R\nYzBA2pFks8T2BC8xnz13N80YY4R/tMu0SvMxO7+YvtrkognpyGdwjx33BvP5Mxkb\nEhN0uVnpdpNLI/wNsjEMd5eUVnZSF26iKpuRsXgH3FCao5iwQgoRSrfbnrwcL90r\njg1S4Whm/ZSlL6fZF0SuoxbTKCDbXqK6XQpNTX+Z45Ufnl8ACOw8V+Xgd86WFpJv\nDr5xd3FjV5lQryazWgCWE1AP1Ft/4woiLgGRFRd8NqZwL3YsLULC837iQGlzWsKD\noT6Db9uagXNxBX3EhVYIy9xupYmtmgtoXcuO37hQJG/RASZz0GeAHZe9RD8pYaQw\n7yjr4gzpHGQHVuJJ2zSAx/oUmumnx/kbrXypV/abEwH9w2T7Ue35Kru7iO3bTQaq\nVs3d3IBkgX+EGPck8C9coKc6zmZH55yWQDgfOKy1g3qnW6lQSQFi9/MzmU05HEFR\n/6ozHtrrNymO1/ML\n\u003dU6gO\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d818220_36e01071",
+        "filename": "java/com/google/gerrit/server/project/ProjectAccessor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-14T12:51:08Z",
+      "side": 1,
+      "message": "I just noticed that there is ProjectCache#getAllProjects. Do we want to get rid of this?\n- If so, should we have a similar behavior regarding thrown exceptions so that the migration is easier?\n- If we keep it, is there a reason not to use ProjectCache#getAllProjects?",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 5
+      },
+      "revId": "f0bbed48b44730326e073396cf982800e6b184a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

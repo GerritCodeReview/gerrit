@@ -25,8 +25,10 @@
     this.highlights = [];
   }
 
+  /** @type {number|string} */
   GrDiffLine.prototype.afterNumber = 0;
 
+  /** @type {number|string} */
   GrDiffLine.prototype.beforeNumber = 0;
 
   GrDiffLine.prototype.contextGroup = null;

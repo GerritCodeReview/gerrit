@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2b719f9_234af6a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-14T05:00:40Z",
+      "side": 1,
+      "message": "This could be clarified. Before I checked the code, I missed the fact that this change is on stable-2.14 branch and I assumed that the new event is issued when a regular change was deleted. In code I see, that the event is issued when draft change is deleted. In 2.14 regular changes cannot be deleted.\n\nThis raises some questions. Why we extending draft workflow that was removed in 2.15 release? Should we rather name that event DRAFT DELETED, like it already named DRAFT PUBLISHED to avoid confusion. Should we also add DRAFT PATCH SET DELETED event?\n\nWouldn\u0027t it be sufficient not touch draft workflow in 2.14 and just add new regular CHANGE DELETED event on stable-2.15 branch?",
+      "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "962d101f_1cb61ab6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeDeletedListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-14T05:00:40Z",
+      "side": 1,
+      "message": "Regular changes cannot be deleted on stable-2.14, only draft changes. Should this be reflected in the name of the class and comment?",
+      "range": {
+        "startLine": 19,
+        "startChar": 24,
+        "endLine": 19,
+        "endChar": 30
+      },
+      "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

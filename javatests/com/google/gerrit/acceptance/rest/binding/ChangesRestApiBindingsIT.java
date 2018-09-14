@@ -280,7 +280,7 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
 
     AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.reviewer = user.email;
+    addReviewerInput.reviewer = user.email();
 
     RestApiCallHelper.execute(
         adminRestSession,
@@ -299,7 +299,7 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
         VOTE_ENDPOINTS,
         () -> gApi.changes().id(changeId).current().review(ReviewInput.approve()),
         changeId,
-        admin.email,
+        admin.email(),
         "Code-Review");
   }
 
@@ -314,7 +314,7 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
 
     AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.reviewer = user.email;
+    addReviewerInput.reviewer = user.email();
 
     RestApiCallHelper.execute(
         adminRestSession,
@@ -335,7 +335,7 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
         () -> gApi.changes().id(changeId).current().review(ReviewInput.approve()),
         changeId,
         "current",
-        admin.email,
+        admin.email(),
         "Code-Review");
   }
 

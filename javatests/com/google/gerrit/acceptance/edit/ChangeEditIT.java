@@ -199,7 +199,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void publishEditNotifyRest() throws Exception {
     AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
+    in.reviewer = user.email();
     gApi.changes().id(changeId).addReviewer(in);
 
     createArbitraryEditFor(changeId);
@@ -214,7 +214,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void publishEditWithDefaultNotify() throws Exception {
     AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
+    in.reviewer = user.email();
     gApi.changes().id(changeId).addReviewer(in);
 
     createArbitraryEditFor(changeId);
@@ -628,11 +628,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(changeId2).edit().publish(publishInput);
     assertThat(queryEdits()).isEmpty();
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     createEmptyEditFor(changeId);
     assertThat(queryEdits()).hasSize(1);
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     assertThat(queryEdits()).isEmpty();
   }
 

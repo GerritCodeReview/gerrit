@@ -41,7 +41,7 @@ public class MailSenderIT extends AbstractMailIT {
     // Check that the user's email was added as Reply-To
     assertThat(sender.getMessages()).hasSize(1);
     Map<String, EmailHeader> headers = sender.getMessages().iterator().next().headers();
-    assertThat(headerString(headers, "Reply-To")).contains(user.email);
+    assertThat(headerString(headers, "Reply-To")).contains(user.email());
   }
 
   @Test

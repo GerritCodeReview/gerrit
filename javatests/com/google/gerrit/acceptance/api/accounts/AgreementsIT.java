@@ -125,7 +125,7 @@ public class AgreementsIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     caAutoVerify = configureContributorAgreement(true);
     caNoAutoVerify = configureContributorAgreement(false);
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
   }
 
   @Test
@@ -170,7 +170,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     gApi.accounts().self().signAgreement(caAutoVerify.getName());
 
     // Explicitly reset the user to force a new request context
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // Verify that the agreement was signed
     result = gApi.accounts().self().listAgreements();
@@ -226,12 +226,12 @@ public class AgreementsIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().create(newChangeInput()).get();
 
     // Approve and submit it
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
     gApi.changes().id(change.changeId).current().submit(new SubmitInput());
 
     // Revert is not allowed when CLA is required but not signed
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     setUseContributorAgreements(InheritableBoolean.TRUE);
     exception.expect(AuthException.class);
     exception.expectMessage("Contributor Agreement");
@@ -250,12 +250,12 @@ public class AgreementsIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().create(newChangeInput()).get();
 
     // Approve and submit it
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
     gApi.changes().id(change.changeId).current().submit(new SubmitInput());
 
     // Revert in excluded project is allowed even when CLA is required but not signed
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     setUseContributorAgreements(InheritableBoolean.TRUE);
     gApi.changes().id(change.changeId).revert();
   }
@@ -265,7 +265,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     assume().that(isContributorAgreementsEnabled()).isTrue();
 
     // Create a new branch
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     BranchInfo dest =
         gApi.projects()
             .name(project.get())
@@ -282,7 +282,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     gApi.changes().id(change.changeId).current().submit(new SubmitInput());
 
     // Cherry-pick is not allowed when CLA is required but not signed
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     setUseContributorAgreements(InheritableBoolean.TRUE);
     CherryPickInput in = new CherryPickInput();
     in.destination = dest.ref;
@@ -313,7 +313,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     gApi.accounts().self().signAgreement(caAutoVerify.getName());
 
     // Explicitly reset the user to force a new request context
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // Create a change succeeds after signing the agreement
     gApi.changes().create(newChangeInput());

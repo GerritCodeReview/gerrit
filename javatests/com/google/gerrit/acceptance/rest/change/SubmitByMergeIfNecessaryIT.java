@@ -600,7 +600,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + changeResult.getCommit().name()
             + " which cannot be merged."
             + " Is the change of this commit not visible to '"
-            + admin.username
+            + admin.username()
             + "' or was it deleted?");
 
     assertRefUpdatedEvents();
@@ -632,7 +632,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     gApi.changes().id(changeResult.getChangeId()).move(secretBranch.get());
     block(secretBranch.get(), "read", ANONYMOUS_USERS);
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // Verify that user cannot see the first change.
     try {
@@ -655,7 +655,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + changeResult.getCommit().name()
             + " which cannot be merged."
             + " Is the change of this commit not visible to '"
-            + user.username
+            + user.username()
             + "' or was it deleted?");
 
     assertRefUpdatedEvents();
@@ -681,7 +681,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     // Mark the first change private so that it's not visible to user.
     gApi.changes().id(changeResult.getChangeId()).setPrivate(true, "nobody should see this");
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // Verify that user cannot see the first change.
     try {
@@ -741,7 +741,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     // Mark change2a private so that it's not visible to user.
     gApi.changes().id(change2a.getChangeId()).setPrivate(true, "nobody should see this");
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
 
     // Verify that user cannot see change2a
     try {

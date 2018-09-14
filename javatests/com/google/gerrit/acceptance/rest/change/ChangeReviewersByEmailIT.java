@@ -74,7 +74,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   @Test
   public void addByEmailAndById() throws Exception {
     AccountInfo byEmail = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
-    AccountInfo byId = new AccountInfo(user.id.get());
+    AccountInfo byId = new AccountInfo(user.id().get());
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
@@ -85,7 +85,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       gApi.changes().id(r.getChangeId()).addReviewer(inputByEmail);
 
       AddReviewerInput inputById = new AddReviewerInput();
-      inputById.reviewer = user.email;
+      inputById.reviewer = user.email();
       inputById.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(inputById);
 
@@ -197,9 +197,9 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       // Review change as user
       ReviewInput reviewInput = new ReviewInput();
       reviewInput.message = "I have a comment";
-      requestScopeOperations.setApiUser(user.getId());
+      requestScopeOperations.setApiUser(user.id());
       revision(r).review(reviewInput);
-      requestScopeOperations.setApiUser(admin.getId());
+      requestScopeOperations.setApiUser(admin.id());
 
       sender.clear();
 
@@ -209,7 +209,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       List<Message> messages = sender.getMessages();
       assertThat(messages).hasSize(1);
       assertThat(messages.get(0).rcpt())
-          .containsExactly(Address.parse(addInput.reviewer), user.emailAddress);
+          .containsExactly(Address.parse(addInput.reviewer), user.getEmailAddress());
       sender.clear();
     }
   }
@@ -250,7 +250,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
     // Also add user as a regular reviewer
     AddReviewerInput input = new AddReviewerInput();
-    input.reviewer = user.email;
+    input.reviewer = user.email();
     input.state = ReviewerState.REVIEWER;
     gApi.changes().id(r.getChangeId()).addReviewer(input);
 

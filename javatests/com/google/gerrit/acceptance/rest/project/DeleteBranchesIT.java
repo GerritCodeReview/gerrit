@@ -74,14 +74,14 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
 
     DeleteBranchesInput input = new DeleteBranchesInput();
     input.branches = branchToDelete;
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     try {
       project().deleteBranches(input);
       fail("Expected AuthException");
     } catch (AuthException e) {
       assertThat(e).hasMessageThat().isEqualTo("not permitted: delete on refs/heads/test-1");
     }
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     assertBranches(BRANCHES);
   }
 
@@ -89,14 +89,14 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   public void deleteMultiBranchesWithoutPermissionForbidden() throws Exception {
     DeleteBranchesInput input = new DeleteBranchesInput();
     input.branches = BRANCHES;
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     try {
       project().deleteBranches(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
       assertThat(e).hasMessageThat().isEqualTo(errorMessageForBranches(BRANCHES));
     }
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     assertBranches(BRANCHES);
   }
 

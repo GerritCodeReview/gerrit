@@ -59,7 +59,7 @@ public abstract class StandaloneSiteTest {
       this.server = server;
       Injector i = server.getTestInjector();
       if (adminId == null) {
-        adminId = i.getInstance(AccountCreator.class).admin().getId();
+        adminId = i.getInstance(AccountCreator.class).admin().id();
       }
       ctx = i.getInstance(OneOffRequestContext.class).openAs(adminId);
       GerritApi gApi = i.getInstance(GerritApi.class);

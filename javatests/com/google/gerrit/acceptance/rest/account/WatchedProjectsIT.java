@@ -156,7 +156,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     String projectName = project.get();
 
     // Let another user watch a project
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
@@ -173,7 +173,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     gApi.accounts().self().deleteWatchedProjects(d);
 
     // Check that trying to delete a non-existing watch doesn't fail
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     gApi.accounts().self().deleteWatchedProjects(d);
   }
 
@@ -182,7 +182,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     String projectName = project.get();
 
     // Let another user watch a project
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
@@ -244,6 +244,6 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void postWithoutBody() throws Exception {
-    adminRestSession.post("/accounts/" + admin.username + "/watched.projects").assertOK();
+    adminRestSession.post("/accounts/" + admin.username() + "/watched.projects").assertOK();
   }
 }

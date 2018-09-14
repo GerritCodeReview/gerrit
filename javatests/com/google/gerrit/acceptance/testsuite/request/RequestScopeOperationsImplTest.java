@@ -48,50 +48,50 @@ public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void setApiUserToExistingUserById() throws Exception {
-    fastCheckCurrentUser(admin.getId());
-    AcceptanceTestRequestScope.Context oldCtx = requestScopeOperations.setApiUser(user.getId());
-    assertThat(oldCtx.getUser().getAccountId()).isEqualTo(admin.getId());
-    checkCurrentUser(user.getId());
+    fastCheckCurrentUser(admin.id());
+    AcceptanceTestRequestScope.Context oldCtx = requestScopeOperations.setApiUser(user.id());
+    assertThat(oldCtx.getUser().getAccountId()).isEqualTo(admin.id());
+    checkCurrentUser(user.id());
   }
 
   @Test
   public void setApiUserToExistingUserByTestAccount() throws Exception {
-    fastCheckCurrentUser(admin.getId());
+    fastCheckCurrentUser(admin.id());
     TestAccount testAccount =
         accountOperations.account(accountOperations.newAccount().username("tester").create()).get();
     AcceptanceTestRequestScope.Context oldCtx = requestScopeOperations.setApiUser(testAccount);
-    assertThat(oldCtx.getUser().getAccountId()).isEqualTo(admin.getId());
+    assertThat(oldCtx.getUser().getAccountId()).isEqualTo(admin.id());
     checkCurrentUser(testAccount.accountId());
   }
 
   @Test
   public void setApiUserToNonExistingUser() throws Exception {
-    fastCheckCurrentUser(admin.getId());
+    fastCheckCurrentUser(admin.id());
     try {
       requestScopeOperations.setApiUser(new Account.Id(sequences.nextAccountId()));
       assert_().fail("expected RuntimeException");
     } catch (RuntimeException e) {
       // Expected.
     }
-    checkCurrentUser(admin.getId());
+    checkCurrentUser(admin.id());
   }
 
   @Test
   public void resetCurrentApiUserClearsCachedState() throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     PropertyKey<String> key = PropertyKey.create();
     atrScope.get().getUser().put(key, "foo");
     assertThat(atrScope.get().getUser().get(key)).hasValue("foo");
 
     AcceptanceTestRequestScope.Context oldCtx = requestScopeOperations.resetCurrentApiUser();
-    checkCurrentUser(user.getId());
+    checkCurrentUser(user.id());
     assertThat(atrScope.get().getUser().get(key)).isEmpty();
     assertThat(oldCtx.getUser().get(key)).hasValue("foo");
   }
 
   @Test
   public void setApiUserAnonymousSetsAnonymousUser() throws Exception {
-    fastCheckCurrentUser(admin.getId());
+    fastCheckCurrentUser(admin.id());
     requestScopeOperations.setApiUserAnonymous();
     assertThat(userProvider.get()).isInstanceOf(AnonymousUser.class);
   }

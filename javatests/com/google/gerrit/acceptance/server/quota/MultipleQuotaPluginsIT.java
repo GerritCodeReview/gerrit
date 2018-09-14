@@ -63,7 +63,7 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() {
-    identifiedAdmin = identifiedUserFactory.create(admin.id);
+    identifiedAdmin = identifiedUserFactory.create(admin.id());
     resetToStrict(quotaEnforcerA);
     resetToStrict(quotaEnforcerB);
   }

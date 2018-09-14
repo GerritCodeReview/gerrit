@@ -353,7 +353,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   public void nonOwnerCannotSetConfig() throws Exception {
     ConfigInput input = createTestConfigInput();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("write refs/meta/config not permitted");
     gApi.projects().name(project.get()).config(input);
@@ -388,7 +388,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   public void setHeadNotAllowed() throws Exception {
     gApi.projects().name(project.get()).branch("test").create(new BranchInput());
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("not permitted: set HEAD on refs/heads/test");
     gApi.projects().name(project.get()).head("test");

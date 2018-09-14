@@ -1006,7 +1006,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertThat(c.line).isEqualTo(expected.line);
     assertThat(c.message).isEqualTo(expected.message);
 
-    assertThat(c.author.email).isEqualTo(admin.email);
+    assertThat(c.author.email).isEqualTo(admin.email());
 
     if (expectPath) {
       assertThat(c.path).isEqualTo(expected.path);

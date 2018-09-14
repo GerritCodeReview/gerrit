@@ -325,7 +325,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void createProjectWithCapability() throws Exception {
     allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
     try {
-      requestScopeOperations.setApiUser(user.getId());
+      requestScopeOperations.setApiUser(user.id());
       ProjectInput in = new ProjectInput();
       in.name = name("newProject");
       ProjectInfo p = gApi.projects().create(in).get();
@@ -338,7 +338,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createProjectWithoutCapability_Forbidden() throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     ProjectInput in = new ProjectInput();
     in.name = name("newProject");
     assertCreateFails(in, AuthException.class);
@@ -357,7 +357,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     parent.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
     allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
     try {
-      requestScopeOperations.setApiUser(user.getId());
+      requestScopeOperations.setApiUser(user.id());
       ProjectInput in = new ProjectInput();
       in.name = name("newProject");
       ProjectInfo p = gApi.projects().create(in).get();

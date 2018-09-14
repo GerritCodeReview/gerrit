@@ -49,7 +49,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result =
         pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     String changeId = result.getChangeId();
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
 
@@ -117,7 +117,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
 
     gApi.changes().id(changeId).setPrivate(true, null);
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     ChangeInfo info = gApi.changes().id(changeId).get();
     assertThat(info.isPrivate).isTrue();
   }
@@ -125,7 +125,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
   @Test
   public void cannotSetOtherUsersChangePrivate() throws Exception {
     PushOneCommit.Result result = createChange();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to mark private");
     gApi.changes().id(result.getChangeId()).setPrivate(true, null);
@@ -137,20 +137,20 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result =
         pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(result.getChangeId()).setPrivate(true, null);
     // Owner can always access its private changes.
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
 
     // Add admin as a reviewer.
-    gApi.changes().id(result.getChangeId()).addReviewer(admin.getId().toString());
+    gApi.changes().id(result.getChangeId()).addReviewer(admin.id().toString());
 
     // This change should be visible for admin as a reviewer.
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
 
     // Remove admin from reviewers.
-    gApi.changes().id(result.getChangeId()).reviewer(admin.getId().toString()).remove();
+    gApi.changes().id(result.getChangeId()).reviewer(admin.id().toString()).remove();
 
     // This change should not be visible for admin anymore.
     exception.expect(ResourceNotFoundException.class);
@@ -164,7 +164,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     gApi.changes().id(result.getChangeId()).setPrivate(true, null);
 
     allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
   }
 
@@ -190,7 +190,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
 
     merge(result);
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to mark private");
     gApi.changes().id(changeId).setPrivate(true, null);
@@ -216,11 +216,11 @@ public class PrivateChangeIT extends AbstractDaemonTest {
         pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
 
     String changeId = result.getChangeId();
-    gApi.changes().id(changeId).addReviewer(admin.getId().toString());
+    gApi.changes().id(changeId).addReviewer(admin.id().toString());
     merge(result);
     markMergedChangePrivate(new Change.Id(gApi.changes().id(changeId).get()._number));
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(changeId).setPrivate(false, null);
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
   }
@@ -240,7 +240,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
   private void markMergedChangePrivate(Change.Id changeId) throws Exception {
     try (BatchUpdate u =
         batchUpdateFactory.create(
-            project, identifiedUserFactory.create(admin.id), TimeUtil.nowTs())) {
+            project, identifiedUserFactory.create(admin.id()), TimeUtil.nowTs())) {
       u.addOp(
               changeId,
               new BatchUpdateOp() {

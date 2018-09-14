@@ -44,7 +44,7 @@ public class DeleteTagIT extends AbstractDaemonTest {
 
   @Test
   public void deleteTag_Forbidden() throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertDeleteForbidden();
   }
 
@@ -56,7 +56,7 @@ public class DeleteTagIT extends AbstractDaemonTest {
   @Test
   public void deleteTagByProjectOwner() throws Exception {
     grantOwner();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertDeleteSucceeds();
   }
 
@@ -70,21 +70,21 @@ public class DeleteTagIT extends AbstractDaemonTest {
   public void deleteTagByProjectOwnerForcePushBlocked_Forbidden() throws Exception {
     grantOwner();
     blockForcePush();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertDeleteForbidden();
   }
 
   @Test
   public void deleteTagByUserWithForcePushPermission() throws Exception {
     grantForcePush();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertDeleteSucceeds();
   }
 
   @Test
   public void deleteTagByUserWithDeletePermission() throws Exception {
     grantDelete();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertDeleteSucceeds();
   }
 

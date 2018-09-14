@@ -116,7 +116,7 @@ public class PluginIT extends AbstractDaemonTest {
     deprecatedInput();
 
     // Non-admin cannot disable
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     try {
       gApi.plugins().name("plugin-a").disable();
       fail("Expected AuthException");

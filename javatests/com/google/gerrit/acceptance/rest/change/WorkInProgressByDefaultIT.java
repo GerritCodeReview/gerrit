@@ -48,10 +48,10 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
 
   @After
   public void tearDown() throws Exception {
-    requestScopeOperations.setApiUser(admin.getId());
-    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
+    requestScopeOperations.setApiUser(admin.id());
+    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id().get()).getPreferences();
     prefs.workInProgressByDefault = false;
-    gApi.accounts().id(admin.id.get()).setPreferences(prefs);
+    gApi.accounts().id(admin.id().get()).setPreferences(prefs);
   }
 
   @Test
@@ -145,9 +145,9 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
   }
 
   private void setWorkInProgressByDefaultForUser() throws Exception {
-    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
+    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id().get()).getPreferences();
     prefs.workInProgressByDefault = true;
-    gApi.accounts().id(admin.id.get()).setPreferences(prefs);
+    gApi.accounts().id(admin.id().get()).setPreferences(prefs);
   }
 
   private PushOneCommit.Result createChange(Project.NameKey p) throws Exception {

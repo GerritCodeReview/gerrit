@@ -64,12 +64,12 @@ public class AccountResolverIT extends AbstractDaemonTest {
     accountOperations.newAccount().fullname("self").create();
 
     Result result = resolveAsResult("self");
-    assertThat(result.asIdSet()).containsExactly(admin.id);
+    assertThat(result.asIdSet()).containsExactly(admin.id());
     assertThat(result.isSelf()).isTrue();
     assertThat(result.asUniqueUser()).isSameInstanceAs(self.get());
 
     result = resolveAsResult("me");
-    assertThat(result.asIdSet()).containsExactly(admin.id);
+    assertThat(result.asIdSet()).containsExactly(admin.id());
     assertThat(result.isSelf()).isTrue();
     assertThat(result.asUniqueUser()).isSameInstanceAs(self.get());
 
@@ -106,13 +106,13 @@ public class AccountResolverIT extends AbstractDaemonTest {
 
   @Test
   public void bySelfInactive() throws Exception {
-    gApi.accounts().id(user.id.get()).setActive(false);
+    gApi.accounts().id(user.id().get()).setActive(false);
 
-    requestScopeOperations.setApiUser(user.id);
+    requestScopeOperations.setApiUser(user.id());
     assertThat(gApi.accounts().id("self").getActive()).isFalse();
 
     Result result = resolveAsResult("self");
-    assertThat(result.asIdSet()).containsExactly(user.id);
+    assertThat(result.asIdSet()).containsExactly(user.id());
     assertThat(result.isSelf()).isTrue();
     assertThat(result.asUniqueUser()).isSameInstanceAs(self.get());
   }

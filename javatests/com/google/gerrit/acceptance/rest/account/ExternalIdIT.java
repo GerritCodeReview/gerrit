@@ -95,7 +95,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void getExternalIds() throws Exception {
-    Collection<ExternalId> expectedIds = getAccountState(user.getId()).getExternalIds();
+    Collection<ExternalId> expectedIds = getAccountState(user.id()).getExternalIds();
     List<AccountExternalIdInfo> expectedIdInfos = toExternalIdInfos(expectedIds);
 
     RestResponse response = userRestSession.get("/accounts/self/external.ids");
@@ -111,20 +111,20 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void getExternalIdsOfOtherUserNotAllowed() throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("access database not permitted");
-    gApi.accounts().id(admin.id.get()).getExternalIds();
+    gApi.accounts().id(admin.id().get()).getExternalIds();
   }
 
   @Test
   public void getExternalIdsOfOtherUserWithAccessDatabase() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
 
-    Collection<ExternalId> expectedIds = getAccountState(admin.getId()).getExternalIds();
+    Collection<ExternalId> expectedIds = getAccountState(admin.id()).getExternalIds();
     List<AccountExternalIdInfo> expectedIdInfos = toExternalIdInfos(expectedIds);
 
-    RestResponse response = userRestSession.get("/accounts/" + admin.id + "/external.ids");
+    RestResponse response = userRestSession.get("/accounts/" + admin.id() + "/external.ids");
     response.assertOK();
 
     List<AccountExternalIdInfo> results =
@@ -137,7 +137,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void deleteExternalIds() throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     List<AccountExternalIdInfo> externalIds = gApi.accounts().self().getExternalIds();
 
     List<String> toDelete = new ArrayList<>();
@@ -164,18 +164,18 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void deleteExternalIdsOfOtherUserNotAllowed() throws Exception {
     List<AccountExternalIdInfo> extIds = gApi.accounts().self().getExternalIds();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("access database not permitted");
     gApi.accounts()
-        .id(admin.id.get())
+        .id(admin.id().get())
         .deleteExternalIds(extIds.stream().map(e -> e.identity).collect(toList()));
   }
 
   @Test
   public void deleteExternalIdOfOtherUserUnderOwnAccount_UnprocessableEntity() throws Exception {
     List<AccountExternalIdInfo> extIds = gApi.accounts().self().getExternalIds();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage(String.format("External id %s does not exist", extIds.get(0).identity));
     gApi.accounts()
@@ -201,11 +201,11 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
     assertThat(toDelete).hasSize(1);
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     RestResponse response =
-        userRestSession.post("/accounts/" + admin.id + "/external.ids:delete", toDelete);
+        userRestSession.post("/accounts/" + admin.id() + "/external.ids:delete", toDelete);
     response.assertNoContent();
-    List<AccountExternalIdInfo> results = gApi.accounts().id(admin.id.get()).getExternalIds();
+    List<AccountExternalIdInfo> results = gApi.accounts().id(admin.id().get()).getExternalIds();
     // The external ID in WebSession will not be set for tests, resulting that
     // "mailto:user@example.com" can be deleted while "username:user" can't.
     assertThat(results).hasSize(1);
@@ -227,7 +227,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void deleteExternalIds_Conflict() throws Exception {
     List<String> toDelete = new ArrayList<>();
-    String externalIdStr = "username:" + user.username;
+    String externalIdStr = "username:" + user.username();
     toDelete.add(externalIdStr);
     RestResponse response = userRestSession.post("/accounts/self/external.ids:delete", toDelete);
     response.assertConflict();
@@ -463,7 +463,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     insertExtId(
         ExternalId.createWithPassword(
             ExternalId.Key.parse(nextId(scheme, i)),
-            admin.id,
+            admin.id(),
             "admin.other@example.com",
             "secret-password"));
     insertExtId(createExternalIdWithOtherCaseEmail(nextId(scheme, i)));
@@ -563,7 +563,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   private ExternalId createExternalIdWithOtherCaseEmail(String externalId) {
     return ExternalId.createWithPassword(
-        ExternalId.Key.parse(externalId), admin.id, admin.email.toUpperCase(Locale.US), "password");
+        ExternalId.Key.parse(externalId),
+        admin.id(),
+        admin.email().toUpperCase(Locale.US),
+        "password");
   }
 
   private String insertExternalIdWithoutAccountId(Repository repo, RevWalk rw, String externalId)
@@ -572,7 +575,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
         repo,
         rw,
         (ins, noteMap) -> {
-          ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), admin.id);
+          ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), admin.id());
           ObjectId noteId = extId.key().sha1();
           Config c = new Config();
           extId.writeToConfig(c);
@@ -590,7 +593,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
         repo,
         rw,
         (ins, noteMap) -> {
-          ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), admin.id);
+          ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), admin.id());
           ObjectId noteId = ExternalId.Key.parse(externalId + "x").sha1();
           Config c = new Config();
           extId.writeToConfig(c);
@@ -688,17 +691,18 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   private ExternalId createExternalIdWithInvalidEmail(String externalId) {
-    return ExternalId.createWithEmail(ExternalId.Key.parse(externalId), admin.id, "invalid-email");
+    return ExternalId.createWithEmail(
+        ExternalId.Key.parse(externalId), admin.id(), "invalid-email");
   }
 
   private ExternalId createExternalIdWithDuplicateEmail(String externalId) {
-    return ExternalId.createWithEmail(ExternalId.Key.parse(externalId), admin.id, admin.email);
+    return ExternalId.createWithEmail(ExternalId.Key.parse(externalId), admin.id(), admin.email());
   }
 
   private ExternalId createExternalIdWithBadPassword(String username) {
     return ExternalId.create(
         ExternalId.Key.create(SCHEME_USERNAME, username),
-        admin.id,
+        admin.id(),
         null,
         "non-hashed-password-is-not-allowed");
   }
@@ -723,29 +727,30 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void checkNoReloadAfterUpdate() throws Exception {
-    Set<ExternalId> expectedExtIds = new HashSet<>(externalIds.byAccount(admin.id));
+    Set<ExternalId> expectedExtIds = new HashSet<>(externalIds.byAccount(admin.id()));
     try (AutoCloseable ctx = createFailOnLoadContext()) {
       // insert external ID
-      ExternalId extId = ExternalId.create("foo", "bar", admin.id);
+      ExternalId extId = ExternalId.create("foo", "bar", admin.id());
       insertExtId(extId);
       expectedExtIds.add(extId);
-      assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
+      assertThat(externalIds.byAccount(admin.id())).containsExactlyElementsIn(expectedExtIds);
 
       // update external ID
       expectedExtIds.remove(extId);
-      ExternalId extId2 = ExternalId.createWithEmail("foo", "bar", admin.id, "foo.bar@example.com");
+      ExternalId extId2 =
+          ExternalId.createWithEmail("foo", "bar", admin.id(), "foo.bar@example.com");
       accountsUpdateProvider
           .get()
-          .update("Update External ID", admin.id, u -> u.updateExternalId(extId2));
+          .update("Update External ID", admin.id(), u -> u.updateExternalId(extId2));
       expectedExtIds.add(extId2);
-      assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
+      assertThat(externalIds.byAccount(admin.id())).containsExactlyElementsIn(expectedExtIds);
 
       // delete external ID
       accountsUpdateProvider
           .get()
-          .update("Delete External ID", admin.id, u -> u.deleteExternalId(extId));
+          .update("Delete External ID", admin.id(), u -> u.deleteExternalId(extId));
       expectedExtIds.remove(extId2);
-      assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
+      assertThat(externalIds.byAccount(admin.id())).containsExactlyElementsIn(expectedExtIds);
     }
   }
 
@@ -753,10 +758,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
   public void byAccountFailIfReadingExternalIdsFails() throws Exception {
     try (AutoCloseable ctx = createFailOnLoadContext()) {
       // update external ID branch so that external IDs need to be reloaded
-      insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id));
+      insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id()));
 
       exception.expect(IOException.class);
-      externalIds.byAccount(admin.id);
+      externalIds.byAccount(admin.id());
     }
   }
 
@@ -764,28 +769,28 @@ public class ExternalIdIT extends AbstractDaemonTest {
   public void byEmailFailIfReadingExternalIdsFails() throws Exception {
     try (AutoCloseable ctx = createFailOnLoadContext()) {
       // update external ID branch so that external IDs need to be reloaded
-      insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id));
+      insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id()));
 
       exception.expect(IOException.class);
-      externalIds.byEmail(admin.email);
+      externalIds.byEmail(admin.email());
     }
   }
 
   @Test
   public void byAccountUpdateExternalIdsBehindGerritsBack() throws Exception {
-    Set<ExternalId> expectedExternalIds = new HashSet<>(externalIds.byAccount(admin.id));
-    ExternalId newExtId = ExternalId.create("foo", "bar", admin.id);
+    Set<ExternalId> expectedExternalIds = new HashSet<>(externalIds.byAccount(admin.id()));
+    ExternalId newExtId = ExternalId.create("foo", "bar", admin.id());
     insertExtIdBehindGerritsBack(newExtId);
     expectedExternalIds.add(newExtId);
-    assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExternalIds);
+    assertThat(externalIds.byAccount(admin.id())).containsExactlyElementsIn(expectedExternalIds);
   }
 
   @Test
   public void unsetEmail() throws Exception {
-    ExternalId extId = ExternalId.createWithEmail("x", "1", user.id, "x@example.com");
+    ExternalId extId = ExternalId.createWithEmail("x", "1", user.id(), "x@example.com");
     insertExtId(extId);
 
-    ExternalId extIdWithoutEmail = ExternalId.create("x", "1", user.id);
+    ExternalId extIdWithoutEmail = ExternalId.create("x", "1", user.id());
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
@@ -799,10 +804,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void unsetHttpPassword() throws Exception {
     ExternalId extId =
-        ExternalId.createWithPassword(ExternalId.Key.create("y", "1"), user.id, null, "secret");
+        ExternalId.createWithPassword(ExternalId.Key.create("y", "1"), user.id(), null, "secret");
     insertExtId(extId);
 
-    ExternalId extIdWithoutPassword = ExternalId.create("y", "1", user.id);
+    ExternalId extIdWithoutPassword = ExternalId.create("y", "1", user.id());
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
@@ -818,22 +823,22 @@ public class ExternalIdIT extends AbstractDaemonTest {
     // Insert external ID for different accounts
     TestAccount user1 = accountCreator.create("user1");
     TestAccount user2 = accountCreator.create("user2");
-    ExternalId extId1 = ExternalId.create("foo", "1", user1.id);
-    ExternalId extId2 = ExternalId.create("foo", "2", user1.id);
-    ExternalId extId3 = ExternalId.create("foo", "3", user2.id);
+    ExternalId extId1 = ExternalId.create("foo", "1", user1.id());
+    ExternalId extId2 = ExternalId.create("foo", "2", user1.id());
+    ExternalId extId3 = ExternalId.create("foo", "3", user2.id());
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       extIdNotes.insert(ImmutableSet.of(extId1, extId2, extId3));
       RevCommit c = extIdNotes.commit(md);
       assertThat(getFooters(c))
-          .containsExactly("Account: " + user1.getId(), "Account: " + user2.getId())
+          .containsExactly("Account: " + user1.id(), "Account: " + user2.id())
           .inOrder();
     }
 
     // Insert external ID with different emails
-    ExternalId extId4 = ExternalId.createWithEmail("foo", "4", user1.id, "foo4@example.com");
-    ExternalId extId5 = ExternalId.createWithEmail("foo", "5", user2.id, "foo5@example.com");
+    ExternalId extId4 = ExternalId.createWithEmail("foo", "4", user1.id(), "foo4@example.com");
+    ExternalId extId5 = ExternalId.createWithEmail("foo", "5", user2.id(), "foo5@example.com");
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
@@ -841,22 +846,22 @@ public class ExternalIdIT extends AbstractDaemonTest {
       RevCommit c = extIdNotes.commit(md);
       assertThat(getFooters(c))
           .containsExactly(
-              "Account: " + user1.getId(),
-              "Account: " + user2.getId(),
+              "Account: " + user1.id(),
+              "Account: " + user2.id(),
               "Email: foo4@example.com",
               "Email: foo5@example.com")
           .inOrder();
     }
 
     // Update external ID - Add Email
-    ExternalId extId1a = ExternalId.createWithEmail("foo", "1", user1.id, "foo1@example.com");
+    ExternalId extId1a = ExternalId.createWithEmail("foo", "1", user1.id(), "foo1@example.com");
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       extIdNotes.upsert(extId1a);
       RevCommit c = extIdNotes.commit(md);
       assertThat(getFooters(c))
-          .containsExactly("Account: " + user1.getId(), "Email: foo1@example.com")
+          .containsExactly("Account: " + user1.id(), "Email: foo1@example.com")
           .inOrder();
     }
 
@@ -867,7 +872,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       extIdNotes.upsert(extId1);
       RevCommit c = extIdNotes.commit(md);
       assertThat(getFooters(c))
-          .containsExactly("Account: " + user1.getId(), "Email: foo1@example.com")
+          .containsExactly("Account: " + user1.id(), "Email: foo1@example.com")
           .inOrder();
     }
 
@@ -879,7 +884,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       RevCommit c = extIdNotes.commit(md);
       assertThat(getFooters(c))
           .containsExactly(
-              "Account: " + user1.getId(), "Account: " + user2.getId(), "Email: foo5@example.com")
+              "Account: " + user1.id(), "Account: " + user2.id(), "Email: foo5@example.com")
           .inOrder();
     }
 
@@ -889,7 +894,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       extIdNotes.delete(extId2.accountId(), extId2.key());
       RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c)).containsExactly("Account: " + user1.getId()).inOrder();
+      assertThat(getFooters(c)).containsExactly("Account: " + user1.id()).inOrder();
     }
 
     // Delete external ID by key with email
@@ -899,7 +904,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       extIdNotes.delete(extId4.accountId(), extId4.key());
       RevCommit c = extIdNotes.commit(md);
       assertThat(getFooters(c))
-          .containsExactly("Account: " + user1.getId(), "Email: foo4@example.com")
+          .containsExactly("Account: " + user1.id(), "Email: foo4@example.com")
           .inOrder();
     }
   }

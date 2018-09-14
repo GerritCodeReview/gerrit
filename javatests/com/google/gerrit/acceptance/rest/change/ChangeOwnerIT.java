@@ -40,7 +40,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     user2 = accountCreator.user2();
   }
 
@@ -66,22 +66,22 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   @Test
   public void testChangeOwner_OwnerACLGrantedOnParentProject() throws Exception {
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     grantApproveToChangeOwner(project);
     Project.NameKey child = projectOperations.newProject().parent(project).create();
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
     approve(user, createMyChange(childRepo));
   }
 
   @Test
   public void testChangeOwner_BlockedOnParentProject() throws Exception {
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     blockApproveForChangeOwner(project);
     Project.NameKey child = projectOperations.newProject().parent(project).create();
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     grantApproveToAll(child);
     TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
     String changeId = createMyChange(childRepo);
@@ -95,11 +95,11 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   @Test
   public void testChangeOwner_BlockedOnParentProjectAndExclusiveAllowOnChild() throws Exception {
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     blockApproveForChangeOwner(project);
     Project.NameKey child = projectOperations.newProject().parent(project).create();
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     grantExclusiveApproveToAll(child);
     TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
     String changeId = createMyChange(childRepo);
@@ -112,7 +112,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   }
 
   private void approve(TestAccount a, String changeId) throws Exception {
-    Context old = requestScopeOperations.setApiUser(a.getId());
+    Context old = requestScopeOperations.setApiUser(a.id());
     try {
       gApi.changes().id(changeId).current().review(ReviewInput.approve());
     } finally {

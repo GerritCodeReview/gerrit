@@ -51,7 +51,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   @Test
   public void deleteBranch_Forbidden() throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertDeleteForbidden(testBranch);
   }
 
@@ -63,7 +63,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   @Test
   public void deleteBranchByProjectOwner() throws Exception {
     grantOwner();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertDeleteSucceeds(testBranch);
   }
 
@@ -77,21 +77,21 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   public void deleteBranchByProjectOwnerForcePushBlocked_Forbidden() throws Exception {
     grantOwner();
     blockForcePush();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertDeleteForbidden(testBranch);
   }
 
   @Test
   public void deleteBranchByUserWithForcePushPermission() throws Exception {
     grantForcePush();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertDeleteSucceeds(testBranch);
   }
 
   @Test
   public void deleteBranchByUserWithDeletePermission() throws Exception {
     grantDelete();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     assertDeleteSucceeds(testBranch);
   }
 
@@ -138,7 +138,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Not allowed to delete user branch.");
-    branch(new Branch.NameKey(allUsers, RefNames.refsUsers(admin.id))).delete();
+    branch(new Branch.NameKey(allUsers, RefNames.refsUsers(admin.id()))).delete();
   }
 
   @Test

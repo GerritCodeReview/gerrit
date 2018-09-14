@@ -338,11 +338,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     result.assertOkStatus();
 
     ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
-    assertThat(change.owner._accountId).isEqualTo(admin.id.get());
+    assertThat(change.owner._accountId).isEqualTo(admin.id().get());
 
     submit(result.getChangeId(), new SubmitInput(), AuthException.class, "submit not permitted");
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     submit(result.getChangeId());
   }
 
@@ -364,12 +364,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     result.assertOkStatus();
 
     ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
-    assertThat(change.owner._accountId).isEqualTo(admin.id.get());
+    assertThat(change.owner._accountId).isEqualTo(admin.id().get());
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     submit(result.getChangeId(), new SubmitInput(), AuthException.class, "submit not permitted");
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     submit(result.getChangeId());
   }
 
@@ -1099,7 +1099,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   private void setChangeStatusToNew(PushOneCommit.Result... changes) throws Exception {
     for (PushOneCommit.Result change : changes) {
       try (BatchUpdate bu =
-          batchUpdateFactory.create(project, userFactory.create(admin.id), TimeUtil.nowTs())) {
+          batchUpdateFactory.create(project, userFactory.create(admin.id()), TimeUtil.nowTs())) {
         bu.addOp(
             change.getChange().getId(),
             new BatchUpdateOp() {
@@ -1233,7 +1233,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     LabelInfo cr = c.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(2);
-    assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(user.getId());
+    assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(user.id());
   }
 
   protected void assertMerged(String changeId) throws RestApiException {
@@ -1264,7 +1264,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         approvalsUtil.getSubmitter(cn, new PatchSet.Id(cn.getChangeId(), psId));
     assertThat(submitter).isNotNull();
     assertThat(submitter.isLegacySubmit()).isTrue();
-    assertThat(submitter.getAccountId()).isEqualTo(user.getId());
+    assertThat(submitter.getAccountId()).isEqualTo(user.id());
   }
 
   protected void assertNoSubmitter(String changeId, int psId) throws Exception {

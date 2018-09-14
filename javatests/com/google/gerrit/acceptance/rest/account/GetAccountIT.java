@@ -32,19 +32,19 @@ public class GetAccountIT extends AbstractDaemonTest {
   @Test
   public void getAccount() throws Exception {
     // by formatted string
-    testGetAccount(admin.fullName + " <" + admin.email + ">", admin);
+    testGetAccount(admin.fullName() + " <" + admin.email() + ">", admin);
 
     // by email
-    testGetAccount(admin.email, admin);
+    testGetAccount(admin.email(), admin);
 
     // by full name
-    testGetAccount(admin.fullName, admin);
+    testGetAccount(admin.fullName(), admin);
 
     // by account ID
-    testGetAccount(Integer.toString(admin.id.get()), admin);
+    testGetAccount(Integer.toString(admin.id().get()), admin);
 
     // by user name
-    testGetAccount(admin.username, admin);
+    testGetAccount(admin.username(), admin);
 
     // by 'self'
     testGetAccount("self", admin);

@@ -160,19 +160,19 @@ public class ActionsIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUserAnonymous();
     String etag1 = getETag(change);
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     approve(parent);
 
     requestScopeOperations.setApiUserAnonymous();
     String etag2 = getETag(change);
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     String changeWithSameTopic = createChangeWithTopic().getChangeId();
 
     requestScopeOperations.setApiUserAnonymous();
     String etag3 = getETag(change);
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     approve(changeWithSameTopic);
 
     requestScopeOperations.setApiUserAnonymous();
@@ -197,7 +197,7 @@ public class ActionsIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUserAnonymous();
     String etag1 = getETag(change);
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     approve(parent);
 
     requestScopeOperations.setApiUserAnonymous();

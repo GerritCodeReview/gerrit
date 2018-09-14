@@ -416,8 +416,8 @@ public abstract class AbstractDaemonTest {
     user = accountCreator.user();
 
     // Evict and reindex accounts in case tests modify them.
-    evictAndReindexAccount(admin.getId());
-    evictAndReindexAccount(user.getId());
+    evictAndReindexAccount(admin.id());
+    evictAndReindexAccount(user.id());
 
     adminRestSession = new RestSession(server, admin);
     userRestSession = new RestSession(server, user);
@@ -553,7 +553,7 @@ public abstract class AbstractDaemonTest {
   protected String registerRepoConnection(Project.NameKey p, TestAccount testAccount)
       throws Exception {
     InProcessProtocol.Context ctx =
-        new InProcessProtocol.Context(identifiedUserFactory, testAccount.getId(), p);
+        new InProcessProtocol.Context(identifiedUserFactory, testAccount.id(), p);
     Repository repo = repoManager.openRepository(p);
     toClose.add(repo);
     return inProcessProtocol.register(ctx, repo).toString();
@@ -767,7 +767,7 @@ public abstract class AbstractDaemonTest {
   }
 
   private Context newRequestContext(TestAccount account) {
-    requestScopeOperations.setApiUser(account.getId());
+    requestScopeOperations.setApiUser(account.id());
     return atrScope.get();
   }
 
@@ -1092,7 +1092,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected IdentifiedUser user(TestAccount testAccount) {
-    return identifiedUserFactory.create(testAccount.getId());
+    return identifiedUserFactory.create(testAccount.id());
   }
 
   protected RevisionResource parseCurrentRevisionResource(String changeId) throws Exception {
@@ -1356,7 +1356,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void assertNotifyTo(TestAccount expected) {
-    assertNotifyTo(expected.email, expected.fullName);
+    assertNotifyTo(expected.email(), expected.fullName());
   }
 
   protected void assertNotifyTo(String expectedEmail, String expectedFullname) {
@@ -1370,7 +1370,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void assertNotifyCc(TestAccount expected) {
-    assertNotifyCc(expected.emailAddress);
+    assertNotifyCc(expected.getEmailAddress());
   }
 
   protected void assertNotifyCc(String expectedEmail, String expectedFullname) {
@@ -1390,7 +1390,7 @@ public abstract class AbstractDaemonTest {
   protected void assertNotifyBcc(TestAccount expected) {
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(expected.emailAddress);
+    assertThat(m.rcpt()).containsExactly(expected.getEmailAddress());
     assertThat(m.headers().get("To").isEmpty()).isTrue();
     assertThat(m.headers().get("Cc").isEmpty()).isTrue();
   }
@@ -1545,7 +1545,7 @@ public abstract class AbstractDaemonTest {
     }
 
     public void save() throws Exception {
-      metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.getId()));
+      metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.id()));
       projectConfig.commit(metaDataUpdate);
       metaDataUpdate.close();
       metaDataUpdate = null;

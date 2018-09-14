@@ -165,7 +165,7 @@ public class MailProcessorIT extends AbstractMailIT {
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     // Set account state to inactive
-    accountOperations.account(user.id).forUpdate().inactive().update();
+    accountOperations.account(user.id()).forUpdate().inactive().update();
 
     mailProcessor.process(b.build());
     comments = gApi.changes().id(changeId).current().commentsAsList();
@@ -189,7 +189,7 @@ public class MailProcessorIT extends AbstractMailIT {
         newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null, null);
     MailMessage.Builder b =
         messageBuilderWithDefaultFields()
-            .from(user.emailAddress)
+            .from(user.getEmailAddress())
             .textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     sender.clear();
@@ -211,7 +211,7 @@ public class MailProcessorIT extends AbstractMailIT {
         newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null, null);
     MailMessage.Builder b =
         messageBuilderWithDefaultFields()
-            .from(user.emailAddress)
+            .from(user.getEmailAddress())
             .textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     sender.clear();

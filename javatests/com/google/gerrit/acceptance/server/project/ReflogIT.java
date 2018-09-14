@@ -84,7 +84,7 @@ public class ReflogIT extends AbstractDaemonTest {
 
   @Test
   public void regularUserIsNotAllowedToGetReflog() throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     gApi.projects().name(project.get()).branch("master").reflog();
   }
@@ -100,13 +100,13 @@ public class ReflogIT extends AbstractDaemonTest {
       u.save();
     }
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     gApi.projects().name(project.get()).branch("master").reflog();
   }
 
   @Test
   public void adminUserIsAllowedToGetReflog() throws Exception {
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     gApi.projects().name(project.get()).branch("master").reflog();
   }
 }

@@ -50,13 +50,13 @@ public class SetReviewersIT extends AbstractDaemonTest {
 
   private void setReviewer(boolean add, String id) throws Exception {
     adminSshSession.exec(
-        String.format("gerrit set-reviewers -%s %s %s", add ? "a" : "r", user.email, id));
+        String.format("gerrit set-reviewers -%s %s %s", add ? "a" : "r", user.email(), id));
     adminSshSession.assertSuccess();
     ImmutableSet<Account.Id> reviewers = change.getChange().getReviewers().all();
     if (add) {
-      assertThat(reviewers).contains(user.id);
+      assertThat(reviewers).contains(user.id());
     } else {
-      assertThat(reviewers).doesNotContain(user.id);
+      assertThat(reviewers).doesNotContain(user.id());
     }
   }
 

@@ -495,8 +495,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
       // Expect that the author name/email is preserved for the superRepo commit, but a new author
       // timestamp is used.
       PersonIdent authorIdent = getAuthor(superRepo, "master");
-      assertThat(authorIdent.getName()).isEqualTo(admin.fullName);
-      assertThat(authorIdent.getEmailAddress()).isEqualTo(admin.email);
+      assertThat(authorIdent.getName()).isEqualTo(admin.fullName());
+      assertThat(authorIdent.getEmailAddress()).isEqualTo(admin.email());
       assertThat(authorIdent.getWhen())
           .isGreaterThan(pushResult.getCommit().getAuthorIdent().getWhen());
     } finally {
@@ -541,8 +541,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
       // Expect that the author name/email is preserved for the superRepo commit, but a new author
       // timestamp is used.
       PersonIdent authorIdent = getAuthor(superRepo, "master");
-      assertThat(authorIdent.getName()).isEqualTo(admin.fullName);
-      assertThat(authorIdent.getEmailAddress()).isEqualTo(admin.email);
+      assertThat(authorIdent.getName()).isEqualTo(admin.fullName());
+      assertThat(authorIdent.getEmailAddress()).isEqualTo(admin.email());
       assertThat(authorIdent.getWhen())
           .isGreaterThan(pushResult1.getCommit().getAuthorIdent().getWhen());
       assertThat(authorIdent.getWhen())

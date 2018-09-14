@@ -152,7 +152,7 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
 
   @Test
   public void emailEndpoints() throws Exception {
-    execute(adminRestSession, EMAIL_ENDPOINTS, "self", admin.email);
+    execute(adminRestSession, EMAIL_ENDPOINTS, "self", admin.email());
   }
 
   @Test
@@ -166,12 +166,12 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
         .get()
         .update(
             "Add Email",
-            admin.getId(),
+            admin.id(),
             u ->
                 u.addExternalId(
-                    ExternalId.createWithEmail(name("test"), email, admin.getId(), email)));
+                    ExternalId.createWithEmail(name("test"), email, admin.id(), email)));
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     gApi.accounts()
         .self()
         .putGpgKeys(ImmutableList.of(key.getPublicKeyArmored()), ImmutableList.of());

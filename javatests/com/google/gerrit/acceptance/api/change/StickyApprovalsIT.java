@@ -458,7 +458,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   private void trivialRebase(String changeId) throws Exception {
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     testRepo.reset(getRemoteHead());
     PushOneCommit push =
         pushFactory.create(
@@ -556,21 +556,21 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   private void vote(TestAccount user, String changeId, String label, int vote) throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(changeId).current().review(new ReviewInput().label(label, vote));
   }
 
   private void vote(TestAccount user, String changeId, int codeReviewVote, int verifiedVote)
       throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     ReviewInput in =
         new ReviewInput().label("Code-Review", codeReviewVote).label("Verified", verifiedVote);
     gApi.changes().id(changeId).current().review(in);
   }
 
   private void deleteVote(TestAccount user, String changeId, String label) throws Exception {
-    requestScopeOperations.setApiUser(user.getId());
-    gApi.changes().id(changeId).reviewer(user.getId().toString()).deleteVote(label);
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(changeId).reviewer(user.id().toString()).deleteVote(label);
   }
 
   private void assertVotes(ChangeInfo c, TestAccount user, int codeReviewVote, int verifiedVote) {
@@ -588,7 +588,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     Integer vote = 0;
     if (c.labels.get(label) != null && c.labels.get(label).all != null) {
       for (ApprovalInfo approval : c.labels.get(label).all) {
-        if (approval._accountId == user.id.get()) {
+        if (approval._accountId == user.id().get()) {
           vote = approval.value;
           break;
         }

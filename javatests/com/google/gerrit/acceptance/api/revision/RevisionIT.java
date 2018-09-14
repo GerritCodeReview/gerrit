@@ -218,24 +218,24 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = project.get() + "~master~" + r.getChangeId();
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     revision(r).review(ReviewInput.approve());
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     revision(r).review(ReviewInput.recommend());
 
-    requestScopeOperations.setApiUser(admin.getId());
-    gApi.changes().id(changeId).reviewer(user.username).deleteVote("Code-Review");
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(changeId).reviewer(user.username()).deleteVote("Code-Review");
     Optional<ApprovalInfo> crUser =
         get(changeId, DETAILED_LABELS).labels.get("Code-Review").all.stream()
-            .filter(a -> a._accountId == user.id.get())
+            .filter(a -> a._accountId == user.id().get())
             .findFirst();
     assertThat(crUser).isPresent();
     assertThat(crUser.get().value).isEqualTo(0);
 
     revision(r).submit();
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     ReviewInput in = new ReviewInput();
     in.label("Code-Review", 1);
     in.message = "Still LGTM";
@@ -243,7 +243,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     ApprovalInfo cr =
         gApi.changes().id(changeId).get(DETAILED_LABELS).labels.get("Code-Review").all.stream()
-            .filter(a -> a._accountId == user.getId().get())
+            .filter(a -> a._accountId == user.id().get())
             .findFirst()
             .get();
     assertThat(cr.postSubmit).isTrue();
@@ -295,7 +295,7 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void voteNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result r = createChange();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("is restricted");
     gApi.changes().id(r.getChange().getId().get()).current().review(ReviewInput.approve());
@@ -728,7 +728,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // 'user' cherry-picks the change to a new branch, the source change's author/committer('admin')
     // will be added as a reviewer of the newly created change.
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     CherryPickInput input = new CherryPickInput();
     input.message = "it goes to a new branch";
 
@@ -751,7 +751,7 @@ public class RevisionIT extends AbstractDaemonTest {
     input.destination = "branch-3";
     input.notify = NotifyHandling.NONE;
     input.notifyDetails =
-        ImmutableMap.of(RecipientType.TO, new NotifyInfo(ImmutableList.of(userToNotify.email)));
+        ImmutableMap.of(RecipientType.TO, new NotifyInfo(ImmutableList.of(userToNotify.email())));
     sender.clear();
     gApi.changes().id(changeId).current().cherryPick(input);
     assertNotifyTo(userToNotify);
@@ -764,13 +764,13 @@ public class RevisionIT extends AbstractDaemonTest {
     // Change is created by 'admin'.
     PushOneCommit.Result r = createChange();
     // Change is approved by 'admin2'. Change is CC'd to 'user'.
-    requestScopeOperations.setApiUser(accountCreator.admin2().getId());
+    requestScopeOperations.setApiUser(accountCreator.admin2().id());
     ReviewInput in = ReviewInput.approve();
-    in.reviewer(user.email, ReviewerState.CC, true);
+    in.reviewer(user.email(), ReviewerState.CC, true);
     gApi.changes().id(r.getChangeId()).current().review(in);
 
     // Change is cherrypicked by 'user2'.
-    requestScopeOperations.setApiUser(accountCreator.user2().getId());
+    requestScopeOperations.setApiUser(accountCreator.user2().id());
     CherryPickInput cin = new CherryPickInput();
     cin.message = "this need to go to stable";
     cin.destination = "stable";
@@ -787,8 +787,8 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(result).containsKey(ReviewerState.CC);
     List<Integer> ccs =
         result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
-    assertThat(ccs).containsExactly(user.id.get());
-    assertThat(reviewers).containsExactly(admin.id.get(), accountCreator.admin2().id.get());
+    assertThat(ccs).containsExactly(user.id().get());
+    assertThat(reviewers).containsExactly(admin.id().get(), accountCreator.admin2().id().get());
   }
 
   @Test
@@ -849,7 +849,7 @@ public class RevisionIT extends AbstractDaemonTest {
     input.base = dstChange.getCommit().name();
     input.message = srcChange.getCommit().getFullMessage();
 
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage(
         String.format("Commit %s does not exist on branch refs/heads/foo", input.base));
@@ -1130,7 +1130,7 @@ public class RevisionIT extends AbstractDaemonTest {
   public void setDescriptionNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     assertDescription(r, "");
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("edit description not permitted");
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
@@ -1141,7 +1141,7 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     assertDescription(r, "");
     grant(project, "refs/heads/master", Permission.OWNER, false, REGISTERED_USERS);
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
     assertDescription(r, "test");
   }
@@ -1265,7 +1265,7 @@ public class RevisionIT extends AbstractDaemonTest {
                 .get()
                 .author
                 .email)
-        .isEqualTo(admin.email);
+        .isEqualTo(admin.email());
 
     draftApi.delete();
     assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).drafts())
@@ -1291,7 +1291,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(out).hasSize(1);
     CommentInfo comment = Iterables.getOnlyElement(out.get(FILE_NAME));
     assertThat(comment.message).isEqualTo(in.message);
-    assertThat(comment.author.email).isEqualTo(admin.email);
+    assertThat(comment.author.email).isEqualTo(admin.email());
     assertThat(comment.path).isNull();
 
     List<CommentInfo> list =
@@ -1404,17 +1404,17 @@ public class RevisionIT extends AbstractDaemonTest {
     amendChange(r.getChangeId());
 
     // code-review
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     recommend(r.getChangeId());
 
     // check if it's blocked to delete a vote on a non-current patch set.
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("Cannot access on non-current patch set");
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().getName())
-        .reviewer(user.getId().toString())
+        .reviewer(user.id().toString())
         .deleteVote("Code-Review");
   }
 
@@ -1427,27 +1427,27 @@ public class RevisionIT extends AbstractDaemonTest {
     amendChange(r.getChangeId());
 
     // code-review
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     recommend(r.getChangeId());
 
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     gApi.changes()
         .id(r.getChangeId())
         .current()
-        .reviewer(user.getId().toString())
+        .reviewer(user.id().toString())
         .deleteVote("Code-Review");
 
     Map<String, Short> m =
-        gApi.changes().id(r.getChangeId()).current().reviewer(user.getId().toString()).votes();
+        gApi.changes().id(r.getChangeId()).current().reviewer(user.id().toString()).votes();
 
     assertThat(m).containsExactly("Code-Review", Short.valueOf((short) 0));
 
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     ChangeMessageInfo message = Iterables.getLast(c.messages);
-    assertThat(message.author._accountId).isEqualTo(admin.getId().get());
+    assertThat(message.author._accountId).isEqualTo(admin.id().get());
     assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(ReviewerState.REVIEWER)))
-        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+        .containsExactlyElementsIn(ImmutableSet.of(admin.id(), user.id()));
   }
 
   @Test
@@ -1462,22 +1462,22 @@ public class RevisionIT extends AbstractDaemonTest {
     List<ApprovalInfo> approvals = votes.get("Code-Review");
     assertThat(approvals).hasSize(1);
     ApprovalInfo approval = approvals.get(0);
-    assertThat(approval._accountId).isEqualTo(admin.id.get());
-    assertThat(approval.email).isEqualTo(admin.email);
-    assertThat(approval.username).isEqualTo(admin.username);
+    assertThat(approval._accountId).isEqualTo(admin.id().get());
+    assertThat(approval.email).isEqualTo(admin.email());
+    assertThat(approval.username).isEqualTo(admin.username());
 
     // Also vote on it with another user
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(changeId).current().review(ReviewInput.dislike());
 
     // Patch set 1 has 2 votes on Code-Review
-    requestScopeOperations.setApiUser(admin.getId());
+    requestScopeOperations.setApiUser(admin.id());
     votes = gApi.changes().id(changeId).current().votes();
     assertThat(votes.keySet()).containsExactly("Code-Review");
     approvals = votes.get("Code-Review");
     assertThat(approvals).hasSize(2);
     assertThat(approvals.stream().map(a -> a._accountId))
-        .containsExactlyElementsIn(ImmutableList.of(admin.id.get(), user.id.get()));
+        .containsExactlyElementsIn(ImmutableList.of(admin.id().get(), user.id().get()));
 
     // Create a new patch set which does not have any votes
     amendChange(changeId);

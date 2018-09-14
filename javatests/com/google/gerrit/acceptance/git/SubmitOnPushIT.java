@@ -324,7 +324,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PatchSetApproval a = getSubmitter(patchSetId);
     assertThat(a.isLegacySubmit()).isTrue();
     assertThat(a.getValue()).isEqualTo((short) 1);
-    assertThat(a.getAccountId()).isEqualTo(admin.id);
+    assertThat(a.getAccountId()).isEqualTo(admin.id());
   }
 
   private void assertCommit(Project.NameKey project, String branch) throws Exception {
@@ -332,8 +332,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         RevWalk rw = new RevWalk(r)) {
       RevCommit c = rw.parseCommit(r.exactRef(branch).getObjectId());
       assertThat(c.getShortMessage()).isEqualTo(PushOneCommit.SUBJECT);
-      assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
-      assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(admin.email);
+      assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email());
+      assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(admin.email());
     }
   }
 
@@ -343,7 +343,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       RevCommit c = rw.parseCommit(r.exactRef(branch).getObjectId());
       assertThat(c.getParentCount()).isEqualTo(2);
       assertThat(c.getShortMessage()).isEqualTo("Merge \"" + subject + "\"");
-      assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
+      assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email());
       assertThat(c.getCommitterIdent().getEmailAddress())
           .isEqualTo(serverIdent.get().getEmailAddress());
     }

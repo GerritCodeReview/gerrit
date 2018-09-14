@@ -257,7 +257,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   @Test
   public void addHashtagWithoutPermissionNotAllowed() throws Exception {
     PushOneCommit.Result r = createChange();
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     exception.expect(AuthException.class);
     exception.expectMessage("edit hashtags not permitted");
     addHashtags(r, "MyHashtag");
@@ -267,7 +267,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   public void addHashtagWithPermissionAllowed() throws Exception {
     PushOneCommit.Result r = createChange();
     grant(project, "refs/heads/master", Permission.EDIT_HASHTAGS, false, REGISTERED_USERS);
-    requestScopeOperations.setApiUser(user.getId());
+    requestScopeOperations.setApiUser(user.id());
     addHashtags(r, "MyHashtag");
     assertThatGet(r).containsExactly("MyHashtag");
     assertMessage(r, "Hashtag added: MyHashtag");

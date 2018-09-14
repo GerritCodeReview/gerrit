@@ -108,7 +108,7 @@ public class AccountCreator {
       }
     }
 
-    account = new TestAccount(id, username, email, fullName, httpPass);
+    account = TestAccount.create(id, username, email, fullName, httpPass);
     if (username != null) {
       accounts.put(username, account);
     }
@@ -149,7 +149,7 @@ public class AccountCreator {
   }
 
   public void evict(Collection<Account.Id> ids) {
-    accounts.values().removeIf(a -> ids.contains(a.id));
+    accounts.values().removeIf(a -> ids.contains(a.id()));
   }
 
   public ImmutableList<TestAccount> getAll() {

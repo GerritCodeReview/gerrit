@@ -178,7 +178,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
+    in.reviewer = user.email();
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     ReviewInput input = new ReviewInput().label(P.getName(), 0);

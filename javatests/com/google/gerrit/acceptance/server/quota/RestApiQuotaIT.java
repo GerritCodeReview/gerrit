@@ -107,7 +107,7 @@ public class RestApiQuotaIT extends AbstractDaemonTest {
     expect(quotaBackendWithResource.requestToken("/restapi/accounts/detail:GET"))
         .andReturn(singletonAggregation(QuotaResponse.ok()));
     replay(quotaBackendWithResource);
-    expect(quotaBackendWithUser.account(admin.id)).andReturn(quotaBackendWithResource);
+    expect(quotaBackendWithUser.account(admin.id())).andReturn(quotaBackendWithResource);
     replay(quotaBackendWithUser);
     adminRestSession.get("/accounts/self/detail").assertOK();
     verify(quotaBackendWithUser);

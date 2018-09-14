@@ -88,8 +88,8 @@ public class GroupsRestApiBindingsIT extends AbstractDaemonTest {
   @Test
   public void memberEndpoints() throws Exception {
     String group = gApi.groups().create("test-group").get().name;
-    gApi.groups().id(group).addMembers(admin.email);
-    RestApiCallHelper.execute(adminRestSession, MEMBER_ENDPOINTS, group, admin.email);
+    gApi.groups().id(group).addMembers(admin.email());
+    RestApiCallHelper.execute(adminRestSession, MEMBER_ENDPOINTS, group, admin.email());
   }
 
   @Test

@@ -134,11 +134,11 @@ public class EmailIT extends AbstractDaemonTest {
         .get()
         .update(
             "Add External ID",
-            admin.id,
+            admin.id(),
             u ->
                 u.addExternalId(
                     ExternalId.createWithEmail(
-                        ExternalId.SCHEME_EXTERNAL, "foo", admin.id, email)));
+                        ExternalId.SCHEME_EXTERNAL, "foo", admin.id(), email)));
     assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
 
     requestScopeOperations.resetCurrentApiUser();
@@ -157,8 +157,8 @@ public class EmailIT extends AbstractDaemonTest {
   @Test
   public void setPreferredEmailToEmailOfOtherAccount() throws Exception {
     exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("Not found: " + user.email);
-    gApi.accounts().self().email(user.email).setPreferred();
+    exception.expectMessage("Not found: " + user.email());
+    gApi.accounts().self().email(user.email()).setPreferred();
   }
 
   @Test
@@ -181,12 +181,12 @@ public class EmailIT extends AbstractDaemonTest {
     assertThat(externalIds.get(mailtoExtIdKey)).isEmpty();
     assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
 
-    Context oldCtx = createContextWithCustomRealm(new RealmWithAdditionalEmails(admin.id, email));
+    Context oldCtx = createContextWithCustomRealm(new RealmWithAdditionalEmails(admin.id(), email));
     try {
       gApi.accounts().self().email(email).setPreferred();
       Optional<ExternalId> mailtoExtId = externalIds.get(mailtoExtIdKey);
       assertThat(mailtoExtId).isPresent();
-      assertThat(mailtoExtId.get().accountId()).isEqualTo(admin.id);
+      assertThat(mailtoExtId.get().accountId()).isEqualTo(admin.id());
       assertThat(gApi.accounts().self().get().email).isEqualTo(email);
     } finally {
       atrScope.set(oldCtx);
@@ -195,15 +195,15 @@ public class EmailIT extends AbstractDaemonTest {
 
   @Test
   public void setPreferredEmailToEmailFromCustomRealmThatBelongsToOtherAccount() throws Exception {
-    ExternalId mailToExtId = ExternalId.createEmail(user.id, user.email);
+    ExternalId mailToExtId = ExternalId.createEmail(user.id(), user.email());
     assertThat(externalIds.get(mailToExtId.key())).isPresent();
 
     Context oldCtx =
-        createContextWithCustomRealm(new RealmWithAdditionalEmails(admin.id, user.email));
+        createContextWithCustomRealm(new RealmWithAdditionalEmails(admin.id(), user.email()));
     try {
       exception.expect(ResourceConflictException.class);
       exception.expectMessage("email in use by another account");
-      gApi.accounts().self().email(user.email).setPreferred();
+      gApi.accounts().self().email(user.email()).setPreferred();
     } finally {
       atrScope.set(oldCtx);
     }
@@ -278,7 +278,7 @@ public class EmailIT extends AbstractDaemonTest {
             enableReverseDnsLookup,
             accountCache,
             groupBackend);
-    return atrScope.set(atrScope.newContext(null, userFactory.create(admin.id)));
+    return atrScope.set(atrScope.newContext(null, userFactory.create(admin.id())));
   }
 
   private class RealmWithAdditionalEmails extends DefaultRealm {

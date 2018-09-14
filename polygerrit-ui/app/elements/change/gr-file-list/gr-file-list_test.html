@@ -797,6 +797,11 @@ limitations under the License.
       assert.isTrue(tapSpy.lastCall.args[0].defaultPrevented);
     });
 
+    test('_computeFileStatusLabel', () => {
+      assert.equal(element._computeFileStatusLabel('A'), 'Added');
+      assert.equal(element._computeFileStatusLabel('M'), 'Modified');
+    });
+
     test('_handleFileListTap', () => {
       element._filesByPath = {
         '/COMMIT_MSG': {},

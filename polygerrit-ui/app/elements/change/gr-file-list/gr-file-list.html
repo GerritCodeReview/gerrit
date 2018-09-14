@@ -287,6 +287,7 @@ limitations under the License.
               data-path$="[[file.__path]]" tabindex="-1">
               <div class$="[[_computeClass('status', file.__path)]]"
                   tabindex="0"
+                  title$="[[_computeFileStatusLabel(file.status)]]"
                   aria-label$="[[_computeFileStatusLabel(file.status)]]">
               [[_computeFileStatus(file.status)]]
             </div>

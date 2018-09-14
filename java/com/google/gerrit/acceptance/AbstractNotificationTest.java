@@ -205,7 +205,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
     public FakeEmailSenderSubject noOneElse() {
       for (Map.Entry<NotifyType, TestAccount> watchEntry : users.watchers.entrySet()) {
-        if (!accountedFor.contains(watchEntry.getValue().email)) {
+        if (!accountedFor.contains(watchEntry.getValue().email())) {
           notTo(watchEntry.getKey());
         }
       }
@@ -258,7 +258,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
 
     private void rcpt(@Nullable RecipientType type, TestAccount account) {
-      rcpt(type, account.email);
+      rcpt(type, account.email());
     }
 
     public FakeEmailSenderSubject to(NotifyType... watches) {
@@ -326,7 +326,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
 
     private TestAccount evictAndCopy(TestAccount account) throws IOException {
-      evictAndReindexAccount(account.id);
+      evictAndReindexAccount(account.id());
       return account;
     }
 
@@ -394,20 +394,20 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     public TestAccount testAccount(String name) throws Exception {
       String username = name(name);
       TestAccount account = accountCreator.create(username, email(username), name);
-      accountsByEmail.put(account.email, account);
+      accountsByEmail.put(account.email(), account);
       return account;
     }
 
     public TestAccount testAccount(String name, String groupName) throws Exception {
       String username = name(name);
       TestAccount account = accountCreator.create(username, email(username), name, groupName);
-      accountsByEmail.put(account.email, account);
+      accountsByEmail.put(account.email(), account);
       return account;
     }
 
     String emailToName(String email) {
       if (accountsByEmail.containsKey(email)) {
-        return accountsByEmail.get(email).fullName;
+        return accountsByEmail.get(email).fullName();
       }
       return email;
     }
@@ -415,9 +415,9 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     protected void addReviewers(PushOneCommit.Result r) throws Exception {
       ReviewInput in =
           ReviewInput.noScore()
-              .reviewer(reviewer.email)
+              .reviewer(reviewer.email())
               .reviewer(reviewerByEmail)
-              .reviewer(ccer.email, ReviewerState.CC, false)
+              .reviewer(ccer.email(), ReviewerState.CC, false)
               .reviewer(ccerByEmail, ReviewerState.CC, false);
       ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
       supportReviewersByEmail = true;
@@ -425,8 +425,8 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
         supportReviewersByEmail = false;
         in =
             ReviewInput.noScore()
-                .reviewer(reviewer.email)
-                .reviewer(ccer.email, ReviewerState.CC, false);
+                .reviewer(reviewer.email())
+                .reviewer(ccer.email(), ReviewerState.CC, false);
         result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
       }
       Truth.assertThat(result.reviewers.values().stream().allMatch(v -> v.error == null)).isTrue();

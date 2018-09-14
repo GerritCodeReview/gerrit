@@ -57,7 +57,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
         groupOperations.newGroup().name(name("privilegedGroup")).create();
 
     privilegedUser = accountCreator.create("privilegedUser", "snowden@nsa.gov", "Ed Snowden");
-    groupOperations.group(privilegedGroupUuid).forUpdate().addMember(privilegedUser.id).update();
+    groupOperations.group(privilegedGroupUuid).forUpdate().addMember(privilegedUser.id()).update();
 
     grant(secretProject, "refs/*", Permission.READ, false, privilegedGroupUuid);
     block(secretProject, "refs/*", Permission.READ, SystemGroupBackend.REGISTERED_USERS);
@@ -91,7 +91,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
   @Test
   public void nonexistentPermission() throws Exception {
     AccessCheckInput in = new AccessCheckInput();
-    in.account = user.email;
+    in.account = user.email();
     in.permission = "notapermission";
     in.ref = "refs/heads/master";
 
@@ -103,7 +103,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
   @Test
   public void permissionLacksRef() throws Exception {
     AccessCheckInput in = new AccessCheckInput();
-    in.account = user.email;
+    in.account = user.email();
     in.permission = "forge_author";
 
     exception.expect(BadRequestException.class);
@@ -114,7 +114,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
   @Test
   public void changePermission() throws Exception {
     AccessCheckInput in = new AccessCheckInput();
-    in.account = user.email;
+    in.account = user.email();
     in.permission = "rebase";
     in.ref = "refs/heads/master";
 
@@ -181,7 +181,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 + normalProject.get()
                 + "/check.access"
                 + "?ref=refs/heads/master&perm=viewPrivateChanges&account="
-                + user.email);
+                + user.email());
     rep.assertOK();
     assertThat(rep.getEntityContent()).contains("403");
   }
@@ -191,28 +191,28 @@ public class CheckAccessIT extends AbstractDaemonTest {
     List<TestCase> inputs =
         ImmutableList.of(
             TestCase.projectRefPerm(
-                user.email,
+                user.email(),
                 normalProject.get(),
                 "refs/heads/master",
                 Permission.VIEW_PRIVATE_CHANGES,
                 403),
-            TestCase.project(user.email, normalProject.get(), 200),
-            TestCase.project(user.email, secretProject.get(), 403),
+            TestCase.project(user.email(), normalProject.get(), 200),
+            TestCase.project(user.email(), secretProject.get(), 403),
             TestCase.projectRef(
-                user.email, secretRefProject.get(), "refs/heads/secret/master", 403),
+                user.email(), secretRefProject.get(), "refs/heads/secret/master", 403),
             TestCase.projectRef(
-                privilegedUser.email, secretRefProject.get(), "refs/heads/secret/master", 200),
-            TestCase.projectRef(privilegedUser.email, normalProject.get(), null, 200),
-            TestCase.projectRef(privilegedUser.email, secretProject.get(), null, 200),
-            TestCase.projectRef(privilegedUser.email, secretProject.get(), null, 200),
+                privilegedUser.email(), secretRefProject.get(), "refs/heads/secret/master", 200),
+            TestCase.projectRef(privilegedUser.email(), normalProject.get(), null, 200),
+            TestCase.projectRef(privilegedUser.email(), secretProject.get(), null, 200),
+            TestCase.projectRef(privilegedUser.email(), secretProject.get(), null, 200),
             TestCase.projectRefPerm(
-                privilegedUser.email,
+                privilegedUser.email(),
                 normalProject.get(),
                 "refs/heads/master",
                 Permission.VIEW_PRIVATE_CHANGES,
                 200),
             TestCase.projectRefPerm(
-                privilegedUser.email,
+                privilegedUser.email(),
                 normalProject.get(),
                 "refs/heads/master",
                 Permission.FORGE_SERVER,
@@ -260,7 +260,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
       assertThat(u.delete()).isEqualTo(Result.FORCED);
     }
     AccessCheckInput input = new AccessCheckInput();
-    input.account = privilegedUser.email;
+    input.account = privilegedUser.email();
 
     AccessCheckInfo info = gApi.projects().name(normalProject.get()).checkAccess(input);
     assertThat(info.status).isEqualTo(200);

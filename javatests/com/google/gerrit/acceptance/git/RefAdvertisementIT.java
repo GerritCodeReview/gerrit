@@ -425,7 +425,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
 
       if (notesMigration.changePrimaryStorage() == PrimaryStorage.REVIEW_DB) {
-        PatchSet ps = TestChanges.newPatchSet(psId, rev, admin.getId());
+        PatchSet ps = TestChanges.newPatchSet(psId, rev, admin.id());
         db.patchSets().insert(Collections.singleton(ps));
         db.changes().update(Collections.singleton(c));
       }
@@ -433,7 +433,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       if (notesMigration.commitChangeWrites()) {
         PersonIdent committer = serverIdent.get();
         PersonIdent author =
-            noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
+            noteUtil.newIdent(getAccount(admin.id()), committer.getWhen(), committer);
         tr.branch(RefNames.changeMetaRef(c3.getId()))
             .commit()
             .author(author)
@@ -474,7 +474,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
     try (Git git = userTestRepository.git()) {
       assertThat(getUserRefs(git))
-          .containsExactly(RefNames.REFS_USERS_SELF, RefNames.refsUsers(user.id));
+          .containsExactly(RefNames.REFS_USERS_SELF, RefNames.refsUsers(user.id()));
     }
   }
 
@@ -485,7 +485,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try (Git git = userTestRepository.git()) {
       assertThat(getUserRefs(git))
           .containsExactly(
-              RefNames.REFS_USERS_SELF, RefNames.refsUsers(user.id), RefNames.refsUsers(admin.id));
+              RefNames.REFS_USERS_SELF,
+              RefNames.refsUsers(user.id()),
+              RefNames.refsUsers(admin.id()));
     }
   }
 
@@ -601,7 +603,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     draftInput.message = "nit: trailing whitespace";
     draftInput.path = Patch.COMMIT_MSG;
     gApi.changes().id(c3.getId().get()).current().createDraft(draftInput);
-    String draftCommentRef = RefNames.refsDraftComments(c3.getId(), user.id);
+    String draftCommentRef = RefNames.refsDraftComments(c3.getId(), user.id());
 
     // user can see the draft comment ref of the own draft comment
     assertThat(lsRemote(allUsersName, user)).contains(draftCommentRef);
@@ -619,7 +621,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     setApiUser(user);
     gApi.accounts().self().starChange(c3.getId().toString());
-    String starredChangesRef = RefNames.refsStarredChanges(c3.getId(), user.id);
+    String starredChangesRef = RefNames.refsStarredChanges(c3.getId(), user.id());
 
     // user can see the starred changes ref of the own star
     assertThat(lsRemote(allUsersName, user)).contains(starredChangesRef);
@@ -645,8 +647,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     List<String> expectedNonMetaRefs =
         ImmutableList.of(
             RefNames.REFS_USERS_SELF,
-            RefNames.refsUsers(admin.id),
-            RefNames.refsUsers(user.id),
+            RefNames.refsUsers(admin.id()),
+            RefNames.refsUsers(user.id()),
             RefNames.REFS_EXTERNAL_IDS,
             RefNames.REFS_GROUPNAMES,
             RefNames.refsGroups(admins),
@@ -775,7 +777,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     groupInput.name = name(name);
     groupInput.ownerId = ownerGroup != null ? ownerGroup.get() : null;
     groupInput.members =
-        Arrays.stream(members).map(m -> String.valueOf(m.id.get())).collect(toList());
+        Arrays.stream(members).map(m -> String.valueOf(m.id().get())).collect(toList());
     return new AccountGroup.UUID(gApi.groups().create(groupInput).get().id);
   }
 

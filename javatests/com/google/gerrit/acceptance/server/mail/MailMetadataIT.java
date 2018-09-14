@@ -58,7 +58,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
   @Test
   public void metadataOnNewChange() throws Exception {
     PushOneCommit.Result newChange = createChange();
-    gApi.changes().id(newChange.getChangeId()).addReviewer(user.getId().toString());
+    gApi.changes().id(newChange.getChangeId()).addReviewer(user.id().toString());
 
     List<FakeEmailSender.Message> emails = sender.getMessages();
     assertThat(emails).hasSize(1);
@@ -85,7 +85,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
   @Test
   public void metadataOnNewComment() throws Exception {
     PushOneCommit.Result newChange = createChange();
-    gApi.changes().id(newChange.getChangeId()).addReviewer(user.getId().toString());
+    gApi.changes().id(newChange.getChangeId()).addReviewer(user.id().toString());
     sender.clear();
 
     // Review change

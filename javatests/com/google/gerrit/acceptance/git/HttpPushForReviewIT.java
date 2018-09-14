@@ -22,7 +22,7 @@ public class HttpPushForReviewIT extends AbstractPushForReview {
   @Before
   public void selectHttpUrl() throws Exception {
     CredentialsProvider.setDefault(
-        new UsernamePasswordCredentialsProvider(admin.username, admin.httpPassword));
+        new UsernamePasswordCredentialsProvider(admin.username(), admin.httpPassword()));
     selectProtocol(Protocol.HTTP);
   }
 }

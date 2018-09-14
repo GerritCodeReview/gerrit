@@ -147,7 +147,7 @@ public class AccountsRestApiBindingsIT extends AbstractRestApiBindingsTest {
 
   @Test
   public void emailEndpoints() throws Exception {
-    execute(EMAIL_ENDPOINTS, "self", admin.email);
+    execute(EMAIL_ENDPOINTS, "self", admin.email());
   }
 
   @Test
@@ -161,10 +161,10 @@ public class AccountsRestApiBindingsIT extends AbstractRestApiBindingsTest {
         .get()
         .update(
             "Add Email",
-            admin.getId(),
+            admin.id(),
             u ->
                 u.addExternalId(
-                    ExternalId.createWithEmail(name("test"), email, admin.getId(), email)));
+                    ExternalId.createWithEmail(name("test"), email, admin.id(), email)));
 
     setApiUser(admin);
     gApi.accounts()

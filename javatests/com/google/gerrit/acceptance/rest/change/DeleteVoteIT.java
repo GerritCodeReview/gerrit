@@ -60,7 +60,7 @@ public class DeleteVoteIT extends AbstractDaemonTest {
             + r.getChangeId()
             + (onRevisionLevel ? ("/revisions/" + r2.getCommit().getName()) : "")
             + "/reviewers/"
-            + user.getId().toString()
+            + user.id().toString()
             + "/votes/Code-Review";
 
     RestResponse response = adminRestSession.delete(endPoint);
@@ -69,17 +69,17 @@ public class DeleteVoteIT extends AbstractDaemonTest {
     List<FakeEmailSender.Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     FakeEmailSender.Message msg = messages.get(0);
-    assertThat(msg.rcpt()).containsExactly(user.emailAddress);
-    assertThat(msg.body()).contains(admin.fullName + " has removed a vote on this change.\n");
+    assertThat(msg.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(msg.body()).contains(admin.fullName() + " has removed a vote on this change.\n");
     assertThat(msg.body())
-        .contains("Removed Code-Review+1 by " + user.fullName + " <" + user.email + ">\n");
+        .contains("Removed Code-Review+1 by " + user.fullName() + " <" + user.email() + ">\n");
 
     endPoint =
         "/changes/"
             + r.getChangeId()
             + (onRevisionLevel ? ("/revisions/" + r2.getCommit().getName()) : "")
             + "/reviewers/"
-            + user.getId().toString()
+            + user.id().toString()
             + "/votes";
 
     response = adminRestSession.get(endPoint);
@@ -93,10 +93,10 @@ public class DeleteVoteIT extends AbstractDaemonTest {
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
 
     ChangeMessageInfo message = Iterables.getLast(c.messages);
-    assertThat(message.author._accountId).isEqualTo(admin.getId().get());
+    assertThat(message.author._accountId).isEqualTo(admin.id().get());
     assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))
-        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+        .containsExactlyElementsIn(ImmutableSet.of(admin.id(), user.id()));
   }
 
   private Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {

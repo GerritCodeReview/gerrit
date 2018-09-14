@@ -113,7 +113,7 @@ public class SshSession {
       jsch.addIdentity(
           "KeyPair", TestSshKeys.privateKey(keyPair), keyPair.getPublicKeyBlob(), null);
       session =
-          jsch.getSession(account.username, addr.getAddress().getHostAddress(), addr.getPort());
+          jsch.getSession(account.username(), addr.getAddress().getHostAddress(), addr.getPort());
       session.setConfig("StrictHostKeyChecking", "no");
       session.connect();
     }

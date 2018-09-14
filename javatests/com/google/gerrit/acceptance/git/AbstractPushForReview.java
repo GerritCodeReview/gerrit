@@ -158,9 +158,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @After
   public void resetPublishCommentOnPushOption() throws Exception {
     setApiUser(admin);
-    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
+    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id().get()).getPreferences();
     prefs.publishCommentsOnPush = false;
-    gApi.accounts().id(admin.id.get()).setPreferences(prefs);
+    gApi.accounts().id(admin.id().get()).setPreferences(prefs);
   }
 
   protected void selectProtocol(Protocol p) throws Exception {
@@ -455,7 +455,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
 
     TestAccount user2 = accountCreator.user2();
-    String pushSpec = "refs/for/master%reviewer=" + user.email + ",cc=" + user2.email;
+    String pushSpec = "refs/for/master%reviewer=" + user.email() + ",cc=" + user2.email();
 
     sender.clear();
     PushOneCommit.Result r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE);
@@ -473,43 +473,44 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
 
     sender.clear();
     r = pushTo(pushSpec + ",notify=" + NotifyHandling.ALL);
     r.assertOkStatus();
     assertThat(sender.getMessages()).hasSize(1);
     m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress, user2.emailAddress, user3.emailAddress);
+    assertThat(m.rcpt())
+        .containsExactly(user.getEmailAddress(), user2.getEmailAddress(), user3.getEmailAddress());
 
     sender.clear();
-    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-to=" + user3.email);
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-to=" + user3.email());
     r.assertOkStatus();
     assertNotifyTo(user3);
 
     sender.clear();
-    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-cc=" + user3.email);
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-cc=" + user3.email());
     r.assertOkStatus();
     assertNotifyCc(user3);
 
     sender.clear();
-    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-bcc=" + user3.email);
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-bcc=" + user3.email());
     r.assertOkStatus();
     assertNotifyBcc(user3);
 
     // request that sender gets notified as TO, CC and BCC, email should be sent
     // even if the sender is the only recipient
     sender.clear();
-    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-to=" + admin.email);
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-to=" + admin.email());
     assertNotifyTo(admin);
 
     sender.clear();
-    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-cc=" + admin.email);
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-cc=" + admin.email());
     r.assertOkStatus();
     assertNotifyCc(admin);
 
     sender.clear();
-    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-bcc=" + admin.email);
+    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-bcc=" + admin.email());
     r.assertOkStatus();
     assertNotifyBcc(admin);
   }
@@ -518,7 +519,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushForMasterWithCc() throws Exception {
     // cc one user
     String topic = "my/topic";
-    PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%cc=" + user.email);
+    PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%cc=" + user.email());
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, topic, ImmutableList.of(), ImmutableList.of(user));
 
@@ -528,11 +529,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "refs/for/master/"
                 + topic
                 + "%cc="
-                + admin.email
+                + admin.email()
                 + ",cc="
-                + user.email
+                + user.email()
                 + ",cc="
-                + accountCreator.user2().email);
+                + accountCreator.user2().email());
     r.assertOkStatus();
     // Check that admin isn't CC'd as they own the change
     r.assertChange(
@@ -548,11 +549,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "refs/for/master/"
                 + topic
                 + "%cc="
-                + admin.email
+                + admin.email()
                 + ",cc="
                 + nonExistingEmail
                 + ",cc="
-                + user.email);
+                + user.email());
     r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
   }
 
@@ -560,7 +561,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushForMasterWithReviewer() throws Exception {
     // add one reviewer
     String topic = "my/topic";
-    PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%r=" + user.email);
+    PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%r=" + user.email());
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, topic, user);
 
@@ -572,11 +573,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "refs/for/master/"
                 + topic
                 + "%r="
-                + admin.email
+                + admin.email()
                 + ",r="
-                + user.email
+                + user.email()
                 + ",r="
-                + user2.email);
+                + user2.email());
     r.assertOkStatus();
     // admin is the owner of the change and should not appear as reviewer
     r.assertChange(Change.Status.NEW, topic, user, user2);
@@ -588,11 +589,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "refs/for/master/"
                 + topic
                 + "%r="
-                + admin.email
+                + admin.email()
                 + ",r="
                 + nonExistingEmail
                 + ",r="
-                + user.email);
+                + user.email());
     r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
   }
 
@@ -687,7 +688,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master%wip");
     r.assertOkStatus();
-    assertThat(r.getChange().change().getOwner()).isEqualTo(user.id);
+    assertThat(r.getChange().change().getOwner()).isEqualTo(user.id());
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
 
     // Admin user trying to move from WIP to ready should succeed.
@@ -970,11 +971,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         get(GitUtil.getChangeId(testRepo, c).get(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     LabelInfo cr = ci.labels.get("Code-Review");
     assertThat(cr.all).hasSize(2);
-    int indexAdmin = admin.fullName.equals(cr.all.get(0).name) ? 0 : 1;
+    int indexAdmin = admin.fullName().equals(cr.all.get(0).name) ? 0 : 1;
     int indexUser = indexAdmin == 0 ? 1 : 0;
-    assertThat(cr.all.get(indexAdmin).name).isEqualTo(admin.fullName);
+    assertThat(cr.all.get(indexAdmin).name).isEqualTo(admin.fullName());
     assertThat(cr.all.get(indexAdmin).value.intValue()).isEqualTo(1);
-    assertThat(cr.all.get(indexUser).name).isEqualTo(user.fullName);
+    assertThat(cr.all.get(indexUser).name).isEqualTo(user.fullName());
     assertThat(cr.all.get(indexUser).value.intValue()).isEqualTo(0);
     assertThat(Iterables.getLast(ci.messages).message)
         .isEqualTo("Uploaded patch set 1: Code-Review+1.");
@@ -1179,7 +1180,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             admin.getIdent(),
             testRepo,
             PushOneCommit.SUBJECT
-                + String.format("\n\nSigned-off-by: %s <%s>", admin.fullName, admin.email),
+                + String.format("\n\nSigned-off-by: %s <%s>", admin.fullName(), admin.email()),
             "b.txt",
             "anotherContent");
     r = push.to("refs/for/master");
@@ -1688,12 +1689,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushWithEmailInFooter() throws Exception {
-    pushWithReviewerInFooter(user.emailAddress.toString(), user);
+    pushWithReviewerInFooter(user.getEmailAddress().toString(), user);
   }
 
   @Test
   public void pushWithNameInFooter() throws Exception {
-    pushWithReviewerInFooter(user.fullName, user);
+    pushWithReviewerInFooter(user.fullName(), user);
   }
 
   @Test
@@ -1877,7 +1878,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertThat(getPublishedComments(r.getChangeId())).isEmpty();
 
-    gApi.changes().id(r.getChangeId()).addReviewer(user.email);
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
     sender.clear();
     amendChange(r.getChangeId(), "refs/for/master%publish-comments");
 
@@ -1993,9 +1994,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertThat(getPublishedComments(r.getChangeId())).isEmpty();
 
-    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
+    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id().get()).getPreferences();
     prefs.publishCommentsOnPush = true;
-    gApi.accounts().id(admin.id.get()).setPreferences(prefs);
+    gApi.accounts().id(admin.id().get()).setPreferences(prefs);
 
     r = amendChange(r.getChangeId());
     assertThat(getPublishedComments(r.getChangeId()).stream().map(c -> c.message))
@@ -2007,9 +2008,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     addDraft(r.getChangeId(), r.getCommit().name(), newDraft(FILE_NAME, 1, "comment1"));
 
-    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
+    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id().get()).getPreferences();
     prefs.publishCommentsOnPush = true;
-    gApi.accounts().id(admin.id.get()).setPreferences(prefs);
+    gApi.accounts().id(admin.id().get()).setPreferences(prefs);
 
     r = amendChange(r.getChangeId(), "refs/for/master%no-publish-comments");
 
@@ -2178,7 +2179,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(ci.reviewers).isNotNull();
     assertThat(ci.reviewers.keySet()).containsExactly(ReviewerState.REVIEWER);
     assertThat(ci.reviewers.get(ReviewerState.REVIEWER).iterator().next().email)
-        .isEqualTo(reviewer.email);
+        .isEqualTo(reviewer.email());
   }
 
   private void pushWithReviewerInFooter(String nameEmail, TestAccount expectedReviewer)
@@ -2192,8 +2193,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       ChangeData cd = byCommit(c);
       String name = "reviewers for " + (i + 1);
       if (expectedReviewer != null) {
-        assertThat(cd.reviewers().all()).named(name).containsExactly(expectedReviewer.getId());
-        gApi.changes().id(cd.getId().get()).reviewer(expectedReviewer.getId().toString()).remove();
+        assertThat(cd.reviewers().all()).named(name).containsExactly(expectedReviewer.id());
+        gApi.changes().id(cd.getId().get()).reviewer(expectedReviewer.id().toString()).remove();
       }
       assertThat(byCommit(c).reviewers().all()).named(name).isEmpty();
     }
@@ -2204,7 +2205,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       ChangeData cd = byCommit(c);
       String name = "reviewers for " + (i + 1);
       if (expectedReviewer != null) {
-        assertThat(cd.reviewers().all()).named(name).containsExactly(expectedReviewer.getId());
+        assertThat(cd.reviewers().all()).named(name).containsExactly(expectedReviewer.id());
       } else {
         assertThat(byCommit(c).reviewers().all()).named(name).isEmpty();
       }

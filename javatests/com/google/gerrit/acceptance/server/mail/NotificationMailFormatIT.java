@@ -31,7 +31,7 @@ public class NotificationMailFormatIT extends AbstractDaemonTest {
     // Set user preference to receive only plaintext content
     GeneralPreferencesInfo i = new GeneralPreferencesInfo();
     i.emailFormat = EmailFormat.PLAINTEXT;
-    gApi.accounts().id(admin.getId().toString()).setPreferences(i);
+    gApi.accounts().id(admin.id().toString()).setPreferences(i);
 
     // Create change as admin and review as user
     PushOneCommit.Result r = createChange();
@@ -43,13 +43,13 @@ public class NotificationMailFormatIT extends AbstractDaemonTest {
     FakeEmailSender.Message m = sender.getMessages().get(0);
     assertThat(m.body()).isNotNull();
     assertThat(m.htmlBody()).isNull();
-    assertMailReplyTo(m, admin.email);
-    assertMailReplyTo(m, user.email);
+    assertMailReplyTo(m, admin.email());
+    assertMailReplyTo(m, user.email());
 
     // Reset user preference
     setApiUser(admin);
     i.emailFormat = EmailFormat.HTML_PLAINTEXT;
-    gApi.accounts().id(admin.getId().toString()).setPreferences(i);
+    gApi.accounts().id(admin.id().toString()).setPreferences(i);
   }
 
   @Test
@@ -64,7 +64,7 @@ public class NotificationMailFormatIT extends AbstractDaemonTest {
     FakeEmailSender.Message m = sender.getMessages().get(0);
     assertThat(m.body()).isNotNull();
     assertThat(m.htmlBody()).isNotNull();
-    assertMailReplyTo(m, admin.email);
-    assertMailReplyTo(m, user.email);
+    assertMailReplyTo(m, admin.email());
+    assertMailReplyTo(m, user.email());
   }
 }

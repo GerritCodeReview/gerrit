@@ -60,8 +60,8 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     String name1 = createGroup("g1");
     String name2 = createGroup("g2");
 
-    gApi.groups().id(name1).addMembers(user.fullName);
-    gApi.groups().id(name2).addMembers(admin.fullName);
+    gApi.groups().id(name1).addMembers(user.fullName());
+    gApi.groups().id(name2).addMembers(admin.fullName());
     gApi.groups().id(name1).addGroups(name2);
 
     this.g1 = gApi.groups().id(name1).detail();

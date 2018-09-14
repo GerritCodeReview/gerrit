@@ -179,7 +179,7 @@ public class CorsIT extends AbstractDaemonTest {
     BasicCookieStore cookies = new BasicCookieStore();
     Executor http = Executor.newInstance().cookieStore(cookies);
 
-    Request req = Request.Get(canonicalWebUrl.get() + "/login/?account_id=" + admin.id.get());
+    Request req = Request.Get(canonicalWebUrl.get() + "/login/?account_id=" + admin.id().get());
     HttpResponse r = http.execute(req).returnResponse();
     String auth = null;
     for (Cookie c : cookies.getCookies()) {

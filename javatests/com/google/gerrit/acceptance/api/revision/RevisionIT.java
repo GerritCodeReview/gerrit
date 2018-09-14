@@ -221,14 +221,14 @@ public class RevisionIT extends AbstractDaemonTest {
     revision(r).review(ReviewInput.recommend());
 
     setApiUser(admin);
-    gApi.changes().id(changeId).reviewer(user.username).deleteVote("Code-Review");
+    gApi.changes().id(changeId).reviewer(user.username()).deleteVote("Code-Review");
     Optional<ApprovalInfo> crUser =
         get(changeId, DETAILED_LABELS)
             .labels
             .get("Code-Review")
             .all
             .stream()
-            .filter(a -> a._accountId == user.id.get())
+            .filter(a -> a._accountId == user.id().get())
             .findFirst();
     assertThat(crUser).isPresent();
     assertThat(crUser.get().value).isEqualTo(0);
@@ -249,7 +249,7 @@ public class RevisionIT extends AbstractDaemonTest {
             .get("Code-Review")
             .all
             .stream()
-            .filter(a -> a._accountId == user.getId().get())
+            .filter(a -> a._accountId == user.id().get())
             .findFirst()
             .get();
     assertThat(cr.postSubmit).isTrue();
@@ -665,7 +665,7 @@ public class RevisionIT extends AbstractDaemonTest {
     input.destination = "branch-3";
     input.notify = NotifyHandling.NONE;
     input.notifyDetails =
-        ImmutableMap.of(RecipientType.TO, new NotifyInfo(ImmutableList.of(userToNotify.email)));
+        ImmutableMap.of(RecipientType.TO, new NotifyInfo(ImmutableList.of(userToNotify.email())));
     sender.clear();
     gApi.changes().id(changeId).current().cherryPick(input);
     assertNotifyTo(userToNotify);
@@ -680,7 +680,7 @@ public class RevisionIT extends AbstractDaemonTest {
     // Change is approved by 'admin2'. Change is CC'd to 'user'.
     setApiUser(accountCreator.admin2());
     ReviewInput in = ReviewInput.approve();
-    in.reviewer(user.email, ReviewerState.CC, true);
+    in.reviewer(user.email(), ReviewerState.CC, true);
     gApi.changes().id(r.getChangeId()).current().review(in);
 
     // Change is cherrypicked by 'user2'.
@@ -702,11 +702,11 @@ public class RevisionIT extends AbstractDaemonTest {
       assertThat(result).containsKey(ReviewerState.CC);
       List<Integer> ccs =
           result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
-      assertThat(ccs).containsExactly(user.id.get());
-      assertThat(reviewers).containsExactly(admin.id.get(), accountCreator.admin2().id.get());
+      assertThat(ccs).containsExactly(user.id().get());
+      assertThat(reviewers).containsExactly(admin.id().get(), accountCreator.admin2().id().get());
     } else {
       assertThat(reviewers)
-          .containsExactly(user.id.get(), admin.id.get(), accountCreator.admin2().id.get());
+          .containsExactly(user.id().get(), admin.id().get(), accountCreator.admin2().id().get());
     }
   }
 
@@ -1178,7 +1178,7 @@ public class RevisionIT extends AbstractDaemonTest {
                 .get()
                 .author
                 .email)
-        .isEqualTo(admin.email);
+        .isEqualTo(admin.email());
 
     draftApi.delete();
     assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).drafts())
@@ -1204,7 +1204,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(out).hasSize(1);
     CommentInfo comment = Iterables.getOnlyElement(out.get(FILE_NAME));
     assertThat(comment.message).isEqualTo(in.message);
-    assertThat(comment.author.email).isEqualTo(admin.email);
+    assertThat(comment.author.email).isEqualTo(admin.email());
     assertThat(comment.path).isNull();
 
     List<CommentInfo> list =
@@ -1327,7 +1327,7 @@ public class RevisionIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().getName())
-        .reviewer(user.getId().toString())
+        .reviewer(user.id().toString())
         .deleteVote("Code-Review");
   }
 
@@ -1347,20 +1347,20 @@ public class RevisionIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .current()
-        .reviewer(user.getId().toString())
+        .reviewer(user.id().toString())
         .deleteVote("Code-Review");
 
     Map<String, Short> m =
-        gApi.changes().id(r.getChangeId()).current().reviewer(user.getId().toString()).votes();
+        gApi.changes().id(r.getChangeId()).current().reviewer(user.id().toString()).votes();
 
     assertThat(m).containsExactly("Code-Review", Short.valueOf((short) 0));
 
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     ChangeMessageInfo message = Iterables.getLast(c.messages);
-    assertThat(message.author._accountId).isEqualTo(admin.getId().get());
+    assertThat(message.author._accountId).isEqualTo(admin.id().get());
     assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(ReviewerState.REVIEWER)))
-        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+        .containsExactlyElementsIn(ImmutableSet.of(admin.id(), user.id()));
   }
 
   private static void assertCherryPickResult(

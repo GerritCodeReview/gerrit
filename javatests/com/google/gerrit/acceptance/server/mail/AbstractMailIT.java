@@ -33,8 +33,8 @@ public class AbstractMailIT extends AbstractDaemonTest {
   protected MailMessage.Builder messageBuilderWithDefaultFields() {
     MailMessage.Builder b = MailMessage.builder();
     b.id("some id");
-    b.from(user.emailAddress);
-    b.addTo(user.emailAddress); // Not evaluated
+    b.from(user.getEmailAddress());
+    b.addTo(user.getEmailAddress()); // Not evaluated
     b.subject("");
     b.dateReceived(Instant.now());
     return b;

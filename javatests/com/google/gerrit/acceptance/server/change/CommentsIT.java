@@ -504,14 +504,14 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(comments).hasSize(2);
 
     CommentInfo c1 = comments.get(0);
-    assertThat(c1.author._accountId).isEqualTo(user.getId().get());
+    assertThat(c1.author._accountId).isEqualTo(user.id().get());
     assertThat(c1.patchSet).isEqualTo(1);
     assertThat(c1.message).isEqualTo("nit: trailing whitespace");
     assertThat(c1.side).isNull();
     assertThat(c1.line).isEqualTo(1);
 
     CommentInfo c2 = comments.get(1);
-    assertThat(c2.author._accountId).isEqualTo(user.getId().get());
+    assertThat(c2.author._accountId).isEqualTo(user.id().get());
     assertThat(c2.patchSet).isEqualTo(2);
     assertThat(c2.message).isEqualTo("typo: content");
     assertThat(c2.side).isNull();
@@ -861,7 +861,7 @@ public class CommentsIT extends AbstractDaemonTest {
           gApi.changes().id(changeId).revision(patchSet).comment(uuid).delete(input);
 
       String expectedMsg =
-          String.format("Comment removed by: %s; Reason: %s", admin.fullName, input.reason);
+          String.format("Comment removed by: %s; Reason: %s", admin.fullName(), input.reason);
       assertThat(updatedComment.message).isEqualTo(expectedMsg);
       oldComment.message = expectedMsg;
       assertThat(updatedComment).isEqualTo(oldComment);
@@ -930,7 +930,8 @@ public class CommentsIT extends AbstractDaemonTest {
     CommentInfo updatedComment = gApi.changes().id(changeId).revision(ps1).comment(uuid).get();
     String expectedMsg =
         String.format(
-            "Comment removed by: %s; Reason: %s", admin.fullName, "delete comment 2, iteration: 2");
+            "Comment removed by: %s; Reason: %s",
+            admin.fullName(), "delete comment 2, iteration: 2");
     assertThat(updatedComment.message).isEqualTo(expectedMsg);
     oldComment.message = expectedMsg;
     assertThat(updatedComment).isEqualTo(oldComment);

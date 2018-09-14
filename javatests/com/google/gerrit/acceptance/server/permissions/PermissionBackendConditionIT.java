@@ -161,10 +161,10 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
   }
 
   private CurrentUser user() {
-    return identifiedUserFactory.create(user.id);
+    return identifiedUserFactory.create(user.id());
   }
 
   private CurrentUser admin() {
-    return identifiedUserFactory.create(admin.id);
+    return identifiedUserFactory.create(admin.id());
   }
 }

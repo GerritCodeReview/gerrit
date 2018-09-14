@@ -74,7 +74,7 @@ public class RulesIT extends AbstractDaemonTest {
     modifySubmitRules(
         String.format(
             "gerrit:commit_author(user(%d), '%s', '%s')",
-            user.getId().get(), user.fullName, user.email));
+            user.id().get(), user.fullName(), user.email()));
     assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 

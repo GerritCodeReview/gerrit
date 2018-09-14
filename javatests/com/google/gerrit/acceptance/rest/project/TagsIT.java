@@ -211,8 +211,8 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
     assertThat(result.object).isEqualTo(input.revision);
     assertThat(result.message).isEqualTo(input.message);
-    assertThat(result.tagger.name).isEqualTo(admin.fullName);
-    assertThat(result.tagger.email).isEqualTo(admin.email);
+    assertThat(result.tagger.name).isEqualTo(admin.fullName());
+    assertThat(result.tagger.email).isEqualTo(admin.email());
     assertThat(result.created).isEqualTo(result.tagger.date);
 
     eventRecorder.assertRefUpdatedEvents(project.get(), result.ref, null, result.revision);
@@ -226,8 +226,8 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result2.ref).isEqualTo(input2.ref);
     assertThat(result2.object).isEqualTo(input2.revision);
     assertThat(result2.message).isEqualTo(input2.message);
-    assertThat(result2.tagger.name).isEqualTo(admin.fullName);
-    assertThat(result2.tagger.email).isEqualTo(admin.email);
+    assertThat(result2.tagger.name).isEqualTo(admin.fullName());
+    assertThat(result2.tagger.email).isEqualTo(admin.email());
     assertThat(result2.created).isEqualTo(result2.tagger.date);
 
     eventRecorder.assertRefUpdatedEvents(project.get(), result2.ref, null, result2.revision);

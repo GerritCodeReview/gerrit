@@ -26,10 +26,10 @@ import org.junit.Test;
 public class GetAccountDetailIT extends AbstractDaemonTest {
   @Test
   public void getDetail() throws Exception {
-    RestResponse r = adminRestSession.get("/accounts/" + admin.username + "/detail/");
+    RestResponse r = adminRestSession.get("/accounts/" + admin.username() + "/detail/");
     AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
     assertAccountInfo(admin, info);
-    Account account = getAccount(admin.getId());
+    Account account = getAccount(admin.id());
     assertThat(info.registeredOn).isEqualTo(account.getRegisteredOn());
   }
 }

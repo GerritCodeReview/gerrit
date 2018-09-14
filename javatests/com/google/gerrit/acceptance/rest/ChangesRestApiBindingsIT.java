@@ -295,7 +295,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
     String changeId = createChange().getChangeId();
 
     AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.reviewer = user.email;
+    addReviewerInput.reviewer = user.email();
 
     execute(
         REVIEWER_ENDPOINTS,
@@ -312,7 +312,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
         VOTE_ENDPOINTS,
         () -> gApi.changes().id(changeId).current().review(ReviewInput.approve()),
         changeId,
-        admin.email,
+        admin.email(),
         "Code-Review");
   }
 
@@ -327,7 +327,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
     String changeId = createChange().getChangeId();
 
     AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.reviewer = user.email;
+    addReviewerInput.reviewer = user.email();
 
     execute(
         REVISION_REVIEWER_ENDPOINTS,
@@ -346,7 +346,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
         () -> gApi.changes().id(changeId).current().review(ReviewInput.approve()),
         changeId,
         "current",
-        admin.email,
+        admin.email(),
         "Code-Review");
   }
 

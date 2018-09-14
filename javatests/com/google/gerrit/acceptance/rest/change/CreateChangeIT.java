@@ -160,8 +160,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
-    assertThat(m.body()).contains(admin.fullName + " has uploaded this change for review.");
+    assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
+    assertThat(m.body()).contains(admin.fullName() + " has uploaded this change for review.");
 
     // check that watcher is not notified if notify=NONE
     sender.clear();
@@ -287,7 +287,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(commit.getShortMessage()).isEqualTo("Create change");
 
       PersonIdent expectedAuthor =
-          changeNoteUtil.newIdent(getAccount(admin.id), c.created, serverIdent.get());
+          changeNoteUtil.newIdent(getAccount(admin.id()), c.created, serverIdent.get());
       assertThat(commit.getAuthorIdent()).isEqualTo(expectedAuthor);
 
       assertThat(commit.getCommitterIdent())
@@ -490,12 +490,12 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   // TODO(davido): Expose setting of account preferences in the API
   private void setSignedOffByFooter(boolean value) throws Exception {
-    RestResponse r = adminRestSession.get("/accounts/" + admin.email + "/preferences");
+    RestResponse r = adminRestSession.get("/accounts/" + admin.email() + "/preferences");
     r.assertOK();
     GeneralPreferencesInfo i = newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
     i.signedOffBy = value;
 
-    r = adminRestSession.put("/accounts/" + admin.email + "/preferences", i);
+    r = adminRestSession.put("/accounts/" + admin.email() + "/preferences", i);
     r.assertOK();
     GeneralPreferencesInfo o = newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
 

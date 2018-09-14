@@ -259,7 +259,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email);
+    addReviewer(adder, sc.changeId, sc.owner, reviewer.email());
     assertThat(sender)
         .sent("newchange", sc)
         .to(reviewer)
@@ -282,7 +282,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email);
+    addReviewer(adder, sc.changeId, sc.owner, reviewer.email());
     // TODO(logan): Should CCs be included?
     assertThat(sender)
         .sent("newchange", sc)
@@ -306,7 +306,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email, CC_ON_OWN_COMMENTS, null);
+    addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), CC_ON_OWN_COMMENTS, null);
     // TODO(logan): Should CCs be included?
     assertThat(sender)
         .sent("newchange", sc)
@@ -331,7 +331,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     TestAccount other = accountCreator.create("other", "other@example.com", "other");
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, other, reviewer.email);
+    addReviewer(adder, sc.changeId, other, reviewer.email());
     // TODO(logan): Should CCs be included?
     assertThat(sender)
         .sent("newchange", sc)
@@ -356,7 +356,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     TestAccount other = accountCreator.create("other", "other@example.com", "other");
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, other, reviewer.email, CC_ON_OWN_COMMENTS, null);
+    addReviewer(adder, sc.changeId, other, reviewer.email(), CC_ON_OWN_COMMENTS, null);
     // TODO(logan): Should CCs be included?
     assertThat(sender)
         .sent("newchange", sc)
@@ -421,7 +421,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void addReviewerToWipChange(Adder adder) throws Exception {
     StagedChange sc = stageWipChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email);
+    addReviewer(adder, sc.changeId, sc.owner, reviewer.email());
     assertThat(sender).notSent();
   }
 
@@ -438,7 +438,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void addReviewerToReviewableWipChange(Adder adder) throws Exception {
     StagedChange sc = stageReviewableWipChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email);
+    addReviewer(adder, sc.changeId, sc.owner, reviewer.email());
     assertThat(sender).notSent();
   }
 
@@ -456,7 +456,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageWipChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email, NotifyHandling.ALL);
+    addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), NotifyHandling.ALL);
     // TODO(logan): Should CCs be included?
     assertThat(sender)
         .sent("newchange", sc)
@@ -480,7 +480,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageWipChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email, NotifyHandling.ALL);
+    addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), NotifyHandling.ALL);
     assertThat(sender)
         .sent("newchange", sc)
         .to(reviewer)
@@ -504,7 +504,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email, OWNER_REVIEWERS);
+    addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), OWNER_REVIEWERS);
     // TODO(logan): Should CCs be included?
     assertThat(sender)
         .sent("newchange", sc)
@@ -529,7 +529,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email, CC_ON_OWN_COMMENTS, OWNER);
+    addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), CC_ON_OWN_COMMENTS, OWNER);
     assertThat(sender).notSent();
   }
 
@@ -550,7 +550,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email, CC_ON_OWN_COMMENTS, NONE);
+    addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), CC_ON_OWN_COMMENTS, NONE);
     assertThat(sender).notSent();
   }
 
@@ -873,7 +873,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void addReviewerOnWipChangeAndStartReviewInNoteDb() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageWipChange();
-    ReviewInput in = ReviewInput.noScore().reviewer(other.email).setWorkInProgress(false);
+    ReviewInput in = ReviewInput.noScore().reviewer(other.email()).setWorkInProgress(false);
     gApi.changes().id(sc.changeId).revision("current").review(in);
     assertThat(sender)
         .sent("comment", sc)
@@ -896,7 +896,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void addReviewerOnWipChangeAndStartReviewInReviewDb() throws Exception {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageWipChange();
-    ReviewInput in = ReviewInput.noScore().reviewer(other.email).setWorkInProgress(false);
+    ReviewInput in = ReviewInput.noScore().reviewer(other.email()).setWorkInProgress(false);
     gApi.changes().id(sc.changeId).revision("current").review(in);
     assertThat(sender)
         .sent("comment", sc)
@@ -989,9 +989,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender).notSent();
 
     // Toggle workInProgress flag for owner
-    GeneralPreferencesInfo prefs = gApi.accounts().id(sc.owner.id.get()).getPreferences();
+    GeneralPreferencesInfo prefs = gApi.accounts().id(sc.owner.id().get()).getPreferences();
     prefs.workInProgressByDefault = true;
-    gApi.accounts().id(sc.owner.id.get()).setPreferences(prefs);
+    gApi.accounts().id(sc.owner.id().get()).setPreferences(prefs);
 
     // Create another change without notification that should be wip
     StagedPreChange spc = stagePreChange("refs/for/master");
@@ -999,10 +999,10 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender).notSent();
 
     // Clean up workInProgressByDefault by owner
-    prefs = gApi.accounts().id(sc.owner.id.get()).getPreferences();
+    prefs = gApi.accounts().id(sc.owner.id().get()).getPreferences();
     Truth.assertThat(prefs.workInProgressByDefault).isTrue();
     prefs.workInProgressByDefault = false;
-    gApi.accounts().id(sc.owner.id.get()).setPreferences(prefs);
+    gApi.accounts().id(sc.owner.id().get()).setPreferences(prefs);
   }
 
   @Test
@@ -1039,7 +1039,8 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedPreChange spc =
         stagePreChange(
             "refs/for/master",
-            users -> ImmutableList.of("r=" + users.reviewer.username, "cc=" + users.ccer.username));
+            users ->
+                ImmutableList.of("r=" + users.reviewer.username(), "cc=" + users.ccer.username()));
     assertThat(sender)
         .sent("newchange", spc)
         .to(spc.reviewer, spc.watchingProjectOwner)
@@ -1238,8 +1239,8 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedChange sc = stager.stage();
     ReviewInput in =
         ReviewInput.noScore()
-            .reviewer(extraReviewer.email)
-            .reviewer(extraCcer.email, ReviewerState.CC, false);
+            .reviewer(extraReviewer.email())
+            .reviewer(extraCcer.email(), ReviewerState.CC, false);
     setApiUser(extraReviewer);
     gApi.changes().id(sc.changeId).revision("current").review(in);
     return sc;
@@ -1259,7 +1260,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private void removeReviewer(StagedChange sc, TestAccount account) throws Exception {
     sender.clear();
-    gApi.changes().id(sc.changeId).reviewer(account.email).remove();
+    gApi.changes().id(sc.changeId).reviewer(account.email()).remove();
   }
 
   private void removeReviewer(StagedChange sc, TestAccount account, NotifyHandling notify)
@@ -1267,7 +1268,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     sender.clear();
     DeleteReviewerInput in = new DeleteReviewerInput();
     in.notify = notify;
-    gApi.changes().id(sc.changeId).reviewer(account.email).remove(in);
+    gApi.changes().id(sc.changeId).reviewer(account.email()).remove(in);
   }
 
   /*
@@ -1427,7 +1428,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private void deleteVote(StagedChange sc, TestAccount account) throws Exception {
     sender.clear();
-    gApi.changes().id(sc.changeId).reviewer(account.email).deleteVote("Code-Review");
+    gApi.changes().id(sc.changeId).reviewer(account.email()).deleteVote("Code-Review");
   }
 
   private void deleteVote(StagedChange sc, TestAccount account, NotifyHandling notify)
@@ -1436,7 +1437,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     DeleteVoteInput in = new DeleteVoteInput();
     in.label = "Code-Review";
     in.notify = notify;
-    gApi.changes().id(sc.changeId).reviewer(account.email).deleteVote(in);
+    gApi.changes().id(sc.changeId).reviewer(account.email()).deleteVote(in);
   }
 
   /*
@@ -1834,7 +1835,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     TestAccount newReviewer = sc.testAccount("newReviewer");
-    pushTo(sc, "refs/for/master%r=" + newReviewer.username, sc.owner);
+    pushTo(sc, "refs/for/master%r=" + newReviewer.username(), sc.owner);
     assertThat(sender)
         .sent("newpatchset", sc)
         .to(sc.reviewer, newReviewer)
@@ -1851,7 +1852,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageReviewableChange();
     TestAccount newReviewer = sc.testAccount("newReviewer");
-    pushTo(sc, "refs/for/master%r=" + newReviewer.username, sc.owner);
+    pushTo(sc, "refs/for/master%r=" + newReviewer.username(), sc.owner);
     assertThat(sender)
         .sent("newpatchset", sc)
         .to(sc.reviewer, sc.ccer, newReviewer)
@@ -1866,7 +1867,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void newPatchSetOnWipChangeAddingReviewer() throws Exception {
     StagedChange sc = stageWipChange();
     TestAccount newReviewer = sc.testAccount("newReviewer");
-    pushTo(sc, "refs/for/master%r=" + newReviewer.username, sc.owner);
+    pushTo(sc, "refs/for/master%r=" + newReviewer.username(), sc.owner);
     assertThat(sender).notSent();
   }
 
@@ -1875,7 +1876,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageWipChange();
     TestAccount newReviewer = sc.testAccount("newReviewer");
-    pushTo(sc, "refs/for/master%notify=ALL,r=" + newReviewer.username, sc.owner);
+    pushTo(sc, "refs/for/master%notify=ALL,r=" + newReviewer.username(), sc.owner);
     assertThat(sender)
         .sent("newpatchset", sc)
         .to(sc.reviewer, newReviewer)
@@ -1892,7 +1893,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageWipChange();
     TestAccount newReviewer = sc.testAccount("newReviewer");
-    pushTo(sc, "refs/for/master%notify=ALL,r=" + newReviewer.username, sc.owner);
+    pushTo(sc, "refs/for/master%notify=ALL,r=" + newReviewer.username(), sc.owner);
     assertThat(sender)
         .sent("newpatchset", sc)
         .to(sc.reviewer, sc.ccer, newReviewer)
@@ -2633,7 +2634,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     setEmailStrategy(by, emailStrategy);
     setApiUser(by);
     AssigneeInput in = new AssigneeInput();
-    in.assignee = to.email;
+    in.assignee = to.email();
     gApi.changes().id(sc.changeId).setAssignee(in);
   }
 

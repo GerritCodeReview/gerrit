@@ -134,7 +134,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Not allowed to delete user branch.");
-    branch(new Branch.NameKey(allUsers, RefNames.refsUsers(admin.id))).delete();
+    branch(new Branch.NameKey(allUsers, RefNames.refsUsers(admin.id()))).delete();
   }
 
   @Test

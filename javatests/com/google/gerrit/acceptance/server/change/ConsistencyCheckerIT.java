@@ -110,7 +110,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         serverSideTestRepo
             .getRevWalk()
             .parseCommit(serverSideTestRepo.getRepository().exactRef("HEAD").getObjectId());
-    adminId = admin.getId();
+    adminId = admin.id();
     checker = checkerProvider.get();
   }
 
@@ -129,9 +129,9 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   public void missingOwner() throws Exception {
     TestAccount owner = accountCreator.create("missing");
     ChangeNotes notes = insertChange(owner);
-    deleteUserBranch(owner.getId());
+    deleteUserBranch(owner.id());
 
-    assertProblems(notes, null, problem("Missing change owner: " + owner.getId()));
+    assertProblems(notes, null, problem("Missing change owner: " + owner.id()));
   }
 
   @Test
@@ -280,7 +280,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
   @Test
   public void onlyPatchSetObjectMissingWithFix() throws Exception {
-    Change c = TestChanges.newChange(project, admin.getId(), sequences.nextChangeId());
+    Change c = TestChanges.newChange(project, admin.id(), sequences.nextChangeId());
 
     // Set review started, mimicking Schema_153, so tests pass with NoteDbMode.CHECK.
     c.setReviewStarted(true);
@@ -810,7 +810,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   private ChangeNotes insertChange(TestAccount owner, String dest) throws Exception {
     Change.Id id = new Change.Id(sequences.nextChangeId());
     ChangeInserter ins;
-    try (BatchUpdate bu = newUpdate(owner.getId())) {
+    try (BatchUpdate bu = newUpdate(owner.id())) {
       RevCommit commit = patchSetCommit(new PatchSet.Id(id, 1));
       ins =
           changeInserterFactory
@@ -901,8 +901,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
       return;
     }
     PersonIdent committer = serverIdent.get();
-    PersonIdent author =
-        noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
+    PersonIdent author = noteUtil.newIdent(getAccount(admin.id()), committer.getWhen(), committer);
     serverSideTestRepo
         .branch(RefNames.changeMetaRef(id))
         .commit()

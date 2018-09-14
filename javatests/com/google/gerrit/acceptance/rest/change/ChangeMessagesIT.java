@@ -261,7 +261,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     ChangeMessageInfo info = gApi.changes().id(changeNum).message(id).delete(input);
 
     // Verify the return change message info is as expect.
-    assertThat(info.message).isEqualTo(createNewChangeMessage(deletedBy.fullName, reason));
+    assertThat(info.message).isEqualTo(createNewChangeMessage(deletedBy.fullName(), reason));
     List<ChangeMessageInfo> messagesAfterDeletion = gApi.changes().id(changeNum).messages();
     assertMessagesAfterDeletion(
         messagesBeforeDeletion, messagesAfterDeletion, deletedMessageIndex, deletedBy, reason);
@@ -304,7 +304,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
 
       if (i == deletedMessageIndex) {
         assertThat(after.message)
-            .isEqualTo(createNewChangeMessage(deletedBy.fullName, deleteReason));
+            .isEqualTo(createNewChangeMessage(deletedBy.fullName(), deleteReason));
       } else {
         assertThat(after.message).isEqualTo(before.message);
       }
@@ -368,7 +368,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
                 rawAfter,
                 rangeAfter.get().changeMessageStart(),
                 rangeAfter.get().changeMessageEnd() + 1);
-        assertThat(message).isEqualTo(createNewChangeMessage(deletedBy.fullName, deleteReason));
+        assertThat(message).isEqualTo(createNewChangeMessage(deletedBy.fullName(), deleteReason));
       } else {
         assertThat(commitAfter.getFullMessage()).isEqualTo(commitBefore.getFullMessage());
       }

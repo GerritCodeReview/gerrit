@@ -110,7 +110,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
     assertCreateFails(
         new Branch.NameKey(allUsers, RefNames.refsUsers(new Account.Id(1))),
-        RefNames.refsUsers(admin.getId()),
+        RefNames.refsUsers(admin.id()),
         ResourceConflictException.class,
         "Not allowed to create user branch.");
   }

@@ -190,7 +190,7 @@ public class MailProcessorIT extends AbstractMailIT {
         newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null, null);
     MailMessage.Builder b =
         messageBuilderWithDefaultFields()
-            .from(user.emailAddress)
+            .from(user.getEmailAddress())
             .textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     sender.clear();
@@ -212,7 +212,7 @@ public class MailProcessorIT extends AbstractMailIT {
         newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null, null);
     MailMessage.Builder b =
         messageBuilderWithDefaultFields()
-            .from(user.emailAddress)
+            .from(user.getEmailAddress())
             .textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     sender.clear();

@@ -273,9 +273,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
     input.label(testLabelC, -1);
     gApi.changes().id(changeId).current().review(input);
 
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().keySet())
         .containsExactly(codeReviewLabel, testLabelA, testLabelB, testLabelC);
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().values())
         .containsExactly((short) -2, (short) -1, (short) -1, (short) -1);
 
     // Move the change to the 'foo' branch.
@@ -284,13 +284,13 @@ public class MoveChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("foo");
 
     // 'Code-Review -2' and 'Label-A -1' will be kept.
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().values())
         .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
 
     // Move the change back to 'master'.
     move(changeId, "master");
     assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().values())
         .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
   }
 
@@ -313,9 +313,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
     input.label(testLabelA, -1);
     gApi.changes().id(changeId).current().review(input);
 
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().keySet())
         .containsExactly(testLabelA);
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().values())
         .containsExactly((short) -1);
 
     move(changeId, "foo");

@@ -217,13 +217,13 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   @Test
   public void patchSetWithNullGroups() throws Exception {
     Timestamp ts = TimeUtil.nowTs();
-    Change c = TestChanges.newChange(project, user.getId(), seq.nextChangeId());
+    Change c = TestChanges.newChange(project, user.id(), seq.nextChangeId());
     c.setCreatedOn(ts);
     c.setLastUpdatedOn(ts);
     c.setReviewStarted(true);
     PatchSet ps =
         TestChanges.newPatchSet(
-            c.currentPatchSetId(), "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef", user.getId());
+            c.currentPatchSetId(), "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef", user.id());
     ps.setCreatedOn(ts);
     db.changes().insert(Collections.singleton(c));
     db.patchSets().insert(Collections.singleton(ps));
@@ -265,7 +265,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change.Id id = psId.getParentKey();
 
     // Events need to be otherwise identical for the account ID to be compared.
-    ChangeMessage msg1 = insertMessage(id, psId, user.getId(), TimeUtil.nowTs(), "message 1");
+    ChangeMessage msg1 = insertMessage(id, psId, user.id(), TimeUtil.nowTs(), "message 1");
     insertMessage(id, psId, null, msg1.getWrittenOn(), "message 2");
 
     checker.rebuildAndCheckChanges(id);
@@ -278,13 +278,13 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change.Id id = psId1.getParentKey();
 
     // Events need to be otherwise identical for the PatchSet.ID to be compared.
-    ChangeMessage msg1 = insertMessage(id, null, user.getId(), TimeUtil.nowTs(), "message 1");
-    insertMessage(id, null, user.getId(), msg1.getWrittenOn(), "message 2");
+    ChangeMessage msg1 = insertMessage(id, null, user.id(), TimeUtil.nowTs(), "message 1");
+    insertMessage(id, null, user.id(), msg1.getWrittenOn(), "message 2");
 
     PatchSet.Id psId2 = amendChange(r.getChangeId()).getPatchSetId();
 
-    ChangeMessage msg3 = insertMessage(id, null, user.getId(), TimeUtil.nowTs(), "message 3");
-    insertMessage(id, null, user.getId(), msg3.getWrittenOn(), "message 4");
+    ChangeMessage msg3 = insertMessage(id, null, user.id(), TimeUtil.nowTs(), "message 3");
+    insertMessage(id, null, user.id(), msg3.getWrittenOn(), "message 4");
 
     checker.rebuildAndCheckChanges(id);
 
@@ -373,36 +373,36 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(changeMetaId.name());
 
     putDraft(user, id, 1, "comment by user", null);
-    ObjectId userDraftsId = getMetaRef(allUsers, refsDraftComments(id, user.getId()));
+    ObjectId userDraftsId = getMetaRef(allUsers, refsDraftComments(id, user.id()));
     assertThat(getUnwrappedDb().changes().get(id).getNoteDbState())
-        .isEqualTo(changeMetaId.name() + "," + user.getId() + "=" + userDraftsId.name());
+        .isEqualTo(changeMetaId.name() + "," + user.id() + "=" + userDraftsId.name());
 
     putDraft(admin, id, 2, "comment by admin", null);
-    ObjectId adminDraftsId = getMetaRef(allUsers, refsDraftComments(id, admin.getId()));
-    assertThat(admin.getId().get()).isLessThan(user.getId().get());
+    ObjectId adminDraftsId = getMetaRef(allUsers, refsDraftComments(id, admin.id()));
+    assertThat(admin.id().get()).isLessThan(user.id().get());
     assertThat(getUnwrappedDb().changes().get(id).getNoteDbState())
         .isEqualTo(
             changeMetaId.name()
                 + ","
-                + admin.getId()
+                + admin.id()
                 + "="
                 + adminDraftsId.name()
                 + ","
-                + user.getId()
+                + user.id()
                 + "="
                 + userDraftsId.name());
 
     putDraft(admin, id, 2, "revised comment by admin", null);
-    adminDraftsId = getMetaRef(allUsers, refsDraftComments(id, admin.getId()));
+    adminDraftsId = getMetaRef(allUsers, refsDraftComments(id, admin.id()));
     assertThat(getUnwrappedDb().changes().get(id).getNoteDbState())
         .isEqualTo(
             changeMetaId.name()
                 + ","
-                + admin.getId()
+                + admin.id()
                 + "="
                 + adminDraftsId.name()
                 + ","
-                + user.getId()
+                + user.id()
                 + "="
                 + userDraftsId.name());
   }
@@ -459,7 +459,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     final String msg = "message from BatchUpdate";
     try (BatchUpdate bu =
         batchUpdateFactory.create(
-            db, project, identifiedUserFactory.create(user.getId()), TimeUtil.nowTs())) {
+            db, project, identifiedUserFactory.create(user.id()), TimeUtil.nowTs())) {
       bu.addOp(
           id,
           new BatchUpdateOp() {
@@ -579,21 +579,21 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     putDraft(user, id, 1, "comment by user", null);
     assertChangeUpToDate(true, id);
 
-    ObjectId oldMetaId = getMetaRef(allUsers, refsDraftComments(id, user.getId()));
+    ObjectId oldMetaId = getMetaRef(allUsers, refsDraftComments(id, user.id()));
 
     // Add a draft behind NoteDb's back.
     setNotesMigration(false, false);
     putDraft(user, id, 1, "second comment by user", null);
     setInvalidNoteDbState(id);
     assertDraftsUpToDate(false, id, user);
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isEqualTo(oldMetaId);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.id()))).isEqualTo(oldMetaId);
 
     // Force the next rebuild attempt to fail (in ChangeNotes).
     rebuilderWrapper.failNextUpdate();
     setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
-    notes.getDraftComments(user.getId());
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isEqualTo(oldMetaId);
+    notes.getDraftComments(user.id());
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.id()))).isEqualTo(oldMetaId);
 
     // Not up to date, but the actual returned state matches anyway.
     assertDraftsUpToDate(false, id, user);
@@ -605,7 +605,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     notesFactory.create(dbProvider.get(), project, id);
     assertChangeUpToDate(true, id);
     assertDraftsUpToDate(true, id, user);
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isNotEqualTo(oldMetaId);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.id()))).isNotEqualTo(oldMetaId);
   }
 
   @Test
@@ -617,7 +617,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     putDraft(user, id, 1, "comment by user", null);
     assertChangeUpToDate(true, id);
 
-    ObjectId oldMetaId = getMetaRef(allUsers, refsDraftComments(id, user.getId()));
+    ObjectId oldMetaId = getMetaRef(allUsers, refsDraftComments(id, user.id()));
 
     // Add a draft behind NoteDb's back.
     setNotesMigration(false, false);
@@ -634,20 +634,20 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
             Optional.of(
                 NoteDbChangeState.RefState.create(
                     NoteDbChangeState.parse(c).getChangeMetaId(),
-                    ImmutableMap.of(user.getId(), badSha))),
+                    ImmutableMap.of(user.id(), badSha))),
             Optional.empty());
     c.setNoteDbState(bogusState.toString());
     db.changes().update(Collections.singleton(c));
 
     assertDraftsUpToDate(false, id, user);
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isEqualTo(oldMetaId);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.id()))).isEqualTo(oldMetaId);
 
     // Force the next rebuild attempt to fail (in DraftCommentNotes).
     rebuilderWrapper.failNextUpdate();
     setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
-    notes.getDraftComments(user.getId());
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isEqualTo(oldMetaId);
+    notes.getDraftComments(user.id());
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.id()))).isEqualTo(oldMetaId);
 
     // Not up to date, but the actual returned state matches anyway.
     assertChangeUpToDate(true, id);
@@ -657,10 +657,10 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(actual.differencesFrom(expected)).isEmpty();
 
     // Another rebuild attempt succeeds
-    notesFactory.create(dbProvider.get(), project, id).getDraftComments(user.getId());
+    notesFactory.create(dbProvider.get(), project, id).getDraftComments(user.id());
     assertChangeUpToDate(true, id);
     assertDraftsUpToDate(true, id, user);
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isNotEqualTo(oldMetaId);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.id()))).isNotEqualTo(oldMetaId);
   }
 
   @Test
@@ -829,7 +829,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
             new PatchLineComment.Key(
                 new Patch.Key(new PatchSet.Id(id, 0), PushOneCommit.FILE_NAME), "uuid"),
             0,
-            user.getId(),
+            user.id(),
             null,
             TimeUtil.nowTs());
     comment.setSide((short) 1);
@@ -937,7 +937,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change.Id id = r.getPatchSetId().getParentKey();
     putDraft(user, id, 1, "comment", null);
 
-    Account.Id otherAccountId = new Account.Id(user.getId().get() + 1234);
+    Account.Id otherAccountId = new Account.Id(user.id().get() + 1234);
     String otherDraftRef = refsDraftComments(id, otherAccountId);
 
     try (Repository repo = repoManager.openRepository(allUsers);
@@ -1093,7 +1093,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     allowRunAs();
     try {
-      Header runAs = new BasicHeader("X-Gerrit-RunAs", user.id.toString());
+      Header runAs = new BasicHeader("X-Gerrit-RunAs", user.id().toString());
       ci.message = "comment with impersonation";
       ri.message = "message with impersonation";
       ri.label("Code-Review", 1);
@@ -1111,40 +1111,40 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
             .sortedCopy(db.changeMessages().byChange(id));
     assertThat(msgs).hasSize(3);
     assertThat(msgs.get(1).getMessage()).endsWith("message without impersonation");
-    assertThat(msgs.get(1).getAuthor()).isEqualTo(user.id);
-    assertThat(msgs.get(1).getRealAuthor()).isEqualTo(user.id);
+    assertThat(msgs.get(1).getAuthor()).isEqualTo(user.id());
+    assertThat(msgs.get(1).getRealAuthor()).isEqualTo(user.id());
     assertThat(msgs.get(2).getMessage()).endsWith("message with impersonation");
-    assertThat(msgs.get(2).getAuthor()).isEqualTo(user.id);
-    assertThat(msgs.get(2).getRealAuthor()).isEqualTo(admin.id);
+    assertThat(msgs.get(2).getAuthor()).isEqualTo(user.id());
+    assertThat(msgs.get(2).getRealAuthor()).isEqualTo(admin.id());
 
     List<PatchSetApproval> psas = db.patchSetApprovals().byChange(id).toList();
     assertThat(psas).hasSize(1);
     assertThat(psas.get(0).getLabel()).isEqualTo("Code-Review");
     assertThat(psas.get(0).getValue()).isEqualTo(1);
-    assertThat(psas.get(0).getAccountId()).isEqualTo(user.id);
-    assertThat(psas.get(0).getRealAccountId()).isEqualTo(admin.id);
+    assertThat(psas.get(0).getAccountId()).isEqualTo(user.id());
+    assertThat(psas.get(0).getRealAccountId()).isEqualTo(admin.id());
 
     Ordering<PatchLineComment> commentOrder =
         Ordering.natural().onResultOf(PatchLineComment::getWrittenOn);
     List<PatchLineComment> drafts =
-        commentOrder.sortedCopy(db.patchComments().draftByPatchSetAuthor(psId, user.id));
+        commentOrder.sortedCopy(db.patchComments().draftByPatchSetAuthor(psId, user.id()));
     assertThat(drafts).hasSize(2);
     assertThat(drafts.get(0).getMessage()).isEqualTo("draft without impersonation");
-    assertThat(drafts.get(0).getAuthor()).isEqualTo(user.id);
-    assertThat(drafts.get(0).getRealAuthor()).isEqualTo(user.id);
+    assertThat(drafts.get(0).getAuthor()).isEqualTo(user.id());
+    assertThat(drafts.get(0).getRealAuthor()).isEqualTo(user.id());
     assertThat(drafts.get(1).getMessage()).isEqualTo("draft with impersonation");
-    assertThat(drafts.get(1).getAuthor()).isEqualTo(user.id);
-    assertThat(drafts.get(1).getRealAuthor()).isEqualTo(admin.id);
+    assertThat(drafts.get(1).getAuthor()).isEqualTo(user.id());
+    assertThat(drafts.get(1).getRealAuthor()).isEqualTo(admin.id());
 
     List<PatchLineComment> pub =
         commentOrder.sortedCopy(db.patchComments().publishedByPatchSet(psId));
     assertThat(pub).hasSize(2);
     assertThat(pub.get(0).getMessage()).isEqualTo("comment without impersonation");
-    assertThat(pub.get(0).getAuthor()).isEqualTo(user.id);
-    assertThat(pub.get(0).getRealAuthor()).isEqualTo(user.id);
+    assertThat(pub.get(0).getAuthor()).isEqualTo(user.id());
+    assertThat(pub.get(0).getRealAuthor()).isEqualTo(user.id());
     assertThat(pub.get(1).getMessage()).isEqualTo("comment with impersonation");
-    assertThat(pub.get(1).getAuthor()).isEqualTo(user.id);
-    assertThat(pub.get(1).getRealAuthor()).isEqualTo(admin.id);
+    assertThat(pub.get(1).getAuthor()).isEqualTo(user.id());
+    assertThat(pub.get(1).getRealAuthor()).isEqualTo(admin.id());
   }
 
   @Test
@@ -1199,7 +1199,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     try (BatchUpdate bu =
         batchUpdateFactory.create(
-            db, project, identifiedUserFactory.create(user.getId()), TimeUtil.nowTs())) {
+            db, project, identifiedUserFactory.create(user.id()), TimeUtil.nowTs())) {
       bu.addOp(
           id,
           new BatchUpdateOp() {
@@ -1479,8 +1479,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
       assertThat(c).isNotNull();
       assertThat(c.getNoteDbState()).isNotNull();
       NoteDbChangeState state = NoteDbChangeState.parse(c);
-      assertThat(state.areDraftsUpToDate(new RepoRefCache(repo), account.getId()))
-          .isEqualTo(expected);
+      assertThat(state.areDraftsUpToDate(new RepoRefCache(repo), account.id())).isEqualTo(expected);
     }
   }
 

@@ -205,7 +205,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void publishEditNotifyRest() throws Exception {
     AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
+    in.reviewer = user.email();
     gApi.changes().id(changeId).addReviewer(in);
 
     createArbitraryEditFor(changeId);
@@ -220,7 +220,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void publishEditWithDefaultNotify() throws Exception {
     AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
+    in.reviewer = user.email();
     gApi.changes().id(changeId).addReviewer(in);
 
     createArbitraryEditFor(changeId);

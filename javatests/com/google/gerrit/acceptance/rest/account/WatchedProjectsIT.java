@@ -238,6 +238,6 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void postWithoutBody() throws Exception {
-    adminRestSession.post("/accounts/" + admin.username + "/watched.projects").assertOK();
+    adminRestSession.post("/accounts/" + admin.username() + "/watched.projects").assertOK();
   }
 }

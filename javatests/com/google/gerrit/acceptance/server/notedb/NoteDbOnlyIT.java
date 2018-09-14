@@ -285,7 +285,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
   }
 
   private BatchUpdate newBatchUpdate(BatchUpdate.Factory buf) {
-    return buf.create(db, project, identifiedUserFactory.create(user.getId()), TimeUtil.nowTs());
+    return buf.create(db, project, identifiedUserFactory.create(user.id()), TimeUtil.nowTs());
   }
 
   private Optional<ObjectId> getRef(String name) throws Exception {

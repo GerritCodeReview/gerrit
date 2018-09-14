@@ -49,7 +49,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
     // Create a test group with 2 users as members
     TestAccount user2 = accountCreator.user2();
     String group = createGroup("test");
-    gApi.groups().id(group).addMembers("admin", "user", user2.username);
+    gApi.groups().id(group).addMembers("admin", "user", user2.username());
 
     // Create a project and restrict its visibility to the group
     Project.NameKey p = createProject("p");
@@ -68,7 +68,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, user.getIdent(), repo);
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
-    assertThat(result.getChange().change().getOwner()).isEqualTo(user.id);
+    assertThat(result.getChange().change().getOwner()).isEqualTo(user.id());
     String changeId = result.getChangeId();
 
     // User can see the change and it is mergeable

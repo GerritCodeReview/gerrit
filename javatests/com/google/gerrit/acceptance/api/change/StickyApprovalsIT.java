@@ -570,7 +570,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   private void deleteVote(TestAccount user, String changeId, String label) throws Exception {
     setApiUser(user);
-    gApi.changes().id(changeId).reviewer(user.getId().toString()).deleteVote(label);
+    gApi.changes().id(changeId).reviewer(user.id().toString()).deleteVote(label);
   }
 
   private void assertVotes(ChangeInfo c, TestAccount user, int codeReviewVote, int verifiedVote) {
@@ -588,7 +588,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     Integer vote = 0;
     if (c.labels.get(label) != null && c.labels.get(label).all != null) {
       for (ApprovalInfo approval : c.labels.get(label).all) {
-        if (approval._accountId == user.id.get()) {
+        if (approval._accountId == user.id().get()) {
           vote = approval.value;
           break;
         }

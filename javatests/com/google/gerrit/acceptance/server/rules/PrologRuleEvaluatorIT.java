@@ -87,17 +87,17 @@ public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
     SubmitRecord.Label submitRecordLabel1 = new SubmitRecord.Label();
     submitRecordLabel1.label = "Verified";
     submitRecordLabel1.status = SubmitRecord.Label.Status.REJECT;
-    submitRecordLabel1.appliedBy = admin.id;
+    submitRecordLabel1.appliedBy = admin.id();
 
     SubmitRecord.Label submitRecordLabel2 = new SubmitRecord.Label();
     submitRecordLabel2.label = "Code-Review";
     submitRecordLabel2.status = SubmitRecord.Label.Status.OK;
-    submitRecordLabel2.appliedBy = admin.id;
+    submitRecordLabel2.appliedBy = admin.id();
 
     SubmitRecord.Label submitRecordLabel3 = new SubmitRecord.Label();
     submitRecordLabel3.label = "Any-Label-Name";
     submitRecordLabel3.status = SubmitRecord.Label.Status.REJECT;
-    submitRecordLabel3.appliedBy = user.id;
+    submitRecordLabel3.appliedBy = user.id();
 
     List<Term> terms = new ArrayList<>();
 
@@ -140,7 +140,7 @@ public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
   }
 
   private static StructureTerm makeLabel(String name, String status, TestAccount account) {
-    StructureTerm user = new StructureTerm("user", new IntegerTerm(account.id.get()));
+    StructureTerm user = new StructureTerm("user", new IntegerTerm(account.id().get()));
     return new StructureTerm("label", new StructureTerm(name), new StructureTerm(status, user));
   }
 
@@ -150,7 +150,7 @@ public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
 
   private ChangeData makeChangeData() {
     ChangeData cd = ChangeData.createForTest(project, new Change.Id(1), 1);
-    cd.setChange(TestChanges.newChange(project, admin.id));
+    cd.setChange(TestChanges.newChange(project, admin.id()));
     return cd;
   }
 

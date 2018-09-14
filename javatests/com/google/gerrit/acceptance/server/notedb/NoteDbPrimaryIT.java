@@ -145,11 +145,11 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     ChangeInfo info = gApi.changes().id(id.get()).get();
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
     ApprovalInfo approval = Iterables.getOnlyElement(info.labels.get("Code-Review").all);
-    assertThat(approval._accountId).isEqualTo(admin.id.get());
+    assertThat(approval._accountId).isEqualTo(admin.id().get());
     assertThat(approval.value).isEqualTo(2);
     assertThat(info.messages).hasSize(3);
     assertThat(Iterables.getLast(info.messages).message)
-        .isEqualTo("Change has been successfully merged by " + admin.fullName);
+        .isEqualTo("Change has been successfully merged by " + admin.fullName());
 
     ChangeNotes notes = notesFactory.create(db, project, id);
     assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.MERGED);
@@ -179,7 +179,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
             gApi.changes().id(id.get()).current().drafts().get(PushOneCommit.FILE_NAME));
     assertThat(di.message).isEqualTo(din.message);
 
-    assertThat(db.patchComments().draftByChangeFileAuthor(id, din.path, admin.id)).isEmpty();
+    assertThat(db.patchComments().draftByChangeFileAuthor(id, din.path, admin.id())).isEmpty();
 
     gApi.changes().id(id.get()).current().draft(di.id).delete();
     assertThat(gApi.changes().id(id.get()).current().drafts()).isEmpty();
@@ -196,7 +196,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     assertThat(approvals).hasSize(1);
     assertThat(approvals.get(0).value).isEqualTo(2);
 
-    gApi.changes().id(id.get()).reviewer(admin.id.toString()).deleteVote("Code-Review");
+    gApi.changes().id(id.get()).reviewer(admin.id().toString()).deleteVote("Code-Review");
 
     approvals = gApi.changes().id(id.get()).get().labels.get("Code-Review").all;
     assertThat(approvals).hasSize(1);
@@ -227,9 +227,9 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     Change.Id id = r.getChange().getId();
     setNoteDbPrimary(id);
 
-    gApi.changes().id(id.get()).addReviewer(user.id.toString());
-    assertThat(getReviewers(id)).containsExactly(user.id);
-    gApi.changes().id(id.get()).reviewer(user.id.toString()).remove();
+    gApi.changes().id(id.get()).addReviewer(user.id().toString());
+    assertThat(getReviewers(id)).containsExactly(user.id());
+    gApi.changes().id(id.get()).reviewer(user.id().toString()).remove();
     assertThat(getReviewers(id)).isEmpty();
   }
 
@@ -436,7 +436,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     ChangeMessage bogusMessage =
         ChangeMessagesUtil.newMessage(
             c.currentPatchSetId(),
-            identifiedUserFactory.create(admin.getId()),
+            identifiedUserFactory.create(admin.id()),
             TimeUtil.nowTs(),
             "some message",
             null);

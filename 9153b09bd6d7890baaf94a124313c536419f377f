@@ -22,6 +22,52 @@
       "revId": "9153b09bd6d7890baaf94a124313c536419f377f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d0a3efe_58bd25a0",
+        "filename": "polygerrit-ui/run-server.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-14T04:44:31Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "9153b09bd6d7890baaf94a124313c536419f377f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2047fcd2_5e18e93f",
+        "filename": "polygerrit-ui/run-server.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-14T04:44:31Z",
+      "side": 1,
+      "message": "Does this actually work? If I exit the command with Ctrl-c, the temporarily file path is still there:\n\n  $ ls -all /tmp/tmp.sZX8cxyvRa\n  -rwx--x--x 1 davido users 499 Sep 14 06:37 /tmp/tmp.sZX8cxyvRa",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "9153b09bd6d7890baaf94a124313c536419f377f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

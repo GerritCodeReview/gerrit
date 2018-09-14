@@ -142,7 +142,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.newIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -166,7 +166,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.newIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -198,7 +198,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.newIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -272,7 +272,7 @@ public class CommentsIT extends AbstractDaemonTest {
   public void listComments() throws Exception {
     String file = "file";
     PushOneCommit push =
-        pushFactory.create(admin.getIdent(), testRepo, "first subject", file, "contents");
+        pushFactory.create(admin.newIdent(), testRepo, "first subject", file, "contents");
     PushOneCommit.Result r = push.to("refs/for/master");
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
@@ -381,7 +381,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String file = "file";
       String contents = "contents " + line;
       PushOneCommit push =
-          pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
+          pushFactory.create(admin.newIdent(), testRepo, "first subject", file, contents);
       PushOneCommit.Result r = push.to("refs/for/master");
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
@@ -424,7 +424,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r2 =
         pushFactory
-            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "content")
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "content")
             .to("refs/for/master");
     changeId = r2.getChangeId();
     revId = r2.getCommit().getName();
@@ -439,7 +439,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r2 =
         pushFactory
-            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
             .to("refs/for/master");
 
     requestScopeOperations.setApiUser(admin.id());
@@ -485,7 +485,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r2 =
         pushFactory
-            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent", r1.getChangeId())
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent", r1.getChangeId())
             .to("refs/for/master");
 
     addComment(r1, "nit: trailing whitespace");
@@ -528,13 +528,13 @@ public class CommentsIT extends AbstractDaemonTest {
   public void publishCommentsAllRevisions() throws Exception {
     PushOneCommit.Result r1 =
         pushFactory
-            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "old boring content\n")
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "old boring content\n")
             .to("refs/for/master");
 
     PushOneCommit.Result r2 =
         pushFactory
             .create(
-                admin.getIdent(),
+                admin.newIdent(),
                 testRepo,
                 SUBJECT,
                 FILE_NAME,

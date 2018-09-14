@@ -121,7 +121,7 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
 
     TestRepository<InMemoryRepository> testRepo = cloneProject(project2);
     PushOneCommit.Result result =
-        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master%private");
+        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%private");
     result.assertErrorStatus();
   }
 
@@ -133,11 +133,11 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
     RevCommit initialHead = getRemoteHead(project2, "master");
     TestRepository<InMemoryRepository> testRepo = cloneProject(project2);
     PushOneCommit.Result result =
-        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master%draft");
+        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%draft");
     result.assertErrorStatus();
 
     testRepo.reset(initialHead);
-    result = pushFactory.create(admin.getIdent(), testRepo).to("refs/drafts/master");
+    result = pushFactory.create(admin.newIdent(), testRepo).to("refs/drafts/master");
     result.assertErrorStatus();
   }
 
@@ -154,7 +154,7 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result createChange(Project.NameKey proj, String ref) throws Exception {
     TestRepository<InMemoryRepository> testRepo = cloneProject(proj);
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result result = push.to(ref);
     result.assertOkStatus();
     return result;

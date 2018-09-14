@@ -74,7 +74,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
 
     // Clone it and push a change as a regular user
     TestRepository<InMemoryRepository> repo = cloneProject(p, user);
-    PushOneCommit push = pushFactory.create(user.getIdent(), repo);
+    PushOneCommit push = pushFactory.create(user.newIdent(), repo);
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
     assertThat(result.getChange().change().getOwner()).isEqualTo(user.id());

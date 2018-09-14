@@ -38,7 +38,7 @@ public class ForcePushIT extends AbstractDaemonTest {
   public void forcePushNotAllowed() throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
     PushOneCommit push1 =
-        pushFactory.create(admin.getIdent(), testRepo, "change1", "a.txt", "content");
+        pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");
     PushOneCommit.Result r1 = push1.to("refs/heads/master");
     r1.assertOkStatus();
 
@@ -48,7 +48,7 @@ public class ForcePushIT extends AbstractDaemonTest {
     assertThat(ru.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
 
     PushOneCommit push2 =
-        pushFactory.create(admin.getIdent(), testRepo, "change2", "b.txt", "content");
+        pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
     push2.setForce(true);
     PushOneCommit.Result r2 = push2.to("refs/heads/master");
     r2.assertErrorStatus("not permitted: force update");
@@ -59,7 +59,7 @@ public class ForcePushIT extends AbstractDaemonTest {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
     grant(project, "refs/*", Permission.PUSH, true);
     PushOneCommit push1 =
-        pushFactory.create(admin.getIdent(), testRepo, "change1", "a.txt", "content");
+        pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");
     PushOneCommit.Result r1 = push1.to("refs/heads/master");
     r1.assertOkStatus();
 
@@ -69,7 +69,7 @@ public class ForcePushIT extends AbstractDaemonTest {
     assertThat(ru.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
 
     PushOneCommit push2 =
-        pushFactory.create(admin.getIdent(), testRepo, "change2", "b.txt", "content");
+        pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
     push2.setForce(true);
     PushOneCommit.Result r2 = push2.to("refs/heads/master");
     r2.assertOkStatus();

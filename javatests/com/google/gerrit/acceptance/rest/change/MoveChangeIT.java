@@ -147,8 +147,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
         .parent(r1.getCommit())
         .parent(r2.getCommit())
         .message("Move change Merge Commit")
-        .author(admin.getIdent())
-        .committer(new PersonIdent(admin.getIdent(), testRepo.getDate()));
+        .author(admin.newIdent())
+        .committer(new PersonIdent(admin.newIdent(), testRepo.getDate()));
     RevCommit c = commitBuilder.create();
     pushHead(testRepo, "refs/for/master", false, false);
 
@@ -364,7 +364,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   private PushOneCommit.Result createChange(String branch, String changeId) throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo, changeId);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, changeId);
     PushOneCommit.Result result = push.to("refs/for/" + branch);
     result.assertOkStatus();
     return result;

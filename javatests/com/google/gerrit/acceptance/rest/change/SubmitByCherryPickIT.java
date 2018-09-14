@@ -76,8 +76,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertCurrentRevision(change2.getChangeId(), 2, newHead);
     assertSubmitter(change2.getChangeId(), 1);
     assertSubmitter(change2.getChangeId(), 2);
-    assertPersonEquals(admin.getIdent(), newHead.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(), newHead.getCommitterIdent());
+    assertPersonEquals(admin.newIdent(), newHead.getAuthorIdent());
+    assertPersonEquals(admin.newIdent(), newHead.getCommitterIdent());
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit, headAfterFirstSubmit, newHead);
     assertChangeMergedEvents(

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "60932d89_41841dc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-14T06:33:38Z",
+      "side": 1,
+      "message": "OK, missed it. Mention that this event is emitted for regular and draft changes?",
+      "parentUuid": "d6472a0d_e9f11482",
+      "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "962d101f_1cb61ab6",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeDeletedListener.java",
         "patchSetId": 2
@@ -71,6 +89,52 @@
         "startChar": 24,
         "endLine": 19,
         "endChar": 30
+      },
+      "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcacbc13_8cce1577",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-14T06:33:38Z",
+      "side": 1,
+      "message": "Do we really need to pass in the constant. Couldn\u0027t this be used directly where it\u0027s needed?",
+      "range": {
+        "startLine": 106,
+        "startChar": 73,
+        "endLine": 106,
+        "endChar": 91
+      },
+      "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0acbb6bb_3defd73b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/ChangeDeleted.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-14T06:33:38Z",
+      "side": 1,
+      "message": "Just pass NotifyHandling.ALL here instead of exposing it to the callers?",
+      "range": {
+        "startLine": 65,
+        "startChar": 35,
+        "endLine": 65,
+        "endChar": 41
       },
       "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -14,30 +14,31 @@
 
 package com.google.gerrit.acceptance;
 
-import static java.util.stream.Collectors.toList;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Streams;
 import com.google.common.net.InetAddresses;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
-import java.util.List;
 import org.apache.http.client.utils.URIBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 
 @AutoValue
 public abstract class TestAccount {
-  public static List<Account.Id> ids(List<TestAccount> accounts) {
-    return accounts.stream().map(TestAccount::id).collect(toList());
+  public static ImmutableList<Account.Id> ids(Iterable<TestAccount> accounts) {
+    return Streams.stream(accounts).map(TestAccount::id).collect(toImmutableList());
   }
 
-  public static List<String> names(List<TestAccount> accounts) {
-    return accounts.stream().map(TestAccount::fullName).collect(toList());
+  public static ImmutableList<String> names(Iterable<TestAccount> accounts) {
+    return Streams.stream(accounts).map(TestAccount::fullName).collect(toImmutableList());
   }
 
-  public static List<String> names(TestAccount... accounts) {
+  public static ImmutableList<String> names(TestAccount... accounts) {
     return names(Arrays.asList(accounts));
   }
 

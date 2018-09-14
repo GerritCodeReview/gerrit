@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d6472a0d_e9f11482",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-14T06:01:15Z",
+      "side": 1,
+      "message": "Regular changes can also be deleted. That was added in 2.14.",
+      "parentUuid": "b2b719f9_234af6a2",
+      "revId": "6cf35ccbd5d89fe7fe7ff4cb637ad9e73e6819e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "962d101f_1cb61ab6",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeDeletedListener.java",
         "patchSetId": 2

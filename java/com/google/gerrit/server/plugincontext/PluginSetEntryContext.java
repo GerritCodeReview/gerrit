@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.plugincontext.PluginContext.CheckedExtensionImplFunction;
 import com.google.gerrit.server.plugincontext.PluginContext.ExtensionImplConsumer;
 import com.google.gerrit.server.plugincontext.PluginContext.ExtensionImplFunction;
+import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 
 /**
  * Context to invoke an extension from {@link DynamicSet}.
@@ -81,9 +82,11 @@ import com.google.gerrit.server.plugincontext.PluginContext.ExtensionImplFunctio
  */
 public class PluginSetEntryContext<T> {
   private final Extension<T> extension;
+  private final PluginMetrics pluginMetrics;
 
-  PluginSetEntryContext(Extension<T> extension) {
+  PluginSetEntryContext(Extension<T> extension, PluginMetrics pluginMetrics) {
     this.extension = checkNotNull(extension);
+    this.pluginMetrics = pluginMetrics;
   }
 
   /**
@@ -117,7 +120,7 @@ public class PluginSetEntryContext<T> {
    * @param extensionImplConsumer consumer that invokes the extension
    */
   public void run(ExtensionImplConsumer<T> extensionImplConsumer) {
-    PluginContext.runLogExceptions(extension, extensionImplConsumer);
+    PluginContext.runLogExceptions(pluginMetrics, extension, extensionImplConsumer);
   }
 
   /**
@@ -131,7 +134,7 @@ public class PluginSetEntryContext<T> {
    */
   public <X extends Exception> void run(
       ExtensionImplConsumer<T> extensionImplConsumer, Class<X> exceptionClass) throws X {
-    PluginContext.runLogExceptions(extension, extensionImplConsumer, exceptionClass);
+    PluginContext.runLogExceptions(pluginMetrics, extension, extensionImplConsumer, exceptionClass);
   }
 
   /**

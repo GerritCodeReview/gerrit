@@ -111,15 +111,20 @@ public class DynamicItem<T> {
   }
 
   private final Key<DynamicItem<T>> key;
-  private final AtomicReference<NamedProvider<T>> ref;
+  private final AtomicReference<Extension<T>> ref;
 
   DynamicItem(Key<DynamicItem<T>> key, Provider<T> provider, String pluginName) {
-    NamedProvider<T> in = null;
+    Extension<T> in = null;
     if (provider != null) {
-      in = new NamedProvider<>(provider, pluginName);
+      in = new Extension<>(pluginName, provider);
     }
     this.key = key;
     this.ref = new AtomicReference<>(in);
+  }
+
+  @Nullable
+  public Extension<T> getEntry() {
+    return ref.get();
   }
 
   /**
@@ -130,8 +135,8 @@ public class DynamicItem<T> {
    */
   @Nullable
   public T get() {
-    NamedProvider<T> item = ref.get();
-    return item != null ? item.impl.get() : null;
+    Extension<T> item = ref.get();
+    return item != null ? item.get() : null;
   }
 
   /**
@@ -143,8 +148,8 @@ public class DynamicItem<T> {
    */
   @Nullable
   public String getPluginName() {
-    NamedProvider<T> item = ref.get();
-    return item != null ? item.pluginName : null;
+    Extension<T> item = ref.get();
+    return item != null ? item.getPluginName() : null;
   }
 
   /**
@@ -166,19 +171,19 @@ public class DynamicItem<T> {
    * @return handle to remove the item at a later point in time.
    */
   public RegistrationHandle set(Provider<T> impl, String pluginName) {
-    final NamedProvider<T> item = new NamedProvider<>(impl, pluginName);
-    NamedProvider<T> old = null;
+    final Extension<T> item = new Extension<>(pluginName, impl);
+    Extension<T> old = null;
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
-      if (old != null && !PluginName.GERRIT.equals(old.pluginName)) {
+      if (old != null && !PluginName.GERRIT.equals(old.getPluginName())) {
         throw new ProvisionException(
             String.format(
                 "%s already provided by %s, ignoring plugin %s",
-                key.getTypeLiteral(), old.pluginName, pluginName));
+                key.getTypeLiteral(), old.getPluginName(), pluginName));
       }
     }
 
-    final NamedProvider<T> defaultItem = old;
+    final Extension<T> defaultItem = old;
     return new RegistrationHandle() {
       @Override
       public void remove() {
@@ -198,13 +203,13 @@ public class DynamicItem<T> {
    * @return a handle that can remove this item later, or hot-swap the item.
    */
   public ReloadableRegistrationHandle<T> set(Key<T> key, Provider<T> impl, String pluginName) {
-    final NamedProvider<T> item = new NamedProvider<>(impl, pluginName);
-    NamedProvider<T> old = null;
+    final Extension<T> item = new Extension<>(pluginName, impl);
+    Extension<T> old = null;
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
       if (old != null
-          && !PluginName.GERRIT.equals(old.pluginName)
-          && !pluginName.equals(old.pluginName)) {
+          && !PluginName.GERRIT.equals(old.getPluginName())
+          && !pluginName.equals(old.getPluginName())) {
         // We allow to replace:
         // 1. Gerrit core items, e.g. websession cache
         //    can be replaced by plugin implementation
@@ -212,7 +217,7 @@ public class DynamicItem<T> {
         throw new ProvisionException(
             String.format(
                 "%s already provided by %s, ignoring plugin %s",
-                this.key.getTypeLiteral(), old.pluginName, pluginName));
+                this.key.getTypeLiteral(), old.getPluginName(), pluginName));
       }
     }
     return new ReloadableHandle(key, item, old);
@@ -220,10 +225,10 @@ public class DynamicItem<T> {
 
   private class ReloadableHandle implements ReloadableRegistrationHandle<T> {
     private final Key<T> handleKey;
-    private final NamedProvider<T> item;
-    private final NamedProvider<T> defaultItem;
+    private final Extension<T> item;
+    private final Extension<T> defaultItem;
 
-    ReloadableHandle(Key<T> handleKey, NamedProvider<T> item, NamedProvider<T> defaultItem) {
+    ReloadableHandle(Key<T> handleKey, Extension<T> item, Extension<T> defaultItem) {
       this.handleKey = handleKey;
       this.item = item;
       this.defaultItem = defaultItem;
@@ -242,7 +247,7 @@ public class DynamicItem<T> {
     @Override
     @Nullable
     public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
-      NamedProvider<T> n = new NamedProvider<>(newItem, item.pluginName);
+      Extension<T> n = new Extension<>(item.getPluginName(), newItem);
       if (ref.compareAndSet(item, n)) {
         return new ReloadableHandle(newKey, n, defaultItem);
       }

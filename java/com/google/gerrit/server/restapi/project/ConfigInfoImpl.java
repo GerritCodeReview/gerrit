@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicMap.Entry;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -122,7 +122,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects) {
     TreeMap<String, Map<String, ConfigParameterInfo>> pluginConfig = new TreeMap<>();
-    for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+    for (Extension<ProjectConfigEntry> e : pluginConfigEntries) {
       ProjectConfigEntry configEntry = e.getProvider().get();
       PluginConfig cfg = cfgFactory.getFromProjectConfig(project, e.getPluginName());
       String configuredValue = cfg.getString(e.getExportName());
@@ -165,7 +165,7 @@ public class ConfigInfoImpl extends ConfigInfo {
   }
 
   private String getInheritedValue(
-      ProjectState project, PluginConfigFactory cfgFactory, Entry<ProjectConfigEntry> e) {
+      ProjectState project, PluginConfigFactory cfgFactory, Extension<ProjectConfigEntry> e) {
     ProjectConfigEntry configEntry = e.getProvider().get();
     ProjectState parent = Iterables.getFirst(project.parents(), null);
     String inheritedValue = configEntry.getDefaultValue();

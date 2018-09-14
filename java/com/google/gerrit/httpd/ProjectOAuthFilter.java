@@ -25,7 +25,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicMap.Entry;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
@@ -191,7 +191,7 @@ class ProjectOAuthFilter implements Filter {
    */
   private void pickOnlyProvider() throws ServletException {
     try {
-      Entry<OAuthLoginProvider> loginProvider = Iterables.getOnlyElement(loginProviders);
+      Extension<OAuthLoginProvider> loginProvider = Iterables.getOnlyElement(loginProviders);
       defaultAuthPlugin = loginProvider.getPluginName();
       defaultAuthProvider = loginProvider.getExportName();
     } catch (NoSuchElementException e) {

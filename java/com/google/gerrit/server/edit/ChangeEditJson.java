@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeJson;
@@ -78,7 +79,7 @@ public class ChangeEditJson {
 
   private Map<String, FetchInfo> fillFetchMap(ChangeEdit edit) {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
-    for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
+    for (Extension<DownloadScheme> e : downloadSchemes) {
       String schemeName = e.getExportName();
       DownloadScheme scheme = e.getProvider().get();
       if (!scheme.isEnabled()

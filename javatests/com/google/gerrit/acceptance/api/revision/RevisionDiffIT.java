@@ -2521,7 +2521,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
       throws Exception {
     testRepo.reset(parentCommit);
     PushOneCommit push =
-        pushFactory.create(admin.getIdent(), testRepo, "Adjust files of repo", files);
+        pushFactory.create(admin.newIdent(), testRepo, "Adjust files of repo", files);
     PushOneCommit.Result result = push.to("refs/for/master");
     return result.getCommit();
   }
@@ -2545,7 +2545,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         Arrays.stream(removedFilePaths)
             .collect(toMap(Function.identity(), path -> "Irrelevant content"));
     PushOneCommit push =
-        pushFactory.create(admin.getIdent(), testRepo, "Remove files from repo", files);
+        pushFactory.create(admin.newIdent(), testRepo, "Remove files from repo", files);
     PushOneCommit.Result result = push.rm("refs/for/master");
     return result.getCommit();
   }
@@ -2564,7 +2564,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
   private Result createEmptyChange() throws Exception {
     PushOneCommit push =
-        pushFactory.create(admin.getIdent(), testRepo, "Test change", ImmutableMap.of());
+        pushFactory.create(admin.newIdent(), testRepo, "Test change", ImmutableMap.of());
     return push.to("refs/for/master");
   }
 

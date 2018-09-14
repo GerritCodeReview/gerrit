@@ -88,8 +88,8 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     assertCurrentRevision(change2.getChangeId(), 2, headAfterSecondSubmit);
     assertSubmitter(change2.getChangeId(), 1, submitter);
     assertSubmitter(change2.getChangeId(), 2, submitter);
-    assertPersonEquals(admin.getIdent(), headAfterSecondSubmit.getAuthorIdent());
-    assertPersonEquals(submitter.getIdent(), headAfterSecondSubmit.getCommitterIdent());
+    assertPersonEquals(admin.newIdent(), headAfterSecondSubmit.getAuthorIdent());
+    assertPersonEquals(submitter.newIdent(), headAfterSecondSubmit.getCommitterIdent());
 
     assertRefUpdatedEvents(
         initialHead, headAfterFirstSubmit, headAfterFirstSubmit, headAfterSecondSubmit);
@@ -179,7 +179,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     PushOneCommit.Result change1 = createChange("Added a", "a.txt", "");
 
     PushOneCommit change2Push =
-        pushFactory.create(admin.getIdent(), testRepo, "Merge to master", "m.txt", "");
+        pushFactory.create(admin.newIdent(), testRepo, "Merge to master", "m.txt", "");
     change2Push.setParents(ImmutableList.of(initialHead, change1.getCommit()));
     PushOneCommit.Result change2 = change2Push.to("refs/for/master");
 

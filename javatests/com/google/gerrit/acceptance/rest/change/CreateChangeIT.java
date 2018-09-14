@@ -184,7 +184,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(message)
           .contains(
               String.format(
-                  "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.getIdent().getEmailAddress()));
+                  "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.newIdent().getEmailAddress()));
     } finally {
       setSignedOffByFooter(false);
     }
@@ -205,7 +205,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(message)
           .contains(
               String.format(
-                  "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.getIdent().getEmailAddress()));
+                  "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.newIdent().getEmailAddress()));
     } finally {
       setSignedOffByFooter(false);
     }
@@ -563,7 +563,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     // create a initial commit in master
     Result initialCommit =
         pushFactory
-            .create(user.getIdent(), testRepo, "initial commit", "readme.txt", "initial commit")
+            .create(user.newIdent(), testRepo, "initial commit", "readme.txt", "initial commit")
             .to("refs/heads/master");
     initialCommit.assertOkStatus();
 
@@ -574,13 +574,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
     // create a commit in branchA
     Result changeA =
         pushFactory
-            .create(user.getIdent(), testRepo, "change A", fileA, "A content")
+            .create(user.newIdent(), testRepo, "change A", fileA, "A content")
             .to("refs/heads/" + branchA);
     changeA.assertOkStatus();
 
     // create a commit in branchB
     PushOneCommit commitB =
-        pushFactory.create(user.getIdent(), testRepo, "change B", fileB, "B content");
+        pushFactory.create(user.newIdent(), testRepo, "change B", fileB, "B content");
     commitB.setParent(initialCommit.getCommit());
     Result changeB = commitB.to("refs/heads/" + branchB);
     changeB.assertOkStatus();

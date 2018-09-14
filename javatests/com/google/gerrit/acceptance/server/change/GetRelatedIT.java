@@ -103,7 +103,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   @Test
   public void getRelatedNoResult() throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     assertRelated(push.to("refs/for/master").getPatchSetId());
   }
 

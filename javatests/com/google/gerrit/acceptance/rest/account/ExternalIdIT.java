@@ -643,8 +643,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
       CommitBuilder cb = new CommitBuilder();
       cb.setMessage("Update external IDs");
       cb.setTreeId(noteMap.writeTree(ins));
-      cb.setAuthor(admin.getIdent());
-      cb.setCommitter(admin.getIdent());
+      cb.setAuthor(admin.newIdent());
+      cb.setCommitter(admin.newIdent());
       if (!rev.equals(ObjectId.zeroId())) {
         cb.setParentId(rev);
       } else {
@@ -933,8 +933,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
       extIdNotes.insert(extId);
       try (MetaDataUpdate metaDataUpdate =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {
-        metaDataUpdate.getCommitBuilder().setAuthor(admin.getIdent());
-        metaDataUpdate.getCommitBuilder().setCommitter(admin.getIdent());
+        metaDataUpdate.getCommitBuilder().setAuthor(admin.newIdent());
+        metaDataUpdate.getCommitBuilder().setCommitter(admin.newIdent());
         extIdNotes.commit(metaDataUpdate);
       }
     }
@@ -946,8 +946,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
     extIdNotes.insert(Arrays.asList(extIds));
     try (MetaDataUpdate metaDataUpdate =
         new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, testRepo.getRepository())) {
-      metaDataUpdate.getCommitBuilder().setAuthor(admin.getIdent());
-      metaDataUpdate.getCommitBuilder().setCommitter(admin.getIdent());
+      metaDataUpdate.getCommitBuilder().setAuthor(admin.newIdent());
+      metaDataUpdate.getCommitBuilder().setCommitter(admin.newIdent());
       extIdNotes.commit(metaDataUpdate);
       extIdNotes.updateCaches();
     }

@@ -147,7 +147,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   }
 
   private String createMyChange(TestRepository<InMemoryRepository> testRepo) throws Exception {
-    PushOneCommit push = pushFactory.create(user.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(user.newIdent(), testRepo);
     return push.to("refs/for/master").getChangeId();
   }
 }

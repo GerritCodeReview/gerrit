@@ -1094,7 +1094,7 @@ public class GroupsIT extends AbstractDaemonTest {
     repo.reset("groupRef");
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), repo, "Update group", "arbitraryFile.txt", "some content")
+            .create(admin.newIdent(), repo, "Update group", "arbitraryFile.txt", "some content")
             .to(groupRefName);
     if (expectedErrorOnUpdate != null) {
       r.assertErrorStatus(expectedErrorOnUpdate);
@@ -1113,7 +1113,7 @@ public class GroupsIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> repo = cloneProject(project);
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), repo, "Update group", "arbitraryFile.txt", "some content")
+            .create(admin.newIdent(), repo, "Update group", "arbitraryFile.txt", "some content")
             .setParents(ImmutableList.of())
             .to(RefNames.REFS_GROUPS + name("bar"));
     r.assertOkStatus();
@@ -1151,7 +1151,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), repo, "Subject", "project.config", config)
+            .create(admin.newIdent(), repo, "Subject", "project.config", config)
             .to(RefNames.REFS_CONFIG);
     r.assertErrorStatus("invalid project configuration");
     r.assertMessage("All-Users must inherit from All-Projects");
@@ -1201,7 +1201,7 @@ public class GroupsIT extends AbstractDaemonTest {
     grant(allUsers, refPattern, Permission.PUSH);
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-    PushOneCommit.Result r = pushFactory.create(admin.getIdent(), allUsersRepo).to(groupRef);
+    PushOneCommit.Result r = pushFactory.create(admin.newIdent(), allUsersRepo).to(groupRef);
     r.assertErrorStatus();
     assertThat(r.getMessage()).contains("Not allowed to create group branch.");
 
@@ -1427,7 +1427,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.getIdent(), repo, "Update group config", "group.config", "some content")
+            .create(admin.newIdent(), repo, "Update group config", "group.config", "some content")
             .to(MagicBranch.NEW_CHANGE + groupRef);
     r.assertOkStatus();
     assertThat(r.getChange().change().getDest().get()).isEqualTo(groupRef);

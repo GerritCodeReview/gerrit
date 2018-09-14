@@ -142,25 +142,25 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     // visible.
     allow("refs/for/refs/heads/*", Permission.SUBMIT, admins);
     PushOneCommit.Result mr =
-        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master%submit");
+        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
     cd1 = mr.getChange();
     psRef1 = cd1.currentPatchSet().getId().toRefName();
     metaRef1 = RefNames.changeMetaRef(cd1.getId());
     PushOneCommit.Result br =
-        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/branch%submit");
+        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/branch%submit");
     br.assertOkStatus();
     cd2 = br.getChange();
     psRef2 = cd2.currentPatchSet().getId().toRefName();
     metaRef2 = RefNames.changeMetaRef(cd2.getId());
 
     // Second 2 changes are unmerged.
-    mr = pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master");
+    mr = pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
     mr.assertOkStatus();
     cd3 = mr.getChange();
     psRef3 = cd3.currentPatchSet().getId().toRefName();
     metaRef3 = RefNames.changeMetaRef(cd3.getId());
-    br = pushFactory.create(admin.getIdent(), testRepo).to("refs/for/branch");
+    br = pushFactory.create(admin.newIdent(), testRepo).to("refs/for/branch");
     br.assertOkStatus();
     cd4 = br.getChange();
     psRef4 = cd4.currentPatchSet().getId().toRefName();
@@ -656,7 +656,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allUsersRepo.reset("userRef");
     PushOneCommit.Result mr =
         pushFactory
-            .create(admin.getIdent(), allUsersRepo)
+            .create(admin.newIdent(), allUsersRepo)
             .to("refs/for/" + RefNames.REFS_USERS_SELF);
     mr.assertOkStatus();
 

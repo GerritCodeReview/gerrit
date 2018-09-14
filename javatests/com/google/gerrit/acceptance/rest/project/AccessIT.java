@@ -561,7 +561,7 @@ public class AccessIT extends AbstractDaemonTest {
     config = cfg.toText();
     PushOneCommit push =
         pushFactory.create(
-            admin.getIdent(), allProjectsRepo, "Subject", ProjectConfig.PROJECT_CONFIG, config);
+            admin.newIdent(), allProjectsRepo, "Subject", ProjectConfig.PROJECT_CONFIG, config);
     push.to(RefNames.REFS_CONFIG).assertOkStatus();
 
     // Verify that unknownPermission is present

@@ -333,7 +333,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
       List<RevCommit> parents,
       String ref)
       throws Exception {
-    PushOneCommit push = pushFactory.create(admin.getIdent(), repo, subject, fileName, content);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), repo, subject, fileName, content);
 
     if (!parents.isEmpty()) {
       push.setParents(parents);

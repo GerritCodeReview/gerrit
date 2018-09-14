@@ -47,7 +47,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
   public void setPrivateByOwner() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
-        pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
+        pushFactory.create(user.newIdent(), userRepo).to("refs/for/master");
 
     requestScopeOperations.setApiUser(user.id());
     String changeId = result.getChangeId();
@@ -111,7 +111,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
   public void administratorCanSetUserChangePrivate() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
-        pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
+        pushFactory.create(user.newIdent(), userRepo).to("refs/for/master");
 
     String changeId = result.getChangeId();
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
@@ -135,7 +135,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
   public void accessPrivate() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
-        pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
+        pushFactory.create(user.newIdent(), userRepo).to("refs/for/master");
 
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(result.getChangeId()).setPrivate(true, null);
@@ -183,7 +183,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
   public void ownerCannotMarkPrivateAfterMerging() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
-        pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
+        pushFactory.create(user.newIdent(), userRepo).to("refs/for/master");
 
     String changeId = result.getChangeId();
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
@@ -213,7 +213,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
   public void ownerCanUnmarkPrivateAfterMerging() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
-        pushFactory.create(user.getIdent(), userRepo).to("refs/for/master");
+        pushFactory.create(user.newIdent(), userRepo).to("refs/for/master");
 
     String changeId = result.getChangeId();
     gApi.changes().id(changeId).addReviewer(admin.id().toString());
@@ -230,7 +230,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).setPrivate(true);
 
-    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result result = push.to("refs/heads/master");
     result.assertOkStatus();
 

@@ -23,6 +23,30 @@
       "revId": "f0bbed48b44730326e073396cf982800e6b184a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "417e776d_53b0cdb0",
+        "filename": "java/com/google/gerrit/server/project/ProjectAccessor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-14T14:50:25Z",
+      "side": 1,
+      "message": "Good questions. I also didn\u0027t know about getAllProjects. It does have some advantages:\n* Callers don\u0027t have to inject an AllProjectsName\n* Avoid null checks at the call site\n* Get an unchecked rather than a checked exception\n\nReplacing all usages with ProjectAccessor.Factory#create only satisfies one of those (avoiding null checks), so my first inclination is to keep getAllProjects around for now. That said, there aren\u0027t that many usages, so the extra API surface area is not worth the savings.\n\n(There is also the analogous getAllUsers, which is actually never used.)",
+      "parentUuid": "5d818220_36e01071",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 5
+      },
+      "revId": "f0bbed48b44730326e073396cf982800e6b184a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

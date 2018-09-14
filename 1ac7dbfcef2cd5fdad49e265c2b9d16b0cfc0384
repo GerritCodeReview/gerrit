@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a118b7e_e7a66ece",
+        "filename": "java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-09-14T13:48:32Z",
+      "side": 1,
+      "message": "How is this removal of \"final\" related bumping args4j?",
+      "revId": "1ac7dbfcef2cd5fdad49e265c2b9d16b0cfc0384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

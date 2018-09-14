@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e95d7bf_bdb9f5a6",
+        "filename": "java/com/google/gerrit/acceptance/InProcessProtocol.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-14T17:06:44Z",
+      "side": 0,
+      "message": "Here and below: This case would be equal to the now thrown NoSuchProjectException. Is it intended that we now throw a RuntimeException without additional text when we hit that case?",
+      "range": {
+        "startLine": 261,
+        "startChar": 10,
+        "endLine": 261,
+        "endChar": 30
+      },
+      "revId": "7984bbcb99a48e0962df85def1206f9087e03cea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

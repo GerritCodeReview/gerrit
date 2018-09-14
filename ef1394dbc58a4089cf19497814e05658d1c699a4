@@ -23,6 +23,30 @@
       "revId": "ef1394dbc58a4089cf19497814e05658d1c699a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "270fb07b_717d3f71",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-14T15:00:21Z",
+      "side": 1,
+      "message": "I am still ok with the name \"Entry\" because it\u0027s still primarily used as an entry in a Map/Set. But I don\u0027t feel too strongly and would also be ok with changing it.",
+      "parentUuid": "5840cc01_0b185489",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "ef1394dbc58a4089cf19497814e05658d1c699a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

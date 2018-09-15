@@ -76,6 +76,9 @@ limitations under the License.
       // syntax highlighting for the entire file.
       const SYNTAX_MAX_LINE_LENGTH = 500;
 
+      // Disable syntax highlighting if the overall diff is too large.
+      const SYNTAX_MAX_DIFF_LENGTH = 20000;
+
       const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
       Polymer({
@@ -190,7 +193,7 @@ limitations under the License.
                 this.dispatchEvent(new CustomEvent('render-content',
                     {bubbles: true}));
 
-                if (this._anyLineTooLong()) {
+                if (this._diffTooLargeForSyntax()) {
                   this.$.syntaxLayer.enabled = false;
                 }
 
@@ -473,9 +476,31 @@ limitations under the License.
           }, false);
         },
 
+        _diffTooLargeForSyntax() {
+          return this._anyLineTooLong() ||
+              this.getDiffLength() > SYNTAX_MAX_DIFF_LENGTH;
+        },
+
         setBlame(blame) {
           if (!this._builder || !blame) { return; }
           this._builder.setBlame(blame);
+        },
+
+        /**
+         * Get the approximate length of the diff as the sum of the maximum
+         * length of the chunks.
+         * @return {number}
+         */
+        getDiffLength() {
+          return this.diff.content.reduce((sum, sec) => {
+            if (sec.hasOwnProperty('ab')) {
+              return sum + sec.ab.length;
+            } else {
+              return sum + Math.max(
+                  sec.hasOwnProperty('a') ? sec.a.length : 0,
+                  sec.hasOwnProperty('b') ? sec.b.length : 0);
+            }
+          }, 0);
         },
       });
     })();

@@ -1052,6 +1052,10 @@ limitations under the License.
         });
       });
 
+      test('getDiffLength', () => {
+        assert.equal(element.getDiffLength(diff), 52);
+      });
+
       test('getContentByLine', () => {
         let actual;
 

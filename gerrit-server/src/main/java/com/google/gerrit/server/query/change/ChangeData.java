@@ -1093,14 +1093,15 @@ public class ChangeData {
   public boolean isReviewedBy(Account.Id accountId) throws OrmException {
     Collection<String> stars = stars(accountId);
 
-    if (stars.contains(
-        StarredChangesUtil.REVIEWED_LABEL + "/" + currentPatchSet().getPatchSetId())) {
-      return true;
-    }
+    PatchSet ps = currentPatchSet();
+    if (ps != null) {
+      if (stars.contains(StarredChangesUtil.REVIEWED_LABEL + "/" + ps.getPatchSetId())) {
+        return true;
+      }
 
-    if (stars.contains(
-        StarredChangesUtil.UNREVIEWED_LABEL + "/" + currentPatchSet().getPatchSetId())) {
-      return false;
+      if (stars.contains(StarredChangesUtil.UNREVIEWED_LABEL + "/" + ps.getPatchSetId())) {
+        return false;
+      }
     }
 
     return reviewedBy().contains(accountId);

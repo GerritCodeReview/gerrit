@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "3a237f96_2a99748e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-15T01:47:05Z",
+      "side": 1,
+      "message": "Well, it was reported as a problem by a user of 2.15, so I thought it was reasonable to fix it on the stable branch.\n\nBut if it\u0027s causing unexpected side effects, let\u0027s revert it.",
+      "parentUuid": "03a9de33_71a1f01f",
+      "range": {
+        "startLine": 10,
+        "startChar": 59,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "4557abd6e1d2141509f963172a7f459a05627d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d959844d_caf8d6ae",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -140,6 +164,30 @@
       "revId": "4557abd6e1d2141509f963172a7f459a05627d60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82539f62_ef4fdf9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-15T01:47:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a09bf130_5d5de3c4",
+      "range": {
+        "startLine": 14,
+        "startChar": 18,
+        "endLine": 15,
+        "endChar": 30
+      },
+      "revId": "4557abd6e1d2141509f963172a7f459a05627d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

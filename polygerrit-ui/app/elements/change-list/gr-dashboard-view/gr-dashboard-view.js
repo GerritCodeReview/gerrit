@@ -45,6 +45,7 @@
       // by the viewing user.
       name: 'Outgoing reviews',
       query: 'is:open owner:${user} -is:wip -is:ignored',
+      isOutgoing: true,
     },
     {
       // Non-WIP open changes not owned by the viewed user, that the viewed user
@@ -249,6 +250,7 @@
               sectionName: res.sections[i].name,
               query: res.sections[i].query,
               results,
+              isOutgoing: res.sections[i].isOutgoing,
             })).filter((section, i) => !res.sections[i].hideIfEmpty ||
                 section.results.length);
           });
@@ -266,6 +268,15 @@
     _handleToggleReviewed(e) {
       this.$.restAPI.saveChangeReviewed(e.detail.change._number,
           e.detail.reviewed);
+    },
+
+    _createChangeTap() {
+      this.$.destinationDialog.open();
+    },
+
+    _handleDestinationConfirm(e) {
+      this.$.commandsDialog.branch = e.detail.branch;
+      this.$.commandsDialog.open();
     },
   });
 })();

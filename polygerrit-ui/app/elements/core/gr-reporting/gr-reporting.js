@@ -135,7 +135,9 @@
 
   GrJankDetector.start();
 
-  const GrReporting = Polymer({
+  // The Polymer pass of JSCompiler requires this to be reassignable
+  // eslint-disable-next-line prefer-const
+  let GrReporting = Polymer({
     is: 'gr-reporting',
 
     properties: {

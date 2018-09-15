@@ -195,6 +195,8 @@
           return this._createCommentThreadGroup.bind(this);
         },
       },
+
+      _diffLength: Number,
     },
 
     behaviors: [
@@ -624,6 +626,7 @@
 
     _diffChanged(newValue) {
       if (newValue) {
+        this._diffLength = this.$.diffBuilder.getDiffLength();
         this._renderDiffTable();
       }
     },
@@ -634,7 +637,7 @@
         return;
       }
       if (this.prefs.context === -1 &&
-          this._diffLength(this.diff) >= LARGE_DIFF_THRESHOLD_LINES &&
+          this._diffLength >= LARGE_DIFF_THRESHOLD_LINES &&
           this._safetyBypass === null) {
         this._showWarning = true;
         this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
@@ -682,25 +685,6 @@
     /** @return {boolean} */
     _computeDiffHeaderHidden(items) {
       return items.length === 0;
-    },
-
-    /**
-     * The number of lines in the diff. For delta chunks that are different
-     * sizes on the left and the right, the longer side is used.
-     * @param {!Object} diff
-     * @return {number}
-     */
-    _diffLength(diff) {
-      return diff.content.reduce((sum, sec) => {
-        if (sec.hasOwnProperty('ab')) {
-          return sum + sec.ab.length;
-        } else {
-          return sum + Math.max(
-              sec.hasOwnProperty('a') ? sec.a.length : 0,
-              sec.hasOwnProperty('b') ? sec.b.length : 0
-          );
-        }
-      }, 0);
     },
 
     _handleFullBypass() {

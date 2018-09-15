@@ -55,12 +55,6 @@ limitations under the License.
       assert.isTrue(cancelStub.calledOnce);
     });
 
-    test('_diffLength', () => {
-      element = fixture('basic');
-      const mock = document.createElement('mock-diff-response');
-      assert.equal(element._diffLength(mock.diffResponse), 52);
-    });
-
     test('line limit with line_wrapping', () => {
       element = fixture('basic');
       element.prefs = {line_wrapping: true, line_length: 80, tab_size: 2};
@@ -971,6 +965,7 @@ limitations under the License.
                   new CustomEvent('render', {bubbles: true}));
             });
         const mock = document.createElement('mock-diff-response');
+        sandbox.stub(element.$.diffBuilder, 'getDiffLength').returns(10000);
         element.diff = mock.diffResponse;
         element.comments = {left: [], right: []};
         element.noRenderOnPrefsChange = true;
@@ -978,7 +973,6 @@ limitations under the License.
 
       test('large render w/ context = 10', done => {
         element.prefs = {context: 10};
-        sandbox.stub(element, '_diffLength', () => 10000);
         element.addEventListener('render', () => {
           assert.isTrue(renderStub.called);
           assert.isFalse(element._showWarning);
@@ -990,7 +984,6 @@ limitations under the License.
       test('large render w/ whole file and bypass', done => {
         element.prefs = {context: -1};
         element._safetyBypass = 10;
-        sandbox.stub(element, '_diffLength', () => 10000);
         element.addEventListener('render', () => {
           assert.isTrue(renderStub.called);
           assert.isFalse(element._showWarning);
@@ -1001,7 +994,6 @@ limitations under the License.
 
       test('large render w/ whole file and no bypass', done => {
         element.prefs = {context: -1};
-        sandbox.stub(element, '_diffLength', () => 10000);
         element.addEventListener('render', () => {
           assert.isFalse(renderStub.called);
           assert.isTrue(element._showWarning);

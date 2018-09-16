@@ -54,6 +54,7 @@ class SignedPushModule extends AbstractModule {
     }
     bind(PublicKeyStore.class).toProvider(StoreProvider.class);
     DynamicSet.bind(binder(), ReceivePackInitializer.class).to(Initializer.class);
+    install(SubkeyToMasterKeyCache.module());
   }
 
   @Singleton
@@ -116,11 +117,16 @@ class SignedPushModule extends AbstractModule {
   private static class StoreProvider implements Provider<PublicKeyStore> {
     private final GitRepositoryManager repoManager;
     private final AllUsersName allUsers;
+    private final SubkeyToMasterKeyCache subKeyCache;
 
     @Inject
-    StoreProvider(GitRepositoryManager repoManager, AllUsersName allUsers) {
+    StoreProvider(
+        GitRepositoryManager repoManager,
+        AllUsersName allUsers,
+        SubkeyToMasterKeyCache subKeyCache) {
       this.repoManager = repoManager;
       this.allUsers = allUsers;
+      this.subKeyCache = subKeyCache;
     }
 
     @Override
@@ -131,7 +137,7 @@ class SignedPushModule extends AbstractModule {
       } catch (IOException e) {
         throw new ProvisionException("Cannot open " + allUsers, e);
       }
-      return new PublicKeyStore(repo) {
+      return new PublicKeyStore(repo, subKeyCache) {
         @Override
         public void close() {
           try {

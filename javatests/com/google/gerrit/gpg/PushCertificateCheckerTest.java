@@ -64,7 +64,7 @@ public class PushCertificateCheckerTest {
     TestKey key1 = validKeyWithoutExpiration();
     TestKey key3 = expiredKey();
     repo = new InMemoryRepository(new DfsRepositoryDescription("repo"));
-    store = new PublicKeyStore(repo);
+    store = new PublicKeyStore(repo, null);
     store.add(key1.getPublicKeyRing());
     store.add(key3.getPublicKeyRing());
 
@@ -82,7 +82,7 @@ public class PushCertificateCheckerTest {
 
   private PushCertificateChecker newChecker(boolean checkNonce) {
     PublicKeyChecker keyChecker = new PublicKeyChecker().setStore(store);
-    return new PushCertificateChecker(keyChecker) {
+    return new PushCertificateChecker(keyChecker, null) {
       @Override
       protected Repository getRepository() {
         return repo;

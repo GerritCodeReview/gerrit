@@ -22,6 +22,30 @@
       "revId": "b9803239d99333e900ed82c2a0f5c542b58ed98a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "928db8c5_9d8104f0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ReflogIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-09-16T08:30:58Z",
+      "side": 1,
+      "message": "\u003e This is not actually testing the change that was made in the reflog endpoint.  The ResourceNotFoundException is thrown from BranchesCollection.parse before the endpoint is invoked, when attempting to create the BranchApi from within the GerritApi.\n\nIf you don\u0027t have read access to the branch, you can access it and get a resource not found error.\n\n\u003e I suspect that this test will also pass without the change in the reflog endpoint.\n\nYes, it will. Do you have any suggestions on how to test a user that doesn\u0027t have read access and manages in get hold of the repo and the target branch?",
+      "parentUuid": "e08d20f8_7cc30d57",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 66
+      },
+      "revId": "b9803239d99333e900ed82c2a0f5c542b58ed98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.gpg;
 import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.gerrit.common.Nullable;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,7 +62,8 @@ import org.eclipse.jgit.util.NB;
  *
  * <p>The contents of each file is an ASCII armored stream containing one or more public key rings
  * matching the ID. Multiple keys are supported because forging a key ID is possible, but such a key
- * cannot be used to verify signatures produced with the correct key.
+ * cannot be used to verify signatures produced with the correct key. If a master key cannot be
+ * found for a given signature, subkey cache is consulted to lookup for the master key.
  *
  * <p>No additional checks are performed on the key after reading; callers should only trust keys
  * after checking with a {@link PublicKeyChecker}.
@@ -88,11 +90,19 @@ public class PublicKeyStore implements AutoCloseable {
   public static PGPPublicKey getSigner(
       Iterable<PGPPublicKeyRing> keyRings, PGPSignature sig, byte[] data) throws PGPException {
     for (PGPPublicKeyRing kr : keyRings) {
-      PGPPublicKey k = kr.getPublicKey();
+      // Possibly return a signing subkey in case it differs from the master public key
+      PGPPublicKey k = kr.getPublicKey(sig.getKeyID());
+      if (k == null) {
+        throw new IllegalStateException(
+            String.format("No public key found for ID: %s", keyIdToString(sig.getKeyID())));
+      }
       sig.init(new BcPGPContentVerifierBuilderProvider(), k);
       sig.update(data);
       if (sig.verify()) {
-        return k;
+        // If the signature was made using a subkey, return the main public key.
+        // This enables further validity checks, like user ID checks, that can only
+        // be performed using the master public key.
+        return kr.getPublicKey();
       }
     }
     return null;
@@ -125,6 +135,7 @@ public class PublicKeyStore implements AutoCloseable {
   }
 
   private final Repository repo;
+  private final SubkeyToMasterKeyCache subkeyCache;
   private ObjectReader reader;
   private RevCommit tip;
   private NoteMap notes;
@@ -132,8 +143,9 @@ public class PublicKeyStore implements AutoCloseable {
   private Set<Fingerprint> toRemove;
 
   /** @param repo repository to read keys from. */
-  public PublicKeyStore(Repository repo) {
+  public PublicKeyStore(Repository repo, @Nullable SubkeyToMasterKeyCache subkeyCache) {
     this.repo = repo;
+    this.subkeyCache = subkeyCache;
     toAdd = new HashMap<>();
     toRemove = new HashSet<>();
   }
@@ -207,9 +219,24 @@ public class PublicKeyStore implements AutoCloseable {
     if (notes == null) {
       return Collections.emptyList();
     }
-    Note note = notes.getNote(keyObjectId(keyId));
+    ObjectId keyObjectId = keyObjectId(keyId);
+    Note note = notes.getNote(keyObjectId);
     if (note == null) {
-      return Collections.emptyList();
+      if (subkeyCache == null) {
+        return Collections.emptyList();
+      }
+      // No master public key found, try to retrieve key ring from subkey cache
+      String masterKey = subkeyCache.get(keyObjectId.name());
+      if (masterKey == null) {
+        return Collections.emptyList();
+      }
+
+      keyObjectId = ObjectId.fromString(masterKey);
+      note = notes.getNote(keyObjectId);
+
+      if (note == null) {
+        throw new IllegalStateException(String.format("Cannot find master key: %s", keyObjectId));
+      }
     }
 
     List<PGPPublicKeyRing> keys = new ArrayList<>();
@@ -363,7 +390,26 @@ public class PublicKeyStore implements AutoCloseable {
     if (!replaced) {
       toWrite.add(keyRing);
     }
-    notes.set(keyObjectId(keyId), ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
+    ObjectId keyObjectId = keyObjectId(keyId);
+    notes.set(keyObjectId, ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
+
+    addToSubkeyCache(keyRing, keyId, keyObjectId);
+  }
+
+  private void addToSubkeyCache(
+      PGPPublicKeyRing keyRing, long masterKeyId, ObjectId masterKeyObjectId) {
+    if (subkeyCache == null) {
+      return;
+    }
+
+    for (PGPPublicKey key : keyRing) {
+      long subKeyId = key.getKeyID();
+      // Skip master public key
+      if (masterKeyId == subKeyId) {
+        continue;
+      }
+      subkeyCache.put(keyObjectId(subKeyId).name(), masterKeyObjectId.name());
+    }
   }
 
   private void deleteFromNotes(ObjectInserter ins, Fingerprint fp)
@@ -378,10 +424,31 @@ public class PublicKeyStore implements AutoCloseable {
     }
     if (toWrite.size() == existing.size()) {
       return;
-    } else if (!toWrite.isEmpty()) {
-      notes.set(keyObjectId(keyId), ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
+    }
+
+    ObjectId keyObjectId = keyObjectId(keyId);
+    if (!toWrite.isEmpty()) {
+      notes.set(keyObjectId, ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
     } else {
-      notes.remove(keyObjectId(keyId));
+
+      // Clean up subkey cache
+      if (subkeyCache != null) {
+        // TODO(davido): It shouldn't be needed to retrieve the key ring again to invalidate subkey
+        // cache. The removal of key is not really often operation, though
+        PGPPublicKeyRing keyRing = get(fp.get());
+
+        for (PGPPublicKey key : keyRing) {
+          long subKeyId = key.getKeyID();
+          // Skip master public key
+          if (keyId == subKeyId) {
+            continue;
+          }
+          subkeyCache.remove(keyObjectId(subKeyId).name());
+        }
+      }
+
+      // Now, that all subkey entries were removed from the cache, remove the master key
+      notes.remove(keyObjectId);
     }
   }
 

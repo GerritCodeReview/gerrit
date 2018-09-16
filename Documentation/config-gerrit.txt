@@ -1009,6 +1009,13 @@ this cache is approximately 346 bytes.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
 
+cache `"subkey_master_key"`::
++
+Maintains the map from GPG subkey id to GPG master key id. This is
+needed for fast access to the key ring when subkeys are used for
+signing. Flushing this cache would cause all users to not be able
+to use subkeys for signing pushes again.
+
 ==== [[cache_options]]Cache Options
 
 [[cache.diff.timeout]]cache.diff.timeout::

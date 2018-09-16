@@ -63,11 +63,14 @@ public abstract class PushCertificateChecker {
   }
 
   private final PublicKeyChecker publicKeyChecker;
+  private final SubkeyToMasterKeyCache subkeyCache;
 
   private boolean checkNonce;
 
-  protected PushCertificateChecker(PublicKeyChecker publicKeyChecker) {
+  protected PushCertificateChecker(
+      PublicKeyChecker publicKeyChecker, SubkeyToMasterKeyCache subkeyCache) {
     this.publicKeyChecker = publicKeyChecker;
+    this.subkeyCache = subkeyCache;
     checkNonce = true;
   }
 
@@ -93,7 +96,7 @@ public abstract class PushCertificateChecker {
       if (sig != null) {
         @SuppressWarnings("resource")
         Repository repo = getRepository();
-        try (PublicKeyStore store = new PublicKeyStore(repo)) {
+        try (PublicKeyStore store = new PublicKeyStore(repo, subkeyCache)) {
           sigResult = checkSignature(sig, cert, store);
           results.add(checkCustom(repo));
         } finally {

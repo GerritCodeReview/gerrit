@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c603ef7_1fbc81d7",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-09-16T23:51:39Z",
+      "side": 1,
+      "message": "language nit: Should \u0027Eventually\u0027 be \u0027Possibly\u0027 here? Might be simplest to leave out the word altogether.",
+      "range": {
+        "startLine": 92,
+        "startChar": 9,
+        "endLine": 92,
+        "endChar": 19
+      },
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7b60037_b4cb4ccd",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-09-16T23:51:39Z",
+      "side": 1,
+      "message": "I\u0027m having trouble understanding this sentence. Maybe:\n\n  // If the signature was made using a subkey, return the main public key.\n  // This enables further validity checks, like user ID checks, that can only\n  // be performed using the master public key.",
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c569be3c_2eccab27",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-09-16T23:51:39Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 145,
+        "startChar": 41,
+        "endLine": 145,
+        "endChar": 63
+      },
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae444701_b10b9d05",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-09-16T23:51:39Z",
+      "side": 1,
+      "message": "try to retrieve?",
+      "range": {
+        "startLine": 227,
+        "startChar": 37,
+        "endLine": 227,
+        "endChar": 49
+      },
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "048d2ff4_cab0abd1",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-09-16T23:51:39Z",
+      "side": 1,
+      "message": "unrelated change",
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8effd37_5adfbea4",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-09-16T23:51:39Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 397,
+        "startChar": 9,
+        "endLine": 397,
+        "endChar": 18
+      },
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "989223d4_faf30049",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-09-16T23:51:39Z",
+      "side": 1,
+      "message": "optional: can simplify:\n\n  for (PGPPublicKey key : keyRing.iterator()) {\n    ...\n\nMore importantly, should this go in a separate method? This method is getting hard to follow.",
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af5a8fd4_d0738505",
+        "filename": "java/com/google/gerrit/gpg/SubkeyToMasterKeyCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-09-16T23:51:39Z",
+      "side": 1,
+      "message": "Could use a class javadoc comment.\n\nI\u0027m having trouble tracking down how this cache gets populated. It doesn\u0027t match LoadingCache semantics well, since there isn\u0027t an efficient way to do lookups in the git notes.\n\nShould it be a secondary index instead or something?\n\nOr should it use a simple setup with an ImmutableMap like the ExternalIdCache?",
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

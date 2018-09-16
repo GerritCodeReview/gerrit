@@ -90,6 +90,16 @@ reason:: Reason for abandoning the change.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
+== Change Deleted
+
+Sent when a change has been deleted.
+
+type:: "change-deleted"
+
+change:: link:json.html#change[change attribute]
+
+deleter:: link:json.html#account[account attribute]
+
 === Change Merged
 
 Sent when a change has been merged into the git repository.

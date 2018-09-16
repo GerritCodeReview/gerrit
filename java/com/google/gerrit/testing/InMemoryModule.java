@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.gpg.GpgModule;
+import com.google.gerrit.gpg.SubkeyToMasterKeyCacheImpl;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -181,6 +182,7 @@ public class InMemoryModule extends FactoryModule {
     install(new SearchingChangeCacheImpl.Module());
     factory(GarbageCollection.Factory.class);
     install(new AuditModule());
+    install(SubkeyToMasterKeyCacheImpl.module());
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 

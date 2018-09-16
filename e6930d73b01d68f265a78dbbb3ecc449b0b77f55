@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebbd0b78_b87a2fa3",
+        "filename": "java/com/google/gerrit/extensions/auth/oauth/OAuthToken.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-16T18:18:02Z",
+      "side": 1,
+      "message": "This broke oauth/gerrit-oauth-provider plugin: [1]. I wonder what would be a better way to communicate breaking changes in Gerrit API. One way is just to post a mail to mailing list announcing backwards incompatible changes and warn the plugin users and maintainers about potential breakages. May be that project can benefit from this discussion about incompatible changes policy in Bazel project: [2].\n\n* [1] https://gerrit-review.googlesource.com/c/plugins/oauth/+/196090\n* [2] https://groups.google.com/d/topic/bazel-discuss/wYocSoGTJOg/discussion",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 40
+      },
+      "revId": "e6930d73b01d68f265a78dbbb3ecc449b0b77f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.data.RefUpdateAttribute;
+import com.google.gerrit.server.events.ChangeDeletedEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.RefEvent;
@@ -68,6 +69,8 @@ public class EventRecorder {
               public void onEvent(Event e) {
                 if (e instanceof ReviewerDeletedEvent) {
                   recordedEvents.put(ReviewerDeletedEvent.TYPE, (ReviewerDeletedEvent) e);
+                } else if (e instanceof ChangeDeletedEvent) {
+                  recordedEvents.put(ChangeDeletedEvent.TYPE, (ChangeDeletedEvent) e);
                 } else if (e instanceof RefEvent) {
                   RefEvent event = (RefEvent) e;
                   String key =
@@ -137,6 +140,21 @@ public class EventRecorder {
     return events;
   }
 
+  private ImmutableList<ChangeDeletedEvent> getChangeDeletedEvents(int expectedSize) {
+    String key = ChangeDeletedEvent.TYPE;
+    if (expectedSize == 0) {
+      assertThat(recordedEvents).doesNotContainKey(key);
+      return ImmutableList.of();
+    }
+    assertThat(recordedEvents).containsKey(key);
+    ImmutableList<ChangeDeletedEvent> events =
+        FluentIterable.from(recordedEvents.get(key))
+            .transform(ChangeDeletedEvent.class::cast)
+            .toList();
+    assertThat(events).hasSize(expectedSize);
+    return events;
+  }
+
   public void assertNoRefUpdatedEvents(String project, String branch) throws Exception {
     getRefUpdatedEvents(project, branch, 0);
   }
@@ -191,6 +209,18 @@ public class EventRecorder {
       String id = event.change.get().id;
       assertThat(id).isEqualTo(expected[i]);
       String reviewer = event.reviewer.get().email;
+      assertThat(reviewer).isEqualTo(expected[i + 1]);
+      i += 2;
+    }
+  }
+
+  public void assertChangeDeletedEvents(String... expected) {
+    ImmutableList<ChangeDeletedEvent> events = getChangeDeletedEvents(expected.length / 2);
+    int i = 0;
+    for (ChangeDeletedEvent event : events) {
+      String id = event.change.get().id;
+      assertThat(id).isEqualTo(expected[i]);
+      String reviewer = event.deleter.get().email;
       assertThat(reviewer).isEqualTo(expected[i + 1]);
       i += 2;
     }

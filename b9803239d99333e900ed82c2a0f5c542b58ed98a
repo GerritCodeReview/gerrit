@@ -46,6 +46,30 @@
       "revId": "b9803239d99333e900ed82c2a0f5c542b58ed98a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02cfca75_6627d87d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ReflogIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-16T10:18:59Z",
+      "side": 1,
+      "message": "\u003e Do you have any suggestions on how to test a user that doesn\u0027t have read access and manages in get hold of the repo and the target branch?\n\nThis should be testable with the REST API, rather than the internal API.  That\u0027s what I was trying to do in the changes that were abandoned.",
+      "parentUuid": "928db8c5_9d8104f0",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 66
+      },
+      "revId": "b9803239d99333e900ed82c2a0f5c542b58ed98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

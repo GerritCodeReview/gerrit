@@ -35,8 +35,9 @@ public class GerritPushCertificateChecker extends PushCertificateChecker {
       GerritPublicKeyChecker.Factory keyCheckerFactory,
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
+      SubkeyToMasterKeyCache subkeyCache,
       @Assisted IdentifiedUser expectedUser) {
-    super(keyCheckerFactory.create().setExpectedUser(expectedUser));
+    super(keyCheckerFactory.create().setExpectedUser(expectedUser), subkeyCache);
     this.repoManager = repoManager;
     this.allUsers = allUsers;
   }

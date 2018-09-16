@@ -56,7 +56,7 @@ public class PublicKeyStoreTest {
   @Before
   public void setUp() throws Exception {
     tr = new TestRepository<>(new InMemoryRepository(new DfsRepositoryDescription("pubkeys")));
-    store = new PublicKeyStore(tr.getRepository());
+    store = new PublicKeyStore(tr.getRepository(), null);
   }
 
   @Test

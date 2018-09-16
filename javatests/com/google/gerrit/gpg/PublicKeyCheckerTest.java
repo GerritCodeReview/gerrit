@@ -70,7 +70,7 @@ public class PublicKeyCheckerTest {
   @Before
   public void setUp() {
     repo = new InMemoryRepository(new DfsRepositoryDescription("repo"));
-    store = new PublicKeyStore(repo);
+    store = new PublicKeyStore(repo, null);
   }
 
   @After

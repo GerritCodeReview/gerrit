@@ -84,6 +84,8 @@ public class GerritPublicKeyCheckerTest {
 
   @Inject private ThreadLocalRequestContext requestContext;
 
+  @Inject private SubkeyToMasterKeyCache subkeyCache;
+
   private LifecycleManager lifecycle;
   private ReviewDb db;
   private Account.Id userId;
@@ -133,7 +135,7 @@ public class GerritPublicKeyCheckerTest {
         });
 
     storeRepo = new InMemoryRepository(new DfsRepositoryDescription("repo"));
-    store = new PublicKeyStore(storeRepo);
+    store = new PublicKeyStore(storeRepo, subkeyCache);
   }
 
   @After

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e08d20f8_7cc30d57",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ReflogIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-16T00:38:52Z",
+      "side": 1,
+      "message": "This is not actually testing the change that was made in the reflog endpoint.  The ResourceNotFoundException is thrown from BranchesCollection.parse before the endpoint is invoked, when attempting to create the BranchApi from within the GerritApi.  I suspect that this test will also pass without the change in the reflog endpoint.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 66
+      },
+      "revId": "b9803239d99333e900ed82c2a0f5c542b58ed98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

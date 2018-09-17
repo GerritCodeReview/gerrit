@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "06ae9f11_605ecff5",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T06:36:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "597d323b_025c84f2",
+      "range": {
+        "startLine": 66,
+        "startChar": 32,
+        "endLine": 66,
+        "endChar": 38
+      },
+      "revId": "49dd3bba8c2018f1267cff5d047e3c9c308408ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14fe6069_8a561d2c",
         "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "49dd3bba8c2018f1267cff5d047e3c9c308408ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12d636f8_9988c9b1",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T06:36:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14fe6069_8a561d2c",
+      "range": {
+        "startLine": 97,
+        "startChar": 12,
+        "endLine": 97,
+        "endChar": 92
+      },
+      "revId": "49dd3bba8c2018f1267cff5d047e3c9c308408ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e154ca30_46485510",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T06:36:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84a2a889_3f4372c4",
+      "range": {
+        "startLine": 437,
+        "startChar": 40,
+        "endLine": 437,
+        "endChar": 66
+      },
+      "revId": "49dd3bba8c2018f1267cff5d047e3c9c308408ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0772b0d_7f864ed2",
         "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 5
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "7098ff52_587d239f",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T06:36:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0772b0d_7f864ed2",
+      "revId": "49dd3bba8c2018f1267cff5d047e3c9c308408ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b53807a_40caa88d",
         "filename": "javatests/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
         "patchSetId": 5
@@ -99,6 +189,23 @@
       "writtenOn": "2018-09-17T05:41:26Z",
       "side": 1,
       "message": "Add tests that use a subkey?",
+      "revId": "49dd3bba8c2018f1267cff5d047e3c9c308408ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbd53993_53a330cc",
+        "filename": "javatests/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T06:36:46Z",
+      "side": 1,
+      "message": "Yes, tests are missing for now.",
       "revId": "49dd3bba8c2018f1267cff5d047e3c9c308408ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

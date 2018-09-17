@@ -257,22 +257,6 @@ limitations under the License.
       });
     });
 
-    test('preserve isOutgoing sections', () => {
-      const sections = [
-        {name: 'test1', query: 'test1', isOutgoing: true},
-        {name: 'test2', query: 'test2'},
-      ];
-      getChangesStub.restore();
-      sandbox.stub(element.$.restAPI, 'getChanges')
-          .returns(Promise.resolve([[], []]));
-
-      return element._fetchDashboardChanges({sections}).then(() => {
-        assert.equal(element._results.length, 2);
-        assert.isTrue(element._results[0].isOutgoing);
-        assert.isNotOk(element._results[1].isOutgoing);
-      });
-    });
-
     test('_computeUserHeaderClass', () => {
       assert.equal(element._computeUserHeaderClass(undefined), '');
       assert.equal(element._computeUserHeaderClass(''), '');

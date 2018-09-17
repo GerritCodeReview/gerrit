@@ -47,6 +47,30 @@
       "revId": "f50e74aa981e611dca11d37332fc6dd96edc219a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77454827_bc749fd3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T20:46:34Z",
+      "side": 0,
+      "message": "I think that the move of rc.init() from ctor of ARC to PreReceiveHook#onPreReceive is wrong and broke pre-receive hooks, in particular signed push enforcement is broken now: [1].\n\nrc.init() initializes the hooks and establishes the hook chain in receive pack instance (eventually):\n\n  void init() {\n    for (ReceivePackInitializer i : initializers) {\n      i.init(projectState.getNameKey(), rp);\n    }\n  }\n\nSo this is one in SignedPushModule as one from initializers:\n\n      List\u003cPreReceiveHook\u003e hooks \u003d new ArrayList\u003c\u003e(3);\n      if (ps.isRequireSignedPush()) {\n        hooks.add(SignedPushPreReceiveHook.Required.INSTANCE);\n      }\n      hooks.add(hook);\n      hooks.add(rp.getPreReceiveHook());\n      rp.setPreReceiveHook(PreReceiveHookChain.newChain(hooks));\n\nHowever, after the move of init() from ARC ctor to AsyncReceiveCommits#onPreReceive,\nthe rc.init() gets actually called from ReceivePack#service from the line ReceivePack#service 280:\n\n  AsyncReceiveCommits.onPreReceive(ReceivePack, Collection\u003cReceiveCommand\u003e) line: 278\t\n\tReceivePack.service() line: 280\t\n\tReceivePack.receive(InputStream, OutputStream, OutputStream) line: 221\t\n\tReceive.runImpl() line: 104\t\n\tReceive(AbstractGitCommand).service() line: 97\t\n\tAbstractGitCommand.access$0(AbstractGitCommand) line: 86\t\n\tAbstractGitCommand$1.run() line: 63\t\n\tBaseCommand$TaskThunk.run() line: 456\t\n\tLoggingContextAwareRunnable.run() line: 83\n\nSo that the pre-receive chain mutates as a side effect of ReceiveCommits#init() the preReceive instance variable of ReceivePack instance but only during the invocation of the very first hook in this class and thus this mutation became a no-op.\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7750",
+      "parentUuid": "12ccae42_4f5d4298",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 14
+      },
+      "revId": "f50e74aa981e611dca11d37332fc6dd96edc219a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

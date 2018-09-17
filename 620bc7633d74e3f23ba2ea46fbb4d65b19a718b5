@@ -99,6 +99,30 @@
     },
     {
       "key": {
+        "uuid": "09c8f3e9_c9d95f63",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-17T07:13:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb53d45e_a69f6dc3",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 5
+      },
+      "revId": "620bc7633d74e3f23ba2ea46fbb4d65b19a718b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34b2b743_7186d34d",
         "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftComments.java",
         "patchSetId": 1

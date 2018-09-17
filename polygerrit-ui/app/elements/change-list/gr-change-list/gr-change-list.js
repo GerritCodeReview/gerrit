@@ -198,6 +198,7 @@
     },
 
     _sectionHref(query) {
+      debugger
       return Gerrit.Nav.getUrlForSearchQuery(query);
     },
 

@@ -98,23 +98,6 @@ class ProjectControl {
     state = ps;
   }
 
-  ProjectControl forUser(CurrentUser who) {
-    ProjectControl r =
-        new ProjectControl(
-            uploadGroups,
-            receiveGroups,
-            permissionFilter,
-            changeControlFactory,
-            permissionBackend,
-            refFilterFactory,
-            identifiedUserFactory,
-            who,
-            state);
-    // Not per-user, and reusing saves lookup time.
-    r.allSections = allSections;
-    return r;
-  }
-
   ForProject asForProject() {
     return new ForProjectImpl();
   }

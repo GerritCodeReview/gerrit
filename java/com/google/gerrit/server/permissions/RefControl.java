@@ -77,14 +77,6 @@ class RefControl {
     return projectControl.getUser();
   }
 
-  RefControl forUser(CurrentUser who) {
-    ProjectControl newCtl = projectControl.forUser(who);
-    if (relevant.isUserSpecific()) {
-      return newCtl.controlForRef(refName);
-    }
-    return new RefControl(identifiedUserFactory, newCtl, refName, relevant);
-  }
-
   /** Is this user a ref owner? */
   boolean isOwner() {
     if (owner == null) {

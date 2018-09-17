@@ -26,9 +26,17 @@ import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
+<<<<<<< HEAD:java/com/google/gerrit/server/restapi/account/GetCapabilities.java
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+||||||| merged common ancestors
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.Response;
+=======
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BinaryResult;
+>>>>>>> stable-2.15:gerrit-server/src/main/java/com/google/gerrit/server/account/GetCapabilities.java
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
@@ -172,9 +180,17 @@ public class GetCapabilities implements RestReadView<AccountResource> {
     }
 
     @Override
+<<<<<<< HEAD:java/com/google/gerrit/server/restapi/account/GetCapabilities.java
     public Response<String> apply(Capability resource) throws ResourceNotFoundException {
       permissionBackend.checkUsesDefaultCapabilities();
       return Response.ok("ok");
+||||||| merged common ancestors
+    public Response<String> apply(Capability resource) {
+      return Response.ok("ok");
+=======
+    public BinaryResult apply(Capability resource) {
+      return BinaryResult.create("ok\n");
+>>>>>>> stable-2.15:gerrit-server/src/main/java/com/google/gerrit/server/account/GetCapabilities.java
     }
   }
 }

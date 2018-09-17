@@ -25,7 +25,12 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
+<<<<<<< HEAD:java/com/google/gerrit/server/restapi/change/DeleteChangeOp.java
 import com.google.gerrit.server.change.AccountPatchReviewStore;
+||||||| merged common ancestors
+=======
+import com.google.gerrit.server.extensions.events.ChangeDeleted;
+>>>>>>> stable-2.15:gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateReviewDb;
@@ -45,6 +50,7 @@ class DeleteChangeOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
+  private final ChangeDeleted changeDeleted;
 
   private Change.Id id;
 
@@ -52,10 +58,12 @@ class DeleteChangeOp implements BatchUpdateOp {
   DeleteChangeOp(
       PatchSetUtil psUtil,
       StarredChangesUtil starredChangesUtil,
-      DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
+      DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
+      ChangeDeleted changeDeleted) {
     this.psUtil = psUtil;
     this.starredChangesUtil = starredChangesUtil;
     this.accountPatchReviewStore = accountPatchReviewStore;
+    this.changeDeleted = changeDeleted;
   }
 
   @Override
@@ -75,6 +83,7 @@ class DeleteChangeOp implements BatchUpdateOp {
     deleteChangeElementsFromDb(ctx, id);
 
     ctx.deleteChange();
+    changeDeleted.fire(ctx.getChange(), ctx.getAccount(), ctx.getWhen());
     return true;
   }
 

@@ -26,6 +26,8 @@ limitations under the License.
       passiveTouchGestures: true,
     };
   }
+  // Needed for JSCompiler to understand it's global.
+  let Gerrit = window.Gerrit || {};
 </script>
 
 <link rel="import" href="../bower_components/polymer/polymer.html">

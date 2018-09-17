@@ -1805,6 +1805,69 @@ of link:#contributor-agreement-info[ContributorAgreementInfo] entities.
   ]
 ----
 
+[delete-draft-comments]
+=== Delete Draft Comments
+--
+'POST /accounts/link:#account-id[\{account-id\}]/drafts:delete'
+--
+
+Deletes some or all of a user's draft comments. The set of comments to delete is
+specified as a link:#delete-draft-comments-input[DeleteDraftCommentsInput]
+entity. An empty input entity deletes all comments.
+
+Only drafts belonging to the caller may be deleted.
+
+.Request
+----
+  POST /accounts/self/drafts.delete HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "query": "is:abandoned"
+  }
+----
+
+As a response, a list of
+link:#deleted-draft-comment-info[DeletedDraftCommentInfo] entities is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+   )]}'
+   [
+     {
+       "change": {
+         "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+         "project": "myProject",
+         "branch": "master",
+         "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+         "subject": "Implementing Feature X",
+         "status": "ABANDONED",
+         "created": "2013-02-01 09:59:32.126000000",
+         "updated": "2013-02-21 11:16:36.775000000",
+         "insertions": 34,
+         "deletions": 101,
+         "_number": 3965,
+         "owner": {
+           "name": "John Doe"
+         }
+       },
+       "deleted": [
+         {
+           "id": "TvcXrmjM",
+           "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+           "line": 23,
+           "message": "[nit] trailing whitespace",
+           "updated": "2013-02-26 15:40:43.986000000"
+         }
+       ]
+     }
+   ]
+----
+
 [[sign-contributor-agreement]]
 === Sign Contributor Agreement
 --
@@ -2314,6 +2377,37 @@ new contributor agreement.
 |=================================
 |Field Name                 |Description
 |`name`                     |The name of the agreement.
+|=================================
+
+[[delete-draft-comments-input]]
+=== DeleteDraftCommentsInput
+The `DeleteDraftCommentsInput` entity contains information specifying a set of
+draft comments that should be deleted.
+
+[options="header",cols="1,^1,5"]
+|=================================
+|Field Name                 ||Description
+|`query`                    |optional|
+A link:user-search.html[change query] limiting results to changes matching this
+query; `has:draft` is implied and not necessary to list explicitly. If not set,
+matches all changes with drafts.
+|=================================
+
+[[deleted-draft-comment-info]]
+=== DeletedDraftCommentInfo
+The `DeletedDraftCommentInfo` entity contains information about draft comments
+that were deleted.
+
+[options="header",cols="1,6"]
+|=================================
+|Field Name                 |Description
+|`change`                   |
+link:rest-api-changes.html#change-info[ChangeInfo] entity describing the change
+on which one or more comments was deleted. Populated with only the
+link:rest-api-changes.html#skip_mergeable[SKIP_MERGEABLE] option.
+|`deleted`                  |
+List of link:rest-api-changes.html#comment-info[CommentInfo] entities for each
+comment that was deleted.
 |=================================
 
 [[diff-preferences-info]]

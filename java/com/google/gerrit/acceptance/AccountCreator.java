@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -148,6 +149,10 @@ public class AccountCreator {
 
   public void evict(Collection<Account.Id> ids) {
     accounts.values().removeIf(a -> ids.contains(a.id));
+  }
+
+  public ImmutableList<TestAccount> getAll() {
+    return ImmutableList.copyOf(accounts.values());
   }
 
   private void addGroupMember(AccountGroup.UUID groupUuid, Account.Id accountId)

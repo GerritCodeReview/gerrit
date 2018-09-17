@@ -109,6 +109,9 @@ public interface AccountApi {
 
   void deleteExternalIds(List<String> externalIds) throws RestApiException;
 
+  List<DeletedDraftCommentInfo> deleteDraftComments(DeleteDraftCommentsInput input)
+      throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -299,6 +302,12 @@ public interface AccountApi {
 
     @Override
     public void deleteExternalIds(List<String> externalIds) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<DeletedDraftCommentInfo> deleteDraftComments(DeleteDraftCommentsInput input)
+        throws RestApiException {
       throw new NotImplementedException();
     }
   }

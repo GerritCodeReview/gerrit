@@ -47,6 +47,30 @@
       "revId": "ef1394dbc58a4089cf19497814e05658d1c699a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08ca04ea_88585963",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-17T07:28:35Z",
+      "side": 1,
+      "message": "I\u0027m also still fine with the name PluginEntry. A plugin usually implements multiple extension points. This means the plugin is a container for these extension point implementations, which you can see as entries in the plugin.\n\nI\u0027m not too much sold on this name, but I think the proposed alternatives are not that much better:\n\n- PluginData: is a very generic name which could mean anything, from this name I would expect that there is only one PluginData per plugin, but not multiple\n- PluginMetadata: this is not meta data about the plugin, but rather meta data about extension point implementations in the plugin\n- Extension: I think this is a good name and describes best what this is, but we already have extensions vs. plugins, then it\u0027s confusing that a plugin contains \"extensions\" now\n- ExtensionPoint: We already use this name for the interfaces in Gerrit core that can be implemented by plugins\n\nIf you still feel PluginEntry is bad, I would probably go for \u0027Extension\u0027 instead (despite of the name conflict).",
+      "parentUuid": "270fb07b_717d3f71",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "ef1394dbc58a4089cf19497814e05658d1c699a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

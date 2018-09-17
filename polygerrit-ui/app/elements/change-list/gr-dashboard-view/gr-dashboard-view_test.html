@@ -189,59 +189,6 @@ limitations under the License.
       });
     });
 
-    suite('_getUserDashboard', () => {
-      const sections = [
-        {name: 'section 1', query: 'query 1'},
-        {name: 'section 2', query: 'query 2 for ${user}'},
-        {name: 'section 3', query: 'self only query', selfOnly: true},
-        {name: 'section 4', query: 'query 4', suffixForDashboard: 'suffix'},
-      ];
-
-      test('dashboard for self', () => {
-        return element._getUserDashboard('self', sections, 'title')
-            .then(dashboard => {
-              assert.deepEqual(
-                  dashboard,
-                  {
-                    title: 'title',
-                    sections: [
-                      {name: 'section 1', query: 'query 1'},
-                      {name: 'section 2', query: 'query 2 for self'},
-                      {
-                        name: 'section 3',
-                        query: 'self only query',
-                        selfOnly: true,
-                      }, {
-                        name: 'section 4',
-                        query: 'query 4',
-                        suffixForDashboard: 'suffix',
-                      },
-                    ],
-                  });
-            });
-      });
-
-      test('dashboard for other user', () => {
-        return element._getUserDashboard('user', sections, 'title')
-            .then(dashboard => {
-              assert.deepEqual(
-                  dashboard,
-                  {
-                    title: 'title',
-                    sections: [
-                      {name: 'section 1', query: 'query 1'},
-                      {name: 'section 2', query: 'query 2 for user'},
-                      {
-                        name: 'section 4',
-                        query: 'query 4',
-                        suffixForDashboard: 'suffix',
-                      },
-                    ],
-                  });
-            });
-      });
-    });
-
     test('hideIfEmpty sections', () => {
       const sections = [
         {name: 'test1', query: 'test1', hideIfEmpty: true},

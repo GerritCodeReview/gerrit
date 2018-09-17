@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "31ac8b59_be586ec6",
+        "filename": "java/com/google/gerrit/server/git/DefaultChangeReportFormatter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-17T16:29:10Z",
+      "side": 1,
+      "message": "By \"return\" I of course mean \"String changeUrl \u003d\".",
+      "parentUuid": "b0560be4_a5a012ef",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 65
+      },
+      "revId": "df925f73327909fb6c08a6e12bb5dbb422a13e0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca2d3dd2_0e841b2a",
         "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 10

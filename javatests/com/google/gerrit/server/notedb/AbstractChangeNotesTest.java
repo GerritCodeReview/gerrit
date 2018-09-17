@@ -42,12 +42,12 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
-import com.google.gerrit.server.config.BrowseUrls;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DefaultBrowseUrls;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -164,7 +164,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 migration.setFrom(NotesMigrationState.FINAL);
                 bind(MutableNotesMigration.class).toInstance(migration);
                 bind(NotesMigration.class).to(MutableNotesMigration.class);
-                bind(BrowseUrls.class).to(DefaultBrowseUrls.class);
+                bind(UrlFormatter.class).to(DefaultBrowseUrls.class);
 
                 // Tests don't support ReviewDb at all, but bindings are required via NoteDbModule.
                 bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})

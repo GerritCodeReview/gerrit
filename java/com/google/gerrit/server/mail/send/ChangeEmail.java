@@ -222,7 +222,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Get a link to the change; null if the server doesn't know its own address. */
   @Nullable
   public String getChangeUrl() {
-    return args.browseUrls.getChangeViewUrl(change.getProject(), change.getId()).orElse(null);
+    return args.urlFormatter.getChangeViewUrl(change.getProject(), change.getId()).orElse(null);
   }
 
   public String getChangeMessageThreadId() {

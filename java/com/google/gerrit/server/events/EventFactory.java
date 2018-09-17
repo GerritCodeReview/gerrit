@@ -41,7 +41,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.ChangeKindCache;
-import com.google.gerrit.server.config.BrowseUrls;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
@@ -85,7 +85,7 @@ public class EventFactory {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AccountCache accountCache;
-  private final BrowseUrls browseUrls;
+  private final UrlFormatter urlFormatter;
   private final Emails emails;
   private final PatchListCache patchListCache;
   private final Provider<PersonIdent> myIdent;
@@ -100,7 +100,7 @@ public class EventFactory {
   EventFactory(
       AccountCache accountCache,
       Emails emails,
-      BrowseUrls browseUrls,
+      UrlFormatter urlFormatter,
       PatchListCache patchListCache,
       @GerritPersonIdent Provider<PersonIdent> myIdent,
       ChangeData.Factory changeDataFactory,
@@ -110,7 +110,7 @@ public class EventFactory {
       SchemaFactory<ReviewDb> schema,
       IndexConfig indexConfig) {
     this.accountCache = accountCache;
-    this.browseUrls = browseUrls;
+    this.urlFormatter = urlFormatter;
     this.emails = emails;
     this.patchListCache = patchListCache;
     this.myIdent = myIdent;
@@ -678,7 +678,7 @@ public class EventFactory {
   /** Get a link to the change; null if the server doesn't know its own address. */
   private String getChangeUrl(Change change) {
     if (change != null) {
-      return browseUrls.getChangeViewUrl(change.getProject(), change.getId()).orElse(null);
+      return urlFormatter.getChangeViewUrl(change.getProject(), change.getId()).orElse(null);
     }
     return null;
   }

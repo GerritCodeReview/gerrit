@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.BrowseUrls;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -55,16 +55,16 @@ public class GarbageCollect
   private final boolean canGC;
   private final GarbageCollection.Factory garbageCollectionFactory;
   private final WorkQueue workQueue;
-  private final BrowseUrls browseUrls;
+  private final UrlFormatter urlFormatter;
 
   @Inject
   GarbageCollect(
       GitRepositoryManager repoManager,
       GarbageCollection.Factory garbageCollectionFactory,
       WorkQueue workQueue,
-      BrowseUrls browseUrls) {
+      UrlFormatter urlFormatter) {
     this.workQueue = workQueue;
-    this.browseUrls = browseUrls;
+    this.urlFormatter = urlFormatter;
     this.canGC = repoManager instanceof LocalDiskRepositoryManager;
     this.garbageCollectionFactory = garbageCollectionFactory;
   }
@@ -98,8 +98,8 @@ public class GarbageCollect
     @SuppressWarnings("unchecked")
     WorkQueue.Task<Void> task = (WorkQueue.Task<Void>) workQueue.getDefaultQueue().submit(job);
 
-
-    Optional<String> url = browseUrls.getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
+    Optional<String> url =
+        urlFormatter.getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
     // We're in a HTTP handler, so must be present.
     Preconditions.checkState(((Optional) url).isPresent());
     return Response.accepted(url.get());

@@ -30,7 +30,7 @@ import java.util.Optional;
  * standalone utilities that have no HTTP server (eg. index upgrade commands), in servers that run
  * SSH only, or in a HTTP/SSH server that is accessed over SSH without canonical web URL configured.
  */
-public interface BrowseUrls {
+public interface UrlFormatter {
 
   /**
    * The canonical base URL where this Gerrit installation can be reached.
@@ -49,8 +49,8 @@ public interface BrowseUrls {
   }
 
   default Optional<String> getSettingsUrl(String section) {
-    return getWebUrl().map(url -> url + "settings" +
-        (Strings.isNullOrEmpty(section) ? "" :"#" + section));
+    return getWebUrl()
+        .map(url -> url + "settings" + (Strings.isNullOrEmpty(section) ? "" : "#" + section));
   }
 
   default Optional<String> getDocUrl(String page, String anchor) {

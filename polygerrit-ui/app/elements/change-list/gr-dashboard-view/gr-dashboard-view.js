@@ -22,7 +22,7 @@
 
   // NOTE: These queries are tested in Java. Any changes made to definitions
   // here require corresponding changes to:
-  // gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java
+  // javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java
   const DEFAULT_SECTIONS = [
     {
       // Changes with unpublished draft comments. This section is omitted when

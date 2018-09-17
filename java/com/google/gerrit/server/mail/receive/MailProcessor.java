@@ -47,7 +47,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.EmailReviewComments;
-import com.google.gerrit.server.config.BrowseUrls;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
@@ -97,7 +97,7 @@ public class MailProcessor {
   private final CommentAdded commentAdded;
   private final ApprovalsUtil approvalsUtil;
   private final AccountCache accountCache;
-  private final BrowseUrls browseUrls;
+  private final UrlFormatter urlFormatter;
 
   @Inject
   public MailProcessor(
@@ -115,7 +115,7 @@ public class MailProcessor {
       ApprovalsUtil approvalsUtil,
       CommentAdded commentAdded,
       AccountCache accountCache,
-      BrowseUrls browseUrls) {
+      UrlFormatter urlFormatter) {
     this.emails = emails;
     this.emailRejectionSender = emailRejectionSender;
     this.retryHelper = retryHelper;
@@ -130,7 +130,7 @@ public class MailProcessor {
     this.commentAdded = commentAdded;
     this.approvalsUtil = approvalsUtil;
     this.accountCache = accountCache;
-    this.browseUrls = browseUrls;
+    this.urlFormatter = urlFormatter;
   }
 
   /**
@@ -241,7 +241,7 @@ public class MailProcessor {
       // If URL is not defined, we won't be able to parse line comments. We still attempt to get the
       // other ones.
       String changeUrl =
-          browseUrls.getChangeViewUrl(cd.project(), cd.getId()).orElse("http://gerrit.invalid/");
+          urlFormatter.getChangeViewUrl(cd.project(), cd.getId()).orElse("http://gerrit.invalid/");
 
       List<MailComment> parsedComments;
       if (useHtmlParser(message)) {

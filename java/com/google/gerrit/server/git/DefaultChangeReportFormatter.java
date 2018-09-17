@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.common.base.Preconditions;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.config.BrowseUrls;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.inject.Inject;
 import java.util.Optional;
 
@@ -26,11 +26,11 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
   private static final String SUBJECT_CROP_APPENDIX = "...";
   private static final int SUBJECT_CROP_RANGE = 10;
 
-  private final BrowseUrls browseUrls;
+  private final UrlFormatter urlFormatter;
 
   @Inject
-  DefaultChangeReportFormatter(BrowseUrls browseUrls) {
-    this.browseUrls = browseUrls;
+  DefaultChangeReportFormatter(UrlFormatter urlFormatter) {
+    this.urlFormatter = urlFormatter;
   }
 
   @Override
@@ -48,7 +48,7 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
     Change c = input.change();
     return String.format(
         "change %s closed",
-        browseUrls.getChangeViewUrl(c.getProject(), c.getId()).orElse(c.getId().toString()));
+        urlFormatter.getChangeViewUrl(c.getProject(), c.getId()).orElse(c.getId().toString()));
   }
 
   protected String cropSubject(String subject) {
@@ -68,7 +68,7 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
 
   protected String formatChangeUrl(Input input) {
     Change c = input.change();
-    Optional<String> changeUrl = browseUrls.getChangeViewUrl(c.getProject(), c.getId());
+    Optional<String> changeUrl = urlFormatter.getChangeViewUrl(c.getProject(), c.getId());
     Preconditions.checkState(changeUrl.isPresent());
 
     StringBuilder m =

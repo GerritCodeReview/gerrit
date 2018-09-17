@@ -41,8 +41,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.BrowseUrls;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ValidationError;
@@ -88,7 +88,7 @@ public class CommitValidators {
   @Singleton
   public static class Factory {
     private final PersonIdent gerritIdent;
-    private final BrowseUrls browseUrls;
+    private final UrlFormatter urlFormatter;
     private final DynamicSet<CommitValidationListener> pluginValidators;
     private final GitRepositoryManager repoManager;
     private final AllUsersName allUsers;
@@ -101,7 +101,7 @@ public class CommitValidators {
     @Inject
     Factory(
         @GerritPersonIdent PersonIdent gerritIdent,
-        BrowseUrls browseUrls,
+        UrlFormatter urlFormatter,
         @GerritServerConfig Config cfg,
         DynamicSet<CommitValidationListener> pluginValidators,
         GitRepositoryManager repoManager,
@@ -111,7 +111,7 @@ public class CommitValidators {
         AccountValidator accountValidator,
         ProjectCache projectCache) {
       this.gerritIdent = gerritIdent;
-      this.browseUrls = browseUrls;
+      this.urlFormatter = urlFormatter;
       this.pluginValidators = pluginValidators;
       this.repoManager = repoManager;
       this.allUsers = allUsers;
@@ -139,11 +139,11 @@ public class CommitValidators {
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
-              new AuthorUploaderValidator(user, perm, browseUrls),
-              new CommitterUploaderValidator(user, perm, browseUrls),
+              new AuthorUploaderValidator(user, perm, urlFormatter),
+              new CommitterUploaderValidator(user, perm, urlFormatter),
               new SignedOffByValidator(user, perm, projectState),
               new ChangeIdValidator(
-                  projectState, user, browseUrls, installCommitMsgHookCommand, sshInfo, change),
+                  projectState, user, urlFormatter, installCommitMsgHookCommand, sshInfo, change),
               new ConfigValidator(branch, user, rw, allUsers, allProjects),
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
@@ -167,10 +167,10 @@ public class CommitValidators {
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
-              new AuthorUploaderValidator(user, perm, browseUrls),
+              new AuthorUploaderValidator(user, perm, urlFormatter),
               new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.getParentKey())),
               new ChangeIdValidator(
-                  projectState, user, browseUrls, installCommitMsgHookCommand, sshInfo, change),
+                  projectState, user, urlFormatter, installCommitMsgHookCommand, sshInfo, change),
               new ConfigValidator(branch, user, rw, allUsers, allProjects),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
@@ -199,8 +199,8 @@ public class CommitValidators {
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectCache.checkedGet(branch.getParentKey())),
-              new AuthorUploaderValidator(user, perm, browseUrls),
-              new CommitterUploaderValidator(user, perm, browseUrls)));
+              new AuthorUploaderValidator(user, perm, urlFormatter),
+              new CommitterUploaderValidator(user, perm, urlFormatter)));
     }
   }
 
@@ -244,7 +244,7 @@ public class CommitValidators {
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
     private final ProjectState projectState;
-    private final BrowseUrls browseUrls;
+    private final UrlFormatter urlFormatter;
     private final String installCommitMsgHookCommand;
     private final SshInfo sshInfo;
     private final IdentifiedUser user;
@@ -253,12 +253,12 @@ public class CommitValidators {
     public ChangeIdValidator(
         ProjectState projectState,
         IdentifiedUser user,
-        BrowseUrls browseUrls,
+        UrlFormatter urlFormatter,
         String installCommitMsgHookCommand,
         SshInfo sshInfo,
         Change change) {
       this.projectState = projectState;
-      this.browseUrls = browseUrls;
+      this.urlFormatter = urlFormatter;
       this.installCommitMsgHookCommand = installCommitMsgHookCommand;
       this.sshInfo = sshInfo;
       this.user = user;
@@ -343,13 +343,12 @@ public class CommitValidators {
 
       // If there are no SSH keys, the commit-msg hook must be installed via
       // HTTP(S)
-      Optional<String> webUrl = browseUrls.getWebUrl();
+      Optional<String> webUrl = urlFormatter.getWebUrl();
       if (hostKeys.isEmpty()) {
         Preconditions.checkState(webUrl.isPresent());
         return String.format(
             "  f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\" %stools/hooks/commit-msg ; chmod +x \"$f\"",
-            webUrl.get()
-            );
+            webUrl.get());
       }
 
       // SSH keys exist, so the hook can be installed with scp.
@@ -542,13 +541,13 @@ public class CommitValidators {
   public static class AuthorUploaderValidator implements CommitValidationListener {
     private final IdentifiedUser user;
     private final PermissionBackend.ForRef perm;
-    private final BrowseUrls browseUrls;
+    private final UrlFormatter urlFormatter;
 
     public AuthorUploaderValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, BrowseUrls browseUrls) {
+        IdentifiedUser user, PermissionBackend.ForRef perm, UrlFormatter urlFormatter) {
       this.user = user;
       this.perm = perm;
-      this.browseUrls = browseUrls;
+      this.urlFormatter = urlFormatter;
     }
 
     @Override
@@ -563,7 +562,7 @@ public class CommitValidators {
         return Collections.emptyList();
       } catch (AuthException e) {
         throw new CommitValidationException(
-            "invalid author", invalidEmail("author", author, user, browseUrls));
+            "invalid author", invalidEmail("author", author, user, urlFormatter));
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check FORGE_AUTHOR");
         throw new CommitValidationException("internal auth error");
@@ -575,13 +574,13 @@ public class CommitValidators {
   public static class CommitterUploaderValidator implements CommitValidationListener {
     private final IdentifiedUser user;
     private final PermissionBackend.ForRef perm;
-    private final BrowseUrls browseUrls;
+    private final UrlFormatter urlFormatter;
 
     public CommitterUploaderValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, BrowseUrls browseUrls) {
+        IdentifiedUser user, PermissionBackend.ForRef perm, UrlFormatter urlFormatter) {
       this.user = user;
       this.perm = perm;
-      this.browseUrls = browseUrls;
+      this.urlFormatter = urlFormatter;
     }
 
     @Override
@@ -596,7 +595,7 @@ public class CommitValidators {
         return Collections.emptyList();
       } catch (AuthException e) {
         throw new CommitValidationException(
-            "invalid committer", invalidEmail("committer", committer, user, browseUrls));
+            "invalid committer", invalidEmail("committer", committer, user, urlFormatter));
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check FORGE_COMMITTER");
         throw new CommitValidationException("internal auth error");
@@ -816,7 +815,7 @@ public class CommitValidators {
   }
 
   private static CommitValidationMessage invalidEmail(
-      String type, PersonIdent who, IdentifiedUser currentUser, BrowseUrls browseUrls) {
+      String type, PersonIdent who, IdentifiedUser currentUser, UrlFormatter urlFormatter) {
     StringBuilder sb = new StringBuilder();
 
     sb.append("email address ")
@@ -834,9 +833,10 @@ public class CommitValidators {
       }
     }
 
-    if (browseUrls.getSettingsUrl("").isPresent()) {
+    if (urlFormatter.getSettingsUrl("").isPresent()) {
       sb.append("To register an email address, visit:\n")
-      .append(browseUrls.getSettingsUrl("EmailAddresses").get()).append("\n\n");
+          .append(urlFormatter.getSettingsUrl("EmailAddresses").get())
+          .append("\n\n");
     }
     return new CommitValidationMessage(sb.toString(), true);
   }

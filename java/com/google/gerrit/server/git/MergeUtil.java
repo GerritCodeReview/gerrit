@@ -41,8 +41,8 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.BrowseUrls;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectState;
@@ -147,7 +147,7 @@ public class MergeUtil {
 
   private final Provider<ReviewDb> db;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final BrowseUrls browseUrls;
+  private final UrlFormatter urlFormatter;
   private final ApprovalsUtil approvalsUtil;
   private final ProjectState project;
   private final boolean useContentMerge;
@@ -159,7 +159,7 @@ public class MergeUtil {
       @GerritServerConfig Config serverConfig,
       Provider<ReviewDb> db,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      BrowseUrls browseUrls,
+      UrlFormatter urlFormatter,
       ApprovalsUtil approvalsUtil,
       PluggableCommitMessageGenerator commitMessageGenerator,
       @Assisted ProjectState project) {
@@ -167,7 +167,7 @@ public class MergeUtil {
         serverConfig,
         db,
         identifiedUserFactory,
-        browseUrls,
+        urlFormatter,
         approvalsUtil,
         project,
         commitMessageGenerator,
@@ -179,14 +179,14 @@ public class MergeUtil {
       @GerritServerConfig Config serverConfig,
       Provider<ReviewDb> db,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      BrowseUrls browseUrls,
+      UrlFormatter urlFormatter,
       ApprovalsUtil approvalsUtil,
       @Assisted ProjectState project,
       PluggableCommitMessageGenerator commitMessageGenerator,
       @Assisted boolean useContentMerge) {
     this.db = db;
     this.identifiedUserFactory = identifiedUserFactory;
-    this.browseUrls = browseUrls;
+    this.urlFormatter = urlFormatter;
     this.approvalsUtil = approvalsUtil;
     this.project = project;
     this.useContentMerge = useContentMerge;
@@ -345,7 +345,7 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    Optional<String> url = browseUrls.getChangeViewUrl(null, c.getId());
+    Optional<String> url = urlFormatter.getChangeViewUrl(null, c.getId());
     if (url.isPresent()) {
       if (!contains(footers, FooterConstants.REVIEWED_ON, url.get())) {
         msgbuf

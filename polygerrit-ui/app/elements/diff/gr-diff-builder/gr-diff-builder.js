@@ -353,7 +353,7 @@
   };
 
   /**
-   * @param {number} line
+   * @param {GrDiffLine} line
    * @param {string=} opt_side
    * @return {!Object}
    */

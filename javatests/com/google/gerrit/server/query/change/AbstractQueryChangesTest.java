@@ -200,6 +200,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   // polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js
 
   protected static final String DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY = "has:draft";
+  protected static final String DASHBOARD_ASSIGNED_QUERY =
+      "assignee:${user} (-is:wip OR " + "owner:self OR assignee:self)";
   protected static final String DASHBOARD_WORK_IN_PROGRESS_QUERY = "is:open owner:${user} is:wip";
   protected static final String DASHBOARD_OUTGOING_QUERY =
       "is:open owner:${user} -is:wip -is:ignored";
@@ -2729,6 +2731,26 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .create(repo);
 
     assertDashboardQuery("self", DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY, hasUnpublishedDraft);
+  }
+
+  @Test
+  public void dashboardAssignedReviews() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Account.Id otherAccountId = createAccount("other");
+    DashboardChangeState otherOpenWip =
+        new DashboardChangeState(otherAccountId).wip().assignTo(user.getAccountId()).create(repo);
+    DashboardChangeState selfOpenWip =
+        new DashboardChangeState(user.getAccountId())
+            .wip()
+            .assignTo(user.getAccountId())
+            .create(repo);
+
+    // Create changes that should not be returned by query.
+    assertDashboardQuery("self", DASHBOARD_ASSIGNED_QUERY, selfOpenWip, otherOpenWip);
+
+    // Viewing another user's dashboard.
+    requestContext.setContext(newRequestContext(otherAccountId));
+    assertDashboardQuery(user.getUserName().get(), DASHBOARD_ASSIGNED_QUERY, otherOpenWip);
   }
 
   @Test

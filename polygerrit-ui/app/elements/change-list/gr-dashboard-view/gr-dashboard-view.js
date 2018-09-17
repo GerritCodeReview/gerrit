@@ -33,6 +33,12 @@
       hideIfEmpty: true,
     },
     {
+      // Changes that are assigned to the viewed user.
+      name: 'Assigned reviews',
+      query: 'assignee:${user} (-is:wip OR owner:self OR assignee:self)',
+      hideIfEmpty: true,
+    },
+    {
       // WIP open changes owned by viewing user. This section is omitted when
       // viewing other users, so we don't need to filter anything out.
       name: 'Work in progress',

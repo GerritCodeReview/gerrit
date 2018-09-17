@@ -347,13 +347,5 @@
       this.$.cursor.stops = this._getListItems();
       this.$.cursor.moveToStart();
     },
-
-    _isOutgoing(section) {
-      return !!section.isOutgoing;
-    },
-
-    _isEmpty(section) {
-      return !section.results.length;
-    },
   });
 })();

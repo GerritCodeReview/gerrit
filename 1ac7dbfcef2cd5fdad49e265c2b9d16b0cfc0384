@@ -34,6 +34,24 @@
       "revId": "1ac7dbfcef2cd5fdad49e265c2b9d16b0cfc0384",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caec66be_03acc4dc",
+        "filename": "java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T06:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1770630_f905f90e",
+      "revId": "1ac7dbfcef2cd5fdad49e265c2b9d16b0cfc0384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

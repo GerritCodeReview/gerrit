@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "54a0a83a_e3112735",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T04:25:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c603ef7_1fbc81d7",
+      "range": {
+        "startLine": 92,
+        "startChar": 9,
+        "endLine": 92,
+        "endChar": 19
+      },
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7b60037_b4cb4ccd",
         "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "435a6e62_45c8c3f6",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T04:25:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7b60037_b4cb4ccd",
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ee705164_c20adaa3",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T04:25:50Z",
+      "side": 1,
+      "message": "Actually that was only needed for unit tests. Done.",
+      "parentUuid": "c569be3c_2eccab27",
+      "range": {
+        "startLine": 145,
+        "startChar": 41,
+        "endLine": 145,
+        "endChar": 63
+      },
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae444701_b10b9d05",
         "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 3
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "bff83f4f_2b11810b",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T04:25:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae444701_b10b9d05",
+      "range": {
+        "startLine": 227,
+        "startChar": 37,
+        "endLine": 227,
+        "endChar": 49
+      },
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "048d2ff4_cab0abd1",
         "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 3
@@ -102,6 +192,24 @@
       "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "718b3920_67d43cbd",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T04:25:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "048d2ff4_cab0abd1",
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "e3c5cf2d_fe2b4481",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T04:25:50Z",
+      "side": 1,
+      "message": "This method is called when new key ring are added to the store. At that moment we retrieve all subkeys and adding them to the subkeyCache cache. In the method below, deleteFromNotes() that called when key ring is removed from the key storage the subkeys are removed from the subkeyCache cache.",
+      "parentUuid": "b8effd37_5adfbea4",
+      "range": {
+        "startLine": 397,
+        "startChar": 9,
+        "endLine": 397,
+        "endChar": 18
+      },
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "989223d4_faf30049",
         "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 3
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "95d3dad4_84e3e46a",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T04:25:50Z",
+      "side": 1,
+      "message": "You meant:\n\n  for (PGPPublicKey key : keyRing) {[...]\n\nExtracted that subkeyCache part to its own method. Done.",
+      "parentUuid": "989223d4_faf30049",
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af5a8fd4_d0738505",
         "filename": "java/com/google/gerrit/gpg/SubkeyToMasterKeyCache.java",
         "patchSetId": 3
@@ -156,6 +306,24 @@
       "writtenOn": "2018-09-16T23:51:39Z",
       "side": 1,
       "message": "Could use a class javadoc comment.\n\nI\u0027m having trouble tracking down how this cache gets populated. It doesn\u0027t match LoadingCache semantics well, since there isn\u0027t an efficient way to do lookups in the git notes.\n\nShould it be a secondary index instead or something?\n\nOr should it use a simple setup with an ImmutableMap like the ExternalIdCache?",
+      "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f1e2d1f_c15bf1e1",
+        "filename": "java/com/google/gerrit/gpg/SubkeyToMasterKeyCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-17T04:25:50Z",
+      "side": 1,
+      "message": "I added the comment here. As described in the commit message, I considered different alternative approaches, like for example to save subkey SHA1 -\u003e master key SHA1 on a dedicated git notes: refs/meta/gpg-subkeys, but went for the simplest approach using peristent map. In memory map only would have disadvantage that the whole key ring material from the refs/meta/gpg-keys branch would have to be parsed to re-build in-memory only cache. I added your suggestion about secondary index idea to the commit message. Thanks for that suggestion.\n\n\u003e I\u0027m having trouble tracking down how this cache gets populated. \n\nThis is done in PublicKeyStore#saveToNotes() and PublicKeyStore#deleteFromNotes() when master key is added or removed, the subkey cache is synced.\n\nI mentioned in the commit message that one possible way to populate that cache for existing gerrit sites would be schema migration or site program. Right now this change only works, when user remove and re-add her key ring that would populate the subkey cache for that key ring.",
+      "parentUuid": "af5a8fd4_d0738505",
       "revId": "49faa4217d81ece2f1d76cb241e894ebd6f40236",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -27,7 +27,7 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.BrowseUrls;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -38,7 +38,7 @@ import java.util.List;
 @Singleton
 public class ContributorAgreementsChecker {
 
-  private final BrowseUrls browseUrls;
+  private final UrlFormatter urlFormatter;
   private final ProjectCache projectCache;
   private final Metrics metrics;
 
@@ -56,8 +56,9 @@ public class ContributorAgreementsChecker {
   }
 
   @Inject
-  ContributorAgreementsChecker(BrowseUrls browseUrls, ProjectCache projectCache, Metrics metrics) {
-    this.browseUrls = browseUrls;
+  ContributorAgreementsChecker(
+      UrlFormatter urlFormatter, ProjectCache projectCache, Metrics metrics) {
+    this.urlFormatter = urlFormatter;
     this.projectCache = projectCache;
     this.metrics = metrics;
   }
@@ -109,8 +110,7 @@ public class ContributorAgreementsChecker {
           .append(iUser.getAccountId())
           .append(")");
 
-
-      msg.append(browseUrls.getSettingsUrl("Agreements").orElse(""));
+      msg.append(urlFormatter.getSettingsUrl("Agreements").orElse(""));
       throw new AuthException(msg.toString());
     }
   }

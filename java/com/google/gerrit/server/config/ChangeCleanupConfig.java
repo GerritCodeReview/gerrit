@@ -40,11 +40,11 @@ public class ChangeCleanupConfig {
   private final String abandonMessage;
 
   @Inject
-  ChangeCleanupConfig(@GerritServerConfig Config cfg, BrowseUrls browseUrls) {
+  ChangeCleanupConfig(@GerritServerConfig Config cfg, UrlFormatter urlFormatter) {
     schedule = ScheduleConfig.createSchedule(cfg, SECTION);
     abandonAfter = readAbandonAfter(cfg);
     abandonIfMergeable = cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
-    abandonMessage = readAbandonMessage(cfg, browseUrls);
+    abandonMessage = readAbandonMessage(cfg, urlFormatter);
   }
 
   private long readAbandonAfter(Config cfg) {
@@ -53,7 +53,7 @@ public class ChangeCleanupConfig {
     return abandonAfter >= 0 ? abandonAfter : 0;
   }
 
-  private String readAbandonMessage(Config cfg, BrowseUrls browseUrls) {
+  private String readAbandonMessage(Config cfg, UrlFormatter urlFormatter) {
     String abandonMessage = cfg.getString(SECTION, null, KEY_ABANDON_MESSAGE);
     if (Strings.isNullOrEmpty(abandonMessage)) {
       abandonMessage = DEFAULT_ABANDON_MESSAGE;
@@ -61,7 +61,8 @@ public class ChangeCleanupConfig {
 
     abandonMessage =
         abandonMessage.replaceAll(
-            "\\$\\{URL\\}", browseUrls.getDocUrl("user-change-cleanup.html", "auto-abandon").orElse(""));
+            "\\$\\{URL\\}",
+            urlFormatter.getDocUrl("user-change-cleanup.html", "auto-abandon").orElse(""));
 
     return abandonMessage;
   }

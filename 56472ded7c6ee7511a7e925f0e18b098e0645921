@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d678e97f_9b848f0c",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-17T16:35:30Z",
+      "side": 1,
+      "message": ".  \n  // Needed for JSCompiler to understand it\u0027s global.\n  // eslint-disable-next-line no-unused-vars, prefer-const\n  let Gerrit \u003d window.Gerrit || {};",
+      "revId": "56472ded7c6ee7511a7e925f0e18b098e0645921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

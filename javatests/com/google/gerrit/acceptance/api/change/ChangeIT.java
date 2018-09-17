@@ -1089,6 +1089,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       String ref = new Change.Id(id).toRefPrefix() + "1";
       eventRecorder.assertRefUpdatedEvents(projectName.get(), ref, null, commit, commit, null);
+      eventRecorder.assertChangeDeletedEvents(changeId, deleteAs.email);
     } finally {
       removePermission(project, "refs/*", Permission.DELETE_OWN_CHANGES);
       removePermission(project, "refs/*", Permission.DELETE_CHANGES);

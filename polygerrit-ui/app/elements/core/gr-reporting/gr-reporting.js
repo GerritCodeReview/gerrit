@@ -135,7 +135,7 @@
 
   GrJankDetector.start();
 
-  const GrReporting = Polymer({
+  let GrReporting = Polymer({
     is: 'gr-reporting',
 
     properties: {

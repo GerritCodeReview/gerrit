@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c88c97c_1f90348a",
+        "filename": "polygerrit-ui/app/embed/embed.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-18T06:29:38Z",
+      "side": 1,
+      "message": "This should be indented only two spaces.",
+      "revId": "bac766f3e18af5d2499649113b5e3161a04a5479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

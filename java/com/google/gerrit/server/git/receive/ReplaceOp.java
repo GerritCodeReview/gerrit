@@ -528,8 +528,17 @@ public class ReplaceOp implements BatchUpdateOp {
         .sendAsync();
 
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
+<<<<<<< PATCH SET (4c1a53 Suppress patchset-created event for changes already in branc)
+    // patchset-created event only relevant for magic branches. If closed by push we fire a
+    // change-merged event.
+    if (magicBranch != null) {
+      revisionCreated.fire(notes.getChange(), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
+    }
+
+=======
     revisionCreated.fire(
         ctx.getChangeData(notes), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
+>>>>>>> BASE      (129f57 Update tests to assert incorrect behaviour ready to fix issu)
     try {
       fireApprovalsEvent(ctx);
     } catch (Exception e) {

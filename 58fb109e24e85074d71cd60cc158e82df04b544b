@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af42aad2_e2b3d3dc",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-18T20:21:01Z",
+      "side": 1,
+      "message": "Nit: Bring back the blank line before this comment.",
+      "revId": "58fb109e24e85074d71cd60cc158e82df04b544b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

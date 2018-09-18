@@ -397,8 +397,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertRefUpdatedEvents(initialHead, c);
     assertChangeMergedEvents(r.getChangeId(), c.name());
-    // FIXME Issue 8724 incorrect behaviour: c.name() should not generate an event
-    assertPatchSetCreatedEvents(r.getCommit().name(), c.name());
+    assertPatchSetCreatedEvents(r.getCommit().name());
   }
 
   /**
@@ -431,12 +430,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // change-merged events happen in reverse order, i.e. in HEAD->oldHead order, not oldHead->HEAD
     assertChangeMergedEvents(
         change2.getChangeId(), cherryPick2.name(), change1.getChangeId(), cherryPick1.name());
-    // FIXME Issue 8724 incorrect behaviour for both ReviewDB and NoteDB:
-    assertPatchSetCreatedEvents(
-        change1.getCommit().name(),
-        change2.getCommit().name(),
-        cherryPick2.name(), // The cherry picks should not generate events
-        cherryPick1.name());
+    assertPatchSetCreatedEvents(change1.getCommit().name(), change2.getCommit().name());
   }
 
   private void assertClosedByChangeIdReviewState(PushOneCommit.Result change, RevCommit current)

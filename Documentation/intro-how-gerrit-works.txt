@@ -1,32 +1,33 @@
 = How Gerrit Works
 
-To learn how Gerrit fits into and complements the developer workflow, consider a
-typical project. The following project contains a central source repository
+To learn how Gerrit fits into and complements the developer workflow, consider
+a typical project. The following project contains a central source repository
 (_Authoritative Repository_) that serves as the authoritative version of the
 project's contents.
 
-.Central Source Repository image::images/intro-quick-central-
-repo.png[Authoritative Source Repository]
+.Central Source Repository
+image::images/intro-quick-central-repo.png[Authoritative Source Repository]
 
-When implemented, Gerrit becomes the central source repository and introduces an
-additional concept: a store of _Pending Changes_.
+When implemented, Gerrit becomes the central source repository and introduces
+an additional concept: a store of _Pending Changes_.
 
-.Gerrit as the Central Repository image::images/intro-quick-central-
-gerrit.png[Gerrit in place of Central Repository]
+.Gerrit as the Central Repository
+image::images/intro-quick-central-gerrit.png[Gerrit as the Central Repository]
 
-When Gerrit is configured as the central source repository, all code changes are
-sent to Pending Changes for others to review and discuss. When enough reviewers
-have approved a code change, you can submit the change to the code base.
+When Gerrit is configured as the central source repository, all code changes
+are sent to Pending Changes for others to review and discuss. When enough
+reviewers have approved a code change, you can submit the change to the code
+base.
 
 In addition to the store of Pending Changes, Gerrit captures notes and comments
 made about each change. This enables you to review changes at your convenience
-or when a conversation about a change can't happen in person. In addition, notes
-and comments provide a history of each change (what was changed and why and who
-reviewed the change).
+or when a conversation about a change can't happen in person. In addition,
+notes and comments provide a history of each change (what was changed and why and
+who reviewed the change).
 
-Like any repository hosting product, Gerrit provides a powerful link:access-
-control.html[access control model], which enables you to fine-tune access to
-your repository.
+Like any repository hosting product, Gerrit provides a powerful
+link:access-control.html[access control model], which enables you to
+fine-tune access to your repository.
 
 GERRIT
 ------

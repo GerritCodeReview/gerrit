@@ -8,5 +8,8 @@ acceptance_tests(
         "noci",
         "no_windows",
     ],
-    deps = ["//java/com/google/gerrit/mail"],
+    deps = [
+        "//java/com/google/gerrit/mail",
+        "//java/com/google/gerrit/server/util/time:time-util",
+    ],
 )

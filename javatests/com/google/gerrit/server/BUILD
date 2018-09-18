@@ -53,6 +53,7 @@ junit_tests(
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
+        "//java/com/google/gerrit/server/util/time:time-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/com/google/gerrit/truth",
         "//java/org/eclipse/jgit:server",

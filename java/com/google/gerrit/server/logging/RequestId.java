@@ -18,7 +18,7 @@ import com.google.common.base.Enums;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.server.util.time.TimeUtil;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 

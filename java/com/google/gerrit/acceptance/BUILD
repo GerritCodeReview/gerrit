@@ -109,6 +109,7 @@ java_library2(
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
+        "//java/com/google/gerrit/server/util/time:time-util",
         "//lib:gson",
         "//lib:guava-retrying",
         "//lib:gwtorm",

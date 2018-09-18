@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.server.util.time.TimeUtil;
 
 public abstract class Event {
   public final String type;

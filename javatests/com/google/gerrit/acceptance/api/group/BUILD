@@ -8,6 +8,7 @@ acceptance_tests(
         ":util",
         "//java/com/google/gerrit/server/group/db/testing",
         "//java/com/google/gerrit/server/group/testing",
+        "//java/com/google/gerrit/server/util/time:time-util",
         "//java/com/google/gerrit/truth",
         "//javatests/com/google/gerrit/acceptance/rest/account:util",
     ],

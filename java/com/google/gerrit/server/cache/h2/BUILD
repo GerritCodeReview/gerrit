@@ -10,6 +10,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/logging",
+        "//java/com/google/gerrit/server/util/time:time-util",
         "//lib:guava",
         "//lib:h2",
         "//lib/flogger:api",

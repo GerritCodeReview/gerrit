@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
-import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.server.util.time.TimeUtil;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;

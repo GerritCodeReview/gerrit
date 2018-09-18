@@ -23,7 +23,6 @@ import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
@@ -62,6 +61,7 @@ import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.GroupsConsistencyChecker;
 import com.google.gerrit.server.group.testing.InternalGroupSubject;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gerrit.testing.TestTimeUtil.TempClockStep;

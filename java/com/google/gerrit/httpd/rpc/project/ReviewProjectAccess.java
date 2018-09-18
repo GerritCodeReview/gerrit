@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.common.base.Throwables;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
@@ -49,6 +48,7 @@ import com.google.gerrit.server.restapi.change.PostReviewers;
 import com.google.gerrit.server.restapi.project.SetParent;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

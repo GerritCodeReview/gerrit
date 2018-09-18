@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd;
 
-import static com.google.gerrit.common.TimeUtil.nowMs;
 import static com.google.gerrit.httpd.CacheBasedWebSession.MAX_AGE_MINUTES;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readFixInt64;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
@@ -23,6 +22,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt64;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
+import static com.google.gerrit.server.util.time.TimeUtil.nowMs;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;

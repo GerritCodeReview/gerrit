@@ -35,5 +35,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
         "//java/com/google/gerrit/server/restapi",
+        "//java/com/google/gerrit/server/util/time",
     ],
 )

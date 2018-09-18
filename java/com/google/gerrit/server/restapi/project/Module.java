@@ -23,7 +23,9 @@ import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.restapi.change.CherryPickCommit;
 
@@ -40,6 +42,8 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), COMMIT_KIND);
     DynamicMap.mapOf(binder(), TAG_KIND);
+
+    DynamicSet.bind(binder(), GerritConfigListener.class).to(SetParent.class);
 
     create(PROJECT_KIND).to(CreateProject.class);
     put(PROJECT_KIND).to(PutProject.class);

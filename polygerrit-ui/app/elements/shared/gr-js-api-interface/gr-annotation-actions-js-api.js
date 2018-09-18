@@ -34,7 +34,7 @@
    * Register a function to call to apply annotations. Plugins should use
    * GrAnnotationActionsContext.annotateRange to apply a CSS class to a range
    * within a line.
-   * @param {Function<GrAnnotationActionsContext>} addLayerFunc The function
+   * @param {function(GrAnnotationActionsContext)} addLayerFunc The function
    *     that will be called when the AnnotationLayer is ready to annotate.
    */
   GrAnnotationActionsInterface.prototype.addLayer = function(addLayerFunc) {
@@ -45,7 +45,7 @@
   /**
    * The specified function will be called with a notify function for the plugin
    * to call when it has all required data for annotation. Optional.
-   * @param {Function<Function<String, Number, Number, String>>} notifyFunc See
+   * @param {function(function(String, Number, Number, String))} notifyFunc See
    *     doc of the notify function below to see what it does.
    */
   GrAnnotationActionsInterface.prototype.addNotifier = function(notifyFunc) {
@@ -68,7 +68,7 @@
    *
    * @param {String} checkboxLabel Will be used as the label for the checkbox.
    *     Optional. "Enable" is used if this is not specified.
-   * @param {Function<HTMLElement>} onAttached The function that will be called
+   * @param {function(HTMLElement)} onAttached The function that will be called
    *     when the checkbox is attached to the page.
    */
   GrAnnotationActionsInterface.prototype.enableToggleCheckbox = function(
@@ -134,7 +134,7 @@
    * @param {String} path The file path (eg: /COMMIT_MSG').
    * @param {String} changeNum The Gerrit change number.
    * @param {String} patchNum The Gerrit patch number.
-   * @param {Function<GrAnnotationActionsContext>} addLayerFunc The function
+   * @param {function(GrAnnotationActionsContext)} addLayerFunc The function
    *     that will be called when the AnnotationLayer is ready to annotate.
    */
   function AnnotationLayer(path, changeNum, patchNum, addLayerFunc) {
@@ -148,7 +148,7 @@
 
   /**
    * Register a listener for layer updates.
-   * @param {Function<Number, Number, String>} fn The update handler function.
+   * @param {function(Number, Number, String)} fn The update handler function.
    *     Should accept as arguments the line numbers for the start and end of
    *     the update and the side as a string.
    */

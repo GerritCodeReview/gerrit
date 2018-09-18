@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
@@ -44,7 +43,6 @@ import java.util.Set;
 class RefControl {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -58,12 +56,7 @@ class RefControl {
   private Boolean canForgeCommitter;
   private Boolean isVisible;
 
-  RefControl(
-      IdentifiedUser.GenericFactory identifiedUserFactory,
-      ProjectControl projectControl,
-      String ref,
-      PermissionCollection relevant) {
-    this.identifiedUserFactory = identifiedUserFactory;
+  RefControl(ProjectControl projectControl, String ref, PermissionCollection relevant) {
     this.projectControl = projectControl;
     this.refName = ref;
     this.relevant = relevant;

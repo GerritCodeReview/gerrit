@@ -487,7 +487,12 @@ public class ReplaceOp implements BatchUpdateOp {
       }
     }
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
-    revisionCreated.fire(notes.getChange(), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
+    // patchset-created event only relevant for magic branches. If closed by push we fire a
+    // change-merged event.
+    if (magicBranch != null) {
+      revisionCreated.fire(notes.getChange(), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
+    }
+
     try {
       fireApprovalsEvent(ctx);
     } catch (Exception e) {

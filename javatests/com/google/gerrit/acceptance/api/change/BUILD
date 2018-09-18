@@ -7,4 +7,5 @@ acceptance_tests(
         "api",
         "noci",
     ],
+    deps = ["//java/com/google/gerrit/server/util/time"],
 )

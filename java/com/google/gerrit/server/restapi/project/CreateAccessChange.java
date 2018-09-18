@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
@@ -44,6 +43,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

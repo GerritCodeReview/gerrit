@@ -17,9 +17,9 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
+import com.google.gerrit.server.util.time.TimeUtil;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;

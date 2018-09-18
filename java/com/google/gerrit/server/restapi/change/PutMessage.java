@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.common.FooterConstants;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -44,6 +43,7 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.CommitMessageUtil;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

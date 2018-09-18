@@ -18,6 +18,7 @@ java_library(
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
+        "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/cli",
         "//java/org/eclipse/jgit:server",
         "//lib:args4j",

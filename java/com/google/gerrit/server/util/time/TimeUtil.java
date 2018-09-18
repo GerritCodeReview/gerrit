@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common;
+package com.google.gerrit.server.util.time;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -25,7 +24,6 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 
 /** Static utility methods for dealing with dates and times. */
-@GwtIncompatible("Unemulated Java 8 functionalities")
 public class TimeUtil {
   private static final LongSupplier SYSTEM_CURRENT_MILLIS_SUPPLIER = System::currentTimeMillis;
 

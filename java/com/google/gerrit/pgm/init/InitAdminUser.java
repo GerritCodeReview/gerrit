@@ -17,7 +17,6 @@ package com.google.gerrit.pgm.init;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AuthType;
@@ -37,6 +36,7 @@ import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.io.IOException;

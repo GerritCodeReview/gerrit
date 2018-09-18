@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.Guice;
 import com.google.inject.Module;

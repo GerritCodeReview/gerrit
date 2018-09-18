@@ -482,8 +482,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertRefUpdatedEvents(initialHead, c);
     assertChangeMergedEvents(r.getChangeId(), c.name());
-    // FIXME Issue 8724 incorrect behaviour: c.name() should not generate an event
-    assertPatchSetCreatedEvents(r.getCommit().name(), c.name());
+    assertPatchSetCreatedEvents(r.getCommit().name());
   }
 
   /**
@@ -516,12 +515,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // newRev equal to change2.getCommit().name() for both events (Issue 11083)
     assertChangeMergedEvents(
         change1.getChangeId(), cherryPick2.name(), change2.getChangeId(), cherryPick2.name());
-    // FIXME Issue 8724 incorrect behaviour
-    assertPatchSetCreatedEvents(
-        change1.getCommit().name(),
-        change2.getCommit().name(),
-        cherryPick1.name(), // The cherry picks should not generate events
-        cherryPick2.name());
+    assertPatchSetCreatedEvents(change1.getCommit().name(), change2.getCommit().name());
   }
 
   private void assertClosedByChangeIdReviewState(PushOneCommit.Result change, RevCommit current)

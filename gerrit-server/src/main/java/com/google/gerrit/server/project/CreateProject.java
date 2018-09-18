@@ -186,6 +186,10 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
             input.createNewChangeForAllNotInTarget, InheritableBoolean.INHERIT);
     args.changeIdRequired =
         MoreObjects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
+    args.enableSignedPush =
+        MoreObjects.firstNonNull(input.enableSignedPush, InheritableBoolean.INHERIT);
+    args.requireSignedPush =
+        MoreObjects.firstNonNull(input.requireSignedPush, InheritableBoolean.INHERIT);
     try {
       args.maxObjectSizeLimit = ProjectConfig.validMaxObjectSizeLimit(input.maxObjectSizeLimit);
     } catch (ConfigInvalidException e) {
@@ -269,6 +273,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       newProject.setCreateNewChangeForAllNotInTarget(args.newChangeForAllNotInTarget);
       newProject.setRequireChangeID(args.changeIdRequired);
       newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
+      newProject.setEnableSignedPush(args.enableSignedPush);
+      newProject.setRequireSignedPush(args.requireSignedPush);
       if (args.newParent != null) {
         newProject.setParentName(args.newParent);
       }

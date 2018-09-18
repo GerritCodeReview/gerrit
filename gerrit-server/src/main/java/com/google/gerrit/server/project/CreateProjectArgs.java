@@ -34,6 +34,8 @@ public class CreateProjectArgs {
   public InheritableBoolean contentMerge;
   public InheritableBoolean newChangeForAllNotInTarget;
   public InheritableBoolean changeIdRequired;
+  public InheritableBoolean enableSignedPush;
+  public InheritableBoolean requireSignedPush;
   public boolean createEmptyCommit;
   public String maxObjectSizeLimit;
 
@@ -43,6 +45,8 @@ public class CreateProjectArgs {
     contentMerge = InheritableBoolean.INHERIT;
     changeIdRequired = InheritableBoolean.INHERIT;
     newChangeForAllNotInTarget = InheritableBoolean.INHERIT;
+    enableSignedPush = InheritableBoolean.INHERIT;
+    requireSignedPush = InheritableBoolean.INHERIT;
     submitType = SubmitType.MERGE_IF_NECESSARY;
   }
 

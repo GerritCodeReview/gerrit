@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1537286327 +0200\nnonce ACQ0Hpy2rYJMYbh4C29LAEGnAEu4G9+L6ANBwitq8W8EhPBiTEVtP+O8l3oHWm8Fs4kFvNP49VaF\n\n0000000000000000000000000000000000000000 6d67ffb639c2f3591818baa7c837868e20795b15 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluhILgACgkQUbX9l6DQ\n71GLVAf/auxLG9FHCYNkUq2fcw5AE8KnGcPuYK69eEhwWa+jSt7f0bxwZWK+yXAc\ny4z/rTXLyoiaFdH5MyOVuoEwEC/smXNOY0Ub4IorAhZQ2q8qeun3wXMeukcvTRGB\nlI4hHl46Pivnk8Htc/96XCXoGsM0Qz8LpBXUoMaIhiqAqb13GbI3Kt17yO2Iad7A\nf/PNMfCYLKy9JfQi4krHOBIkkSmeZKlRwm5DFpw8xrV5cEdqZTScBX0oDskrNak6\nJB/rMy8b4DaUkosfNvz3B8NyQ6UbN+DsIVDi2LwlrLsQRvdbaj7QxMdf71EoWrpj\nKHyfJVaGDly8g7UkkoBw7aratUYQEA\u003d\u003d\n\u003dIg/F\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8088761_d5696cf9",
+        "filename": "java/com/google/gerrit/server/util/time/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-18T19:23:19Z",
+      "side": 1,
+      "message": "Optional: I would slightly prefer if this target is named \"time\" so users can just depend on \"//.../util/time\"; the \"util\u0027 part is already implied by the package name.",
+      "revId": "6d67ffb639c2f3591818baa7c837868e20795b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

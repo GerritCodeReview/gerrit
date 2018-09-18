@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd5237f5_e24f4d4e",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-18T10:29:01Z",
+      "side": 1,
+      "message": "One difference here is that when Gerrit does it, we know that the commit that got submitted is the same as the commit that was reviewed, approved, and submitted.\n\nA locally cherry-picked commit could be modified in any number of ways, and then force pushed. For this reason it makes sense for a patch-set-created event to be generated.",
+      "range": {
+        "startLine": 409,
+        "startChar": 5,
+        "endLine": 409,
+        "endChar": 90
+      },
+      "revId": "06bdc423339a4f988731e907ee78fad56762184c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

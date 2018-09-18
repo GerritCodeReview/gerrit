@@ -22,6 +22,30 @@
       "revId": "06bdc423339a4f988731e907ee78fad56762184c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d22d854f_2c07016c",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-09-18T11:34:42Z",
+      "side": 1,
+      "message": "Thanks David. I agree with your point about Gerrit knowing which commit is used. However, doesn\u0027t this issue depend on what the purpose of patchset-created is?\n\nOnce the changeid has been merged into the branch the review is closed, so firing patchset-created events after the change has been merged seems of little value (and is causing issues for us as it triggers a CI build for every merged review). Do you have use cases where this event is required/useful?\n\nPerhaps we can define patchset-created as \"A new patchset has been created *which has not been merged*\"?\n\nBTW - We don\u0027t allow force pushes to the branch - only fast-forward merge by the CI server (Jenkins) to a commit fully tested by it. We don\u0027t want the Jenkins Gerrit Trigger to rebuild all merged reviews after the push.",
+      "parentUuid": "fd5237f5_e24f4d4e",
+      "range": {
+        "startLine": 409,
+        "startChar": 5,
+        "endLine": 409,
+        "endChar": 90
+      },
+      "revId": "06bdc423339a4f988731e907ee78fad56762184c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

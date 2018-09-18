@@ -85,7 +85,6 @@ import com.google.gerrit.server.git.receive.NoteDbPushOption;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
 import com.google.gerrit.server.git.validators.CommitValidators.ChangeIdValidator;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender.Message;
@@ -398,8 +397,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertRefUpdatedEvents(initialHead, c);
     assertChangeMergedEvents(r.getChangeId(), c.name());
-    // FIXME Issue 8724 incorrect behaviour: c.name() should not generate an event
-    assertPatchSetCreatedEvents(r.getCommit().name(), c.name());
+    assertPatchSetCreatedEvents(r.getCommit().name());
   }
 
   /**
@@ -432,12 +430,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // change-merged events happen in reverse order, i.e. in HEAD->oldHead order, not oldHead->HEAD
     assertChangeMergedEvents(
         change2.getChangeId(), cherryPick2.name(), change1.getChangeId(), cherryPick1.name());
-    // FIXME Issue 8724 incorrect behaviour for both ReviewDB and NoteDB:
-    assertPatchSetCreatedEvents(
-        change1.getCommit().name(),
-        change2.getCommit().name(),
-        cherryPick2.name(), // The cherry picks should not generate events
-        cherryPick1.name());
+    assertPatchSetCreatedEvents(change1.getCommit().name(), change2.getCommit().name());
   }
 
   private void assertClosedByChangeIdReviewState(PushOneCommit.Result change, RevCommit current)
@@ -446,12 +439,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(info.revisions).hasSize(2);
     assertThat(info.currentRevision).isEqualTo(current.name());
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
-    // Issue 8724 incorrect behaviour: ReviewDB generates an extra message.
-    // When ReviewDB is removed this check can be removed.
-    if (notesMigration.changePrimaryStorage() == PrimaryStorage.NOTE_DB) {
-      assertThat(info.messages.stream().map(cmi -> cmi.message))
-          .containsExactly("Uploaded patch set 1.", "Change has been successfully pushed.");
-    }
+    assertThat(info.messages.stream().map(cmi -> cmi.message))
+        .containsExactly("Uploaded patch set 1.", "Change has been successfully pushed.");
   }
 
   @Test

@@ -332,8 +332,10 @@ public class ReplaceOp implements BatchUpdateOp {
 
     recipients.add(oldRecipients);
 
-    msg = createChangeMessage(ctx, reviewMessage);
-    cmUtil.addChangeMessage(ctx.getDb(), update, msg);
+    if (magicBranch != null) {
+      msg = createChangeMessage(ctx, reviewMessage);
+      cmUtil.addChangeMessage(ctx.getDb(), update, msg);
+    }
 
     if (mergedByPushOp == null) {
       resetChange(ctx);
@@ -483,7 +485,12 @@ public class ReplaceOp implements BatchUpdateOp {
           .sendAsync();
     }
 
-    revisionCreated.fire(notes.getChange(), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
+    // Issue 8724: Only fire patchset-created event for magic branches, not for changes closed by
+    // push.
+    if (magicBranch != null) {
+      revisionCreated.fire(notes.getChange(), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
+    }
+
     try {
       fireCommentAddedEvent(ctx);
     } catch (Exception e) {

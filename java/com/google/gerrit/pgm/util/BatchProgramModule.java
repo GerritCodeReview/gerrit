@@ -47,12 +47,14 @@ import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.DefaultBrowseUrls;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.SysExecutorModule;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -138,6 +140,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(String.class)
         .annotatedWith(CanonicalWebUrl.class)
         .toProvider(CanonicalWebUrlProvider.class);
+    bind(UrlFormatter.class).to(DefaultBrowseUrls.class);
     bind(Boolean.class)
         .annotatedWith(DisableReverseDnsLookup.class)
         .toProvider(DisableReverseDnsLookupProvider.class)

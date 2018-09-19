@@ -213,7 +213,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         RevCommit next = rw.parseCommit(key.next());
         rw.parseBody(next);
 
-        if (!next.getFullMessage().equals(prior.getFullMessage())) {
+        // NB! Additional footer lines are ignored when comparing the commit message. This allows a
+        // bot to cherry-pick/merge a large set of reviews for validation and push as a single
+        // atomic operation, yet also be able to add the footer lines that Gerrit otherwise
+        // generates internally when it merges changes without being interpreted as REWORK.
+        if (!next.getFullMessage().startsWith(prior.getFullMessage())) {
           if (isSameDeltaAndTree(prior, next)) {
             return ChangeKind.NO_CODE_CHANGE;
           }

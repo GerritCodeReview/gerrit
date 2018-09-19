@@ -1419,9 +1419,8 @@ public class ChangeIT extends AbstractDaemonTest {
     RevisionInfo rev2 = changeInfo2.revisions.get(changeInfo2.currentRevision);
 
     // Check that change kinds are correctly detected
-    assertThat(rev1.kind).isEqualTo(ChangeKind.NO_CODE_CHANGE);
-    // FIXME We only updated the footer so this should be a trivial rebase to allow sticky votes
-    assertThat(rev2.kind).isEqualTo(ChangeKind.REWORK);
+    assertThat(rev1.kind).isEqualTo(ChangeKind.NO_CHANGE);
+    assertThat(rev2.kind).isEqualTo(ChangeKind.TRIVIAL_REBASE);
   }
 
   @Test

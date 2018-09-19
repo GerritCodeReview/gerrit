@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "f36a644b_a8bcb09d",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-19T11:52:48Z",
+      "side": 1,
+      "message": "\u003e Good point. I think it makes sense to change it to Iterable\u003cDynamicSet.Entry\u003cT\u003e\u003e.\n\nI will address this later in a follow-up change.\n\n\u003e If we find a way to handle all plugin invocations through an invoke method\n\u003e (not sure if this is feasible), we could only offer \u0027invoke\u0027 on the Entry but\n\u003e not \u0027get\u0027. Maybe in any case having the \u0027invoke\u0027 methods directly on the Entry would \n\u003e be nice.\n\nWe cannot put this logic into the Entry class, since it lives in the extensions package which shouldn\u0027t have a dependency to server logging package.",
+      "parentUuid": "d67d0daf_0e15c295",
+      "range": {
+        "startLine": 47,
+        "startChar": 38,
+        "endLine": 47,
+        "endChar": 50
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "976a47ca_a07e79ad",
         "filename": "java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 8
@@ -196,6 +220,30 @@
     },
     {
       "key": {
+        "uuid": "982344a0_8f60e713",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-19T11:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bac55c82_f99ce548",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffcce38e_60d80605",
         "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
         "patchSetId": 8
@@ -307,6 +355,48 @@
     },
     {
       "key": {
+        "uuid": "4593f391_1285d14f",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-19T11:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed0c20ee_ba7f3793",
+      "range": {
+        "startLine": 114,
+        "startChar": 25,
+        "endLine": 114,
+        "endChar": 47
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b783e1c_3e097ad2",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-19T11:52:48Z",
+      "side": 1,
+      "message": "Not possible, since DynamicItem is in the extensions package which shouldn\u0027t depend on the server logging package.",
+      "parentUuid": "25ae61e1_45a37586",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3111ce30_6edd55d5",
         "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
         "patchSetId": 8
@@ -327,6 +417,30 @@
       "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fed6f03_abcb14d4",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-19T11:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3111ce30_6edd55d5",
+      "range": {
+        "startLine": 128,
+        "startChar": 86,
+        "endLine": 129,
+        "endChar": 87
+      },
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -401,6 +515,24 @@
     },
     {
       "key": {
+        "uuid": "d14fd353_23b28d0d",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-19T11:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb5906d1_12f5acc6",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3232af47_ee8b091a",
         "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
         "patchSetId": 8
@@ -415,6 +547,24 @@
       "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eada25bb_b0ba9c64",
+        "filename": "java/com/google/gerrit/server/logging/PluginContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-19T11:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3232af47_ee8b091a",
+      "revId": "45f92ee17fcd72b587f5bd2eab94a886bfe195ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

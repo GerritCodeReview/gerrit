@@ -22,6 +22,30 @@
       "revId": "91d8fe01f95b6c583a595896cc73260d6d359f16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7954e7c_722108ee",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-19T04:51:57Z",
+      "side": 1,
+      "message": "This was in the original change that I have cherry-picked.  If it needs removing, let\u0027s do it in a follow-up.",
+      "parentUuid": "3561d787_00584cc6",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 73
+      },
+      "revId": "91d8fe01f95b6c583a595896cc73260d6d359f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

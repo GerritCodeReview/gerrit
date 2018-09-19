@@ -43,20 +43,20 @@ import org.eclipse.jgit.lib.Constants;
  */
 public class SubmoduleSectionParser {
 
-  private final Config bbc;
+  private final Config config;
   private final String canonicalWebUrl;
   private final Branch.NameKey superProjectBranch;
 
   public SubmoduleSectionParser(
-      Config bbc, String canonicalWebUrl, Branch.NameKey superProjectBranch) {
-    this.bbc = bbc;
+      Config config, String canonicalWebUrl, Branch.NameKey superProjectBranch) {
+    this.config = config;
     this.canonicalWebUrl = canonicalWebUrl;
     this.superProjectBranch = superProjectBranch;
   }
 
   public Set<SubmoduleSubscription> parseAllSections() {
     Set<SubmoduleSubscription> parsedSubscriptions = new HashSet<>();
-    for (String id : bbc.getSubsections("submodule")) {
+    for (String id : config.getSubsections("submodule")) {
       final SubmoduleSubscription subscription = parse(id);
       if (subscription != null) {
         parsedSubscriptions.add(subscription);
@@ -66,9 +66,9 @@ public class SubmoduleSectionParser {
   }
 
   private SubmoduleSubscription parse(String id) {
-    final String url = bbc.getString("submodule", id, "url");
-    final String path = bbc.getString("submodule", id, "path");
-    String branch = bbc.getString("submodule", id, "branch");
+    final String url = config.getString("submodule", id, "url");
+    final String path = config.getString("submodule", id, "path");
+    String branch = config.getString("submodule", id, "branch");
 
     try {
       if (url != null

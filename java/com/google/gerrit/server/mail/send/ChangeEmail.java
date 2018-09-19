@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail.send;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -217,11 +218,9 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */
+  @Nullable
   public String getChangeUrl() {
-    if (getGerritUrl() != null) {
-      return getGerritUrl() + "c/" + change.getProject().get() + "/+/" + change.getChangeId();
-    }
-    return null;
+    return args.urlFormatter.getChangeViewUrl(change.getProject(), change.getId()).orElse(null);
   }
 
   public String getChangeMessageThreadId() {

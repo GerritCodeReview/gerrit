@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4936a18d_9e1619d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-09-19T17:38:19Z",
+      "side": 1,
+      "message": "I don\u0027t quite follow the reasoning here, because it\u0027s not a trivial *rebase* in my opinion, but a no-code-change (but that\u0027s defined with an unchanged parent).\n\nAlso consider the following, where labels also approve the contents of the commit message. It could be that an author has included in PS1\u0027s commit message \"\u003cTrue story\u003e\" and then update to PS2 with a \"\u003cFull of lies\u003e\" commit message and the Code-Review label is configured sticky with copyAllScoresOnTrivialRebase [1], then the reviewer has approved a commit message \"\u003cFull of lies\u003e\"...\n\nThis behavioral change would not work in my case at least.\n\n[1]: https://gerrit-documentation.storage.googleapis.com/Documentation/2.15.3/config-labels.html#label_copyAllScoresOnTrivialRebase.",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "7020c6ba9b49f3c52cb9475d25a91cd536f6fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1224277c_f5ef9a93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-09-19T17:38:19Z",
+      "side": 1,
+      "message": "Add a footer/trailing line with a link to the issue.\n\n Bug: Issue 8724",
+      "revId": "7020c6ba9b49f3c52cb9475d25a91cd536f6fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db248e8c_73fab24b",
+        "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-09-19T17:38:19Z",
+      "side": 1,
+      "message": "This should also be reflected in the Documentation where it is explained what the different \u0027kinds\u0027 of changes are. In at least\n\n Documentation/json.txt",
+      "range": {
+        "startLine": 216,
+        "startChar": 8,
+        "endLine": 218,
+        "endChar": 59
+      },
+      "revId": "7020c6ba9b49f3c52cb9475d25a91cd536f6fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Preconditions;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -24,7 +25,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -33,13 +34,13 @@ import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.GarbageCollect.Input;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Collections;
+import java.util.Optional;
 
 @RequiresCapability(GlobalCapability.RUN_GC)
 @Singleton
@@ -54,16 +55,16 @@ public class GarbageCollect
   private final boolean canGC;
   private final GarbageCollection.Factory garbageCollectionFactory;
   private final WorkQueue workQueue;
-  private final Provider<String> canonicalUrl;
+  private final UrlFormatter urlFormatter;
 
   @Inject
   GarbageCollect(
       GitRepositoryManager repoManager,
       GarbageCollection.Factory garbageCollectionFactory,
       WorkQueue workQueue,
-      @CanonicalWebUrl Provider<String> canonicalUrl) {
+      UrlFormatter urlFormatter) {
     this.workQueue = workQueue;
-    this.canonicalUrl = canonicalUrl;
+    this.urlFormatter = urlFormatter;
     this.canGC = repoManager instanceof LocalDiskRepositoryManager;
     this.garbageCollectionFactory = garbageCollectionFactory;
   }
@@ -97,10 +98,11 @@ public class GarbageCollect
     @SuppressWarnings("unchecked")
     WorkQueue.Task<Void> task = (WorkQueue.Task<Void>) workQueue.getDefaultQueue().submit(job);
 
-    String location =
-        canonicalUrl.get() + "a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId());
-
-    return Response.accepted(location);
+    Optional<String> url =
+        urlFormatter.getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
+    // We're in a HTTP handler, so must be present.
+    Preconditions.checkState(((Optional) url).isPresent());
+    return Response.accepted(url.get());
   }
 
   @SuppressWarnings("resource")

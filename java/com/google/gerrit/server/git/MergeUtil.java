@@ -25,7 +25,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -42,8 +41,8 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectState;
@@ -65,6 +64,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -147,7 +147,7 @@ public class MergeUtil {
 
   private final Provider<ReviewDb> db;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final Provider<String> urlProvider;
+  private final UrlFormatter urlFormatter;
   private final ApprovalsUtil approvalsUtil;
   private final ProjectState project;
   private final boolean useContentMerge;
@@ -159,7 +159,7 @@ public class MergeUtil {
       @GerritServerConfig Config serverConfig,
       Provider<ReviewDb> db,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      UrlFormatter urlFormatter,
       ApprovalsUtil approvalsUtil,
       PluggableCommitMessageGenerator commitMessageGenerator,
       @Assisted ProjectState project) {
@@ -167,7 +167,7 @@ public class MergeUtil {
         serverConfig,
         db,
         identifiedUserFactory,
-        urlProvider,
+        urlFormatter,
         approvalsUtil,
         project,
         commitMessageGenerator,
@@ -179,14 +179,14 @@ public class MergeUtil {
       @GerritServerConfig Config serverConfig,
       Provider<ReviewDb> db,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      UrlFormatter urlFormatter,
       ApprovalsUtil approvalsUtil,
       @Assisted ProjectState project,
       PluggableCommitMessageGenerator commitMessageGenerator,
       @Assisted boolean useContentMerge) {
     this.db = db;
     this.identifiedUserFactory = identifiedUserFactory;
-    this.urlProvider = urlProvider;
+    this.urlFormatter = urlFormatter;
     this.approvalsUtil = approvalsUtil;
     this.project = project;
     this.useContentMerge = useContentMerge;
@@ -345,17 +345,16 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    final String siteUrl = urlProvider.get();
-    if (siteUrl != null) {
-      final String url = siteUrl + c.getId().get();
-      if (!contains(footers, FooterConstants.REVIEWED_ON, url)) {
-        msgbuf.append(FooterConstants.REVIEWED_ON.getName());
-        msgbuf.append(": ");
-        msgbuf.append(url);
-        msgbuf.append('\n');
+    Optional<String> url = urlFormatter.getChangeViewUrl(null, c.getId());
+    if (url.isPresent()) {
+      if (!contains(footers, FooterConstants.REVIEWED_ON, url.get())) {
+        msgbuf
+            .append(FooterConstants.REVIEWED_ON.getName())
+            .append(": ")
+            .append(url.get())
+            .append('\n');
       }
     }
-
     PatchSetApproval submitAudit = null;
 
     for (PatchSetApproval a : safeGetApprovals(notes, psId)) {

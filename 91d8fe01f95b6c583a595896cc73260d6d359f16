@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3561d787_00584cc6",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-19T04:48:55Z",
+      "side": 1,
+      "message": "This seems not needed any could be removed.",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 73
+      },
+      "revId": "91d8fe01f95b6c583a595896cc73260d6d359f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

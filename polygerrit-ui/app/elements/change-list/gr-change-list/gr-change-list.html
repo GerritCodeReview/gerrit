@@ -67,13 +67,18 @@ limitations under the License.
             </td>
           </tr>
         </template>
-        <template is="dom-if" if="[[!changeSection.results.length]]">
+        <template is="dom-if" if="[[_isEmpty(changeSection)]]">
           <tr class="noChanges">
             <td class="leftPadding"></td>
             <td class="star" hidden$="[[!showStar]]" hidden></td>
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
-              No changes
+              <template is="dom-if" if="[[_isOutgoing(changeSection)]]">
+                <slot name="empty-outgoing"></slot>
+              </template>
+              <template is="dom-if" if="[[!_isOutgoing(changeSection)]]">
+                No changes
+              </template>
             </td>
           </tr>
         </template>

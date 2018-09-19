@@ -214,7 +214,7 @@ public class ProjectResetter implements AutoCloseable {
     for (Map.Entry<Project.NameKey, Collection<String>> e :
         refsPatternByProject.asMap().entrySet()) {
       try (Repository repo = repoManager.openRepository(e.getKey())) {
-        Collection<Ref> refs = repo.getAllRefs().values();
+        Collection<Ref> refs = repo.getRefDatabase().getRefs();
         for (String refPattern : e.getValue()) {
           RefPatternMatcher matcher = RefPatternMatcher.getMatcher(refPattern);
           for (Ref ref : refs) {

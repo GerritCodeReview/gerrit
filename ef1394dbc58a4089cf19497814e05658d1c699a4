@@ -119,6 +119,30 @@
       "revId": "ef1394dbc58a4089cf19497814e05658d1c699a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db8f2b6a_58f0b26d",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-19T11:47:29Z",
+      "side": 1,
+      "message": "\u003e I\u0027m thinking the best proposal is maybe to name this class \u0027Extension\u0027 and\n\u003e then use \"ExtensionImpl\u0027 for T.\n\nThis rename was very painful, but it\u0027s done now.\n\nDone.",
+      "parentUuid": "ec9142e4_0d05bf0d",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "ef1394dbc58a4089cf19497814e05658d1c699a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

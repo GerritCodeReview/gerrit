@@ -149,7 +149,7 @@ public class PluginMapEntryContext<T> {
    * @return the result from the plugin extension
    */
   public <R> R call(ExtensionFunction<Extension<T>, R> extensionFunction) {
-    return PluginContext.call(extension, extensionFunction);
+    return PluginContext.call(pluginMetrics, extension, extensionFunction);
   }
 
   /**
@@ -167,6 +167,6 @@ public class PluginMapEntryContext<T> {
   public <R, X extends Exception> R call(
       ExtensionFunctionAllowingException<Extension<T>, R, X> function, Class<X> exceptionClass)
       throws X {
-    return PluginContext.call(extension, function, exceptionClass);
+    return PluginContext.call(pluginMetrics, extension, function, exceptionClass);
   }
 }

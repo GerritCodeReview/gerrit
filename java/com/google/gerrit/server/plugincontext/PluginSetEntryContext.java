@@ -146,7 +146,7 @@ public class PluginSetEntryContext<T> {
    * @return the result from the plugin extension
    */
   public <R> R call(ExtensionImplFunction<T, R> extensionImplFunction) {
-    return PluginContext.call(extension, extensionImplFunction);
+    return PluginContext.call(pluginMetrics, extension, extensionImplFunction);
   }
 
   /**
@@ -163,6 +163,7 @@ public class PluginSetEntryContext<T> {
   public <R, X extends Exception> R call(
       CheckedExtensionImplFunction<T, R, X> checkedExtensionImplFunction, Class<X> exceptionClass)
       throws X {
-    return PluginContext.call(extension, checkedExtensionImplFunction, exceptionClass);
+    return PluginContext.call(
+        pluginMetrics, extension, checkedExtensionImplFunction, exceptionClass);
   }
 }

@@ -156,7 +156,7 @@ public class PluginItemContext<T> {
   public <R> R call(ExtensionImplFunction<T, R> extensionImplFunction) {
     Extension<T> extension = dynamicItem.getEntry();
     checkState(extension != null);
-    return PluginContext.call(extension, extensionImplFunction);
+    return PluginContext.call(pluginMetrics, extension, extensionImplFunction);
   }
 
   /**
@@ -177,6 +177,6 @@ public class PluginItemContext<T> {
       ExtensionImplFunctionAllowingException<T, R, X> function, Class<X> exceptionClass) throws X {
     Extension<T> extension = dynamicItem.getEntry();
     checkState(extension != null);
-    return PluginContext.call(extension, function, exceptionClass);
+    return PluginContext.call(pluginMetrics, extension, function, exceptionClass);
   }
 }

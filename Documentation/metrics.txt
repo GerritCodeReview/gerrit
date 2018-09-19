@@ -155,6 +155,7 @@ suggestion.
 
 === Plugin
 
+* `plugin/latency`: Latency for plugin invocation.
 * `plugin/error_count`: Number of plugin errors.
 
 === Replication Plugin

@@ -1377,6 +1377,54 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changeParentAndCommitMessageFooter() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+
+    // Create two sibling reviews
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content");
+    String id1 = GitUtil.getChangeId(testRepo, change1.getCommit()).get();
+    testRepo.reset(initialHead);
+
+    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
+    String id2 = GitUtil.getChangeId(testRepo, change2.getCommit()).get();
+    testRepo.reset(initialHead);
+
+    // Cherry-pick and append a new footer line to each message
+    RevCommit cherryPick1 = testRepo.cherryPick(change1.getCommit());
+    cherryPick1 =
+        testRepo
+            .amend(cherryPick1.getId())
+            .message(cherryPick1.getFullMessage() + "Reviewed-on: http://gerrit.example.com/1\n")
+            .create();
+    testRepo.reset(cherryPick1);
+
+    RevCommit cherryPick2 = testRepo.cherryPick(change2.getCommit());
+    cherryPick2 =
+        testRepo
+            .amend(cherryPick2.getId())
+            .message(cherryPick2.getFullMessage() + "Reviewed-on: http://gerrit.example.com/2\n")
+            .create();
+    testRepo.reset(cherryPick2);
+
+    // Push the amended reviews to master
+    // Review one has a new commit message footer line but same tree
+    // Review two has a new commit message footer line and new parent but no code changes
+    String master = "refs/for/master";
+    assertPushOk(pushHead(testRepo, master, false), master);
+
+    ChangeInfo changeInfo1 = gApi.changes().id(id1).get();
+    ChangeInfo changeInfo2 = gApi.changes().id(id2).get();
+
+    RevisionInfo rev1 = changeInfo1.revisions.get(changeInfo1.currentRevision);
+    RevisionInfo rev2 = changeInfo2.revisions.get(changeInfo2.currentRevision);
+
+    // Check that change kinds are correctly detected
+    assertThat(rev1.kind).isEqualTo(ChangeKind.NO_CODE_CHANGE);
+    // FIXME We only updated the footer so this should be a trivial rebase to allow sticky votes
+    assertThat(rev2.kind).isEqualTo(ChangeKind.REWORK);
+  }
+
+  @Test
   public void pushCommitOfOtherUser() throws Exception {
     // admin pushes commit of user
     PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);

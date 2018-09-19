@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "900be1f1_9b1f0086",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-09-19T19:07:39Z",
+      "side": 1,
+      "message": "Thanks. I agree - as defined it\u0027s probably closer to a NO_CODE_CHANGE. The code contents of the patch has not changed but the parent has. copyAllScoresIfNoCodeChange defaults on for Verified label so I\u0027m a little hesitant to redefine NO_CODE_CHANGE here. Another change kind feels like overkill though. Hmmm.",
+      "parentUuid": "4936a18d_9e1619d0",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "7020c6ba9b49f3c52cb9475d25a91cd536f6fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1224277c_f5ef9a93",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -53,6 +77,30 @@
       "writtenOn": "2018-09-19T17:38:19Z",
       "side": 1,
       "message": "This should also be reflected in the Documentation where it is explained what the different \u0027kinds\u0027 of changes are. In at least\n\n Documentation/json.txt",
+      "range": {
+        "startLine": 216,
+        "startChar": 8,
+        "endLine": 218,
+        "endChar": 59
+      },
+      "revId": "7020c6ba9b49f3c52cb9475d25a91cd536f6fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2a46ea2_e0adb3b2",
+        "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-09-19T19:07:39Z",
+      "side": 1,
+      "message": "Thanks for the pointer. Will fix.",
+      "parentUuid": "db248e8c_73fab24b",
       "range": {
         "startLine": 216,
         "startChar": 8,

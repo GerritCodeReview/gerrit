@@ -270,6 +270,32 @@ limitations under the License.
       assert.equal(noChangesMsg.length, 2);
     });
 
+    suite('empty outgoing', () => {
+      test('not shown on empty non-outgoing sections', () => {
+        const section = {results: []};
+        assert.isTrue(element._isEmpty(section));
+        assert.isFalse(element._isOutgoing(section));
+      });
+
+      test('shown on empty outgoing sections', () => {
+        const section = {results: [], isOutgoing: true};
+        assert.isTrue(element._isEmpty(section));
+        assert.isTrue(element._isOutgoing(section));
+      });
+
+      test('not shown on non-empty outgoing sections', () => {
+        const section = {isOutgoing: true, results: [
+          {_number: 0, labels: {Verified: {approved: {}}}}]};
+        assert.isFalse(element._isEmpty(section));
+        assert.isTrue(element._isOutgoing(section));
+      });
+    });
+
+    test('_isOutgoing', () => {
+      assert.isTrue(element._isOutgoing({results: [], isOutgoing: true}));
+      assert.isFalse(element._isOutgoing({results: []}));
+    });
+
     suite('empty column preference', () => {
       let element;
 

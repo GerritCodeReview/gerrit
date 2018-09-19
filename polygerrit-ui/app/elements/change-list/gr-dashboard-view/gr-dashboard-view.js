@@ -187,6 +187,7 @@
               sectionName: res.sections[i].name,
               query: res.sections[i].query,
               results,
+              isOutgoing: res.sections[i].isOutgoing,
             })).filter((section, i) => !res.sections[i].hideIfEmpty ||
                 section.results.length);
           });
@@ -247,6 +248,15 @@
 
     _computeDraftsLink() {
       return Gerrit.Nav.getUrlForSearchQuery('has:draft -is:open');
+    },
+
+    _createChangeTap() {
+      this.$.destinationDialog.open();
+    },
+
+    _handleDestinationConfirm(e) {
+      this.$.commandsDialog.branch = e.detail.branch;
+      this.$.commandsDialog.open();
     },
   });
 })();

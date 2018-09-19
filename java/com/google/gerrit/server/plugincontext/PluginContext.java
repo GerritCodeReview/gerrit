@@ -25,9 +25,11 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer3;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -106,10 +108,20 @@ public class PluginContext<T> {
     public static final PluginMetrics DISABLED_INSTANCE =
         new PluginMetrics(new DisabledMetricMaker());
 
+    final Timer3<String, String, String> latency;
     final Counter3<String, String, String> errorCount;
 
     @Inject
     PluginMetrics(MetricMaker metricMaker) {
+      this.latency =
+          metricMaker.newTimer(
+              "plugin/latency",
+              new Description("Latency for plugin invocation")
+                  .setCumulative()
+                  .setUnit(Units.MILLISECONDS),
+              Field.ofString("plugin_name"),
+              Field.ofString("class_name"),
+              Field.ofString("export_name"));
       this.errorCount =
           metricMaker.newCounter(
               "plugin/error_count",
@@ -117,6 +129,13 @@ public class PluginContext<T> {
               Field.ofString("plugin_name"),
               Field.ofString("class_name"),
               Field.ofString("export_name"));
+    }
+
+    Timer3.Context startLatency(Extension<?> extension) {
+      return latency.start(
+          extension.getPluginName(),
+          extension.get().getClass().getName(),
+          Strings.nullToEmpty(extension.getExportName()));
     }
 
     void incrementErrorCount(Extension<?> extension) {
@@ -169,8 +188,8 @@ public class PluginContext<T> {
     if (extensionImpl == null) {
       return;
     }
-
-    try (TraceContext traceContext = newTrace(extension)) {
+    try (TraceContext traceContext = newTrace(extension);
+        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
       extensionImplConsumer.run(extensionImpl);
     } catch (Throwable e) {
       pluginMetrics.incrementErrorCount(extension);
@@ -198,7 +217,8 @@ public class PluginContext<T> {
       return;
     }
 
-    try (TraceContext traceContext = newTrace(extension)) {
+    try (TraceContext traceContext = newTrace(extension);
+        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
       extensionConsumer.run(extension);
     } catch (Throwable e) {
       pluginMetrics.incrementErrorCount(extension);
@@ -231,7 +251,8 @@ public class PluginContext<T> {
       return;
     }
 
-    try (TraceContext traceContext = newTrace(extension)) {
+    try (TraceContext traceContext = newTrace(extension);
+        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
       extensionImplConsumer.run(extensionImpl);
     } catch (Throwable e) {
       Throwables.throwIfInstanceOf(e, exceptionClass);
@@ -266,7 +287,8 @@ public class PluginContext<T> {
       return;
     }
 
-    try (TraceContext traceContext = newTrace(extension)) {
+    try (TraceContext traceContext = newTrace(extension);
+        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
       extensionConsumer.run(extension);
     } catch (Throwable e) {
       Throwables.throwIfInstanceOf(e, exceptionClass);
@@ -281,12 +303,17 @@ public class PluginContext<T> {
    *
    * <p>The function gets the extension implementation provided that should be invoked.
    *
+   * @param pluginMetrics the plugin metrics
    * @param extension extension that is being invoked
    * @param extensionImplFunction function that invokes the extension
    * @return the result from the plugin extension
    */
-  static <T, R> R call(Extension<T> extension, ExtensionImplFunction<T, R> extensionImplFunction) {
-    try (TraceContext traceContext = newTrace(extension)) {
+  static <T, R> R call(
+      PluginMetrics pluginMetrics,
+      Extension<T> extension,
+      ExtensionImplFunction<T, R> extensionImplFunction) {
+    try (TraceContext traceContext = newTrace(extension);
+        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
       return extensionImplFunction.call(extension.get());
     }
   }
@@ -297,6 +324,7 @@ public class PluginContext<T> {
    *
    * <p>The function gets the extension implementation provided that should be invoked.
    *
+   * @param pluginMetrics the plugin metrics
    * @param extension extension that is being invoked
    * @param function function that invokes the extension
    * @param exceptionClass type of the exceptions that should be thrown
@@ -304,11 +332,13 @@ public class PluginContext<T> {
    * @throws X expected exception from the plugin extension
    */
   static <T, R, X extends Exception> R call(
+      PluginMetrics pluginMetrics,
       Extension<T> extension,
       ExtensionImplFunctionAllowingException<T, R, X> function,
       Class<X> exceptionClass)
       throws X {
-    try (TraceContext traceContext = newTrace(extension)) {
+    try (TraceContext traceContext = newTrace(extension);
+        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
       try {
         return function.call(extension.get());
       } catch (Exception e) {
@@ -326,13 +356,17 @@ public class PluginContext<T> {
    * <p>The function get the {@link Extension} provided that should be invoked. The extension
    * provides access to the plugin name and the export name.
    *
+   * @param pluginMetrics the plugin metrics
    * @param extension extension that is being invoked
    * @param extensionFunction function that invokes the extension
    * @return the result from the plugin extension
    */
   static <T, R> R call(
-      Extension<T> extension, ExtensionFunction<Extension<T>, R> extensionFunction) {
-    try (TraceContext traceContext = newTrace(extension)) {
+      PluginMetrics pluginMetrics,
+      Extension<T> extension,
+      ExtensionFunction<Extension<T>, R> extensionFunction) {
+    try (TraceContext traceContext = newTrace(extension);
+        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
       return extensionFunction.call(extension);
     }
   }
@@ -344,6 +378,7 @@ public class PluginContext<T> {
    * <p>The function get the {@link Extension} provided that should be invoked. The extension
    * provides access to the plugin name and the export name.
    *
+   * @param pluginMetrics the plugin metrics
    * @param extension extension that is being invoked
    * @param function function that invokes the extension
    * @param exceptionClass type of the exceptions that should be thrown
@@ -351,11 +386,13 @@ public class PluginContext<T> {
    * @throws X expected exception from the plugin extension
    */
   static <T, R, X extends Exception> R call(
+      PluginMetrics pluginMetrics,
       Extension<T> extension,
       ExtensionFunctionAllowingException<Extension<T>, R, X> function,
       Class<X> exceptionClass)
       throws X {
-    try (TraceContext traceContext = newTrace(extension)) {
+    try (TraceContext traceContext = newTrace(extension);
+        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
       try {
         return function.call(extension);
       } catch (Exception e) {

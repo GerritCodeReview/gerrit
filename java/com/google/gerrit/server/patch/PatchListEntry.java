@@ -26,6 +26,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt64;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -41,7 +42,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.patch.CombinedFileHeader;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.util.IntList;
@@ -223,7 +223,7 @@ public class PatchListEntry {
       if (header[e - 1] == '\n') {
         e--;
       }
-      headerLines.add(RawParseUtils.decode(Constants.CHARSET, header, b, e));
+      headerLines.add(RawParseUtils.decode(UTF_8, header, b, e));
     }
     return headerLines;
   }

@@ -22,12 +22,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -38,6 +37,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
@@ -58,7 +58,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   @Singleton
   public static class Factory {
     private final Provider<InternalAccountQuery> accountQueryProvider;
-    private final String webUrl;
+    private final UrlFormatter urlFormatter;
     private final IdentifiedUser.GenericFactory userFactory;
     private final int maxTrustDepth;
     private final ImmutableMap<Long, Fingerprint> trusted;
@@ -68,9 +68,9 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
         @GerritServerConfig Config cfg,
         Provider<InternalAccountQuery> accountQueryProvider,
         IdentifiedUser.GenericFactory userFactory,
-        @CanonicalWebUrl String webUrl) {
+        UrlFormatter urlFormatter) {
       this.accountQueryProvider = accountQueryProvider;
-      this.webUrl = webUrl;
+      this.urlFormatter = urlFormatter;
       this.userFactory = userFactory;
       this.maxTrustDepth = cfg.getInt("receive", null, "maxTrustDepth", 0);
 
@@ -101,14 +101,14 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   }
 
   private final Provider<InternalAccountQuery> accountQueryProvider;
-  private final String webUrl;
+  private final UrlFormatter urlFormatter;
   private final IdentifiedUser.GenericFactory userFactory;
 
   private IdentifiedUser expectedUser;
 
   private GerritPublicKeyChecker(Factory factory) {
     this.accountQueryProvider = factory.accountQueryProvider;
-    this.webUrl = factory.webUrl;
+    this.urlFormatter = factory.urlFormatter;
     this.userFactory = factory.userFactory;
     if (factory.trusted != null) {
       enableTrust(factory.maxTrustDepth, factory.trusted);
@@ -144,8 +144,10 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   private CheckResult checkIdsForExpectedUser(PGPPublicKey key) throws PGPException {
     Set<String> allowedUserIds = getAllowedUserIds(expectedUser);
     if (allowedUserIds.isEmpty()) {
+      Optional<String> settings = urlFormatter.getSettingsUrl("Identities");
       return CheckResult.bad(
-          "No identities found for user; check " + webUrl + "#" + PageLinks.SETTINGS_WEBIDENT);
+          "No identities found for user"
+              + (settings.isPresent() ? "; check " + settings.get() : ""));
     }
     if (hasAllowedUserId(key, allowedUserIds)) {
       return CheckResult.trusted();

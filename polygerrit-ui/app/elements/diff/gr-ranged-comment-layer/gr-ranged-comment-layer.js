@@ -72,7 +72,7 @@
 
     /**
      * Register a listener for layer updates.
-     * @param {Function<Number, Number, String>} fn The update handler function.
+     * @param {function(number, number, string)} fn The update handler function.
      *     Should accept as arguments the line numbers for the start and end of
      *     the update and the side as a string.
      */

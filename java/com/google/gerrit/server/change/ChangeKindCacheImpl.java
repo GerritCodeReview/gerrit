@@ -213,15 +213,13 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         RevCommit next = rw.parseCommit(key.next());
         rw.parseBody(next);
 
-        if (!next.getFullMessage().equals(prior.getFullMessage())) {
-          if (isSameDeltaAndTree(prior, next)) {
-            return ChangeKind.NO_CODE_CHANGE;
-          }
-          return ChangeKind.REWORK;
-        }
-
+        // Don't interpret a new commit message with a different tree as a REWORK. Modifying the
+        // commit message during cherry-pick/rebase is still a trivial rebase so fall through to
+        // three way merge check to detect such operations.
         if (isSameDeltaAndTree(prior, next)) {
-          return ChangeKind.NO_CHANGE;
+          return !next.getFullMessage().equals(prior.getFullMessage())
+              ? ChangeKind.NO_CODE_CHANGE
+              : ChangeKind.NO_CHANGE;
         }
 
         if (prior.getParentCount() == 0 || next.getParentCount() == 0) {

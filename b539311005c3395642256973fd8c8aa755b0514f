@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cee5f6b_e827a626",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1397,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-09-20T13:42:09Z",
+      "side": 1,
+      "message": "Need the real server URL here.",
+      "range": {
+        "startLine": 1397,
+        "startChar": 66,
+        "endLine": 1397,
+        "endChar": 93
+      },
+      "revId": "b539311005c3395642256973fd8c8aa755b0514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

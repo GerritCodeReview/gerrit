@@ -176,7 +176,7 @@ public class PostReviewers
     String reviewer = input.reviewer;
     ReviewerState state = input.state();
     NotifyHandling notify = input.notify;
-    ListMultimap<RecipientType, Account.Id> accountsToNotify = null;
+    ListMultimap<RecipientType, Account.Id> accountsToNotify;
     try {
       accountsToNotify = notifyUtil.resolveAccounts(input.notifyDetails);
     } catch (BadRequestException e) {
@@ -233,7 +233,7 @@ public class PostReviewers
       boolean allowGroup,
       boolean allowByEmail)
       throws OrmException, PermissionBackendException, IOException, ConfigInvalidException {
-    IdentifiedUser reviewerUser = null;
+    IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
     try {
       reviewerUser = accounts.parse(reviewer);
@@ -287,7 +287,7 @@ public class PostReviewers
       return null;
     }
 
-    GroupDescription.Basic group = null;
+    GroupDescription.Basic group;
     try {
       group = groupsCollection.parseInternal(reviewer);
     } catch (UnprocessableEntityException e) {

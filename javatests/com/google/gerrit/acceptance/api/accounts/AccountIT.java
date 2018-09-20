@@ -1977,12 +1977,10 @@ public class AccountIT extends AbstractDaemonTest {
 
     exception.expect(BadRequestException.class);
     exception.expectMessage("Cannot both add and delete key: " + keyToString(key2.getPublicKey()));
-    infos =
-        gApi.accounts()
-            .self()
-            .putGpgKeys(
-                ImmutableList.of(key2.getPublicKeyArmored()),
-                ImmutableList.of(key2.getKeyIdString()));
+    gApi.accounts()
+        .self()
+        .putGpgKeys(
+            ImmutableList.of(key2.getPublicKeyArmored()), ImmutableList.of(key2.getKeyIdString()));
   }
 
   @Test

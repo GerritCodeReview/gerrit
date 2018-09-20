@@ -188,7 +188,7 @@ public class MergeSuperSet {
     Set<String> topicsSeen = new HashSet<>();
     Set<String> visibleTopicsSeen = new HashSet<>();
     int oldSeen;
-    int seen = 0;
+    int seen;
 
     changeSet = topicClosure(db, changeSet, user, topicsSeen, visibleTopicsSeen);
     seen = topicsSeen.size() + visibleTopicsSeen.size();

@@ -47,7 +47,7 @@ limitations under the License.
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
       getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges',
-          () => Promise.resolve([]));
+          (_, qs) => Promise.resolve(qs.map(() => [])));
 
       let resolver;
       paramsChangedPromise = new Promise(resolve => {
@@ -177,12 +177,12 @@ limitations under the License.
             {query: '1'},
             {query: '2', selfOnly: true},
           ],
-          user: 'user',
+          user: 'self',
         };
         return paramsChangedPromise.then(() => {
           assert.isTrue(
               getChangesStub.calledWith(
-                  null, ['1'], null, element.options));
+                  null, ['1', '2', 'owner:self'], null, element.options));
         });
       });
 
@@ -193,12 +193,12 @@ limitations under the License.
             {query: '1'},
             {query: '2', selfOnly: true},
           ],
-          user: 'self',
+          user: 'user',
         };
         return paramsChangedPromise.then(() => {
           assert.isTrue(
               getChangesStub.calledWith(
-                  null, ['1', '2'], null, element.options));
+                  null, ['1'], null, element.options));
         });
       });
     });
@@ -277,7 +277,7 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getChanges')
           .returns(Promise.resolve([[], ['nonempty']]));
 
-      return element._fetchDashboardChanges({sections}).then(() => {
+      return element._fetchDashboardChanges({sections}, false).then(() => {
         assert.equal(element._results.length, 1);
         assert.equal(element._results[0].sectionName, 'test2');
       });
@@ -292,7 +292,7 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getChanges')
           .returns(Promise.resolve([[], []]));
 
-      return element._fetchDashboardChanges({sections}).then(() => {
+      return element._fetchDashboardChanges({sections}, false).then(() => {
         assert.equal(element._results.length, 2);
         assert.isTrue(element._results[0].isOutgoing);
         assert.isNotOk(element._results[1].isOutgoing);
@@ -308,8 +308,8 @@ limitations under the License.
 
     test('404 page', done => {
       const response = {status: 404};
-      sandbox.stub(
-          element.$.restAPI, 'getDashboard', (project, dashboard, errFn) => {
+      sandbox.stub(element.$.restAPI, 'getDashboard',
+          async (project, dashboard, errFn) => {
             errFn(response);
           });
       element.addEventListener('page-error', e => {

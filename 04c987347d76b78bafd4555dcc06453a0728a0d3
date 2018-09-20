@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7be9571c_65074f47",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-20T08:12:44Z",
+      "side": 0,
+      "message": "This line was added later in anotehr CL: [1]. That was also the reason, why there were conflicts during the revert. If we merge that revert here, then it is probably cleaner to also revert: [1] first, and then revert this change here on top of revert for: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/196510",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "04c987347d76b78bafd4555dcc06453a0728a0d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

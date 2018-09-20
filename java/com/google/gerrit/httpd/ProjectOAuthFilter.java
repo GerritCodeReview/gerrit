@@ -118,7 +118,7 @@ class ProjectOAuthFilter implements Filter {
   }
 
   private boolean verify(HttpServletRequest req, Response rsp) throws IOException {
-    AuthInfo authInfo = null;
+    AuthInfo authInfo;
 
     // first check if there is a BASIC authentication header
     String hdr = req.getHeader(AUTHORIZATION);

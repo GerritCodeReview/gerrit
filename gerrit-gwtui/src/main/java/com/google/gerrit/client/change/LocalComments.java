@@ -201,8 +201,8 @@ public class LocalComments {
 
   private static InlineComment getInlineComment(String key) {
     String path;
-    Side side = Side.PARENT;
-    int line = 0;
+    Side side;
+    int line;
     CommentRange range;
     StorageBackend storage = new StorageBackend();
 

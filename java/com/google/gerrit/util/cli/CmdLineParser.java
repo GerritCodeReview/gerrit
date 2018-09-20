@@ -453,7 +453,7 @@ public class CmdLineParser {
       for (Class<?> c = bean.getClass(); c != null; c = c.getSuperclass()) {
         for (Field f : c.getDeclaredFields()) {
           if (f.isAnnotationPresent(Options.class)) {
-            Object additionalBean = null;
+            Object additionalBean;
             try {
               additionalBean = f.get(bean);
             } catch (IllegalAccessException e) {

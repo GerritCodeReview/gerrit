@@ -543,7 +543,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         try (Statement s = c.conn.createStatement()) {
           // Compute size without restricting to version (although obsolete data was just pruned
           // anyway).
-          long used = 0;
+          long used;
           try (ResultSet r = s.executeQuery("SELECT SUM(space) FROM data")) {
             used = r.next() ? r.getLong(1) : 0;
           }

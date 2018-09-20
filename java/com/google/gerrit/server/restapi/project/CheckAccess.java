@@ -93,7 +93,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       return info;
     }
 
-    RefPermission refPerm = null;
+    RefPermission refPerm;
     if (!Strings.isNullOrEmpty(input.permission)) {
       if (Strings.isNullOrEmpty(input.ref)) {
         throw new BadRequestException("must set 'ref' when specifying 'permission'");

@@ -238,7 +238,6 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     if (alreadyMergedCommit != null) {
       alreadyMergedCommit.setNotes(ctx.getNotes());
       mergedPatchSet = getOrCreateAlreadyMergedPatchSet(ctx);
-      newPsId = mergedPatchSet.getId();
     } else {
       PatchSet newPatchSet = updateChangeImpl(ctx);
       newPsId = checkNotNull(ctx.getChange().currentPatchSetId());

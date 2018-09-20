@@ -181,12 +181,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     if ("".equals(projectName)) {
       return;
     }
-
-    String filter = filterTxt.getText();
-    if (filter == null || filter.isEmpty() || filter.equals(Util.C.defaultFilter())) {
-      filter = null;
-    }
-
+    
     addNew.setEnabled(false);
     nameBox.setEnabled(false);
     filterTxt.setEnabled(false);

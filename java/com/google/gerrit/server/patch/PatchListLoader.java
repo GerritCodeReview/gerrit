@@ -185,11 +185,11 @@ public class PatchListLoader implements Callable<PatchList> {
       df.setDetectRenames(true);
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
-      Multimap<String, ContextAwareEdit> editsDueToRebasePerFilePath = ImmutableMultimap.of();
       EditsDueToRebaseResult editsDueToRebaseResult =
           determineEditsDueToRebase(aCommit, b, diffEntries, df, rw);
       diffEntries = editsDueToRebaseResult.getRelevantOriginalDiffEntries();
-      editsDueToRebasePerFilePath = editsDueToRebaseResult.getEditsDueToRebasePerFilePath();
+      Multimap<String, ContextAwareEdit> editsDueToRebasePerFilePath =
+          editsDueToRebaseResult.getEditsDueToRebasePerFilePath();
 
       List<PatchListEntry> entries = new ArrayList<>();
       entries.add(

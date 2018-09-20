@@ -180,7 +180,7 @@ public class CorsIT extends AbstractDaemonTest {
     Executor http = Executor.newInstance().cookieStore(cookies);
 
     Request req = Request.Get(canonicalWebUrl.get() + "/login/?account_id=" + admin.id.get());
-    HttpResponse r = http.execute(req).returnResponse();
+    http.execute(req);
     String auth = null;
     for (Cookie c : cookies.getCookies()) {
       if ("GerritAccount".equals(c.getName())) {
@@ -202,7 +202,7 @@ public class CorsIT extends AbstractDaemonTest {
     req.setHeader(ORIGIN, origin);
     req.bodyByteArray("{\"topic\":\"test-xd\"}".getBytes(StandardCharsets.US_ASCII));
 
-    r = http.execute(req).returnResponse();
+    HttpResponse r = http.execute(req).returnResponse();
     assertThat(r.getStatusLine().getStatusCode()).isEqualTo(200);
 
     Header vary = r.getFirstHeader(VARY);

@@ -128,7 +128,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final PatchSetInfo info;
   private final MagicBranchInput magicBranch;
   private final PushCertificate pushCertificate;
-  private List<String> groups = ImmutableList.of();
+  private List<String> groups;
 
   private final Map<String, Short> approvals = new HashMap<>();
   private final MailRecipients recipients = new MailRecipients();

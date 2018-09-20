@@ -529,7 +529,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     List<String> untarredFiles = new ArrayList<>();
     try (TarArchiveInputStream tarInputStream =
         (TarArchiveInputStream) new ArchiveStreamFactory().createArchiveInputStream("tar", is)) {
-      TarArchiveEntry entry = null;
+      TarArchiveEntry entry;
       while ((entry = (TarArchiveEntry) tarInputStream.getNextEntry()) != null) {
         untarredFiles.add(entry.getName());
       }

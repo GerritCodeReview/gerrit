@@ -42,7 +42,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@RequiresCapability(GlobalCapability.READ_AS)
 @CommandMetaData(
     name = "ls-user-refs",
     description = "List refs visible to a specific user",

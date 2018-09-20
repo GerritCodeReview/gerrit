@@ -50,6 +50,7 @@ public class DefaultPermissionMappings {
           .put(GlobalPermission.KILL_TASK, GlobalCapability.KILL_TASK)
           .put(GlobalPermission.MAINTAIN_SERVER, GlobalCapability.MAINTAIN_SERVER)
           .put(GlobalPermission.MODIFY_ACCOUNT, GlobalCapability.MODIFY_ACCOUNT)
+          .put(GlobalPermission.READ_AS, GlobalCapability.READ_AS)
           .put(GlobalPermission.RUN_AS, GlobalCapability.RUN_AS)
           .put(GlobalPermission.RUN_GC, GlobalCapability.RUN_GC)
           .put(GlobalPermission.STREAM_EVENTS, GlobalCapability.STREAM_EVENTS)

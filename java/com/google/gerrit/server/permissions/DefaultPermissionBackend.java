@@ -172,6 +172,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         case CREATE_PROJECT:
         case MAINTAIN_SERVER:
         case MODIFY_ACCOUNT:
+        case READ_AS:
         case STREAM_EVENTS:
         case VIEW_ALL_ACCOUNTS:
         case VIEW_CONNECTIONS:

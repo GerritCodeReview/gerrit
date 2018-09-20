@@ -43,6 +43,7 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
   KILL_TASK,
   MAINTAIN_SERVER,
   MODIFY_ACCOUNT,
+  READ_AS,
   RUN_AS,
   RUN_GC,
   STREAM_EVENTS,

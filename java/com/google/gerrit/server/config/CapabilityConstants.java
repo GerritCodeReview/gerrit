@@ -34,6 +34,7 @@ public class CapabilityConstants extends TranslationBundle {
   public String maintainServer;
   public String modifyAccount;
   public String priority;
+  public String readAs;
   public String queryLimit;
   public String runAs;
   public String runGC;

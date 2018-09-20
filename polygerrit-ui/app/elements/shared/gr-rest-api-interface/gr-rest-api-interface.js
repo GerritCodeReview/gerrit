@@ -2925,5 +2925,13 @@
         reportEndpointAsIs: true,
       });
     },
+
+    deleteDraftComments(query) {
+      return this._send({
+        method: 'POST',
+        url: '/accounts/self/drafts:delete',
+        query,
+      });
+    },
   });
 })();

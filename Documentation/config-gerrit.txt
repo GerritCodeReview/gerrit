@@ -616,7 +616,10 @@ set to `${sAMAccountName.toLowerCase}`). It is important that for all
 existing accounts this username is already in lower case. It is not
 possible to convert the usernames of the existing accounts to lower
 case because this would break the access to existing per-user
-branches.
+branches and Gerrit provides no tool to do such a conversion.
++
+Setting this parameter to `true` will prevent all users from login that
+have a non-lower-case username.
 +
 This parameter only affects git over http and git over SSH traffic.
 +

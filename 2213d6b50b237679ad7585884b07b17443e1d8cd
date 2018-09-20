@@ -16,6 +16,24 @@
       "revId": "2213d6b50b237679ad7585884b07b17443e1d8cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e273ebd_fd7579dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-09-20T10:15:52Z",
+      "side": 1,
+      "message": "Arghh. I started typing that, then changed it. Thanks.",
+      "parentUuid": "642b69c7_6c70bce1",
+      "revId": "2213d6b50b237679ad7585884b07b17443e1d8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

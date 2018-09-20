@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "a297767d_d6688e79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-09-20T10:15:52Z",
+      "side": 1,
+      "message": "I agree. But It should be possible for Gerrit to allow this. It\u0027s a valid workflow.",
+      "parentUuid": "7ceda443_687b4066",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "7020c6ba9b49f3c52cb9475d25a91cd536f6fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1224277c_f5ef9a93",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

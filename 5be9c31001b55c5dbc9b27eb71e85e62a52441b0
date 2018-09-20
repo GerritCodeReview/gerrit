@@ -23,6 +23,30 @@
       "revId": "5be9c31001b55c5dbc9b27eb71e85e62a52441b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0a8074b_2fb2ae04",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-20T07:20:20Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure it was needed when this change was written.\nUnfortunately I cannot verify this since due to different Bazel versions I can\u0027t build that old commit anymore.",
+      "parentUuid": "a2d1f04b_ba821712",
+      "range": {
+        "startLine": 261,
+        "startChar": 4,
+        "endLine": 263,
+        "endChar": 73
+      },
+      "revId": "5be9c31001b55c5dbc9b27eb71e85e62a52441b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

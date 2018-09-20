@@ -332,8 +332,10 @@ public class ReplaceOp implements BatchUpdateOp {
 
     recipients.add(oldRecipients);
 
-    msg = createChangeMessage(ctx, reviewMessage);
-    cmUtil.addChangeMessage(ctx.getDb(), update, msg);
+    if (magicBranch != null) {
+      msg = createChangeMessage(ctx, reviewMessage);
+      cmUtil.addChangeMessage(ctx.getDb(), update, msg);
+    }
 
     if (mergedByPushOp == null) {
       resetChange(ctx);

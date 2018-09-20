@@ -85,7 +85,6 @@ import com.google.gerrit.server.git.receive.NoteDbPushOption;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
 import com.google.gerrit.server.git.validators.CommitValidators.ChangeIdValidator;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender.Message;
@@ -446,12 +445,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(info.revisions).hasSize(2);
     assertThat(info.currentRevision).isEqualTo(current.name());
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
-    // Issue 8724 incorrect behaviour: ReviewDB generates an extra message.
-    // When ReviewDB is removed this check can be removed.
-    if (notesMigration.changePrimaryStorage() == PrimaryStorage.NOTE_DB) {
-      assertThat(info.messages.stream().map(cmi -> cmi.message))
-          .containsExactly("Uploaded patch set 1.", "Change has been successfully pushed.");
-    }
+    assertThat(info.messages.stream().map(cmi -> cmi.message))
+        .containsExactly("Uploaded patch set 1.", "Change has been successfully pushed.");
   }
 
   @Test

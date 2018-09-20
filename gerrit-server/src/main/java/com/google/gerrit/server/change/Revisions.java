@@ -67,7 +67,6 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     throw new ResourceNotFoundException();
   }
 
-  @SuppressWarnings("unlikely-arg-type")
   @Override
   public RevisionResource parse(ChangeResource change, IdString id)
       throws ResourceNotFoundException, AuthException, OrmException, IOException {

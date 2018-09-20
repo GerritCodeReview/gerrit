@@ -2792,8 +2792,8 @@ Sample Lucene index configuration:
 === Section elasticsearch
 
 WARNING: Support for Elasticsearch is still experimental and is not recommended
-for production use. Support has been tested with Elasticsearch versions 2.4, 5.6,
-6.2 and 6.3. Support for other versions is not guaranteed.
+for production use. For compatibility information, please refer to the
+link:https://www.gerritcodereview.com/elasticsearch.html[project homepage].
 
 When using Elasticsearch versions 2.4 and 5.6, the open and closed changes are
 indexed in a single index, separated into types `open_changes` and `closed_changes`

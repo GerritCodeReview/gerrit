@@ -51,6 +51,7 @@
         type: Boolean,
         value: true,
       },
+      _showDraftsBanner: Boolean,
     },
 
     observers: [
@@ -152,6 +153,7 @@
               title || this._computeTitle(user)));
 
       return dashboardPromise.then(this._fetchDashboardChanges.bind(this))
+          .then(() => { this._maybeShowDraftsBanner(); })
           .then(() => {
             this.$.reporting.dashboardDisplayed();
           }).catch(err => {
@@ -198,6 +200,50 @@
     _handleToggleReviewed(e) {
       this.$.restAPI.saveChangeReviewed(e.detail.change._number,
           e.detail.reviewed);
+    },
+
+    /**
+     * Banner is shown if a user is on their own dashboard and they have draft
+     * comments on closed changes.
+     */
+    _maybeShowDraftsBanner() {
+      this._showDraftsBanner = false;
+      if (!(this.params.user === 'self')) { return; }
+
+      const draftSection = this._results
+          .find(section => section.query === 'has:draft');
+      if (!draftSection || !draftSection.results.length) { return; }
+
+      const closedChanges = draftSection.results
+          .filter(change => !this.changeIsOpen(change.status));
+      if (!closedChanges.length) { return; }
+
+      this._showDraftsBanner = true;
+    },
+
+    _computeBannerClass(show) {
+      return show ? '' : 'hide';
+    },
+
+    _handleDismissBanner() {
+      this._showDraftsBanner = false;
+    },
+
+    _handleOpenDiscardDialog() {
+      this.$.confirmDiscardOverlay.open();
+    },
+
+    _handleConfirmDiscard() {
+      this.$.confirmDiscardDialog.disabled = true;
+      this._loading = true;
+      return this.$.restAPI.deleteDraftComments('-is:open').then(() => {
+        this._closeConfirmDiscardOverlay();
+        this._reload();
+      });
+    },
+
+    _closeConfirmDiscardOverlay() {
+      this.$.confirmDiscardOverlay.close();
     },
   });
 })();

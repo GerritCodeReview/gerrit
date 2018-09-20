@@ -63,6 +63,82 @@ limitations under the License.
       sandbox.restore();
     });
 
+    suite('drafts banner functionality', () => {
+      suite('_maybeShowDraftsBanner', () => {
+        test('not dashboard/self', () => {
+          element.params = {user: 'notself'};
+          element._maybeShowDraftsBanner();
+          assert.isFalse(element._showDraftsBanner);
+        });
+
+        test('no drafts at all', () => {
+          element.params = {user: 'self'};
+          element._results = [];
+          element._maybeShowDraftsBanner();
+          assert.isFalse(element._showDraftsBanner);
+        });
+
+        test('no drafts on open changes', () => {
+          element.params = {user: 'self'};
+          element._results = [{query: 'has:draft', results: [{status: '_'}]}];
+          sandbox.stub(element, 'changeIsOpen').returns(true);
+          element._maybeShowDraftsBanner();
+          assert.isFalse(element._showDraftsBanner);
+        });
+
+        test('no drafts on open changes', () => {
+          element.params = {user: 'self'};
+          element._results = [{query: 'has:draft', results: [{status: '_'}]}];
+          sandbox.stub(element, 'changeIsOpen').returns(false);
+          element._maybeShowDraftsBanner();
+          assert.isTrue(element._showDraftsBanner);
+        });
+      });
+
+      test('_showDraftsBanner', () => {
+        element._showDraftsBanner = false;
+        flushAsynchronousOperations();
+        assert.isTrue(isHidden(element.$$('.banner')));
+
+        element._showDraftsBanner = true;
+        flushAsynchronousOperations();
+        assert.isFalse(isHidden(element.$$('.banner')));
+
+        MockInteractions.tap(element.$$('.banner .dismiss'));
+        flushAsynchronousOperations();
+        assert.isTrue(isHidden(element.$$('.banner')));
+      });
+
+      test('discard tap opens dialog', () => {
+        sandbox.stub(element, '_handleOpenDiscardDialog');
+        element._showDraftsBanner = true;
+        flushAsynchronousOperations();
+
+        MockInteractions.tap(element.$$('.banner .discard'));
+        assert.isTrue(element._handleOpenDiscardDialog.called);
+      });
+
+      test('discard comments flow', () => {
+        sandbox.stub(element.$.restAPI, 'deleteDraftComments')
+            .returns(Promise.resolve());
+        sandbox.spy(element, '_handleConfirmDiscard');
+        sandbox.stub(element, '_reload');
+
+        return element.$.confirmDiscardOverlay.open().then(() => {
+          MockInteractions.tap(element.$.confirmDiscardDialog.$.confirm);
+          flushAsynchronousOperations();
+
+          return element._handleConfirmDiscard.lastCall.returnValue.then(() => {
+            assert.isTrue(element.$.restAPI.deleteDraftComments
+                .calledWithExactly('-is:open'));
+            assert.isTrue(element._loading);
+            assert.isTrue(element.$.confirmDiscardDialog.disabled);
+            assert.isTrue(element._reload.called);
+          });
+        });
+      });
+    });
+
     test('_computeTitle', () => {
       assert.equal(element._computeTitle('self'), 'My Reviews');
       assert.equal(element._computeTitle('not self'), 'Dashboard for not self');

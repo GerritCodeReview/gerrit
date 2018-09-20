@@ -27,10 +27,11 @@
     {
       // Changes with unpublished draft comments. This section is omitted when
       // viewing other users, so we don't need to filter anything out.
-      name: 'Has unpublished drafts',
+      name: 'Has unpublished draft comments',
       query: 'has:draft',
       selfOnly: true,
       hideIfEmpty: true,
+      suffixForDashboard: 'limit:10',
     },
     {
       // WIP open changes owned by viewing user. This section is omitted when

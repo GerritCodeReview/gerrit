@@ -81,6 +81,30 @@
       "revId": "b891bca48e8b077fe1f43cf5c9a653997ee96ac6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16882ffc_55e82d1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-09-20T12:34:56Z",
+      "side": 1,
+      "message": "I was mistaken.\nGerrit silently ignores permissions that doesn\u0027t match any permission. The only difference is that now it ignores those that match a permission when ignoring case, whereas previously it didn\u0027t ignore those.\nSo \"ABANdon\" is handled the same way as \"cowabunga\".\n\nI\u0027m thinking maybe we should raise a ValidationError for non-valid permissions in project.config.",
+      "parentUuid": "1143bfd7_751dbe3a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "b891bca48e8b077fe1f43cf5c9a653997ee96ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

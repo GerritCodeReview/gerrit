@@ -22,7 +22,7 @@
 
   // NOTE: These queries are tested in Java. Any changes made to definitions
   // here require corresponding changes to:
-  // gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java
+  // javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java
   const DEFAULT_SECTIONS = [
     {
       // Changes with unpublished draft comments. This section is omitted when
@@ -32,6 +32,12 @@
       selfOnly: true,
       hideIfEmpty: true,
       suffixForDashboard: 'limit:10',
+    },
+    {
+      // Changes that are assigned to the viewed user.
+      name: 'Assigned reviews',
+      query: 'assignee:${user} (-is:wip OR owner:self OR assignee:self)',
+      hideIfEmpty: true,
     },
     {
       // WIP open changes owned by viewing user. This section is omitted when

@@ -16,6 +16,24 @@
       "revId": "ed4817dcfc0ddec735a09881185f0a88e706df52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eab437d6_e0f51dea",
+        "filename": "resources/com/google/gerrit/httpd/raw/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-20T04:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "732b307e_466d82ae",
+      "revId": "ed4817dcfc0ddec735a09881185f0a88e706df52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

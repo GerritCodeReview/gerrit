@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7ceda443_687b4066",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-09-20T08:42:02Z",
+      "side": 1,
+      "message": "\u003e [...] All I need here is to be able to add commit message footers as Gerrit would do if the change were submitted through Gerrit [...]\n\nThat\u0027s only valid for certain submit types, and opinionated, but I see where you\u0027re going.\n\nI don\u0027t think I like the exception for footers/trailers. If I would change/add a trailer like\n\n Signed-Off-By: Someone ....\n\nor\n\n Co-Authored-By: Someone ...\n\nor\n\n RELNOTES: \u003cCURSEWORDS\u003e\n\nthen, this could have side effects what I could not explain with a \"trivial rebase\" type of event.",
+      "parentUuid": "38f5e07d_f170d392",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "7020c6ba9b49f3c52cb9475d25a91cd536f6fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1224277c_f5ef9a93",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "642b69c7_6c70bce1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-09-20T08:42:02Z",
+      "side": 1,
+      "message": "Have a look at how issues are recorded in Gerrit\u0027s git log - it should be:\n\n Bug: Issue 8724\n\ninstead of\n\n Issue: 8724",
+      "revId": "2213d6b50b237679ad7585884b07b17443e1d8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

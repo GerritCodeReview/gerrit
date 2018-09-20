@@ -56,6 +56,11 @@
         type: Boolean,
         value: false,
       },
+
+      _showNewUserHelp: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     observers: [
@@ -156,7 +161,9 @@
               sections,
               title || this._computeTitle(user)));
 
-      return dashboardPromise.then(this._fetchDashboardChanges.bind(this))
+      const checkForNewUser = !project && user === 'self';
+      return dashboardPromise
+          .then(res => this._fetchDashboardChanges(res, checkForNewUser))
           .then(() => {
             this._maybeShowDraftsBanner();
             this.$.reporting.dashboardDisplayed();
@@ -170,26 +177,36 @@
      * with the response.
      *
      * @param {!Object} res
+     * @param {boolean} checkForNewUser
      * @return {Promise}
      */
-    _fetchDashboardChanges(res) {
+    _fetchDashboardChanges(res, checkForNewUser) {
       if (!res) { return Promise.resolve(); }
-      const queries = res.sections.map(section => {
-        if (section.suffixForDashboard) {
-          return section.query + ' ' + section.suffixForDashboard;
-        }
-        return section.query;
-      });
+
+      const queries = res.sections
+          .map(section => section.suffixForDashboard ?
+              section.query + ' ' + section.suffixForDashboard :
+              section.query);
+
+      if (checkForNewUser) {
+        queries.push('owner:self');
+      }
 
       return this.$.restAPI.getChanges(null, queries, null, this.options)
           .then(changes => {
+            if (checkForNewUser) {
+              // Last set of results is not meant for dashboard display.
+              const lastResultSet = changes.pop();
+              this._showNewUserHelp = lastResultSet.length == 0;
+            }
             this._results = changes.map((results, i) => ({
               sectionName: res.sections[i].name,
               query: res.sections[i].query,
               results,
               isOutgoing: res.sections[i].isOutgoing,
-            })).filter((section, i) => !res.sections[i].hideIfEmpty ||
-                section.results.length);
+            })).filter((section, i) => i < res.sections.length && (
+                !res.sections[i].hideIfEmpty ||
+                section.results.length));
           });
     },
 

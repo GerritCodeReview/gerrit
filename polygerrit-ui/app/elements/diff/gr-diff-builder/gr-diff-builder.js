@@ -353,6 +353,52 @@
   };
 
   /**
+   * @param {Array<Object>} comments
+   * @param {string} patchForNewThreads
+   */
+  GrDiffBuilder.prototype._getThreads = function(comments, patchForNewThreads) {
+    const sortedComments = comments.slice(0).sort((a, b) => {
+      if (b.__draft && !a.__draft ) { return 0; }
+      if (a.__draft && !b.__draft ) { return 1; }
+      return util.parseDate(a.updated) - util.parseDate(b.updated);
+    });
+
+    const threads = [];
+    for (const comment of sortedComments) {
+      // If the comment is in reply to another comment, find that comment's
+      // thread and append to it.
+      if (comment.in_reply_to) {
+        const thread = threads.find(thread =>
+            thread.comments.some(c => c.id === comment.in_reply_to));
+        if (thread) {
+          thread.comments.push(comment);
+          continue;
+        }
+      }
+
+      // Otherwise, this comment starts its own thread.
+      const newThread = {
+        start_datetime: comment.updated,
+        comments: [comment],
+        commentSide: comment.__commentSide,
+        /**
+         * Determines what the patchNum of a thread should be. Use patchNum from
+         * comment if it exists, otherwise the property of the thread group.
+         * This is needed for switching between side-by-side and unified views when
+         * there are unsaved drafts.
+         */
+        patchNum: comment.patch_set || patchForNewThreads,
+        rootId: comment.id || comment.__draftID,
+      };
+      if (comment.range) {
+        newThread.range = Object.assign({}, comment.range);
+      }
+      threads.push(newThread);
+    }
+    return threads;
+  };
+
+  /**
    * @param {GrDiffLine} line
    * @param {string=} opt_side
    * @return {!Object}
@@ -379,7 +425,7 @@
     }
     const threadGroupEl = this._createThreadGroupFn(patchNum, isOnParent,
         opt_side);
-    threadGroupEl.comments = comments;
+    threadGroupEl.threads = this._getThreads(comments, patchNum);
     if (opt_side) {
       threadGroupEl.setAttribute('data-side', opt_side);
     }

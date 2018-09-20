@@ -84,6 +84,166 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
+    test('_getThreads', () => {
+      const patchForNewThreads = 3;
+      const comments = [
+        {
+          id: 'sallys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-23 15:00:20.396000000',
+          __commentSide: 'left',
+        }, {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          updated: '2015-12-24 15:01:20.396000000',
+          __commentSide: 'left',
+          in_reply_to: 'sallys_confession',
+        },
+        {
+          id: 'new_draft',
+          message: 'i do not like either of you',
+          __commentSide: 'left',
+          __draft: true,
+          updated: '2015-12-20 15:01:20.396000000',
+        },
+      ];
+
+      let expectedThreadGroups = [
+        {
+          start_datetime: '2015-12-23 15:00:20.396000000',
+          commentSide: 'left',
+          comments: [{
+            id: 'sallys_confession',
+            message: 'i like you, jack',
+            updated: '2015-12-23 15:00:20.396000000',
+            __commentSide: 'left',
+          }, {
+            id: 'jacks_reply',
+            message: 'i like you, too',
+            updated: '2015-12-24 15:01:20.396000000',
+            __commentSide: 'left',
+            in_reply_to: 'sallys_confession',
+          }],
+          rootId: 'sallys_confession',
+          patchNum: 3,
+        },
+        {
+          start_datetime: '2015-12-20 15:01:20.396000000',
+          commentSide: 'left',
+          comments: [
+            {
+              id: 'new_draft',
+              message: 'i do not like either of you',
+              __commentSide: 'left',
+              __draft: true,
+              updated: '2015-12-20 15:01:20.396000000',
+            },
+          ],
+          rootId: 'new_draft',
+          patchNum: 3,
+        },
+      ];
+
+      assert.deepEqual(
+          builder._getThreads(comments, patchForNewThreads),
+          expectedThreadGroups);
+
+      // Patch num should get inherited from comment rather
+      comments.push({
+        id: 'betsys_confession',
+        message: 'i like you, jack',
+        updated: '2015-12-24 15:00:10.396000000',
+        range: {
+          start_line: 1,
+          start_character: 1,
+          end_line: 1,
+          end_character: 2,
+        },
+        __commentSide: 'left',
+      });
+
+      expectedThreadGroups = [
+        {
+          start_datetime: '2015-12-23 15:00:20.396000000',
+          commentSide: 'left',
+          comments: [{
+            id: 'sallys_confession',
+            message: 'i like you, jack',
+            updated: '2015-12-23 15:00:20.396000000',
+            __commentSide: 'left',
+          }, {
+            id: 'jacks_reply',
+            in_reply_to: 'sallys_confession',
+            message: 'i like you, too',
+            updated: '2015-12-24 15:01:20.396000000',
+            __commentSide: 'left',
+          }],
+          patchNum: 3,
+          rootId: 'sallys_confession',
+        },
+        {
+          start_datetime: '2015-12-24 15:00:10.396000000',
+          commentSide: 'left',
+          comments: [{
+            id: 'betsys_confession',
+            message: 'i like you, jack',
+            updated: '2015-12-24 15:00:10.396000000',
+            range: {
+              start_line: 1,
+              start_character: 1,
+              end_line: 1,
+              end_character: 2,
+            },
+            __commentSide: 'left',
+          }],
+          patchNum: 3,
+          rootId: 'betsys_confession',
+          range: {
+            start_line: 1,
+            start_character: 1,
+            end_line: 1,
+            end_character: 2,
+          },
+        },
+        {
+          start_datetime: '2015-12-20 15:01:20.396000000',
+          commentSide: 'left',
+          comments: [
+            {
+              id: 'new_draft',
+              message: 'i do not like either of you',
+              __commentSide: 'left',
+              __draft: true,
+              updated: '2015-12-20 15:01:20.396000000',
+            },
+          ],
+          rootId: 'new_draft',
+          patchNum: 3,
+        },
+      ];
+
+      assert.deepEqual(
+          builder._getThreads(comments, patchForNewThreads),
+          expectedThreadGroups);
+    });
+
+    test('multiple comments at same location but not threaded', () => {
+      const comments = [
+        {
+          id: 'sallys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-23 15:00:20.396000000',
+          __commentSide: 'left',
+        }, {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          updated: '2015-12-24 15:01:20.396000000',
+          __commentSide: 'left',
+        },
+      ];
+      assert.equal(builder._getThreads(comments, '3').length, 2);
+    });
+
     test('_createElement classStr applies all classes', () => {
       const node = builder._createElement('div', 'test classes');
       assert.isTrue(node.classList.contains('gr-diff'));
@@ -312,11 +472,23 @@ limitations under the License.
         right: [r5],
       };
 
+      function threadForComment(c, patchNum) {
+        return {
+          commentSide: c.__commentSide,
+          comments: [c],
+          patchNum,
+          rootId: c.id,
+          start_datetime: c.updated
+        };
+      }
+
       function checkThreadGroupProps(threadGroupEl, patchNum, isOnParent,
           comments) {
         assert.equal(createThreadGroupFn.lastCall.args[0], patchNum);
         assert.equal(createThreadGroupFn.lastCall.args[1], isOnParent);
-        assert.deepEqual(threadGroupEl.comments, comments);
+        assert.deepEqual(
+            threadGroupEl.threads,
+            comments.map(c => threadForComment(c, patchNum)));
       }
 
       let line = new GrDiffLine(GrDiffLine.Type.BOTH);

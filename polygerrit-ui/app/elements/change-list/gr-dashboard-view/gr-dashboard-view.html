@@ -20,6 +20,9 @@ limitations under the License.
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../change-list/gr-change-list/gr-change-list.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-user-header/gr-user-header.html">
 
@@ -37,11 +40,24 @@ limitations under the License.
       gr-change-list {
         width: 100%;
       }
-      .hide {
-        display: none;
-      }
       gr-user-header {
         border-bottom: 1px solid var(--border-color);
+      }
+      .banner {
+        align-items: center;
+        background-color: var(--comment-background-color);
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        padding: .25em var(--default-horizontal-margin);
+      }
+      .banner gr-button {
+        --gr-button: {
+          color: var(--primary-text-color);
+        }
+      }
+      .hide {
+        display: none;
       }
       @media only screen and (max-width: 50em) {
         .loading {
@@ -49,6 +65,17 @@ limitations under the License.
         }
       }
     </style>
+    <div class$="banner [[_computeBannerClass(_showDraftsBanner)]]">
+      <div>
+        You have draft comments on closed changes.
+      </div>
+      <div>
+        <gr-button
+            class="delete"
+            link
+            on-tap="_handleOpenDeleteDialog">Delete All</gr-button>
+      </div>
+    </div>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
       <gr-user-header
@@ -64,6 +91,37 @@ limitations under the License.
           on-toggle-star="_handleToggleStar"
           on-toggle-reviewed="_handleToggleReviewed"></gr-change-list>
     </div>
+    <gr-overlay id="confirmDeleteOverlay" with-backdrop>
+      <gr-dialog
+          id="confirmDeleteDialog"
+          confirm-label="Delete"
+          on-confirm="_handleConfirmDelete"
+          on-cancel="_closeConfirmDeleteOverlay">
+        <div class="header" slot="header">
+          Delete comments
+        </div>
+        <div class="main" slot="main">
+          Are you sure you want to delete all your draft comments in closed changes? This action
+          cannot be undone.
+        </div>
+      </gr-dialog>
+    </gr-overlay>
+    <gr-overlay id="deleteSummaryOverlay" with-backdrop>
+      <gr-dialog
+          id="deleteSummaryOverlayDialog"
+          cancel-label=""
+          confirm-label="Ok"
+          confirm-on-enter
+          on-confirm="_handleConfirmDeleteSummary">
+        <div class="header" slot="header">
+          Draft comments deleted
+        </div>
+        <div class="main" slot="main">
+          Deleted [[_deleteDraftsResult.numComments]] comments from
+          [[_deleteDraftsResult.numChanges]] changes.
+        </div>
+      </gr-dialog>
+    </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting"></gr-reporting>
   </template>

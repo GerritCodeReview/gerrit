@@ -63,6 +63,86 @@ limitations under the License.
       sandbox.restore();
     });
 
+    suite('drafts banner functionality', () => {
+      suite('_maybeShowDraftsBanner', () => {
+        test('not dashboard/self', () => {
+          element.params = {user: 'notself'};
+          element._maybeShowDraftsBanner();
+          assert.isFalse(element._showDraftsBanner);
+        });
+
+        test('no drafts at all', () => {
+          element.params = {user: 'self'};
+          element._results = [];
+          element._maybeShowDraftsBanner();
+          assert.isFalse(element._showDraftsBanner);
+        });
+
+        test('no drafts on open changes', () => {
+          element.params = {user: 'self'};
+          element._results = [{query: 'has:draft', results: [{status: '_'}]}];
+          sandbox.stub(element, 'changeIsOpen').returns(true);
+          element._maybeShowDraftsBanner();
+          assert.isFalse(element._showDraftsBanner);
+        });
+
+        test('no drafts on open changes', () => {
+          element.params = {user: 'self'};
+          element._results = [{query: 'has:draft', results: [{status: '_'}]}];
+          sandbox.stub(element, 'changeIsOpen').returns(false);
+          element._maybeShowDraftsBanner();
+          assert.isTrue(element._showDraftsBanner);
+        });
+      });
+
+      test('_showDraftsBanner', () => {
+        element._showDraftsBanner = false;
+        flushAsynchronousOperations();
+        assert.isTrue(isHidden(element.$$('.banner')));
+
+        element._showDraftsBanner = true;
+        flushAsynchronousOperations();
+        assert.isFalse(isHidden(element.$$('.banner')));
+      });
+
+      test('delete tap opens dialog', () => {
+        sandbox.stub(element, '_handleOpenDeleteDialog');
+        element._showDraftsBanner = true;
+        flushAsynchronousOperations();
+
+        MockInteractions.tap(element.$$('.banner .delete'));
+        assert.isTrue(element._handleOpenDeleteDialog.called);
+      });
+
+      test('delete comments flow', async () => {
+        sandbox.stub(element.$.restAPI, 'deleteDraftComments')
+            .returns(Promise.resolve({}));
+        sandbox.stub(element.$.restAPI, 'getResponseObject')
+            .returns(Promise.resolve([{deleted: [0, 0]}, {deleted: [0]}]));
+        sandbox.spy(element, '_handleConfirmDelete');
+        sandbox.stub(element, '_reload');
+
+        // Open confirmation dialog and tap confirm button.
+        await element.$.confirmDeleteOverlay.open();
+        MockInteractions.tap(element.$.confirmDeleteDialog.$.confirm);
+        flushAsynchronousOperations();
+        assert.isTrue(element.$.confirmDeleteDialog.disabled);
+
+        // Verify summary dialog state after display.
+        await element._handleConfirmDelete.lastCall.returnValue;
+        assert.isTrue(element.$.restAPI.deleteDraftComments
+            .calledWithExactly('-is:open'));
+        assert.deepEqual(
+            element._deleteDraftsResult, {numComments: 3, numChanges: 2});
+        assert.equal(element._reload.callCount, 0);
+
+        // Tap ok button in summary dialog.
+        MockInteractions.tap(element.$.deleteSummaryOverlayDialog.$.confirm);
+        flushAsynchronousOperations();
+        assert.equal(element._reload.callCount, 1);
+      });
+    });
+
     test('_computeTitle', () => {
       assert.equal(element._computeTitle('self'), 'My Reviews');
       assert.equal(element._computeTitle('not self'), 'Dashboard for not self');

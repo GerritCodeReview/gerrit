@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6853df5b_4e05c2a3",
+        "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-09-20T10:25:51Z",
+      "side": 1,
+      "message": "Needs a proper implementation to make this safe. Only footers that Gerrit would also generate should be allowed to be interpreted as a no commit message change:\n(1) Check message excluding footers is the same.\n(2) Check new footers are a subset of old footers + Gerrit generated footers.",
+      "revId": "ac476621dffa76990841d2bc660a7cc2f96f3241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -56,6 +56,11 @@
         type: Boolean,
         value: false,
       },
+
+      _showNewUserHelp: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     observers: [
@@ -146,23 +151,23 @@
      *
      * @return {Promise<!Object>}
      */
-    _reload() {
+    async _reload() {
       this._loading = true;
       const {project, dashboard, title, user, sections} = this.params;
-      const dashboardPromise = project ?
+      const checkForNewUser = !project && user === 'self';
+      const dashboardSpec = await (project ?
           this._getProjectDashboard(project, dashboard) :
-          Promise.resolve(Gerrit.Nav.getUserDashboard(
-              user,
-              sections,
-              title || this._computeTitle(user)));
+          Gerrit.Nav.getUserDashboard(
+              user, sections, title || this._computeTitle(user)));
 
-      return dashboardPromise.then(this._fetchDashboardChanges.bind(this))
-          .then(() => {
-            this._maybeShowDraftsBanner();
-            this.$.reporting.dashboardDisplayed();
-          }).catch(err => {
-            console.warn(err);
-          }).then(() => { this._loading = false; });
+      try {
+        await this._fetchDashboardChanges(dashboardSpec, checkForNewUser);
+        this._maybeShowDraftsBanner();
+        this.$.reporting.dashboardDisplayed();
+      } catch (err) {
+        console.warn(err);
+      }
+      this._loading = false;
     },
 
     /**
@@ -170,9 +175,11 @@
      * with the response.
      *
      * @param {!Object} res
+     * @param {boolean} checkForNewUser
      * @return {Promise}
      */
-    _fetchDashboardChanges(res) {
+    _fetchDashboardChanges(res, checkForNewUser) {
+      console.log('fetch dashboard changes:', res, checkForNewUser);
       if (!res) { return Promise.resolve(); }
       const queries = res.sections.map(section => {
         if (section.suffixForDashboard) {
@@ -180,16 +187,25 @@
         }
         return section.query;
       });
+      if (checkForNewUser) {
+        queries.push('owner:self');
+      }
 
       return this.$.restAPI.getChanges(null, queries, null, this.options)
           .then(changes => {
+            if (checkForNewUser) {
+              // Last set of results is not meant for dashboard display.
+              const lastResultSet = changes.pop();
+              this._showNewUserHelp = lastResultSet.length == 0;
+            }
             this._results = changes.map((results, i) => ({
               sectionName: res.sections[i].name,
               query: res.sections[i].query,
               results,
               isOutgoing: res.sections[i].isOutgoing,
-            })).filter((section, i) => !res.sections[i].hideIfEmpty ||
-                section.results.length);
+            })).filter((section, i) => i < res.sections.length && (
+                !res.sections[i].hideIfEmpty ||
+                section.results.length));
           });
     },
 

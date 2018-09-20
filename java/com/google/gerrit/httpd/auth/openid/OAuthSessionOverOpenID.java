@@ -120,7 +120,7 @@ class OAuthSessionOverOpenID {
     com.google.gerrit.server.account.AuthRequest areq =
         new com.google.gerrit.server.account.AuthRequest(
             ExternalId.Key.parse(user.getExternalId()));
-    AuthResult arsp = null;
+    AuthResult arsp;
     try {
       String claimedIdentifier = user.getClaimedIdentity();
       Optional<Account.Id> actualId = accountManager.lookup(user.getExternalId());

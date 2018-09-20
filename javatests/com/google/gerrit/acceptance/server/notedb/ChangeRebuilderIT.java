@@ -191,7 +191,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void patchSets() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
-    r = amendChange(r.getChangeId());
+    amendChange(r.getChangeId());
     checker.rebuildAndCheckChanges(id);
   }
 

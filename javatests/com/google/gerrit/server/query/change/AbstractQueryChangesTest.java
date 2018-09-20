@@ -1955,7 +1955,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     actual = assertQuery(newQuery("-is:reviewed").withOption(REVIEWED), change1);
     assertThat(actual.get(0).reviewed).isNull();
 
-    actual = assertQuery("reviewedby:" + userId.get());
+    assertQuery("reviewedby:" + userId.get());
 
     actual =
         assertQuery(newQuery("reviewedby:" + user2.get()).withOption(REVIEWED), change3, change2);

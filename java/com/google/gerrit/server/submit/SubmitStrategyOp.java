@@ -217,8 +217,6 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     logger.atFine().log(
         "%s#updateChange for change %s", getClass().getSimpleName(), toMerge.change().getId());
     toMerge.setNotes(ctx.getNotes()); // Update change and notes from ctx.
-    PatchSet.Id oldPsId = checkNotNull(toMerge.getPatchsetId());
-    PatchSet.Id newPsId;
 
     if (ctx.getChange().getStatus() == Change.Status.MERGED) {
       // Either another thread won a race, or we are retrying a whole topic submission after one
@@ -238,10 +236,10 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     if (alreadyMergedCommit != null) {
       alreadyMergedCommit.setNotes(ctx.getNotes());
       mergedPatchSet = getOrCreateAlreadyMergedPatchSet(ctx);
-      newPsId = mergedPatchSet.getId();
     } else {
       PatchSet newPatchSet = updateChangeImpl(ctx);
-      newPsId = checkNotNull(ctx.getChange().currentPatchSetId());
+      PatchSet.Id oldPsId = checkNotNull(toMerge.getPatchsetId());
+      PatchSet.Id newPsId = checkNotNull(ctx.getChange().currentPatchSetId());
       if (newPatchSet == null) {
         checkState(
             oldPsId.equals(newPsId),

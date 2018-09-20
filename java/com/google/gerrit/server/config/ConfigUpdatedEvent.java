@@ -66,6 +66,10 @@ public class ConfigUpdatedEvent {
     return createUpdate(entries, UpdateResult.APPLIED);
   }
 
+  public Update reject(ConfigKey entry) {
+    return reject(Collections.singleton(entry));
+  }
+
   public Update reject(Set<ConfigKey> entries) {
     return createUpdate(entries, UpdateResult.REJECTED);
   }

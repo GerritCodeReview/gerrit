@@ -50,6 +50,7 @@ public class InitModule extends FactoryModule {
       step().to(InitDatabase.class);
     }
     step().to(InitLogging.class);
+    step().to(InitJavaOptions.class);
     step().to(InitIndex.class);
     step().to(InitAuth.class);
     step().to(InitAdminUser.class);

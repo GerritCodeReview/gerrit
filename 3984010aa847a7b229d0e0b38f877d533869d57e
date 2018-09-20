@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "269b1b74_2592da5d",
+        "filename": "java/com/google/gerrit/server/CreateGroupPermissionSyncer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure whether using createForAllProjects() would be better here. We have that method exactly for this use case but on the other hand, we don\u0027t have an equivalent for All-Users and also use the allProjects variable below for a check.",
+      "range": {
+        "startLine": 85,
+        "startChar": 51,
+        "endLine": 85,
+        "endChar": 70
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1989133f_930cf669",
+        "filename": "java/com/google/gerrit/server/CreateGroupPermissionSyncer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "It\u0027s discouraged to throw the plain RuntimeException. We could use IllegalStateException instead.",
+      "range": {
+        "startLine": 88,
+        "startChar": 16,
+        "endLine": 88,
+        "endChar": 32
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "323e2a42_12212205",
         "filename": "java/com/google/gerrit/server/account/AccountControl.java",
         "patchSetId": 8
@@ -26,6 +72,98 @@
     },
     {
       "key": {
+        "uuid": "2ba4000b_b517eb80",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "Is it intended that this error is simply ignored (missing return statement)?\n\nBy the way, I also didn\u0027t understand why IOException is treated different than NoSuchProjectException in this isVisibleTo() method but treated the same in the above isVisibleTo() method.",
+      "range": {
+        "startLine": 198,
+        "startChar": 6,
+        "endLine": 201,
+        "endChar": 5
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d0c2120_2343dbbd",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1547,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "Is this modification intended? (By the way, I thought that Flogger used %s for parameters.)",
+      "range": {
+        "startLine": 1547,
+        "startChar": 25,
+        "endLine": 1547,
+        "endChar": 27
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3726fb6d_2869f550",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this use projectAccessorFactory.create(project)?",
+      "range": {
+        "startLine": 212,
+        "startChar": 6,
+        "endLine": 213,
+        "endChar": 84
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b55516ad_8c650738",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "That\u0027s an interesting variant to retrieve the target project name. I noticed that we use three different variants for the target project name in this whole file: oldAccessor.getNameKey(), oldAccessor.getProject().getNameKey(), and destBranch.getParentKey(). Would it be feasible to use always the same approach? (Especially in the longer methods, it would also be beneficial for readability to extract a variable with a descriptive name for it.)",
+      "range": {
+        "startLine": 331,
+        "startChar": 31,
+        "endLine": 331,
+        "endChar": 56
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b04ce635_564a8327",
         "filename": "java/com/google/gerrit/server/project/ProjectAccessor.java",
         "patchSetId": 8
@@ -42,6 +180,397 @@
         "startChar": 20,
         "endLine": 55,
         "endChar": 42
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52c7e8ce_cf9c9340",
+        "filename": "java/com/google/gerrit/server/project/ProjectAccessor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "unrelated: I can\u0027t remember whether we discussed this previously. When I saw how we needed to inject unrelated arguments into the constructor of ProjectAccessor (and especially references like the factory), I was thinking that we should consider providing ProjectHierarchyIterator via a Guice factory itself.",
+      "range": {
+        "startLine": 247,
+        "startChar": 17,
+        "endLine": 247,
+        "endChar": 99
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11bc2396_725008ee",
+        "filename": "java/com/google/gerrit/server/project/ProjectResource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "getProjectAccessor()?",
+      "range": {
+        "startLine": 45,
+        "startChar": 11,
+        "endLine": 45,
+        "endChar": 28
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59b6e0e9_38a0071e",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "Is this method still kept to reduce the number of signature changes?",
+      "range": {
+        "startLine": 205,
+        "startChar": 18,
+        "endLine": 205,
+        "endChar": 30
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b03718a2_6cb4a4f3",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "Is this the same as getNameKey(), which we used at another line as replacement for getName()?",
+      "range": {
+        "startLine": 329,
+        "startChar": 19,
+        "endLine": 329,
+        "endChar": 35
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bec7d61_970e9497",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "This has a different behavior than the prior implementation. The latter ignored non-existent projects and simply returned false. Is the change intended?",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 35
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47c819d4_c3f922f9",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangesCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "The previous behavior was to map this case to a ResourceNotFoundException. Do we really want to simply ignore this error now?",
+      "range": {
+        "startLine": 145,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 5
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdd2ea39_0a57138e",
+        "filename": "java/com/google/gerrit/server/restapi/change/RelatedChangesSorter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "If we want to keep the previous behavior, we need to return false instead of letting this exception bubble up.",
+      "range": {
+        "startLine": 238,
+        "startChar": 54,
+        "endLine": 238,
+        "endChar": 76
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "806b17e1_ba4f6ca9",
+        "filename": "java/com/google/gerrit/server/restapi/config/ListTasks.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "This case was previously mapped to false. Not setting anything for \u0027visible\u0027 means that we are using null right now and even put that value into the visibilityCache. Do we want that?",
+      "range": {
+        "startLine": 99,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 11
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ffbc6cd_7ff7309c",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetDashboard.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "unrelated: I\u0027m pretty sure that this should actually be \u0027pa\u0027. The previous code also contained that error, which seemed to have been introduced by I858c6c9d1 (see [1]). Should we fix this in a separate change? (I would prefer that but I don\u0027t want to make rebasing this series of changes on the top of master even harder.)\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/132111/1/gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java#100",
+      "range": {
+        "startLine": 106,
+        "startChar": 21,
+        "endLine": 106,
+        "endChar": 36
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fee2108_cde6a657",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this use projectAccessorFactory.create(nameKey)?",
+      "range": {
+        "startLine": 531,
+        "startChar": 6,
+        "endLine": 533,
+        "endChar": 70
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1be82456_f50bd964",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this use projectAccessorFactory.create(p)?",
+      "range": {
+        "startLine": 556,
+        "startChar": 14,
+        "endLine": 558,
+        "endChar": 71
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebe8777b_d583f39a",
+        "filename": "java/com/google/gerrit/server/submit/LocalMergeSuperSetComputation.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "The previous implementation returned false for this case instead of throwing an exception.",
+      "range": {
+        "startLine": 184,
+        "startChar": 54,
+        "endLine": 184,
+        "endChar": 76
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c9b416f_d7ef9114",
+        "filename": "java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "unrelated: This null check indicates that projectAccessor can be null even though we don\u0027t use the @Nullable annotation for method parameters in this class. Since the option \u0027project\u0027 of SetReviewersCommand is not required, it should also be possible to get null in reality. In that case, we\u0027ll run into an NPE in line 95.",
+      "range": {
+        "startLine": 136,
+        "startChar": 8,
+        "endLine": 136,
+        "endChar": 31
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6905e7c1_3ab7f853",
+        "filename": "java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "unrelated: This seems to be exactly what we have ProjectState#parents for. That iterable probably wasn\u0027t used as this code here predates the introduction of it. Do you think it makes sense to adjust it?",
+      "range": {
+        "startLine": 118,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 50
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "441f946c_24dd2bdc",
+        "filename": "java/com/google/gerrit/sshd/commands/CreateBranchCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "Can\u0027t this be a local variable?",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 42
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac8442d8_1d0ed8f3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "In tests, we can abbreviate this to \"throws Exception\".",
+      "range": {
+        "startLine": 291,
+        "startChar": 6,
+        "endLine": 291,
+        "endChar": 48
+      },
+      "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee7bfa50_307de76a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitResolvingMergeCommitIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-20T11:44:07Z",
+      "side": 1,
+      "message": "In tests, we can abbreviate this to \"throws Exception\".",
+      "range": {
+        "startLine": 307,
+        "startChar": 6,
+        "endLine": 307,
+        "endChar": 90
       },
       "revId": "3984010aa847a7b229d0e0b38f877d533869d57e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -296,6 +296,11 @@ As note key the SHA1 of the external ID key is used. This ensures that
 an external ID is used only once (e.g. an external ID can never be
 assigned to multiple accounts at a point in time).
 
+[IMPORTANT]
+If the external ID key is changed manually you must adapt the note key
+to the new SHA1. Otherwise the external ID becomes inconsistent and is
+ignored by Gerrit.
+
 The note content is a Git config file:
 
 ----

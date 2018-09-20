@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "732b307e_466d82ae",
+        "filename": "resources/com/google/gerrit/httpd/raw/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-20T04:18:23Z",
+      "side": 1,
+      "message": "You cannot add this package with adjusting the rest of build.\n\nThe target: java/com/google/gerrit/httpd:httpd, that only depends on old resources/com/google/gerrit/httpd package that included all resource, also from this directory. Now, that you have added the dedicated package, all resources from this directory are lost, and the CI breakage is revealed that problem.\n\nAt very least you need this:\n\n  diff --git a/java/com/google/gerrit/httpd/BUILD b/java/com/google/gerrit/httpd/BUILD\n  index fae7c6a339..e2e0d60c2d 100644\n  --- a/java/com/google/gerrit/httpd/BUILD\n  +++ b/java/com/google/gerrit/httpd/BUILD\n  @@ -2,7 +2,10 @@ java_library(\n     name \u003d \"httpd\",\n     srcs \u003d glob([\"**/*.java\"]),\n     resource_strip_prefix \u003d \"resources\",\n  -    resources \u003d [\"//resources/com/google/gerrit/httpd\"],\n  +    resources \u003d [\n  +        \"//resources/com/google/gerrit/httpd\",\n  +        \"//resources/com/google/gerrit/httpd/raw\",\n  +    ],\n     visibility \u003d [\"//visibility:public\"],\n     deps \u003d [\n         \"//java/com/google/gerrit/common:annotations\",",
+      "revId": "ed4817dcfc0ddec735a09881185f0a88e706df52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

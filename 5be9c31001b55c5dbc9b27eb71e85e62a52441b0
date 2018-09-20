@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1500015052 +0200\nnonce AB2F6yDiRSR6xDCHM6tT1E5VbHJAGy0wX4F0M3x8BewbhmAIZq+sGAbidbi7POCHgeDQVg69XFIm\n\n0000000000000000000000000000000000000000 c05fba2505e958aecff6ee0d3022ed87348085fd refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZaGnMAAoJEFG1/Zeg0O9R+cIIAIaJLbewF5EDPtnxui9YtR8u\nbf1nhf7cSEWie1gUm6JgAKrNKtc7ayCdzFx9SlKsy0eQkfuymYQv4i3+VjAoOEGy\nSTOf1bwNMqJBtjqs88oZQ85XpCQ4eB9SLiouszrNwJZp7xs1V6dnLbfzGaL0lgxA\nE9HNckWQ/OBr/vtDTFEo9+ZzOewp6wmh7XWZX7SK3puG6PJfrPptPc6tuHAjmz0W\nj+Q4VVQmzQDdved1PUkfEH7L5UZFrGx5kMN0AlpXhVW2AMx+6ZECVuPDoJydZvJM\nHjNgpOP35bSPtXozTKsnBSGRSbU7JiE+rZcUz4zXOUyK6nYo1f3yRQj1Mezmc5Y\u003d\n\u003dWBkX\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2d1f04b_ba821712",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-20T06:50:07Z",
+      "side": 1,
+      "message": "Is this actually needed?  In [1] I removed this block on stable-2.14, but when merging up to stable-2.15 it conflicts with L262 added here.",
+      "range": {
+        "startLine": 261,
+        "startChar": 4,
+        "endLine": 263,
+        "endChar": 73
+      },
+      "revId": "5be9c31001b55c5dbc9b27eb71e85e62a52441b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -229,8 +229,6 @@ public class GerritServer implements AutoCloseable {
    */
   public static GerritServer initAndStart(Description desc, Config baseConfig) throws Exception {
     Path site = TempFileUtil.createTempDirectory().toPath();
-    baseConfig = new Config(baseConfig);
-    baseConfig.setString("gerrit", null, "tempSiteDir", site.toString());
     try {
       if (!desc.memory()) {
         init(desc, baseConfig, site);

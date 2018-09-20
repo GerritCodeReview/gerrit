@@ -47,6 +47,30 @@
       "revId": "5be9c31001b55c5dbc9b27eb71e85e62a52441b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bf2fb03_5d9f8bb6",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-20T07:23:00Z",
+      "side": 1,
+      "message": "OK.  I removed the whole block in the merge [1].  Tests pass locally, but I only ran the defaults (i.e. not with notedb enabled).  Let\u0027s see what CI says about it.  If it fails I\u0027ll revert the change on stable-2.14.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/196561",
+      "parentUuid": "e0a8074b_2fb2ae04",
+      "range": {
+        "startLine": 261,
+        "startChar": 4,
+        "endLine": 263,
+        "endChar": 73
+      },
+      "revId": "5be9c31001b55c5dbc9b27eb71e85e62a52441b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -75,7 +75,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     PacketLineIn in = new PacketLineIn(out);
     String tmp = in.readString();
     assertThat(tmp).isEqualTo("ACK");
-    tmp = in.readString();
+    in.readString();
 
     // Skip length (4 bytes) + 1 byte
     // to position the output stream to the raw zip stream
@@ -150,7 +150,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     PacketLineIn in = new PacketLineIn(out);
     String tmp = in.readString();
     assertThat(tmp).isEqualTo("ACK");
-    tmp = in.readString();
+    in.readString();
     tmp = in.readString();
     tmp = tmp.substring(1);
     assertThat(tmp).isEqualTo("fatal: upload-archive not permitted for format zip");

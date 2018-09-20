@@ -1305,7 +1305,7 @@ public class RevisionIT extends AbstractDaemonTest {
     oldETag = checkETag(getRevisionActions, r2, oldETag);
 
     current(r2).submit();
-    oldETag = checkETag(getRevisionActions, r2, oldETag);
+    checkETag(getRevisionActions, r2, oldETag);
   }
 
   @Test

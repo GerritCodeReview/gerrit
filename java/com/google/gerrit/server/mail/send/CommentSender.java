@@ -507,7 +507,7 @@ public class CommentSender extends ReplyToChangeSender {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
-    boolean hasComments = false;
+    boolean hasComments;
     try (Repository repo = getRepository()) {
       List<Map<String, Object>> files = getCommentGroupsTemplateData(repo);
       soyContext.put("commentFiles", files);

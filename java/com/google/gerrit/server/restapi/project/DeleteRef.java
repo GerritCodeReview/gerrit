@@ -279,7 +279,7 @@ public class DeleteRef {
   }
 
   private void appendAndLogErrorMessage(StringBuilder errorMessages, ReceiveCommand cmd) {
-    String msg = null;
+    String msg;
     switch (cmd.getResult()) {
       case REJECTED_CURRENT_BRANCH:
         msg = format("Cannot delete %s: it is the current branch", cmd.getRefName());

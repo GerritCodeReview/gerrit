@@ -1308,7 +1308,7 @@ public class ChangeJson {
         RevWalk rw = newRevWalk(repo)) {
       for (PatchSet in : map.values()) {
         PatchSet.Id id = in.getId();
-        boolean want = false;
+        boolean want;
         if (has(ALL_REVISIONS)) {
           want = true;
         } else if (limitToPsId.isPresent()) {

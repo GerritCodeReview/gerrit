@@ -126,23 +126,25 @@ limitations under the License.
           on-toggle-star="_handleToggleStar"
           on-toggle-reviewed="_handleToggleReviewed">
         <div id="emptyOutgoing" slot="empty-outgoing">
-          <div id="graphic">
-            <svg width="150" height="100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <p>
-              No outgoing changes yet
-            </p>
-          </div>
-          <div id="help">
-            <h1>Push your first changes for code review</h1>
-            <p>
-              Pushing a change for review is easy, but a little different from
-              other git code review tools. Click on the `Create Change' button
-              and follow the step by step instructions.
-            </p>
-            <gr-button on-tap="_createChangeTap">Create Change</gr-button>
-          </div>
+          <template is="dom-if" if="_showNewUserHelp">
+            <div id="graphic">
+              <svg width="150" height="100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <p>
+                No outgoing changes yet
+              </p>
+            </div>
+            <div id="help">
+              <h1>Push your first changes for code review</h1>
+              <p>
+                Pushing a change for review is easy, but a little different from
+                other git code review tools. Click on the `Create Change' button
+                and follow the step by step instructions.
+              </p>
+              <gr-button on-tap="_createChangeTap">Create Change</gr-button>
+            </div>
+          </template>
         </div>
       </gr-change-list>
     </div>

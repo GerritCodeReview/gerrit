@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "38f5e07d_f170d392",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-09-20T08:06:22Z",
+      "side": 1,
+      "message": "Actually, I think using TRIVIAL_REBASE here is correct, but agree an arbitrary modification of the commit message may be undesirable. All I need here is to be able to add commit message footers as Gerrit would do if the change were submitted through Gerrit rather than pushed to the branch.",
+      "parentUuid": "900be1f1_9b1f0086",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "7020c6ba9b49f3c52cb9475d25a91cd536f6fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1224277c_f5ef9a93",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -63,6 +87,24 @@
       "revId": "7020c6ba9b49f3c52cb9475d25a91cd536f6fb50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50c1a78c_fb7e1754",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-09-20T08:06:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1224277c_f5ef9a93",
+      "revId": "7020c6ba9b49f3c52cb9475d25a91cd536f6fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -101,6 +143,30 @@
       "side": 1,
       "message": "Thanks for the pointer. Will fix.",
       "parentUuid": "db248e8c_73fab24b",
+      "range": {
+        "startLine": 216,
+        "startChar": 8,
+        "endLine": 218,
+        "endChar": 59
+      },
+      "revId": "7020c6ba9b49f3c52cb9475d25a91cd536f6fb50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "722e95ee_854e2df3",
+        "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-09-20T08:06:22Z",
+      "side": 1,
+      "message": "Just a new test now. Will revisit the fix in another review.",
+      "parentUuid": "d2a46ea2_e0adb3b2",
       "range": {
         "startLine": 216,
         "startChar": 8,

@@ -269,7 +269,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
         "name:" + project1.name + " OR name:" + project2.name + " OR name:" + project3.name;
     List<ProjectInfo> result = assertQuery(query, project1, project2, project3);
 
-    result = assertQuery(newQuery(query).withLimit(2), result.subList(0, 2));
+    assertQuery(newQuery(query).withLimit(2), result.subList(0, 2));
   }
 
   @Test

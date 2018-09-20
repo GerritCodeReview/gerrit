@@ -613,8 +613,9 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
       TestRepository<?> superRepo = createProjectWithPush("super-project");
       TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
-      TestRepository<?> subRepo2 = createProjectWithPush("subscribed-to-project-2");
-      subRepo2 = cloneProject(new Project.NameKey(name("subscribed-to-project-2")), user);
+      createProjectWithPush("subscribed-to-project-2");
+      TestRepository<?> subRepo2 =
+          cloneProject(new Project.NameKey(name("subscribed-to-project-2")), user);
 
       allowMatchingSubmoduleSubscription(
           "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");

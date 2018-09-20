@@ -84,7 +84,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     assertDeleted(FILE_D, entries.get(2));
 
     // Change 1,2 (+FILE_A, +FILE_B, -FILE_D)
-    c = amendBuilder().add(FILE_B, "2").create();
+    amendBuilder().add(FILE_B, "2").create();
     pushHead(testRepo, "refs/for/master", false);
     entries = getCurrentPatches(id);
 

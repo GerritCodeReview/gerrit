@@ -721,8 +721,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setAssignee(otherUserId);
     update.commit();
 
-    ChangeNotes notes = newNotes(c);
-
     update = newUpdate(c, changeOwner);
     update.setAssignee(changeOwner.getAccountId());
     update.commit();
@@ -735,7 +733,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.removeAssignee();
     update.commit();
 
-    notes = newNotes(c);
+    ChangeNotes notes = newNotes(c);
     assertThat(notes.getPastAssignees()).hasSize(2);
   }
 

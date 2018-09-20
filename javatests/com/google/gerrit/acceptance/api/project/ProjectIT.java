@@ -307,11 +307,11 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   public void setPartialConfig() throws Exception {
     ConfigInput input = createTestConfigInput();
-    ConfigInfo info = gApi.projects().name(project.get()).config(input);
+    gApi.projects().name(project.get()).config(input);
 
     ConfigInput partialInput = new ConfigInput();
     partialInput.useContributorAgreements = InheritableBoolean.FALSE;
-    info = gApi.projects().name(project.get()).config(partialInput);
+    ConfigInfo info = gApi.projects().name(project.get()).config(partialInput);
 
     assertThat(info.description).isNull();
     assertThat(info.useContributorAgreements.configuredValue)

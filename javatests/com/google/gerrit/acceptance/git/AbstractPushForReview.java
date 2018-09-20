@@ -500,7 +500,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // request that sender gets notified as TO, CC and BCC, email should be sent
     // even if the sender is the only recipient
     sender.clear();
-    r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-to=" + admin.email);
+    pushTo(pushSpec + ",notify=" + NotifyHandling.NONE + ",notify-to=" + admin.email);
     assertNotifyTo(admin);
 
     sender.clear();
@@ -1972,7 +1972,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(getPublishedComments(id1)).isEmpty();
     assertThat(getPublishedComments(id2)).isEmpty();
 
-    r2 = amendChange(id2, "refs/for/master%publish-comments");
+    amendChange(id2, "refs/for/master%publish-comments");
 
     assertThat(getPublishedComments(id1)).isEmpty();
     assertThat(gApi.changes().id(id1).drafts()).hasSize(1);

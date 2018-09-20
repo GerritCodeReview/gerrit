@@ -46,6 +46,30 @@
       "revId": "0b3affa4e2f464a9213f79abbd3181636e7b9b2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b44fb57_af325211",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-20T04:44:43Z",
+      "side": 1,
+      "message": "No.  However if there are any breakages it wouldn\u0027t be obvious according to this information.\n\nBut OK, as long as we clearly mention this in the release notes, let\u0027s include it.",
+      "parentUuid": "e8042ea9_62489d7b",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "0b3affa4e2f464a9213f79abbd3181636e7b9b2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

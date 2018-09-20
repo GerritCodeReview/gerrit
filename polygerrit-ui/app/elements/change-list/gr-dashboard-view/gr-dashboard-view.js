@@ -51,6 +51,16 @@
         type: Boolean,
         value: true,
       },
+
+      _showDraftsBanner: {
+        type: Boolean,
+        value: false,
+      },
+
+      /** @type {{ numComments: number, numChanges: number }} */
+      _deleteDraftsResult: {
+        type: Object,
+      },
     },
 
     observers: [
@@ -153,6 +163,7 @@
 
       return dashboardPromise.then(this._fetchDashboardChanges.bind(this))
           .then(() => {
+            this._maybeShowDraftsBanner();
             this.$.reporting.dashboardDisplayed();
           }).catch(err => {
             console.warn(err);
@@ -199,5 +210,56 @@
       this.$.restAPI.saveChangeReviewed(e.detail.change._number,
           e.detail.reviewed);
     },
+
+    /**
+     * Banner is shown if a user is on their own dashboard and they have draft
+     * comments on closed changes.
+     */
+    _maybeShowDraftsBanner() {
+      this._showDraftsBanner = false;
+      if (!(this.params.user === 'self')) { return; }
+
+      const draftSection = this._results
+          .find(section => section.query === 'has:draft');
+      if (!draftSection || !draftSection.results.length) { return; }
+
+      const closedChanges = draftSection.results
+          .filter(change => !this.changeIsOpen(change.status));
+      if (!closedChanges.length) { return; }
+
+      this._showDraftsBanner = true;
+    },
+
+    _computeBannerClass(show) {
+      return show ? '' : 'hide';
+    },
+
+    _handleOpenDeleteDialog() {
+      this.$.confirmDeleteOverlay.open();
+    },
+
+    _handleConfirmDelete() {
+      this.$.confirmDeleteDialog.disabled = true;
+      return this.$.restAPI.deleteDraftComments('-is:open')
+        .then(response => this.$.restAPI.getResponseObject(response))
+        .then(result => {
+          this._deleteDraftsResult = {
+            numChanges: result.length,
+            numComments: result.reduce((acc, obj) => acc + obj.deleted.length, 0),
+          };
+          this._closeConfirmDeleteOverlay();
+          this.$.deleteSummaryOverlay.open();
+        });
+    },
+
+    _closeConfirmDeleteOverlay() {
+      console.log('closing confirmation dialog');
+      this.$.confirmDeleteOverlay.close();
+    },
+
+    _handleConfirmDeleteSummary() {
+      this.$.deleteSummaryOverlay.close();
+      this._reload();
+    }
   });
 })();

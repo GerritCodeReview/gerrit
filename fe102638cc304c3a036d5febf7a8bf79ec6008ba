@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07c78e30_4e6ed6c1",
+        "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-09-20T10:56:34Z",
+      "side": 1,
+      "message": "I see what you\u0027re doing, and why this is desired in some workflows, but I have the same objections as I had in the previous change.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/196470/2//COMMIT_MSG#13\n\nSummary: I can add false Signed-Off-By/Co-Authored-By or whatever lines and a CR-label, if configured sticky, will be sticky.\n\nLet someone else (maintainer) have a look at this.",
+      "range": {
+        "startLine": 216,
+        "startChar": 15,
+        "endLine": 219,
+        "endChar": 91
+      },
+      "revId": "fe102638cc304c3a036d5febf7a8bf79ec6008ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1252ad68_f644dd2d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:34:00Z",
+      "side": 1,
+      "message": "Maybe gr-rest-api-interface should manage parsing the response object.",
+      "revId": "f600c95fe733e37a6bf0967be062c00f5f2c878d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaffa3bd_f8e698c2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:34:00Z",
+      "side": 1,
+      "message": "Now that I\u0027ve complicated the dialog flow there\u0027s more to test here.",
+      "revId": "f600c95fe733e37a6bf0967be062c00f5f2c878d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

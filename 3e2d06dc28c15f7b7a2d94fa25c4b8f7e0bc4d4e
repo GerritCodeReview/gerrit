@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8b5029f5_008ed64f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:34:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1429ee6d_aee26af7",
+      "range": {
+        "startLine": 80,
+        "startChar": 42,
+        "endLine": 80,
+        "endChar": 49
+      },
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70b7a114_b9680354",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.html",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd180652_24fb5644",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:34:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70b7a114_b9680354",
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "d9b37860_d7761cd9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:34:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9eff750_58d94fa4",
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2707bc9a_27479ecc",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
         "patchSetId": 1
@@ -73,6 +133,24 @@
       "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d16e364e_76a063a5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:34:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2707bc9a_27479ecc",
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "2acfaf1a_96369fce",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:34:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7561f409_ec2e1567",
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6822d6c1_618225d0",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
         "patchSetId": 1
@@ -107,6 +203,24 @@
       "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0fb2916_6c068148",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:34:00Z",
+      "side": 1,
+      "message": "I guess a summary dialog works here.",
+      "parentUuid": "6822d6c1_618225d0",
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

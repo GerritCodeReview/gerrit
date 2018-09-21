@@ -16,6 +16,24 @@
       "revId": "c6cad5a1167df3f548ba0d9f361ec4e64a2b376d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d19edfad_4bff66a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-21T02:11:41Z",
+      "side": 1,
+      "message": "The issue is, that Guice shading ASM in its own distribution. There is this feature request to stop shading ASM, but this is not really easy doable. That why in my workaround, I switched to using classes classifier artifact from Central, that is not shading ASM. I will add this information to the commit message.\n\n[1] https://github.com/google/guice/issues/1198",
+      "parentUuid": "0f2d6ca1_b009b475",
+      "revId": "c6cad5a1167df3f548ba0d9f361ec4e64a2b376d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

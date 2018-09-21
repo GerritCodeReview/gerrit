@@ -16,6 +16,24 @@
       "revId": "db1da6328319c15903520a23e303dd91d2a4e270",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "589827f9_cf23148b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-21T04:02:23Z",
+      "side": 1,
+      "message": "Let\u0027s do it again in a follow-up change, rather than uploading a new PS here and waiting for the next round of Library-Compliance checks.",
+      "parentUuid": "f273ab46_ff628fb8",
+      "revId": "db1da6328319c15903520a23e303dd91d2a4e270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

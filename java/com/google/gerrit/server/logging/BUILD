@@ -9,5 +9,7 @@ java_library(
         "//java/com/google/gerrit/common:server",
         "//lib:guava",
         "//lib/flogger:api",
+        "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
     ],
 )

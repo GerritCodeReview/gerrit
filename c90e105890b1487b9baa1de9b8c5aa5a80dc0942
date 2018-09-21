@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2d476e89_fce25ac0",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-21T09:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e29e1f1e_72788bfb",
+      "range": {
+        "startLine": 163,
+        "startChar": 11,
+        "endLine": 164,
+        "endChar": 18
+      },
+      "revId": "c90e105890b1487b9baa1de9b8c5aa5a80dc0942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d605cdd4_ca8c94db",
         "filename": "java/com/google/gerrit/server/restapi/project/ProjectsCollection.java",
         "patchSetId": 1
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "OK. We can also choose to throw out a ResourceConflictException here.",
       "parentUuid": "397b71ee_e5c27073",
+      "range": {
+        "startLine": 169,
+        "startChar": 8,
+        "endLine": 169,
+        "endChar": 40
+      },
+      "revId": "c90e105890b1487b9baa1de9b8c5aa5a80dc0942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ba94d55_bc2bc414",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-21T09:10:24Z",
+      "side": 1,
+      "message": "I think it\u0027s better to keep the method call to ensure that we have the exact same exception text in all places where this check is done.",
+      "parentUuid": "5f7e6ab1_945d13ac",
       "range": {
         "startLine": 169,
         "startChar": 8,

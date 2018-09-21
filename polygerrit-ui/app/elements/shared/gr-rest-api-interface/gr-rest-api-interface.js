@@ -2640,6 +2640,14 @@
       });
     },
 
+    getTopMenus(token, opt_errFn) {
+      return this._fetchJSON({
+        url: '/config/server/top-menus',
+        errFn: opt_errFn,
+        reportUrlAsIs: true,
+      });
+    },
+
     setAssignee(changeNum, assignee) {
       return this._getChangeURLAndSend({
         changeNum,

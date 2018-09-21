@@ -81,7 +81,7 @@ limitations under the License.
       assert.deepEqual([
         {url: 'https://awesometown.com/#hashyhash'},
         {url: 'url', target: '_blank'},
-      ].map(element._fixMyMenuItem), [
+      ].map(element._fixCustomMenuItem), [
         {url: 'https://awesometown.com/#hashyhash', external: true},
         {url: 'url', external: true},
       ]);
@@ -97,7 +97,6 @@ limitations under the License.
         {url: 'https://awesometown.com/#hashyhash'},
       ]);
     });
-
 
     test('user links', () => {
       const defaultLinks = [{
@@ -158,6 +157,33 @@ limitations under the License.
         name: 'Table of Contents',
         target: '_blank',
         url: 'base/index.html',
+      }]);
+    });
+
+    test('top menus', () => {
+      const adminLinks = [{
+        name: 'Repos',
+        url: '/repos',
+      }];
+      const topMenus = [{
+        name: 'Plugins',
+        items: [{
+          name: 'Manage',
+          target: '_blank',
+          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+        }],
+      }];
+      assert.deepEqual(element._computeLinks([], [], adminLinks, topMenus), [{
+        title: 'Browse',
+        links: adminLinks,
+      },
+      {
+        title: 'Plugins',
+        links: [{
+          name: 'Manage',
+          external: true,
+          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+        }],
       }]);
     });
   });

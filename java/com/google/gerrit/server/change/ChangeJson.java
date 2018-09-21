@@ -340,6 +340,7 @@ public class ChangeJson {
     this.enableParallelFormatting = config.getBoolean("change", "enableParallelFormatting", false);
     this.fanOutExecutor = fanOutExecutor;
     this.options = Sets.immutableEnumSet(options);
+    logger.atFine().log("options = " + options);
   }
 
   /**

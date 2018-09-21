@@ -34,6 +34,24 @@
       "revId": "db1da6328319c15903520a23e303dd91d2a4e270",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28bc0841_536ff675",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-21T04:42:13Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/196751",
+      "parentUuid": "589827f9_cf23148b",
+      "revId": "db1da6328319c15903520a23e303dd91d2a4e270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

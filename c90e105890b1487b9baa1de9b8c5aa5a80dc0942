@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d680ae51_76af727f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-21T09:10:55Z",
+      "side": 1,
+      "message": "Yeah, still we should fix it where we can.",
+      "parentUuid": "98283d76_3a9dbbd7",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "c90e105890b1487b9baa1de9b8c5aa5a80dc0942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e29e1f1e_72788bfb",
         "filename": "java/com/google/gerrit/server/restapi/project/ProjectsCollection.java",
         "patchSetId": 1

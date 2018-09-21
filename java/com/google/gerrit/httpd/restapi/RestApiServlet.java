@@ -445,6 +445,7 @@ public class RestApiServlet extends HttpServlet {
         }
 
         if (notModified(req, rsrc, viewData.view)) {
+          logger.atFinest().log("REST call succeeded: %d", SC_NOT_MODIFIED);
           res.sendError(SC_NOT_MODIFIED);
           return;
         }

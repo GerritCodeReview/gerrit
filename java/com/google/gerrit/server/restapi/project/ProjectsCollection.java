@@ -155,15 +155,18 @@ public class ProjectsCollection
       } catch (AuthException e) {
         return null; // Pretend like not found on access denied.
       }
-      // If the project's state does not permit reading, we want to hide it from all callers. The
-      // only exception to that are users who are allowed to mutate the project's configuration.
-      // This enables these users to still mutate the project's state (e.g. set a HIDDEN project to
-      // ACTIVE). Individual views should still check for checkStatePermitsRead() and this should
-      // just serve as a safety net in case the individual check is forgotten.
-      try {
-        permissionBackend.currentUser().project(nameKey).check(ProjectPermission.WRITE_CONFIG);
-      } catch (AuthException e) {
-        state.checkStatePermitsRead();
+
+      if (!state.statePermitsRead()) {
+        // If the project's state does not permit reading, we want to hide it from all callers. The
+        // only exception to that are users who are allowed to mutate the project's configuration.
+        // This enables these users to still mutate the project's state (e.g. set a HIDDEN project
+        // to ACTIVE). Individual views should still check for checkStatePermitsRead() and this
+        // should just serve as a safety net in case the individual check is forgotten.
+        try {
+          permissionBackend.currentUser().project(nameKey).check(ProjectPermission.WRITE_CONFIG);
+        } catch (AuthException e) {
+          state.checkStatePermitsRead();
+        }
       }
     }
     return new ProjectResource(state, user.get());

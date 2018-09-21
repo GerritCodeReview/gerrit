@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "98283d76_3a9dbbd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-09-21T08:56:00Z",
+      "side": 1,
+      "message": "This is a known issue throughout Gerrit and there are many places where we can\u0027t work around it.",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "c90e105890b1487b9baa1de9b8c5aa5a80dc0942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d605cdd4_ca8c94db",
         "filename": "java/com/google/gerrit/server/restapi/project/ProjectsCollection.java",
         "patchSetId": 1
@@ -23,6 +46,30 @@
       "revId": "c90e105890b1487b9baa1de9b8c5aa5a80dc0942",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "397b71ee_e5c27073",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-09-21T08:56:00Z",
+      "side": 1,
+      "message": "it still throws, which is required. you could also throw directly here. calling the other functions makes it so that the exception message is consistent.",
+      "parentUuid": "d605cdd4_ca8c94db",
+      "range": {
+        "startLine": 169,
+        "startChar": 8,
+        "endLine": 169,
+        "endChar": 40
+      },
+      "revId": "c90e105890b1487b9baa1de9b8c5aa5a80dc0942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -81,7 +81,7 @@ limitations under the License.
       assert.deepEqual([
         {url: 'https://awesometown.com/#hashyhash'},
         {url: 'url', target: '_blank'},
-      ].map(element._fixMyMenuItem), [
+      ].map(element._fixCustomMenuItem), [
         {url: 'https://awesometown.com/#hashyhash', external: true},
         {url: 'url', external: true},
       ]);

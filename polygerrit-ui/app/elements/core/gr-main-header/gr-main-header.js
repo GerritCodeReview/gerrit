@@ -85,6 +85,8 @@
 
       /** @type {?Object} */
       _account: Object,
+      /** @type {?Object} */
+      _topMenus: Object,
       _adminLinks: {
         type: Array,
         value() { return []; },
@@ -102,7 +104,7 @@
       _links: {
         type: Array,
         computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
-            '_docBaseUrl)',
+            '_topMenus, _docBaseUrl)',
       },
       _loginURL: {
         type: String,
@@ -159,7 +161,7 @@
       return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
-    _computeLinks(defaultLinks, userLinks, adminLinks, docBaseUrl) {
+    _computeLinks(defaultLinks, userLinks, adminLinks, topMenus, docBaseUrl) {
       const links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {
         links.push({
@@ -179,6 +181,14 @@
         title: 'Browse',
         links: adminLinks,
       });
+      if (topMenus && topMenus.length > 0) {
+        for (const m of topMenus) {
+          links.push({
+            title: m.name,
+            links: m.items.map(this._fixCustomMenuItem),
+          });
+        }
+      }
       return links;
     },
 
@@ -203,11 +213,14 @@
       this.loading = true;
       const promises = [
         this.$.restAPI.getAccount(),
+        this.$.restAPI.getTopMenus(),
         Gerrit.awaitPluginsLoaded(),
       ];
 
       return Promise.all(promises).then(result => {
         const account = result[0];
+        const topMenus = result[1];
+        this._topMenus = topMenus;
         this._account = account;
         this.loggedIn = !!account;
         this.loading = false;
@@ -232,11 +245,11 @@
 
       this.$.restAPI.getPreferences().then(prefs => {
         this._userLinks =
-            prefs.my.map(this._fixMyMenuItem).filter(this._isSupportedLink);
+            prefs.my.map(this._fixCustomMenuItem).filter(this._isSupportedLink);
       });
     },
 
-    _fixMyMenuItem(linkObj) {
+    _fixCustomMenuItem(linkObj) {
       // Normalize all urls to PolyGerrit style.
       if (linkObj.url.startsWith('#')) {
         linkObj.url = linkObj.url.slice(1);
@@ -251,7 +264,7 @@
       // so we'll just disable it altogether for now.
       delete linkObj.target;
 
-      // Becasue the "my menu" links may be arbitrary URLs, we don't know
+      // Because the user provided links may be arbitrary URLs, we don't know
       // whether they correspond to any client routes. Mark all such links as
       // external.
       linkObj.external = true;

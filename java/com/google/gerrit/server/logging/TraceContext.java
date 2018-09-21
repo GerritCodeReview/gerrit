@@ -192,6 +192,21 @@ public class TraceContext implements AutoCloseable {
     return new TraceTimer(format, arg1, arg2);
   }
 
+  /**
+   * Opens a new timer that logs the time for an operation if request tracing is enabled.
+   *
+   * <p>If request tracing is not enabled this is a no-op.
+   *
+   * @param format the message format string
+   * @param arg1 first argument for the message
+   * @param arg2 second argument for the message
+   * @param arg3 third argument for the message
+   * @return the trace timer
+   */
+  public static TraceTimer newTimer(String format, Object arg1, Object arg2, Object arg3) {
+    return new TraceTimer(format, arg1, arg2, arg3);
+  }
+
   public static class TraceTimer implements AutoCloseable {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -208,6 +223,11 @@ public class TraceContext implements AutoCloseable {
 
     private TraceTimer(String format, @Nullable Object arg1, @Nullable Object arg2) {
       this(elapsedMs -> logger.atFine().log(format + " (%d ms)", arg1, arg2, elapsedMs));
+    }
+
+    private TraceTimer(
+        String format, @Nullable Object arg1, @Nullable Object arg2, @Nullable Object arg3) {
+      this(elapsedMs -> logger.atFine().log(format + " (%d ms)", arg1, arg2, arg3, elapsedMs));
     }
 
     private TraceTimer(Consumer<Long> logFn) {

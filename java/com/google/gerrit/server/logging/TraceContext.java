@@ -15,13 +15,16 @@
 package com.google.gerrit.server.logging;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.flogger.LazyArgs.lazy;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.flogger.LazyArg;
 import com.google.gerrit.common.Nullable;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -239,6 +242,70 @@ public class TraceContext implements AutoCloseable {
     public void close() {
       stopwatch.stop();
       logFn.accept(stopwatch.elapsed(TimeUnit.MILLISECONDS));
+    }
+  }
+
+  public static LazyArg<String> findCallerOf(Class<?> target, Class<?>... moreTargets) {
+    checkNotNull(target, "target");
+    checkNotNull(moreTargets, "moreTargets");
+    return lazy(
+        () -> {
+          Optional<String> caller = findCallerOf(target, 1);
+          if (caller.isPresent()) {
+            return caller.get();
+          }
+          for (Class<?> nextTarget : Arrays.asList(moreTargets)) {
+            caller = findCallerOf(nextTarget, 1);
+            if (caller.isPresent()) {
+              return caller.get();
+            }
+          }
+          return "n/a";
+        });
+  }
+
+  public static Optional<String> findCallerOf(Class<?> target, int skip) {
+    // Skip one additional stack frame because we create the Throwable inside this method, not at
+    // the point that this method was invoked.
+    skip++;
+
+    StackTraceElement[] stack = new Throwable().getStackTrace();
+
+    // Note: To avoid having to reflect the getStackTraceDepth() method as well, we assume that we
+    // will find the caller on the stack and simply catch an exception if we fail (which should
+    // hardly ever happen).
+    boolean foundCaller = false;
+    try {
+      stackLoop:
+      for (int index = skip; ; index++) {
+        StackTraceElement element = stack[index];
+
+        boolean isCaller = false;
+        Class<?> clazz = Class.forName(element.getClassName());
+        while (clazz != null) {
+          // Only use name of outer class for inner classes.
+          String className = clazz.getName();
+          int i = className.indexOf('$');
+          if (i > 0) {
+            className = className.substring(0, i);
+          }
+
+          if (target.getName().equals(className)) {
+            foundCaller = true;
+            continue stackLoop;
+          }
+          clazz = clazz.getSuperclass();
+        }
+
+        if (foundCaller && !isCaller) {
+          return Optional.of(element.toString());
+        }
+      }
+    } catch (Exception e) {
+      // This should only happen is the caller was not found on the stack (getting exceptions from
+      // the stack trace method should never happen) and it should only be an
+      // IndexOutOfBoundsException, however we don't want _anything_ to be thrown from here.
+      return Optional.empty();
     }
   }
 

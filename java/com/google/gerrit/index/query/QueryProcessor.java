@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.flogger.LazyArg;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
@@ -35,6 +36,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
@@ -204,6 +206,8 @@ public abstract class QueryProcessor<T> {
       return disabledResults(queryStrings, queries);
     }
 
+    logger.atFine().log(
+        "Executing %d %s index queries for %s", cnt, schemaDef.getName(), getCallerAsLazyArg());
     List<QueryResult<T>> out;
     try {
       // Parse and rewrite all queries.
@@ -362,5 +366,9 @@ public abstract class QueryProcessor<T> {
         .filter(c -> c instanceof QueryParseException)
         .map(QueryParseException.class::cast)
         .findFirst();
+  }
+
+  private LazyArg<?> getCallerAsLazyArg() {
+    return TraceContext.findCallerOf(InternalQuery.class, QueryProcessor.class);
   }
 }

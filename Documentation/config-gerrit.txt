@@ -2986,8 +2986,8 @@ Sample Lucene index configuration:
 === Section elasticsearch
 
 WARNING: Support for Elasticsearch is still experimental and is not recommended
-for production use. Support has been tested with Elasticsearch versions 2.4, 5.6,
-6.2 and 6.3. Support for other versions is not guaranteed.
+for production use. For compatibility information, please refer to the
+link:https://www.gerritcodereview.com/elasticsearch.html[project homepage].
 
 When using Elasticsearch versions 2.4 and 5.6, the open and closed changes are
 indexed in a single index, separated into types `open_changes` and `closed_changes`
@@ -3037,6 +3037,7 @@ For further information about Elasticsearch security, please refer to the docume
 * link:https://www.elastic.co/guide/en/x-pack/5.6/security-getting-started.html[Elasticsearch 5.6]
 * link:https://www.elastic.co/guide/en/x-pack/6.2/security-getting-started.html[Elasticsearch 6.2]
 * link:https://www.elastic.co/guide/en/elastic-stack-overview/6.3/security-getting-started.html[Elasticsearch 6.3]
+* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.4/security-getting-started.html[Elasticsearch 6.4]
 
 [[elasticsearch.username]]elasticsearch.username::
 +

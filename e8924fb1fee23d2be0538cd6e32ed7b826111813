@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "286c8f8f_a5b4f6f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-21T02:22:36Z",
+      "side": 1,
+      "message": "It should be explained in the commit message, why this hack is needed and that it\u0027s a temporary solution.",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "e8924fb1fee23d2be0538cd6e32ed7b826111813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1429ee6d_aee26af7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:31:14Z",
+      "side": 1,
+      "message": "I propose not making this dismissible. If it\u0027s not a permanent dismissal, then that might make it even more aggravating than not being dismissible at all. If we were to invest in a little complexity to make the dismissal permanent, then there\u0027s the complication of how to give the user access again.\n\nSince the whole point of the dashboard feature is basically to draw attention to an unresolved matter until the user takes care of it, I propose we only offer the discard action.",
+      "range": {
+        "startLine": 80,
+        "startChar": 42,
+        "endLine": 80,
+        "endChar": 49
+      },
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70b7a114_b9680354",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:31:14Z",
+      "side": 1,
+      "message": "Shouldn\u0027t confirm-on-enter when confirmation means data loss.",
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9eff750_58d94fa4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:31:14Z",
+      "side": 1,
+      "message": "I propose rephrasing \"the\"-\u003e\"all\", and clarifying this only affects closed changes. I would also like to use \"delete\" rather than \"discard\", and add text stressing that there is no undo.",
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2707bc9a_27479ecc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:31:14Z",
+      "side": 1,
+      "message": "There appears to be visible jank unless this property defaults to false.",
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7561f409_ec2e1567",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:31:14Z",
+      "side": 1,
+      "message": "Move this into the existing then callback, alongside the dashboardDisplayed instrumentation.",
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6822d6c1_618225d0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-21T23:31:14Z",
+      "side": 1,
+      "message": "Would be nice to show a toast.",
+      "revId": "3e2d06dc28c15f7b7a2d94fa25c4b8f7e0bc4d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

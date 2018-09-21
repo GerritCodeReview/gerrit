@@ -8,6 +8,8 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//lib:guava",
+        "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",
     ],
 )

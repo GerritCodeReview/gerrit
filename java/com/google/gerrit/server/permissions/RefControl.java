@@ -17,6 +17,7 @@ package com.google.gerrit.server.permissions;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.common.flogger.LazyArg;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -27,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
@@ -381,37 +383,44 @@ class RefControl {
   private boolean canPerform(String permissionName, boolean isChangeOwner, boolean withForce) {
     if (isBlocked(permissionName, isChangeOwner, withForce)) {
       logger.atFine().log(
-          "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s'"
+          "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s' (caller: %s)"
               + " because this permission is blocked",
           getUser().getLoggableName(),
           permissionName,
           withForce,
           projectControl.getProject().getName(),
-          refName);
+          refName,
+          getCallerAsLazyArg());
       return false;
     }
 
     for (PermissionRule pr : relevant.getAllowRules(permissionName)) {
       if (isAllow(pr, withForce) && projectControl.match(pr, isChangeOwner)) {
         logger.atFine().log(
-            "'%s' can perform '%s' with force=%s on project '%s' for ref '%s'",
+            "'%s' can perform '%s' with force=%s on project '%s' for ref '%s' (caller: %s)",
             getUser().getLoggableName(),
             permissionName,
             withForce,
             projectControl.getProject().getName(),
-            refName);
+            refName,
+            getCallerAsLazyArg());
         return true;
       }
     }
 
     logger.atFine().log(
-        "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s'",
+        "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s' (caller: %s)",
         getUser().getLoggableName(),
         permissionName,
         withForce,
         projectControl.getProject().getName(),
-        refName);
+        refName,
+        getCallerAsLazyArg());
     return false;
+  }
+
+  private LazyArg<String> getCallerAsLazyArg() {
+    return TraceContext.findCallerOf(PermissionBackend.class);
   }
 
   private class ForRefImpl extends ForRef {

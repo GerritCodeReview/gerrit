@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8837cbf7_33aa5f74",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-22T19:51:28Z",
+      "side": 1,
+      "message": "Use: value() { return []; }",
+      "revId": "c13cc5e22d27051b969931883eafb3bf4e5760f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57ac7566_0b387cc0",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-22T19:51:28Z",
+      "side": 1,
+      "message": "If property defaults to empty list, then you no longer need this condition.",
+      "revId": "c13cc5e22d27051b969931883eafb3bf4e5760f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1a6b2d3_12b7fb86",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-22T19:51:28Z",
+      "side": 1,
+      "message": "this._fixCustomMenuItem.bind(this)\n\nIt works without the bind only by coincidence, because _fixCustomMenuItem currently doesn\u0027t reference this.\n\nAlternatively: m.items.map(item \u003d\u003e this._fixCustomMenuItem(item))",
+      "range": {
+        "startLine": 190,
+        "startChar": 31,
+        "endLine": 190,
+        "endChar": 54
+      },
+      "revId": "c13cc5e22d27051b969931883eafb3bf4e5760f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eebb36d2_cca402d3",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-22T19:51:28Z",
+      "side": 1,
+      "message": "A good opportunity to fix the binding to this here as well.",
+      "range": {
+        "startLine": 249,
+        "startChar": 25,
+        "endLine": 249,
+        "endChar": 48
+      },
+      "revId": "c13cc5e22d27051b969931883eafb3bf4e5760f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d3f06d6_153e71ab",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-22T19:51:28Z",
+      "side": 1,
+      "message": "bind here also.",
+      "range": {
+        "startLine": 249,
+        "startChar": 57,
+        "endLine": 249,
+        "endChar": 78
+      },
+      "revId": "c13cc5e22d27051b969931883eafb3bf4e5760f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee41eeb3_d8e28923",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-22T19:51:28Z",
+      "side": 1,
+      "message": "bind or \u003d\u003e",
+      "range": {
+        "startLine": 84,
+        "startChar": 12,
+        "endLine": 84,
+        "endChar": 38
+      },
+      "revId": "c13cc5e22d27051b969931883eafb3bf4e5760f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

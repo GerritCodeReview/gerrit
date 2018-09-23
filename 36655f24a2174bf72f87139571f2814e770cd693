@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1536646387 +0200\nnonce ACQ0HpzWz0EOtBRwQNS/iocMlbu1oE40OA/yyWYwvWnUa0ekkZzrRhqn9fSLAZwnvmlG575iORRq\n\n0000000000000000000000000000000000000000 36655f24a2174bf72f87139571f2814e770cd693 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluXXPMACgkQUbX9l6DQ\n71FBwgf/a3pRM6XVIzvhVCd9dT45cPIF4zUW8oht+UGiiWRSg4DRuB3ByrLJEOHo\nP1MXV4fBjJOq4viyh8BrNlw4gAHslx5LW/as+5+dOM0HFnCdQVwfIqq2W8bFGhdN\nxNflmTB8885yHrx/ihfRIdHZYQQh93XyWyWzhUuafvXBu24TzyJ/N5H4p0mAj3uq\nQXi3/gBzrewbmbos23QeCV7yV3QtpvvKXras63UMEjjE1p+K28cuushi7WbMCp3Y\nw+CjymjhQRm8bmwTq7uDKRG27VTgDl0FIHq/DFRoV6uTi2K8H19U7C/i0tytXa2h\nz7ApDlfLhW+SEl7U0PxBi2xwt4Kqig\u003d\u003d\n\u003dU3iN\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c8136c5_7e4e8a60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-23T03:10:27Z",
+      "side": 1,
+      "message": "What criteria are there for deciding whether to use metrics or only tracing?",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 63
+      },
+      "revId": "36655f24a2174bf72f87139571f2814e770cd693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

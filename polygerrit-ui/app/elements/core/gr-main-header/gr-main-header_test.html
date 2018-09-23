@@ -63,12 +63,16 @@ limitations under the License.
           'none');
       assert.notEqual(getComputedStyle(element.$$('.loginButton')).display,
           'none');
+      assert.notEqual(getComputedStyle(element.$$('.registerButton')).display,
+          'none');
       assert.equal(getComputedStyle(element.$$('gr-account-dropdown')).display,
           'none');
       assert.equal(getComputedStyle(element.$$('.settingsButton')).display,
           'none');
       element.loggedIn = true;
       assert.equal(getComputedStyle(element.$$('.loginButton')).display,
+          'none');
+      assert.equal(getComputedStyle(element.$$('.registerButton')).display,
           'none');
       assert.notEqual(getComputedStyle(element.$$('gr-account-dropdown'))
           .display,
@@ -185,6 +189,35 @@ limitations under the License.
           url: 'https://gerrit/plugins/plugin-manager/static/index.html',
         }],
       }]);
+    });
+
+    test('register URL', () => {
+      const config = {
+        auth: {
+          auth_type: 'LDAP',
+          register_url: 'https//gerrit.example.com/register',
+        },
+      };
+      element._retrieveRegisterURL(config);
+      assert.equal(element._registerURL, config.auth.register_url);
+      assert.equal(element._registerText, 'Sign up');
+
+      config.auth.register_text = 'Create account';
+      element._retrieveRegisterURL(config);
+      assert.equal(element._registerURL, config.auth.register_url);
+      assert.equal(element._registerText, config.auth.register_text);
+    });
+
+    test('register URL ignored for wrong auth type', () => {
+      const config = {
+        auth: {
+          auth_type: 'OPENID',
+          register_url: 'https//gerrit.example.com/register',
+        },
+      };
+      element._retrieveRegisterURL(config);
+      assert.equal(element._registerURL, null);
+      assert.equal(element._registerText, 'Sign up');
     });
   });
 </script>

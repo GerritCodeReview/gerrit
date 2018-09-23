@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "35bed45e_2833d9ff",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-23T11:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8837cbf7_33aa5f74",
+      "revId": "c13cc5e22d27051b969931883eafb3bf4e5760f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57ac7566_0b387cc0",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c0e199f2_74d5c0ce",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-23T11:02:23Z",
+      "side": 1,
+      "message": "Done. The result of server/config/top-menus endpoint is assigned to _topMenus, that is passed in here. Even if the value was initialized to empty array, but the request is returning null, this check would be still needed, wouldn\u0027t it? The endpoint implementation is returning empty array and never null, though: [1].\n\n* [1] https://gerrit.googlesource.com/gerrit/+/c13cc5e22d27051b969931883eafb3bf4e5760f2/java/com/google/gerrit/server/restapi/config/ListTopMenus.java#37",
+      "parentUuid": "57ac7566_0b387cc0",
+      "revId": "c13cc5e22d27051b969931883eafb3bf4e5760f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1a6b2d3_12b7fb86",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 7
@@ -47,6 +83,30 @@
       "writtenOn": "2018-09-22T19:51:28Z",
       "side": 1,
       "message": "this._fixCustomMenuItem.bind(this)\n\nIt works without the bind only by coincidence, because _fixCustomMenuItem currently doesn\u0027t reference this.\n\nAlternatively: m.items.map(item \u003d\u003e this._fixCustomMenuItem(item))",
+      "range": {
+        "startLine": 190,
+        "startChar": 31,
+        "endLine": 190,
+        "endChar": 54
+      },
+      "revId": "c13cc5e22d27051b969931883eafb3bf4e5760f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc886051_2f831886",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-23T11:02:23Z",
+      "side": 1,
+      "message": "\u003e this._fixCustomMenuItem.bind(this)\n\u003e \n\u003e It works without the bind only by coincidence, because _fixCustomMenuItem currently doesn\u0027t reference this.\n\nLet me put it differently: bind(this) idiom is not used here and in other places in PG code base, because in those methods this is not used, e.g.:\n\n  $ git grep \u0027\\.map(this\u0027\n  app/elements/change/gr-thread-list/gr-thread-list.js:          threads.map(this._getThreadWithSortInfo).sort((c1, c2) \u003d\u003e {\n\nFunction.prototype.bind() method: [1] creates a new function that, when called, has its this keyword set to the provided value,[...] This overhead to create new function to pass in passed in this value can be avoided here and in other places when no this is actually used in current (and probably future) method implementation. I also consulted Google\u0027s JavaScript Style guides, and I have not find any recommendations that enforce using bind in all cases, even then when this keyword is not used in method implementation. I only found this:\n\n  Prefer using arrow functions over f.bind(this), and especially over goog.bind(f, this). Avoid writing const self \u003d this.\n  Arrow functions are particularly useful for callbacks, which sometimes pass unexpected additional arguments.\n\nOr do you mind that it would be safer to add bind(this) overall where it is not used, because one day, eventually the method could be extended to use this and it will be broken then? Those place should be cleaned in a dedicated commit and not in this change.\n\n* [1] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind\n* [2] https://google.github.io/styleguide/jsguide.html#features-functions-arrow-functions",
+      "parentUuid": "d1a6b2d3_12b7fb86",
       "range": {
         "startLine": 190,
         "startChar": 31,

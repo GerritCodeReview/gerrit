@@ -863,14 +863,14 @@ maven_jar(
 
 maven_jar(
     name = "asciidoctor",
-    artifact = "org.asciidoctor:asciidoctorj:1.5.6",
-    sha1 = "bb757d4b8b0f8438ce2ed781f6688cc6c01d9237",
+    artifact = "org.asciidoctor:asciidoctorj:1.5.7",
+    sha1 = "8e8c1d8fc6144405700dd8df3b177f2801ac5987",
 )
 
 maven_jar(
     name = "jruby",
-    artifact = "org.jruby:jruby-complete:9.1.13.0",
-    sha1 = "8903bf42272062e87a7cbc1d98919e0729a9939f",
+    artifact = "org.jruby:jruby-complete:9.1.17.0",
+    sha1 = "76716d529710fc03d1d429b43e3cedd4419f78d4",
 )
 
 maven_jar(

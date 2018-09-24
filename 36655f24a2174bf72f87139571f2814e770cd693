@@ -23,6 +23,30 @@
       "revId": "36655f24a2174bf72f87139571f2814e770cd693",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f673c523_e096a906",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-24T08:10:21Z",
+      "side": 1,
+      "message": "A metric has more overhead since it\u0027s recorded for all requests and the data is exported to the metric backend.\nWith TraceTimer the time is only logged if a request is traced.\n\nSo it\u0027s for tracing operation which are not important enough for having an own metric.\nThere may also be operations for which average data over all requests is not much useful, e.g. if you would record how long the whole request took, a metric would not be very useful since the recorded requests are way to different so that looking at an average value doesn\u0027t tell you much. However for a concrete request that is traced it is interesting how long the request took.\n\nYeah, not sure if this is enough to justify having the TraceTimer. If we say everything should be metrics I would be also fine with this.",
+      "parentUuid": "0c8136c5_7e4e8a60",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 63
+      },
+      "revId": "36655f24a2174bf72f87139571f2814e770cd693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

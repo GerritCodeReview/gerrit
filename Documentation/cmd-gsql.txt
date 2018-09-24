@@ -1,7 +1,7 @@
 = gerrit gsql
 
 == NAME
-gerrit gsql - Administrative interface to active database
+gerrit gsql - Administrative interface to active database.
 
 == SYNOPSIS
 [verse]
@@ -42,18 +42,18 @@ JSON_SINGLE.
 To manually correct a user's SSH user name:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit gsql
-	Welcome to Gerrit Code Review v2.0.25
-	(PostgreSQL 8.3.8)
+$ ssh -p 29418 review.example.com gerrit gsql
+Welcome to Gerrit Code Review v2.0.25
+(PostgreSQL 8.3.8)
 
-	Type '\h' for help.  Type '\r' to clear the buffer.
+Type '\h' for help.  Type '\r' to clear the buffer.
 
-	gerrit> update accounts set ssh_user_name = 'alice' where account_id=1;
-	UPDATE 1; 1 ms
-	gerrit> \q
-	Bye
+gerrit> update accounts set ssh_user_name = 'alice' where account_id=1;
+UPDATE 1; 1 ms
+gerrit> \q
+Bye
 
-	$ ssh -p 29418 review.example.com gerrit flush-caches --cache sshkeys --cache accounts
+$ ssh -p 29418 review.example.com gerrit flush-caches --cache sshkeys --cache accounts
 ----
 
 GERRIT

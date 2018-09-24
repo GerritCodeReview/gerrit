@@ -22,6 +22,30 @@
       "revId": "879d8120aa726f001b1d71359365ddacc59b9989",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e989a02_0dff3e57",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-09-24T15:51:27Z",
+      "side": 1,
+      "message": "You mean org.elasticsearch.client.RestClient.performRequest(Request) ? or better org.elasticsearch.client.RestClient.buildUri(String, String, Map\u003cString, String\u003e)?\nIt was way easier to fix it here but I am open for better suggestions :)",
+      "parentUuid": "bc9b7e0d_cf1047ce",
+      "range": {
+        "startLine": 151,
+        "startChar": 52,
+        "endLine": 151,
+        "endChar": 72
+      },
+      "revId": "879d8120aa726f001b1d71359365ddacc59b9989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

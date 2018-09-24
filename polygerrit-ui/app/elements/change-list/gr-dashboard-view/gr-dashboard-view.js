@@ -51,6 +51,11 @@
         type: Boolean,
         value: true,
       },
+
+      _showDraftsBanner: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     observers: [
@@ -153,6 +158,7 @@
 
       return dashboardPromise.then(this._fetchDashboardChanges.bind(this))
           .then(() => {
+            this._maybeShowDraftsBanner();
             this.$.reporting.dashboardDisplayed();
           }).catch(err => {
             console.warn(err);
@@ -198,6 +204,45 @@
     _handleToggleReviewed(e) {
       this.$.restAPI.saveChangeReviewed(e.detail.change._number,
           e.detail.reviewed);
+    },
+
+    /**
+     * Banner is shown if a user is on their own dashboard and they have draft
+     * comments on closed changes.
+     */
+    _maybeShowDraftsBanner() {
+      this._showDraftsBanner = false;
+      if (!(this.params.user === 'self')) { return; }
+
+      const draftSection = this._results
+          .find(section => section.query === 'has:draft');
+      if (!draftSection || !draftSection.results.length) { return; }
+
+      const closedChanges = draftSection.results
+          .filter(change => !this.changeIsOpen(change.status));
+      if (!closedChanges.length) { return; }
+
+      this._showDraftsBanner = true;
+    },
+
+    _computeBannerClass(show) {
+      return show ? '' : 'hide';
+    },
+
+    _handleOpenDeleteDialog() {
+      this.$.confirmDeleteOverlay.open();
+    },
+
+    _handleConfirmDelete() {
+      this.$.confirmDeleteDialog.disabled = true;
+      return this.$.restAPI.deleteDraftComments('-is:open').then(() => {
+        this._closeConfirmDeleteOverlay();
+        this._reload();
+      });
+    },
+
+    _closeConfirmDeleteOverlay() {
+      this.$.confirmDeleteOverlay.close();
     },
   });
 })();

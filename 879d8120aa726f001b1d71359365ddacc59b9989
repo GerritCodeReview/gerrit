@@ -46,6 +46,47 @@
       "revId": "879d8120aa726f001b1d71359365ddacc59b9989",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63f4125b_e3dcd7ad",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-24T23:20:39Z",
+      "side": 1,
+      "message": "We can probably factor out another version of:\n\n  private Response performRequest(...\n\nthat does the prefixing.",
+      "parentUuid": "6e989a02_0dff3e57",
+      "range": {
+        "startLine": 151,
+        "startChar": 52,
+        "endLine": 151,
+        "endChar": 72
+      },
+      "revId": "879d8120aa726f001b1d71359365ddacc59b9989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68ebfa14_ab6ee6f7",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticIndexVersionDiscovery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-24T23:20:39Z",
+      "side": 1,
+      "message": "Is it needed here?  Per the commit message this was working as expected.\n\nOptional: Could move this into getVersionDiscoveryUrl",
+      "revId": "879d8120aa726f001b1d71359365ddacc59b9989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

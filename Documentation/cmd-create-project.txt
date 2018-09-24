@@ -1,7 +1,7 @@
 = gerrit create-project
 
 == NAME
-gerrit create-project - Create a new hosted project
+gerrit create-project - Create a new hosted project.
 
 == SYNOPSIS
 [verse]
@@ -61,15 +61,15 @@ This command is intended to be used in scripts.
 --owner::
 -o::
 	Identifier of the group(s) which will initially own this repository.
-
-        This can be:
-
-        * the UUID of the group
-        * the legacy numeric ID of the group
-        * the name of the group if it is unique
-
-	The specified group(s) must already be defined within Gerrit.
-	Several groups can be specified on the command line.
++
+This can be:
++
+* the UUID of the group
+* the legacy numeric ID of the group
+* the name of the group if it is unique
++
+The specified group(s) must already be defined within Gerrit.
+Several groups can be specified on the command line.
 +
 Defaults to what is specified by `repository.*.ownerGroup`
 in gerrit.config.
@@ -180,13 +180,13 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 Create a new project called `tools/gerrit`:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit create-project tools/gerrit.git
+$ ssh -p 29418 review.example.com gerrit create-project tools/gerrit.git
 ----
 
 Create a new project with a description:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit create-project tool.git --description "'Tools used by build system'"
+$ ssh -p 29418 review.example.com gerrit create-project tool.git --description "'Tools used by build system'"
 ----
 
 Note that it is necessary to quote the description twice.  The local
@@ -199,7 +199,7 @@ If the replication plugin is installed, the plugin will attempt to
 perform remote repository creation by a Bourne shell script:
 
 ----
-  mkdir -p '/base/project.git' && cd '/base/project.git' && git init --bare && git update-ref HEAD refs/heads/master
+mkdir -p '/base/project.git' && cd '/base/project.git' && git init --bare && git update-ref HEAD refs/heads/master
 ----
 
 For this to work successfully the remote system must be able to run

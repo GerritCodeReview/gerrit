@@ -17,7 +17,7 @@ package com.google.gerrit.elasticsearch;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
-
+import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.CharStreams;
@@ -147,10 +147,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   public void deleteAll() throws IOException {
     // Delete the index, if it exists.
     String endpoint = indexName + client.adapter().indicesExistParam();
-    Response response = client.get().performRequest(new Request("HEAD", endpoint));
+    Response response = client.get().performRequest(uriPrefixedWithSlash("HEAD", endpoint));
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode == HttpStatus.SC_OK) {
-      response = client.get().performRequest(new Request("DELETE", indexName));
+      response = client.get().performRequest(uriPrefixedWithSlash("DELETE", indexName));
       statusCode = response.getStatusLine().getStatusCode();
       if (statusCode != HttpStatus.SC_OK) {
         throw new IOException(
@@ -239,12 +239,19 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   private Response performRequest(
       String method, Object payload, String uri, Map<String, String> params) throws IOException {
-    Request request = new Request(method, uri);
+    Request request = uriPrefixedWithSlash(method, uri);
     String payloadStr = payload instanceof String ? (String) payload : payload.toString();
     request.setEntity(new NStringEntity(payloadStr, ContentType.APPLICATION_JSON));
     for (Map.Entry<String, String> entry : params.entrySet()) {
       request.addParameter(entry.getKey(), entry.getValue());
     }
     return client.get().performRequest(request);
+  }
+
+  static protected Request uriPrefixedWithSlash(String method, String uri) {
+    if (Strings.isNullOrEmpty(uri) || uri.startsWith("/")) {
+      return new Request(method, uri);
+    }
+    return new Request(method, "/" + uri);
   }
 }

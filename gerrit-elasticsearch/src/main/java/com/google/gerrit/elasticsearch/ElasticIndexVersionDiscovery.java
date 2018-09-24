@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import static java.util.stream.Collectors.toList;
+import static com.google.gerrit.elasticsearch.AbstractElasticIndex.uriPrefixedWithSlash;
 
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
@@ -41,7 +42,7 @@ class ElasticIndexVersionDiscovery {
 
   List<String> discover(String prefix, String indexName) throws IOException {
     String name = prefix + indexName + "_";
-    Request request = new Request("GET", client.adapter().getVersionDiscoveryUrl(name));
+    Request request = uriPrefixedWithSlash("GET", client.adapter().getVersionDiscoveryUrl(name));
     Response response = client.get().performRequest(request);
 
     StatusLine statusLine = response.getStatusLine();

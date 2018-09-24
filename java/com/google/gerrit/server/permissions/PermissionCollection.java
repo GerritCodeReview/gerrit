@@ -26,6 +26,10 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -54,10 +58,18 @@ public class PermissionCollection {
   @Singleton
   public static class Factory {
     private final SectionSortCache sorter;
+    // TODO(hiesel): Remove this once we got production data
+    private final Timer0 filterLatency;
 
     @Inject
-    Factory(SectionSortCache sorter) {
+    Factory(SectionSortCache sorter, MetricMaker metricMaker) {
       this.sorter = sorter;
+      this.filterLatency =
+          metricMaker.newTimer(
+              "permissions/permission_collection/filter_latency",
+              new Description("Latency for access filter computations in PermissionCollection")
+                  .setCumulative()
+                  .setUnit(Units.NANOSECONDS));
     }
 
     /**
@@ -117,41 +129,43 @@ public class PermissionCollection {
      */
     PermissionCollection filter(
         Iterable<SectionMatcher> matcherList, String ref, CurrentUser user) {
-      if (isRE(ref)) {
-        ref = RefPattern.shortestExample(ref);
-      } else if (ref.endsWith("/*")) {
-        ref = ref.substring(0, ref.length() - 1);
+      try (Timer0.Context ignored = filterLatency.start()) {
+        if (isRE(ref)) {
+          ref = RefPattern.shortestExample(ref);
+        } else if (ref.endsWith("/*")) {
+          ref = ref.substring(0, ref.length() - 1);
+        }
+
+        // LinkedHashMap to maintain input ordering.
+        Map<AccessSection, Project.NameKey> sectionToProject = new LinkedHashMap<>();
+        boolean perUser = filterRefMatchingSections(matcherList, ref, user, sectionToProject);
+        List<AccessSection> sections = Lists.newArrayList(sectionToProject.keySet());
+
+        // Sort by ref pattern specificity. For equally specific patterns, the sections from the
+        // project closer to the current one come first.
+        sorter.sort(ref, sections);
+
+        // For block permissions, we want a different order: first, we want to go from parent to
+        // child.
+        List<Map.Entry<AccessSection, Project.NameKey>> accessDescending =
+            Lists.reverse(Lists.newArrayList(sectionToProject.entrySet()));
+
+        Map<Project.NameKey, List<AccessSection>> accessByProject =
+            accessDescending
+                .stream()
+                .collect(
+                    Collectors.groupingBy(
+                        Map.Entry::getValue,
+                        LinkedHashMap::new,
+                        mapping(Map.Entry::getKey, toList())));
+        // Within each project, sort by ref specificity.
+        for (List<AccessSection> secs : accessByProject.values()) {
+          sorter.sort(ref, secs);
+        }
+
+        return new PermissionCollection(
+            Lists.newArrayList(accessByProject.values()), sections, perUser);
       }
-
-      // LinkedHashMap to maintain input ordering.
-      Map<AccessSection, Project.NameKey> sectionToProject = new LinkedHashMap<>();
-      boolean perUser = filterRefMatchingSections(matcherList, ref, user, sectionToProject);
-      List<AccessSection> sections = Lists.newArrayList(sectionToProject.keySet());
-
-      // Sort by ref pattern specificity. For equally specific patterns, the sections from the
-      // project closer to the current one come first.
-      sorter.sort(ref, sections);
-
-      // For block permissions, we want a different order: first, we want to go from parent to
-      // child.
-      List<Map.Entry<AccessSection, Project.NameKey>> accessDescending =
-          Lists.reverse(Lists.newArrayList(sectionToProject.entrySet()));
-
-      Map<Project.NameKey, List<AccessSection>> accessByProject =
-          accessDescending
-              .stream()
-              .collect(
-                  Collectors.groupingBy(
-                      Map.Entry::getValue,
-                      LinkedHashMap::new,
-                      mapping(Map.Entry::getKey, toList())));
-      // Within each project, sort by ref specificity.
-      for (List<AccessSection> secs : accessByProject.values()) {
-        sorter.sort(ref, secs);
-      }
-
-      return new PermissionCollection(
-          Lists.newArrayList(accessByProject.values()), sections, perUser);
     }
   }
 

@@ -36,6 +36,11 @@ import com.google.gerrit.extensions.api.projects.ThemeInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.index.project.ProjectData;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -92,6 +97,9 @@ public class ProjectState {
   private final long globalMaxObjectSizeLimit;
   private final boolean inheritProjectMaxObjectSizeLimit;
 
+  // TODO(hiesel): Remove this once we got production data
+  private final Timer1<String> computationLatency;
+
   /** Last system time the configuration's revision was examined. */
   private volatile long lastCheckGeneration;
 
@@ -119,6 +127,7 @@ public class ProjectState {
       List<CommentLinkInfo> commentLinks,
       CapabilityCollection.Factory limitsFactory,
       TransferConfig transferConfig,
+      MetricMaker metricMaker,
       @Assisted ProjectConfig config) {
     this.sitePaths = sitePaths;
     this.projectCache = projectCache;
@@ -135,6 +144,14 @@ public class ProjectState {
             : null;
     this.globalMaxObjectSizeLimit = transferConfig.getMaxObjectSizeLimit();
     this.inheritProjectMaxObjectSizeLimit = transferConfig.getInheritProjectMaxObjectSizeLimit();
+
+    this.computationLatency =
+        metricMaker.newTimer(
+            "permissions/project_state/computation_latency",
+            new Description("Latency for access computations in ProjectState")
+                .setCumulative()
+                .setUnit(Units.NANOSECONDS),
+            Field.ofString("method"));
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
@@ -354,15 +371,20 @@ public class ProjectState {
    * cached. Callers should try to cache this result per-request as much as possible.
    */
   public List<SectionMatcher> getAllSections() {
-    if (isAllProjects) {
-      return getLocalAccessSections();
-    }
+    try (Timer1.Context ignored = computationLatency.start("getAllSections")) {
+      if (isAllProjects) {
+        return getLocalAccessSections();
+      }
 
-    List<SectionMatcher> all = new ArrayList<>();
-    for (ProjectState s : tree()) {
-      all.addAll(s.getLocalAccessSections());
+      List<SectionMatcher> all = new ArrayList<>();
+      Iterable<ProjectState> tree = tree();
+      try (Timer1.Context ignored2 = computationLatency.start("getAllSections-parsing-only")) {
+        for (ProjectState s : tree) {
+          all.addAll(s.getLocalAccessSections());
+        }
+      }
+      return all;
     }
-    return all;
   }
 
   /**

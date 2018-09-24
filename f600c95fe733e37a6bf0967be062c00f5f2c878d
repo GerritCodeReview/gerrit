@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fee2a3c6_db222370",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-24T18:34:41Z",
+      "side": 1,
+      "message": "No longer applicable.",
+      "parentUuid": "1252ad68_f644dd2d",
+      "revId": "f600c95fe733e37a6bf0967be062c00f5f2c878d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "581be492_7989978f",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "f600c95fe733e37a6bf0967be062c00f5f2c878d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8db2493c_f3a5ab43",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-24T18:34:41Z",
+      "side": 1,
+      "message": "Reverted the added workflow complexity.",
+      "parentUuid": "581be492_7989978f",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 5
+      },
+      "revId": "f600c95fe733e37a6bf0967be062c00f5f2c878d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82bae88b_7a659406",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-24T18:34:41Z",
+      "side": 1,
+      "message": "Note: if this RPC fails the UI will be left in a stuck state, but I think the user will see an error toast, at least.",
+      "revId": "803cbd29c3590441c69666b1ebae0d75880295fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

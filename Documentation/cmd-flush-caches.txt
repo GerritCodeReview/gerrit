@@ -1,7 +1,7 @@
 = gerrit flush-caches
 
 == NAME
-gerrit flush-caches - Flush some/all server caches from memory
+gerrit flush-caches - Flush some/all server caches from memory.
 
 == SYNOPSIS
 [verse]
@@ -58,40 +58,40 @@ This command is intended to be used in scripts.
 List caches available for flushing:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit flush-caches --list
-	accounts
-	diff
-	groups
-	ldap_groups
-	openid
-	projects
-	sshkeys
-	web_sessions
+$ ssh -p 29418 review.example.com gerrit flush-caches --list
+accounts
+diff
+groups
+ldap_groups
+openid
+projects
+sshkeys
+web_sessions
 ----
 
 Flush all caches known to the server, forcing them to recompute:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit flush-caches --all
+$ ssh -p 29418 review.example.com gerrit flush-caches --all
 ----
 
 or
 
 ----
-	$ ssh -p 29418 review.example.com gerrit flush-caches
+$ ssh -p 29418 review.example.com gerrit flush-caches
 ----
 
 Flush only the "sshkeys" cache, after manually editing an SSH key
 for a user:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit flush-caches --cache sshkeys
+$ ssh -p 29418 review.example.com gerrit flush-caches --cache sshkeys
 ----
 
 Flush "web_sessions", forcing all users to sign-in again:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit flush-caches --cache web_sessions
+$ ssh -p 29418 review.example.com gerrit flush-caches --cache web_sessions
 ----
 
 == SEE ALSO

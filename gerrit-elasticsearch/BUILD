@@ -7,6 +7,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-antlr:query_exception",
+        "//gerrit-common:annotations",
         "//gerrit-extension-api:api",
         "//gerrit-reviewdb:server",
         "//gerrit-server:server",

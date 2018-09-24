@@ -1583,15 +1583,18 @@ Labels use the same mechanism, with the following observations:
 * The 'force' setting has no effect on label ranges.
 
 * BLOCK specifies the values that a group cannot vote, eg.
++
 ----
   label-Code-Review = block -2..+2 group Anonymous Users
 ----
++
 prevents all users from voting -2 or +2.
 
 * DENY works for votes too, with the same caveats
 
 * The blocked vote range is the union of the all the blocked vote
 ranges across projects, so in
++
 ----
 All-Projects: project.config
      label-Code-Review = block -2..+1 group A
@@ -1599,15 +1602,18 @@ All-Projects: project.config
 Child-Project: project-config
      label-Code-Review = block -1..+2 group A
 ----
++
 members of group A cannot vote at all in the Child-Project.
 
 
 * The allowed vote range is the union of vote ranges allowed by all of
 the ALLOW rules. For example, in
++
 ----
      label-Code-Review = -2..+1 group A
      label-Code-Review = -1..+2 group B
 ----
++
 a user that is both in A and B can vote -2..2.
 
 

@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -393,6 +394,26 @@ public class ProjectIT extends AbstractDaemonTest {
       // ACTIVE is represented as null in the API
       assertThat(gApi.projects().name(project.get()).config().state).isNull();
     }
+  }
+
+  @Test
+  public void nonActiveProjectCanBeMadeActiveByHostAdmin() throws Exception {
+    // ACTIVE => HIDDEN
+    ConfigInput ci1 = new ConfigInput();
+    ci1.state = ProjectState.HIDDEN;
+    gApi.projects().name(project.get()).config(ci1);
+    assertThat(gApi.projects().name(project.get()).config().state).isEqualTo(ProjectState.HIDDEN);
+
+    // Revoke OWNER permission for admin and block them from reading the project's refs
+    block(project, RefNames.REFS + "*", Permission.OWNER, SystemGroupBackend.REGISTERED_USERS);
+    block(project, RefNames.REFS + "*", Permission.READ, SystemGroupBackend.REGISTERED_USERS);
+
+    // HIDDEN => ACTIVE
+    ConfigInput ci2 = new ConfigInput();
+    ci2.state = ProjectState.ACTIVE;
+    gApi.projects().name(project.get()).config(ci2);
+    // ACTIVE is represented as null in the API
+    assertThat(gApi.projects().name(project.get()).config().state).isNull();
   }
 
   @Test

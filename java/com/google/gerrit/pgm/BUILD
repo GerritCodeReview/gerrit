@@ -43,6 +43,7 @@ java_library(
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
+        "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gerrit/util/http",
         "//lib:args4j",

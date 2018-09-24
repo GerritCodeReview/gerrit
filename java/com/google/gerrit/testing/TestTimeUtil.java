@@ -17,7 +17,7 @@ package com.google.gerrit.testing;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.server.util.time.TimeUtil;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -51,7 +51,7 @@ public class TestTimeUtil {
   }
 
   /**
-   * Set the clock step used by {@link com.google.gerrit.common.TimeUtil}.
+   * Set the clock step used by {@link com.google.gerrit.server.util.time.TimeUtil}.
    *
    * @param clockStep amount to increment clock by on each lookup.
    * @param clockStepUnit time unit for {@code clockStep}.

@@ -16,7 +16,6 @@ package com.google.gerrit.sshd;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -29,6 +28,7 @@ import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.util.SystemLog;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

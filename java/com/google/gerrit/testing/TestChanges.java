@@ -17,7 +17,6 @@ package com.google.gerrit.testing;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.common.collect.Ordering;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -32,6 +31,7 @@ import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Injector;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;

@@ -43,6 +43,7 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -204,6 +205,7 @@ public class RefControlTest {
   @Inject private ThreadLocalRequestContext requestContext;
   @Inject private DefaultRefFilter.Factory refFilterFactory;
   @Inject private TransferConfig transferConfig;
+  @Inject private MetricMaker metricMaker;
 
   @Before
   public void setUp() throws Exception {
@@ -291,7 +293,7 @@ public class RefControlTest {
 
     Cache<SectionSortCache.EntryKey, SectionSortCache.EntryVal> c =
         CacheBuilder.newBuilder().build();
-    sectionSorter = new PermissionCollection.Factory(new SectionSortCache(c));
+    sectionSorter = new PermissionCollection.Factory(new SectionSortCache(c), metricMaker);
 
     parent = new ProjectConfig(parentKey);
     parent.load(newRepository(parentKey));
@@ -972,6 +974,7 @@ public class RefControlTest {
             commentLinks,
             capabilityCollectionFactory,
             transferConfig,
+            metricMaker,
             pc));
     return repo;
   }

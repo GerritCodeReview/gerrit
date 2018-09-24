@@ -69,7 +69,7 @@ Create a new batch/role access user account called `watcher` in
 the 'Non-Interactive Users' group.
 
 ----
-	$ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit create-account --group "'Non-Interactive Users'" --ssh-key - watcher
+$ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit create-account --group "'Non-Interactive Users'" --ssh-key - watcher
 ----
 
 GERRIT

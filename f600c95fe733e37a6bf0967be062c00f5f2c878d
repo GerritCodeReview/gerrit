@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "581be492_7989978f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-24T17:19:30Z",
+      "side": 1,
+      "message": "I think this is a bit overengineered, and the UX is pretty clunky (click \u003d\u003e read dialog, another click \u003d\u003e read dialog, yet another click). Here\u0027s what I propose:\n\n- Remove the summary dialog, and do not toast. Just await the response, like I had in PS1\n- Better describe the deletion of comments in the confirm dialog. Maybe we should create a list with hyperlinked change nums of all affected changes (links open in a new tab), allowing the user to navigate to each change and confirm that they want to lose that data if they choose.\n\nAgain, we really shouldn\u0027t be overthinking this, as it\u0027s a flow that users will likely only go through once ever.",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 5
+      },
+      "revId": "f600c95fe733e37a6bf0967be062c00f5f2c878d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eaffa3bd_f8e698c2",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.html",
         "patchSetId": 2

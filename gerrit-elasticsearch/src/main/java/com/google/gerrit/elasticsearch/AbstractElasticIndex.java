@@ -21,6 +21,7 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.CharStreams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
@@ -40,7 +41,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,7 +135,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   @Override
   public void delete(K id) throws IOException {
     String uri = getURI(type, BULK);
-    Response response = postRequest(getDeleteActions(id), uri, getRefreshParam());
+    Response response = postRequest(uri, getDeleteActions(id), getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
@@ -147,10 +147,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   public void deleteAll() throws IOException {
     // Delete the index, if it exists.
     String endpoint = indexName + client.adapter().indicesExistParam();
-    Response response = client.get().performRequest(new Request("HEAD", endpoint));
+    Response response = performRequest("HEAD", endpoint);
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode == HttpStatus.SC_OK) {
-      response = client.get().performRequest(new Request("DELETE", indexName));
+      response = performRequest("DELETE", indexName);
       statusCode = response.getStatusLine().getStatusCode();
       if (statusCode != HttpStatus.SC_OK) {
         throw new IOException(
@@ -160,7 +160,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
     // Recreate the index.
     String indexCreationFields = concatJsonString(getSettings(), getMappings());
-    response = performRequest("PUT", indexCreationFields, indexName, Collections.emptyMap());
+    response = performRequest("PUT", indexName, indexCreationFields);
     statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       String error = String.format("Failed to create index %s: %s", indexName, statusCode);
@@ -228,22 +228,40 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return encodedIndexName + "/" + encodedType + "/" + request;
   }
 
-  protected Response postRequest(Object payload, String uri, Map<String, String> params)
+  protected Response postRequest(String uri, Object payload) throws IOException {
+    return performRequest("POST", uri, payload, null);
+  }
+
+  protected Response postRequest(String uri, Object payload, Map<String, String> params)
       throws IOException {
-    return performRequest("POST", payload, uri, params);
+    return performRequest("POST", uri, payload, params);
   }
 
   private String concatJsonString(String target, String addition) {
     return target.substring(0, target.length() - 1) + "," + addition.substring(1);
   }
 
+  private Response performRequest(String method, String uri) throws IOException {
+    return performRequest(method, uri, null, null);
+  }
+
+  private Response performRequest(String method, String uri, @Nullable Object payload)
+      throws IOException {
+    return performRequest(method, uri, payload, null);
+  }
+
   private Response performRequest(
-      String method, Object payload, String uri, Map<String, String> params) throws IOException {
+      String method, String uri, @Nullable Object payload, @Nullable Map<String, String> params)
+      throws IOException {
     Request request = new Request(method, uri);
-    String payloadStr = payload instanceof String ? (String) payload : payload.toString();
-    request.setEntity(new NStringEntity(payloadStr, ContentType.APPLICATION_JSON));
-    for (Map.Entry<String, String> entry : params.entrySet()) {
-      request.addParameter(entry.getKey(), entry.getValue());
+    if (payload != null) {
+      String payloadStr = payload instanceof String ? (String) payload : payload.toString();
+      request.setEntity(new NStringEntity(payloadStr, ContentType.APPLICATION_JSON));
+    }
+    if (params != null) {
+      for (Map.Entry<String, String> entry : params.entrySet()) {
+        request.addParameter(entry.getKey(), entry.getValue());
+      }
     }
     return client.get().performRequest(request);
   }

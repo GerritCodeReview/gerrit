@@ -90,7 +90,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
             .add(new UpdateRequest<>(schema, group));
 
     String uri = getURI(type, BULK);
-    Response response = postRequest(bulk, uri, getRefreshParam());
+    Response response = postRequest(uri, bulk, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
@@ -149,7 +149,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
       try {
         List<AccountGroup> results = Collections.emptyList();
         String uri = getURI(type, SEARCH);
-        Response response = postRequest(search, uri, Collections.emptyMap());
+        Response response = postRequest(uri, search);
         StatusLine statusLine = response.getStatusLine();
         if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
           String content = getContent(response);

@@ -20,24 +20,24 @@ After the hook has been installed in the user's local Git repository
 for a project, the hook will modify a commit message such as:
 
 ----
-  Improve foo widget by attaching a bar.
+Improve foo widget by attaching a bar.
 
-  We want a bar, because it improves the foo by providing more
-  wizbangery to the dowhatimeanery.
+We want a bar, because it improves the foo by providing more
+wizbangery to the dowhatimeanery.
 
-  Signed-off-by: A. U. Thor <author@example.com>
+Signed-off-by: A. U. Thor <author@example.com>
 ----
 
 by inserting a new `Change-Id: ` line in the footer:
 
 ----
-  Improve foo widget by attaching a bar.
+Improve foo widget by attaching a bar.
 
-  We want a bar, because it improves the foo by providing more
-  wizbangery to the dowhatimeanery.
+We want a bar, because it improves the foo by providing more
+wizbangery to the dowhatimeanery.
 
-  Change-Id: Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
-  Signed-off-by: A. U. Thor <author@example.com>
+Change-Id: Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
+Signed-off-by: A. U. Thor <author@example.com>
 ----
 
 The hook implementation is reasonably intelligent at inserting the
@@ -57,31 +57,29 @@ to `false` in the git config.
 
 == OBTAINING
 
-
 To obtain the `commit-msg` script use `scp`, `wget` or `curl` to download
 it to your local system from your Gerrit server.
 
 You can use either of the below commands:
 
 ----
-  $ scp -p -P 29418 <your username>@<your Gerrit review server>:hooks/commit-msg <local path to your git>/.git/hooks/
+$ scp -p -P 29418 <your username>@<your Gerrit review server>:hooks/commit-msg <local path to your git>/.git/hooks/
 
-  $ curl -Lo <local path to your git>/.git/hooks/commit-msg <your Gerrit http URL>/tools/hooks/commit-msg
+$ curl -Lo <local path to your git>/.git/hooks/commit-msg <your Gerrit http URL>/tools/hooks/commit-msg
 ----
 
 A specific example of this might look something like this:
 
-.Example
 ----
-  $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg ~/duhproject/.git/hooks/
+$ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg ~/duhproject/.git/hooks/
 
-  $ curl -Lo ~/duhproject/.git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
+$ curl -Lo ~/duhproject/.git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
 ----
 
 Make sure the hook file is executable:
 
 ----
-  $ chmod u+x ~/duhproject/.git/hooks/commit-msg
+$ chmod u+x ~/duhproject/.git/hooks/commit-msg
 ----
 
 == SEE ALSO

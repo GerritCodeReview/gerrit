@@ -68,14 +68,14 @@ Create a new account group called `gerritdev` with two initial members
 `developer1` and `developer2`.  The group should be owned by itself:
 
 ----
-	$ ssh -p 29418 user@review.example.com gerrit create-group --member developer1 --member developer2 gerritdev
+$ ssh -p 29418 user@review.example.com gerrit create-group --member developer1 --member developer2 gerritdev
 ----
 
 Create a new account group called `Foo` owned by the `Foo-admin` group.
 Put `developer1` as the initial member and include group description:
 
 ----
-	$ ssh -p 29418 user@review.example.com gerrit create-group --owner Foo-admin --member developer1 --description "'Foo description'" Foo
+$ ssh -p 29418 user@review.example.com gerrit create-group --owner Foo-admin --member developer1 --description "'Foo description'" Foo
 ----
 
 Note that it is necessary to quote the description twice.  The local

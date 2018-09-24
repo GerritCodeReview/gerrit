@@ -57,6 +57,7 @@ limitations under the License.
 
 <script>
   suite('gr-diff-builder tests', () => {
+    let prefs;
     let element;
     let builder;
     let createThreadGroupFn;
@@ -70,7 +71,7 @@ limitations under the License.
         getLoggedIn() { return Promise.resolve(false); },
         getProjectConfig() { return Promise.resolve({}); },
       });
-      const prefs = {
+      prefs = {
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
@@ -84,8 +85,7 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
-    test('_getThreads', () => {
-      const patchForNewThreads = 3;
+    test('_createThreads', () => {
       const comments = [
         {
           id: 'sallys_confession',
@@ -108,7 +108,7 @@ limitations under the License.
         },
       ];
 
-      let expectedThreadGroups = [
+      const expectedThreadGroups = [
         {
           start_datetime: '2015-12-23 15:00:20.396000000',
           commentSide: 'left',
@@ -124,8 +124,8 @@ limitations under the License.
             __commentSide: 'left',
             in_reply_to: 'sallys_confession',
           }],
+          patchNum: undefined,
           rootId: 'sallys_confession',
-          patchNum: 3,
         },
         {
           start_datetime: '2015-12-20 15:01:20.396000000',
@@ -139,17 +139,18 @@ limitations under the License.
               updated: '2015-12-20 15:01:20.396000000',
             },
           ],
+          patchNum: undefined,
           rootId: 'new_draft',
-          patchNum: 3,
         },
       ];
 
       assert.deepEqual(
-          builder._getThreads(comments, patchForNewThreads),
+          builder._createThreads(comments),
           expectedThreadGroups);
+    });
 
-      // Patch num should get inherited from comment rather
-      comments.push({
+    test('_createThreads inherits patchNum amd range', () => {
+      const comments = [{
         id: 'betsys_confession',
         message: 'i like you, jack',
         updated: '2015-12-24 15:00:10.396000000',
@@ -159,28 +160,11 @@ limitations under the License.
           end_line: 1,
           end_character: 2,
         },
+        patch_set: 5,
         __commentSide: 'left',
-      });
+      }];
 
       expectedThreadGroups = [
-        {
-          start_datetime: '2015-12-23 15:00:20.396000000',
-          commentSide: 'left',
-          comments: [{
-            id: 'sallys_confession',
-            message: 'i like you, jack',
-            updated: '2015-12-23 15:00:20.396000000',
-            __commentSide: 'left',
-          }, {
-            id: 'jacks_reply',
-            in_reply_to: 'sallys_confession',
-            message: 'i like you, too',
-            updated: '2015-12-24 15:01:20.396000000',
-            __commentSide: 'left',
-          }],
-          patchNum: 3,
-          rootId: 'sallys_confession',
-        },
         {
           start_datetime: '2015-12-24 15:00:10.396000000',
           commentSide: 'left',
@@ -194,9 +178,10 @@ limitations under the License.
               end_line: 1,
               end_character: 2,
             },
+            patch_set: 5,
             __commentSide: 'left',
           }],
-          patchNum: 3,
+          patchNum: 5,
           rootId: 'betsys_confession',
           range: {
             start_line: 1,
@@ -205,25 +190,10 @@ limitations under the License.
             end_character: 2,
           },
         },
-        {
-          start_datetime: '2015-12-20 15:01:20.396000000',
-          commentSide: 'left',
-          comments: [
-            {
-              id: 'new_draft',
-              message: 'i do not like either of you',
-              __commentSide: 'left',
-              __draft: true,
-              updated: '2015-12-20 15:01:20.396000000',
-            },
-          ],
-          rootId: 'new_draft',
-          patchNum: 3,
-        },
       ];
 
       assert.deepEqual(
-          builder._getThreads(comments, patchForNewThreads),
+          builder._createThreads(comments),
           expectedThreadGroups);
     });
 
@@ -241,7 +211,7 @@ limitations under the License.
           __commentSide: 'left',
         },
       ];
-      assert.equal(builder._getThreads(comments, '3').length, 2);
+      assert.equal(builder._createThreads(comments).length, 2);
     });
 
     test('_createElement classStr applies all classes', () => {
@@ -417,37 +387,53 @@ limitations under the License.
       }
     });
 
-    test('comments', () => {
+    test('_filterThreadsForLine with no threads', () => {
       const line = new GrDiffLine(GrDiffLine.Type.BOTH);
       line.beforeNumber = 3;
       line.afterNumber = 5;
 
-      let comments = {left: [], right: []};
-      assert.deepEqual(builder._getCommentsForLine(comments, line), []);
-      assert.deepEqual(builder._getCommentsForLine(comments, line,
+      const threads = [];
+      assert.deepEqual(
+          builder._filterThreadsForLine(threads, line), []);
+      assert.deepEqual(builder._filterThreadsForLine(threads, line,
           GrDiffBuilder.Side.LEFT), []);
-      assert.deepEqual(builder._getCommentsForLine(comments, line,
+      assert.deepEqual(builder._filterThreadsForLine(threads, line,
           GrDiffBuilder.Side.RIGHT), []);
+    });
 
-      comments = {
-        left: [
-          {id: 'l3', line: 3},
-          {id: 'l5', line: 5},
-        ],
-        right: [
-          {id: 'r3', line: 3},
-          {id: 'r5', line: 5},
-        ],
+    test('_filterThreadsForLine for line comments', () => {
+      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+      line.beforeNumber = 3;
+      line.afterNumber = 5;
+
+      const l3 = {
+        comments: [{id: 'l3', line: 3}],
+        range: {end_line: 3},
+        commentSide: 'left',
       };
-      assert.deepEqual(builder._getCommentsForLine(comments, line),
-          [{id: 'l3', line: 3, __commentSide: 'left'},
-          {id: 'r5', line: 5, __commentSide: 'right'}]);
-      assert.deepEqual(builder._getCommentsForLine(comments, line,
-          GrDiffBuilder.Side.LEFT), [{id: 'l3', line: 3,
-            __commentSide: 'left'}]);
-      assert.deepEqual(builder._getCommentsForLine(comments, line,
-          GrDiffBuilder.Side.RIGHT), [{id: 'r5', line: 5,
-            __commentSide: 'right'}]);
+      const l5 = {
+        comments: [{id: 'l5', line: 5}],
+        range: {end_line: 5},
+        commentSide: 'left',
+      };
+      const r3 = {
+        comments: [{id: 'r3', line: 3}],
+        range: {end_line: 3},
+        commentSide: 'right',
+      };
+      const r5 = {
+        comments: [{id: 'r5', line: 5}],
+        range: {end_line: 5},
+        commentSide: 'right',
+      };
+
+      const threads = [l3, l5, r3, r5];
+      assert.deepEqual(builder._filterThreadsForLine(threads, line),
+          [l3, r5]);
+      assert.deepEqual(builder._filterThreadsForLine(threads, line,
+          GrDiffBuilder.Side.LEFT), [l3]);
+      assert.deepEqual(builder._filterThreadsForLine(threads, line,
+          GrDiffBuilder.Side.RIGHT), [r5]);
     });
 
     test('comment thread group creation', () => {
@@ -458,19 +444,20 @@ limitations under the License.
       const r5 = {id: 'r5', line: 5, updated: '2016-08-09 00:42:32.000000000',
         __commentSide: 'right'};
 
-      builder._comments = {
-        meta: {
-          changeNum: '42',
-          patchRange: {
-            basePatchNum: 'PARENT',
-            patchNum: '3',
-          },
-          path: '/path/to/foo',
-          projectConfig: {foo: 'bar'},
-        },
-        left: [l3, l5],
-        right: [r5],
-      };
+      builder = new GrDiffBuilder(
+          {content: []}, {
+            meta: {
+              changeNum: '42',
+              patchRange: {
+                basePatchNum: 'PARENT',
+                patchNum: '3',
+              },
+              path: '/path/to/foo',
+              projectConfig: {foo: 'bar'},
+            },
+            left: [l3, l5],
+            right: [r5],
+          }, createThreadGroupFn, prefs);
 
       function threadForComment(c, patchNum) {
         return {
@@ -488,7 +475,7 @@ limitations under the License.
         assert.equal(createThreadGroupFn.lastCall.args[1], isOnParent);
         assert.deepEqual(
             threadGroupEl.threads,
-            comments.map(c => threadForComment(c, patchNum)));
+            comments.map(c => threadForComment(c, undefined)));
       }
 
       let line = new GrDiffLine(GrDiffLine.Type.BOTH);

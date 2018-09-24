@@ -67,6 +67,16 @@
         layer.addListener(this._handleLayerUpdate.bind(this));
       }
     }
+
+    const allComments = [];
+    for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
+      // This is needed by the threading.
+      for (const comment of this._comments[side]) {
+        comment.__commentSide = side;
+      }
+      allComments.push(...this._comments[side]);
+    }
+    this._threads = this._createThreads(allComments);
   }
 
   GrDiffBuilder.GroupType = {
@@ -319,44 +329,24 @@
     return button;
   };
 
-  GrDiffBuilder.prototype._getCommentsForLine = function(comments, line,
-      opt_side) {
-    function byLineNum(lineNum) {
-      return function(c) {
-        return (c.line === lineNum) ||
-               (c.line === undefined && lineNum === GrDiffLine.FILE);
-      };
-    }
-    const leftComments =
-        comments[GrDiffBuilder.Side.LEFT].filter(byLineNum(line.beforeNumber));
-    const rightComments =
-        comments[GrDiffBuilder.Side.RIGHT].filter(byLineNum(line.afterNumber));
-
-    leftComments.forEach(c => { c.__commentSide = 'left'; });
-    rightComments.forEach(c => { c.__commentSide = 'right'; });
-
-    let result;
-
-    switch (opt_side) {
-      case GrDiffBuilder.Side.LEFT:
-        result = leftComments;
-        break;
-      case GrDiffBuilder.Side.RIGHT:
-        result = rightComments;
-        break;
-      default:
-        result = leftComments.concat(rightComments);
-        break;
-    }
-
-    return result;
+  GrDiffBuilder.prototype._filterThreadsForLine = function(
+      threads, line, opt_side) {
+    return threads.filter(thread =>
+        (opt_side !== GrDiffBuilder.Side.RIGHT &&
+         thread.commentSide == GrDiffBuilder.Side.LEFT &&
+         thread.comments[0].line == line.beforeNumber) ||
+        (opt_side !== GrDiffBuilder.Side.LEFT &&
+         thread.commentSide == GrDiffBuilder.Side.RIGHT &&
+         thread.comments[0].line == line.afterNumber) ||
+        (thread.comments[0].line === undefined &&
+         (line.afterNumber === GrDiffLine.FILE ||
+          line.beforeNumber === GrDiffLine.FILE)));
   };
 
   /**
    * @param {Array<Object>} comments
-   * @param {string} patchForNewThreads
    */
-  GrDiffBuilder.prototype._getThreads = function(comments, patchForNewThreads) {
+  GrDiffBuilder.prototype._createThreads = function(comments) {
     const sortedComments = comments.slice(0).sort((a, b) => {
       if (b.__draft && !a.__draft ) { return 0; }
       if (a.__draft && !b.__draft ) { return 1; }
@@ -384,10 +374,8 @@
         /**
          * Determines what the patchNum of a thread should be. Use patchNum from
          * comment if it exists, otherwise the property of the thread group.
-         * This is needed for switching between side-by-side and unified views when
-         * there are unsaved drafts.
          */
-        patchNum: comment.patch_set || patchForNewThreads,
+        patchNum: comment.patch_set,
         rootId: comment.id || comment.__draftID,
       };
       if (comment.range) {
@@ -440,21 +428,23 @@
    */
   GrDiffBuilder.prototype._commentThreadGroupForLine = function(
       line, opt_side) {
-    const patchNum = this._determinePatchNumForNewThreads(
-        this._comments.meta.patchRange, line, opt_side);
-
-    const comments =
-        this._getCommentsForLine(this._comments, line, opt_side);
-    if (!comments || comments.length === 0) {
+    const threads =
+        this._filterThreadsForLine(this._threads, line, opt_side);
+    if (!threads || threads.length === 0) {
       return null;
     }
 
+    // TODO(oler): Also set this on the thread model and consider the case of
+    //             switching diff viewMode with unsaved drafts.
+    const patchRange = this._comments.meta.patchRange;
+    const patchNumForNewThread = this._determinePatchNumForNewThreads(
+        patchRange, line, opt_side);
     const isOnParent = this._determineIsOnParent(
-        comments[0].side, this._comments.meta.patchRange, line, opt_side);
+        threads[0].side, patchRange, line, opt_side);
 
-    const threadGroupEl = this._createThreadGroupFn(patchNum, isOnParent,
-        opt_side);
-    threadGroupEl.threads = this._getThreads(comments, patchNum);
+    const threadGroupEl = this._createThreadGroupFn(
+        patchNumForNewThread, isOnParent, opt_side);
+    threadGroupEl.threads = threads;
     if (opt_side) {
       threadGroupEl.setAttribute('data-side', opt_side);
     }

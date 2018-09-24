@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc9b7e0d_cf1047ce",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-24T12:58:27Z",
+      "side": 1,
+      "message": "Why don\u0027t we fix/add the slash on the caller sites, instead doing it in this general place?",
+      "range": {
+        "startLine": 151,
+        "startChar": 52,
+        "endLine": 151,
+        "endChar": 72
+      },
+      "revId": "879d8120aa726f001b1d71359365ddacc59b9989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

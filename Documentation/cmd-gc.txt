@@ -1,7 +1,7 @@
 = gerrit gc
 
 == NAME
-gerrit gc - Run the Git garbage collection
+gerrit gc - Run the Git garbage collection.
 
 == SYNOPSIS
 [verse]
@@ -54,19 +54,19 @@ This command is intended to be used in scripts.
 Run the Git garbage collection for the projects 'myProject' and
 'yourProject':
 ----
-	$ ssh -p 29418 review.example.com gerrit gc myProject yourProject
-	collecting garbage for "myProject":
-	...
-	done.
+$ ssh -p 29418 review.example.com gerrit gc myProject yourProject
+collecting garbage for "myProject":
+...
+done.
 
-	collecting garbage for "yourProject":
-	...
-	done.
+collecting garbage for "yourProject":
+...
+done.
 ----
 
 Run the Git garbage collection for all projects:
 ----
-	$ ssh -p 29418 review.example.com gerrit gc --all
+$ ssh -p 29418 review.example.com gerrit gc --all
 ----
 
 GERRIT

@@ -201,7 +201,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected static final String DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY = "has:draft";
   protected static final String DASHBOARD_ASSIGNED_QUERY =
-      "assignee:${user} (-is:wip OR " + "owner:self OR assignee:self)";
+      "assignee:${user} (-is:wip OR " + "owner:self OR assignee:self) is:open -is:ignored";
   protected static final String DASHBOARD_WORK_IN_PROGRESS_QUERY = "is:open owner:${user} is:wip";
   protected static final String DASHBOARD_OUTGOING_QUERY =
       "is:open owner:${user} -is:wip -is:ignored";

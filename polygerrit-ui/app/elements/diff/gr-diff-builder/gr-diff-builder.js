@@ -401,28 +401,57 @@
   /**
    * @param {GrDiffLine} line
    * @param {string=} opt_side
+   * @return {number}
+   */
+  GrDiffBuilder.prototype._determinePatchNumForNewThreads = function(
+      patchRange, line, opt_side) {
+    if ((line.type === GrDiffLine.Type.REMOVE ||
+         opt_side === GrDiffBuilder.Side.LEFT) &&
+        patchRange.basePatchNum !== 'PARENT' &&
+        !Gerrit.PatchSetBehavior.isMergeParent(patchRange.basePatchNum)) {
+      return patchRange.basePatchNum;
+    } else {
+      return patchRange.patchNum;
+    }
+  };
+
+  /**
+   * @param {GrDiffLine} line
+   * @param {string=} opt_side
+   * @return {number}
+   */
+  GrDiffBuilder.prototype._determineIsOnParent = function(
+      firstCommentSide, patchRange, line, opt_side) {
+    if ((line.type === GrDiffLine.Type.REMOVE ||
+         opt_side === GrDiffBuilder.Side.LEFT) &&
+        (patchRange.basePatchNum === 'PARENT' ||
+          Gerrit.PatchSetBehavior.isMergeParent(
+              patchRange.basePatchNum))) {
+      return true;
+    } else {
+      return firstCommentSide === 'PARENT' || false;
+    }
+  };
+
+  /**
+   * @param {GrDiffLine} line
+   * @param {string=} opt_side
    * @return {!Object}
    */
   GrDiffBuilder.prototype._commentThreadGroupForLine = function(
       line, opt_side) {
+    const patchNum = this._determinePatchNumForNewThreads(
+        this._comments.meta.patchRange, line, opt_side);
+
     const comments =
         this._getCommentsForLine(this._comments, line, opt_side);
     if (!comments || comments.length === 0) {
       return null;
     }
 
-    let patchNum = this._comments.meta.patchRange.patchNum;
-    let isOnParent = comments[0].side === 'PARENT' || false;
-    if (line.type === GrDiffLine.Type.REMOVE ||
-        opt_side === GrDiffBuilder.Side.LEFT) {
-      if (this._comments.meta.patchRange.basePatchNum === 'PARENT' ||
-          Gerrit.PatchSetBehavior.isMergeParent(
-              this._comments.meta.patchRange.basePatchNum)) {
-        isOnParent = true;
-      } else {
-        patchNum = this._comments.meta.patchRange.basePatchNum;
-      }
-    }
+    const isOnParent = this._determineIsOnParent(
+        comments[0].side, this._comments.meta.patchRange, line, opt_side);
+
     const threadGroupEl = this._createThreadGroupFn(patchNum, isOnParent,
         opt_side);
     threadGroupEl.threads = this._getThreads(comments, patchNum);

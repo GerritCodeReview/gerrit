@@ -1,7 +1,7 @@
 = gerrit close-connection
 
 == NAME
-gerrit close-connection - Close the specified SSH connection
+gerrit close-connection - Close the specified SSH connection.
 
 == SYNOPSIS
 [verse]

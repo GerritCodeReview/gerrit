@@ -26,6 +26,7 @@ http_file(
     name = "polymer_closure",
     sha256 = "5a589bdba674e1fec7188e9251c8624ebf2d4d969beb6635f9148f420d1e08b1",
     urls = ["https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js"],
+    downloaded_file_path = "polymer_closure.js",
 )
 
 load("@bazel_skylib//:lib.bzl", "versions")

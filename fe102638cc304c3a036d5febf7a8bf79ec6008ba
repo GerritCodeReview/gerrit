@@ -46,6 +46,30 @@
       "revId": "fe102638cc304c3a036d5febf7a8bf79ec6008ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bbbd891_26b94c8a",
+        "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-09-25T08:10:37Z",
+      "side": 1,
+      "message": "Okay fair enough. So please mark this as WIP? It\u0027s clearly unfinished then. Also PS4 only validates that \u003cfull commit message now\u003e starts with \u003cfull commit message before\u003e. It does not validate anything about footers or the values of the footers what Gerrit would add.",
+      "parentUuid": "35e4443a_b96cf186",
+      "range": {
+        "startLine": 216,
+        "startChar": 15,
+        "endLine": 219,
+        "endChar": 91
+      },
+      "revId": "fe102638cc304c3a036d5febf7a8bf79ec6008ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

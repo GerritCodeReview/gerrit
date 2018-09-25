@@ -30,6 +30,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.ConfigKey;
+import com.google.gerrit.server.config.ConfigUpdatedEvent;
+import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -43,18 +46,21 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
+public class SetParent
+    implements RestModifyView<ProjectResource, ParentInput>, GerritConfigListener {
   private final ProjectCache cache;
   private final PermissionBackend permissionBackend;
   private final MetaDataUpdate.Server updateFactory;
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
-  private final boolean allowProjectOwnersToChangeParent;
+  private volatile boolean allowProjectOwnersToChangeParent;
 
   @Inject
   SetParent(
@@ -162,6 +168,22 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
         throw new ResourceConflictException(
             "cycle exists between " + project.get() + " and " + parent.getName());
       }
+    }
+  }
+
+  @Override
+  public List<ConfigUpdatedEvent.Update> configUpdated(ConfigUpdatedEvent event) {
+    ConfigKey receiveSetParent = ConfigKey.create("receive", "allowProjectOwnersToChangeParent");
+    if (!event.isValueUpdated(receiveSetParent)) {
+      return Collections.emptyList();
+    }
+    try {
+      boolean enabled =
+          event.getNewConfig().getBoolean("receive", "allowProjectOwnersToChangeParent", false);
+      this.allowProjectOwnersToChangeParent = enabled;
+      return Collections.singletonList(event.accept(receiveSetParent));
+    } catch (IllegalArgumentException iae) {
+      return Collections.singletonList(event.reject(receiveSetParent));
     }
   }
 }

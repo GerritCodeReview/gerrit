@@ -323,16 +323,20 @@ class SshLog implements LifecycleListener, GerritConfigListener {
     if (!event.isValueUpdated(sshdRequestLog)) {
       return Collections.emptyList();
     }
-
-    boolean enabled = event.getNewConfig().getBoolean("sshd", "requestLog", true);
     boolean stateUpdated;
-    if (enabled) {
-      stateUpdated = enableLogging();
-    } else {
-      stateUpdated = disableLogging();
+    try {
+      boolean enabled = event.getNewConfig().getBoolean("sshd", "requestLog", true);
+
+      if (enabled) {
+        stateUpdated = enableLogging();
+      } else {
+        stateUpdated = disableLogging();
+      }
+      return stateUpdated
+          ? Collections.singletonList(event.accept(sshdRequestLog))
+          : Collections.emptyList();
+    } catch (IllegalArgumentException iae) {
+      return Collections.singletonList(event.reject(sshdRequestLog));
     }
-    return stateUpdated
-        ? Collections.singletonList(event.accept(sshdRequestLog))
-        : Collections.emptyList();
   }
 }

@@ -3684,6 +3684,9 @@ allow the owner to circumvent certain enforced rules (like important
 BLOCK rules).
 +
 Default is false.
++
+This value supports configuration reloads:
+link:cmd-reload-config.html[reload-config]
 
 [[receive.checkReferencedObjectsAreReachable]]receive.checkReferencedObjectsAreReachable::
 +

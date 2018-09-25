@@ -21,18 +21,7 @@
     is: 'gr-diff-comment-thread-group',
 
     properties: {
-      changeNum: String,
-      projectName: String,
       patchForNewThreads: String,
-      range: Object,
-      isOnParent: {
-        type: Boolean,
-        value: false,
-      },
-      parentIndex: {
-        type: Number,
-        value: null,
-      },
       threads: {
         type: Array,
         value() { return []; },

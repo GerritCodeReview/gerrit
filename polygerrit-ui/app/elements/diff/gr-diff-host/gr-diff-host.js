@@ -111,7 +111,11 @@
         type: Boolean,
         value: false,
       },
-      comments: Object,
+      comments: {
+        type: Object,
+        observer: '_commentsChanged',
+      },
+      _threads: Object,
       lineWrapping: {
         type: Boolean,
         value: false,
@@ -426,6 +430,63 @@
      */
     _computeIsImageDiff(diff) {
       return isImageDiff(diff);
+    },
+
+
+    _commentsChanged(newComments) {
+      const allComments = [];
+      for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
+        // This is needed by the threading.
+        for (const comment of newComments[side]) {
+          comment.__commentSide = side;
+        }
+        allComments.push(...newComments[side]);
+      }
+      this._threads = this._createThreads(allComments);
+    },
+
+    /**
+     * @param {Array<Object>} comments
+     * @param {Array<Object>} threads
+     */
+    _createThreads(comments) {
+      const sortedComments = comments.slice(0).sort((a, b) => {
+        if (b.__draft && !a.__draft ) { return 0; }
+        if (a.__draft && !b.__draft ) { return 1; }
+        return util.parseDate(a.updated) - util.parseDate(b.updated);
+      });
+
+      const threads = [];
+      for (const comment of sortedComments) {
+        // If the comment is in reply to another comment, find that comment's
+        // thread and append to it.
+        if (comment.in_reply_to) {
+          const thread = threads.find(thread =>
+              thread.comments.some(c => c.id === comment.in_reply_to));
+          if (thread) {
+            thread.comments.push(comment);
+            continue;
+          }
+        }
+
+        // Otherwise, this comment starts its own thread.
+        const newThread = {
+          start_datetime: comment.updated,
+          comments: [comment],
+          commentSide: comment.__commentSide,
+          /**
+           * Determines what the patchNum of a thread should be. Use patchNum from
+           * comment if it exists, otherwise the property of the thread group.
+           */
+          patchNum: comment.patch_set,
+          rootId: comment.id || comment.__draftID,
+        };
+        if (comment.range) {
+          newThread.range = Object.assign({}, comment.range);
+        }
+        threads.push(newThread);
+      }
+      return threads;
     },
 
     /**

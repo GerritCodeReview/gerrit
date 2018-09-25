@@ -31,20 +31,6 @@ limitations under the License.
         margin-top: .2em;
       }
     </style>
-    <template is="dom-repeat" items="[[threads]]" as="thread">
-      <gr-diff-comment-thread
-          comments="[[thread.comments]]"
-          comment-side="[[thread.commentSide]]"
-          is-on-parent="[[isOnParent]]"
-          parent-index="[[parentIndex]]"
-          change-num="[[changeNum]]"
-          patch-num="[[thread.patchNum]]"
-          root-id="{{thread.rootId}}"
-          path="[[path]]"
-          project-name="[[projectName]]"
-          range="[[thread.range]]"
-          on-thread-discard="_handleThreadDiscard"></gr-diff-comment-thread>
-    </template>
   </template>
   <script src="gr-diff-comment-thread-group.js"></script>
 </dom-module>

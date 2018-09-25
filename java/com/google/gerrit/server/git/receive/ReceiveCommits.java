@@ -1325,6 +1325,7 @@ class ReceiveCommits {
   static class MagicBranchInput {
     private static final Splitter COMMAS = Splitter.on(',').omitEmptyStrings();
 
+    boolean deprecatedTopicSeen;
     final ReceiveCommand cmd;
     final LabelTypes labelTypes;
     final NotesMigration notesMigration;
@@ -1482,6 +1483,7 @@ class ReceiveCommits {
         ReceiveCommand cmd,
         LabelTypes labelTypes,
         NotesMigration notesMigration) {
+      this.deprecatedTopicSeen = false;
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.publish = cmd.getRefName().startsWith(MagicBranch.NEW_PUBLISH_CHANGE);
@@ -1545,8 +1547,7 @@ class ReceiveCommits {
 
       // We accept refs/for/BRANCHNAME/TOPIC. Since we don't know
       // for sure where the branch ends and the topic starts, look
-      // backward for a split that works. This behavior has not been
-      // documented and should probably be deprecated.
+      // backward for a split that works. This behavior is deprecated.
       String head = readHEAD(repo);
       int split = ref.length();
       for (; ; ) {
@@ -1562,6 +1563,7 @@ class ReceiveCommits {
       }
       if (split < ref.length()) {
         topic = Strings.emptyToNull(ref.substring(split + 1));
+        deprecatedTopicSeen = true;
       }
       return ref.substring(0, split);
     }
@@ -1765,6 +1767,13 @@ class ReceiveCommits {
           "Error walking to %s in project %s", destBranch, project.getName());
       reject(cmd, "internal server error");
       return;
+    }
+
+    if (magicBranch.deprecatedTopicSeen) {
+      messages.add(
+          new ValidationMessage(
+              "WARNING: deprecated topic syntax. Use %topic=TOPIC instead", false));
+      logger.atInfo().log("deprecated topic push seen for project %s", project.getName());
     }
 
     if (validateConnected(magicBranch.cmd, magicBranch.dest, tip)) {

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ac33311_3b3e05d2",
+        "filename": "java/com/google/gerrit/server/config/ChangeCleanupConfig.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-25T17:50:25Z",
+      "side": 1,
+      "message": "I think this doesn\u0027t produce the right result when absent:\n\"Auto-Abandoned due to inactivity, see \\n\\nIf this change...\"\n\nBased on the LHS it seems like you could guard this whole statement with \n\"if (docUrl.isPresent())\".",
+      "range": {
+        "startLine": 65,
+        "startChar": 78,
+        "endLine": 65,
+        "endChar": 89
+      },
+      "revId": "c10903d1d2ad289dbf5ad5c2672a3e38e46cfde1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00b81315_d9615ac5",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-25T17:50:25Z",
+      "side": 1,
+      "message": "Optional: I wonder if this is a safe assumption, e.g. what happens if commit validators are called on a site that supports SSH but not HTTP.\n\nOn the LHS, wouldn\u0027t a missing  WhicanonicalWebUrl just be null? Which, granted, would produce an unusable command, but on the RHS that becomes an unchecked exception.\n\nI think it\u0027s probably ok to leave for now.",
+      "revId": "c10903d1d2ad289dbf5ad5c2672a3e38e46cfde1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c08ae0ef_ccb00e30",
+        "filename": "javatests/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-25T17:50:25Z",
+      "side": 1,
+      "message": "I am not at all confident that we have a GWT -\u003e PG redirect in place for anchors within the settings page.\n\nHonestly I\u0027m still ok with this. It\u0027ll dump GWT users on the basic settings page, from which they can probably figure out how to navigate to the identities section.",
+      "revId": "c10903d1d2ad289dbf5ad5c2672a3e38e46cfde1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

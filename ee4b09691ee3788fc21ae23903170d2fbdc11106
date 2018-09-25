@@ -63,6 +63,30 @@
       "revId": "ee4b09691ee3788fc21ae23903170d2fbdc11106",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc7c4e9b_736d0e55",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-25T06:44:37Z",
+      "side": 1,
+      "message": "I prefer the approach in https://gerrit-review.googlesource.com/c/gerrit/+/197052.",
+      "parentUuid": "2d1a23ee_bc57e51b",
+      "range": {
+        "startLine": 110,
+        "startChar": 48,
+        "endLine": 110,
+        "endChar": 70
+      },
+      "revId": "ee4b09691ee3788fc21ae23903170d2fbdc11106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

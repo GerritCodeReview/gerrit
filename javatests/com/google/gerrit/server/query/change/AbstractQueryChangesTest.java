@@ -201,7 +201,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected static final String DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY = "has:draft";
   protected static final String DASHBOARD_ASSIGNED_QUERY =
-      "assignee:${user} (-is:wip OR " + "owner:self OR assignee:self)";
+      "assignee:${user} (-is:wip OR " + "owner:self OR assignee:self) is:open -is:ignored";
   protected static final String DASHBOARD_WORK_IN_PROGRESS_QUERY = "is:open owner:${user} is:wip";
   protected static final String DASHBOARD_OUTGOING_QUERY =
       "is:open owner:${user} -is:wip -is:ignored";
@@ -2746,6 +2746,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .create(repo);
 
     // Create changes that should not be returned by query.
+    new DashboardChangeState(user.getAccountId()).assignTo(user.getAccountId()).abandon();
+    new DashboardChangeState(user.getAccountId())
+        .assignTo(user.getAccountId())
+        .ignoreBy(user.getAccountId());
+    new DashboardChangeState(user.getAccountId())
+        .assignTo(user.getAccountId())
+        .mergeBy(user.getAccountId());
+
     assertDashboardQuery("self", DASHBOARD_ASSIGNED_QUERY, selfOpenWip, otherOpenWip);
 
     // Viewing another user's dashboard.

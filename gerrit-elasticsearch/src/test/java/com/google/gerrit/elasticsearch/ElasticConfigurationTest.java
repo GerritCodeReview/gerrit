@@ -17,6 +17,7 @@ package com.google.gerrit.elasticsearch;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.DEFAULT_MAX_RETRY_TIMEOUT_MS;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.DEFAULT_USERNAME;
+import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_ADD_PATH_PREFIX;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_MAX_RETRY_TIMEOUT;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PASSWORD;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PREFIX;
@@ -63,6 +64,16 @@ public class ElasticConfigurationTest {
     cfg.setString(SECTION_ELASTICSEARCH, null, KEY_PREFIX, "myprefix");
     ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
     assertThat(esCfg.prefix).isEqualTo("myprefix");
+  }
+
+  @Test
+  public void pathPrefix() throws Exception {
+    Config cfg = newConfig();
+    ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
+    assertThat(esCfg.addPathPrefix).isFalse();
+    cfg.setBoolean(SECTION_ELASTICSEARCH, null, KEY_ADD_PATH_PREFIX, true);
+    esCfg = new ElasticConfiguration(cfg);
+    assertThat(esCfg.addPathPrefix).isTrue();
   }
 
   @Test

@@ -2804,6 +2804,17 @@ groups indices starting with Elasticsearch 6.2.
 Note that when Gerrit is configured to use Elasticsearch, the Elasticsearch
 server(s) must be reachable during the site initialization.
 
+[[elasticsearch.addPathPrefix]]elasticsearch.addPathPrefix::
++
+Some proxies require all requests to have paths starting with `/` since
+there are no relative paths at the HTTP connection level. This is the case
+for example when using Amazon's Elasticsearch service.
++
+Set this option to true to enable adding the `/` prefix on Elasticsearch
+requests.
++
+Defaults to false; the path prefix is not added.
+
 [[elasticsearch.prefix]]elasticsearch.prefix::
 +
 This setting can be used to prefix index names to allow multiple Gerrit

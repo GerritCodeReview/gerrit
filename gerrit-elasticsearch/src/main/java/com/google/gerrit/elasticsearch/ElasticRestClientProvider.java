@@ -107,7 +107,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   private ElasticVersion getVersion() throws ElasticException {
     try {
-      Response response = client.performRequest(new Request("GET", ""));
+      Response response = client.performRequest(new Request("GET", "/"));
       StatusLine statusLine = response.getStatusLine();
       if (statusLine.getStatusCode() != HttpStatus.SC_OK) {
         throw new FailedToGetVersion(statusLine);

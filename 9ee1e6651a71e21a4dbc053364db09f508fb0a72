@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b064e781_35cdb5dc",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-25T06:36:48Z",
+      "side": 1,
+      "message": "My point in Jacek\u0027s review was to adapt the endpoint we provide to include leading slash. In this example, if we say that:\n\n  Request request \u003d new Request(\n    \"GET\",  \n    \"/\");\n\nas specified in the documentation: [1].\n\n* [1] https://www.elastic.co/guide/en/elasticsearch/client/java-rest/master/java-rest-low-usage-requests.html#java-rest-low-usage-requests",
+      "range": {
+        "startLine": 110,
+        "startChar": 48,
+        "endLine": 110,
+        "endChar": 70
+      },
+      "revId": "9ee1e6651a71e21a4dbc053364db09f508fb0a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

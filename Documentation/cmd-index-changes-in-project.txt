@@ -26,7 +26,7 @@ This command is intended to be used in scripts.
 Index all changes in projects MyProject and NiceProject.
 
 ----
-    $ ssh -p 29418 user@review.example.com gerrit index changes-in-project MyProject NiceProject
+$ ssh -p 29418 user@review.example.com gerrit index changes-in-project MyProject NiceProject
 ----
 
 GERRIT

@@ -14,9 +14,12 @@
 
 package com.google.gerrit.acceptance.git;
 
+import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.reviewdb.client.Change;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.Before;
+import org.junit.Test;
 
 public class HttpPushForReviewIT extends AbstractPushForReview {
   @Before
@@ -24,5 +27,20 @@ public class HttpPushForReviewIT extends AbstractPushForReview {
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(admin.username, admin.httpPassword));
     selectProtocol(Protocol.HTTP);
+  }
+
+  @Test
+  public void pushForMasterWithTopic() throws Exception {
+    // specify topic in ref
+    String topic = "my/topic";
+    PushOneCommit.Result r = pushTo("refs/for/master/" + topic);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, topic);
+    r.assertMessage("deprecated topic syntax");
+
+    // specify topic as option
+    r = pushTo("refs/for/master%topic=" + topic);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, topic);
   }
 }

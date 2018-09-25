@@ -254,7 +254,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private Response performRequest(
       String method, String uri, @Nullable Object payload, Map<String, String> params)
       throws IOException {
-    Request request = new Request(method, uri);
+    Request request = new Request(method, uri.startsWith("/") ? uri : "/" + uri);
     if (payload != null) {
       String payloadStr = payload instanceof String ? (String) payload : payload.toString();
       request.setEntity(new NStringEntity(payloadStr, ContentType.APPLICATION_JSON));

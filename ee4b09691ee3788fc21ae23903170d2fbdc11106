@@ -39,6 +39,30 @@
       "revId": "ee4b09691ee3788fc21ae23903170d2fbdc11106",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d1a23ee_bc57e51b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-25T06:41:55Z",
+      "side": 1,
+      "message": "This is what I was heading towards with [1] before I found this pathPrefix option.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/197052",
+      "parentUuid": "1863fa08_2d25b09e",
+      "range": {
+        "startLine": 110,
+        "startChar": 48,
+        "endLine": 110,
+        "endChar": 70
+      },
+      "revId": "ee4b09691ee3788fc21ae23903170d2fbdc11106",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

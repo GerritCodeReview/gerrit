@@ -1,7 +1,7 @@
 = gerrit index activate
 
 == NAME
-gerrit index activate - Activate the latest index version available
+gerrit index activate - Activate the latest index version available.
 
 == SYNOPSIS
 [verse]
@@ -37,7 +37,7 @@ This command is intended to be used in scripts.
 Activate the latest change index:
 
 ----
-  $ ssh -p 29418 review.example.com gerrit index activate changes
+$ ssh -p 29418 review.example.com gerrit index activate changes
 ----
 
 GERRIT

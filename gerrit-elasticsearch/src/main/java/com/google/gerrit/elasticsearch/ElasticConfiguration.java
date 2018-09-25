@@ -36,6 +36,7 @@ class ElasticConfiguration {
   private static final Logger log = LoggerFactory.getLogger(ElasticConfiguration.class);
 
   static final String SECTION_ELASTICSEARCH = "elasticsearch";
+  static final String KEY_ADD_PATH_PREFIX = "addPathPrefix";
   static final String KEY_PASSWORD = "password";
   static final String KEY_USERNAME = "username";
   static final String KEY_MAX_RETRY_TIMEOUT = "maxRetryTimeout";
@@ -53,6 +54,7 @@ class ElasticConfiguration {
   final String password;
   final int maxRetryTimeout;
   final String prefix;
+  final boolean addPathPrefix;
 
   @Inject
   ElasticConfiguration(@GerritServerConfig Config cfg) {
@@ -71,6 +73,7 @@ class ElasticConfiguration {
                 KEY_MAX_RETRY_TIMEOUT,
                 DEFAULT_MAX_RETRY_TIMEOUT_MS,
                 MAX_RETRY_TIMEOUT_UNIT);
+    this.addPathPrefix = cfg.getBoolean(SECTION_ELASTICSEARCH, KEY_ADD_PATH_PREFIX, false);
     this.prefix = Strings.nullToEmpty(cfg.getString(SECTION_ELASTICSEARCH, null, KEY_PREFIX));
     this.hosts = new ArrayList<>();
     for (String server : cfg.getStringList(SECTION_ELASTICSEARCH, null, KEY_SERVER)) {

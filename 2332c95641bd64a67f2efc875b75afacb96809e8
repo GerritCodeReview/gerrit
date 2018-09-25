@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c630507_edfb08f6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 2643,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-25T21:09:47Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of this parameter?",
+      "range": {
+        "startLine": 2643,
+        "startChar": 16,
+        "endLine": 2643,
+        "endChar": 21
+      },
+      "revId": "2332c95641bd64a67f2efc875b75afacb96809e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

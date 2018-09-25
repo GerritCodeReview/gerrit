@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ba4d714e_6f1f94a4",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-25T21:09:47Z",
+      "side": 1,
+      "message": "I agree with David O, adding bind calls here is out of scope for this change. It\u0027s an open question if its necessary, but not blocking here.\n\nIMO, either a) these functions should be written as properties of this element and called with bind(), or b) they should be written as static constant functions outside of the element entirely. I\u0027d guess they were written the way they are currently for testability.",
+      "parentUuid": "cc886051_2f831886",
+      "range": {
+        "startLine": 190,
+        "startChar": 31,
+        "endLine": 190,
+        "endChar": 54
+      },
+      "revId": "c13cc5e22d27051b969931883eafb3bf4e5760f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eebb36d2_cca402d3",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 7

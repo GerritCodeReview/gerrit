@@ -329,8 +329,8 @@ maven_jar(
 
 maven_jar(
     name = "args4j-intern",
-    artifact = "args4j:args4j:2.0.29",
-    sha1 = "55ca4ddc4e906ffbaec043113b36bb410a3d909e",
+    artifact = "args4j:args4j:2.33",
+    sha1 = "bd87a75374a6d6523de82fef51fc3cfe9baf9fc9",
 )
 
 maven_jar(

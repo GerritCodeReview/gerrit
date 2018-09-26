@@ -62,6 +62,13 @@
     },
   ];
 
+  // Set of authentication methods that can provide custom registration page.
+  const AUTH_TYPES_WITH_REGISTER_URL = new Set([
+    'LDAP',
+    'LDAP_BIND',
+    'CUSTOM_EXTENSION',
+  ]);
+
   Polymer({
     is: 'gr-main-header',
 
@@ -102,7 +109,7 @@
       _links: {
         type: Array,
         computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
-            '_docBaseUrl)',
+            '_topMenus, _docBaseUrl)',
       },
       _loginURL: {
         type: String,
@@ -111,6 +118,18 @@
       _userLinks: {
         type: Array,
         value() { return []; },
+      },
+      _topMenus: {
+        type: Array,
+        value() { return []; },
+      },
+      _registerText: {
+        type: String,
+        value: 'Sign up',
+      },
+      _registerURL: {
+        type: String,
+        value: null,
       },
     },
 
@@ -159,7 +178,7 @@
       return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
-    _computeLinks(defaultLinks, userLinks, adminLinks, docBaseUrl) {
+    _computeLinks(defaultLinks, userLinks, adminLinks, topMenus, docBaseUrl) {
       const links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {
         links.push({
@@ -179,6 +198,12 @@
         title: 'Browse',
         links: adminLinks,
       });
+      for (const m of topMenus) {
+        links.push({
+          title: m.name,
+          links: m.items.map(this._fixCustomMenuItem),
+        });
+      }
       return links;
     },
 
@@ -203,6 +228,7 @@
       this.loading = true;
       const promises = [
         this.$.restAPI.getAccount(),
+        this.$.restAPI.getTopMenus(),
         Gerrit.awaitPluginsLoaded(),
       ];
 
@@ -211,6 +237,7 @@
         this._account = account;
         this.loggedIn = !!account;
         this.loading = false;
+        this._topMenus = result[1];
 
         return this.getAdminLinks(account,
             this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
@@ -223,7 +250,10 @@
 
     _loadConfig() {
       this.$.restAPI.getConfig()
-          .then(config => this.getDocsBaseUrl(config, this.$.restAPI))
+          .then(config => {
+            this._retrieveRegisterURL(config);
+            this.getDocsBaseUrl(config, this.$.restAPI);
+          })
           .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
     },
 
@@ -232,11 +262,24 @@
 
       this.$.restAPI.getPreferences().then(prefs => {
         this._userLinks =
-            prefs.my.map(this._fixMyMenuItem).filter(this._isSupportedLink);
+            prefs.my.map(this._fixCustomMenuItem).filter(this._isSupportedLink);
       });
     },
 
-    _fixMyMenuItem(linkObj) {
+    _retrieveRegisterURL(config) {
+      if (AUTH_TYPES_WITH_REGISTER_URL.has(config.auth.auth_type)) {
+        this._registerURL = config.auth.register_url;
+        if (config.auth.register_text) {
+          this._registerText = config.auth.register_text;
+        }
+      }
+    },
+
+    _computeIsInvisible(registerURL) {
+      return registerURL ? '' : 'invisible';
+    },
+
+    _fixCustomMenuItem(linkObj) {
       // Normalize all urls to PolyGerrit style.
       if (linkObj.url.startsWith('#')) {
         linkObj.url = linkObj.url.slice(1);
@@ -251,7 +294,7 @@
       // so we'll just disable it altogether for now.
       delete linkObj.target;
 
-      // Becasue the "my menu" links may be arbitrary URLs, we don't know
+      // Because the user provided links may be arbitrary URLs, we don't know
       // whether they correspond to any client routes. Mark all such links as
       // external.
       linkObj.external = true;

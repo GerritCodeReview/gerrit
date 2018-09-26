@@ -112,14 +112,12 @@ limitations under the License.
         margin: 5px 4px;
         text-decoration: none;
       }
-      .invisible,
       .settingsButton,
       gr-account-dropdown {
         display: none;
       }
       :host([loading]) .accountContainer,
-      :host([logged-in]) .loginButton,
-      :host([logged-in]) .registerButton {
+      :host([logged-in]) .loginButton {
         display: none;
       }
       :host([logged-in]) .settingsButton,
@@ -137,7 +135,7 @@ limitations under the License.
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-      .loginButton, .registerButton {
+      .loginButton {
         color: var(--header-text-color);
         padding: .5em 1em;
       }
@@ -196,13 +194,6 @@ limitations under the License.
             class="hideOnMobile"
             name="header-browse-source"></gr-endpoint-decorator>
         <div class="accountContainer" id="accountContainer">
-          <div class$="[[_computeIsInvisible(_registerURL)]]">
-            <a
-                class="registerButton"
-                href$="[[_registerURL]]">
-              [[_registerText]]
-            </a>
-          </div>
           <a class="loginButton" href$="[[_loginURL]]">Sign in</a>
           <a
               class="settingsButton"

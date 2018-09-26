@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cf08f6c5_f12cb269",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-26T21:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c13e23c9_b5e0061a",
+      "range": {
+        "startLine": 12,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "039bed68e6888ebbaf2a75788c0533b53a53dafe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fecaad49_1c4c1e85",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "039bed68e6888ebbaf2a75788c0533b53a53dafe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4579dcf5_40428cb1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-26T21:10:20Z",
+      "side": 1,
+      "message": "None, not really. This flag should really only be set/changed once, and this is the pattern used throughout the change actions.\n\nI\u0027m not a huge fan of it either, I think there\u0027s a lot of inefficiencies in this element, but fixing them is definitely not within the scope of this change.",
+      "parentUuid": "fecaad49_1c4c1e85",
+      "revId": "039bed68e6888ebbaf2a75788c0533b53a53dafe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

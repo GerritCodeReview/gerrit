@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "251e26b3_5b18d647",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-26T12:21:15Z",
+      "side": 1,
+      "message": "Sounds reasonable to make it configurable and even disable per default. Especially because it is a new feature and may not be stable enough.",
+      "revId": "0611d867359ca322603809598a89e46d4cc38ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

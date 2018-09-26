@@ -244,5 +244,9 @@
     _closeConfirmDeleteOverlay() {
       this.$.confirmDeleteOverlay.close();
     },
+
+    _computeDraftsLink() {
+      return Gerrit.Nav.getUrlForSearchQuery('has:draft -is:open');
+    },
   });
 })();

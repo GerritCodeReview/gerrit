@@ -62,6 +62,13 @@
     },
   ];
 
+  // Set of authentication methods that can provide custom registration page.
+  const AUTH_TYPES_WITH_REGISTER_URL = new Set([
+    'LDAP',
+    'LDAP_BIND',
+    'CUSTOM_EXTENSION',
+  ]);
+
   Polymer({
     is: 'gr-main-header',
 
@@ -116,6 +123,11 @@
         type: Array,
         value() { return []; },
       },
+      _registerText: {
+        type: String,
+        value: 'Sign up',
+      },
+      _registerURL: String,
     },
 
     behaviors: [
@@ -235,7 +247,10 @@
 
     _loadConfig() {
       this.$.restAPI.getConfig()
-          .then(config => this.getDocsBaseUrl(config, this.$.restAPI))
+          .then(config => {
+            this._retrieveRegisterURL(config);
+            return this.getDocsBaseUrl(config, this.$.restAPI);
+          })
           .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
     },
 
@@ -246,6 +261,19 @@
         this._userLinks =
             prefs.my.map(this._fixCustomMenuItem).filter(this._isSupportedLink);
       });
+    },
+
+    _retrieveRegisterURL(config) {
+      if (AUTH_TYPES_WITH_REGISTER_URL.has(config.auth.auth_type)) {
+        this._registerURL = config.auth.register_url;
+        if (config.auth.register_text) {
+          this._registerText = config.auth.register_text;
+        }
+      }
+    },
+
+    _computeIsInvisible(registerURL) {
+      return registerURL ? '' : 'invisible';
     },
 
     _fixCustomMenuItem(linkObj) {

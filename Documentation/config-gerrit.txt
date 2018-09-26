@@ -3806,6 +3806,15 @@ link:https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.ht
 If no keys are specified, web-of-trust checks are disabled. This is the
 default behavior.
 
+[[receive.enableProtocolV2]]receive.enableProtocolV2::
++
+Enable support for git protocol V2.
++
+When this option is enabled, and the git repository on the server has
+the configuration `protocol.version` set to `2`, clients may send upload
+pack using git protocol version 2.
++
+Defaults to false, git protocol V2 is not enabled.
 
 [[repository]]
 === Section repository

@@ -34,6 +34,24 @@
       "revId": "964255c430df63214ab8e6e092a54a5ab26833dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "033f867a_6b15a282",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-26T10:52:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbd90434_a182f74a",
+      "revId": "964255c430df63214ab8e6e092a54a5ab26833dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

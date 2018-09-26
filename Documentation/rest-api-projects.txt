@@ -3041,8 +3041,6 @@ The path to the `GerritSiteHeader.html` file.
 The path to the `GerritSiteFooter.html` file.
 |=============================
 
-----
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

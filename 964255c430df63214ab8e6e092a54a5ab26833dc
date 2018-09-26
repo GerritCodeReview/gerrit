@@ -16,6 +16,24 @@
       "revId": "964255c430df63214ab8e6e092a54a5ab26833dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbd90434_a182f74a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-26T10:07:07Z",
+      "side": 1,
+      "message": "sorry - this is a side effect of debugging (AbstractReviewForPush doesn\u0027t run from IJ.)",
+      "parentUuid": "2e147706_debd7ac2",
+      "revId": "964255c430df63214ab8e6e092a54a5ab26833dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

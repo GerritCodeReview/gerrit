@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0f47a2a5_6e11c9b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-26T23:40:14Z",
+      "side": 1,
+      "message": "\u003e Since the cache (how it is implemented in this patch-set) doesn\u0027t\nhave a loader, there is no way to reload an evicted entry except\nto tell the affected user to again remove/add his keys.\n\nI would say this is a blocker.  Can the cache be modified to have a loader?",
+      "parentUuid": "070d3fbc_f33975e3",
+      "revId": "b3dcfc95d3ca7f0e5a6c35e32f5a322ce2cf60e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c18ba6e4_6d1a6165",
         "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 6

@@ -439,6 +439,20 @@ limitations under the License.
     });
 
     suite('change edits', () => {
+      test('disableEdit', () => {
+        element.set('editMode', false);
+        element.set('editPatchsetLoaded', false);
+        element.change = {status: 'NEW'};
+        element.set('disableEdit', true);
+        flushAsynchronousOperations();
+
+        assert.isNotOk(element.$$('gr-button[data-action-key="publishEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="stopEdit"]'));
+      });
+
       test('shows confirm dialog for delete edit', () => {
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);

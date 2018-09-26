@@ -394,8 +394,10 @@ limitations under the License.
           <span class="headerSubject">[[_change.subject]]</span>
         </div><!-- end headerTitle -->
         <div class="commitActions" hidden$="[[!_loggedIn]]">
-          <gr-change-actions id="actions"
+          <gr-change-actions
+              id="actions"
               change="[[_change]]"
+              disable-edit="[[disableEdit]]"
               has-parent="[[hasParent]]"
               actions="[[_change.actions]]"
               revision-actions="[[_currentRevisionActions]]"

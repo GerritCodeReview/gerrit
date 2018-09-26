@@ -241,6 +241,10 @@
           ];
         },
       },
+      disableEdit: {
+        type: Boolean,
+        value: false,
+      },
       _hasKnownChainState: {
         type: Boolean,
         value: false,
@@ -397,7 +401,7 @@
       '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
       '_changeChanged(change)',
       '_editStatusChanged(editMode, editPatchsetLoaded, ' +
-          'editBasedOnCurrentPatchSet, actions.*, change.*)',
+          'editBasedOnCurrentPatchSet, disableEdit, actions.*, change.*)',
     ],
 
     listeners: {
@@ -575,7 +579,15 @@
     },
 
     _editStatusChanged(editMode, editPatchsetLoaded,
-        editBasedOnCurrentPatchSet) {
+        editBasedOnCurrentPatchSet, disableEdit) {
+      if (disableEdit) {
+        this._deleteAndNotify('publishEdit');
+        this._deleteAndNotify('rebaseEdit');
+        this._deleteAndNotify('deleteEdit');
+        this._deleteAndNotify('stopEdit');
+        this._deleteAndNotify('edit');
+        return;
+      }
       if (editPatchsetLoaded) {
         // Only show actions that mutate an edit if an actual edit patch set
         // is loaded.

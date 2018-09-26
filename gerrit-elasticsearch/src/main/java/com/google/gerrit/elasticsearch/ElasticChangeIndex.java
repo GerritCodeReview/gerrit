@@ -146,7 +146,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     }
 
     String uri = getURI(type, BULK);
-    Response response = postRequest(bulk, uri, getRefreshParam());
+    Response response = postRequest(uri, bulk, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
@@ -227,7 +227,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       try {
         List<ChangeData> results = Collections.emptyList();
         String uri = getURI(types);
-        Response response = postRequest(search, uri, Collections.emptyMap());
+        Response response = postRequest(uri, search);
         StatusLine statusLine = response.getStatusLine();
         if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
           String content = getContent(response);

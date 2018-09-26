@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c13e23c9_b5e0061a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-26T18:27:20Z",
+      "side": 1,
+      "message": "that",
+      "range": {
+        "startLine": 12,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "039bed68e6888ebbaf2a75788c0533b53a53dafe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fecaad49_1c4c1e85",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-09-26T18:27:20Z",
+      "side": 1,
+      "message": "Are there tradeoffs between individually notifying on five nested properties vs. notifying on the entire actions object?",
+      "revId": "039bed68e6888ebbaf2a75788c0533b53a53dafe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "11ddc218f08c84f38766f11af0b727a62dc61491",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45deb12e_bfa8ac65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-09-26T11:13:13Z",
+      "side": 1,
+      "message": "I really would like to separate out this dependency in a cleaner way but this would require much more effort (and would require plugins to explicitly specify the dependency if necessary as we export it for some reason at the moment). As I don\u0027t want to encourage anybody to use the same hack to get rid of the dependency on Apache SSHD, I\u0027m deliberately keeping the rest of the commit message a bit vague. I think it\u0027s sufficient that only the Gerrit change mentions the connection to LC.",
+      "parentUuid": "6afa8d3a_10ea5cc0",
+      "range": {
+        "startLine": 10,
+        "startChar": 55,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "11ddc218f08c84f38766f11af0b727a62dc61491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

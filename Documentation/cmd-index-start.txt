@@ -1,7 +1,7 @@
 = gerrit index start
 
 == NAME
-gerrit index start - Start the online indexer
+gerrit index start - Start the online indexer.
 
 == SYNOPSIS
 [verse]
@@ -44,7 +44,7 @@ This command is intended to be used in scripts.
 Start the online indexer for the 'changes' index:
 
 ----
-  $ ssh -p 29418 review.example.com gerrit index start changes
+$ ssh -p 29418 review.example.com gerrit index start changes
 ----
 
 GERRIT

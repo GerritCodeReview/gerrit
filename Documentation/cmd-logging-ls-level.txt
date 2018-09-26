@@ -1,9 +1,9 @@
 = gerrit logging ls-level
 
 == NAME
-gerrit logging ls-level - view the logging level
+gerrit logging ls-level - view the logging level.
 
-gerrit logging ls - view the logging level
+gerrit logging ls - view the logging level.
 
 == SYNOPSIS
 [verse]
@@ -27,13 +27,12 @@ Caller must have the ADMINISTRATE_SERVER capability.
 
 View the logging level of the loggers in the package com.google:
 ----
-    $ssh -p 29418 review.example.com gerrit logging ls-level \
-     com.google.
+$ssh -p 29418 review.example.com gerrit logging ls-level com.google.
 ----
 
 View the logging level of every logger
 ----
-    $ssh -p 29418 review.example.com gerrit logging ls-level
+$ssh -p 29418 review.example.com gerrit logging ls-level
 ----
 
 GERRIT

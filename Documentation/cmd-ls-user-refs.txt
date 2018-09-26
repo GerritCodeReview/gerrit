@@ -1,7 +1,7 @@
 = gerrit ls-user-refs
 
 == NAME
-gerrit ls-user-refs - List refs visible to a specific user
+gerrit ls-user-refs - List refs visible to a specific user.
 
 == SYNOPSIS
 [verse]
@@ -42,7 +42,7 @@ Administrators
 
 List visible refs for the user "mr.developer" in project "gerrit"
 ----
-	$ ssh -p 29418 review.example.com gerrit ls-user-refs -p gerrit -u mr.developer
+$ ssh -p 29418 review.example.com gerrit ls-user-refs -p gerrit -u mr.developer
 ----
 
 GERRIT

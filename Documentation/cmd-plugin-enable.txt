@@ -32,7 +32,7 @@ This command is intended to be used in scripts.
 Enable a plugin:
 
 ----
-	ssh -p 29418 localhost gerrit plugin enable my-plugin
+ssh -p 29418 localhost gerrit plugin enable my-plugin
 ----
 
 GERRIT

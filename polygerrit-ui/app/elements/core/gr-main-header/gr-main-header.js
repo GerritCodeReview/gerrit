@@ -252,7 +252,7 @@
       this.$.restAPI.getConfig()
           .then(config => {
             this._retrieveRegisterURL(config);
-            this.getDocsBaseUrl(config, this.$.restAPI);
+            return this.getDocsBaseUrl(config, this.$.restAPI);
           })
           .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
     },

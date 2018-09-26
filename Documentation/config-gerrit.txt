@@ -648,7 +648,7 @@ H2 uses memory to cache its database content. The parameter `h2CacheSize`
 allows to limit the memory used by H2 and thus prevent out-of-memory
 caused by the H2 database using too much memory.
 +
-See <<database.h2.cachesize,database.h2.cachesize>> for a detailed discussion.
+See <<database.h2.cacheSize,database.h2.cacheSize>> for a detailed discussion.
 +
 Default is unset, using up to half of the available memory.
 +

@@ -73,6 +73,12 @@ limitations under the License.
 
     test('link URLs', () => {
       assert.equal(
+          element._computeLinkURL({url: 'http://example.com/test'}),
+          '//' + window.location.host + 'http://example.com/test');
+      assert.equal(
+          element._computeLinkURL({url: 'https://example.com/test'}),
+          '//' + window.location.host + 'https://example.com/test');
+      assert.equal(
           element._computeLinkURL({url: '/test'}),
           '//' + window.location.host + '/test');
       assert.equal(

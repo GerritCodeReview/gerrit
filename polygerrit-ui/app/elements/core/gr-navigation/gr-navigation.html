@@ -127,6 +127,7 @@ limitations under the License.
         // by the viewing user.
         name: 'Outgoing reviews',
         query: 'is:open owner:${user} -is:wip -is:ignored',
+        isOutgoing: true,
       },
       {
         // Non-WIP open changes not owned by the viewed user, that the viewed user

@@ -16,6 +16,23 @@
       "revId": "0611d867359ca322603809598a89e46d4cc38ba2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d2dae06_a1d18278",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-26T12:41:51Z",
+      "side": 1,
+      "message": "This is setting version 2 regardless of what the client sent.  Here we need to make it only set when the client has sent the corresponding option.",
+      "revId": "0611d867359ca322603809598a89e46d4cc38ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

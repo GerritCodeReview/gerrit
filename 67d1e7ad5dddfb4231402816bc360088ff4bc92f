@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1537883756 +0200\nnonce AP50N7bGengFngbA8qssxY2CjnrVN/3L6j7lOcc2hN8VroYE2Zoo+mrsPtf2F94fWZqVYxig8BtN\n\n0000000000000000000000000000000000000000 cd8ff3b2c893c7bc4c0b7d59c79f0916eb026622 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJbqj5sAAoJEHFVO370GiZWyqcIALhJJ6JIbop8Hz/eX4YiUcuc\nFnIo+K2YBbnHA74Wz9fHak4ao5giMpvw8x8N83jzfB/rl1s3pCTeZWM5TumX3hvK\novwj+HQQ2hBlRorw6QnI7kkwoXfJPXWOjvlnvy1ovcSYgLSMiL2w6/t2dZLTGRoj\nfSVJ3jw4hERYqdyh5k5i1/8ir3SmcasADJlrCrHF7ZIJOZib1JzrZQtJ8SPZN01T\nsgikndQ6gRMYp64q6nHW24cSRO1mr4ioCI0fxAhzV5TJzUxzCcMNa4OngcqlQdDS\n9pzzQnVxkFDEo4A8RlbFswk0oKxibHTkOu2lkeL/qauxw0ifxB0bszL/lX3jRcg\u003d\n\u003dgBzG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a8eae87_8067c1dc",
+        "filename": "java/com/google/gerrit/extensions/registration/Extension.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-26T04:08:19Z",
+      "side": 1,
+      "message": "The member exportName is annotated as @Nullable, so should this method also be?",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "67d1e7ad5dddfb4231402816bc360088ff4bc92f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

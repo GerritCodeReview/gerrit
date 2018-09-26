@@ -30,7 +30,11 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
           ProjectField.NAME_PART,
           ProjectField.ANCESTOR_NAME);
 
+  @Deprecated
   static final Schema<ProjectData> V2 = schema(V1, ProjectField.STATE, ProjectField.REF_STATE);
+
+  // Bump Lucene version requires reindexing
+  static final Schema<ProjectData> V3 = schema(V2);
 
   public static final ProjectSchemaDefinitions INSTANCE = new ProjectSchemaDefinitions();
 

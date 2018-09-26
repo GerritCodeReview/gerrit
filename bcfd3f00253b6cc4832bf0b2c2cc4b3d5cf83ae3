@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7fb0cb2_b4d96b9b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-26T04:39:17Z",
+      "side": 1,
+      "message": "[Optional] Nullable annotation on collections is actually a bad taste, so that previous version with passing in empty collection could be preserved.",
+      "range": {
+        "startLine": 254,
+        "startChar": 59,
+        "endLine": 254,
+        "endChar": 95
+      },
+      "revId": "bcfd3f00253b6cc4832bf0b2c2cc4b3d5cf83ae3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

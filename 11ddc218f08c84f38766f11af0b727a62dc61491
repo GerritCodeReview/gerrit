@@ -22,6 +22,30 @@
       "revId": "11ddc218f08c84f38766f11af0b727a62dc61491",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6afa8d3a_10ea5cc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-26T10:01:13Z",
+      "side": 1,
+      "message": "Never mind, I just saw in [1] that this refers to Google internal dependencies.  Can you update the commit message to clarify this?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/195370",
+      "parentUuid": "3ba8c275_71469592",
+      "range": {
+        "startLine": 10,
+        "startChar": 55,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "11ddc218f08c84f38766f11af0b727a62dc61491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

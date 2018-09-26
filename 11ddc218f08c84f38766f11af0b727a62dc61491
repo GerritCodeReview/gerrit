@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ba8c275_71469592",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-26T09:59:40Z",
+      "side": 1,
+      "message": "If there are dependencies to sshd that are no longer needed, can they be removed in this change?",
+      "range": {
+        "startLine": 10,
+        "startChar": 55,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "11ddc218f08c84f38766f11af0b727a62dc61491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

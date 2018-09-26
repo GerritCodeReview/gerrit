@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
@@ -33,7 +34,7 @@ public class SshdModule extends AbstractModule {
   private static synchronized KeyPairProvider getHostKeys() {
     if (keys == null) {
       keys = new SimpleGeneratorHostKeyProvider();
-      keys.setAlgorithm("RSA");
+      keys.setAlgorithm(KeyUtils.EC_ALGORITHM);
       keys.loadKeys();
     }
     return keys;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da12a18e_c8b4bed4",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-09-26T19:11:22Z",
+      "side": 1,
+      "message": "It dosen\u0027t seem to merge them under one if they have the same name.\n\nAnother issue (or bug) is the url goes like \"http://gerrit.new/rhttps://www.mediawiki.org/wiki/Gerrit\"",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 7
+      },
+      "revId": "43e793eba70a71d73794743195800e5189fd214e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

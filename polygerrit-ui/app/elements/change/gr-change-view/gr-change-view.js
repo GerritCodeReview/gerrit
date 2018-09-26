@@ -102,6 +102,10 @@
         type: Object,
         value() { return document.body; },
       },
+      disableEdit: {
+        type: Boolean,
+        value: false,
+      },
       _commentThreads: Array,
       /** @type {?} */
       _serverConfig: {

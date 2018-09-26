@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "070d3fbc_f33975e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-09-26T08:53:59Z",
+      "side": 1,
+      "message": "This new cache needs to be documented so that Gerrit admins\nare aware of it and can ensure proper sizing. This is important\nbecause a not large enough cache will start evicting entries from\nitself as its current size approaches its max size.\nSince the cache (how it is implemented in this patch-set) doesn\u0027t\nhave a loader, there is no way to reload an evicted entry except\nto tell the affected user to again remove/add his keys.\nDoing the remove/add once may be acceptable, but having to repeat it\nis not acceptable.",
+      "revId": "b3dcfc95d3ca7f0e5a6c35e32f5a322ce2cf60e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c18ba6e4_6d1a6165",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-09-26T08:53:59Z",
+      "side": 1,
+      "message": "What makes this binding nullable?\n\nIf it is only for unit tests (as you pointed out in a comment) then\nit could make sense to have a special (empty cache) implementation\nof that cache which returns Collections.emptyList() for each key?\n\nThis could eliminate the null checks, like in the 225-227, in the main code.",
+      "range": {
+        "startLine": 146,
+        "startChar": 41,
+        "endLine": 146,
+        "endChar": 51
+      },
+      "revId": "b3dcfc95d3ca7f0e5a6c35e32f5a322ce2cf60e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

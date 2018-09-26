@@ -118,6 +118,30 @@
       "revId": "2332c95641bd64a67f2efc875b75afacb96809e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f25a9850_0e9a8e73",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 2643,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-09-26T05:32:58Z",
+      "side": 1,
+      "message": "No problem, I\u0027ll clean it up tomorrow. Thanks for helping on that bug!",
+      "parentUuid": "ea0553f5_2c8865f9",
+      "range": {
+        "startLine": 2643,
+        "startChar": 16,
+        "endLine": 2643,
+        "endChar": 21
+      },
+      "revId": "2332c95641bd64a67f2efc875b75afacb96809e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

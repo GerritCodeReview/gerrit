@@ -405,6 +405,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic);
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, topic);
+    r.assertMessage("deprecated topic syntax");
 
     // specify topic as option
     r = pushTo("refs/for/master%topic=" + topic);

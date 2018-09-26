@@ -714,7 +714,7 @@ public abstract class AbstractDaemonTest {
       throws Exception {
     assertThat(topic).isNotEmpty();
     return createCommitAndPush(
-        repo, "refs/for/master/" + name(topic), commitMsg, fileName, content);
+        repo, "refs/for/master%topic=" + name(topic), commitMsg, fileName, content);
   }
 
   protected PushOneCommit.Result createChange(String subject, String fileName, String content)
@@ -733,7 +733,7 @@ public abstract class AbstractDaemonTest {
       String topic)
       throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo, subject, fileName, content);
-    return push.to("refs/for/" + branch + "/" + name(topic));
+    return push.to("refs/for/" + branch + "%topic=" + name(topic));
   }
 
   protected BranchApi createBranch(Branch.NameKey branch) throws Exception {

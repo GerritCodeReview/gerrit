@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -65,6 +66,7 @@ final class Upload extends AbstractGitCommand {
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
     up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
+    up.setExtraParameters(ImmutableList.of("version=2"));
 
     List<PreUploadHook> allPreUploadHooks = Lists.newArrayList(preUploadHooks);
     allPreUploadHooks.add(

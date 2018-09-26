@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
@@ -230,6 +231,7 @@ public class GitOverHttpServlet extends GitServlet {
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
       up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
+      up.setExtraParameters(ImmutableList.of("version=2"));
       ProjectState state = (ProjectState) req.getAttribute(ATT_STATE);
       for (UploadPackInitializer initializer : uploadPackInitializers) {
         initializer.init(state.getNameKey(), up);

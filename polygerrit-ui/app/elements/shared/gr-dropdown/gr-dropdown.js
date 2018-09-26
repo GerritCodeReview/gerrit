@@ -229,7 +229,8 @@
       if (typeof link.url === 'undefined') {
         return '';
       }
-      if (link.target) {
+      if (link.target || (link.url.startsWith('http://')
+          || link.url.startsWith('https://'))) {
         return link.url;
       }
       return this._computeRelativeURL(link.url);

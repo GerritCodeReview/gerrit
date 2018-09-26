@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67f9f17c_9125e25f",
+        "filename": "java/com/google/gerrit/server/config/ChangeCleanupConfig.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-26T10:58:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ac33311_3b3e05d2",
+      "range": {
+        "startLine": 65,
+        "startChar": 78,
+        "endLine": 65,
+        "endChar": 89
+      },
+      "revId": "c10903d1d2ad289dbf5ad5c2672a3e38e46cfde1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00b81315_d9615ac5",
         "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 20
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "35094d16_df7a4366",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-26T10:58:20Z",
+      "side": 1,
+      "message": "if you have SSH, you have host keys, and this doesn\u0027t run.",
+      "parentUuid": "00b81315_d9615ac5",
+      "revId": "c10903d1d2ad289dbf5ad5c2672a3e38e46cfde1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c08ae0ef_ccb00e30",
         "filename": "javatests/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
         "patchSetId": 20
@@ -53,6 +95,24 @@
       "writtenOn": "2018-09-25T17:50:25Z",
       "side": 1,
       "message": "I am not at all confident that we have a GWT -\u003e PG redirect in place for anchors within the settings page.\n\nHonestly I\u0027m still ok with this. It\u0027ll dump GWT users on the basic settings page, from which they can probably figure out how to navigate to the identities section.",
+      "revId": "c10903d1d2ad289dbf5ad5c2672a3e38e46cfde1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c5b9173_92480f3d",
+        "filename": "javatests/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-09-26T10:58:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c08ae0ef_ccb00e30",
       "revId": "c10903d1d2ad289dbf5ad5c2672a3e38e46cfde1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

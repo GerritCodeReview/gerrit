@@ -94,6 +94,30 @@
       "revId": "2332c95641bd64a67f2efc875b75afacb96809e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea0553f5_2c8865f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 2643,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-26T05:16:26Z",
+      "side": 1,
+      "message": "I don\u0027t have much time, because of ongoing vacation. Will appreciate if someone else could do that.",
+      "parentUuid": "b132c6a1_92338f60",
+      "range": {
+        "startLine": 2643,
+        "startChar": 16,
+        "endLine": 2643,
+        "endChar": 21
+      },
+      "revId": "2332c95641bd64a67f2efc875b75afacb96809e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -44,16 +44,12 @@ import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Key;
-import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
-import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import org.apache.sshd.common.keyprovider.KeyPairProvider;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.eclipse.jgit.lib.Config;
 
 class InMemoryTestingDatabaseModule extends LifecycleModule {
@@ -107,23 +103,8 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
     install(new SchemaModule());
     bind(SchemaVersion.class).to(SchemaVersion.C);
-  }
 
-  @Provides
-  @Singleton
-  KeyPairProvider createHostKey() {
-    return getHostKeys();
-  }
-
-  private static SimpleGeneratorHostKeyProvider keys;
-
-  private static synchronized KeyPairProvider getHostKeys() {
-    if (keys == null) {
-      keys = new SimpleGeneratorHostKeyProvider();
-      keys.setAlgorithm("RSA");
-      keys.loadKeys();
-    }
-    return keys;
+    install(new SshdModule());
   }
 
   static class CreateDatabase implements LifecycleListener {

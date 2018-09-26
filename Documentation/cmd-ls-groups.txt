@@ -1,7 +1,7 @@
 = gerrit ls-groups
 
 == NAME
-gerrit ls-groups - List groups visible to caller
+gerrit ls-groups - List groups visible to caller.
 
 == SYNOPSIS
 [verse]
@@ -88,53 +88,53 @@ nonexistent group, the owner group name field will read `n/a`.
 
 List visible groups:
 ----
-	$ ssh -p 29418 review.example.com gerrit ls-groups
-	Administrators
-	Anonymous Users
-	MyProject_Committers
-	Project Owners
-	Registered Users
+$ ssh -p 29418 review.example.com gerrit ls-groups
+Administrators
+Anonymous Users
+MyProject_Committers
+Project Owners
+Registered Users
 ----
 
 List all groups for which any permission is set for the project
 "MyProject":
 ----
-	$ ssh -p 29418 review.example.com gerrit ls-groups --project MyProject
-	MyProject_Committers
-	Project Owners
-	Registered Users
+$ ssh -p 29418 review.example.com gerrit ls-groups --project MyProject
+MyProject_Committers
+Project Owners
+Registered Users
 ----
 
 List all groups which are owned by the calling user:
 ----
-	$ ssh -p 29418 review.example.com gerrit ls-groups --owned
-	MyProject_Committers
-	MyProject_Verifiers
+$ ssh -p 29418 review.example.com gerrit ls-groups --owned
+MyProject_Committers
+MyProject_Verifiers
 ----
 
 Check if the calling user owns the group `MyProject_Committers`. If
 `MyProject_Committers` is returned the calling user owns this group.
 If the result is empty, the calling user doesn't own the group.
 ----
-	$ ssh -p 29418 review.example.com gerrit ls-groups --owned -q MyProject_Committers
-	MyProject_Committers
+$ ssh -p 29418 review.example.com gerrit ls-groups --owned -q MyProject_Committers
+MyProject_Committers
 ----
 
 Extract the UUID of the 'Administrators' group:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit ls-groups -v | awk '-F\t' '$1 == "Administrators" {print $2}'
-	ad463411db3eec4e1efb0d73f55183c1db2fd82a
+$ ssh -p 29418 review.example.com gerrit ls-groups -v | awk '-F\t' '$1 == "Administrators" {print $2}'
+ad463411db3eec4e1efb0d73f55183c1db2fd82a
 ----
 
 Extract and expand the multi-line description of the 'Administrators'
 group:
 
 ----
-	$ printf "$(ssh -p 29418 review.example.com gerrit ls-groups -v | awk '-F\t' '$1 == "Administrators" {print $3}')\n"
-	This is a
-	multi-line
-	description.
+$ printf "$(ssh -p 29418 review.example.com gerrit ls-groups -v | awk '-F\t' '$1 == "Administrators" {print $3}')\n"
+This is a
+multi-line
+description.
 ----
 
 GERRIT

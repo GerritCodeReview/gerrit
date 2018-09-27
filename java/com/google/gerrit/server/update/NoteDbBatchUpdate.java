@@ -17,9 +17,11 @@ package com.google.gerrit.server.update;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.Comparator.comparing;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -399,7 +401,11 @@ public class NoteDbBatchUpdate extends BatchUpdate {
       Change.Id id = e.getKey();
       ChangeContextImpl ctx = newChangeContext(id);
       boolean dirty = false;
-      logDebug("Applying %d ops for change %s", e.getValue().size(), id);
+      logDebug(
+          "Applying %d ops for change %s: %s",
+          e.getValue().size(),
+          id,
+          lazy(() -> Collections2.transform(e.getValue(), op -> op.getClass().getName())));
       for (BatchUpdateOp op : e.getValue()) {
         dirty |= op.updateChange(ctx);
       }

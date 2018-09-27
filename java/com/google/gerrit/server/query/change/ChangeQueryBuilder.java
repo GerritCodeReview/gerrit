@@ -673,6 +673,21 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
+  public Predicate<ChangeData> repo(String name) {
+    return project(name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> repos(String name) {
+    return projects(name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> parentrepo(String name) {
+    return parentproject(name);
+  }
+
+  @Operator
   public Predicate<ChangeData> branch(String name) {
     if (name.startsWith("^")) {
       return ref("^" + RefNames.fullName(name.substring(1)));

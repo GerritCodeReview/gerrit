@@ -166,7 +166,7 @@ Changes occurring in 'PROJECT' or in one of the child projects of
 'PROJECT'.
 
 [[repository]]
-repository:'REPOSITORY'::
+repository:'REPOSITORY', repo:'REPOSITORY'::
 +
 Changes occurring in 'REPOSITORY'. If 'REPOSITORY' starts with `^` it
 matches repository names by regular expression.  The
@@ -174,12 +174,12 @@ link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
 
 [[repositories]]
-repositories:'PREFIX'::
+repositories:'PREFIX', repos:'PREFIX'::
 +
 Changes occurring in repositories starting with 'PREFIX'.
 
 [[parentrepository]]
-parentrepository:'REPOSITORY'::
+parentrepository:'REPOSITORY', parentrepo:'REPOSITORY'::
 +
 Changes occurring in 'REPOSITORY' or in one of the child repositories of
 'REPOSITORY'.

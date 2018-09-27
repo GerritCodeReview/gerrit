@@ -1,4 +1,107 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1537946715 +0200\nnonce AP50N7Z4YKS8G7VegjsHFSTpeLDCCo2v8ga+PwgvGySN4QLSO47fXNkfshcbBU7sdfwTAk3W8T8D\n\n0000000000000000000000000000000000000000 0901fcfb88d436a86c5eee452dbbc94b72620c4c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJbqzRbAAoJEHFVO370GiZWnPgH/iDWNTpn5Al7ZI0gHwOqJtUD\nytUuTAHqzhRcWfJazwDt5PfDpKW5fKuRYryVwZNZN0tAQYBx7/P1j+2AJwuLkwUP\nNe1VVTua40B+q/5OtkGbNQGEEetT3DHlfSQYF8FKwF2GxpKM+50AwkCB4L2uZIIB\nUV6DQx1cKd0bGceQvVJKrrTYyVyzJvVO/g1lKoG8R2jbKen5dka52CN8ggFEJI+Q\nM22Ww0BqILJPYfccOAakmxhA3OBPTJPg4xGxINpxi0vnF69PjdjXAfWki5WY6Hw4\neXeFB2Qu4pqay0UyG9ARC0iLy6LPnO+tSkpaHyhzneQhlGkVNUDfEHbwqskfD9c\u003d\n\u003d8iva\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a64ed8a3_6ba1d6ee",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-27T14:15:07Z",
+      "side": 1,
+      "message": "Maybe add the method signature for doFoo to make it clear that it throws multiple exceptions?",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3ee0f00_4d60341b",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-27T14:15:07Z",
+      "side": 1,
+      "message": "I\u0027ve seen this called \"CheckedFunction\", so this could be \"ExtensionCheckedFunction\" or \"CheckedExtensionFunction\"",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "324e2f3b_ad11089a",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-27T14:15:07Z",
+      "side": 1,
+      "message": "Here and below: consider whether you want throwIfInstanceOf or throwIfPossible. Do you really want to catch and ignore RuntimeExceptions and Errors?",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "addae715_09299529",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-27T14:15:07Z",
+      "side": 1,
+      "message": "Here I think you definitely want throwIfPossible, there\u0027s no point in wrapping a RuntimeException in another ISE if you\u0027re not even going to log in between.",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5cea621_f147e548",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginMapContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-27T14:15:07Z",
+      "side": 1,
+      "message": "I think this can just be:\n\n return Iterators.transform(dynamicMap.iterator(), PluginMapEntryContext::new);",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2582655e_9fb7cde3",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginSetContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-27T14:15:07Z",
+      "side": 1,
+      "message": "Iterators.transform",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -24,6 +24,7 @@ import com.github.rholder.retry.Attempt;
 import com.github.rholder.retry.RetryListener;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -690,6 +691,9 @@ public class MergeOp implements AutoCloseable {
                 accountsToNotify,
                 submoduleOp,
                 dryrun);
+        logger.atFine().log(
+            "submit strategy %s is used for branch batch %s",
+            strategy.getClass().getName(), submitting);
         strategies.add(strategy);
         strategy.addOps(or.getUpdate(), commitsToSubmit);
         if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY)
@@ -738,6 +742,14 @@ public class MergeOp implements AutoCloseable {
     abstract SubmitType submitType();
 
     abstract Set<CodeReviewCommit> commits();
+
+    @Override
+    public String toString() {
+      return MoreObjects.toStringHelper(this)
+          .add("submit-type", submitType().name())
+          .add("commits", commits())
+          .toString();
+    }
   }
 
   private BranchBatch validateChangeList(OpenRepo or, Collection<ChangeData> submitted)

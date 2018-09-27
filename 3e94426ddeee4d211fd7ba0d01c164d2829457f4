@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1538037467 +0200\nnonce AP50N7Z0C/xh+1jSf/m2FvsuadgyMiDFzIry+26gz+3oiP98h8WydFPlw/RWVashAFftS5m2fphz\n\n0000000000000000000000000000000000000000 3e94426ddeee4d211fd7ba0d01c164d2829457f4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlusltsACgkQUbX9l6DQ\n71HcFQgAqMdE0GnzRv5rLIfavJ7KbAnlTaXuAuIQUSoVSoGbdMaX90m+HWysb9Uj\nCn0b32A74GEIprguu32Z2YD4R2XzlqSS53GofBVd+f4MS8S66daLF0v1Qu92P/yF\nGHcl1u1WV//9UYLZmhAGgdpH/CXn8d9ebWMvD5eHZNXTll/AD1+8MbdoO6jOqPRE\nB092DU3baHRpyR2E92x2IwpggHHh0acJ5Np/+N5rD9s0XWul8PX+OrsP1daJuvSi\nwod8jcoLze4Dil0/tKZoLcpfeYqFBPf06Hrad/ItQhT2Cd2IgwCBGSzxxwFdPWXG\nUwac/n6dtfu9BFn1/9+nXmxmlb+MMQ\u003d\u003d\n\u003de+SY\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bda36f0b_37298360",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-27T14:07:08Z",
+      "side": 1,
+      "message": "Can we avoid a whole HashSet allocation for a debug log? E.g. Collections2.transform(e.getValue(), op -\u003e op.getClass().getName()). Or do lazy args work in this context?",
+      "revId": "3e94426ddeee4d211fd7ba0d01c164d2829457f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

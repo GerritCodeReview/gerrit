@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "aa3e3b41_dd4f0e8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-27T07:18:18Z",
+      "side": 1,
+      "message": "Probably yes, we could scan all GPG keys in refs/meta/gpg-keys namespace, load every key, and check if any of the key has the subkey we are looking for.",
+      "parentUuid": "0f47a2a5_6e11c9b4",
+      "revId": "b3dcfc95d3ca7f0e5a6c35e32f5a322ce2cf60e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c18ba6e4_6d1a6165",
         "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 6

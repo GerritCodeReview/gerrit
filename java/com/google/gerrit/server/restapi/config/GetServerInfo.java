@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.EnableSignedPush;
@@ -252,7 +253,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private DownloadInfo getDownloadInfo() {
     DownloadInfo info = new DownloadInfo();
     info.schemes = new HashMap<>();
-    for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
+    for (Extension<DownloadScheme> e : downloadSchemes) {
       DownloadScheme scheme = e.getProvider().get();
       if (scheme.isEnabled() && scheme.getUrl("${project}") != null) {
         info.schemes.put(e.getExportName(), getDownloadSchemeInfo(scheme));
@@ -270,7 +271,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.isAuthSupported = toBoolean(scheme.isAuthSupported());
 
     info.commands = new HashMap<>();
-    for (DynamicMap.Entry<DownloadCommand> e : downloadCommands) {
+    for (Extension<DownloadCommand> e : downloadCommands) {
       String commandName = e.getExportName();
       DownloadCommand command = e.getProvider().get();
       String c = command.getCommand(scheme, "${project}", "${ref}");
@@ -280,7 +281,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     }
 
     info.cloneCommands = new HashMap<>();
-    for (DynamicMap.Entry<CloneCommand> e : cloneCommands) {
+    for (Extension<CloneCommand> e : cloneCommands) {
       String commandName = e.getExportName();
       CloneCommand command = e.getProvider().get();
       String c = command.getCommand(scheme, "${project-path}/${project-base-name}");

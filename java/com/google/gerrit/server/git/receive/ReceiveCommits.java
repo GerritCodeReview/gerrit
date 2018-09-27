@@ -70,8 +70,8 @@ import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -1131,7 +1131,7 @@ class ReceiveCommits {
    * fails.
    */
   private void validatePluginConfig(ReceiveCommand cmd, ProjectConfig cfg) {
-    for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+    for (Extension<ProjectConfigEntry> e : pluginConfigEntries) {
       PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
       ProjectConfigEntry configEntry = e.getProvider().get();
       String value = pluginCfg.getString(e.getExportName());

@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicMap.Entry;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -321,7 +321,7 @@ public class ProjectConfigEntry {
         ProjectConfig oldCfg = parseConfig(p, event.getOldObjectId());
         ProjectConfig newCfg = parseConfig(p, event.getNewObjectId());
         if (oldCfg != null && newCfg != null) {
-          for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+          for (Extension<ProjectConfigEntry> e : pluginConfigEntries) {
             ProjectConfigEntry configEntry = e.getProvider().get();
             String newValue = getValue(newCfg, e);
             String oldValue = getValue(oldCfg, e);
@@ -367,7 +367,7 @@ public class ProjectConfigEntry {
       }
     }
 
-    private static String getValue(ProjectConfig cfg, Entry<ProjectConfigEntry> e) {
+    private static String getValue(ProjectConfig cfg, Extension<ProjectConfigEntry> e) {
       String value = cfg.getPluginConfig(e.getPluginName()).getString(e.getExportName());
       if (value == null) {
         value = e.getProvider().get().getDefaultValue();

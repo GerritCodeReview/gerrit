@@ -24,6 +24,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -130,7 +131,7 @@ public class ReviewerRecommender {
         new ArrayList<>(reviewerSuggestionPluginMap.plugins().size());
     List<Double> weights = new ArrayList<>(reviewerSuggestionPluginMap.plugins().size());
 
-    for (DynamicMap.Entry<ReviewerSuggestion> plugin : reviewerSuggestionPluginMap) {
+    for (Extension<ReviewerSuggestion> plugin : reviewerSuggestionPluginMap) {
       tasks.add(
           () ->
               plugin

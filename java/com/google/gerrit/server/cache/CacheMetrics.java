@@ -18,6 +18,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.metrics.CallbackMetric;
 import com.google.gerrit.metrics.CallbackMetric1;
@@ -71,7 +72,7 @@ public class CacheMetrics {
     metrics.newTrigger(
         cacheMetrics,
         () -> {
-          for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+          for (Extension<Cache<?, ?>> e : cacheMap) {
             Cache<?, ?> c = e.getProvider().get();
             String name = metricNameOf(e);
             CacheStats cstats = c.stats();
@@ -95,7 +96,7 @@ public class CacheMetrics {
     return ((double) d.hitCount() / d.requestCount() * 100);
   }
 
-  private static String metricNameOf(DynamicMap.Entry<Cache<?, ?>> e) {
+  private static String metricNameOf(Extension<Cache<?, ?>> e) {
     if (PluginName.GERRIT.equals(e.getPluginName())) {
       return e.getExportName();
     }

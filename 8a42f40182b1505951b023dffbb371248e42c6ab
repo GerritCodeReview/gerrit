@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "b76d828b_5b3dbb4e",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-27T15:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a64ed8a3_6ba1d6ee",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3ee0f00_4d60341b",
         "filename": "java/com/google/gerrit/server/plugincontext/PluginContext.java",
         "patchSetId": 15
@@ -34,6 +52,24 @@
       "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a471426_05f55878",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-27T15:07:34Z",
+      "side": 1,
+      "message": "That\u0027s a nicer name. Thanks.\n\nDone",
+      "parentUuid": "e3ee0f00_4d60341b",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "8a4b1fd3_5a9e05cb",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-27T15:07:34Z",
+      "side": 1,
+      "message": "Yes, I think we don\u0027t want to handle unchecked exceptions here.\n\nDone",
+      "parentUuid": "324e2f3b_ad11089a",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "addae715_09299529",
         "filename": "java/com/google/gerrit/server/plugincontext/PluginContext.java",
         "patchSetId": 15
@@ -68,6 +122,24 @@
       "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7df51503_3cfe79d6",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-27T15:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "addae715_09299529",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "c045c966_8cfbd208",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginMapContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-27T15:07:34Z",
+      "side": 1,
+      "message": "Good idea.\n\nDone",
+      "parentUuid": "d5cea621_f147e548",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2582655e_9fb7cde3",
         "filename": "java/com/google/gerrit/server/plugincontext/PluginSetContext.java",
         "patchSetId": 15
@@ -102,6 +192,24 @@
       "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abdfa245_f62e541a",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginSetContext.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-27T15:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2582655e_9fb7cde3",
+      "revId": "8a42f40182b1505951b023dffbb371248e42c6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

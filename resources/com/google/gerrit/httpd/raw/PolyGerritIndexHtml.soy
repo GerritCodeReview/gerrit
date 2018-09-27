@@ -65,7 +65,7 @@
   //
   // github.com/Polymer/polymer-resin/blob/master/getting-started.md#integrating
   {if $assetsPath and $assetsBundle}
-    <link rel="import" href="{$assetsPath + $assetsBundle}">{\n}
+    <link rel="import" href="{$assetsPath}/{$assetsBundle}">{\n}
   {/if}
 
   <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}

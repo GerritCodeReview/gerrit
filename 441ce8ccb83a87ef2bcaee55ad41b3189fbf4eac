@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49b33589_2eaaa8c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-27T06:01:36Z",
+      "side": 1,
+      "message": "While the non -signed push rejection works on stable-2.15 even without this change, I think stable-2.15 can also benefit from this early return. Should we move that change to stable-2.15 branch. I debugged on stable-2.15 too, and it seems that even there, ReceiveCommit processing takes place, but we already know, that the command was rejected, so we can short circuit it on stable-2.15 too.",
+      "revId": "441ce8ccb83a87ef2bcaee55ad41b3189fbf4eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a07b2752_e0a603bc",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-27T06:01:36Z",
+      "side": 1,
+      "message": "Optional: this is very central place, and it may be not obvious, why that check already here, even before ReceiceCommits is run, so may be add a comment here, e.g.:\n\n  // Stop processing when command is rejected by previously ran pre-receive hooks",
+      "revId": "441ce8ccb83a87ef2bcaee55ad41b3189fbf4eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e24d34c_0ae03ad0",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-09-27T06:01:36Z",
+      "side": 1,
+      "message": "Would it be better to check for not attempted instead? This would also work as expected when previously ran hooks rejected the command with another reason as REJECTED_OTHER_REASON?\n\n  c.getResult() !\u003d Result.NOT_ATTEMPTED",
+      "range": {
+        "startLine": 273,
+        "startChar": 40,
+        "endLine": 273,
+        "endChar": 85
+      },
+      "revId": "441ce8ccb83a87ef2bcaee55ad41b3189fbf4eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

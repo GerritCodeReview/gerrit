@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1538036159 +0200\nnonce AP50N7ZeZ38yioXVajKVZnt3qG3DIMqIbO7FYHAeVTxa65hNddVZp8poZTB0hG4BQzYHqNQpM1yC\n\n0000000000000000000000000000000000000000 e9f65299125e5ed4bb42f7b95eb2f6e855a7726a refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluskb8ACgkQUbX9l6DQ\n71FvmggArxWhISPRb3OcUXioeZXGHdLUOEOMYGRUMQklj3843FRJ+kOB2bjRcp40\nOq2HuU3Ko+3zZ0eBTy3GoBi2bmxR6NPXoH85gsLZdJD8iVjDdiVPimgCF/OH3SXR\nLcextLJlgbiXVoR+ZtxhMoVkv1pSLLqxDrryBysInRHeIqQdXHTGTNVCBgDrFFPE\nIMUlUW6HS/RTSbAgjR8gxEmJWeMTiDiWcpoFMdxjJbeJj0DPEMP9xkJBUBJabQ5q\nBO5EdHuAUBhXI7TjvqMmZYO1d/aCp8LoZjeFbrzSr2MpRPeAZ+thv+0ZSRkJs1ln\nIaNKCH8cmjPsd47jwt92IfuET9R/tQ\u003d\u003d\n\u003dzEHr\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "989e8ae3_2cb01a29",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-27T14:00:31Z",
+      "side": 1,
+      "message": "Isn\u0027t the submit type already included in the toString representation of the BranchBatch?",
+      "range": {
+        "startLine": 695,
+        "startChar": 13,
+        "endLine": 695,
+        "endChar": 39
+      },
+      "revId": "e9f65299125e5ed4bb42f7b95eb2f6e855a7726a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5388fca_6134067e",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-27T14:00:31Z",
+      "side": 1,
+      "message": "Is this necessary? What don\u0027t you like about the auto-generated toString representation?",
+      "revId": "e9f65299125e5ed4bb42f7b95eb2f6e855a7726a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28628af2_1d519b89",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-27T14:00:31Z",
+      "side": 1,
+      "message": "submitType is @Nullable so this may NPE",
+      "revId": "e9f65299125e5ed4bb42f7b95eb2f6e855a7726a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

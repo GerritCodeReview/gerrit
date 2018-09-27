@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -399,7 +400,11 @@ public class NoteDbBatchUpdate extends BatchUpdate {
       Change.Id id = e.getKey();
       ChangeContextImpl ctx = newChangeContext(id);
       boolean dirty = false;
-      logDebug("Applying %d ops for change %s", e.getValue().size(), id);
+      logDebug(
+          "Applying %d ops for change %s: %s",
+          e.getValue().size(),
+          id,
+          e.getValue().stream().map(op -> op.getClass().getName()).collect(toSet()));
       for (BatchUpdateOp op : e.getValue()) {
         dirty |= op.updateChange(ctx);
       }

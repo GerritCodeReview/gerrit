@@ -47,6 +47,10 @@ public @interface TestProjectInput {
 
   InheritableBoolean rejectEmptyCommit() default InheritableBoolean.INHERIT;
 
+  InheritableBoolean enableSignedPush() default InheritableBoolean.INHERIT;
+
+  InheritableBoolean requireSignedPush() default InheritableBoolean.INHERIT;
+
   // Fields specific to acceptance test behavior.
 
   /** Username to use for initial clone, passed to {@link AccountCreator}. */

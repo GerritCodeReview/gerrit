@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1538034135 +0200\nnonce AP50N7YgeaSAYiImP+VkSRikHfSeMwklxCRZ1Obj2M3mTxl3yRyKBbt7akuM3TqSALrvP0pdk2X2\n\n0000000000000000000000000000000000000000 25bc4161567a1a2b080800a26acd9d260e419c8d refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlusidcACgkQUbX9l6DQ\n71ErAAf9Fc0h34Ix//okMq4Wr8b73PHt4DhfXEFAxj06NSP16dGWijecvs0IoVAf\nuWVk9DpMYxJ1Pq/xcO4nYcQFLBDaUMHYIxnsF0+CPRaIp3QYX5TiB63BJbBWSWxo\nBXrI76eQ8fTHsJI1WJy5IGvYaQJYSQmqfRkoEFkcDsM46vrg7hnu6eK7DBk8ichI\nkgRjd+ckcoN8eAStsWe8ZKYpw7c8JK3BBlMXv9cHPBi1KM7tIeZccFVuRP0psTVB\nQPeaJyMNkask9EgYG5beKnCWEFqjUWQyZy9thREUr08Iwv2aJAiochnEIeBl/Dvh\nCLSy7tTO26zLxt6uQZ3vROZ/fyWp7A\u003d\u003d\n\u003dgbRS\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d15b14a_9f6a95b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-27T07:48:08Z",
+      "side": 1,
+      "message": "nit: opening quote mark is missing.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "25bc4161567a1a2b080800a26acd9d260e419c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e819ebf_dee935bc",
+        "filename": "Documentation/cmd-index.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-27T22:55:41Z",
+      "side": 1,
+      "message": "Was this file intentionally added?",
+      "revId": "eeefd0b1148bfb6099c14dbcb91cc6e2bd570521",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

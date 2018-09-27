@@ -203,6 +203,10 @@ public class CreateProject
         MoreObjects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
     args.rejectEmptyCommit =
         MoreObjects.firstNonNull(input.rejectEmptyCommit, InheritableBoolean.INHERIT);
+    args.enableSignedPush =
+        MoreObjects.firstNonNull(input.enableSignedPush, InheritableBoolean.INHERIT);
+    args.requireSignedPush =
+        MoreObjects.firstNonNull(input.requireSignedPush, InheritableBoolean.INHERIT);
     try {
       args.maxObjectSizeLimit = ProjectConfig.validMaxObjectSizeLimit(input.maxObjectSizeLimit);
     } catch (ConfigInvalidException e) {
@@ -297,6 +301,8 @@ public class CreateProject
       newProject.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, args.changeIdRequired);
       newProject.setBooleanConfig(BooleanProjectConfig.REJECT_EMPTY_COMMIT, args.rejectEmptyCommit);
       newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
+      newProject.setBooleanConfig(BooleanProjectConfig.ENABLE_SIGNED_PUSH, args.enableSignedPush);
+      newProject.setBooleanConfig(BooleanProjectConfig.REQUIRE_SIGNED_PUSH, args.requireSignedPush);
       if (args.newParent != null) {
         newProject.setParentName(args.newParent);
       }

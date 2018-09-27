@@ -25,6 +25,7 @@ http_archive(
 # https://github.com/google/closure-compiler/blob/master/contrib/externs/polymer-1.0.js
 http_file(
     name = "polymer_closure",
+    downloaded_file_path = "polymer_closure.js",
     sha256 = "5a589bdba674e1fec7188e9251c8624ebf2d4d969beb6635f9148f420d1e08b1",
     urls = ["https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js"],
 )
@@ -1066,14 +1067,14 @@ maven_jar(
 
 maven_jar(
     name = "asciidoctor",
-    artifact = "org.asciidoctor:asciidoctorj:1.5.6",
-    sha1 = "bb757d4b8b0f8438ce2ed781f6688cc6c01d9237",
+    artifact = "org.asciidoctor:asciidoctorj:1.5.7",
+    sha1 = "8e8c1d8fc6144405700dd8df3b177f2801ac5987",
 )
 
 maven_jar(
     name = "jruby",
-    artifact = "org.jruby:jruby-complete:9.1.13.0",
-    sha1 = "8903bf42272062e87a7cbc1d98919e0729a9939f",
+    artifact = "org.jruby:jruby-complete:9.1.17.0",
+    sha1 = "76716d529710fc03d1d429b43e3cedd4419f78d4",
 )
 
 maven_jar(

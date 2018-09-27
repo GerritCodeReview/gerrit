@@ -256,6 +256,11 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   @Override
   public void onPreReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
+    if (commands.stream().anyMatch(c -> c.getResult() != Result.NOT_ATTEMPTED)) {
+      // Stop processing when command was already processed by previously invoked
+      // pre-receive hooks
+      return;
+    }
     Worker w = new Worker(commands);
     try {
       w.progress.waitFor(

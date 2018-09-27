@@ -55,7 +55,7 @@ are not required to review it.
 |An optional topic.
 
 |Strategy
-|The <<submit-strategy>> for the change.
+|The <<submit-strategies,submit strategy>> for the change.
 
 |Code Review
 |Displays the Code Review status for the change.

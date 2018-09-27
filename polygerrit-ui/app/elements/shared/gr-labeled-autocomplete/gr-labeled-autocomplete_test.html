@@ -44,8 +44,11 @@ limitations under the License.
     teardown(() => { sandbox.restore(); });
 
     test('tapping trigger focuses autocomplete', () => {
+      const e = {stopPropagation: () => undefined};
+      sandbox.stub(e, 'stopPropagation');
       sandbox.stub(element.$.autocomplete, 'focus');
-      element._handleTriggerTap();
+      element._handleTriggerTap(e);
+      assert.isTrue(e.stopPropagation.calledOnce);
       assert.isTrue(element.$.autocomplete.focus.calledOnce);
     });
 

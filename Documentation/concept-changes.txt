@@ -84,10 +84,10 @@ listed next to the change message. These related changes are grouped together in
 several categories, including:
 
 * Relation Chain. These changes are related by parent-child relationships,
-  regardless of <<topics>>.
+  regardless of <<topic,topic>>.
 * Merge Conflicts. These are changes in which there is a merge conflict with
   the current change.
-* Submitted Together. These are changes that share the same <<topics>>.
+* Submitted Together. These are changes that share the same <<topic,topic>>.
 
 An arrow indicates the change you are currently viewing.
 

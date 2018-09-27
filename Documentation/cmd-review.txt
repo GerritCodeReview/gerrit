@@ -1,7 +1,7 @@
 = gerrit review
 
 == NAME
-gerrit review - Apply reviews to one or more patch sets
+gerrit review - Apply reviews to one or more patch sets.
 
 == SYNOPSIS
 [verse]
@@ -144,35 +144,35 @@ This command is intended to be used in scripts.
 
 Approve the change with commit c0ff33 as "Verified +1"
 ----
-	$ ssh -p 29418 review.example.com gerrit review --verified +1 c0ff33
+$ ssh -p 29418 review.example.com gerrit review --verified +1 c0ff33
 ----
 
 Vote on the project specific label "mylabel":
 ----
-	$ ssh -p 29418 review.example.com gerrit review --label mylabel=+1 c0ff33
+$ ssh -p 29418 review.example.com gerrit review --label mylabel=+1 c0ff33
 ----
 
 Append the message "Build Successful". Notice two levels of quoting is
 required, one for the local shell, and another for the argument parser
 inside the Gerrit server:
 ----
-	$ ssh -p 29418 review.example.com gerrit review -m '"Build Successful"' c0ff33
+$ ssh -p 29418 review.example.com gerrit review -m '"Build Successful"' c0ff33
 ----
 
 Mark the unmerged commits both "Verified +1" and "Code-Review +2" and
 submit them for merging:
 ----
-  $ ssh -p 29418 review.example.com gerrit review \
-    --verified +1 \
-    --code-review +2 \
-    --submit \
-    --project this/project \
-    $(git rev-list origin/master..HEAD)
+$ ssh -p 29418 review.example.com gerrit review \
+  --verified +1 \
+  --code-review +2 \
+  --submit \
+  --project this/project \
+  $(git rev-list origin/master..HEAD)
 ----
 
 Abandon an active change:
 ----
-  $ ssh -p 29418 review.example.com gerrit review --abandon c0ff33
+$ ssh -p 29418 review.example.com gerrit review --abandon c0ff33
 ----
 
 == SEE ALSO

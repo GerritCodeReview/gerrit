@@ -1011,9 +1011,10 @@
 
     _handleReloadChange(e) {
       return this._reload().then(() => {
-        // If the change was rebased, we need to reload the page with the
-        // latest patch.
-        if (e.detail.action === 'rebase') {
+        // If the change was rebased or submitted, we need to reload the page
+        // with the latest patch.
+        const action = e.detail.action;
+        if (action === 'rebase' || action === 'submit') {
           Gerrit.Nav.navigateToChange(this._change);
         }
       });

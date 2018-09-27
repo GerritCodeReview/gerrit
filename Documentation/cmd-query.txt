@@ -117,18 +117,18 @@ This command is intended to be used in scripts.
 
 Find the 2 most recent open changes in the tools/gerrit project:
 ----
-  $ ssh -p 29418 review.example.com gerrit query --format=JSON status:open project:tools/gerrit limit:2
-  {"project":"tools/gerrit", ...}
-  {"project":"tools/gerrit", ...}
-  {"type":"stats","rowCount":2,"runningTimeMilliseconds:15}
+$ ssh -p 29418 review.example.com gerrit query --format=JSON status:open project:tools/gerrit limit:2
+{"project":"tools/gerrit", ...}
+{"project":"tools/gerrit", ...}
+{"type":"stats","rowCount":2,"runningTimeMilliseconds:15}
 ----
 
 Skip number of changes:
 ----
-  $ ssh -p 29418 review.example.com gerrit query --format=JSON --start 42 status:open project:tools/gerrit limit:2
-  {"project":"tools/gerrit", ...}
-  {"project":"tools/gerrit", ...}
-  {"type":"stats","rowCount":1,"runningTimeMilliseconds:15}
+$ ssh -p 29418 review.example.com gerrit query --format=JSON --start 42 status:open project:tools/gerrit limit:2
+{"project":"tools/gerrit", ...}
+{"project":"tools/gerrit", ...}
+{"type":"stats","rowCount":1,"runningTimeMilliseconds:15}
 ----
 
 

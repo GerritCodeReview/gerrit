@@ -110,7 +110,7 @@ This most likely requires double quoting the value, for example
 Add an email and SSH key to `watcher`'s account:
 
 ----
-    $ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit set-account --add-ssh-key - --add-email mail@example.com watcher
+$ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit set-account --add-ssh-key - --add-email mail@example.com watcher
 ----
 
 GERRIT

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.mail.send;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -27,10 +26,10 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritInstanceName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -67,7 +66,7 @@ public class EmailArguments {
   final AnonymousUser anonymousUser;
   final String anonymousCowardName;
   final PersonIdent gerritPersonIdent;
-  final Provider<String> urlProvider;
+  final UrlFormatter urlFormatter;
   final AllProjectsName allProjectsName;
   final List<String> sshAddresses;
   final SitePaths site;
@@ -100,7 +99,7 @@ public class EmailArguments {
       AnonymousUser anonymousUser,
       @AnonymousCowardName String anonymousCowardName,
       GerritPersonIdentProvider gerritPersonIdentProvider,
-      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      UrlFormatter urlFormatter,
       AllProjectsName allProjectsName,
       ChangeQueryBuilder queryBuilder,
       Provider<ReviewDb> db,
@@ -129,7 +128,7 @@ public class EmailArguments {
     this.anonymousUser = anonymousUser;
     this.anonymousCowardName = anonymousCowardName;
     this.gerritPersonIdent = gerritPersonIdentProvider.get();
-    this.urlProvider = urlProvider;
+    this.urlFormatter = urlFormatter;
     this.allProjectsName = allProjectsName;
     this.queryBuilder = queryBuilder;
     this.db = db;

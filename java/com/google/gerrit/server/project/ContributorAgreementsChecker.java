@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -29,7 +27,7 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -40,7 +38,7 @@ import java.util.List;
 @Singleton
 public class ContributorAgreementsChecker {
 
-  private final String canonicalWebUrl;
+  private final UrlFormatter urlFormatter;
   private final ProjectCache projectCache;
   private final Metrics metrics;
 
@@ -59,10 +57,8 @@ public class ContributorAgreementsChecker {
 
   @Inject
   ContributorAgreementsChecker(
-      @CanonicalWebUrl @Nullable String canonicalWebUrl,
-      ProjectCache projectCache,
-      Metrics metrics) {
-    this.canonicalWebUrl = canonicalWebUrl;
+      UrlFormatter urlFormatter, ProjectCache projectCache, Metrics metrics) {
+    this.urlFormatter = urlFormatter;
     this.projectCache = projectCache;
     this.metrics = metrics;
   }
@@ -113,15 +109,8 @@ public class ContributorAgreementsChecker {
           .append(" (id=")
           .append(iUser.getAccountId())
           .append(")");
-      if (canonicalWebUrl != null) {
-        msg.append(":\n\n  ");
-        msg.append(canonicalWebUrl);
-        msg.append("#");
-        msg.append(PageLinks.SETTINGS_AGREEMENTS);
-        msg.append("\n");
-      } else {
-        msg.append(".");
-      }
+
+      msg.append(urlFormatter.getSettingsUrl("Agreements").orElse(""));
       throw new AuthException(msg.toString());
     }
   }

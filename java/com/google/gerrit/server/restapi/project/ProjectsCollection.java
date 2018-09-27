@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -46,6 +47,8 @@ import org.eclipse.jgit.lib.Constants;
 @Singleton
 public class ProjectsCollection
     implements RestCollection<TopLevelResource, ProjectResource>, NeedsParams {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<ListProjects> list;
   private final Provider<QueryProjects> queryProjects;
@@ -142,6 +145,8 @@ public class ProjectsCollection
     if (state == null) {
       return null;
     }
+
+    logger.atFine().log("Project %s has state %s", nameKey, state.getProject().getState());
 
     if (checkAccess) {
       // Hidden projects(permitsRead = false) should only be accessible by the project owners.

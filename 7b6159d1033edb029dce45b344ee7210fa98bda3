@@ -17,6 +17,24 @@
       "revId": "7b6159d1033edb029dce45b344ee7210fa98bda3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49a8b39c_ab7928ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-27T14:13:30Z",
+      "side": 1,
+      "message": "Yeah, totally agree that we should return this info to the client.\nUpdated the commit message for now. If I find time I will look further into this.",
+      "parentUuid": "34a181d0_dae458be",
+      "revId": "7b6159d1033edb029dce45b344ee7210fa98bda3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

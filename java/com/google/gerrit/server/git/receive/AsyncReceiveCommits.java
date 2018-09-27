@@ -270,6 +270,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   @Override
   public void onPreReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
+    if (commands.stream().anyMatch(c -> c.getResult() == Result.REJECTED_OTHER_REASON)) {
+      return;
+    }
     Worker w = new Worker(commands);
     try {
       w.progress.waitFor(

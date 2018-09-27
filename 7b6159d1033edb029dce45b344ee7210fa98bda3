@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1538036903 +0200\nnonce AP50N7bQeLPcnUj7/2X55uAHbswd137eVZIcJUD/Iz1SeV2y/sPiZK3pTYgVLlmxzWJHMRhx6ZNN\n\n0000000000000000000000000000000000000000 7b6159d1033edb029dce45b344ee7210fa98bda3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAluslKcACgkQUbX9l6DQ\n71EeiQgAmeRwveuRhpdavEK6CB5spF/eeLYTkiWh5PUkMTvb75T6i2xkjkPqqXd/\n84QNSnkGfEjKjo5Iydu5TkpykTzqVHC2/QOCtwtsbHnjahpdFji8hHHWtNfH74/X\nnXcVT2r+kzklF6GN1q7W5yYPMfCx/kc8Yegh2hb9rpGQd9pMKxi+AW8ZLL+v5PqR\n12R0PCXhsLb+Dx393RoY2GgYOkKl75F7awLMX6H4eLxOt8ycnkiZZAwhHmzO8clG\no9Ikp4kpqnNtzOYmPONUuPFvZ6hKgOrfUhQmp6juc2P09dcG8PPZhpuuDdBlF5NU\nvbEUpvV7k6HxrNTcaD9+cLNZXAukEQ\u003d\u003d\n\u003dDYSL\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "34a181d0_dae458be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-09-27T14:04:14Z",
+      "side": 1,
+      "message": "My first question on reading this was: why can\u0027t we just include this in the error message? I think the answer is that there is no place in CodeReviewCommit to store this information, we can only store an enum value for the status code.\n\nNow that I think about it, it would probably be better to just add another field to CodeReviewCommit to store this kind of freeform error text, instead of relying on just an enum. We get support questions fairly regularly at users who are confused about which change it\u0027s talking about that was not submitted. The only reason I can think of for not doing that is to save memory in CodeReviewCommit, but come on, it\u0027s not like there are that many instances in the most common cases.\n\nAt any rate, you don\u0027t need to fix CodeReviewCommit now, but please do consider adding a note to the commit message.",
+      "revId": "7b6159d1033edb029dce45b344ee7210fa98bda3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

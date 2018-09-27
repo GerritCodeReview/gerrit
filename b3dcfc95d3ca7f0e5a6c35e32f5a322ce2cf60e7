@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "e368a4c1_54bedfc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-09-27T12:48:51Z",
+      "side": 1,
+      "message": "Doesn\u0027t look like an efficient loader",
+      "parentUuid": "aa3e3b41_dd4f0e8c",
+      "revId": "b3dcfc95d3ca7f0e5a6c35e32f5a322ce2cf60e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c18ba6e4_6d1a6165",
         "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 6

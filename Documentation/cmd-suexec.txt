@@ -1,7 +1,7 @@
 = suexec
 
 == NAME
-suexec - Execute a command as any registered user account
+suexec - Execute a command as any registered user account.
 
 == SYNOPSIS
 [verse]
@@ -49,13 +49,13 @@ This command is intended to be used in scripts.
 
 Approve the change with commit c0ff33 as "Verified +1" as user bob@example.com
 ----
-  $ sudo -u gerrit ssh -p 29418 \
-    -i site_path/etc/ssh_host_rsa_key \
-    "Gerrit Code Review@localhost" \
-    suexec \
-    --as bob@example.com \
-    -- \
-    gerrit approve --verified +1 c0ff33
+$ sudo -u gerrit ssh -p 29418 \
+  -i site_path/etc/ssh_host_rsa_key \
+  "Gerrit Code Review@localhost" \
+  suexec \
+  --as bob@example.com \
+  -- \
+  gerrit approve --verified +1 c0ff33
 ----
 
 GERRIT

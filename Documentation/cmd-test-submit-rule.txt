@@ -29,29 +29,29 @@ Can be used by anyone that has permission to read the specified changeset.
 
 Test submit_rule from stdin and return the results as JSON.
 ----
- cat rules.pl | ssh -p 29418 review.example.com gerrit test-submit rule -s I78f2c6673db24e4e92ed32f604c960dc952437d9
- [
-   {
-     "status": "NOT_READY",
-     "reject": {
-       "Any-Label-Name": {}
-     }
-   }
- ]
+cat rules.pl | ssh -p 29418 review.example.com gerrit test-submit rule -s I78f2c6673db24e4e92ed32f604c960dc952437d9
+[
+  {
+    "status": "NOT_READY",
+    "reject": {
+      "Any-Label-Name": {}
+    }
+  }
+]
 ----
 
 Test the active submit_rule from the refs/meta/config branch, ignoring filters in the project parents.
 ----
- $ ssh -p 29418 review.example.com gerrit test-submit rule I78f2c6673db24e4e92ed32f604c960dc952437d9 --no-filters
- [
-   {
-     "status": "NOT_READY",
-     "need": {
-       "Code-Review": {}
-       "Verified": {}
-     }
-   }
- ]
+$ ssh -p 29418 review.example.com gerrit test-submit rule I78f2c6673db24e4e92ed32f604c960dc952437d9 --no-filters
+[
+  {
+    "status": "NOT_READY",
+    "need": {
+      "Code-Review": {}
+      "Verified": {}
+    }
+  }
+]
 ----
 
 == SCRIPTING

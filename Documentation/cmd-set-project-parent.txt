@@ -51,14 +51,14 @@ This command is intended to be used in scripts.
 Configure `kernel/omap` to inherit permissions from `kernel/common`:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit set-project-parent --parent kernel/common kernel/omap
+$ ssh -p 29418 review.example.com gerrit set-project-parent --parent kernel/common kernel/omap
 ----
 
 Reparent all children of `myParent` to `myOtherParent`:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit set-project-parent \
-	  --children-of myParent --parent myOtherParent
+$ ssh -p 29418 review.example.com gerrit set-project-parent \
+  --children-of myParent --parent myOtherParent
 ----
 
 == SEE ALSO

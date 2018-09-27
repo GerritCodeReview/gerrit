@@ -33,7 +33,7 @@ This command is intended to be used in scripts.
 Reload the gerrit configuration:
 
 ----
-	ssh -p 29418 localhost gerrit reload-config
+ssh -p 29418 localhost gerrit reload-config
 ----
 
 GERRIT

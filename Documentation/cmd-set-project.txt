@@ -105,8 +105,8 @@ Change project `example` to be hidden, require change id, don't use content merg
 and use 'merge if necessary' as merge strategy:
 
 ----
-    $ ssh -p 29418 review.example.com gerrit set-project example --submit-type MERGE_IF_NECESSARY\
-    --change-id true --content-merge false --project-state HIDDEN
+$ ssh -p 29418 review.example.com gerrit set-project example --submit-type MERGE_IF_NECESSARY \
+  --change-id true --content-merge false --project-state HIDDEN
 ----
 
 GERRIT

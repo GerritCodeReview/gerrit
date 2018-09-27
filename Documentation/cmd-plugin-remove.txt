@@ -33,7 +33,7 @@ This command is intended to be used in scripts.
 Disable a plugin:
 
 ----
-	ssh -p 29418 localhost gerrit plugin remove my-plugin
+ssh -p 29418 localhost gerrit plugin remove my-plugin
 ----
 
 GERRIT

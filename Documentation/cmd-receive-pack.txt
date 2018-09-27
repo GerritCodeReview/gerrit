@@ -1,7 +1,7 @@
 = git-receive-pack
 
 == NAME
-git-receive-pack - Receive what is pushed into the repository
+git-receive-pack - Receive what is pushed into the repository.
 
 == SYNOPSIS
 [verse]
@@ -43,36 +43,36 @@ Any user who has SSH access to Gerrit.
 
 Send a review for a change on the master branch to charlie@example.com:
 ----
-	git push ssh://review.example.com:29418/project HEAD:refs/for/master%r=charlie@example.com
+git push ssh://review.example.com:29418/project HEAD:refs/for/master%r=charlie@example.com
 ----
 
 Send reviews, but tagging them with the topic name 'bug42':
 ----
-	git push ssh://review.example.com:29418/project HEAD:refs/for/master%r=charlie@example.com,topic=bug42
+git push ssh://review.example.com:29418/project HEAD:refs/for/master%r=charlie@example.com,topic=bug42
 ----
 
 Also CC two other parties:
 ----
-	git push ssh://review.example.com:29418/project HEAD:refs/for/master%r=charlie@example.com,cc=alice@example.com,cc=bob@example.com
+git push ssh://review.example.com:29418/project HEAD:refs/for/master%r=charlie@example.com,cc=alice@example.com,cc=bob@example.com
 ----
 
 Configure a push macro to perform the last action:
 ----
-	git config remote.charlie.url ssh://review.example.com:29418/project
-	git config remote.charlie.push HEAD:refs/for/master%r=charlie@example.com,cc=alice@example.com,cc=bob@example.com
+git config remote.charlie.url ssh://review.example.com:29418/project
+git config remote.charlie.push HEAD:refs/for/master%r=charlie@example.com,cc=alice@example.com,cc=bob@example.com
 ----
 
 afterwards `.git/config` contains the following:
 ----
 [remote "charlie"]
-  url = ssh://review.example.com:29418/project
-  push = HEAD:refs/for/master%r=charlie@example.com,cc=alice@example.com,cc=bob@example.com
+ url = ssh://review.example.com:29418/project
+ push = HEAD:refs/for/master%r=charlie@example.com,cc=alice@example.com,cc=bob@example.com
 ----
 
 and now sending a new change for review to charlie, CC'ing both
 alice and bob is much easier:
 ----
-	git push charlie
+git push charlie
 ----
 
 == SEE ALSO

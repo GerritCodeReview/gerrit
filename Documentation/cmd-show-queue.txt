@@ -1,7 +1,8 @@
 = gerrit show-queue
 
 == NAME
-gerrit show-queue - Display the background work queues, including replication and indexing
+gerrit show-queue - Display the background work queues, including replication
+and indexing.
 
 == SYNOPSIS
 [verse]
@@ -75,13 +76,13 @@ The following queue contains two tasks scheduled to replicate the
 and `dst2`:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit show-queue
-	Task     State                 Command
-	------------------------------------------------------------------------------
-	7aae09b2 14:31:15.435          mirror dst1:/home/git/tools/gerrit.git
-	9ad09d27 14:31:25.434          mirror dst2:/var/cache/tools/gerrit.git
-	------------------------------------------------------------------------------
-	  2 tasks
+$ ssh -p 29418 review.example.com gerrit show-queue
+Task     State                 Command
+------------------------------------------------------------------------------
+7aae09b2 14:31:15.435          mirror dst1:/home/git/tools/gerrit.git
+9ad09d27 14:31:25.434          mirror dst2:/var/cache/tools/gerrit.git
+------------------------------------------------------------------------------
+2 tasks
 ----
 
 GERRIT

@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+
+<article lang="en">
+<articleinfo>
+    <title>Gerrit Code Review - Command Line Tools</title>
+</articleinfo>
+<section id="_client">
+<title>Client</title>
+<simpara>Client commands and hooks can be downloaded via scp, wget or curl
+from Gerrit&#8217;s daemon, and then executed on the client system.</simpara>
+<simpara>To download a client command or hook, use scp or an http client:</simpara>
+<screen>$ scp -p -P 29418 john.doe@review.example.com:bin/gerrit-cherry-pick ~/bin/
+$ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
+
+$ curl -Lo ~/bin/gerrit-cherry-pick http://review.example.com/tools/bin/gerrit-cherry-pick
+$ curl -Lo .git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg</screen>
+<simpara>For more details on how to determine the correct SSH port number,
+see <ulink url="user-upload.html#test_ssh">Testing Your SSH Connection</ulink>.</simpara>
+<section id="client_commands">
+<title>Commands</title>
+<variablelist>
+<varlistentry>
+<term>
+<ulink url="cmd-cherry-pick.html">gerrit-cherry-pick</ulink>
+</term>
+<listitem>
+<simpara>
+        Download and cherry-pick one or more changes (commits).
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</section>
+<section id="client_hooks">
+<title>Hooks</title>
+<simpara>Client hooks can be installed into a local Git repository, improving
+the developer experience when working with a Gerrit Code Review
+server.</simpara>
+<variablelist>
+<varlistentry>
+<term>
+<ulink url="cmd-hook-commit-msg.html">commit-msg</ulink>
+</term>
+<listitem>
+<simpara>
+        Automatically generate <literal>Change-Id:</literal> tags in commit messages.
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</section>
+</section>
+<section id="_server">
+<title>Server</title>
+<simpara>Aside from the standard Git server side actions, Gerrit supports
+several other commands over its internal SSH daemon.  As Gerrit does
+not provide an interactive shell, the commands must be triggered
+from an ssh client, for example:</simpara>
+<screen>  $ ssh -p 29418 review.example.com gerrit ls-projects</screen>
+<simpara>For more details on how to determine the correct SSH port number,
+see <ulink url="user-upload.html#test_ssh">Testing Your SSH Connection</ulink>.</simpara>
+<section id="user_commands">
+<title>User Commands</title>
+<variablelist>
+<varlistentry>
+<term>
+<ulink url="cmd-apropos.html">gerrit apropos</ulink>
+</term>
+<listitem>
+<simpara>
+        Search Gerrit documentation index.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-ban-commit.html">gerrit ban-commit</ulink>
+</term>
+<listitem>
+<simpara>
+        Bans a commit from a project&#8217;s repository.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-create-branch.html">gerrit create-branch</ulink>
+</term>
+<listitem>
+<simpara>
+        Create a new project branch.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-ls-groups.html">gerrit ls-groups</ulink>
+</term>
+<listitem>
+<simpara>
+        List groups visible to the caller.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-ls-members.html">gerrit ls-members</ulink>
+</term>
+<listitem>
+<simpara>
+        List the membership of a group visible to the caller.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-ls-projects.html">gerrit ls-projects</ulink>
+</term>
+<listitem>
+<simpara>
+        List projects visible to the caller.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-query.html">gerrit query</ulink>
+</term>
+<listitem>
+<simpara>
+        Query the change database.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis>gerrit receive-pack</emphasis>
+</term>
+<listitem>
+<simpara>
+        <emphasis>Deprecated alias for <literal>git receive-pack</literal>.</emphasis>
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-rename-group.html">gerrit rename-group</ulink>
+</term>
+<listitem>
+<simpara>
+        Rename an account group.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-review.html">gerrit review</ulink>
+</term>
+<listitem>
+<simpara>
+        Verify, approve and/or submit a patch set from the command line.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-set-head.html">gerrit set-head</ulink>
+</term>
+<listitem>
+<simpara>
+        Change the HEAD reference of a project.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-set-project.html">gerrit set-project</ulink>
+</term>
+<listitem>
+<simpara>
+        Change a project&#8217;s settings.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-set-project-parent.html">gerrit set-project-parent</ulink>
+</term>
+<listitem>
+<simpara>
+        Change the project permissions are inherited from.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-set-reviewers.html">gerrit set-reviewers</ulink>
+</term>
+<listitem>
+<simpara>
+        Add or remove reviewers on a change.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-stream-events.html">gerrit stream-events</ulink>
+</term>
+<listitem>
+<simpara>
+        Monitor events occurring in real time.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-version.html">gerrit version</ulink>
+</term>
+<listitem>
+<simpara>
+        Show the currently executing version of Gerrit.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-receive-pack.html">git receive-pack</ulink>
+</term>
+<listitem>
+<simpara>
+        Standard Git server side command for client side <literal>git push</literal>.
+</simpara>
+<simpara>Also implements the magic associated with uploading commits for
+review.  See <ulink url="user-upload.html#push_create">Creating Changes</ulink>.</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+git upload-pack
+</term>
+<listitem>
+<simpara>
+        Standard Git server side command for client side <literal>git fetch</literal>.
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</section>
+<section id="admin_commands">
+<title>Administrator Commands</title>
+<variablelist>
+<varlistentry>
+<term>
+<ulink url="cmd-close-connection.html">gerrit close-connection</ulink>
+</term>
+<listitem>
+<simpara>
+        Close the specified SSH connection.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-create-account.html">gerrit create-account</ulink>
+</term>
+<listitem>
+<simpara>
+        Create a new user account.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-create-group.html">gerrit create-group</ulink>
+</term>
+<listitem>
+<simpara>
+        Create a new account group.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-create-project.html">gerrit create-project</ulink>
+</term>
+<listitem>
+<simpara>
+        Create a new project and associated Git repository.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-flush-caches.html">gerrit flush-caches</ulink>
+</term>
+<listitem>
+<simpara>
+        Flush some/all server caches from memory.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-gc.html">gerrit gc</ulink>
+</term>
+<listitem>
+<simpara>
+        Run the Git garbage collection.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-gsql.html">gerrit gsql</ulink>
+</term>
+<listitem>
+<simpara>
+        Administrative interface to active database.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-index-activate.html">gerrit index activate</ulink>
+</term>
+<listitem>
+<simpara>
+        Activate the latest index version available.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-index-start.html">gerrit index start</ulink>
+</term>
+<listitem>
+<simpara>
+        Start the online indexer.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-index-changes.html">gerrit index changes</ulink>
+</term>
+<listitem>
+<simpara>
+        Index one or more changes.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-index-changes-in-project.html">gerrit index changes-in-project</ulink>
+</term>
+<listitem>
+<simpara>
+        Index all the changes in one or more projects.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-logging-ls-level.html">gerrit logging ls-level</ulink>
+</term>
+<listitem>
+<simpara>
+        List loggers and their logging level.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-logging-set-level.html">gerrit logging set-level</ulink>
+</term>
+<listitem>
+<simpara>
+        Set the logging level of loggers.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-ls-user-refs.html">gerrit ls-user-refs</ulink>
+</term>
+<listitem>
+<simpara>
+        Lists refs visible for a specified user.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-plugin-install.html">gerrit plugin add</ulink>
+</term>
+<listitem>
+<simpara>
+        Alias for <emphasis>gerrit plugin install</emphasis>.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-plugin-enable.html">gerrit plugin enable</ulink>
+</term>
+<listitem>
+<simpara>
+        Enable plugins.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-plugin-install.html">gerrit plugin install</ulink>
+</term>
+<listitem>
+<simpara>
+        Install/Add a plugin.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-plugin-ls.html">gerrit plugin ls</ulink>
+</term>
+<listitem>
+<simpara>
+        List the installed plugins.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-plugin-reload.html">gerrit plugin reload</ulink>
+</term>
+<listitem>
+<simpara>
+        Reload/Restart plugins.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-plugin-remove.html">gerrit plugin remove</ulink>
+</term>
+<listitem>
+<simpara>
+        Disable plugins.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-plugin-remove.html">gerrit plugin rm</ulink>
+</term>
+<listitem>
+<simpara>
+        Alias for <emphasis>gerrit plugin remove</emphasis>.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-reload-config.html">gerrit reload-config</ulink>
+</term>
+<listitem>
+<simpara>
+        Apply an updated gerrit.config.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-set-account.html">gerrit set-account</ulink>
+</term>
+<listitem>
+<simpara>
+        Change an account&#8217;s settings.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-set-members.html">gerrit set-members</ulink>
+</term>
+<listitem>
+<simpara>
+        Set group members.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-show-caches.html">gerrit show-caches</ulink>
+</term>
+<listitem>
+<simpara>
+        Display current cache statistics.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-show-connections.html">gerrit show-connections</ulink>
+</term>
+<listitem>
+<simpara>
+        Display active client SSH connections.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-show-queue.html">gerrit show-queue</ulink>
+</term>
+<listitem>
+<simpara>
+        Display the background work queues, including replication.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-test-submit-rule.html">gerrit test-submit rule</ulink>
+</term>
+<listitem>
+<simpara>
+        Test prolog submit rules.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-test-submit-type.html">gerrit test-submit type</ulink>
+</term>
+<listitem>
+<simpara>
+        Test prolog submit type.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-kill.html">kill</ulink>
+</term>
+<listitem>
+<simpara>
+        Kills a scheduled or running task.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-show-queue.html">ps</ulink>
+</term>
+<listitem>
+<simpara>
+        Alias for <emphasis>gerrit show-queue</emphasis>.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<ulink url="cmd-suexec.html">suexec</ulink>
+</term>
+<listitem>
+<simpara>
+        Execute a command as any registered user account.
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</section>
+<section id="trace">
+<title>Trace</title>
+<simpara>For executing SSH commands tracing can be enabled by setting the
+<literal>--trace</literal> and <literal>--trace-id &lt;trace-id&gt;</literal> options. It is recommended to use
+the ID of the issue that is being investigated as trace ID.</simpara>
+<screen>  $ ssh -p 29418 review.example.com gerrit create-project --trace --trace-id issue/123 foo/bar</screen>
+<simpara>It is also possible to omit the trace ID and get a unique trace ID
+generated.</simpara>
+<screen>  $ ssh -p 29418 review.example.com gerrit create-project --trace foo/bar</screen>
+<simpara>Enabling tracing results in additional logs with debug information that
+are written to the <literal>error_log</literal>. All logs that correspond to the traced
+request are associated with the trace ID. The trace ID is printed to
+the stderr command output:</simpara>
+<screen>  TRACE_ID: 1534174322774-7edf2a7b</screen>
+<simpara>Given the trace ID an administrator can find the corresponding logs and
+investigate issues more easily.</simpara>
+</section>
+</section>
+<section id="_gerrit">
+<title>GERRIT</title>
+<simpara>Part of <ulink url="index.html">Gerrit Code Review</ulink></simpara>
+</section>
+<section id="_searchbox">
+<title>SEARCHBOX</title>
+</section>
+</article>

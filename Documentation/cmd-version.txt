@@ -1,7 +1,7 @@
 = gerrit version
 
 == NAME
-gerrit version - Show the version of the currently executing Gerrit server
+gerrit version - Show the version of the currently executing Gerrit server.
 
 == SYNOPSIS
 [verse]
@@ -34,8 +34,8 @@ This command is intended to be used in scripts.
 == EXAMPLES
 
 ----
-	$ ssh -p 29418 review.example.com gerrit version
-	gerrit version 2.4.2
+$ ssh -p 29418 review.example.com gerrit version
+gerrit version 2.4.2
 ----
 
 GERRIT

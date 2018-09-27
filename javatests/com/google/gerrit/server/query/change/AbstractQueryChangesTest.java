@@ -841,6 +841,43 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byRepo() throws Exception {
+    TestRepository<Repo> repo1 = createProject("repo1");
+    TestRepository<Repo> repo2 = createProject("repo2");
+    Change change1 = insert(repo1, newChange(repo1));
+    Change change2 = insert(repo2, newChange(repo2));
+
+    assertQuery("repo:foo");
+    assertQuery("repo:repo");
+    assertQuery("repo:repo1", change1);
+    assertQuery("repo:repo2", change2);
+  }
+
+  @Test
+  public void byParentRepo() throws Exception {
+    TestRepository<Repo> repo1 = createProject("repo1");
+    TestRepository<Repo> repo2 = createProject("repo2", "repo1");
+    Change change1 = insert(repo1, newChange(repo1));
+    Change change2 = insert(repo2, newChange(repo2));
+
+    assertQuery("parentrepo:repo1", change2, change1);
+    assertQuery("parentrepo:repo2", change2);
+  }
+
+  @Test
+  public void byRepoPrefix() throws Exception {
+    TestRepository<Repo> repo1 = createProject("repo1");
+    TestRepository<Repo> repo2 = createProject("repo2");
+    Change change1 = insert(repo1, newChange(repo1));
+    Change change2 = insert(repo2, newChange(repo2));
+
+    assertQuery("repos:foo");
+    assertQuery("repos:repo1", change1);
+    assertQuery("repos:repo2", change2);
+    assertQuery("repos:repo", change2, change1);
+  }
+
+  @Test
   public void byBranchAndRef() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChangeForBranch(repo, "master"));

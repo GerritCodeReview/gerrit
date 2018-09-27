@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e63288ae_2bcc3654",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-27T06:17:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49b33589_2eaaa8c2",
+      "revId": "441ce8ccb83a87ef2bcaee55ad41b3189fbf4eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a07b2752_e0a603bc",
         "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "441ce8ccb83a87ef2bcaee55ad41b3189fbf4eac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4daa25d_03a46149",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-27T06:17:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a07b2752_e0a603bc",
+      "revId": "441ce8ccb83a87ef2bcaee55ad41b3189fbf4eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "441ce8ccb83a87ef2bcaee55ad41b3189fbf4eac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08ae67fd_b3ea5eb3",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-09-27T06:17:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e24d34c_0ae03ad0",
+      "range": {
+        "startLine": 273,
+        "startChar": 40,
+        "endLine": 273,
+        "endChar": 85
+      },
+      "revId": "441ce8ccb83a87ef2bcaee55ad41b3189fbf4eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -42,6 +42,8 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -376,20 +378,20 @@ public class StarredChangesUtil {
   }
 
   public static StarRef readLabels(Repository repo, String refName) throws IOException {
-    logger.atFine().log("Read star labels from %s", refName);
+    try (TraceTimer traceTimer = TraceContext.newTimer("Read star labels from %s", refName)) {
+      Ref ref = repo.exactRef(refName);
+      if (ref == null) {
+        return StarRef.MISSING;
+      }
 
-    Ref ref = repo.exactRef(refName);
-    if (ref == null) {
-      return StarRef.MISSING;
-    }
-
-    try (ObjectReader reader = repo.newObjectReader()) {
-      ObjectLoader obj = reader.open(ref.getObjectId(), Constants.OBJ_BLOB);
-      return StarRef.create(
-          ref,
-          Splitter.on(CharMatcher.whitespace())
-              .omitEmptyStrings()
-              .split(new String(obj.getCachedBytes(Integer.MAX_VALUE), UTF_8)));
+      try (ObjectReader reader = repo.newObjectReader()) {
+        ObjectLoader obj = reader.open(ref.getObjectId(), Constants.OBJ_BLOB);
+        return StarRef.create(
+            ref,
+            Splitter.on(CharMatcher.whitespace())
+                .omitEmptyStrings()
+                .split(new String(obj.getCachedBytes(Integer.MAX_VALUE), UTF_8)));
+      }
     }
   }
 
@@ -450,8 +452,9 @@ public class StarredChangesUtil {
   private void updateLabels(
       Repository repo, String refName, ObjectId oldObjectId, Collection<String> labels)
       throws IOException, OrmException, InvalidLabelsException {
-    logger.atFine().log("Update star labels in %s (labels=%s)", refName, labels);
-    try (RevWalk rw = new RevWalk(repo)) {
+    try (TraceTimer traceTimer =
+            TraceContext.newTimer("Update star labels in %s (labels=%s)", refName, labels);
+        RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(refName);
       u.setExpectedOldObjectId(oldObjectId);
       u.setForceUpdate(true);
@@ -488,31 +491,32 @@ public class StarredChangesUtil {
       return;
     }
 
-    logger.atFine().log("Delete star labels in %s", refName);
-    RefUpdate u = repo.updateRef(refName);
-    u.setForceUpdate(true);
-    u.setExpectedOldObjectId(oldObjectId);
-    u.setRefLogIdent(serverIdent.get());
-    u.setRefLogMessage("Unstar change", true);
-    RefUpdate.Result result = u.delete();
-    switch (result) {
-      case FORCED:
-        gitRefUpdated.fire(allUsers, u, null);
-        return;
-      case NEW:
-      case NO_CHANGE:
-      case FAST_FORWARD:
-      case IO_FAILURE:
-      case LOCK_FAILURE:
-      case NOT_ATTEMPTED:
-      case REJECTED:
-      case REJECTED_CURRENT_BRANCH:
-      case RENAMED:
-      case REJECTED_MISSING_OBJECT:
-      case REJECTED_OTHER_REASON:
-      default:
-        throw new OrmException(
-            String.format("Delete star ref %s failed: %s", refName, result.name()));
+    try (TraceTimer traceTimer = TraceContext.newTimer("Delete star labels in %s", refName)) {
+      RefUpdate u = repo.updateRef(refName);
+      u.setForceUpdate(true);
+      u.setExpectedOldObjectId(oldObjectId);
+      u.setRefLogIdent(serverIdent.get());
+      u.setRefLogMessage("Unstar change", true);
+      RefUpdate.Result result = u.delete();
+      switch (result) {
+        case FORCED:
+          gitRefUpdated.fire(allUsers, u, null);
+          return;
+        case NEW:
+        case NO_CHANGE:
+        case FAST_FORWARD:
+        case IO_FAILURE:
+        case LOCK_FAILURE:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
+        case REJECTED_MISSING_OBJECT:
+        case REJECTED_OTHER_REASON:
+        default:
+          throw new OrmException(
+              String.format("Delete star ref %s failed: %s", refName, result.name()));
+      }
     }
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import java.io.IOException;
@@ -26,6 +27,8 @@ import org.eclipse.jgit.revwalk.RevCommitList;
 import org.eclipse.jgit.revwalk.RevFlag;
 
 public class MergeSorter {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
@@ -62,6 +65,8 @@ public class MergeSorter {
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.
           //
+          logger.atFine().log(
+              "commit %s depends on commit %s which cannot be merged", n.name(), c.name());
           n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
           break;
         }

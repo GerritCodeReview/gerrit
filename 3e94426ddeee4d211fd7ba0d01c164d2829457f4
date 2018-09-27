@@ -17,6 +17,24 @@
       "revId": "3e94426ddeee4d211fd7ba0d01c164d2829457f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9773d2cc_de471740",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-27T14:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bda36f0b_37298360",
+      "revId": "3e94426ddeee4d211fd7ba0d01c164d2829457f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

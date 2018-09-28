@@ -313,8 +313,8 @@ maven_jar(
 
 maven_jar(
     name = "commons-compress",
-    artifact = "org.apache.commons:commons-compress:1.13",
-    sha1 = "15c5e9584200122924e50203ae210b57616b75ee",
+    artifact = "org.apache.commons:commons-compress:1.18",
+    sha1 = "1191f9f2bc0c47a8cce69193feb1ff0a8bcb37d5",
 )
 
 maven_jar(
@@ -461,8 +461,8 @@ maven_jar(
 
 maven_jar(
     name = "tukaani-xz",
-    artifact = "org.tukaani:xz:1.4",
-    sha1 = "18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3",
+    artifact = "org.tukaani:xz:1.8",
+    sha1 = "c4f7d054303948eb6a4066194253886c8af07128",
 )
 
 LUCENE_VERS = "5.5.5"

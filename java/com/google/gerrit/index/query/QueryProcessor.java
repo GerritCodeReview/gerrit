@@ -17,8 +17,10 @@ package com.google.gerrit.index.query;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.flogger.LazyArgs.lazy;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
@@ -255,7 +257,9 @@ public abstract class QueryProcessor<T> {
       out = new ArrayList<>(cnt);
       for (int i = 0; i < cnt; i++) {
         List<T> matchesList = matches.get(i).toList();
-        logger.atFine().log("Matches[%d]:\n%s", i, matchesList);
+        logger.atFine().log(
+            "Matches[%d]:\n%s",
+            i, lazy(() -> Collections2.transform(matchesList, this::formatForLogging)));
         out.add(
             QueryResult.create(
                 queryStrings != null ? queryStrings.get(i) : null,
@@ -363,4 +367,6 @@ public abstract class QueryProcessor<T> {
         .map(QueryParseException.class::cast)
         .findFirst();
   }
+
+  protected abstract String formatForLogging(T t);
 }

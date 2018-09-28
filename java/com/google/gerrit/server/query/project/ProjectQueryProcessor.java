@@ -76,4 +76,9 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
     return new AndSource<>(
         pred, new ProjectIsVisibleToPredicate(permissionBackend, userProvider.get()), start);
   }
+
+  @Override
+  protected String formatForLogging(ProjectData projectData) {
+    return projectData.getProject().getName();
+  }
 }

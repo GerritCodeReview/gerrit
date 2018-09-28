@@ -76,4 +76,9 @@ public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
     return new AndSource<>(
         pred, new GroupIsVisibleToPredicate(groupControlFactory, userProvider.get()), start);
   }
+
+  @Override
+  protected String formatForLogging(InternalGroup internalGroup) {
+    return internalGroup.getGroupUUID().get();
+  }
 }

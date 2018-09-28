@@ -69,7 +69,7 @@ public class TransferConfig {
     return maxObjectSizeLimitFormatted;
   }
 
-  public boolean getInheritProjectMaxObjectSizeLimit() {
+  public boolean inheritProjectMaxObjectSizeLimit() {
     return inheritProjectMaxObjectSizeLimit;
   }
 }

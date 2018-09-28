@@ -143,7 +143,7 @@ public class ProjectState {
             ? limitsFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
             : null;
     this.globalMaxObjectSizeLimit = transferConfig.getMaxObjectSizeLimit();
-    this.inheritProjectMaxObjectSizeLimit = transferConfig.getInheritProjectMaxObjectSizeLimit();
+    this.inheritProjectMaxObjectSizeLimit = transferConfig.inheritProjectMaxObjectSizeLimit();
 
     this.computationLatency =
         metricMaker.newTimer(

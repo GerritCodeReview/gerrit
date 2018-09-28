@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b10b211_d3bf6aed",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-09-28T12:11:15Z",
+      "side": 1,
+      "message": "This missing documentation is the reason why I started rummaging around in these parts of the Documentation. I back-ported Vitaliy\u0027s change to 2.15 [1].\nhttps://gerrit-review.googlesource.com/c/gerrit/+/197790",
+      "range": {
+        "startLine": 132,
+        "startChar": 16,
+        "endLine": 132,
+        "endChar": 77
+      },
+      "revId": "54f821f47a6991439199bd669da01f53e4d09ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

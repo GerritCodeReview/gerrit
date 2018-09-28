@@ -424,7 +424,7 @@ image::images/user-review-ui-change-screen-download-commands.png[width=800, link
 
 The available download commands depend on the installed Gerrit plugins.
 The most popular plugin for download commands, the
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/download-commands[
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/download-commands[
 download-commands] plugin, provides commands to checkout, pull and
 cherry-pick a patch set.
 

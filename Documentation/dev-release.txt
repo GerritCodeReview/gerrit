@@ -247,7 +247,7 @@ gerrit-releases bucket in the Google cloud storage console]
 ==== Push the Stable Branch
 
 * Create the stable branch `stable-$version` in the `gerrit` project via the
-link:https://gerrit-review.googlesource.com/#/admin/projects/gerrit,branches[
+link:https://gerrit-review.googlesource.com/admin/repos/gerrit,branches[
 Gerrit Web UI] or by push.
 
 * Push the commits done on `stable-$version` to `refs/for/stable-$version` and
@@ -294,7 +294,7 @@ latest version bold.
 [[update-links]]
 ==== Update homepage links
 
-Upload a change on the link:https://gerrit-review.googlesource.com/#/admin/projects/homepage[
+Upload a change on the link:https://gerrit-review.googlesource.com/admin/repos/homepage[
 homepage project] to change the version numbers to the new version.
 
 [[update-issues]]

@@ -5988,7 +5988,7 @@ Unset for draft comments, assumed to be the calling user.
 |`tag`                 |optional|
 Value of the `tag` field from link:#review-input[ReviewInput] set
 while posting the review.
-NOTE: To apply different tags on on different votes/comments multiple
+NOTE: To apply different tags on different votes/comments multiple
 invocations of the REST call are required.
 |`unresolved`        |optional|
 Whether or not the comment must be addressed by the user. The state of

@@ -57,6 +57,14 @@ limitations under the License.
         vertical-align: text-bottom;
         width: var(--header-icon-size);
       }
+      /* TODO (viktard): Clean-up after chromium-style migrates to component. */
+      span.titleText.darkMode::before {
+        background-image: var(--header-dark-icon);
+        background-size: var(--header-dark-icon-size) var(--header-dark-icon-size);
+        height: var(--header-dark-icon-size);
+        margin-right: calc(var(--header-dark-icon-size) / 4);
+        width: var(--header-dark-icon-size);
+      }
       .titleText::after {
         content: var(--header-title-content);
       }
@@ -170,7 +178,7 @@ limitations under the License.
     <nav>
       <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">
         <gr-endpoint-decorator name="header-title">
-          <span class="titleText"></span>
+          <span class="titleText [[_useDarkMode()]]"></span>
         </gr-endpoint-decorator>
       </a>
       <ul class="links">

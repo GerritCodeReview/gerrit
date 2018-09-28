@@ -310,5 +310,13 @@
     _generateSettingsLink() {
       return this.getBaseUrl() + '/settings/';
     },
+
+    _useDarkMode() {
+      if (window.localStorage.getItem('dark-theme')) {
+        return 'darkMode';
+      }
+
+      return '';
+    },
   });
 })();

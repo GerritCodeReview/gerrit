@@ -131,7 +131,7 @@ branch.
   can represent an external system like CI that does automated verification
   of the change. Comments with specific 'TAG' values can be filtered out in
   the web UI.
-  Note that to apply different tags on on different votes/comments, multiple
+  Note that to apply different tags on different votes/comments, multiple
   invocations of the SSH command are required.
 
 == ACCESS

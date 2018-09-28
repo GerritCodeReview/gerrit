@@ -5545,7 +5545,7 @@ The time and date describing when the approval was made.
 |`tag`                    |optional|
 Value of the `tag` field from link:#review-input[ReviewInput] set
 while posting the review.
-NOTE: To apply different tags on on different votes/comments multiple
+NOTE: To apply different tags on different votes/comments multiple
 invocations of the REST call are required.
 |`post_submit` |not set if `false`|
 If true, this vote was made after the change was submitted.
@@ -5801,7 +5801,7 @@ The link:rest-api.html#timestamp[timestamp] this message was posted.
 |`tag`                 |optional|
 Value of the `tag` field from link:#review-input[ReviewInput] set
 while posting the review.
-NOTE: To apply different tags on on different votes/comments multiple
+NOTE: To apply different tags on different votes/comments multiple
 invocations of the REST call are required.
 |`_revision_number`    |optional|
 Which patchset (if any) generated this message.
@@ -5874,7 +5874,7 @@ Unset for draft comments, assumed to be the calling user.
 |`tag`                 |optional|
 Value of the `tag` field from link:#review-input[ReviewInput] set
 while posting the review.
-NOTE: To apply different tags on on different votes/comments multiple
+NOTE: To apply different tags on different votes/comments multiple
 invocations of the REST call are required.
 |`unresolved`        |optional|
 Whether or not the comment must be addressed by the user. The state of

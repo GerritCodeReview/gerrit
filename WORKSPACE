@@ -336,8 +336,8 @@ maven_jar(
 
 maven_jar(
     name = "commons-codec",
-    artifact = "commons-codec:commons-codec:1.10",
-    sha1 = "4b95f4897fa13f2cd904aee711aeafc0c5295cd8",
+    artifact = "commons-codec:commons-codec:1.11",
+    sha1 = "3acb4705652e16236558f0f4f2192cc33c3bd189",
 )
 
 # When upgrading commons-compress, also upgrade tukaani-xz

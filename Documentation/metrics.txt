@@ -144,6 +144,9 @@ external ID's from NoteDb.
 sections on a project by traversing it's parents.
 * `permissions/permission_collection/filter_latency`: Latency to filter access sections
 by user and ref.
+* `permissions/ref_filter/full_filter_count`: Rate of full ref filter operations
+* `permissions/ref_filter/skip_filter_count`: Rate of ref filter operations where
+we skip full evaluation because the user can read all refs
 
 === Reviewer Suggestion
 

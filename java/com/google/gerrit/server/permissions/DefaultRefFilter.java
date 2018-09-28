@@ -26,6 +26,9 @@ import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -78,6 +81,8 @@ class DefaultRefFilter {
   private final CurrentUser user;
   private final ProjectState projectState;
   private final PermissionBackend.ForProject permissionBackendForProject;
+  private final Counter0 fullFilterCount;
+  private final Counter0 skipFilterCount;
 
   private Map<Change.Id, Branch.NameKey> visibleChanges;
 
@@ -89,6 +94,7 @@ class DefaultRefFilter {
       Provider<ReviewDb> db,
       GroupCache groupCache,
       PermissionBackend permissionBackend,
+      MetricMaker metricMaker,
       @Assisted ProjectControl projectControl) {
     this.tagCache = tagCache;
     this.changeNotesFactory = changeNotesFactory;
@@ -102,6 +108,17 @@ class DefaultRefFilter {
     this.projectState = projectControl.getProjectState();
     this.permissionBackendForProject =
         permissionBackend.user(user).database(db).project(projectState.getNameKey());
+    this.fullFilterCount =
+        metricMaker.newCounter(
+            "permissions/ref_filter/full_filter_count",
+            new Description("Rate of full ref filter operations").setRate());
+    this.skipFilterCount =
+        metricMaker.newCounter(
+            "permissions/ref_filter/skip_filter_count",
+            new Description(
+                    "Rate of ref filter operations where we skip full evaluation"
+                        + " because the user can read all refs")
+                .setRate());
   }
 
   Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
@@ -113,11 +130,14 @@ class DefaultRefFilter {
     if (!projectState.isAllUsers()) {
       if (projectState.statePermitsRead()
           && checkProjectPermission(permissionBackendForProject, ProjectPermission.READ)) {
+        skipFilterCount.increment();
         return refs;
       } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
+        skipFilterCount.increment();
         return fastHideRefsMetaConfig(refs);
       }
     }
+    fullFilterCount.increment();
 
     boolean viewMetadata;
     boolean isAdmin;

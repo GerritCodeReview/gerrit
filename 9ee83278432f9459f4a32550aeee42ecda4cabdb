@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "e8989e2a_36d534b1",
+        "filename": "java/com/google/gerrit/server/logging/CallerFinder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-28T09:17:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c78dc04_8a6e3579",
+      "revId": "9ee83278432f9459f4a32550aeee42ecda4cabdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03137028_04cd0c63",
         "filename": "java/com/google/gerrit/server/logging/CallerFinder.java",
         "patchSetId": 5
@@ -40,6 +58,30 @@
       "revId": "9ee83278432f9459f4a32550aeee42ecda4cabdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7424eaaf_71933c8c",
+        "filename": "java/com/google/gerrit/server/logging/CallerFinder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-09-28T09:17:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03137028_04cd0c63",
+      "range": {
+        "startLine": 97,
+        "startChar": 17,
+        "endLine": 97,
+        "endChar": 22
+      },
+      "revId": "9ee83278432f9459f4a32550aeee42ecda4cabdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

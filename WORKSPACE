@@ -1019,8 +1019,8 @@ maven_jar(
 
 maven_jar(
     name = "openid-consumer",
-    artifact = "org.openid4java:openid4java:0.9.8",
-    sha1 = "de4f1b33d3b0f0b2ab1d32834ec1190b39db4160",
+    artifact = "org.openid4java:openid4java:1.0.0",
+    sha1 = "541091bb49f2c0d583544c5bb1e6df7612d31e3e",
 )
 
 maven_jar(

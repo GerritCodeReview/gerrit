@@ -27,6 +27,8 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -151,13 +153,14 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId) throws OrmException {
-      logger.atFine().log("Loading groups with member %s", memberId);
-      return groupQueryProvider
-          .get()
-          .byMember(memberId)
-          .stream()
-          .map(InternalGroup::getGroupUUID)
-          .collect(toImmutableSet());
+      try (TraceTimer timer = TraceContext.newTimer("Loading groups with member %s", memberId)) {
+        return groupQueryProvider
+            .get()
+            .byMember(memberId)
+            .stream()
+            .map(InternalGroup::getGroupUUID)
+            .collect(toImmutableSet());
+      }
     }
   }
 
@@ -172,13 +175,14 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
-      logger.atFine().log("Loading parent groups of %s", key);
-      return groupQueryProvider
-          .get()
-          .bySubgroup(key)
-          .stream()
-          .map(InternalGroup::getGroupUUID)
-          .collect(toImmutableList());
+      try (TraceTimer timer = TraceContext.newTimer("Loading parent groups of %s", key)) {
+        return groupQueryProvider
+            .get()
+            .bySubgroup(key)
+            .stream()
+            .map(InternalGroup::getGroupUUID)
+            .collect(toImmutableList());
+      }
     }
   }
 
@@ -192,8 +196,9 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(String key) throws Exception {
-      logger.atFine().log("Loading all external groups");
-      return groups.getExternalGroups().collect(toImmutableList());
+      try (TraceTimer timer = TraceContext.newTimer("Loading all external groups")) {
+        return groups.getExternalGroups().collect(toImmutableList());
+      }
     }
   }
 }

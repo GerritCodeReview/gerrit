@@ -365,6 +365,8 @@ maven_jar(
     sha1 = "30be73c965cc990b153a100aaaaafcf239f82d39",
 )
 
+# Transitive dependency of commons-dbcp, do not update without
+# also updating commons-dbcp
 maven_jar(
     name = "commons-pool",
     artifact = "commons-pool:commons-pool:1.5.5",

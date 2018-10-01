@@ -360,7 +360,7 @@ public class CherryPickChange {
       reviewers.remove(user.get().getAccountId());
       Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
       ccs.remove(user.get().getAccountId());
-      ins.setReviewers(reviewers).setExtraCC(ccs);
+      ins.setReviewersAndCcs(reviewers, ccs);
     }
     bu.insertChange(ins);
     return changeId;

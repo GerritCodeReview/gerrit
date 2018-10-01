@@ -17,14 +17,19 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -36,12 +41,15 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -63,19 +71,51 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 public class ReviewerAdder {
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
+
+  public static AddReviewerInput newAddReviewerInput(
+      Account.Id reviewer, ReviewerState state, NotifyHandling notify) {
+    // AccountResolver always resolves by ID if the input string is numeric.
+    return newAddReviewerInput(reviewer.toString(), state, notify);
+  }
+
+  public static AddReviewerInput newAddReviewerInput(
+      String reviewer, ReviewerState state, NotifyHandling notify) {
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = reviewer;
+    in.state = state;
+    in.notify = notify;
+    return in;
+  }
+
+  public static Optional<AddReviewerInput> newAddReviewerInputForNonOwner(
+      Change change, @Nullable Account.Id accountId, NotifyHandling notify) {
+    // For adding a forged author/committer as reviewer on the change.
+    if (accountId == null || accountId.equals(change.getOwner())) {
+      // If git ident couldn't be resolved to a user, or if it's not forged, do nothing.
+      return Optional.empty();
+    }
+    return Optional.of(newAddReviewerInput(accountId, REVIEWER, notify));
+  }
 
   private final AccountResolver accountResolver;
   private final PermissionBackend permissionBackend;
@@ -469,5 +509,75 @@ public class ReviewerAdder {
 
   public static boolean isLegalReviewerGroup(AccountGroup.UUID groupUUID) {
     return !SystemGroupBackend.isSystemGroup(groupUUID);
+  }
+
+  public ReviewerAdditionList prepare(
+      ChangeNotes notes, CurrentUser user, Iterable<AddReviewerInput> inputs, boolean allowGroup)
+      throws OrmException, IOException, PermissionBackendException, ConfigInvalidException {
+    // Process CC ops before reviewer ops, so a user that appears in both lists ends up as a
+    // reviewer; the last call to ChangeUpdate#putReviewer wins. This can happen if the caller
+    // specifies the same string twice, or less obviously if they specify multiple groups with
+    // overlapping members.
+    // TODO(dborowitz): Consider changing interface to allow excluding reviewers that were
+    // previously processed, to proactively prevent overlap so we don't have to rely on this subtle
+    // behavior.
+    ImmutableList<AddReviewerInput> sorted =
+        Streams.stream(inputs)
+            .sorted(
+                comparing(
+                    i -> i.state, Ordering.explicit(ReviewerState.CC, ReviewerState.REVIEWER)))
+            .collect(toImmutableList());
+    List<ReviewerAddition> additions = new ArrayList<>();
+    for (AddReviewerInput input : sorted) {
+      additions.add(prepare(notes, user, input, allowGroup));
+    }
+    return new ReviewerAdditionList(additions);
+  }
+
+  // TODO(dborowitz): This class works, but ultimately feels wrong. It seems like an op but isn't
+  // really an op, it's a collection of ops, and it's only called from the body of other ops. We
+  // could make this class an op, but we would still have AddReviewersOp. Better would probably be
+  // to design a single op that supports combining multiple AddReviewerInputs together. That would
+  // probably also subsume the Addition class itself, which would be a good thing.
+  public static class ReviewerAdditionList {
+    private final ImmutableList<ReviewerAddition> additions;
+
+    private ReviewerAdditionList(List<ReviewerAddition> additions) {
+      this.additions = ImmutableList.copyOf(additions);
+    }
+
+    public ImmutableList<ReviewerAddition> getErrors() {
+      return additions.stream().filter(a -> a.op == null).collect(toImmutableList());
+    }
+
+    // We never call updateRepo on the addition ops, which is only ok because it's a no-op.
+
+    public void updateChange(ChangeContext ctx, PatchSet patchSet)
+        throws OrmException, RestApiException, IOException {
+      for (ReviewerAddition addition : additions) {
+        addition.op.setPatchSet(patchSet);
+        addition.op.updateChange(ctx);
+      }
+    }
+
+    public void postUpdate(Context ctx) throws Exception {
+      for (ReviewerAddition addition : additions) {
+        if (addition.op != null) {
+          addition.op.postUpdate(ctx);
+        }
+      }
+    }
+
+    public <T> ImmutableSet<T> flattenResults(
+        Function<AddReviewersOp.Result, ? extends Collection<T>> func) {
+      additions.forEach(
+          a -> checkArgument(a.op != null && a.op.getResult() != null, "missing result on %s", a));
+      return additions
+          .stream()
+          .map(a -> a.op.getResult())
+          .map(func)
+          .flatMap(Collection::stream)
+          .collect(toImmutableSet());
+    }
   }
 }

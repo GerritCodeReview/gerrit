@@ -89,6 +89,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.ChangeResource.Factory;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -172,6 +173,7 @@ public class PostReview
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
   private final PostReviewers postReviewers;
+  private final PostReviewersEmail postReviewersEmail;
   private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
   private final Config gerritConfig;
@@ -184,7 +186,7 @@ public class PostReview
   PostReview(
       Provider<ReviewDb> db,
       RetryHelper retryHelper,
-      ChangeResource.Factory changeResourceFactory,
+      Factory changeResourceFactory,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
@@ -196,6 +198,7 @@ public class PostReview
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
       PostReviewers postReviewers,
+      PostReviewersEmail postReviewersEmail,
       NotesMigration migration,
       NotifyUtil notifyUtil,
       @GerritServerConfig Config gerritConfig,
@@ -216,6 +219,7 @@ public class PostReview
     this.email = email;
     this.commentAdded = commentAdded;
     this.postReviewers = postReviewers;
+    this.postReviewersEmail = postReviewersEmail;
     this.migration = migration;
     this.notifyUtil = notifyUtil;
     this.gerritConfig = gerritConfig;
@@ -277,7 +281,10 @@ public class PostReview
     if (input.reviewers != null) {
       reviewerJsonResults = Maps.newHashMap();
       for (AddReviewerInput reviewerInput : input.reviewers) {
-        // Prevent notifications because setting reviewers is batched.
+        // Prevent individual PostReviewersOps from sending one email each. Instead, we call
+        // batchEmailReviewers at the very end to send out a single email.
+        // TODO(dborowitz): I think this still sends out separate emails if any of input.reviewers
+        // specifies explicit accountsToNotify. Unclear whether that's a good thing.
         reviewerInput.notify = NotifyHandling.NONE;
 
         PostReviewers.Addition result =
@@ -389,8 +396,14 @@ public class PostReview
 
       boolean readyForReview =
           (output.ready != null && output.ready) || !revision.getChange().isWorkInProgress();
-      emailReviewers(
-          revision.getChange(), reviewerResults, reviewerNotify, accountsToNotify, readyForReview);
+      // Sending from PostReviewersOp was suppressed so we can send a single batch email here.
+      batchEmailReviewers(
+          revision.getUser(),
+          revision.getChange(),
+          reviewerResults,
+          reviewerNotify,
+          accountsToNotify,
+          readyForReview);
     }
 
     return Response.ok(output);
@@ -419,7 +432,8 @@ public class PostReview
     return NotifyHandling.ALL;
   }
 
-  private void emailReviewers(
+  private void batchEmailReviewers(
+      CurrentUser user,
       Change change,
       List<PostReviewers.Addition> reviewerAdditions,
       @Nullable NotifyHandling notify,
@@ -438,13 +452,16 @@ public class PostReview
         ccByEmail.addAll(addition.reviewersByEmail);
       }
     }
-    if (reviewerAdditions.size() > 0) {
-      reviewerAdditions
-          .get(0)
-          .op
-          .emailReviewers(
-              change, to, cc, toByEmail, ccByEmail, notify, accountsToNotify, readyForReview);
-    }
+    postReviewersEmail.emailReviewers(
+        user.asIdentifiedUser(),
+        change,
+        to,
+        cc,
+        toByEmail,
+        ccByEmail,
+        notify,
+        accountsToNotify,
+        readyForReview);
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)

@@ -15,17 +15,14 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -43,7 +40,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
-import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ProjectCache;
@@ -61,8 +57,6 @@ import java.util.List;
 import java.util.Set;
 
 public class PostReviewersOp implements BatchUpdateOp {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public interface Factory {
     PostReviewersOp create(
         Set<Account.Id> reviewers,
@@ -97,7 +91,7 @@ public class PostReviewersOp implements BatchUpdateOp {
   private final ReviewerAdded reviewerAdded;
   private final AccountCache accountCache;
   private final ProjectCache projectCache;
-  private final AddReviewerSender.Factory addReviewerSenderFactory;
+  private final PostReviewersEmail postReviewersEmail;
   private final NotesMigration migration;
   private final Provider<IdentifiedUser> user;
   private final Provider<ReviewDb> dbProvider;
@@ -121,7 +115,7 @@ public class PostReviewersOp implements BatchUpdateOp {
       ReviewerAdded reviewerAdded,
       AccountCache accountCache,
       ProjectCache projectCache,
-      AddReviewerSender.Factory addReviewerSenderFactory,
+      PostReviewersEmail postReviewersEmail,
       NotesMigration migration,
       Provider<IdentifiedUser> user,
       Provider<ReviewDb> dbProvider,
@@ -135,7 +129,7 @@ public class PostReviewersOp implements BatchUpdateOp {
     this.reviewerAdded = reviewerAdded;
     this.accountCache = accountCache;
     this.projectCache = projectCache;
-    this.addReviewerSenderFactory = addReviewerSenderFactory;
+    this.postReviewersEmail = postReviewersEmail;
     this.migration = migration;
     this.user = user;
     this.dbProvider = dbProvider;
@@ -192,7 +186,8 @@ public class PostReviewersOp implements BatchUpdateOp {
             .setAddedReviewers(ImmutableList.copyOf(addedReviewers))
             .setAddedCCs(ImmutableList.copyOf(addedCCs))
             .build();
-    emailReviewers(
+    postReviewersEmail.emailReviewers(
+        user.get(),
         change,
         Lists.transform(addedReviewers, PatchSetApproval::getAccountId),
         addedCCs == null ? ImmutableList.of() : addedCCs,
@@ -209,46 +204,6 @@ public class PostReviewersOp implements BatchUpdateOp {
               .flatMap(Streams::stream)
               .collect(toList());
       reviewerAdded.fire(change, patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
-    }
-  }
-
-  public void emailReviewers(
-      Change change,
-      Collection<Account.Id> added,
-      Collection<Account.Id> copied,
-      Collection<Address> addedByEmail,
-      Collection<Address> copiedByEmail,
-      NotifyHandling notify,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify,
-      boolean readyForReview) {
-    // Email the reviewers
-    //
-    // The user knows they added themselves, don't bother emailing them.
-    Account.Id userId = user.get().getAccountId();
-    ImmutableList<Account.Id> toMail =
-        added.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
-    ImmutableList<Account.Id> toCopy =
-        copied.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
-    if (toMail.isEmpty() && toCopy.isEmpty() && addedByEmail.isEmpty() && copiedByEmail.isEmpty()) {
-      return;
-    }
-
-    try {
-      AddReviewerSender cm = addReviewerSenderFactory.create(change.getProject(), change.getId());
-      // Default to silent operation on WIP changes.
-      NotifyHandling defaultNotifyHandling =
-          readyForReview ? NotifyHandling.ALL : NotifyHandling.NONE;
-      cm.setNotify(MoreObjects.firstNonNull(notify, defaultNotifyHandling));
-      cm.setAccountsToNotify(accountsToNotify);
-      cm.setFrom(userId);
-      cm.addReviewers(toMail);
-      cm.addReviewersByEmail(addedByEmail);
-      cm.addExtraCC(toCopy);
-      cm.addExtraCCByEmail(copiedByEmail);
-      cm.send();
-    } catch (Exception err) {
-      logger.atSevere().withCause(err).log(
-          "Cannot send email to new reviewers of change %s", change.getId());
     }
   }
 

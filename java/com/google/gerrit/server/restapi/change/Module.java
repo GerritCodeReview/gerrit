@@ -25,7 +25,6 @@ import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 import static com.google.gerrit.server.change.RobotCommentResource.ROBOT_COMMENT_KIND;
 import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
-import static com.google.gerrit.server.project.CommitResource.COMMIT_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -178,7 +177,6 @@ public class Module extends RestApiModule {
     delete(CHANGE_EDIT_KIND).to(ChangeEdits.DeleteContent.class);
     get(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Get.class);
     get(CHANGE_EDIT_KIND, "meta").to(ChangeEdits.GetMeta.class);
-    post(COMMIT_KIND, "cherrypick").to(CherryPickCommit.class);
 
     child(CHANGE_KIND, "messages").to(ChangeMessages.class);
     get(CHANGE_MESSAGE_KIND).to(GetChangeMessage.class);

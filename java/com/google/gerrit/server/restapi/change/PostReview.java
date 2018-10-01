@@ -443,10 +443,10 @@ public class PostReview
     List<Address> toByEmail = new ArrayList<>();
     List<Address> ccByEmail = new ArrayList<>();
     for (ReviewerAddition addition : reviewerAdditions) {
-      if (addition.state == ReviewerState.REVIEWER) {
+      if (addition.state() == ReviewerState.REVIEWER) {
         to.addAll(addition.reviewers);
         toByEmail.addAll(addition.reviewersByEmail);
-      } else if (addition.state == ReviewerState.CC) {
+      } else if (addition.state() == ReviewerState.CC) {
         cc.addAll(addition.reviewers);
         ccByEmail.addAll(addition.reviewersByEmail);
       }

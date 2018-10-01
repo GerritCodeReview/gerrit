@@ -1093,12 +1093,15 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         stagePreChange(
             "refs/for/master",
             users -> ImmutableList.of("r=" + users.reviewer.username, "cc=" + users.ccer.username));
-    assertThat(sender)
-        .sent("newchange", spc)
-        .to(spc.reviewer, spc.watchingProjectOwner)
-        .cc(spc.ccer)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse();
+    FakeEmailSenderSubject subject =
+        assertThat(sender).sent("newchange", spc).to(spc.reviewer, spc.watchingProjectOwner);
+    if (notesMigration.readChanges()) {
+      subject.cc(spc.ccer);
+    } else {
+      // CCs are considered reviewers in the storage layer.
+      subject.to(spc.ccer);
+    }
+    subject.bcc(NEW_CHANGES, NEW_PATCHSETS).noOneElse();
   }
 
   /*

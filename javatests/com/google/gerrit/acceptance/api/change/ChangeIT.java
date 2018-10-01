@@ -1436,8 +1436,9 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
+    assertThat(m.from().getName()).isEqualTo("Administrator (Code Review)");
     assertThat(m.rcpt()).containsExactly(user.emailAddress);
-    assertThat(m.body()).contains(admin.fullName + " has uploaded this change for review");
+    assertThat(m.body()).contains("I'd like you to do a code review");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
     assertMailReplyTo(m, admin.email);
   }

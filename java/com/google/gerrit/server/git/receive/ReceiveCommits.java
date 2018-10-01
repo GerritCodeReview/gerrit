@@ -181,6 +181,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.regex.Matcher;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -270,17 +271,14 @@ class ReceiveCommits {
   }
 
   private static final Function<Exception, RestApiException> INSERT_EXCEPTION =
-      new Function<Exception, RestApiException>() {
-        @Override
-        public RestApiException apply(Exception input) {
-          if (input instanceof RestApiException) {
-            return (RestApiException) input;
-          } else if ((input instanceof ExecutionException)
-              && (input.getCause() instanceof RestApiException)) {
-            return (RestApiException) input.getCause();
-          }
-          return new RestApiException("Error inserting change/patchset", input);
+      input -> {
+        if (input instanceof RestApiException) {
+          return (RestApiException) input;
+        } else if ((input instanceof ExecutionException)
+            && (input.getCause() instanceof RestApiException)) {
+          return (RestApiException) input.getCause();
         }
+        return new RestApiException("Error inserting change/patchset", input);
       };
 
   // ReceiveCommits has a lot of fields, sorry. Here and in the constructor they are split up
@@ -489,7 +487,7 @@ class ReceiveCommits {
     messages.add(new CommitValidationMessage(message, false));
   }
 
-  void addError(String error) {
+  private void addError(String error) {
     messages.add(new CommitValidationMessage(error, true));
   }
 
@@ -507,11 +505,7 @@ class ReceiveCommits {
     Task commandProgress = progress.beginSubTask("refs", UNKNOWN);
     commands = commands.stream().map(c -> wrapReceiveCommand(c, commandProgress)).collect(toList());
     processCommandsUnsafe(commands, progress);
-    for (ReceiveCommand cmd : commands) {
-      if (cmd.getResult() == NOT_ATTEMPTED) {
-        cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
-      }
-    }
+    rejectRemaining(commands, "internal server error");
 
     // This sends error messages before the 'done' string of the progress monitor is sent.
     // Currently, the test framework relies on this ordering to understand if pushes completed
@@ -566,11 +560,7 @@ class ReceiveCommits {
               + (regularCommands.isEmpty() ? 0 : 1);
 
       if (commandTypes > 1) {
-        for (ReceiveCommand cmd : commands) {
-          if (cmd.getResult() == NOT_ATTEMPTED) {
-            cmd.setResult(REJECTED_OTHER_REASON, "cannot combine normal pushes and magic pushes");
-          }
-        }
+        rejectRemaining(commands, "cannot combine normal pushes and magic pushes");
         return;
       }
 
@@ -661,11 +651,7 @@ class ReceiveCommits {
       logger.atFine().log("Added %d additional ref updates", added);
       bu.execute();
     } catch (UpdateException | RestApiException e) {
-      for (ReceiveCommand cmd : cmds) {
-        if (cmd.getResult() == NOT_ATTEMPTED) {
-          cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
-        }
-      }
+      rejectRemaining(cmds, "internal server error");
       logger.atFine().withCause(e).log("update failed:");
     }
 
@@ -2325,11 +2311,11 @@ class ReceiveCommits {
     }
   }
 
-  ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) throws OrmException {
+  private ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) throws OrmException {
     return new ChangeLookup(c, key, queryProvider.get().byBranchKey(magicBranch.dest, key));
   }
 
-  ChangeLookup lookupByCommit(RevCommit c) throws OrmException {
+  private ChangeLookup lookupByCommit(RevCommit c) throws OrmException {
     return new ChangeLookup(
         c, null, queryProvider.get().byBranchCommit(magicBranch.dest, c.getName()));
   }
@@ -2440,7 +2426,7 @@ class ReceiveCommits {
             new BatchUpdateOp() {
               @Override
               public boolean updateChange(ChangeContext ctx) {
-                change = ctx.getChange();
+                CreateRequest.this.change = ctx.getChange();
                 return false;
               }
             });
@@ -2475,8 +2461,7 @@ class ReceiveCommits {
   private void preparePatchSetsForReplace(List<CreateRequest> newChanges) {
     try {
       readChangesForReplace();
-      for (Iterator<ReplaceRequest> itr = replaceByChange.values().iterator(); itr.hasNext(); ) {
-        ReplaceRequest req = itr.next();
+      for (ReplaceRequest req : replaceByChange.values()) {
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
           req.validateNewPatchSet();
         }
@@ -2484,19 +2469,11 @@ class ReceiveCommits {
     } catch (OrmException err) {
       logger.atSevere().withCause(err).log(
           "Cannot read database before replacement for project %s", project.getName());
-      for (ReplaceRequest req : replaceByChange.values()) {
-        if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
-          req.inputCommand.setResult(REJECTED_OTHER_REASON, "internal server error");
-        }
-      }
+      rejectRemainingRequests(replaceByChange.values(), "internal server error");
     } catch (IOException | PermissionBackendException err) {
       logger.atSevere().withCause(err).log(
           "Cannot read repository before replacement for project %s", project.getName());
-      for (ReplaceRequest req : replaceByChange.values()) {
-        if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
-          req.inputCommand.setResult(REJECTED_OTHER_REASON, "internal server error");
-        }
-      }
+      rejectRemainingRequests(replaceByChange.values(), "internal server error");
     }
     logger.atFine().log("Read %d changes to replace", replaceByChange.size());
 
@@ -2940,7 +2917,7 @@ class ReceiveCommits {
     return refsById;
   }
 
-  static boolean parentsEqual(RevCommit a, RevCommit b) {
+  private static boolean parentsEqual(RevCommit a, RevCommit b) {
     if (a.getParentCount() != b.getParentCount()) {
       return false;
     }
@@ -2952,7 +2929,7 @@ class ReceiveCommits {
     return true;
   }
 
-  static boolean authorEqual(RevCommit a, RevCommit b) {
+  private static boolean authorEqual(RevCommit a, RevCommit b) {
     PersonIdent aAuthor = a.getAuthorIdent();
     PersonIdent bAuthor = b.getAuthorIdent();
 
@@ -3192,6 +3169,18 @@ class ReceiveCommits {
 
   private static void reject(ReceiveCommand cmd, String why) {
     cmd.setResult(REJECTED_OTHER_REASON, why);
+  }
+
+  private static void rejectRemaining(Collection<ReceiveCommand> commands, String why) {
+    rejectRemaining(commands.stream(), why);
+  }
+
+  private static void rejectRemaining(Stream<ReceiveCommand> commands, String why) {
+    commands.filter(cmd -> cmd.getResult() == NOT_ATTEMPTED).forEach(cmd -> reject(cmd, why));
+  }
+
+  private static void rejectRemainingRequests(Collection<ReplaceRequest> requests, String why) {
+    rejectRemaining(requests.stream().map(req -> req.cmd), why);
   }
 
   private static boolean isHead(ReceiveCommand cmd) {

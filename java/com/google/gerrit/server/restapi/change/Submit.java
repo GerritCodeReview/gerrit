@@ -248,6 +248,9 @@ public class Submit
   private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs, CurrentUser user) {
     try {
       if (cs.furtherHiddenChanges()) {
+        logger.atFine().log(
+            "Change %d cannot be submitted by user %s because it depends on hidden change: %s",
+            cd.getId().get(), user.getLoggableName(), cs.nonVisibleChanges());
         return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
       }
       for (ChangeData c : cs.changes()) {
@@ -263,6 +266,9 @@ public class Submit
                 .change(c)
                 .test(EnumSet.of(ChangePermission.READ, ChangePermission.SUBMIT));
         if (!can.contains(ChangePermission.READ)) {
+          logger.atFine().log(
+              "Change %d cannot be submitted by user %s because it depends on change %d which the user cannot read",
+              cd.getId().get(), user.getLoggableName(), c.getId().get());
           return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
         }
         if (!can.contains(ChangePermission.SUBMIT)) {

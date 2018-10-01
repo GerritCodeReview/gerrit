@@ -15,19 +15,48 @@
 package com.google.gerrit.server.git.validators;
 
 public class ValidationMessage {
+  public enum Type {
+    ERROR,
+    WARNING,
+    HINT,
+    OTHER,
+  };
+
+  public static String getPrefix(Type t) {
+    switch (t) {
+      case ERROR:
+        return "ERROR: ";
+      case WARNING:
+        return "WARNING: ";
+      case HINT:
+        return "hint: ";
+      default:
+        return "";
+    }
+  }
+
   private final String message;
-  private final boolean isError;
+  private final Type type;
+
+  public ValidationMessage(String message, Type type) {
+    this.message = message;
+    this.type = type;
+  }
 
   public ValidationMessage(String message, boolean isError) {
     this.message = message;
-    this.isError = isError;
+    this.type = (isError ? Type.ERROR : Type.OTHER);
   }
 
   public String getMessage() {
     return message;
   }
 
+  public Type getType() {
+    return type;
+  }
+
   public boolean isError() {
-    return isError;
+    return type == Type.ERROR;
   }
 }

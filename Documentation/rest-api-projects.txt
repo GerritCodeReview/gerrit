@@ -2922,7 +2922,7 @@ The `AccessCheckInfo` entity is the result of an access check.
 |=========================================
 |Field Name                  ||Description
 |`status`                    ||The HTTP status code for the access.
-200 means success, 403 means denied and 404 means the project does not exist.
+200 means success and 403 means denied.
 |`message`                   |optional|A clarifying message if `status` is not 200.
 |=========================================
 

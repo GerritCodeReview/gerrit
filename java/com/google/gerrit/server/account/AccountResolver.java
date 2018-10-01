@@ -59,16 +59,17 @@ public class AccountResolver {
   }
 
   /**
-   * Locate exactly one account matching the name or name/email string.
+   * Locate exactly one account matching the input string.
    *
-   * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
-   *     address ("email@example"), a full name ("Full Name"), an account id ("18419") or an user
-   *     name ("username").
+   * @param input a string of the format "Full Name &lt;email@example&gt;", just the email address
+   *     ("email@example"), a full name ("Full Name"), an account id ("18419") or an user name
+   *     ("username").
    * @return the single account that matches; null if no account matches or there are multiple
-   *     candidates.
+   *     candidates. If {@code input} is a numeric string, returns an account if and only if that
+   *     number corresponds to an actual account.
    */
-  public Account find(String nameOrEmail) throws OrmException, IOException, ConfigInvalidException {
-    Set<Account.Id> r = findAll(nameOrEmail);
+  public Account find(String input) throws OrmException, IOException, ConfigInvalidException {
+    Set<Account.Id> r = findAll(input);
     if (r.size() == 1) {
       return byId.get(r.iterator().next()).map(AccountState::getAccount).orElse(null);
     }
@@ -88,16 +89,18 @@ public class AccountResolver {
   }
 
   /**
-   * Find all accounts matching the name or name/email string.
+   * Find all accounts matching the input string.
    *
-   * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
-   *     address ("email@example"), a full name ("Full Name"), an account id ("18419") or an user
-   *     name ("username").
-   * @return the accounts that match, empty collection if none. Never null.
+   * @param input a string of the format "Full Name &lt;email@example&gt;", just the email address
+   *     ("email@example"), a full name ("Full Name"), an account id ("18419") or an user name
+   *     ("username").
+   * @return the accounts that match, empty set if none. Never null. If {@code input} is a numeric
+   *     string, returns a singleton set if that number corresponds to a real account, and an empty
+   *     set otherwise if it does not.
    */
-  public Set<Account.Id> findAll(String nameOrEmail)
+  public Set<Account.Id> findAll(String input)
       throws OrmException, IOException, ConfigInvalidException {
-    Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
+    Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(input);
     if (m.matches()) {
       Optional<Account.Id> id = Account.Id.tryParse(m.group(1));
       if (id.isPresent()) {
@@ -107,8 +110,8 @@ public class AccountResolver {
       }
     }
 
-    if (nameOrEmail.matches("^[1-9][0-9]*$")) {
-      Optional<Account.Id> id = Account.Id.tryParse(nameOrEmail);
+    if (input.matches("^[1-9][0-9]*$")) {
+      Optional<Account.Id> id = Account.Id.tryParse(input);
       if (id.isPresent()) {
         return Streams.stream(accounts.get(id.get()))
             .map(a -> a.getAccount().getId())
@@ -116,14 +119,14 @@ public class AccountResolver {
       }
     }
 
-    if (ExternalId.isValidUsername(nameOrEmail)) {
-      Optional<AccountState> who = byId.getByUsername(nameOrEmail);
+    if (ExternalId.isValidUsername(input)) {
+      Optional<AccountState> who = byId.getByUsername(input);
       if (who.isPresent()) {
         return ImmutableSet.of(who.map(a -> a.getAccount().getId()).get());
       }
     }
 
-    return findAllByNameOrEmail(nameOrEmail);
+    return findAllByNameOrEmail(input);
   }
 
   /**
@@ -185,6 +188,8 @@ public class AccountResolver {
 
     // At this point we have no clue. Just perform a whole bunch of suggestions
     // and pray we come up with a reasonable result list.
+    // TODO(dborowitz): This doesn't match the documentation; consider whether it's possible to be
+    // more strict here.
     return accountQueryProvider
         .get()
         .byDefault(nameOrEmail)

@@ -1322,27 +1322,12 @@ a link:#change-info[ChangeInfo] entity describing the resulting change.
 [[check-access]]
 === Check Access
 --
-'POST /projects/MyProject/check.access'
+'GET /projects/MyProject/check.access?account=1000098&ref=refs%2Fheads%2Fsecret%2Fbla'
 --
 
-Runs access checks for other users. This requires the
-link:access-control.html#capability_viewAccess[View Access]
-global capability.
-
-Input for the access checks that should be run must be provided in
-the request body inside a
-link:#access-check-input[AccessCheckInput] entity.
-
-.Request
-----
-  POST /projects/MyProject/check.access HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "account": "Kristen.Burns@gerritcodereview.com",
-    "ref": "refs/heads/secret/bla"
-  }
-----
+This command runs access checks for other users. This requires the
+link:access-control.html#capability_viewAccess[View Access] global
+capability.
 
 The result is a link:#access-check-info[AccessCheckInfo] entity
 detailing the access of the given user for the given project,
@@ -1360,13 +1345,37 @@ project-ref, or project-permission-ref combination.
   }
 ----
 
-This endpoint can also be accessed as a GET request, using the query
-parameters `perm`, `account` and `ref`, for example:
+[[check-access-options]]
+==== Check Access Options
 
-----
-  GET /projects/MyProject/check.access?account=10024&ref=refs/heads/secret/bla
-----
+Account(account)::
+The account for which to check access. Mandatory.
 
+Permission(perm)::
+The ref permission for which to check access. If not specified, read
+access to at least branch is checked.
+
+Ref(ref)::
+The branch for which to check access. This must be given if `perm` is specified.
+
+[[check-access-post]]
+=== Check Access (POST)
+
+This endpoint can also be accessed as a POST request (deprecated). In
+this case, the input for the access checks must be provided in the
+request body inside a link:#access-check-input[AccessCheckInput]
+entity.
+
+.Request
+----
+  POST /projects/MyProject/check.access HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "account": "Kristen.Burns@gerritcodereview.com",
+    "ref": "refs/heads/secret/bla"
+  }
+----
 
 [[index]]
 === Index project

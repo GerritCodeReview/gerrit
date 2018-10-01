@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static java.util.stream.Collectors.toList;
 
@@ -220,26 +221,14 @@ public class PostReviewersOp implements BatchUpdateOp {
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify,
       boolean readyForReview) {
-    if (added.isEmpty() && copied.isEmpty() && addedByEmail.isEmpty() && copiedByEmail.isEmpty()) {
-      return;
-    }
-
     // Email the reviewers
     //
     // The user knows they added themselves, don't bother emailing them.
-    List<Account.Id> toMail = Lists.newArrayListWithCapacity(added.size());
     Account.Id userId = user.get().getAccountId();
-    for (Account.Id id : added) {
-      if (!id.equals(userId)) {
-        toMail.add(id);
-      }
-    }
-    List<Account.Id> toCopy = Lists.newArrayListWithCapacity(copied.size());
-    for (Account.Id id : copied) {
-      if (!id.equals(userId)) {
-        toCopy.add(id);
-      }
-    }
+    ImmutableList<Account.Id> toMail =
+        added.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
+    ImmutableList<Account.Id> toCopy =
+        copied.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
     if (toMail.isEmpty() && toCopy.isEmpty() && addedByEmail.isEmpty() && copiedByEmail.isEmpty()) {
       return;
     }

@@ -47,7 +47,7 @@ import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
-import com.google.gerrit.server.config.DefaultBrowseUrls;
+import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -140,7 +140,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(String.class)
         .annotatedWith(CanonicalWebUrl.class)
         .toProvider(CanonicalWebUrlProvider.class);
-    bind(UrlFormatter.class).to(DefaultBrowseUrls.class);
+    bind(UrlFormatter.class).to(DefaultUrlFormatter.class);
     bind(Boolean.class)
         .annotatedWith(DisableReverseDnsLookup.class)
         .toProvider(DisableReverseDnsLookupProvider.class)

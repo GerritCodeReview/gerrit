@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ce2a81d_8dfb6f97",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1325,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-01T15:37:55Z",
+      "side": 1,
+      "message": "This needs to be URL encoded (%2F)",
+      "range": {
+        "startLine": 1325,
+        "startChar": 62,
+        "endLine": 1325,
+        "endChar": 63
+      },
+      "revId": "a7a200d590166cd0b879210ac58dd02d607cb4f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

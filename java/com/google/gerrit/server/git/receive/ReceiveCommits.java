@@ -2426,7 +2426,7 @@ class ReceiveCommits {
             new BatchUpdateOp() {
               @Override
               public boolean updateChange(ChangeContext ctx) {
-                change = ctx.getChange();
+                CreateRequest.this.change = ctx.getChange();
                 return false;
               }
             });

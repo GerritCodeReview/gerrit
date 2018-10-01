@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86b29703_94dec1c8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-01T17:13:23Z",
+      "side": 1,
+      "message": "This comment may need updating, or maybe the font smoothing can be removed everywhere.",
+      "revId": "f87e5eaad2a82f39a83c5add000c281f602c2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f0e4638_809652b9",
+        "filename": "polygerrit-ui/app/styles/fonts.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-01T17:13:23Z",
+      "side": 1,
+      "message": "Is this not still just loading Roboto Medium? That\u0027s backed up by the network tab in Chrome.",
+      "revId": "f87e5eaad2a82f39a83c5add000c281f602c2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

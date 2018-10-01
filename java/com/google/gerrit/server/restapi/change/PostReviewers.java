@@ -166,9 +166,11 @@ public class PostReviewers
       Change.Id id = rsrc.getChange().getId();
       bu.addOp(id, addition.op);
       bu.execute();
-      // TODO(dborowitz): Should this be re-read to take updates into account?
-      addition.gatherResults(rsrc.getNotes());
     }
+
+    // Re-read change to take into account results of the update.
+    addition.gatherResults(
+        changeDataFactory.create(dbProvider.get(), rsrc.getProject(), rsrc.getId()));
     return addition.result;
   }
 
@@ -478,11 +480,10 @@ public class PostReviewers
       this.exactMatchFound = exactMatchFound;
     }
 
-    void gatherResults(ChangeNotes notes) throws OrmException, PermissionBackendException {
+    void gatherResults(ChangeData cd) throws OrmException, PermissionBackendException {
       checkState(op != null, "addition did not result in an update op");
       checkState(op.getResult() != null, "op did not return a result");
 
-      ChangeData cd = changeDataFactory.create(dbProvider.get(), notes);
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.
       PostReviewersOp.Result opResult = op.getResult();

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
@@ -59,7 +60,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -155,7 +155,7 @@ public class PostReviewers
       throw new BadRequestException("missing reviewer field");
     }
 
-    Addition addition = prepareApplication(rsrc, input, true);
+    Addition addition = prepareApplication(rsrc.getChange().getDest(), rsrc.getUser(), input, true);
     if (addition.op == null) {
       return addition.result;
     }
@@ -165,13 +165,34 @@ public class PostReviewers
       Change.Id id = rsrc.getChange().getId();
       bu.addOp(id, addition.op);
       bu.execute();
-      addition.gatherResults();
+      // TODO(dborowitz): Should this be re-read to take updates into account?
+      addition.gatherResults(rsrc.getNotes());
     }
     return addition.result;
   }
 
+  /**
+   * Prepare application of a single {@link AddReviewerInput}.
+   *
+   * <p>Note that this method depends only on the destination branch and not the specific change.
+   * Permission checks performed by this method intentionally skip the per-change private check,
+   * which is necessary in order to allow users to grant permission to the change via adding a
+   * reviewer.
+   *
+   * @param dest destination branch.
+   * @param user user performing the reviewer addition.
+   * @param input input describing user or group to add as a reviewer.
+   * @param allowGroup whether to allow
+   * @return handle describing the addition operation. If the {@code op} field is present, this
+   *     operation may be added to a {@code BatchUpdate}. Otherwise, the {@code error} field
+   *     contains information about an error that occurred
+   * @throws OrmException
+   * @throws IOException
+   * @throws PermissionBackendException
+   * @throws ConfigInvalidException
+   */
   public Addition prepareApplication(
-      ChangeResource rsrc, AddReviewerInput input, boolean allowGroup)
+      Branch.NameKey dest, CurrentUser user, AddReviewerInput input, boolean allowGroup)
       throws OrmException, IOException, PermissionBackendException, ConfigInvalidException {
     String reviewer = input.reviewer;
     ReviewerState state = input.state();
@@ -185,17 +206,26 @@ public class PostReviewers
     boolean confirmed = input.confirmed();
     boolean allowByEmail =
         projectCache
-            .checkedGet(rsrc.getProject())
+            .checkedGet(dest.getParentKey())
             .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
 
     Addition byAccountId =
-        addByAccountId(reviewer, rsrc, state, notify, accountsToNotify, allowGroup, allowByEmail);
+        addByAccountId(
+            reviewer, dest, user, state, notify, accountsToNotify, allowGroup, allowByEmail);
 
     Addition wholeGroup = null;
     if (byAccountId == null || !byAccountId.exactMatchFound) {
       wholeGroup =
           addWholeGroup(
-              reviewer, rsrc, state, notify, accountsToNotify, confirmed, allowGroup, allowByEmail);
+              reviewer,
+              dest,
+              user,
+              state,
+              notify,
+              accountsToNotify,
+              confirmed,
+              allowGroup,
+              allowByEmail);
       if (wholeGroup != null && wholeGroup.exactMatchFound) {
         return wholeGroup;
       }
@@ -208,13 +238,13 @@ public class PostReviewers
       return wholeGroup;
     }
 
-    return addByEmail(reviewer, rsrc, state, notify, accountsToNotify);
+    return addByEmail(reviewer, dest, user, state, notify, accountsToNotify);
   }
 
   Addition ccCurrentUser(CurrentUser user, RevisionResource revision) {
     return new Addition(
         user.getUserName().orElse(null),
-        revision.getChangeResource(),
+        revision.getUser(),
         ImmutableSet.of(user.getAccountId()),
         null,
         CC,
@@ -226,7 +256,8 @@ public class PostReviewers
   @Nullable
   private Addition addByAccountId(
       String reviewer,
-      ChangeResource rsrc,
+      Branch.NameKey dest,
+      CurrentUser user,
       ReviewerState state,
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify,
@@ -251,10 +282,10 @@ public class PostReviewers
       return null;
     }
 
-    if (isValidReviewer(rsrc.getChange().getDest(), reviewerUser.getAccount())) {
+    if (isValidReviewer(dest, reviewerUser.getAccount())) {
       return new Addition(
           reviewer,
-          rsrc,
+          user,
           ImmutableSet.of(reviewerUser.getAccountId()),
           null,
           state,
@@ -275,7 +306,8 @@ public class PostReviewers
   @Nullable
   private Addition addWholeGroup(
       String reviewer,
-      ChangeResource rsrc,
+      Branch.NameKey dest,
+      CurrentUser user,
       ReviewerState state,
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify,
@@ -307,7 +339,7 @@ public class PostReviewers
     Set<Account.Id> reviewers = new HashSet<>();
     Set<Account> members;
     try {
-      members = groupMembers.listAccounts(group.getGroupUUID(), rsrc.getProject());
+      members = groupMembers.listAccounts(group.getGroupUUID(), dest.getParentKey());
     } catch (NoSuchProjectException e) {
       return fail(reviewer, e.getMessage());
     }
@@ -333,28 +365,31 @@ public class PostReviewers
     }
 
     for (Account member : members) {
-      if (isValidReviewer(rsrc.getChange().getDest(), member)) {
+      if (isValidReviewer(dest, member)) {
         reviewers.add(member.getId());
       }
     }
 
-    return new Addition(reviewer, rsrc, reviewers, null, state, notify, accountsToNotify, true);
+    return new Addition(reviewer, user, reviewers, null, state, notify, accountsToNotify, true);
   }
 
   @Nullable
   private Addition addByEmail(
       String reviewer,
-      ChangeResource rsrc,
+      Branch.NameKey dest,
+      CurrentUser user,
       ReviewerState state,
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
       throws PermissionBackendException {
     try {
+      // Checking read permission on the destination ref is sufficient since an anonymous user could
+      // never see a private change.
       permissionBackend
           .user(anonymousProvider.get())
-          .change(rsrc.getNotes())
           .database(dbProvider)
-          .check(ChangePermission.READ);
+          .ref(dest)
+          .check(RefPermission.READ);
     } catch (AuthException e) {
       return fail(
           reviewer, MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, reviewer));
@@ -370,7 +405,7 @@ public class PostReviewers
       return fail(reviewer, MessageFormat.format(ChangeMessages.get().reviewerInvalid, reviewer));
     }
     return new Addition(
-        reviewer, rsrc, null, ImmutableList.of(adr), state, notify, accountsToNotify, true);
+        reviewer, user, null, ImmutableList.of(adr), state, notify, accountsToNotify, true);
   }
 
   private boolean isValidReviewer(Branch.NameKey branch, Account member)
@@ -379,9 +414,10 @@ public class PostReviewers
       return false;
     }
 
-    // Does not account for draft status as a user might want to let a
-    // reviewer see a draft.
     try {
+      // Check ref permission intead of change permission, since change permissions take into
+      // account the private bit, whereas adding a user as a reviewer is explicitly allowing them to
+      // see private changes.
       permissionBackend
           .absentUser(member.getId())
           .database(dbProvider)
@@ -405,13 +441,12 @@ public class PostReviewers
   }
 
   public class Addition {
-    final AddReviewerResult result;
-    final PostReviewersOp op;
+    public final AddReviewerResult result;
+    @Nullable public final PostReviewersOp op;
     final Set<Account.Id> reviewers;
     final Collection<Address> reviewersByEmail;
     final ReviewerState state;
-    final ChangeNotes notes;
-    final IdentifiedUser caller;
+    @Nullable final IdentifiedUser caller;
     final boolean exactMatchFound;
 
     Addition(String reviewer) {
@@ -420,14 +455,13 @@ public class PostReviewers
       reviewers = ImmutableSet.of();
       reviewersByEmail = ImmutableSet.of();
       state = REVIEWER;
-      notes = null;
       caller = null;
       exactMatchFound = false;
     }
 
-    protected Addition(
+    Addition(
         String reviewer,
-        ChangeResource rsrc,
+        CurrentUser caller,
         @Nullable Set<Account.Id> reviewers,
         @Nullable Collection<Address> reviewersByEmail,
         ReviewerState state,
@@ -442,20 +476,16 @@ public class PostReviewers
       this.reviewers = reviewers == null ? ImmutableSet.of() : reviewers;
       this.reviewersByEmail = reviewersByEmail == null ? ImmutableList.of() : reviewersByEmail;
       this.state = state;
-      notes = rsrc.getNotes();
-      caller = rsrc.getUser().asIdentifiedUser();
+      this.caller = caller.asIdentifiedUser();
       op =
           postReviewersOpFactory.create(
-              rsrc, this.reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
+              this.reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
       this.exactMatchFound = exactMatchFound;
     }
 
-    void gatherResults() throws OrmException, PermissionBackendException {
-      if (notes == null || caller == null) {
-        // When notes or caller is missing this is likely just carrying an error message
-        // in the contained AddReviewerResult.
-        return;
-      }
+    void gatherResults(ChangeNotes notes) throws OrmException, PermissionBackendException {
+      checkState(op != null, "addition did not result in an update op");
+      checkState(op.getResult() != null, "op did not return a result");
 
       ChangeData cd = changeDataFactory.create(dbProvider.get(), notes);
       // Generate result details and fill AccountLoader. This occurs outside

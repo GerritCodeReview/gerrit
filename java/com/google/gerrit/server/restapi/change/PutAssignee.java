@@ -123,7 +123,8 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
     reviewerInput.state = ReviewerState.CC;
     reviewerInput.confirmed = true;
     reviewerInput.notify = NotifyHandling.NONE;
-    return postReviewers.prepareApplication(rsrc, reviewerInput, false);
+    return postReviewers.prepareApplication(
+        rsrc.getChange().getDest(), rsrc.getUser(), reviewerInput, false);
   }
 
   @Override

@@ -41,7 +41,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -65,7 +64,6 @@ public class PostReviewersOp implements BatchUpdateOp {
 
   public interface Factory {
     PostReviewersOp create(
-        ChangeResource rsrc,
         Set<Account.Id> reviewers,
         Collection<Address> reviewersByEmail,
         ReviewerState state,
@@ -102,7 +100,6 @@ public class PostReviewersOp implements BatchUpdateOp {
   private final NotesMigration migration;
   private final Provider<IdentifiedUser> user;
   private final Provider<ReviewDb> dbProvider;
-  private final ChangeResource rsrc;
   private final Set<Account.Id> reviewers;
   private final Collection<Address> reviewersByEmail;
   private final ReviewerState state;
@@ -112,6 +109,7 @@ public class PostReviewersOp implements BatchUpdateOp {
   private List<PatchSetApproval> addedReviewers = new ArrayList<>();
   private Collection<Account.Id> addedCCs = new ArrayList<>();
   private Collection<Address> addedCCsByEmail = new ArrayList<>();
+  private Change change;
   private PatchSet patchSet;
   private Result opResult;
 
@@ -126,7 +124,6 @@ public class PostReviewersOp implements BatchUpdateOp {
       NotesMigration migration,
       Provider<IdentifiedUser> user,
       Provider<ReviewDb> dbProvider,
-      @Assisted ChangeResource rsrc,
       @Assisted Set<Account.Id> reviewers,
       @Assisted Collection<Address> reviewersByEmail,
       @Assisted ReviewerState state,
@@ -142,7 +139,6 @@ public class PostReviewersOp implements BatchUpdateOp {
     this.user = user;
     this.dbProvider = dbProvider;
 
-    this.rsrc = rsrc;
     this.reviewers = reviewers;
     this.reviewersByEmail = reviewersByEmail;
     this.state = state;
@@ -168,9 +164,9 @@ public class PostReviewersOp implements BatchUpdateOp {
                 ctx.getNotes(),
                 ctx.getUpdate(ctx.getChange().currentPatchSetId()),
                 projectCache
-                    .checkedGet(rsrc.getProject())
-                    .getLabelTypes(rsrc.getChange().getDest()),
-                rsrc.getChange(),
+                    .checkedGet(ctx.getChange().getProject())
+                    .getLabelTypes(ctx.getChange().getDest()),
+                ctx.getChange(),
                 reviewers);
         if (addedReviewers.isEmpty()) {
           return false;
@@ -183,7 +179,8 @@ public class PostReviewersOp implements BatchUpdateOp {
           .putReviewerByEmail(a, ReviewerStateInternal.fromReviewerState(state));
     }
 
-    patchSet = psUtil.current(dbProvider.get(), rsrc.getNotes());
+    change = ctx.getChange();
+    patchSet = psUtil.current(dbProvider.get(), ctx.getNotes());
     return true;
   }
 
@@ -195,14 +192,14 @@ public class PostReviewersOp implements BatchUpdateOp {
             .setAddedCCs(ImmutableList.copyOf(addedCCs))
             .build();
     emailReviewers(
-        rsrc.getChange(),
+        change,
         Lists.transform(addedReviewers, PatchSetApproval::getAccountId),
         addedCCs == null ? ImmutableList.of() : addedCCs,
         reviewersByEmail,
         addedCCsByEmail,
         notify,
         accountsToNotify,
-        !rsrc.getChange().isWorkInProgress());
+        !change.isWorkInProgress());
     if (!addedReviewers.isEmpty()) {
       List<AccountState> reviewers =
           addedReviewers
@@ -210,7 +207,7 @@ public class PostReviewersOp implements BatchUpdateOp {
               .map(r -> accountCache.get(r.getAccountId()))
               .flatMap(Streams::stream)
               .collect(toList());
-      reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
+      reviewerAdded.fire(change, patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
     }
   }
 

@@ -483,7 +483,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    if (notesMigration.readChanges()) {
+      assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    } else {
+      // CCs are considered reviewers in the storage layer and so get notified.
+      assertThat(m.rcpt()).containsExactly(user.emailAddress, user2.emailAddress);
+    }
 
     sender.clear();
     r = pushTo(pushSpec + ",notify=" + NotifyHandling.ALL);
@@ -957,6 +962,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
    */
   @Test
   public void pushForMasterWithApprovalsForgeCommitterButNoForgeVote() throws Exception {
+    // TODO(dborowitz): Test for adding forged author/committer as reviewer on new patch set.
     // Create a commit with "User" as author and committer
     RevCommit c =
         commitBuilder()

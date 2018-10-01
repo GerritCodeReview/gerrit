@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
@@ -172,6 +173,10 @@ public class AddReviewersOp implements BatchUpdateOp {
     this.accountsToNotify = accountsToNotify;
   }
 
+  void setPatchSet(PatchSet patchSet) {
+    this.patchSet = checkNotNull(patchSet);
+  }
+
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws RestApiException, OrmException, IOException {
@@ -216,7 +221,9 @@ public class AddReviewersOp implements BatchUpdateOp {
 
     checkAdded();
 
-    patchSet = psUtil.current(dbProvider.get(), ctx.getNotes());
+    if (patchSet == null) {
+      patchSet = checkNotNull(psUtil.current(dbProvider.get(), ctx.getNotes()));
+    }
     return true;
   }
 

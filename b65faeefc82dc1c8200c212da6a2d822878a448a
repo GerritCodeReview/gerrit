@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc26c605_d1b89865",
+        "filename": "java/com/google/gerrit/server/git/validators/ValidationMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-01T23:43:50Z",
+      "side": 1,
+      "message": "Any reason this is lower case while the others are upper case?\n\nIf we make this upper case too, all these cases can be collapsed into a single block using t.getName().",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 20
+      },
+      "revId": "b65faeefc82dc1c8200c212da6a2d822878a448a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -20,11 +20,11 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 @Singleton
-public class DefaultBrowseUrls implements UrlFormatter {
+public class DefaultUrlFormatter implements UrlFormatter {
   private final Provider<String> canonicalWebUrlProvider;
 
   @Inject
-  DefaultBrowseUrls(@CanonicalWebUrl Provider<String> canonicalWebUrlProvider) {
+  DefaultUrlFormatter(@CanonicalWebUrl Provider<String> canonicalWebUrlProvider) {
     this.canonicalWebUrlProvider = canonicalWebUrlProvider;
   }
 

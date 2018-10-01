@@ -45,6 +45,7 @@ import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.git.validators.ValidationMessage.Type;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -310,7 +311,7 @@ public class CommitValidators {
 
     private CommitValidationMessage getMissingChangeIdErrorMsg(String errMsg, RevCommit c) {
       StringBuilder sb = new StringBuilder();
-      sb.append("ERROR: ").append(errMsg).append("\n");
+      sb.append(errMsg).append("\n");
 
       boolean hinted = false;
       if (c.getFullMessage().contains(CHANGE_ID_PREFIX)) {
@@ -332,7 +333,7 @@ public class CommitValidators {
             .append("and then amend the commit:\n")
             .append("  git commit --amend\n");
       }
-      return new CommitValidationMessage(sb.toString(), false);
+      return new CommitValidationMessage(sb.toString(), Type.ERROR);
     }
 
     private String getCommitMessageHookInstallationHint() {
@@ -692,7 +693,10 @@ public class CommitValidators {
                   .map(
                       p ->
                           new CommitValidationMessage(
-                              p.message, p.status == ConsistencyProblemInfo.Status.ERROR))
+                              p.message,
+                              p.status == ConsistencyProblemInfo.Status.ERROR
+                                  ? ValidationMessage.Type.ERROR
+                                  : ValidationMessage.Type.OTHER))
                   .collect(toList());
           if (msgs.stream().anyMatch(ValidationMessage::isError)) {
             throw new CommitValidationException("invalid external IDs", msgs);
@@ -753,7 +757,7 @@ public class CommitValidators {
               "invalid account configuration",
               errorMessages
                   .stream()
-                  .map(m -> new CommitValidationMessage(m, true))
+                  .map(m -> new CommitValidationMessage(m, Type.ERROR))
                   .collect(toList()));
         }
       } catch (IOException e) {
@@ -836,7 +840,7 @@ public class CommitValidators {
           .append(urlFormatter.getSettingsUrl("EmailAddresses").get())
           .append("\n\n");
     }
-    return new CommitValidationMessage(sb.toString(), true);
+    return new CommitValidationMessage(sb.toString(), Type.ERROR);
   }
 
   /**
@@ -857,6 +861,6 @@ public class CommitValidators {
   }
 
   private static void addError(String error, List<CommitValidationMessage> messages) {
-    messages.add(new CommitValidationMessage(error, true));
+    messages.add(new CommitValidationMessage(error, Type.ERROR));
   }
 }

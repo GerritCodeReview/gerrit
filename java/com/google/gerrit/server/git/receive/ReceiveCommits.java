@@ -481,20 +481,26 @@ class ReceiveCommits {
     return project;
   }
 
+  private void addMessage(String message, ValidationMessage.Type type) {
+    messages.add(new CommitValidationMessage(message, type));
+  }
+
   private void addMessage(String message) {
-    messages.add(new CommitValidationMessage(message, false));
+    messages.add(new CommitValidationMessage(message, ValidationMessage.Type.OTHER));
   }
 
   private void addError(String error) {
-    messages.add(new CommitValidationMessage(error, true));
+    addMessage(error, ValidationMessage.Type.ERROR);
   }
 
   void sendMessages() {
     for (ValidationMessage m : messages) {
+      String msg = m.getType().getPrefix() + m.getMessage();
+
       if (m.isError()) {
-        messageSender.sendError(m.getMessage());
+        messageSender.sendError(msg);
       } else {
-        messageSender.sendMessage(m.getMessage());
+        messageSender.sendMessage(msg);
       }
     }
   }
@@ -2261,11 +2267,8 @@ class ReceiveCommits {
             rw.parseBody(c);
             messages.add(
                 new CommitValidationMessage(
-                    "ERROR: Implicit Merge of "
-                        + c.abbreviate(7).name()
-                        + " "
-                        + c.getShortMessage(),
-                    false));
+                    "Implicit Merge of " + c.abbreviate(7).name() + " " + c.getShortMessage(),
+                    ValidationMessage.Type.ERROR));
           }
           reject(magicBranch.cmd, "implicit merges detected");
         }

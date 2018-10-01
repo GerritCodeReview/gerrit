@@ -46,7 +46,6 @@ import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
-import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -136,6 +135,8 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
               @Override
               public void configure() {
                 install(new GitModule());
+
+                install(new DefaultUrlFormatter.Module());
                 install(NoteDbModule.forTest(testConfig));
                 bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
                 bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
@@ -164,7 +165,6 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 migration.setFrom(NotesMigrationState.FINAL);
                 bind(MutableNotesMigration.class).toInstance(migration);
                 bind(NotesMigration.class).to(MutableNotesMigration.class);
-                bind(UrlFormatter.class).to(DefaultUrlFormatter.class);
 
                 // Tests don't support ReviewDb at all, but bindings are required via NoteDbModule.
                 bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})

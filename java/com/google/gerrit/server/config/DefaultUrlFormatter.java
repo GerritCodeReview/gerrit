@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.inject.AbstractModule;
 import java.util.Optional;
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -22,6 +23,13 @@ import javax.inject.Singleton;
 @Singleton
 public class DefaultUrlFormatter implements UrlFormatter {
   private final Provider<String> canonicalWebUrlProvider;
+
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(UrlFormatter.class).to(DefaultUrlFormatter.class);
+    }
+  }
 
   @Inject
   DefaultUrlFormatter(@CanonicalWebUrl Provider<String> canonicalWebUrlProvider) {

@@ -54,7 +54,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.SysExecutorModule;
-import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -114,6 +113,7 @@ public class BatchProgramModule extends FactoryModule {
     install(new SysExecutorModule());
     install(BatchUpdate.module());
     install(PatchListCacheImpl.module());
+    install(new DefaultUrlFormatter.Module());
 
     // There is the concept of LifecycleModule, in Gerrit's own extension to Guice, which has these:
     //  listener().to(SomeClassImplementingLifecycleListener.class);
@@ -140,7 +140,6 @@ public class BatchProgramModule extends FactoryModule {
     bind(String.class)
         .annotatedWith(CanonicalWebUrl.class)
         .toProvider(CanonicalWebUrlProvider.class);
-    bind(UrlFormatter.class).to(DefaultUrlFormatter.class);
     bind(Boolean.class)
         .annotatedWith(DisableReverseDnsLookup.class)
         .toProvider(DisableReverseDnsLookupProvider.class)

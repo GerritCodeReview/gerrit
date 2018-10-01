@@ -2408,8 +2408,7 @@ class ReceiveCommits {
         }
 
         bu.insertChange(
-            ins.setReviewers(recipients.getReviewers())
-                .setExtraCC(recipients.getCcOnly())
+            ins.setReviewersAndCcs(recipients.getReviewers(), recipients.getCcOnly())
                 .setApprovals(approvals)
                 .setMessage(msg.toString())
                 .setNotify(magicBranch.getNotify())

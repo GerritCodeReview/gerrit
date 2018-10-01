@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62efd64a_bbc8a152",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-10-01T16:16:34Z",
+      "side": 1,
+      "message": "i\u0027m pretty sure I just moved it around. See\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/148032/17/java/com/google/gerrit/server/restapi/project/Module.java\n\nare you sure it should be removed rather than moved?",
+      "range": {
+        "startLine": 9,
+        "startChar": 16,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "5bdd700b306ea43f5927b581e78ba0d15c0b9d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

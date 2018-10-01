@@ -27,20 +27,32 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
+import com.google.gerrit.server.mail.send.AddReviewerSender.Factory;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 @Singleton
 class PostReviewersEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  @SendEmailExecutor private final ExecutorService sendEmailExecutor;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
+  private final RequestScopePropagator requestScopePropagator;
 
   @Inject
-  PostReviewersEmail(AddReviewerSender.Factory addReviewerSenderFactory) {
+  PostReviewersEmail(
+      @SendEmailExecutor ExecutorService sendEmailExecutor,
+      Factory addReviewerSenderFactory,
+      RequestScopePropagator requestScopePropagator) {
+    this.sendEmailExecutor = sendEmailExecutor;
     this.addReviewerSenderFactory = addReviewerSenderFactory;
+    this.requestScopePropagator = requestScopePropagator;
   }
 
   void emailReviewers(
@@ -63,22 +75,29 @@ class PostReviewersEmail {
       return;
     }
 
-    try {
-      AddReviewerSender cm = addReviewerSenderFactory.create(change.getProject(), change.getId());
-      // Default to silent operation on WIP changes.
-      NotifyHandling defaultNotifyHandling =
-          readyForReview ? NotifyHandling.ALL : NotifyHandling.NONE;
-      cm.setNotify(MoreObjects.firstNonNull(notify, defaultNotifyHandling));
-      cm.setAccountsToNotify(accountsToNotify);
-      cm.setFrom(userId);
-      cm.addReviewers(toMail);
-      cm.addReviewersByEmail(addedByEmail);
-      cm.addExtraCC(toCopy);
-      cm.addExtraCCByEmail(copiedByEmail);
-      cm.send();
-    } catch (Exception err) {
-      logger.atSevere().withCause(err).log(
-          "Cannot send email to new reviewers of change %s", change.getId());
-    }
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError =
+        sendEmailExecutor.submit(
+            requestScopePropagator.wrap(
+                () -> {
+                  try {
+                    AddReviewerSender cm =
+                        addReviewerSenderFactory.create(change.getProject(), change.getId());
+                    // Default to silent operation on WIP changes.
+                    NotifyHandling defaultNotifyHandling =
+                        readyForReview ? NotifyHandling.ALL : NotifyHandling.NONE;
+                    cm.setNotify(MoreObjects.firstNonNull(notify, defaultNotifyHandling));
+                    cm.setAccountsToNotify(accountsToNotify);
+                    cm.setFrom(userId);
+                    cm.addReviewers(toMail);
+                    cm.addReviewersByEmail(addedByEmail);
+                    cm.addExtraCC(toCopy);
+                    cm.addExtraCCByEmail(copiedByEmail);
+                    cm.send();
+                  } catch (Exception err) {
+                    logger.atSevere().withCause(err).log(
+                        "Cannot send email to new reviewers of change %s", change.getId());
+                  }
+                }));
   }
 }

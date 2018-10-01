@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "37e6adab_bb963824",
+        "filename": "java/com/google/gerrit/httpd/raw/OpenSearchServlet.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-01T22:54:53Z",
+      "side": 1,
+      "message": "In this case @Singleton is on the @Provides method.\n\nAlthough now that you mention it, this constructor could just be annotated with @Inject and we wouldn\u0027t need the provider.",
+      "parentUuid": "ebabcaf4_c3c6d227",
+      "revId": "f30592cf03f0364ca5e339481b799b523d2df111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f04e2ec_c1bc2795",
         "filename": "java/com/google/gerrit/httpd/raw/OpenSearchServlet.java",
         "patchSetId": 18

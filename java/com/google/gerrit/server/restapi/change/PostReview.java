@@ -381,9 +381,10 @@ public class PostReview
 
       bu.execute();
 
+      ChangeData cd =
+          changeDataFactory.create(db.get(), revision.getProject(), revision.getChange().getId());
       for (PostReviewers.Addition reviewerResult : reviewerResults) {
-        // TODO(dborowitz): Should this be re-read to take updates into account?
-        reviewerResult.gatherResults(revision.getNotes());
+        reviewerResult.gatherResults(cd);
       }
 
       boolean readyForReview =

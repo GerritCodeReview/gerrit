@@ -58,7 +58,6 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -165,9 +164,10 @@ public class PostReviewers
       Change.Id id = rsrc.getChange().getId();
       bu.addOp(id, addition.op);
       bu.execute();
-      // TODO(dborowitz): Should this be re-read to take updates into account?
-      addition.gatherResults(rsrc.getNotes());
     }
+
+    addition.gatherResults(
+        changeDataFactory.create(dbProvider.get(), rsrc.getProject(), rsrc.getId()));
     return addition.result;
   }
 
@@ -483,11 +483,10 @@ public class PostReviewers
       this.exactMatchFound = exactMatchFound;
     }
 
-    void gatherResults(ChangeNotes notes) throws OrmException, PermissionBackendException {
+    void gatherResults(ChangeData cd) throws OrmException, PermissionBackendException {
       checkState(op != null, "addition did not result in an update op");
       checkState(op.getResult() != null, "op did not return a result");
 
-      ChangeData cd = changeDataFactory.create(dbProvider.get(), notes);
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.
       PostReviewersOp.Result opResult = op.getResult();

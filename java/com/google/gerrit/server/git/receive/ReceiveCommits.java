@@ -2472,8 +2472,7 @@ class ReceiveCommits {
   private void preparePatchSetsForReplace(List<CreateRequest> newChanges) {
     try {
       readChangesForReplace();
-      for (Iterator<ReplaceRequest> itr = replaceByChange.values().iterator(); itr.hasNext(); ) {
-        ReplaceRequest req = itr.next();
+      for (ReplaceRequest req : replaceByChange.values()) {
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
           req.validateNewPatchSet();
         }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1538432991 -0700\nnonce AP50N7Z/FSN/uUG8onzgOW3wNU3BEuzXqZU7OuIkIfSFZ/8catUGQ2XYA8fHqFLEQ2ZxpJdiGiGq\n\n0000000000000000000000000000000000000000 fecdc8a1e967219a956dd441ff6e226223729411 refs/for/master%r\u003dhiesel@google.com,r\u003dlogan@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAluyn98VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMtn8QAJooXgb0twULHFwOA3Qn2akyD8qF\nsgbt24saMhx+umdKcqF7ewoFgMElw55fSgMs00bDjDU3dPzpEtNWw0x1g8kAU4gg\n1iTVC51bL8HNmbDQBHv1PswukbdN4u+GOYrGm50ou2m+K1bGR8NdGa/tJ0d5uTw8\nkPGQbRBMsexPj5lNsJnVOC15i2/5IzRGc9ypsFhBlReO0hCAKtXoqca5wkHs2dNe\nKssu3MzaLQFco4O39ry/wTSI4OlC4PJ0Xik1al3j4ZO7hxRPXJjXQ2BLosyach+m\nW/MP5bLW3b+Uau21oOcOD3h2IELyr5rrszQXv99r4cqExieYY2G302K+UnztyUdG\nc9XAJwpwzXsqH9MIYs45cK+YMAzyovjbGm36Wji0ROMtzSlZu7q2dgr5ub0gBdpY\n4dp37tQOscYA59FBqlZD/w91wLLYI5OHB+okEJLPC/sjWP6Q1XOJxtGQCAK59akA\nNH6V7rMxVM3LH6biSwXtrwz/NABWHwAoKF+TM1OKjjdCT4wVbpAmrUxT/97pIEoP\nvc5K2uZYqXiUyiJmgEukKSH7xV5aAx+JOuOZ3yhjepukZjk4OkVJbPbRhWCUl7oJ\nJGpIjzd1hUHcpGp3rqQtIL0ElSzwy7BUR7RCav9/5FAgmgD3pvxfimj5T4m9Y7c/\nXFZaTafbBvF9y89q\n\u003dGuX8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4eabb3f_66c02802",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-01T22:32:24Z",
+      "side": 1,
+      "message": "Patrick, please double-check my thinking here.\n\nThe reason I really want to do this is that if we reuse PostReviewersOp from ReceiveCommits when creating a new change, the ChangeNotes that we have will be a stub for the to-be-created change. I am not at all confident that such a stub will work in all the places in this class where we would like to use it from within PostReviewersOp.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -270,17 +270,14 @@ class ReceiveCommits {
   }
 
   private static final Function<Exception, RestApiException> INSERT_EXCEPTION =
-      new Function<Exception, RestApiException>() {
-        @Override
-        public RestApiException apply(Exception input) {
-          if (input instanceof RestApiException) {
-            return (RestApiException) input;
-          } else if ((input instanceof ExecutionException)
-              && (input.getCause() instanceof RestApiException)) {
-            return (RestApiException) input.getCause();
-          }
-          return new RestApiException("Error inserting change/patchset", input);
+      input -> {
+        if (input instanceof RestApiException) {
+          return (RestApiException) input;
+        } else if ((input instanceof ExecutionException)
+            && (input.getCause() instanceof RestApiException)) {
+          return (RestApiException) input.getCause();
         }
+        return new RestApiException("Error inserting change/patchset", input);
       };
 
   // ReceiveCommits has a lot of fields, sorry. Here and in the constructor they are split up

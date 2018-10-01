@@ -1322,27 +1322,16 @@ a link:#change-info[ChangeInfo] entity describing the resulting change.
 [[check-access]]
 === Check Access
 --
-'POST /projects/MyProject/check.access'
+'GET /projects/MyProject/check.access?account=1000098&ref=refs%2Fheads%2Fsecret%2Fbla'
 --
 
-Runs access checks for other users. This requires the
-link:access-control.html#capability_viewAccess[View Access]
-global capability.
+This command runs access checks for other users. This requires the
+link:access-control.html#capability_viewAccess[View Access] global
+capability.
 
-Input for the access checks that should be run must be provided in
-the request body inside a
-link:#access-check-input[AccessCheckInput] entity.
-
-.Request
-----
-  POST /projects/MyProject/check.access HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "account": "Kristen.Burns@gerritcodereview.com",
-    "ref": "refs/heads/secret/bla"
-  }
-----
+This query supports the parameters `perm` (permission, optional;
+defaults to 'read at least one branch'), `account` (must be given) and
+`ref` (must be given if `perm` is specified).
 
 The result is a link:#access-check-info[AccessCheckInfo] entity
 detailing the access of the given user for the given project,
@@ -1360,13 +1349,21 @@ project-ref, or project-permission-ref combination.
   }
 ----
 
-This endpoint can also be accessed as a GET request, using the query
-parameters `perm`, `account` and `ref`, for example:
+This endpoint can also be accessed as a POST request (deprecated). In
+this case, the input for the access checks must be provided in the
+request body inside a link:#access-check-input[AccessCheckInput]
+entity.
 
+.Request
 ----
-  GET /projects/MyProject/check.access?account=10024&ref=refs/heads/secret/bla
-----
+  POST /projects/MyProject/check.access HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
 
+  {
+    "account": "Kristen.Burns@gerritcodereview.com",
+    "ref": "refs/heads/secret/bla"
+  }
+----
 
 [[index]]
 === Index project

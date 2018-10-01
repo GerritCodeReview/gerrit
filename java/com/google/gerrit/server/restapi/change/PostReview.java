@@ -279,7 +279,8 @@ public class PostReview
         reviewerInput.notify = NotifyHandling.NONE;
 
         PostReviewers.Addition result =
-            postReviewers.prepareApplication(revision.getChangeResource(), reviewerInput, true);
+            postReviewers.prepareApplication(
+                revision.getNotes(), revision.getUser(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           hasError = true;
@@ -379,7 +380,8 @@ public class PostReview
       bu.execute();
 
       for (PostReviewers.Addition reviewerResult : reviewerResults) {
-        reviewerResult.gatherResults();
+        // TODO(dborowitz): Should this be re-read to take updates into account?
+        reviewerResult.gatherResults(revision.getNotes());
       }
 
       boolean readyForReview =

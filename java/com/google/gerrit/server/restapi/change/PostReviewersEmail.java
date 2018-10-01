@@ -1,0 +1,84 @@
+// Copyright (C) 2018 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.restapi.change;
+
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.mail.Address;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.mail.send.AddReviewerSender;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import java.util.Collection;
+
+@Singleton
+class PostReviewersEmail {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private final AddReviewerSender.Factory addReviewerSenderFactory;
+
+  @Inject
+  PostReviewersEmail(AddReviewerSender.Factory addReviewerSenderFactory) {
+    this.addReviewerSenderFactory = addReviewerSenderFactory;
+  }
+
+  void emailReviewers(
+      IdentifiedUser user,
+      Change change,
+      Collection<Account.Id> added,
+      Collection<Account.Id> copied,
+      Collection<Address> addedByEmail,
+      Collection<Address> copiedByEmail,
+      NotifyHandling notify,
+      ListMultimap<RecipientType, Id> accountsToNotify,
+      boolean readyForReview) {
+    // The user knows they added themselves, don't bother emailing them.
+    Account.Id userId = user.getAccountId();
+    ImmutableList<Id> toMail =
+        added.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
+    ImmutableList<Account.Id> toCopy =
+        copied.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
+    if (toMail.isEmpty() && toCopy.isEmpty() && addedByEmail.isEmpty() && copiedByEmail.isEmpty()) {
+      return;
+    }
+
+    try {
+      AddReviewerSender cm = addReviewerSenderFactory.create(change.getProject(), change.getId());
+      // Default to silent operation on WIP changes.
+      NotifyHandling defaultNotifyHandling =
+          readyForReview ? NotifyHandling.ALL : NotifyHandling.NONE;
+      cm.setNotify(MoreObjects.firstNonNull(notify, defaultNotifyHandling));
+      cm.setAccountsToNotify(accountsToNotify);
+      cm.setFrom(userId);
+      cm.addReviewers(toMail);
+      cm.addReviewersByEmail(addedByEmail);
+      cm.addExtraCC(toCopy);
+      cm.addExtraCCByEmail(copiedByEmail);
+      cm.send();
+    } catch (Exception err) {
+      logger.atSevere().withCause(err).log(
+          "Cannot send email to new reviewers of change %s", change.getId());
+    }
+  }
+}

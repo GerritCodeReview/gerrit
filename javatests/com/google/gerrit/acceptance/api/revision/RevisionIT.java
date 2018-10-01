@@ -764,7 +764,7 @@ public class RevisionIT extends AbstractDaemonTest {
     input.notify = NotifyHandling.ALL;
     sender.clear();
     gApi.changes().id(changeId).current().cherryPick(input);
-    assertNotifyCc(admin);
+    assertNotifyTo(admin);
 
     // Disable the notification. 'admin' as a reviewer should not be notified any more.
     input.destination = "branch-2";

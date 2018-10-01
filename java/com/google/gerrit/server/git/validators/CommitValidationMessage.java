@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git.validators;
 
 public class CommitValidationMessage extends ValidationMessage {
-  public CommitValidationMessage(String message, boolean isError) {
-    super(message, isError);
+  public CommitValidationMessage(String message, ValidationMessage.Type type) {
+    super(message, type);
   }
 }

@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "f89a1ab5_d1357c94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-02T10:32:25Z",
+      "side": 1,
+      "message": "No, I was thinking more of the fact that since this is fixing incorrect behaviour it should also be applied to the stable branch, and that would be easier if it were a separate commit.",
+      "parentUuid": "5c023ca3_c0fd950c",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cd4a6bb1_c2f19d6f",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
         "patchSetId": 1

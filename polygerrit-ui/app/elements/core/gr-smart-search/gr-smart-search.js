@@ -84,7 +84,7 @@
           .then(projects => {
             if (!projects) { return []; }
             const keys = Object.keys(projects);
-            return keys.map(key => predicate + ':' + key);
+            return keys.map(key => ({text: predicate + ':' + key}));
           });
     },
 
@@ -105,7 +105,7 @@
           .then(groups => {
             if (!groups) { return []; }
             const keys = Object.keys(groups);
-            return keys.map(key => predicate + ':' + key);
+            return keys.map(key => ({text: predicate + ':' + key}));
           });
     },
 
@@ -125,20 +125,28 @@
           MAX_AUTOCOMPLETE_RESULTS)
           .then(accounts => {
             if (!accounts) { return []; }
-            return accounts.map(acct => acct.email ?
-              `${predicate}:${acct.email}` :
-              `${predicate}:"${this._accountOrAnon(acct)}"`);
+            return this._mapAccountsHelper(accounts, predicate);
           }).then(accounts => {
             // When the expression supplied is a beginning substring of 'self',
             // add it as an autocomplete option.
             if (SELF_EXPRESSION.startsWith(expression)) {
-              return accounts.concat([predicate + ':' + SELF_EXPRESSION]);
+              return accounts.concat(
+                  [{text: predicate + ':' + SELF_EXPRESSION}]);
             } else if (ME_EXPRESSION.startsWith(expression)) {
-              return accounts.concat([predicate + ':' + ME_EXPRESSION]);
+              return accounts.concat([{text: predicate + ':' + ME_EXPRESSION}]);
             } else {
               return accounts;
             }
           });
+    },
+
+    _mapAccountsHelper(accounts, predicate) {
+      return accounts.map(account => ({
+        label: account.name || '',
+        text: account.email ?
+            `${predicate}:${account.email}` :
+            `${predicate}:"${this._accountOrAnon(account)}"`,
+      }));
     },
   });
 })();

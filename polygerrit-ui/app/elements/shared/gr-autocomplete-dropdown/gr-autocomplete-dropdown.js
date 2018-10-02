@@ -166,5 +166,9 @@
     _resetCursorIndex() {
       this.$.cursor.setCursorAtIndex(0);
     },
+
+    _computeHintClass(item) {
+      return item.hint ? '' : 'hide';
+    },
   });
 })();

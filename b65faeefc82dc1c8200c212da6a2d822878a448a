@@ -119,6 +119,30 @@
       "revId": "b65faeefc82dc1c8200c212da6a2d822878a448a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b34a2609_7842b55d",
+        "filename": "java/com/google/gerrit/server/git/validators/ValidationMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-02T19:09:38Z",
+      "side": 1,
+      "message": "\u003e Any reason this is lower case while the others are upper case?\n\nI think it\u0027s just better UX to draw more attention to errors/warnings than hints and other low-priority messages.\n\nAlso note that t.getName() won\u0027t work for OTHER.",
+      "parentUuid": "bc26c605_d1b89865",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 20
+      },
+      "revId": "b65faeefc82dc1c8200c212da6a2d822878a448a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

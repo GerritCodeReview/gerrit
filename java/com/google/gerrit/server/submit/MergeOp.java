@@ -24,7 +24,6 @@ import com.github.rholder.retry.Attempt;
 import com.github.rholder.retry.RetryListener;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -172,10 +171,6 @@ public class MergeOp implements AutoCloseable {
 
     public boolean isOk() {
       return problems.isEmpty();
-    }
-
-    public ImmutableListMultimap<Change.Id, String> getProblems() {
-      return ImmutableListMultimap.copyOf(problems);
     }
 
     public List<SubmitRecord> getSubmitRecords(Change.Id id) {

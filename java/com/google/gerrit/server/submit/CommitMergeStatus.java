@@ -40,7 +40,7 @@ public enum CommitMergeStatus {
   SKIPPED_IDENTICAL_TREE(
       "Marking change merged without cherry-picking to branch, as the resulting commit would be empty."),
 
-  MISSING_DEPENDENCY(""),
+  MISSING_DEPENDENCY("Depends on change that was not submitted."),
 
   MANUAL_RECURSIVE_MERGE(
       "The change requires a local merge to resolve.\n"

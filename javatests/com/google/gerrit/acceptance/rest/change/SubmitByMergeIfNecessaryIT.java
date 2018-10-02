@@ -402,8 +402,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + " due to the following problems:\n"
             + "Change "
             + change3a.getChange().getId()
-            + ": depends on change that"
-            + " was not submitted");
+            + ": Depends on change that"
+            + " was not submitted.");
 
     RevCommit tipbranch = getRemoteLog(project, "branch").get(0);
     assertThat(tipbranch.getShortMessage()).isEqualTo(change1.getCommit().getShortMessage());
@@ -501,7 +501,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         "Failed to submit 1 change due to the following problems:\n"
             + "Change "
             + change3.getPatchSetId().getParentKey().get()
-            + ": depends on change that was not submitted");
+            + ": Depends on change that was not submitted.");
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();

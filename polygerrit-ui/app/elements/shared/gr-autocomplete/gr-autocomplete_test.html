@@ -46,7 +46,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('renders', done => {
+    test('renders', () => {
       let promise;
       const queryStub = sandbox.spy(input => {
         return promise = Promise.resolve([
@@ -66,18 +66,17 @@ limitations under the License.
       assert.isTrue(queryStub.called);
       element._focused = true;
 
-      promise.then(() => {
+      return promise.then(() => {
         assert.isFalse(element.$.suggestions.isHidden);
         const suggestions =
             Polymer.dom(element.$.suggestions.root).querySelectorAll('li');
         assert.equal(suggestions.length, 5);
 
         for (let i = 0; i < 5; i++) {
-          assert.equal(suggestions[i].textContent, 'blah ' + i);
+          assert.equal(suggestions[i].innerText.trim(), 'blah ' + i);
         }
 
         assert.notEqual(element.$.suggestions.$.cursor.index, -1);
-        done();
       });
     });
 

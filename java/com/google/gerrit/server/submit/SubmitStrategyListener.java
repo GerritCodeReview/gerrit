@@ -128,13 +128,10 @@ public class SubmitStrategyListener implements BatchUpdateListener {
         case CANNOT_REBASE_ROOT:
         case NOT_FAST_FORWARD:
         case EMPTY_COMMIT:
+        case MISSING_DEPENDENCY:
           // TODO(dborowitz): Reformat these messages to be more appropriate for
           // short problem descriptions.
           commitStatus.problem(id, CharMatcher.is('\n').collapseFrom(s.getMessage(), ' '));
-          break;
-
-        case MISSING_DEPENDENCY:
-          commitStatus.problem(id, "depends on change that was not submitted");
           break;
 
         default:

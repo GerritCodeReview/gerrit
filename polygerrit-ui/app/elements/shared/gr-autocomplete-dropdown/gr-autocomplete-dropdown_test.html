@@ -42,7 +42,7 @@ limitations under the License.
       element = fixture('basic');
       element.open();
       element.suggestions = [
-        {dataValue: 'test value 1', name: 'test name 1', text: 1},
+        {dataValue: 'test value 1', name: 'test name 1', text: 1, label: 'hi'},
         {dataValue: 'test value 2', name: 'test name 2', text: 2}];
       flushAsynchronousOperations();
     });
@@ -50,6 +50,12 @@ limitations under the License.
     teardown(() => {
       sandbox.restore();
       if (element.isOpen) element.close();
+    });
+
+    test('shows labels', () => {
+      const els = element.$.suggestions.querySelectorAll('li');
+      assert.equal(els[0].innerText.trim(), '1\nhi');
+      assert.equal(els[1].innerText.trim(), '2');
     });
 
     test('escape key', done => {

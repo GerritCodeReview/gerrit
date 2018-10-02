@@ -38,6 +38,8 @@ limitations under the License.
       li {
         border-bottom: 1px solid var(--border-color);
         cursor: pointer;
+        display: flex;
+        justify-content: space-between;
         padding: .5em .75em;
       }
       li:last-of-type {
@@ -56,6 +58,13 @@ limitations under the License.
         background: var(--dropdown-background-color);
         box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
       }
+      .label {
+        color: var(--deemphasized-text-color);
+        padding-left: 1em;
+      }
+      .hide {
+        display: none;
+      }
     </style>
     <div
         class="dropdown-content"
@@ -69,7 +78,10 @@ limitations under the License.
               tabindex="-1"
               aria-label$="[[item.name]]"
               role="option"
-              on-tap="_handleTapItem">[[item.text]]</li>
+              on-tap="_handleTapItem">
+            <span>[[item.text]]</span>
+            <span class$="label [[_computeLabelClass(item)]]">[[item.label]]</span>
+          </li>
         </template>
       </ul>
     </div>

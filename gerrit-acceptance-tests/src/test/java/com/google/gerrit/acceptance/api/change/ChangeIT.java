@@ -614,7 +614,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void reviewAndMoveToWorkInProgress() throws Exception {
     PushOneCommit.Result r = createChange();
-    r.assertOkStatus();
     assertThat(r.getChange().change().isWorkInProgress()).isFalse();
 
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
@@ -628,7 +627,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void reviewAndSetWorkInProgressAndAddReviewerAndVote() throws Exception {
     PushOneCommit.Result r = createChange();
-    r.assertOkStatus();
     assertThat(r.getChange().change().isWorkInProgress()).isFalse();
 
     ReviewInput in =
@@ -645,7 +643,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void reviewWithWorkInProgressAndReadyReturnsError() throws Exception {
     PushOneCommit.Result r = createChange();
-    r.assertOkStatus();
     ReviewInput in = ReviewInput.noScore();
     in.ready = true;
     in.workInProgress = true;
@@ -656,7 +653,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void reviewWithWorkInProgressByNonOwnerReturnsError() throws Exception {
     PushOneCommit.Result r = createChange();
-    r.assertOkStatus();
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
     setApiUser(user);
     ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);

@@ -35,6 +35,8 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Set;
 import org.easymock.IAnswer;
@@ -56,7 +58,9 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
     replay(user);
     backends = new DynamicSet<>();
     backends.add("gerrit", new SystemGroupBackend(new Config()));
-    backend = new UniversalGroupBackend(backends);
+    backend =
+        new UniversalGroupBackend(
+            new PluginSetContext<>(backends, PluginMetrics.DISABLED_INSTANCE));
   }
 
   @Test
@@ -124,7 +128,9 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
 
     backends = new DynamicSet<>();
     backends.add("gerrit", backend);
-    backend = new UniversalGroupBackend(backends);
+    backend =
+        new UniversalGroupBackend(
+            new PluginSetContext<>(backends, PluginMetrics.DISABLED_INSTANCE));
 
     GroupMembership checker = backend.membershipsOf(member);
     assertFalse(checker.contains(REGISTERED_USERS));

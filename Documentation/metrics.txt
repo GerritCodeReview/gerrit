@@ -163,6 +163,11 @@ suggestion.
 
 * `sequence/next_id_latency`: Latency of requesting IDs from repo sequences.
 
+=== Plugin
+
+* `plugin/latency`: Latency for plugin invocation.
+* `plugin/error_count`: Number of plugin errors.
+
 === Replication Plugin
 
 * `plugins/replication/replication_latency`: Time spent pushing to remote

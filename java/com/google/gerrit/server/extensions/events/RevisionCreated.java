@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
@@ -28,6 +27,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -49,11 +49,11 @@ public class RevisionCreated {
             NotifyHandling notify) {}
       };
 
-  private final DynamicSet<RevisionCreatedListener> listeners;
+  private final PluginSetContext<RevisionCreatedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  RevisionCreated(DynamicSet<RevisionCreatedListener> listeners, EventUtil util) {
+  RevisionCreated(PluginSetContext<RevisionCreatedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
@@ -69,7 +69,7 @@ public class RevisionCreated {
       AccountState uploader,
       Timestamp when,
       NotifyHandling notify) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     try {
@@ -80,13 +80,7 @@ public class RevisionCreated {
               util.accountInfo(uploader),
               when,
               notify);
-      for (RevisionCreatedListener l : listeners) {
-        try {
-          l.onRevisionCreated(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      listeners.runEach(l -> l.onRevisionCreated(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException

@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.git.validators;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener.Arguments;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.validators.ValidationException;
@@ -29,10 +29,10 @@ public class OnSubmitValidators {
     OnSubmitValidators create();
   }
 
-  private final DynamicSet<OnSubmitValidationListener> listeners;
+  private final PluginSetContext<OnSubmitValidationListener> listeners;
 
   @Inject
-  OnSubmitValidators(DynamicSet<OnSubmitValidationListener> listeners) {
+  OnSubmitValidators(PluginSetContext<OnSubmitValidationListener> listeners) {
     this.listeners = listeners;
   }
 
@@ -41,11 +41,9 @@ public class OnSubmitValidators {
       throws IntegrationException {
     try (RevWalk rw = new RevWalk(objectReader)) {
       Arguments args = new Arguments(project, rw, commands);
-      for (OnSubmitValidationListener listener : listeners) {
-        listener.preBranchUpdate(args);
-      }
+      listeners.runEach(l -> l.preBranchUpdate(args), ValidationException.class);
     } catch (ValidationException e) {
-      throw new IntegrationException(e.getMessage());
+      throw new IntegrationException(e.getMessage(), e);
     }
   }
 }

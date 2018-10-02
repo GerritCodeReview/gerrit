@@ -19,9 +19,9 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeDeletedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -31,28 +31,22 @@ import java.sql.Timestamp;
 public class ChangeDeleted {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<ChangeDeletedListener> listeners;
+  private final PluginSetContext<ChangeDeletedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  ChangeDeleted(DynamicSet<ChangeDeletedListener> listeners, EventUtil util) {
+  ChangeDeleted(PluginSetContext<ChangeDeletedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
   public void fire(Change change, AccountState deleter, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     try {
       Event event = new Event(util.changeInfo(change), util.accountInfo(deleter), when);
-      for (ChangeDeletedListener l : listeners) {
-        try {
-          l.onChangeDeleted(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      listeners.runEach(l -> l.onChangeDeleted(event));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }

@@ -16,34 +16,28 @@ package com.google.gerrit.server.extensions.events;
 
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.AgreementSignupListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class AgreementSignup {
-  private final DynamicSet<AgreementSignupListener> listeners;
+  private final PluginSetContext<AgreementSignupListener> listeners;
   private final EventUtil util;
 
   @Inject
-  AgreementSignup(DynamicSet<AgreementSignupListener> listeners, EventUtil util) {
+  AgreementSignup(PluginSetContext<AgreementSignupListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
   public void fire(AccountState accountState, String agreementName) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     Event event = new Event(util.accountInfo(accountState), agreementName);
-    for (AgreementSignupListener l : listeners) {
-      try {
-        l.onAgreementSignup(event);
-      } catch (Exception e) {
-        util.logEventListenerError(this, l, e);
-      }
-    }
+    listeners.runEach(l -> l.onAgreementSignup(event));
   }
 
   private static class Event extends AbstractNoNotifyEvent

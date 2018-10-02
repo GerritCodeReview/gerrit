@@ -15,10 +15,8 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -32,6 +30,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -46,18 +45,16 @@ import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final GitRepositoryManager repoManager;
   private final Provider<IdentifiedUser> identifiedUser;
-  private final DynamicSet<HeadUpdatedListener> headUpdatedListeners;
+  private final PluginSetContext<HeadUpdatedListener> headUpdatedListeners;
   private final PermissionBackend permissionBackend;
 
   @Inject
   SetHead(
       GitRepositoryManager repoManager,
       Provider<IdentifiedUser> identifiedUser,
-      DynamicSet<HeadUpdatedListener> headUpdatedListeners,
+      PluginSetContext<HeadUpdatedListener> headUpdatedListeners,
       PermissionBackend permissionBackend) {
     this.repoManager = repoManager;
     this.identifiedUser = identifiedUser;
@@ -119,17 +116,12 @@ public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
   }
 
   private void fire(Project.NameKey nameKey, String oldHead, String newHead) {
-    if (!headUpdatedListeners.iterator().hasNext()) {
+    if (headUpdatedListeners.isEmpty()) {
       return;
     }
+
     Event event = new Event(nameKey, oldHead, newHead);
-    for (HeadUpdatedListener l : headUpdatedListeners) {
-      try {
-        l.onHeadUpdated(event);
-      } catch (RuntimeException e) {
-        logger.atWarning().withCause(e).log("Failure in HeadUpdatedListener");
-      }
-    }
+    headUpdatedListeners.runEach(l -> l.onHeadUpdated(event));
   }
 
   static class Event extends AbstractNoNotifyEvent implements HeadUpdatedListener.Event {

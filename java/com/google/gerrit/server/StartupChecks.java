@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -34,18 +35,16 @@ public class StartupChecks implements LifecycleListener {
     }
   }
 
-  private final DynamicSet<StartupCheck> startupChecks;
+  private final PluginSetContext<StartupCheck> startupChecks;
 
   @Inject
-  StartupChecks(DynamicSet<StartupCheck> startupChecks) {
+  StartupChecks(PluginSetContext<StartupCheck> startupChecks) {
     this.startupChecks = startupChecks;
   }
 
   @Override
   public void start() throws StartupException {
-    for (StartupCheck startupCheck : startupChecks) {
-      startupCheck.check();
-    }
+    startupChecks.runEach(c -> c.check(), StartupException.class);
   }
 
   @Override

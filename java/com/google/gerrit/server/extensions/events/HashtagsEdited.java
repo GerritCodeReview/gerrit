@@ -20,9 +20,9 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -34,11 +34,11 @@ import java.util.Set;
 public class HashtagsEdited {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<HashtagsEditedListener> listeners;
+  private final PluginSetContext<HashtagsEditedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  public HashtagsEdited(DynamicSet<HashtagsEditedListener> listeners, EventUtil util) {
+  public HashtagsEdited(PluginSetContext<HashtagsEditedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
@@ -50,20 +50,14 @@ public class HashtagsEdited {
       Set<String> added,
       Set<String> removed,
       Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
+    if (listeners.isEmpty()) {
       return;
     }
     try {
       Event event =
           new Event(
               util.changeInfo(change), util.accountInfo(editor), hashtags, added, removed, when);
-      for (HashtagsEditedListener l : listeners) {
-        try {
-          l.onHashtagsEdited(event);
-        } catch (Exception e) {
-          util.logEventListenerError(this, l, e);
-        }
-      }
+      listeners.runEach(l -> l.onHashtagsEdited(event));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }

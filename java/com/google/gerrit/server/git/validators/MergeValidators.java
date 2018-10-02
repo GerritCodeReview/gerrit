@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -40,6 +39,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -57,7 +57,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class MergeValidators {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<MergeValidationListener> mergeValidationListeners;
+  private final PluginSetContext<MergeValidationListener> mergeValidationListeners;
   private final ProjectConfigValidator.Factory projectConfigValidatorFactory;
   private final AccountMergeValidator.Factory accountValidatorFactory;
   private final GroupMergeValidator.Factory groupValidatorFactory;
@@ -68,7 +68,7 @@ public class MergeValidators {
 
   @Inject
   MergeValidators(
-      DynamicSet<MergeValidationListener> mergeValidationListeners,
+      PluginSetContext<MergeValidationListener> mergeValidationListeners,
       ProjectConfigValidator.Factory projectConfigValidatorFactory,
       AccountMergeValidator.Factory accountValidatorFactory,
       GroupMergeValidator.Factory groupValidatorFactory) {
@@ -238,10 +238,10 @@ public class MergeValidators {
 
   /** Execute merge validation plug-ins */
   public static class PluginMergeValidationListener implements MergeValidationListener {
-    private final DynamicSet<MergeValidationListener> mergeValidationListeners;
+    private final PluginSetContext<MergeValidationListener> mergeValidationListeners;
 
     public PluginMergeValidationListener(
-        DynamicSet<MergeValidationListener> mergeValidationListeners) {
+        PluginSetContext<MergeValidationListener> mergeValidationListeners) {
       this.mergeValidationListeners = mergeValidationListeners;
     }
 
@@ -254,9 +254,9 @@ public class MergeValidators {
         PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
-      for (MergeValidationListener validator : mergeValidationListeners) {
-        validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller);
-      }
+      mergeValidationListeners.runEach(
+          l -> l.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller),
+          MergeValidationException.class);
     }
   }
 

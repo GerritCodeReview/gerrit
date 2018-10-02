@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.project.ProjectIndexCollection;
@@ -26,6 +25,7 @@ import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.assistedinject.Assisted;
@@ -44,14 +44,14 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   }
 
   private final ProjectCache projectCache;
-  private final DynamicSet<ProjectIndexedListener> indexedListener;
+  private final PluginSetContext<ProjectIndexedListener> indexedListener;
   @Nullable private final ProjectIndexCollection indexes;
   @Nullable private final ProjectIndex index;
 
   @AssistedInject
   ProjectIndexerImpl(
       ProjectCache projectCache,
-      DynamicSet<ProjectIndexedListener> indexedListener,
+      PluginSetContext<ProjectIndexedListener> indexedListener,
       @Assisted ProjectIndexCollection indexes) {
     this.projectCache = projectCache;
     this.indexedListener = indexedListener;
@@ -62,7 +62,7 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   @AssistedInject
   ProjectIndexerImpl(
       ProjectCache projectCache,
-      DynamicSet<ProjectIndexedListener> indexedListener,
+      PluginSetContext<ProjectIndexedListener> indexedListener,
       @Assisted @Nullable ProjectIndex index) {
     this.projectCache = projectCache;
     this.indexedListener = indexedListener;
@@ -99,9 +99,7 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   }
 
   private void fireProjectIndexedEvent(String name) {
-    for (ProjectIndexedListener listener : indexedListener) {
-      listener.onProjectIndexed(name);
-    }
+    indexedListener.runEach(l -> l.onProjectIndexed(name));
   }
 
   private Collection<ProjectIndex> getWriteIndexes() {

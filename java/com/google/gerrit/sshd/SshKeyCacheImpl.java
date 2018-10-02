@@ -24,6 +24,8 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.ssh.SshKeyCreator;
 import com.google.inject.Inject;
@@ -103,24 +105,26 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
     @Override
     public Iterable<SshKeyCacheEntry> load(String username) throws Exception {
-      logger.atFine().log("Loading SSH keys for account with username %s", username);
-
-      Optional<ExternalId> user = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));
-      if (!user.isPresent()) {
-        return NO_SUCH_USER;
-      }
-
-      List<SshKeyCacheEntry> kl = new ArrayList<>(4);
-      for (AccountSshKey k : authorizedKeys.getKeys(user.get().accountId())) {
-        if (k.valid()) {
-          add(kl, k);
+      try (TraceTimer timer =
+          TraceContext.newTimer("Loading SSH keys for account with username %s", username)) {
+        Optional<ExternalId> user =
+            externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));
+        if (!user.isPresent()) {
+          return NO_SUCH_USER;
         }
-      }
 
-      if (kl.isEmpty()) {
-        return NO_KEYS;
+        List<SshKeyCacheEntry> kl = new ArrayList<>(4);
+        for (AccountSshKey k : authorizedKeys.getKeys(user.get().accountId())) {
+          if (k.valid()) {
+            add(kl, k);
+          }
+        }
+
+        if (kl.isEmpty()) {
+          return NO_KEYS;
+        }
+        return Collections.unmodifiableList(kl);
       }
-      return Collections.unmodifiableList(kl);
     }
 
     private void add(List<SshKeyCacheEntry> kl, AccountSshKey k) {

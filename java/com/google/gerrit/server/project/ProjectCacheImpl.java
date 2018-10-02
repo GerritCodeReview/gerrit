@@ -31,6 +31,8 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -270,16 +272,17 @@ public class ProjectCacheImpl implements ProjectCache {
 
     @Override
     public ProjectState load(String projectName) throws Exception {
-      logger.atFine().log("Loading project %s", projectName);
-      long now = clock.read();
-      Project.NameKey key = new Project.NameKey(projectName);
-      try (Repository git = mgr.openRepository(key)) {
-        ProjectConfig cfg = new ProjectConfig(key);
-        cfg.load(key, git);
+      try (TraceTimer timer = TraceContext.newTimer("Loading project %s", projectName)) {
+        long now = clock.read();
+        Project.NameKey key = new Project.NameKey(projectName);
+        try (Repository git = mgr.openRepository(key)) {
+          ProjectConfig cfg = new ProjectConfig(key);
+          cfg.load(key, git);
 
-        ProjectState state = projectStateFactory.create(cfg);
-        state.initLastCheck(now);
-        return state;
+          ProjectState state = projectStateFactory.create(cfg);
+          state.initLastCheck(now);
+          return state;
+        }
       }
     }
   }
@@ -300,8 +303,9 @@ public class ProjectCacheImpl implements ProjectCache {
 
     @Override
     public ImmutableSortedSet<Project.NameKey> load(ListKey key) throws Exception {
-      logger.atFine().log("Loading project list");
-      return ImmutableSortedSet.copyOf(mgr.list());
+      try (TraceTimer timer = TraceContext.newTimer("Loading project list")) {
+        return ImmutableSortedSet.copyOf(mgr.list());
+      }
     }
   }
 }

@@ -37,6 +37,8 @@ import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -351,10 +353,11 @@ class LdapRealm extends AbstractRealm {
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-      logger.atFine().log("Loading account for username %s", username);
-      return externalIds
-          .get(ExternalId.Key.create(SCHEME_GERRIT, username))
-          .map(ExternalId::accountId);
+      try (TraceTimer timer = TraceContext.newTimer("Loading account for username %s", username)) {
+        return externalIds
+            .get(ExternalId.Key.create(SCHEME_GERRIT, username))
+            .map(ExternalId::accountId);
+      }
     }
   }
 
@@ -368,12 +371,14 @@ class LdapRealm extends AbstractRealm {
 
     @Override
     public Set<AccountGroup.UUID> load(String username) throws Exception {
-      logger.atFine().log("Loading group for member with username %s", username);
-      final DirContext ctx = helper.open();
-      try {
-        return helper.queryForGroups(ctx, username, null);
-      } finally {
-        helper.close(ctx);
+      try (TraceTimer timer =
+          TraceContext.newTimer("Loading group for member with username %s", username)) {
+        final DirContext ctx = helper.open();
+        try {
+          return helper.queryForGroups(ctx, username, null);
+        } finally {
+          helper.close(ctx);
+        }
       }
     }
   }
@@ -388,18 +393,19 @@ class LdapRealm extends AbstractRealm {
 
     @Override
     public Boolean load(String groupDn) throws Exception {
-      logger.atFine().log("Loading groupDn %s", groupDn);
-      final DirContext ctx = helper.open();
-      try {
-        Name compositeGroupName = new CompositeName().add(groupDn);
+      try (TraceTimer timer = TraceContext.newTimer("Loading groupDn %s", groupDn)) {
+        final DirContext ctx = helper.open();
         try {
-          ctx.getAttributes(compositeGroupName);
-          return true;
-        } catch (NamingException e) {
-          return false;
+          Name compositeGroupName = new CompositeName().add(groupDn);
+          try {
+            ctx.getAttributes(compositeGroupName);
+            return true;
+          } catch (NamingException e) {
+            return false;
+          }
+        } finally {
+          helper.close(ctx);
         }
-      } finally {
-        helper.close(ctx);
       }
     }
   }

@@ -2,6 +2,103 @@
   "comments": [
     {
       "key": {
+        "uuid": "4c7b0dac_0c1b653d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-02T19:08:20Z",
+      "side": 1,
+      "message": "Nit: be consistent in ValidationMessage.Type vs. Type. (In this case I would probably prefer ValidationMessage.Type to avoid importing Type in ReceiveCommits, but I don\u0027t feel strongly.)",
+      "revId": "b65faeefc82dc1c8200c212da6a2d822878a448a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca4bb1ce_c522f668",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-02T19:08:20Z",
+      "side": 1,
+      "message": "Just factor out this whole expression.",
+      "range": {
+        "startLine": 505,
+        "startChar": 32,
+        "endLine": 505,
+        "endChar": 55
+      },
+      "revId": "b65faeefc82dc1c8200c212da6a2d822878a448a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f4fe2e_f99ccb33",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-02T19:08:20Z",
+      "side": 1,
+      "message": "Optional: would it make sense to have MessageSender#sendMessage(ValidationMessage) to encapsulate this logic?",
+      "range": {
+        "startLine": 504,
+        "startChar": 6,
+        "endLine": 508,
+        "endChar": 7
+      },
+      "revId": "b65faeefc82dc1c8200c212da6a2d822878a448a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb30d30b_ca05cdf1",
+        "filename": "java/com/google/gerrit/server/git/validators/ValidationMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-02T19:08:20Z",
+      "side": 1,
+      "message": "Optional: this class could be an @AutoValue",
+      "revId": "b65faeefc82dc1c8200c212da6a2d822878a448a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d534f3ca_4a7d8df6",
+        "filename": "java/com/google/gerrit/server/git/validators/ValidationMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-02T19:08:20Z",
+      "side": 1,
+      "message": "I would go one step further: why is this a static method instead of an instance method on Type?\n\nERROR(\"ERROR: \"),\n...\n\nprivate Type(String prefix) {\n  this.prefix \u003d prefix;\n}\n\npublic String getPrefix() {\n  return prefix;\n}\n\n\n(One possible reason is if t is supposed to be @Nullable, but switch (null) throws NPE so that\u0027s not supported in the current implementation.)",
+      "revId": "b65faeefc82dc1c8200c212da6a2d822878a448a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc26c605_d1b89865",
         "filename": "java/com/google/gerrit/server/git/validators/ValidationMessage.java",
         "patchSetId": 1

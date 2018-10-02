@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "93757bd0_e80325a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-02T19:39:42Z",
+      "side": 1,
+      "message": "\u003e I think this is what you are suggesting, but I am not 100% sure from the wording: I think we would do ourselves a favor if all processing logic would move out of PostReviewer making it so that PostReviewer just contains the REST-to-processing glue code. That makes reusing it somewhere else cleaner.\n\nWe\u0027re certainly moving in that direction: PostReviewers#applyImpl is a quite thin wrapper around prepareApplication followed by addOp(addition.op). But I haven\u0027t yet moved prepareApplication \u0026 Addition to their own class; point taken that that\u0027s a much better end state.\n\nThat said, I\u0027m leaning towards doing that final refactoring after finishing the work to reuse PostReviewersOp from ChangeInserter, which has actual user impact. Let me know if you think I should do it earlier.\n\n\u003e Similarly, it\u0027d be nice if PostReview would not just reuse another API endpoint (PostReviewers) but of processing would be again moved out.\n\nWell, it\u0027s not like PostReview doesn\u0027t call PostReviewers#applyImpl, it just calls prepareApplication. So once that\u0027s moved out then PostReview would have no dependency on PostReviewers.",
+      "parentUuid": "80b9c031_4c22c853",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1b726e2_38f6868e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Technically, you can assign viewPrivateChanges to anonymous users (for sure a reductio ad absurdum).\n\nPersonally, I think the ref-check as replacement for the change-check is OK. If you want to keep the existing behavior, you could pass around the ChangeNotes instead of the destination branch key and just make sure they don\u0027t get passed into the Op.",
       "parentUuid": "a4eabb3f_66c02802",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4594a374_6077617a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-02T19:39:42Z",
+      "side": 1,
+      "message": "\u003e Technically, you can assign viewPrivateChanges to anonymous users (for sure a reductio ad absurdum).\n\nGah :(\n\n\u003e Personally, I think the ref-check as replacement for the change-check is OK. If you want to keep the existing behavior, you could pass around the ChangeNotes instead of the destination branch key and just make sure they don\u0027t get passed into the Op.\n\nMy problem with doing this is that it makes it easy for the implementer to use the ChangeNotes in a not-approved way.\n\nAdmittedly this concern is kind of abstract, since I haven\u0027t tried to see if the ChangeNotes will actually work the way I want it to. And maybe if it doesn\u0027t, we should be fixing that issue directly, rather than rewriting callers to not need ChangeNotes.\n\nI\u0027ll take another pass at this.",
+      "parentUuid": "4b9f0e3c_697b5df7",
       "range": {
         "startLine": 16,
         "startChar": 0,

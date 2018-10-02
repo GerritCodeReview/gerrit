@@ -102,7 +102,9 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -140,8 +142,6 @@ import org.eclipse.jgit.lib.ObjectId;
 public class PostReview
     extends RetryingRestModifyView<RevisionResource, ReviewInput, Response<ReviewResult>> {
   public static final String ERROR_ADDING_REVIEWER = "error adding reviewer";
-  public static final String ERROR_ONLY_OWNER_CAN_MODIFY_WORK_IN_PROGRESS =
-      "only change owner can specify work_in_progress or ready";
   public static final String ERROR_WIP_READY_MUTUALLY_EXCLUSIVE =
       "work_in_progress and ready are mutually exclusive";
 
@@ -167,6 +167,8 @@ public class PostReview
   private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
+  private final PermissionBackend permissionBackend;
+  private final ProjectControl.GenericFactory projectControlFactory;
   private final boolean strictLabels;
 
   @Inject
@@ -188,7 +190,9 @@ public class PostReview
       NotifyUtil notifyUtil,
       @GerritServerConfig Config gerritConfig,
       WorkInProgressOp.Factory workInProgressOpFactory,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      PermissionBackend permissionBackend,
+      ProjectControl.GenericFactory projectControlFactory) {
     super(retryHelper);
     this.db = db;
     this.changeResourceFactory = changeResourceFactory;
@@ -207,6 +211,8 @@ public class PostReview
     this.gerritConfig = gerritConfig;
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
+    this.permissionBackend = permissionBackend;
+    this.projectControlFactory = projectControlFactory;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
   }
 
@@ -214,14 +220,16 @@ public class PostReview
   protected Response<ReviewResult> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException {
+          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException,
+          NoSuchProjectException {
     return apply(updateFactory, revision, input, TimeUtil.nowTs());
   }
 
   public Response<ReviewResult> apply(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException {
+          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException,
+          NoSuchProjectException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
@@ -342,10 +350,13 @@ public class PostReview
           output.error = ERROR_WIP_READY_MUTUALLY_EXCLUSIVE;
           return Response.withStatusCode(SC_BAD_REQUEST, output);
         }
-        if (!revision.getChange().getOwner().equals(revision.getUser().getAccountId())) {
-          output.error = ERROR_ONLY_OWNER_CAN_MODIFY_WORK_IN_PROGRESS;
-          return Response.withStatusCode(SC_BAD_REQUEST, output);
-        }
+
+        WorkInProgressOp.checkPermissions(
+            permissionBackend,
+            revision.getUser(),
+            revision.getChange(),
+            projectControlFactory.controlFor(revision.getProject(), revision.getUser()));
+
         if (input.ready) {
           output.ready = true;
         }

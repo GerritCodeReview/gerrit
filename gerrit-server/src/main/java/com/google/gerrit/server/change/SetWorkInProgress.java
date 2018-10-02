@@ -18,7 +18,6 @@ import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
 
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -77,11 +76,11 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
       throws RestApiException, UpdateException, PermissionBackendException, NoSuchProjectException,
           IOException {
     Change change = rsrc.getChange();
-    if (!rsrc.isUserOwner()
-        && !permissionBackend.user(rsrc.getUser()).test(GlobalPermission.ADMINISTRATE_SERVER)
-        && !projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()).isOwner()) {
-      throw new AuthException("not allowed to set work in progress");
-    }
+    WorkInProgressOp.checkPermissions(
+        permissionBackend,
+        self.get(),
+        change,
+        projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()));
 
     if (change.getStatus() != Status.NEW) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));

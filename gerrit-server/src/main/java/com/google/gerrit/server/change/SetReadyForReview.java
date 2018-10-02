@@ -77,6 +77,11 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
       throws RestApiException, UpdateException, PermissionBackendException, NoSuchProjectException,
           IOException {
     Change change = rsrc.getChange();
+    WorkInProgressOp.checkPermissions(
+        permissionBackend,
+        self.get(),
+        change,
+        projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()));
     if (!rsrc.isUserOwner()
         && !permissionBackend.user(self).test(GlobalPermission.ADMINISTRATE_SERVER)
         && !projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()).isOwner()) {

@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "25f760d1_3d4356bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-02T20:23:24Z",
+      "side": 1,
+      "message": "\u003e I haven\u0027t tried to see if the ChangeNotes will actually work the way I want it to.\n\nOk, now I\u0027ve tried. The immediate problem is that the synthetic change doesn\u0027t have a correct destination branch:\nhttps://gerrit.googlesource.com/gerrit/+/ef6b778ed4e6bef6dd20f83c92a5799ab7aee15d/java/com/google/gerrit/server/notedb/ChangeNotes.java#159\n\nI think I need to go deeper with this series. Even just looking at the code in this patch set of this change, PostReviewersOp needs ctx.getChange().getDest() to be accurate.\n\nIdea: teach BatchUpdate implementations to populate the required Change columns based on the result of the InsertChangeOp.",
+      "parentUuid": "4594a374_6077617a",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "92ef0e33_0ef39d1b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -212,6 +236,30 @@
       "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "136638c6_3a432c61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-02T20:23:24Z",
+      "side": 1,
+      "message": "Yeah, this race would be pretty rare, but fair point that it\u0027s a correctness issue. Since I\u0027m already reworking this commit I have no problem splitting it out. Done.",
+      "parentUuid": "f89a1ab5_d1357c94",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

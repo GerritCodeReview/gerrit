@@ -46,6 +46,30 @@
       "revId": "5bdd700b306ea43f5927b581e78ba0d15c0b9d8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03b16547_cca74909",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-02T07:14:12Z",
+      "side": 1,
+      "message": "Yes, I wasn\u0027t aware of this move. Moving a REST endpoint to a different collection is breaking backwards compatibility, so I\u0027m still confused why this was done.",
+      "parentUuid": "91b3cd43_b58a7482",
+      "range": {
+        "startLine": 9,
+        "startChar": 16,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "5bdd700b306ea43f5927b581e78ba0d15c0b9d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

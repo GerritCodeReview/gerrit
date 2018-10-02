@@ -687,12 +687,53 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @TestProjectInput(cloneAs = "user")
+  public void reviewWithWorkInProgressChangeOwner() throws Exception {
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().getOwner()).isEqualTo(user.id);
+
+    setApiUser(user);
+    ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.workInProgress).isTrue();
+  }
+
+  @Test
+  @TestProjectInput(cloneAs = "user")
+  public void reviewWithWithWorkInProgressAdmin() throws Exception {
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().getOwner()).isEqualTo(user.id);
+
+    setApiUser(admin);
+    ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.workInProgress).isTrue();
+  }
+
+  @Test
   public void reviewWithWorkInProgressByNonOwnerReturnsError() throws Exception {
     PushOneCommit.Result r = createChange();
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
     setApiUser(user);
-    ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
-    assertThat(result.error).isEqualTo(PostReview.ERROR_ONLY_OWNER_CAN_MODIFY_WORK_IN_PROGRESS);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to set work in progress");
+    gApi.changes().id(r.getChangeId()).current().review(in);
+  }
+
+  @Test
+  public void reviewWithReadyByNonOwnerReturnsError() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = ReviewInput.noScore().setReady(true);
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to set ready");
+    gApi.changes().id(r.getChangeId()).current().review(in);
   }
 
   @Test

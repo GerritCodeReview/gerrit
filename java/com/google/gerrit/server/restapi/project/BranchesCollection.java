@@ -66,7 +66,6 @@ public class BranchesCollection implements ChildCollection<ProjectResource, Bran
       throws RestApiException, IOException, PermissionBackendException {
     parent.getProjectState().checkStatePermitsRead();
     Project.NameKey project = parent.getNameKey();
-    parent.getProjectState().checkStatePermitsRead();
     try (Repository repo = repoManager.openRepository(project)) {
       Ref ref = repo.exactRef(RefNames.fullName(id.get()));
       if (ref == null) {

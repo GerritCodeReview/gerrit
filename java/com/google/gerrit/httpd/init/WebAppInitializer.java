@@ -55,6 +55,7 @@ import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
+import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceNameModule;
@@ -376,6 +377,8 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
             return HttpCanonicalWebUrlProvider.class;
           }
         });
+    modules.add(new DefaultUrlFormatter.Module());
+
     modules.add(SshKeyCacheImpl.module());
     modules.add(
         new AbstractModule() {

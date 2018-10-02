@@ -65,6 +65,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceNameModule;
@@ -459,6 +460,7 @@ public class Daemon extends SiteProgram {
             }
           });
     }
+    modules.add(new DefaultUrlFormatter.Module());
     if (sshd) {
       modules.add(SshKeyCacheImpl.module());
     } else {

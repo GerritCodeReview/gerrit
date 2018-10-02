@@ -47,6 +47,7 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.ChangeUpdateExecutor;
+import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
@@ -223,6 +224,7 @@ public class InMemoryModule extends FactoryModule {
             return CanonicalWebUrlProvider.class;
           }
         });
+    install(new DefaultUrlFormatter.Module());
     // Replacement of DiffExecutorModule to not use thread pool in the tests
     install(
         new AbstractModule() {

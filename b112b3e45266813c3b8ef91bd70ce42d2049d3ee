@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "80b9c031_4c22c853",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-02T09:27:56Z",
+      "side": 1,
+      "message": "I think this is what you are suggesting, but I am not 100% sure from the wording: I think we would do ourselves a favor if all processing logic would move out of PostReviewer making it so that PostReviewer just contains the REST-to-processing glue code. That makes reusing it somewhere else cleaner.\n\nSimilarly, it\u0027d be nice if PostReview would not just reuse another API endpoint (PostReviewers) but of processing would be again moved out.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1b726e2_38f6868e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-02T09:27:56Z",
+      "side": 1,
+      "message": "In my opinion, having the ChangeResource as a container for change + user in API code is completely fine. However, this aids my previous comment: This isn\u0027t just API code anymore, it is reused elsewhere. So removing ChangeResource sounds good to me.",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4eabb3f_66c02802",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -14,6 +60,30 @@
       "writtenOn": "2018-10-01T22:32:24Z",
       "side": 1,
       "message": "Patrick, please double-check my thinking here.\n\nThe reason I really want to do this is that if we reuse PostReviewersOp from ReceiveCommits when creating a new change, the ChangeNotes that we have will be a stub for the to-be-created change. I am not at all confident that such a stub will work in all the places in this class where we would like to use it from within PostReviewersOp.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b9f0e3c_697b5df7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-02T09:27:56Z",
+      "side": 1,
+      "message": "Technically, you can assign viewPrivateChanges to anonymous users (for sure a reductio ad absurdum).\n\nPersonally, I think the ref-check as replacement for the change-check is OK. If you want to keep the existing behavior, you could pass around the ChangeNotes instead of the destination branch key and just make sure they don\u0027t get passed into the Op.",
+      "parentUuid": "a4eabb3f_66c02802",
       "range": {
         "startLine": 16,
         "startChar": 0,
@@ -42,6 +112,53 @@
         "startChar": 2,
         "endLine": 21,
         "endChar": 16
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c023ca3_c0fd950c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-02T09:27:56Z",
+      "side": 1,
+      "message": "Do you have concerns about a potentially negative impact of this change?",
+      "parentUuid": "92ef0e33_0ef39d1b",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd4a6bb1_c2f19d6f",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-02T09:27:56Z",
+      "side": 1,
+      "message": "nit: instead",
+      "range": {
+        "startLine": 418,
+        "startChar": 30,
+        "endLine": 418,
+        "endChar": 36
       },
       "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

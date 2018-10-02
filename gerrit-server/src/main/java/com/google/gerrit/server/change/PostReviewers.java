@@ -448,7 +448,7 @@ public class PostReviewers
       caller = rsrc.getUser().asIdentifiedUser();
       op =
           postReviewersOpFactory.create(
-              rsrc, this.reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
+              this.reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
       this.exactMatchFound = exactMatchFound;
     }
 

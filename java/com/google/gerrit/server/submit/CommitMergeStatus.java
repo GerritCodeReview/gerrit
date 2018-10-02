@@ -67,13 +67,13 @@ public enum CommitMergeStatus {
           + "\n"
           + "Project policy requires all commits to contain modifications to at least one file.");
 
-  private final String message;
+  private final String description;
 
-  CommitMergeStatus(String message) {
-    this.message = message;
+  CommitMergeStatus(String description) {
+    this.description = description;
   }
 
-  public String getMessage() {
-    return message;
+  public String getDescription() {
+    return description;
   }
 }

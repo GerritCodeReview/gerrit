@@ -113,7 +113,13 @@ public class SubmitStrategyListener implements BatchUpdateListener {
         commitStatus.problem(id, "internal error: change not processed by merge strategy");
         continue;
       }
-      logger.atFine().log("change %d: status for commit %s is %s", id.get(), commit.name(), s);
+      if (commit.getStatusMessage().isPresent()) {
+        logger.atFine().log(
+            "change %d: Status for commit %s is %s. %s",
+            id.get(), commit.name(), s, commit.getStatusMessage().get());
+      } else {
+        logger.atFine().log("change %d: Status for commit %s is %s.", id.get(), commit.name(), s);
+      }
       switch (s) {
         case CLEAN_MERGE:
         case CLEAN_REBASE:
@@ -136,7 +142,11 @@ public class SubmitStrategyListener implements BatchUpdateListener {
         case MISSING_DEPENDENCY:
           // TODO(dborowitz): Reformat these messages to be more appropriate for
           // short problem descriptions.
-          commitStatus.problem(id, CharMatcher.is('\n').collapseFrom(s.getMessage(), ' '));
+          String message = s.getDescription();
+          if (commit.getStatusMessage().isPresent()) {
+            message += " " + commit.getStatusMessage().get();
+          }
+          commitStatus.problem(id, CharMatcher.is('\n').collapseFrom(message, ' '));
           break;
 
         default:

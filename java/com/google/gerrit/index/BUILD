@@ -25,6 +25,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server/logging",
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",

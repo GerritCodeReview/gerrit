@@ -20,14 +20,20 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -51,6 +57,40 @@ public class WorkInProgressOp implements BatchUpdateOp {
 
   public interface Factory {
     WorkInProgressOp create(boolean workInProgress, Input in);
+  }
+
+  public static void checkPermissions(
+      PermissionBackend permissionBackend, CurrentUser user, Change change, boolean workInProgress)
+      throws PermissionBackendException, AuthException {
+    if (!user.isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+
+    if (change.getOwner().equals(user.asIdentifiedUser().getAccountId())) {
+      return;
+    }
+
+    boolean hasAdministrateServerPermission = false;
+    try {
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
+      hasAdministrateServerPermission = true;
+    } catch (AuthException e) {
+      // Skip.
+    }
+
+    if (!hasAdministrateServerPermission) {
+      try {
+        permissionBackend
+            .user(user)
+            .project(change.getProject())
+            .check(ProjectPermission.WRITE_CONFIG);
+      } catch (AuthException exp) {
+        if (workInProgress) {
+          throw new AuthException("not allowed to set work in progress");
+        }
+        throw new AuthException("not allowed to set ready for review");
+      }
+    }
   }
 
   private final ChangeMessagesUtil cmUtil;

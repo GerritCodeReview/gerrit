@@ -149,8 +149,6 @@ public class PostReview
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String ERROR_ADDING_REVIEWER = "error adding reviewer";
-  public static final String ERROR_ONLY_OWNER_CAN_MODIFY_WORK_IN_PROGRESS =
-      "only change owner can specify work_in_progress or ready";
   public static final String ERROR_WIP_READY_MUTUALLY_EXCLUSIVE =
       "work_in_progress and ready are mutually exclusive";
 
@@ -356,10 +354,10 @@ public class PostReview
           output.error = ERROR_WIP_READY_MUTUALLY_EXCLUSIVE;
           return Response.withStatusCode(SC_BAD_REQUEST, output);
         }
-        if (!revision.getChange().getOwner().equals(revision.getUser().getAccountId())) {
-          output.error = ERROR_ONLY_OWNER_CAN_MODIFY_WORK_IN_PROGRESS;
-          return Response.withStatusCode(SC_BAD_REQUEST, output);
-        }
+
+        WorkInProgressOp.checkPermissions(
+            permissionBackend, revision.getUser(), revision.getChange(), input.workInProgress);
+
         if (input.ready) {
           output.ready = true;
         }

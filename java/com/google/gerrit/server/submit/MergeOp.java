@@ -729,7 +729,7 @@ public class MergeOp implements AutoCloseable {
       throw new IntegrationException("Failed to determine already accepted commits.", e);
     }
 
-    logger.atFine().log("Found %d existing heads", alreadyAccepted.size());
+    logger.atFine().log("Found %d existing heads: %s", alreadyAccepted.size(), alreadyAccepted);
     return alreadyAccepted;
   }
 

@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "1ad20f7a_ae582c25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-02T21:18:34Z",
+      "side": 1,
+      "message": "\u003e The immediate problem is that the synthetic change doesn\u0027t have a correct destination branch\n\u003e ...\n\u003e Idea: teach BatchUpdate implementations to populate the required Change columns based on the result of the InsertChangeOp.\n\nOops, I should give 2015-Dave a little more credit. The Change in the ChangeContext is in fact populated based on the result of InsertChangeOp#createChange:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/71426/2/gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java#255\n\nI think at this point I feel pretty good about passing in the ChangeNotes through PostReviewersOp, so I\u0027ll go ahead and rework this change.\n\n(There is still the more general issue that later ops in the same batch don\u0027t see the results of previous ops, with the exception of the initial InsertChangeOp. This is a pretty deep design decision/feature of the ChangeNotes/ChangeUpdate split so I won\u0027t be addressing it in this series.)",
+      "parentUuid": "25f760d1_3d4356bf",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "92ef0e33_0ef39d1b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

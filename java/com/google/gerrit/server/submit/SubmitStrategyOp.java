@@ -438,7 +438,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private ChangeMessage message(ChangeContext ctx, CodeReviewCommit commit, CommitMergeStatus s)
       throws OrmException {
     checkNotNull(s, "CommitMergeStatus may not be null");
-    String txt = s.getMessage();
+    String txt = s.getDescription();
     if (s == CommitMergeStatus.CLEAN_MERGE) {
       return message(ctx, commit.getPatchsetId(), txt + getByAccountName());
     } else if (s == CommitMergeStatus.CLEAN_REBASE || s == CommitMergeStatus.CLEAN_PICK) {

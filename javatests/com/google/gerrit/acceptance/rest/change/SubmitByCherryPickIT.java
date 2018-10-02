@@ -380,7 +380,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     ChangeInfo info2 = get(change2.getChangeId(), MESSAGES);
     assertThat(info2.status).isEqualTo(ChangeStatus.MERGED);
     assertThat(Iterables.getLast(info2.messages).message)
-        .isEqualTo(CommitMergeStatus.SKIPPED_IDENTICAL_TREE.getMessage());
+        .isEqualTo(CommitMergeStatus.SKIPPED_IDENTICAL_TREE.getDescription());
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
     assertChangeMergedEvents(

@@ -16,6 +16,7 @@ package com.google.gerrit.server.submit;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -30,6 +31,8 @@ import java.util.Set;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class SubmitStrategyListener implements BatchUpdateListener {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final Collection<SubmitStrategy> strategies;
   private final CommitStatus commitStatus;
   private final boolean failAfterRefUpdates;
@@ -106,9 +109,11 @@ public class SubmitStrategyListener implements BatchUpdateListener {
       CodeReviewCommit commit = commitStatus.get(id);
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
       if (s == null) {
+        logger.atSevere().log("change %d: change not processed by merge strategy", id.get());
         commitStatus.problem(id, "internal error: change not processed by merge strategy");
         continue;
       }
+      logger.atFine().log("change %d: status for commit %s is %s", id.get(), commit.name(), s);
       switch (s) {
         case CLEAN_MERGE:
         case CLEAN_REBASE:

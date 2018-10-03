@@ -14,61 +14,17 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.extensions.client.ReviewerState.CC;
-import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.extensions.api.changes.ReviewerInfo;
-import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.mail.Address;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.AnonymousUser;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.account.GroupMembers;
-import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.change.ReviewerResource;
-import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.restapi.account.AccountsCollection;
-import com.google.gerrit.server.restapi.group.GroupsCollection;
+import com.google.gerrit.server.restapi.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestCollectionModifyView;
@@ -79,72 +35,27 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class PostReviewers
     extends RetryingRestCollectionModifyView<
         ChangeResource, ReviewerResource, AddReviewerInput, AddReviewerResult> {
 
-  public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
-  public static final int DEFAULT_MAX_REVIEWERS = 20;
-
-  private final AccountsCollection accounts;
-  private final PermissionBackend permissionBackend;
-
-  private final GroupsCollection groupsCollection;
-  private final GroupMembers groupMembers;
-  private final AccountLoader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeData.Factory changeDataFactory;
-  private final Config cfg;
-  private final ReviewerJson json;
-  private final NotesMigration migration;
-  private final NotifyUtil notifyUtil;
-  private final ProjectCache projectCache;
-  private final Provider<AnonymousUser> anonymousProvider;
-  private final PostReviewersOp.Factory postReviewersOpFactory;
-  private final OutgoingEmailValidator validator;
+  private final ReviewerAdder reviewerAdder;
 
   @Inject
   PostReviewers(
-      AccountsCollection accounts,
-      PermissionBackend permissionBackend,
-      GroupsCollection groupsCollection,
-      GroupMembers groupMembers,
-      AccountLoader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RetryHelper retryHelper,
-      @GerritServerConfig Config cfg,
-      ReviewerJson json,
-      NotesMigration migration,
-      NotifyUtil notifyUtil,
-      ProjectCache projectCache,
-      Provider<AnonymousUser> anonymousProvider,
-      PostReviewersOp.Factory postReviewersOpFactory,
-      OutgoingEmailValidator validator) {
+      ReviewerAdder reviewerAdder) {
     super(retryHelper);
-    this.accounts = accounts;
-    this.permissionBackend = permissionBackend;
-    this.groupsCollection = groupsCollection;
-    this.groupMembers = groupMembers;
-    this.accountLoaderFactory = accountLoaderFactory;
     this.dbProvider = db;
     this.changeDataFactory = changeDataFactory;
-    this.cfg = cfg;
-    this.json = json;
-    this.migration = migration;
-    this.notifyUtil = notifyUtil;
-    this.projectCache = projectCache;
-    this.anonymousProvider = anonymousProvider;
-    this.postReviewersOpFactory = postReviewersOpFactory;
-    this.validator = validator;
+    this.reviewerAdder = reviewerAdder;
   }
 
   @Override
@@ -156,7 +67,7 @@ public class PostReviewers
       throw new BadRequestException("missing reviewer field");
     }
 
-    Addition addition = prepareApplication(rsrc.getNotes(), rsrc.getUser(), input, true);
+    ReviewerAddition addition = reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
     if (addition.op == null) {
       return addition.result;
     }
@@ -172,350 +83,5 @@ public class PostReviewers
     addition.gatherResults(
         changeDataFactory.create(dbProvider.get(), rsrc.getProject(), rsrc.getId()));
     return addition.result;
-  }
-
-  /**
-   * Prepare application of a single {@link AddReviewerInput}.
-   *
-   * @param notes change notes.
-   * @param user user performing the reviewer addition.
-   * @param input input describing user or group to add as a reviewer.
-   * @param allowGroup whether to allow
-   * @return handle describing the addition operation. If the {@code op} field is present, this
-   *     operation may be added to a {@code BatchUpdate}. Otherwise, the {@code error} field
-   *     contains information about an error that occurred
-   * @throws OrmException
-   * @throws IOException
-   * @throws PermissionBackendException
-   * @throws ConfigInvalidException
-   */
-  public Addition prepareApplication(
-      ChangeNotes notes, CurrentUser user, AddReviewerInput input, boolean allowGroup)
-      throws OrmException, IOException, PermissionBackendException, ConfigInvalidException {
-    Branch.NameKey dest = notes.getChange().getDest();
-    String reviewer = input.reviewer;
-    ReviewerState state = input.state();
-    NotifyHandling notify = input.notify;
-    ListMultimap<RecipientType, Account.Id> accountsToNotify;
-    try {
-      accountsToNotify = notifyUtil.resolveAccounts(input.notifyDetails);
-    } catch (BadRequestException e) {
-      return fail(reviewer, e.getMessage());
-    }
-    boolean confirmed = input.confirmed();
-    boolean allowByEmail =
-        projectCache
-            .checkedGet(dest.getParentKey())
-            .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
-
-    Addition byAccountId =
-        addByAccountId(
-            reviewer, dest, user, state, notify, accountsToNotify, allowGroup, allowByEmail);
-
-    Addition wholeGroup = null;
-    if (byAccountId == null || !byAccountId.exactMatchFound) {
-      wholeGroup =
-          addWholeGroup(
-              reviewer,
-              dest,
-              user,
-              state,
-              notify,
-              accountsToNotify,
-              confirmed,
-              allowGroup,
-              allowByEmail);
-      if (wholeGroup != null && wholeGroup.exactMatchFound) {
-        return wholeGroup;
-      }
-    }
-
-    if (byAccountId != null) {
-      return byAccountId;
-    }
-    if (wholeGroup != null) {
-      return wholeGroup;
-    }
-
-    return addByEmail(reviewer, notes, user, state, notify, accountsToNotify);
-  }
-
-  Addition ccCurrentUser(CurrentUser user, RevisionResource revision) {
-    return new Addition(
-        user.getUserName().orElse(null),
-        revision.getUser(),
-        ImmutableSet.of(user.getAccountId()),
-        null,
-        CC,
-        NotifyHandling.NONE,
-        ImmutableListMultimap.of(),
-        true);
-  }
-
-  @Nullable
-  private Addition addByAccountId(
-      String reviewer,
-      Branch.NameKey dest,
-      CurrentUser user,
-      ReviewerState state,
-      NotifyHandling notify,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify,
-      boolean allowGroup,
-      boolean allowByEmail)
-      throws OrmException, PermissionBackendException, IOException, ConfigInvalidException {
-    IdentifiedUser reviewerUser;
-    boolean exactMatchFound = false;
-    try {
-      reviewerUser = accounts.parse(reviewer);
-      if (reviewer.equalsIgnoreCase(reviewerUser.getName())
-          || reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {
-        exactMatchFound = true;
-      }
-    } catch (UnprocessableEntityException | AuthException e) {
-      // AuthException won't occur since the user is authenticated at this point.
-      if (!allowGroup && !allowByEmail) {
-        // Only return failure if we aren't going to try other interpretations.
-        return fail(
-            reviewer, MessageFormat.format(ChangeMessages.get().reviewerNotFoundUser, reviewer));
-      }
-      return null;
-    }
-
-    if (isValidReviewer(dest, reviewerUser.getAccount())) {
-      return new Addition(
-          reviewer,
-          user,
-          ImmutableSet.of(reviewerUser.getAccountId()),
-          null,
-          state,
-          notify,
-          accountsToNotify,
-          exactMatchFound);
-    }
-    if (!reviewerUser.getAccount().isActive()) {
-      if (allowByEmail && state == CC) {
-        return null;
-      }
-      return fail(reviewer, MessageFormat.format(ChangeMessages.get().reviewerInactive, reviewer));
-    }
-    return fail(
-        reviewer, MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, reviewer));
-  }
-
-  @Nullable
-  private Addition addWholeGroup(
-      String reviewer,
-      Branch.NameKey dest,
-      CurrentUser user,
-      ReviewerState state,
-      NotifyHandling notify,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify,
-      boolean confirmed,
-      boolean allowGroup,
-      boolean allowByEmail)
-      throws IOException, PermissionBackendException {
-    if (!allowGroup) {
-      return null;
-    }
-
-    GroupDescription.Basic group;
-    try {
-      group = groupsCollection.parseInternal(reviewer);
-    } catch (UnprocessableEntityException e) {
-      if (!allowByEmail) {
-        return fail(
-            reviewer,
-            MessageFormat.format(ChangeMessages.get().reviewerNotFoundUserOrGroup, reviewer));
-      }
-      return null;
-    }
-
-    if (!isLegalReviewerGroup(group.getGroupUUID())) {
-      return fail(
-          reviewer, MessageFormat.format(ChangeMessages.get().groupIsNotAllowed, group.getName()));
-    }
-
-    Set<Account.Id> reviewers = new HashSet<>();
-    Set<Account> members;
-    try {
-      members = groupMembers.listAccounts(group.getGroupUUID(), dest.getParentKey());
-    } catch (NoSuchProjectException e) {
-      return fail(reviewer, e.getMessage());
-    }
-
-    // if maxAllowed is set to 0, it is allowed to add any number of
-    // reviewers
-    int maxAllowed = cfg.getInt("addreviewer", "maxAllowed", DEFAULT_MAX_REVIEWERS);
-    if (maxAllowed > 0 && members.size() > maxAllowed) {
-      return fail(
-          reviewer,
-          MessageFormat.format(ChangeMessages.get().groupHasTooManyMembers, group.getName()));
-    }
-
-    // if maxWithoutCheck is set to 0, we never ask for confirmation
-    int maxWithoutConfirmation =
-        cfg.getInt("addreviewer", "maxWithoutConfirmation", DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
-    if (!confirmed && maxWithoutConfirmation > 0 && members.size() > maxWithoutConfirmation) {
-      return fail(
-          reviewer,
-          true,
-          MessageFormat.format(
-              ChangeMessages.get().groupManyMembersConfirmation, group.getName(), members.size()));
-    }
-
-    for (Account member : members) {
-      if (isValidReviewer(dest, member)) {
-        reviewers.add(member.getId());
-      }
-    }
-
-    return new Addition(reviewer, user, reviewers, null, state, notify, accountsToNotify, true);
-  }
-
-  @Nullable
-  private Addition addByEmail(
-      String reviewer,
-      ChangeNotes notes,
-      CurrentUser user,
-      ReviewerState state,
-      NotifyHandling notify,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify)
-      throws PermissionBackendException {
-    try {
-      permissionBackend
-          .user(anonymousProvider.get())
-          .database(dbProvider)
-          .change(notes)
-          .check(ChangePermission.READ);
-    } catch (AuthException e) {
-      return fail(
-          reviewer, MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, reviewer));
-    }
-
-    if (!migration.readChanges()) {
-      // addByEmail depends on NoteDb.
-      return fail(
-          reviewer, MessageFormat.format(ChangeMessages.get().reviewerNotFoundUser, reviewer));
-    }
-    Address adr = Address.tryParse(reviewer);
-    if (adr == null || !validator.isValid(adr.getEmail())) {
-      return fail(reviewer, MessageFormat.format(ChangeMessages.get().reviewerInvalid, reviewer));
-    }
-    return new Addition(
-        reviewer, user, null, ImmutableList.of(adr), state, notify, accountsToNotify, true);
-  }
-
-  private boolean isValidReviewer(Branch.NameKey branch, Account member)
-      throws PermissionBackendException {
-    if (!member.isActive()) {
-      return false;
-    }
-
-    try {
-      // Check ref permission instead of change permission, since change permissions take into
-      // account the private bit, whereas adding a user as a reviewer is explicitly allowing them to
-      // see private changes.
-      permissionBackend
-          .absentUser(member.getId())
-          .database(dbProvider)
-          .ref(branch)
-          .check(RefPermission.READ);
-      return true;
-    } catch (AuthException e) {
-      return false;
-    }
-  }
-
-  private Addition fail(String reviewer, String error) {
-    return fail(reviewer, false, error);
-  }
-
-  private Addition fail(String reviewer, boolean confirm, String error) {
-    Addition addition = new Addition(reviewer);
-    addition.result.confirm = confirm ? true : null;
-    addition.result.error = error;
-    return addition;
-  }
-
-  public class Addition {
-    public final AddReviewerResult result;
-    @Nullable public final PostReviewersOp op;
-    final Set<Account.Id> reviewers;
-    final Collection<Address> reviewersByEmail;
-    final ReviewerState state;
-    @Nullable final IdentifiedUser caller;
-    final boolean exactMatchFound;
-
-    Addition(String reviewer) {
-      result = new AddReviewerResult(reviewer);
-      op = null;
-      reviewers = ImmutableSet.of();
-      reviewersByEmail = ImmutableSet.of();
-      state = REVIEWER;
-      caller = null;
-      exactMatchFound = false;
-    }
-
-    Addition(
-        String reviewer,
-        CurrentUser caller,
-        @Nullable Set<Account.Id> reviewers,
-        @Nullable Collection<Address> reviewersByEmail,
-        ReviewerState state,
-        @Nullable NotifyHandling notify,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify,
-        boolean exactMatchFound) {
-      checkArgument(
-          reviewers != null || reviewersByEmail != null,
-          "must have either reviewers or reviewersByEmail");
-
-      result = new AddReviewerResult(reviewer);
-      this.reviewers = reviewers == null ? ImmutableSet.of() : reviewers;
-      this.reviewersByEmail = reviewersByEmail == null ? ImmutableList.of() : reviewersByEmail;
-      this.state = state;
-      this.caller = caller.asIdentifiedUser();
-      op =
-          postReviewersOpFactory.create(
-              this.reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
-      this.exactMatchFound = exactMatchFound;
-    }
-
-    void gatherResults(ChangeData cd) throws OrmException, PermissionBackendException {
-      checkState(op != null, "addition did not result in an update op");
-      checkState(op.getResult() != null, "op did not return a result");
-
-      // Generate result details and fill AccountLoader. This occurs outside
-      // the Op because the accounts are in a different table.
-      PostReviewersOp.Result opResult = op.getResult();
-      if (migration.readChanges() && state == CC) {
-        result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
-        for (Account.Id accountId : opResult.addedCCs()) {
-          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), accountId, cd));
-        }
-        accountLoaderFactory.create(true).fill(result.ccs);
-        for (Address a : opResult.addedCCsByEmail()) {
-          result.ccs.add(new AccountInfo(a.getName(), a.getEmail()));
-        }
-      } else {
-        result.reviewers = Lists.newArrayListWithCapacity(opResult.addedReviewers().size());
-        for (PatchSetApproval psa : opResult.addedReviewers()) {
-          // New reviewers have value 0, don't bother normalizing.
-          result.reviewers.add(
-              json.format(
-                  new ReviewerInfo(psa.getAccountId().get()),
-                  psa.getAccountId(),
-                  cd,
-                  ImmutableList.of(psa)));
-        }
-        accountLoaderFactory.create(true).fill(result.reviewers);
-        for (Address a : opResult.addedReviewersByEmail()) {
-          result.reviewers.add(ReviewerInfo.byEmail(a.getName(), a.getEmail()));
-        }
-      }
-    }
-  }
-
-  public static boolean isLegalReviewerGroup(AccountGroup.UUID groupUUID) {
-    return !SystemGroupBackend.isSystemGroup(groupUUID);
   }
 }

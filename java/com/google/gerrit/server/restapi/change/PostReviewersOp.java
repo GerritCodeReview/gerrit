@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
+import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
@@ -124,6 +126,7 @@ public class PostReviewersOp implements BatchUpdateOp {
       @Assisted ReviewerState state,
       @Assisted @Nullable NotifyHandling notify,
       @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+    checkArgument(state == REVIEWER || state == CC, "must be %s or %s: %s", REVIEWER, CC, state);
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
     this.reviewerAdded = reviewerAdded;

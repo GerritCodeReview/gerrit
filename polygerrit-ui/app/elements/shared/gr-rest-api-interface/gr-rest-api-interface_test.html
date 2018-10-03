@@ -938,6 +938,10 @@ limitations under the License.
       });
 
       test('normal use', () => {
+        element.getRepos('test');
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/projects/?S=0&query=test');
+
         element.getRepos('test', 25);
         assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
             '/projects/?n=26&S=0&query=test');

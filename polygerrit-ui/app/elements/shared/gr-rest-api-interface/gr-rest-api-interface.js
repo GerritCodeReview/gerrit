@@ -1492,11 +1492,11 @@
 
     /**
      * @param {string} filter
-     * @param {number} reposPerPage
+     * @param {number=} opt_reposPerPage
      * @param {number=} opt_offset
      * @return {!Promise<?Object>}
      */
-    getRepos(filter, reposPerPage, opt_offset) {
+    getRepos(filter, opt_reposPerPage, opt_offset) {
       const defaultFilter = 'state:active OR state:read-only';
       const namePartDelimiters = /[@.\-\s\/_]/g;
       const offset = opt_offset || 0;
@@ -1522,12 +1522,12 @@
 
       filter = filter.trim();
       const encodedFilter = encodeURIComponent(filter);
+      const n = opt_reposPerPage ? `n=${opt_reposPerPage + 1}&` : '';
 
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       return this._fetchSharedCacheURL({
-        url: `/projects/?n=${reposPerPage + 1}&S=${offset}` +
-            `&query=${encodedFilter}`,
+        url: `/projects/?${n}S=${offset}&query=${encodedFilter}`,
         anonymizedUrl: '/projects/?*',
       });
     },
@@ -1546,17 +1546,18 @@
     /**
      * @param {string} filter
      * @param {string} repo
-     * @param {number} reposBranchesPerPage
+     * @param {number=} opt_reposBranchesPerPage
      * @param {number=} opt_offset
      * @param {?function(?Response, string=)=} opt_errFn
      * @return {!Promise<?Object>}
      */
-    getRepoBranches(filter, repo, reposBranchesPerPage, opt_offset, opt_errFn) {
+    getRepoBranches(filter, repo, opt_reposBranchesPerPage, opt_offset, opt_errFn) {
       const offset = opt_offset || 0;
-      const count = reposBranchesPerPage + 1;
+      const n =
+          opt_reposBranchesPerPage ? `n=${opt_reposBranchesPerPage + 1}&` : '';
       filter = this._computeFilter(filter);
       repo = encodeURIComponent(repo);
-      const url = `/projects/${repo}/branches?n=${count}&S=${offset}${filter}`;
+      const url = `/projects/${repo}/branches?${n}S=${offset}${filter}`;
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       return this._fetchJSON({

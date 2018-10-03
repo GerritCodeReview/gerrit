@@ -17,7 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html">
+<link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -64,27 +64,35 @@ limitations under the License.
         }
       }
     </style>
-    <paper-input
-        no-label-float
-        id="input"
-        class$="[[_computeClass(borderless)]]"
-        is="iron-input"
-        disabled$="[[disabled]]"
-        value="{{text}}"
-        placeholder="[[placeholder]]"
-        on-keydown="_handleKeydown"
-        on-focus="_onInputFocus"
-        on-blur="_onInputBlur"
-        autocomplete="off">
-      <!-- slot is for future use (2.x) while prefix attribute is for 1.x
-        (current) -->
-      <iron-icon
-          icon="gr-icons:search"
-          slot="prefix"
-          prefix
-          class$="searchIcon [[_computeShowSearchIconClass(showSearchIcon)]]">
-      </iron-icon>
-    </paper-input>
+    <gr-dropdown-list
+        id="suggestions"
+        items="[[_suggestions]]"
+        on-value-change="_handleValueChange">
+      <paper-input
+          slot="button-label"
+          no-label-float
+          id="input"
+          class$="[[_computeClass(borderless)]]"
+          is="iron-input"
+          disabled$="[[disabled]]"
+          value="{{text}}"
+          placeholder="[[placeholder]]"
+          on-keydown="_handleKeydown"
+          on-focus="_onInputFocus"
+          on-blur="_onInputBlur"
+          on-tap="_onInputTap"
+          autocomplete="off">
+        <!-- slot is for future use (2.x) while prefix attribute is for 1.x
+          (current) -->
+        <iron-icon
+            icon="gr-icons:search"
+            slot="prefix"
+            prefix
+            class$="searchIcon [[_computeShowSearchIconClass(showSearchIcon)]]">
+        </iron-icon>
+      </paper-input>
+    </gr-dropdown-list>
+    <!--
     <gr-autocomplete-dropdown
         vertical-align="top"
         vertical-offset="[[verticalOffset]]"
@@ -97,6 +105,7 @@ limitations under the License.
         index="[[_index]]"
         position-target="[[_inputElement]]">
     </gr-autocomplete-dropdown>
+    -->
   </template>
   <script src="gr-autocomplete.js"></script>
 </dom-module>

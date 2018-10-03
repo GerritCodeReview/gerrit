@@ -59,11 +59,18 @@
     properties: {
       initialCount: Number,
       /** @type {!Array<!Defs.item>} */
-      items: Object,
+      items: {
+        type: Object,
+        observer: '_resetCursorStops',
+      },
       text: String,
       value: {
         type: String,
         notify: true,
+      },
+      _itemEls: {
+        type: Array,
+        observer: '_resetCursorIndex',
       },
     },
 
@@ -88,14 +95,21 @@
      * @param {!Event} e
      */
     _showDropdownTapHandler(e) {
-      this._open();
+      this.open();
     },
 
     /**
      * Open the dropdown.
      */
-    _open() {
+    open() {
       this.$.dropdown.open();
+    },
+
+    /**
+     * Close the dropdown.
+     */
+    close() {
+      this.$.dropdown.close();
     },
 
     _computeMobileText(item) {
@@ -108,12 +122,39 @@
         return item.value + '' === value + '';
       });
       if (!selectedObj) { return; }
-      this.text = selectedObj.triggerText? selectedObj.triggerText :
+      this.text = selectedObj.triggerText ? selectedObj.triggerText :
           selectedObj.text;
       this.dispatchEvent(new CustomEvent('value-change', {
         detail: {value},
         bubbles: false,
       }));
+    },
+
+    /*
+    getCursorTarget() {
+      return this.$.cursor.target;
+    },
+    */
+
+    _resetCursorStops() {
+      if (this.items.length > 0) {
+        Polymer.dom.flush();
+        this._itemEls = this.$.dropdown.querySelectorAll('paper-item');
+      } else {
+        this._itemEls = [];
+      }
+    },
+
+    _resetCursorIndex() {
+      this.$.cursor.setCursorAtIndex(0);
+    },
+
+    cursorDown() {
+      this.$.cursor.next();
+    },
+
+    cursorUp() {
+      this.$.cursor.previous();
     },
   });
 })();

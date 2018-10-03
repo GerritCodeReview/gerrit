@@ -22,6 +22,7 @@ limitations under the License.
 
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 
@@ -134,15 +135,17 @@ limitations under the License.
         }
       }
     </style>
-    <gr-button
-        down-arrow
-        link
-        id="trigger"
-        class="dropdown-trigger"
-        on-tap="_showDropdownTapHandler"
-        slot="dropdown-trigger">
-      <span id="triggerText">[[text]]</span>
-    </gr-button>
+    <slot name="button-label">
+      <gr-button
+          down-arrow
+          link
+          id="trigger"
+          class="dropdown-trigger"
+          on-tap="_showDropdownTapHandler"
+          slot="dropdown-trigger">
+        <span id="triggerText">[[text]]</span>
+      </gr-button>
+    </slot>
     <iron-dropdown
         id="dropdown"
         vertical-align="top"
@@ -187,6 +190,12 @@ limitations under the License.
         </template>
       </select>
     </gr-select>
+    <gr-cursor-manager
+        id="cursor"
+        index="{{index}}"
+        cursor-target-class="selected"
+        focus-on-move
+        stops="[[_itemEls]]"></gr-cursor-manager>
   </template>
   <script src="gr-dropdown-list.js"></script>
 </dom-module>

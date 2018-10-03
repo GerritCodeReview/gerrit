@@ -157,7 +157,7 @@
     _resetCursorStops() {
       if (this.suggestions.length > 0) {
         Polymer.dom.flush();
-        this._suggestionEls = this.$.suggestions.querySelectorAll('li');
+        this._suggestionEls = this.$.suggestions.querySelectorAll('paper-item');
       } else {
         this._suggestionEls = [];
       }

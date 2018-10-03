@@ -201,11 +201,9 @@
       this.text = '';
     },
 
-    _handleItemSelect(e) {
-      // Let _handleKeydown deal with keyboard interaction.
-      if (e.detail.trigger !== 'tap') { return; }
-      this._selected = e.detail.selected;
-      this._commit();
+    _handleValueChange(e) {
+      this._selected = e.detail.value;
+      this._commit(this.multi);
     },
 
     get _inputElement() {
@@ -235,6 +233,14 @@
           this.warnUncommitted && this.text.length && !this._focused);
       // Needed so that --paper-input-container-input updated style is applied.
       this.updateStyles();
+    },
+
+    _onInputTap(e) {
+      // Stop propagation so the containing gr-dropdown-list will not open its
+      // dropdown in response to the tap.
+      e.preventDefault();
+      e.stopPropagation();
+      this.$.input.focus();
     },
 
     _updateSuggestions(text, threshold, noDebounce) {
@@ -271,9 +277,11 @@
 
     _maybeOpenDropdown(suggestions, focused) {
       if (suggestions.length > 0 && focused) {
-        return this.$.suggestions.open();
+        this.$.suggestions.open();
+        this.focus();
+      } else {
+        this.$.suggestions.close();
       }
-      return this.$.suggestions.close();
     },
 
     _computeClass(borderless) {
@@ -347,9 +355,8 @@
       this._commit(opt_tabComplete);
     },
 
-    _updateValue(suggestion, suggestions) {
-      if (!suggestion) { return; }
-      const completed = suggestions[suggestion.dataset.index].value;
+    _updateValue(completed, suggestions) {
+      if (!completed) { return; }
       if (this.multi) {
         // Append the completed text to the end of the string.
         // Allow spaces within quoted terms.
@@ -406,7 +413,9 @@
       }
 
       this._suggestions = [];
-      if (!opt_silent) {
+      if (opt_silent) {
+        this.focus();
+      } else {
         this.fire('commit', {value});
       }
 

@@ -18,8 +18,8 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
+<link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
 <script src="../../../scripts/rootElement.js"></script>
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -35,21 +35,21 @@ limitations under the License.
       ul {
         list-style: none;
       }
-      li {
+      paper-item {
         border-bottom: 1px solid var(--border-color);
         cursor: pointer;
         padding: .5em .75em;
       }
-      li:last-of-type {
+      paper-item:last-of-type {
         border: none;
       }
-      li:focus {
+      paper-item:focus {
         outline: none;
       }
-      li:hover {
+      paper-item:hover {
         background-color: var(--hover-background-color);
       }
-      li.selected {
+      paper-item.selected {
         background-color: var(--selection-background-color);
       }
       .dropdown-content {
@@ -57,22 +57,11 @@ limitations under the License.
         box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
       }
     </style>
-    <div
-        class="dropdown-content"
-        slot="dropdown-content"
+
+    <gr-dropdown-list
         id="suggestions"
-        role="listbox">
-      <ul>
-        <template is="dom-repeat" items="[[suggestions]]">
-          <li data-index$="[[index]]"
-              data-value$="[[item.dataValue]]"
-              tabindex="-1"
-              aria-label$="[[item.name]]"
-              role="option"
-              on-tap="_handleTapItem">[[item.text]]</li>
-        </template>
-      </ul>
-    </div>
+        items="[[suggestions]]">
+    </gr-dropdown-list>
     <gr-cursor-manager
         id="cursor"
         index="{{index}}"

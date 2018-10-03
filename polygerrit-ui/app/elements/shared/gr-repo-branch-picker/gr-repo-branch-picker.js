@@ -17,7 +17,6 @@
 (function() {
   'use strict';
 
-  const SUGGESTIONS_LIMIT = 15;
   const REF_PREFIX = 'refs/heads/';
 
   Polymer({
@@ -67,12 +66,12 @@
       if (input.startsWith(REF_PREFIX)) {
         input = input.substring(REF_PREFIX.length);
       }
-      return this.$.restAPI.getRepoBranches(input, this.repo, SUGGESTIONS_LIMIT)
+      return this.$.restAPI.getRepoBranches(input, this.repo)
           .then(this._branchResponseToSuggestions.bind(this));
     },
 
     _getRepoSuggestions(input) {
-      return this.$.restAPI.getRepos(input, SUGGESTIONS_LIMIT)
+      return this.$.restAPI.getRepos(input)
           .then(this._repoResponseToSuggestions.bind(this));
     },
 

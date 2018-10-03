@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd6cf2c8_90b3c749",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewersOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-03T17:08:53Z",
+      "side": 0,
+      "message": "If you look closely at the LHS, you\u0027ll see that addedCCsByEmail is never assigned to anything other than the empty list, and reviewersByEmail may contain CCs rather than reviewers.",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 24
+      },
+      "revId": "9e277f2339162aaff082ac60d3858e4e07f12dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

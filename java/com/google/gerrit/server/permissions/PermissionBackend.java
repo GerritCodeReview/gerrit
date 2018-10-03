@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
@@ -40,6 +41,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -367,12 +369,19 @@ public abstract class PermissionBackend {
     /** Separately add reachable tags. */
     public abstract boolean filterTagsSeparately();
 
+    /**
+     * Select only refs with names matching prefixes per {@link
+     * org.eclipse.jgit.lib.RefDatabase#getRefsByPrefix}.
+     */
+    public abstract ImmutableList<String> prefixes();
+
     public abstract Builder toBuilder();
 
     public static Builder builder() {
       return new AutoValue_PermissionBackend_RefFilterOptions.Builder()
           .setFilterMeta(false)
-          .setFilterTagsSeparately(false);
+          .setFilterTagsSeparately(false)
+          .setPrefixes(Collections.singletonList(""));
     }
 
     @AutoValue.Builder
@@ -380,6 +389,8 @@ public abstract class PermissionBackend {
       public abstract Builder setFilterMeta(boolean val);
 
       public abstract Builder setFilterTagsSeparately(boolean val);
+
+      public abstract Builder setPrefixes(List<String> prefixes);
 
       public abstract RefFilterOptions build();
     }

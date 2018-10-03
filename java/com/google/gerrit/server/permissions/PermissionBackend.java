@@ -40,6 +40,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -367,12 +368,16 @@ public abstract class PermissionBackend {
     /** Separately add reachable tags. */
     public abstract boolean filterTagsSeparately();
 
+    /** Select only refs matching prefixes. */
+    public abstract List<String> prefixes();
+
     public abstract Builder toBuilder();
 
     public static Builder builder() {
       return new AutoValue_PermissionBackend_RefFilterOptions.Builder()
           .setFilterMeta(false)
-          .setFilterTagsSeparately(false);
+          .setFilterTagsSeparately(false)
+          .setPrefixes(Collections.singletonList(""));
     }
 
     @AutoValue.Builder
@@ -380,6 +385,8 @@ public abstract class PermissionBackend {
       public abstract Builder setFilterMeta(boolean val);
 
       public abstract Builder setFilterTagsSeparately(boolean val);
+
+      public abstract Builder setPrefixes(List<String> prefixes);
 
       public abstract RefFilterOptions build();
     }

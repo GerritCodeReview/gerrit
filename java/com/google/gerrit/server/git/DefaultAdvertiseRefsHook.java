@@ -14,9 +14,14 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -28,6 +33,7 @@ import org.eclipse.jgit.transport.ServiceMayNotContinueException;
  * implements {@link org.eclipse.jgit.transport.AdvertiseRefsHook}.
  */
 public class DefaultAdvertiseRefsHook extends AbstractAdvertiseRefsHook {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend.ForProject perm;
   private final PermissionBackend.RefFilterOptions opts;
@@ -42,7 +48,24 @@ public class DefaultAdvertiseRefsHook extends AbstractAdvertiseRefsHook {
   protected Map<String, Ref> getAdvertisedRefs(Repository repo, RevWalk revWalk)
       throws ServiceMayNotContinueException {
     try {
-      return perm.filter(repo.getAllRefs(), repo, opts);
+      Map<String, Ref> refs;
+      List<String> prefixes = opts.prefixes();
+      if (prefixes.isEmpty() || prefixes.get(0).isEmpty()) {
+        refs = repo.getAllRefs();
+      } else {
+        try {
+          refs =
+              repo.getRefDatabase()
+                  .getRefsByPrefix(prefixes.toArray(new String[0]))
+                  .stream()
+                  .collect(Collectors.toMap(Ref::getName, r -> r));
+        } catch (IOException e) {
+          refs = new HashMap<>();
+          logger.atWarning().withCause(e).log(
+              "Cannot getRefsByPrefix %s, returning no refs", prefixes);
+        }
+      }
+      return perm.filter(refs, repo, opts);
     } catch (PermissionBackendException e) {
       ServiceMayNotContinueException ex = new ServiceMayNotContinueException();
       ex.initCause(e);

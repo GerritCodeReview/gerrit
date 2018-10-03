@@ -197,6 +197,17 @@ limitations under the License.
       assert.isTrue(Gerrit._setPluginsPending.calledWith([url + '/oof']));
     });
 
+    test('skips default theme loading if preloaded', () => {
+      sandbox.stub(Gerrit, '_isPluginPreloaded')
+          .withArgs('preloaded:gerrit-theme').returns(true);
+      sandbox.stub(Gerrit, '_setPluginsPending');
+      element.config = {
+        default_theme: '/oof',
+        plugin: {},
+      };
+      assert.isFalse(element.importHref.calledWith(url + '/oof'));
+    });
+
     test('skips preloaded plugins', () => {
       sandbox.stub(Gerrit, '_isPluginPreloaded')
           .withArgs(url + '/plugins/foo/bar').returns(true)

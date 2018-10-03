@@ -40,7 +40,10 @@
           this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins)
           .map(p => this._urlFor(p))
           .filter(p => !Gerrit._isPluginPreloaded(p));
-      const defaultTheme = this._urlFor(config.default_theme);
+      const shouldLoadTheme = config.default_theme &&
+            !Gerrit._isPluginPreloaded('preloaded:gerrit-theme');
+      const defaultTheme =
+            shouldLoadTheme ? this._urlFor(config.default_theme) : null;
       const pluginsPending =
           [].concat(jsPlugins, htmlPlugins, defaultTheme || []);
       Gerrit._setPluginsPending(pluginsPending);

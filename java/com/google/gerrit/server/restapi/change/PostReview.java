@@ -89,7 +89,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.ChangeResource.Factory;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -112,6 +111,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
+import com.google.gerrit.server.restapi.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -170,7 +170,7 @@ public class PostReview
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
-  private final PostReviewers postReviewers;
+  private final ReviewerAdder reviewerAdder;
   private final PostReviewersEmail postReviewersEmail;
   private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
@@ -184,7 +184,7 @@ public class PostReview
   PostReview(
       Provider<ReviewDb> db,
       RetryHelper retryHelper,
-      Factory changeResourceFactory,
+      ChangeResource.Factory changeResourceFactory,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
@@ -195,7 +195,7 @@ public class PostReview
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
-      PostReviewers postReviewers,
+      ReviewerAdder reviewerAdder,
       PostReviewersEmail postReviewersEmail,
       NotesMigration migration,
       NotifyUtil notifyUtil,
@@ -216,7 +216,7 @@ public class PostReview
     this.accounts = accounts;
     this.email = email;
     this.commentAdded = commentAdded;
-    this.postReviewers = postReviewers;
+    this.reviewerAdder = reviewerAdder;
     this.postReviewersEmail = postReviewersEmail;
     this.migration = migration;
     this.notifyUtil = notifyUtil;
@@ -273,7 +273,7 @@ public class PostReview
         notifyUtil.resolveAccounts(input.notifyDetails);
 
     Map<String, AddReviewerResult> reviewerJsonResults = null;
-    List<PostReviewers.Addition> reviewerResults = Lists.newArrayList();
+    List<ReviewerAddition> reviewerResults = Lists.newArrayList();
     boolean hasError = false;
     boolean confirm = false;
     if (input.reviewers != null) {
@@ -285,9 +285,8 @@ public class PostReview
         // specifies explicit accountsToNotify. Unclear whether that's a good thing.
         reviewerInput.notify = NotifyHandling.NONE;
 
-        PostReviewers.Addition result =
-            postReviewers.prepareApplication(
-                revision.getNotes(), revision.getUser(), reviewerInput, true);
+        ReviewerAddition result =
+            reviewerAdder.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           hasError = true;
@@ -327,7 +326,7 @@ public class PostReview
       // Apply reviewer changes first. Revision emails should be sent to the
       // updated set of reviewers. Also keep track of whether the user added
       // themselves as a reviewer or to the CC list.
-      for (PostReviewers.Addition reviewerResult : reviewerResults) {
+      for (ReviewerAddition reviewerResult : reviewerResults) {
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
         if (!ccOrReviewer && reviewerResult.result.reviewers != null) {
           for (ReviewerInfo reviewerInfo : reviewerResult.result.reviewers) {
@@ -351,8 +350,7 @@ public class PostReview
         // User posting this review isn't currently in the reviewer or CC list,
         // isn't being explicitly added, and isn't voting on any label.
         // Automatically CC them on this change so they receive replies.
-        PostReviewers.Addition selfAddition =
-            postReviewers.ccCurrentUser(revision.getUser(), revision);
+        ReviewerAddition selfAddition = reviewerAdder.ccCurrentUser(revision.getUser(), revision);
         bu.addOp(revision.getChange().getId(), selfAddition.op);
       }
 
@@ -389,7 +387,7 @@ public class PostReview
       // Re-read change to take into account results of the update.
       ChangeData cd =
           changeDataFactory.create(db.get(), revision.getProject(), revision.getChange().getId());
-      for (PostReviewers.Addition reviewerResult : reviewerResults) {
+      for (ReviewerAddition reviewerResult : reviewerResults) {
         reviewerResult.gatherResults(cd);
       }
 
@@ -434,7 +432,7 @@ public class PostReview
   private void batchEmailReviewers(
       CurrentUser user,
       Change change,
-      List<PostReviewers.Addition> reviewerAdditions,
+      List<ReviewerAddition> reviewerAdditions,
       @Nullable NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify,
       boolean readyForReview) {
@@ -442,7 +440,7 @@ public class PostReview
     List<Account.Id> cc = new ArrayList<>();
     List<Address> toByEmail = new ArrayList<>();
     List<Address> ccByEmail = new ArrayList<>();
-    for (PostReviewers.Addition addition : reviewerAdditions) {
+    for (ReviewerAddition addition : reviewerAdditions) {
       if (addition.state == ReviewerState.REVIEWER) {
         to.addAll(addition.reviewers);
         toByEmail.addAll(addition.reviewersByEmail);

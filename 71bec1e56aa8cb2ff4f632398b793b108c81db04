@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f460d8df_8ca2172c",
+        "filename": "java/com/google/gerrit/server/git/DefaultAdvertiseRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-03T15:35:33Z",
+      "side": 1,
+      "message": "Please never silently swallow IOExceptions.",
+      "revId": "71bec1e56aa8cb2ff4f632398b793b108c81db04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cb7e34b_78baee4d",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-03T15:35:33Z",
+      "side": 1,
+      "message": "If I\u0027m reading getRefsByPrefix correctly, passing an empty list of prefixes will cause it to return an empty list, which seems like it\u0027s probably not the right default behavior. Should the default instead be Collections.singletonList(\"\")?",
+      "revId": "71bec1e56aa8cb2ff4f632398b793b108c81db04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

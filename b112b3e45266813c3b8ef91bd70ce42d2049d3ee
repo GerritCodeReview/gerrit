@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "6b987dd7_a032db4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-03T17:25:47Z",
+      "side": 1,
+      "message": "\u003e That said, I\u0027m leaning towards doing that final refactoring after finishing the work to reuse PostReviewersOp from ChangeInserter, which has actual user impact. Let me know if you think I should do it earlier.\n\nActually, I have to move it out of the restapi package if we want to be able to reuse it from ChangeInserter, so I guess I\u0027m doing it sooner rather than later.",
+      "parentUuid": "93757bd0_e80325a4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "b112b3e45266813c3b8ef91bd70ce42d2049d3ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1b726e2_38f6868e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

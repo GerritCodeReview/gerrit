@@ -566,11 +566,10 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyNone(batch());
   }
 
-  @Test
-  public void addNonUserReviewerByEmailInNoteDbSingly() throws Exception {
+  private void addNonUserReviewerByEmailInNoteDb(Adder adder) throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
-    addReviewer(singly(ReviewerState.REVIEWER), sc.changeId, sc.owner, "nonexistent@example.com");
+    addReviewer(adder, sc.changeId, sc.owner, "nonexistent@example.com");
     assertThat(sender)
         .sent("newchange", sc)
         .to("nonexistent@example.com")
@@ -580,13 +579,22 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
+  public void addNonUserReviewerByEmailInNoteDbSingly() throws Exception {
+    addNonUserReviewerByEmailInNoteDb(singly(ReviewerState.REVIEWER));
+  }
+
+  @Test
   public void addNonUserReviewerByEmailInNoteDbBatch() throws Exception {
+    addNonUserReviewerByEmailInNoteDb(batch(ReviewerState.REVIEWER));
+  }
+
+  private void addNonUserCcByEmailInNoteDb(Adder adder) throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
-    addReviewer(batch(ReviewerState.REVIEWER), sc.changeId, sc.owner, "nonexistent@example.com");
+    addReviewer(adder, sc.changeId, sc.owner, "nonexistent@example.com");
     assertThat(sender)
         .sent("newchange", sc)
-        .to("nonexistent@example.com")
+        .cc("nonexistent@example.com")
         .cc(sc.reviewer)
         .cc(sc.ccerByEmail, sc.reviewerByEmail)
         .noOneElse();
@@ -594,28 +602,12 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Test
   public void addNonUserCcByEmailInNoteDbSingly() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-    StagedChange sc = stageReviewableChange();
-    addReviewer(singly(ReviewerState.CC), sc.changeId, sc.owner, "nonexistent@example.com");
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to("nonexistent@example.com") // TODO(dborowitz): Should be cc.
-        .cc(sc.reviewer)
-        .cc(sc.ccerByEmail, sc.reviewerByEmail)
-        .noOneElse();
+    addNonUserCcByEmailInNoteDb(singly(ReviewerState.CC));
   }
 
   @Test
   public void addNonUserCcByEmailInNoteDbBatch() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-    StagedChange sc = stageReviewableChange();
-    addReviewer(batch(ReviewerState.CC), sc.changeId, sc.owner, "nonexistent@example.com");
-    assertThat(sender)
-        .sent("newchange", sc)
-        .cc("nonexistent@example.com")
-        .cc(sc.reviewer)
-        .cc(sc.ccerByEmail, sc.reviewerByEmail)
-        .noOneElse();
+    addNonUserCcByEmailInNoteDb(batch(ReviewerState.CC));
   }
 
   private interface Adder {

@@ -335,12 +335,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     assertThat(info._accountId).isNull();
     assertThat(info.email).isEqualTo(input.reviewer);
 
-    // TODO(dborowitz): Shouldn't report that existing reviewer by email were added the second time.
-    result = gApi.changes().id(r.getChangeId()).addReviewer(input);
-    assertThat(result.reviewers).hasSize(1);
-    info = result.reviewers.get(0);
-    assertThat(info._accountId).isNull();
-    assertThat(info.email).isEqualTo(input.reviewer);
+    assertThat(gApi.changes().id(r.getChangeId()).addReviewer(input).reviewers).isEmpty();
   }
 
   @Test
@@ -358,12 +353,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     assertThat(info._accountId).isNull();
     assertThat(info.email).isEqualTo(input.reviewer);
 
-    // TODO(dborowitz): Shouldn't report that existing CC by email were added the second time.
-    result = gApi.changes().id(r.getChangeId()).addReviewer(input);
-    assertThat(result.ccs).hasSize(1);
-    info = result.ccs.get(0);
-    assertThat(info._accountId).isNull();
-    assertThat(info.email).isEqualTo(input.reviewer);
+    assertThat(gApi.changes().id(r.getChangeId()).addReviewer(input).ccs).isEmpty();
   }
 
   private static String toRfcAddressString(AccountInfo info) {

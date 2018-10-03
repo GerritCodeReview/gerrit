@@ -16,12 +16,14 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
@@ -53,16 +55,30 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 public class PostReviewersOp implements BatchUpdateOp {
   public interface Factory {
+
+    /**
+     * Create a new op.
+     *
+     * <p>Users may be added by account or by email addresses, as determined by {@code accountIds}
+     * and {@code addresses}. The reviewer state for both accounts and email addresses is determined
+     * by {@code state}.
+     *
+     * @param accountIds account IDs to add.
+     * @param addresses email addresses to add.
+     * @param state resulting reviewer state.
+     * @param notify notification handling.
+     * @param accountsToNotify additional accounts to notify.
+     * @return batch update operation.
+     */
     PostReviewersOp create(
-        Set<Account.Id> reviewers,
-        Collection<Address> reviewersByEmail,
+        Set<Account.Id> accountIds,
+        Collection<Address> addresses,
         ReviewerState state,
         @Nullable NotifyHandling notify,
         ListMultimap<RecipientType, Account.Id> accountsToNotify);
@@ -72,7 +88,11 @@ public class PostReviewersOp implements BatchUpdateOp {
   public abstract static class Result {
     public abstract ImmutableList<PatchSetApproval> addedReviewers();
 
+    public abstract ImmutableList<Address> addedReviewersByEmail();
+
     public abstract ImmutableList<Account.Id> addedCCs();
+
+    public abstract ImmutableList<Address> addedCCsByEmail();
 
     static Builder builder() {
       return new AutoValue_PostReviewersOp_Result.Builder();
@@ -80,9 +100,13 @@ public class PostReviewersOp implements BatchUpdateOp {
 
     @AutoValue.Builder
     abstract static class Builder {
-      abstract Builder setAddedReviewers(ImmutableList<PatchSetApproval> addedReviewers);
+      abstract Builder setAddedReviewers(Iterable<PatchSetApproval> addedReviewers);
 
-      abstract Builder setAddedCCs(ImmutableList<Account.Id> addedCCs);
+      abstract Builder setAddedReviewersByEmail(Iterable<Address> addedReviewersByEmail);
+
+      abstract Builder setAddedCCs(Iterable<Account.Id> addedCCs);
+
+      abstract Builder setAddedCCsByEmail(Iterable<Address> addedCCsByEmail);
 
       abstract Result build();
     }
@@ -97,15 +121,19 @@ public class PostReviewersOp implements BatchUpdateOp {
   private final NotesMigration migration;
   private final Provider<IdentifiedUser> user;
   private final Provider<ReviewDb> dbProvider;
-  private final Set<Account.Id> reviewers;
-  private final Collection<Address> reviewersByEmail;
+  private final Set<Account.Id> accountIds;
+  private final Collection<Address> addresses;
   private final ReviewerState state;
   private final NotifyHandling notify;
   private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
 
-  private List<PatchSetApproval> addedReviewers = new ArrayList<>();
-  private Collection<Account.Id> addedCCs = new ArrayList<>();
-  private Collection<Address> addedCCsByEmail = new ArrayList<>();
+  // Unlike addedCCs, addedReviewers is a PatchSetApproval because the AddReviewerResult returned
+  // via the REST API is supposed to include vote information.
+  private List<PatchSetApproval> addedReviewers = ImmutableList.of();
+  private Collection<Address> addedReviewersByEmail = ImmutableList.of();
+  private Collection<Account.Id> addedCCs = ImmutableList.of();
+  private Collection<Address> addedCCsByEmail = ImmutableList.of();
+
   private Change change;
   private PatchSet patchSet;
   private Result opResult;
@@ -121,8 +149,8 @@ public class PostReviewersOp implements BatchUpdateOp {
       NotesMigration migration,
       Provider<IdentifiedUser> user,
       Provider<ReviewDb> dbProvider,
-      @Assisted Set<Account.Id> reviewers,
-      @Assisted Collection<Address> reviewersByEmail,
+      @Assisted Set<Account.Id> accountIds,
+      @Assisted Collection<Address> addresses,
       @Assisted ReviewerState state,
       @Assisted @Nullable NotifyHandling notify,
       @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify) {
@@ -137,8 +165,8 @@ public class PostReviewersOp implements BatchUpdateOp {
     this.user = user;
     this.dbProvider = dbProvider;
 
-    this.reviewers = reviewers;
-    this.reviewersByEmail = reviewersByEmail;
+    this.accountIds = accountIds;
+    this.addresses = addresses;
     this.state = state;
     this.notify = notify;
     this.accountsToNotify = accountsToNotify;
@@ -148,14 +176,11 @@ public class PostReviewersOp implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx)
       throws RestApiException, OrmException, IOException {
     change = ctx.getChange();
-    if (!reviewers.isEmpty()) {
+    if (!accountIds.isEmpty()) {
       if (migration.readChanges() && state == CC) {
         addedCCs =
             approvalsUtil.addCcs(
-                ctx.getNotes(), ctx.getUpdate(change.currentPatchSetId()), reviewers);
-        if (addedCCs.isEmpty()) {
-          return false;
-        }
+                ctx.getNotes(), ctx.getUpdate(change.currentPatchSetId()), accountIds);
       } else {
         addedReviewers =
             approvalsUtil.addReviewers(
@@ -164,35 +189,76 @@ public class PostReviewersOp implements BatchUpdateOp {
                 ctx.getUpdate(change.currentPatchSetId()),
                 projectCache.checkedGet(change.getProject()).getLabelTypes(change.getDest()),
                 change,
-                reviewers);
-        if (addedReviewers.isEmpty()) {
-          return false;
-        }
+                accountIds);
       }
     }
 
-    for (Address a : reviewersByEmail) {
-      ctx.getUpdate(change.currentPatchSetId())
-          .putReviewerByEmail(a, ReviewerStateInternal.fromReviewerState(state));
+    ImmutableList<Address> addressesToAdd = ImmutableList.of();
+    ReviewerStateInternal internalState = ReviewerStateInternal.fromReviewerState(state);
+    if (migration.readChanges()) {
+      // TODO(dborowitz): This behavior should live in ApprovalsUtil or something, like addCcs does.
+      ImmutableSet<Address> existing = ctx.getNotes().getReviewersByEmail().byState(internalState);
+      addressesToAdd =
+          addresses.stream().filter(a -> !existing.contains(a)).collect(toImmutableList());
+
+      if (state == CC) {
+        addedCCsByEmail = addressesToAdd;
+      } else {
+        addedReviewersByEmail = addressesToAdd;
+      }
+      for (Address a : addressesToAdd) {
+        ctx.getUpdate(change.currentPatchSetId()).putReviewerByEmail(a, internalState);
+      }
     }
+    if (addedCCs.isEmpty() && addedReviewers.isEmpty() && addressesToAdd.isEmpty()) {
+      return false;
+    }
+
+    checkAdded();
 
     patchSet = psUtil.current(dbProvider.get(), ctx.getNotes());
     return true;
+  }
+
+  private void checkAdded() {
+    // Should only affect either reviewers or CCs, not both. But the logic in updateChange is
+    // complex, so programmer error is conceivable.
+    boolean addedAnyReviewers = !addedReviewers.isEmpty() || !addedReviewersByEmail.isEmpty();
+    boolean addedAnyCCs = !addedCCs.isEmpty() || !addedCCsByEmail.isEmpty();
+    checkState(
+        !(addedAnyReviewers && addedAnyCCs),
+        "should not have added both reviewers and CCs:\n"
+            + "Arguments:\n"
+            + "  accountIds=%s\n"
+            + "  addresses=%s\n"
+            + "Results:\n"
+            + "  addedReviewers=%s\n"
+            + "  addedReviewersByEmail=%s\n"
+            + "  addedCCs=%s\n"
+            + "  addedCCsByEmail=%s",
+        accountIds,
+        addresses,
+        addedReviewers,
+        addedReviewersByEmail,
+        addedCCs,
+        addedCCsByEmail);
   }
 
   @Override
   public void postUpdate(Context ctx) throws Exception {
     opResult =
         Result.builder()
-            .setAddedReviewers(ImmutableList.copyOf(addedReviewers))
-            .setAddedCCs(ImmutableList.copyOf(addedCCs))
+            .setAddedReviewers(addedReviewers)
+            .setAddedReviewersByEmail(addedReviewersByEmail)
+            .setAddedCCs(addedCCs)
+            .setAddedCCsByEmail(addedCCsByEmail)
             .build();
     postReviewersEmail.emailReviewers(
         user.get(),
         change,
         Lists.transform(addedReviewers, PatchSetApproval::getAccountId),
-        addedCCs == null ? ImmutableList.of() : addedCCs,
-        reviewersByEmail,
+        addedCCs,
+        addedReviewersByEmail,
         addedCCsByEmail,
         notify,
         accountsToNotify,

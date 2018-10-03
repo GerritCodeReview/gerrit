@@ -383,7 +383,7 @@ public class ReviewersUtil {
     int maxAllowedWithoutConfirmation = suggestReviewers.getMaxAllowedWithoutConfirmation();
     logger.atFine().log("maxAllowedWithoutConfirmation: " + maxAllowedWithoutConfirmation);
 
-    if (!PostReviewers.isLegalReviewerGroup(group.getUUID())) {
+    if (!ReviewerAdder.isLegalReviewerGroup(group.getUUID())) {
       logger.atFine().log("Ignore group %s that is not legal as reviewer", group.getUUID());
       return result;
     }

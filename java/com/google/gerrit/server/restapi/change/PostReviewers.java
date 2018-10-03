@@ -493,7 +493,7 @@ public class PostReviewers
           result.ccs.add(json.format(new ReviewerInfo(accountId.get()), accountId, cd));
         }
         accountLoaderFactory.create(true).fill(result.ccs);
-        for (Address a : reviewersByEmail) {
+        for (Address a : opResult.addedCCsByEmail()) {
           result.ccs.add(new AccountInfo(a.getName(), a.getEmail()));
         }
       } else {
@@ -507,6 +507,7 @@ public class PostReviewers
                   cd,
                   ImmutableList.of(psa)));
         }
+        // TODO(dborowitz): Include addedReviewersByEmail.
         accountLoaderFactory.create(true).fill(result.reviewers);
         for (Address a : reviewersByEmail) {
           result.reviewers.add(ReviewerInfo.byEmail(a.getName(), a.getEmail()));

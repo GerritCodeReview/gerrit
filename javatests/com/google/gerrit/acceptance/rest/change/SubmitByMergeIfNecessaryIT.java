@@ -552,6 +552,43 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
+  public void dependencyOnOutdatedPatchSetPreventsMerge() throws Exception {
+    // Create a change
+    PushOneCommit change = pushFactory.create(db, user.getIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit.Result changeResult = change.to("refs/for/master");
+
+    // Create a successor change.
+    PushOneCommit change2 =
+        pushFactory.create(db, user.getIdent(), testRepo, "feature", "b.txt", "bar");
+    PushOneCommit.Result change2Result = change2.to("refs/for/master");
+
+    // Create new patch set for first change.
+    testRepo.reset(changeResult.getCommit().name());
+    amendChange(changeResult.getChangeId());
+
+    // Approve both changes
+    approve(changeResult.getChangeId());
+    approve(change2Result.getChangeId());
+
+    submitWithConflict(
+        change2Result.getChangeId(),
+        "Failed to submit 2 changes due to the following problems:\n"
+            + "Change "
+            + change2Result.getChange().getId()
+            + ": Depends on change that was not submitted."
+            + " Commit "
+            + change2Result.getCommit().name()
+            + " depends on commit "
+            + changeResult.getCommit().name()
+            + " of change "
+            + changeResult.getChange().getId()
+            + " which cannot be merged because it is an outdated patch set.");
+
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
+  }
+
+  @Test
   public void testPreviewSubmitTgz() throws Exception {
     Project.NameKey p1 = createProject("project-name");
 

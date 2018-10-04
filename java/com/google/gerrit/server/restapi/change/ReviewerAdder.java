@@ -94,7 +94,7 @@ public class ReviewerAdder {
   private final NotifyUtil notifyUtil;
   private final ProjectCache projectCache;
   private final Provider<AnonymousUser> anonymousProvider;
-  private final PostReviewersOp.Factory postReviewersOpFactory;
+  private final AddReviewersOp.Factory addReviewersOpFactory;
   private final OutgoingEmailValidator validator;
 
   @Inject
@@ -111,7 +111,7 @@ public class ReviewerAdder {
       NotifyUtil notifyUtil,
       ProjectCache projectCache,
       Provider<AnonymousUser> anonymousProvider,
-      PostReviewersOp.Factory postReviewersOpFactory,
+      AddReviewersOp.Factory addReviewersOpFactory,
       OutgoingEmailValidator validator) {
     this.accountResolver = accountResolver;
     this.permissionBackend = permissionBackend;
@@ -125,7 +125,7 @@ public class ReviewerAdder {
     this.notifyUtil = notifyUtil;
     this.projectCache = projectCache;
     this.anonymousProvider = anonymousProvider;
-    this.postReviewersOpFactory = postReviewersOpFactory;
+    this.addReviewersOpFactory = addReviewersOpFactory;
     this.validator = validator;
   }
 
@@ -395,7 +395,7 @@ public class ReviewerAdder {
 
   public class ReviewerAddition {
     public final AddReviewerResult result;
-    @Nullable public final PostReviewersOp op;
+    @Nullable public final AddReviewersOp op;
     final Set<Id> reviewers;
     final Collection<Address> reviewersByEmail;
     final ReviewerState state;
@@ -431,7 +431,7 @@ public class ReviewerAdder {
       this.state = state;
       this.caller = caller.asIdentifiedUser();
       op =
-          postReviewersOpFactory.create(
+          addReviewersOpFactory.create(
               this.reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
       this.exactMatchFound = exactMatchFound;
     }
@@ -442,7 +442,7 @@ public class ReviewerAdder {
 
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.
-      PostReviewersOp.Result opResult = op.getResult();
+      AddReviewersOp.Result opResult = op.getResult();
       if (migration.readChanges() && state == CC) {
         result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
         for (Account.Id accountId : opResult.addedCCs()) {

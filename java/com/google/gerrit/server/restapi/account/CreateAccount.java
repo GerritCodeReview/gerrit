@@ -46,11 +46,11 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -68,7 +68,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class CreateAccount
     implements RestCollectionCreateView<TopLevelResource, AccountResource, AccountInput> {
   private final Sequences seq;
-  private final GroupsCollection groupsCollection;
+  private final GroupResolver groupResolver;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
@@ -80,7 +80,7 @@ public class CreateAccount
   @Inject
   CreateAccount(
       Sequences seq,
-      GroupsCollection groupsCollection,
+      GroupResolver groupResolver,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
@@ -89,7 +89,7 @@ public class CreateAccount
       @UserInitiated Provider<GroupsUpdate> groupsUpdate,
       OutgoingEmailValidator validator) {
     this.seq = seq;
-    this.groupsCollection = groupsCollection;
+    this.groupResolver = groupResolver;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -183,7 +183,7 @@ public class CreateAccount
     Set<AccountGroup.UUID> groupUuids = new HashSet<>();
     if (groups != null) {
       for (String g : groups) {
-        GroupDescription.Internal internalGroup = groupsCollection.parseInternal(g);
+        GroupDescription.Internal internalGroup = groupResolver.parseInternal(g);
         groupUuids.add(internalGroup.getGroupUUID());
       }
     }

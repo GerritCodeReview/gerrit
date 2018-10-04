@@ -57,6 +57,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -67,7 +68,6 @@ import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectNameLockManager;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -97,7 +97,7 @@ public class CreateProject
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<ProjectsCollection> projectsCollection;
-  private final Provider<GroupsCollection> groupsCollection;
+  private final Provider<GroupResolver> groupResolver;
   private final PluginSetContext<ProjectCreationValidationListener>
       projectCreationValidationListeners;
   private final ProjectJson json;
@@ -119,7 +119,7 @@ public class CreateProject
   @Inject
   CreateProject(
       Provider<ProjectsCollection> projectsCollection,
-      Provider<GroupsCollection> groupsCollection,
+      Provider<GroupResolver> groupResolver,
       ProjectJson json,
       PluginSetContext<ProjectCreationValidationListener> projectCreationValidationListeners,
       GitRepositoryManager repoManager,
@@ -137,7 +137,7 @@ public class CreateProject
       AllUsersName allUsers,
       PluginItemContext<ProjectNameLockManager> lockManager) {
     this.projectsCollection = projectsCollection;
-    this.groupsCollection = groupsCollection;
+    this.groupResolver = groupResolver;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
     this.json = json;
     this.repoManager = repoManager;
@@ -187,7 +187,7 @@ public class CreateProject
     } else {
       args.ownerIds = Lists.newArrayListWithCapacity(input.owners.size());
       for (String owner : input.owners) {
-        args.ownerIds.add(groupsCollection.get().parse(owner).getGroupUUID());
+        args.ownerIds.add(groupResolver.get().parse(owner).getGroupUUID());
       }
     }
     args.contributorAgreements =

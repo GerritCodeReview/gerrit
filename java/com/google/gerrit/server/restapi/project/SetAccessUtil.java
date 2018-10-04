@@ -32,11 +32,11 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.restapi.config.ListCapabilities;
-import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -48,18 +48,18 @@ import java.util.Set;
 
 @Singleton
 public class SetAccessUtil {
-  private final GroupsCollection groupsCollection;
+  private final GroupResolver groupResolver;
   private final AllProjectsName allProjects;
   private final Provider<SetParent> setParent;
   private final ListCapabilities listCapabilities;
 
   @Inject
   private SetAccessUtil(
-      GroupsCollection groupsCollection,
+      GroupResolver groupResolver,
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
       ListCapabilities listCapabilities) {
-    this.groupsCollection = groupsCollection;
+    this.groupResolver = groupResolver;
     this.allProjects = allProjects;
     this.setParent = setParent;
     this.listCapabilities = listCapabilities;
@@ -91,7 +91,7 @@ public class SetAccessUtil {
 
         for (Map.Entry<String, PermissionRuleInfo> permissionRuleInfoEntry :
             permissionEntry.getValue().rules.entrySet()) {
-          GroupDescription.Basic group = groupsCollection.parseId(permissionRuleInfoEntry.getKey());
+          GroupDescription.Basic group = groupResolver.parseId(permissionRuleInfoEntry.getKey());
           if (group == null) {
             throw new UnprocessableEntityException(
                 permissionRuleInfoEntry.getKey() + " is not a valid group ID");

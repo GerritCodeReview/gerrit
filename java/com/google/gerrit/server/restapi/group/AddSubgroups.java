@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.SubgroupResource;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -76,16 +77,16 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     }
   }
 
-  private final GroupsCollection groupsCollection;
+  private final GroupResolver groupResolver;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final GroupJson json;
 
   @Inject
   public AddSubgroups(
-      GroupsCollection groupsCollection,
+      GroupResolver groupResolver,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       GroupJson json) {
-    this.groupsCollection = groupsCollection;
+    this.groupResolver = groupResolver;
     this.groupsUpdateProvider = groupsUpdateProvider;
     this.json = json;
   }
@@ -107,7 +108,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     List<GroupInfo> result = new ArrayList<>();
     Set<AccountGroup.UUID> subgroupUuids = new LinkedHashSet<>();
     for (String subgroupIdentifier : input.groups) {
-      GroupDescription.Basic subgroup = groupsCollection.parse(subgroupIdentifier);
+      GroupDescription.Basic subgroup = groupResolver.parse(subgroupIdentifier);
       subgroupUuids.add(subgroup.getGroupUUID());
       result.add(json.format(subgroup));
     }

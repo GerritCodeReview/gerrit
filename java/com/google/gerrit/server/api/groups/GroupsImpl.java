@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectResource;
@@ -45,6 +46,7 @@ import java.util.SortedMap;
 class GroupsImpl implements Groups {
   private final AccountsCollection accounts;
   private final GroupsCollection groups;
+  private final GroupResolver groupResolver;
   private final ProjectsCollection projects;
   private final Provider<ListGroups> listGroups;
   private final Provider<QueryGroups> queryGroups;
@@ -56,6 +58,7 @@ class GroupsImpl implements Groups {
   GroupsImpl(
       AccountsCollection accounts,
       GroupsCollection groups,
+      GroupResolver groupResolver,
       ProjectsCollection projects,
       Provider<ListGroups> listGroups,
       Provider<QueryGroups> queryGroups,
@@ -64,6 +67,7 @@ class GroupsImpl implements Groups {
       GroupApiImpl.Factory api) {
     this.accounts = accounts;
     this.groups = groups;
+    this.groupResolver = groupResolver;
     this.projects = projects;
     this.listGroups = listGroups;
     this.queryGroups = queryGroups;
@@ -126,7 +130,7 @@ class GroupsImpl implements Groups {
     }
 
     for (String group : req.getGroups()) {
-      list.addGroup(groups.parse(group).getGroupUUID());
+      list.addGroup(groupResolver.parse(group).getGroupUUID());
     }
 
     list.setVisibleToAll(req.getVisibleToAll());

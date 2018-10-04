@@ -88,6 +88,7 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyUtil;
@@ -110,7 +111,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gerrit.server.restapi.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -167,7 +167,7 @@ public class PostReview
   private final PublishCommentUtil publishCommentUtil;
   private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
-  private final AccountsCollection accounts;
+  private final AccountResolver accountResolver;
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
   private final ReviewerAdder reviewerAdder;
@@ -192,7 +192,7 @@ public class PostReview
       PublishCommentUtil publishCommentUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache,
-      AccountsCollection accounts,
+      AccountResolver accountResolver,
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
       ReviewerAdder reviewerAdder,
@@ -213,7 +213,7 @@ public class PostReview
     this.patchListCache = patchListCache;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.accounts = accounts;
+    this.accountResolver = accountResolver;
     this.email = email;
     this.commentAdded = commentAdded;
     this.reviewerAdder = reviewerAdder;
@@ -503,7 +503,7 @@ public class PostReview
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
     }
 
-    IdentifiedUser reviewer = accounts.parseOnBehalfOf(caller, in.onBehalfOf);
+    IdentifiedUser reviewer = accountResolver.parseOnBehalfOf(caller, in.onBehalfOf);
     try {
       permissionBackend
           .user(reviewer)

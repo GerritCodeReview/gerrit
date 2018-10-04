@@ -190,7 +190,7 @@ public class Module extends RestApiModule {
     factory(DeleteReviewerOp.Factory.class);
     factory(EmailReviewComments.Factory.class);
     factory(PatchSetInserter.Factory.class);
-    factory(PostReviewersOp.Factory.class);
+    factory(AddReviewersOp.Factory.class);
     factory(RebaseChangeOp.Factory.class);
     factory(ReviewerResource.Factory.class);
     factory(SetAssigneeOp.Factory.class);

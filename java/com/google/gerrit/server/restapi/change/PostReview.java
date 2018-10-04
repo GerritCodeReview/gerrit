@@ -171,7 +171,7 @@ public class PostReview
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
   private final ReviewerAdder reviewerAdder;
-  private final PostReviewersEmail postReviewersEmail;
+  private final AddReviewersEmail addReviewersEmail;
   private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
   private final Config gerritConfig;
@@ -196,7 +196,7 @@ public class PostReview
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
       ReviewerAdder reviewerAdder,
-      PostReviewersEmail postReviewersEmail,
+      AddReviewersEmail addReviewersEmail,
       NotesMigration migration,
       NotifyUtil notifyUtil,
       @GerritServerConfig Config gerritConfig,
@@ -217,7 +217,7 @@ public class PostReview
     this.email = email;
     this.commentAdded = commentAdded;
     this.reviewerAdder = reviewerAdder;
-    this.postReviewersEmail = postReviewersEmail;
+    this.addReviewersEmail = addReviewersEmail;
     this.migration = migration;
     this.notifyUtil = notifyUtil;
     this.gerritConfig = gerritConfig;
@@ -279,7 +279,7 @@ public class PostReview
     if (input.reviewers != null) {
       reviewerJsonResults = Maps.newHashMap();
       for (AddReviewerInput reviewerInput : input.reviewers) {
-        // Prevent individual PostReviewersOps from sending one email each. Instead, we call
+        // Prevent individual AddReviewersOps from sending one email each. Instead, we call
         // batchEmailReviewers at the very end to send out a single email.
         // TODO(dborowitz): I think this still sends out separate emails if any of input.reviewers
         // specifies explicit accountsToNotify. Unclear whether that's a good thing.
@@ -393,7 +393,7 @@ public class PostReview
 
       boolean readyForReview =
           (output.ready != null && output.ready) || !revision.getChange().isWorkInProgress();
-      // Sending from PostReviewersOp was suppressed so we can send a single batch email here.
+      // Sending from AddReviewersOp was suppressed so we can send a single batch email here.
       batchEmailReviewers(
           revision.getUser(),
           revision.getChange(),
@@ -449,7 +449,7 @@ public class PostReview
         ccByEmail.addAll(addition.reviewersByEmail);
       }
     }
-    postReviewersEmail.emailReviewers(
+    addReviewersEmail.emailReviewers(
         user.asIdentifiedUser(),
         change,
         to,

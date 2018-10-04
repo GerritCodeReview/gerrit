@@ -22,10 +22,10 @@ limitations under the License.
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-create-commands-dialog/gr-create-commands-dialog.html">
+<link rel="import" href="../gr-create-change-help/gr-create-change-help.html">
 <link rel="import" href="../gr-create-destination-dialog/gr-create-destination-dialog.html">
 <link rel="import" href="../gr-user-header/gr-user-header.html">
 
@@ -65,44 +65,9 @@ limitations under the License.
       #emptyOutgoing {
         display: block;
       }
-      #emptyOutgoing #graphic,
-      #emptyOutgoing #help {
-        display: inline-block;
-        margin: .5em;
-      }
-      #emptyOutgoing #graphic #circle {
-        align-items: center;
-        background-color: var(--chip-background-color);
-        border-radius: 50%;
-        display: flex;
-        height: 10em;
-        justify-content: center;
-        width: 10em;
-      }
-      #emptyOutgoing #graphic iron-icon {
-        color: #9e9e9e;
-        height: 5em;
-        width: 5em;
-      }
-      #emptyOutgoing #graphic p {
-        color: var(--deemphasized-text-color);
-        text-align: center;
-      }
-      #emptyOutgoing #help {
-        vertical-align: top;
-      }
-      #emptyOutgoing #help h1 {
-        font-size: var(--font-size-large);
-      }
-      #emptyOutgoing #help p {
-        max-width: 35em;
-      }
       @media only screen and (max-width: 50em) {
         .loading {
           padding: 0 var(--default-horizontal-margin);
-        }
-        #emptyOutgoing #graphic {
-          display: none;
         }
       }
     </style>
@@ -133,24 +98,8 @@ limitations under the License.
           on-toggle-star="_handleToggleStar"
           on-toggle-reviewed="_handleToggleReviewed">
         <div id="emptyOutgoing" slot="empty-outgoing">
-          <template is="dom-if" if="_showNewUserHelp">
-            <div id="graphic">
-              <div id="circle">
-                <iron-icon id="icon" icon="gr-icons:zeroState"></iron-icon>
-              </div>
-              <p>
-                No outgoing changes yet
-              </p>
-            </div>
-            <div id="help">
-              <h1>Push your first changes for code review</h1>
-              <p>
-                Pushing a change for review is easy, but a little different from
-                other git code review tools. Click on the `Create Change' button
-                and follow the step by step instructions.
-              </p>
-              <gr-button on-tap="_createChangeTap">Create Change</gr-button>
-            </div>
+          <template is="dom-if" if="[[_showNewUserHelp]]">
+            <gr-create-change-help on-create-tap="createChangeTap"></gr-create-change-help>
           </template>
         </div>
       </gr-change-list>

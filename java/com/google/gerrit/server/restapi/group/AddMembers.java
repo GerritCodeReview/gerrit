@@ -47,7 +47,6 @@ import com.google.gerrit.server.group.MemberResource;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gerrit.server.restapi.group.AddMembers.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -90,7 +89,6 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   private final AccountManager accountManager;
   private final AuthType authType;
-  private final AccountsCollection accounts;
   private final AccountResolver accountResolver;
   private final AccountCache accountCache;
   private final AccountLoader.Factory infoFactory;
@@ -100,14 +98,12 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   AddMembers(
       AccountManager accountManager,
       AuthConfig authConfig,
-      AccountsCollection accounts,
       AccountResolver accountResolver,
       AccountCache accountCache,
       AccountLoader.Factory infoFactory,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
     this.accountManager = accountManager;
     this.authType = authConfig.getAuthType();
-    this.accounts = accounts;
     this.accountResolver = accountResolver;
     this.accountCache = accountCache;
     this.infoFactory = infoFactory;
@@ -151,7 +147,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       throws AuthException, UnprocessableEntityException, OrmException, IOException,
           ConfigInvalidException {
     try {
-      return accounts.parse(nameOrEmailOrId).getAccount();
+      return accountResolver.parse(nameOrEmailOrId).getAccount();
     } catch (UnprocessableEntityException e) {
       // might be because the account does not exist or because the account is
       // not visible

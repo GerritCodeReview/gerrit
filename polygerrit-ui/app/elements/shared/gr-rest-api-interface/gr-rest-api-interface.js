@@ -1274,7 +1274,8 @@
     getDiffChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
       const params = this.listChangesOptionsToHex(
           this.ListChangesOption.ALL_COMMITS,
-          this.ListChangesOption.ALL_REVISIONS
+          this.ListChangesOption.ALL_REVISIONS,
+          this.ListChangesOption.SKIP_MERGEABLE
       );
       return this._getChangeDetail(changeNum, params, opt_errFn,
           opt_cancelCondition);

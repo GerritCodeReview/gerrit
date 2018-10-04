@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99ac4804_143ee895",
+        "filename": "plugins/commit-message-length-validator",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-10-04T17:59:16Z",
+      "side": 0,
+      "message": "Is this expected?",
+      "revId": "79b545e4d0b3675ea8ea32e48437ec91a3b36a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e57a9b9_87a677f9",
+        "filename": "plugins/hooks",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-10-04T17:59:16Z",
+      "side": 0,
+      "message": "Is this expected?",
+      "revId": "79b545e4d0b3675ea8ea32e48437ec91a3b36a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e22909f7_b3375a9c",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-10-04T17:59:16Z",
+      "side": 0,
+      "message": "Is this expected?",
+      "revId": "79b545e4d0b3675ea8ea32e48437ec91a3b36a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84d60aca_41e03f3c",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-10-04T17:59:16Z",
+      "side": 0,
+      "message": "Is this expected?",
+      "revId": "79b545e4d0b3675ea8ea32e48437ec91a3b36a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -138,7 +138,7 @@ final class SetProjectCommand extends SshCommand {
     configInput.useContentMerge = contentMerge;
     configInput.useContributorAgreements = contributorAgreements;
     configInput.useSignedOffBy = signedOffBy;
-    configInput.state = state.getProject().getState();
+    configInput.state = state;
     configInput.maxObjectSizeLimit = maxObjectSizeLimit;
     // Description is different to other parameters, null won't result in
     // keeping the existing description, it would delete it.

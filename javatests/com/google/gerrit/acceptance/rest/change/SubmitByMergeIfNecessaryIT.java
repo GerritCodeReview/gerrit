@@ -408,6 +408,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + change3a.getCommit().name()
             + " depends on commit "
             + change2.getCommit().name()
+            + " of change "
+            + change2.getChange().getId()
             + " which cannot be merged.");
 
     RevCommit tipbranch = getRemoteLog(project, "branch").get(0);
@@ -511,6 +513,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + change3.getCommit().name()
             + " depends on commit "
             + change2result.getCommit().name()
+            + " of change "
+            + change2result.getChange().getId()
             + " which cannot be merged.");
 
     assertRefUpdatedEvents();

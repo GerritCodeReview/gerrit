@@ -216,7 +216,7 @@ public class MergeUtil {
     List<CodeReviewCommit> result = new ArrayList<>();
     try {
       result.addAll(mergeSorter.sort(toSort));
-    } catch (IOException e) {
+    } catch (IOException | OrmException e) {
       throw new IntegrationException("Branch head sorting failed", e);
     }
     result.sort(CodeReviewCommit.ORDER);
@@ -566,7 +566,7 @@ public class MergeUtil {
       throws IntegrationException {
     try {
       return !mergeSorter.sort(Collections.singleton(toMerge)).contains(toMerge);
-    } catch (IOException e) {
+    } catch (IOException | OrmException e) {
       throw new IntegrationException("Branch head sorting failed", e);
     }
   }

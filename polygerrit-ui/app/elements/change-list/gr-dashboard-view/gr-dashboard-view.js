@@ -42,6 +42,13 @@
         type: Object,
       },
 
+      createChangeTap: {
+        type: Function,
+        value() {
+          return this._createChangeTap.bind(this);
+        },
+      },
+
       _results: Array,
 
       /**
@@ -267,7 +274,7 @@
       return Gerrit.Nav.getUrlForSearchQuery('has:draft -is:open');
     },
 
-    _createChangeTap() {
+    _createChangeTap(e) {
       this.$.destinationDialog.open();
     },
 

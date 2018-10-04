@@ -49,6 +49,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.NotifyUtil;
@@ -66,7 +67,6 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -82,7 +82,7 @@ public class ReviewerAdder {
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
 
-  private final AccountsCollection accounts;
+  private final AccountResolver accountResolver;
   private final PermissionBackend permissionBackend;
   private final GroupResolver groupResolver;
   private final GroupMembers groupMembers;
@@ -99,7 +99,7 @@ public class ReviewerAdder {
 
   @Inject
   ReviewerAdder(
-      AccountsCollection accounts,
+      AccountResolver accountResolver,
       PermissionBackend permissionBackend,
       GroupResolver groupResolver,
       GroupMembers groupMembers,
@@ -113,7 +113,7 @@ public class ReviewerAdder {
       Provider<AnonymousUser> anonymousProvider,
       PostReviewersOp.Factory postReviewersOpFactory,
       OutgoingEmailValidator validator) {
-    this.accounts = accounts;
+    this.accountResolver = accountResolver;
     this.permissionBackend = permissionBackend;
     this.groupResolver = groupResolver;
     this.groupMembers = groupMembers;
@@ -221,7 +221,7 @@ public class ReviewerAdder {
     IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
     try {
-      reviewerUser = accounts.parse(reviewer);
+      reviewerUser = accountResolver.parse(reviewer);
       if (reviewer.equalsIgnoreCase(reviewerUser.getName())
           || reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {
         exactMatchFound = true;

@@ -54,6 +54,7 @@ import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -66,7 +67,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
-import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -84,7 +84,7 @@ public class ReviewerAdder {
 
   private final AccountsCollection accounts;
   private final PermissionBackend permissionBackend;
-  private final GroupsCollection groupsCollection;
+  private final GroupResolver groupResolver;
   private final GroupMembers groupMembers;
   private final AccountLoader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
@@ -101,7 +101,7 @@ public class ReviewerAdder {
   ReviewerAdder(
       AccountsCollection accounts,
       PermissionBackend permissionBackend,
-      GroupsCollection groupsCollection,
+      GroupResolver groupResolver,
       GroupMembers groupMembers,
       AccountLoader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
@@ -115,7 +115,7 @@ public class ReviewerAdder {
       OutgoingEmailValidator validator) {
     this.accounts = accounts;
     this.permissionBackend = permissionBackend;
-    this.groupsCollection = groupsCollection;
+    this.groupResolver = groupResolver;
     this.groupMembers = groupMembers;
     this.accountLoaderFactory = accountLoaderFactory;
     this.dbProvider = db;
@@ -275,7 +275,7 @@ public class ReviewerAdder {
 
     GroupDescription.Basic group;
     try {
-      group = groupsCollection.parseInternal(reviewer);
+      group = groupResolver.parseInternal(reviewer);
     } catch (UnprocessableEntityException e) {
       if (!allowByEmail) {
         return fail(

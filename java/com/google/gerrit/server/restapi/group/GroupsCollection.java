@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -26,20 +25,13 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.GroupBackends;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.GroupResource;
-import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.util.Optional;
 
 public class GroupsCollection
     implements RestCollection<TopLevelResource, GroupResource>, NeedsParams {
@@ -47,8 +39,7 @@ public class GroupsCollection
   private final Provider<ListGroups> list;
   private final Provider<QueryGroups> queryGroups;
   private final GroupControl.Factory groupControlFactory;
-  private final GroupBackend groupBackend;
-  private final GroupCache groupCache;
+  private final GroupResolver groupResolver;
   private final Provider<CurrentUser> self;
 
   private boolean hasQuery2;
@@ -59,15 +50,13 @@ public class GroupsCollection
       Provider<ListGroups> list,
       Provider<QueryGroups> queryGroups,
       GroupControl.Factory groupControlFactory,
-      GroupBackend groupBackend,
-      GroupCache groupCache,
+      GroupResolver groupResolver,
       Provider<CurrentUser> self) {
     this.views = views;
     this.list = list;
     this.queryGroups = queryGroups;
     this.groupControlFactory = groupControlFactory;
-    this.groupBackend = groupBackend;
-    this.groupCache = groupCache;
+    this.groupResolver = groupResolver;
     this.self = self;
   }
 
@@ -107,7 +96,7 @@ public class GroupsCollection
       throw new ResourceNotFoundException(id);
     }
 
-    GroupDescription.Basic group = parseId(id.get());
+    GroupDescription.Basic group = groupResolver.parseId(id.get());
     if (group == null) {
       throw new ResourceNotFoundException(id.get());
     }
@@ -116,80 +105,6 @@ public class GroupsCollection
       throw new ResourceNotFoundException(id);
     }
     return new GroupResource(ctl);
-  }
-
-  /**
-   * Parses a group ID from a request body and returns the group.
-   *
-   * @param id ID of the group, can be a group UUID, a group name or a legacy group ID
-   * @return the group
-   * @throws UnprocessableEntityException thrown if the group ID cannot be resolved or if the group
-   *     is not visible to the calling user
-   */
-  public GroupDescription.Basic parse(String id) throws UnprocessableEntityException {
-    GroupDescription.Basic group = parseId(id);
-    if (group == null || !groupControlFactory.controlFor(group).isVisible()) {
-      throw new UnprocessableEntityException(String.format("Group Not Found: %s", id));
-    }
-    return group;
-  }
-
-  /**
-   * Parses a group ID from a request body and returns the group if it is a Gerrit internal group.
-   *
-   * @param id ID of the group, can be a group UUID, a group name or a legacy group ID
-   * @return the group
-   * @throws UnprocessableEntityException thrown if the group ID cannot be resolved, if the group is
-   *     not visible to the calling user or if it's an external group
-   */
-  public GroupDescription.Internal parseInternal(String id) throws UnprocessableEntityException {
-    GroupDescription.Basic group = parse(id);
-    if (group instanceof GroupDescription.Internal) {
-      return (GroupDescription.Internal) group;
-    }
-
-    throw new UnprocessableEntityException(String.format("External Group Not Allowed: %s", id));
-  }
-
-  /**
-   * Parses a group ID and returns the group without making any permission check whether the current
-   * user can see the group.
-   *
-   * @param id ID of the group, can be a group UUID, a group name or a legacy group ID
-   * @return the group, null if no group is found for the given group ID
-   */
-  public GroupDescription.Basic parseId(String id) {
-    AccountGroup.UUID uuid = new AccountGroup.UUID(id);
-    if (groupBackend.handles(uuid)) {
-      GroupDescription.Basic d = groupBackend.get(uuid);
-      if (d != null) {
-        return d;
-      }
-    }
-
-    // Might be a numeric AccountGroup.Id. -> Internal group.
-    if (id.matches("^[1-9][0-9]*$")) {
-      try {
-        AccountGroup.Id groupId = AccountGroup.Id.parse(id);
-        Optional<InternalGroup> group = groupCache.get(groupId);
-        if (group.isPresent()) {
-          return new InternalGroupDescription(group.get());
-        }
-      } catch (IllegalArgumentException e) {
-        // Ignored
-      }
-    }
-
-    // Might be a group name, be nice and accept unique names.
-    GroupReference ref = GroupBackends.findExactSuggestion(groupBackend, id);
-    if (ref != null) {
-      GroupDescription.Basic d = groupBackend.get(ref.getUUID());
-      if (d != null) {
-        return d;
-      }
-    }
-
-    return null;
   }
 
   @Override

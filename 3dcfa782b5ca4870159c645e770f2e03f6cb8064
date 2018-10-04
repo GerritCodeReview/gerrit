@@ -17,6 +17,24 @@
       "revId": "3dcfa782b5ca4870159c645e770f2e03f6cb8064",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fbf06ef_34b1ac5e",
+        "filename": "java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-04T11:05:38Z",
+      "side": 1,
+      "message": "I agree, but it\u0027s a bit more work. Not looking further into this for now.",
+      "parentUuid": "41fe0e2f_99576c6e",
+      "revId": "3dcfa782b5ca4870159c645e770f2e03f6cb8064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -23,6 +23,30 @@
       "revId": "df95995f52766c459d328441d445ff91e98a8b62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43bb762f_9686e014",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-04T07:04:59Z",
+      "side": 1,
+      "message": "I think we want to have both, commit SHA1 and change ID.\n\nFor now this uses the commit SHA1 because:\n\n- a change may not exist (e.g. it may have been deleted)\n- it may be an outdated patch set of a change, if we would only tell the change ID we couldn\u0027t find this out\n\nIn follow-up changes I want to evolve this message to\n\n  Commit \u003ccommit\u003e depends on commit \u003cother-commit\u003e of change \u003cchange-id\u003e which\n  cannot be merged.\n\nand\n\n  Commit \u003ccommit\u003e depends on commit \u003cother-commit\u003e of change \u003cchange-id\u003e which\n  cannot be merged because it\u0027s an outdated patch set.",
+      "parentUuid": "f3a7b567_2b53a1ec",
+      "range": {
+        "startLine": 19,
+        "startChar": 44,
+        "endLine": 20,
+        "endChar": 47
+      },
+      "revId": "df95995f52766c459d328441d445ff91e98a8b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

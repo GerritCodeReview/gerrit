@@ -59,7 +59,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public class PostReviewersOp implements BatchUpdateOp {
+public class AddReviewersOp implements BatchUpdateOp {
   public interface Factory {
 
     /**
@@ -76,7 +76,7 @@ public class PostReviewersOp implements BatchUpdateOp {
      * @param accountsToNotify additional accounts to notify.
      * @return batch update operation.
      */
-    PostReviewersOp create(
+    AddReviewersOp create(
         Set<Account.Id> accountIds,
         Collection<Address> addresses,
         ReviewerState state,
@@ -95,7 +95,7 @@ public class PostReviewersOp implements BatchUpdateOp {
     public abstract ImmutableList<Address> addedCCsByEmail();
 
     static Builder builder() {
-      return new AutoValue_PostReviewersOp_Result.Builder();
+      return new AutoValue_AddReviewersOp_Result.Builder();
     }
 
     @AutoValue.Builder
@@ -117,7 +117,7 @@ public class PostReviewersOp implements BatchUpdateOp {
   private final ReviewerAdded reviewerAdded;
   private final AccountCache accountCache;
   private final ProjectCache projectCache;
-  private final PostReviewersEmail postReviewersEmail;
+  private final AddReviewersEmail addReviewersEmail;
   private final NotesMigration migration;
   private final Provider<IdentifiedUser> user;
   private final Provider<ReviewDb> dbProvider;
@@ -139,13 +139,13 @@ public class PostReviewersOp implements BatchUpdateOp {
   private Result opResult;
 
   @Inject
-  PostReviewersOp(
+  AddReviewersOp(
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
       ReviewerAdded reviewerAdded,
       AccountCache accountCache,
       ProjectCache projectCache,
-      PostReviewersEmail postReviewersEmail,
+      AddReviewersEmail addReviewersEmail,
       NotesMigration migration,
       Provider<IdentifiedUser> user,
       Provider<ReviewDb> dbProvider,
@@ -160,7 +160,7 @@ public class PostReviewersOp implements BatchUpdateOp {
     this.reviewerAdded = reviewerAdded;
     this.accountCache = accountCache;
     this.projectCache = projectCache;
-    this.postReviewersEmail = postReviewersEmail;
+    this.addReviewersEmail = addReviewersEmail;
     this.migration = migration;
     this.user = user;
     this.dbProvider = dbProvider;
@@ -253,7 +253,7 @@ public class PostReviewersOp implements BatchUpdateOp {
             .setAddedCCs(addedCCs)
             .setAddedCCsByEmail(addedCCsByEmail)
             .build();
-    postReviewersEmail.emailReviewers(
+    addReviewersEmail.emailReviewers(
         user.get(),
         change,
         Lists.transform(addedReviewers, PatchSetApproval::getAccountId),

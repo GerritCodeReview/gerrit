@@ -32,13 +32,13 @@ import com.google.inject.Singleton;
 import java.util.Collection;
 
 @Singleton
-class PostReviewersEmail {
+class AddReviewersEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AddReviewerSender.Factory addReviewerSenderFactory;
 
   @Inject
-  PostReviewersEmail(AddReviewerSender.Factory addReviewerSenderFactory) {
+  AddReviewersEmail(AddReviewerSender.Factory addReviewerSenderFactory) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
   }
 

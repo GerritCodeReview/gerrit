@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
@@ -32,7 +32,7 @@ import com.google.inject.Singleton;
 import java.util.Collection;
 
 @Singleton
-class AddReviewersEmail {
+public class AddReviewersEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AddReviewerSender.Factory addReviewerSenderFactory;
@@ -42,7 +42,7 @@ class AddReviewersEmail {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
   }
 
-  void emailReviewers(
+  public void emailReviewers(
       IdentifiedUser user,
       Change change,
       Collection<Account.Id> added,

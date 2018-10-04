@@ -23,6 +23,30 @@
       "revId": "b7a8632a11d99f0280c80272bfc6f99f665557db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebc3db9b_af116270",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-04T15:31:18Z",
+      "side": 1,
+      "message": "Yes, it should be possible to reproduce all 3 bugs in tests.",
+      "parentUuid": "b1de27cb_068fffca",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "b7a8632a11d99f0280c80272bfc6f99f665557db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -51,9 +51,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupMembers;
-import com.google.gerrit.server.change.ChangeMessages;
-import com.google.gerrit.server.change.NotifyUtil;
-import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -195,7 +192,7 @@ public class ReviewerAdder {
     return addByEmail(reviewer, notes, user, state, notify, accountsToNotify);
   }
 
-  ReviewerAddition ccCurrentUser(CurrentUser user, RevisionResource revision) {
+  public ReviewerAddition ccCurrentUser(CurrentUser user, RevisionResource revision) {
     return new ReviewerAddition(
         user.getUserName().orElse(null),
         revision.getUser(),
@@ -396,9 +393,9 @@ public class ReviewerAdder {
   public class ReviewerAddition {
     public final AddReviewerResult result;
     @Nullable public final AddReviewersOp op;
-    final Set<Id> reviewers;
-    final Collection<Address> reviewersByEmail;
-    final ReviewerState state;
+    public final Set<Id> reviewers;
+    public final Collection<Address> reviewersByEmail;
+    public final ReviewerState state;
     @Nullable final IdentifiedUser caller;
     final boolean exactMatchFound;
 
@@ -436,7 +433,7 @@ public class ReviewerAdder {
       this.exactMatchFound = exactMatchFound;
     }
 
-    void gatherResults(ChangeData cd) throws OrmException, PermissionBackendException {
+    public void gatherResults(ChangeData cd) throws OrmException, PermissionBackendException {
       checkState(op != null, "addition did not result in an update op");
       checkState(op.getResult() != null, "op did not return a result");
 

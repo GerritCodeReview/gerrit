@@ -35,9 +35,9 @@ import java.util.concurrent.TimeUnit;
  * @param <F3> type of the field.
  */
 public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
-  public static class Context extends TimerContext {
-    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public static class Context extends TimerContext {
     private final Timer3<Object, Object, Object> timer;
     private final Object field1;
     private final Object field2;
@@ -53,9 +53,6 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
 
     @Override
     public void record(long elapsed) {
-      logger.atFinest().log(
-          "%s (%s, %s, %s) took %dms",
-          timer.name, field1, field2, field3, TimeUnit.NANOSECONDS.toMillis(elapsed));
       timer.record(field1, field2, field3, elapsed, NANOSECONDS);
     }
   }
@@ -87,5 +84,20 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
    * @param value value to record
    * @param unit time unit of the value
    */
-  public abstract void record(F1 field1, F2 field2, F3 field3, long value, TimeUnit unit);
+  public final void record(F1 field1, F2 field2, F3 field3, long value, TimeUnit unit) {
+    logger.atFinest().log(
+        "%s (%s, %s, %s) took %dms", name, field1, field2, field3, unit.toMillis(value));
+    doRecord(field1, field2, field3, value, unit);
+  }
+
+  /**
+   * Record a value in the distribution.
+   *
+   * @param field1 bucket to record the timer
+   * @param field2 bucket to record the timer
+   * @param field3 bucket to record the timer
+   * @param value value to record
+   * @param unit time unit of the value
+   */
+  protected abstract void doRecord(F1 field1, F2 field2, F3 field3, long value, TimeUnit unit);
 }

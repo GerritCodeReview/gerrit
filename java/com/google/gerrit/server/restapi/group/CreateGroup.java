@@ -42,6 +42,7 @@ import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
@@ -77,7 +78,7 @@ public class CreateGroup
   private final PersonIdent serverIdent;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final GroupCache groupCache;
-  private final GroupsCollection groups;
+  private final GroupResolver groups;
   private final GroupJson json;
   private final PluginSetContext<GroupCreationValidationListener> groupCreationValidationListeners;
   private final AddMembers addMembers;
@@ -91,7 +92,7 @@ public class CreateGroup
       @GerritPersonIdent PersonIdent serverIdent,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       GroupCache groupCache,
-      GroupsCollection groups,
+      GroupResolver groups,
       GroupJson json,
       PluginSetContext<GroupCreationValidationListener> groupCreationValidationListeners,
       AddMembers addMembers,

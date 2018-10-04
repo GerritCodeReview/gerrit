@@ -28,12 +28,12 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gerrit.server.restapi.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
@@ -51,7 +51,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class PutAssignee extends RetryingRestModifyView<ChangeResource, AssigneeInput, AccountInfo>
     implements UiAction<ChangeResource> {
 
-  private final AccountsCollection accounts;
+  private final AccountResolver accountResolver;
   private final SetAssigneeOp.Factory assigneeFactory;
   private final Provider<ReviewDb> db;
   private final ReviewerAdder reviewerAdder;
@@ -60,7 +60,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
 
   @Inject
   PutAssignee(
-      AccountsCollection accounts,
+      AccountResolver accountResolver,
       SetAssigneeOp.Factory assigneeFactory,
       RetryHelper retryHelper,
       Provider<ReviewDb> db,
@@ -68,7 +68,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       AccountLoader.Factory accountLoaderFactory,
       PermissionBackend permissionBackend) {
     super(retryHelper);
-    this.accounts = accounts;
+    this.accountResolver = accountResolver;
     this.assigneeFactory = assigneeFactory;
     this.db = db;
     this.reviewerAdder = reviewerAdder;
@@ -88,7 +88,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       throw new BadRequestException("missing assignee field");
     }
 
-    IdentifiedUser assignee = accounts.parse(input.assignee);
+    IdentifiedUser assignee = accountResolver.parse(input.assignee);
     if (!assignee.getAccount().isActive()) {
       throw new UnprocessableEntityException(input.assignee + " is not active");
     }

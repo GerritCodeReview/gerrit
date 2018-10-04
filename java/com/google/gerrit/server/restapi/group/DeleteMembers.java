@@ -26,12 +26,12 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.UserInitiated;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.MemberResource;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
-import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gerrit.server.restapi.group.AddMembers.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -44,13 +44,13 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteMembers implements RestModifyView<GroupResource, Input> {
-  private final AccountsCollection accounts;
+  private final AccountResolver accountResolver;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
   DeleteMembers(
-      AccountsCollection accounts, @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
-    this.accounts = accounts;
+      AccountResolver accountResolver, @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
+    this.accountResolver = accountResolver;
     this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
@@ -69,7 +69,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
     Set<Account.Id> membersToRemove = new HashSet<>();
     for (String nameOrEmail : input.members) {
-      Account a = accounts.parse(nameOrEmail).getAccount();
+      Account a = accountResolver.parse(nameOrEmail).getAccount();
       membersToRemove.add(a.getId());
     }
     AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();

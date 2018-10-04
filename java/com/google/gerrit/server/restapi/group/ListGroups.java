@@ -39,6 +39,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -82,7 +83,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final GroupJson json;
   private final GroupBackend groupBackend;
   private final Groups groups;
-  private final GroupsCollection groupsCollection;
+  private final GroupResolver groupResolver;
 
   private EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
   private boolean visibleToAll;
@@ -217,7 +218,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       final Provider<IdentifiedUser> identifiedUser,
       final IdentifiedUser.GenericFactory userFactory,
       final GetGroups accountGetGroups,
-      final GroupsCollection groupsCollection,
+      final GroupResolver groupResolver,
       GroupJson json,
       GroupBackend groupBackend,
       Groups groups) {
@@ -230,7 +231,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.json = json;
     this.groupBackend = groupBackend;
     this.groups = groups;
-    this.groupsCollection = groupsCollection;
+    this.groupResolver = groupResolver;
   }
 
   public void setOptions(EnumSet<ListGroupsOption> options) {
@@ -403,7 +404,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private List<GroupInfo> getGroupsOwnedBy(String id)
       throws OrmException, RestApiException, IOException, ConfigInvalidException,
           PermissionBackendException {
-    String uuid = groupsCollection.parse(id).getGroupUUID().get();
+    String uuid = groupResolver.parse(id).getGroupUUID().get();
     return filterGroupsOwnedBy(group -> group.getOwnerGroupUUID().get().equals(uuid));
   }
 

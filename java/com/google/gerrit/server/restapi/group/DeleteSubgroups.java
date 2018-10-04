@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.SubgroupResource;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -43,14 +44,13 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
-  private final GroupsCollection groupsCollection;
+  private final GroupResolver groupResolver;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
   DeleteSubgroups(
-      GroupsCollection groupsCollection,
-      @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
-    this.groupsCollection = groupsCollection;
+      GroupResolver groupResolver, @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
+    this.groupResolver = groupResolver;
     this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
@@ -70,7 +70,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
 
     Set<AccountGroup.UUID> subgroupsToRemove = new HashSet<>();
     for (String subgroupIdentifier : input.groups) {
-      GroupDescription.Basic subgroup = groupsCollection.parse(subgroupIdentifier);
+      GroupDescription.Basic subgroup = groupResolver.parse(subgroupIdentifier);
       subgroupsToRemove.add(subgroup.getGroupUUID());
     }
 

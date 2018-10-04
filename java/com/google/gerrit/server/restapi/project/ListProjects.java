@@ -42,6 +42,7 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.ioutil.RegexListSearcher;
 import com.google.gerrit.server.ioutil.StringUtil;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -50,7 +51,6 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -141,7 +141,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   private final CurrentUser currentUser;
   private final ProjectCache projectCache;
-  private final GroupsCollection groupsCollection;
+  private final GroupResolver groupResolver;
   private final GroupControl.Factory groupControlFactory;
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
@@ -262,7 +262,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   protected ListProjects(
       CurrentUser currentUser,
       ProjectCache projectCache,
-      GroupsCollection groupsCollection,
+      GroupResolver groupResolver,
       GroupControl.Factory groupControlFactory,
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
@@ -270,7 +270,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       WebLinks webLinks) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
-    this.groupsCollection = groupsCollection;
+    this.groupResolver = groupResolver;
     this.groupControlFactory = groupControlFactory;
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
@@ -367,7 +367,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
         if (groupUuid != null
             && !e.getLocalGroups()
-                .contains(GroupReference.forGroup(groupsCollection.parseId(groupUuid.get())))) {
+                .contains(GroupReference.forGroup(groupResolver.parseId(groupUuid.get())))) {
           continue;
         }
 

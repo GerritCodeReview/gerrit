@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -50,9 +50,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupMembers;
-import com.google.gerrit.server.change.ChangeMessages;
-import com.google.gerrit.server.change.NotifyUtil;
-import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -71,7 +68,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -194,7 +190,7 @@ public class ReviewerAdder {
     return addByEmail(reviewer, notes, user, state, notify, accountsToNotify);
   }
 
-  ReviewerAddition ccCurrentUser(CurrentUser user, RevisionResource revision) {
+  public ReviewerAddition ccCurrentUser(CurrentUser user, RevisionResource revision) {
     return new ReviewerAddition(
         user.getUserName().orElse(null),
         revision.getUser(),
@@ -395,13 +391,13 @@ public class ReviewerAdder {
   public class ReviewerAddition {
     public final AddReviewerResult result;
     @Nullable public final AddReviewersOp op;
-    final Set<Account.Id> reviewers;
-    final Collection<Address> reviewersByEmail;
-    final ReviewerState state;
+    public final ImmutableSet<Account.Id> reviewers;
+    public final ImmutableSet<Address> reviewersByEmail;
+    public final ReviewerState state;
     @Nullable final IdentifiedUser caller;
     final boolean exactMatchFound;
 
-    ReviewerAddition(String reviewer) {
+    private ReviewerAddition(String reviewer) {
       result = new AddReviewerResult(reviewer);
       op = null;
       reviewers = ImmutableSet.of();
@@ -411,11 +407,11 @@ public class ReviewerAdder {
       exactMatchFound = false;
     }
 
-    ReviewerAddition(
+    private ReviewerAddition(
         String reviewer,
         CurrentUser caller,
-        @Nullable Set<Account.Id> reviewers,
-        @Nullable Collection<Address> reviewersByEmail,
+        @Nullable Iterable<Account.Id> reviewers,
+        @Nullable Iterable<Address> reviewersByEmail,
         ReviewerState state,
         @Nullable NotifyHandling notify,
         ListMultimap<RecipientType, Account.Id> accountsToNotify,
@@ -425,8 +421,9 @@ public class ReviewerAdder {
           "must have either reviewers or reviewersByEmail");
 
       result = new AddReviewerResult(reviewer);
-      this.reviewers = reviewers == null ? ImmutableSet.of() : reviewers;
-      this.reviewersByEmail = reviewersByEmail == null ? ImmutableList.of() : reviewersByEmail;
+      this.reviewers = reviewers == null ? ImmutableSet.of() : ImmutableSet.copyOf(reviewers);
+      this.reviewersByEmail =
+          reviewersByEmail == null ? ImmutableSet.of() : ImmutableSet.copyOf(reviewersByEmail);
       this.state = state;
       this.caller = caller.asIdentifiedUser();
       op =
@@ -435,7 +432,7 @@ public class ReviewerAdder {
       this.exactMatchFound = exactMatchFound;
     }
 
-    void gatherResults(ChangeData cd) throws OrmException, PermissionBackendException {
+    public void gatherResults(ChangeData cd) throws OrmException, PermissionBackendException {
       checkState(op != null, "addition did not result in an update op");
       checkState(op.getResult() != null, "op did not return a result");
 

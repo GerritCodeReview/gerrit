@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.change.ReviewerJson;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;

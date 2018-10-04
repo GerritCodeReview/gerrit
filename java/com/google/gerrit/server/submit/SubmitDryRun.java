@@ -27,7 +27,9 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -91,11 +93,16 @@ public class SubmitDryRun {
 
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
-  SubmitDryRun(ProjectCache projectCache, MergeUtil.Factory mergeUtilFactory) {
+  SubmitDryRun(
+      ProjectCache projectCache,
+      MergeUtil.Factory mergeUtilFactory,
+      Provider<InternalChangeQuery> queryProvider) {
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
+    this.queryProvider = queryProvider;
   }
 
   public boolean run(
@@ -116,7 +123,8 @@ public class SubmitDryRun {
             repo,
             rw,
             mergeUtilFactory.create(getProject(destBranch)),
-            new MergeSorter(rw, alreadyAccepted, canMerge, ImmutableSet.of(toMergeCommit)));
+            new MergeSorter(
+                rw, alreadyAccepted, canMerge, queryProvider, ImmutableSet.of(toMergeCommit)));
 
     switch (submitType) {
       case CHERRY_PICK:

@@ -204,7 +204,8 @@ public abstract class SubmitStrategy {
               projectCache.get(destBranch.getParentKey()),
               "project not found: %s",
               destBranch.getParentKey());
-      this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag, incoming);
+      this.mergeSorter =
+          new MergeSorter(rw, alreadyAccepted, canMergeFlag, queryProvider, incoming);
       this.rebaseSorter =
           new RebaseSorter(
               rw, mergeTip.getInitialTip(), alreadyAccepted, canMergeFlag, queryProvider, incoming);

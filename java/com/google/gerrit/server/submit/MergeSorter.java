@@ -16,6 +16,9 @@ package com.google.gerrit.server.submit;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,21 +32,24 @@ public class MergeSorter {
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final Set<CodeReviewCommit> incoming;
 
   public MergeSorter(
       CodeReviewRevWalk rw,
       Set<RevCommit> alreadyAccepted,
       RevFlag canMergeFlag,
+      Provider<InternalChangeQuery> queryProvider,
       Set<CodeReviewCommit> incoming) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.accepted = alreadyAccepted;
+    this.queryProvider = queryProvider;
     this.incoming = incoming;
   }
 
   public Collection<CodeReviewCommit> sort(Collection<CodeReviewCommit> toMerge)
-      throws IOException {
+      throws IOException, OrmException {
     final Set<CodeReviewCommit> heads = new HashSet<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toMerge);
     while (!sort.isEmpty()) {
@@ -64,8 +70,7 @@ public class MergeSorter {
           //
           n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
           n.setStatusMessage(
-              String.format(
-                  "Commit %s depends on commit %s which cannot be merged.", n.name(), c.name()));
+              CommitMergeStatus.createMissingDependencyMessage(queryProvider, n.name(), c.name()));
           break;
         }
         contents.add(c);

@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.UserInitiated;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
@@ -39,16 +40,16 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
-  private final GroupsCollection groupsCollection;
+  private final GroupResolver groupResolver;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final GroupJson json;
 
   @Inject
   PutOwner(
-      GroupsCollection groupsCollection,
+      GroupResolver groupResolver,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       GroupJson json) {
-    this.groupsCollection = groupsCollection;
+    this.groupResolver = groupResolver;
     this.groupsUpdateProvider = groupsUpdateProvider;
     this.json = json;
   }
@@ -68,7 +69,7 @@ public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
       throw new BadRequestException("owner is required");
     }
 
-    GroupDescription.Basic owner = groupsCollection.parse(input.owner);
+    GroupDescription.Basic owner = groupResolver.parse(input.owner);
     if (!internalGroup.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
       AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
       InternalGroupUpdate groupUpdate =

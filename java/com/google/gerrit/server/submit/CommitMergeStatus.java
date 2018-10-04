@@ -96,9 +96,16 @@ public enum CommitMergeStatus {
               + " Was the change of this commit deleted?",
           commit, otherCommit);
     } else if (changes.size() == 1) {
+      ChangeData change = changes.get(0);
+      if (change.currentPatchSet().getRevision().get().equals(otherCommit)) {
+        return String.format(
+            "Commit %s depends on commit %s of change %d which cannot be merged.",
+            commit, otherCommit, change.getId().get());
+      }
       return String.format(
-          "Commit %s depends on commit %s of change %d which cannot be merged.",
-          commit, otherCommit, changes.get(0).getId().get());
+          "Commit %s depends on commit %s of change %d which cannot be merged"
+              + " because it is an outdated patch set.",
+          commit, otherCommit, change.getId().get());
     } else {
       return String.format(
           "Commit %s depends on commit %s of changes %s which cannot be merged.",

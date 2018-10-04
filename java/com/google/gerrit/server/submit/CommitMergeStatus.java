@@ -92,7 +92,9 @@ public enum CommitMergeStatus {
 
     if (changes.isEmpty()) {
       return String.format(
-          "Commit %s depends on commit %s which cannot be merged.", commit, otherCommit);
+          "Commit %s depends on commit %s which cannot be merged."
+              + " Was the change of this commit deleted?",
+          commit, otherCommit);
     } else if (changes.size() == 1) {
       return String.format(
           "Commit %s depends on commit %s of change %d which cannot be merged.",

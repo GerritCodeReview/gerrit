@@ -522,6 +522,36 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
+  public void dependencyOnDeletedChangePreventsMerge() throws Exception {
+    // Create a change
+    PushOneCommit change = pushFactory.create(db, user.getIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit.Result changeResult = change.to("refs/for/master");
+
+    // Create a successor change.
+    PushOneCommit change2 =
+        pushFactory.create(db, user.getIdent(), testRepo, "feature", "b.txt", "bar");
+    PushOneCommit.Result change2Result = change2.to("refs/for/master");
+
+    // Delete first change.
+    gApi.changes().id(changeResult.getChangeId()).delete();
+
+    submitWithConflict(
+        change2Result.getChangeId(),
+        "Failed to submit 1 change due to the following problems:\n"
+            + "Change "
+            + change2Result.getChange().getId()
+            + ": Depends on change that was not submitted."
+            + " Commit "
+            + change2Result.getCommit().name()
+            + " depends on commit "
+            + changeResult.getCommit().name()
+            + " which cannot be merged. Was the change of this commit deleted?");
+
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
+  }
+
+  @Test
   public void testPreviewSubmitTgz() throws Exception {
     Project.NameKey p1 = createProject("project-name");
 

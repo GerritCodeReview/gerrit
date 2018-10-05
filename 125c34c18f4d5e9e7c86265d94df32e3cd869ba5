@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e34f2523_8cfe0562",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-05T22:09:07Z",
+      "side": 1,
+      "message": "I have a weak preference for an async keyword here.",
+      "range": {
+        "startLine": 49,
+        "startChar": 20,
+        "endLine": 49,
+        "endChar": 22
+      },
+      "revId": "125c34c18f4d5e9e7c86265d94df32e3cd869ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

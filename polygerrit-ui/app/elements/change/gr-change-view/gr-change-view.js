@@ -263,16 +263,19 @@
       '_patchNumChanged(_patchRange.patchNum)',
     ],
 
-    keyBindings: {
-      'shift+r': '_handleCapitalRKey',
-      'a': '_handleAKey',
-      'd': '_handleDKey',
-      'm': '_handleMKey',
-      's': '_handleSKey',
-      'u': '_handleUKey',
-      'x': '_handleXKey',
-      'z': '_handleZKey',
-      ',': '_handleCommaKey',
+    keyboardShortcuts() {
+      return {
+        [this.Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
+        [this.Shortcut.REFRESH_CHANGE]: '_refreshChange',
+        [this.Shortcut.OPEN_REPLY_DIALOG]: '_openReplyDialog',
+        [this.Shortcut.OPEN_DOWNLOAD_DIALOG]: '_openDownloadDialog',
+        [this.Shortcut.TOGGLE_DIFF_MODE]: '_toggleDiffMode',
+        [this.Shortcut.TOGGLE_CHANGE_STAR]: '_toggleChangeStar',
+        [this.Shortcut.UP_TO_DASHBOARD]: '_upToDashboard',
+        [this.Shortcut.EXPAND_ALL_MESSAGES]: '_expandAllMessages',
+        [this.Shortcut.COLLAPSE_ALL_MESSAGES]: '_collapseAllMessages',
+        [this.Shortcut.OPEN_DIFF_PREFS]: '_openDiffPrefs',
+      };
     },
 
     attached() {
@@ -336,7 +339,7 @@
       });
     },
 
-    _handleMKey(e) {
+    _toggleDiffMode(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -894,7 +897,7 @@
       return label;
     },
 
-    _handleAKey(e) {
+    _openReplyDialog(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) {
         return;
@@ -910,7 +913,7 @@
       });
     },
 
-    _handleDKey(e) {
+    _openDownloadDialog(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -918,13 +921,13 @@
       this.$.downloadOverlay.open();
     },
 
-    _handleCapitalRKey(e) {
+    _refreshChange(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       e.preventDefault();
       Gerrit.Nav.navigateToChange(this._change);
     },
 
-    _handleSKey(e) {
+    _toggleChangeStar(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -932,7 +935,7 @@
       this.$.changeStar.toggleStar();
     },
 
-    _handleUKey(e) {
+    _upToDashboard(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -940,7 +943,7 @@
       this._determinePageBack();
     },
 
-    _handleXKey(e) {
+    _expandAllMessages(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -948,7 +951,7 @@
       this.messagesList.handleExpandCollapse(true);
     },
 
-    _handleZKey(e) {
+    _collapseAllMessages(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -956,7 +959,7 @@
       this.messagesList.handleExpandCollapse(false);
     },
 
-    _handleCommaKey(e) {
+    _openDiffPrefs(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 

@@ -298,7 +298,7 @@
             req.errFn.call(null, response);
             return;
           }
-          this.fire('server-error', {response});
+          this.fire('server-error', {request: req, response});
           return;
         }
         return response && this.getResponseObject(response);
@@ -1307,7 +1307,7 @@
             if (opt_errFn) {
               opt_errFn.call(null, response);
             } else {
-              this.fire('server-error', {response});
+              this.fire('server-error', {request: req, response});
             }
             return;
           }
@@ -2086,7 +2086,7 @@
           if (req.errFn) {
             return req.errFn.call(undefined, response);
           }
-          this.fire('server-error', {response});
+          this.fire('server-error', {request: fetchReq, response});
         }
         return response;
       }).catch(err => {

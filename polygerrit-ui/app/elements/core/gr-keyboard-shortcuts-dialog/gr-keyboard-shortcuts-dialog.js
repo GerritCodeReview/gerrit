@@ -27,20 +27,97 @@
      */
 
     properties: {
-      view: String,
+      _left: Array,
+      _right: Array,
+
+      _propertyBySection: {
+        type: Object,
+        value() {
+          return {
+            [this.ShortcutSection.EVERYWHERE]: '_everywhere',
+            [this.ShortcutSection.NAVIGATION]: '_navigation',
+            [this.ShortcutSection.DASHBOARD]: '_dashboard',
+            [this.ShortcutSection.CHANGE_LIST]: '_changeList',
+            [this.ShortcutSection.ACTIONS]: '_actions',
+            [this.ShortcutSection.REPLY_DIALOG]: '_replyDialog',
+            [this.ShortcutSection.FILE_LIST]: '_fileList',
+            [this.ShortcutSection.DIFFS]: '_diffs',
+          };
+        },
+      },
     },
+
+    behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
+    ],
 
     hostAttributes: {
       role: 'dialog',
     },
 
-    _computeInView(currentView, view) {
-      return view === currentView;
+    attached() {
+      this.addKeyboardShortcutDirectoryListener(
+          this._onDirectoryUpdated.bind(this));
+    },
+
+    detached() {
+      this.removeKeyboardShortcutDirectoryListener(
+          this._onDirectoryUpdated.bind(this));
     },
 
     _handleCloseTap(e) {
       e.preventDefault();
       this.fire('close', null, {bubbles: false});
+    },
+
+    _onDirectoryUpdated(directory) {
+      const left = [];
+      const right = [];
+
+      if (directory.has(this.ShortcutSection.EVERYWHERE)) {
+        left.push({
+          section: this.ShortcutSection.EVERYWHERE,
+          shortcuts: directory.get(this.ShortcutSection.EVERYWHERE),
+        });
+      }
+
+      if (directory.has(this.ShortcutSection.NAVIGATION)) {
+        left.push({
+          section: this.ShortcutSection.NAVIGATION,
+          shortcuts: directory.get(this.ShortcutSection.NAVIGATION),
+        });
+      }
+
+      if (directory.has(this.ShortcutSection.ACTIONS)) {
+        right.push({
+          section: this.ShortcutSection.ACTIONS,
+          shortcuts: directory.get(this.ShortcutSection.ACTIONS),
+        });
+      }
+
+      if (directory.has(this.ShortcutSection.REPLY_DIALOG)) {
+        right.push({
+          section: this.ShortcutSection.REPLY_DIALOG,
+          shortcuts: directory.get(this.ShortcutSection.REPLY_DIALOG),
+        });
+      }
+
+      if (directory.has(this.ShortcutSection.FILE_LIST)) {
+        right.push({
+          section: this.ShortcutSection.FILE_LIST,
+          shortcuts: directory.get(this.ShortcutSection.FILE_LIST),
+        });
+      }
+
+      if (directory.has(this.ShortcutSection.DIFFS)) {
+        right.push({
+          section: this.ShortcutSection.DIFFS,
+          shortcuts: directory.get(this.ShortcutSection.DIFFS),
+        });
+      }
+
+      this.set('_left', left);
+      this.set('_right', right);
     },
   });
 })();

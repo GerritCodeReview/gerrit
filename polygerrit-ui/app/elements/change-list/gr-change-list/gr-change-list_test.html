@@ -42,6 +42,17 @@ limitations under the License.
 
 <script>
   suite('gr-change-list basic tests', () => {
+    // Define keybindings before attaching other fixtures.
+    const kb = window.Gerrit.KeyboardShortcutBinder;
+    kb.bindShortcut(kb.Shortcut.CURSOR_NEXT_CHANGE, 'j');
+    kb.bindShortcut(kb.Shortcut.CURSOR_PREV_CHANGE, 'k');
+    kb.bindShortcut(kb.Shortcut.OPEN_CHANGE, 'o');
+    kb.bindShortcut(kb.Shortcut.REFRESH_CHANGE_LIST, 'shift+r');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_CHANGE_REVIEWED, 'r');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_CHANGE_STAR, 's');
+    kb.bindShortcut(kb.Shortcut.NEXT_PAGE, 'n');
+    kb.bindShortcut(kb.Shortcut.NEXT_PAGE, 'p');
+
     let element;
     let sandbox;
 

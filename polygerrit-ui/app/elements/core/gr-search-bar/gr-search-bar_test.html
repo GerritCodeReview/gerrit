@@ -37,6 +37,9 @@ limitations under the License.
 
 <script>
   suite('gr-search-bar tests', () => {
+    const kb = window.Gerrit.KeyboardShortcutBinder;
+    kb.bindShortcut(kb.Shortcut.SEARCH, '/');
+
     let element;
     let sandbox;
 

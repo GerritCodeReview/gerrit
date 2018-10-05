@@ -48,6 +48,7 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
 
 public class DocIndexer {
   private static final Pattern SECTION_HEADER = Pattern.compile("^=+ (.*)");
@@ -68,7 +69,7 @@ public class DocIndexer {
   private List<String> inputFiles = new ArrayList<>();
 
   private void invoke(String... parameters) throws IOException {
-    CmdLineParser parser = new CmdLineParser(this);
+    CmdLineParser parser = new CmdLineParser(this, ParserProperties.defaults().withAtSyntax(false));
     try {
       parser.parseArgument(parameters);
       if (inputFiles.isEmpty()) {

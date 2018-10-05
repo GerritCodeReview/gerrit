@@ -62,6 +62,7 @@ import org.kohsuke.args4j.IllegalAnnotationError;
 import org.kohsuke.args4j.NamedOptionDef;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.FieldSetter;
@@ -410,7 +411,7 @@ public class CmdLineParser {
     private HelpOption help;
 
     MyParser(Object bean) {
-      super(bean);
+      super(bean, ParserProperties.defaults().withAtSyntax(false));
       parseAdditionalOptions(bean, new HashSet<>());
       ensureOptionsInitialized();
     }

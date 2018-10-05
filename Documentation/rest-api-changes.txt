@@ -5945,6 +5945,10 @@ Additional information about whom to notify about the update as a map
 of recipient type to link:#notify-info[NotifyInfo] entity.
 |`keep_reviewers`   |optional, defaults to false|
 If true, carries reviewers and ccs over from original change to newly created one.
+|`auto_merge`       |optional, defaults to false|
+If true, an auto-merge is done if there are conflicts. This means the
+cherry-pick always succeeds, but the file contents of the created
+change may contain git conflict markers.
 |===========================
 
 [[comment-info]]

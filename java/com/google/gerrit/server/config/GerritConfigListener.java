@@ -16,7 +16,7 @@ package com.google.gerrit.server.config;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import java.util.EventListener;
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementations of the GerritConfigListener interface expects to react GerritServerConfig
@@ -24,5 +24,5 @@ import java.util.List;
  */
 @ExtensionPoint
 public interface GerritConfigListener extends EventListener {
-  List<ConfigUpdatedEvent.Update> configUpdated(ConfigUpdatedEvent event);
+  Optional<ConfigUpdatedEvent.Update> configUpdated(ConfigUpdatedEvent event);
 }

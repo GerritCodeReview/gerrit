@@ -18,14 +18,14 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.server.config.ConfigUpdatedEvent;
+import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
 import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
 import com.google.gerrit.server.config.GerritServerConfigReloader;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Set;
 
 /** Issues a reload of gerrit.config. */
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -39,31 +39,19 @@ public class ReloadConfig extends SshCommand {
 
   @Override
   protected void run() throws Failure {
-    List<ConfigUpdatedEvent.Update> updates = gerritServerConfigReloader.reloadConfig();
+    Map<UpdateResult, Set<ConfigUpdateEntry>> updates = gerritServerConfigReloader.reloadConfig();
     if (updates.isEmpty()) {
       stdout.println("No config entries updated!");
       return;
     }
 
     // Print out UpdateResult.{ACCEPTED|REJECTED} entries grouped by their type
-    for (UpdateResult updateResult : UpdateResult.values()) {
-      List<ConfigUpdatedEvent.Update> filteredUpdates = filterUpdates(updates, updateResult);
-      if (filteredUpdates.isEmpty()) {
+    for (UpdateResult result : UpdateResult.values()) {
+      if (!updates.containsKey(result)) {
         continue;
       }
-      stdout.println(updateResult.toString() + " configuration changes:");
-      filteredUpdates
-          .stream()
-          .flatMap(update -> update.getConfigUpdates().stream())
-          .forEach(cfgEntry -> stdout.println(cfgEntry.toString()));
+      stdout.println(result.toString() + " configuration changes:");
+      updates.get(result).forEach(cfgEntry -> stdout.println(cfgEntry.toString()));
     }
-  }
-
-  public static List<ConfigUpdatedEvent.Update> filterUpdates(
-      List<ConfigUpdatedEvent.Update> updates, UpdateResult result) {
-    return updates
-        .stream()
-        .filter(update -> update.getResult() == result)
-        .collect(Collectors.toList());
   }
 }

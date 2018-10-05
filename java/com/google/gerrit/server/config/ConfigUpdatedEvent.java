@@ -13,10 +13,10 @@
 // limitations under the License.
 package com.google.gerrit.server.config;
 
-import com.google.common.collect.ImmutableList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -88,7 +88,7 @@ public class ConfigUpdatedEvent {
   }
 
   private Update createUpdate(Set<ConfigKey> entries, UpdateResult updateResult) {
-    Update update = new Update(updateResult);
+    Update update = new Update();
     entries
         .stream()
         .filter(this::isValueUpdated)
@@ -98,7 +98,8 @@ public class ConfigUpdatedEvent {
                   new ConfigUpdateEntry(
                       key,
                       oldConfig.getString(key.section(), key.subsection(), key.name()),
-                      newConfig.getString(key.section(), key.subsection(), key.name())));
+                      newConfig.getString(key.section(), key.subsection(), key.name())),
+                  updateResult);
             });
     return update;
   }
@@ -143,27 +144,20 @@ public class ConfigUpdatedEvent {
   }
 
   /**
-   * One Accepted/Rejected Update have one or more config updates (ConfigUpdateEntry) tied to it.
+   * An instance of Update holds a map of Accepted/Rejected updates (ConfigUpdateEntry).
    */
   public static class Update {
-    private UpdateResult result;
-    private final Set<ConfigUpdateEntry> configUpdates;
+    private Map<UpdateResult, Set<ConfigUpdateEntry>> updates = new HashMap<>(2);
 
-    public Update(UpdateResult result) {
-      this.configUpdates = new LinkedHashSet<>();
-      this.result = result;
+    public Map<UpdateResult, Set<ConfigUpdateEntry>> getUpdates() {
+      return updates;
     }
 
-    public UpdateResult getResult() {
-      return result;
-    }
-
-    public List<ConfigUpdateEntry> getConfigUpdates() {
-      return ImmutableList.copyOf(configUpdates);
-    }
-
-    public void addConfigUpdate(ConfigUpdateEntry entry) {
-      this.configUpdates.add(entry);
+    public void addConfigUpdate(ConfigUpdateEntry entry, UpdateResult result) {
+      if (!updates.containsKey(result)) {
+        updates.put(result, new LinkedHashSet<>());
+      }
+      updates.get(result).add(entry);
     }
   }
 

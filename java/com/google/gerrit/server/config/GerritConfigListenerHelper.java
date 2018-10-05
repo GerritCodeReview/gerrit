@@ -15,13 +15,13 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.ImmutableSet;
-import java.util.Collections;
+import java.util.Optional;
 
 public class GerritConfigListenerHelper {
   public static GerritConfigListener acceptIfChanged(ConfigKey... keys) {
     return e ->
         e.isEntriesUpdated(ImmutableSet.copyOf(keys))
-            ? Collections.singletonList(e.accept(ImmutableSet.copyOf(keys)))
-            : Collections.emptyList();
+            ? Optional.of(e.accept(ImmutableSet.copyOf(keys)))
+            : Optional.empty();
   }
 }

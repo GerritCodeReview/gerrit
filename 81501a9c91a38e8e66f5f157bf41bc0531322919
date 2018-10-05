@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1538722207 +0200\nnonce AP50N7ZdLZ6IZnPUjcJ3eED/CtR7/i/4Jonetn0E8dsc/5zcj9p+Ya2EH9XhctfE7DK/qLMKbq+k\n\n0000000000000000000000000000000000000000 b458da0ff00129b16a2277f8a64d54cfe7a17359 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlu3CZ8ACgkQUbX9l6DQ\n71Fs2wf9GSAwtJLvqznmjBEDjkHIz8Hi5P9E5BQSpGNpuszD3FGH5dDWB0POZ56S\n2dq7qySjYAo9zojqgdY40zDSuqtJn+Gek2gTlsb/MFbfWqp/Vw0XvxdgU1xnIvoq\n4Zh5ubeza1sqqSLYQA810BB20KMOMPQtpqOxrmd3MbJaJIKrbLQ+vqtR3a/BY+QU\nVzgg1lZxoc8GakpfjYbn30UqzBsBc6w3mCblXSfrGc9lhhAiEaJAD/62A0BbT+D5\n14AVTrOKtn6OixkEYlQNtwBdhXzMeRbAGwPnkb0popw990DqdMzu9cuTDGivOood\nyXdPaUVfK27KJ6QXl3i7jZzqpm0ceQ\u003d\u003d\n\u003dU10Z\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbba14b6_e9471eae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1016502
+      },
+      "writtenOn": "2018-10-05T10:04:20Z",
+      "side": 1,
+      "message": "typo: dependency",
+      "revId": "81501a9c91a38e8e66f5f157bf41bc0531322919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

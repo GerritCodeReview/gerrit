@@ -86,7 +86,7 @@ limitations under the License.
           'Log in is required to perform that action.', 'Log in.'));
     });
 
-    test('show normal server error', done => {
+    test('show normal Error', done => {
       const showErrorStub = sandbox.stub(element, '_showErrorDialog');
       const textSpy = sandbox.spy(() => { return Promise.resolve('ZOMG'); });
       element.fire('server-error', {response: {status: 500, text: textSpy}});
@@ -98,9 +98,30 @@ limitations under the License.
       ]).then(() => {
         assert.isTrue(showErrorStub.calledOnce);
         assert.isTrue(showErrorStub.lastCall.calledWithExactly(
-            'Server error: ZOMG'));
+            'Error 500: ZOMG'));
         done();
       });
+    });
+
+    test('_constructServerErrorMsg', () => {
+      const errorText = 'change conflicts';
+      const status = 409;
+      const statusText = 'Conflict';
+      const url = '/my/test/url';
+
+      assert.equal(element._constructServerErrorMsg({status}),
+          'Error 409');
+      assert.equal(element._constructServerErrorMsg({status, url}),
+          'Error 409: \nEndpoint: /my/test/url');
+      assert.equal(element._constructServerErrorMsg({status, statusText, url}),
+          'Error 409 (Conflict): \nEndpoint: /my/test/url');
+      assert.equal(element._constructServerErrorMsg({
+        status,
+        statusText,
+        errorText,
+        url,
+      }), 'Error 409 (Conflict): change conflicts' +
+          '\nEndpoint: /my/test/url');
     });
 
     test('suppress TOO_MANY_FILES error', done => {

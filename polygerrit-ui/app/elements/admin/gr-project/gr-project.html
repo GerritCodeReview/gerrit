@@ -264,6 +264,9 @@ limitations under the License.
                       is="iron-input"
                       type="text"
                       disabled$="[[_readOnly]]">
+                  <template is="dom-if" if="[[_projectConfig.max_object_size_limit.value]]">
+                    effective: [[_projectConfig.max_object_size_limit.value]] bytes
+                  </template>
                 </span>
               </section>
               <section>

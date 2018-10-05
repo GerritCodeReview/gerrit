@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de962663_7eb01935",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-change-help/gr-create-change-help_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-05T22:15:07Z",
+      "side": 1,
+      "message": "We don\u0027t need to assert copyright quite so far into the future.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 19
+      },
+      "revId": "aa35f86dae2427460a986af37be4c08fcedede9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

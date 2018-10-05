@@ -195,12 +195,65 @@
       'shift+x': '_handleShiftXKey',
     },
 
+    keyBindingDocs: {
+      actions: [
+        {binding: [['j'], ['↓']], description: 'Go to next line'},
+        {binding: [['k'], ['↑']], description: 'Go to previous line'},
+        {binding: 'n', description: 'Show next diff chunk'},
+        {binding: 'p', description: 'Show previous diff chunk'},
+        {binding: [['Shift', 'x']], description: 'Expand all diff context'},
+        {binding: [['Shift', 'n']], description: 'Go to next comment thread'},
+        {
+          binding: [['Shift', 'p']],
+          description: 'Go to previous comment thread',
+        },
+        {binding: 'e', description: 'Expand all comment threads'},
+        {
+          binding: [['Shift', 'e']],
+          description: 'Collapse all comment threads',
+        },
+        {binding: [['Shift', '←']], description: 'Select left pane'},
+        {binding: [['Shift', '→']], description: 'Select right pane'},
+        {binding: [['Shift', 'a']], description: 'Hide/show left diff'},
+        {binding: 'm', description: 'Toggle unified/side-by-side diff'},
+        {binding: 'c', description: 'Draft new comment'},
+        {binding: [['Ctrl', 's']], description: 'Save comment'},
+        {binding: [['Ctrl', 'Enter']], description: 'Save comment'},
+        {binding: [['Meta', 'Enter']], description: 'Save comment'},
+        {
+          binding: 'a',
+          description:
+              'Open reply dialog to publish comments and add reviewers',
+        },
+        {binding: ',', description: 'Show diff preferences'},
+        {binding: 'r', description: 'Mark/unmark file as reviewed'},
+      ],
+      navigation: [
+        {binding: ']', description: 'Show next file'},
+        {binding: '[', description: 'Show previous file'},
+        {
+          binding: [['Shift', 'j']],
+          description: 'Show next file that has comments',
+        },
+        {
+          binding: [['Shift', 'k']],
+          description: 'Show previous file that has comments',
+        },
+        {binding: 'u', description: 'Up to change'},
+      ],
+    },
+
     attached() {
+      this.$.shortcuts.attachProvider(this);
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
       });
 
       this.$.cursor.push('diffs', this.$.diffHost);
+    },
+
+    detached() {
+      this.$.shortcuts.detachProvider(this);
     },
 
     _getLoggedIn() {

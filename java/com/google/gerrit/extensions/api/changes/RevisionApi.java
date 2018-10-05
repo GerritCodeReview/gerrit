@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.CherryPickChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -52,6 +53,8 @@ public interface RevisionApi {
   void publish() throws RestApiException;
 
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
+
+  CherryPickChangeInfo cherryPick2(CherryPickInput in) throws RestApiException;
 
   ChangeApi rebase() throws RestApiException;
 
@@ -186,6 +189,11 @@ public interface RevisionApi {
 
     @Override
     public ChangeApi cherryPick(CherryPickInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public CherryPickChangeInfo cherryPick2(CherryPickInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

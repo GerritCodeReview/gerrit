@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ChangeInfo {
+  // Adapt ChangeInfoUtil#copyChangeInfoFields(ChangeInfo, ChangeInfo) if any field is added,
+  // removed or changed.
+
   public String id;
   public String project;
   public String branch;

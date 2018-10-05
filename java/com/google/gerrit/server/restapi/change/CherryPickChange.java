@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
@@ -84,6 +85,16 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
 public class CherryPickChange {
+  @AutoValue
+  abstract static class Result {
+    static Result create(Change.Id changeId, boolean containsGitConflicts) {
+      return new AutoValue_CherryPickChange_Result(changeId, containsGitConflicts);
+    }
+
+    abstract Change.Id changeId();
+
+    abstract boolean containsGitConflicts();
+  }
 
   private final Provider<ReviewDb> dbProvider;
   private final Sequences seq;
@@ -132,7 +143,7 @@ public class CherryPickChange {
     this.notifyUtil = notifyUtil;
   }
 
-  public Change.Id cherryPick(
+  public Result cherryPick(
       BatchUpdate.Factory batchUpdateFactory,
       Change change,
       PatchSet patch,
@@ -150,7 +161,7 @@ public class CherryPickChange {
         dest);
   }
 
-  public Change.Id cherryPick(
+  public Result cherryPick(
       BatchUpdate.Factory batchUpdateFactory,
       @Nullable Change sourceChange,
       @Nullable PatchSet.Id sourcePatchId,
@@ -205,19 +216,26 @@ public class CherryPickChange {
         throw new NoSuchProjectException(dest.getParentKey());
       }
       try {
+        MergeUtil mergeUtil;
+        if (input.allowConflicts) {
+          // allowConflicts requires to use content merge
+          mergeUtil = mergeUtilFactory.create(projectState, true);
+        } else {
+          // use content merge only if it's configured on the project
+          mergeUtil = mergeUtilFactory.create(projectState);
+        }
         cherryPickCommit =
-            mergeUtilFactory
-                .create(projectState)
-                .createCherryPickFromCommit(
-                    oi,
-                    git.getConfig(),
-                    baseCommit,
-                    commitToCherryPick,
-                    committerIdent,
-                    commitMessage,
-                    revWalk,
-                    input.parent - 1,
-                    false);
+            mergeUtil.createCherryPickFromCommit(
+                oi,
+                git.getConfig(),
+                baseCommit,
+                commitToCherryPick,
+                committerIdent,
+                commitMessage,
+                revWalk,
+                input.parent - 1,
+                false,
+                input.allowConflicts);
 
         Change.Key changeKey;
         final List<String> idList = cherryPickCommit.getFooterLines(FooterConstants.CHANGE_ID);
@@ -241,11 +259,11 @@ public class CherryPickChange {
         try (BatchUpdate bu =
             batchUpdateFactory.create(dbProvider.get(), project, identifiedUser, now)) {
           bu.setRepository(git, revWalk, oi);
-          Change.Id result;
+          Change.Id changeId;
           if (destChanges.size() == 1) {
             // The change key exists on the destination branch. The cherry pick
             // will be added as a new patch set.
-            result = insertPatchSet(bu, git, destChanges.get(0).notes(), cherryPickCommit, input);
+            changeId = insertPatchSet(bu, git, destChanges.get(0).notes(), cherryPickCommit, input);
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
@@ -253,7 +271,7 @@ public class CherryPickChange {
             if (sourceChange != null && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
               newTopic = sourceChange.getTopic() + "-" + newDest.getShortName();
             }
-            result =
+            changeId =
                 createNewChange(
                     bu, cherryPickCommit, dest.get(), newTopic, sourceChange, sourceCommit, input);
 
@@ -265,7 +283,7 @@ public class CherryPickChange {
             }
           }
           bu.execute();
-          return result;
+          return Result.create(changeId, cherryPickCommit.containsGitConflicts());
         }
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
         throw new IntegrationException("Cherry pick failed: " + e.getMessage());

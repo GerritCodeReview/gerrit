@@ -126,6 +126,9 @@ public class CodeReviewCommit extends RevCommit {
    */
   private Optional<String> statusMessage = Optional.empty();
 
+  /** Whether any of the files in this commit contains Git conflict markers. */
+  private boolean containsGitConflicts;
+
   public CodeReviewCommit(AnyObjectId id) {
     super(id);
   }
@@ -148,6 +151,14 @@ public class CodeReviewCommit extends RevCommit {
 
   public void setStatusMessage(@Nullable String statusMessage) {
     this.statusMessage = Optional.ofNullable(statusMessage);
+  }
+
+  public boolean containsGitConflicts() {
+    return containsGitConflicts;
+  }
+
+  public void setContainsGitConflicts(boolean hasConflicts) {
+    this.containsGitConflicts = hasConflicts;
   }
 
   public PatchSet.Id getPatchsetId() {

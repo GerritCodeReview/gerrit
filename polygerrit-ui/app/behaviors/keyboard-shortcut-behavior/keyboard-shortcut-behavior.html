@@ -21,6 +21,166 @@ limitations under the License.
 (function(window) {
   'use strict';
 
+  const GO_KEY = 'GO_KEY';
+
+  // The maximum age of a keydown event to be used in a jump navigation. This
+  // is only for cases when the keyup event is lost.
+  const GO_KEY_TIMEOUT_MS = 1000;
+
+  const ShortcutSection = {
+    ACTIONS: 'Actions',
+    DIFFS: 'Diffs',
+    EVERYWHERE: 'Everywhere',
+    FILE_LIST: 'File list',
+    NAVIGATION: 'Navigation',
+    REPLY_DIALOG: 'Reply dialog',
+  };
+
+  const Shortcut = {
+    OPEN_SHORTCUT_HELP_DIALOG: 'OPEN_SHORTCUT_HELP_DIALOG',
+    GO_TO_OPENED_CHANGES: 'GO_TO_OPENED_CHANGES',
+    GO_TO_MERGED_CHANGES: 'GO_TO_MERGED_CHANGES',
+    GO_TO_ABANDONED_CHANGES: 'GO_TO_ABANDONED_CHANGES',
+
+    NEXT_CHANGE: 'NEXT_CHANGE',
+    PREV_CHANGE: 'PREV_CHANGE',
+    OPEN_CHANGE: 'OPEN_CHANGE',
+    NEXT_PAGE: 'NEXT_PAGE',
+    PREV_PAGE: 'PREV_PAGE',
+    TOGGLE_CHANGE_REVIEWED: 'TOGGLE_CHANGE_REVIEWED',
+    TOGGLE_CHANGE_STAR: 'TOGGLE_CHANGE_STAR',
+    REFRESH_CHANGE_LIST: 'REFRESH_CHANGE_LIST',
+
+    OPEN_REPLY_DIALOG: 'OPEN_REPLY_DIALOG',
+    OPEN_DOWNLOAD_DIALOG: 'OPEN_DOWNLOAD_DIALOG',
+    EXPAND_ALL_MESSAGES: 'EXPAND_ALL_MESSAGES',
+    COLLAPSE_ALL_MESSAGES: 'COLLAPSE_ALL_MESSAGES',
+    UP_TO_DASHBOARD: 'UP_TO_DASHBOARD',
+    UP_TO_CHANGE: 'UP_TO_CHANGE',
+    TOGGLE_DIFF_MODE: 'TOGGLE_DIFF_MODE',
+    REFRESH_CHANGE: 'REFRESH_CHANGE',
+
+    NEXT_LINE: 'NEXT_LINE',
+    PREV_LINE: 'PREV_LINE',
+    NEXT_CHUNK: 'NEXT_CHUNK',
+    PREV_CHUNK: 'PREV_CHUNK',
+    EXPAND_ALL_DIFF_CONTEXT: 'EXPAND_ALL_DIFF_CONTEXT',
+    NEXT_COMMENT_THREAD: 'NEXT_COMMENT_THREAD',
+    PREV_COMMENT_THREAD: 'PREV_COMMENT_THREAD',
+    EXPAND_ALL_COMMENT_THREADS: 'EXPAND_ALL_COMMENT_THREADS',
+    COLLAPSE_ALL_COMMENT_THREADS: 'COLLAPSE_ALL_COMMENT_THREADS',
+    LEFT_PANE: 'LEFT_PANE',
+    RIGHT_PANE: 'RIGHT_PANE',
+    TOGGLE_LEFT_PANE: 'TOGGLE_LEFT_PANE',
+    NEW_COMMENT: 'NEW_COMMENT',
+    SAVE_COMMENT: 'SAVE_COMMENT',
+    OPEN_DIFF_PREFS: 'OPEN_DIFF_PREFS',
+    TOGGLE_DIFF_REVIEWED: 'TOGGLE_DIFF_REVIEWED',
+
+    NEXT_FILE: 'NEXT_FILE',
+    PREV_FILE: 'PREV_FILE',
+    NEXT_FILE_WITH_COMMENTS: 'NEXT_FILE_WITH_COMMENTS',
+    PREV_FILE_WITH_COMMENTS: 'PREV_FILE_WITH_COMMENTS',
+    OPEN_FILE: 'OPEN_FILE',
+    TOGGLE_FILE_REVIEWED: 'TOGGLE_FILE_REVIEWED',
+    TOGGLE_ALL_INLINE_DIFFS: 'TOGGLE_ALL_INLINE_DIFFS',
+    TOGGLE_INLINE_DIFF: 'TOGGLE_INLINE_DIFF',
+
+    OPEN_FIRST_FILE: 'OPEN_FIRST_FILE',
+    OPEN_LAST_FILE: 'OPEN_LAST_FILE',
+
+    SEARCH: 'SEARCH',
+    SEND_REPLY: 'SEND_REPLY',
+  };
+
+  const _help = new Map();
+
+  function _describe(shortcut, section, text) {
+    if (!_help.has(section)) {
+      _help.set(section, []);
+    }
+    _help.get(section).push({shortcut, text});
+  }
+
+  _describe(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, ShortcutSection.EVERYWHERE,
+      'Show this dialog');
+  _describe(Shortcut.GO_TO_OPENED_CHANGES, ShortcutSection.EVERYWHERE,
+      'Go to Opened Changes');
+  _describe(Shortcut.GO_TO_MERGED_CHANGES, ShortcutSection.EVERYWHERE,
+      'Go to Merged Changes');
+  _describe(Shortcut.GO_TO_ABANDONED_CHANGES, ShortcutSection.EVERYWHERE,
+      'Go to Abandoned Changes');
+
+  _describe(Shortcut.NEXT_CHANGE, ShortcutSection.ACTIONS, 'Select next change');
+  _describe(Shortcut.PREV_CHANGE, ShortcutSection.ACTIONS,
+      'Select previous change');
+  _describe(Shortcut.OPEN_CHANGE, ShortcutSection.ACTIONS, 'Show selected change');
+  _describe(Shortcut.NEXT_PAGE, ShortcutSection.ACTIONS, 'Go to next page');
+  _describe(Shortcut.PREV_PAGE, ShortcutSection.ACTIONS, 'Go to previous page');
+  _describe(Shortcut.TOGGLE_CHANGE_REVIEWED, ShortcutSection.ACTIONS,
+      'Mark/unmark change as reviewed');
+  _describe(Shortcut.TOGGLE_CHANGE_STAR, ShortcutSection.ACTIONS,
+      'Star/unstar change');
+  _describe(Shortcut.REFRESH_CHANGE_LIST, ShortcutSection.ACTIONS,
+      'Refresh list of changes');
+
+  _describe(Shortcut.OPEN_REPLY_DIALOG, ShortcutSection.ACTIONS,
+      'Open reply dialog to publish comments and add reviewers');
+  _describe(Shortcut.OPEN_DOWNLOAD_DIALOG, ShortcutSection.ACTIONS,
+      'Open download overlay');
+  _describe(Shortcut.EXPAND_ALL_MESSAGES, ShortcutSection.ACTIONS,
+      'Expand all messages');
+  _describe(Shortcut.COLLAPSE_ALL_MESSAGES, ShortcutSection.ACTIONS,
+      'Collapse all messages');
+  _describe(Shortcut.REFRESH_CHANGE, ShortcutSection.ACTIONS,
+      'Reload the change at the latest patch');
+  _describe(Shortcut.UP_TO_DASHBOARD, ShortcutSection.NAVIGATION, 'Up to dashboard');
+  _describe(Shortcut.UP_TO_CHANGE, ShortcutSection.NAVIGATION, 'Up to change');
+  _describe(Shortcut.TOGGLE_DIFF_MODE, ShortcutSection.DIFFS,
+      'Toggle unified/side-by-side diff');
+
+  _describe(Shortcut.NEXT_LINE, ShortcutSection.DIFFS, 'Go to next line');
+  _describe(Shortcut.PREV_LINE, ShortcutSection.DIFFS, 'Go to previous line');
+  _describe(Shortcut.NEXT_CHUNK, ShortcutSection.DIFFS, 'Go to next diff chunk');
+  _describe(Shortcut.PREV_CHUNK, ShortcutSection.DIFFS, 'Go to previous diff chunk');
+  _describe(Shortcut.EXPAND_ALL_DIFF_CONTEXT, ShortcutSection.DIFFS,
+      'Expand all diff context');
+  _describe(Shortcut.NEXT_COMMENT_THREAD, ShortcutSection.DIFFS,
+      'Go to next comment thread');
+  _describe(Shortcut.PREV_COMMENT_THREAD, ShortcutSection.DIFFS,
+      'Go to previous comment thread');
+  _describe(Shortcut.EXPAND_ALL_COMMENT_THREADS, ShortcutSection.DIFFS,
+      'Expand all comment threads');
+  _describe(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, ShortcutSection.DIFFS,
+      'Collapse all comment threads');
+  _describe(Shortcut.LEFT_PANE, ShortcutSection.DIFFS, 'Select left pane');
+  _describe(Shortcut.RIGHT_PANE, ShortcutSection.DIFFS, 'Select right pane');
+  _describe(Shortcut.TOGGLE_LEFT_PANE, ShortcutSection.DIFFS, 'Hide/show left diff');
+  _describe(Shortcut.NEW_COMMENT, ShortcutSection.DIFFS, 'Draft new comment');
+  _describe(Shortcut.SAVE_COMMENT, ShortcutSection.DIFFS, 'Save comment');
+  _describe(Shortcut.OPEN_DIFF_PREFS, ShortcutSection.DIFFS, 'Show diff preferences');
+  _describe(Shortcut.TOGGLE_DIFF_REVIEWED, ShortcutSection.DIFFS,
+      'Mark/unmark file as reviewed');
+
+  _describe(Shortcut.NEXT_FILE, ShortcutSection.FILE_LIST, 'Select next file');
+  _describe(Shortcut.PREV_FILE, ShortcutSection.FILE_LIST, 'Select previous file');
+  _describe(Shortcut.NEXT_FILE_WITH_COMMENTS, ShortcutSection.FILE_LIST,
+      'Select next file that has comments');
+  _describe(Shortcut.PREV_FILE_WITH_COMMENTS, ShortcutSection.FILE_LIST,
+      'Select previous file that has comments');
+  _describe(Shortcut.OPEN_FILE, ShortcutSection.FILE_LIST, 'Go to selected file');
+  _describe(Shortcut.TOGGLE_FILE_REVIEWED, ShortcutSection.FILE_LIST,
+      'Toggle review flag on selected file');
+  _describe(Shortcut.TOGGLE_ALL_INLINE_DIFFS, ShortcutSection.FILE_LIST,
+      'Show/hide all inline diffs');
+  _describe(Shortcut.TOGGLE_INLINE_DIFF, ShortcutSection.FILE_LIST,
+      'Show/hide selected inline diff');
+
+  _describe(Shortcut.OPEN_FIRST_FILE, ShortcutSection.NAVIGATION, 'Show first file');
+  _describe(Shortcut.OPEN_LAST_FILE, ShortcutSection.NAVIGATION, 'Show last file');
+  
+  _describe(Shortcut.SEARCH, ShortcutSection.EVERYWHERE, 'Search');
+
   // Must be declared outside behavior implementation to be accessed inside
   // behavior functions.
 
@@ -32,10 +192,145 @@ limitations under the License.
     return e;
   };
 
+  class ShortcutManager {
+    constructor() {
+      this.activeHosts = new Map();
+      this.bindings = new Map();
+      this.listeners = new Set();
+    }
+
+    bind(shortcut) {
+      this.bindings.set(shortcut, Array.prototype.slice.call(arguments, 1));
+    }
+
+    getBindingsForShortcut(shortcut) {
+      return this.bindings.get(shortcut);
+    }
+
+    attachHost(host) {
+      if (!host.keyboardShortcuts) { return; }
+      const shortcuts = host.keyboardShortcuts();
+      this.activeHosts.set(host, new Map(Object.entries(shortcuts)));
+      this.notifyListeners();
+      return shortcuts;
+    }
+
+    detachHost(host) {
+      if (this.activeHosts.delete(host)) {
+        this.notifyListeners();
+        return true;
+      }
+      return false;
+    }
+
+    addListener(listener) {
+      this.listeners.add(listener);
+      listener(this.directoryView());
+    }
+
+    removeListener(listener) {
+      return this.listeners.delete(listener);
+    }
+
+    directoryView() {
+      // Accumulate set of active shortcuts.
+      const activeShortcuts = new Set();
+      this.activeHosts.forEach(shortcuts => {
+        shortcuts.forEach((_, shortcut) => activeShortcuts.add(shortcut));
+      });
+
+      // Organize active shortcuts by section.
+      const activeShortcutsBySection = new Map();
+      _help.forEach((shortcutList, section) => {
+        shortcutList.forEach(shortcutHelp => {
+          if (activeShortcuts.has(shortcutHelp.shortcut)) {
+            if (!activeShortcutsBySection.has(section)) {
+              activeShortcutsBySection.set(section, []);
+            }
+            activeShortcutsBySection.get(section).push(shortcutHelp);
+          }
+        });
+      });
+
+      // Now that the active shortcuts are organized, we can construct
+      // the view.
+      const view = new Map();
+      activeShortcutsBySection.forEach((shortcutHelps, section) => {
+        view.set(section, shortcutHelps.map(shortcutHelp => {
+          const bindingDesc = this.describeBindings(shortcutHelp.shortcut);
+          return {
+            binding: bindingDesc,
+            text: shortcutHelp.text,
+          };
+        }).filter(d => !!d.binding));
+      });
+      return view;
+    }
+
+    describeBindings(shortcut) {
+      const bindings = this.bindings.get(shortcut);
+      if (!bindings) { return null; }
+      if (bindings[0] === GO_KEY) {
+        return [['g', bindings.slice(1)]];
+      }
+      return bindings
+        .filter(binding => !!binding)
+        .map(binding => this.describeBinding(binding));
+    }
+
+    describeBinding(binding) {
+      return binding.split(':')[0].split('+').map(part => {
+        switch (part) {
+          case 'shift':
+            return 'Shift';
+          case 'meta':
+            return 'Meta';
+          case 'ctrl':
+            return 'Ctrl';
+          case 'enter':
+            return 'Enter';
+          case 'up':
+            return '↑';
+          case 'down':
+            return '↓';
+          case 'left':
+            return '←';
+          case 'right':
+            return '→';
+          default:
+            return part;
+        }
+      });
+    }
+
+    notifyListeners() {
+      const view = this.directoryView();
+      this.listeners.forEach(listener => listener(view));
+    }
+  }
+
+  const shortcutManager = new ShortcutManager();
+
   window.Gerrit = window.Gerrit || {};
 
   /** @polymerBehavior KeyboardShortcutBehavior */
   Gerrit.KeyboardShortcutBehavior = [{
+    GO_KEY,
+    ShortcutSection,
+    Shortcut,
+
+    properties: {
+      _shortcut_go_key_last_pressed: {
+        type: Number,
+        value: null,
+      },
+
+      _shortcut_go_table: {
+        type: Array,
+        value() { return new Map(); },
+      },
+    },
+
     modifierPressed(e) {
       e = getKeyboardEvent(e);
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
@@ -67,6 +362,77 @@ limitations under the License.
 
     getRootTarget(e) {
       return Polymer.dom(getKeyboardEvent(e)).rootTarget;
+    },
+
+    bind(shortcut) {
+      shortcutManager.bind.apply(shortcutManager, arguments);
+    },
+
+    _addOwnKeyBindings(shortcut, handler) {
+      const bindings = shortcutManager.getBindingsForShortcut(shortcut);
+      if (!bindings) {
+        console.warn('no keybinding for shortcut:', shortcut);
+        return;
+      }
+      if (bindings[0] === GO_KEY) {
+        this._shortcut_go_table.set(bindings[1], handler);
+      } else {
+        this.addOwnKeyBinding(bindings.join(' '), handler);
+      }
+    },
+
+    attached() {
+      const shortcuts = shortcutManager.attachHost(this);
+      if (!shortcuts) { return; }
+
+      for (const key of Object.keys(shortcuts)) {
+        this._addOwnKeyBindings(key, shortcuts[key]);
+      }
+
+      // If any of the shortcuts utilized GO_KEY, then they are handled
+      // directly by this behavior.
+      if (this._shortcut_go_table.size > 0) {
+        this.addOwnKeyBinding('g:keydown', '_handleGoKeyDown');
+        this.addOwnKeyBinding('g:keyup', '_handleGoKeyUp');
+        this._shortcut_go_table.forEach((handler, key) => {
+          this.addOwnKeyBinding(key, '_handleGoAction');
+        });
+      }
+    },
+
+    detached() {
+      if (shortcutManager.detachHost(this)) {
+        this.removeOwnKeyBindings();
+      }
+    },
+
+    addKeyboardShortcutDirectoryListener(listener) {
+      shortcutManager.addListener(listener);
+    },
+
+    removeKeyboardShortcutDirectoryListener(listener) {
+      shortcutManager.removeListener(listener);
+    },
+
+    _handleGoKeyDown(e) {
+      if (this.modifierPressed(e)) { return; }
+      this._shortcut_go_key_last_pressed = Date.now();
+    },
+
+    _handleGoKeyUp(e) {
+      this._shortcut_go_key_last_pressed = null;
+    },
+
+    _handleGoAction(e) {
+      if (!this._shortcut_go_key_last_pressed ||
+          (Date.now() - this._shortcut_go_key_last_pressed >
+              GO_KEY_TIMEOUT_MS) ||
+          this.shouldSuppressKeyboardShortcut(e)) {
+        return;
+      }
+      e.preventDefault();
+      const handler = this._shortcut_go_table.get(e.detail.key);
+      this[handler](e);
     },
   },
     Polymer.IronA11yKeysBehavior,

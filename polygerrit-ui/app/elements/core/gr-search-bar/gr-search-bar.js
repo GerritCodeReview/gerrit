@@ -110,10 +110,6 @@
       Gerrit.URLEncodingBehavior,
     ],
 
-    keyBindings: {
-      '/': '_handleForwardSlashKey',
-    },
-
     properties: {
       value: {
         type: String,
@@ -154,6 +150,12 @@
         type: Number,
         value: 1,
       },
+    },
+
+    keyboardShortcuts() {
+      return {
+        [this.Shortcut.SEARCH]: '_handleSearch',
+      };
     },
 
     _valueChanged(value) {
@@ -274,7 +276,8 @@
           });
     },
 
-    _handleForwardSlashKey(e) {
+    _handleSearch(e) {
+      console.log('_handleSearch');
       const keyboardEvent = this.getKeyboardEvent(e);
       if (this.shouldSuppressKeyboardShortcut(e) ||
           (this.modifierPressed(e) && !keyboardEvent.shiftKey)) { return; }

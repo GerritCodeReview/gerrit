@@ -16,6 +16,8 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -29,6 +31,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -57,15 +60,22 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.diff.Sequence;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -81,6 +91,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeFormatter;
+import org.eclipse.jgit.merge.MergeResult;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.Merger;
 import org.eclipse.jgit.merge.ResolveMerger;
@@ -92,6 +104,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.TemporaryBuffer;
 
 /**
  * Utility methods used during the merge process.
@@ -232,29 +245,155 @@ public class MergeUtil {
       String commitMsg,
       CodeReviewRevWalk rw,
       int parentIndex,
-      boolean ignoreIdenticalTree)
+      boolean ignoreIdenticalTree,
+      boolean allowConflicts)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
-          MergeIdenticalTreeException, MergeConflictException {
+          MergeIdenticalTreeException, MergeConflictException, MethodNotAllowedException {
 
-    final ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
-
+    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     m.setBase(originalCommit.getParent(parentIndex));
+
+    DirCache dc = DirCache.newInCore();
+    if (allowConflicts && m instanceof ResolveMerger) {
+      // The DirCache must be set on ResolveMerger before calling
+      // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don't get populated.
+      ((ResolveMerger) m).setDirCache(dc);
+    }
+
+    ObjectId tree;
+    boolean containsGitConflicts;
     if (m.merge(mergeTip, originalCommit)) {
-      ObjectId tree = m.getResultTreeId();
+      containsGitConflicts = false;
+      tree = m.getResultTreeId();
       if (tree.equals(mergeTip.getTree()) && !ignoreIdenticalTree) {
         throw new MergeIdenticalTreeException("identical tree");
       }
+    } else {
+      if (!allowConflicts) {
+        throw new MergeConflictException("merge conflict");
+      }
 
-      CommitBuilder mergeCommit = new CommitBuilder();
-      mergeCommit.setTreeId(tree);
-      mergeCommit.setParentId(mergeTip);
-      mergeCommit.setAuthor(originalCommit.getAuthorIdent());
-      mergeCommit.setCommitter(cherryPickCommitterIdent);
-      mergeCommit.setMessage(commitMsg);
-      matchAuthorToCommitterDate(project, mergeCommit);
-      return rw.parseCommit(inserter.insert(mergeCommit));
+      if (!useContentMerge) {
+        // If content merge is disabled we don't have a ResolveMerger and hence cannot merge with
+        // conflict markers.
+        throw new MethodNotAllowedException(
+            "Cherry-pick with allow conflicts requires that content merge is enabled.");
+      }
+
+      // For merging with conflict markers we need a ResolveMerger, double-check that we have one.
+      checkState(m instanceof ResolveMerger, "allow conflicts is not supported");
+      containsGitConflicts = true;
+      tree =
+          mergeWithConflicts(
+              rw,
+              inserter,
+              dc,
+              "HEAD",
+              mergeTip,
+              "CHANGE",
+              originalCommit,
+              ((ResolveMerger) m).getMergeResults());
     }
-    throw new MergeConflictException("merge conflict");
+
+    CommitBuilder cherryPickCommit = new CommitBuilder();
+    cherryPickCommit.setTreeId(tree);
+    cherryPickCommit.setParentId(mergeTip);
+    cherryPickCommit.setAuthor(originalCommit.getAuthorIdent());
+    cherryPickCommit.setCommitter(cherryPickCommitterIdent);
+    cherryPickCommit.setMessage(commitMsg);
+    matchAuthorToCommitterDate(project, cherryPickCommit);
+    CodeReviewCommit commit = rw.parseCommit(inserter.insert(cherryPickCommit));
+    commit.setContainsGitConflicts(containsGitConflicts);
+    return commit;
+  }
+
+  public static ObjectId mergeWithConflicts(
+      RevWalk rw,
+      ObjectInserter ins,
+      DirCache dc,
+      String oursName,
+      RevCommit ours,
+      String theirsName,
+      RevCommit theirs,
+      Map<String, MergeResult<? extends Sequence>> mergeResults)
+      throws IOException {
+    rw.parseBody(ours);
+    rw.parseBody(theirs);
+    String oursMsg = ours.getShortMessage();
+    String theirsMsg = theirs.getShortMessage();
+
+    int nameLength = Math.max(oursName.length(), theirsName.length());
+    String oursNameFormatted =
+        String.format(
+            "%0$-" + nameLength + "s (%s %s)",
+            oursName,
+            ours.abbreviate(6).name(),
+            oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
+    String theirsNameFormatted =
+        String.format(
+            "%0$-" + nameLength + "s (%s %s)",
+            theirsName,
+            theirs.abbreviate(6).name(),
+            theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
+
+    MergeFormatter fmt = new MergeFormatter();
+    Map<String, ObjectId> resolved = new HashMap<>();
+    for (Map.Entry<String, MergeResult<? extends Sequence>> entry : mergeResults.entrySet()) {
+      MergeResult<? extends Sequence> p = entry.getValue();
+      try (TemporaryBuffer buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
+        fmt.formatMerge(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8.name());
+        buf.close();
+
+        try (InputStream in = buf.openInputStream()) {
+          resolved.put(entry.getKey(), ins.insert(Constants.OBJ_BLOB, buf.length(), in));
+        }
+      }
+    }
+
+    DirCacheBuilder builder = dc.builder();
+    int cnt = dc.getEntryCount();
+    for (int i = 0; i < cnt; ) {
+      DirCacheEntry entry = dc.getEntry(i);
+      if (entry.getStage() == 0) {
+        builder.add(entry);
+        i++;
+        continue;
+      }
+
+      int next = dc.nextEntry(i);
+      String path = entry.getPathString();
+      DirCacheEntry res = new DirCacheEntry(path);
+      if (resolved.containsKey(path)) {
+        // For a file with content merge conflict that we produced a result
+        // above on, collapse the file down to a single stage 0 with just
+        // the blob content, and a randomly selected mode (the lowest stage,
+        // which should be the merge base, or ours).
+        res.setFileMode(entry.getFileMode());
+        res.setObjectId(resolved.get(path));
+
+      } else if (next == i + 1) {
+        // If there is exactly one stage present, shouldn't be a conflict...
+        res.setFileMode(entry.getFileMode());
+        res.setObjectId(entry.getObjectId());
+
+      } else if (next == i + 2) {
+        // Two stages suggests a delete/modify conflict. Pick the higher
+        // stage as the automatic result.
+        entry = dc.getEntry(i + 1);
+        res.setFileMode(entry.getFileMode());
+        res.setObjectId(entry.getObjectId());
+
+      } else {
+        // 3 stage conflict, no resolve above
+        // Punt on the 3-stage conflict and show the base, for now.
+        res.setFileMode(entry.getFileMode());
+        res.setObjectId(entry.getObjectId());
+      }
+      builder.add(res);
+      i = next;
+    }
+    builder.finish();
+    return dc.writeTree(ins);
   }
 
   public static RevCommit createMergeCommit(

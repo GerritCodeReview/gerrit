@@ -20,6 +20,7 @@ import static com.google.gerrit.server.submit.CommitMergeStatus.SKIPPED_IDENTICA
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -90,7 +91,7 @@ public class CherryPick extends SubmitStrategy {
 
     @Override
     protected void updateRepoImpl(RepoContext ctx)
-        throws IntegrationException, IOException, OrmException {
+        throws IntegrationException, IOException, OrmException, MethodNotAllowedException {
       // If there is only one parent, a cherry-pick can be done by taking the
       // delta relative to that one parent and redoing that on the current merge
       // tip.
@@ -116,6 +117,7 @@ public class CherryPick extends SubmitStrategy {
                 cherryPickCmtMsg,
                 args.rw,
                 0,
+                false,
                 false);
       } catch (MergeConflictException mce) {
         // Keep going in the case of a single merge failure; the goal is to

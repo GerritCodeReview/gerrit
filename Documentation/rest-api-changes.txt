@@ -5318,8 +5318,8 @@ does not specify a Change-Id, a new one is picked for the destination change.
   }
 ----
 
-As response a link:#change-info[ChangeInfo] entity is returned that
-describes the resulting cherry picked change.
+As response a link:#cherry-pick-change-info[CherryPickChangeInfo]
+entity is returned that describes the resulting cherry-pick change.
 
 .Response
 ----
@@ -5921,6 +5921,23 @@ invocations of the REST call are required.
 Which patchset (if any) generated this message.
 |==================================
 
+[[cherry-pick-change-info]]
+=== CherryPickChangeInfo
+The `CherryPickChangeInfo` entity contains information about a
+cherry-pick change.
+
+`CherryPickChangeInfo` has the same fields as link:#change-info[
+ChangeInfo]. In addition `CherryPickChangeInfo` has the following
+fields:
+
+[options="header",cols="1,^1,5"]
+|======================================
+|Field Name               ||Description
+|`contains_git_conflicts` |optional, not set if `false`|
+Whether any file in the change contains Git conflict markers.
+|======================================
+
+
 [[cherrypick-input]]
 === CherryPickInput
 The `CherryPickInput` entity contains information for cherry-picking a change to a new branch.
@@ -5928,7 +5945,7 @@ The `CherryPickInput` entity contains information for cherry-picking a change to
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name         ||Description
-|`message`          ||Commit message for the cherry-picked change
+|`message`          ||Commit message for the cherry-pick change
 |`destination`      ||Destination branch
 |`base`             |optional|
 40-hex digit SHA-1 of the commit which will be the parent commit of the newly created change.
@@ -5944,7 +5961,15 @@ If not set, the default is `NONE`.
 Additional information about whom to notify about the update as a map
 of recipient type to link:#notify-info[NotifyInfo] entity.
 |`keep_reviewers`   |optional, defaults to false|
-If true, carries reviewers and ccs over from original change to newly created one.
+If `true`, carries reviewers and ccs over from original change to newly created one.
+|`allow_conflicts`  |optional, defaults to false|
+If `true`, the cherry-pick uses content merge and succeeds also if
+there are conflicts. If there are conflicts the file contents of the
+created change contain git conflict markers to indicate the conflicts.
+Callers can find out if there were conflicts by checking the
+`contains_git_conflicts` field in the link:#cherry-pick-change-info[
+CherryPickChangeInfo] that is returned by the cherry-pick REST
+endpoints.
 |===========================
 
 [[comment-info]]

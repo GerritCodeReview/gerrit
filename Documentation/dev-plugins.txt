@@ -808,10 +808,12 @@ Plugins can provide additional attributes to be returned in Gerrit queries by
 implementing the ChangeAttributeFactory interface and registering it to the
 ChangeQueryProcessor.ChangeAttributeFactory class in the plugin module's
 'configure()' method. The new attribute(s) will be output under a "plugin"
-attribute in the change query output.
+attribute in the change query output. This can be further controlled with an
+option registered in the Http and Ssh modules' 'configure*()' methods.
 
 The example below shows a plugin that adds two attributes ('exampleName' and
-'changeValue'), to the change query output.
+'changeValue'), to the change query output, when the query command is provided
+the --myplugin-name--all option.
 
 [source, java]
 ----
@@ -824,7 +826,31 @@ public class Module extends AbstractModule {
   }
 }
 
+public class MyQueryOptions implements DynamicBean {
+  @Option(name = "--all", usage = "Include plugin output")
+  public boolean all = false;
+}
+
+public static class HttpModule extends HttpPluginModule {
+  @Override
+  protected void configureServlets() {
+    bind(DynamicBean.class)
+        .annotatedWith(Exports.named(QueryChanges.class))
+        .to(MyQueryOptions.class);
+  }
+}
+
+public static class SshModule extends PluginCommandModule {
+  @Override
+  protected void configureCommands() {
+    bind(DynamicBean.class)
+        .annotatedWith(Exports.named(Query.class))
+        .to(MyQueryOptions.class);
+  }
+}
+
 public class AttributeFactory implements ChangeAttributeFactory {
+  protected MyQueryOptions options;
 
   public class PluginAttribute extends PluginDefinedInfo {
     public String exampleName;
@@ -838,7 +864,13 @@ public class AttributeFactory implements ChangeAttributeFactory {
 
   @Override
   public PluginDefinedInfo create(ChangeData c, ChangeQueryProcessor qp, String plugin) {
-    return new PluginAttribute(c);
+    if (options == null) {
+      options = (MyQueryOptions) qp.getDynamicBean(plugin);
+    }
+    if (options.all) {
+      return new PluginAttribute(c);
+    }
+    return null;
   }
 }
 ----
@@ -846,7 +878,7 @@ public class AttributeFactory implements ChangeAttributeFactory {
 Example
 ----
 
-ssh -p 29418 localhost gerrit query "change:1" --format json
+ssh -p 29418 localhost gerrit query --myplugin-name--all "change:1" --format json
 
 Output:
 

@@ -43,6 +43,18 @@ limitations under the License.
 
 <script>
   suite('gr-change-view tests', () => {
+    const kb = window.Gerrit.KeyboardShortcutBinder;
+    kb.bindShortcut(kb.Shortcut.SEND_REPLY, 'ctrl+enter');
+    kb.bindShortcut(kb.Shortcut.REFRESH_CHANGE, 'shift+r');
+    kb.bindShortcut(kb.Shortcut.OPEN_REPLY_DIALOG, 'a');
+    kb.bindShortcut(kb.Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_DIFF_MODE, 'm');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_CHANGE_STAR, 's');
+    kb.bindShortcut(kb.Shortcut.UP_TO_DASHBOARD, 'u');
+    kb.bindShortcut(kb.Shortcut.EXPAND_ALL_MESSAGES, 'x');
+    kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
+    kb.bindShortcut(kb.Shortcut.OPEN_DIFF_PREFS, ',');
+
     let element;
     let sandbox;
     let navigateToChangeStub;
@@ -277,11 +289,11 @@ limitations under the License.
         flushAsynchronousOperations();
 
         element.viewState.diffMode = 'SIDE_BY_SIDE';
-        element._handleMKey(e);
+        element._handleToggleDiffMode(e);
         assert.isTrue(setModeStub.calledWith('UNIFIED_DIFF'));
 
         element.viewState.diffMode = 'UNIFIED_DIFF';
-        element._handleMKey(e);
+        element._handleToggleDiffMode(e);
         assert.isTrue(setModeStub.calledWith('SIDE_BY_SIDE'));
       });
     });

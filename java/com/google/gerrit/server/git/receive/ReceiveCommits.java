@@ -688,9 +688,7 @@ class ReceiveCommits {
     List<CreateRequest> created =
         newChanges.stream().filter(r -> r.change != null).collect(toList());
     List<ReplaceRequest> updated =
-        replaceByChange
-            .values()
-            .stream()
+        replaceByChange.values().stream()
             .filter(r -> r.inputCommand.getResult() == OK)
             .sorted(comparingInt(r -> r.notes.getChangeId().get()))
             .collect(toList());
@@ -1379,14 +1377,23 @@ class ReceiveCommits {
                 + "OWNER_REVIEWERS, ALL. If not set, the default is ALL.")
     private NotifyHandling notify;
 
-    @Option(name = "--notify-to", metaVar = "USER", usage = "user that should be notified")
-    List<Account.Id> tos = new ArrayList<>();
+    @Option(
+        name = "--notify-to",
+        metaVar = "USER",
+        usage = "user that should be notified one time by email")
+    List<Account.Id> notifyTo = new ArrayList<>();
 
-    @Option(name = "--notify-cc", metaVar = "USER", usage = "user that should be CC'd")
-    List<Account.Id> ccs = new ArrayList<>();
+    @Option(
+        name = "--notify-cc",
+        metaVar = "USER",
+        usage = "user that should be CC'd one time by email")
+    List<Account.Id> notifyCc = new ArrayList<>();
 
-    @Option(name = "--notify-bcc", metaVar = "USER", usage = "user that should be BCC'd")
-    List<Account.Id> bccs = new ArrayList<>();
+    @Option(
+        name = "--notify-bcc",
+        metaVar = "USER",
+        usage = "user that should be BCC'd one time by email")
+    List<Account.Id> notifyBcc = new ArrayList<>();
 
     @Option(
         name = "--reviewer",
@@ -1480,9 +1487,9 @@ class ReceiveCommits {
     ListMultimap<RecipientType, Account.Id> getAccountsToNotify() {
       ListMultimap<RecipientType, Account.Id> accountsToNotify =
           MultimapBuilder.hashKeys().arrayListValues().build();
-      accountsToNotify.putAll(RecipientType.TO, tos);
-      accountsToNotify.putAll(RecipientType.CC, ccs);
-      accountsToNotify.putAll(RecipientType.BCC, bccs);
+      accountsToNotify.putAll(RecipientType.TO, notifyTo);
+      accountsToNotify.putAll(RecipientType.CC, notifyCc);
+      accountsToNotify.putAll(RecipientType.BCC, notifyBcc);
       return accountsToNotify;
     }
 

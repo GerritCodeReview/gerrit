@@ -47,10 +47,11 @@
       /**
        * Query for requesting autocomplete suggestions. The function should
        * accept the input as a string parameter and return a promise. The
-       * promise should yield an array of suggestion objects with "name" and
+       * promise yields an array of suggestion objects with "name", "label",
        * "value" properties. The "name" property will be displayed in the
-       * suggestion entry. The "value" property will be emitted if that
-       * suggestion is selected.
+       * suggestion entry. The "label" property will, when specified, appear
+       * next to the "name" as label text. The "value" property will be emitted
+       * if that suggestion is selected.
        *
        * @type {function(string): Promise<?>}
        */

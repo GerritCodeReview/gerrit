@@ -194,7 +194,7 @@
      *     to _getSearchSuggestions.
      * @param {string} input - The full search term, in lowercase.
      * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
+     *     suggestion objects.
      */
     _fetchSuggestions(input) {
       // Split the input on colon to get a two part predicate/expression.
@@ -226,7 +226,8 @@
 
         default:
           return Promise.resolve(SEARCH_OPERATORS_WITH_NEGATIONS
-              .filter(operator => operator.includes(input)));
+              .filter(operator => operator.includes(input))
+              .map(operator => ({text: operator})));
       }
     },
 
@@ -234,7 +235,7 @@
      * Get the sorted, pruned list of suggestions for the current search query.
      * @param {string} input - The complete search query.
      * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
+     *     suggestions.
      */
     _getSearchSuggestions(input) {
       // Allow spaces within quoted terms.
@@ -242,15 +243,15 @@
       const trimmedInput = tokens[tokens.length - 1].toLowerCase();
 
       return this._fetchSuggestions(trimmedInput)
-          .then(operators => {
-            if (!operators || !operators.length) { return []; }
-            return operators
+          .then(suggestions => {
+            if (!suggestions || !suggestions.length) { return []; }
+            return suggestions
                 // Prioritize results that start with the input.
                 .sort((a, b) => {
-                  const aContains = a.toLowerCase().indexOf(trimmedInput);
-                  const bContains = b.toLowerCase().indexOf(trimmedInput);
+                  const aContains = a.text.toLowerCase().indexOf(trimmedInput);
+                  const bContains = b.text.toLowerCase().indexOf(trimmedInput);
                   if (aContains === bContains) {
-                    return a.localeCompare(b);
+                    return a.text.localeCompare(b.text);
                   }
                   if (aContains === -1) {
                     return 1;
@@ -263,10 +264,11 @@
                 // Return only the first {MAX_AUTOCOMPLETE_RESULTS} results.
                 .slice(0, MAX_AUTOCOMPLETE_RESULTS - 1)
                 // Map to an object to play nice with gr-autocomplete.
-                .map(operator => {
+                .map(({text, label}) => {
                   return {
-                    name: operator,
-                    value: operator,
+                    name: text,
+                    value: text,
+                    label,
                   };
                 });
           });

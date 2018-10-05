@@ -58,6 +58,7 @@
       },
       /** @type {?} */
       _groupConfig: Object,
+      _groupConfigOwner: String,
       _groupName: Object,
       _groupOwner: {
         type: Boolean,
@@ -83,7 +84,7 @@
 
     observers: [
       '_handleConfigName(_groupConfig.name)',
-      '_handleConfigOwner(_groupConfig.owner)',
+      '_handleConfigOwner(_groupConfig.owner, _groupConfigOwner)',
       '_handleConfigDescription(_groupConfig.description)',
       '_handleConfigOptions(_groupConfig.options.visible_to_all)',
     ],
@@ -143,8 +144,12 @@
     },
 
     _handleSaveOwner() {
+      let owner = this._groupConfig.owner;
+      if (this._groupConfigOwner) {
+        owner = decodeURIComponent(this._groupConfigOwner);
+      }
       return this.$.restAPI.saveGroupOwner(this.groupId,
-          this._groupConfig.owner).then(config => {
+          owner).then(config => {
             this._owner = false;
           });
     },
@@ -202,7 +207,7 @@
               if (!response.hasOwnProperty(key)) { continue; }
               groups.push({
                 name: key,
-                value: response[key],
+                value: decodeURIComponent(response[key].id),
               });
             }
             return groups;

@@ -86,6 +86,7 @@ limitations under the License.
       element._groupConfig = {
         name: groupName,
       };
+      element._groupConfigOwner = 'testId';
       element._groupName = groupName;
       element._groupOwner = true;
 
@@ -105,6 +106,8 @@ limitations under the License.
 
         element.$.groupNameInput.text = groupName2;
 
+        element.$.groupOwnerInput.text = 'testId2';
+
         assert.isFalse(button.hasAttribute('disabled'));
         assert.isTrue(element.$.groupName.classList.contains('edited'));
 
@@ -112,6 +115,13 @@ limitations under the License.
           assert.isTrue(button.hasAttribute('disabled'));
           assert.isFalse(element.$.Title.classList.contains('edited'));
           assert.equal(element._groupName, groupName2);
+          done();
+        });
+
+        element._handleSaveOwner().then(() => {
+          assert.isTrue(button.hasAttribute('disabled'));
+          assert.isFalse(element.$.Title.classList.contains('edited'));
+          assert.equal(element._groupConfigOwner, 'testId2');
           done();
         });
       });

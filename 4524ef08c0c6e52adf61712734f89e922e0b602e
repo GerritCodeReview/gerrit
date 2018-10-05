@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "09600242_26592bd2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5948,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-05T16:48:31Z",
+      "side": 1,
+      "message": "Yeah, I wasn\u0027t sure how to name it. \"allow_conflicts\" sounds better to me. Thanks for the suggestion.",
+      "parentUuid": "0dd3cb1f_1049cd46",
+      "range": {
+        "startLine": 5948,
+        "startChar": 2,
+        "endLine": 5948,
+        "endChar": 12
+      },
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a39d5730_fddbe18c",
         "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 2
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "e7397b23_1802e1e9",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-05T16:48:31Z",
+      "side": 1,
+      "message": "This doesn\u0027t work, we must set this before invoking m.merge(...).\nOtherwise the entries in the DirCache are not populated.\nProbably deserves a comment here.",
+      "parentUuid": "a39d5730_fddbe18c",
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a2dc0a10_dde889e4",
         "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 2
@@ -54,6 +96,24 @@
       "writtenOn": "2018-10-05T16:20:13Z",
       "side": 1,
       "message": "Why a 500 instead of a 400 or something?",
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5435f539_1db8b8ea",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-05T16:48:31Z",
+      "side": 1,
+      "message": "Because we expect this to always be a ResolveMerge and if it isn\u0027t one then it\u0027s a bug. It\u0027s not that the user made anything wrong, so it\u0027s not a bad request?",
+      "parentUuid": "a2dc0a10_dde889e4",
       "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

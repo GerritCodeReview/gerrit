@@ -19,13 +19,13 @@ import static com.googlecode.prolog_cafe.lang.PrologMachineCopy.save;
 import com.google.common.base.Joiner;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -91,7 +91,7 @@ public class RulesCache {
   private final Path cacheDir;
   private final Path rulesDir;
   private final GitRepositoryManager gitMgr;
-  private final DynamicSet<PredicateProvider> predicateProviders;
+  private final PluginSetContext<PredicateProvider> predicateProviders;
   private final ClassLoader systemLoader;
   private final PrologMachineCopy defaultMachine;
   private final Cache<ObjectId, PrologMachineCopy> machineCache;
@@ -101,7 +101,7 @@ public class RulesCache {
       @GerritServerConfig Config config,
       SitePaths site,
       GitRepositoryManager gm,
-      DynamicSet<PredicateProvider> predicateProviders,
+      PluginSetContext<PredicateProvider> predicateProviders,
       @Named(CACHE_NAME) Cache<ObjectId, PrologMachineCopy> machineCache) {
     maxDbSize = config.getInt("rules", null, "maxPrologDatabaseSize", 256);
     maxSrcBytes = config.getInt("rules", null, "maxSourceBytes", 128 << 10);
@@ -258,9 +258,8 @@ public class RulesCache {
 
     List<String> packages = new ArrayList<>();
     packages.addAll(PACKAGE_LIST);
-    for (PredicateProvider predicateProvider : predicateProviders) {
-      packages.addAll(predicateProvider.getPackages());
-    }
+    predicateProviders.runEach(
+        predicateProvider -> packages.addAll(predicateProvider.getPackages()));
 
     // Bootstrap the interpreter and ensure there is clean state.
     ctl.initialize(packages.toArray(new String[packages.size()]));

@@ -36,10 +36,6 @@ import com.google.gerrit.extensions.common.UserConfigInfo;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
-import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.EnableSignedPush;
@@ -61,6 +57,9 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginItemContext;
+import com.google.gerrit.server.plugincontext.PluginMapContext;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.restapi.change.AllowedFormats;
 import com.google.gerrit.server.submit.MergeSuperSet;
@@ -84,15 +83,15 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final AccountVisibilityProvider accountVisibilityProvider;
   private final AuthConfig authConfig;
   private final Realm realm;
-  private final DynamicMap<DownloadScheme> downloadSchemes;
-  private final DynamicMap<DownloadCommand> downloadCommands;
-  private final DynamicMap<CloneCommand> cloneCommands;
-  private final DynamicSet<WebUiPlugin> plugins;
+  private final PluginMapContext<DownloadScheme> downloadSchemes;
+  private final PluginMapContext<DownloadCommand> downloadCommands;
+  private final PluginMapContext<CloneCommand> cloneCommands;
+  private final PluginSetContext<WebUiPlugin> plugins;
   private final AllowedFormats archiveFormats;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final String anonymousCowardName;
-  private final DynamicItem<AvatarProvider> avatar;
+  private final PluginItemContext<AvatarProvider> avatar;
   private final boolean enableSignedPush;
   private final QueryDocumentationExecutor docSearcher;
   private final NotesMigration migration;
@@ -108,15 +107,15 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       AccountVisibilityProvider accountVisibilityProvider,
       AuthConfig authConfig,
       Realm realm,
-      DynamicMap<DownloadScheme> downloadSchemes,
-      DynamicMap<DownloadCommand> downloadCommands,
-      DynamicMap<CloneCommand> cloneCommands,
-      DynamicSet<WebUiPlugin> webUiPlugins,
+      PluginMapContext<DownloadScheme> downloadSchemes,
+      PluginMapContext<DownloadCommand> downloadCommands,
+      PluginMapContext<CloneCommand> cloneCommands,
+      PluginSetContext<WebUiPlugin> webUiPlugins,
       AllowedFormats archiveFormats,
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
       @AnonymousCowardName String anonymousCowardName,
-      DynamicItem<AvatarProvider> avatar,
+      PluginItemContext<AvatarProvider> avatar,
       @EnableSignedPush boolean enableSignedPush,
       QueryDocumentationExecutor docSearcher,
       NotesMigration migration,
@@ -253,12 +252,13 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private DownloadInfo getDownloadInfo() {
     DownloadInfo info = new DownloadInfo();
     info.schemes = new HashMap<>();
-    for (Extension<DownloadScheme> e : downloadSchemes) {
-      DownloadScheme scheme = e.getProvider().get();
-      if (scheme.isEnabled() && scheme.getUrl("${project}") != null) {
-        info.schemes.put(e.getExportName(), getDownloadSchemeInfo(scheme));
-      }
-    }
+    downloadSchemes.runEach(
+        extension -> {
+          DownloadScheme scheme = extension.get();
+          if (scheme.isEnabled() && scheme.getUrl("${project}") != null) {
+            info.schemes.put(extension.getExportName(), getDownloadSchemeInfo(scheme));
+          }
+        });
     info.archives =
         archiveFormats.getAllowed().stream().map(ArchiveFormat::getShortName).collect(toList());
     return info;
@@ -271,25 +271,29 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.isAuthSupported = toBoolean(scheme.isAuthSupported());
 
     info.commands = new HashMap<>();
-    for (Extension<DownloadCommand> e : downloadCommands) {
-      String commandName = e.getExportName();
-      DownloadCommand command = e.getProvider().get();
-      String c = command.getCommand(scheme, "${project}", "${ref}");
-      if (c != null) {
-        info.commands.put(commandName, c);
-      }
-    }
+    downloadCommands.runEach(
+        extension -> {
+          String commandName = extension.getExportName();
+          DownloadCommand command = extension.get();
+          String c = command.getCommand(scheme, "${project}", "${ref}");
+          if (c != null) {
+            info.commands.put(commandName, c);
+          }
+        });
 
     info.cloneCommands = new HashMap<>();
-    for (Extension<CloneCommand> e : cloneCommands) {
-      String commandName = e.getExportName();
-      CloneCommand command = e.getProvider().get();
-      String c = command.getCommand(scheme, "${project-path}/${project-base-name}");
-      if (c != null) {
-        c = c.replaceAll("\\$\\{project-path\\}/\\$\\{project-base-name\\}", "\\$\\{project\\}");
-        info.cloneCommands.put(commandName, c);
-      }
-    }
+    cloneCommands.runEach(
+        extension -> {
+          String commandName = extension.getExportName();
+          CloneCommand command = extension.getProvider().get();
+          String c = command.getCommand(scheme, "${project-path}/${project-base-name}");
+          if (c != null) {
+            c =
+                c.replaceAll(
+                    "\\$\\{project-path\\}/\\$\\{project-base-name\\}", "\\$\\{project\\}");
+            info.cloneCommands.put(commandName, c);
+          }
+        });
 
     return info;
   }
@@ -326,18 +330,20 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   private PluginConfigInfo getPluginInfo() {
     PluginConfigInfo info = new PluginConfigInfo();
-    info.hasAvatars = toBoolean(avatar.get() != null);
+    info.hasAvatars = toBoolean(avatar.hasImplementation());
     info.jsResourcePaths = new ArrayList<>();
     info.htmlResourcePaths = new ArrayList<>();
-    for (WebUiPlugin u : plugins) {
-      String path =
-          String.format("plugins/%s/%s", u.getPluginName(), u.getJavaScriptResourcePath());
-      if (path.endsWith(".html")) {
-        info.htmlResourcePaths.add(path);
-      } else {
-        info.jsResourcePaths.add(path);
-      }
-    }
+    plugins.runEach(
+        plugin -> {
+          String path =
+              String.format(
+                  "plugins/%s/%s", plugin.getPluginName(), plugin.getJavaScriptResourcePath());
+          if (path.endsWith(".html")) {
+            info.htmlResourcePaths.add(path);
+          } else {
+            info.jsResourcePaths.add(path);
+          }
+        });
     return info;
   }
 

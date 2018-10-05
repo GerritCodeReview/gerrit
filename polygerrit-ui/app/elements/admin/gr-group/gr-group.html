@@ -78,6 +78,7 @@ limitations under the License.
               <span class="value">
                 <gr-autocomplete
                     text="{{_groupConfig.owner}}"
+                    value="{{_groupConfigOwner}}"
                     query="[[_query]]"
                     disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 </gr-autocomplete>

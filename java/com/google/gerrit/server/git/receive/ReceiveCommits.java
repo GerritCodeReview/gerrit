@@ -47,14 +47,12 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.flogger.FluentLogger;
@@ -119,7 +117,6 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -231,7 +228,6 @@ class ReceiveCommits {
         IdentifiedUser user,
         ReceivePack receivePack,
         AllRefsWatcher allRefsWatcher,
-        SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers,
         MessageSender messageSender);
   }
 
@@ -322,7 +318,6 @@ class ReceiveCommits {
 
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
-  private final ImmutableSetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
   private final ProjectState projectState;
   private final IdentifiedUser user;
   private final ReceivePack receivePack;
@@ -398,7 +393,6 @@ class ReceiveCommits {
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
       @Assisted AllRefsWatcher allRefsWatcher,
-      @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers,
       @Nullable @Assisted MessageSender messageSender)
       throws IOException {
     // Injected fields.
@@ -438,7 +432,6 @@ class ReceiveCommits {
 
     // Assisted injected fields.
     this.allRefsWatcher = allRefsWatcher;
-    this.extraReviewers = ImmutableSetMultimap.copyOf(extraReviewers);
     this.projectState = projectState;
     this.user = user;
     this.receivePack = rp;
@@ -1582,8 +1575,6 @@ class ReceiveCommits {
   private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException {
     logger.atFine().log("Found magic branch %s", cmd.getRefName());
     MagicBranchInput magicBranch = new MagicBranchInput(user, cmd, labelTypes, notesMigration);
-    magicBranch.reviewer.addAll(extraReviewers.get(ReviewerStateInternal.REVIEWER));
-    magicBranch.cc.addAll(extraReviewers.get(ReviewerStateInternal.CC));
 
     String ref;
     magicBranch.cmdLineParser = optionParserFactory.create(magicBranch);

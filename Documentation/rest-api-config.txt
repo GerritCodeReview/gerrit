@@ -227,16 +227,23 @@ contains information about how the updated config entries were handled.
 
   )]}'
   {
-    "rejected": [],
     "applied": [
       {
         "config_key": "addreviewer.maxAllowed",
         "old_value": "20",
         "new_value": "15"
       }
+    ],
+    "rejected": [
+      {
+        "config_key": "receive.allowProjectOwnersToChangeParent",
+        "old_value": "false",
+        "new_value": "notavalidbooleanorbooleanalternative"
+      }
     ]
   }
 ----
+Returns a list of updates only if changes exist: rejected, applied, or both.
 
 
 [[confirm-email]]
@@ -1672,14 +1679,16 @@ The entity describes the result of a reload of gerrit.config.
 If a changed config value is missing from the `applied` and the `rejected`
 lists there are no guarantees to whether they have or have not taken effect.
 
-[options="header",cols="1,6"]
+[options="header",cols="1,^1,5"]
 |======================
-|Field Name|Description
-|`applied` |A list of link:#config-update-entry-info[ConfigUpdateEntryInfos]
+|Field Name                 ||Description
+|`applied`                  |optional, not set if empty|
+A list of link:#config-update-entry-info[ConfigUpdateEntryInfos]
 describing the applied configuration changes. +
 Every config value change representation present in this list is guaranteed to
 have taken effect.
-|`rejected` |A list of link:#config-update-entry-info[ConfigUpdateEntryInfos]
+|`rejected`                 |optional, not set if empty|
+A list of link:#config-update-entry-info[ConfigUpdateEntryInfos]
 describing the rejected configuration changes.  +
 Every config value change representation present in this list is guaranteed not
 to have taken effect.

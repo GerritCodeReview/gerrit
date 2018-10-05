@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1538750587 +0200\nnonce AP50N7biySG9tZG/kZDsdKB8yRls9V1BVX4M0EOT2y7zgwSc/0AEXRK6wgMn8nLqW9xT/KqBce4z\n\n0000000000000000000000000000000000000000 4524ef08c0c6e52adf61712734f89e922e0b602e refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlu3eHsACgkQUbX9l6DQ\n71H1SQgAqaZ2/9da0KYtpJG2J7hkdrNIDqX05lz3ECQFWZpMNWk75m+1x40aAcLO\nNmMhgNG3z3WOT4ICiiwxAdVTRG3hb10aGvG2KYQWLLNLK55fV3x0rKf2YvttwIFT\nUsn35APLntsks5PV5ciAE7ghSfPC1pEClPmnE70J2kxdFA2sME/iioI/qb9yZuRE\n1YTzXefk7kSZh/Rxegzk7sEX4+1ue3ABbzaUdtb9lpoVM3mxC0NXDIWWETwSdbx0\ndLe5lQzGNPRvRoChaDrC+jg96giOcQLP8xiMeHL4MysqocYtz3rbSWBxTRoC9OTd\nufRbzl8r37a8XV7JpyMSkRv6LCTQvQ\u003d\u003d\n\u003dz0g5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dd3cb1f_1049cd46",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5948,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-05T16:20:13Z",
+      "side": 1,
+      "message": "Not sure this is the right name for the option; cherry-pick by definition always auto-merges the contents of the two trees. Maybe something like \"allow_conflicts\"?\n\n(I understand that it\u0027s reusing code from AutoMerger, but that feels like an implementation detail. I think the name \"AutoMerger\" is about creating \"automatic merge commits\", not about automatically merging file contents. TBH the code to coalesce conflicted merge results into a single stage-0 tree probably belongs in a differently-named class, but that cleanup is pretty low priority to me.)",
+      "range": {
+        "startLine": 5948,
+        "startChar": 2,
+        "endLine": 5948,
+        "endChar": 12
+      },
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a39d5730_fddbe18c",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-05T16:20:13Z",
+      "side": 1,
+      "message": "Move this down after the checkState(m instanceof ResolveMerger)?",
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2dc0a10_dde889e4",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-05T16:20:13Z",
+      "side": 1,
+      "message": "Why a 500 instead of a 400 or something?",
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

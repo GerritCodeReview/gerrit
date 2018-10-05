@@ -217,7 +217,8 @@ public class CherryPickChange {
                     commitMessage,
                     revWalk,
                     input.parent - 1,
-                    false);
+                    false,
+                    input.autoMerge);
 
         Change.Key changeKey;
         final List<String> idList = cherryPickCommit.getFooterLines(FooterConstants.CHANGE_ID);

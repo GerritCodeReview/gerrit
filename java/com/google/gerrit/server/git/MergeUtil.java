@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -45,6 +46,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.server.submit.CommitMergeStatus;
@@ -66,6 +68,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -232,29 +235,52 @@ public class MergeUtil {
       String commitMsg,
       CodeReviewRevWalk rw,
       int parentIndex,
-      boolean ignoreIdenticalTree)
+      boolean ignoreIdenticalTree,
+      boolean autoMerge)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
           MergeIdenticalTreeException, MergeConflictException {
 
-    final ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
-
+    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     m.setBase(originalCommit.getParent(parentIndex));
+
+    DirCache dc = DirCache.newInCore();
+    if (autoMerge && m instanceof ResolveMerger) {
+      ((ResolveMerger) m).setDirCache(dc);
+    }
+
+    ObjectId tree;
     if (m.merge(mergeTip, originalCommit)) {
-      ObjectId tree = m.getResultTreeId();
+      tree = m.getResultTreeId();
       if (tree.equals(mergeTip.getTree()) && !ignoreIdenticalTree) {
         throw new MergeIdenticalTreeException("identical tree");
       }
+    } else {
+      if (!autoMerge) {
+        throw new MergeConflictException("merge conflict");
+      }
 
-      CommitBuilder mergeCommit = new CommitBuilder();
-      mergeCommit.setTreeId(tree);
-      mergeCommit.setParentId(mergeTip);
-      mergeCommit.setAuthor(originalCommit.getAuthorIdent());
-      mergeCommit.setCommitter(cherryPickCommitterIdent);
-      mergeCommit.setMessage(commitMsg);
-      matchAuthorToCommitterDate(project, mergeCommit);
-      return rw.parseCommit(inserter.insert(mergeCommit));
+      // For auto merge we need a ResolveMerger, double-check that we have one.
+      checkState(m instanceof ResolveMerger, "auto merge is not supported");
+      tree =
+          AutoMerger.autoMerge(
+              rw,
+              inserter,
+              dc,
+              "HEAD",
+              mergeTip,
+              "CHANGE",
+              originalCommit,
+              ((ResolveMerger) m).getMergeResults());
     }
-    throw new MergeConflictException("merge conflict");
+
+    CommitBuilder cherryPickCommit = new CommitBuilder();
+    cherryPickCommit.setTreeId(tree);
+    cherryPickCommit.setParentId(mergeTip);
+    cherryPickCommit.setAuthor(originalCommit.getAuthorIdent());
+    cherryPickCommit.setCommitter(cherryPickCommitterIdent);
+    cherryPickCommit.setMessage(commitMsg);
+    matchAuthorToCommitterDate(project, cherryPickCommit);
+    return rw.parseCommit(inserter.insert(cherryPickCommit));
   }
 
   public static RevCommit createMergeCommit(

@@ -127,87 +127,109 @@ public class AutoMerger {
     ObjectId treeId;
     if (couldMerge) {
       treeId = m.getResultTreeId();
-
     } else {
-      RevCommit ours = merge.getParent(0);
-      RevCommit theirs = merge.getParent(1);
-      rw.parseBody(ours);
-      rw.parseBody(theirs);
-      String oursMsg = ours.getShortMessage();
-      String theirsMsg = theirs.getShortMessage();
-
-      String oursName =
-          String.format(
-              "HEAD   (%s %s)",
-              ours.abbreviate(6).name(), oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
-      String theirsName =
-          String.format(
-              "BRANCH (%s %s)",
-              theirs.abbreviate(6).name(),
-              theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
-
-      MergeFormatter fmt = new MergeFormatter();
-      Map<String, MergeResult<? extends Sequence>> r = m.getMergeResults();
-      Map<String, ObjectId> resolved = new HashMap<>();
-      for (Map.Entry<String, MergeResult<? extends Sequence>> entry : r.entrySet()) {
-        MergeResult<? extends Sequence> p = entry.getValue();
-        try (TemporaryBuffer buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
-          fmt.formatMerge(buf, p, "BASE", oursName, theirsName, UTF_8.name());
-          buf.close();
-
-          try (InputStream in = buf.openInputStream()) {
-            resolved.put(entry.getKey(), ins.insert(Constants.OBJ_BLOB, buf.length(), in));
-          }
-        }
-      }
-
-      DirCacheBuilder builder = dc.builder();
-      int cnt = dc.getEntryCount();
-      for (int i = 0; i < cnt; ) {
-        DirCacheEntry entry = dc.getEntry(i);
-        if (entry.getStage() == 0) {
-          builder.add(entry);
-          i++;
-          continue;
-        }
-
-        int next = dc.nextEntry(i);
-        String path = entry.getPathString();
-        DirCacheEntry res = new DirCacheEntry(path);
-        if (resolved.containsKey(path)) {
-          // For a file with content merge conflict that we produced a result
-          // above on, collapse the file down to a single stage 0 with just
-          // the blob content, and a randomly selected mode (the lowest stage,
-          // which should be the merge base, or ours).
-          res.setFileMode(entry.getFileMode());
-          res.setObjectId(resolved.get(path));
-
-        } else if (next == i + 1) {
-          // If there is exactly one stage present, shouldn't be a conflict...
-          res.setFileMode(entry.getFileMode());
-          res.setObjectId(entry.getObjectId());
-
-        } else if (next == i + 2) {
-          // Two stages suggests a delete/modify conflict. Pick the higher
-          // stage as the automatic result.
-          entry = dc.getEntry(i + 1);
-          res.setFileMode(entry.getFileMode());
-          res.setObjectId(entry.getObjectId());
-
-        } else {
-          // 3 stage conflict, no resolve above
-          // Punt on the 3-stage conflict and show the base, for now.
-          res.setFileMode(entry.getFileMode());
-          res.setObjectId(entry.getObjectId());
-        }
-        builder.add(res);
-        i = next;
-      }
-      builder.finish();
-      treeId = dc.writeTree(ins);
+      treeId =
+          autoMerge(
+              rw,
+              ins,
+              dc,
+              "HEAD",
+              merge.getParent(0),
+              "BRANCH",
+              merge.getParent(1),
+              m.getMergeResults());
     }
 
     return commit(repo, rw, tmpIns, ins, refName, treeId, merge);
+  }
+
+  public static ObjectId autoMerge(
+      RevWalk rw,
+      ObjectInserter ins,
+      DirCache dc,
+      String oursName,
+      RevCommit ours,
+      String theirsName,
+      RevCommit theirs,
+      Map<String, MergeResult<? extends Sequence>> mergeResults)
+      throws IOException {
+    rw.parseBody(ours);
+    rw.parseBody(theirs);
+    String oursMsg = ours.getShortMessage();
+    String theirsMsg = theirs.getShortMessage();
+
+    int nameLength = Math.max(oursName.length(), theirsName.length());
+    String oursNameFormatted =
+        String.format(
+            "%0$-" + nameLength + "s (%s %s)",
+            oursName,
+            ours.abbreviate(6).name(),
+            oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
+    String theirsNameFormatted =
+        String.format(
+            "%0$-" + nameLength + "s (%s %s)",
+            theirsName,
+            theirs.abbreviate(6).name(),
+            theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
+
+    MergeFormatter fmt = new MergeFormatter();
+    Map<String, ObjectId> resolved = new HashMap<>();
+    for (Map.Entry<String, MergeResult<? extends Sequence>> entry : mergeResults.entrySet()) {
+      MergeResult<? extends Sequence> p = entry.getValue();
+      try (TemporaryBuffer buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
+        fmt.formatMerge(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8.name());
+        buf.close();
+
+        try (InputStream in = buf.openInputStream()) {
+          resolved.put(entry.getKey(), ins.insert(Constants.OBJ_BLOB, buf.length(), in));
+        }
+      }
+    }
+
+    DirCacheBuilder builder = dc.builder();
+    int cnt = dc.getEntryCount();
+    for (int i = 0; i < cnt; ) {
+      DirCacheEntry entry = dc.getEntry(i);
+      if (entry.getStage() == 0) {
+        builder.add(entry);
+        i++;
+        continue;
+      }
+
+      int next = dc.nextEntry(i);
+      String path = entry.getPathString();
+      DirCacheEntry res = new DirCacheEntry(path);
+      if (resolved.containsKey(path)) {
+        // For a file with content merge conflict that we produced a result
+        // above on, collapse the file down to a single stage 0 with just
+        // the blob content, and a randomly selected mode (the lowest stage,
+        // which should be the merge base, or ours).
+        res.setFileMode(entry.getFileMode());
+        res.setObjectId(resolved.get(path));
+
+      } else if (next == i + 1) {
+        // If there is exactly one stage present, shouldn't be a conflict...
+        res.setFileMode(entry.getFileMode());
+        res.setObjectId(entry.getObjectId());
+
+      } else if (next == i + 2) {
+        // Two stages suggests a delete/modify conflict. Pick the higher
+        // stage as the automatic result.
+        entry = dc.getEntry(i + 1);
+        res.setFileMode(entry.getFileMode());
+        res.setObjectId(entry.getObjectId());
+
+      } else {
+        // 3 stage conflict, no resolve above
+        // Punt on the 3-stage conflict and show the base, for now.
+        res.setFileMode(entry.getFileMode());
+        res.setObjectId(entry.getObjectId());
+      }
+      builder.add(res);
+      i = next;
+    }
+    builder.finish();
+    return dc.writeTree(ins);
   }
 
   private RevCommit commit(

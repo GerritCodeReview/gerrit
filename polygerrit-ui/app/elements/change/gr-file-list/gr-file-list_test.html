@@ -49,6 +49,24 @@ limitations under the License.
 
 <script>
   suite('gr-file-list tests', () => {
+    const kb = window.Gerrit.KeyboardShortcutBinder;
+    kb.bindShortcut(kb.Shortcut.LEFT_PANE, 'shift+left');
+    kb.bindShortcut(kb.Shortcut.RIGHT_PANE, 'shift+right');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
+    kb.bindShortcut(kb.Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
+    kb.bindShortcut(kb.Shortcut.CURSOR_PREV_FILE, 'k', 'up');
+    kb.bindShortcut(kb.Shortcut.NEXT_LINE, 'j', 'down');
+    kb.bindShortcut(kb.Shortcut.PREV_LINE, 'k', 'up');
+    kb.bindShortcut(kb.Shortcut.NEW_COMMENT, 'c');
+    kb.bindShortcut(kb.Shortcut.OPEN_LAST_FILE, '[');
+    kb.bindShortcut(kb.Shortcut.OPEN_FIRST_FILE, ']');
+    kb.bindShortcut(kb.Shortcut.OPEN_FILE, 'o');
+    kb.bindShortcut(kb.Shortcut.NEXT_CHUNK, 'n');
+    kb.bindShortcut(kb.Shortcut.PREV_CHUNK, 'p');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_FILE_REVIEWED, 'r');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
+
     let element;
     let commentApiWrapper;
     let sandbox;
@@ -668,7 +686,7 @@ limitations under the License.
         assert.equal(getNumReviewed(), 0);
       });
 
-      suite('_handleOKey', () => {
+      suite('_handleOpenFile', () => {
         let interact;
 
         setup(() => {
@@ -686,7 +704,7 @@ limitations under the License.
 
             const e = new CustomEvent('fake-keyboard-event', opt_payload);
             sinon.stub(e, 'preventDefault');
-            element._handleOKey(e);
+            element._handleOpenFile(e);
             assert.isTrue(e.preventDefault.called);
             const result = {};
             if (openCursorStub.called) {
@@ -1545,7 +1563,7 @@ limitations under the License.
 
       setup(() => {
         sandbox.stub(element, '_renderInOrder').returns(Promise.resolve());
-        nKeySpy = sandbox.spy(element, '_handleNKey');
+        nKeySpy = sandbox.spy(element, '_handleNextChunk');
         nextCommentStub = sandbox.stub(element.$.diffCursor,
             'moveToNextCommentThread');
         nextChunkStub = sandbox.stub(element.$.diffCursor,
@@ -1632,11 +1650,11 @@ limitations under the License.
       const mockEvent = {preventDefault() {}};
 
       element._displayLine = false;
-      element._handleDownKey(mockEvent);
+      element._handleCursorNext(mockEvent);
       assert.isTrue(element._displayLine);
 
       element._displayLine = false;
-      element._handleUpKey(mockEvent);
+      element._handleCursorPrev(mockEvent);
       assert.isTrue(element._displayLine);
 
       element._displayLine = true;

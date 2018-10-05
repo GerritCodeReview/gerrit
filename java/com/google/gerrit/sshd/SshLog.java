@@ -33,8 +33,7 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -318,10 +317,10 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   }
 
   @Override
-  public List<ConfigUpdatedEvent.Update> configUpdated(ConfigUpdatedEvent event) {
+  public Optional<ConfigUpdatedEvent.Update> configUpdated(ConfigUpdatedEvent event) {
     ConfigKey sshdRequestLog = ConfigKey.create("sshd", "requestLog");
     if (!event.isValueUpdated(sshdRequestLog)) {
-      return Collections.emptyList();
+      return Optional.empty();
     }
     boolean stateUpdated;
     try {
@@ -332,11 +331,9 @@ class SshLog implements LifecycleListener, GerritConfigListener {
       } else {
         stateUpdated = disableLogging();
       }
-      return stateUpdated
-          ? Collections.singletonList(event.accept(sshdRequestLog))
-          : Collections.emptyList();
+      return stateUpdated ? Optional.of(event.accept(sshdRequestLog)) : Optional.empty();
     } catch (IllegalArgumentException iae) {
-      return Collections.singletonList(event.reject(sshdRequestLog));
+      return Optional.of(event.reject(sshdRequestLog));
     }
   }
 }

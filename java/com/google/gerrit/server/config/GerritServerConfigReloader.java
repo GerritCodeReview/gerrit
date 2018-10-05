@@ -18,8 +18,9 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /** Issues a configuration reload from the GerritServerConfigProvider and notify all listeners. */
 @Singleton
@@ -40,18 +41,35 @@ public class GerritServerConfigReloader {
    * Reloads the Gerrit Server Configuration from disk. Synchronized to ensure that one issued
    * reload is fully completed before a new one starts.
    */
-  public List<ConfigUpdatedEvent.Update> reloadConfig() {
+  public Map<ConfigUpdatedEvent.UpdateResult, Set<ConfigUpdatedEvent.ConfigUpdateEntry>>
+      reloadConfig() {
     logger.atInfo().log("Starting server configuration reload");
-    List<ConfigUpdatedEvent.Update> updates = fireUpdatedConfigEvent(configProvider.updateConfig());
+    Map<ConfigUpdatedEvent.UpdateResult, Set<ConfigUpdatedEvent.ConfigUpdateEntry>> updates =
+        fireUpdatedConfigEvent(configProvider.updateConfig());
     logger.atInfo().log("Server configuration reload completed succesfully");
     return updates;
   }
 
-  public List<ConfigUpdatedEvent.Update> fireUpdatedConfigEvent(ConfigUpdatedEvent event) {
-    ArrayList<ConfigUpdatedEvent.Update> result = new ArrayList<>();
+  public Map<ConfigUpdatedEvent.UpdateResult, Set<ConfigUpdatedEvent.ConfigUpdateEntry>>
+      fireUpdatedConfigEvent(ConfigUpdatedEvent event) {
+    Map<ConfigUpdatedEvent.UpdateResult, Set<ConfigUpdatedEvent.ConfigUpdateEntry>> updates =
+        new HashMap<>();
     for (GerritConfigListener configListener : configListeners) {
-      result.addAll(configListener.configUpdated(event));
+      configListener
+          .configUpdated(event)
+          .ifPresent(
+              value ->
+                  value
+                      .getUpdates()
+                      .forEach(
+                          (k, v) -> {
+                            if (updates.containsKey(k)) {
+                              updates.get(k).addAll(v);
+                            } else {
+                              updates.put(k, v);
+                            }
+                          }));
     }
-    return result;
+    return updates;
   }
 }

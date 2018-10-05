@@ -1406,13 +1406,13 @@ class ReceiveCommits {
     @Option(
         name = "--reviewer",
         aliases = {"-r"},
-        metaVar = "EMAIL",
+        metaVar = "USER",
         usage = "add reviewer to changes")
     void reviewer(Account.Id id) {
       reviewer.add(id);
     }
 
-    @Option(name = "--cc", metaVar = "EMAIL", usage = "notify user by CC")
+    @Option(name = "--cc", metaVar = "USER", usage = "add user as CC to changes")
     void cc(Account.Id id) {
       cc.add(id);
     }

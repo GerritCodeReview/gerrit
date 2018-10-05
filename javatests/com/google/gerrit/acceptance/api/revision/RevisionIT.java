@@ -59,6 +59,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CherryPickChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -368,7 +369,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cherryPickwithNoTopic() throws Exception {
+  public void cherryPickWithNoTopic() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
@@ -492,6 +493,112 @@ public class RevisionIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Cherry pick failed: merge conflict");
     orig.revision(r.getCommit().name()).cherryPick(in);
+  }
+
+  @Test
+  public void cherryPickConflictWithAllowConflicts() throws Exception {
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+
+    // Create a branch and push a commit to it (by-passing review)
+    String destBranch = "foo";
+    gApi.projects().name(project.get()).branch(destBranch).create(new BranchInput());
+    String destContent = "some content";
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            PushOneCommit.FILE_NAME,
+            destContent);
+    push.to("refs/heads/" + destBranch);
+
+    // Create a change on master with a commit that conflicts with the commit on the other branch.
+    testRepo.reset(initial);
+    String changeContent = "another content";
+    push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            PushOneCommit.FILE_NAME,
+            changeContent);
+    PushOneCommit.Result r = push.to("refs/for/master%topic=someTopic");
+
+    // Verify before the cherry-pick that the change has exactly 1 message.
+    ChangeApi changeApi = gApi.changes().id(r.getChange().getId().get());
+    assertThat(changeApi.get().messages).hasSize(1);
+
+    // Cherry-pick the change to the other branch, that should fail with a conflict.
+    CherryPickInput in = new CherryPickInput();
+    in.destination = destBranch;
+    in.message = "Cherry-Pick";
+    try {
+      changeApi.revision(r.getCommit().name()).cherryPickAsInfo(in);
+      fail("expected ResourceConflictException");
+    } catch (ResourceConflictException e) {
+      assertThat(e.getMessage()).isEqualTo("Cherry pick failed: merge conflict");
+    }
+
+    // Cherry-pick with auto merge should succeed.
+    in.allowConflicts = true;
+    CherryPickChangeInfo cherryPickChange =
+        changeApi.revision(r.getCommit().name()).cherryPickAsInfo(in);
+    assertThat(cherryPickChange.containsGitConflicts).isTrue();
+
+    // Verify that subject and topic on the cherry-pick change have been correctly populated.
+    assertThat(cherryPickChange.subject).contains(in.message);
+    assertThat(cherryPickChange.topic).isEqualTo("someTopic-" + destBranch);
+
+    // Verify that the file content in the cherry-pick change is correct.
+    // We expect that it has conflict markers to indicate the conflict.
+    BinaryResult bin =
+        gApi.changes()
+            .id(cherryPickChange._number)
+            .current()
+            .file(PushOneCommit.FILE_NAME)
+            .content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String fileContent = new String(os.toByteArray(), UTF_8);
+    String destSha1 = getRemoteHead(project, destBranch).abbreviate(6).name();
+    String changeSha1 = r.getCommit().abbreviate(6).name();
+    assertThat(fileContent)
+        .isEqualTo(
+            "<<<<<<< HEAD   ("
+                + destSha1
+                + " test commit)\n"
+                + destContent
+                + "\n"
+                + "=======\n"
+                + changeContent
+                + "\n"
+                + ">>>>>>> CHANGE ("
+                + changeSha1
+                + " test commit)\n");
+
+    // Get details of cherry-pick change.
+    ChangeInfo cherryPickChangeWithDetails = gApi.changes().id(cherryPickChange._number).get();
+
+    // Verify that a message has been posted on the original change.
+    String cherryPickedRevision = cherryPickChangeWithDetails.currentRevision;
+    changeApi = gApi.changes().id(r.getChange().getId().get());
+    Collection<ChangeMessageInfo> messages = changeApi.get().messages;
+    assertThat(messages).hasSize(2);
+    Iterator<ChangeMessageInfo> origIt = messages.iterator();
+    origIt.next();
+    assertThat(origIt.next().message)
+        .isEqualTo(
+            String.format(
+                "Patch Set 1: Cherry Picked\n\n"
+                    + "This patchset was cherry picked to branch %s as commit %s",
+                in.destination, cherryPickedRevision));
+
+    // Verify that a message has been posted on the cherry-pick change.
+    assertThat(cherryPickChangeWithDetails.messages).hasSize(1);
+    Iterator<ChangeMessageInfo> cherryIt = cherryPickChangeWithDetails.messages.iterator();
+    assertThat(cherryIt.next().message).isEqualTo("Patch Set 1: Cherry Picked from branch master.");
   }
 
   @Test

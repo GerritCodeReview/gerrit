@@ -28,6 +28,8 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DynamicOptions;
+import com.google.gerrit.server.DynamicOptions.DynamicBean;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
@@ -39,7 +41,9 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -49,7 +53,7 @@ import java.util.Set;
  * holding on to a single instance.
  */
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
-    implements PluginDefinedAttributesFactory {
+    implements DynamicOptions.BeanReceiver, PluginDefinedAttributesFactory {
   /**
    * Register a ChangeAttributeFactory in a config Module like this:
    *
@@ -57,7 +61,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
    * .to(YourClass.class);
    */
   public interface ChangeAttributeFactory {
-    PluginDefinedInfo create(ChangeData a, ChangeQueryProcessor qp, String plugin);
+    PluginDefinedInfo create(com.google.gerrit.server.query.change.ChangeData a, ChangeQueryProcessor qp, String plugin);
   }
 
   private final Provider<ReviewDb> db;
@@ -67,6 +71,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Provider<AnonymousUser> anonymousUserProvider;
+  private final Map<String, DynamicBean> dynamicBeans = new HashMap<String, DynamicBean>();
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -116,6 +121,15 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   protected QueryOptions createOptions(
       IndexConfig indexConfig, int start, int limit, Set<String> requestedFields) {
     return IndexedChangeQuery.createOptions(indexConfig, start, limit, requestedFields);
+  }
+
+  @Override
+  public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
+    dynamicBeans.put(plugin, dynamicBean);
+  }
+
+  public DynamicOptions.DynamicBean getDynamicBean(String plugin) {
+    return dynamicBeans.get(plugin);
   }
 
   @Override

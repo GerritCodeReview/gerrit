@@ -214,11 +214,41 @@
       'esc': '_handleEscKey',
     },
 
+    keyBindingDocs: {
+      diffs: [
+        {binding: [['j'], ['↓']], description: 'Go to next line'},
+        {binding: [['k'], ['↑']], description: 'Go to previous line'},
+        {binding: 'n', description: 'Go to next diff chunk'},
+        {binding: 'p', description: 'Go to previous diff chunk'},
+        {binding: [['Shift', '←']], description: 'Select left pane'},
+        {binding: [['Shift', '→']], description: 'Select right pane'},
+        {binding: [['Shift', 'a']], description: 'Hide/show left diff'},
+        {binding: 'c', description: 'Draft new comment'},
+      ],
+      fileList: [
+        {binding: [['j'], ['↓']], description: 'Select next file'},
+        {binding: [['k'], ['↑']], description: 'Select previous file'},
+        {binding: [['Enter'], ['o']], description: 'Go to selected file'},
+        {binding: 'r', description: 'Toggle review flag on selected file'},
+        {binding: [['Shift', 'i']], description: 'Show/hide all inline diffs'},
+        {binding: 'i', description: 'Show/hide selected inline diff'},
+      ],
+      navigation: [
+        {binding: ']', description: 'Show first file'},
+        {binding: '[', description: 'Show last file'},
+      ],
+    },
+
     listeners: {
       keydown: '_scopedKeydownHandler',
     },
 
+    attached() {
+      this.$.shortcuts.attachProvider(this);
+    },
+
     detached() {
+      this.$.shortcuts.detachProvider(this);
       this._cancelDiffs();
     },
 

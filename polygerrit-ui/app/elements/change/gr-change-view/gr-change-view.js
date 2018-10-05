@@ -275,7 +275,33 @@
       ',': '_handleCommaKey',
     },
 
+    keyBindingDocs: {
+      actions: [
+        {
+          binding: 'a',
+          description:
+            'Open reply dialog to publish comments and add reviewers',
+        },
+        {binding: 'd', description: 'Open download overlay'},
+        {
+          binding: [['Shift', 'r']],
+          description: 'Reload the change at the latest patch',
+        },
+        {binding: 's', description: 'Star (or unstar) change'},
+        {binding: 'x', description: 'Expand all messages'},
+        {binding: 'z', description: 'Collapse all messages'},
+      ],
+      navigation: [
+        {binding: 'u', description: 'Up to dashboard'},
+      ],
+      diffs: [
+        {binding: 'm', description: 'Toggle unified/side-by-side diff'},
+      ],
+    },
+
     attached() {
+      this.$.shortcuts.attachProvider(this);
+
       this._getServerConfig().then(config => {
         this._serverConfig = config;
       });
@@ -303,6 +329,8 @@
     },
 
     detached() {
+      this.$.shortcuts.detachProvider(this);
+
       this.unlisten(window, 'scroll', '_handleScroll');
       this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
 

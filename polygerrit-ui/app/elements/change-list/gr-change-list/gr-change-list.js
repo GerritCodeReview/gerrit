@@ -117,6 +117,19 @@
       's': '_handleSKey',
     },
 
+    keyBindingDocs: {
+      changeList: [
+        {binding: 'j', description: 'Select next change'},
+        {binding: 'k', description: 'Select previous change'},
+        {binding: [['n'], [']']], description: 'Go to next page'},
+        {binding: [['p'], ['[']], description: 'Go to previous page'},
+        {binding: [['Enter'], ['o']], description: 'Show selected change'},
+        {binding: 'r', description: 'Mark/unmark change as reviewed'},
+        {binding: [['Shift', 'r']], description: 'Refresh list of changes'},
+        {binding: 's', description: 'Star/unstar change'},
+      ],
+    },
+
     listeners: {
       keydown: '_scopedKeydownHandler',
     },
@@ -125,6 +138,14 @@
       '_sectionsChanged(sections.*)',
       '_computePreferences(account, preferences)',
     ],
+
+    attached() {
+      this.$.shortcuts.attachProvider(this);
+    },
+
+    detached() {
+      this.$.shortcuts.detachProvider(this);
+    },
 
     /**
      * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard

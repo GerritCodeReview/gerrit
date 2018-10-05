@@ -119,6 +119,23 @@
       'a m o': '_jumpKeyPressed',
     },
 
+    keyBindingDocs: {
+      everywhere: [
+        {binding: '?', description: 'Show this dialog'},
+        {binding: [['g', 'o']], description: 'Go to Opened Changes'},
+        {binding: [['g', 'm']], description: 'Go to Merged Changes'},
+        {binding: [['g', 'a']], description: 'Go to Abandoned Changes'},
+      ],
+    },
+
+    attached() {
+      this.$.directory.attachProvider(this);
+    },
+
+    detached() {
+      this.$.directory.detachProvider(this);
+    },
+
     ready() {
       this._isShadowDom = Polymer.Settings.useShadow;
       this.$.router.start();

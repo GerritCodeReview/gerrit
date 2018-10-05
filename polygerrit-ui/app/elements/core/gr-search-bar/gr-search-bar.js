@@ -114,6 +114,10 @@
       '/': '_handleForwardSlashKey',
     },
 
+    keyBindingDocs: {
+      everywhere: [{binding: '/', description: 'Search'}],
+    },
+
     properties: {
       value: {
         type: String,
@@ -154,6 +158,14 @@
         type: Number,
         value: 1,
       },
+    },
+
+    attached() {
+      this.$.shortcuts.attachProvider(this);
+    },
+
+    detached() {
+      this.$.shortcuts.detachProvider(this);
     },
 
     _valueChanged(value) {

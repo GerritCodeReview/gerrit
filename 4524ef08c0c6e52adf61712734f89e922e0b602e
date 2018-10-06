@@ -140,6 +140,24 @@
       "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df5f0037_7a62ae01",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-06T21:54:57Z",
+      "side": 1,
+      "message": "I was thinking of the useContentMerge \u003d false case, in which case I thought it\u0027s not a ResolveMerger.",
+      "parentUuid": "5435f539_1db8b8ea",
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

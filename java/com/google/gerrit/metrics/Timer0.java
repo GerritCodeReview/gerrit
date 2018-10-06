@@ -31,9 +31,9 @@ import java.util.concurrent.TimeUnit;
  * </pre>
  */
 public abstract class Timer0 implements RegistrationHandle {
-  public static class Context extends TimerContext {
-    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public static class Context extends TimerContext {
     private final Timer0 timer;
 
     Context(Timer0 timer) {
@@ -42,7 +42,6 @@ public abstract class Timer0 implements RegistrationHandle {
 
     @Override
     public void record(long elapsed) {
-      logger.atFinest().log("%s took %dms", timer.name, TimeUnit.NANOSECONDS.toMillis(elapsed));
       timer.record(elapsed, NANOSECONDS);
     }
   }
@@ -68,5 +67,16 @@ public abstract class Timer0 implements RegistrationHandle {
    * @param value value to record
    * @param unit time unit of the value
    */
-  public abstract void record(long value, TimeUnit unit);
+  public final void record(long value, TimeUnit unit) {
+    logger.atFinest().log("%s took %dms", name, unit.toMillis(value));
+    doRecord(value, unit);
+  }
+
+  /**
+   * Record a value in the distribution.
+   *
+   * @param value value to record
+   * @param unit time unit of the value
+   */
+  protected abstract void doRecord(long value, TimeUnit unit);
 }

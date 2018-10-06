@@ -401,7 +401,7 @@ public class DropWizardMetricMaker extends MetricMaker {
     }
 
     @Override
-    public void record(long value, TimeUnit unit) {
+    protected void doRecord(long value, TimeUnit unit) {
       checkArgument(value >= 0, "timer delta must be >= 0");
       metric.update(value, unit);
     }

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.InProcessProtocol.Context;
 import com.google.gerrit.common.data.Capable;
@@ -330,8 +329,7 @@ class InProcessProtocol extends TestProtocol<Context> {
           throw new RuntimeException(String.format("project %s not found", req.project));
         }
 
-        AsyncReceiveCommits arc =
-            factory.create(projectState, identifiedUser, db, null, ImmutableSetMultimap.of());
+        AsyncReceiveCommits arc = factory.create(projectState, identifiedUser, db, null);
         if (arc.canUpload() != Capable.OK) {
           throw new ServiceNotAuthorizedException();
         }

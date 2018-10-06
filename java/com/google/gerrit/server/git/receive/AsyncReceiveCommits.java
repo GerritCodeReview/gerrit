@@ -14,13 +14,11 @@
 
 package com.google.gerrit.server.git.receive;
 
-import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -30,7 +28,6 @@ import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -82,8 +79,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
         ProjectState projectState,
         IdentifiedUser user,
         Repository repository,
-        @Nullable MessageSender messageSender,
-        SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers);
+        @Nullable MessageSender messageSender);
   }
 
   public static class Module extends PrivateModule {
@@ -196,8 +192,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted Repository repo,
-      @Assisted @Nullable MessageSender messageSender,
-      @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
+      @Assisted @Nullable MessageSender messageSender)
       throws PermissionBackendException {
     this.executor = executor;
     this.scopePropagator = scopePropagator;
@@ -242,9 +237,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     advHooks.add(new HackPushNegotiateHook());
     receivePack.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
 
-    receiveCommits =
-        factory.create(
-            projectState, user, receivePack, allRefsWatcher, extraReviewers, messageSender);
+    receiveCommits = factory.create(projectState, user, receivePack, allRefsWatcher, messageSender);
     receiveCommits.init();
   }
 

@@ -88,7 +88,7 @@ final class Receive extends AbstractGitCommand {
       throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
-    AsyncReceiveCommits arc = factory.create(projectState, currentUser, repo, null, reviewers);
+    AsyncReceiveCommits arc = factory.create(projectState, currentUser, repo, null);
 
     try {
       Capable r = arc.canUpload();

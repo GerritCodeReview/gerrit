@@ -74,4 +74,9 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
     return new AndSource<>(
         pred, new AccountIsVisibleToPredicate(accountControlFactory.get()), start);
   }
+
+  @Override
+  protected String formatForLogging(AccountState accountState) {
+    return accountState.getAccount().getId().toString();
+  }
 }

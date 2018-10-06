@@ -155,4 +155,9 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
             anonymousUserProvider),
         start);
   }
+
+  @Override
+  protected String formatForLogging(ChangeData changeData) {
+    return changeData.getId().toString();
+  }
 }

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1538743100 +0200\nnonce AP50N7atZgd9yA2WQrJYMTNmi/ua9BwAo6KqMluaZ7IqlTzXWRKqHbjvTjG4Nw7nMKKFgN8d1W0Y\n\n0000000000000000000000000000000000000000 7bb2a4616d6b40c0636675d9e755531f4166e413 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlu3WzwACgkQUbX9l6DQ\n71GtmwgApoL113v1lEcCfB5bzMOqbuQUtGbf7xHO8Z+D6bG7MBg3MjJW7ZdGmwIa\nyC3AVQo13sZumrgFNit+V6fA+Cbfv6tQIsWFc7fhV7aysawAh24Iv2NPmkRUUi9j\nfaXyT4w696+wffT+oGz75fbbbUOSiNum8aa/jtZfTZm23QrwGSy9A0f4khx+S0GU\ntu8fZ6DHUguCDgnW9WfE5/BvEGN5TU7J9d5BNQgHmdhi6Qeqeik7rpJUToZndELl\n06bGKUDCjpKihvMcl9DhUt3Yx/AKgJ1F+Z5YXpWZ6kdS24sC3olTzlrvbS5h2SzG\nHqkH9b+E8rF2D49hVWk143y5dL6GBA\u003d\u003d\n\u003d3PL3\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "32c2b83e_075b740d",
+        "filename": "java/com/google/gerrit/server/submit/CommitMergeStatus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-06T22:04:23Z",
+      "side": 1,
+      "message": "Optional: would it be clearer to include patch set numbers?\n\n\"Commit %s depends on commit %s, which is outdated patch set %d of change %d. The latest patch set is %d.\"",
+      "revId": "7bb2a4616d6b40c0636675d9e755531f4166e413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

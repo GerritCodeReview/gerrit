@@ -16,7 +16,7 @@ package com.google.gerrit.server.rules;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.SetMultimap;
-import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import java.util.Collection;
 
 /** Loads the classes for Prolog predicates. */
@@ -26,14 +26,15 @@ public class PredicateClassLoader extends ClassLoader {
       LinkedHashMultimap.create();
 
   public PredicateClassLoader(
-      final DynamicSet<PredicateProvider> predicateProviders, ClassLoader parent) {
+      PluginSetContext<PredicateProvider> predicateProviders, ClassLoader parent) {
     super(parent);
 
-    for (PredicateProvider predicateProvider : predicateProviders) {
-      for (String pkg : predicateProvider.getPackages()) {
-        packageClassLoaderMap.put(pkg, predicateProvider.getClass().getClassLoader());
-      }
-    }
+    predicateProviders.runEach(
+        predicateProvider -> {
+          for (String pkg : predicateProvider.getPackages()) {
+            packageClassLoaderMap.put(pkg, predicateProvider.getClass().getClassLoader());
+          }
+        });
   }
 
   @Override

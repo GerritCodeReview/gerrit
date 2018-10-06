@@ -93,6 +93,16 @@ public class PluginItemContext<T> {
   }
 
   /**
+   * Checks if an implementation for this extension point has been registered.
+   *
+   * @return {@code true} if an implementation for this extension point has been registered,
+   *     otherwise {@code false}
+   */
+  public boolean hasImplementation() {
+    return dynamicItem.getEntry() != null;
+  }
+
+  /**
    * Returns the name of the plugin that registered the extension.
    *
    * @return the plugin name, {@code null} if no implementation is registered for this extension

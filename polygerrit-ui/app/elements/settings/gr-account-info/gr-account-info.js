@@ -62,6 +62,10 @@
         type: String,
         observer: '_usernameChanged',
       },
+      avatarImageSize: {
+        type: Number,
+        value: 32,
+      },
     },
 
     observers: [
@@ -87,6 +91,10 @@
         account.username = account.username || '';
         this._account = account;
         this._username = account.username;
+      }));
+
+      promises.push(this.$.restAPI.getAvatarChangeUrl().then(url => {
+        this._avatarChangeUrl = url;
       }));
 
       return Promise.all(promises).then(() => {
@@ -166,6 +174,35 @@
         e.stopPropagation();
         this.save();
       }
+    },
+    
+    _getAvatarChangeUrlRest() {
+      promises.push(this.$.restAPI.getAvatarChangeUrl().then(account => {
+        this._hasNameChange = false;
+        this._hasUsernameChange = false;
+        this._hasStatusChange = false;
+        // Provide predefined value for username to trigger computation of
+        // username mutability.
+        account.username = account.username || '';
+        this._account = account;
+        this._username = account.username;
+      }));
+
+      return Promise.all(promises).then(() => {
+        this._loading = false;
+      });
+    },
+
+    _getAvatarChangeUrl() {
+      return this.$.restAPI.getAvatarChangeUrl();
+    },
+
+    _hideAvatarChangeUrl() {
+      if (!this._getAvatarChangeUrl()) {
+        return 'hide';
+      }
+
+      return '';
     },
   });
 })();

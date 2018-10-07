@@ -62,12 +62,30 @@
         type: String,
         observer: '_usernameChanged',
       },
+      avatarImageSize: {
+        type: Number,
+        value: 32,
+      },
+      _avatarChangeUrl: String,
+      _hideAvatarChangeUrl: {
+        type: String,
+        value: 'hide',
+      },
     },
 
     observers: [
       '_nameChanged(_account.name)',
       '_statusChanged(_account.status)',
     ],
+
+    attached() {
+      this.$.restAPI.getAvatarChangeUrl().then(url => {
+        if (url) {
+          this._avatarChangeUrl = url;
+          this._hideAvatarChangeUrl = '';
+        }
+      });
+    },
 
     loadData() {
       const promises = [];

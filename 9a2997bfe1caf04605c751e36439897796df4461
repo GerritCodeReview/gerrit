@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f0002ef_b1d590a2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitmodulesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-10-07T22:27:34Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/130576/",
+      "range": {
+        "startLine": 42,
+        "startChar": 51,
+        "endLine": 44,
+        "endChar": 45
+      },
+      "revId": "9a2997bfe1caf04605c751e36439897796df4461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a51d0e31_a664db6a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitmodulesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-10-07T22:27:34Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/130576/",
+      "range": {
+        "startLine": 52,
+        "startChar": 51,
+        "endLine": 54,
+        "endChar": 46
+      },
+      "revId": "9a2997bfe1caf04605c751e36439897796df4461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

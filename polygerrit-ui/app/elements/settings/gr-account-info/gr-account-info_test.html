@@ -330,5 +330,11 @@ limitations under the License.
 
       assert.isTrue(element._hasUsernameChange);
     });
+
+    test('_hideAvatarChangeUrl', () => {
+      assert.equal(element._hideAvatarChangeUrl(''), 'hide');
+
+      assert.equal(element._hideAvatarChangeUrl('https://example.com'), '');
+    });
   });
 </script>

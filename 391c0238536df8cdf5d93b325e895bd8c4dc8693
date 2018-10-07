@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d268493_a9f6155d",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-07T00:24:22Z",
+      "side": 1,
+      "message": "Matthias, will you deploy the javadoc for this release?",
+      "revId": "391c0238536df8cdf5d93b325e895bd8c4dc8693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -62,6 +62,10 @@
         type: String,
         observer: '_usernameChanged',
       },
+      avatarImageSize: {
+        type: Number,
+        value: 32,
+      },
     },
 
     observers: [
@@ -166,6 +170,18 @@
         e.stopPropagation();
         this.save();
       }
+    },
+
+    _getAvatarChangeUrl() {
+      return this.$.restAPI.getAvatarChangeUrl();
+    },
+
+    _hideAvatarChangeUrl() {
+      if (!this._getAvatarChangeUrl()) {
+        return 'hide';
+      }
+
+      return '';
     },
   });
 })();

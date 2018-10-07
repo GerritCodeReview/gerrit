@@ -62,6 +62,15 @@
         type: String,
         observer: '_usernameChanged',
       },
+      avatarImageSize: {
+        type: Number,
+        value: 32,
+      },
+      _avatarChangeUrl: String,
+      hideAvatarChangeUrl: {
+        type: Boolean,
+        value: true,
+      }
     },
 
     observers: [
@@ -88,6 +97,11 @@
         this._account = account;
         this._username = account.username;
       }));
+
+      this.$.restAPI.getAvatarChangeUrl().then(url => {
+        this._avatarChangeUrl = url;
+        this.hideAvatarChangeUrl = false;
+      });
 
       return Promise.all(promises).then(() => {
         this._loading = false;
@@ -166,6 +180,14 @@
         e.stopPropagation();
         this.save();
       }
+    },
+
+    _hideAvatarChangeUrl(avatarChangeUrl) {
+      if (avatarChangeUrl == undefined || !avatarChangeUrl) {
+        return 'hide';
+      }
+
+      return '';
     },
   });
 })();

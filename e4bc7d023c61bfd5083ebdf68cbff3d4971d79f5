@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ad7fdde0_78a0f602",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-10-08T15:03:03Z",
+      "side": 1,
+      "message": "documentation",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "e4bc7d023c61bfd5083ebdf68cbff3d4971d79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "791c8d1d_066045ac",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 4

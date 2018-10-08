@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8775c227_4bf2ccfc",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/AbstractGitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-08T22:18:16Z",
+      "side": 1,
+      "message": "This is now unused and should be removed.",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "f4a51ae39a0d1182f82cb2699fdb779d26345fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fd312d4_8f40fdde",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-08T22:18:16Z",
+      "side": 1,
+      "message": "nit: add a blank line before the comment block",
+      "revId": "f4a51ae39a0d1182f82cb2699fdb779d26345fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

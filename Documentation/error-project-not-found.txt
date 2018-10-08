@@ -5,8 +5,8 @@ repository to which the push is done does not exist as a project in
 the Gerrit server or if the pushing user has no read access for this
 project.
 
-The name of the project in Gerrit has the same name as the path of
-its git repository (excluding the '.git' extension).
+The name of the project (repository) in Gerrit has the same name as
+the path of its git repository (excluding the '.git' extension).
 
 If you are facing this problem, do the following:
 

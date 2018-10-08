@@ -4,6 +4,9 @@ Gerrit Code Review comes with a REST like API available over HTTP.
 The API is suitable for automated tools to build upon, as well as
 supporting some ad-hoc scripting use cases.
 
+Please note that 'Repositories' are referred to as 'Projects' in
+the REST API.
+
 See also: link:dev-rest-api.html[REST API Developers' Notes].
 
 == Endpoints
@@ -20,7 +23,7 @@ link:rest-api-groups.html[/groups/]::
 link:rest-api-plugins.html[/plugins/]::
   Plugin related REST endpoints
 link:rest-api-projects.html[/projects/]::
-  Project related REST endpoints
+  Project (Repository) related REST endpoints
 link:rest-api-documentation.html[/Documentation/]::
   Documentation related REST endpoints
 

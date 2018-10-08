@@ -29,6 +29,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -43,6 +44,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   protected final ProjectCache projectCache;
   private final Provider<AnonymousUser> anonymousUserProvider;
 
+  @Inject
   public ChangeIsVisibleToPredicate(
       Provider<ReviewDb> db,
       ChangeNotes.Factory notesFactory,

@@ -14,6 +14,14 @@
 
 package com.google.gerrit.server.submit;
 
+import static java.util.stream.Collectors.toSet;
+
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Provider;
+import java.util.List;
+
 /**
  * Status codes set on {@link com.google.gerrit.server.git.CodeReviewCommit}s by {@link
  * SubmitStrategy} implementations.
@@ -75,5 +83,26 @@ public enum CommitMergeStatus {
 
   public String getDescription() {
     return description;
+  }
+
+  public static String createMissingDependencyMessage(
+      Provider<InternalChangeQuery> queryProvider, String commit, String otherCommit)
+      throws OrmException {
+    List<ChangeData> changes = queryProvider.get().enforceVisibility(true).byCommit(otherCommit);
+
+    if (changes.isEmpty()) {
+      return String.format(
+          "Commit %s depends on commit %s which cannot be merged."
+              + " Is the change of this commit not visible or was it deleted?",
+          commit, otherCommit);
+    } else if (changes.size() == 1) {
+      return String.format(
+          "Commit %s depends on commit %s of change %d which cannot be merged.",
+          commit, otherCommit, changes.get(0).getId().get());
+    } else {
+      return String.format(
+          "Commit %s depends on commit %s of changes %s which cannot be merged.",
+          commit, otherCommit, changes.stream().map(cd -> cd.getId().get()).collect(toSet()));
+    }
   }
 }

@@ -81,9 +81,10 @@ public class RebaseSorter {
             // We cannot merge n as it would bring something we
             // aren't permitted to merge at this time. Drop n.
             //
-            logger.atFine().log(
-                "commit %s depends on commit %s which cannot be merged", n.name(), c.name());
             n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
+            n.setStatusMessage(
+                String.format(
+                    "Commit %s depends on commit %s which cannot be merged.", n.name(), c.name()));
           }
           // Stop RevWalk because c is either a merged commit or a missing
           // dependency. Not need to walk further.

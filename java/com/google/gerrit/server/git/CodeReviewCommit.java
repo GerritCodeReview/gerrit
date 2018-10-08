@@ -17,11 +17,13 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.submit.CommitMergeStatus;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -118,6 +120,12 @@ public class CodeReviewCommit extends RevCommit {
    */
   private CommitMergeStatus statusCode;
 
+  /**
+   * Message for the status that is returned to the calling user if the status indicates a problem
+   * that prevents submit.
+   */
+  private Optional<String> statusMessage = Optional.empty();
+
   public CodeReviewCommit(AnyObjectId id) {
     super(id);
   }
@@ -132,6 +140,14 @@ public class CodeReviewCommit extends RevCommit {
 
   public void setStatusCode(CommitMergeStatus statusCode) {
     this.statusCode = statusCode;
+  }
+
+  public Optional<String> getStatusMessage() {
+    return statusMessage;
+  }
+
+  public void setStatusMessage(@Nullable String statusMessage) {
+    this.statusMessage = Optional.ofNullable(statusMessage);
   }
 
   public PatchSet.Id getPatchsetId() {

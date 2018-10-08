@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3d3ef745_d1a0c416",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-08T22:23:53Z",
+      "side": 1,
+      "message": "It looks a bit odd that one property is a shorthand and the other isn\u0027t.",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 94,
+        "endChar": 26
+      },
+      "revId": "e9cc314b95970c2b69d430b7ff63b6bc952bef2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7912674f_0484e1c3",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 3

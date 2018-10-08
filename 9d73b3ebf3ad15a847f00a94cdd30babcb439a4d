@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "dd4156f5_6ae5d7bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-08T09:01:52Z",
+      "side": 1,
+      "message": "This has nothing to do with this change series, but when I read \"return X or nothing\" it is tempting to use an Optional.",
+      "range": {
+        "startLine": 10,
+        "startChar": 65,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "9d73b3ebf3ad15a847f00a94cdd30babcb439a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df7ab22e_84edc344",
         "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 6

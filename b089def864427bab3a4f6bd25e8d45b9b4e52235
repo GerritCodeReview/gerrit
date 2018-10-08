@@ -22,6 +22,30 @@
       "revId": "b089def864427bab3a4f6bd25e8d45b9b4e52235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de608c22_d1190575",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-10-08T22:11:53Z",
+      "side": 1,
+      "message": "That dosen\u0027t work. I tryed that :).\n\nFor some reason this is the only way or through hidden.",
+      "parentUuid": "4bfebcc0_2ec60307",
+      "range": {
+        "startLine": 50,
+        "startChar": 25,
+        "endLine": 50,
+        "endChar": 45
+      },
+      "revId": "b089def864427bab3a4f6bd25e8d45b9b4e52235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

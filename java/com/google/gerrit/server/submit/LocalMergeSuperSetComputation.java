@@ -147,10 +147,11 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
 
       Set<String> visibleHashes =
           walkChangesByHashes(visibleCommits, Collections.emptySet(), or, b);
-      Iterables.addAll(visibleChanges, byCommitsOnBranchNotMerged(or, db, b, visibleHashes));
+      Iterables.addAll(visibleChanges, byCommitsOnBranchNotMerged(or, db, b, visibleHashes, true));
 
       Set<String> nonVisibleHashes = walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
-      Iterables.addAll(nonVisibleChanges, byCommitsOnBranchNotMerged(or, db, b, nonVisibleHashes));
+      Iterables.addAll(
+          nonVisibleChanges, byCommitsOnBranchNotMerged(or, db, b, nonVisibleHashes, false));
     }
 
     return new ChangeSet(visibleChanges, nonVisibleChanges);
@@ -207,7 +208,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private List<ChangeData> byCommitsOnBranchNotMerged(
-      OpenRepo or, ReviewDb db, Branch.NameKey branch, Set<String> hashes)
+      OpenRepo or, ReviewDb db, Branch.NameKey branch, Set<String> hashes, boolean checkVisibility)
       throws OrmException, IOException {
     if (hashes.isEmpty()) {
       return ImmutableList.of();
@@ -220,7 +221,10 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
 
     List<ChangeData> result = new ArrayList<>();
     Iterable<ChangeData> destChanges =
-        queryProvider.get().byCommitsOnBranchNotMerged(or.repo, db, branch, hashes);
+        queryProvider
+            .get()
+            .enforceVisibility(checkVisibility)
+            .byCommitsOnBranchNotMerged(or.repo, db, branch, hashes);
     for (ChangeData chd : destChanges) {
       result.add(chd);
     }

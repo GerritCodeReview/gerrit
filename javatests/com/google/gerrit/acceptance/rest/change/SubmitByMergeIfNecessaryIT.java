@@ -24,9 +24,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -614,7 +612,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void dependencyOnHiddenChangeShouldPreventMergeButDoesnt() throws Exception {
+  public void dependencyOnHiddenChangePreventsMerge() throws Exception {
     grantLabel("Code-Review", -2, 2, project, "refs/heads/*", false, REGISTERED_USERS, false);
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
@@ -643,18 +641,22 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
       assertThat(e.getMessage()).isEqualTo("Not found: " + changeResult.getChangeId());
     }
 
-    // Submit the second change which has a dependency on the first change which is not visible to
-    // the user. We would expect the submit to fail, but instead the submit succeeds and the hidden
-    // change gets submitted too.
-    // TODO(ekempin): Make this submit fail.
-    gApi.changes().id(change2Result.getChangeId()).current().submit(new SubmitInput());
+    // Submit is expected to fail.
+    submitWithConflict(
+        change2Result.getChangeId(),
+        "Failed to submit 1 change due to the following problems:\n"
+            + "Change "
+            + change2Result.getChange().getId()
+            + ": Depends on change that was not submitted."
+            + " Commit "
+            + change2Result.getCommit().name()
+            + " depends on commit "
+            + changeResult.getCommit().name()
+            + " which cannot be merged."
+            + " Is the change of this commit not visible or was it deleted?");
 
-    // Verify that both changes have been submitted.
-    setApiUser(admin);
-    assertThat(gApi.changes().id(changeResult.getChangeId()).get().status)
-        .isEqualTo(ChangeStatus.MERGED);
-    assertThat(gApi.changes().id(change2Result.getChangeId()).get().status)
-        .isEqualTo(ChangeStatus.MERGED);
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
   }
 
   @Test

@@ -17,6 +17,24 @@
       "revId": "1f16d219df27f42c83cac5888863a555fc8e7c89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a14103d1_81e4d0c0",
+        "filename": "java/com/google/gerrit/server/submit/CommitMergeStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-08T11:50:18Z",
+      "side": 1,
+      "message": "Ah, I was not aware of the notes field in CodeReviewCommit, but it appears to be not set for otherCommit in the cases that are covered by SubmitByMergeIfNecessaryIT#submitWithOpenAncestorsOnOtherBranch and SubmitByMergeIfNecessaryIT#openChangeForTargetBranchPreventsMerge. So looks like we cannot rely on this field?",
+      "parentUuid": "667f7901_d3214fb4",
+      "revId": "1f16d219df27f42c83cac5888863a555fc8e7c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

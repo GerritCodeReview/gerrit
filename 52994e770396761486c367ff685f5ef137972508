@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94b12186_aec942e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-08T11:00:30Z",
+      "side": 1,
+      "message": "I would phrase this as:\n\nChange 1e675c2b3 refactored the project parameter to result in a ProjectState instead of a ProjectControl. This refactoring wrongly led to a name clash on another member called \u0027state\u0027 that used to refer to client.ProjectState. This led to various errors. This commit reverts this part of the change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 20
+      },
+      "revId": "52994e770396761486c367ff685f5ef137972508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

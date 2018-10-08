@@ -14,11 +14,21 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.Histogram1;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -164,7 +174,37 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     }
   }
 
+  @Singleton
+  private static class Metrics {
+    private final Histogram1<ResultChangeIds.Key> changes;
+    private final Timer1<String> latencyPerChange;
+    private final Counter0 timeouts;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      changes =
+          metricMaker.newHistogram(
+              "receivecommits/changes",
+              new Description("number of changes uploaded in a single push."),
+              Field.ofEnum(
+                  ResultChangeIds.Key.class,
+                  "type",
+                  "type of update (replace, create, autoclose)"));
+      latencyPerChange =
+          metricMaker.newTimer(
+              "receivecommits/latency",
+              new Description("average delay per updated change").setUnit(Units.MILLISECONDS),
+              Field.ofString("type", "type of update (create/replace, autoclose)"));
+
+      timeouts =
+          metricMaker.newCounter(
+              "receivecommits/timeout", new Description("count of push timeouts"));
+    }
+  }
+
+  private final Metrics metrics;
   private final ReceiveCommits receiveCommits;
+  private final ResultChangeIds resultChangeIds;
   private final PermissionBackend.ForProject perm;
   private final ReceivePack receivePack;
   private final ExecutorService executor;
@@ -188,6 +228,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       TransferConfig transferConfig,
       Provider<LazyPostReceiveHookChain> lazyPostReceive,
       ContributorAgreementsChecker contributorAgreements,
+      Metrics metrics,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
@@ -202,6 +243,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.projectState = projectState;
     this.user = user;
     this.repo = repo;
+    this.metrics = metrics;
 
     Project.NameKey projectName = projectState.getNameKey();
     receivePack = new ReceivePack(repo);
@@ -237,7 +279,10 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     advHooks.add(new HackPushNegotiateHook());
     receivePack.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
 
-    receiveCommits = factory.create(projectState, user, receivePack, allRefsWatcher, messageSender);
+    resultChangeIds = new ResultChangeIds();
+    receiveCommits =
+        factory.create(
+            projectState, user, receivePack, allRefsWatcher, messageSender, resultChangeIds);
     receiveCommits.init();
   }
 
@@ -268,11 +313,14 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       // pre-receive hooks
       return;
     }
+
+    long startNanos = System.nanoTime();
     Worker w = new Worker(commands);
     try {
       w.progress.waitFor(
           executor.submit(scopePropagator.wrap(w)), timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (ExecutionException e) {
+      metrics.timeouts.increment();
       logger.atWarning().withCause(e).log(
           "Error in ReceiveCommits while processing changes for project %s",
           projectState.getName());
@@ -286,6 +334,23 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       }
     } finally {
       w.sendMessages();
+    }
+
+    long deltaNanos = System.nanoTime() - startNanos;
+    int totalChanges = 0;
+    for (ResultChangeIds.Key key : ResultChangeIds.Key.values()) {
+      List<Change.Id> ids = resultChangeIds.get(key);
+      metrics.changes.record(key, ids.size());
+      totalChanges += ids.size();
+    }
+
+    if (totalChanges > 0) {
+      metrics.latencyPerChange.record(
+          resultChangeIds.get(ResultChangeIds.Key.AUTOCLOSED).isEmpty()
+              ? "CREATE_REPLACE"
+              : ResultChangeIds.Key.AUTOCLOSED.toString(),
+          deltaNanos / totalChanges,
+          NANOSECONDS);
     }
   }
 

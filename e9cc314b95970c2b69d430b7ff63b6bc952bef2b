@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7912674f_0484e1c3",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-08T20:33:42Z",
+      "side": 1,
+      "message": "Why not simply errorText?",
+      "range": {
+        "startLine": 122,
+        "startChar": 30,
+        "endLine": 122,
+        "endChar": 44
+      },
+      "revId": "e9cc314b95970c2b69d430b7ff63b6bc952bef2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

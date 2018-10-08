@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76d2458f_48d8f36c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-10-08T20:40:33Z",
+      "side": 1,
+      "message": "I tryed doing that first seeing as i know that using hidden is discouraged :).\n\nBut it fails to work when using class. I could only get this working with hidden for some reason.\n\nMaybe you know why this fails?",
+      "parentUuid": "f4f45afa_49ae718c",
+      "range": {
+        "startLine": 47,
+        "startChar": 15,
+        "endLine": 47,
+        "endChar": 74
+      },
+      "revId": "364394768bf37ae753c7bad660501eba428c43e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c70e38d7_a3a90294",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.html",
         "patchSetId": 18
@@ -45,6 +69,30 @@
       "revId": "364394768bf37ae753c7bad660501eba428c43e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33098fe2_208fb941",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-10-08T20:40:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c70e38d7_a3a90294",
+      "range": {
+        "startLine": 51,
+        "startChar": 19,
+        "endLine": 51,
+        "endChar": 25
+      },
+      "revId": "364394768bf37ae753c7bad660501eba428c43e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

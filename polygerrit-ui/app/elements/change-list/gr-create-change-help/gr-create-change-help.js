@@ -28,7 +28,7 @@
 
     _handleCreateTap(e) {
       e.preventDefault();
-      this.dispatchEvent(new CustomEvent('create-tap'));
+      this.dispatchEvent(new CustomEvent('create-tap', {bubbles: true}));
     },
   });
 })();

@@ -107,6 +107,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.git.receive.ResultChangeIds.Key;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
@@ -228,7 +229,8 @@ class ReceiveCommits {
         IdentifiedUser user,
         ReceivePack receivePack,
         AllRefsWatcher allRefsWatcher,
-        MessageSender messageSender);
+        MessageSender messageSender,
+        ResultChangeIds resultChangeIds);
   }
 
   private class ReceivePackMessageSender implements MessageSender {
@@ -352,6 +354,7 @@ class ReceiveCommits {
   private Optional<String> tracePushOption;
 
   private MessageSender messageSender;
+  private ResultChangeIds resultChangeIds;
 
   @Inject
   ReceiveCommits(
@@ -393,7 +396,8 @@ class ReceiveCommits {
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
       @Assisted AllRefsWatcher allRefsWatcher,
-      @Nullable @Assisted MessageSender messageSender)
+      @Nullable @Assisted MessageSender messageSender,
+      @Assisted ResultChangeIds resultChangeIds)
       throws IOException {
     // Injected fields.
     this.accountResolver = accountResolver;
@@ -460,6 +464,7 @@ class ReceiveCommits {
 
     // Handles for outputting back over the wire to the end user.
     this.messageSender = messageSender != null ? messageSender : new ReceivePackMessageSender();
+    this.resultChangeIds = resultChangeIds;
   }
 
   void init() {
@@ -810,6 +815,14 @@ class ReceiveCommits {
       } catch (UpdateException e) {
         throw INSERT_EXCEPTION.apply(e);
       }
+
+      for (ReplaceRequest replace : replaceByChange.values()) {
+        resultChangeIds.add(Key.REPLACED, replace.ontoChange);
+      }
+      for (CreateRequest create : newChanges) {
+        resultChangeIds.add(Key.CREATED, create.changeId);
+      }
+
       if (magicBranchCmd != null) {
         magicBranchCmd.setResult(OK);
       }
@@ -3022,6 +3035,7 @@ class ReceiveCommits {
   private void autoCloseChanges(ReceiveCommand cmd, Task progress) {
     logger.atFine().log("Starting auto-closing of changes");
     String refName = cmd.getRefName();
+    Set<Change.Id> ids = new HashSet<>();
 
     // TODO(dborowitz): Combine this BatchUpdate with the main one in
     // handleRegularCommands
@@ -3098,6 +3112,7 @@ class ReceiveCommits {
                         .create(requestScopePropagator, req.psId, refName)
                         .setPatchSetProvider(req.replaceOp::getPatchSet));
                 bu.addOp(id, new ChangeProgressOp(progress));
+                ids.add(id);
               }
 
               logger.atFine().log(
@@ -3106,7 +3121,16 @@ class ReceiveCommits {
               bu.execute();
             } catch (IOException | OrmException | PermissionBackendException e) {
               logger.atSevere().withCause(e).log("Failed to auto-close changes");
+              return null;
             }
+
+            // If we are here, we didn't throw UpdateException. Record the result.
+            // The ordering is indeterminate due to the HashSet; unfortunately, Change.Id doesn't
+            // fit into TreeSet.
+            for (Change.Id id : ids) {
+              resultChangeIds.add(Key.AUTOCLOSED, id);
+            }
+
             return null;
           },
           // Use a multiple of the default timeout to account for inner retries that may otherwise

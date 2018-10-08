@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1678ccd6_e06659b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-08T11:35:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure what \"mask the user\" means in this context.  Did you mean \"impersonate the user\"?",
+      "range": {
+        "startLine": 11,
+        "startChar": 57,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "8c0bdf71514aca7802ee92422e0a9bd3349adc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bfbcf15_b5497e6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-08T11:35:41Z",
+      "side": 1,
+      "message": "redacted",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "8c0bdf71514aca7802ee92422e0a9bd3349adc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
@@ -24,10 +25,9 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -657,7 +657,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void dependencyOnHiddenChangeShouldPreventMergeButDoesnt() throws Exception {
+  public void dependencyOnHiddenChangePreventsMerge() throws Exception {
     grantLabel("Code-Review", -2, 2, project, "refs/heads/*", false, REGISTERED_USERS, false);
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
@@ -686,18 +686,95 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
       assertThat(e.getMessage()).isEqualTo("Not found: " + changeResult.getChangeId());
     }
 
-    // Submit the second change which has a dependency on the first change which is not visible to
-    // the user. We would expect the submit to fail, but instead the submit succeeds and the hidden
-    // change gets submitted too.
-    // TODO(ekempin): Make this submit fail.
-    gApi.changes().id(change2Result.getChangeId()).current().submit(new SubmitInput());
+    // Submit is expected to fail.
+    try {
+      gApi.changes().id(change2Result.getChangeId()).current().submit();
+      fail("expected failure");
+    } catch (AuthException e) {
+      assertThat(e.getMessage())
+          .isEqualTo(
+              "A change to be submitted with "
+                  + change2Result.getChange().getId().id
+                  + " is not visible");
+    }
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
+  }
 
-    // Verify that both changes have been submitted.
-    setApiUser(admin);
-    assertThat(gApi.changes().id(changeResult.getChangeId()).get().status)
-        .isEqualTo(ChangeStatus.MERGED);
-    assertThat(gApi.changes().id(change2Result.getChangeId()).get().status)
-        .isEqualTo(ChangeStatus.MERGED);
+  @Test
+  public void dependencyOnHiddenChangeUsingTopicPreventsMerge() throws Exception {
+    // Construct a topic where a change included by topic depends on a private change that is not
+    // visible to the submitting user
+    // (c1) --- topic --- (c2a)
+    //                      |
+    //                    (c2b) <= private
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+
+    Project.NameKey p1 = createProject("project-where-we-submit");
+    Project.NameKey p2 = createProject("project-impacted-via-topic");
+
+    grantLabel("Code-Review", -2, 2, p1, "refs/heads/*", false, REGISTERED_USERS, false);
+    grant(p1, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
+    grantLabel("Code-Review", -2, 2, p2, "refs/heads/*", false, REGISTERED_USERS, false);
+    grant(p2, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
+
+    TestRepository<?> repo1 = cloneProject(p1);
+    TestRepository<?> repo2 = cloneProject(p2);
+
+    PushOneCommit.Result change1 =
+        createChange(
+            repo1,
+            "master",
+            "An ancestor of the change we want to submit",
+            "a.txt",
+            "1",
+            "topic-to-submit");
+    approve(change1.getChangeId());
+    PushOneCommit.Result change2a =
+        createChange(
+            repo2,
+            "master",
+            "We're interested in submitting this change",
+            "a.txt",
+            "2",
+            "topic-to-submit");
+    approve(change2a.getChangeId());
+    PushOneCommit.Result change2b =
+        createChange(
+            repo2,
+            "master",
+            "We're interested in submitting this change",
+            "a.txt",
+            "2",
+            "topic-to-submit");
+    approve(change2b.getChangeId());
+
+    // Mark change2a private so that it's not visible to user.
+    gApi.changes().id(change2a.getChangeId()).setPrivate(true, "nobody should see this");
+
+    setApiUser(user);
+
+    // Verify that user cannot see the first change.
+    try {
+      gApi.changes().id(change2a.getChangeId()).get();
+      fail("expected failure");
+    } catch (ResourceNotFoundException e) {
+      assertThat(e.getMessage()).isEqualTo("Not found: " + change2a.getChangeId());
+    }
+
+    // Submit is expected to fail.
+    try {
+      gApi.changes().id(change1.getChangeId()).current().submit();
+      fail("expected failure");
+    } catch (AuthException e) {
+      assertThat(e.getMessage())
+          .isEqualTo(
+              "A change to be submitted with "
+                  + change1.getChange().getId().id
+                  + " is not visible");
+    }
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
   }
 
   @Test

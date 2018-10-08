@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import java.io.File;
 import java.io.InputStream;
@@ -520,6 +521,48 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + " of change "
             + change2result.getChange().getId()
             + " which cannot be merged.");
+
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
+  }
+
+  @Test
+  public void dependencyOnOutdatedPatchSetPreventsMerge() throws Exception {
+    // Create a change
+    PushOneCommit change = pushFactory.create(db, user.getIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit.Result changeResult = change.to("refs/for/master");
+    PatchSet.Id patchSetId = changeResult.getPatchSetId();
+
+    // Create a successor change.
+    PushOneCommit change2 =
+        pushFactory.create(db, user.getIdent(), testRepo, "feature", "b.txt", "bar");
+    PushOneCommit.Result change2Result = change2.to("refs/for/master");
+
+    // Create new patch set for first change.
+    testRepo.reset(changeResult.getCommit().name());
+    amendChange(changeResult.getChangeId());
+
+    // Approve both changes
+    approve(changeResult.getChangeId());
+    approve(change2Result.getChangeId());
+
+    submitWithConflict(
+        change2Result.getChangeId(),
+        "Failed to submit 2 changes due to the following problems:\n"
+            + "Change "
+            + change2Result.getChange().getId()
+            + ": Depends on change that was not submitted."
+            + " Commit "
+            + change2Result.getCommit().name()
+            + " depends on commit "
+            + changeResult.getCommit().name()
+            + ", which is outdated patch set "
+            + patchSetId.get()
+            + " of change "
+            + changeResult.getChange().getId()
+            + ". The latest patch set is "
+            + changeResult.getPatchSetId().get()
+            + ".");
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();

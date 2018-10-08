@@ -20,6 +20,15 @@ by RetryHelper to execute an action (1 == single attempt, no retry)
 * `action/retry_timeout_count`: Number of action executions of RetryHelper
 that ultimately timed out
 
+=== Pushes
+
+* `receivecommits/changes`: histogram of number of changes processed
+in a single upload, split up by update type (new change created,
+existing changed updated, change autoclosed).
+* `receivecommits/latency`: latency per change for processing a push,
+split up by update type (create+replace, and autoclose)
+* `receivecommits/timeout`: number of timeouts during push processing.
+
 === Process
 
 * `proc/birth_timestamp`: Time at which the Gerrit process started.

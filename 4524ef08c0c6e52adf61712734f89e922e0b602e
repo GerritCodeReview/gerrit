@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "1d37b79f_cd05e15d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5950,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-08T22:09:30Z",
+      "side": 1,
+      "message": "Some alternatives that don\u0027t require changing the API:\n* Put the list of files with conflicts in the commit message of the new change. There\u0027s a risk that the user will forget to edit the list of conflicted files out of the commit message when resolving the conflicts, but is that really so bad?\n* Put the list of files with conflicts in a ChangeMessage on the new change.\n\nThe downside in both cases is a tool using the API would have to somehow make a second API call and infer from the textual results whether any conflicts occurred. But, if the use case is just for a human to immediately go look at the change anyway, maybe you can skip the second API call.\n\nSam, any thoughts?",
+      "parentUuid": "1bfebaa2_59d87844",
+      "range": {
+        "startLine": 5950,
+        "startChar": 0,
+        "endLine": 5950,
+        "endChar": 27
+      },
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a39d5730_fddbe18c",
         "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 2

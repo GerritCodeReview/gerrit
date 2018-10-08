@@ -14,11 +14,21 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.Histogram1;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -28,6 +38,7 @@ import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.receive.ReceiveCommits.ResultChangeIds;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -164,7 +175,34 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     }
   }
 
+  private static class Metrics {
+    Histogram1 changes;
+    Timer1 latencyPerChange;
+    Counter0 timeouts;
+
+    Metrics(MetricMaker metricMaker) {
+      Field<String> changeType =
+          Field.ofString("type", "type of update (replace, create, autoclose)");
+      changes =
+          metricMaker.newHistogram(
+              "receivecommits/changes",
+              new Description("number of changes uploaded in a single magic push."),
+              changeType);
+      latencyPerChange =
+          metricMaker.newTimer(
+              "receivecommits/latency",
+              new Description("delay per updated change").setUnit(Units.MILLISECONDS),
+              changeType);
+
+      timeouts =
+          metricMaker.newCounter(
+              "receivecommits/timeout", new Description("count of push timeouts"));
+    }
+  }
+
+  private final Metrics metrics;
   private final ReceiveCommits receiveCommits;
+  private final ReceiveCommits.ResultChangeIds resultChangeIds;
   private final PermissionBackend.ForProject perm;
   private final ReceivePack receivePack;
   private final ExecutorService executor;
@@ -188,6 +226,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       TransferConfig transferConfig,
       Provider<LazyPostReceiveHookChain> lazyPostReceive,
       ContributorAgreementsChecker contributorAgreements,
+      MetricMaker metricMaker,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
@@ -237,7 +276,11 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     advHooks.add(new HackPushNegotiateHook());
     receivePack.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
 
-    receiveCommits = factory.create(projectState, user, receivePack, allRefsWatcher, messageSender);
+    metrics = new Metrics(metricMaker);
+    resultChangeIds = new ReceiveCommits.ResultChangeIds();
+    receiveCommits =
+        factory.create(
+            projectState, user, receivePack, allRefsWatcher, messageSender, resultChangeIds);
     receiveCommits.init();
   }
 
@@ -268,6 +311,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       // pre-receive hooks
       return;
     }
+
+    long startNanos = System.nanoTime();
     Worker w = new Worker(commands);
     try {
       w.progress.waitFor(
@@ -284,8 +329,24 @@ public class AsyncReceiveCommits implements PreReceiveHook {
           c.setResult(Result.REJECTED_OTHER_REASON, "internal error");
         }
       }
+      metrics.timeouts.increment();
     } finally {
       w.sendMessages();
+    }
+
+    long deltaNanos = System.nanoTime() - startNanos;
+    for (ResultChangeIds.Key key : ResultChangeIds.Key.values()) {
+      List<Change.Id> ids = resultChangeIds.get(key);
+      if (ids.size() == 0) {
+        continue;
+      }
+      metrics.changes.record(key.name(), ids.size());
+
+      metrics.latencyPerChange.record(
+          key,
+          deltaNanos / ids.size(),
+          // NOSUBMIT - should I convert to millis?
+          NANOSECONDS);
     }
   }
 

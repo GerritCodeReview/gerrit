@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "091abf57_fb45b74d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-08T18:08:41Z",
+      "side": 1,
+      "message": "Prefer for the type of this field in the object to always be Array\u003cstring\u003e.",
+      "range": {
+        "startLine": 122,
+        "startChar": 18,
+        "endLine": 122,
+        "endChar": 21
+      },
+      "revId": "1a6e632cacd912ba48df39376b087d25ef3edac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24de57a2_8c49fa85",
+        "filename": "polygerrit-ui/app/elements/shared/gr-keyboard-shortcuts-directory/gr-keyboard-shortcuts-directory.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-08T18:08:41Z",
+      "side": 1,
+      "message": "Nit: Why \u0027directory\u0027?",
+      "range": {
+        "startLine": 21,
+        "startChar": 31,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "1a6e632cacd912ba48df39376b087d25ef3edac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "9c0a7312_91f8e595",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-08T19:57:55Z",
+      "side": 1,
+      "message": "I weighed that prospect against the current approach, and leaned toward putting the docs as close as possible to the keyBindings property. No reason we can\u0027t define attached() immediately after, though.\n\nThinking ahead, I want to get to a single property, but I haven\u0027t yet sorted out what magic that would take.",
+      "parentUuid": "9b8ab420_1052d6b1",
+      "range": {
+        "startLine": 303,
+        "startChar": 6,
+        "endLine": 303,
+        "endChar": 44
+      },
+      "revId": "1a6e632cacd912ba48df39376b087d25ef3edac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24de57a2_8c49fa85",
         "filename": "polygerrit-ui/app/elements/shared/gr-keyboard-shortcuts-directory/gr-keyboard-shortcuts-directory.js",
         "patchSetId": 3
@@ -155,6 +179,30 @@
       "side": 1,
       "message": "Gotcha.\n\nIt looks to me like this element is creating a pattern for creating/mutating state that isn\u0027t just through Polymer data bindings (great!) and also is responsible for the creation and updating of the shortcut map/directory. Do you think it\u0027d be worth further designing these two ideas, separate from one another?\n\nTotally can come in a descendant change, of course. But, as Polymer itself moves away from depending on two-way data binding, I think it\u0027s wise that we do too.",
       "parentUuid": "708b39b4_78071982",
+      "range": {
+        "startLine": 21,
+        "startChar": 31,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "1a6e632cacd912ba48df39376b087d25ef3edac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e79cfc00_9cd8a3b4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-keyboard-shortcuts-directory/gr-keyboard-shortcuts-directory.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-08T19:57:55Z",
+      "side": 1,
+      "message": "I agree that this is an ad hoc data flow and I also agree that we need a good general solution. I did enjoy having the properties in the dialog depend on data that is computed from observation of the state change.",
+      "parentUuid": "6627f622_805696c0",
       "range": {
         "startLine": 21,
         "startChar": 31,

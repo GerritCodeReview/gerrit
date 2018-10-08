@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "fbad3775_30037b60",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-08T20:06:46Z",
+      "side": 1,
+      "message": "I don\u0027t thin I understand. What I mean is, instead of this current approach, this function call could look like...\n\n  this.$.shortcuts.addShortcuts(this.keyBindingDocs);\n\nThis seems a lot more explicit to me than depending on the instance that has a \u003cgr-keyboard-shortcuts-directory\u003e element to know what the interface to match is.",
+      "parentUuid": "9c0a7312_91f8e595",
+      "range": {
+        "startLine": 303,
+        "startChar": 6,
+        "endLine": 303,
+        "endChar": 44
+      },
+      "revId": "1a6e632cacd912ba48df39376b087d25ef3edac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24de57a2_8c49fa85",
         "filename": "polygerrit-ui/app/elements/shared/gr-keyboard-shortcuts-directory/gr-keyboard-shortcuts-directory.js",
         "patchSetId": 3

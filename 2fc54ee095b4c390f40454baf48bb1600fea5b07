@@ -17,6 +17,24 @@
       "revId": "2fc54ee095b4c390f40454baf48bb1600fea5b07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "576c8c4c_dec753a7",
+        "filename": "java/com/google/gerrit/server/submit/CommitMergeStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-08T12:56:51Z",
+      "side": 1,
+      "message": "Good question. I\u0027ve added tests for both cases. Surprisingly you can submit changes that depend on private changes that you can\u0027t see :( Not sure how important it is to fix this case (anyway fixing this should be a separate change).\n\nDone.",
+      "parentUuid": "b3268905_f7e78f1d",
+      "revId": "2fc54ee095b4c390f40454baf48bb1600fea5b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

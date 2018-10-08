@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "f39bd658_91e17b80",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5948,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-08T11:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09600242_26592bd2",
+      "range": {
+        "startLine": 5948,
+        "startChar": 2,
+        "endLine": 5948,
+        "endChar": 12
+      },
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc7d257d_7821e8e2",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -70,6 +94,30 @@
       "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bfebaa2_59d87844",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5950,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-08T11:23:00Z",
+      "side": 1,
+      "message": "That\u0027s a good point. Thanks for bringing it up.\n\nThis was not very straight-forward to implement without breaking backwards compatibility. The commit message contains details about the approach that I have chosen. Please let me know if anyone has a better idea.\n\nDone.",
+      "parentUuid": "cc7d257d_7821e8e2",
+      "range": {
+        "startLine": 5950,
+        "startChar": 0,
+        "endLine": 5950,
+        "endChar": 27
+      },
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +153,24 @@
       "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4028c4b9_e19d9b51",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-08T11:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7397b23_1802e1e9",
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -158,6 +224,24 @@
       "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad87172_4dd2977e",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-08T11:23:00Z",
+      "side": 1,
+      "message": "Good point. I think in this case we should always set useContentMerge \u003d true if a cherry-pick with allowConflicts \u003d true is done.\n\nDone",
+      "parentUuid": "df5f0037_7a62ae01",
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

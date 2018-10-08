@@ -566,15 +566,72 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyNone(batch());
   }
 
+  @Test
+  public void addNonUserReviewerByEmailInNoteDbSingly() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange();
+    addReviewer(singly(ReviewerState.REVIEWER), sc.changeId, sc.owner, "nonexistent@example.com");
+    assertThat(sender)
+        .sent("newchange", sc)
+        .to("nonexistent@example.com")
+        .cc(sc.reviewer)
+        .cc(sc.ccerByEmail, sc.reviewerByEmail)
+        .noOneElse();
+  }
+
+  @Test
+  public void addNonUserReviewerByEmailInNoteDbBatch() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange();
+    addReviewer(batch(ReviewerState.REVIEWER), sc.changeId, sc.owner, "nonexistent@example.com");
+    assertThat(sender)
+        .sent("newchange", sc)
+        .to("nonexistent@example.com")
+        .cc(sc.reviewer)
+        .cc(sc.ccerByEmail, sc.reviewerByEmail)
+        .noOneElse();
+  }
+
+  @Test
+  public void addNonUserCcByEmailInNoteDbSingly() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange();
+    addReviewer(singly(ReviewerState.CC), sc.changeId, sc.owner, "nonexistent@example.com");
+    assertThat(sender)
+        .sent("newchange", sc)
+        .to("nonexistent@example.com") // TODO(dborowitz): Should be cc.
+        .cc(sc.reviewer)
+        .cc(sc.ccerByEmail, sc.reviewerByEmail)
+        .noOneElse();
+  }
+
+  @Test
+  public void addNonUserCcByEmailInNoteDbBatch() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange();
+    addReviewer(batch(ReviewerState.CC), sc.changeId, sc.owner, "nonexistent@example.com");
+    assertThat(sender)
+        .sent("newchange", sc)
+        .cc("nonexistent@example.com")
+        .cc(sc.reviewer)
+        .cc(sc.ccerByEmail, sc.reviewerByEmail)
+        .noOneElse();
+  }
+
   private interface Adder {
     void addReviewer(String changeId, String reviewer, @Nullable NotifyHandling notify)
         throws Exception;
   }
 
   private Adder singly() {
+    return singly(ReviewerState.REVIEWER);
+  }
+
+  private Adder singly(ReviewerState reviewerState) {
     return (String changeId, String reviewer, @Nullable NotifyHandling notify) -> {
       AddReviewerInput in = new AddReviewerInput();
       in.reviewer = reviewer;
+      in.state = reviewerState;
       if (notify != null) {
         in.notify = notify;
       }
@@ -583,9 +640,13 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   private Adder batch() {
+    return batch(ReviewerState.REVIEWER);
+  }
+
+  private Adder batch(ReviewerState reviewerState) {
     return (String changeId, String reviewer, @Nullable NotifyHandling notify) -> {
       ReviewInput in = ReviewInput.noScore();
-      in.reviewer(reviewer);
+      in.reviewer(reviewer, reviewerState, false);
       if (notify != null) {
         in.notify = notify;
       }

@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74fb30f6_b55d909c",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-08T16:04:58Z",
+      "side": 1,
+      "message": "nit: don\u0027t import inner classes",
+      "range": {
+        "startLine": 41,
+        "startChar": 43,
+        "endLine": 41,
+        "endChar": 64
+      },
+      "revId": "3259076fb0a3fefd567cbe13f1506c6aca912c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c61d9591_777e3f54",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-08T16:04:58Z",
+      "side": 1,
+      "message": "It is usually a little easier if you make this an @Singleton and have it injected directly (also add @Inject tho the constructor of this class).\n\nThis makes it so that you don\u0027t have to re-create the metrics everytime you create an AsyncReceiveCommits.",
+      "revId": "3259076fb0a3fefd567cbe13f1506c6aca912c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55952b71_77eaf780",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-08T16:04:58Z",
+      "side": 1,
+      "message": "private final",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 6
+      },
+      "revId": "3259076fb0a3fefd567cbe13f1506c6aca912c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25bf9746_b25bed44",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-08T16:04:58Z",
+      "side": 1,
+      "message": "ofEnum (here and below)",
+      "range": {
+        "startLine": 188,
+        "startChar": 20,
+        "endLine": 188,
+        "endChar": 28
+      },
+      "revId": "3259076fb0a3fefd567cbe13f1506c6aca912c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd22d8eb_c567b65d",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-08T16:04:58Z",
+      "side": 1,
+      "message": "Metrics",
+      "range": {
+        "startLine": 227,
+        "startChar": 6,
+        "endLine": 227,
+        "endChar": 17
+      },
+      "revId": "3259076fb0a3fefd567cbe13f1506c6aca912c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "872c3314_fb1e1fcf",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-08T16:04:58Z",
+      "side": 1,
+      "message": "nit: remove blank line",
+      "revId": "3259076fb0a3fefd567cbe13f1506c6aca912c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7a30142_1f137507",
+        "filename": "java/com/google/gerrit/server/git/receive/ResultChangeIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-08T16:04:58Z",
+      "side": 1,
+      "message": "I would try to cut down on the mutability of this class as good as we can to prevent programmer errors.\n\nThe way I understand this code is that we populate the lists exactly once. Given that the lists are polluted in a tight loop, the chance of hitting an execution exception in the middle is low. However, we aren\u0027t really interested in partial results. I would therefore go with a\n\nMap\u003cKey, AtomicRefecence\u003cImmutableList\u003cChange.Id\u003e\u003e\u003e ids;\n\npublic void set(Key key, ImmutableList\u003cChange.Id\u003e newIds) {\n   boolean wasPreviouslySet \u003d ids.compareAndSet(null, newIds);\n   checkState(wasPreviouslySet, \"attempted to set values for %s multiple times\", key);\n}\n\npublic ImmutableList\u003cChange.Id\u003e get(Key key) {\n  ImmutableList\u003cChange.Id\u003e storedIds \u003d ids.get();\n  checkNotNull(storedIds, \"values for %s were never set\", %s);\n}\n\nThis also has the advantage of removing the synchronized(this) blocks which are a slow form of synchronization (especially when invoked from a loop).",
+      "revId": "3259076fb0a3fefd567cbe13f1506c6aca912c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30c43e1b_c46d95e5",
+        "filename": "java/com/google/gerrit/server/git/receive/ResultChangeIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-08T16:04:58Z",
+      "side": 1,
+      "message": "Maps.immutableEnumMap",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "3259076fb0a3fefd567cbe13f1506c6aca912c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

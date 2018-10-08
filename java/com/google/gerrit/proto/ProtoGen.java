@@ -31,6 +31,7 @@ import org.eclipse.jgit.util.IO;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
 
 public class ProtoGen {
   @Option(
@@ -46,7 +47,7 @@ public class ProtoGen {
   }
 
   private int run(String[] argv) throws Exception {
-    CmdLineParser parser = new CmdLineParser(this);
+    CmdLineParser parser = new CmdLineParser(this, ParserProperties.defaults().withAtSyntax(false));
     try {
       parser.parseArgument(argv);
     } catch (CmdLineException e) {

@@ -40,6 +40,7 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
 
 public class AsciiDoctor {
 
@@ -138,7 +139,7 @@ public class AsciiDoctor {
   }
 
   private void invoke(String... parameters) throws IOException {
-    CmdLineParser parser = new CmdLineParser(this);
+    CmdLineParser parser = new CmdLineParser(this, ParserProperties.defaults().withAtSyntax(false));
     try {
       parser.parseArgument(parameters);
       if (inputFiles.isEmpty()) {

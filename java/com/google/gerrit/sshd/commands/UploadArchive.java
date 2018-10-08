@@ -48,6 +48,7 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
 
 /** Allows getting archives for Git repositories over SSH using the Git upload-archive protocol. */
 public class UploadArchive extends AbstractGitCommand {
@@ -151,7 +152,8 @@ public class UploadArchive extends AbstractGitCommand {
 
     try {
       // Parse them into the 'options' field
-      CmdLineParser parser = new CmdLineParser(options);
+      CmdLineParser parser =
+          new CmdLineParser(options, ParserProperties.defaults().withAtSyntax(false));
       parser.parseArgument(args);
       if (options.path == null || Arrays.asList(".").equals(options.path)) {
         options.path = Collections.emptyList();

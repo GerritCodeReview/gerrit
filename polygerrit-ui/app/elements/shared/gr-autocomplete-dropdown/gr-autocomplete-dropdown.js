@@ -59,8 +59,8 @@
     },
 
     behaviors: [
-      Polymer.IronFitBehavior,
       Gerrit.KeyboardShortcutBehavior,
+      Polymer.IronFitBehavior,
     ],
 
     keyBindings: {
@@ -140,9 +140,14 @@
     _handleTapItem(e) {
       e.preventDefault();
       e.stopPropagation();
+      let selected = e.target;
+      while (!selected.classList.contains('autocompleteOption')) {
+        if (!selected || selected === this) { return; }
+        selected = selected.parentElement;
+      }
       this.fire('item-selected', {
         trigger: 'tap',
-        selected: e.target,
+        selected,
       });
     },
 

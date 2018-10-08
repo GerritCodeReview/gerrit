@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
+import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -782,6 +783,40 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("remove reviewer not permitted");
     gApi.changes().id(r.getChangeId()).reviewer(user.email).remove();
+  }
+
+  @Test
+  public void addExistingReviewerShortCircuits() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput input = new AddReviewerInput();
+    input.reviewer = user.email;
+    input.state = ReviewerState.REVIEWER;
+
+    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    assertThat(result.reviewers).hasSize(1);
+    ReviewerInfo info = result.reviewers.get(0);
+    assertThat(info._accountId).isEqualTo(user.id.get());
+
+    assertThat(gApi.changes().id(r.getChangeId()).addReviewer(input).reviewers).isEmpty();
+  }
+
+  @Test
+  public void addExistingCcShortCircuits() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput input = new AddReviewerInput();
+    input.reviewer = user.email;
+    input.state = ReviewerState.CC;
+
+    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    assertThat(result.ccs).hasSize(1);
+    AccountInfo info = result.ccs.get(0);
+    assertThat(info._accountId).isEqualTo(user.id.get());
+
+    assertThat(gApi.changes().id(r.getChangeId()).addReviewer(input).ccs).isEmpty();
   }
 
   private void assertThatUserIsOnlyReviewer(String changeId) throws Exception {

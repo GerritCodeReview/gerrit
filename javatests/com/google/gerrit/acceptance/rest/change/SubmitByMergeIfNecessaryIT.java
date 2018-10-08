@@ -24,10 +24,9 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -657,7 +656,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void dependencyOnHiddenChangeShouldPreventMergeButDoesnt() throws Exception {
+  public void dependencyOnHiddenChangePreventsMerge() throws Exception {
     grantLabel("Code-Review", -2, 2, project, "refs/heads/*", false, REGISTERED_USERS, false);
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
@@ -686,18 +685,19 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
       assertThat(e.getMessage()).isEqualTo("Not found: " + changeResult.getChangeId());
     }
 
-    // Submit the second change which has a dependency on the first change which is not visible to
-    // the user. We would expect the submit to fail, but instead the submit succeeds and the hidden
-    // change gets submitted too.
-    // TODO(ekempin): Make this submit fail.
-    gApi.changes().id(change2Result.getChangeId()).current().submit(new SubmitInput());
-
-    // Verify that both changes have been submitted.
-    setApiUser(admin);
-    assertThat(gApi.changes().id(changeResult.getChangeId()).get().status)
-        .isEqualTo(ChangeStatus.MERGED);
-    assertThat(gApi.changes().id(change2Result.getChangeId()).get().status)
-        .isEqualTo(ChangeStatus.MERGED);
+    // Submit is expected to fail.
+    try {
+      gApi.changes().id(change2Result.getChangeId()).current().submit();
+      fail("expected failure");
+    } catch (AuthException e) {
+      assertThat(e.getMessage())
+          .isEqualTo(
+              "A change to be submitted with "
+                  + change2Result.getChange().getId().id
+                  + " is not visible");
+    }
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
   }
 
   @Test

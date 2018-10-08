@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f343192f_325d826c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-08T18:14:23Z",
+      "side": 1,
+      "message": "Do you mean to always be Array\u003cArray\u003cstring\u003e\u003e?",
+      "parentUuid": "091abf57_fb45b74d",
+      "range": {
+        "startLine": 122,
+        "startChar": 18,
+        "endLine": 122,
+        "endChar": 21
+      },
+      "revId": "1a6e632cacd912ba48df39376b087d25ef3edac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24de57a2_8c49fa85",
         "filename": "polygerrit-ui/app/elements/shared/gr-keyboard-shortcuts-directory/gr-keyboard-shortcuts-directory.js",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-08T18:08:41Z",
       "side": 1,
       "message": "Nit: Why \u0027directory\u0027?",
+      "range": {
+        "startLine": 21,
+        "startChar": 31,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "1a6e632cacd912ba48df39376b087d25ef3edac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "708b39b4_78071982",
+        "filename": "polygerrit-ui/app/elements/shared/gr-keyboard-shortcuts-directory/gr-keyboard-shortcuts-directory.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-08T18:14:23Z",
+      "side": 1,
+      "message": "It mainly performs a clerical purpose of maintaining a directory of keyboard shortcuts.\n\n\"A list of names, addresses etc, of specific classes of people or organizations, often in alphabetical order or in some classification.\"",
+      "parentUuid": "24de57a2_8c49fa85",
       "range": {
         "startLine": 21,
         "startChar": 31,

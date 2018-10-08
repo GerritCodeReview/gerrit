@@ -23,6 +23,29 @@
       "revId": "e2aa20cc8b36fa72e9062157c99c2d405c1ffa3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05e5f482_7ad782ac",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-08T07:06:47Z",
+      "side": 1,
+      "message": "... adding a group as reviewer",
+      "range": {
+        "startLine": 181,
+        "startChar": 24,
+        "endLine": 181,
+        "endChar": 39
+      },
+      "revId": "e2aa20cc8b36fa72e9062157c99c2d405c1ffa3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -32,7 +32,7 @@ public class DefaultUrlFormatter implements UrlFormatter {
   }
 
   @Inject
-  DefaultUrlFormatter(@CanonicalWebUrl Provider<String> canonicalWebUrlProvider) {
+  public DefaultUrlFormatter(@CanonicalWebUrl Provider<String> canonicalWebUrlProvider) {
     this.canonicalWebUrlProvider = canonicalWebUrlProvider;
   }
 

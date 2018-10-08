@@ -1,29 +1,29 @@
-= Gerrit Code Review - Project Configuration
+= Gerrit Code Review - Repository Configuration
 
-[[project-creation]]
-== Project Creation
+[[repository-creation]]
+== Repository Creation
 
-There are several ways to create a new project in Gerrit:
+There are several ways to create a new repository in Gerrit:
 
-- in the Web UI under 'Projects' > 'Create Project'
-- via the link:rest-api-projects.html#create-project[Create Project]
+- in the Web UI under 'Repositories' > 'Create Repository'
+- via the link:rest-api-repositories.html#create-repository[Create Repository]
   REST endpoint
-- via the link:cmd-create-project.html[create-project] SSH command
+- via the link:cmd-create-repository.html[create-repository] SSH command
 
-To be able to create new projects the global capability
-link:access-control.html#capability_createProject[Create Project] must
+To be able to create new repositories the global capability
+link:access-control.html#capability_createRepository[Create Repository] must
 be granted.
 
-In addition, projects can be created link:#manual_project_creation[
+In addition, repositories can be created link:#manual_repository_creation[
 manually].
 
-[[manual_project_creation]]
-=== Manual Project Creation
+[[manual_repository_creation]]
+=== Manual Repository Creation
 
 . Create a Git repository under `gerrit.basePath`:
 +
 ----
-  git --git-dir=$base_path/new/project.git init
+  git --git-dir=$base_path/new/repository.git init
 ----
 +
 [TIP]
@@ -34,36 +34,36 @@ To also make this repository available over the anonymous git://
 protocol, don't forget to create a `git-daemon-export-ok` file:
 +
 ----
-  touch $base_path/new/project.git/git-daemon-export-ok
+  touch $base_path/new/repository.git/git-daemon-export-ok
 ----
 
-. Register Project
+. Register Repository
 +
 Either restart the server, or flush the `project_list` cache:
 +
 ----
-  ssh -p 29418 localhost gerrit flush-caches --cache project_list
+  ssh -p 29418 localhost gerrit flush-caches --cache repository_list
 ----
 
-[[project_options]]
-== Project Options
+[[repository_options]]
+== Repository Options
 
 [[submit_type]]
 === Submit Type
 
-The method Gerrit uses to submit a change to a project can be
-modified by any project owner through the project console, `Projects` >
-`List` > my/project. In general, a submitted change is only merged if all
+The method Gerrit uses to submit a change to a repository can be
+modified by any repository owner through the repository console, `Repositories` >
+`List` > my/repository. In general, a submitted change is only merged if all
 its dependencies are also submitted, with exceptions documented below.
 The following submit types are supported:
 
 [[submit_type_inherit]]
 * Inherit
 +
-This is the default for new projects, unless overridden by a global
+This is the default for new repositories, unless overridden by a global
 link:config-gerrit.html#repository.name.defaultSubmitType[`defaultSubmitType` option].
 +
-Inherit the submit type from the parent project. In `All-Projects`, this
+Inherit the submit type from the parent repository. In `All-Repositories`, this
 is equivalent to link:#merge_if_necessary[Merge If Necessary].
 
 [[fast_forward_only]]
@@ -90,7 +90,7 @@ to the classical `git merge` behavior, or `git merge --ff`.
 Always produce a merge commit, even if the change is a strict
 superset of the destination branch.  This is identical to the
 behavior of `git merge --no-ff`, and may be useful if the
-project needs to follow submits with `git log --first-parent`.
+repository needs to follow submits with `git log --first-parent`.
 
 [[cherry_pick]]
 * Cherry Pick
@@ -140,38 +140,38 @@ the important distinction that Rebase Always does not ignore dependencies.
 If `Allow content merges` is enabled, Gerrit will try
 to do a content merge when a path conflict occurs.
 
-[[project-state]]
+[[repository-state]]
 === State
 
-This setting defines the state of the project. A project can have the
+This setting defines the state of the repository. A repository can have the
 following states:
 
 - `Active`:
 +
-The project is active and users can see and modify the project according
-to their access rights on the project.
+The repository is active and users can see and modify the repository according
+to their access rights on the repository.
 
 - `Read Only`:
 +
-The project is read only and all modifying operations on it are
-disabled. E.g. this means that pushing to this project fails for all
+The repository is read only and all modifying operations on it are
+disabled. E.g. this means that pushing to this repository fails for all
 users even if they have push permissions assigned on it.
 +
-Setting a project to this state is an easy way to temporary close a
-project, as you can keep all write access rights in place and they will
-become active again as soon as the project state is set back to
+Setting a repository to this state is an easy way to temporary close a
+repository, as you can keep all write access rights in place and they will
+become active again as soon as the repository state is set back to
 `Active`.
 +
-This state also makes sense if a project was moved to another location.
-In this case all new development should happen in the new project and
+This state also makes sense if a repository was moved to another location.
+In this case all new development should happen in the new repository and
 you want to prevent that somebody accidentally works on the old
-project, while keeping the old project around for old references.
+repository, while keeping the old repository around for old references.
 
 - `Hidden`:
 +
-The project is hidden and only visible to project owners. Other users
-are not able to see the project even if they have read permissions
-granted on the project.
+The repository is hidden and only visible to repository owners. Other users
+are not able to see the repository even if they have read permissions
+granted on the repository.
 
 === Use target branch when determining new changes to open
 
@@ -224,12 +224,12 @@ contain files which are too large.
 
 Normally the link:config-gerrit.html#receive.maxObjectSizeLimit[maximum
 Git object size limit] is configured globally for a Gerrit server. At
-the project level, the maximum Git object size limit can be further
+the repository level, the maximum Git object size limit can be further
 reduced, but not extended. The displayed effective limit shows the
-maximum Git object size limit that is actually used on the project.
+maximum Git object size limit that is actually used on the repository.
 
 The defined maximum Git object size limit is inherited by any child
-project.
+repository.
 
 [[require-signed-off-by]]
 === Require Signed-off-by
@@ -247,10 +247,10 @@ author/committer/uploader in commit message footer].
 [[branch-creation]]
 === Branch Creation
 
-There are several ways to create a new branch in a project:
+There are several ways to create a new branch in a repository:
 
-- in the Web UI under 'Projects' > 'List' > <project> > 'Branches'
-- via the link:rest-api-projects.html#create-branch[Create Branch]
+- in the Web UI under 'Repositories' > 'List' > <repository> > 'Branches'
+- via the link:rest-api-repositories.html#create-branch[Create Branch]
   REST endpoint
 - via the link:cmd-create-branch.html[create-branch] SSH command
 - by using a git client to push a commit to a non-existing branch
@@ -275,8 +275,8 @@ are not supported.
 
 There are several ways to delete a branch:
 
-- in the Web UI under 'Projects' > 'List' > <project> > 'Branches'
-- via the link:rest-api-projects.html#delete-branch[Delete Branch]
+- in the Web UI under 'Repositories' > 'List' > <repository> > 'Branches'
+- via the link:rest-api-repositories.html#delete-branch[Delete Branch]
   REST endpoint
 - by using a git client
 +
@@ -302,10 +302,10 @@ The default branch of a remote repository is defined by its `HEAD`.
 For convenience reasons, when the repository is cloned Git creates a
 local branch for this default branch and checks it out.
 
-Project owners can set `HEAD`
+Repository owners can set `HEAD`
 
-- in the Web UI under 'Projects' > 'List' > <project> > 'Branches' or
-- via the link:rest-api-projects.html#set-head[Set HEAD] REST endpoint
+- in the Web UI under 'Repositories' > 'List' > <repository> > 'Branches' or
+- via the link:rest-api-repositories.html#set-head[Set HEAD] REST endpoint
 
 
 GERRIT

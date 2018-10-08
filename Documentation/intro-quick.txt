@@ -44,7 +44,7 @@ see:
 To learn more, see:
 
 . link:intro-user.html[User Guide]
-. link:intro-project-owner.html[Project Owner Guide]
+. link:intro-repository-owner.html[Repository Owner Guide]
 . link:https://source.android.com/source/life-of-a-patch[Default Android Workflow] (external)
 
 GERRIT

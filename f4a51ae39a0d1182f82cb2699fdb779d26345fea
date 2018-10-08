@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "934ea3e9_e4dc1a4e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/AbstractGitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-08T22:26:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8775c227_4bf2ccfc",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "f4a51ae39a0d1182f82cb2699fdb779d26345fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fd312d4_8f40fdde",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "f4a51ae39a0d1182f82cb2699fdb779d26345fea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fed0078_4901b0e7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-08T22:26:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fd312d4_8f40fdde",
+      "revId": "f4a51ae39a0d1182f82cb2699fdb779d26345fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

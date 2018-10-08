@@ -1408,10 +1408,9 @@ public class RestApiServlet extends HttpServlet {
       Throwable err, HttpServletRequest req, HttpServletResponse res) throws IOException {
     String uri = req.getRequestURI();
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
-      uri += "?" + req.getQueryString();
+      uri += "?" + LogRedactUtil.redactQueryString(req.getQueryString());
     }
     logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uri);
-
     if (!res.isCommitted()) {
       res.reset();
       return replyError(req, res, SC_INTERNAL_SERVER_ERROR, "Internal server error", err);

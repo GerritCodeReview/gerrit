@@ -35,6 +35,24 @@
       "revId": "2fc54ee095b4c390f40454baf48bb1600fea5b07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e384b7d_cd22c4dc",
+        "filename": "java/com/google/gerrit/server/submit/CommitMergeStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-08T13:12:49Z",
+      "side": 1,
+      "message": "Fixed by https://gerrit-review.googlesource.com/c/gerrit/+/199011",
+      "parentUuid": "576c8c4c_dec753a7",
+      "revId": "2fc54ee095b4c390f40454baf48bb1600fea5b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

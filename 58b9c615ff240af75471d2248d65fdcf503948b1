@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cde8d17_ae997b18",
+        "filename": "java/com/google/gerrit/httpd/restapi/LogRedactUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-08T07:43:22Z",
+      "side": 1,
+      "message": "[optional] maybe unrelated since this method already existed like this, but I think I would find this a little easier to read if we would just pass in the query string into this method as the uri seems to be unrelated to redacting the query string.",
+      "range": {
+        "startLine": 40,
+        "startChar": 41,
+        "endLine": 40,
+        "endChar": 62
+      },
+      "revId": "58b9c615ff240af75471d2248d65fdcf503948b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

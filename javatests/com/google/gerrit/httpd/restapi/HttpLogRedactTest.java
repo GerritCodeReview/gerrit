@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.http.jetty;
+package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -21,25 +21,25 @@ import org.junit.Test;
 public class HttpLogRedactTest {
   @Test
   public void includeQueryString() {
-    assertThat(HttpLog.redactQueryString("/changes/", null)).isEqualTo("/changes/");
-    assertThat(HttpLog.redactQueryString("/changes/", "")).isEqualTo("/changes/");
-    assertThat(HttpLog.redactQueryString("/changes/", "x")).isEqualTo("/changes/?x");
-    assertThat(HttpLog.redactQueryString("/changes/", "x=y")).isEqualTo("/changes/?x=y");
+    assertThat(LogRedactUtil.redactQueryString("/changes/", null)).isEqualTo("/changes/");
+    assertThat(LogRedactUtil.redactQueryString("/changes/", "")).isEqualTo("/changes/");
+    assertThat(LogRedactUtil.redactQueryString("/changes/", "x")).isEqualTo("/changes/?x");
+    assertThat(LogRedactUtil.redactQueryString("/changes/", "x=y")).isEqualTo("/changes/?x=y");
   }
 
   @Test
   public void redactAuth() {
-    assertThat(HttpLog.redactQueryString("/changes/", "query=status:open"))
+    assertThat(LogRedactUtil.redactQueryString("/changes/", "query=status:open"))
         .isEqualTo("/changes/?query=status:open");
 
-    assertThat(HttpLog.redactQueryString("/changes/", "query=status:open&access_token=foo"))
+    assertThat(LogRedactUtil.redactQueryString("/changes/", "query=status:open&access_token=foo"))
         .isEqualTo("/changes/?query=status:open&access_token=*");
 
-    assertThat(HttpLog.redactQueryString("/changes/", "access_token=foo"))
+    assertThat(LogRedactUtil.redactQueryString("/changes/", "access_token=foo"))
         .isEqualTo("/changes/?access_token=*");
 
     assertThat(
-            HttpLog.redactQueryString(
+            LogRedactUtil.redactQueryString(
                 "/changes/", "query=status:open&access_token=foo&access_token=bar"))
         .isEqualTo("/changes/?query=status:open&access_token=*&access_token=*");
   }

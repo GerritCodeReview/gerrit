@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -136,10 +134,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
 
     ChangeJson cjson = json.create(options);
     cjson.setPluginDefinedAttributesFactory(this.imp);
-    List<List<ChangeInfo>> res =
-        cjson
-            .lazyLoad(containsAnyOf(options, ChangeJson.REQUIRE_LAZY_LOAD))
-            .formatQueryResults(results);
+    List<List<ChangeInfo>> res = cjson.formatQueryResults(results);
 
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
@@ -148,10 +143,5 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
       }
     }
     return res;
-  }
-
-  private static boolean containsAnyOf(
-      EnumSet<ListChangesOption> set, ImmutableSet<ListChangesOption> toFind) {
-    return !Sets.intersection(toFind, set).isEmpty();
   }
 }

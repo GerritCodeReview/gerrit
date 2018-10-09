@@ -162,7 +162,7 @@ public class RevisionJson {
     }
   }
 
-  public CommitInfo toCommit(
+  public CommitInfo getCommitInfo(
       Project.NameKey project, RevWalk rw, RevCommit commit, boolean addLinks, boolean fillCommit)
       throws IOException {
     CommitInfo info = new CommitInfo();
@@ -285,7 +285,7 @@ public class RevisionJson {
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
       if (setCommit) {
-        out.commit = toCommit(project, rw, commit, has(WEB_LINKS), fillCommit);
+        out.commit = getCommitInfo(project, rw, commit, has(WEB_LINKS), fillCommit);
       }
       if (addFooters) {
         Ref ref = repo.exactRef(cd.change().getDest().get());

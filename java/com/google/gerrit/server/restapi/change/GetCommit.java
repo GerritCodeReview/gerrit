@@ -59,7 +59,8 @@ public class GetCommit implements RestReadView<RevisionResource> {
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
       CommitInfo info =
-          json.create(ImmutableSet.of()).toCommit(rsrc.getProject(), rw, commit, addLinks, true);
+          json.create(ImmutableSet.of())
+              .getCommitInfo(rsrc.getProject(), rw, commit, addLinks, true);
       Response<CommitInfo> r = Response.ok(info);
       if (rsrc.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));

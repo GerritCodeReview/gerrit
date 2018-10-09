@@ -102,7 +102,6 @@ import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -224,7 +223,6 @@ public class ChangeJson {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
-  private final GitRepositoryManager repoManager;
   private final ChangeData.Factory changeDataFactory;
   private final AccountLoader.Factory accountLoaderFactory;
 
@@ -251,7 +249,6 @@ public class ChangeJson {
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
-      GitRepositoryManager repoManager,
       ChangeData.Factory cdf,
       AccountLoader.Factory ailf,
       ChangeMessagesUtil cmUtil,
@@ -270,7 +267,6 @@ public class ChangeJson {
     this.userProvider = user;
     this.changeDataFactory = cdf;
     this.permissionBackend = permissionBackend;
-    this.repoManager = repoManager;
     this.accountLoaderFactory = ailf;
     this.cmUtil = cmUtil;
     this.checkerProvider = checkerProvider;
@@ -286,6 +282,20 @@ public class ChangeJson {
     this.options = Sets.immutableEnumSet(options);
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
     logger.atFine().log("options = %s", options);
+  }
+
+  public static ApprovalInfo getApprovalInfo(
+      Account.Id id,
+      Integer value,
+      VotingRangeInfo permittedVotingRange,
+      String tag,
+      Timestamp date) {
+    ApprovalInfo ai = new ApprovalInfo(id.get());
+    ai.value = value;
+    ai.permittedVotingRange = permittedVotingRange;
+    ai.date = date;
+    ai.tag = tag;
+    return ai;
   }
 
   public ChangeJson fix(FixInput fix) {
@@ -320,31 +330,6 @@ public class ChangeJson {
 
   public ChangeInfo format(ChangeData cd) throws OrmException {
     return format(cd, Optional.empty(), true);
-  }
-
-  private ChangeInfo format(
-      ChangeData cd, Optional<PatchSet.Id> limitToPsId, boolean fillAccountLoader)
-      throws OrmException {
-    try {
-      if (fillAccountLoader) {
-        accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-        ChangeInfo res = toChangeInfo(cd, limitToPsId);
-        accountLoader.fill();
-        return res;
-      }
-      return toChangeInfo(cd, limitToPsId);
-    } catch (PatchListNotAvailableException
-        | GpgException
-        | OrmException
-        | IOException
-        | PermissionBackendException
-        | RuntimeException e) {
-      if (!has(CHECK)) {
-        Throwables.throwIfInstanceOf(e, OrmException.class);
-        throw new OrmException(e);
-      }
-      return checkOnly(cd);
-    }
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
@@ -398,6 +383,53 @@ public class ChangeJson {
 
   private static SubmitRequirementInfo requirementToInfo(SubmitRequirement req, Status status) {
     return new SubmitRequirementInfo(status.name(), req.fallbackText(), req.type(), req.data());
+  }
+
+  private static boolean isOnlyZero(Collection<String> values) {
+    return values.isEmpty() || (values.size() == 1 && values.contains(" 0"));
+  }
+
+  private static void finish(ChangeInfo info) {
+    info.id =
+        Joiner.on('~')
+            .join(Url.encode(info.project), Url.encode(info.branch), Url.encode(info.changeId));
+  }
+
+  private static void addApproval(LabelInfo label, ApprovalInfo approval) {
+    if (label.all == null) {
+      label.all = new ArrayList<>();
+    }
+    label.all.add(approval);
+  }
+
+  private static boolean containsAnyOf(
+      ImmutableSet<ListChangesOption> set, ImmutableSet<ListChangesOption> toFind) {
+    return !Sets.intersection(toFind, set).isEmpty();
+  }
+
+  private ChangeInfo format(
+      ChangeData cd, Optional<PatchSet.Id> limitToPsId, boolean fillAccountLoader)
+      throws OrmException {
+    try {
+      if (fillAccountLoader) {
+        accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+        ChangeInfo res = toChangeInfo(cd, limitToPsId);
+        accountLoader.fill();
+        return res;
+      }
+      return toChangeInfo(cd, limitToPsId);
+    } catch (PatchListNotAvailableException
+        | GpgException
+        | OrmException
+        | IOException
+        | PermissionBackendException
+        | RuntimeException e) {
+      if (!has(CHECK)) {
+        Throwables.throwIfInstanceOf(e, OrmException.class);
+        throw new OrmException(e);
+      }
+      return checkOnly(cd);
+    }
   }
 
   private void ensureLoaded(Iterable<ChangeData> all) throws OrmException {
@@ -1013,24 +1045,6 @@ public class ChangeJson {
     return ai;
   }
 
-  public static ApprovalInfo getApprovalInfo(
-      Account.Id id,
-      Integer value,
-      VotingRangeInfo permittedVotingRange,
-      String tag,
-      Timestamp date) {
-    ApprovalInfo ai = new ApprovalInfo(id.get());
-    ai.value = value;
-    ai.permittedVotingRange = permittedVotingRange;
-    ai.date = date;
-    ai.tag = tag;
-    return ai;
-  }
-
-  private static boolean isOnlyZero(Collection<String> values) {
-    return values.isEmpty() || (values.size() == 1 && values.contains(" 0"));
-  }
-
   private void setLabelValues(LabelType type, LabelWithStatus l) {
     l.label().defaultValue = type.getDefaultValue();
     l.label().values = new LinkedHashMap<>();
@@ -1247,19 +1261,6 @@ public class ChangeJson {
     return map;
   }
 
-  static void finish(ChangeInfo info) {
-    info.id =
-        Joiner.on('~')
-            .join(Url.encode(info.project), Url.encode(info.branch), Url.encode(info.changeId));
-  }
-
-  private static void addApproval(LabelInfo label, ApprovalInfo approval) {
-    if (label.all == null) {
-      label.all = new ArrayList<>();
-    }
-    label.all.add(approval);
-  }
-
   private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
       throws OrmException {
     return permissionBackendForChange(permissionBackend.user(user).database(db), cd);
@@ -1280,11 +1281,6 @@ public class ChangeJson {
     return lazyLoad
         ? withUser.change(cd)
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
-  }
-
-  private static boolean containsAnyOf(
-      ImmutableSet<ListChangesOption> set, ImmutableSet<ListChangesOption> toFind) {
-    return !Sets.intersection(toFind, set).isEmpty();
   }
 
   @AutoValue

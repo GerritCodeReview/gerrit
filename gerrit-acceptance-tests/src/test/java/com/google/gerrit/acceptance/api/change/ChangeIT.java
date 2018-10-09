@@ -2087,6 +2087,40 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeReviewerSelfFromAbandonedChangePermitted() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    setApiUser(user);
+    recommend(changeId);
+
+    setApiUser(admin);
+    gApi.changes().id(changeId).abandon();
+
+    setApiUser(user);
+    gApi.changes().id(r.getChangeId()).reviewer("self").remove();
+    eventRecorder.assertReviewerDeletedEvents(changeId, user.email);
+  }
+
+  @Test
+  public void removeOtherReviewerFromAbandonedChangeNotPermitted() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    setApiUser(user);
+    recommend(changeId);
+
+    setApiUser(admin);
+    approve(changeId);
+    gApi.changes().id(changeId).abandon();
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("remove reviewer not permitted");
+    gApi.changes().id(r.getChangeId()).reviewer(admin.getId().toString()).remove();
+  }
+
+  @Test
   public void deleteVote() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());

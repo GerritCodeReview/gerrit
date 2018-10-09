@@ -1,0 +1,267 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccdae71c_e87927a9",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "final",
+      "range": {
+        "startLine": 179,
+        "startChar": 9,
+        "endLine": 179,
+        "endChar": 14
+      },
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1d22217_b8b41d9a",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "These need to be generically typed, you get unchecked warnings otherwise.",
+      "range": {
+        "startLine": 179,
+        "startChar": 20,
+        "endLine": 179,
+        "endChar": 23
+      },
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad347d76_ce1365dd",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "Please document these new metrics in metrics.txt",
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdb211d7_51ace691",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "nit: move this up to the other value assignments (this.x \u003d x)",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 281,
+        "endChar": 27
+      },
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c841a6ba_eee1dffb",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "nit: place this right after the logging statement",
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c72a5cd4_0c379fbb",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "No, the conversion happens in the record call.",
+      "range": {
+        "startLine": 353,
+        "startChar": 9,
+        "endLine": 353,
+        "endChar": 51
+      },
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1473214_cb2cf519",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "Optional: Write as a one-liner:\n\nreplaceByChange.values().forEach(r -\u003e resultChangeIds.add(Key.REPLACED, r.ontoChange));",
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76c163f2_3f0d3fa3",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "optional: Instead of doing this in the retry helper, return a result from the retry helper Set\u003cChange.Id\u003e.\n\nThe set contains all IDs of auto-closed changes.\n\nUse this populate the metrics after the retry helper.\n\nI think this improves the code because you can remove the comment about why it is OK to populate the metrics in case we got here and because we can be sure that the metrics are populated exactly once.",
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "300393e3_6dfc3b91",
+        "filename": "java/com/google/gerrit/server/git/receive/ResultChangeIds.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "Would be nice if we could add a sentence explaining that these results can be partial in case the operation was canceled.",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "999cec8a_5971a759",
+        "filename": "java/com/google/gerrit/server/git/receive/ResultChangeIds.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "nit: The whole class is thread safe, so instead of documenting this on each method, you can add\n\n\u003cp\u003eThis class is thread-safe.\n\nTo the class\u0027s JavaDoc.",
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63cb66b6_90ad4636",
+        "filename": "java/com/google/gerrit/server/git/receive/ResultChangeIds.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "optional: Make the map immutable:\n\n  private ImmutableMap\u003cKey, List\u003cChange.Id\u003e\u003e ids;\n\n  ResultChangeIds() {\n    Map\u003cKey, List\u003cChange.Id\u003e\u003e ids \u003d Maps.newEnumMap(Key.class);\n    for (Key k : Key.values()) {\n      ids.put(k, Collections.synchronizedList(new ArrayList\u003c\u003e()));\n    }\n    this.ids \u003d Maps.immutableEnumMap(ids);\n  }",
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b0eff90_dc34288d",
+        "filename": "java/com/google/gerrit/server/git/receive/ResultChangeIds.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "this is an unchecked assignment",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 33
+      },
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c01792c_9ce826c2",
+        "filename": "java/com/google/gerrit/server/git/receive/ResultChangeIds.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-09T11:09:04Z",
+      "side": 1,
+      "message": "optional: Use a data-structure that synchronizes: Collections.synchronizedList(new ArrayList\u003c\u003e()) and remove the two synchronized blocks.",
+      "range": {
+        "startLine": 37,
+        "startChar": 17,
+        "endLine": 37,
+        "endChar": 34
+      },
+      "revId": "b887a44e4924e7d27bac7f69e6eca279a90ba880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

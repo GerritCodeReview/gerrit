@@ -183,7 +183,7 @@ link:user-search.html[Searching Changes]. For example, to find only
 those changes that contain edits, see link:user-search.html#has[has:edit].
 
 
-[change-edit-actions]
+[[change-edit-actions]]
 == Modifying Changes
 
 

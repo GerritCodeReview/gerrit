@@ -100,7 +100,7 @@ public class RemoveReviewerControl {
   private boolean canRemoveReviewerWithoutPermissionCheck(
       Change change, CurrentUser currentUser, Account.Id reviewer, int value)
       throws NoSuchProjectException, IOException {
-    if (!change.getStatus().isOpen()) {
+    if (change.getStatus().equals(Change.Status.MERGED)) {
       return false;
     }
 

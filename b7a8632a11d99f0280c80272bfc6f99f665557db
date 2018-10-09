@@ -47,6 +47,30 @@
       "revId": "b7a8632a11d99f0280c80272bfc6f99f665557db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bc5ae39_428b03ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-09T17:50:10Z",
+      "side": 1,
+      "message": "Actually, only 2/3, without changing some APIs.",
+      "parentUuid": "ebc3db9b_af116270",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "b7a8632a11d99f0280c80272bfc6f99f665557db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

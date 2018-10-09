@@ -2259,6 +2259,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       String name = "reviewers for " + (i + 1);
       if (expectedReviewer != null) {
         assertThat(cd.reviewers().all()).named(name).containsExactly(expectedReviewer.getId());
+        // Remove reviewer from PS1 so we can test adding this same reviewer on PS2 below.
         gApi.changes().id(cd.getId().get()).reviewer(expectedReviewer.getId().toString()).remove();
       }
       assertThat(byCommit(c).reviewers().all()).named(name).isEmpty();

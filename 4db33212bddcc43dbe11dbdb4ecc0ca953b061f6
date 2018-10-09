@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93d3c310_109ff3a5",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-09T04:54:09Z",
+      "side": 1,
+      "message": "It\u0027s not necessary to import this if it\u0027s explicitly referenced as DynamicOptions.DynamicBean in the code.\n\nEither remove this import, or remove the \"DynamicOptions.\" prefix on the uses below.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 59
+      },
+      "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdb86e1b_6295f196",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-09T04:54:09Z",
+      "side": 1,
+      "message": "Why is this added?",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 47
+      },
+      "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1029b765_8e8d221d",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-09T04:54:09Z",
+      "side": 1,
+      "message": "Unnecessary type arguments.",
+      "range": {
+        "startLine": 75,
+        "startChar": 68,
+        "endLine": 75,
+        "endChar": 87
+      },
+      "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecdbf8b0_1ef92e31",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-09T04:54:09Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be explicitly specified due to the import at L32",
+      "range": {
+        "startLine": 128,
+        "startChar": 44,
+        "endLine": 128,
+        "endChar": 59
+      },
+      "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "939c0722_d158212d",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-09T04:54:09Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 132,
+        "startChar": 9,
+        "endLine": 132,
+        "endChar": 24
+      },
+      "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

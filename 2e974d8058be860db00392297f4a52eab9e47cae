@@ -114,6 +114,24 @@
       "revId": "2e974d8058be860db00392297f4a52eab9e47cae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "942b337e_ebf1db47",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-09T16:39:22Z",
+      "side": 1,
+      "message": "Specifically:\n\n private ChangeInfo toChangeInfoImpl(ChangeData cd, Optional\u003cPatchSet.Id\u003e limitToPsId)\n\nbecomes\n\n \u003cI extends ChangeInfo\u003e private I toChangeInfoImpl(ChangeData cd, Supplier\u003cI\u003e changeInfoSupplier, Optional\u003cPatchSet.Id\u003e limitToPsId)",
+      "parentUuid": "714f19c7_221e93ab",
+      "revId": "2e974d8058be860db00392297f4a52eab9e47cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

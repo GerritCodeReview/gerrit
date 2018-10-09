@@ -76,7 +76,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.TreeMap;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -149,22 +148,6 @@ public class RevisionJson {
     this.repoManager = repoManager;
     this.options = ImmutableSet.copyOf(options);
     this.lazyLoad = containsAnyOf(this.options, ChangeJson.REQUIRE_LAZY_LOAD);
-  }
-
-  public static void populateFetchMap(
-      DownloadScheme scheme,
-      DynamicMap<DownloadCommand> commands,
-      String projectName,
-      String refName,
-      FetchInfo fetchInfo) {
-    for (Extension<DownloadCommand> e2 : commands) {
-      String commandName = e2.getExportName();
-      DownloadCommand command = e2.getProvider().get();
-      String c = command.getCommand(scheme, projectName, refName);
-      if (c != null) {
-        addCommand(fetchInfo, commandName, c);
-      }
-    }
   }
 
   public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)
@@ -242,13 +225,6 @@ public class RevisionJson {
     }
   }
 
-  private static void addCommand(FetchInfo fetchInfo, String commandName, String c) {
-    if (fetchInfo.commands == null) {
-      fetchInfo.commands = new TreeMap<>();
-    }
-    fetchInfo.commands.put(commandName, c);
-  }
-
   private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in)
       throws PermissionBackendException, OrmException, IOException {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
@@ -270,7 +246,8 @@ public class RevisionJson {
       r.put(schemeName, fetchInfo);
 
       if (has(DOWNLOAD_COMMANDS)) {
-        populateFetchMap(scheme, downloadCommands, projectName, refName, fetchInfo);
+        DownloadCommandsJson.populateFetchMap(
+            scheme, downloadCommands, projectName, refName, fetchInfo);
       }
     }
 

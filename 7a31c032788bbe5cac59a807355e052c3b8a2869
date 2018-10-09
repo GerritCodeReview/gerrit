@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "031ed04b_cbca36bd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2198,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-09T06:34:49Z",
+      "side": 1,
+      "message": "use recommand(changeId) instead",
+      "range": {
+        "startLine": 2198,
+        "startChar": 4,
+        "endLine": 2198,
+        "endChar": 95
+      },
+      "revId": "7a31c032788bbe5cac59a807355e052c3b8a2869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8058d35c_107b8b3c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2201,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-09T06:34:49Z",
+      "side": 1,
+      "message": "approve(changeId);",
+      "range": {
+        "startLine": 2201,
+        "startChar": 0,
+        "endLine": 2201,
+        "endChar": 93
+      },
+      "revId": "7a31c032788bbe5cac59a807355e052c3b8a2869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -589,6 +589,22 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "auth.skipFullRefEvaluationIfAllRefsAreVisible", value = "false")
+  public void advertisedReferencesOmitPrivateChangesOfOtherUsersWhenShortcutDisabled()
+      throws Exception {
+    allow("refs/*", Permission.READ, REGISTERED_USERS);
+
+    TestRepository<?> userTestRepository = cloneProject(project, user);
+    try (Git git = userTestRepository.git()) {
+      String change3RefName = c3.currentPatchSet().getRefName();
+      assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
+
+      gApi.changes().id(c3.getId().get()).setPrivate(true, null);
+      assertThat(getRefs(git)).doesNotContain(change3RefName);
+    }
+  }
+
+  @Test
   public void advertisedReferencesOmitDraftCommentRefsOfOtherUsers() throws Exception {
     assume().that(notesMigration.commitChangeWrites()).isTrue();
 

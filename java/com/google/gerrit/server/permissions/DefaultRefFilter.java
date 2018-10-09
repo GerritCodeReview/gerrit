@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TagMatcher;
@@ -59,6 +60,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -83,6 +85,7 @@ class DefaultRefFilter {
   private final PermissionBackend.ForProject permissionBackendForProject;
   private final Counter0 fullFilterCount;
   private final Counter0 skipFilterCount;
+  private final boolean skipFullRefEvaluationIfAllRefsAreVisible;
 
   private Map<Change.Id, Branch.NameKey> visibleChanges;
 
@@ -94,6 +97,7 @@ class DefaultRefFilter {
       Provider<ReviewDb> db,
       GroupCache groupCache,
       PermissionBackend permissionBackend,
+      @GerritServerConfig Config config,
       MetricMaker metricMaker,
       @Assisted ProjectControl projectControl) {
     this.tagCache = tagCache;
@@ -102,6 +106,8 @@ class DefaultRefFilter {
     this.db = db;
     this.groupCache = groupCache;
     this.permissionBackend = permissionBackend;
+    this.skipFullRefEvaluationIfAllRefsAreVisible =
+        config.getBoolean("auth", "skipFullRefEvaluationIfAllRefsAreVisible", true);
     this.projectControl = projectControl;
 
     this.user = projectControl.getUser();
@@ -127,7 +133,7 @@ class DefaultRefFilter {
       refs = addUsersSelfSymref(refs);
     }
 
-    if (!projectState.isAllUsers()) {
+    if (skipFullRefEvaluationIfAllRefsAreVisible && !projectState.isAllUsers()) {
       if (projectState.statePermitsRead()
           && checkProjectPermission(permissionBackendForProject, ProjectPermission.READ)) {
         skipFilterCount.increment();

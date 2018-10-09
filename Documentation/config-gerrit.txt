@@ -664,6 +664,13 @@ link:#accountDeactivation[accountDeactivation] section appropriately.
 +
 By default, false.
 
+[[auth.skipFullRefEvaluationIfAllRefsAreVisible]]auth.skipFullRefEvaluationIfAllRefsAreVisible::
++
+Whether to skip the full ref visibility checks as a performance shortcut when all refs are
+visible to a user. Full ref filtering would filter out things like pending edits.
++
+By default, true.
+
 [[cache]]
 === Section cache
 

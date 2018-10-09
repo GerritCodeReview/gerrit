@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
+import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInput;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -23,17 +25,24 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.server.ApprovalCopier;
@@ -45,6 +54,9 @@ import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.EmailReviewComments;
+import com.google.gerrit.server.change.ReviewerAdder;
+import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
+import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -75,6 +87,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -117,6 +130,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ProjectCache projectCache;
+  private final ReviewerAdder reviewerAdder;
 
   private final ProjectState projectState;
   private final Branch.NameKey dest;
@@ -142,6 +156,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
   private RequestScopePropagator requestScopePropagator;
+  private ReviewerAdditionList reviewerAdditions;
 
   @Inject
   ReplaceOp(
@@ -161,12 +176,13 @@ public class ReplaceOp implements BatchUpdateOp {
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       ProjectCache projectCache,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
+      ReviewerAdder reviewerAdder,
       @Assisted ProjectState projectState,
-      @Assisted Branch.NameKey dest,
+      @Assisted NameKey dest,
       @Assisted boolean checkMergedInto,
-      @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
+      @Assisted("priorPatchSetId") Id priorPatchSetId,
       @Assisted("priorCommitId") ObjectId priorCommitId,
-      @Assisted("patchSetId") PatchSet.Id patchSetId,
+      @Assisted("patchSetId") Id patchSetId,
       @Assisted("commitId") ObjectId commitId,
       @Assisted PatchSetInfo info,
       @Assisted List<String> groups,
@@ -188,6 +204,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.projectCache = projectCache;
     this.sendEmailExecutor = sendEmailExecutor;
+    this.reviewerAdder = reviewerAdder;
 
     this.projectState = projectState;
     this.dest = dest;
@@ -228,7 +245,8 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, OrmException, IOException, PermissionBackendException {
+      throws RestApiException, OrmException, IOException, PermissionBackendException,
+          ConfigInvalidException {
     notes = ctx.getNotes();
     Change change = notes.getChange();
     if (change == null || change.getStatus().isClosed()) {
@@ -313,15 +331,17 @@ public class ReplaceOp implements BatchUpdateOp {
         ctx.getRevWalk(),
         ctx.getRepoView().getConfig(),
         newApprovals);
-    approvalsUtil.addReviewers(
-        ctx.getDb(),
-        update,
-        projectState.getLabelTypes(),
-        change,
-        newPatchSet,
-        info,
-        recipients.getReviewers(),
-        oldRecipients.getAll());
+
+    reviewerAdditions =
+        reviewerAdder.prepare(ctx.getNotes(), ctx.getUser(), getReviewerInputs(), true);
+    Optional<ReviewerAddition> reviewerError = reviewerAdditions.getErrors().stream().findFirst();
+    if (reviewerError.isPresent()) {
+      // TODO(dborowitz): How best to report this? Erroring out would match existing
+      // ReceiveCommits behavior, but it may be worth rethinking.
+      AddReviewerResult result = reviewerError.get().result;
+      throw new BadRequestException("Failed to add reviewer " + result.input + ": " + result.error);
+    }
+    reviewerAdditions.updateChange(ctx, newPatchSet);
 
     // Check if approvals are changing in with this update. If so, add current user to reviewers.
     // Note that this is done separately as addReviewers is filtering out the change owner as
@@ -342,6 +362,22 @@ public class ReplaceOp implements BatchUpdateOp {
     }
 
     return true;
+  }
+
+  private ImmutableList<AddReviewerInput> getReviewerInputs() {
+    MailRecipients recipients = magicBranch.getMailRecipients();
+    return Streams.concat(
+            recipients
+                .getReviewers()
+                .stream()
+                .distinct()
+                .map(id -> newAddReviewerInput(id, ReviewerState.REVIEWER)),
+            recipients
+                .getCcOnly()
+                .stream()
+                .distinct()
+                .map(id -> newAddReviewerInput(id, ReviewerState.CC)))
+        .collect(toImmutableList());
   }
 
   private ChangeMessage createChangeMessage(ChangeContext ctx, String reviewMessage)
@@ -455,6 +491,7 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) throws Exception {
+    reviewerAdditions.postUpdate(ctx);
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       // TODO(dborowitz): Merge email templates so we only have to send one.
       Runnable e = new ReplaceEmailTask(ctx);

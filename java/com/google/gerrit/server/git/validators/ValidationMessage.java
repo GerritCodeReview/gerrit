@@ -30,7 +30,7 @@ public class ValidationMessage {
     public String getPrefix() {
       return prefix;
     }
-  };
+  }
 
   private final String message;
   private final Type type;

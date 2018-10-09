@@ -313,6 +313,30 @@
     },
     {
       "key": {
+        "uuid": "465584dc_d4521c38",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5950,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-09T16:33:57Z",
+      "side": 1,
+      "message": "\u003e Actually I think creating this change message can also be implemented in a follow-up change.\n\nAgreed. I will go ahead and review this change as-is.",
+      "parentUuid": "cc902e0d_b582a7e3",
+      "range": {
+        "startLine": 5950,
+        "startChar": 0,
+        "endLine": 5950,
+        "endChar": 27
+      },
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a39d5730_fddbe18c",
         "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 2

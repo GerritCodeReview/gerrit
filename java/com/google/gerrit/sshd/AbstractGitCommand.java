@@ -32,8 +32,6 @@ public abstract class AbstractGitCommand extends BaseCommand {
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
   protected ProjectState projectState;
 
-  @Inject private SshScope sshScope;
-
   @Inject private GitRepositoryManager repoManager;
 
   @Inject private SshSession session;
@@ -49,28 +47,24 @@ public abstract class AbstractGitCommand extends BaseCommand {
   @Override
   public void start(Environment env) {
     Context ctx = context.subContext(newSession(), context.getCommandLine());
-    final Context old = sshScope.set(ctx);
-    try {
-      startThread(
-          new ProjectCommandRunnable() {
-            @Override
-            public void executeParseCommand() throws Exception {
-              parseCommandLine();
-            }
+    startThreadWithContext(
+        ctx,
+        new ProjectCommandRunnable() {
+          @Override
+          public void executeParseCommand() throws Exception {
+            parseCommandLine();
+          }
 
-            @Override
-            public void run() throws Exception {
-              AbstractGitCommand.this.service();
-            }
+          @Override
+          public void run() throws Exception {
+            AbstractGitCommand.this.service();
+          }
 
-            @Override
-            public Project.NameKey getProjectName() {
-              return projectState.getNameKey();
-            }
-          });
-    } finally {
-      sshScope.set(old);
-    }
+          @Override
+          public Project.NameKey getProjectName() {
+            return projectState.getNameKey();
+          }
+        });
   }
 
   private SshSession newSession() {

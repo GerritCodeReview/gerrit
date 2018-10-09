@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ad8a201_b40d2ec6",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-10-09T05:20:30Z",
+      "side": 1,
+      "message": "It\u0027s used without the prefix on line 75. I\u0027ll remove the prefix in the other uses too.",
+      "parentUuid": "93d3c310_109ff3a5",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 59
+      },
+      "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdb86e1b_6295f196",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c1ea0f5_f6e6913f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-10-09T05:20:30Z",
+      "side": 1,
+      "message": "No idea :) Removed.",
+      "parentUuid": "bdb86e1b_6295f196",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 47
+      },
+      "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "88e0e5ea_38fd14ed",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-10-09T05:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1029b765_8e8d221d",
+      "range": {
+        "startLine": 75,
+        "startChar": 68,
+        "endLine": 75,
+        "endChar": 87
+      },
+      "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecdbf8b0_1ef92e31",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "d5fd9316_9f78b437",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-10-09T05:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecdbf8b0_1ef92e31",
+      "range": {
+        "startLine": 128,
+        "startChar": 44,
+        "endLine": 128,
+        "endChar": 59
+      },
+      "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "939c0722_d158212d",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
         "patchSetId": 2
@@ -114,6 +210,30 @@
       "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd00d92e_15621068",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-10-09T05:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "939c0722_d158212d",
+      "range": {
+        "startLine": 132,
+        "startChar": 9,
+        "endLine": 132,
+        "endChar": 24
+      },
+      "revId": "4db33212bddcc43dbe11dbdb4ecc0ca953b061f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

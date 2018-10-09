@@ -78,7 +78,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -86,7 +85,6 @@ import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -115,12 +113,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import java.util.function.Supplier;
-import org.eclipse.jgit.lib.Config;
 
 /**
  * Produces {@link ChangeInfo} (which is serialized to JSON afterwards) from {@link ChangeData}.
@@ -218,8 +211,6 @@ public class ChangeJson {
   private final TrackingFooters trackingFooters;
   private final Metrics metrics;
   private final RevisionJson revisionJson;
-  private final boolean enableParallelFormatting;
-  private final ExecutorService fanOutExecutor;
   private final boolean lazyLoad;
 
   private AccountLoader accountLoader;
@@ -242,8 +233,6 @@ public class ChangeJson {
       TrackingFooters trackingFooters,
       Metrics metrics,
       RevisionJson.Factory revisionJsonFactory,
-      @GerritServerConfig Config config,
-      @FanOutExecutor ExecutorService fanOutExecutor,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.userProvider = user;
@@ -259,8 +248,6 @@ public class ChangeJson {
     this.trackingFooters = trackingFooters;
     this.metrics = metrics;
     this.revisionJson = revisionJsonFactory.create(options);
-    this.enableParallelFormatting = config.getBoolean("change", "enableParallelFormatting", false);
-    this.fanOutExecutor = fanOutExecutor;
     this.options = Sets.immutableEnumSet(options);
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
     logger.atFine().log("options = %s", options);
@@ -442,51 +429,21 @@ public class ChangeJson {
   private List<ChangeInfo> toChangeInfos(
       List<ChangeData> changes, Map<Change.Id, ChangeInfo> cache) {
     try (Timer0.Context ignored = metrics.toChangeInfosLatency.start()) {
-      // Create a list of formatting calls that can be called sequentially or in parallel
-      List<Callable<Optional<ChangeInfo>>> formattingCalls = new ArrayList<>(changes.size());
+      List<ChangeInfo> changeInfos = new ArrayList<>(changes.size());
       for (ChangeData cd : changes) {
-        formattingCalls.add(
-            () -> {
-              ChangeInfo i = cache.get(cd.getId());
-              if (i != null) {
-                return Optional.of(i);
-              }
-              try {
-                ensureLoaded(Collections.singleton(cd));
-                return Optional.of(format(cd, Optional.empty(), false, ChangeInfo::new));
-              } catch (OrmException | RuntimeException e) {
-                logger.atWarning().withCause(e).log(
-                    "Omitting corrupt change %s from results", cd.getId());
-                return Optional.empty();
-              }
-            });
-      }
-
-      long numProjects = changes.stream().map(ChangeData::project).distinct().count();
-      if (!enableParallelFormatting || !lazyLoad || changes.size() < 3 || numProjects < 2) {
-        // Format these changes in the request thread as the multithreading overhead would be too
-        // high.
-        List<ChangeInfo> result = new ArrayList<>(changes.size());
-        for (Callable<Optional<ChangeInfo>> c : formattingCalls) {
-          try {
-            c.call().ifPresent(result::add);
-          } catch (Exception e) {
-            logger.atWarning().withCause(e).log("Omitting change due to exception");
-          }
+        ChangeInfo i = cache.get(cd.getId());
+        if (i != null) {
+          continue;
         }
-        return result;
-      }
-
-      // Format the changes in parallel on the executor
-      List<ChangeInfo> result = new ArrayList<>(changes.size());
-      try {
-        for (Future<Optional<ChangeInfo>> f : fanOutExecutor.invokeAll(formattingCalls)) {
-          f.get().ifPresent(result::add);
+        try {
+          ensureLoaded(Collections.singleton(cd));
+          changeInfos.add(format(cd, Optional.empty(), false, ChangeInfo::new));
+        } catch (OrmException | RuntimeException e) {
+          logger.atWarning().withCause(e).log(
+              "Omitting corrupt change %s from results", cd.getId());
         }
-      } catch (InterruptedException | ExecutionException e) {
-        throw new IllegalStateException(e);
       }
-      return result;
+      return changeInfos;
     }
   }
 

@@ -35,7 +35,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.RevisionJson;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
@@ -54,7 +54,7 @@ public class ActionsIT extends AbstractDaemonTest {
     return submitWholeTopicEnabledConfig();
   }
 
-  @Inject private ChangeJson.Factory changeJsonFactory;
+  @Inject private RevisionJson.Factory revisionJsonFactory;
 
   @Inject private DynamicSet<ActionVisitor> actionVisitors;
 
@@ -394,7 +394,7 @@ public class ActionsIT extends AbstractDaemonTest {
 
     // ...via ChangeJson directly.
     ChangeData cd = changeDataFactory.create(db, project, changeId);
-    changeJsonFactory.create(opts).getRevisionInfo(cd, cd.patchSet(new PatchSet.Id(changeId, 1)));
+    revisionJsonFactory.create(opts).getRevisionInfo(cd, cd.patchSet(new PatchSet.Id(changeId, 1)));
   }
 
   private void visitedCurrentRevisionActionsAssertions(

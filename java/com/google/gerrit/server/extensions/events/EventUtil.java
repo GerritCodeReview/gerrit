@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.RevisionJson;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -64,15 +65,18 @@ public class EventUtil {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<ReviewDb> db;
   private final ChangeJson.Factory changeJsonFactory;
+  private final RevisionJson.Factory revisionJsonFactory;
 
   @Inject
   EventUtil(
       ChangeJson.Factory changeJsonFactory,
+      RevisionJson.Factory revisionJsonFactory,
       ChangeData.Factory changeDataFactory,
       Provider<ReviewDb> db) {
     this.changeDataFactory = changeDataFactory;
     this.db = db;
     this.changeJsonFactory = changeJsonFactory;
+    this.revisionJsonFactory = revisionJsonFactory;
   }
 
   public ChangeInfo changeInfo(Change change) throws OrmException {
@@ -89,7 +93,7 @@ public class EventUtil {
       throws OrmException, PatchListNotAvailableException, GpgException, IOException,
           PermissionBackendException {
     ChangeData cd = changeDataFactory.create(db.get(), project, ps.getId().getParentKey());
-    return changeJsonFactory.create(CHANGE_OPTIONS).getRevisionInfo(cd, ps);
+    return revisionJsonFactory.create(CHANGE_OPTIONS).getRevisionInfo(cd, ps);
   }
 
   public AccountInfo accountInfo(AccountState accountState) {

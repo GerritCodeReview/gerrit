@@ -193,6 +193,30 @@
     },
     {
       "key": {
+        "uuid": "9a021e51_64dd6ac9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5950,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-09T14:18:52Z",
+      "side": 1,
+      "message": "\u003e As for optimizing for humans, this is an interesting concern. Since this is an API only interface deciding on an interface based on human readability seems counter intuitive.\n\nI feel like I\u0027m missing something. You said you wanted this in order to speed up the creation of new changes containing merge conflict markers, since there may be many of them on many branches. But what\u0027s the next step? Doesn\u0027t a human have to come in and resolve the conflicts? So what\u0027s wrong with doing a thing to make the human\u0027s life easier?\n\nAnyway, I think I understand the concern now. This is the workflow for the tool, please correct me if I\u0027m wrong:\n\n* Tool cherry-picks a change to 100 branches\n* 90 of those succeed with no conflict, 10 succeed in creating a new change with a conflict\n* Tool informs the user: here are 10 changes you need to go look at in the UI and download/edit to resolve the conflicts\n\nSo to be useful, the tool needs to be able to identify precisely which of the picks fail.\n\nISTM you could do this without changing the return value at all, if you just make 2 requests, first with allow_conflicts\u003dfalse, then with allow_conflicts\u003dtrue. I can see why you would prefer having a bit in the return value, though.\n\nBut there would still be the issue of how does the user know which of the files in the change resulted in conflicts; what if there are hundreds of files, but only one conflicting? Would it make sense to return that as additional information in the return value, or add a top-level change message?",
+      "parentUuid": "0dc04551_eba29590",
+      "range": {
+        "startLine": 5950,
+        "startChar": 0,
+        "endLine": 5950,
+        "endChar": 27
+      },
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a39d5730_fddbe18c",
         "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 2

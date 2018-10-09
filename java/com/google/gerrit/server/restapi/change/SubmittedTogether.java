@@ -67,14 +67,11 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private final Provider<MergeSuperSet> mergeSuperSet;
   private final Provider<WalkSorter> sorter;
 
-  private boolean lazyLoad = false;
-
   @Option(name = "-o", usage = "Output options")
   void addOption(String option) {
     for (ListChangesOption o : ListChangesOption.values()) {
       if (o.name().equalsIgnoreCase(option)) {
         jsonOpt.add(o);
-        lazyLoad |= ChangeJson.REQUIRE_LAZY_LOAD.contains(o);
         return;
       }
     }
@@ -150,7 +147,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
       cds = sort(cds, hidden);
       SubmittedTogetherInfo info = new SubmittedTogetherInfo();
-      info.changes = json.create(jsonOpt).lazyLoad(lazyLoad).formatChangeDatas(cds);
+      info.changes = json.create(jsonOpt).formatChangeDatas(cds);
       info.nonVisibleChanges = hidden;
       return info;
     } catch (OrmException | IOException e) {

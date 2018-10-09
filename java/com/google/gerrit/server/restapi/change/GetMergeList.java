@@ -15,13 +15,14 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.RevisionJson;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.MergeListBuilder;
@@ -38,7 +39,7 @@ import org.kohsuke.args4j.Option;
 
 public class GetMergeList implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
-  private final ChangeJson.Factory json;
+  private final RevisionJson.Factory json;
 
   @Option(name = "--parent", usage = "Uninteresting parent (1-based, default = 1)")
   private int uninterestingParent = 1;
@@ -47,7 +48,7 @@ public class GetMergeList implements RestReadView<RevisionResource> {
   private boolean addLinks;
 
   @Inject
-  GetMergeList(GitRepositoryManager repoManager, ChangeJson.Factory json) {
+  GetMergeList(GitRepositoryManager repoManager, RevisionJson.Factory json) {
     this.repoManager = repoManager;
     this.json = json;
   }
@@ -80,7 +81,7 @@ public class GetMergeList implements RestReadView<RevisionResource> {
 
       List<RevCommit> commits = MergeListBuilder.build(rw, commit, uninterestingParent);
       List<CommitInfo> result = new ArrayList<>(commits.size());
-      ChangeJson changeJson = json.noOptions();
+      RevisionJson changeJson = json.create(ImmutableSet.of());
       for (RevCommit c : commits) {
         result.add(changeJson.toCommit(rsrc.getProject(), rw, c, addLinks, true));
       }

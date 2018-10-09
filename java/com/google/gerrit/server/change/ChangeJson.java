@@ -16,29 +16,23 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_COMMITS;
-import static com.google.gerrit.extensions.client.ListChangesOption.ALL_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHECK;
 import static com.google.gerrit.extensions.client.ListChangesOption.COMMIT_FOOTERS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
-import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COMMANDS;
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
-import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_MERGEABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
-import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
-import static com.google.gerrit.server.CommonConverters.toGitPerson;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
@@ -74,22 +68,13 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommitInfo;
-import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
-import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.common.VotingRangeInfo;
-import com.google.gerrit.extensions.common.WebLinkInfo;
-import com.google.gerrit.extensions.config.DownloadCommand;
-import com.google.gerrit.extensions.config.DownloadScheme;
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.Extension;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.mail.Address;
@@ -100,30 +85,23 @@ import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GpgException;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.account.GpgApiAdapter;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -132,8 +110,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -163,11 +139,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.function.Supplier;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Produces {@link ChangeInfo} (which is serialized to JSON afterwards) from {@link ChangeData}.
@@ -184,7 +155,7 @@ public class ChangeJson {
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
       ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().build();
 
-  public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
+  static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(
           ALL_COMMITS,
           ALL_REVISIONS,
@@ -252,34 +223,24 @@ public class ChangeJson {
 
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
-  private final AnonymousUser anonymous;
   private final PermissionBackend permissionBackend;
-  private final GitRepositoryManager repoManager;
-  private final ProjectCache projectCache;
-  private final MergeUtil.Factory mergeUtilFactory;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeData.Factory changeDataFactory;
-  private final FileInfoJson fileInfoJson;
   private final AccountLoader.Factory accountLoaderFactory;
-  private final DynamicMap<DownloadScheme> downloadSchemes;
-  private final DynamicMap<DownloadCommand> downloadCommands;
-  private final WebLinks webLinks;
+
   private final ImmutableSet<ListChangesOption> options;
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
-  private final GpgApiAdapter gpgApi;
   private final ChangeNotes.Factory notesFactory;
-  private final ChangeResource.Factory changeResourceFactory;
-  private final ChangeKindCache changeKindCache;
   private final ApprovalsUtil approvalsUtil;
   private final RemoveReviewerControl removeReviewerControl;
   private final TrackingFooters trackingFooters;
   private final Metrics metrics;
+  private final RevisionJson revisionJson;
   private final boolean enableParallelFormatting;
   private final ExecutorService fanOutExecutor;
+  private final boolean lazyLoad;
 
-  private boolean lazyLoad = true;
   private AccountLoader accountLoader;
   private FixInput fix;
   private PluginDefinedAttributesFactory pluginDefinedAttributesFactory;
@@ -288,70 +249,40 @@ public class ChangeJson {
   ChangeJson(
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
-      AnonymousUser au,
       PermissionBackend permissionBackend,
-      GitRepositoryManager repoManager,
-      ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory,
-      IdentifiedUser.GenericFactory uf,
       ChangeData.Factory cdf,
-      FileInfoJson fileInfoJson,
       AccountLoader.Factory ailf,
-      DynamicMap<DownloadScheme> downloadSchemes,
-      DynamicMap<DownloadCommand> downloadCommands,
-      WebLinks webLinks,
       ChangeMessagesUtil cmUtil,
       Provider<ConsistencyChecker> checkerProvider,
       ActionJson actionJson,
-      GpgApiAdapter gpgApi,
       ChangeNotes.Factory notesFactory,
-      ChangeResource.Factory changeResourceFactory,
-      ChangeKindCache changeKindCache,
       ApprovalsUtil approvalsUtil,
       RemoveReviewerControl removeReviewerControl,
       TrackingFooters trackingFooters,
       Metrics metrics,
+      RevisionJson.Factory revisionJsonFactory,
       @GerritServerConfig Config config,
       @FanOutExecutor ExecutorService fanOutExecutor,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.userProvider = user;
-    this.anonymous = au;
     this.changeDataFactory = cdf;
     this.permissionBackend = permissionBackend;
-    this.repoManager = repoManager;
-    this.userFactory = uf;
-    this.projectCache = projectCache;
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.fileInfoJson = fileInfoJson;
     this.accountLoaderFactory = ailf;
-    this.downloadSchemes = downloadSchemes;
-    this.downloadCommands = downloadCommands;
-    this.webLinks = webLinks;
     this.cmUtil = cmUtil;
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
-    this.gpgApi = gpgApi;
     this.notesFactory = notesFactory;
-    this.changeResourceFactory = changeResourceFactory;
-    this.changeKindCache = changeKindCache;
     this.approvalsUtil = approvalsUtil;
     this.removeReviewerControl = removeReviewerControl;
     this.trackingFooters = trackingFooters;
     this.metrics = metrics;
+    this.revisionJson = revisionJsonFactory.create(options);
     this.enableParallelFormatting = config.getBoolean("change", "enableParallelFormatting", false);
     this.fanOutExecutor = fanOutExecutor;
     this.options = Sets.immutableEnumSet(options);
+    this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
     logger.atFine().log("options = %s", options);
-  }
-
-  /**
-   * See {@link ChangeData#setLazyLoad(boolean)}. If lazyLoad is set, converting data from
-   * index-backed {@link ChangeData} will fail with an exception.
-   */
-  public ChangeJson lazyLoad(boolean load) {
-    lazyLoad = load;
-    return this;
   }
 
   public ChangeJson fix(FixInput fix) {
@@ -719,7 +650,7 @@ public class ChangeJson {
     // This block must come after the ChangeInfo is mostly populated, since
     // it will be passed to ActionVisitors as-is.
     if (needRevisions) {
-      out.revisions = revisions(cd, src, limitToPsId, out);
+      out.revisions = revisionJson.getRevisions(accountLoader, cd, src, limitToPsId, out);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -1305,47 +1236,6 @@ public class ChangeJson {
         .collect(toList());
   }
 
-  @Nullable
-  private Repository openRepoIfNecessary(Project.NameKey project) throws IOException {
-    if (has(ALL_COMMITS) || has(CURRENT_COMMIT) || has(COMMIT_FOOTERS)) {
-      return repoManager.openRepository(project);
-    }
-    return null;
-  }
-
-  @Nullable
-  private RevWalk newRevWalk(@Nullable Repository repo) {
-    return repo != null ? new RevWalk(repo) : null;
-  }
-
-  private Map<String, RevisionInfo> revisions(
-      ChangeData cd,
-      Map<PatchSet.Id, PatchSet> map,
-      Optional<PatchSet.Id> limitToPsId,
-      ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
-          PermissionBackendException {
-    Map<String, RevisionInfo> res = new LinkedHashMap<>();
-    try (Repository repo = openRepoIfNecessary(cd.project());
-        RevWalk rw = newRevWalk(repo)) {
-      for (PatchSet in : map.values()) {
-        PatchSet.Id id = in.getId();
-        boolean want;
-        if (has(ALL_REVISIONS)) {
-          want = true;
-        } else if (limitToPsId.isPresent()) {
-          want = id.equals(limitToPsId.get());
-        } else {
-          want = id.equals(cd.change().currentPatchSetId());
-        }
-        if (want) {
-          res.put(in.getRevision().get(), toRevisionInfo(cd, in, repo, rw, false, changeInfo));
-        }
-      }
-      return res;
-    }
-  }
-
   private Map<PatchSet.Id, PatchSet> loadPatchSets(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
       throws OrmException {
     Collection<PatchSet> src;
@@ -1371,174 +1261,6 @@ public class ChangeJson {
       map.put(patchSet.getId(), patchSet);
     }
     return map;
-  }
-
-  public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
-          PermissionBackendException {
-    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    try (Repository repo = openRepoIfNecessary(cd.project());
-        RevWalk rw = newRevWalk(repo)) {
-      RevisionInfo rev = toRevisionInfo(cd, in, repo, rw, true, null);
-      accountLoader.fill();
-      return rev;
-    }
-  }
-
-  private RevisionInfo toRevisionInfo(
-      ChangeData cd,
-      PatchSet in,
-      @Nullable Repository repo,
-      @Nullable RevWalk rw,
-      boolean fillCommit,
-      @Nullable ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
-          PermissionBackendException {
-    Change c = cd.change();
-    RevisionInfo out = new RevisionInfo();
-    out.isCurrent = in.getId().equals(c.currentPatchSetId());
-    out._number = in.getId().get();
-    out.ref = in.getRefName();
-    out.created = in.getCreatedOn();
-    out.uploader = accountLoader.get(in.getUploader());
-    out.fetch = makeFetchMap(cd, in);
-    out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);
-    out.description = in.getDescription();
-
-    boolean setCommit = has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT));
-    boolean addFooters = out.isCurrent && has(COMMIT_FOOTERS);
-    if (setCommit || addFooters) {
-      checkState(rw != null);
-      checkState(repo != null);
-      Project.NameKey project = c.getProject();
-      String rev = in.getRevision().get();
-      RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
-      rw.parseBody(commit);
-      if (setCommit) {
-        out.commit = toCommit(project, rw, commit, has(WEB_LINKS), fillCommit);
-      }
-      if (addFooters) {
-        Ref ref = repo.exactRef(cd.change().getDest().get());
-        RevCommit mergeTip = null;
-        if (ref != null) {
-          mergeTip = rw.parseCommit(ref.getObjectId());
-          rw.parseBody(mergeTip);
-        }
-        out.commitWithFooters =
-            mergeUtilFactory
-                .create(projectCache.get(project))
-                .createCommitMessageOnSubmit(commit, mergeTip, cd.notes(), in.getId());
-      }
-    }
-
-    if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
-      out.files = fileInfoJson.toFileInfoMap(c, in);
-      out.files.remove(Patch.COMMIT_MSG);
-      out.files.remove(Patch.MERGE_LIST);
-    }
-
-    if (out.isCurrent && has(CURRENT_ACTIONS) && userProvider.get().isIdentifiedUser()) {
-
-      actionJson.addRevisionActions(
-          changeInfo,
-          out,
-          new RevisionResource(changeResourceFactory.create(cd.notes(), userProvider.get()), in));
-    }
-
-    if (gpgApi.isEnabled() && has(PUSH_CERTIFICATES)) {
-      if (in.getPushCertificate() != null) {
-        out.pushCertificate =
-            gpgApi.checkPushCertificate(
-                in.getPushCertificate(), userFactory.create(in.getUploader()));
-      } else {
-        out.pushCertificate = new PushCertificateInfo();
-      }
-    }
-
-    return out;
-  }
-
-  public CommitInfo toCommit(
-      Project.NameKey project, RevWalk rw, RevCommit commit, boolean addLinks, boolean fillCommit)
-      throws IOException {
-    CommitInfo info = new CommitInfo();
-    if (fillCommit) {
-      info.commit = commit.name();
-    }
-    info.parents = new ArrayList<>(commit.getParentCount());
-    info.author = toGitPerson(commit.getAuthorIdent());
-    info.committer = toGitPerson(commit.getCommitterIdent());
-    info.subject = commit.getShortMessage();
-    info.message = commit.getFullMessage();
-
-    if (addLinks) {
-      List<WebLinkInfo> links = webLinks.getPatchSetLinks(project, commit.name());
-      info.webLinks = links.isEmpty() ? null : links;
-    }
-
-    for (RevCommit parent : commit.getParents()) {
-      rw.parseBody(parent);
-      CommitInfo i = new CommitInfo();
-      i.commit = parent.name();
-      i.subject = parent.getShortMessage();
-      if (addLinks) {
-        List<WebLinkInfo> parentLinks = webLinks.getParentLinks(project, parent.name());
-        i.webLinks = parentLinks.isEmpty() ? null : parentLinks;
-      }
-      info.parents.add(i);
-    }
-    return info;
-  }
-
-  private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in)
-      throws PermissionBackendException, OrmException, IOException {
-    Map<String, FetchInfo> r = new LinkedHashMap<>();
-    for (Extension<DownloadScheme> e : downloadSchemes) {
-      String schemeName = e.getExportName();
-      DownloadScheme scheme = e.getProvider().get();
-      if (!scheme.isEnabled()
-          || (scheme.isAuthRequired() && !userProvider.get().isIdentifiedUser())) {
-        continue;
-      }
-      if (!scheme.isAuthSupported() && !isWorldReadable(cd)) {
-        continue;
-      }
-
-      String projectName = cd.project().get();
-      String url = scheme.getUrl(projectName);
-      String refName = in.getRefName();
-      FetchInfo fetchInfo = new FetchInfo(url, refName);
-      r.put(schemeName, fetchInfo);
-
-      if (has(DOWNLOAD_COMMANDS)) {
-        populateFetchMap(scheme, downloadCommands, projectName, refName, fetchInfo);
-      }
-    }
-
-    return r;
-  }
-
-  public static void populateFetchMap(
-      DownloadScheme scheme,
-      DynamicMap<DownloadCommand> commands,
-      String projectName,
-      String refName,
-      FetchInfo fetchInfo) {
-    for (Extension<DownloadCommand> e2 : commands) {
-      String commandName = e2.getExportName();
-      DownloadCommand command = e2.getProvider().get();
-      String c = command.getCommand(scheme, projectName, refName);
-      if (c != null) {
-        addCommand(fetchInfo, commandName, c);
-      }
-    }
-  }
-
-  private static void addCommand(FetchInfo fetchInfo, String commandName, String c) {
-    if (fetchInfo.commands == null) {
-      fetchInfo.commands = new TreeMap<>();
-    }
-    fetchInfo.commands.put(commandName, c);
   }
 
   static void finish(ChangeInfo info) {
@@ -1576,19 +1298,9 @@ public class ChangeJson {
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
   }
 
-  private boolean isWorldReadable(ChangeData cd)
-      throws OrmException, PermissionBackendException, IOException {
-    try {
-      permissionBackendForChange(anonymous, cd).check(ChangePermission.READ);
-    } catch (AuthException ae) {
-      return false;
-    }
-    ProjectState projectState = projectCache.checkedGet(cd.project());
-    if (projectState == null) {
-      logger.atSevere().log("project state for project %s is null", cd.project());
-      return false;
-    }
-    return projectState.statePermitsRead();
+  private static boolean containsAnyOf(
+      ImmutableSet<ListChangesOption> set, ImmutableSet<ListChangesOption> toFind) {
+    return !Sets.intersection(toFind, set).isEmpty();
   }
 
   @AutoValue

@@ -103,6 +103,7 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
+import com.google.gerrit.server.change.RevisionJson;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventsMetrics;
@@ -266,6 +267,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectState.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
+    factory(RevisionJson.Factory.class);
     factory(SetAssigneeSender.Factory.class);
     factory(InboundEmailRejectionSender.Factory.class);
     bind(PermissionCollection.Factory.class);

@@ -2190,6 +2190,24 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeReviewerSelfFromMergedChangeNotPermitted() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    setApiUser(user);
+    recommend(changeId);
+
+    setApiUser(admin);
+    approve(changeId);
+    gApi.changes().id(changeId).revision(r.getCommit().name()).submit();
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("remove reviewer not permitted");
+    gApi.changes().id(r.getChangeId()).reviewer("self").remove();
+  }
+
+  @Test
   public void deleteVote() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());

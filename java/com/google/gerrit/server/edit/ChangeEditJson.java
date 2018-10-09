@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.change.RevisionJson;
+import com.google.gerrit.server.change.DownloadCommandsJson;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -97,7 +97,8 @@ public class ChangeEditJson {
       FetchInfo fetchInfo = new FetchInfo(scheme.getUrl(projectName), refName);
       r.put(schemeName, fetchInfo);
 
-      RevisionJson.populateFetchMap(scheme, downloadCommands, projectName, refName, fetchInfo);
+      DownloadCommandsJson.populateFetchMap(
+          scheme, downloadCommands, projectName, refName, fetchInfo);
     }
 
     return r;

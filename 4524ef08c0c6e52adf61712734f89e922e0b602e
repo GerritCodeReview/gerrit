@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "0dc04551_eba29590",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5950,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2018-10-09T14:01:12Z",
+      "side": 1,
+      "message": "The API boolean bit covers all of our use cases ✓\n\nWhat I like about the boolean bit is that it is an explicit interface with no ambiguity and makes client code very explicit. \n\nParsing commit messages / using commit messages as an interface has three major downsides that jump out:\n\n- collisions with user commits\n- ambiguity in explicit interface signal\n- makes migrating the merge conflict signal hard / impossible (since you would have to go back and edit all commit messages in history)\n\nWe on Android have done the entire parse commit message / use commit message as a state store multiple times but it has never been an ideal outcome, there have consistently been issues (see above).\n\nFrom our side an API boolean bit would be ideal! 👌 \n\n\n----\n\nAs for optimizing for humans, this is an interesting concern. Since this is an API only interface deciding on an interface based on human readability seems counter intuitive.\n\nIMHO one path to signal the inclusion of a merge conflict would yes be to modify the commit message \n~~MERGE CONFLICT INCLUDED~  and also set the bit, however this does feel more and more like a UI concern, so it may come down to the change entity storing another API level field that displays can read from.\n\n\nBut I go back to my initial point, are we optimizing for humans in this case? Is this even a concern since it is only an API level thing?",
+      "parentUuid": "2985f0dc_f14df431",
+      "range": {
+        "startLine": 5950,
+        "startChar": 0,
+        "endLine": 5950,
+        "endChar": 27
+      },
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a39d5730_fddbe18c",
         "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 2

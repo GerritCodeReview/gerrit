@@ -285,6 +285,20 @@ public class ChangeJson {
     logger.atFine().log("options = %s", options);
   }
 
+  public static ApprovalInfo getApprovalInfo(
+      Account.Id id,
+      Integer value,
+      VotingRangeInfo permittedVotingRange,
+      String tag,
+      Timestamp date) {
+    ApprovalInfo ai = new ApprovalInfo(id.get());
+    ai.value = value;
+    ai.permittedVotingRange = permittedVotingRange;
+    ai.date = date;
+    ai.tag = tag;
+    return ai;
+  }
+
   public ChangeJson fix(FixInput fix) {
     this.fix = fix;
     return this;
@@ -329,10 +343,79 @@ public class ChangeJson {
     return format(cd, Optional.empty(), true, changeInfoSupplier);
   }
 
-  private ChangeInfo format(
-      ChangeData cd, Optional<PatchSet.Id> limitToPsId, boolean fillAccountLoader)
-      throws OrmException {
-    return format(cd, limitToPsId, fillAccountLoader, ChangeInfo::new);
+  public ChangeInfo format(RevisionResource rsrc) throws OrmException {
+    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
+    return format(cd, Optional.of(rsrc.getPatchSet().getId()), true, ChangeInfo::new);
+  }
+
+  public List<List<ChangeInfo>> formatQueryResults(List<QueryResult<ChangeData>> in)
+      throws PermissionBackendException {
+    try (Timer0.Context ignored = metrics.formatQueryResultsLatency.start()) {
+      accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+      List<List<ChangeInfo>> res = new ArrayList<>(in.size());
+      Map<Change.Id, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
+      for (QueryResult<ChangeData> r : in) {
+        List<ChangeInfo> infos = toChangeInfos(r.entities(), cache);
+        infos.forEach(c -> cache.put(new Change.Id(c._number), c));
+        if (!infos.isEmpty() && r.more()) {
+          infos.get(infos.size() - 1)._moreChanges = true;
+        }
+        res.add(infos);
+      }
+      accountLoader.fill();
+      return res;
+    }
+  }
+
+  public List<ChangeInfo> formatChangeDatas(Collection<ChangeData> in)
+      throws OrmException, PermissionBackendException {
+    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+    ensureLoaded(in);
+    List<ChangeInfo> out = new ArrayList<>(in.size());
+    for (ChangeData cd : in) {
+      out.add(format(cd, Optional.empty(), false, ChangeInfo::new));
+    }
+    accountLoader.fill();
+    return out;
+  }
+
+  private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
+    Collection<SubmitRequirementInfo> reqInfos = new ArrayList<>();
+    for (SubmitRecord submitRecord : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
+      if (submitRecord.requirements == null) {
+        continue;
+      }
+      for (SubmitRequirement requirement : submitRecord.requirements) {
+        reqInfos.add(requirementToInfo(requirement, submitRecord.status));
+      }
+    }
+    return reqInfos;
+  }
+
+  private static SubmitRequirementInfo requirementToInfo(SubmitRequirement req, Status status) {
+    return new SubmitRequirementInfo(status.name(), req.fallbackText(), req.type(), req.data());
+  }
+
+  private static boolean isOnlyZero(Collection<String> values) {
+    return values.isEmpty() || (values.size() == 1 && values.contains(" 0"));
+  }
+
+  private static void finish(ChangeInfo info) {
+    info.id =
+        Joiner.on('~')
+            .join(Url.encode(info.project), Url.encode(info.branch), Url.encode(info.changeId));
+  }
+
+  private static void addApproval(LabelInfo label, ApprovalInfo approval) {
+    if (label.all == null) {
+      label.all = new ArrayList<>();
+    }
+    label.all.add(approval);
+  }
+
+  private static boolean containsAnyOf(
+      ImmutableSet<ListChangesOption> set, ImmutableSet<ListChangesOption> toFind) {
+    return !Sets.intersection(toFind, set).isEmpty();
   }
 
   private <I extends ChangeInfo> I format(
@@ -361,59 +444,6 @@ public class ChangeJson {
       }
       return checkOnly(cd, changeInfoSupplier);
     }
-  }
-
-  public ChangeInfo format(RevisionResource rsrc) throws OrmException {
-    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
-    return format(cd, Optional.of(rsrc.getPatchSet().getId()), true);
-  }
-
-  public List<List<ChangeInfo>> formatQueryResults(List<QueryResult<ChangeData>> in)
-      throws PermissionBackendException {
-    try (Timer0.Context ignored = metrics.formatQueryResultsLatency.start()) {
-      accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-      List<List<ChangeInfo>> res = new ArrayList<>(in.size());
-      Map<Change.Id, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
-      for (QueryResult<ChangeData> r : in) {
-        List<ChangeInfo> infos = toChangeInfos(r.entities(), cache);
-        infos.forEach(c -> cache.put(new Change.Id(c._number), c));
-        if (!infos.isEmpty() && r.more()) {
-          infos.get(infos.size() - 1)._moreChanges = true;
-        }
-        res.add(infos);
-      }
-      accountLoader.fill();
-      return res;
-    }
-  }
-
-  public List<ChangeInfo> formatChangeDatas(Collection<ChangeData> in)
-      throws OrmException, PermissionBackendException {
-    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    ensureLoaded(in);
-    List<ChangeInfo> out = new ArrayList<>(in.size());
-    for (ChangeData cd : in) {
-      out.add(format(cd, Optional.empty(), false));
-    }
-    accountLoader.fill();
-    return out;
-  }
-
-  private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
-    Collection<SubmitRequirementInfo> reqInfos = new ArrayList<>();
-    for (SubmitRecord submitRecord : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
-      if (submitRecord.requirements == null) {
-        continue;
-      }
-      for (SubmitRequirement requirement : submitRecord.requirements) {
-        reqInfos.add(requirementToInfo(requirement, submitRecord.status));
-      }
-    }
-    return reqInfos;
-  }
-
-  private static SubmitRequirementInfo requirementToInfo(SubmitRequirement req, Status status) {
-    return new SubmitRequirementInfo(status.name(), req.fallbackText(), req.type(), req.data());
   }
 
   private void ensureLoaded(Iterable<ChangeData> all) throws OrmException {
@@ -453,7 +483,7 @@ public class ChangeJson {
               }
               try {
                 ensureLoaded(Collections.singleton(cd));
-                return Optional.of(format(cd, Optional.empty(), false));
+                return Optional.of(format(cd, Optional.empty(), false, ChangeInfo::new));
               } catch (OrmException | RuntimeException e) {
                 logger.atWarning().withCause(e).log(
                     "Omitting corrupt change %s from results", cd.getId());
@@ -1029,24 +1059,6 @@ public class ChangeJson {
     return ai;
   }
 
-  public static ApprovalInfo getApprovalInfo(
-      Account.Id id,
-      Integer value,
-      VotingRangeInfo permittedVotingRange,
-      String tag,
-      Timestamp date) {
-    ApprovalInfo ai = new ApprovalInfo(id.get());
-    ai.value = value;
-    ai.permittedVotingRange = permittedVotingRange;
-    ai.date = date;
-    ai.tag = tag;
-    return ai;
-  }
-
-  private static boolean isOnlyZero(Collection<String> values) {
-    return values.isEmpty() || (values.size() == 1 && values.contains(" 0"));
-  }
-
   private void setLabelValues(LabelType type, LabelWithStatus l) {
     l.label().defaultValue = type.getDefaultValue();
     l.label().values = new LinkedHashMap<>();
@@ -1263,19 +1275,6 @@ public class ChangeJson {
     return map;
   }
 
-  static void finish(ChangeInfo info) {
-    info.id =
-        Joiner.on('~')
-            .join(Url.encode(info.project), Url.encode(info.branch), Url.encode(info.changeId));
-  }
-
-  private static void addApproval(LabelInfo label, ApprovalInfo approval) {
-    if (label.all == null) {
-      label.all = new ArrayList<>();
-    }
-    label.all.add(approval);
-  }
-
   private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
       throws OrmException {
     return permissionBackendForChange(permissionBackend.user(user).database(db), cd);
@@ -1296,11 +1295,6 @@ public class ChangeJson {
     return lazyLoad
         ? withUser.change(cd)
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
-  }
-
-  private static boolean containsAnyOf(
-      ImmutableSet<ListChangesOption> set, ImmutableSet<ListChangesOption> toFind) {
-    return !Sets.intersection(toFind, set).isEmpty();
   }
 
   @AutoValue

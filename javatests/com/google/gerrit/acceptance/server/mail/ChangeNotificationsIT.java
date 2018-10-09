@@ -1088,7 +1088,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Test
   public void createReviewableChangeWithReviewersAndCcs() throws Exception {
-    // TODO(logan): Support reviewers/CCs-by-email via push option.
     StagedPreChange spc =
         stagePreChange(
             "refs/for/master",
@@ -1102,6 +1101,23 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
       subject.to(spc.ccer);
     }
     subject.bcc(NEW_CHANGES, NEW_PATCHSETS).noOneElse();
+  }
+
+  @Test
+  public void createReviewableChangeWithReviewersAndCcsByEmailInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedPreChange spc =
+        stagePreChange(
+            "refs/for/master",
+            users -> ImmutableList.of("r=nobody1@example.com,cc=nobody2@example.com"));
+    spc.supportReviewersByEmail = true;
+    assertThat(sender)
+        .sent("newchange", spc)
+        .to("nobody1@example.com")
+        .to(spc.watchingProjectOwner)
+        .cc("nobody2@example.com")
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse();
   }
 
   /*
@@ -1730,6 +1746,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
         .to(sc.reviewer)
+        .to(other)
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .noOneElse();
@@ -1745,6 +1762,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
         .to(sc.reviewer, sc.ccer)
+        .to(other)
         .noOneElse();
   }
 
@@ -1758,6 +1776,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
         .to(sc.reviewer)
+        .to(other)
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .noOneElse();
@@ -1772,6 +1791,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newpatchset", sc)
         .to(sc.reviewer, sc.ccer)
+        .to(other)
         .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
         .noOneElse();
   }

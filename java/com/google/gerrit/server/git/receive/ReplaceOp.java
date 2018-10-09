@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
@@ -29,13 +30,12 @@ import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -50,6 +50,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.ReviewerAdder;
@@ -86,6 +87,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -144,7 +146,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private List<String> groups;
 
   private final Map<String, Short> approvals = new HashMap<>();
-  private final MailRecipients recipients = new MailRecipients();
   private RevCommit commit;
   private ReceiveCommand cmd;
   private ChangeNotes notes;
@@ -156,6 +157,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private MergedByPushOp mergedByPushOp;
   private RequestScopePropagator requestScopePropagator;
   private ReviewerAdditionList reviewerAdditions;
+  private MailRecipients oldRecipients;
 
   @Inject
   ReplaceOp(
@@ -257,13 +259,15 @@ public class ReplaceOp implements BatchUpdateOp {
       groups = prevPs != null ? prevPs.getGroups() : ImmutableList.<String>of();
     }
 
+    ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx.getNotes());
+    oldRecipients = getRecipientsFromReviewers(cd.reviewers());
+
     ChangeUpdate update = ctx.getUpdate(patchSetId);
     update.setSubjectForCommit("Create patch set " + patchSetId.get());
 
     String reviewMessage = null;
     String psDescription = null;
     if (magicBranch != null) {
-      recipients.add(magicBranch.getMailRecipients());
       reviewMessage = magicBranch.message;
       psDescription = magicBranch.message;
       approvals.putAll(magicBranch.labels);
@@ -312,10 +316,6 @@ public class ReplaceOp implements BatchUpdateOp {
 
     update.setPsDescription(psDescription);
     MailRecipients fromFooters = getRecipientsFromFooters(accountResolver, commit.getFooterLines());
-    recipients.add(fromFooters);
-    recipients.remove(ctx.getAccountId());
-    ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx.getNotes());
-    MailRecipients oldRecipients = getRecipientsFromReviewers(cd.reviewers());
     Iterable<PatchSetApproval> newApprovals =
         approvalsUtil.addApprovalsForNewPatchSet(
             ctx.getDb(),
@@ -334,16 +334,14 @@ public class ReplaceOp implements BatchUpdateOp {
 
     reviewerAdditions =
         reviewerAdder.prepare(
+            ctx.getDb(),
             ctx.getNotes(),
             ctx.getUser(),
-            getReviewerInputs(recipients, ctx.getChange(), info),
+            getReviewerInputs(magicBranch, fromFooters, ctx.getChange(), info),
             true);
     Optional<ReviewerAddition> reviewerError = reviewerAdditions.getFailures().stream().findFirst();
     if (reviewerError.isPresent()) {
-      // TODO(dborowitz): How best to report this? Erroring out would match existing
-      // ReceiveCommits behavior, but it may be worth rethinking.
-      AddReviewerResult result = reviewerError.get().result;
-      throw new BadRequestException("Failed to add reviewer " + result.input + ": " + result.error);
+      throw new UnprocessableEntityException(reviewerError.get().result.error);
     }
     reviewerAdditions.updateChange(ctx, newPatchSet);
 
@@ -353,8 +351,6 @@ public class ReplaceOp implements BatchUpdateOp {
     if (magicBranch != null && !magicBranch.labels.isEmpty()) {
       update.putReviewer(ctx.getAccountId(), REVIEWER);
     }
-
-    recipients.add(oldRecipients);
 
     msg = createChangeMessage(ctx, reviewMessage);
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
@@ -368,36 +364,43 @@ public class ReplaceOp implements BatchUpdateOp {
     return true;
   }
 
-  private static ImmutableList<InternalAddReviewerInput> getReviewerInputs(
-      MailRecipients recipients, Change change, PatchSetInfo psInfo) {
+  private static ImmutableList<AddReviewerInput> getReviewerInputs(
+      @Nullable MagicBranchInput magicBranch,
+      MailRecipients fromFooters,
+      Change change,
+      PatchSetInfo psInfo) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new change email.
-    return Streams.concat(
-            recipients
-                .getReviewers()
-                .stream()
-                .distinct()
-                .map(id -> newAddReviewerInput(id, ReviewerState.REVIEWER)),
-            recipients
-                .getCcOnly()
-                .stream()
-                .distinct()
-                .map(id -> newAddReviewerInput(id, ReviewerState.CC)),
+    Stream<AddReviewerInput> inputs =
+        Streams.concat(
             Streams.stream(
                 newAddReviewerInputFromCommitIdentity(
                     change, psInfo.getAuthor().getAccount(), NotifyHandling.NONE)),
             Streams.stream(
                 newAddReviewerInputFromCommitIdentity(
-                    change, psInfo.getCommitter().getAccount(), NotifyHandling.NONE)))
-        .collect(toImmutableList());
+                    change, psInfo.getCommitter().getAccount(), NotifyHandling.NONE)));
+    if (magicBranch != null) {
+      inputs =
+          Streams.concat(
+              inputs,
+              magicBranch
+                  .getCombinedReviewers(fromFooters)
+                  .stream()
+                  .map(r -> newAddReviewerInput(r, ReviewerState.REVIEWER)),
+              magicBranch
+                  .getCombinedCcs(fromFooters)
+                  .stream()
+                  .map(r -> newAddReviewerInput(r, ReviewerState.CC)));
+    }
+    return inputs.collect(toImmutableList());
   }
 
   private static InternalAddReviewerInput newAddReviewerInput(
-      Account.Id accountId, ReviewerState state) {
+      String reviewer, ReviewerState state) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new patch set email.
     InternalAddReviewerInput input =
-        ReviewerAdder.newAddReviewerInput(accountId, state, NotifyHandling.NONE);
+        ReviewerAdder.newAddReviewerInput(reviewer, state, NotifyHandling.NONE);
 
     // Ignore failures for reasons like the reviewer being inactive or being unable to see the
     // change. See discussion in ChangeInserter.
@@ -576,8 +579,20 @@ public class ReplaceOp implements BatchUpdateOp {
           cm.setNotify(magicBranch.getNotify(notes));
           cm.setAccountsToNotify(magicBranch.getAccountsToNotify());
         }
-        cm.addReviewers(recipients.getReviewers());
-        cm.addExtraCC(recipients.getCcOnly());
+        cm.addReviewers(
+            Streams.concat(
+                    oldRecipients.getReviewers().stream(),
+                    reviewerAdditions
+                        .flattenResults(AddReviewersOp.Result::addedReviewers)
+                        .stream()
+                        .map(PatchSetApproval::getAccountId))
+                .collect(toImmutableSet()));
+        cm.addExtraCC(
+            Streams.concat(
+                    oldRecipients.getCcOnly().stream(),
+                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs).stream())
+                .collect(toImmutableSet()));
+        // TODO(dborowitz): Support byEmail
         cm.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log(

@@ -25,19 +25,19 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -269,6 +269,13 @@ public class ChangeInserter implements InsertChangeOp {
 
   public ChangeInserter setReviewersAndCcs(
       Iterable<Account.Id> reviewers, Iterable<Account.Id> ccs) {
+    return setReviewersAndCcsAsStrings(
+        Iterables.transform(reviewers, Account.Id::toString),
+        Iterables.transform(ccs, Account.Id::toString));
+  }
+
+  public ChangeInserter setReviewersAndCcsAsStrings(
+      Iterable<String> reviewers, Iterable<String> ccs) {
     reviewerInputs =
         Streams.concat(
                 Streams.stream(reviewers)
@@ -425,13 +432,11 @@ public class ChangeInserter implements InsertChangeOp {
     update.fixStatus(change.getStatus());
 
     reviewerAdditions =
-        reviewerAdder.prepare(ctx.getNotes(), ctx.getUser(), getReviewerInputs(), true);
+        reviewerAdder.prepare(
+            ctx.getDb(), ctx.getNotes(), ctx.getUser(), getReviewerInputs(), true);
     Optional<ReviewerAddition> reviewerError = reviewerAdditions.getFailures().stream().findFirst();
     if (reviewerError.isPresent()) {
-      // TODO(dborowitz): How best to report this? Erroring out would match existing
-      // ReceiveCommits behavior, but it may be worth rethinking.
-      AddReviewerResult result = reviewerError.get().result;
-      throw new BadRequestException("Failed to add reviewer " + result.input + ": " + result.error);
+      throw new UnprocessableEntityException(reviewerError.get().result.error);
     }
     reviewerAdditions.updateChange(ctx, patchSet);
 
@@ -563,11 +568,11 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   private static InternalAddReviewerInput newAddReviewerInput(
-      Account.Id accountId, ReviewerState state) {
+      String reviewer, ReviewerState state) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new change email.
     InternalAddReviewerInput input =
-        ReviewerAdder.newAddReviewerInput(accountId, state, NotifyHandling.NONE);
+        ReviewerAdder.newAddReviewerInput(reviewer, state, NotifyHandling.NONE);
 
     // Ignore failures for reasons like the reviewer being inactive or being unable to see the
     // change. This is required for the push path, where it automatically sets reviewers from

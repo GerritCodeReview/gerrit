@@ -217,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "1ba1e223_fc6d51d6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5950,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2018-10-09T14:31:53Z",
+      "side": 1,
+      "message": "Good point.\n\nIncluding the files with conflicts in the commit messages, paired with the API response bit seems like a solution that will solve both sides of problem.\n\n+1",
+      "parentUuid": "9a021e51_64dd6ac9",
+      "range": {
+        "startLine": 5950,
+        "startChar": 0,
+        "endLine": 5950,
+        "endChar": 27
+      },
+      "revId": "4524ef08c0c6e52adf61712734f89e922e0b602e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a39d5730_fddbe18c",
         "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 2

@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
@@ -27,6 +28,7 @@ import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -40,9 +42,16 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -89,6 +98,7 @@ public class ProjectCacheImpl implements ProjectCache {
   private final Lock listLock;
   private final ProjectCacheClock clock;
   private final Provider<ProjectIndexer> indexer;
+  private final ExecutorService executor;
 
   @Inject
   ProjectCacheImpl(
@@ -97,7 +107,8 @@ public class ProjectCacheImpl implements ProjectCache {
       @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
       ProjectCacheClock clock,
-      Provider<ProjectIndexer> indexer) {
+      Provider<ProjectIndexer> indexer,
+      @FanOutExecutor ExecutorService executor) {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.byName = byName;
@@ -105,6 +116,7 @@ public class ProjectCacheImpl implements ProjectCache {
     this.listLock = new ReentrantLock(true /* fair */);
     this.clock = clock;
     this.indexer = indexer;
+    this.executor = executor;
   }
 
   @Override
@@ -161,6 +173,44 @@ public class ProjectCacheImpl implements ProjectCache {
   @Override
   public ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception {
     return strict ? strictCheckedGet(projectName) : checkedGet(projectName);
+  }
+
+  @Override
+  public Map<Project.NameKey, ProjectState> get(Set<Project.NameKey> projectNames) {
+    Map<Project.NameKey, ProjectState> projectStates = new HashMap<>(projectNames.size());
+    List<Callable<ProjectState>> callables = new ArrayList<>();
+    for (Project.NameKey projectName : projectNames) {
+      ProjectState state = byName.getIfPresent(projectName.get());
+      if (state != null) {
+        // The value is in-memory, so we just get the state
+        projectStates.put(projectName, state);
+      } else {
+        // Queue up a callable so that we can load projects in parallel
+        callables.add(() -> get(projectName));
+      }
+    }
+    if (callables.isEmpty()) {
+      return projectStates;
+    }
+
+    List<Future<ProjectState>> futures;
+    try {
+      futures = executor.invokeAll(callables);
+    } catch (InterruptedException e) {
+      logger.atSevere().withCause(e).log("Cannot load AccountStates");
+      return ImmutableMap.of();
+    }
+    for (Future<ProjectState> f : futures) {
+      try {
+        ProjectState state = f.get();
+        if (state != null) {
+          projectStates.put(state.getNameKey(), state);
+        }
+      } catch (InterruptedException | ExecutionException e) {
+        logger.atSevere().withCause(e).log("Cannot load AccountState");
+      }
+    }
+    return projectStates;
   }
 
   private ProjectState strictCheckedGet(Project.NameKey projectName) throws Exception {

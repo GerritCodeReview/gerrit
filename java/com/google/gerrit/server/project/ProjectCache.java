@@ -19,6 +19,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
 /** Cache of project information, including access rights. */
@@ -57,7 +58,21 @@ public interface ProjectCache {
    *     errors.
    * @return the cached data or null when strict = false
    */
-  public ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception;
+  ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception;
+
+  /**
+   * Returns a {@code Map} of {@code Project.NameKey} to {@code ProjectStateState} for the given
+   * project names. If not cached yet the projects are loaded. If a project can't be loaded (e.g.
+   * because it is missing), the entry will be missing from the result.
+   *
+   * <p>Loads projects in parallel if applicable.
+   *
+   * @param projectNames names of the projects that should be retrieved
+   * @return {@code Map} of {@code Project.NameKey} to {@code ProjectState} instances for the given
+   *     project names, if a project can't be loaded (e.g. because it is missing), the entry will be
+   *     missing from the result
+   */
+  Map<Project.NameKey, ProjectState> get(Set<Project.NameKey> projectNames);
 
   /**
    * Invalidate the cached information about the given project, and triggers reindexing for it

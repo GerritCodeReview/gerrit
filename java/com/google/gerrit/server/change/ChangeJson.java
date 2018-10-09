@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
@@ -93,6 +94,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -210,6 +212,7 @@ public class ChangeJson {
   private final TrackingFooters trackingFooters;
   private final Metrics metrics;
   private final RevisionJson revisionJson;
+  private final ProjectCache projectCache;
   private final boolean lazyLoad;
 
   private AccountLoader accountLoader;
@@ -232,6 +235,7 @@ public class ChangeJson {
       TrackingFooters trackingFooters,
       Metrics metrics,
       RevisionJson.Factory revisionJsonFactory,
+      ProjectCache projectCache,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.userProvider = user;
@@ -249,6 +253,7 @@ public class ChangeJson {
     this.revisionJson = revisionJsonFactory.create(options);
     this.options = Sets.immutableEnumSet(options);
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
+    this.projectCache = projectCache;
     logger.atFine().log("options = %s", options);
   }
 
@@ -311,6 +316,14 @@ public class ChangeJson {
       accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
       List<List<ChangeInfo>> res = new ArrayList<>(in.size());
       Map<Change.Id, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
+      // Prewarm the ProjectCache so that later permission and state checks that happen sequentially
+      // don't slow down the request.
+      projectCache.get(
+          in.stream()
+              .map(cr -> cr.entities())
+              .flatMap(List::stream)
+              .map(cd -> cd.project())
+              .collect(toImmutableSet()));
       for (QueryResult<ChangeData> r : in) {
         List<ChangeInfo> infos = toChangeInfos(r.entities(), cache);
         infos.forEach(c -> cache.put(new Change.Id(c._number), c));
@@ -328,6 +341,9 @@ public class ChangeJson {
       throws OrmException, PermissionBackendException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     ensureLoaded(in);
+    // Prewarm the ProjectCache so that later permission and state checks that happen sequentially
+    // don't slow down the request.
+    projectCache.get(in.stream().map(cd -> cd.project()).collect(toImmutableSet()));
     List<ChangeInfo> out = new ArrayList<>(in.size());
     for (ChangeData cd : in) {
       out.add(format(cd, Optional.empty(), false));

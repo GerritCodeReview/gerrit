@@ -82,6 +82,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -266,6 +268,14 @@ public class RefControlTest {
           public ProjectState checkedGet(Project.NameKey projectName, boolean strict)
               throws Exception {
             return all.get(projectName);
+          }
+
+          @Override
+          public Map<Project.NameKey, ProjectState> get(Set<Project.NameKey> projectNames) {
+            return projectNames
+                .stream()
+                .map(p -> all.get(p))
+                .collect(Collectors.toMap(ProjectState::getNameKey, Function.identity()));
           }
         };
 

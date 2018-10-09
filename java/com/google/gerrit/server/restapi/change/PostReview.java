@@ -288,7 +288,8 @@ public class PostReview
         reviewerInput.notify = NotifyHandling.NONE;
 
         ReviewerAddition result =
-            reviewerAdder.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
+            reviewerAdder.prepare(
+                db.get(), revision.getNotes(), revision.getUser(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           hasError = true;

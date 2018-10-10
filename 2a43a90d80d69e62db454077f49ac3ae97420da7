@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6540991_a32c166d",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-10-10T11:01:14Z",
+      "side": 1,
+      "message": "javadoc.",
+      "revId": "2a43a90d80d69e62db454077f49ac3ae97420da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18d77e78_d9a25bc9",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-10-10T11:01:14Z",
+      "side": 1,
+      "message": "opt: could use stream.",
+      "revId": "2a43a90d80d69e62db454077f49ac3ae97420da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -37,9 +37,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -52,7 +50,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
@@ -119,8 +116,6 @@ public class AddReviewersOp implements BatchUpdateOp {
   private final ProjectCache projectCache;
   private final AddReviewersEmail addReviewersEmail;
   private final NotesMigration migration;
-  private final Provider<IdentifiedUser> user;
-  private final Provider<ReviewDb> dbProvider;
   private final Set<Account.Id> accountIds;
   private final Collection<Address> addresses;
   private final ReviewerState state;
@@ -147,8 +142,6 @@ public class AddReviewersOp implements BatchUpdateOp {
       ProjectCache projectCache,
       AddReviewersEmail addReviewersEmail,
       NotesMigration migration,
-      Provider<IdentifiedUser> user,
-      Provider<ReviewDb> dbProvider,
       @Assisted Set<Account.Id> accountIds,
       @Assisted Collection<Address> addresses,
       @Assisted ReviewerState state,
@@ -162,8 +155,6 @@ public class AddReviewersOp implements BatchUpdateOp {
     this.projectCache = projectCache;
     this.addReviewersEmail = addReviewersEmail;
     this.migration = migration;
-    this.user = user;
-    this.dbProvider = dbProvider;
 
     this.accountIds = accountIds;
     this.addresses = addresses;
@@ -216,7 +207,7 @@ public class AddReviewersOp implements BatchUpdateOp {
 
     checkAdded();
 
-    patchSet = psUtil.current(dbProvider.get(), ctx.getNotes());
+    patchSet = psUtil.current(ctx.getDb(), ctx.getNotes());
     return true;
   }
 
@@ -254,7 +245,7 @@ public class AddReviewersOp implements BatchUpdateOp {
             .setAddedCCsByEmail(addedCCsByEmail)
             .build();
     addReviewersEmail.emailReviewers(
-        user.get(),
+        ctx.getUser().asIdentifiedUser(),
         change,
         Lists.transform(addedReviewers, PatchSetApproval::getAccountId),
         addedCCs,

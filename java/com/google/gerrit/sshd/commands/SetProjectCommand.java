@@ -123,7 +123,7 @@ final class SetProjectCommand extends SshCommand {
       name = "--project-state",
       aliases = {"--ps"},
       usage = "project's visibility state")
-  private ProjectState state;
+  private com.google.gerrit.extensions.client.ProjectState state;
 
   @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
   private String maxObjectSizeLimit;
@@ -138,7 +138,7 @@ final class SetProjectCommand extends SshCommand {
     configInput.useContentMerge = contentMerge;
     configInput.useContributorAgreements = contributorAgreements;
     configInput.useSignedOffBy = signedOffBy;
-    configInput.state = state.getProject().getState();
+    configInput.state = state;
     configInput.maxObjectSizeLimit = maxObjectSizeLimit;
     // Description is different to other parameters, null won't result in
     // keeping the existing description, it would delete it.

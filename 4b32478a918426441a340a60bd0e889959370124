@@ -47,6 +47,30 @@
       "revId": "4b32478a918426441a340a60bd0e889959370124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88310518_fae85698",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-10T16:11:38Z",
+      "side": 1,
+      "message": "Sorry, I misread the code.",
+      "parentUuid": "90f1fe12_659a2fc4",
+      "range": {
+        "startLine": 324,
+        "startChar": 17,
+        "endLine": 324,
+        "endChar": 25
+      },
+      "revId": "4b32478a918426441a340a60bd0e889959370124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

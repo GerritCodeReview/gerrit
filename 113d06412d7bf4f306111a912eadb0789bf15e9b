@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "8ae05bc2_db581156",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-10T13:26:43Z",
+      "side": 1,
+      "message": "Should we have\n\n  public RevisionJson  noOptions() {\n    return create(ImmutableSet.of());\n  }\n\nin addition?",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 61
+      },
+      "revId": "113d06412d7bf4f306111a912eadb0789bf15e9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d72a62c_4c2baaa6",
         "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
         "patchSetId": 1

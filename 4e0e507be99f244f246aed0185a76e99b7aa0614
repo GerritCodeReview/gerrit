@@ -16,6 +16,24 @@
       "revId": "4e0e507be99f244f246aed0185a76e99b7aa0614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "180c6748_11abc095",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitmodulesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-10T23:02:36Z",
+      "side": 1,
+      "message": "Gah. I moved it in PS1 but forgot to do it again when I redid the merge in PS2.  I\u0027ll fix it in a followup.",
+      "parentUuid": "762fdfd4_361c22b3",
+      "revId": "4e0e507be99f244f246aed0185a76e99b7aa0614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -88,6 +88,24 @@
       "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5869594_5474fa2c",
+        "filename": "lib/jackson/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-10-10T07:11:13Z",
+      "side": 0,
+      "message": "You still can remove this dependency in your gerrit fork, right? You don\u0027t have any own plugins that depend on Jackson library and you don\u0027t use ES.",
+      "parentUuid": "f52518cd_74c3e123",
+      "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

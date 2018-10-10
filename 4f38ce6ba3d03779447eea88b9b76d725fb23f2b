@@ -70,6 +70,24 @@
       "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d912ad3_e5d2e177",
+        "filename": "lib/jackson/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-10T07:10:14Z",
+      "side": 0,
+      "message": "Will it help if we revert that upgrade in the merge?  Then the upgrade can be done again later for master and LC can be checked later.",
+      "parentUuid": "f52518cd_74c3e123",
+      "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

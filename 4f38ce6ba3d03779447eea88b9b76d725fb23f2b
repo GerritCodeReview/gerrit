@@ -106,6 +106,24 @@
       "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b50e5a28_3a9e9fdd",
+        "filename": "lib/jackson/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-10T07:11:26Z",
+      "side": 0,
+      "message": "(because it\u0027s more important to get the force push access control fix merged, than the fixes that were in the jackson upgrade).",
+      "parentUuid": "2d912ad3_e5d2e177",
+      "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

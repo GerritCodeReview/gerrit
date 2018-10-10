@@ -124,6 +124,24 @@
       "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32e1ff8d_8903ce0a",
+        "filename": "lib/jackson/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-10T07:15:43Z",
+      "side": 0,
+      "message": "I think it\u0027s fine for now. But if there will be a change that makes other parts of Gerrit use this library that goes in unnoticed (because it will not require LC anymore) we may be in need of reverting that change until we have upgraded that library internally.",
+      "parentUuid": "b50e5a28_3a9e9fdd",
+      "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

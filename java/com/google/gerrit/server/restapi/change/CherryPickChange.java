@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -87,13 +88,13 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 public class CherryPickChange {
   @AutoValue
   abstract static class Result {
-    static Result create(Change.Id changeId, boolean containsGitConflicts) {
-      return new AutoValue_CherryPickChange_Result(changeId, containsGitConflicts);
+    static Result create(Change.Id changeId, ImmutableSet<String> filesWithGitConflicts) {
+      return new AutoValue_CherryPickChange_Result(changeId, filesWithGitConflicts);
     }
 
     abstract Change.Id changeId();
 
-    abstract boolean containsGitConflicts();
+    abstract ImmutableSet<String> filesWithGitConflicts();
   }
 
   private final Provider<ReviewDb> dbProvider;
@@ -283,7 +284,7 @@ public class CherryPickChange {
             }
           }
           bu.execute();
-          return Result.create(changeId, cherryPickCommit.containsGitConflicts());
+          return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
         }
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
         throw new IntegrationException("Cherry pick failed: " + e.getMessage());
@@ -364,7 +365,9 @@ public class CherryPickChange {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     Branch.NameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
-    ins.setMessage(messageForDestinationChange(ins.getPatchSetId(), sourceBranch, sourceCommit))
+    ins.setMessage(
+            messageForDestinationChange(
+                ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit))
         .setTopic(topic)
         .setNotify(input.notify)
         .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
@@ -422,15 +425,27 @@ public class CherryPickChange {
   }
 
   private String messageForDestinationChange(
-      PatchSet.Id patchSetId, Branch.NameKey sourceBranch, ObjectId sourceCommit) {
+      PatchSet.Id patchSetId,
+      Branch.NameKey sourceBranch,
+      ObjectId sourceCommit,
+      CodeReviewCommit cherryPickCommit) {
     StringBuilder stringBuilder = new StringBuilder("Patch Set ").append(patchSetId.get());
-
     if (sourceBranch != null) {
       stringBuilder.append(": Cherry Picked from branch ").append(sourceBranch.getShortName());
     } else {
       stringBuilder.append(": Cherry Picked from commit ").append(sourceCommit.getName());
     }
+    stringBuilder.append(".");
 
-    return stringBuilder.append(".").toString();
+    if (!cherryPickCommit.getFilesWithGitConflicts().isEmpty()) {
+      stringBuilder.append("\n\nThe following files contain Git conflicts:\n");
+      cherryPickCommit
+          .getFilesWithGitConflicts()
+          .stream()
+          .sorted()
+          .forEach(filePath -> stringBuilder.append("* ").append(filePath).append("\n"));
+    }
+
+    return stringBuilder.toString();
   }
 }

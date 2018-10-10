@@ -17,12 +17,14 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -261,9 +263,9 @@ public class MergeUtil {
     }
 
     ObjectId tree;
-    boolean containsGitConflicts;
+    ImmutableSet<String> filesWithGitConflicts;
     if (m.merge(mergeTip, originalCommit)) {
-      containsGitConflicts = false;
+      filesWithGitConflicts = null;
       tree = m.getResultTreeId();
       if (tree.equals(mergeTip.getTree()) && !ignoreIdenticalTree) {
         throw new MergeIdenticalTreeException("identical tree");
@@ -282,17 +284,20 @@ public class MergeUtil {
 
       // For merging with conflict markers we need a ResolveMerger, double-check that we have one.
       checkState(m instanceof ResolveMerger, "allow conflicts is not supported");
-      containsGitConflicts = true;
+      Map<String, MergeResult<? extends Sequence>> mergeResults =
+          ((ResolveMerger) m).getMergeResults();
+
+      filesWithGitConflicts =
+          mergeResults
+              .entrySet()
+              .stream()
+              .filter(e -> e.getValue().containsConflicts())
+              .map(Map.Entry::getKey)
+              .collect(toImmutableSet());
+
       tree =
           mergeWithConflicts(
-              rw,
-              inserter,
-              dc,
-              "HEAD",
-              mergeTip,
-              "CHANGE",
-              originalCommit,
-              ((ResolveMerger) m).getMergeResults());
+              rw, inserter, dc, "HEAD", mergeTip, "CHANGE", originalCommit, mergeResults);
     }
 
     CommitBuilder cherryPickCommit = new CommitBuilder();
@@ -303,7 +308,7 @@ public class MergeUtil {
     cherryPickCommit.setMessage(commitMsg);
     matchAuthorToCommitterDate(project, cherryPickCommit);
     CodeReviewCommit commit = rw.parseCommit(inserter.insert(cherryPickCommit));
-    commit.setContainsGitConflicts(containsGitConflicts);
+    commit.setFilesWithGitConflicts(filesWithGitConflicts);
     return commit;
   }
 

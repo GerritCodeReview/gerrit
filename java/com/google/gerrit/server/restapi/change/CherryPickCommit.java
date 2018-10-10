@@ -108,7 +108,8 @@ public class CherryPickCommit
       CherryPickChangeInfo changeInfo =
           json.noOptions()
               .format(projectName, cherryPickResult.changeId(), CherryPickChangeInfo::new);
-      changeInfo.containsGitConflicts = cherryPickResult.containsGitConflicts() ? true : null;
+      changeInfo.containsGitConflicts =
+          !cherryPickResult.filesWithGitConflicts().isEmpty() ? true : null;
       return changeInfo;
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

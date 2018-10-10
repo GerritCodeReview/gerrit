@@ -511,8 +511,7 @@ public class RevisionIT extends AbstractDaemonTest {
             admin.getIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
-            PushOneCommit.FILE_NAME,
-            destContent);
+            ImmutableMap.of(PushOneCommit.FILE_NAME, destContent, "foo.txt", "foo"));
     push.to("refs/heads/" + destBranch);
 
     // Create a change on master with a commit that conflicts with the commit on the other branch.
@@ -524,8 +523,7 @@ public class RevisionIT extends AbstractDaemonTest {
             admin.getIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
-            PushOneCommit.FILE_NAME,
-            changeContent);
+            ImmutableMap.of(PushOneCommit.FILE_NAME, changeContent, "bar.txt", "bar"));
     PushOneCommit.Result r = push.to("refs/for/master%topic=someTopic");
 
     // Verify before the cherry-pick that the change has exactly 1 message.
@@ -600,7 +598,13 @@ public class RevisionIT extends AbstractDaemonTest {
     // Verify that a message has been posted on the cherry-pick change.
     assertThat(cherryPickChangeWithDetails.messages).hasSize(1);
     Iterator<ChangeMessageInfo> cherryIt = cherryPickChangeWithDetails.messages.iterator();
-    assertThat(cherryIt.next().message).isEqualTo("Patch Set 1: Cherry Picked from branch master.");
+    assertThat(cherryIt.next().message)
+        .isEqualTo(
+            "Patch Set 1: Cherry Picked from branch master.\n\n"
+                + "The following files contain Git conflicts:\n"
+                + "* "
+                + PushOneCommit.FILE_NAME
+                + "\n");
   }
 
   @Test

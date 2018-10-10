@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "433f83f1_841df45e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5321,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-10T09:00:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3876c4b5_675974b3",
+      "range": {
+        "startLine": 5321,
+        "startChar": 44,
+        "endLine": 5321,
+        "endChar": 63
+      },
+      "revId": "2e974d8058be860db00392297f4a52eab9e47cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d52c0a68_6fb2c3ff",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "6e5dc3dd_b0afb0cb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5927,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-10T09:00:02Z",
+      "side": 1,
+      "message": "I intended to name it \"cherry-pick change\". I didn\u0027t notice that the existing documentation named it differently. Changed all occurrences to \"cherry-pick change\".\n\nDone.",
+      "parentUuid": "d52c0a68_6fb2c3ff",
+      "range": {
+        "startLine": 5927,
+        "startChar": 0,
+        "endLine": 5927,
+        "endChar": 18
+      },
+      "revId": "2e974d8058be860db00392297f4a52eab9e47cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53b604c1_17d5bfcf",
         "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
         "patchSetId": 3
@@ -63,6 +111,24 @@
       "revId": "2e974d8058be860db00392297f4a52eab9e47cae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d335b54d_e36c3612",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-10T09:00:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53b604c1_17d5bfcf",
+      "revId": "2e974d8058be860db00392297f4a52eab9e47cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -83,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "a76503fb_57edeb25",
+        "filename": "java/com/google/gerrit/server/change/ChangeInfoUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-10T09:00:02Z",
+      "side": 1,
+      "message": "With the new patch set the ChangeInfo instance that should be populated by ChangeJson is now provided to ChangeJson via a Supplier\u003c? extends ChangeInfo\u003e so that ChangeJson can directly populate the CherryPickChangeInfo instance.",
+      "parentUuid": "8bba819d_0bb5c180",
+      "revId": "2e974d8058be860db00392297f4a52eab9e47cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a7179b2_462c58bf",
         "filename": "java/com/google/gerrit/server/change/ChangeInfoUtil.java",
         "patchSetId": 3
@@ -97,6 +181,24 @@
       "revId": "2e974d8058be860db00392297f4a52eab9e47cae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6de2a36e_9aefe4f7",
+        "filename": "java/com/google/gerrit/server/change/ChangeInfoUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-10T09:00:02Z",
+      "side": 1,
+      "message": "Went for another approach (see comment above).",
+      "parentUuid": "4a7179b2_462c58bf",
+      "revId": "2e974d8058be860db00392297f4a52eab9e47cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -132,6 +234,24 @@
       "revId": "2e974d8058be860db00392297f4a52eab9e47cae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1735730_10f399c2",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-10T09:00:02Z",
+      "side": 1,
+      "message": "Yes, I considered this too, but didn\u0027t want to make ChangeJson more complicated. After all it\u0027s not so bad and probably the cleanest solution. This is what I have implemented now.\n\nDone.",
+      "parentUuid": "942b337e_ebf1db47",
+      "revId": "2e974d8058be860db00392297f4a52eab9e47cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -196,6 +196,24 @@
       "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1609b1a5_035cef51",
+        "filename": "lib/jackson/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-10T07:30:14Z",
+      "side": 0,
+      "message": "If it\u0027s not working, it\u0027s okay to not have it. We should just be aware that adding new dependencies on this lib requires us to import this library.",
+      "parentUuid": "31c6dbf3_3ca8b0f4",
+      "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -57,6 +57,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -574,6 +575,20 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushForMasterWithCcGroup() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+    String group = name("group");
+    GroupInput gin = new GroupInput();
+    gin.name = group;
+    gin.members = ImmutableList.of(user.username, user2.username);
+    gApi.groups().create(gin);
+
+    PushOneCommit.Result r = pushTo("refs/for/master%cc=" + group);
+    // TODO(dborowitz): Support adding groups.
+    r.assertErrorStatus("user \"" + group + "\" not found");
+  }
+
+  @Test
   public void pushForMasterWithReviewer() throws Exception {
     // add one reviewer
     String topic = "my/topic";
@@ -611,6 +626,20 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 + ",r="
                 + user.email);
     r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
+  }
+
+  @Test
+  public void pushForMasterWithReviewerGroup() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+    String group = name("group");
+    GroupInput gin = new GroupInput();
+    gin.name = group;
+    gin.members = ImmutableList.of(user.username, user2.username);
+    gApi.groups().create(gin);
+
+    PushOneCommit.Result r = pushTo("refs/for/master%r=" + group);
+    // TODO(dborowitz): Support adding groups.
+    r.assertErrorStatus("user \"" + group + "\" not found");
   }
 
   @Test

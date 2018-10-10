@@ -82,6 +82,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/** Produces {@link RevisionInfo} and {@link CommitInfo} which are serialized to JSON afterwards. */
 public class RevisionJson {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -150,6 +151,10 @@ public class RevisionJson {
     this.lazyLoad = containsAnyOf(this.options, ChangeJson.REQUIRE_LAZY_LOAD);
   }
 
+  /**
+   * Returns a {@link RevisionInfo} based on a change and patch set. Reads from the repository
+   * depending on the options provided when constructing this instance.
+   */
   public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException,
           PermissionBackendException {
@@ -162,6 +167,10 @@ public class RevisionJson {
     }
   }
 
+  /**
+   * Returns a {@link CommitInfo} based on a commit and formatting options. Uses the provided
+   * RevWalk and assumes it is backed by an open repository.
+   */
   public CommitInfo getCommitInfo(
       Project.NameKey project, RevWalk rw, RevCommit commit, boolean addLinks, boolean fillCommit)
       throws IOException {
@@ -194,6 +203,11 @@ public class RevisionJson {
     return info;
   }
 
+  /**
+   * Returns multiple {@link RevisionInfo}s for a single change. Uses the provided {@link
+   * AccountLoader} to lazily populate accounts. Callers have to call {@link AccountLoader#fill()}
+   * afterwards to populate all accounts in the returned {@link RevisionInfo}s.
+   */
   Map<String, RevisionInfo> getRevisions(
       AccountLoader accountLoader,
       ChangeData cd,

@@ -116,9 +116,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       recipients.put(CC, parseAddresses(message, "Cc"));
       recipients.put(
           BCC,
-          message
-              .rcpt()
-              .stream()
+          message.rcpt().stream()
               .map(Address::getEmail)
               .filter(e -> !recipients.get(TO).contains(e) && !recipients.get(CC).contains(e))
               .collect(toList()));
@@ -195,8 +193,8 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       if (recipients.get(type).contains(email) != expected) {
         failWithoutActual(
             fact(
-                expected ? "notifies" : "doesn't notify",
-                "[\n" + type + ": " + users.emailToName(email) + "\n]"));
+                expected ? "should notify" : "shouldn't notify",
+                type + ": " + users.emailToName(email)));
       }
       if (expected) {
         accountedFor.add(email);

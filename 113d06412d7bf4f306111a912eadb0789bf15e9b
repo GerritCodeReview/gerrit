@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1be7b413_08786951",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-10T08:42:09Z",
+      "side": 1,
+      "message": "this was already moved in a subsequent change in this series :)",
+      "parentUuid": "3d72a62c_4c2baaa6",
+      "range": {
+        "startLine": 154,
+        "startChar": 21,
+        "endLine": 154,
+        "endChar": 37
+      },
+      "revId": "113d06412d7bf4f306111a912eadb0789bf15e9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f235cf15_8e51457d",
         "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
         "patchSetId": 1

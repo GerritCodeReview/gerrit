@@ -822,6 +822,18 @@
       });
     },
 
+    getAvatarChangeUrl() {
+      return this._fetchSharedCacheURL({
+        url: '/accounts/self/avatar.change.url',
+        reportUrlAsIs: true,
+        errFn: resp => {
+          if (!resp || resp.status === 403) {
+            this._cache['/accounts/self/avatar.change.url'] = null;
+          }
+        },
+      });
+    },
+
     getExternalIds() {
       return this._fetchJSON({
         url: '/accounts/self/external.ids',

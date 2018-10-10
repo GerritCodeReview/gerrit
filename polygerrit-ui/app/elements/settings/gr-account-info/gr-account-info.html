@@ -17,6 +17,7 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../shared/gr-avatar/gr-avatar.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -26,9 +27,34 @@ limitations under the License.
 
 <dom-module id="gr-account-info">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      gr-avatar {
+        height: 10em;
+        width: 10em;
+        margin-right: .15em;
+        vertical-align: -.25em;
+      }
+      .hide {
+        display: none;
+      }
+    </style>
     <style include="gr-form-styles"></style>
     <div class="gr-form-styles">
+      <section>
+        <span class="title"></span>
+        <span class="value">
+          <gr-avatar account="[[_account]]"
+              image-size="32"></gr-avatar>
+        </span>
+      </section>
+      <section class$="[[_hideAvatarChangeUrl(_avatarChangeUrl)]]">
+        <span class="title"></span>
+        <span class="value">
+          <a href$="[[_avatarChangeUrl]]">
+            Change avatar
+          </a>
+        </span>
+      </section>
       <section>
         <span class="title">ID</span>
         <span class="value">[[_account._account_id]]</span>
@@ -59,6 +85,7 @@ limitations under the License.
               disabled="[[_saving]]"
               on-keydown="_handleKeydown"
               bind-value="{{_username}}">
+        </span>
       </section>
       <section id="nameSection">
         <span class="title">Full name</span>

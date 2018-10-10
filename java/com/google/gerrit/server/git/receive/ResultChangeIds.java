@@ -33,7 +33,7 @@ public class ResultChangeIds {
     AUTOCLOSED,
   }
 
-  private Map<Key, List<Change.Id>> ids;
+  private final Map<Key, List<Change.Id>> ids;
 
   ResultChangeIds() {
     ids = new EnumMap<>(Key.class);

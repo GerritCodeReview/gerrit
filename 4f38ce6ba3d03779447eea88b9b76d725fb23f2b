@@ -178,6 +178,24 @@
       "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31c6dbf3_3ca8b0f4",
+        "filename": "lib/jackson/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-10T07:28:06Z",
+      "side": 0,
+      "message": "Hmm, maybe I\u0027m doing it wrong, but when I try to do that it fails with a circular dependency.\n\nhttp://paste.openstack.org/show/731820/",
+      "parentUuid": "fb0d95f4_34a649da",
+      "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

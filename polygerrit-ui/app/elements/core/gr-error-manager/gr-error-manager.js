@@ -91,22 +91,36 @@
     },
 
     _handleServerError(e) {
-      Promise.all([
-        e.detail.response.text(), this._getLoggedIn(),
-      ]).then(values => {
-        const text = values[0];
-        const loggedIn = values[1];
-        if (e.detail.response.status === 403 &&
-            loggedIn &&
-            text === AUTHENTICATION_REQUIRED) {
-          // The app was logged at one point and is now getting auth errors.
-          // This indicates the auth token is no longer valid.
-          this._handleAuthError();
-        } else if (!this._shouldSuppressError(text)) {
-          this._showErrorDialog('Server error: ' + text);
-        }
-        console.error(text);
-      });
+      const {request, response} = e.detail;
+      Promise.all([response.text(), this._getLoggedIn()])
+          .then(([errorText, loggedIn]) => {
+            const url = request && (request.anonymizedUrl || request.url);
+            const {status, statusText} = response;
+            if (response.status === 403 &&
+                loggedIn &&
+                errorText === AUTHENTICATION_REQUIRED) {
+              // The app was logged at one point and is now getting auth errors.
+              // This indicates the auth token is no longer valid.
+              this._handleAuthError();
+            } else if (!this._shouldSuppressError(errorText)) {
+              this._showErrorDialog(this._constructServerErrorMsg({
+                status,
+                statusText,
+                errorText,
+                url,
+              }));
+            }
+            console.error(errorText);
+          });
+    },
+
+    _constructServerErrorMsg({errorText, status, statusText, url}) {
+      let err = `Error ${status}`;
+      if (statusText) { err += ` (${statusText})`; }
+      if (errorText || url) { err += ': '; }
+      if (errorText) { err += errorText; }
+      if (url) { err += `\nEndpoint: ${url}`; }
+      return err;
     },
 
     _handleShowAlert(e) {

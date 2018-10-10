@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
@@ -64,6 +65,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -943,6 +945,55 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
     assertThat(cr.all.get(0).value).isEqualTo(2);
+  }
+
+  @Test
+  public void pushForMasterWithForgedAuthorAndCommitter() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+    // Create a commit with different forged author and committer.
+    RevCommit c =
+        commitBuilder()
+            .author(user.getIdent())
+            .committer(user2.getIdent())
+            .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
+            .message(PushOneCommit.SUBJECT)
+            .create();
+    // Push commit as "Admnistrator".
+    pushHead(testRepo, "refs/for/master");
+
+    String changeId = GitUtil.getChangeId(testRepo, c).get();
+    assertThat(getOwnerEmail(changeId)).isEqualTo(admin.email);
+    assertThat(getReviewerEmails(changeId, ReviewerState.REVIEWER))
+        .containsExactly(user.email, user2.email);
+
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt())
+        .containsExactly(user.emailAddress, user2.emailAddress);
+  }
+
+  @Test
+  public void pushNewPatchSetForMasterWithForgedAuthorAndCommitter() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+    // First patch set has author and committer matching change owner.
+    PushOneCommit.Result r = pushTo("refs/for/master");
+
+    assertThat(getOwnerEmail(r.getChangeId())).isEqualTo(admin.email);
+    assertThat(getReviewerEmails(r.getChangeId(), ReviewerState.REVIEWER)).isEmpty();
+
+    amendBuilder()
+        .author(user.getIdent())
+        .committer(user2.getIdent())
+        .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT + "2")
+        .create();
+    pushHead(testRepo, "refs/for/master");
+
+    assertThat(getOwnerEmail(r.getChangeId())).isEqualTo(admin.email);
+    assertThat(getReviewerEmails(r.getChangeId(), ReviewerState.REVIEWER))
+        .containsExactly(user.email, user2.email);
+
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt())
+        .containsExactly(user.emailAddress, user2.emailAddress);
   }
 
   /**
@@ -2335,5 +2386,18 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private PushOneCommit.Result amendChange(String changeId, String ref) throws Exception {
     return amendChange(changeId, ref, admin, testRepo);
+  }
+
+  private String getOwnerEmail(String changeId) throws Exception {
+    return get(changeId, DETAILED_ACCOUNTS).owner.email;
+  }
+
+  private ImmutableList<String> getReviewerEmails(String changeId, ReviewerState state)
+      throws Exception {
+    Collection<AccountInfo> infos =
+        get(changeId, DETAILED_LABELS, DETAILED_ACCOUNTS).reviewers.get(state);
+    return infos != null
+        ? infos.stream().map(a -> a.email).collect(toImmutableList())
+        : ImmutableList.of();
   }
 }

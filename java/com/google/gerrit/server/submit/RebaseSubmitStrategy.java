@@ -156,7 +156,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                   cherryPickCmtMsg,
                   args.rw,
                   0,
-                  true);
+                  true,
+                  false);
         } catch (MergeConflictException mce) {
           // Unlike in Cherry-pick case, this should never happen.
           toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);

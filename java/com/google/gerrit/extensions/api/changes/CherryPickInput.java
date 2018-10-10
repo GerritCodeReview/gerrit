@@ -28,4 +28,5 @@ public class CherryPickInput {
   public Map<RecipientType, NotifyInfo> notifyDetails;
 
   public boolean keepReviewers;
+  public boolean allowConflicts;
 }

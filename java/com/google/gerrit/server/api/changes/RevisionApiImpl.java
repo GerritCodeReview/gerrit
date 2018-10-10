@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.api.changes.RobotCommentApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.CherryPickChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DescriptionInput;
@@ -284,6 +285,15 @@ class RevisionApiImpl implements RevisionApi {
   public ChangeApi cherryPick(CherryPickInput in) throws RestApiException {
     try {
       return changes.id(cherryPick.apply(revision, in)._number);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot cherry pick", e);
+    }
+  }
+
+  @Override
+  public CherryPickChangeInfo cherryPickAsInfo(CherryPickInput in) throws RestApiException {
+    try {
+      return cherryPick.apply(revision, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot cherry pick", e);
     }

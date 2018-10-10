@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -84,6 +86,16 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
 public class CherryPickChange {
+  @AutoValue
+  abstract static class Result {
+    static Result create(Change.Id changeId, ImmutableSet<String> filesWithGitConflicts) {
+      return new AutoValue_CherryPickChange_Result(changeId, filesWithGitConflicts);
+    }
+
+    abstract Change.Id changeId();
+
+    abstract ImmutableSet<String> filesWithGitConflicts();
+  }
 
   private final Provider<ReviewDb> dbProvider;
   private final Sequences seq;
@@ -132,7 +144,7 @@ public class CherryPickChange {
     this.notifyUtil = notifyUtil;
   }
 
-  public Change.Id cherryPick(
+  public Result cherryPick(
       BatchUpdate.Factory batchUpdateFactory,
       Change change,
       PatchSet patch,
@@ -150,7 +162,7 @@ public class CherryPickChange {
         dest);
   }
 
-  public Change.Id cherryPick(
+  public Result cherryPick(
       BatchUpdate.Factory batchUpdateFactory,
       @Nullable Change sourceChange,
       @Nullable PatchSet.Id sourcePatchId,
@@ -205,19 +217,26 @@ public class CherryPickChange {
         throw new NoSuchProjectException(dest.getParentKey());
       }
       try {
+        MergeUtil mergeUtil;
+        if (input.allowConflicts) {
+          // allowConflicts requires to use content merge
+          mergeUtil = mergeUtilFactory.create(projectState, true);
+        } else {
+          // use content merge only if it's configured on the project
+          mergeUtil = mergeUtilFactory.create(projectState);
+        }
         cherryPickCommit =
-            mergeUtilFactory
-                .create(projectState)
-                .createCherryPickFromCommit(
-                    oi,
-                    git.getConfig(),
-                    baseCommit,
-                    commitToCherryPick,
-                    committerIdent,
-                    commitMessage,
-                    revWalk,
-                    input.parent - 1,
-                    false);
+            mergeUtil.createCherryPickFromCommit(
+                oi,
+                git.getConfig(),
+                baseCommit,
+                commitToCherryPick,
+                committerIdent,
+                commitMessage,
+                revWalk,
+                input.parent - 1,
+                false,
+                input.allowConflicts);
 
         Change.Key changeKey;
         final List<String> idList = cherryPickCommit.getFooterLines(FooterConstants.CHANGE_ID);
@@ -241,11 +260,11 @@ public class CherryPickChange {
         try (BatchUpdate bu =
             batchUpdateFactory.create(dbProvider.get(), project, identifiedUser, now)) {
           bu.setRepository(git, revWalk, oi);
-          Change.Id result;
+          Change.Id changeId;
           if (destChanges.size() == 1) {
             // The change key exists on the destination branch. The cherry pick
             // will be added as a new patch set.
-            result = insertPatchSet(bu, git, destChanges.get(0).notes(), cherryPickCommit, input);
+            changeId = insertPatchSet(bu, git, destChanges.get(0).notes(), cherryPickCommit, input);
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
@@ -253,7 +272,7 @@ public class CherryPickChange {
             if (sourceChange != null && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
               newTopic = sourceChange.getTopic() + "-" + newDest.getShortName();
             }
-            result =
+            changeId =
                 createNewChange(
                     bu, cherryPickCommit, dest.get(), newTopic, sourceChange, sourceCommit, input);
 
@@ -265,7 +284,7 @@ public class CherryPickChange {
             }
           }
           bu.execute();
-          return result;
+          return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
         }
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
         throw new IntegrationException("Cherry pick failed: " + e.getMessage());
@@ -346,7 +365,9 @@ public class CherryPickChange {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     Branch.NameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
-    ins.setMessage(messageForDestinationChange(ins.getPatchSetId(), sourceBranch, sourceCommit))
+    ins.setMessage(
+            messageForDestinationChange(
+                ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit))
         .setTopic(topic)
         .setNotify(input.notify)
         .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
@@ -404,15 +425,27 @@ public class CherryPickChange {
   }
 
   private String messageForDestinationChange(
-      PatchSet.Id patchSetId, Branch.NameKey sourceBranch, ObjectId sourceCommit) {
+      PatchSet.Id patchSetId,
+      Branch.NameKey sourceBranch,
+      ObjectId sourceCommit,
+      CodeReviewCommit cherryPickCommit) {
     StringBuilder stringBuilder = new StringBuilder("Patch Set ").append(patchSetId.get());
-
     if (sourceBranch != null) {
       stringBuilder.append(": Cherry Picked from branch ").append(sourceBranch.getShortName());
     } else {
       stringBuilder.append(": Cherry Picked from commit ").append(sourceCommit.getName());
     }
+    stringBuilder.append(".");
 
-    return stringBuilder.append(".").toString();
+    if (!cherryPickCommit.getFilesWithGitConflicts().isEmpty()) {
+      stringBuilder.append("\n\nThe following files contain Git conflicts:\n");
+      cherryPickCommit
+          .getFilesWithGitConflicts()
+          .stream()
+          .sorted()
+          .forEach(filePath -> stringBuilder.append("* ").append(filePath).append("\n"));
+    }
+
+    return stringBuilder.toString();
   }
 }

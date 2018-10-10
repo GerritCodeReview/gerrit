@@ -161,6 +161,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.function.Supplier;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -371,6 +372,11 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(Project.NameKey project, Change.Id id) throws OrmException {
+    return format(project, id, ChangeInfo::new);
+  }
+
+  public <I extends ChangeInfo> I format(
+      Project.NameKey project, Change.Id id, Supplier<I> changeInfoSupplier) throws OrmException {
     ChangeNotes notes;
     try {
       notes = notesFactory.createChecked(db.get(), project, id);
@@ -378,26 +384,40 @@ public class ChangeJson {
       if (!has(CHECK)) {
         throw e;
       }
-      return checkOnly(changeDataFactory.create(db.get(), project, id));
+      return checkOnly(changeDataFactory.create(db.get(), project, id), changeInfoSupplier);
     }
-    return format(changeDataFactory.create(db.get(), notes));
+    return format(changeDataFactory.create(db.get(), notes), changeInfoSupplier);
   }
 
   public ChangeInfo format(ChangeData cd) throws OrmException {
-    return format(cd, Optional.empty(), true);
+    return format(cd, ChangeInfo::new);
+  }
+
+  public <I extends ChangeInfo> I format(ChangeData cd, Supplier<I> changeInfoSupplier)
+      throws OrmException {
+    return format(cd, Optional.empty(), true, changeInfoSupplier);
   }
 
   private ChangeInfo format(
       ChangeData cd, Optional<PatchSet.Id> limitToPsId, boolean fillAccountLoader)
       throws OrmException {
+    return format(cd, limitToPsId, fillAccountLoader, ChangeInfo::new);
+  }
+
+  private <I extends ChangeInfo> I format(
+      ChangeData cd,
+      Optional<PatchSet.Id> limitToPsId,
+      boolean fillAccountLoader,
+      Supplier<I> changeInfoSupplier)
+      throws OrmException {
     try {
       if (fillAccountLoader) {
         accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-        ChangeInfo res = toChangeInfo(cd, limitToPsId);
+        I res = toChangeInfo(cd, limitToPsId, changeInfoSupplier);
         accountLoader.fill();
         return res;
       }
-      return toChangeInfo(cd, limitToPsId);
+      return toChangeInfo(cd, limitToPsId, changeInfoSupplier);
     } catch (PatchListNotAvailableException
         | GpgException
         | OrmException
@@ -408,7 +428,7 @@ public class ChangeJson {
         Throwables.throwIfInstanceOf(e, OrmException.class);
         throw new OrmException(e);
       }
-      return checkOnly(cd);
+      return checkOnly(cd, changeInfoSupplier);
     }
   }
 
@@ -539,14 +559,14 @@ public class ChangeJson {
     }
   }
 
-  private ChangeInfo checkOnly(ChangeData cd) {
+  private <I extends ChangeInfo> I checkOnly(ChangeData cd, Supplier<I> changeInfoSupplier) {
     ChangeNotes notes;
     try {
       notes = cd.notes();
     } catch (OrmException e) {
       String msg = "Error loading change";
       logger.atWarning().withCause(e).log(msg + " %s", cd.getId());
-      ChangeInfo info = new ChangeInfo();
+      I info = changeInfoSupplier.get();
       info._number = cd.getId().get();
       ProblemInfo p = new ProblemInfo();
       p.message = msg;
@@ -555,10 +575,9 @@ public class ChangeJson {
     }
 
     ConsistencyChecker.Result result = checkerProvider.get().check(notes, fix);
-    ChangeInfo info;
+    I info = changeInfoSupplier.get();
     Change c = result.change();
     if (c != null) {
-      info = new ChangeInfo();
       info.project = c.getProject().get();
       info.branch = c.getDest().getShortName();
       info.topic = c.getTopic();
@@ -575,25 +594,26 @@ public class ChangeJson {
       info.hasReviewStarted = c.hasReviewStarted();
       finish(info);
     } else {
-      info = new ChangeInfo();
       info._number = result.id().get();
       info.problems = result.problems();
     }
     return info;
   }
 
-  private ChangeInfo toChangeInfo(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
+  private <I extends ChangeInfo> I toChangeInfo(
+      ChangeData cd, Optional<PatchSet.Id> limitToPsId, Supplier<I> changeInfoSupplier)
       throws PatchListNotAvailableException, GpgException, OrmException, PermissionBackendException,
           IOException {
     try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
-      return toChangeInfoImpl(cd, limitToPsId);
+      return toChangeInfoImpl(cd, limitToPsId, changeInfoSupplier);
     }
   }
 
-  private ChangeInfo toChangeInfoImpl(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
+  private <I extends ChangeInfo> I toChangeInfoImpl(
+      ChangeData cd, Optional<PatchSet.Id> limitToPsId, Supplier<I> changeInfoSupplier)
       throws PatchListNotAvailableException, GpgException, OrmException, PermissionBackendException,
           IOException {
-    ChangeInfo out = new ChangeInfo();
+    I out = changeInfoSupplier.get();
     CurrentUser user = userProvider.get();
 
     if (has(CHECK)) {

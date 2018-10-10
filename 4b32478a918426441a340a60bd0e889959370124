@@ -23,6 +23,30 @@
       "revId": "4b32478a918426441a340a60bd0e889959370124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90f1fe12_659a2fc4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-10T16:02:29Z",
+      "side": 1,
+      "message": "This test is about re-adding a reviewer who is already a reviewer on a change. IOW, re-adding an \"existing\" reviewer. Suggestions for clearer wording?",
+      "parentUuid": "b0f773eb_527e0bd9",
+      "range": {
+        "startLine": 324,
+        "startChar": 17,
+        "endLine": 324,
+        "endChar": 25
+      },
+      "revId": "4b32478a918426441a340a60bd0e889959370124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abee4f7b_0d8356ca",
+        "filename": "java/com/google/gerrit/server/change/DownloadCommandsJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-10-10T10:58:02Z",
+      "side": 1,
+      "message": "javadoc",
+      "revId": "8dca66f3c70efb2d5b033a415a15392927ca21f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ad0feb6_534229fb",
+        "filename": "java/com/google/gerrit/server/change/DownloadCommandsJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-10-10T10:58:02Z",
+      "side": 1,
+      "message": "Make clear which args are read and which are mutated.\n\nOpt: return map, and merge it in the caller.",
+      "range": {
+        "startLine": 28,
+        "startChar": 21,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "8dca66f3c70efb2d5b033a415a15392927ca21f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eb8353a_0d42b868",
+        "filename": "java/com/google/gerrit/server/change/DownloadCommandsJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-10-10T10:58:02Z",
+      "side": 1,
+      "message": "inline?",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 32
+      },
+      "revId": "8dca66f3c70efb2d5b033a415a15392927ca21f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

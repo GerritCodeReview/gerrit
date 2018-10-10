@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1539206384 -0700\nnonce AP50N7bW+2k7OcaSq+YKTOgw9BKIMzSzSegtcMUEhYw+k41yaJwukSTE/rs4jQFgDgP4W7PoIQQs\n\n0000000000000000000000000000000000000000 1bfb10d9f4c8de1edde7b6a27fbcbe330c47e1fd refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlu+bPAVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMOqUQAMzYJibq7ls5rQUdkUOX5PPjiPmt\nKdWlkNVDterexZIEitTzc76RgTFjp1KFN/BegcltulibhYDkNgmP+6VRonx7Rheo\nna8MgqV88h7iKsGtPOWbo8+02L3+9PLhX58i+cn0rA3P9J12bF/K8Cshu3WKz032\nOWd4O33z42jpZDiW6ZN7iBMBvS1eUZPAtGZob4no7JTljpgNe2gv7h0lvYIeG//N\nLRmyC/e+zS7kL1Gd/ooMlzOVUvpNimvn9W2uglA+W6U7FmNXSTlF2yf8w6cqyN1B\nOgydkYW5AAfPP97NfF2eObaaajBp6uYKSH35+8Iv0Qn9KcKm2HoVSEeCx4zm0au9\n6mcyUs1jo0IwBCwMvHahSmH3QBQ2TPADfSt+iiHfmfPxeRJFB9ySQOqLxYhP/E/p\nF7+ICdTYPd8ybYBhsihOvDrspJjY4m03JGV5b2w6vo6J27EYJN6qyRz1oEcHHzdG\nl1Gil7J2OEL8qIW5dmj2OCtWgRTlEEtCkMk2TsLnYU2l5hKW3FewE1KOxPkou19H\n9J1jMArjyKbBjaZTerP2BhfmfXKW22L2vc8lHNxEQ4eGHRiPe+3LEg5kpVjLLsA0\nK4Yk7dZ8Kefxo2hVnR4YcHxYdCYEjVF9DI5/wNitnWO0ZBtc301jFIyTJmFn7Nuw\nSx3TcVsPRqhIAiML\n\u003dEbXN\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "aff71d81_7f8e50d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-10T21:38:25Z",
+      "side": 1,
+      "message": "You may be able to tell from this paragraph and the lengthy TODOs in ReviewerAdder that I\u0027m getting pretty frustrated with the limitations of this interface. I think I\u0027ve reached the limit of what we can do without rewriting the entire thing. I have some ideas about a way forward, but at this point I\u0027m more interested in completing my original goal of allowing reviewers by email in ReceiveCommits. I think any rewrite will have to wait until after that.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "4efcba165e222051243b6b21806b3b6b2ad52eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

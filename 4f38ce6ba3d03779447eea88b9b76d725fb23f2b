@@ -16,6 +16,24 @@
       "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29d8795c_894bc798",
+        "filename": "lib/jackson/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-10T06:57:58Z",
+      "side": 0,
+      "message": "It\u0027s explained in the commit message.  Actually there is no visibility restriction on the current master; I introduced it in stable-2.14 since there it really is only used by ES.\n\nOn master, however, we also export it in the plugin API, which is why there is no restriction.",
+      "parentUuid": "205a4f6e_b42693c7",
+      "revId": "4f38ce6ba3d03779447eea88b9b76d725fb23f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

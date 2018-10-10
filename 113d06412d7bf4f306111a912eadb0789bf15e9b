@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c38b5214_3fab7e9c",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-10T13:50:43Z",
+      "side": 1,
+      "message": "this seems to be unused now",
+      "revId": "113d06412d7bf4f306111a912eadb0789bf15e9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4491959e_1d1a50c2",
         "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
         "patchSetId": 1
@@ -135,6 +152,23 @@
         "endLine": 255,
         "endChar": 38
       },
+      "revId": "113d06412d7bf4f306111a912eadb0789bf15e9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e674d672_72a334be",
+        "filename": "java/com/google/gerrit/server/restapi/change/SubmittedTogether.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-10T13:50:43Z",
+      "side": 1,
+      "message": "This field is unused now.",
       "revId": "113d06412d7bf4f306111a912eadb0789bf15e9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

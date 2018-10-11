@@ -84,6 +84,16 @@ limitations under the License.
             rows="4"
             max-rows="15"
             bind-value="{{message}}"></iron-autogrow-textarea>
+        <section>
+          <label
+              class="title"
+              for="conflictsCheckBox">Allow Conflicts</label>
+          <span class="value">
+            <input
+                type="checkbox"
+                id="conflictseCheckBox">
+          </span>
+        </section>
       </div>
     </gr-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

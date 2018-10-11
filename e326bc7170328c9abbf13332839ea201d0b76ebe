@@ -22,6 +22,30 @@
       "revId": "e326bc7170328c9abbf13332839ea201d0b76ebe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1100d262_c158b4a8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-11T19:25:19Z",
+      "side": 1,
+      "message": "I gave it a shot, but it\u0027s not easy to describe without basically repeating the the boolean expression in plain English (which would make it very easy to get out of date as the implementation changes). I think the logic here is a bit convoluted and should probably be further refactored, but for now I just try to tease it apart enough so that I can change the order of the threading and grouping here and move the threading out of gr-diff. If you have a concrete suggestion how it could be improved, let me know.",
+      "parentUuid": "d58a7f8b_6315369b",
+      "range": {
+        "startLine": 401,
+        "startChar": 0,
+        "endLine": 434,
+        "endChar": 4
+      },
+      "revId": "e326bc7170328c9abbf13332839ea201d0b76ebe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -24,6 +24,7 @@ package com.google.gerrit.sshd.commands;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.tools.ToolsCatalog.Entry;
 import com.google.gerrit.sshd.BaseCommand;
@@ -88,7 +89,8 @@ final class ScpCommand extends BaseCommand {
           public void run() {
             runImp();
           }
-        });
+        },
+        AccessPath.SSH_COMMAND);
   }
 
   private void runImp() {

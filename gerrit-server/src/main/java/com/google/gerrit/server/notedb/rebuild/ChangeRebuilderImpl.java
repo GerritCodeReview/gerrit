@@ -238,8 +238,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     String newNoteDbStateStr = change.getNoteDbState();
     if (newNoteDbStateStr == null) {
       throw new OrmException(
-          "Rebuilding change %s produced no writes to NoteDb: "
-              + bundleReader.fromReviewDb(db, changeId));
+          String.format(
+              "Rebuilding change %s produced no writes to NoteDb: %s",
+              changeId, bundleReader.fromReviewDb(db, changeId)));
     }
     NoteDbChangeState newNoteDbState =
         checkNotNull(NoteDbChangeState.parse(changeId, newNoteDbStateStr));

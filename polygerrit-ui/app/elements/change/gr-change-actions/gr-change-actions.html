@@ -32,6 +32,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog.html">
 <link rel="import" href="../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html">
+<link rel="import" href="../gr-confirm-cherrypick-conflict-dialog/gr-confirm-cherrypick-conflict-dialog.html">
 <link rel="import" href="../gr-confirm-move-dialog/gr-confirm-move-dialog.html">
 <link rel="import" href="../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html">
 <link rel="import" href="../gr-confirm-revert-dialog/gr-confirm-revert-dialog.html">
@@ -187,6 +188,15 @@ limitations under the License.
           on-cancel="_handleConfirmDialogCancel"
           project="[[change.project]]"
           hidden></gr-confirm-cherrypick-dialog>
+      <gr-confirm-cherrypick-conflict-dialog id="confirmCherrypickConflict"
+          class="confirmDialog"
+          change-status="[[changeStatus]]"
+          commit-message="[[commitMessage]]"
+          commit-num="[[commitNum]]"
+          on-confirm="_handleCherrypickConflictConfirm"
+          on-cancel="_handleConfirmDialogCancel"
+          project="[[change.project]]"
+          hidden></gr-confirm-cherrypick-conflict-dialog>
       <gr-confirm-move-dialog id="confirmMove"
           class="confirmDialog"
           on-confirm="_handleMoveConfirm"

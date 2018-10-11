@@ -596,6 +596,37 @@ limitations under the License.
           '/cherrypick', action, true, {
             destination: 'master',
             message: 'foo message',
+            allow_conflicts: false,
+          },
+        ]);
+      });
+
+      test('cherry pick even with conflicts', () => {
+        element._handleCherrypickTap();
+        const action = {
+          __key: 'cherrypick',
+          __type: 'revision',
+          __primary: false,
+          enabled: true,
+          label: 'Cherry pick',
+          method: 'POST',
+          title: 'Cherry pick change to a different branch',
+        };
+
+        element.$.confirmCherrypick.branch = 'master';
+
+        // Add attributes that are used to determine the message.
+        element.$.confirmCherrypick.commitMessage = 'foo message';
+        element.$.confirmCherrypick.changeStatus = 'OPEN';
+        element.$.confirmCherrypick.commitNum = '123';
+
+        element._handleCherrypickConflictConfirm();
+
+        assert.deepEqual(fireActionStub.lastCall.args, [
+          '/cherrypick', action, true, {
+            destination: 'master',
+            message: 'foo message',
+            allow_conflicts: true,
           },
         ]);
       });

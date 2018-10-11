@@ -98,5 +98,9 @@
             return branches;
           });
     },
+
+    _handleCherryPickConflicts() {
+      this.conflicts = this.$.conflictsCheckBox.checked;
+    },
   });
 })();

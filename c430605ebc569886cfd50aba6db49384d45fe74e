@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8956a9ec_1c3ddcc6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-11T10:25:47Z",
+      "side": 1,
+      "message": "This one also needs to be fixed. I\u0027ll do it in a follow-up.",
+      "range": {
+        "startLine": 240,
+        "startChar": 6,
+        "endLine": 242,
+        "endChar": 57
+      },
+      "revId": "c430605ebc569886cfd50aba6db49384d45fe74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

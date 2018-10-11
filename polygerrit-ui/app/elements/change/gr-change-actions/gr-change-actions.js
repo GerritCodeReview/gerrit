@@ -1001,6 +1001,8 @@
         this.fire('show-alert', {message: ERR_COMMIT_EMPTY});
         return;
       }
+      const conflicts = el.$.conflictseCheckBox.checked ?
+            el.$.conflictseCheckBox.checked : false;
       this.$.overlay.close();
       el.hidden = true;
       this._fireAction(
@@ -1010,6 +1012,7 @@
           {
             destination: el.branch,
             message: el.message,
+            allow_conflicts: conflicts,
           }
       );
     },
@@ -1230,6 +1233,7 @@
 
     _handleCherrypickTap() {
       this.$.confirmCherrypick.branch = '';
+      this.$.confirmCherrypick.$.conflictseCheckBox.checked = false;
       this._showActionDialog(this.$.confirmCherrypick);
     },
 

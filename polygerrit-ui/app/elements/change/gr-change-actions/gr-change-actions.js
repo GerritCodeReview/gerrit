@@ -3,7 +3,7 @@
  * Copyright (C) 2016 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this file except in compliance with thce License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
@@ -1001,6 +1001,7 @@
         this.fire('show-alert', {message: ERR_COMMIT_EMPTY});
         return;
       }
+      const conflicts = el.$.conflictseCheckBox.checked ? el.$.conflictseCheckBox.checked : false;
       this.$.overlay.close();
       el.hidden = true;
       this._fireAction(
@@ -1010,6 +1011,7 @@
           {
             destination: el.branch,
             message: el.message,
+            allow_conflicts: conflicts,
           }
       );
     },
@@ -1230,6 +1232,7 @@
 
     _handleCherrypickTap() {
       this.$.confirmCherrypick.branch = '';
+      this.$.confirmCherrypick.conflicts = false;
       this._showActionDialog(this.$.confirmCherrypick);
     },
 

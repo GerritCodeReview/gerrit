@@ -230,8 +230,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     String newNoteDbStateStr = change.getNoteDbState();
     if (newNoteDbStateStr == null) {
       throw new OrmException(
-          "Rebuilding change %s produced no writes to NoteDb: "
-              + bundleReader.fromReviewDb(db, changeId));
+          String.format(
+              "Rebuilding change %s produced no writes to NoteDb: %s",
+              changeId, bundleReader.fromReviewDb(db, changeId)));
     }
     NoteDbChangeState newNoteDbState =
         checkNotNull(NoteDbChangeState.parse(changeId, newNoteDbStateStr));
@@ -290,8 +291,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // Can only rebuild a change if its primary storage is ReviewDb.
     NoteDbChangeState s = NoteDbChangeState.parse(c);
     if (s != null && s.getPrimaryStorage() != PrimaryStorage.REVIEW_DB) {
-      throw new OrmException(
-          String.format("cannot rebuild change " + c.getId() + " with state " + s));
+      throw new OrmException(String.format("cannot rebuild change %s with state %s", c.getId(), s));
     }
     return c;
   }

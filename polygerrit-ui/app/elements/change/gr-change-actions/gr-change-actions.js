@@ -991,6 +991,14 @@
     },
 
     _handleCherrypickConfirm() {
+      this._handleCherryPickRestApi(false);
+    },
+
+    _handleCherrypickConflictConfirm() {
+      this._handleCherryPickRestApi(true);
+    },
+
+    _handleCherryPickRestApi(conflicts) {
       const el = this.$.confirmCherrypick;
       if (!el.branch) {
         // TODO(davido): Fix error handling
@@ -1010,6 +1018,7 @@
           {
             destination: el.branch,
             message: el.message,
+            allow_conflicts: conflicts,
           }
       );
     },
@@ -1112,8 +1121,9 @@
     _fireAction(endpoint, action, revAction, opt_payload) {
       const cleanupFn =
           this._setLoadingOnButtonWithKey(action.__type, action.__key);
-      this._send(action.method, opt_payload, endpoint, revAction, cleanupFn)
-          .then(this._handleResponse.bind(this, action));
+
+      this._send(action.method, opt_payload, endpoint, revAction, cleanupFn,
+          action).then(this._handleResponse.bind(this, action));
     },
 
     _showActionDialog(dialog) {
@@ -1170,7 +1180,14 @@
       });
     },
 
-    _handleResponseError(response) {
+    _handleResponseError(action, response, body) {
+      if (action && action.__key === RevisionActions.CHERRYPICK) {
+        if (response && response.status === 409 &&
+            body && !body.allow_conflicts) {
+          return this._showActionDialog(
+              this.$.confirmCherrypickConflict);
+        }
+      }
       return response.text().then(errText => {
         this.fire('show-error',
             {message: `Could not perform action: ${errText}`});
@@ -1186,13 +1203,12 @@
      * @param {string} actionEndpoint
      * @param {boolean} revisionAction
      * @param {?Function} cleanupFn
-     * @param {?Function=} opt_errorFn
+     * @param {!Object|undefined} action
      */
-    _send(method, payload, actionEndpoint, revisionAction, cleanupFn,
-        opt_errorFn) {
+    _send(method, payload, actionEndpoint, revisionAction, cleanupFn, action) {
       const handleError = response => {
         cleanupFn.call(this);
-        this._handleResponseError(response);
+        this._handleResponseError(action, response, payload);
       };
 
       return this.fetchChangeUpdates(this.change, this.$.restAPI)

@@ -17,6 +17,24 @@
       "revId": "b31c74deacd83aed5929629576aece7f82f4218b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c571133_12f2050a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-11T14:34:56Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand your question. This assertion is just checking that the owner of the change is the user we expect it to be; we\u0027re not asserting anything about emails that were received.\n\nIs the method name \"getOwnerEmail\" confusing? It means \"get the email address of the owner of the change\", it has nothing to do with inspecting sent messages.",
+      "parentUuid": "83a013cf_3792e3a8",
+      "revId": "b31c74deacd83aed5929629576aece7f82f4218b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

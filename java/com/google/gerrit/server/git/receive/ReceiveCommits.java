@@ -812,6 +812,9 @@ class ReceiveCommits {
       logger.atFine().log("Executing batch");
       try {
         bu.execute();
+        if (1 + 1 == 2) {
+          throw new UpdateException("ReceiveCommits fails here");
+        }
       } catch (UpdateException e) {
         throw INSERT_EXCEPTION.apply(e);
       }

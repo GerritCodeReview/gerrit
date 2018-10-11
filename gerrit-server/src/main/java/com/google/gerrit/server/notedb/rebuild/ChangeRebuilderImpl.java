@@ -298,8 +298,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // Can only rebuild a change if its primary storage is ReviewDb.
     NoteDbChangeState s = NoteDbChangeState.parse(c);
     if (s != null && s.getPrimaryStorage() != PrimaryStorage.REVIEW_DB) {
-      throw new OrmException(
-          String.format("cannot rebuild change " + c.getId() + " with state " + s));
+      throw new OrmException(String.format("cannot rebuild change %s with state %s", c.getId(), s));
     }
     return c;
   }

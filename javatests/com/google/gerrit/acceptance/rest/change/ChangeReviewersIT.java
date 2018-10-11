@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
+import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -48,7 +49,7 @@ import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.restapi.change.PostReviewers;
+import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import java.util.ArrayList;
@@ -68,8 +69,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     String largeGroup = createGroup("largeGroup");
     String mediumGroup = createGroup("mediumGroup");
 
-    int largeGroupSize = PostReviewers.DEFAULT_MAX_REVIEWERS + 1;
-    int mediumGroupSize = PostReviewers.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK + 1;
+    int largeGroupSize = ReviewerAdder.DEFAULT_MAX_REVIEWERS + 1;
+    int mediumGroupSize = ReviewerAdder.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK + 1;
     List<TestAccount> users = createAccounts(largeGroupSize, "addGroupAsReviewer");
     List<String> largeGroupUsernames = new ArrayList<>(mediumGroupSize);
     for (TestAccount u : users) {
@@ -470,8 +471,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
   @Test
   public void reviewAndAddGroupReviewers() throws Exception {
-    int largeGroupSize = PostReviewers.DEFAULT_MAX_REVIEWERS + 1;
-    int mediumGroupSize = PostReviewers.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK + 1;
+    int largeGroupSize = ReviewerAdder.DEFAULT_MAX_REVIEWERS + 1;
+    int mediumGroupSize = ReviewerAdder.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK + 1;
     List<TestAccount> users = createAccounts(largeGroupSize, "reviewAndAddGroupReviewers");
     List<String> usernames = new ArrayList<>(largeGroupSize);
     for (TestAccount u : users) {
@@ -782,6 +783,40 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("remove reviewer not permitted");
     gApi.changes().id(r.getChangeId()).reviewer(user.email).remove();
+  }
+
+  @Test
+  public void addExistingReviewerShortCircuits() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput input = new AddReviewerInput();
+    input.reviewer = user.email;
+    input.state = ReviewerState.REVIEWER;
+
+    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    assertThat(result.reviewers).hasSize(1);
+    ReviewerInfo info = result.reviewers.get(0);
+    assertThat(info._accountId).isEqualTo(user.id.get());
+
+    assertThat(gApi.changes().id(r.getChangeId()).addReviewer(input).reviewers).isEmpty();
+  }
+
+  @Test
+  public void addExistingCcShortCircuits() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput input = new AddReviewerInput();
+    input.reviewer = user.email;
+    input.state = ReviewerState.CC;
+
+    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    assertThat(result.ccs).hasSize(1);
+    AccountInfo info = result.ccs.get(0);
+    assertThat(info._accountId).isEqualTo(user.id.get());
+
+    assertThat(gApi.changes().id(r.getChangeId()).addReviewer(input).ccs).isEmpty();
   }
 
   private void assertThatUserIsOnlyReviewer(String changeId) throws Exception {

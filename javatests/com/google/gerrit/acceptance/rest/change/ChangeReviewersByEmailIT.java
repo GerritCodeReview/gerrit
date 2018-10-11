@@ -27,6 +27,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -317,6 +318,42 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
         notesMigration.setFailOnLoadForTest(false);
       }
     }
+  }
+
+  @Test
+  public void addExistingReviewerByEmailShortCircuits() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput input = new AddReviewerInput();
+    input.reviewer = "nonexisting@example.com";
+    input.state = ReviewerState.REVIEWER;
+
+    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    assertThat(result.reviewers).hasSize(1);
+    ReviewerInfo info = result.reviewers.get(0);
+    assertThat(info._accountId).isNull();
+    assertThat(info.email).isEqualTo(input.reviewer);
+
+    assertThat(gApi.changes().id(r.getChangeId()).addReviewer(input).reviewers).isEmpty();
+  }
+
+  @Test
+  public void addExistingCcByEmailShortCircuits() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput input = new AddReviewerInput();
+    input.reviewer = "nonexisting@example.com";
+    input.state = ReviewerState.CC;
+    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+
+    assertThat(result.ccs).hasSize(1);
+    AccountInfo info = result.ccs.get(0);
+    assertThat(info._accountId).isNull();
+    assertThat(info.email).isEqualTo(input.reviewer);
+
+    assertThat(gApi.changes().id(r.getChangeId()).addReviewer(input).ccs).isEmpty();
   }
 
   private static String toRfcAddressString(AccountInfo info) {

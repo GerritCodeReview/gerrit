@@ -28,13 +28,14 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.ReviewerAdder;
+import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.restapi.account.AccountsCollection;
-import com.google.gerrit.server.restapi.change.PostReviewers.Addition;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -51,27 +52,27 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class PutAssignee extends RetryingRestModifyView<ChangeResource, AssigneeInput, AccountInfo>
     implements UiAction<ChangeResource> {
 
-  private final AccountsCollection accounts;
+  private final AccountResolver accountResolver;
   private final SetAssigneeOp.Factory assigneeFactory;
   private final Provider<ReviewDb> db;
-  private final PostReviewers postReviewers;
+  private final ReviewerAdder reviewerAdder;
   private final AccountLoader.Factory accountLoaderFactory;
   private final PermissionBackend permissionBackend;
 
   @Inject
   PutAssignee(
-      AccountsCollection accounts,
+      AccountResolver accountResolver,
       SetAssigneeOp.Factory assigneeFactory,
       RetryHelper retryHelper,
       Provider<ReviewDb> db,
-      PostReviewers postReviewers,
+      ReviewerAdder reviewerAdder,
       AccountLoader.Factory accountLoaderFactory,
       PermissionBackend permissionBackend) {
     super(retryHelper);
-    this.accounts = accounts;
+    this.accountResolver = accountResolver;
     this.assigneeFactory = assigneeFactory;
     this.db = db;
-    this.postReviewers = postReviewers;
+    this.reviewerAdder = reviewerAdder;
     this.accountLoaderFactory = accountLoaderFactory;
     this.permissionBackend = permissionBackend;
   }
@@ -88,7 +89,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       throw new BadRequestException("missing assignee field");
     }
 
-    IdentifiedUser assignee = accounts.parse(input.assignee);
+    IdentifiedUser assignee = accountResolver.parse(input.assignee);
     if (!assignee.getAccount().isActive()) {
       throw new UnprocessableEntityException(input.assignee + " is not active");
     }
@@ -108,7 +109,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       SetAssigneeOp op = assigneeFactory.create(assignee);
       bu.addOp(rsrc.getId(), op);
 
-      PostReviewers.Addition reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
+      ReviewerAddition reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
       bu.addOp(rsrc.getId(), reviewersAddition.op);
 
       bu.execute();
@@ -116,14 +117,14 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
     }
   }
 
-  private Addition addAssigneeAsCC(ChangeResource rsrc, String assignee)
+  private ReviewerAddition addAssigneeAsCC(ChangeResource rsrc, String assignee)
       throws OrmException, IOException, PermissionBackendException, ConfigInvalidException {
     AddReviewerInput reviewerInput = new AddReviewerInput();
     reviewerInput.reviewer = assignee;
     reviewerInput.state = ReviewerState.CC;
     reviewerInput.confirmed = true;
     reviewerInput.notify = NotifyHandling.NONE;
-    return postReviewers.prepareApplication(rsrc.getNotes(), rsrc.getUser(), reviewerInput, false);
+    return reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), reviewerInput, false);
   }
 
   @Override

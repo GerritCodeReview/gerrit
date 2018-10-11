@@ -566,15 +566,64 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyNone(batch());
   }
 
+  private void addNonUserReviewerByEmailInNoteDb(Adder adder) throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange();
+    addReviewer(adder, sc.changeId, sc.owner, "nonexistent@example.com");
+    assertThat(sender)
+        .sent("newchange", sc)
+        .to("nonexistent@example.com")
+        .cc(sc.reviewer)
+        .cc(sc.ccerByEmail, sc.reviewerByEmail)
+        .noOneElse();
+  }
+
+  @Test
+  public void addNonUserReviewerByEmailInNoteDbSingly() throws Exception {
+    addNonUserReviewerByEmailInNoteDb(singly(ReviewerState.REVIEWER));
+  }
+
+  @Test
+  public void addNonUserReviewerByEmailInNoteDbBatch() throws Exception {
+    addNonUserReviewerByEmailInNoteDb(batch(ReviewerState.REVIEWER));
+  }
+
+  private void addNonUserCcByEmailInNoteDb(Adder adder) throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange();
+    addReviewer(adder, sc.changeId, sc.owner, "nonexistent@example.com");
+    assertThat(sender)
+        .sent("newchange", sc)
+        .cc("nonexistent@example.com")
+        .cc(sc.reviewer)
+        .cc(sc.ccerByEmail, sc.reviewerByEmail)
+        .noOneElse();
+  }
+
+  @Test
+  public void addNonUserCcByEmailInNoteDbSingly() throws Exception {
+    addNonUserCcByEmailInNoteDb(singly(ReviewerState.CC));
+  }
+
+  @Test
+  public void addNonUserCcByEmailInNoteDbBatch() throws Exception {
+    addNonUserCcByEmailInNoteDb(batch(ReviewerState.CC));
+  }
+
   private interface Adder {
     void addReviewer(String changeId, String reviewer, @Nullable NotifyHandling notify)
         throws Exception;
   }
 
   private Adder singly() {
+    return singly(ReviewerState.REVIEWER);
+  }
+
+  private Adder singly(ReviewerState reviewerState) {
     return (String changeId, String reviewer, @Nullable NotifyHandling notify) -> {
       AddReviewerInput in = new AddReviewerInput();
       in.reviewer = reviewer;
+      in.state = reviewerState;
       if (notify != null) {
         in.notify = notify;
       }
@@ -583,9 +632,13 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   private Adder batch() {
+    return batch(ReviewerState.REVIEWER);
+  }
+
+  private Adder batch(ReviewerState reviewerState) {
     return (String changeId, String reviewer, @Nullable NotifyHandling notify) -> {
       ReviewInput in = ReviewInput.noScore();
-      in.reviewer(reviewer);
+      in.reviewer(reviewer, reviewerState, false);
       if (notify != null) {
         in.notify = notify;
       }

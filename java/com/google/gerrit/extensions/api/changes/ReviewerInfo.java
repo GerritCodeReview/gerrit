@@ -38,7 +38,7 @@ public class ReviewerInfo extends AccountInfo {
 
   @Override
   public String toString() {
-    return username;
+    return username != null ? username : email;
   }
 
   private ReviewerInfo() {}

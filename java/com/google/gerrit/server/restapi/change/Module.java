@@ -29,6 +29,7 @@ import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
@@ -190,7 +191,7 @@ public class Module extends RestApiModule {
     factory(DeleteReviewerOp.Factory.class);
     factory(EmailReviewComments.Factory.class);
     factory(PatchSetInserter.Factory.class);
-    factory(PostReviewersOp.Factory.class);
+    factory(AddReviewersOp.Factory.class);
     factory(RebaseChangeOp.Factory.class);
     factory(ReviewerResource.Factory.class);
     factory(SetAssigneeOp.Factory.class);

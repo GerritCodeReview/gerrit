@@ -39,6 +39,7 @@
       changeStatus: String,
       commitMessage: String,
       commitNum: String,
+      conflicts: Boolean,
       message: String,
       project: String,
       _query: {

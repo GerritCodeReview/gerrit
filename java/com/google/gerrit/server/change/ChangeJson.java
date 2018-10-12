@@ -155,7 +155,13 @@ public class ChangeJson {
     }
 
     public ChangeJson create(Iterable<ListChangesOption> options) {
-      return factory.create(options);
+      return factory.create(options, Optional.empty());
+    }
+
+    public ChangeJson create(
+        Iterable<ListChangesOption> options,
+        PluginDefinedAttributesFactory pluginDefinedAttributesFactory) {
+      return factory.create(options, Optional.of(pluginDefinedAttributesFactory));
     }
 
     public ChangeJson create(ListChangesOption first, ListChangesOption... rest) {
@@ -164,7 +170,9 @@ public class ChangeJson {
   }
 
   public interface AssistedFactory {
-    ChangeJson create(Iterable<ListChangesOption> options);
+    ChangeJson create(
+        Iterable<ListChangesOption> options,
+        Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory);
   }
 
   @Singleton
@@ -211,11 +219,11 @@ public class ChangeJson {
   private final TrackingFooters trackingFooters;
   private final Metrics metrics;
   private final RevisionJson revisionJson;
+  private final Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory;
   private final boolean lazyLoad;
 
   private AccountLoader accountLoader;
   private FixInput fix;
-  private PluginDefinedAttributesFactory pluginDefinedAttributesFactory;
 
   @Inject
   ChangeJson(
@@ -233,7 +241,8 @@ public class ChangeJson {
       TrackingFooters trackingFooters,
       Metrics metrics,
       RevisionJson.Factory revisionJsonFactory,
-      @Assisted Iterable<ListChangesOption> options) {
+      @Assisted Iterable<ListChangesOption> options,
+      @Assisted Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory) {
     this.db = db;
     this.userProvider = user;
     this.changeDataFactory = cdf;
@@ -250,6 +259,8 @@ public class ChangeJson {
     this.revisionJson = revisionJsonFactory.create(options);
     this.options = Sets.immutableEnumSet(options);
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
+    this.pluginDefinedAttributesFactory = pluginDefinedAttributesFactory;
+
     logger.atFine().log("options = %s", options);
   }
 
@@ -270,10 +281,6 @@ public class ChangeJson {
   public ChangeJson fix(FixInput fix) {
     this.fix = fix;
     return this;
-  }
-
-  public void setPluginDefinedAttributesFactory(PluginDefinedAttributesFactory pluginsFactory) {
-    this.pluginDefinedAttributesFactory = pluginsFactory;
   }
 
   public ChangeInfo format(ChangeResource rsrc) throws OrmException {
@@ -582,8 +589,9 @@ public class ChangeJson {
     }
 
     setSubmitter(cd, out);
-    out.plugins =
-        pluginDefinedAttributesFactory != null ? pluginDefinedAttributesFactory.create(cd) : null;
+    if (pluginDefinedAttributesFactory.isPresent()) {
+      out.plugins = pluginDefinedAttributesFactory.get().create(cd);
+    }
     out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
 
     if (has(REVIEWER_UPDATES)) {

@@ -42,8 +42,8 @@
    */
   const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, createThreadGroupFn, prefs, outputEl,
-      layers) {
+  function GrDiffBuilder(diff, comments, commentThreadElements,
+      createThreadGroupFn, prefs, outputEl, layers) {
     this._diff = diff;
     this._comments = comments;
     this._createThreadGroupFn = createThreadGroupFn;
@@ -68,15 +68,7 @@
       }
     }
 
-    const allComments = [];
-    for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
-      // This is needed by the threading.
-      for (const comment of this._comments[side]) {
-        comment.__commentSide = side;
-      }
-      allComments.push(...this._comments[side]);
-    }
-    this._threads = this._createThreads(allComments);
+    this._commentThreadElements = commentThreadElements;
   }
 
   GrDiffBuilder.GroupType = {
@@ -330,56 +322,19 @@
   };
 
   GrDiffBuilder.prototype._filterThreadsForLine = function(
-      threads, line, opt_side) {
-    return threads.filter(thread =>
+      threadsElements, line, opt_side) {
+    return threadsElements.filter(threadElement =>
         (opt_side !== GrDiffBuilder.Side.RIGHT &&
-         thread.commentSide == GrDiffBuilder.Side.LEFT &&
-         thread.comments[0].line == line.beforeNumber) ||
+         threadElement.getAttribute('comment-side') ==
+             GrDiffBuilder.Side.LEFT &&
+         threadElement.getAttribute('line-num') == line.beforeNumber) ||
         (opt_side !== GrDiffBuilder.Side.LEFT &&
-         thread.commentSide == GrDiffBuilder.Side.RIGHT &&
-         thread.comments[0].line == line.afterNumber) ||
-        (thread.comments[0].line === undefined &&
+         threadElement.getAttribute('comment-side') ==
+             GrDiffBuilder.Side.RIGHT &&
+         threadElement.getAttribute('line-num') == line.afterNumber) ||
+        (threadElement.getAttribute('line-num') === undefined &&
          (line.afterNumber === GrDiffLine.FILE ||
           line.beforeNumber === GrDiffLine.FILE)));
-  };
-
-  /**
-   * @param {Array<Object>} comments
-   */
-  GrDiffBuilder.prototype._createThreads = function(comments) {
-    const sortedComments = comments.slice(0).sort((a, b) => {
-      if (b.__draft && !a.__draft ) { return 0; }
-      if (a.__draft && !b.__draft ) { return 1; }
-      return util.parseDate(a.updated) - util.parseDate(b.updated);
-    });
-
-    const threads = [];
-    for (const comment of sortedComments) {
-      // If the comment is in reply to another comment, find that comment's
-      // thread and append to it.
-      if (comment.in_reply_to) {
-        const thread = threads.find(thread =>
-            thread.comments.some(c => c.id === comment.in_reply_to));
-        if (thread) {
-          thread.comments.push(comment);
-          continue;
-        }
-      }
-
-      // Otherwise, this comment starts its own thread.
-      const newThread = {
-        start_datetime: comment.updated,
-        comments: [comment],
-        commentSide: comment.__commentSide,
-        patchNum: comment.patch_set,
-        rootId: comment.id || comment.__draftID,
-      };
-      if (comment.range) {
-        newThread.range = Object.assign({}, comment.range);
-      }
-      threads.push(newThread);
-    }
-    return threads;
   };
 
   /**
@@ -403,47 +358,27 @@
   };
 
   /**
-   * Returns whether the comments on the given line are on a (merge) parent.
-   *
-   * @param {string} firstCommentSide
-   * @param {{basePatchNum: number, patchNum: number}} patchRange
-   * @param {GrDiffLine} line The line the comments are on.
-   * @param {string=} opt_side
-   * @return {boolean} True iff the comments on the given line are on a (merge)
-   *    parent.
-   */
-  GrDiffBuilder.prototype._determineIsOnParent = function(
-      firstCommentSide, patchRange, line, opt_side) {
-    return ((line.type === GrDiffLine.Type.REMOVE ||
-             opt_side === GrDiffBuilder.Side.LEFT) &&
-            (patchRange.basePatchNum === 'PARENT' ||
-             Gerrit.PatchSetBehavior.isMergeParent(
-                 patchRange.basePatchNum))) ||
-          firstCommentSide === 'PARENT';
-  };
-
-  /**
    * @param {GrDiffLine} line
    * @param {string=} opt_side
    * @return {!Object}
    */
   GrDiffBuilder.prototype._commentThreadGroupForLine = function(
       line, opt_side) {
-    const threads =
-        this._filterThreadsForLine(this._threads, line, opt_side);
-    if (!threads || threads.length === 0) {
+    const threadsEls =
+        this._filterThreadsForLine(this._commentThreadElements, line, opt_side);
+    if (!threadsEls || threadsEls.length === 0) {
       return null;
     }
 
     const patchRange = this._comments.meta.patchRange;
     const patchNumForNewThread = this._determinePatchNumForNewThreads(
         patchRange, line, opt_side);
-    const isOnParent = this._determineIsOnParent(
-        threads[0].side, patchRange, line, opt_side);
 
     const threadGroupEl = this._createThreadGroupFn(
-        patchNumForNewThread, isOnParent, opt_side);
-    threadGroupEl.threads = threads;
+        patchNumForNewThread, opt_side);
+    for (const threadEl of threadsEls) {
+      threadGroupEl.appendChild(threadEl);
+    }
     if (opt_side) {
       threadGroupEl.setAttribute('data-side', opt_side);
     }

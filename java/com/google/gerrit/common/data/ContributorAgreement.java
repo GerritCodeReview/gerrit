@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /** Portion of a {@link Project} describing a single contributor agreement. */
 public class ContributorAgreement implements Comparable<ContributorAgreement> {
@@ -26,6 +27,8 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
   protected List<PermissionRule> accepted;
   protected GroupReference autoVerify;
   protected String agreementUrl;
+  protected List<String> excludeProjects;
+  protected List<String> matchProjects;
 
   protected ContributorAgreement() {}
 
@@ -76,6 +79,26 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
     this.agreementUrl = agreementUrl;
   }
 
+  public List<String> getExcludeProjects() {
+    if (excludeProjects == null) {
+      excludeProjects = new ArrayList<>();
+    }
+    return excludeProjects;
+  }
+
+  public void setExcludeProjects(List<String> excludeProjects) {
+    this.excludeProjects = excludeProjects;
+  }
+
+  public List<String> getMatchProjects() {
+    if (matchProjects == null) {
+      matchProjects = new ArrayList<>();
+    }
+    return matchProjects;
+  }
+
+  public void setMatchProjects(List<String> matchProjects) { this.matchProjects = matchProjects; }
+
   @Override
   public int compareTo(ContributorAgreement o) {
     return getName().compareTo(o.getName());
@@ -94,6 +117,8 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
       ca.autoVerify = new GroupReference();
     }
     ca.agreementUrl = agreementUrl;
+    ca.excludeProjects = Collections.emptyList();
+    ca.matchProjects = Collections.emptyList();
     return ca;
   }
 }

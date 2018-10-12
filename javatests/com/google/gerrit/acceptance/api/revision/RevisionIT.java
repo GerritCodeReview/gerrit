@@ -320,6 +320,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(orig.get().messages).hasSize(1);
     CherryPickChangeInfo changeInfo = orig.revision(r.getCommit().name()).cherryPickAsInfo(in);
     assertThat(changeInfo.containsGitConflicts).isNull();
+    assertThat(changeInfo.workInProgress).isNull();
     ChangeApi cherry = gApi.changes().id(changeInfo._number);
 
     Collection<ChangeMessageInfo> messages =
@@ -546,6 +547,7 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickChangeInfo cherryPickChange =
         changeApi.revision(r.getCommit().name()).cherryPickAsInfo(in);
     assertThat(cherryPickChange.containsGitConflicts).isTrue();
+    assertThat(cherryPickChange.workInProgress).isTrue();
 
     // Verify that subject and topic on the cherry-pick change have been correctly populated.
     assertThat(cherryPickChange.subject).contains(in.message);

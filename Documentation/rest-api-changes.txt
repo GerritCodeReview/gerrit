@@ -5969,7 +5969,8 @@ created change contain git conflict markers to indicate the conflicts.
 Callers can find out if there were conflicts by checking the
 `contains_git_conflicts` field in the link:#cherry-pick-change-info[
 CherryPickChangeInfo] that is returned by the cherry-pick REST
-endpoints.
+endpoints. If there are conflicts the cherry-pick change is marked as
+work-in-progress.
 |===========================
 
 [[comment-info]]

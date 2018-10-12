@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
@@ -49,7 +50,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
-import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicReference;
@@ -64,222 +64,223 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class BaseCommand implements Command {
-  private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
-  public static final Charset ENC = UTF_8;
+	private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
+	public static final Charset ENC = UTF_8;
 
-  private static final int PRIVATE_STATUS = 1 << 30;
-  static final int STATUS_CANCEL = PRIVATE_STATUS | 1;
-  static final int STATUS_NOT_FOUND = PRIVATE_STATUS | 2;
-  public static final int STATUS_NOT_ADMIN = PRIVATE_STATUS | 3;
+	private static final int PRIVATE_STATUS = 1 << 30;
+	static final int STATUS_CANCEL = PRIVATE_STATUS | 1;
+	static final int STATUS_NOT_FOUND = PRIVATE_STATUS | 2;
+	public static final int STATUS_NOT_ADMIN = PRIVATE_STATUS | 3;
 
-  @Option(name = "--", usage = "end of options", handler = EndOfOptionsHandler.class)
-  private boolean endOfOptions;
+	@Option(name = "--", usage = "end of options", handler = EndOfOptionsHandler.class)
+		private boolean endOfOptions;
 
-  protected InputStream in;
-  protected OutputStream out;
-  protected OutputStream err;
+	protected InputStream in;
+	protected OutputStream out;
+	protected OutputStream err;
 
-  private ExitCallback exit;
+	private ExitCallback exit;
 
-  @Inject private SshScope sshScope;
+	@Inject private SshScope sshScope;
 
-  @Inject private CmdLineParser.Factory cmdLineParserFactory;
+	@Inject private CmdLineParser.Factory cmdLineParserFactory;
 
-  @Inject private RequestCleanup cleanup;
+	@Inject private RequestCleanup cleanup;
 
-  @Inject @CommandExecutor private ScheduledThreadPoolExecutor executor;
+	@Inject @CommandExecutor private ScheduledThreadPoolExecutor executor;
 
-  @Inject private PermissionBackend permissionBackend;
-  @Inject private CurrentUser user;
+	@Inject private PermissionBackend permissionBackend;
+	@Inject private CurrentUser user;
 
-  @Inject private SshScope.Context context;
+	@Inject private SshScope.Context context;
 
-  /** Commands declared by a plugin can be scoped by the plugin name. */
-  @Inject(optional = true)
-  @PluginName
-  private String pluginName;
+	/** Commands declared by a plugin can be scoped by the plugin name. */
+	@Inject(optional = true)
+		@PluginName
+		private String pluginName;
 
-  @Inject private Injector injector;
+	@Inject private Injector injector;
 
-  @Inject private DynamicMap<DynamicOptions.DynamicBean> dynamicBeans = null;
+	@Inject private DynamicMap<DynamicOptions.DynamicBean> dynamicBeans = null;
 
-  /** The task, as scheduled on a worker thread. */
-  private final AtomicReference<Future<?>> task;
+	/** The task, as scheduled on a worker thread. */
+	private final AtomicReference<Future<?>> task;
 
-  /** Text of the command line which lead up to invoking this instance. */
-  private String commandName = "";
+	/** Text of the command line which lead up to invoking this instance. */
+	private String commandName = "";
 
-  /** Unparsed command line options. */
-  private String[] argv;
+	/** Unparsed command line options. */
+	private String[] argv;
 
-  /** trimmed command line arguments. */
-  private String[] trimmedArgv;
+	/** trimmed command line arguments. */
+	private String[] trimmedArgv;
 
-  public BaseCommand() {
-    task = Atomics.newReference();
-  }
+	public BaseCommand() {
+		task = Atomics.newReference();
+	}
 
-  @Override
-  public void setInputStream(InputStream in) {
-    this.in = in;
-  }
+	@Override
+		public void setInputStream(InputStream in) {
+			this.in = in;
+		}
 
-  @Override
-  public void setOutputStream(OutputStream out) {
-    this.out = out;
-  }
+	@Override
+		public void setOutputStream(OutputStream out) {
+			this.out = out;
+		}
 
-  @Override
-  public void setErrorStream(OutputStream err) {
-    this.err = err;
-  }
+	@Override
+		public void setErrorStream(OutputStream err) {
+			this.err = err;
+		}
 
-  @Override
-  public void setExitCallback(ExitCallback callback) {
-    this.exit = callback;
-  }
+	@Override
+		public void setExitCallback(ExitCallback callback) {
+			this.exit = callback;
+		}
 
-  @Nullable
-  protected String getPluginName() {
-    return pluginName;
-  }
+	@Nullable
+		protected String getPluginName() {
+			return pluginName;
+		}
 
-  protected String getName() {
-    return commandName;
-  }
+	protected String getName() {
+		return commandName;
+	}
 
-  void setName(String prefix) {
-    this.commandName = prefix;
-  }
+	void setName(String prefix) {
+		this.commandName = prefix;
+	}
 
-  public String[] getArguments() {
-    return argv;
-  }
+	public String[] getArguments() {
+		return argv;
+	}
 
-  public void setArguments(String[] argv) {
-    this.argv = argv;
-  }
+	public void setArguments(String[] argv) {
+		this.argv = argv;
+	}
 
-  /**
-   * Trim the argument if it is spanning multiple lines.
-   *
-   * @return the arguments where all the multiple-line fields are trimmed.
-   */
-  protected String[] getTrimmedArguments() {
-    if (trimmedArgv == null && argv != null) {
-      trimmedArgv = new String[argv.length];
-      for (int i = 0; i < argv.length; i++) {
-        String arg = argv[i];
-        int indexOfMultiLine = arg.indexOf("\n");
-        if (indexOfMultiLine > -1) {
-          arg = arg.substring(0, indexOfMultiLine).concat(" [trimmed]");
-        }
-        trimmedArgv[i] = arg;
-      }
-    }
-    return trimmedArgv;
-  }
+	/**
+	 * Trim the argument if it is spanning multiple lines.
+	 *
+	 * @return the arguments where all the multiple-line fields are trimmed.
+	 */
+	protected String[] getTrimmedArguments() {
+		if (trimmedArgv == null && argv != null) {
+			trimmedArgv = new String[argv.length];
+			for (int i = 0; i < argv.length; i++) {
+				String arg = argv[i];
+				int indexOfMultiLine = arg.indexOf("\n");
+				if (indexOfMultiLine > -1) {
+					arg = arg.substring(0, indexOfMultiLine).concat(" [trimmed]");
+				}
+				trimmedArgv[i] = arg;
+			}
+		}
+		return trimmedArgv;
+	}
 
-  @Override
-  public void destroy() {
-    Future<?> future = task.getAndSet(null);
-    if (future != null && !future.isDone()) {
-      future.cancel(true);
-    }
-  }
+	@Override
+		public void destroy() {
+			Future<?> future = task.getAndSet(null);
+			if (future != null && !future.isDone()) {
+				future.cancel(true);
+			}
+		}
 
-  /**
-   * Pass all state into the command, then run its start method.
-   *
-   * <p>This method copies all critical state, like the input and output streams, into the supplied
-   * command. The caller must still invoke {@code cmd.start()} if wants to pass control to the
-   * command.
-   *
-   * @param cmd the command that will receive the current state.
-   */
-  protected void provideStateTo(Command cmd) {
-    cmd.setInputStream(in);
-    cmd.setOutputStream(out);
-    cmd.setErrorStream(err);
-    cmd.setExitCallback(exit);
-  }
+	/**
+	 * Pass all state into the command, then run its start method.
+	 *
+	 * <p>This method copies all critical state, like the input and output streams, into the supplied
+	 * command. The caller must still invoke {@code cmd.start()} if wants to pass control to the
+	 * command.
+	 *
+	 * @param cmd the command that will receive the current state.
+	 */
+	protected void provideStateTo(Command cmd) {
+		cmd.setInputStream(in);
+		cmd.setOutputStream(out);
+		cmd.setErrorStream(err);
+		cmd.setExitCallback(exit);
+	}
 
-  /**
-   * Parses the command line argument, injecting parsed values into fields.
-   *
-   * <p>This method must be explicitly invoked to cause a parse.
-   *
-   * @throws UnloggedFailure if the command line arguments were invalid.
-   * @see Option
-   * @see Argument
-   */
-  protected void parseCommandLine() throws UnloggedFailure {
-    parseCommandLine(this);
-  }
+	/**
+	 * Parses the command line argument, injecting parsed values into fields.
+	 *
+	 * <p>This method must be explicitly invoked to cause a parse.
+	 *
+	 * @throws UnloggedFailure if the command line arguments were invalid.
+	 * @see Option
+	 * @see Argument
+	 */
+	protected void parseCommandLine() throws UnloggedFailure {
+		parseCommandLine(this);
+	}
 
-  /**
-   * Parses the command line argument, injecting parsed values into fields.
-   *
-   * <p>This method must be explicitly invoked to cause a parse.
-   *
-   * @param options object whose fields declare Option and Argument annotations to describe the
-   *     parameters of the command. Usually {@code this}.
-   * @throws UnloggedFailure if the command line arguments were invalid.
-   * @see Option
-   * @see Argument
-   */
-  protected void parseCommandLine(Object options) throws UnloggedFailure {
-    final CmdLineParser clp = newCmdLineParser(options);
-    DynamicOptions pluginOptions = new DynamicOptions(options, injector, dynamicBeans);
-    pluginOptions.parseDynamicBeans(clp);
-    pluginOptions.setDynamicBeans();
-    pluginOptions.onBeanParseStart();
-    try {
-      clp.parseArgument(argv);
-    } catch (IllegalArgumentException | CmdLineException err) {
-      if (!clp.wasHelpRequestedByOption()) {
-        throw new UnloggedFailure(1, "fatal: " + err.getMessage());
-      }
-    }
+	/**
+	 * Parses the command line argument, injecting parsed values into fields.
+	 *
+	 * <p>This method must be explicitly invoked to cause a parse.
+	 *
+	 * @param options object whose fields declare Option and Argument annotations to describe the
+	 *     parameters of the command. Usually {@code this}.
+	 * @throws UnloggedFailure if the command line arguments were invalid.
+	 * @see Option
+	 * @see Argument
+	 */
+	protected void parseCommandLine(Object options) throws UnloggedFailure {
+		final CmdLineParser clp = newCmdLineParser(options);
+		DynamicOptions pluginOptions = new DynamicOptions(options, injector, dynamicBeans);
+		pluginOptions.parseDynamicBeans(clp);
+		pluginOptions.setDynamicBeans();
+		pluginOptions.onBeanParseStart();
+		try {
+			clp.parseArgument(argv);
+		} catch (IllegalArgumentException | CmdLineException err) {
+			if (!clp.wasHelpRequestedByOption()) {
+				throw new UnloggedFailure(1, "fatal: " + err.getMessage());
+			}
+		}
 
-    if (clp.wasHelpRequestedByOption()) {
-      StringWriter msg = new StringWriter();
-      clp.printDetailedUsage(commandName, msg);
-      msg.write(usage());
-      throw new UnloggedFailure(1, msg.toString());
-    }
-    pluginOptions.onBeanParseEnd();
-  }
+		if (clp.wasHelpRequestedByOption()) {
+			StringWriter msg = new StringWriter();
+			clp.printDetailedUsage(commandName, msg);
+			msg.write(usage());
+			throw new UnloggedFailure(1, msg.toString());
+		}
+		pluginOptions.onBeanParseEnd();
+	}
 
-  protected String usage() {
-    return "";
-  }
+	protected String usage() {
+		return "";
+	}
 
-  /** Construct a new parser for this command's received command line. */
-  protected CmdLineParser newCmdLineParser(Object options) {
-    return cmdLineParserFactory.create(options);
-  }
+	/** Construct a new parser for this command's received command line. */
+	protected CmdLineParser newCmdLineParser(Object options) {
+		return cmdLineParserFactory.create(options);
+	}
 
-  /**
-   * Spawn a function into its own thread with the provided context.
+	/**
    *
    * <p>Typically this should be invoked within {@link Command#start(Environment)}, such as:
    *
    * <pre>
-   * startThreadWithContext(SshScope.Context context, new CommandRunnable() {
+   * startThread(new CommandRunnable() {
    *   public void run() throws Exception {
    *     runImp();
    *   }
-   * });
+   * },
+   * accessPath);
    * </pre>
    *
    * <p>If the function throws an exception, it is translated to a simple message for the client, a
    * non-zero exit code, and the stack trace is logged.
    *
    * @param thunk the runnable to execute on the thread, performing the command's logic.
+   * @param accessPath the path used by the end user for running the SSH command
    */
-  protected void startThreadWithContext(SshScope.Context context, CommandRunnable thunk) {
-    final TaskThunk tt = new TaskThunk(thunk, Optional.ofNullable(context));
+  protected void startThread(final CommandRunnable thunk, AccessPath accessPath) {
+    final TaskThunk tt = new TaskThunk(thunk, accessPath);
 
     if (isAdminHighPriorityCommand()) {
       // Admin commands should not block the main work threads (there
@@ -290,28 +291,6 @@ public abstract class BaseCommand implements Command {
     } else {
       task.set(executor.submit(tt));
     }
-  }
-
-  /**
-   * Spawn a function into its own thread.
-   *
-   * <p>Typically this should be invoked within {@link Command#start(Environment)}, such as:
-   *
-   * <pre>
-   * startThread(new CommandRunnable() {
-   *   public void run() throws Exception {
-   *     runImp();
-   *   }
-   * });
-   * </pre>
-   *
-   * <p>If the function throws an exception, it is translated to a simple message for the client, a
-   * non-zero exit code, and the stack trace is logged.
-   *
-   * @param thunk the runnable to execute on the thread, performing the command's logic.
-   */
-  protected void startThread(final CommandRunnable thunk) {
-    startThreadWithContext(null, thunk);
   }
 
   private boolean isAdminHighPriorityCommand() {
@@ -436,21 +415,20 @@ public abstract class BaseCommand implements Command {
 
   private final class TaskThunk implements CancelableRunnable, ProjectRunnable {
     private final CommandRunnable thunk;
-    private final Context taskContext;
     private final String taskName;
-
+    private final AccessPath accessPath;
     private Project.NameKey projectName;
 
-    private TaskThunk(CommandRunnable thunk, Optional<Context> oneOffContext) {
+    private TaskThunk(final CommandRunnable thunk, AccessPath accessPath) {
       this.thunk = thunk;
       this.taskName = getTaskName();
-      this.taskContext = oneOffContext.orElse(context);
+      this.accessPath = accessPath;
     }
 
     @Override
     public void cancel() {
       synchronized (this) {
-        final Context old = sshScope.set(taskContext);
+        final Context old = sshScope.set(context);
         try {
           onExit(STATUS_CANCEL);
         } finally {
@@ -465,7 +443,8 @@ public abstract class BaseCommand implements Command {
         final Thread thisThread = Thread.currentThread();
         final String thisName = thisThread.getName();
         int rc = 0;
-        final Context old = sshScope.set(taskContext);
+        context.getSession().setAccessPath(accessPath);
+        final Context old = sshScope.set(context);
         try {
           context.started = TimeUtil.nowMs();
           thisThread.setName("SSH " + taskName);

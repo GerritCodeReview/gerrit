@@ -61,7 +61,6 @@ import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
-import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.mail.Address;
@@ -104,7 +103,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -264,20 +262,6 @@ public class ChangeJson {
     logger.atFine().log("options = %s", options);
   }
 
-  public static ApprovalInfo getApprovalInfo(
-      Account.Id id,
-      Integer value,
-      VotingRangeInfo permittedVotingRange,
-      String tag,
-      Timestamp date) {
-    ApprovalInfo ai = new ApprovalInfo(id.get());
-    ai.value = value;
-    ai.permittedVotingRange = permittedVotingRange;
-    ai.date = date;
-    ai.tag = tag;
-    return ai;
-  }
-
   public ChangeJson fix(FixInput fix) {
     this.fix = fix;
     return this;
@@ -295,27 +279,8 @@ public class ChangeJson {
     return format(project, id, ChangeInfo::new);
   }
 
-  public <I extends ChangeInfo> I format(
-      Project.NameKey project, Change.Id id, Supplier<I> changeInfoSupplier) throws OrmException {
-    ChangeNotes notes;
-    try {
-      notes = notesFactory.createChecked(db.get(), project, id);
-    } catch (OrmException e) {
-      if (!has(CHECK)) {
-        throw e;
-      }
-      return checkOnly(changeDataFactory.create(db.get(), project, id), changeInfoSupplier);
-    }
-    return format(changeDataFactory.create(db.get(), notes), changeInfoSupplier);
-  }
-
   public ChangeInfo format(ChangeData cd) throws OrmException {
-    return format(cd, ChangeInfo::new);
-  }
-
-  public <I extends ChangeInfo> I format(ChangeData cd, Supplier<I> changeInfoSupplier)
-      throws OrmException {
-    return format(cd, Optional.empty(), true, changeInfoSupplier);
+    return format(cd, Optional.empty(), true, ChangeInfo::new);
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
@@ -323,7 +288,7 @@ public class ChangeJson {
     return format(cd, Optional.of(rsrc.getPatchSet().getId()), true, ChangeInfo::new);
   }
 
-  public List<List<ChangeInfo>> formatQueryResults(List<QueryResult<ChangeData>> in)
+  public List<List<ChangeInfo>> format(List<QueryResult<ChangeData>> in)
       throws PermissionBackendException {
     try (Timer0.Context ignored = metrics.formatQueryResultsLatency.start()) {
       accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
@@ -342,7 +307,7 @@ public class ChangeJson {
     }
   }
 
-  public List<ChangeInfo> formatChangeDatas(Collection<ChangeData> in)
+  public List<ChangeInfo> format(Collection<ChangeData> in)
       throws OrmException, PermissionBackendException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     ensureLoaded(in);
@@ -352,6 +317,21 @@ public class ChangeJson {
     }
     accountLoader.fill();
     return out;
+  }
+
+  public <I extends ChangeInfo> I format(
+      Project.NameKey project, Change.Id id, Supplier<I> changeInfoSupplier) throws OrmException {
+    ChangeNotes notes;
+    try {
+      notes = notesFactory.createChecked(db.get(), project, id);
+    } catch (OrmException e) {
+      if (!has(CHECK)) {
+        throw e;
+      }
+      return checkOnly(changeDataFactory.create(db.get(), project, id), changeInfoSupplier);
+    }
+    return format(
+        changeDataFactory.create(db.get(), notes), Optional.empty(), true, changeInfoSupplier);
   }
 
   private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {

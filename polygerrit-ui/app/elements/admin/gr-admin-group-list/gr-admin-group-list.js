@@ -128,8 +128,17 @@
           });
     },
 
+    _refreshGroupsList() {
+      this.$.restAPI.invalidateGroupsCache(this._filter,
+          this._groupsPerPage, this._offset);
+      return this._getGroups(this._filter, this._groupsPerPage,
+          this._offset);
+    },
+
     _handleCreateGroup() {
-      this.$.createNewModal.handleCreateGroup();
+      this.$.createNewModal.handleCreateGroup().then(() => {
+        this._refreshGroupsList();
+      });
     },
 
     _handleCloseCreate() {

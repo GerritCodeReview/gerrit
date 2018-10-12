@@ -51,7 +51,6 @@
    * Webcomponent fetching diffs and related data from restAPI and passing them
    * to the presentational gr-diff for rendering.
    */
-  // TODO(oler): Move all calls to restAPI from gr-diff here.
   Polymer({
     is: 'gr-diff-host',
 
@@ -86,6 +85,7 @@
       },
       projectConfig: {
         type: Object,
+        observer: '_projectConfigChanged',
       },
       projectName: String,
       displayLine: {
@@ -111,7 +111,10 @@
         type: Boolean,
         value: false,
       },
-      comments: Object,
+      comments: {
+        type: Object,
+        observer: '_commentsChanged',
+      },
       lineWrapping: {
         type: Boolean,
         value: false,
@@ -178,6 +181,11 @@
       _parentIndex: {
         type: Number,
         computed: '_computeParentIndex(patchRange.*)',
+      },
+
+      _threadEls: {
+        type: Array,
+        value: [],
       },
     },
 
@@ -310,7 +318,7 @@
 
     /** @return {!Array<!HTMLElement>} */
     getThreadEls() {
-      return this.$.diff.getThreadEls();
+      return this._threadEls;
     },
 
     /** @param {HTMLElement} el */
@@ -429,12 +437,79 @@
       }
     },
 
+    _projectConfigChanged(projectConfig) {
+      const threadEls = this.getThreadEls();
+      for (let i = 0; i < threadEls.length; i++) {
+        threadEls[i].projectConfig = projectConfig;
+      }
+    },
+
     /**
      * @param {Object} diff
      * @return {boolean}
      */
     _computeIsImageDiff(diff) {
       return isImageDiff(diff);
+    },
+
+
+    _commentsChanged(newComments) {
+      const allComments = [];
+      for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
+        // This is needed by the threading.
+        for (const comment of newComments[side]) {
+          comment.__commentSide = side;
+        }
+        allComments.push(...newComments[side]);
+      }
+      // TODO(oler): Clear out old comment threads. Maybe reuse DOM if nothing
+      //             changed?
+      const threads = this._createThreads(allComments);
+      for (const thread of threads) {
+        // TODO(oler): Determine isOnParent
+        const threadEl = this._createThreadElement(thread);
+        this._attachThreadElement(threadEl);
+      }
+    },
+
+    /**
+     * @param {Array<Object>} comments
+     * @param {Array<Object>} threads
+     */
+    _createThreads(comments) {
+      const sortedComments = comments.slice(0).sort((a, b) => {
+        if (b.__draft && !a.__draft ) { return 0; }
+        if (a.__draft && !b.__draft ) { return 1; }
+        return util.parseDate(a.updated) - util.parseDate(b.updated);
+      });
+
+      const threads = [];
+      for (const comment of sortedComments) {
+        // If the comment is in reply to another comment, find that comment's
+        // thread and append to it.
+        if (comment.in_reply_to) {
+          const thread = threads.find(thread =>
+              thread.comments.some(c => c.id === comment.in_reply_to));
+          if (thread) {
+            thread.comments.push(comment);
+            continue;
+          }
+        }
+
+        // Otherwise, this comment starts its own thread.
+        const newThread = {
+          start_datetime: comment.updated,
+          comments: [comment],
+          commentSide: comment.__commentSide,
+          patchNum: comment.patch_set,
+          rootId: comment.id || comment.__draftID,
+        };
+        if (comment.range) {
+          newThread.range = Object.assign({}, comment.range);
+        }
+        threads.push(newThread);
+      }
+      return threads;
     },
 
     /**
@@ -456,30 +531,94 @@
 
     /** @param {CustomEvent} e */
     _handleCreateComment(e) {
-      const {threadGroupEl, lineNum, side, range} = e.detail;
-      const threadEl = this._getOrCreateThread(threadGroupEl, side, range);
+      const {lineNum, side, patchNum, isOnParent, range} =
+          e.detail;
+      const threadEl = this._getOrCreateThread(patchNum, lineNum, side, range,
+          isOnParent);
       threadEl.addOrEditDraft(lineNum, range);
+
       this.$.reporting.recordDraftInteraction();
     },
 
     /**
-     * Gets or creates a comment thread from a specific thread group.
-     * May include a range, if the comment is a range comment.
+     * Gets or creates a comment thread at a given location.
+     * May provide a range, to get/create a range comment.
      *
-     * @param {!Object} threadGroupEl
+     * @param {string} patchNum
+     * @param {number|undefined} lineNum
      * @param {string} commentSide
-     * @param {!Object=} range
+     * @param {Object} range
+     * @param {boolean} isOnParent
      * @return {!Object}
      */
-    _getOrCreateThread(threadGroupEl, commentSide, range=undefined) {
-      let threadEl = threadGroupEl.getThread(commentSide, range);
-
+    _getOrCreateThread(patchNum, lineNum, commentSide, range, isOnParent) {
+      let threadEl = this._getThreadEl(lineNum, commentSide, range);
       if (!threadEl) {
-        threadGroupEl.addNewThread(commentSide, range);
-        Polymer.dom.flush();
-        threadEl = threadGroupEl.getThread(commentSide, range);
+        threadEl = this._createThreadElement({
+          comments: [],
+          commentSide,
+          patchNum,
+          lineNum,
+          range,
+        }, isOnParent);
+        this._attachThreadElement(threadEl);
       }
       return threadEl;
+    },
+
+    _attachThreadElement(threadEl) {
+      this._threadEls.push(threadEl);
+      Polymer.dom(this.$.diff).appendChild(threadEl);
+    },
+
+    _createThreadElement(thread, isOnParent) {
+      const threadEl = document.createElement('gr-diff-comment-thread');
+      threadEl.className = 'comment-thread';
+      threadEl.changeNum = this.changeNum;
+      threadEl.comments = thread.comments;
+      threadEl.range = thread.range;
+      threadEl.commentSide = thread.commentSide;
+      threadEl.patchNum = thread.patchNum;
+      threadEl.path = this.path;
+      threadEl.projectName = this.projectName;
+      threadEl.isOnParent = isOnParent;
+      threadEl.parentIndex = this._parentIndex;
+      threadEl.addEventListener('root-id-changed', changeEvent => {
+        thread.rootId = changeEvent.detail.value;
+      });
+      threadEl.lineNum = thread.lineNum;
+      threadEl.onThreadDiscard = this._handeThreadDiscard;
+      return threadEl;
+    },
+
+    _handeThreadDiscard(rootId) {
+      const i = this._threadEls.findIndex(
+          threadEl => threadEl.rootId == rootId);
+      this._threadEls[i].remove();
+      this._threadEls.splice(i, 1);
+    },
+
+    /**
+     * Gets a comment thread element at a given location.
+     * May provide a range, to get a range comment.
+     *
+     * @param {?number} lineNum
+     * @param {string} commentSide
+     * @param {Object=} range
+     * @return {?Object}
+     */
+    _getThreadEl(lineNum, commentSide, range=undefined) {
+      let line;
+      if (commentSide === GrDiffBuilder.Side.LEFT) {
+        line = {beforeNumber: lineNum};
+      } else if (commentSide === GrDiffBuilder.Side.RIGHT) {
+        line = {afterNumber: lineNum};
+      } else {
+        throw new Error(`Unknown side: ${commentSide}`);
+      }
+      const filteredThreadEls = Gerrit.filterThreadElsForLocation(
+          this._threadEls, line, commentSide, range);
+      return filteredThreadEls.length ? filteredThreadEls[0] : undefined;
     },
 
     /**

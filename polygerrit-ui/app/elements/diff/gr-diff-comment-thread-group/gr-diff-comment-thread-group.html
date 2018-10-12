@@ -27,11 +27,13 @@ limitations under the License.
         max-width: var(--content-width, 80ch);
         white-space: normal;
       }
-      gr-diff-comment-thread + gr-diff-comment-thread {
+      div ::slotted(*) + div ::slotted(*) {
         margin-top: .2em;
       }
     </style>
-    <slot></slot>
+    <div>
+      <slot class="comment-thread"></slot>
+    </div>
   </template>
   <script src="gr-diff-comment-thread-group.js"></script>
 </dom-module>

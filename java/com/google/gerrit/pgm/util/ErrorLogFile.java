@@ -32,15 +32,7 @@ public class ErrorLogFile {
   static final String LOG_NAME = "error_log";
   static final String JSON_SUFFIX = ".json";
 
-  public static void debugConsole() {
-    configureConsoleAppender(Level.DEBUG);
-  }
-
   public static void errorOnlyConsole() {
-    configureConsoleAppender(Level.ERROR);
-  }
-
-  private static void configureConsoleAppender(Level threshold) {
     LogManager.resetConfiguration();
 
     final PatternLayout layout = new PatternLayout();
@@ -49,7 +41,7 @@ public class ErrorLogFile {
     final ConsoleAppender dst = new ConsoleAppender();
     dst.setLayout(layout);
     dst.setTarget("System.err");
-    dst.setThreshold(threshold);
+    dst.setThreshold(Level.ERROR);
     dst.activateOptions();
 
     final Logger root = LogManager.getRootLogger();

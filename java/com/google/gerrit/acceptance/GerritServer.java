@@ -31,7 +31,6 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
-import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
@@ -69,6 +68,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
@@ -305,7 +309,7 @@ public class GerritServer implements AutoCloseable {
       throws Exception {
     checkArgument(site != null, "site is required (even for in-memory server");
     desc.checkValidAnnotations();
-    ErrorLogFile.debugConsole();
+    configureLogging();
     CyclicBarrier serverStarted = new CyclicBarrier(2);
     Daemon daemon =
         new Daemon(
@@ -402,6 +406,52 @@ public class GerritServer implements AutoCloseable {
     System.out.println("Gerrit Server Started");
 
     return new GerritServer(desc, site, createTestInjector(daemon), daemon, daemonService);
+  }
+
+  private static void configureLogging() {
+    LogManager.resetConfiguration();
+
+    PatternLayout layout = new PatternLayout();
+    layout.setConversionPattern("%-5p %c %x: %m%n");
+
+    ConsoleAppender dst = new ConsoleAppender();
+    dst.setLayout(layout);
+    dst.setTarget("System.err");
+    dst.setThreshold(Level.DEBUG);
+    dst.activateOptions();
+
+    Logger root = LogManager.getRootLogger();
+    root.removeAllAppenders();
+    root.addAppender(dst);
+
+    Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
+
+    // Silence non-critical messages from MINA SSHD.
+    Logger.getLogger("org.apache.mina").setLevel(Level.WARN);
+    Logger.getLogger("org.apache.sshd.common").setLevel(Level.WARN);
+    Logger.getLogger("org.apache.sshd.server").setLevel(Level.WARN);
+    Logger.getLogger("org.apache.sshd.common.keyprovider.FileKeyPairProvider").setLevel(Level.INFO);
+    Logger.getLogger("com.google.gerrit.sshd.GerritServerSession").setLevel(Level.WARN);
+
+    // Silence non-critical messages from mime-util.
+    Logger.getLogger("eu.medsea.mimeutil").setLevel(Level.WARN);
+
+    // Silence non-critical messages from openid4java.
+    Logger.getLogger("org.apache.http").setLevel(Level.WARN);
+    Logger.getLogger("org.apache.xml").setLevel(Level.WARN);
+    Logger.getLogger("org.openid4java").setLevel(Level.WARN);
+    Logger.getLogger("org.openid4java.consumer.ConsumerManager").setLevel(Level.FATAL);
+    Logger.getLogger("org.openid4java.discovery.Discovery").setLevel(Level.ERROR);
+    Logger.getLogger("org.openid4java.server.RealmVerifier").setLevel(Level.ERROR);
+    Logger.getLogger("org.openid4java.message.AuthSuccess").setLevel(Level.ERROR);
+
+    // Silence non-critical messages from c3p0 (if used).
+    Logger.getLogger("com.mchange.v2.c3p0").setLevel(Level.WARN);
+    Logger.getLogger("com.mchange.v2.resourcepool").setLevel(Level.WARN);
+    Logger.getLogger("com.mchange.v2.sql").setLevel(Level.WARN);
+
+    // Silence non-critical messages from apache.http.
+    Logger.getLogger("org.apache.http").setLevel(Level.WARN);
   }
 
   private static void mergeTestConfig(Config cfg) {

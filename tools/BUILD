@@ -38,7 +38,7 @@ java_package_configuration(
         "-Xep:CannotMockFinalClass:WARN",
         "-Xep:ClassCanBeStatic:WARN",
         "-Xep:ClassNewInstance:WARN",
-        "-Xep:DefaultCharset:ERROR",
+        "-Xep:DefaultCharset:WARN",
         "-Xep:DoubleCheckedLocking:WARN",
         "-Xep:ElementsCountedInLoop:WARN",
         "-Xep:EqualsHashCode:WARN",

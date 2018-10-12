@@ -1260,6 +1260,7 @@ public abstract class AbstractDaemonTest {
     }
     ca.setDescription("description");
     ca.setAgreementUrl("agreement-url");
+    ca.setExcludeProjects(ImmutableList.of("ExcludedProject"));
 
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
       u.getConfig().replace(ca);

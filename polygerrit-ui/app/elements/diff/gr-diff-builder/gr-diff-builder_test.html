@@ -62,10 +62,6 @@ limitations under the License.
     let builder;
     let sandbox;
     const LINE_FEED_HTML = '<span class="style-scope gr-diff br"></span>';
-    const parentIndex = 3;
-    const changeNum = 4;
-    const path = 'some/path.ext';
-    const projectName = 'Awesome Project';
 
     setup(() => {
       sandbox = sinon.sandbox.create();
@@ -80,8 +76,7 @@ limitations under the License.
         tab_size: 4,
       };
       builder = new GrDiffBuilder(
-          {content: []}, {left: [], right: []}, parentIndex, changeNum, path,
-          projectName, prefs);
+          {content: []}, {left: [], right: []}, [], prefs);
     });
 
     teardown(() => { sandbox.restore(); });
@@ -144,153 +139,6 @@ limitations under the License.
       assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line,
           Gerrit.DiffSide.RIGHT), [r]);
     });
-
-    test('_createThreads', () => {
-      const comments = [
-        {
-          id: 'sallys_confession',
-          message: 'i like you, jack',
-          updated: '2015-12-23 15:00:20.396000000',
-          line: 1,
-          __commentSide: 'left',
-        }, {
-          id: 'jacks_reply',
-          message: 'i like you, too',
-          updated: '2015-12-24 15:01:20.396000000',
-          __commentSide: 'left',
-          line: 1,
-          in_reply_to: 'sallys_confession',
-        },
-        {
-          id: 'new_draft',
-          message: 'i do not like either of you',
-          __commentSide: 'left',
-          __draft: true,
-          updated: '2015-12-20 15:01:20.396000000',
-        },
-      ];
-
-      const actualThreads = builder._createThreads(comments);
-
-      assert.equal(actualThreads.length, 2);
-
-      assert.equal(
-          actualThreads[0].start_datetime, '2015-12-23 15:00:20.396000000');
-      assert.equal(actualThreads[0].commentSide, 'left');
-      assert.equal(actualThreads[0].comments.length, 2);
-      assert.deepEqual(actualThreads[0].comments[0], comments[0]);
-      assert.deepEqual(actualThreads[0].comments[1], comments[1]);
-      assert.equal(actualThreads[0].patchNum, undefined);
-      assert.equal(actualThreads[0].rootId, 'sallys_confession');
-      assert.equal(actualThreads[0].lineNum, 1);
-
-      assert.equal(
-          actualThreads[1].start_datetime, '2015-12-20 15:01:20.396000000');
-      assert.equal(actualThreads[1].commentSide, 'left');
-      assert.equal(actualThreads[1].comments.length, 1);
-      assert.deepEqual(actualThreads[1].comments[0], comments[2]);
-      assert.equal(actualThreads[1].patchNum, undefined);
-      assert.equal(actualThreads[1].rootId, 'new_draft');
-      assert.equal(actualThreads[1].lineNum, undefined);
-    });
-
-    test('_createThreads inherits patchNum and range', () => {
-      const comments = [{
-        id: 'betsys_confession',
-        message: 'i like you, jack',
-        updated: '2015-12-24 15:00:10.396000000',
-        range: {
-          start_line: 1,
-          start_character: 1,
-          end_line: 1,
-          end_character: 2,
-        },
-        patch_set: 5,
-        __commentSide: 'left',
-        line: 1,
-      }];
-
-      expectedThreads = [
-        {
-          start_datetime: '2015-12-24 15:00:10.396000000',
-          commentSide: 'left',
-          comments: [{
-            id: 'betsys_confession',
-            message: 'i like you, jack',
-            updated: '2015-12-24 15:00:10.396000000',
-            range: {
-              start_line: 1,
-              start_character: 1,
-              end_line: 1,
-              end_character: 2,
-            },
-            patch_set: 5,
-            __commentSide: 'left',
-            line: 1,
-          }],
-          patchNum: 5,
-          rootId: 'betsys_confession',
-          range: {
-            start_line: 1,
-            start_character: 1,
-            end_line: 1,
-            end_character: 2,
-          },
-          lineNum: 1,
-          isOnParent: false,
-        },
-      ];
-
-      assert.deepEqual(
-          builder._createThreads(comments),
-          expectedThreads);
-    });
-
-    test('_createThreads does not thread unrelated comments at same location',
-        () => {
-          const comments = [
-            {
-              id: 'sallys_confession',
-              message: 'i like you, jack',
-              updated: '2015-12-23 15:00:20.396000000',
-              __commentSide: 'left',
-            }, {
-              id: 'jacks_reply',
-              message: 'i like you, too',
-              updated: '2015-12-24 15:01:20.396000000',
-              __commentSide: 'left',
-            },
-          ];
-          assert.equal(builder._createThreads(comments).length, 2);
-        });
-
-    test('_createThreads derives isOnParent using  side from first comment',
-        () => {
-          const comments = [
-            {
-              id: 'sallys_confession',
-              message: 'i like you, jack',
-              updated: '2015-12-23 15:00:20.396000000',
-              // line: 1,
-              // __commentSide: 'left',
-            }, {
-              id: 'jacks_reply',
-              message: 'i like you, too',
-              updated: '2015-12-24 15:01:20.396000000',
-              // __commentSide: 'left',
-              // line: 1,
-              in_reply_to: 'sallys_confession',
-            },
-          ];
-
-          assert.equal(builder._createThreads(comments)[0].isOnParent, false);
-
-          comments[0].side = 'REVISION';
-          assert.equal(builder._createThreads(comments)[0].isOnParent, false);
-
-          comments[0].side = 'PARENT';
-          assert.equal(builder._createThreads(comments)[0].isOnParent, true);
-        });
 
     test('_createElement classStr applies all classes', () => {
       const node = builder._createElement('div', 'test classes');
@@ -466,42 +314,32 @@ limitations under the License.
     });
 
     test('comment thread group creation', () => {
-      const l3 = {id: 'l3', line: 3, updated: '2016-08-09 00:42:32.000000000',
-        __commentSide: 'left', side: 'PARENT'};
-      const l5 = {id: 'l5', line: 5, updated: '2016-08-09 00:42:32.000000000',
-        __commentSide: 'left', patch_set: '2', side: 'REVISION'};
-      const r5 = {id: 'r5', line: 5, updated: '2016-08-09 00:42:32.000000000',
-        __commentSide: 'right', patch_set: '3'};
+      const l3 = document.createElement('div');
+      l3.className = 'comment-thread';
+      l3.setAttribute('comment-side', 'left');
+      l3.setAttribute('line-num', 3);
+
+      const l5 = document.createElement('div');
+      l5.className = 'comment-thread';
+      l5.setAttribute('comment-side', 'left');
+      l5.setAttribute('line-num', 5);
+
+      const r5 = document.createElement('div');
+      r5.className = 'comment-thread';
+      r5.setAttribute('comment-side', 'right');
+      r5.setAttribute('line-num', 5);
 
       builder = new GrDiffBuilder(
-          {content: []}, {
-            meta: {
-              changeNum: '42',
-              patchRange: {
-                basePatchNum: 'PARENT',
-                patchNum: '3',
-              },
-              path: '/path/to/foo',
-              projectConfig: {foo: 'bar'},
-            },
-            left: [l3, l5],
-            right: [r5],
-          }, parentIndex, changeNum, path, projectName, prefs);
+          {content: []}, {basePatchNum: 'PARENT', patchNum: '3'}, [l3, l5, r5],
+          prefs);
 
-      function checkThreadGroupProps(threadGroupEl, patchNum,
-          comments) {
+      function checkThreadGroupProps(threadGroupEl,
+          expectedThreadEls) {
         const threadEls = Polymer.dom(threadGroupEl).queryDistributedElements(
-            'gr-diff-comment-thread');
-        assert.equal(threadEls.length, comments.length);
-        for (let i=0; i < comments.length; i++) {
-          const threadEl = threadEls[i];
-
-          const comment = comments[i];
-          assert.equal(threadEl.patchNum, comment.patch_set);
-          assert.equal(threadEl.commentSide, comment.__commentSide);
-          assert.equal(threadEl.comments.length, 1);
-          assert.equal(threadEl.comments[0], comment);
-          assert.equal(threadEl.rootId, comment.id);
+            '.comment-thread');
+        assert.equal(threadEls.length, expectedThreadEls.length);
+        for (let i=0; i<expectedThreadEls.length; i++) {
+          assert.equal(threadEls[i], expectedThreadEls[i]);
         }
       }
 
@@ -509,42 +347,42 @@ limitations under the License.
       line.beforeNumber = 5;
       line.afterNumber = 5;
       let threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', [l5, r5]);
+      checkThreadGroupProps(threadGroupEl, [l5, r5]);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
-      checkThreadGroupProps(threadGroupEl, '3', [r5]);
+      checkThreadGroupProps(threadGroupEl, [r5]);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
-      checkThreadGroupProps(threadGroupEl, '3', [l5]);
+      checkThreadGroupProps(threadGroupEl, [l5]);
 
-      builder._comments.meta.patchRange.basePatchNum = '1';
+      builder._patchRange.basePatchNum = '1';
 
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', [l5, r5]);
+      checkThreadGroupProps(threadGroupEl, [l5, r5]);
 
       threadEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
-      checkThreadGroupProps(threadEl, '1', [l5]);
+      checkThreadGroupProps(threadEl, [l5]);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
-      checkThreadGroupProps(threadGroupEl, '3', [r5]);
+      checkThreadGroupProps(threadGroupEl, [r5]);
 
-      builder._comments.meta.patchRange.basePatchNum = 'PARENT';
+      builder._patchRange.basePatchNum = 'PARENT';
 
       line = new GrDiffLine(GrDiffLine.Type.REMOVE);
       line.beforeNumber = 5;
       line.afterNumber = 5;
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', [l5, r5]);
+      checkThreadGroupProps(threadGroupEl, [l5, r5]);
 
       line = new GrDiffLine(GrDiffLine.Type.ADD);
       line.beforeNumber = 3;
       line.afterNumber = 5;
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', [l3, r5]);
+      checkThreadGroupProps(threadGroupEl, [l3, r5]);
     });
 
 
@@ -578,16 +416,18 @@ limitations under the License.
       });
 
       const lineOfInterest = {number: 789, leftSide: true};
-      assert.deepEqual(element._getKeyLocations(comments, lineOfInterest), {
-        left: {FILE: true, 123: true, 789: true},
-        right: {456: true},
-      });
+      assert.deepEqual(
+          element._getKeyLocations(comments, lineOfInterest), {
+            left: {FILE: true, 123: true, 789: true},
+            right: {456: true},
+          });
 
       delete lineOfInterest.leftSide;
-      assert.deepEqual(element._getKeyLocations(comments, lineOfInterest), {
-        left: {FILE: true, 123: true},
-        right: {456: true, 789: true},
-      });
+      assert.deepEqual(
+          element._getKeyLocations(comments, lineOfInterest), {
+            left: {FILE: true, 123: true},
+            right: {456: true, 789: true},
+          });
     });
 
     suite('_isTotal', () => {
@@ -1029,7 +869,7 @@ limitations under the License.
         processStub = sandbox.stub(element.$.processor, 'process')
             .returns(Promise.resolve());
         sandbox.stub(element, '_anyLineTooLong').returns(true);
-        comments = {left: [], right: []};
+        comments = {left: [], right: [], meta: {patchRange: undefined}};
         prefs = {
           line_length: 10,
           show_tabs: true,
@@ -1077,6 +917,7 @@ limitations under the License.
     suite('rendering', () => {
       let content;
       let outputEl;
+      let comments;
 
       setup(done => {
         const prefs = {
@@ -1104,10 +945,10 @@ limitations under the License.
         });
         element = fixture('basic');
         outputEl = element.queryEffectiveChildren('#diffTable');
+        comments = {left: [], right: [], meta: {patchRange: undefined}};
         sandbox.stub(element, '_getDiffBuilder', () => {
           const builder = new GrDiffBuilder(
-              {content}, {left: [], right: []}, parentIndex, changeNum, path,
-              projectName, prefs, outputEl);
+              {content}, undefined, [], prefs, outputEl);
           sandbox.stub(builder, 'addColumns');
           builder.buildSectionElement = function(group) {
             const section = document.createElement('stub');
@@ -1119,7 +960,7 @@ limitations under the License.
           return builder;
         });
         element.diff = {content};
-        element.render({left: [], right: []}, prefs).then(done);
+        element.render(comments, prefs).then(done);
       });
 
       test('reporting', done => {
@@ -1144,7 +985,7 @@ limitations under the License.
       });
 
       test('addColumns is called', done => {
-        element.render({left: [], right: []}, {}).then(done);
+        element.render(comments, {}).then(done);
         assert.isTrue(element._builder.addColumns.called);
       });
 
@@ -1168,7 +1009,7 @@ limitations under the License.
 
       test('render-start and render are fired', done => {
         const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
-        element.render({left: [], right: []}, {}).then(() => {
+        element.render(comments, {}).then(() => {
           const firedEventTypes = dispatchEventStub.getCalls()
               .map(c => { return c.args[0].type; });
           assert.include(firedEventTypes, 'render-start');
@@ -1196,7 +1037,7 @@ limitations under the License.
           context: -1,
           syntax_highlighting: true,
         };
-        element.render({left: [], right: []}, prefs);
+        element.render(comments, prefs);
       });
 
       test('cancel', () => {
@@ -1213,6 +1054,7 @@ limitations under the License.
       let builder;
       let diff;
       let prefs;
+      let comments;
 
       setup(done => {
         element = fixture('mock-diff');
@@ -1224,12 +1066,12 @@ limitations under the License.
           show_tabs: true,
           tab_size: 4,
         };
+        comments = {left: [], right: [], meta: {patchRange: undefined}};
 
-        element.render(
-            undefined, prefs).then(() => {
-              builder = element._builder;
-              done();
-            });
+        element.render(comments, prefs).then(() => {
+          builder = element._builder;
+          done();
+        });
       });
 
       test('getDiffLength', () => {
@@ -1336,7 +1178,7 @@ limitations under the License.
       test('_getNextContentOnSide unified left', done => {
         // Re-render as unified:
         element.viewMode = 'UNIFIED_DIFF';
-        element.render({left: [], right: []}, prefs).then(() => {
+        element.render(comments, prefs).then(() => {
           builder = element._builder;
 
           const startElem = builder.getContentByLine(5, 'left',
@@ -1356,7 +1198,7 @@ limitations under the License.
       test('_getNextContentOnSide unified right', done => {
         // Re-render as unified:
         element.viewMode = 'UNIFIED_DIFF';
-        element.render({left: [], right: []}, prefs).then(() => {
+        element.render(comments, prefs).then(() => {
           builder = element._builder;
 
           const startElem = builder.getContentByLine(5, 'right',

@@ -808,18 +808,14 @@ public class ChangeJson {
     return map;
   }
 
-  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
-      throws OrmException {
-    return permissionBackendForChange(permissionBackend.user(user).database(db), cd);
-  }
-
   /**
    * @return {@link com.google.gerrit.server.permissions.PermissionBackend.ForChange} constructed
    *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
    *     lazyload}.
    */
-  private PermissionBackend.ForChange permissionBackendForChange(
-      PermissionBackend.WithUser withUser, ChangeData cd) throws OrmException {
+  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
+      throws OrmException {
+    PermissionBackend.WithUser withUser = permissionBackend.user(user).database(db);
     return lazyLoad
         ? withUser.change(cd)
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));

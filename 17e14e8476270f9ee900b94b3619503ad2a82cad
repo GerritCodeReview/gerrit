@@ -34,6 +34,24 @@
       "revId": "17e14e8476270f9ee900b94b3619503ad2a82cad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "124e56f3_dd4ab913",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-10-12T09:12:51Z",
+      "side": 1,
+      "message": "The revert fixed 9836, this change fixes 9823.",
+      "parentUuid": "91939324_7614447c",
+      "revId": "17e14e8476270f9ee900b94b3619503ad2a82cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -60,9 +60,9 @@
      */
 
      /**
-      * Fired when a draft is added or edited.
+      * Fired when a comment is created
       *
-      * @event draft-interaction
+      * @event create-comment-at-location
       */
 
     properties: {
@@ -187,7 +187,7 @@
       },
 
       /**
-       * @type {function(number, boolean, !string)}
+       * @type {function(number, !string)}
        */
       _createThreadGroupFn: {
         type: Function,
@@ -209,6 +209,31 @@
       'comment-save': '_handleCommentSave',
       'create-comment': '_handleCreateComment',
     },
+
+    attached() {
+      this._nodeObserver = Polymer.dom(this).observeNodes(info => {
+        const threadEls = info.addedNodes.filter(
+            node => node.nodeType === Node.ELEMENT_NODE &&
+            node.classList.contains('comment-thread'));
+        // TODO(oler): Handle removed nodes.
+        for (const threadEl of threadEls) {
+          const lineNum = threadEl.getAttribute('line-num');
+          const commentSide = threadEl.getAttribute('comment-side');
+          const lineEl = this.$.diffBuilder.getLineElByNumber(
+              lineNum, commentSide);
+          const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
+          const contentEl = contentText.parentElement;
+          const threadGroupEl = this._getOrCreateThreadGroup(
+              contentEl, 'todo', commentSide);
+          threadGroupEl.appendChild(threadEl);
+        }
+      });
+    },
+
+    detached() {
+      Polymer.dom(this).unobserveNodes(this._nodeObserver);
+    },
+
 
     /** Cancel any remaining diff builder rendering work. */
     cancel() {
@@ -364,30 +389,25 @@
      * @param {!Object=} opt_range
      */
     _createComment(lineEl, opt_lineNum, opt_side, opt_range) {
-      this.dispatchEvent(new CustomEvent('draft-interaction', {bubbles: true}));
       const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       const contentEl = contentText.parentElement;
       const side = opt_side ||
           this._getCommentSideByLineAndContent(lineEl, contentEl);
       const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       const isOnParent =
-        this._getIsParentCommentByLineAndContent(lineEl, contentEl);
-      const threadEl = this._getOrCreateThread(contentEl, patchNum,
-          side, isOnParent, opt_range);
-      threadEl.addOrEditDraft(opt_lineNum, opt_range);
-    },
-
-    /**
-     * Fetch the thread group at the given range, or the range-less thread
-     * on the line if no range is provided.
-     *
-     * @param {!Object} threadGroupEl
-     * @param {string} commentSide
-     * @param {!Object=} opt_range
-     * @return {!Object}
-     */
-    _getThread(threadGroupEl, commentSide, opt_range) {
-      return threadGroupEl.getThread(commentSide, opt_range);
+          this._getIsParentCommentByLineAndContent(lineEl, contentEl);
+      this.dispatchEvent(new CustomEvent('create-comment-at-location', {
+        bubbles: true,
+        detail: {
+          lineEl,
+          lineNum: opt_lineNum,
+          side,
+          patchNum,
+          isOnParent,
+          parentIndex: this._parentIndex,
+          range: opt_range,
+        },
+      }));
     },
 
     _getThreadGroupForLine(contentEl) {
@@ -403,59 +423,27 @@
      * @param {boolean} isOnParent
      * @return {!Object}
      */
-    _getOrCreateThreadGroup(contentEl, patchNum, commentSide, isOnParent) {
+    _getOrCreateThreadGroup(contentEl, patchNum, commentSide) {
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
-        threadGroupEl = this._createCommentThreadGroup(patchNum, isOnParent,
-            commentSide);
+        threadGroupEl = this._createCommentThreadGroup(patchNum, commentSide);
         contentEl.appendChild(threadGroupEl);
       }
       return threadGroupEl;
     },
 
     /**
-     * Gets or creates a comment thread for a specific spot on a diff.
-     * May include a range, if the comment is a range comment.
-     *
-     * @param {!Object} contentEl
      * @param {number} patchNum
-     * @param {string} commentSide
-     * @param {boolean} isOnParent
-     * @param {!Object=} range
-     * @return {!Object}
-     */
-    _getOrCreateThread(contentEl, patchNum, commentSide, isOnParent,
-        range=undefined) {
-      const threadGroupEl = this._getOrCreateThreadGroup(contentEl, patchNum,
-          commentSide, isOnParent);
-
-      let threadEl = this._getThread(threadGroupEl, commentSide, range);
-
-      if (!threadEl) {
-        threadGroupEl.addNewThread(commentSide, range);
-        Polymer.dom.flush();
-        threadEl = this._getThread(threadGroupEl, commentSide, range);
-      }
-      return threadEl;
-    },
-
-    /**
-     * @param {number} patchNum
-     * @param {boolean} isOnParent
      * @param {!string} commentSide
      * @return {!Object}
      */
-    _createCommentThreadGroup(patchNum, isOnParent, commentSide) {
+    _createCommentThreadGroup(patchNum, commentSide) {
       const threadGroupEl =
           document.createElement('gr-diff-comment-thread-group');
-      threadGroupEl.changeNum = this.changeNum;
       threadGroupEl.commentSide = commentSide;
       threadGroupEl.patchForNewThreads = patchNum;
       threadGroupEl.path = this.path;
-      threadGroupEl.isOnParent = isOnParent;
-      threadGroupEl.projectName = this.projectName;
-      threadGroupEl.parentIndex = this._parentIndex;
       return threadGroupEl;
     },
 

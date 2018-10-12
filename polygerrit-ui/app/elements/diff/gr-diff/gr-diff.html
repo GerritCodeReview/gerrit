@@ -293,6 +293,7 @@ limitations under the License.
               parent-index="[[_parentIndex]]"
               create-comment-fn="[[_createThreadGroupFn]]"
               line-of-interest="[[lineOfInterest]]">
+            <slot select=".comment-thread"></slot>
             <table
                 id="diffTable"
                 class$="[[_diffTableClass]]"

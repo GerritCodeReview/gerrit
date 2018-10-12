@@ -46,7 +46,10 @@
         type: Object,
         value() { return document.body; },
       },
-      commentSide: String,
+      commentSide: {
+        type: String,
+        reflectToAttribute: true,
+      },
       patchNum: String,
       path: String,
       projectName: {
@@ -80,7 +83,10 @@
         value: false,
       },
       /** Necessary only if showFilePath is true */
-      lineNum: Number,
+      lineNum: {
+        type: Number,
+        reflectToAttribute: true,
+      },
       unresolved: {
         type: Boolean,
         notify: true,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92b5970d_9f5b892a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-10-12T04:25:50Z",
+      "side": 1,
+      "message": "Is this actually corect? The access path was set on SSH session and not on Thread Local.",
+      "revId": "322c6b2284cccb128fbd9e3fb1f173c1960b7a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

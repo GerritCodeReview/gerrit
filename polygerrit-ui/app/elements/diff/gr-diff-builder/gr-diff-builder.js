@@ -42,11 +42,10 @@
    */
   const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, createThreadGroupFn, prefs, outputEl,
+  function GrDiffBuilder(diff, comments, commentThreadElements, prefs, outputEl,
       layers) {
     this._diff = diff;
     this._comments = comments;
-    this._createThreadGroupFn = createThreadGroupFn;
     this._prefs = prefs;
     this._outputEl = outputEl;
     this.groups = [];
@@ -68,15 +67,7 @@
       }
     }
 
-    const allComments = [];
-    for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
-      // This is needed by the threading.
-      for (const comment of this._comments[side]) {
-        comment.__commentSide = side;
-      }
-      allComments.push(...this._comments[side]);
-    }
-    this._threads = this._createThreads(allComments);
+    this._commentThreadElements = commentThreadElements;
   }
 
   GrDiffBuilder.GroupType = {
@@ -330,148 +321,23 @@
   };
 
   /**
-   * @param {!Array<Object>} threads
    * @param {!GrDiffLine} line
    * @param {!GrDiffBuilder.Side=} side The side (LEFT, RIGHT, BOTH) for which
-   *     to return the threads (default: BOTH).
-   */
-  GrDiffBuilder.prototype._filterThreadsForLine = function(
-      threads, line, side = GrDiffBuilder.Side.BOTH) {
-    function matchesLeftLine(thread) {
-      return thread.commentSide == GrDiffBuilder.Side.LEFT &&
-          thread.comments[0].line == line.beforeNumber;
-    }
-    function matchesRightLine(thread) {
-      return thread.commentSide == GrDiffBuilder.Side.RIGHT &&
-          thread.comments[0].line == line.afterNumber;
-    }
-    function matchesFileComment(thread) {
-      return (side === GrDiffBuilder.Side.BOTH ||
-              thread.commentSide == side) &&
-             // line/range comments have 1-based line set, if line is falsy it's
-             // a file comment
-             !thread.comments[0].line;
-    }
-
-    // Select the appropriate matchers for the desired side and line
-    // If side is BOTH, we want both the left and right matcher.
-    const matchers = [];
-    if (side !== GrDiffBuilder.Side.RIGHT) {
-      matchers.push(matchesLeftLine);
-    }
-    if (side !== GrDiffBuilder.Side.LEFT) {
-      matchers.push(matchesRightLine);
-    }
-    if (line.afterNumber === GrDiffLine.FILE ||
-        line.beforeNumber === GrDiffLine.FILE) {
-      matchers.push(matchesFileComment);
-    }
-
-    return threads.filter(thread => matchers.find(matcher => matcher(thread)));
-  };
-
-  /**
-   * @param {Array<Object>} comments
-   */
-  GrDiffBuilder.prototype._createThreads = function(comments) {
-    const sortedComments = comments.slice(0).sort((a, b) => {
-      if (b.__draft && !a.__draft ) { return 0; }
-      if (a.__draft && !b.__draft ) { return 1; }
-      return util.parseDate(a.updated) - util.parseDate(b.updated);
-    });
-
-    const threads = [];
-    for (const comment of sortedComments) {
-      // If the comment is in reply to another comment, find that comment's
-      // thread and append to it.
-      if (comment.in_reply_to) {
-        const thread = threads.find(thread =>
-            thread.comments.some(c => c.id === comment.in_reply_to));
-        if (thread) {
-          thread.comments.push(comment);
-          continue;
-        }
-      }
-
-      // Otherwise, this comment starts its own thread.
-      const newThread = {
-        start_datetime: comment.updated,
-        comments: [comment],
-        commentSide: comment.__commentSide,
-        patchNum: comment.patch_set,
-        rootId: comment.id || comment.__draftID,
-      };
-      if (comment.range) {
-        newThread.range = Object.assign({}, comment.range);
-      }
-      threads.push(newThread);
-    }
-    return threads;
-  };
-
-  /**
-   * Returns the patch number that new comment threads should be attached to.
-   *
-   * @param {GrDiffLine} line The line new thread will be attached to.
-   * @param {string=} opt_side Set to LEFT to force adding it to the LEFT side -
-   *     will be ignored if the left is a parent or a merge parent
-   * @return {number} Patch set to attach the new thread to
-   */
-  GrDiffBuilder.prototype._determinePatchNumForNewThreads = function(
-      patchRange, line, opt_side) {
-    if ((line.type === GrDiffLine.Type.REMOVE ||
-         opt_side === GrDiffBuilder.Side.LEFT) &&
-        patchRange.basePatchNum !== 'PARENT' &&
-        !Gerrit.PatchSetBehavior.isMergeParent(patchRange.basePatchNum)) {
-      return patchRange.basePatchNum;
-    } else {
-      return patchRange.patchNum;
-    }
-  };
-
-  /**
-   * Returns whether the comments on the given line are on a (merge) parent.
-   *
-   * @param {string} firstCommentSide
-   * @param {{basePatchNum: number, patchNum: number}} patchRange
-   * @param {GrDiffLine} line The line the comments are on.
-   * @param {string=} opt_side
-   * @return {boolean} True iff the comments on the given line are on a (merge)
-   *    parent.
-   */
-  GrDiffBuilder.prototype._determineIsOnParent = function(
-      firstCommentSide, patchRange, line, opt_side) {
-    return ((line.type === GrDiffLine.Type.REMOVE ||
-             opt_side === GrDiffBuilder.Side.LEFT) &&
-            (patchRange.basePatchNum === 'PARENT' ||
-             Gerrit.PatchSetBehavior.isMergeParent(
-                 patchRange.basePatchNum))) ||
-          firstCommentSide === 'PARENT';
-  };
-
-  /**
-   * @param {!GrDiffLine} line
-   * @param {!GrDiffBuilder.Side=} side The side (LEFT, RIGHT, BOTH) for which to return
-   *     the thread group (default: BOTH).
+   *     to return the thread group (default: BOTH).
    * @return {!Object}
    */
   GrDiffBuilder.prototype._commentThreadGroupForLine = function(
       line, side = GrDiffBuilder.Side.BOTH) {
-    const threads =
-        this._filterThreadsForLine(this._threads, line, side);
-    if (!threads || threads.length === 0) {
+    const threadEls = Gerrit.filterThreadElsForLocation(
+        this._commentThreadElements, line, side);
+    if (!threadEls || threadEls.length === 0) {
       return null;
     }
-
-    const patchRange = this._comments.meta.patchRange;
-    const patchNumForNewThread = this._determinePatchNumForNewThreads(
-        patchRange, line, side);
-    const isOnParent = this._determineIsOnParent(
-        threads[0].side, patchRange, line, side);
-
-    const threadGroupEl = this._createThreadGroupFn(
-        patchNumForNewThread, isOnParent, side);
-    threadGroupEl.setThreads(threads);
+    const threadGroupEl = document.createElement(
+        'gr-diff-comment-thread-group');
+    for (const threadEl of threadEls) {
+      threadGroupEl.appendChild(threadEl);
+    }
     if (side) {
       threadGroupEl.setAttribute('data-side', side);
     }

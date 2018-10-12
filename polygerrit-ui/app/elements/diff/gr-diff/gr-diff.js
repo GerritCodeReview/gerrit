@@ -78,10 +78,6 @@
         type: Object,
         observer: '_prefsObserver',
       },
-      projectConfig: {
-        type: Object,
-        observer: '_projectConfigChanged',
-      },
       projectName: String,
       displayLine: {
         type: Boolean,
@@ -183,16 +179,6 @@
         computed: '_computeNewlineWarning(diff)',
       },
 
-      /**
-       * @type {function(number, boolean, !string)}
-       */
-      _createThreadGroupFn: {
-        type: Function,
-        value() {
-          return this._createCommentThreadGroup.bind(this);
-        },
-      },
-
       _diffLength: Number,
     },
 
@@ -206,6 +192,34 @@
       'comment-save': '_handleCommentSave',
       'create-range-comment': '_handleCreateRangeComment',
     },
+
+    attached() {
+      this._nodeObserver = Polymer.dom(this).observeNodes(info => {
+        const addedThreadEls = info.addedNodes.filter(
+            node => node.nodeType === Node.ELEMENT_NODE &&
+            node.classList.contains('comment-thread'));
+        const removedThreadEls = info.removedNodes.filter(
+            node => node.nodeType === Node.ELEMENT_NODE &&
+            node.classList.contains('comment-thread'));
+        // TODO(oler): Handle removed nodes, but distinguish from removals
+        //             caused by further distribution into the thread groups
+        for (const threadEl of addedThreadEls) {
+          const lineNum = Number(threadEl.getAttribute('line-num'));
+          const commentSide = threadEl.getAttribute('comment-side');
+          const lineEl = this.$.diffBuilder.getLineElByNumber(
+              lineNum, commentSide);
+          const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
+          const contentEl = contentText.parentElement;
+          const threadGroupEl = this._getOrCreateThreadGroup(contentEl);
+          Polymer.dom(threadGroupEl).appendChild(threadEl);
+        }
+      });
+    },
+
+    detached() {
+      Polymer.dom(this).unobserveNodes(this._nodeObserver);
+    },
+
 
     /** Cancel any remaining diff builder rendering work. */
     cancel() {
@@ -242,17 +256,6 @@
     _handleCommentSaveOrDiscard() {
       this.dispatchEvent(new CustomEvent('diff-comments-modified',
           {bubbles: true}));
-    },
-
-    /** @return {!Array<!HTMLElement>} */
-    getThreadEls() {
-      let threads = [];
-      const threadGroupEls = Polymer.dom(this.root)
-          .querySelectorAll('gr-diff-comment-thread-group');
-      for (const threadGroupEl of threadGroupEls) {
-        threads = threads.concat(threadGroupEl.threadEls);
-      }
-      return threads;
     },
 
     /** @return {string} */
@@ -367,15 +370,14 @@
           this._getCommentSideByLineAndContent(lineEl, contentEl);
       const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       const isOnParent =
-        this._getIsParentCommentByLineAndContent(lineEl, contentEl);
-      const threadGroupEl = this._getOrCreateThreadGroup(contentEl, patchNum,
-          side, isOnParent);
+          this._getIsParentCommentByLineAndContent(lineEl, contentEl);
       this.dispatchEvent(new CustomEvent('create-comment', {
         bubbles: true,
         detail: {
-          threadGroupEl,
           lineNum,
           side,
+          patchNum,
+          isOnParent,
           range,
         },
       }));
@@ -394,33 +396,13 @@
      * @param {boolean} isOnParent
      * @return {!Object}
      */
-    _getOrCreateThreadGroup(contentEl, patchNum, commentSide, isOnParent) {
+    _getOrCreateThreadGroup(contentEl) {
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
-        threadGroupEl = this._createCommentThreadGroup(patchNum, isOnParent,
-            commentSide);
+        threadGroupEl = document.createElement('gr-diff-comment-thread-group');
         contentEl.appendChild(threadGroupEl);
       }
-      return threadGroupEl;
-    },
-
-    /**
-     * @param {number} patchNum
-     * @param {boolean} isOnParent
-     * @param {!string} commentSide
-     * @return {!Object}
-     */
-    _createCommentThreadGroup(patchNum, isOnParent, commentSide) {
-      const threadGroupEl =
-          document.createElement('gr-diff-comment-thread-group');
-      threadGroupEl.changeNum = this.changeNum;
-      threadGroupEl.commentSide = commentSide;
-      threadGroupEl.patchForNewThreads = patchNum;
-      threadGroupEl.path = this.path;
-      threadGroupEl.isOnParent = isOnParent;
-      threadGroupEl.projectName = this.projectName;
-      threadGroupEl.parentIndex = this._parentIndex;
       return threadGroupEl;
     },
 
@@ -640,13 +622,6 @@
 
     clearDiffContent() {
       this.$.diffTable.innerHTML = null;
-    },
-
-    _projectConfigChanged(projectConfig) {
-      const threadEls = this.getThreadEls();
-      for (let i = 0; i < threadEls.length; i++) {
-        threadEls[i].projectConfig = projectConfig;
-      }
     },
 
     /** @return {!Array} */

@@ -115,7 +115,7 @@ public class EventUtil {
       Integer value = e.getValue() != null ? Integer.valueOf(e.getValue()) : null;
       result.put(
           e.getKey(),
-          ChangeJson.getApprovalInfo(accountState.getAccount().getId(), value, null, null, ts));
+          new ApprovalInfo(accountState.getAccount().getId().get(), value, null, null, ts));
     }
     return result;
   }

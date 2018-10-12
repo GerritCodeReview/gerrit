@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25261ef6_685dd11f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1016502
+      },
+      "writtenOn": "2018-10-12T08:35:44Z",
+      "side": 1,
+      "message": "Did you need to reference bug 9836 as well?",
+      "revId": "17e14e8476270f9ee900b94b3619503ad2a82cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

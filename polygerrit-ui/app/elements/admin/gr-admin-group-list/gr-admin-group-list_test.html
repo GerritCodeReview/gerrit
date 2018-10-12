@@ -134,7 +134,7 @@ limitations under the License.
         };
         element._paramsChanged(value).then(() => {
           assert.isTrue(element.$.restAPI.getGroups.lastCall
-              .calledWithExactly('test', 25, 25));
+              .calledWithExactly('test', 25, 25, false));
           done();
         });
       });

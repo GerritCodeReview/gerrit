@@ -85,7 +85,7 @@
       this._offset = this.getOffsetValue(params);
 
       return this._getRepos(this._filter, this._reposPerPage,
-          this._offset);
+          this._offset, false);
     },
 
     /**
@@ -114,9 +114,9 @@
       });
     },
 
-    _getRepos(filter, reposPerPage, offset) {
+    _getRepos(filter, reposPerPage, offset, noCache) {
       this._repos = [];
-      return this.$.restAPI.getRepos(filter, reposPerPage, offset)
+      return this.$.restAPI.getRepos(filter, reposPerPage, offset, noCache)
           .then(repos => {
             // Late response.
             if (filter !== this._filter || !repos) { return; }
@@ -125,8 +125,15 @@
           });
     },
 
+    _refreshReposList() {
+      return this._getRepos(this._filter, this._reposPerPage,
+          this._offset, true);
+    },
+
     _handleCreateRepo() {
-      this.$.createNewModal.handleCreateRepo();
+      this.$.createNewModal.handleCreateRepo().then(() => {
+        this._refreshReposList();
+      });
     },
 
     _handleCloseCreate() {

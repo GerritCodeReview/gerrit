@@ -82,7 +82,7 @@
       this._offset = this.getOffsetValue(params);
 
       return this._getGroups(this._filter, this._groupsPerPage,
-          this._offset);
+          this._offset, false);
     },
 
     /**
@@ -111,9 +111,9 @@
       });
     },
 
-    _getGroups(filter, groupsPerPage, offset) {
+    _getGroups(filter, groupsPerPage, offset, noCache) {
       this._groups = [];
-      return this.$.restAPI.getGroups(filter, groupsPerPage, offset)
+      return this.$.restAPI.getGroups(filter, groupsPerPage, offset, noCache)
           .then(groups => {
             if (!groups) {
               return;
@@ -128,8 +128,15 @@
           });
     },
 
+    _refreshGroupsList() {
+      return this._getGroups(this._filter, this._groupsPerPage,
+          this._offset, true);
+    },
+
     _handleCreateGroup() {
-      this.$.createNewModal.handleCreateGroup();
+      this.$.createNewModal.handleCreateGroup().then(() => {
+        this._refreshGroupsList();
+      });
     },
 
     _handleCloseCreate() {

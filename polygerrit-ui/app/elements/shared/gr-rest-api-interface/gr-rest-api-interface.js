@@ -1527,14 +1527,26 @@
      * @param {string} filter
      * @param {number} groupsPerPage
      * @param {number=} opt_offset
+     * @param {boolean=} noCache
      * @return {!Promise<?Object>}
      */
-    getGroups(filter, groupsPerPage, opt_offset) {
+    getGroups(filter, groupsPerPage, opt_offset, noCache) {
       const offset = opt_offset || 0;
 
+      const url = `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
+        this._computeFilter(filter);
+
+      if (noCache) {
+        if (this._sharedFetchPromises[url] !== undefined) {
+          this._sharedFetchPromises[url] = undefined;
+        }
+        if (this._cache[url] !== undefined) {
+          this._cache[url] = undefined;
+        }
+      }
+
       return this._fetchSharedCacheURL({
-        url: `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
-            this._computeFilter(filter),
+        url: `${url}`,
         anonymizedUrl: '/groups/?*',
       });
     },
@@ -1543,9 +1555,10 @@
      * @param {string} filter
      * @param {number} reposPerPage
      * @param {number=} opt_offset
+     * @param {boolean=} noCache
      * @return {!Promise<?Object>}
      */
-    getRepos(filter, reposPerPage, opt_offset) {
+    getRepos(filter, reposPerPage, opt_offset, noCache) {
       const defaultFilter = 'state:active OR state:read-only';
       const namePartDelimiters = /[@.\-\s\/_]/g;
       const offset = opt_offset || 0;
@@ -1572,11 +1585,22 @@
       filter = filter.trim();
       const encodedFilter = encodeURIComponent(filter);
 
+      const url = `/projects/?n=${reposPerPage + 1}&S=${offset}` +
+        `&query=${encodedFilter}`;
+
+      if (noCache) {
+        if (this._sharedFetchPromises[url] !== undefined) {
+          this._sharedFetchPromises[url] = undefined;
+        }
+        if (this._cache[url] !== undefined) {
+          this._cache[url] = undefined;
+        }
+      }
+
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       return this._fetchSharedCacheURL({
-        url: `/projects/?n=${reposPerPage + 1}&S=${offset}` +
-            `&query=${encodedFilter}`,
+        url: `${url}`,
         anonymizedUrl: '/projects/?*',
       });
     },

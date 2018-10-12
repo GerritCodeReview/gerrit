@@ -96,6 +96,18 @@ limitations under the License.
       });
     });
 
+    test('cache invalidation', () => {
+      element._cache.set('/foo/bar', 1);
+      element._cache.set('/bar', 2);
+      element._sharedFetchPromises['/foo/bar'] = 3;
+      element._sharedFetchPromises['/bar'] = 4;
+      element._invalidateSharedFetchPromisesPrefix('/foo/');
+      assert.isFalse(element._cache.has('/foo/bar'));
+      assert.isTrue(element._cache.has('/bar'));
+      assert.isUndefined(element._sharedFetchPromises['/foo/bar']);
+      assert.strictEqual(4, element._sharedFetchPromises['/bar']);
+    });
+
     test('params are properly encoded', () => {
       let url = element._urlWithParams('/path/', {
         sp: 'hola',
@@ -935,6 +947,31 @@ limitations under the License.
       });
     });
 
+    test('normal use', () => {
+      const defaultQuery = 'state%3Aactive%20OR%20state%3Aread-only';
+
+      assert.equal(element._getReposUrl('test', 25),
+          '/projects/?n=26&S=0&query=test');
+
+      assert.equal(element._getReposUrl(null, 25),
+          `/projects/?n=26&S=0&query=${defaultQuery}`);
+
+      assert.equal(element._getReposUrl('test', 25, 25),
+          '/projects/?n=26&S=25&query=test');
+    });
+
+    test('invalidateReposCache', () => {
+      const url = '/projects/?n=26&S=0&query=test';
+
+      element._cache.set(url, {});
+
+      element.invalidateReposCache('test', 25);
+
+      assert.isUndefined(element._sharedFetchPromises[url]);
+
+      assert.isFalse(element._cache.has(url));
+    });
+
     suite('getRepos', () => {
       const defaultQuery = 'state%3Aactive%20OR%20state%3Aread-only';
 
@@ -999,11 +1036,57 @@ limitations under the License.
       });
     });
 
-    test('getGroups filter regex', () => {
-      sandbox.stub(element, '_fetchSharedCacheURL');
-      element.getGroups('^test.*', 25);
-      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
-          '/groups/?n=26&S=0&r=%5Etest.*');
+    test('_getGroupsUrl normal use', () => {
+      assert.equal(element._getGroupsUrl('test', 25),
+          '/groups/?n=26&S=0&m=test');
+
+      assert.equal(element._getGroupsUrl(null, 25),
+          '/groups/?n=26&S=0');
+
+      assert.equal(element._getGroupsUrl('test', 25, 25),
+          '/groups/?n=26&S=25&m=test');
+    });
+
+    test('invalidateGroupsCache', () => {
+      const url = '/groups/?n=26&S=0&m=test';
+
+      element._cache.set(url, {});
+
+      element.invalidateGroupsCache('test', 25);
+
+      assert.isUndefined(element._sharedFetchPromises[url]);
+
+      assert.isFalse(element._cache.has(url));
+    });
+
+    suite('getGroups', () => {
+      setup(() => {
+        sandbox.stub(element, '_fetchSharedCacheURL');
+      });
+
+      test('normal use', () => {
+        element.getGroups('test', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/groups/?n=26&S=0&m=test');
+
+        element.getGroups(null, 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/groups/?n=26&S=0');
+
+        element.getGroups('test', 25, 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/groups/?n=26&S=25&m=test');
+      });
+
+      test('regex', () => {
+        element.getGroups('^test.*', 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/groups/?n=26&S=0&r=%5Etest.*');
+
+        element.getGroups('^test.*', 25, 25);
+        assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+            '/groups/?n=26&S=25&r=%5Etest.*');
+      });
     });
 
     test('gerrit auth is used', () => {

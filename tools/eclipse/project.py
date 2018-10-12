@@ -128,7 +128,9 @@ def gen_plugin_classpath(root):
         if path.exists(path.join(root, 'src', 'test', 'java')):
             testpath = """
   <classpathentry excluding="**/BUILD" kind="src" path="src/test/java"\
- out="eclipse-out/test"/>"""
+ out="eclipse-out/test">
+    <attributes><attribute name="test" value="true"/></attributes>
+  </classpathentry>"""
         else:
             testpath = ""
         print("""\
@@ -161,6 +163,13 @@ def gen_classpath(ext):
             e.setAttribute('output', out)
         if exported:
             e.setAttribute('exported', 'true')
+        if out and "test" in out:
+            atts = doc.createElement('attributes')
+            testAtt = doc.createElement('attribute')
+            testAtt.setAttribute('name', 'test')
+            testAtt.setAttribute('value', 'true')
+            atts.appendChild(testAtt)
+            e.appendChild(atts)
         doc.documentElement.appendChild(e)
 
     doc = make_classpath()

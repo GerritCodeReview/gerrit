@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.logging.TraceContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,7 +47,8 @@ public abstract class SshCommand extends BaseCommand {
               stderr.flush();
             }
           }
-        });
+        },
+        AccessPath.SSH_COMMAND);
   }
 
   protected abstract void run() throws UnloggedFailure, Failure, Exception;

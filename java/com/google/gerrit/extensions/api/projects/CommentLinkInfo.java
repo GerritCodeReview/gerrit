@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.common.base.MoreObjects;
 import java.util.Objects;
 
 public class CommentLinkInfo {
@@ -42,5 +43,16 @@ public class CommentLinkInfo {
   @Override
   public int hashCode() {
     return Objects.hash(match, link, html, enabled);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("name", name)
+        .add("match", match)
+        .add("link", link)
+        .add("html", html)
+        .add("enabled", enabled)
+        .toString();
   }
 }

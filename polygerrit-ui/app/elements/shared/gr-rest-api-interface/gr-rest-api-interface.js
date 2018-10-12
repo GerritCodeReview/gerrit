@@ -169,6 +169,16 @@
     delete(key) {
       this._cache().delete(key);
     }
+
+    invalidatePrefix(prefix) {
+      const newMap = new Map();
+      for (const [key, value] of this._cache().entries()) {
+        if (!key.startsWith(prefix)) {
+          newMap.set(key, value);
+        }
+      }
+      this._data.set(window.CANONICAL_PATH, newMap);
+    }
   }
 
   Polymer({
@@ -1207,6 +1217,20 @@
       return this._sharedFetchPromises[req.url];
     },
 
+    /**
+     * @param {string} prefix
+     */
+    _invalidateSharedFetchPromisesPrefix(prefix) {
+      const newObject = {};
+      Object.entries(this._sharedFetchPromises).forEach(([key, value]) => {
+        if (!key.startsWith(prefix)) {
+          newObject[key] = value;
+        }
+      });
+      this._sharedFetchPromises = newObject;
+      this._cache.invalidatePrefix(prefix);
+    },
+
     _isNarrowScreen() {
       return window.innerWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX;
     },
@@ -1527,25 +1551,20 @@
      * @param {string} filter
      * @param {number} groupsPerPage
      * @param {number=} opt_offset
-     * @return {!Promise<?Object>}
      */
-    getGroups(filter, groupsPerPage, opt_offset) {
+    _getGroupsUrl(filter, groupsPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
-      return this._fetchSharedCacheURL({
-        url: `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
-            this._computeFilter(filter),
-        anonymizedUrl: '/groups/?*',
-      });
+      return `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
+        this._computeFilter(filter);
     },
 
     /**
      * @param {string} filter
      * @param {number} reposPerPage
      * @param {number=} opt_offset
-     * @return {!Promise<?Object>}
      */
-    getRepos(filter, reposPerPage, opt_offset) {
+    _getReposUrl(filter, reposPerPage, opt_offset) {
       const defaultFilter = 'state:active OR state:read-only';
       const namePartDelimiters = /[@.\-\s\/_]/g;
       const offset = opt_offset || 0;
@@ -1572,11 +1591,46 @@
       filter = filter.trim();
       const encodedFilter = encodeURIComponent(filter);
 
+      return `/projects/?n=${reposPerPage + 1}&S=${offset}` +
+        `&query=${encodedFilter}`;
+    },
+
+    invalidateGroupsCache() {
+      this._invalidateSharedFetchPromisesPrefix('/groups/?');
+    },
+
+    invalidateReposCache(filter, reposPerPage, opt_offset) {
+      this._invalidateSharedFetchPromisesPrefix('/projects/?');
+    },
+
+    /**
+     * @param {string} filter
+     * @param {number} groupsPerPage
+     * @param {number=} opt_offset
+     * @return {!Promise<?Object>}
+     */
+    getGroups(filter, groupsPerPage, opt_offset) {
+      const url = this._getGroupsUrl(filter, groupsPerPage, opt_offset);
+
+      return this._fetchSharedCacheURL({
+        url,
+        anonymizedUrl: '/groups/?*',
+      });
+    },
+
+    /**
+     * @param {string} filter
+     * @param {number} reposPerPage
+     * @param {number=} opt_offset
+     * @return {!Promise<?Object>}
+     */
+    getRepos(filter, reposPerPage, opt_offset) {
+      const url = this._getReposUrl(filter, reposPerPage, opt_offset);
+
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       return this._fetchSharedCacheURL({
-        url: `/projects/?n=${reposPerPage + 1}&S=${offset}` +
-            `&query=${encodedFilter}`,
+        url,
         anonymizedUrl: '/projects/?*',
       });
     },

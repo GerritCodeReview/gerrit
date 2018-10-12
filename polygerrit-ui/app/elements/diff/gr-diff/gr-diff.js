@@ -60,9 +60,9 @@
      */
 
      /**
-      * Fired when a draft is added or edited.
+      * Fired when a comment is created
       *
-      * @event draft-interaction
+      * @event create-comment-at-location
       */
 
     properties: {
@@ -209,6 +209,30 @@
       'comment-save': '_handleCommentSave',
       'create-comment': '_handleCreateComment',
     },
+
+    attached() {
+      this._nodeObserver = Polymer.dom(this).observeNodes(info => {
+        const threadEls = info.addedNodes.filter(
+            node => node.nodeType === Node.ELEMENT_NODE &&
+            node.classList.contains('comment-thread'));
+        for (const threadEl of threadEls) {
+          const lineNum = threadEl.getAttribute('line-num');
+          const commentSide = threadEl.getAttribute('comment-side');
+          const lineEl = this.$.diffBuilder.getLineElByNumber(lineNum, commentSide);
+          const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
+          const contentEl = contentText.parentElement;
+          // TODO(oler): Figure out what we need isOnParent for.
+          const threadGroupEl = this._getOrCreateThreadGroup(contentEl, 'todo', commentSide, false);
+          threadGroupEl.appendChild(threadEl);
+          console.log(`Added a thread ${threadEl} at ${commentSide}-${lineNum}`);
+        }
+      });
+    },
+
+    detached() {
+      Polymer.dom(this).unobserveNodes(this._nodeObserver);
+    },
+
 
     /** Cancel any remaining diff builder rendering work. */
     cancel() {
@@ -364,17 +388,25 @@
      * @param {!Object=} opt_range
      */
     _createComment(lineEl, opt_lineNum, opt_side, opt_range) {
-      this.dispatchEvent(new CustomEvent('draft-interaction', {bubbles: true}));
       const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       const contentEl = contentText.parentElement;
       const side = opt_side ||
           this._getCommentSideByLineAndContent(lineEl, contentEl);
       const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       const isOnParent =
-        this._getIsParentCommentByLineAndContent(lineEl, contentEl);
-      const threadEl = this._getOrCreateThread(contentEl, patchNum,
-          side, isOnParent, opt_range);
-      threadEl.addOrEditDraft(opt_lineNum, opt_range);
+          this._getIsParentCommentByLineAndContent(lineEl, contentEl);
+      this.dispatchEvent(new CustomEvent('create-comment-at-location', {
+        bubbles: true,
+        detail: {
+          lineEl,
+          lineNum: opt_lineNum,
+          side,
+          patchNum,
+          isOnParent,
+          parentIndex: this._parentIndex,
+          range: opt_range,
+        },
+      }));
     },
 
     /**
@@ -407,14 +439,8 @@
      */
     _getOrCreateThread(contentEl, patchNum, commentSide,
         isOnParent, opt_range) {
-      // Check if thread group exists.
-      let threadGroupEl = this._getThreadGroupForLine(contentEl);
-      if (!threadGroupEl) {
-        threadGroupEl = this._createCommentThreadGroup(patchNum, isOnParent,
-            commentSide);
-        contentEl.appendChild(threadGroupEl);
-      }
-
+      const threadGroupEl = this._getOrCreateThreadGroup(
+          contentEl, patchNum, commentSide, isOnParent);
       let threadEl = this._getThread(threadGroupEl, commentSide, opt_range);
 
       if (!threadEl) {
@@ -423,6 +449,26 @@
         threadEl = this._getThread(threadGroupEl, commentSide, opt_range);
       }
       return threadEl;
+    },
+
+    /**
+     * Gets or creates a comment thread group for a specific spot on a diff.
+     *
+     * @param {!Object} contentEl
+     * @param {number} patchNum
+     * @param {string} commentSide
+     * @param {boolean} isOnParent
+     * @return {!Object}
+     */
+    _getOrCreateThreadGroup(contentEl, patchNum, commentSide, isOnParent) {
+      // Check if thread group exists.
+      let threadGroupEl = this._getThreadGroupForLine(contentEl);
+      if (!threadGroupEl) {
+        threadGroupEl = this._createCommentThreadGroup(patchNum, isOnParent,
+            commentSide);
+        contentEl.appendChild(threadGroupEl);
+      }
+      return threadGroupEl;
     },
 
     /**

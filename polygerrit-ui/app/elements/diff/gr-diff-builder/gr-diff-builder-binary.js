@@ -20,10 +20,10 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderBinary) { return; }
 
-  function GrDiffBuilderBinary(diff, comments, parentIndex, changeNum, path,
-      projectName, prefs, outputEl) {
-    GrDiffBuilder.call(this, diff, comments, parentIndex, changeNum, path,
-        projectName, prefs, outputEl);
+  function GrDiffBuilderBinary(diff, patchRange, commentThreadEls, prefs,
+      outputEl) {
+    GrDiffBuilder.call(this, diff, patchRange, commentThreadEls, prefs,
+        outputEl);
   }
 
   GrDiffBuilderBinary.prototype = Object.create(GrDiffBuilder.prototype);

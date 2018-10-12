@@ -41,9 +41,6 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
-      });
       element = fixture('basic');
     });
 
@@ -51,115 +48,26 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('getThreadEl', () => {
-      const range = {
-        start_line: 1,
-        start_character: 1,
-        end_line: 1,
-        end_character: 2,
-      };
-      const threads = [
-        {
-          rootId: 'sallys_confession',
-          commentSide: 'left',
-          comments: [
-            {
-              id: 'sallys_confession',
-              message: 'i like you, jack',
-              updated: '2015-12-23 15:00:20.396000000',
-              __commentSide: 'left',
-            }, {
-              id: 'jacks_reply',
-              message: 'i like you, too',
-              updated: '2015-12-24 15:01:20.396000000',
-              __commentSide: 'left',
-              in_reply_to: 'sallys_confession',
-            }, {
-              id: 'new_draft',
-              message: 'i do not like either of you',
-              __commentSide: 'left',
-              __draft: true,
-              in_reply_to: 'sallys_confession',
-              updated: '2015-12-20 15:01:20.396000000',
-            },
-          ],
-        },
-        {
-          rootId: 'right_side_comment',
-          commentSide: 'right',
-          comments: [
-            {
-              id: 'right_side_comment',
-              message: 'right side comment',
-              __commentSide: 'right',
-              __draft: true,
-              updated: '2015-12-20 15:01:20.396000000',
-            },
-          ],
-        }, {
-          rootId: 'betsys_confession',
-          commentSide: 'left',
-          range,
-          comments: [
-            {
-              id: 'betsys_confession',
-              message: 'i like you more, jack',
-              updated: '2015-12-24 15:00:10.396000000',
-              range,
-              __commentSide: 'left',
-            },
-          ],
-        },
-      ];
-      for (const thread of threads) {
-        Polymer.dom(element).appendChild(Gerrit.createThreadElement(
-            thread, 1, '2', 'some/path', 'some_project'));
-      }
-
-      flushAsynchronousOperations();
-      assert.deepEqual(
-          element.getThreadEl('right').rootId, 'right_side_comment');
-      assert.deepEqual(element.getThreadEl('right').comments.length, 1);
-      assert.deepEqual(element.getThreadEl('left').rootId, 'sallys_confession');
-      assert.deepEqual(element.getThreadEl('left').comments.length, 3);
-      assert.deepEqual(element.getThreadEl('left', range).rootId,
-          'betsys_confession');
-      assert.deepEqual(element.getThreadEl('left', range).comments.length, 1);
-    });
-
     test('thread-discard handling', () => {
       const threads = [
         {comments: [{id: 4711}]},
         {comments: [{id: 42}]},
       ];
-      for (const thread of threads) {
-        const threadEl = Gerrit.createThreadElement(
-            thread, 1, 2, 'some/path', 'Some Project');
+      const threadEls = threads.map(thread => Gerrit.createThreadElement(
+          thread, 1, 2, 'some/path', 'Some Project'));
+      assert.equal(threadEls.length, 2);
+      assert.equal(threadEls[0].rootId, 4711);
+      assert.equal(threadEls[1].rootId, 42);
+      for (const threadEl of threadEls) {
         Polymer.dom(element).appendChild(threadEl);
       }
 
-      element.threadEls[0].dispatchEvent(
+      threadEls[0].dispatchEvent(
           new CustomEvent('thread-discard', {detail: {rootId: 4711}}));
-      assert.equal(element.threadEls.length, 1);
-      assert.equal(element.threadEls[0].rootId, 42);
-    });
-
-    test('_rangesEqual', () => {
-      const range1 =
-          {startLine: 123, startChar: 345, endLine: 234, endChar: 456};
-      const range2 =
-          {startLine: 1, startChar: 2, endLine: 3, endChar: 4};
-
-      assert.isTrue(element._rangesEqual(null, null));
-      assert.isTrue(element._rangesEqual(null, undefined));
-      assert.isTrue(element._rangesEqual(undefined, null));
-      assert.isTrue(element._rangesEqual(undefined, undefined));
-
-      assert.isFalse(element._rangesEqual(range1, null));
-      assert.isFalse(element._rangesEqual(null, range1));
-      assert.isFalse(element._rangesEqual(range1, range2));
-
-      assert.isTrue(element._rangesEqual(range1, Object.assign({}, range1)));
+      const attachedThreads = element.queryAllEffectiveChildren(
+          'gr-diff-comment-thread');
+      assert.equal(attachedThreads.length, 1);
+      assert.equal(attachedThreads[0].rootId, 42);
     });
   });
 </script>

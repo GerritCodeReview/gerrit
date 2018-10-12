@@ -46,7 +46,7 @@
     const threadEl = document.createElement('gr-diff-comment-thread');
     threadEl.comments = thread.comments;
     threadEl.commentSide = thread.commentSide;
-    threadEl.isOnParent = thread.isOnParent;
+    threadEl.isOnParent = !!thread.isOnParent;
     threadEl.parentIndex = parentIndex;
     threadEl.changeNum = changeNum;
     threadEl.patchNum = thread.patchNum;
@@ -73,46 +73,6 @@
     is: 'gr-diff-comment-thread-group',
 
     properties: {
-    },
-
-    get threadEls() {
-      return Polymer.dom(this).queryDistributedElements(
-          'gr-diff-comment-thread');
-    },
-
-    /**
-     * Fetch the thread element at the given range, or the range-less thread
-     * element on the line if no range is provided, lineNum, and side.
-     *
-     * @param {string} side
-     * @param {!Object=} opt_range
-     * @return {!Object|undefined}
-     */
-    getThreadEl(side, opt_range) {
-      const threads = [].filter.call(this.threadEls,
-          thread => this._rangesEqual(thread.range, opt_range))
-          .filter(thread => thread.commentSide === side);
-      if (threads.length === 1) {
-        return threads[0];
-      }
-    },
-
-    /**
-     * Compare two ranges. Either argument may be falsy, but will only return
-     * true if both are falsy or if neither are falsy and have the same position
-     * values.
-     *
-     * @param {Object=} a range 1
-     * @param {Object=} b range 2
-     * @return {boolean}
-     */
-    _rangesEqual(a, b) {
-      if (!a && !b) { return true; }
-      if (!a || !b) { return false; }
-      return a.startLine === b.startLine &&
-          a.startChar === b.startChar &&
-          a.endLine === b.endLine &&
-          a.endChar === b.endChar;
     },
   });
 })();

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c67d6862_64c114c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-12T08:37:36Z",
+      "side": 1,
+      "message": "I don\u0027t know. I failed to make the Bazel command-line test runs use the log4.properties file. I believe the log4.properties is now no longer used, but I\u0027m not brave enough to remove it.",
+      "parentUuid": "4564fedb_329f6447",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "e37364d69f773841672a8db77689028bc9813b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5bcde9_0799c718",
         "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2018-10-12T08:10:06Z",
       "side": 1,
       "message": "optional: consider using a map (or 3 lists) instead:\n\nList\u003cString\u003e classesAtInfo \u003d ImmutableList.of(\n  \"org.apache.mina\",\n  \"org.apache.sshd.common\"\n);\n\n\nclassesAtInfo.forEach(c -\u003e Logger.getLogger(c).setLevel(Level.INFO));",
+      "revId": "e37364d69f773841672a8db77689028bc9813b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f44de7c_fc036240",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-12T08:37:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd5bcde9_0799c718",
       "revId": "e37364d69f773841672a8db77689028bc9813b2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

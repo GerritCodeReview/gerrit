@@ -8,7 +8,7 @@ compile the code.
 Create a new client workspace:
 
 ----
-  git clone --recursive https://gerrit.googlesource.com/gerrit
+  git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
   cd gerrit
 ----
 

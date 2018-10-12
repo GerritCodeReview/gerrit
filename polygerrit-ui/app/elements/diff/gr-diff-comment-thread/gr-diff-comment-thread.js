@@ -17,8 +17,71 @@
 (function() {
   'use strict';
 
+  window.Gerrit = window.Gerrit || {};
+
+  /**
+   * @param {!Array<Object>} threadElements
+   * @param {!{beforeNumber: (number|string|undefined), afterNumber: (number|string|undefined)}}
+   *     lineInfo
+   * @param {!GrDiffBuilder.Side=} side The side (LEFT, RIGHT, BOTH) for which
+   *     to return the threads (default: BOTH).
+   * @param {!{startLine: (number|undefined), endLine: (number|undefined), startChar: (number|undefined), endChar: (number|undefined)}=}
+   *     range (optional) range for which to return the thread elements
+   * @return {!Array<!Object>} The thread elements matching the given location.
+   */
+  window.Gerrit.filterThreadElsForLocation = function(
+      threadElements, lineInfo, side = GrDiffBuilder.Side.BOTH,
+      range = undefined) {
+    function matchesRange(threadEl) {
+      function attributeEquals(attributeName, value) {
+        return Number(threadEl.getAttribute(attributeName)) === value;
+      }
+      return !range || attributeEquals('range-start-line', range.startLine) &&
+          attributeEquals('range-end-line', range.endLine) &&
+          attributeEquals('range-start-char', range.startChar) &&
+          attributeEquals('range-end-char', range.endChar);
+    }
+    function matchesLeftLine(threadEl) {
+      return threadEl.getAttribute('comment-side') ==
+          GrDiffBuilder.Side.LEFT &&
+          threadEl.getAttribute('line-num') == lineInfo.beforeNumber &&
+          matchesRange(threadEl);
+    }
+    function matchesRightLine(threadEl) {
+      return threadEl.getAttribute('comment-side') ==
+          GrDiffBuilder.Side.RIGHT &&
+          threadEl.getAttribute('line-num') == lineInfo.afterNumber &&
+          matchesRange(matchesRange);
+    }
+    function matchesFileComment(threadEl) {
+      return (side === GrDiffBuilder.Side.BOTH ||
+              threadEl.getAttribute('comment-side') == side) &&
+            // line/range comments have 1-based line set, if line is falsy it's
+            // a file comment
+            !threadEl.getAttribute('line-num');
+    }
+
+    // Select the appropriate matchers for the desired side and line
+    // If side is BOTH, we want both the left and right matcher.
+    const matchers = [];
+    if (side !== GrDiffBuilder.Side.RIGHT) {
+      matchers.push(matchesLeftLine);
+    }
+    if (side !== GrDiffBuilder.Side.LEFT) {
+      matchers.push(matchesRightLine);
+    }
+    if (lineInfo.afterNumber === GrDiffLine.FILE ||
+        lineInfo.beforeNumber === GrDiffLine.FILE) {
+      matchers.push(matchesFileComment);
+    }
+    return threadElements.filter(threadEl =>
+        matchers.find(matcher => matcher(threadEl)));
+  };
+
   const UNRESOLVED_EXPAND_COUNT = 5;
   const NEWLINE_PATTERN = /\n/g;
+
+  window.Gerrit = window.Gerrit || {};
 
   Polymer({
     is: 'gr-diff-comment-thread',

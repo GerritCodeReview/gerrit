@@ -20,9 +20,9 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderSideBySide) { return; }
 
-  function GrDiffBuilderSideBySide(diff, comments, createThreadGroupFn, prefs,
+  function GrDiffBuilderSideBySide(diff, comments, commentThreadElements, prefs,
       outputEl, layers) {
-    GrDiffBuilder.call(this, diff, comments, createThreadGroupFn, prefs,
+    GrDiffBuilder.call(this, diff, comments, commentThreadElements, prefs,
         outputEl, layers);
   }
   GrDiffBuilderSideBySide.prototype = Object.create(GrDiffBuilder.prototype);

@@ -20,9 +20,9 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderUnified) { return; }
 
-  function GrDiffBuilderUnified(diff, comments, createThreadGroupFn, prefs,
+  function GrDiffBuilderUnified(diff, comments, commentThreadElements, prefs,
       outputEl, layers) {
-    GrDiffBuilder.call(this, diff, comments, createThreadGroupFn, prefs,
+    GrDiffBuilder.call(this, diff, comments, commentThreadElements, prefs,
         outputEl, layers);
   }
   GrDiffBuilderUnified.prototype = Object.create(GrDiffBuilder.prototype);

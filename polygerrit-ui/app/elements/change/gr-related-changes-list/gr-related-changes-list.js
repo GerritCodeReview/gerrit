@@ -57,9 +57,10 @@
         type: Object,
         value() { return {changes: []}; },
       },
+      /** @type {?} */
       _submittedTogether: {
-        type: Array,
-        value() { return []; },
+        type: Object,
+        value() { return {changes: []}; },
       },
       _conflicts: {
         type: Array,
@@ -90,7 +91,7 @@
       this.hidden = true;
 
       this._relatedResponse = {changes: []};
-      this._submittedTogether = [];
+      this._submittedTogether = {changes: []};
       this._conflicts = [];
       this._cherryPicks = [];
       this._sameTopic = [];
@@ -338,6 +339,16 @@
         --pos;
       }
       return connected;
+    },
+
+    _computeSubmittedTogetherEmpty(submittedTogether) {
+      return !submittedTogether || (
+          submittedTogether.changes.length === 0 &&
+          !submittedTogether.non_visible_changes);
+    },
+
+    _computeChangeOrChanges(n) {
+      return n === 1 ? 'change' : 'changes';
     },
   });
 })();

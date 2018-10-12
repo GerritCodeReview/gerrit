@@ -42,14 +42,10 @@
    */
   const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, parentIndex, changeNum, path,
-      projectName, prefs, outputEl, layers) {
+  function GrDiffBuilder(diff, comments, commentThreadElements, prefs, outputEl,
+      layers) {
     this._diff = diff;
     this._comments = comments;
-    this._parentIndex = parentIndex;
-    this._changeNum = changeNum;
-    this._path = path;
-    this._projectName = projectName;
     this._prefs = prefs;
     this._outputEl = outputEl;
     this.groups = [];
@@ -71,28 +67,7 @@
       }
     }
 
-    if (!this._comments) {
-      this._threadEls = [];
-      return;
-    }
-
-    const allComments = [];
-    for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
-      // This is needed by the threading.
-      for (const comment of this._comments[side]) {
-        comment.__commentSide = side;
-      }
-      allComments.push(...this._comments[side]);
-    }
-    const threads = this._createThreads(allComments);
-    this._threadEls = threads.map(thread => {
-      // TODO(oler): Figure out how to determine that here already - for now,
-      //             this is set later.
-      const isOnParent = false;
-      return Gerrit.createThreadElement(
-          thread, isOnParent, this._parentIndex, this._changeNum,
-          this._path, this._projectName);
-    });
+    this._commentThreadElements = commentThreadElements;
   }
 
   GrDiffBuilder.GroupType = {
@@ -346,109 +321,6 @@
   };
 
   /**
-   * @param {!Array<!Object>} threadEls
-   * @param {!GrDiffLine} lineInfo
-   * @param {!GrDiffBuilder.Side=} side The side (LEFT, RIGHT, BOTH) for which
-   *     to return the threads (default: BOTH).
-   */
-  GrDiffBuilder.prototype._filterThreadEls = function(
-      threadEls, lineInfo, side = GrDiffBuilder.Side.BOTH) {
-    function matchesLeftLine(threadEl) {
-      return threadEl.getAttribute('comment-side') ==
-          GrDiffBuilder.Side.LEFT &&
-          threadEl.getAttribute('line-num') == lineInfo.beforeNumber;
-    }
-    function matchesRightLine(threadEl) {
-      return threadEl.getAttribute('comment-side') ==
-          GrDiffBuilder.Side.RIGHT &&
-          threadEl.getAttribute('line-num') == lineInfo.afterNumber;
-    }
-    function matchesFileComment(threadEl) {
-      return (side === GrDiffBuilder.Side.BOTH ||
-              threadEl.getAttribute('comment-side') == side) &&
-            // line/range comments have 1-based line set, if line is falsy it's
-            // a file comment
-            !threadEl.getAttribute('line-num');
-    }
-
-    // Select the appropriate matchers for the desired side and line
-    // If side is BOTH, we want both the left and right matcher.
-    const matchers = [];
-    if (side !== GrDiffBuilder.Side.RIGHT) {
-      matchers.push(matchesLeftLine);
-    }
-    if (side !== GrDiffBuilder.Side.LEFT) {
-      matchers.push(matchesRightLine);
-    }
-    if (lineInfo.afterNumber === GrDiffLine.FILE ||
-        lineInfo.beforeNumber === GrDiffLine.FILE) {
-      matchers.push(matchesFileComment);
-    }
-    return threadEls.filter(threadEl =>
-        matchers.some(matcher => matcher(threadEl)));
-  };
-
-  /**
-   * @param {Array<Object>} comments
-   */
-  GrDiffBuilder.prototype._createThreads = function(comments) {
-    const sortedComments = comments.slice(0).sort((a, b) => {
-      if (b.__draft && !a.__draft ) { return 0; }
-      if (a.__draft && !b.__draft ) { return 1; }
-      return util.parseDate(a.updated) - util.parseDate(b.updated);
-    });
-
-    const threads = [];
-    for (const comment of sortedComments) {
-      // If the comment is in reply to another comment, find that comment's
-      // thread and append to it.
-      if (comment.in_reply_to) {
-        const thread = threads.find(thread =>
-            thread.comments.some(c => c.id === comment.in_reply_to));
-        if (thread) {
-          thread.comments.push(comment);
-          continue;
-        }
-      }
-
-      // Otherwise, this comment starts its own thread.
-      const newThread = {
-        start_datetime: comment.updated,
-        comments: [comment],
-        commentSide: comment.__commentSide,
-        patchNum: comment.patch_set,
-        rootId: comment.id || comment.__draftID,
-        lineNum: comment.line,
-      };
-      if (comment.range) {
-        newThread.range = Object.assign({}, comment.range);
-      }
-      threads.push(newThread);
-    }
-    return threads;
-  };
-
-  /**
-   * Returns the patch number that new comment threads should be attached to.
-   *
-   * @param {GrDiffLine} line The line new thread will be attached to.
-   * @param {string=} opt_side Set to LEFT to force adding it to the LEFT side -
-   *     will be ignored if the left is a parent or a merge parent
-   * @return {number} Patch set to attach the new thread to
-   */
-  GrDiffBuilder.prototype._determinePatchNumForNewThreads = function(
-      patchRange, line, opt_side) {
-    if ((line.type === GrDiffLine.Type.REMOVE ||
-         opt_side === GrDiffBuilder.Side.LEFT) &&
-        patchRange.basePatchNum !== 'PARENT' &&
-        !Gerrit.PatchSetBehavior.isMergeParent(patchRange.basePatchNum)) {
-      return patchRange.basePatchNum;
-    } else {
-      return patchRange.patchNum;
-    }
-  };
-
-  /**
    * Returns whether the comments on the given line are on a (merge) parent.
    *
    * @param {string} firstCommentSide
@@ -461,23 +333,23 @@
   GrDiffBuilder.prototype._determineIsOnParent = function(
       firstCommentSide, patchRange, line, opt_side) {
     return ((line.type === GrDiffLine.Type.REMOVE ||
-             opt_side === GrDiffBuilder.Side.LEFT) &&
+            opt_side === GrDiffBuilder.Side.LEFT) &&
             (patchRange.basePatchNum === 'PARENT' ||
-             Gerrit.PatchSetBehavior.isMergeParent(
-                 patchRange.basePatchNum))) ||
+            Gerrit.PatchSetBehavior.isMergeParent(
+                patchRange.basePatchNum))) ||
           firstCommentSide === 'PARENT';
   };
 
-  /**
+  /*
    * @param {!GrDiffLine} line
-   * @param {!GrDiffBuilder.Side=} side The side (LEFT, RIGHT, BOTH) for which to return
-   *     the thread group (default: BOTH).
+   * @param {!GrDiffBuilder.Side=} side The side (LEFT, RIGHT, BOTH) for which
+   *     to return the thread group (default: BOTH).
    * @return {!Object}
    */
   GrDiffBuilder.prototype._commentThreadGroupForLine = function(
       line, side = GrDiffBuilder.Side.BOTH) {
     const threadElsForGroup =
-        this._filterThreadEls(this._threadEls, line, side);
+        Gerrit.filterThreadElsForLocation(this._threadEls, line, side);
     if (!threadElsForGroup || threadElsForGroup.length === 0) {
       return null;
     }

@@ -20,10 +20,10 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderUnified) { return; }
 
-  function GrDiffBuilderUnified(diff, comments, parentIndex, changeNum, path,
-      projectName, prefs, outputEl, layers) {
-    GrDiffBuilder.call(this, diff, comments, parentIndex, changeNum, path,
-        projectName, prefs, outputEl, layers);
+  function GrDiffBuilderUnified(diff, patchRange, commentThreadEls, prefs,
+      outputEl, layers) {
+    GrDiffBuilder.call(this, diff, patchRange, commentThreadEls, prefs,
+        outputEl, layers);
   }
   GrDiffBuilderUnified.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderUnified.prototype.constructor = GrDiffBuilderUnified;

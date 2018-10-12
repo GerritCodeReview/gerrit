@@ -97,7 +97,7 @@ limitations under the License.
           Gerrit.DiffSide.RIGHT), [r5]);
     });
 
-    test('_filterThreadEls for file comments', () => {
+    test('filterThreadElsForLocation for file comments', () => {
       const line = {beforeNumber: 'FILE', afterNumber: 'FILE'};
 
       const l = document.createElement('div');
@@ -115,6 +115,39 @@ limitations under the License.
           Gerrit.DiffSide.LEFT), [l]);
       assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line,
           Gerrit.DiffSide.RIGHT), [r]);
+    });
+
+    test('filterThreadElsForLocation for range comments', () => {
+      const line = {beforeNumber: 3, afterNumber: 5};
+
+      const l3 = document.createElement('div');
+      l3.setAttribute('line-num', 3);
+      l3.setAttribute('comment-side', 'left');
+
+      const l3range1 = document.createElement('div');
+      l3range1.setAttribute('line-num', 3);
+      l3range1.setAttribute('comment-side', 'left');
+      l3range1.setAttribute('range-start-line', 3);
+      l3range1.setAttribute('range-end-line', 3);
+      l3range1.setAttribute('range-start-char', 2);
+      l3range1.setAttribute('range-end-char', 4);
+
+      const l3range2 = document.createElement('div');
+      l3range2.setAttribute('line-num', 3);
+      l3range2.setAttribute('comment-side', 'left');
+      l3range2.setAttribute('range-start-line', 3);
+      l3range2.setAttribute('range-end-line', 3);
+      l3range2.setAttribute('range-start-char', 3);
+      l3range2.setAttribute('range-end-char', 6);
+
+      const threadEls = [l3, l3range1, l3range2];
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line),
+          [l3, l3range1, l3range2]);
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.LEFT), [l3, l3range1, l3range2]);
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.LEFT,
+          {startLine: 3, endLine: 3, startChar: 2, endChar: 4}), [l3range1]);
     });
 
     test('comments are sorted correctly', () => {

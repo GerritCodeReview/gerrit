@@ -1527,16 +1527,12 @@
      * @param {string} filter
      * @param {number} groupsPerPage
      * @param {number=} opt_offset
-     * @return {!Promise<?Object>}
      */
-    getGroups(filter, groupsPerPage, opt_offset) {
+    _getGroupsUrl(filter, groupsPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
-      return this._fetchSharedCacheURL({
-        url: `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
-            this._computeFilter(filter),
-        anonymizedUrl: '/groups/?*',
-      });
+      return `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
+        this._computeFilter(filter);
     },
 
     /**
@@ -1545,7 +1541,7 @@
      * @param {number=} opt_offset
      * @return {!Promise<?Object>}
      */
-    getRepos(filter, reposPerPage, opt_offset) {
+    _getReposUrl(filter, reposPerPage, opt_offset) {
       const defaultFilter = 'state:active OR state:read-only';
       const namePartDelimiters = /[@.\-\s\/_]/g;
       const offset = opt_offset || 0;
@@ -1572,11 +1568,62 @@
       filter = filter.trim();
       const encodedFilter = encodeURIComponent(filter);
 
+      return `/projects/?n=${reposPerPage + 1}&S=${offset}` +
+        `&query=${encodedFilter}`;
+    },
+
+    /**
+     * @param {string} filter
+     * @param {number} groupsPerPage
+     * @param {number=} opt_offset
+     */
+    invalidateGroupsCache(filter, groupsPerPage, opt_offset) {
+      const url = this._getGroupsUrl(filter, groupsPerPage, opt_offset);
+
+      delete this._sharedFetchPromises[url];
+      this._cache.delete(url);
+    },
+
+    /**
+     * @param {string} filter
+     * @param {number} reposPerPage
+     * @param {number=} opt_offset
+     */
+    invalidateReposCache(filter, reposPerPage, opt_offset) {
+      const url = this._getReposUrl(filter, reposPerPage, opt_offset)
+
+      delete this._sharedFetchPromises[url];
+      this._cache.delete(url);
+    },
+
+    /**
+     * @param {string} filter
+     * @param {number} groupsPerPage
+     * @param {number=} opt_offset
+     * @return {!Promise<?Object>}
+     */
+    getGroups(filter, groupsPerPage, opt_offset) {
+      const url = this._getGroupsUrl(filter, groupsPerPage, opt_offset);
+
+      return this._fetchSharedCacheURL({
+        url: `${url}`,
+        anonymizedUrl: '/groups/?*',
+      });
+    },
+
+    /**
+     * @param {string} filter
+     * @param {number} reposPerPage
+     * @param {number=} opt_offset
+     * @return {!Promise<?Object>}
+     */
+    getRepos(filter, reposPerPage, opt_offset) {
+      const url = this._getReposUrl(filter, reposPerPage, opt_offset);
+
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       return this._fetchSharedCacheURL({
-        url: `/projects/?n=${reposPerPage + 1}&S=${offset}` +
-            `&query=${encodedFilter}`,
+        url: `${url}`,
         anonymizedUrl: '/projects/?*',
       });
     },

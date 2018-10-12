@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Singleton
 public class ContributorAgreementsChecker {
@@ -93,6 +94,38 @@ public class ContributorAgreementsChecker {
       List<AccountGroup.UUID> groupIds;
       groupIds = okGroupIds;
 
+      // matchProjects defaults to match all projects when missing.
+      List<Pattern> matchProjects = ca.getMatchProjects();
+      if (!matchProjects.isEmpty()) {
+        // Only checks projects that match when present.
+        boolean found = false;
+        for (Pattern pattern : matchProjects) {
+          if (pattern.matcher(project.get()).matches()) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          // Doesn't match, isn't checked.
+          continue;
+        }
+      }
+      // excludeProjects defaults to exclude no projects when missing.
+      List<Pattern> excludeProjects = ca.getExcludeProjects();
+      if (!excludeProjects.isEmpty()) {
+        // Doesn't check projects that match when present.
+        boolean found = false;
+        for (Pattern pattern : excludeProjects) {
+          if (pattern.matcher(project.get()).matches()) {
+            found = true;
+            break;
+          }
+        }
+        if (found) {
+          // Matches, isn't checked.
+          continue;
+        }
+      }
       for (PermissionRule rule : ca.getAccepted()) {
         if ((rule.getAction() == Action.ALLOW)
             && (rule.getGroup() != null)

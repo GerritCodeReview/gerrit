@@ -335,7 +335,11 @@ limitations under the License.
           };
 
           element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
-          element.comments = {left: [], right: []};
+          element.comments = {
+            left: [],
+            right: [],
+            meta: {patchRange: undefined},
+          };
           element.isImageDiff = true;
           element.prefs = {
             auto_hide_diff_table_header: true,
@@ -664,6 +668,7 @@ limitations under the License.
           element.comments = {
             left: [],
             right: [],
+            meta: {patchRange: undefined},
           };
           element.prefs = {
             context: 10,

@@ -24,25 +24,41 @@
     BOTH: 'both',
   };
 
+  /** @typedef {{startLine: number, endLine: number, startChar: number, endChar: number}} */
+  Gerrit.Range;
+
   /**
    * @param {!Array<Object>} threadEls
-   * @param {!{beforeNumber: (number|string|undefined), afterNumber: (number|string|undefined)}}
+   * @param {!{beforeNumber: (?number|string|undefined), afterNumber: (?number|string|undefined)}}
    *     lineInfo
    * @param {!Gerrit.DiffSide=} side The side (LEFT, RIGHT, BOTH) for
    *     which to return the threads (default: BOTH).
-   * @return {!Array<!Object>} The thread elements matching the given location.
+   * @param {!Gerrit.Range=}
+   *     range (optional) range for which to return the thread elements
+   * @return {!Array<!Node>} The thread elements matching the given location.
    */
   Gerrit.filterThreadElsForLocation = function(
-      threadEls, lineInfo, side = Gerrit.DiffSide.BOTH) {
+      threadEls, lineInfo, side = Gerrit.DiffSide.BOTH, range = undefined) {
+    function matchesRange(threadEl) {
+      function attributeEquals(attributeName, value) {
+        return Number(threadEl.getAttribute(attributeName)) === value;
+      }
+      return !range || attributeEquals('range-start-line', range.startLine) &&
+          attributeEquals('range-end-line', range.endLine) &&
+          attributeEquals('range-start-char', range.startChar) &&
+          attributeEquals('range-end-char', range.endChar);
+    }
     function matchesLeftLine(threadEl) {
       return threadEl.getAttribute('comment-side') ==
           Gerrit.DiffSide.LEFT &&
-          threadEl.getAttribute('line-num') == lineInfo.beforeNumber;
+          threadEl.getAttribute('line-num') == lineInfo.beforeNumber &&
+          matchesRange(threadEl);
     }
     function matchesRightLine(threadEl) {
       return threadEl.getAttribute('comment-side') ==
           Gerrit.DiffSide.RIGHT &&
-          threadEl.getAttribute('line-num') == lineInfo.afterNumber;
+          threadEl.getAttribute('line-num') == lineInfo.afterNumber &&
+          matchesRange(threadEl);
     }
     function matchesFileComment(threadEl) {
       return (side === Gerrit.DiffSide.BOTH ||

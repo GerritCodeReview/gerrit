@@ -29,7 +29,6 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -54,7 +53,7 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
 
   @Override
   public SiteIndexer.Result indexAll(final ProjectIndex index) {
-    ProgressMonitor progress = new TextProgressMonitor(new PrintWriter(progressOut));
+    ProgressMonitor progress = new TextProgressMonitor(newPrintWriter(progressOut));
     progress.start(2);
     List<Project.NameKey> names = collectProjects(progress);
     return reindexProjects(index, names, progress);

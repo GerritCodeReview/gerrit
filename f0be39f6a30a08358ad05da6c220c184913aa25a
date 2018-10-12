@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96e2f494_7602c5e6",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-10-12T13:26:41Z",
+      "side": 1,
+      "message": "Should read:\n\n    },\n    accessPath);",
+      "range": {
+        "startLine": 273,
+        "startChar": 5,
+        "endLine": 273,
+        "endChar": 8
+      },
+      "revId": "f0be39f6a30a08358ad05da6c220c184913aa25a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

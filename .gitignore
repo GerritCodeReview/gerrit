@@ -9,6 +9,7 @@
 .DS_Store
 .gwt_work_dir
 /.apt_generated
+/.apt_generated_tests
 /.bazel_path
 /.buckd
 /.classpath

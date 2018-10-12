@@ -121,7 +121,7 @@ limitations under the License.
           lineOfInterest: Object,
 
           /**
-           * @type {function(number, booleam, !string)}
+           * @type {function(number, !string)}
            */
           createCommentFn: Function,
 
@@ -133,6 +133,10 @@ limitations under the License.
 
         get diffElement() {
           return this.queryEffectiveChildren('#diffTable');
+        },
+
+        get _commentThreadElements() {
+          return this.queryAllEffectiveChildren('.comment-thread');
         },
 
         observers: [
@@ -313,13 +317,15 @@ limitations under the License.
           } else if (diff.binary) {
             // If the diff is binary, but not an image.
             return new GrDiffBuilderBinary(diff, comments, prefs,
-                this.diffElement);
+                 this.diffElement);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            builder = new GrDiffBuilderSideBySide(diff, comments, createFn,
-                prefs, this.diffElement, this._layers);
+            builder = new GrDiffBuilderSideBySide(diff, comments,
+                this._commentThreadElements, createFn, prefs, this.diffElement,
+                this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            builder = new GrDiffBuilderUnified(diff, comments, createFn, prefs,
-                this.diffElement, this._layers);
+            builder = new GrDiffBuilderUnified(diff, comments,
+                this._commentThreadElements, createFn, prefs, this.diffElement,
+                this._layers);
           }
           if (!builder) {
             throw Error('Unsupported diff view mode: ' + this.viewMode);

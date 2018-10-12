@@ -147,7 +147,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
       cds = sort(cds, hidden);
       SubmittedTogetherInfo info = new SubmittedTogetherInfo();
-      info.changes = json.create(jsonOpt).formatChangeDatas(cds);
+      info.changes = json.create(jsonOpt).format(cds);
       info.nonVisibleChanges = hidden;
       return info;
     } catch (OrmException | IOException e) {

@@ -61,7 +61,6 @@ import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
-import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.mail.Address;
@@ -104,7 +103,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -155,7 +153,13 @@ public class ChangeJson {
     }
 
     public ChangeJson create(Iterable<ListChangesOption> options) {
-      return factory.create(options);
+      return factory.create(options, Optional.empty());
+    }
+
+    public ChangeJson create(
+        Iterable<ListChangesOption> options,
+        PluginDefinedAttributesFactory pluginDefinedAttributesFactory) {
+      return factory.create(options, Optional.of(pluginDefinedAttributesFactory));
     }
 
     public ChangeJson create(ListChangesOption first, ListChangesOption... rest) {
@@ -164,7 +168,9 @@ public class ChangeJson {
   }
 
   public interface AssistedFactory {
-    ChangeJson create(Iterable<ListChangesOption> options);
+    ChangeJson create(
+        Iterable<ListChangesOption> options,
+        Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory);
   }
 
   @Singleton
@@ -211,11 +217,11 @@ public class ChangeJson {
   private final TrackingFooters trackingFooters;
   private final Metrics metrics;
   private final RevisionJson revisionJson;
+  private final Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory;
   private final boolean lazyLoad;
 
   private AccountLoader accountLoader;
   private FixInput fix;
-  private PluginDefinedAttributesFactory pluginDefinedAttributesFactory;
 
   @Inject
   ChangeJson(
@@ -233,7 +239,8 @@ public class ChangeJson {
       TrackingFooters trackingFooters,
       Metrics metrics,
       RevisionJson.Factory revisionJsonFactory,
-      @Assisted Iterable<ListChangesOption> options) {
+      @Assisted Iterable<ListChangesOption> options,
+      @Assisted Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory) {
     this.db = db;
     this.userProvider = user;
     this.changeDataFactory = cdf;
@@ -250,30 +257,14 @@ public class ChangeJson {
     this.revisionJson = revisionJsonFactory.create(options);
     this.options = Sets.immutableEnumSet(options);
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
-    logger.atFine().log("options = %s", options);
-  }
+    this.pluginDefinedAttributesFactory = pluginDefinedAttributesFactory;
 
-  public static ApprovalInfo getApprovalInfo(
-      Account.Id id,
-      Integer value,
-      VotingRangeInfo permittedVotingRange,
-      String tag,
-      Timestamp date) {
-    ApprovalInfo ai = new ApprovalInfo(id.get());
-    ai.value = value;
-    ai.permittedVotingRange = permittedVotingRange;
-    ai.date = date;
-    ai.tag = tag;
-    return ai;
+    logger.atFine().log("options = %s", options);
   }
 
   public ChangeJson fix(FixInput fix) {
     this.fix = fix;
     return this;
-  }
-
-  public void setPluginDefinedAttributesFactory(PluginDefinedAttributesFactory pluginsFactory) {
-    this.pluginDefinedAttributesFactory = pluginsFactory;
   }
 
   public ChangeInfo format(ChangeResource rsrc) throws OrmException {
@@ -288,27 +279,8 @@ public class ChangeJson {
     return format(project, id, ChangeInfo::new);
   }
 
-  public <I extends ChangeInfo> I format(
-      Project.NameKey project, Change.Id id, Supplier<I> changeInfoSupplier) throws OrmException {
-    ChangeNotes notes;
-    try {
-      notes = notesFactory.createChecked(db.get(), project, id);
-    } catch (OrmException e) {
-      if (!has(CHECK)) {
-        throw e;
-      }
-      return checkOnly(changeDataFactory.create(db.get(), project, id), changeInfoSupplier);
-    }
-    return format(changeDataFactory.create(db.get(), notes), changeInfoSupplier);
-  }
-
   public ChangeInfo format(ChangeData cd) throws OrmException {
-    return format(cd, ChangeInfo::new);
-  }
-
-  public <I extends ChangeInfo> I format(ChangeData cd, Supplier<I> changeInfoSupplier)
-      throws OrmException {
-    return format(cd, Optional.empty(), true, changeInfoSupplier);
+    return format(cd, Optional.empty(), true, ChangeInfo::new);
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
@@ -316,7 +288,7 @@ public class ChangeJson {
     return format(cd, Optional.of(rsrc.getPatchSet().getId()), true, ChangeInfo::new);
   }
 
-  public List<List<ChangeInfo>> formatQueryResults(List<QueryResult<ChangeData>> in)
+  public List<List<ChangeInfo>> format(List<QueryResult<ChangeData>> in)
       throws PermissionBackendException {
     try (Timer0.Context ignored = metrics.formatQueryResultsLatency.start()) {
       accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
@@ -335,7 +307,7 @@ public class ChangeJson {
     }
   }
 
-  public List<ChangeInfo> formatChangeDatas(Collection<ChangeData> in)
+  public List<ChangeInfo> format(Collection<ChangeData> in)
       throws OrmException, PermissionBackendException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     ensureLoaded(in);
@@ -345,6 +317,21 @@ public class ChangeJson {
     }
     accountLoader.fill();
     return out;
+  }
+
+  public <I extends ChangeInfo> I format(
+      Project.NameKey project, Change.Id id, Supplier<I> changeInfoSupplier) throws OrmException {
+    ChangeNotes notes;
+    try {
+      notes = notesFactory.createChecked(db.get(), project, id);
+    } catch (OrmException e) {
+      if (!has(CHECK)) {
+        throw e;
+      }
+      return checkOnly(changeDataFactory.create(db.get(), project, id), changeInfoSupplier);
+    }
+    return format(
+        changeDataFactory.create(db.get(), notes), Optional.empty(), true, changeInfoSupplier);
   }
 
   private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
@@ -582,8 +569,9 @@ public class ChangeJson {
     }
 
     setSubmitter(cd, out);
-    out.plugins =
-        pluginDefinedAttributesFactory != null ? pluginDefinedAttributesFactory.create(cd) : null;
+    if (pluginDefinedAttributesFactory.isPresent()) {
+      out.plugins = pluginDefinedAttributesFactory.get().create(cd);
+    }
     out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
 
     if (has(REVIEWER_UPDATES)) {
@@ -808,18 +796,14 @@ public class ChangeJson {
     return map;
   }
 
-  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
-      throws OrmException {
-    return permissionBackendForChange(permissionBackend.user(user).database(db), cd);
-  }
-
   /**
    * @return {@link com.google.gerrit.server.permissions.PermissionBackend.ForChange} constructed
    *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
    *     lazyload}.
    */
-  private PermissionBackend.ForChange permissionBackendForChange(
-      PermissionBackend.WithUser withUser, ChangeData cd) throws OrmException {
+  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
+      throws OrmException {
+    PermissionBackend.WithUser withUser = permissionBackend.user(user).database(db);
     return lazyLoad
         ? withUser.change(cd)
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));

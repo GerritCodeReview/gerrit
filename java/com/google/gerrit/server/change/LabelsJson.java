@@ -242,7 +242,7 @@ public class LabelsJson {
       VotingRangeInfo permittedVotingRange,
       String tag,
       Timestamp date) {
-    ApprovalInfo ai = ChangeJson.getApprovalInfo(id, value, permittedVotingRange, tag, date);
+    ApprovalInfo ai = new ApprovalInfo(id.get(), value, permittedVotingRange, tag, date);
     accountLoader.put(ai);
     return ai;
   }

@@ -40,10 +40,10 @@
         reflectToAttribute: true,
         computed: '_computeHasTooltip(account)',
       },
-      hideAvatar: {
-        type: Boolean,
-        value: false,
-      },
+      hideAvatar: Boolean,
+      /*  type: Boolean,
+        value: true,
+      },*/
       _serverConfig: {
         type: Object,
         value: null,

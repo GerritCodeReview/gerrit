@@ -104,6 +104,13 @@ public class ProjectConfigTest extends GerritBaseTests {
                     + "  sameGroupVisibility = block group Staff\n"
                     + "[contributor-agreement \"Individual\"]\n"
                     + "  description = A simple description\n"
+                    + "  matchProjects = ^/ourproject\n"
+                    + "  matchProjects = ^/ourotherproject\n"
+                    + "  matchProjects = ^/someotherroot/ourproject\n"
+                    + "  excludeProjects = ^/theirproject\n"
+                    + "  excludeProjects = ^/theirotherproject\n"
+                    + "  excludeProjects = ^/someotherroot/theirproject\n"
+                    + "  excludeProjects = ^/someotherroot/theirotherproject\n"
                     + "  accepted = group Developers\n"
                     + "  accepted = group Staff\n"
                     + "  autoVerify = group Developers\n"
@@ -115,6 +122,11 @@ public class ProjectConfigTest extends GerritBaseTests {
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
     assertThat(ca.getName()).isEqualTo("Individual");
     assertThat(ca.getDescription()).isEqualTo("A simple description");
+    assertThat(ca.getMatchProjects())
+        .containsExactly("^/ourproject", "^/ourotherproject", "^/someotherroot/ourproject");
+    assertThat(ca.getExcludeProjects())
+        .containsExactly("^/theirproject", "^/theirotherproject", "^/someotherroot/theirproject",
+            "^/someotherroot/theirotherproject");
     assertThat(ca.getAgreementUrl()).isEqualTo("http://www.example.com/agree");
     assertThat(ca.getAccepted()).hasSize(2);
     assertThat(ca.getAccepted().get(0).getGroup()).isEqualTo(developers);
@@ -256,6 +268,7 @@ public class ProjectConfigTest extends GerritBaseTests {
                     + "  sameGroupVisibility = block group Staff\n"
                     + "[contributor-agreement \"Individual\"]\n"
                     + "  description = A simple description\n"
+                    + "  matchProjects = ^/ourproject\n"
                     + "  accepted = group Developers\n"
                     + "  autoVerify = group Developers\n"
                     + "  agreementUrl = http://www.example.com/agree\n"
@@ -273,6 +286,8 @@ public class ProjectConfigTest extends GerritBaseTests {
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
     ca.setAccepted(Collections.singletonList(new PermissionRule(cfg.resolve(staff))));
     ca.setAutoVerify(null);
+    ca.setMatchProjects(null);
+    ca.setExcludeProjects(Collections.singletonList("^/theirproject"));
     ca.setDescription("A new description");
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
@@ -289,6 +304,7 @@ public class ProjectConfigTest extends GerritBaseTests {
                 + "  description = A new description\n"
                 + "  accepted = group Staff\n"
                 + "  agreementUrl = http://www.example.com/agree\n"
+                + "\texcludeProjects = ^/theirproject\n"
                 + "[label \"CustomLabel\"]\n"
                 + LABEL_SCORES_CONFIG
                 + "\tfunction = MaxWithBlock\n" // label gets this function when it is created

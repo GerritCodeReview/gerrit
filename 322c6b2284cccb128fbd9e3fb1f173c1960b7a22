@@ -34,6 +34,24 @@
       "revId": "322c6b2284cccb128fbd9e3fb1f173c1960b7a22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d36c705_c6a912c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-10-12T08:34:35Z",
+      "side": 1,
+      "message": "I\u0027ve amended the commit message to make it more accurate on this point.",
+      "parentUuid": "1c5c66f9_31e45e2e",
+      "revId": "322c6b2284cccb128fbd9e3fb1f173c1960b7a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

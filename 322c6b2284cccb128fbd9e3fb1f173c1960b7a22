@@ -16,6 +16,24 @@
       "revId": "322c6b2284cccb128fbd9e3fb1f173c1960b7a22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c5c66f9_31e45e2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-10-12T07:01:33Z",
+      "side": 1,
+      "message": "Oh yes,\nlook at:\n\nAbstractGitCommand.java:50\n\n  public void start(final Environment env) {\n    Context ctx \u003d context.subContext(newSession(), context.getCommandLine());\n    final Context old \u003d sshScope.set(ctx);\n\nand then SshScope.java:170\n\n  Context set(Context ctx) {\n    Context old \u003d current.get();\n    current.set(ctx);\n    local.setContext(ctx);\n    return old;\n  }\n\nBoth current and local are on the thread local storage. The problem is that other threads can\u0027t see that and thus the access path set there won\u0027t be accessible by the delegated thread that executes the action.\n\nThe previous fix attempted tried to propagate the context to the second thread but introduced a DB leak: that is because of all around in Gerrit there is the assumption that it is the responsibility of the thread to allocate and release the connections and that is done through the RequestContext.",
+      "parentUuid": "92b5970d_9f5b892a",
+      "revId": "322c6b2284cccb128fbd9e3fb1f173c1960b7a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

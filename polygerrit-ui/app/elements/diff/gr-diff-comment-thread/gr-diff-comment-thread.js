@@ -46,7 +46,10 @@
         type: Object,
         value() { return document.body; },
       },
-      commentSide: String,
+      commentSide: {
+        type: String,
+        reflectToAttribute: true,
+      },
       patchNum: String,
       path: String,
       projectName: {
@@ -164,6 +167,9 @@
     _commentsChanged() {
       this._orderedComments = this._sortedComments(this.comments);
       this.updateThreadProperties();
+      if (this.comments.length > 0) {
+        this.setAttribute('line-num', this.lineNum);
+      }
     },
 
     updateThreadProperties() {

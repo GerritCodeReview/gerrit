@@ -21,18 +21,7 @@
     is: 'gr-diff-comment-thread-group',
 
     properties: {
-      changeNum: String,
-      projectName: String,
       patchForNewThreads: String,
-      range: Object,
-      isOnParent: {
-        type: Boolean,
-        value: false,
-      },
-      parentIndex: {
-        type: Number,
-        value: null,
-      },
       threads: {
         type: Array,
         value() { return []; },
@@ -67,43 +56,8 @@
       }
     },
 
-    /**
-     * Fetch the thread group at the given range, or the range-less thread
-     * on the line if no range is provided, lineNum, and side.
-     *
-     * @param {string} side
-     * @param {!Object=} opt_range
-     * @return {!Object|undefined}
-     */
-    getThread(side, opt_range) {
-      const threads = [].filter.call(this.threadEls,
-          thread => this._rangesEqual(thread.range, opt_range))
-          .filter(thread => thread.commentSide === side);
-      if (threads.length === 1) {
-        return threads[0];
-      }
-    },
-
     _handleThreadDiscard(e) {
       this.removeThread(e.detail.rootId);
-    },
-
-    /**
-     * Compare two ranges. Either argument may be falsy, but will only return
-     * true if both are falsy or if neither are falsy and have the same position
-     * values.
-     *
-     * @param {Object=} a range 1
-     * @param {Object=} b range 2
-     * @return {boolean}
-     */
-    _rangesEqual(a, b) {
-      if (!a && !b) { return true; }
-      if (!a || !b) { return false; }
-      return a.startLine === b.startLine &&
-          a.startChar === b.startChar &&
-          a.endLine === b.endLine &&
-          a.endChar === b.endChar;
     },
 
     _sortByDate(threadGroups) {

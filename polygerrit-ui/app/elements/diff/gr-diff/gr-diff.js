@@ -60,9 +60,9 @@
      */
 
      /**
-      * Fired when a draft is added or edited.
+      * Fired when a comment is created
       *
-      * @event draft-interaction
+      * @event create-comment-at-location
       */
 
     properties: {
@@ -364,17 +364,24 @@
      * @param {!Object=} opt_range
      */
     _createComment(lineEl, opt_lineNum, opt_side, opt_range) {
-      this.dispatchEvent(new CustomEvent('draft-interaction', {bubbles: true}));
       const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       const contentEl = contentText.parentElement;
       const side = opt_side ||
           this._getCommentSideByLineAndContent(lineEl, contentEl);
       const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       const isOnParent =
-        this._getIsParentCommentByLineAndContent(lineEl, contentEl);
-      const threadEl = this._getOrCreateThread(contentEl, patchNum,
-          side, isOnParent, opt_range);
-      threadEl.addOrEditDraft(opt_lineNum, opt_range);
+          this._getIsParentCommentByLineAndContent(lineEl, contentEl);
+      this.dispatchEvent(new CustomEvent('create-comment-at-location', {
+        bubbles: true,
+        detail: {
+          lineEl,
+          lineNum: opt_lineNum,
+          side,
+          patchNum,
+          isOnParent,
+          range: opt_range,
+        },
+      }));
     },
 
     /**

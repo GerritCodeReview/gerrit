@@ -119,11 +119,6 @@ limitations under the License.
            */
           lineOfInterest: Object,
 
-          /**
-           * @type {function(number, booleam, !string)}
-           */
-          createCommentFn: Function,
-
           _builder: Object,
           _groups: Array,
           _layers: Array,
@@ -132,6 +127,10 @@ limitations under the License.
 
         get diffElement() {
           return this.queryEffectiveChildren('#diffTable');
+        },
+
+        get _commentThreadElements() {
+          return this.queryAllEffectiveChildren('.comment-thread');
         },
 
         observers: [
@@ -305,20 +304,21 @@ limitations under the License.
           }
 
           let builder = null;
-          const createFn = this.createCommentFn;
           if (this.isImageDiff) {
-            builder = new GrDiffBuilderImage(diff, comments, createFn, prefs,
+            builder = new GrDiffBuilderImage(diff, comments, prefs,
               this.diffElement, this.baseImage, this.revisionImage);
           } else if (diff.binary) {
             // If the diff is binary, but not an image.
             return new GrDiffBuilderBinary(diff, comments, prefs,
-                this.diffElement);
+                 this.diffElement);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            builder = new GrDiffBuilderSideBySide(diff, comments, createFn,
-                prefs, this.diffElement, this._layers);
+            builder = new GrDiffBuilderSideBySide(diff, comments,
+                this._commentThreadElements, prefs, this.diffElement,
+                this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            builder = new GrDiffBuilderUnified(diff, comments, createFn, prefs,
-                this.diffElement, this._layers);
+            builder = new GrDiffBuilderUnified(diff, comments,
+                this._commentThreadElements, prefs, this.diffElement,
+                this._layers);
           }
           if (!builder) {
             throw Error('Unsupported diff view mode: ' + this.viewMode);

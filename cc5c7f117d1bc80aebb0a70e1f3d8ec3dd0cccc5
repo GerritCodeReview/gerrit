@@ -16,6 +16,47 @@
       "revId": "cc5c7f117d1bc80aebb0a70e1f3d8ec3dd0cccc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eecf699_50ea3d61",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-12T01:20:00Z",
+      "side": 1,
+      "message": "It\u0027s setting it on the \u003cclasspathentry\u003e element for the \"src/test/java\" directory.  This is effectively the same as what is done at L166-172",
+      "parentUuid": "e8d7f116_12619292",
+      "revId": "cc5c7f117d1bc80aebb0a70e1f3d8ec3dd0cccc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06cfe59d_fb54d42a",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-12T01:20:00Z",
+      "side": 1,
+      "message": "optional: move this inside the if-block at L162",
+      "range": {
+        "startLine": 166,
+        "startChar": 8,
+        "endLine": 172,
+        "endChar": 31
+      },
+      "revId": "cc5c7f117d1bc80aebb0a70e1f3d8ec3dd0cccc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

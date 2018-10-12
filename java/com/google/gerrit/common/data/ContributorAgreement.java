@@ -26,6 +26,8 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
   protected List<PermissionRule> accepted;
   protected GroupReference autoVerify;
   protected String agreementUrl;
+  protected List<String> excludeProjectsRegexes;
+  protected List<String> matchProjectsRegexes;
 
   protected ContributorAgreement() {}
 
@@ -76,6 +78,28 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
     this.agreementUrl = agreementUrl;
   }
 
+  public List<String> getExcludeProjectsRegexes() {
+    if (excludeProjectsRegexes == null) {
+      excludeProjectsRegexes = new ArrayList<>();
+    }
+    return excludeProjectsRegexes;
+  }
+
+  public void setExcludeProjectsRegexes(List<String> excludeProjectsRegexes) {
+    this.excludeProjectsRegexes = excludeProjectsRegexes;
+  }
+
+  public List<String> getMatchProjectsRegexes() {
+    if (matchProjectsRegexes == null) {
+      matchProjectsRegexes = new ArrayList<>();
+    }
+    return matchProjectsRegexes;
+  }
+
+  public void setMatchProjectsRegexes(List<String> matchProjectsRegexes) {
+    this.matchProjectsRegexes = matchProjectsRegexes;
+  }
+
   @Override
   public int compareTo(ContributorAgreement o) {
     return getName().compareTo(o.getName());
@@ -84,16 +108,5 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
   @Override
   public String toString() {
     return "ContributorAgreement[" + getName() + "]";
-  }
-
-  public ContributorAgreement forUi() {
-    ContributorAgreement ca = new ContributorAgreement(name);
-    ca.description = description;
-    ca.accepted = Collections.emptyList();
-    if (autoVerify != null) {
-      ca.autoVerify = new GroupReference();
-    }
-    ca.agreementUrl = agreementUrl;
-    return ca;
   }
 }

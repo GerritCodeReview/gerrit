@@ -1747,7 +1747,7 @@
     getChangesSubmittedTogether(changeNum) {
       return this._getChangeURLAndFetch({
         changeNum,
-        endpoint: '/submitted_together',
+        endpoint: '/submitted_together?o=NON_VISIBLE_CHANGES',
         reportEndpointAsIs: true,
       });
     },

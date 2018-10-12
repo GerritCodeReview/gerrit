@@ -1244,14 +1244,14 @@ public abstract class AbstractDaemonTest {
   protected ContributorAgreement configureContributorAgreement(boolean autoVerify)
       throws Exception {
     ContributorAgreement ca;
+    String g = createGroup(autoVerify ? "cla-test-group" : "cla-test-no-auto-verify-group");
+    GroupApi groupApi = gApi.groups().id(g);
+    groupApi.description("CLA test group");
+    InternalGroup caGroup = group(new AccountGroup.UUID(groupApi.detail().id));
+    GroupReference groupRef = new GroupReference(caGroup.getGroupUUID(), caGroup.getName());
+    PermissionRule rule = new PermissionRule(groupRef);
+    rule.setAction(PermissionRule.Action.ALLOW);
     if (autoVerify) {
-      String g = createGroup("cla-test-group");
-      GroupApi groupApi = gApi.groups().id(g);
-      groupApi.description("CLA test group");
-      InternalGroup caGroup = group(new AccountGroup.UUID(groupApi.detail().id));
-      GroupReference groupRef = new GroupReference(caGroup.getGroupUUID(), caGroup.getName());
-      PermissionRule rule = new PermissionRule(groupRef);
-      rule.setAction(PermissionRule.Action.ALLOW);
       ca = new ContributorAgreement("cla-test");
       ca.setAutoVerify(groupRef);
       ca.setAccepted(ImmutableList.of(rule));
@@ -1260,6 +1260,8 @@ public abstract class AbstractDaemonTest {
     }
     ca.setDescription("description");
     ca.setAgreementUrl("agreement-url");
+    ca.setAccepted(ImmutableList.of(rule));
+    ca.setExcludeProjects(ImmutableList.of("ExcludedProject"));
 
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
       u.getConfig().replace(ca);

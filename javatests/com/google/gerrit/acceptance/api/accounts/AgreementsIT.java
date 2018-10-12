@@ -182,6 +182,28 @@ public class AgreementsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertExcludedProjectChangeWithoutCLA() throws Exception {
+    // Contributor agreements configured with excludeProjects = ExcludedProject
+    // in AbstractDaemonTest.configureContributorAgreement(...)
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+
+    // Create a change succeeds when agreement is not required
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    // Project name includes test method name which contains ExcludedProject
+    ChangeInfo change = gApi.changes().create(newChangeInput()).get();
+
+    // Approve and submit it
+    setApiUser(admin);
+    gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(change.changeId).current().submit(new SubmitInput());
+
+    // Revert in excluded project is allowed even when CLA is required but not signed
+    setApiUser(user);
+    setUseContributorAgreements(InheritableBoolean.TRUE);
+    gApi.changes().id(change.changeId).revert();
+  }
+
+  @Test
   public void cherrypickChangeWithoutCLA() throws Exception {
     assume().that(isContributorAgreementsEnabled()).isTrue();
 
@@ -237,6 +259,22 @@ public class AgreementsIT extends AbstractDaemonTest {
     setApiUser(user);
 
     // Create a change succeeds after signing the agreement
+    gApi.changes().create(newChangeInput());
+  }
+
+  @Test
+  public void createExcludedProjectChangeIgnoresCLA() throws Exception {
+    // Contributor agreements configured with excludeProjects = ExcludedProject
+    // in AbstractDaemonTest.configureContributorAgreement(...)
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+
+    // Create a change succeeds when agreement is not required
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    // Project name includes test method name which contains ExcludedProject
+    gApi.changes().create(newChangeInput());
+
+    // Create a change in excluded project is allowed even when CLA is required but not signed.
+    setUseContributorAgreements(InheritableBoolean.TRUE);
     gApi.changes().create(newChangeInput());
   }
 

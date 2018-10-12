@@ -239,6 +239,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void publishEditRestWithoutCLA() throws Exception {
+    configureContributorAgreement(true);
     createArbitraryEditFor(changeId);
     setUseContributorAgreements(InheritableBoolean.TRUE);
     adminRestSession.post(urlPublish(changeId)).assertForbidden();

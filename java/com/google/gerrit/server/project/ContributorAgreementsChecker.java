@@ -34,6 +34,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 @Singleton
 public class ContributorAgreementsChecker {
@@ -93,6 +95,50 @@ public class ContributorAgreementsChecker {
       List<AccountGroup.UUID> groupIds;
       groupIds = okGroupIds;
 
+      // matchProjects defaults to match all projects when missing.
+      List<String> matchProjects = ca.getMatchProjects();
+      if (!matchProjects.isEmpty()) {
+        // Only checks projects that match when present.
+        boolean found = false;
+        for (String patternString : matchProjects) {
+          Pattern pattern;
+          try {
+            pattern = Pattern.compile(patternString);
+          } catch (PatternSyntaxException e) {
+            continue;
+          }
+          if (pattern.matcher(project.get()).find()) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          // Doesn't match, isn't checked.
+          continue;
+        }
+      }
+      // excludeProjects defaults to exclude no projects when missing.
+      List<String> excludeProjects = ca.getExcludeProjects();
+      if (!excludeProjects.isEmpty()) {
+        // Doesn't check projects that match when present.
+        boolean found = false;
+        for (String patternString : excludeProjects) {
+          Pattern pattern;
+          try {
+            pattern = Pattern.compile(patternString);
+          } catch (PatternSyntaxException e) {
+            continue;
+          }
+          if (pattern.matcher(project.get()).find()) {
+            found = true;
+            break;
+          }
+        }
+        if (found) {
+          // Matches, isn't checked.
+          continue;
+        }
+      }
       for (PermissionRule rule : ca.getAccepted()) {
         if ((rule.getAction() == Action.ALLOW)
             && (rule.getGroup() != null)
@@ -102,7 +148,7 @@ public class ContributorAgreementsChecker {
       }
     }
 
-    if (!iUser.getEffectiveGroups().containsAnyOf(okGroupIds)) {
+    if (!okGroupIds.isEmpty() && !iUser.getEffectiveGroups().containsAnyOf(okGroupIds)) {
       final StringBuilder msg = new StringBuilder();
       msg.append("No Contributor Agreement on file for user ")
           .append(iUser.getNameEmail())

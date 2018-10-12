@@ -176,8 +176,7 @@ limitations under the License.
             on behalf of
           </span>
           <gr-account-label
-              account="[[author]]"
-              hide-avatar></gr-account-label>
+              account="[[author]]"></gr-account-label>
           <template is="dom-repeat" items="[[_getScores(message)]]" as="score">
             <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
               [[score.label]] [[score.value]]

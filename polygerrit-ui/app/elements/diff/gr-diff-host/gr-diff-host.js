@@ -111,7 +111,11 @@
         type: Boolean,
         value: false,
       },
-      comments: Object,
+      comments: {
+        type: Object,
+        observer: '_commentsChanged',
+      },
+      _threads: Object,
       lineWrapping: {
         type: Boolean,
         value: false,
@@ -428,6 +432,59 @@
       return isImageDiff(diff);
     },
 
+
+    _commentsChanged(newComments) {
+      const allComments = [];
+      for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
+        // This is needed by the threading.
+        for (const comment of newComments[side]) {
+          comment.__commentSide = side;
+        }
+        allComments.push(...newComments[side]);
+      }
+      this._threads = this._createThreads(allComments);
+    },
+
+    /**
+     * @param {Array<Object>} comments
+     * @param {Array<Object>} threads
+     */
+    _createThreads(comments) {
+      const sortedComments = comments.slice(0).sort((a, b) => {
+        if (b.__draft && !a.__draft ) { return 0; }
+        if (a.__draft && !b.__draft ) { return 1; }
+        return util.parseDate(a.updated) - util.parseDate(b.updated);
+      });
+
+      const threads = [];
+      for (const comment of sortedComments) {
+        // If the comment is in reply to another comment, find that comment's
+        // thread and append to it.
+        if (comment.in_reply_to) {
+          const thread = threads.find(thread =>
+              thread.comments.some(c => c.id === comment.in_reply_to));
+          if (thread) {
+            thread.comments.push(comment);
+            continue;
+          }
+        }
+
+        // Otherwise, this comment starts its own thread.
+        const newThread = {
+          start_datetime: comment.updated,
+          comments: [comment],
+          commentSide: comment.__commentSide,
+          patchNum: comment.patch_set,
+          rootId: comment.id || comment.__draftID,
+        };
+        if (comment.range) {
+          newThread.range = Object.assign({}, comment.range);
+        }
+        threads.push(newThread);
+      }
+      return threads;
+    },
+
     /**
      * @param {Object} blame
      * @return {boolean}
@@ -447,30 +504,68 @@
 
     /** @param {CustomEvent} e */
     _handleCreateCommentAtLocation(e) {
-      const {threadGroupEl, lineNum, side, range} = e.detail;
-      const threadEl = this._getOrCreateThread(threadGroupEl, side, range);
+      const {lineNum, side, patchNum, isOnParent, parentIndex, range} =
+          e.detail;
+      const threadEl = this._getOrCreateThread(patchNum, lineNum, side, range);
       threadEl.addOrEditDraft(lineNum, range);
+
       this.$.reporting.recordDraftInteraction();
     },
 
     /**
-     * Gets or creates a comment thread from a specific thread group.
-     * May include a range, if the comment is a range comment.
+     * Gets or creates a comment thread at a given location.
+     * May provide a range, to get/create a range comment.
      *
-     * @param {!Object} threadGroupEl
+     * @param {string} patchNum
+     * @param {number|undefined} lineNum
      * @param {string} commentSide
-     * @param {!Object=} range
+     * @param {Object=} range
      * @return {!Object}
      */
-    _getOrCreateThread(threadGroupEl, commentSide, range=undefined) {
-      let threadEl = threadGroupEl.getThread(commentSide, range);
-
+    _getOrCreateThread(patchNum, lineNum, commentSide, range=undefined) {
+      let threadEl = this._getThreadEl(lineNum, commentSide, range);
       if (!threadEl) {
-        threadGroupEl.addNewThread(commentSide, range);
+        const thread = {
+          comments: [],
+          commentSide,
+          patchNum,
+          lineNum,
+          range,
+        };
+        this.push('_threads', thread);
         Polymer.dom.flush();
-        threadEl = threadGroupEl.getThread(commentSide, range);
+        threadEl = this._getThreadEl(lineNum, commentSide, range);
+        if (!threadEl) {
+          throw new Error('Could not get thread element after creating it');
+        }
       }
       return threadEl;
+    },
+
+    /**
+     * Gets a comment thread element at a given location.
+     * May provide a range, to get a range comment.
+     *
+     * @param {?number} lineNum
+     * @param {string} commentSide
+     * @param {Object=} range
+     * @return {?Object}
+     */
+    _getThreadEl(lineNum, commentSide, range=undefined) {
+      const threadEls = Polymer.dom(this.root).querySelectorAll(
+          'gr-diff-comment-thread');
+      let line;
+      if (commentSide === GrDiffBuilder.Side.LEFT) {
+        line = {beforeNumber: lineNum};
+      } else if (commentSide === GrDiffBuilder.Side.RIGHT) {
+        line = {afterNumber: lineNum};
+      } else {
+        throw new Error(`Unknown side: ${commentSide}`);
+      }
+      const filteredThreadEls = Gerrit.filterThreadElsForLocation(
+          threadEls, line, commentSide);
+      // TODO(oler): Also filter by range
+      return filteredThreadEls.length ? filteredThreadEls[0] : undefined;
     },
 
     /**
@@ -531,4 +626,54 @@
       }
     },
   });
+
+  /**
+  * Compare two ranges. Either argument may be falsy, but will only return
+  * true if both are falsy or if neither are falsy and have the same position
+  * values.
+  *
+  * @param {Object=} a range 1
+  * @param {Object=} b range 2
+  * @return {boolean}
+  */
+  function rangesEqual(a, b) {
+    if (!a && !b) { return true; }
+    if (!a || !b) { return false; }
+    return a.startLine === b.startLine &&
+        a.startChar === b.startChar &&
+        a.endLine === b.endLine &&
+        a.endChar === b.endChar;
+  }
+
+  /**
+   * @param {number=} opt_lineNum
+   * @param {!Object=} opt_range
+   */
+  function newDraft(path, patchNum, isOnParent, commentSide, opt_parentIndex,
+      opt_lineNum, opt_range) {
+    const d = {
+      __draft: true,
+      __draftID: Math.random().toString(36),
+      __date: new Date(),
+      path,
+      patchNum,
+      side: isOnParent ? 'PARENT' : 'REVISION',
+      __commentSide: commentSide,
+    };
+    if (opt_lineNum) {
+      d.line = opt_lineNum;
+    }
+    if (opt_range) {
+      d.range = {
+        start_line: opt_range.startLine,
+        start_character: opt_range.startChar,
+        end_line: opt_range.endLine,
+        end_character: opt_range.endChar,
+      };
+    }
+    if (opt_parentIndex) {
+      d.parent = opt_parentIndex;
+    }
+    return d;
+  }
 })();

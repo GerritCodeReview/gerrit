@@ -20,6 +20,53 @@
   const UNRESOLVED_EXPAND_COUNT = 5;
   const NEWLINE_PATTERN = /\n/g;
 
+  window.Gerrit = window.Gerrit || {};
+
+  /**
+   * @param {!Array<Object>} threads
+   * @param {!{beforeNumber?: number, afterNumber?: number}} line
+   * @param {!GrDiffBuilder.Side=} side The side (LEFT, RIGHT, BOTH) for which
+   *     to return the threads (default: BOTH).
+   * @return {!Array<!Object>} The thread element matching the given location.
+   */
+  window.Gerrit.filterThreadElsForLocation = function(
+      threadElements, line, side = GrDiffBuilder.Side.BOTH) {
+    function matchesLeftLine(threadEl) {
+      return threadEl.getAttribute('comment-side') ==
+          GrDiffBuilder.Side.LEFT &&
+          threadEl.getAttribute('line-num') == line.beforeNumber;
+    }
+    function matchesRightLine(threadEl) {
+      return threadEl.getAttribute('comment-side') ==
+          GrDiffBuilder.Side.RIGHT &&
+          threadEl.getAttribute('line-num') == line.afterNumber;
+    }
+    function matchesFileComment(threadEl) {
+      return (side === GrDiffBuilder.Side.BOTH ||
+              threadEl.getAttribute('comment-side') == side) &&
+            // line/range comments have 1-based line set, if line is falsy it's
+            // a file comment
+            !threadEl.getAttribute('line-num');
+    }
+
+    // Select the appropriate matchers for the desired side and line
+    // If side is BOTH, we want both the left and right matcher.
+    const matchers = [];
+    if (side !== GrDiffBuilder.Side.RIGHT) {
+      matchers.push(matchesLeftLine);
+    }
+    if (side !== GrDiffBuilder.Side.LEFT) {
+      matchers.push(matchesRightLine);
+    }
+    if (line.afterNumber === GrDiffLine.FILE ||
+        line.beforeNumber === GrDiffLine.FILE) {
+      matchers.push(matchesFileComment);
+    }
+
+    return threadElements.filter(threadEl =>
+        matchers.find(matcher => matcher(threadEl)));
+  };
+
   Polymer({
     is: 'gr-diff-comment-thread',
 
@@ -41,12 +88,19 @@
         type: Array,
         value() { return []; },
       },
-      range: Object,
+      range: {
+        type: Object,
+        // TODO(oler): Store this in multiple attributes
+        // reflectToAttribute: true,
+      },
       keyEventTarget: {
         type: Object,
         value() { return document.body; },
       },
-      commentSide: String,
+      commentSide: {
+        type: String,
+        reflectToAttribute: true,
+      },
       patchNum: String,
       path: String,
       projectName: {
@@ -80,7 +134,10 @@
         value: false,
       },
       /** Necessary only if showFilePath is true */
-      lineNum: Number,
+      lineNum: {
+        type: Number,
+        reflectToAttribute: true,
+      },
       unresolved: {
         type: Boolean,
         notify: true,

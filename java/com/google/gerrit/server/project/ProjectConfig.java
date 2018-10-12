@@ -127,6 +127,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_ACCEPTED = "accepted";
   private static final String KEY_AUTO_VERIFY = "autoVerify";
   private static final String KEY_AGREEMENT_URL = "agreementUrl";
+  private static final String KEY_MATCH_PROJECTS = "matchProjects";
+  private static final String KEY_EXCLUDE_PROJECTS = "excludeProjects";
 
   private static final String NOTIFY = "notify";
   private static final String KEY_EMAIL = "email";
@@ -593,6 +595,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       ca.setAgreementUrl(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_AGREEMENT_URL));
       ca.setAccepted(
           loadPermissionRules(rc, CONTRIBUTOR_AGREEMENT, name, KEY_ACCEPTED, groupsByName, false));
+      ca.setExcludeProjectsRegexes(
+          loadPatterns(rc, CONTRIBUTOR_AGREEMENT, name, KEY_EXCLUDE_PROJECTS));
+      ca.setMatchProjectsRegexes(loadPatterns(rc, CONTRIBUTOR_AGREEMENT, name, KEY_MATCH_PROJECTS));
 
       List<PermissionRule> rules =
           loadPermissionRules(
@@ -751,6 +756,22 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (rc.getSections().contains(BRANCH_ORDER)) {
       branchOrderSection = new BranchOrderSection(rc.getStringList(BRANCH_ORDER, null, BRANCH));
     }
+  }
+
+  private ImmutableList<String> loadPatterns(
+      Config rc, String section, String subsection, String varName) {
+    ImmutableList.Builder<String> patterns = ImmutableList.builder();
+    for (String patternString : rc.getStringList(section, subsection, varName)) {
+      try {
+        // While one could just use getStringList directly, compiling first will cause the server
+        // to fail fast if any of the patterns are invalid.
+        patterns.add(Pattern.compile(patternString).pattern());
+      } catch (PatternSyntaxException e) {
+        error(new ValidationError(PROJECT_CONFIG, "Invalid regular expression: " + e.getMessage()));
+        continue;
+      }
+    }
+    return patterns.build();
   }
 
   private ImmutableList<PermissionRule> loadPermissionRules(
@@ -1163,6 +1184,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           ca.getName(),
           KEY_ACCEPTED,
           ruleToStringList(ca.getAccepted(), keepGroups));
+      rc.setStringList(
+          CONTRIBUTOR_AGREEMENT,
+          ca.getName(),
+          KEY_EXCLUDE_PROJECTS,
+          patternToStringList(ca.getExcludeProjectsRegexes()));
+      rc.setStringList(
+          CONTRIBUTOR_AGREEMENT,
+          ca.getName(),
+          KEY_MATCH_PROJECTS,
+          patternToStringList(ca.getMatchProjectsRegexes()));
     }
   }
 
@@ -1204,6 +1235,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
       set(rc, NOTIFY, nc.getName(), KEY_FILTER, nc.getFilter());
     }
+  }
+
+  private List<String> patternToStringList(List<String> list) {
+    return list;
   }
 
   private List<String> ruleToStringList(

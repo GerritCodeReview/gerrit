@@ -369,6 +369,7 @@ public class CherryPickChange {
             messageForDestinationChange(
                 ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit))
         .setTopic(topic)
+        .setWorkInProgress(!cherryPickCommit.getFilesWithGitConflicts().isEmpty())
         .setNotify(input.notify)
         .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
     if (input.keepReviewers && sourceChange != null) {

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26d6ffa3_7142a28c",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-13T02:28:23Z",
+      "side": 1,
+      "message": "matchProjects",
+      "range": {
+        "startLine": 80,
+        "startChar": 29,
+        "endLine": 80,
+        "endChar": 37
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e33eb24_663ad32b",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-13T02:28:23Z",
+      "side": 1,
+      "message": "excludeProjects",
+      "range": {
+        "startLine": 85,
+        "startChar": 29,
+        "endLine": 85,
+        "endChar": 37
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "522ed88b_c2ef69f2",
+        "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-13T02:28:23Z",
+      "side": 1,
+      "message": "Why new ArrayList here, but Collections.emptyList() below (L121-122)?",
+      "range": {
+        "startLine": 83,
+        "startChar": 24,
+        "endLine": 83,
+        "endChar": 42
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aea7f626_e3a1f6fe",
+        "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-13T02:28:23Z",
+      "side": 1,
+      "message": "This can be simplified to a ternary expression, i.e.:\n\n return excludeProjects !\u003d null ? excludeProjects : Collections.emptyList();",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 27
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

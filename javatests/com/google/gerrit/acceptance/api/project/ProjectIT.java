@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
@@ -51,7 +52,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.project.CommentLinkInfoImpl;
 import com.google.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
@@ -61,6 +65,13 @@ import org.junit.Test;
 
 @NoHttpd
 public class ProjectIT extends AbstractDaemonTest {
+  private static final String BUGZILLA = "bugzilla";
+  private static final String BUGZILLA_LINK = "http://bugzilla.example.com/?id=$2";
+  private static final String BUGZILLA_MATCH = "(bug\\\\s+#?)(\\\\d+)";
+  private static final String JIRA = "jira";
+  private static final String JIRA_LINK = "http://jira.example.com/?id=$2";
+  private static final String JIRA_MATCH = "(jira\\\\s+#?)(\\\\d+)";
+
   @Inject private DynamicSet<ProjectIndexedListener> projectIndexedListeners;
 
   @Inject
@@ -601,6 +612,31 @@ public class ProjectIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("100 foo");
     setMaxObjectSize("100 foo");
+  }
+
+  @Test
+  public void noCommentlinksByDefault() throws Exception {
+    assertThat(getConfig().commentlinks).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "commentlink.bugzilla.match", value = BUGZILLA_MATCH)
+  @GerritConfig(name = "commentlink.bugzilla.link", value = BUGZILLA_LINK)
+  @GerritConfig(name = "commentlink.jira.match", value = JIRA_MATCH)
+  @GerritConfig(name = "commentlink.jira.link", value = JIRA_LINK)
+  public void projectConfigUsesCommentlinksFromGlobalConfig() throws Exception {
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(getConfig(), expected);
+  }
+
+  private CommentLinkInfo commentLinkInfo(String name, String match, String link) {
+    return new CommentLinkInfoImpl(name, match, link, null /*html*/, null /*enabled*/);
+  }
+
+  private void assertCommentLinks(ConfigInfo actual, Map<String, CommentLinkInfo> expected) {
+    assertThat(actual.commentlinks).containsExactlyEntriesIn(expected);
   }
 
   private ConfigInfo setConfig(Project.NameKey name, ConfigInput input) throws Exception {

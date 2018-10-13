@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "392bd95d_6588ae23",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-13T02:58:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26d6ffa3_7142a28c",
+      "range": {
+        "startLine": 80,
+        "startChar": 29,
+        "endLine": 80,
+        "endChar": 37
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e33eb24_663ad32b",
         "filename": "Documentation/config-cla.txt",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af02a265_b38558a7",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-13T02:58:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e33eb24_663ad32b",
+      "range": {
+        "startLine": 85,
+        "startChar": 29,
+        "endLine": 85,
+        "endChar": 37
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b26b248f_1c9cd7ea",
+        "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-13T02:58:25Z",
+      "side": 1,
+      "message": "Because I copied the ArrayList logic from the nearby and similar code around line 56 (originally line 54), and I copied the Collections.emptyList logic at line 121 from the nearby and similar code around line 116 (originally line 92).",
+      "parentUuid": "522ed88b_c2ef69f2",
+      "range": {
+        "startLine": 83,
+        "startChar": 24,
+        "endLine": 83,
+        "endChar": 42
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aea7f626_e3a1f6fe",
         "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2018-10-13T02:28:23Z",
       "side": 1,
       "message": "This can be simplified to a ternary expression, i.e.:\n\n return excludeProjects !\u003d null ? excludeProjects : Collections.emptyList();",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 27
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a44c4888_0bbb858a",
+        "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-13T02:58:25Z",
+      "side": 1,
+      "message": "Ack. It would then differ in style from the identically structured getAccepted method.",
+      "parentUuid": "aea7f626_e3a1f6fe",
       "range": {
         "startLine": 82,
         "startChar": 4,

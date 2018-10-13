@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "9b2b654d_f4985285",
+        "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-13T11:25:43Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "b26b248f_1c9cd7ea",
+      "range": {
+        "startLine": 83,
+        "startChar": 24,
+        "endLine": 83,
+        "endChar": 42
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aea7f626_e3a1f6fe",
         "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
         "patchSetId": 3
@@ -183,6 +207,76 @@
         "startChar": 4,
         "endLine": 85,
         "endChar": 27
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fe0b4f6_1c081d2b",
+        "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-13T11:25:43Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "a44c4888_0bbb858a",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 27
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93faa922_a23e21bf",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-13T11:25:43Z",
+      "side": 1,
+      "message": "optional: this can be collapsed into a single containsExactly assertion.",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 128,
+        "endChar": 85
+      },
+      "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c7ca5be_e35bdad1",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-13T11:25:43Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 94
       },
       "revId": "39c1faeb9d52aa38d22dc810f0a3f5f75c05fb25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

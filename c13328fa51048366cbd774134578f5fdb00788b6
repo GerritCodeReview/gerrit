@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0975506_d945bc0f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-13T08:24:25Z",
+      "side": 1,
+      "message": "Factor all this out to a method so it can be reused in tests that will be added later.",
+      "range": {
+        "startLine": 617,
+        "startChar": 4,
+        "endLine": 624,
+        "endChar": 42
+      },
+      "revId": "c13328fa51048366cbd774134578f5fdb00788b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

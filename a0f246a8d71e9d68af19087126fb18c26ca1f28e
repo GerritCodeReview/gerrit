@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c3eb232_ed964f6e",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-13T00:29:17Z",
+      "side": 1,
+      "message": "What if the source change was work-in-progress? In that case should the newly created change also be set work-in-progress regardless of the cherry-pick result?\n\nI can see this happening for example if someone has a WIP change and they cherry-pick it to the same branch, i.e. effectively rebasing it.",
+      "range": {
+        "startLine": 372,
+        "startChar": 8,
+        "endLine": 372,
+        "endChar": 82
+      },
+      "revId": "a0f246a8d71e9d68af19087126fb18c26ca1f28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

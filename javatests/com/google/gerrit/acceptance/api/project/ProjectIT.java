@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
@@ -601,6 +602,26 @@ public class ProjectIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("100 foo");
     setMaxObjectSize("100 foo");
+  }
+
+  @Test
+  public void noCommentlinksByDefault() throws Exception {
+    assertThat(getConfig().commentlinks).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "commentlink.bug.match", value = "(bug\\\\s+#?)(\\\\d+)")
+  @GerritConfig(name = "commentlink.bug.link", value = "http://bugs.example.com/show_bug.cgi?id=$2")
+  public void projectConfigUsesCommentlinksFromGlobalConfig() throws Exception {
+    ConfigInfo info = getConfig();
+    assertThat(info.commentlinks).hasSize(1);
+    assertThat(info.commentlinks).containsKey("bug");
+    CommentLinkInfo commentLink = info.commentlinks.get("bug");
+    assertThat(commentLink.enabled).isNull();
+    assertThat(commentLink.name).isEqualTo("bug");
+    assertThat(commentLink.match).isEqualTo("(bug\\\\s+#?)(\\\\d+)");
+    assertThat(commentLink.link).isEqualTo("http://bugs.example.com/show_bug.cgi?id=$2");
+    assertThat(commentLink.html).isNull();
   }
 
   private ConfigInfo setConfig(Project.NameKey name, ConfigInput input) throws Exception {

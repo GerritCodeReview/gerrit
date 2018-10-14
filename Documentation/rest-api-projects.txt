@@ -3454,6 +3454,25 @@ link:config-gerrit.html#commentlink.name.link[commentlink.name.link].
 |`enabled`  |optional|Whether the commentlink is enabled, as documented
 in link:config-gerrit.html#commentlink.name.enabled[
 commentlink.name.enabled]. If not set the commentlink is enabled.
+
+[[commentlink-input]]
+=== CommentLinkInput
+The `CommentLinkInput` entity describes the input for a
+link:config-gerrit.html#commentlink[commentlink].
+
+|==================================================
+[options="header",cols="1,^2,4"]
+|==================================================
+|Field Name |        |Description
+|`match`    |        |A JavaScript regular expression to match
+positions to be replaced with a hyperlink, as documented in
+link:config-gerrit.html#commentlink.name.match[commentlink.name.match].
+|`link`     |        |The URL to direct the user to whenever the
+regular expression is matched, as documented in
+link:config-gerrit.html#commentlink.name.link[commentlink.name.link].
+|`enabled`  |optional|Whether the commentlink is enabled, as documented
+in link:config-gerrit.html#commentlink.name.enabled[
+commentlink.name.enabled]. If not set the commentlink is enabled.
 |==================================================
 
 [[config-info]]
@@ -3604,6 +3623,11 @@ of parameter names to values.
 Whether empty commits should be rejected when a change is merged.
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
+|commentlinks                              |optional|
+Map of commentlink names to link:#commentlink-input[CommentLinkInput]
+entities to add or update on the project. If the given commentlink
+already exists, it will be updated with the given values, otherwise
+it will be created. If the value is null, that entry is deleted.
 |======================================================
 
 [[config-parameter-info]]

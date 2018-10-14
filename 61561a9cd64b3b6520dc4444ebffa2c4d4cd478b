@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06b63f9b_f6f69eb2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-14T00:07:11Z",
+      "side": 1,
+      "message": "It wasn\u0027t immediately obvious to me that this means it is configured in AbstractDaemonTest.  I was looking at the code below and couldn\u0027t see how it gets configured.\n\nMaybe make this comment a bit more explicit?",
+      "revId": "61561a9cd64b3b6520dc4444ebffa2c4d4cd478b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d147d257_08c6733c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-14T00:07:11Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "61561a9cd64b3b6520dc4444ebffa2c4d4cd478b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

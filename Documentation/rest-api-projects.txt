@@ -3220,6 +3220,9 @@ of parameter names to values.
 Whether empty commits should be rejected when a change is merged.
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
+|commentlinks                              |optional|
+Map of commentlink names to link:#commentlink-input[CommentLinkInput]
+entities to add or update on the project.
 |======================================================
 
 [[config-parameter-info]]

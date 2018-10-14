@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.common.data.Permission.isPermission;
 import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
@@ -104,10 +105,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_CAN_OVERRIDE = "canOverride";
   public static final String KEY_BRANCH = "branch";
 
-  private static final String KEY_MATCH = "match";
+  public static final String KEY_MATCH = "match";
   private static final String KEY_HTML = "html";
-  private static final String KEY_LINK = "link";
-  private static final String KEY_ENABLED = "enabled";
+  public static final String KEY_LINK = "link";
+  public static final String KEY_ENABLED = "enabled";
 
   public static final String PROJECT_CONFIG = "project.config";
 
@@ -251,6 +252,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public void addCommentLinkSection(CommentLinkInfoImpl commentLink) {
     commentLinkSections.put(commentLink.name, commentLink);
+  }
+
+  public void removeCommentLinkSection(String name) {
+    requireNonNull(name);
+    requireNonNull(commentLinkSections.remove(name));
   }
 
   private ProjectConfig(Project.NameKey projectName) {
@@ -1158,6 +1164,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void saveCommentLinkSections(Config rc) {
+    rc.unsetSection(COMMENTLINK, null);
     if (commentLinkSections != null) {
       for (CommentLinkInfoImpl cm : commentLinkSections.values()) {
         rc.setString(COMMENTLINK, cm.name, KEY_MATCH, cm.match);

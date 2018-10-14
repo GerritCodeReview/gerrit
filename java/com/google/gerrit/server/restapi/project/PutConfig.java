@@ -14,9 +14,15 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.gerrit.server.project.ProjectConfig.COMMENTLINK;
+import static com.google.gerrit.server.project.ProjectConfig.KEY_ENABLED;
+import static com.google.gerrit.server.project.ProjectConfig.KEY_LINK;
+import static com.google.gerrit.server.project.ProjectConfig.KEY_MATCH;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.extensions.api.projects.CommentLinkInput;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
@@ -59,6 +65,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
@@ -152,6 +159,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
       if (input.pluginConfigValues != null) {
         setPluginConfigValues(projectState, projectConfig, input.pluginConfigValues);
+      }
+
+      if (input.commentLinks != null) {
+        updateCommentLinks(projectConfig, input.commentLinks);
       }
 
       md.setMessage("Modified project settings\n");
@@ -274,6 +285,26 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                   "The config parameter '%s' of plugin '%s' does not exist.",
                   v.getKey(), pluginName));
         }
+      }
+    }
+  }
+
+  private void updateCommentLinks(ProjectConfig projectConfig, Map<String, CommentLinkInput> input)
+      throws BadRequestException {
+    for (Map.Entry<String, CommentLinkInput> e : input.entrySet()) {
+      String name = e.getKey();
+      CommentLinkInput value = e.getValue();
+      if (value != null) {
+        // Add or update the commentlink section
+        Config cfg = new Config();
+        cfg.setString(COMMENTLINK, name, KEY_MATCH, value.match);
+        cfg.setString(COMMENTLINK, name, KEY_LINK, value.link);
+        cfg.setBoolean(COMMENTLINK, name, KEY_ENABLED, value.enabled == null || value.enabled);
+        projectConfig.addCommentLinkSection(ProjectConfig.buildCommentLink(cfg, name, false));
+      } else {
+        // TODO: support deleting a commentlink section when an empty map entry is given
+        throw new BadRequestException(
+            String.format("commentlink info for '%s' section must be provided", name));
       }
     }
   }

@@ -44,6 +44,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
+import com.google.gerrit.extensions.api.projects.CommentLinkInput;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
@@ -711,12 +712,158 @@ public class ProjectIT extends AbstractDaemonTest {
     assertCommentLinks(getConfig(), expected);
   }
 
+  @Test
+  public void projectConfigUsesLocallySetCommentlinks() throws Exception {
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+    assertCommentLinks(getConfig(), expected);
+  }
+
+  @Test
+  @GerritConfig(name = "commentlink.bugzilla.match", value = BUGZILLA_MATCH)
+  @GerritConfig(name = "commentlink.bugzilla.link", value = BUGZILLA_LINK)
+  public void projectConfigUsesCommentLinksFromGlobalAndLocal() throws Exception {
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    assertCommentLinks(getConfig(), expected);
+
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+
+    assertCommentLinks(info, expected);
+    assertCommentLinks(getConfig(), expected);
+  }
+
+  @Test
+  @GerritConfig(name = "commentlink.bugzilla.match", value = BUGZILLA_MATCH)
+  @GerritConfig(name = "commentlink.bugzilla.link", value = BUGZILLA_LINK)
+  public void localCommentLinkOverridesGlobalConfig() throws Exception {
+    String otherLink = "https://other.example.com";
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, otherLink);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, otherLink));
+
+    ConfigInfo info = setConfig(project, input);
+    assertCommentLinks(info, expected);
+    assertCommentLinks(getConfig(), expected);
+  }
+
+  @Test
+  public void localCommentLinksAreInheritedFromParent() throws Exception {
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+    assertCommentLinks(getConfig(child), expected);
+  }
+
+  @Test
+  public void localCommentLinkOverridesParentCommentLink() throws Exception {
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+
+    String otherLink = "https://other.example.com";
+    input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, otherLink);
+    info = setConfig(child, input);
+
+    expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, otherLink));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+
+    assertCommentLinks(getConfig(child), expected);
+  }
+
+  @Test
+  public void updateExistingCommentLink() throws Exception {
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+
+    String otherLink = "https://other.example.com";
+    input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, otherLink);
+    info = setConfig(project, input);
+
+    expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, otherLink));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(getConfig(project), expected);
+  }
+
+  @Test
+  public void removeCommentLinkNotSupported() throws Exception {
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+
+    ConfigInput removeCommentLink = new ConfigInput();
+    addCommentLink(removeCommentLink, BUGZILLA, null);
+    assertThrows(BadRequestException.class, () -> setConfig(project, removeCommentLink));
+
+    assertCommentLinks(getConfig(project), expected);
+  }
+
   private CommentLinkInfo commentLinkInfo(String name, String match, String link) {
     return new CommentLinkInfoImpl(name, match, link, null /*html*/, null /*enabled*/);
   }
 
   private void assertCommentLinks(ConfigInfo actual, Map<String, CommentLinkInfo> expected) {
     assertThat(actual.commentlinks).containsExactlyEntriesIn(expected);
+  }
+
+  private void addCommentLink(ConfigInput configInput, String name, String match, String link) {
+    CommentLinkInput commentLinkInput = new CommentLinkInput();
+    commentLinkInput.match = match;
+    commentLinkInput.link = link;
+    addCommentLink(configInput, name, commentLinkInput);
+  }
+
+  private void addCommentLink(
+      ConfigInput configInput, String name, CommentLinkInput commentLinkInput) {
+    if (configInput.commentLinks == null) {
+      configInput.commentLinks = new HashMap<>();
+    }
+    configInput.commentLinks.put(name, commentLinkInput);
   }
 
   private ConfigInfo setConfig(Project.NameKey name, ConfigInput input) throws Exception {

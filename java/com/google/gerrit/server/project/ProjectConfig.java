@@ -111,10 +111,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_CAN_OVERRIDE = "canOverride";
   public static final String KEY_BRANCH = "branch";
 
-  private static final String KEY_MATCH = "match";
+  public static final String KEY_MATCH = "match";
   private static final String KEY_HTML = "html";
-  private static final String KEY_LINK = "link";
-  private static final String KEY_ENABLED = "enabled";
+  public static final String KEY_LINK = "link";
+  public static final String KEY_ENABLED = "enabled";
 
   public static final String PROJECT_CONFIG = "project.config";
 

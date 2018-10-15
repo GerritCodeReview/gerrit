@@ -1554,6 +1554,22 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void errorMessageFormat() throws Exception {
+    RevCommit c = createCommit(testRepo, "Message without Change-Id");
+    assertThat(GitUtil.getChangeId(testRepo, c)).isEmpty();
+    String ref = "refs/for/master";
+    PushResult r = pushHead(testRepo, ref);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(ref);
+    assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    String reason =
+        String.format(
+            "commit %s: missing Change-Id in message footer", c.toObjectId().abbreviate(7).name());
+    assertThat(refUpdate.getMessage()).isEqualTo(reason);
+
+    assertThat(r.getMessages()).contains("\nERROR: " + reason);
+  }
+
+  @Test
   @GerritConfig(name = "receive.allowPushToRefsChanges", value = "true")
   public void testPushWithChangedChangeId() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");

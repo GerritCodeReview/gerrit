@@ -49,17 +49,21 @@ public interface ChangeApi {
    * @return API for accessing the revision.
    * @throws RestApiException if an error occurred.
    */
-  RevisionApi current() throws RestApiException;
+  default RevisionApi current() throws RestApiException {
+    return revision("current");
+  }
 
   /**
    * Look up a revision of a change by number.
    *
    * @see #current()
    */
-  RevisionApi revision(int id) throws RestApiException;
+  default RevisionApi revision(int id) throws RestApiException {
+    return revision(Integer.toString(id));
+  }
 
   /**
-   * Look up a revision of a change by commit SHA-1.
+   * Look up a revision of a change by commit SHA-1 or other supported revision string.
    *
    * @see #current()
    */
@@ -79,15 +83,23 @@ public interface ChangeApi {
    */
   ReviewerApi reviewer(String id) throws RestApiException;
 
-  void abandon() throws RestApiException;
+  default void abandon() throws RestApiException {
+    abandon(new AbandonInput());
+  }
 
   void abandon(AbandonInput in) throws RestApiException;
 
-  void restore() throws RestApiException;
+  default void restore() throws RestApiException {
+    restore(new RestoreInput());
+  }
 
   void restore(RestoreInput in) throws RestApiException;
 
-  void move(String destination) throws RestApiException;
+  default void move(String destination) throws RestApiException {
+    MoveInput in = new MoveInput();
+    in.destinationBranch = destination;
+    move(in);
+  }
 
   void move(MoveInput in) throws RestApiException;
 
@@ -132,7 +144,9 @@ public interface ChangeApi {
    *
    * @see Changes#id(int)
    */
-  ChangeApi revert() throws RestApiException;
+  default ChangeApi revert() throws RestApiException {
+    return revert(new RevertInput());
+  }
 
   /**
    * Create a new change that reverts this change.
@@ -144,10 +158,17 @@ public interface ChangeApi {
   /** Create a merge patch set for the change. */
   ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException;
 
-  List<ChangeInfo> submittedTogether() throws RestApiException;
+  default List<ChangeInfo> submittedTogether() throws RestApiException{
+  SubmittedTogetherInfo info =
+      submittedTogether(
+          EnumSet.noneOf(ListChangesOption.class), EnumSet.noneOf(SubmittedTogetherOption.class));
+    return info.changes;
+      }
 
-  SubmittedTogetherInfo submittedTogether(EnumSet<SubmittedTogetherOption> options)
-      throws RestApiException;
+  default SubmittedTogetherInfo submittedTogether(EnumSet<SubmittedTogetherOption> options)
+      throws RestApiException {
+    return submittedTogether(EnumSet.noneOf(ListChangesOption.class), options);
+  }
 
   SubmittedTogetherInfo submittedTogether(
       EnumSet<ListChangesOption> listOptions, EnumSet<SubmittedTogetherOption> submitOptions)
@@ -155,10 +176,14 @@ public interface ChangeApi {
 
   /** Publishes a draft change. */
   @Deprecated
-  void publish() throws RestApiException;
+  default void publish() throws RestApiException {
+    throw new UnsupportedOperationException("draft workflow is discontinued");
+  }
 
   /** Rebase the current revision of a change using default options. */
-  void rebase() throws RestApiException;
+  default void rebase() throws RestApiException {
+    rebase(new RebaseInput());
+  }
 
   /** Rebase the current revision of a change. */
   void rebase(RebaseInput in) throws RestApiException;
@@ -172,13 +197,19 @@ public interface ChangeApi {
 
   IncludedInInfo includedIn() throws RestApiException;
 
-  AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException;
+  default AddReviewerResult addReviewer(String reviewer) throws RestApiException{
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = reviewer;
+    return addReviewer(in);
+  }
 
-  AddReviewerResult addReviewer(String in) throws RestApiException;
+  AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException;
 
   SuggestedReviewersRequest suggestReviewers() throws RestApiException;
 
-  SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException;
+  default SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException{
+    return suggestReviewers().withQuery(query);
+  }
 
   ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
 
@@ -191,9 +222,15 @@ public interface ChangeApi {
   }
 
   /** {@code get} with {@link ListChangesOption} set to all except CHECK. */
-  ChangeInfo get() throws RestApiException;
+  default ChangeInfo get() throws RestApiException{
+    return get(
+        EnumSet.complementOf(
+            EnumSet.of(ListChangesOption.CHECK, ListChangesOption.SKIP_MERGEABLE)));
+  }
   /** {@code get} with {@link ListChangesOption} set to none. */
-  ChangeInfo info() throws RestApiException;
+  default ChangeInfo info() throws RestApiException {
+    return get(EnumSet.noneOf(ListChangesOption.class));
+    }
 
   /**
    * Retrieve change edit when exists.
@@ -202,7 +239,9 @@ public interface ChangeApi {
    *     ChangeEditApi#get()}.
    */
   @Deprecated
-  EditInfo getEdit() throws RestApiException;
+  default EditInfo getEdit() throws RestApiException{
+    return edit().get().orElse(null);
+  }
 
   /**
    * Provides access to an API regarding the change edit of this change.
@@ -213,7 +252,11 @@ public interface ChangeApi {
   ChangeEditApi edit() throws RestApiException;
 
   /** Create a new patch set with a new commit message. */
-  void setMessage(String message) throws RestApiException;
+  default void setMessage(String message) throws RestApiException{
+    CommitMessageInput in = new CommitMessageInput();
+    in.message = message;
+    setMessage(in);
+  }
 
   /** Create a new patch set with a new commit message. */
   void setMessage(CommitMessageInput in) throws RestApiException;
@@ -339,16 +382,6 @@ public interface ChangeApi {
     }
 
     @Override
-    public RevisionApi current() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public RevisionApi revision(int id) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
     public ReviewerApi reviewer(String id) throws RestApiException {
       throw new NotImplementedException();
     }
@@ -359,27 +392,12 @@ public interface ChangeApi {
     }
 
     @Override
-    public void abandon() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
     public void abandon(AbandonInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void restore() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
     public void restore(RestoreInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void move(String destination) throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -404,23 +422,7 @@ public interface ChangeApi {
     }
 
     @Override
-    public ChangeApi revert() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
     public ChangeApi revert(RevertInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void publish() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Deprecated
-    @Override
-    public void rebase() throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -455,17 +457,7 @@ public interface ChangeApi {
     }
 
     @Override
-    public AddReviewerResult addReviewer(String in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
     public SuggestedReviewersRequest suggestReviewers() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -475,27 +467,7 @@ public interface ChangeApi {
     }
 
     @Override
-    public ChangeInfo get() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ChangeInfo info() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void setMessage(String message) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
     public void setMessage(CommitMessageInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public EditInfo getEdit() throws RestApiException {
       throw new NotImplementedException();
     }
 

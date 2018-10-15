@@ -43,6 +43,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
+import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -76,6 +77,7 @@ import com.google.gerrit.server.restapi.change.Reviewed;
 import com.google.gerrit.server.restapi.change.RevisionReviewers;
 import com.google.gerrit.server.restapi.change.RobotComments;
 import com.google.gerrit.server.restapi.change.Submit;
+import com.google.gerrit.server.restapi.change.TestSubmitRule;
 import com.google.gerrit.server.restapi.change.TestSubmitType;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -125,6 +127,7 @@ class RevisionApiImpl implements RevisionApi {
   private final GetRevisionActions revisionActions;
   private final TestSubmitType testSubmitType;
   private final TestSubmitType.Get getSubmitType;
+  private final Provider<TestSubmitRule> testSubmitRule;
   private final Provider<GetMergeList> getMergeList;
   private final PutDescription putDescription;
   private final GetDescription getDescription;
@@ -164,6 +167,7 @@ class RevisionApiImpl implements RevisionApi {
       GetRevisionActions revisionActions,
       TestSubmitType testSubmitType,
       TestSubmitType.Get getSubmitType,
+      Provider<TestSubmitRule> testSubmitRule,
       Provider<GetMergeList> getMergeList,
       PutDescription putDescription,
       GetDescription getDescription,
@@ -201,6 +205,7 @@ class RevisionApiImpl implements RevisionApi {
     this.revisionActions = revisionActions;
     this.testSubmitType = testSubmitType;
     this.getSubmitType = getSubmitType;
+    this.testSubmitRule = testSubmitRule;
     this.getMergeList = getMergeList;
     this.putDescription = putDescription;
     this.getDescription = getDescription;
@@ -555,6 +560,15 @@ class RevisionApiImpl implements RevisionApi {
       return testSubmitType.apply(revision, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot test submit type", e);
+    }
+  }
+
+  @Override
+  public List<TestSubmitRuleInfo> testSubmitRule(TestSubmitRuleInput in) throws RestApiException {
+    try {
+      return testSubmitRule.get().apply(revision, in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot test submit rule", e);
     }
   }
 

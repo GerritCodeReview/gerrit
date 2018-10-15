@@ -14,7 +14,9 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.common.base.MoreObjects;
 import java.util.Map;
+import java.util.Objects;
 
 public class TestSubmitRuleInfo {
 
@@ -39,5 +41,38 @@ public class TestSubmitRuleInfo {
     private None() {}
 
     public static None INSTANCE = new None();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof TestSubmitRuleInfo) {
+      TestSubmitRuleInfo other = (TestSubmitRuleInfo) o;
+      return Objects.equals(status, other.status)
+          && Objects.equals(errorMessage, other.errorMessage)
+          && Objects.equals(ok, other.ok)
+          && Objects.equals(reject, other.reject)
+          && Objects.equals(need, other.need)
+          && Objects.equals(may, other.may)
+          && Objects.equals(impossible, other.impossible);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(status, errorMessage, ok, reject, need, may, impossible);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("status", status)
+        .add("errorMessage", errorMessage)
+        .add("ok", ok)
+        .add("reject", reject)
+        .add("need", need)
+        .add("may", may)
+        .add("impossible", impossible)
+        .toString();
   }
 }

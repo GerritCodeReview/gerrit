@@ -23,12 +23,14 @@ import static com.google.gerrit.extensions.client.SubmitType.REBASE_ALWAYS;
 import static com.google.gerrit.extensions.client.SubmitType.REBASE_IF_NECESSARY;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -253,6 +255,43 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
                   + r2.getChange().getId()
                   + " in the same batch");
     }
+  }
+
+  @Test
+  public void invalidSubmitRuleWithNoRulesInProject() throws Exception {
+    String changeId = createChange("master", "change 1").getChangeId();
+
+    TestSubmitRuleInput in = new TestSubmitRuleInput();
+    in.rule = "invalid prolog rule";
+    // We have no rules.pl by default. The fact that the default rules are showing up here is a bug.
+    List<TestSubmitRuleInfo> response = gApi.changes().id(changeId).current().testSubmitRule(in);
+    assertThat(response).containsExactly(defaultUnsatisfiedRuleInfo(), invalidPrologRuleInfo());
+  }
+
+  @Test
+  public void invalidSubmitRuleWithRulesInProject() throws Exception {
+    setRulesPl(SUBMIT_TYPE_FROM_SUBJECT);
+
+    String changeId = createChange("master", "change 1").getChangeId();
+
+    TestSubmitRuleInput in = new TestSubmitRuleInput();
+    in.rule = "invalid prolog rule";
+    List<TestSubmitRuleInfo> response = gApi.changes().id(changeId).current().testSubmitRule(in);
+    assertThat(response).containsExactly(invalidPrologRuleInfo());
+  }
+
+  private static TestSubmitRuleInfo invalidPrologRuleInfo() {
+    TestSubmitRuleInfo info = new TestSubmitRuleInfo();
+    info.status = TestSubmitRuleInfo.Status.RULE_ERROR;
+    info.errorMessage = "operator expected after expression at: invalid prolog rule end_of_file.";
+    return info;
+  }
+
+  private static TestSubmitRuleInfo defaultUnsatisfiedRuleInfo() {
+    TestSubmitRuleInfo info = new TestSubmitRuleInfo();
+    info.status = TestSubmitRuleInfo.Status.NOT_READY;
+    info.need = ImmutableMap.of("Code-Review", TestSubmitRuleInfo.None.INSTANCE);
+    return info;
   }
 
   private List<RevCommit> log(String commitish, int n) throws Exception {

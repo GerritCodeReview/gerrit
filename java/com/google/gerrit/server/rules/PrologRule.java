@@ -39,8 +39,8 @@ public class PrologRule implements SubmitRule {
   @Override
   public Collection<SubmitRecord> evaluate(ChangeData cd, SubmitRuleOptions opts) {
     ProjectState projectState = projectCache.get(cd.project());
-    // We only want to run the prolog engine if we have at least one rules.pl file to use.
-    if (projectState == null || !projectState.hasPrologRules()) {
+    // We only want to run the Prolog engine if we have at least one rules.pl file to use.
+    if ((projectState == null || !projectState.hasPrologRules()) && opts.rule() == null) {
       return Collections.emptyList();
     }
 

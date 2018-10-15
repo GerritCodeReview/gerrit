@@ -15,6 +15,8 @@
 package com.google.gerrit.common.data;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
+import com.google.gerrit.extensions.common.TestSubmitRuleInfo.Status;
 import com.google.gerrit.reviewdb.client.Account;
 import java.util.Collection;
 import java.util.List;
@@ -40,26 +42,36 @@ public class SubmitRecord {
     // the name of any values requires a schema upgrade.
 
     /** The change is ready for submission. */
-    OK,
+    OK(TestSubmitRuleInfo.Status.OK),
 
     /** Something is preventing this change from being submitted. */
-    NOT_READY,
+    NOT_READY(TestSubmitRuleInfo.Status.NOT_READY),
 
     /** The change has been closed. */
-    CLOSED,
+    CLOSED(TestSubmitRuleInfo.Status.CLOSED),
 
     /** The change was submitted bypassing submit rules. */
-    FORCED,
+    FORCED(TestSubmitRuleInfo.Status.FORCED),
 
     /**
      * An internal server error occurred preventing computation.
      *
      * <p>Additional detail may be available in {@link SubmitRecord#errorMessage}.
      */
-    RULE_ERROR;
+    RULE_ERROR(TestSubmitRuleInfo.Status.RULE_ERROR);
+
+    final TestSubmitRuleInfo.Status apiStatus;
+
+    Status(TestSubmitRuleInfo.Status apiStatus) {
+      this.apiStatus = apiStatus;
+    }
 
     private boolean allowsSubmission() {
       return this == OK || this == FORCED;
+    }
+
+    public TestSubmitRuleInfo.Status apiStatus() {
+      return apiStatus;
     }
   }
 

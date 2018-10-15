@@ -57,6 +57,24 @@
     },
     {
       "key": {
+        "uuid": "c4a8cbae_b48573c3",
+        "filename": "java/com/google/gerrit/server/change/ReviewerAdder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-15T15:30:57Z",
+      "side": 1,
+      "message": "(By the way, it\u0027s stuff like this that caused this series to take me a whole week to get all the tests passing :)",
+      "parentUuid": "3e36ee23_c3de1166",
+      "revId": "d6d80d69f69d36620f54685604a2b235fbf4daf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ccdb191_889ba4b3",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1

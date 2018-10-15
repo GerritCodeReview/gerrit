@@ -46,6 +46,46 @@
       "revId": "a0f246a8d71e9d68af19087126fb18c26ca1f28e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1606f415_7c0cdc1b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-15T19:46:12Z",
+      "side": 1,
+      "message": "Also check the WIP bit based on the value in this ChangeInfo.",
+      "range": {
+        "startLine": 327,
+        "startChar": 8,
+        "endLine": 327,
+        "endChar": 77
+      },
+      "revId": "a0f246a8d71e9d68af19087126fb18c26ca1f28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f6d634f_1e720684",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-15T19:46:12Z",
+      "side": 1,
+      "message": "Also check the WIP bit based on the value in this ChangeInfo.",
+      "revId": "a0f246a8d71e9d68af19087126fb18c26ca1f28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

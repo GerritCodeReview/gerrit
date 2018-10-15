@@ -18,6 +18,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput.Filters;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -35,7 +36,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import org.kohsuke.args4j.Option;
 
 public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
@@ -63,7 +63,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
   }
 
   @Override
-  public List<Record> apply(RevisionResource rsrc, TestSubmitRuleInput input)
+  public List<TestSubmitRuleInfo> apply(RevisionResource rsrc, TestSubmitRuleInput input)
       throws AuthException, OrmException, PermissionBackendException {
     if (input == null) {
       input = new TestSubmitRuleInput();
@@ -83,71 +83,61 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
     List<SubmitRecord> records = submitRuleEvaluatorFactory.create(opts).evaluate(cd);
 
-    List<Record> out = Lists.newArrayListWithCapacity(records.size());
+    List<TestSubmitRuleInfo> out = Lists.newArrayListWithCapacity(records.size());
     AccountLoader accounts = accountInfoFactory.create(true);
     for (SubmitRecord r : records) {
-      out.add(new Record(r, accounts));
+      out.add(newSubmitRuleInfo(r, accounts));
     }
     accounts.fill();
     return out;
   }
 
-  static class Record {
-    SubmitRecord.Status status;
-    String errorMessage;
-    Map<String, AccountInfo> ok;
-    Map<String, AccountInfo> reject;
-    Map<String, None> need;
-    Map<String, AccountInfo> may;
-    Map<String, None> impossible;
+  private static TestSubmitRuleInfo newSubmitRuleInfo(SubmitRecord r, AccountLoader accounts) {
+    TestSubmitRuleInfo info = new TestSubmitRuleInfo();
+    info.status = r.status.apiStatus();
+    info.errorMessage = r.errorMessage;
 
-    Record(SubmitRecord r, AccountLoader accounts) {
-      this.status = r.status;
-      this.errorMessage = r.errorMessage;
-
-      if (r.labels != null) {
-        for (SubmitRecord.Label n : r.labels) {
-          AccountInfo who = n.appliedBy != null ? accounts.get(n.appliedBy) : new AccountInfo(null);
-          label(n, who);
-        }
+    if (r.labels != null) {
+      for (SubmitRecord.Label n : r.labels) {
+        AccountInfo who = n.appliedBy != null ? accounts.get(n.appliedBy) : new AccountInfo(null);
+        label(info, n, who);
       }
     }
-
-    private void label(SubmitRecord.Label n, AccountInfo who) {
-      switch (n.status) {
-        case OK:
-          if (ok == null) {
-            ok = new LinkedHashMap<>();
-          }
-          ok.put(n.label, who);
-          break;
-        case REJECT:
-          if (reject == null) {
-            reject = new LinkedHashMap<>();
-          }
-          reject.put(n.label, who);
-          break;
-        case NEED:
-          if (need == null) {
-            need = new LinkedHashMap<>();
-          }
-          need.put(n.label, new None());
-          break;
-        case MAY:
-          if (may == null) {
-            may = new LinkedHashMap<>();
-          }
-          may.put(n.label, who);
-          break;
-        case IMPOSSIBLE:
-          if (impossible == null) {
-            impossible = new LinkedHashMap<>();
-          }
-          impossible.put(n.label, new None());
-          break;
-      }
-    }
+    return info;
   }
 
-  static class None {}
+  private static void label(TestSubmitRuleInfo info, SubmitRecord.Label n, AccountInfo who) {
+    switch (n.status) {
+      case OK:
+        if (info.ok == null) {
+          info.ok = new LinkedHashMap<>();
+        }
+        info.ok.put(n.label, who);
+        break;
+      case REJECT:
+        if (info.reject == null) {
+          info.reject = new LinkedHashMap<>();
+        }
+        info.reject.put(n.label, who);
+        break;
+      case NEED:
+        if (info.need == null) {
+          info.need = new LinkedHashMap<>();
+        }
+        info.need.put(n.label, TestSubmitRuleInfo.None.INSTANCE);
+        break;
+      case MAY:
+        if (info.may == null) {
+          info.may = new LinkedHashMap<>();
+        }
+        info.may.put(n.label, who);
+        break;
+      case IMPOSSIBLE:
+        if (info.impossible == null) {
+          info.impossible = new LinkedHashMap<>();
+        }
+        info.impossible.put(n.label, TestSubmitRuleInfo.None.INSTANCE);
+        break;
+    }
+  }
 }

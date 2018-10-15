@@ -39,6 +39,24 @@
     },
     {
       "key": {
+        "uuid": "3e36ee23_c3de1166",
+        "filename": "java/com/google/gerrit/server/change/ReviewerAdder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T15:20:42Z",
+      "side": 1,
+      "message": "Sounds good to me.",
+      "parentUuid": "414bf723_8797c08c",
+      "revId": "d6d80d69f69d36620f54685604a2b235fbf4daf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ccdb191_889ba4b3",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1

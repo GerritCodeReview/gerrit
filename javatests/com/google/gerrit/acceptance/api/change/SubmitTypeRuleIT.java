@@ -23,7 +23,6 @@ import static com.google.gerrit.extensions.client.SubmitType.REBASE_ALWAYS;
 import static com.google.gerrit.extensions.client.SubmitType.REBASE_IF_NECESSARY;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -265,7 +264,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     in.rule = "invalid prolog rule";
     // We have no rules.pl by default. The fact that the default rules are showing up here is a bug.
     List<TestSubmitRuleInfo> response = gApi.changes().id(changeId).current().testSubmitRule(in);
-    assertThat(response).containsExactly(defaultUnsatisfiedRuleInfo(), invalidPrologRuleInfo());
+    assertThat(response).containsExactly(invalidPrologRuleInfo());
   }
 
   @Test
@@ -284,13 +283,6 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     TestSubmitRuleInfo info = new TestSubmitRuleInfo();
     info.status = "RULE_ERROR";
     info.errorMessage = "operator expected after expression at: invalid prolog rule end_of_file.";
-    return info;
-  }
-
-  private static TestSubmitRuleInfo defaultUnsatisfiedRuleInfo() {
-    TestSubmitRuleInfo info = new TestSubmitRuleInfo();
-    info.status = "NOT_READY";
-    info.need = ImmutableMap.of("Code-Review", TestSubmitRuleInfo.None.INSTANCE);
     return info;
   }
 

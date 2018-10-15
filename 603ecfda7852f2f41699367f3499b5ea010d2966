@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10dc9251_3fbc0f3d",
+        "filename": "java/com/google/gerrit/extensions/common/TestSubmitRuleInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-15T14:43:19Z",
+      "side": 1,
+      "message": "Should we have an enum class for this status in the extension package?\nE.g. for change status we also have the ChangeStatus enum in the extension package and the Cange.Status enum for the internal use.",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "603ecfda7852f2f41699367f3499b5ea010d2966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75f6c224_8947109e",
+        "filename": "java/com/google/gerrit/extensions/common/TestSubmitRuleInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-15T14:43:19Z",
+      "side": 1,
+      "message": "[optional] Should this be some kind of singleton?",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "603ecfda7852f2f41699367f3499b5ea010d2966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

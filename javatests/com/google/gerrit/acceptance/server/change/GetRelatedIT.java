@@ -24,9 +24,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.index.IndexConfig;
@@ -35,8 +36,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.GetRelated;
-import com.google.gerrit.server.restapi.change.GetRelated.ChangeAndCommit;
-import com.google.gerrit.server.restapi.change.GetRelated.RelatedInfo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -56,6 +55,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+@NoHttpd
 public class GetRelatedIT extends AbstractDaemonTest {
   private static final int MAX_TERMS = 10;
 
@@ -577,15 +577,12 @@ public class GetRelatedIT extends AbstractDaemonTest {
     assertRelated(cd.change().currentPatchSetId());
   }
 
-  private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws Exception {
+  private List<RelatedChangeAndCommitInfo> getRelated(PatchSet.Id ps) throws Exception {
     return getRelated(ps.getParentKey(), ps.get());
   }
 
-  private List<ChangeAndCommit> getRelated(Change.Id changeId, int ps) throws Exception {
-    String url = String.format("/changes/%d/revisions/%d/related", changeId.get(), ps);
-    RestResponse r = adminRestSession.get(url);
-    r.assertOK();
-    return newGson().fromJson(r.getReader(), RelatedInfo.class).changes;
+  private List<RelatedChangeAndCommitInfo> getRelated(Change.Id changeId, int ps) throws Exception {
+    return gApi.changes().id(changeId.get()).revision(ps).related().changes;
   }
 
   private RevCommit parseBody(RevCommit c) throws Exception {
@@ -601,9 +598,9 @@ public class GetRelatedIT extends AbstractDaemonTest {
     return Iterables.getOnlyElement(queryProvider.get().byCommit(c));
   }
 
-  private ChangeAndCommit changeAndCommit(
+  private RelatedChangeAndCommitInfo changeAndCommit(
       PatchSet.Id psId, ObjectId commitId, int currentRevisionNum) {
-    ChangeAndCommit result = new ChangeAndCommit();
+    RelatedChangeAndCommitInfo result = new RelatedChangeAndCommitInfo();
     result.project = project.get();
     result._changeNumber = psId.getParentKey().get();
     result.commit = new CommitInfo();
@@ -631,13 +628,14 @@ public class GetRelatedIT extends AbstractDaemonTest {
     }
   }
 
-  private void assertRelated(PatchSet.Id psId, ChangeAndCommit... expected) throws Exception {
-    List<ChangeAndCommit> actual = getRelated(psId);
+  private void assertRelated(PatchSet.Id psId, RelatedChangeAndCommitInfo... expected)
+      throws Exception {
+    List<RelatedChangeAndCommitInfo> actual = getRelated(psId);
     assertThat(actual).named("related to " + psId).hasSize(expected.length);
     for (int i = 0; i < actual.size(); i++) {
       String name = "index " + i + " related to " + psId;
-      ChangeAndCommit a = actual.get(i);
-      ChangeAndCommit e = expected[i];
+      RelatedChangeAndCommitInfo a = actual.get(i);
+      RelatedChangeAndCommitInfo e = expected[i];
       assertThat(a.project).named("project of " + name).isEqualTo(e.project);
       assertThat(a._changeNumber).named("change ID of " + name).isEqualTo(e._changeNumber);
       // Don't bother checking changeId; assume _changeNumber is sufficient.

@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "0c5137cd_dddd5b01",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T15:09:17Z",
+      "side": 1,
+      "message": "Sounds good to me!",
+      "parentUuid": "cabd523f_4ac04cde",
+      "revId": "674531d80aaa8412a665735109e5258d1b081a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95aaf16b_50bb23ed",
         "filename": "java/com/google/gerrit/server/change/ReviewerAdder.java",
         "patchSetId": 5
@@ -85,6 +103,30 @@
     },
     {
       "key": {
+        "uuid": "e741349c_57633dcd",
+        "filename": "java/com/google/gerrit/server/change/ReviewerAdder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T15:09:17Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "75d94ee5_d3adc54a",
+      "range": {
+        "startLine": 132,
+        "startChar": 21,
+        "endLine": 132,
+        "endChar": 51
+      },
+      "revId": "674531d80aaa8412a665735109e5258d1b081a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "439911d9_6bafab1a",
         "filename": "java/com/google/gerrit/server/change/ReviewerAdder.java",
         "patchSetId": 5
@@ -114,6 +156,24 @@
       "side": 1,
       "message": "I have already forgotten to call postUpdate, and it\u0027s easy to see when this happens because you get an NPE/ISE. Specifically, AddReviewersOp#postUpdate populates the opResult field, so later steps that depend on it being present will fail to find it.",
       "parentUuid": "439911d9_6bafab1a",
+      "revId": "674531d80aaa8412a665735109e5258d1b081a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aa79d5f_85d736b7",
+        "filename": "java/com/google/gerrit/server/change/ReviewerAdder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T15:09:17Z",
+      "side": 1,
+      "message": "Ok, then I have no concerns with this.",
+      "parentUuid": "b1852dbe_1785db18",
       "revId": "674531d80aaa8412a665735109e5258d1b081a17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

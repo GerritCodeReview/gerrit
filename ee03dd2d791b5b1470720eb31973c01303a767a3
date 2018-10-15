@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b7d9a8f_4c58d0e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-15T15:08:09Z",
+      "side": 1,
+      "message": "subtle (see comment from David Pursehouse on patch set 1)",
+      "range": {
+        "startLine": 7,
+        "startChar": 57,
+        "endLine": 7,
+        "endChar": 64
+      },
+      "revId": "ee03dd2d791b5b1470720eb31973c01303a767a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d34f2756_5afc9bcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-15T15:08:09Z",
+      "side": 1,
+      "message": "subtle",
+      "range": {
+        "startLine": 13,
+        "startChar": 20,
+        "endLine": 13,
+        "endChar": 27
+      },
+      "revId": "ee03dd2d791b5b1470720eb31973c01303a767a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14914676_7f053f37",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitTypeRuleIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-15T15:08:09Z",
+      "side": 1,
+      "message": "These tests are not testing the submit type, hence should they be in another test class? Maybe just rename the test class?",
+      "revId": "ee03dd2d791b5b1470720eb31973c01303a767a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1491a256_ad4e11b4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitTypeRuleIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-15T15:08:09Z",
+      "side": 1,
+      "message": "Would it be better to rather have a comment in the test above which shows a behavior which is unexpected according to the documentation?",
+      "range": {
+        "startLine": 279,
+        "startChar": 4,
+        "endLine": 281,
+        "endChar": 15
+      },
+      "revId": "ee03dd2d791b5b1470720eb31973c01303a767a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

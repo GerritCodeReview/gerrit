@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3ecd2e6a_6c2e5b92",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-15T20:25:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a39cd1b9_71c16100",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cec77f34_33b7ff96",
         "filename": "Documentation/config-cla.txt",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2018-10-15T07:24:43Z",
       "side": 1,
       "message": "Not knowing the use-cases you have, I would lean towards not having a regular expression here. If you have multiple, nested projects that you want to include, this regex has the potential to grow very large and become unreadable. It is also pretty hard to test.\n\nAn alternative could be to use a list of prefixes:\nmatchProjects \u003d gerrit/plugins/*\nmatchProjects \u003d gerrit/webhost\nexcludeProjects \u003d gerrit/plugins/my-new-plugin\n\nThe idea would be that \u0027excludes\u0027 is stronger than any match. It is an exact match if on \u0027/*\u0027 is appended at the end. This keeps it readable and makes changes to these expressions less prone to human error.",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e93defd_6acc4fd8",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-15T20:25:51Z",
+      "side": 1,
+      "message": "It could become unreadable if someone tries to write a single regular expression to describe all matchProjects, but it\u0027s a list so they don\u0027t have to do that.\n\nExclude is already stronger than match.\n\nThe examples you cite are equivalent to:\n\nmatchProjects \u003d ^gerrit/plugins/\nmatchProjects \u003d ^gerrit/webhost$\nexcludeProjects \u003d ^gerrit/plugins/my-new-plugin$\n\nAs it happens, the first use for this configuration option will not use anchored expressions. We have a situation where let\u0027s say FooCorp owns some of the projects on a host and objects strongly to anything indicating they have to extend any rights to those projects to anyone else just to use the host.\n\nThe first configuration will use something along the lines of:\n\nexcludeProjects \u003d \\FooCorp\n\nCurrently, the text to match in the project paths appears under several different prefixes, and when a FooCorp project gets created under a new prefix, the same policy will have to apply. If the config were required to enumerate all of the prefixes, when a FooCorp project gets introduced under a different prefix, it could cause a stink if someone at FooCorp gets a CLA demand.",
+      "parentUuid": "cec77f34_33b7ff96",
       "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "edc671c3_b781ee3a",
+        "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-15T20:25:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2f8f795_061b730a",
+      "range": {
+        "startLine": 81,
+        "startChar": 22,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c50b51a_6d8362fc",
         "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
         "patchSetId": 9
@@ -73,6 +133,24 @@
       "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc7b3b25_b9169719",
+        "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-15T20:25:51Z",
+      "side": 1,
+      "message": "Ack\n\nI prefer to keep such cleanups in separate changes.",
+      "parentUuid": "9c50b51a_6d8362fc",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "45d38b81_0c47a1e3",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-15T20:25:51Z",
+      "side": 1,
+      "message": "Ack\n\nI am not entirely sure what you are suggesting here, but this is the same regular expression Pattern class used throughout the gerrit code base. A case-insensitive grep for re2 gets no regex-related hits.",
+      "parentUuid": "fe05f361_c9f7fb49",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "609f9b44_f58c18ce",
         "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
         "patchSetId": 9
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "d8c4e046_f99b51ce",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-15T20:25:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "609f9b44_f58c18ce",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95f5e41b_dcfea2e7",
         "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
         "patchSetId": 9
@@ -121,6 +235,24 @@
       "writtenOn": "2018-10-15T07:24:43Z",
       "side": 1,
       "message": "This is potentially dangerous: What if the project owner/admin accidentally misconfigures an important exclude regex?\n\nThat would suddenly make the CLA match there as well. The same, but inverse, goes for match, which is potentially even worse when projects suddenly stop CLA checking.",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ffca2d8_99b1a3a9",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-15T20:25:51Z",
+      "side": 1,
+      "message": "A pre-upload hook runs that checks the groups referenced in accepted clauses exist in the groups file. Do you know where that code lives? It would be ideal if the same or similar hook fails if project.config contains an invalid regular expression. I assumed if I touched all the code that uses ProjectConfig it would get covered as a matter of course.\n\nThe regular expressions are validated when reading project.config\n\nWhile I have not fully audited the gerrit error handling, my expectation is such a misconfigured regular expression will cause the server to crash on startup or soon after. i.e. fail fast. Or even better, to fail the preupload hook.\n\nIf you want, I can make it crash here too, but that strikes me as potentially dangerous in a different way. I added a comment. If you prefer a crash, just say the word and I will add a Precondition.checkState call to the loop.",
+      "parentUuid": "95f5e41b_dcfea2e7",
       "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -147,6 +279,30 @@
       "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a807513_0330d284",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-15T20:25:51Z",
+      "side": 1,
+      "message": "Done\n\nIt\u0027s already covered in the test case immediately above.",
+      "parentUuid": "ef2f8394_f939052a",
+      "range": {
+        "startLine": 271,
+        "startChar": 0,
+        "endLine": 274,
+        "endChar": 44
+      },
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

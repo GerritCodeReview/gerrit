@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f47a74f7_2539d5d4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitTypeRuleIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-15T15:09:41Z",
+      "side": 1,
+      "message": "Is this unused now?",
+      "revId": "f119f11cefa3582c1f10e3857af05a0722644211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

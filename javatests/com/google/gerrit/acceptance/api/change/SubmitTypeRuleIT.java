@@ -264,7 +264,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     TestSubmitRuleInput in = new TestSubmitRuleInput();
     in.rule = "invalid prolog rule";
     List<TestSubmitRuleInfo> response = gApi.changes().id(changeId).current().testSubmitRule(in);
-    assertThat(response).containsExactly(defaultUnsatisfiedRuleInfo(), invalidPrologRuleInfo());
+    assertThat(response).containsExactly(invalidPrologRuleInfo());
   }
 
   @Test

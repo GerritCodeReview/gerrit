@@ -39,6 +39,8 @@ import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.bc.BcPGPObjectFactory;
 import org.bouncycastle.openpgp.operator.bc.BcPGPContentVerifierBuilderProvider;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -47,6 +49,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -239,6 +242,11 @@ public class PublicKeyStore implements AutoCloseable {
       }
     }
 
+    return readKeys(note, fp);
+  }
+
+  private List<PGPPublicKeyRing> readKeys(Note note, byte[] fp)
+      throws IOException, MissingObjectException, IncorrectObjectTypeException {
     List<PGPPublicKeyRing> keys = new ArrayList<>();
     try (InputStream in = reader.open(note.getData(), OBJ_BLOB).openStream()) {
       while (true) {
@@ -257,6 +265,20 @@ public class PublicKeyStore implements AutoCloseable {
         checkState(!it.hasNext(), "expected one PGP object per ArmoredInputStream");
       }
       return keys;
+    }
+  }
+
+  public void rebuildSubkeyCache(TextProgressMonitor monitor)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException, PGPException {
+    if (reader == null) {
+      load();
+    }
+    for (Note note : notes) {
+      for (PGPPublicKeyRing keyRing : new PGPPublicKeyRingCollection(readKeys(note, null))) {
+        long keyId = keyRing.getPublicKey().getKeyID();
+        addToSubkeyCache(keyRing, keyId, keyObjectId(keyId));
+      }
+      monitor.update(1);
     }
   }
 

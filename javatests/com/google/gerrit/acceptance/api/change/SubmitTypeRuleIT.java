@@ -265,7 +265,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     in.rule = "invalid prolog rule";
     // We have no rules.pl by default. The fact that the default rules are showing up here is a bug.
     List<TestSubmitRuleInfo> response = gApi.changes().id(changeId).current().testSubmitRule(in);
-    assertThat(response).containsExactly(defaultUnsatisfiedRuleInfo(), invalidPrologRuleInfo());
+    assertThat(response).containsExactly(invalidPrologRuleInfo());
   }
 
   @Test
@@ -284,13 +284,6 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     TestSubmitRuleInfo info = new TestSubmitRuleInfo();
     info.status = TestSubmitRuleInfo.Status.RULE_ERROR;
     info.errorMessage = "operator expected after expression at: invalid prolog rule end_of_file.";
-    return info;
-  }
-
-  private static TestSubmitRuleInfo defaultUnsatisfiedRuleInfo() {
-    TestSubmitRuleInfo info = new TestSubmitRuleInfo();
-    info.status = TestSubmitRuleInfo.Status.NOT_READY;
-    info.need = ImmutableMap.of("Code-Review", TestSubmitRuleInfo.None.INSTANCE);
     return info;
   }
 

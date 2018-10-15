@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a39cd1b9_71c16100",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T07:24:43Z",
+      "side": 1,
+      "message": "When I read this I thought the new settings are kinda going against Gerrit\u0027s inheritance hierarchy: We can configure a CLA for each project either in the project\u0027s own project.config or in a parent\u0027s project.config. However, that isn\u0027t true because CLAs can only be configured on All-Projects.\n\nWould you mind adding \u0027of All-Projects\u0027 right after \u0027project.config\u0027?",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cec77f34_33b7ff96",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T07:24:43Z",
+      "side": 1,
+      "message": "Not knowing the use-cases you have, I would lean towards not having a regular expression here. If you have multiple, nested projects that you want to include, this regex has the potential to grow very large and become unreadable. It is also pretty hard to test.\n\nAn alternative could be to use a list of prefixes:\nmatchProjects \u003d gerrit/plugins/*\nmatchProjects \u003d gerrit/webhost\nexcludeProjects \u003d gerrit/plugins/my-new-plugin\n\nThe idea would be that \u0027excludes\u0027 is stronger than any match. It is an exact match if on \u0027/*\u0027 is appended at the end. This keeps it readable and makes changes to these expressions less prone to human error.",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2f8f795_061b730a",
+        "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T07:24:43Z",
+      "side": 1,
+      "message": "I think the naming here is not optimal: From the name \u0027getExcludeProjects\u0027 with a List\u003cString\u003e signature, I would expect that I get a list of project names back, which is not the case since this is just a parsed representation from project.config.\n\nHow about: getExcludedProjectPrefixes (or getExcludedProjectRegexes)",
+      "range": {
+        "startLine": 81,
+        "startChar": 22,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c50b51a_6d8362fc",
+        "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T07:24:43Z",
+      "side": 1,
+      "message": "I think this method is unused: https://gerrit-review.googlesource.com/c/gerrit/+/199907",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe05f361_c9f7fb49",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T07:24:43Z",
+      "side": 1,
+      "message": "If you can\u0027t go with the prefix approach I commented on earlier on, then please use RE2 here.",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "609f9b44_f58c18ce",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T07:24:43Z",
+      "side": 1,
+      "message": "Please factor this new code out in a method that returns a boolean in case this project is a match. That makes it so that the method can be unit-tested easily which would be good here I think.",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95f5e41b_dcfea2e7",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T07:24:43Z",
+      "side": 1,
+      "message": "This is potentially dangerous: What if the project owner/admin accidentally misconfigures an important exclude regex?\n\nThat would suddenly make the CLA match there as well. The same, but inverse, goes for match, which is potentially even worse when projects suddenly stop CLA checking.",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef2f8394_f939052a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-15T07:24:43Z",
+      "side": 1,
+      "message": "This part isn\u0027t covered in what the test name suggests that this method is doing, please consider factoring it out in a separate test method.",
+      "range": {
+        "startLine": 271,
+        "startChar": 0,
+        "endLine": 274,
+        "endChar": 44
+      },
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

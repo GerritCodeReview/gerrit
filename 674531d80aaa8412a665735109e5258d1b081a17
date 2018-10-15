@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "cabd523f_4ac04cde",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-15T15:04:01Z",
+      "side": 1,
+      "message": "Later in the series we use this as the rejection message for a single ReceiveCommand:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/199451/1/java/com/google/gerrit/server/git/receive/ReceiveCommits.java#850\n\nThere are two weak reasons to only report one failure there:\n* More similar to the previous behavior, which failed fast on the first unknown reviewer.\n* Limiting line length.\n\nBut I\u0027m still open to rethinking this. I am also still not convinced that we shouldn\u0027t make this a warning instead of a failure. And the reason I exposed a plural getFailures() method from ReviewerAdditionList was to make it easier to change later.\n\nI\u0027d vote for not blocking this and the following 2 changes on this decision.",
+      "parentUuid": "25f067da_eed9efa9",
+      "revId": "674531d80aaa8412a665735109e5258d1b081a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95aaf16b_50bb23ed",
         "filename": "java/com/google/gerrit/server/change/ReviewerAdder.java",
         "patchSetId": 5
@@ -43,6 +61,30 @@
     },
     {
       "key": {
+        "uuid": "75d94ee5_d3adc54a",
+        "filename": "java/com/google/gerrit/server/change/ReviewerAdder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-15T15:04:01Z",
+      "side": 1,
+      "message": "No, because the intent is to pass the result of PatchSetInfo#get{Author,Committer}().getAccount().",
+      "parentUuid": "95aaf16b_50bb23ed",
+      "range": {
+        "startLine": 132,
+        "startChar": 21,
+        "endLine": 132,
+        "endChar": 51
+      },
+      "revId": "674531d80aaa8412a665735109e5258d1b081a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "439911d9_6bafab1a",
         "filename": "java/com/google/gerrit/server/change/ReviewerAdder.java",
         "patchSetId": 5
@@ -54,6 +96,24 @@
       "writtenOn": "2018-10-15T07:46:03Z",
       "side": 1,
       "message": "One think I am slightly worried about is that - out of human error - we forget to call postUpdate. But as you say in the comment the obvious way around is making this an op, which is hard for the reasons you mention.",
+      "revId": "674531d80aaa8412a665735109e5258d1b081a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1852dbe_1785db18",
+        "filename": "java/com/google/gerrit/server/change/ReviewerAdder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-15T15:04:01Z",
+      "side": 1,
+      "message": "I have already forgotten to call postUpdate, and it\u0027s easy to see when this happens because you get an NPE/ISE. Specifically, AddReviewersOp#postUpdate populates the opResult field, so later steps that depend on it being present will fail to find it.",
+      "parentUuid": "439911d9_6bafab1a",
       "revId": "674531d80aaa8412a665735109e5258d1b081a17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

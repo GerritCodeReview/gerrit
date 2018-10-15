@@ -577,14 +577,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
     assertRelated(cd.change().currentPatchSetId());
   }
 
-  private List<RelatedChangeAndCommitInfo> getRelated(PatchSet.Id ps) throws Exception {
-    return getRelated(ps.getParentKey(), ps.get());
-  }
-
-  private List<RelatedChangeAndCommitInfo> getRelated(Change.Id changeId, int ps) throws Exception {
-    return gApi.changes().id(changeId.get()).revision(ps).related().changes;
-  }
-
   private RevCommit parseBody(RevCommit c) throws Exception {
     testRepo.getRevWalk().parseBody(c);
     return c;

@@ -190,9 +190,17 @@ public interface ChangeApi {
     return get(Arrays.asList(options));
   }
 
-  /** {@code get} with {@link ListChangesOption} set to all except CHECK. */
+  /**
+   * {@link #get(ListChangesOption...)} with all options included, except for the following.
+   *
+   * <ul>
+   *   <li>{@code CHECK} is omitted, to skip consistency checks.
+   *   <li>{@code SKIP_MERGEABLE} is omitted, so the {@code mergeable} bit <em>is</em> set.
+   * </ul>
+   */
   ChangeInfo get() throws RestApiException;
-  /** {@code get} with {@link ListChangesOption} set to none. */
+
+  /** {@link #get(ListChangesOption...)} with no options included. */
   ChangeInfo info() throws RestApiException;
 
   /**

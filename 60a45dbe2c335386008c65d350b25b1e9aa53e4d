@@ -22,6 +22,30 @@
       "revId": "60a45dbe2c335386008c65d350b25b1e9aa53e4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f156e26_10c25a3f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3260,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-16T14:08:04Z",
+      "side": 1,
+      "message": "Right.  At this point the API only supports adding new or modifying an existing entry.  I\u0027m not sure how it should work if we also want to support removal.\n\nWould it be better to offer a separate endpoint (something like /projects/name/commentlinks) that also supports DELETE?",
+      "parentUuid": "563046a6_a343c780",
+      "range": {
+        "startLine": 3258,
+        "startChar": 0,
+        "endLine": 3260,
+        "endChar": 41
+      },
+      "revId": "60a45dbe2c335386008c65d350b25b1e9aa53e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

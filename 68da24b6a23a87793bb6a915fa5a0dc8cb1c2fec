@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0db47346_2d6a4e82",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-16T21:45:16Z",
+      "side": 1,
+      "message": "Should this instead be `color: var(--error-text-color)`?",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 7
+      },
+      "revId": "68da24b6a23a87793bb6a915fa5a0dc8cb1c2fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5905e41f_ca65f4a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-16T21:45:16Z",
+      "side": 1,
+      "message": "This should be a computed class that conditionally applies `display: none`.",
+      "range": {
+        "startLine": 126,
+        "startChar": 10,
+        "endLine": 127,
+        "endChar": 15
+      },
+      "revId": "68da24b6a23a87793bb6a915fa5a0dc8cb1c2fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4655f7b7_59d13901",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-16T21:45:16Z",
+      "side": 1,
+      "message": "I\u0027d prefer if this was entirely a computed string.",
+      "range": {
+        "startLine": 144,
+        "startChar": 12,
+        "endLine": 145,
+        "endChar": 80
+      },
+      "revId": "68da24b6a23a87793bb6a915fa5a0dc8cb1c2fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

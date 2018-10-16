@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Splitter;
 import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Ints;
@@ -96,10 +97,10 @@ public class HashedPassword {
     this.hashed = hashed;
     this.cost = cost;
 
-    Preconditions.checkState(cost >= 4 && cost < 32);
+    checkState(cost >= 4 && cost < 32);
 
     // salt must be 128 bit.
-    Preconditions.checkState(salt.length == 16);
+    checkState(salt.length == 16);
   }
 
   /**

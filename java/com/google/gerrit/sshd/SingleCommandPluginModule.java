@@ -14,7 +14,8 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
 import com.google.inject.binder.LinkedBindingBuilder;
@@ -35,7 +36,7 @@ public abstract class SingleCommandPluginModule extends CommandModule {
 
   @Override
   protected final void configure() {
-    Preconditions.checkState(command != null, "@PluginName must be provided");
+    checkState(command != null, "@PluginName must be provided");
     configure(bind(Commands.key(command)));
   }
 

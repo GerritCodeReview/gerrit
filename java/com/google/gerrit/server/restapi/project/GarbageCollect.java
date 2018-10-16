@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Preconditions;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -101,7 +101,7 @@ public class GarbageCollect
     Optional<String> url =
         urlFormatter.getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
     // We're in a HTTP handler, so must be present.
-    Preconditions.checkState(url.isPresent());
+    checkState(url.isPresent());
     return Response.accepted(url.get());
   }
 

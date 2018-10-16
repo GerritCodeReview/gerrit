@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.CoreDownloadSchemes.ANON_GIT;
 import static com.google.gerrit.reviewdb.client.CoreDownloadSchemes.ANON_HTTP;
 import static com.google.gerrit.reviewdb.client.CoreDownloadSchemes.HTTP;
@@ -21,7 +22,6 @@ import static com.google.gerrit.reviewdb.client.CoreDownloadSchemes.REPO_DOWNLOA
 import static com.google.gerrit.reviewdb.client.CoreDownloadSchemes.SSH;
 import static com.google.gerrit.server.config.ConfigUtil.storeSection;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -227,7 +227,7 @@ public class Schema_119 extends SchemaVersion {
   }
 
   private static boolean toBoolean(String v) {
-    Preconditions.checkState(!Strings.isNullOrEmpty(v));
+    checkState(!Strings.isNullOrEmpty(v));
     return v.equals("Y");
   }
 }

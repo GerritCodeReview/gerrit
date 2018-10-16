@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.inject.Inject;
@@ -69,7 +70,7 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
   protected String formatChangeUrl(Input input) {
     Change c = input.change();
     Optional<String> changeUrl = urlFormatter.getChangeViewUrl(c.getProject(), c.getId());
-    Preconditions.checkState(changeUrl.isPresent());
+    checkState(changeUrl.isPresent());
 
     StringBuilder m =
         new StringBuilder()

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "509b717c_1486f934",
+        "filename": "java/com/google/gerrit/pgm/ProtobufImport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-16T08:59:52Z",
+      "side": 1,
+      "message": "Should this be\n\n  () -\u003e String.format(\"unknown relation ID %s in message: %s\", e.getKey(), msg)\n\n?",
+      "range": {
+        "startLine": 106,
+        "startChar": 18,
+        "endLine": 106,
+        "endChar": 89
+      },
+      "revId": "97802315a21141c7025a4556a3106a0735590633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54f5f080_05084c84",
+        "filename": "java/com/google/gerrit/server/CreateGroupPermissionSyncer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-16T08:59:52Z",
+      "side": 1,
+      "message": "maybe change these to also use a supplier and String.format?",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 80
+      },
+      "revId": "97802315a21141c7025a4556a3106a0735590633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2a87a01_3584633d",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-16T08:59:52Z",
+      "side": 1,
+      "message": "Use Supplier + String.format",
+      "range": {
+        "startLine": 140,
+        "startChar": 12,
+        "endLine": 141,
+        "endChar": 73
+      },
+      "revId": "97802315a21141c7025a4556a3106a0735590633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "642dbb8a_af20161b",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-16T08:59:52Z",
+      "side": 1,
+      "message": "use Supplier + String.format",
+      "range": {
+        "startLine": 228,
+        "startChar": 34,
+        "endLine": 228,
+        "endChar": 88
+      },
+      "revId": "97802315a21141c7025a4556a3106a0735590633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "429c32b5_d292c2d2",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-16T08:59:52Z",
+      "side": 1,
+      "message": "use Supplier + String.format",
+      "range": {
+        "startLine": 272,
+        "startChar": 2,
+        "endLine": 274,
+        "endChar": 95
+      },
+      "revId": "97802315a21141c7025a4556a3106a0735590633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

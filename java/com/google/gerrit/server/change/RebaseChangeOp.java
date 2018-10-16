@@ -20,12 +20,14 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RebaseUtil.Base;
+import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -199,8 +201,14 @@ public class RebaseChangeOp implements BatchUpdateOp {
               + " was rebased");
     }
 
-    if (base != null) {
-      patchSetInserter.setGroups(base.patchSet().getGroups());
+    if (base != null && base.notes().getChange().getStatus() != Change.Status.MERGED) {
+      if (base.notes().getChange().getStatus() != Change.Status.MERGED) {
+        // Add to end of relation chain for open base change.
+        patchSetInserter.setGroups(base.patchSet().getGroups());
+      } else {
+        // If the base is merged, start a new relation chain.
+        patchSetInserter.setGroups(GroupCollector.getDefaultGroups(rebasedCommit));
+      }
     }
     patchSetInserter.updateRepo(ctx);
   }

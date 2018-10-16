@@ -133,6 +133,8 @@ public interface RevisionApi {
 
   MergeListRequest getMergeList() throws RestApiException;
 
+  RelatedChangesInfo related() throws RestApiException;
+
   abstract class MergeListRequest {
     private boolean addLinks;
     private int uninterestingParent = 1;
@@ -367,6 +369,11 @@ public interface RevisionApi {
 
     @Override
     public MergeListRequest getMergeList() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public RelatedChangesInfo related() throws RestApiException {
       throw new NotImplementedException();
     }
 

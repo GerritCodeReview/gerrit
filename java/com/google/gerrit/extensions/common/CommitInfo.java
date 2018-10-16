@@ -53,7 +53,9 @@ public class CommitInfo {
     // Using something like the raw commit format might be nice, but we can't depend on JGit here.
     StringBuilder sb = new StringBuilder().append(getClass().getSimpleName()).append('{');
     sb.append(commit);
-    sb.append(", parents=").append(parents.stream().map(p -> p.commit).collect(joining(", ")));
+    if (parents != null) {
+      sb.append(", parents=").append(parents.stream().map(p -> p.commit).collect(joining(", ")));
+    }
     sb.append(", author=").append(author);
     sb.append(", committer=").append(committer);
     sb.append(", subject=").append(subject);

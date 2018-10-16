@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a67abed6_a14237b6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-16T13:49:14Z",
+      "side": 1,
+      "message": "Is this assertion actually needed?\nIsn\u0027t the null case also covered by the assertion below?",
+      "range": {
+        "startLine": 639,
+        "startChar": 4,
+        "endLine": 639,
+        "endChar": 48
+      },
+      "revId": "53b8fdb982d7c8afa5811d41762dae489e53e237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

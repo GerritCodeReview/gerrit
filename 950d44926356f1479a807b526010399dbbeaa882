@@ -22,6 +22,30 @@
       "revId": "950d44926356f1479a807b526010399dbbeaa882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c8de26e_6503ff39",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-16T23:31:05Z",
+      "side": 1,
+      "message": "For this change it would seem to be better to inline it, but the follow-up change (and another follow-up change that I have in progress but not pushed yet) will add several more tests. Then it\u0027s easier to write:\n\n  assertCommentLinks(getConfig(), expected);\n\nin each test method, rather than:\n\n  assertThat(actual.commentlinks).containsExactlyEntriesIn(expected);\n\nparticularly in the case where a test calls it more than once.",
+      "parentUuid": "e05a2c0c_ffc9eb53",
+      "range": {
+        "startLine": 638,
+        "startChar": 2,
+        "endLine": 640,
+        "endChar": 3
+      },
+      "revId": "950d44926356f1479a807b526010399dbbeaa882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

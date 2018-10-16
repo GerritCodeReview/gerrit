@@ -344,6 +344,7 @@ public class CherryPickChange {
     Branch.NameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
     ins.setMessage(messageForDestinationChange(ins.getPatchSetId(), sourceBranch, sourceCommit))
         .setTopic(topic)
+        .setWorkInProgress(sourceChange != null && sourceChange.isWorkInProgress())
         .setNotify(input.notify)
         .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
     if (input.keepReviewers && sourceChange != null) {

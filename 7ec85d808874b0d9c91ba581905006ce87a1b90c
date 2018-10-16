@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7372f4ee_a08f1eb9",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2018-10-16T16:02:59Z",
+      "side": 0,
+      "message": "It is not clear to me how this is being set now, I don\u0027t see any callers setting this anymore?  Have you tested this with an example plugin that creates output?",
+      "range": {
+        "startLine": 136,
+        "startChar": 9,
+        "endLine": 136,
+        "endChar": 54
+      },
+      "revId": "7ec85d808874b0d9c91ba581905006ce87a1b90c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

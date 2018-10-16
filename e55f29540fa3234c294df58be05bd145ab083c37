@@ -71,6 +71,30 @@
       "revId": "e55f29540fa3234c294df58be05bd145ab083c37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d4a0bec_57ad5d31",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RelatedChangeAndCommitInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-16T15:06:04Z",
+      "side": 1,
+      "message": "+1 to a followup, this is copied directly from old code.\n\nSpecific proposal:\n* One of you +2s this change.\n* I rebase the CommitInfo#toString change to the end of this series. It doesn\u0027t have to be at the beginning; it just helped me fix a failing test that additionally had an NPE computing the failure message.\n* I do additional toString cleanup following that change.",
+      "parentUuid": "2b675ffb_886cd8cd",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 3
+      },
+      "revId": "e55f29540fa3234c294df58be05bd145ab083c37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

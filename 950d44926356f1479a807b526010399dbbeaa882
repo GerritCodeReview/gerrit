@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e05a2c0c_ffc9eb53",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-16T15:30:50Z",
+      "side": 1,
+      "message": "Do we need this method still?\nI think it would be easier to read if this was inlined.",
+      "range": {
+        "startLine": 638,
+        "startChar": 2,
+        "endLine": 640,
+        "endChar": 3
+      },
+      "revId": "950d44926356f1479a807b526010399dbbeaa882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -35,6 +35,24 @@
       "revId": "3b4da986c15310622383b6dad7b3387198ccc0f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f95cb56_50cd6579",
+        "filename": "java/com/google/gerrit/extensions/common/CommitInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-16T09:36:51Z",
+      "side": 1,
+      "message": "I\u0027d be OK with this being done in a follow-up commit.",
+      "parentUuid": "64ecd375_77f32397",
+      "revId": "3b4da986c15310622383b6dad7b3387198ccc0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -499,11 +499,8 @@ class ReceiveCommits {
     for (ValidationMessage m : messages) {
       String msg = m.getType().getPrefix() + m.getMessage();
 
-      if (m.isError()) {
-        messageSender.sendError(msg);
-      } else {
-        messageSender.sendMessage(msg);
-      }
+      // Avoid calling sendError which will add its own error: prefix.
+      messageSender.sendMessage(msg);
     }
   }
 

@@ -95,6 +95,30 @@
       "revId": "e55f29540fa3234c294df58be05bd145ab083c37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cde08d66_2f798a32",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RelatedChangeAndCommitInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-16T15:19:14Z",
+      "side": 1,
+      "message": "sgtm, thanks!",
+      "parentUuid": "8d4a0bec_57ad5d31",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 3
+      },
+      "revId": "e55f29540fa3234c294df58be05bd145ab083c37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

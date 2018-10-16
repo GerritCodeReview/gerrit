@@ -15,10 +15,10 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Collections2;
@@ -171,7 +171,7 @@ public class ConsistencyChecker {
   }
 
   public Result check(ChangeNotes notes, @Nullable FixInput f) {
-    checkNotNull(notes);
+    requireNonNull(notes);
     try {
       return retryHelper.execute(
           buf -> {
@@ -530,7 +530,7 @@ public class ConsistencyChecker {
           if (!reuseOldPsId) {
             bu.addOp(
                 notes.getChangeId(),
-                new DeletePatchSetFromDbOp(checkNotNull(deleteOldPatchSetProblem), psIdToDelete));
+                new DeletePatchSetFromDbOp(requireNonNull(deleteOldPatchSetProblem), psIdToDelete));
           }
         }
 
@@ -759,7 +759,7 @@ public class ConsistencyChecker {
 
   private ProblemInfo problem(String msg) {
     ProblemInfo p = new ProblemInfo();
-    p.message = checkNotNull(msg);
+    p.message = requireNonNull(msg);
     problems.add(p);
     return p;
   }

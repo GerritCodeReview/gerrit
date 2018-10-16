@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class InMemoryInserter extends ObjectInserter {
   private final boolean closeReader;
 
   public InMemoryInserter(ObjectReader reader) {
-    this.reader = checkNotNull(reader);
+    this.reader = requireNonNull(reader);
     closeReader = false;
   }
 

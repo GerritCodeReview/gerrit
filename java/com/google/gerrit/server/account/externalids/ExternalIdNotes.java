@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -284,15 +284,15 @@ public class ExternalIdNotes extends VersionedMetaData {
       MetricMaker metricMaker,
       AllUsersName allUsersName,
       Repository allUsersRepo) {
-    this.externalIdCache = checkNotNull(externalIdCache, "externalIdCache");
+    this.externalIdCache = requireNonNull(externalIdCache, "externalIdCache");
     this.accountCache = accountCache;
     this.accountIndexer = accountIndexer;
     this.updateCount =
         metricMaker.newCounter(
             "notedb/external_id_update_count",
             new Description("Total number of external ID updates.").setRate().setUnit("updates"));
-    this.allUsersName = checkNotNull(allUsersName, "allUsersRepo");
-    this.repo = checkNotNull(allUsersRepo, "allUsersRepo");
+    this.allUsersName = requireNonNull(allUsersName, "allUsersRepo");
+    this.repo = requireNonNull(allUsersRepo, "allUsersRepo");
   }
 
   public ExternalIdNotes setAfterReadRevision(Runnable afterReadRevision) {

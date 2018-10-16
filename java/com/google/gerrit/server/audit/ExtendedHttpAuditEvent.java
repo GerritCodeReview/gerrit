@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.audit;
 
-import com.google.common.base.Preconditions;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -62,7 +63,7 @@ public class ExtendedHttpAuditEvent extends HttpAuditEvent {
         input,
         status,
         result);
-    this.httpRequest = Preconditions.checkNotNull(httpRequest);
+    this.httpRequest = requireNonNull(httpRequest);
     this.resource = resource;
     this.view = view;
   }

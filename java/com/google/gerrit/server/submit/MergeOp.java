@@ -15,9 +15,9 @@
 package com.google.gerrit.server.submit;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.github.rholder.retry.Attempt;
@@ -182,8 +182,8 @@ public class MergeOp implements AutoCloseable {
       //
       // However, do NOT expose that ChangeData directly, as it is way out of
       // date by this point.
-      ChangeData cd = checkNotNull(changes.get(id), "ChangeData for %s", id);
-      return checkNotNull(
+      ChangeData cd = requireNonNull(changes.get(id), () -> String.format("ChangeData for %s", id));
+      return requireNonNull(
           cd.getSubmitRecords(submitRuleOptions(allowClosed)),
           "getSubmitRecord only valid after submit rules are evalutated");
     }
@@ -663,10 +663,9 @@ public class MergeOp implements AutoCloseable {
         BranchBatch submitting = toSubmit.get(branch);
         logger.atFine().log("adding ops for branch batch %s", submitting);
         OpenBranch ob = or.getBranch(branch);
-        checkNotNull(
+        requireNonNull(
             submitting.submitType(),
-            "null submit type for %s; expected to previously fail fast",
-            submitting);
+            String.format("null submit type for %s; expected to previously fail fast", submitting));
         Set<CodeReviewCommit> commitsToSubmit = submitting.commits();
         ob.mergeTip = new MergeTip(ob.oldTip, commitsToSubmit);
         SubmitStrategy strategy =

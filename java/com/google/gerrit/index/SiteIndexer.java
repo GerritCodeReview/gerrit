@@ -14,8 +14,8 @@
 
 package com.google.gerrit.index;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
@@ -73,11 +73,11 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
   }
 
   public void setProgressOut(OutputStream out) {
-    progressOut = checkNotNull(out);
+    progressOut = requireNonNull(out);
   }
 
   public void setVerboseOut(OutputStream out) {
-    verboseWriter = newPrintWriter(checkNotNull(out));
+    verboseWriter = newPrintWriter(requireNonNull(out));
   }
 
   public abstract Result indexAll(I index);

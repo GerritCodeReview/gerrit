@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.extensions.api.access.GerritPermission;
 
@@ -64,7 +64,7 @@ public enum ChangePermission implements ChangePermissionOrLabel {
   }
 
   ChangePermission(String description) {
-    this.description = checkNotNull(description);
+    this.description = requireNonNull(description);
   }
 
   @Override

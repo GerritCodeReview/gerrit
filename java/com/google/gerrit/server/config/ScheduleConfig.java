@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.config;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.time.ZoneId.systemDefault;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
@@ -239,7 +239,7 @@ public abstract class ScheduleConfig {
   }
 
   private static long computeInitialDelay(long interval, String start, ZonedDateTime now) {
-    checkNotNull(start);
+    requireNonNull(start);
 
     try {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("[E ]HH:mm").withLocale(Locale.US);

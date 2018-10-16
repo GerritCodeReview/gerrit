@@ -16,7 +16,6 @@
 package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
@@ -33,6 +32,7 @@ import static com.google.common.net.HttpHeaders.VARY;
 import static java.math.RoundingMode.CEILING;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
@@ -268,7 +268,7 @@ public class RestApiServlet extends HttpServlet {
       Provider<? extends RestCollection<? extends RestResource, ? extends RestResource>> members) {
     @SuppressWarnings("unchecked")
     Provider<RestCollection<RestResource, RestResource>> n =
-        (Provider<RestCollection<RestResource, RestResource>>) checkNotNull((Object) members);
+        (Provider<RestCollection<RestResource, RestResource>>) requireNonNull((Object) members);
     this.globals = globals;
     this.members = n;
   }

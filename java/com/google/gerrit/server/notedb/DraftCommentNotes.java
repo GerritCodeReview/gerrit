@@ -15,9 +15,9 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableListMultimap;
@@ -184,7 +184,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   @Override
   protected LoadHandle openHandle(Repository repo) throws NoSuchChangeException, IOException {
     if (rebuildResult != null) {
-      StagedResult sr = checkNotNull(rebuildResult.staged());
+      StagedResult sr = requireNonNull(rebuildResult.staged());
       return LoadHandle.create(
           ChangeNotesCommit.newStagedRevWalk(repo, sr.allUsersObjects()),
           findNewId(sr.allUsersCommands(), getRefName()));
@@ -229,7 +229,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
           logger.atFine().log(
               "Rebuilding change %s via drafts failed: %s", getChangeId(), e.getMessage());
           args.metrics.autoRebuildFailureCount.increment(CHANGES);
-          checkNotNull(r.staged());
+          requireNonNull(r.staged());
           return LoadHandle.create(
               ChangeNotesCommit.newStagedRevWalk(repo, r.staged().allUsersObjects()), draftsId(r));
         }
@@ -249,8 +249,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   private ObjectId draftsId(NoteDbUpdateManager.Result r) {
-    checkNotNull(r);
-    checkNotNull(r.newState());
+    requireNonNull(r);
+    requireNonNull(r.newState());
     return r.newState().getDraftIds().get(author);
   }
 

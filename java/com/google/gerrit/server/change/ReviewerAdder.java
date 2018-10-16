@@ -15,13 +15,13 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -206,7 +206,7 @@ public class ReviewerAdder {
   public ReviewerAddition prepare(
       ReviewDb db, ChangeNotes notes, CurrentUser user, AddReviewerInput input, boolean allowGroup)
       throws OrmException, IOException, PermissionBackendException, ConfigInvalidException {
-    checkNotNull(input.reviewer);
+    requireNonNull(input.reviewer);
     ListMultimap<RecipientType, Account.Id> accountsToNotify;
     try {
       accountsToNotify = notifyUtil.resolveAccounts(input.notifyDetails);
@@ -468,7 +468,7 @@ public class ReviewerAdder {
 
     private ReviewerAddition(AddReviewerInput input, FailureType failureType) {
       this.input = input;
-      this.failureType = checkNotNull(failureType);
+      this.failureType = requireNonNull(failureType);
       result = new AddReviewerResult(input.reviewer);
       op = null;
       reviewers = ImmutableSet.of();

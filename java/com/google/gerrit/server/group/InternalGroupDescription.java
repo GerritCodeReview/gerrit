@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.group;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
@@ -29,7 +29,7 @@ public class InternalGroupDescription implements GroupDescription.Internal {
   private final InternalGroup internalGroup;
 
   public InternalGroupDescription(InternalGroup internalGroup) {
-    this.internalGroup = checkNotNull(internalGroup);
+    this.internalGroup = requireNonNull(internalGroup);
   }
 
   @Override

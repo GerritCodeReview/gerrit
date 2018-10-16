@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.logging;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
@@ -252,12 +252,12 @@ public class TraceContext implements AutoCloseable {
   private TraceContext() {}
 
   public TraceContext addTag(RequestId.Type requestId, Object tagValue) {
-    return addTag(checkNotNull(requestId, "request ID is required").name(), tagValue);
+    return addTag(requireNonNull(requestId, "request ID is required").name(), tagValue);
   }
 
   public TraceContext addTag(String tagName, Object tagValue) {
-    String name = checkNotNull(tagName, "tag name is required");
-    String value = checkNotNull(tagValue, "tag value is required").toString();
+    String name = requireNonNull(tagName, "tag name is required");
+    String value = requireNonNull(tagValue, "tag value is required").toString();
     tags.put(name, value, LoggingContext.getInstance().addTag(name, value));
     return this;
   }

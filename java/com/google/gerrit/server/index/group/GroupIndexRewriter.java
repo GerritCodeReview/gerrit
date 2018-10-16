@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.index.group;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.index.IndexRewriter;
 import com.google.gerrit.index.QueryOptions;
@@ -37,7 +37,7 @@ public class GroupIndexRewriter implements IndexRewriter<InternalGroup> {
   public Predicate<InternalGroup> rewrite(Predicate<InternalGroup> in, QueryOptions opts)
       throws QueryParseException {
     GroupIndex index = indexes.getSearchIndex();
-    checkNotNull(index, "no active search index configured for groups");
+    requireNonNull(index, "no active search index configured for groups");
     return new IndexedGroupQuery(index, in, opts);
   }
 }

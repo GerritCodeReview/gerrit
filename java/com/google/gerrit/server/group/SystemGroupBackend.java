@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.group;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -117,7 +117,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   public GroupReference getGroup(AccountGroup.UUID uuid) {
-    return checkNotNull(uuids.get(uuid), "group %s not found", uuid.get());
+    return requireNonNull(uuids.get(uuid), () -> String.format("group %s not found", uuid.get()));
   }
 
   public Set<String> getNames() {

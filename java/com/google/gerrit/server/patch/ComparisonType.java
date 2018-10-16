@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
+import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +59,7 @@ public class ComparisonType {
   }
 
   public int getParentNum() {
-    checkNotNull(parentNum);
+    requireNonNull(parentNum);
     return parentNum;
   }
 

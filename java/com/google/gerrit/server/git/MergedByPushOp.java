@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Change;
@@ -101,7 +101,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   }
 
   public MergedByPushOp setPatchSetProvider(Provider<PatchSet> patchSetProvider) {
-    this.patchSetProvider = checkNotNull(patchSetProvider);
+    this.patchSetProvider = requireNonNull(patchSetProvider);
     return this;
   }
 
@@ -119,8 +119,9 @@ public class MergedByPushOp implements BatchUpdateOp {
       patchSet = patchSetProvider.get();
     } else {
       patchSet =
-          checkNotNull(
-              psUtil.get(ctx.getDb(), ctx.getNotes(), psId), "patch set %s not found", psId);
+          requireNonNull(
+              psUtil.get(ctx.getDb(), ctx.getNotes(), psId),
+              () -> String.format("patch set %s not found", psId));
     }
     info = getPatchSetInfo(ctx);
 
@@ -198,7 +199,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException, OrmException {
     RevWalk rw = ctx.getRevWalk();
     RevCommit commit =
-        rw.parseCommit(ObjectId.fromString(checkNotNull(patchSet).getRevision().get()));
+        rw.parseCommit(ObjectId.fromString(requireNonNull(patchSet).getRevision().get()));
     return patchSetInfoFactory.get(rw, commit, psId);
   }
 }

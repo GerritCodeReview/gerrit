@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.cache;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -99,7 +99,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   @Override
   public CacheBinding<K, V> configKey(String name) {
     checkNotFrozen();
-    configKey = checkNotNull(name);
+    configKey = requireNonNull(name);
     return this;
   }
 

@@ -15,11 +15,11 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -655,7 +655,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public PatchSet getCurrentPatchSet() {
     PatchSet.Id psId = change.currentPatchSetId();
-    return checkNotNull(getPatchSets().get(psId), "missing current patch set %s", psId.get());
+    return requireNonNull(
+        getPatchSets().get(psId), () -> String.format("missing current patch set %s", psId.get()));
   }
 
   @VisibleForTesting
@@ -761,10 +762,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           // to the caller instead of throwing.
           logger.atFine().log("Rebuilding change %s failed: %s", getChangeId(), e.getMessage());
           args.metrics.autoRebuildFailureCount.increment(CHANGES);
-          rebuildResult = checkNotNull(r);
-          checkNotNull(r.newState());
-          checkNotNull(r.staged());
-          checkNotNull(r.staged().changeObjects());
+          rebuildResult = requireNonNull(r);
+          requireNonNull(r.newState());
+          requireNonNull(r.staged());
+          requireNonNull(r.staged().changeObjects());
           return LoadHandle.create(
               ChangeNotesCommit.newStagedRevWalk(repo, r.staged().changeObjects()),
               r.newState().getChangeMetaId());

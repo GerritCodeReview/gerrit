@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
@@ -24,6 +23,7 @@ import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.MESSAGE_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.PATCH_SET_CODEC;
 import static com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.toByteString;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -123,11 +123,14 @@ public abstract class ChangeNotesState {
       boolean workInProgress,
       boolean reviewStarted,
       @Nullable Change.Id revertOf) {
-    checkNotNull(
+    requireNonNull(
         metaId,
-        "metaId is required when passing arguments to create(...). To create an empty %s without"
-            + " NoteDb data, use empty(...) instead",
-        ChangeNotesState.class.getSimpleName());
+        () ->
+            String.format(
+                "metaId is required when passing arguments to create(...)."
+                    + " To create an empty %s without"
+                    + " NoteDb data, use empty(...) instead",
+                ChangeNotesState.class.getSimpleName()));
     return builder()
         .metaId(metaId)
         .changeId(changeId)
@@ -303,7 +306,7 @@ public abstract class ChangeNotesState {
   abstract Timestamp readOnlyUntil();
 
   Change newChange(Project.NameKey project) {
-    ChangeColumns c = checkNotNull(columns(), "columns are required");
+    ChangeColumns c = requireNonNull(columns(), "columns are required");
     Change change =
         new Change(
             c.changeKey(),
@@ -351,7 +354,7 @@ public abstract class ChangeNotesState {
   }
 
   private void copyNonConstructorColumnsTo(Change change) {
-    ChangeColumns c = checkNotNull(columns(), "columns are required");
+    ChangeColumns c = requireNonNull(columns(), "columns are required");
     if (c.status() != null) {
       change.setStatus(c.status());
     }

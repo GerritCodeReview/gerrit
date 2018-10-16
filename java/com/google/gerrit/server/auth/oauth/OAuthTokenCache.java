@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth.oauth;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -103,7 +103,7 @@ public class OAuthTokenCache {
   }
 
   public void put(Account.Id id, OAuthToken accessToken) {
-    cache.put(id, encrypt(checkNotNull(accessToken)));
+    cache.put(id, encrypt(requireNonNull(accessToken)));
   }
 
   public void remove(Account.Id id) {

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toSet;
 
@@ -117,7 +117,7 @@ public class StarredChangesUtil {
 
     private static StarRef create(Ref ref, Iterable<String> labels) {
       return new AutoValue_StarredChangesUtil_StarRef(
-          checkNotNull(ref), ImmutableSortedSet.copyOf(labels));
+          requireNonNull(ref), ImmutableSortedSet.copyOf(labels));
     }
 
     @Nullable

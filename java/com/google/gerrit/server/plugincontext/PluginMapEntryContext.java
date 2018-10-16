@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.plugincontext;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
@@ -88,8 +88,8 @@ public class PluginMapEntryContext<T> {
   private final PluginMetrics pluginMetrics;
 
   PluginMapEntryContext(Extension<T> extension, PluginMetrics pluginMetrics) {
-    checkNotNull(extension);
-    checkNotNull(extension.getExportName(), "export name must be set for plugin map entries");
+    requireNonNull(extension);
+    requireNonNull(extension.getExportName(), "export name must be set for plugin map entries");
     this.extension = extension;
     this.pluginMetrics = pluginMetrics;
   }

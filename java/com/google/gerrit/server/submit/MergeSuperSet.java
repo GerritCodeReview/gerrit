@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.submit;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -88,7 +88,7 @@ public class MergeSuperSet {
 
   public MergeSuperSet setMergeOpRepoManager(MergeOpRepoManager orm) {
     checkState(this.orm == null);
-    this.orm = checkNotNull(orm);
+    this.orm = requireNonNull(orm);
     closeOrm = false;
     return this;
   }

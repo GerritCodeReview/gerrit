@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.index.account;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.index.IndexRewriter;
 import com.google.gerrit.index.QueryOptions;
@@ -38,7 +38,7 @@ public class AccountIndexRewriter implements IndexRewriter<AccountState> {
   public Predicate<AccountState> rewrite(Predicate<AccountState> in, QueryOptions opts)
       throws QueryParseException {
     AccountIndex index = indexes.getSearchIndex();
-    checkNotNull(index, "no active search index configured for accounts");
+    requireNonNull(index, "no active search index configured for accounts");
     return new IndexedAccountQuery(index, in, opts);
   }
 }

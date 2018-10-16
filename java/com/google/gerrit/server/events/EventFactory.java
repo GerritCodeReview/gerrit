@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.events;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -322,7 +322,7 @@ public class EventFactory {
           if (!ps.getRevision().get().equals(p)) {
             continue;
           }
-          ca.dependsOn.add(newDependsOn(checkNotNull(cd.change()), ps));
+          ca.dependsOn.add(newDependsOn(requireNonNull(cd.change()), ps));
         }
       }
     }
@@ -357,7 +357,7 @@ public class EventFactory {
           if (!p.name().equals(rev)) {
             continue;
           }
-          ca.neededBy.add(newNeededBy(checkNotNull(cd.change()), ps));
+          ca.neededBy.add(newNeededBy(requireNonNull(cd.change()), ps));
           continue PATCH_SETS;
         }
       }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
@@ -48,7 +48,7 @@ public class AuthUser {
    * @param username the name of the authenticated user.
    */
   public AuthUser(UUID uuid, @Nullable String username) {
-    this.uuid = checkNotNull(uuid);
+    this.uuid = requireNonNull(uuid);
     this.username = username;
   }
 

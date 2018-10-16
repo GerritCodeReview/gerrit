@@ -16,7 +16,6 @@ package com.google.gerrit.server.git.receive;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
@@ -32,6 +31,7 @@ import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCH
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparingInt;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
@@ -2428,7 +2428,7 @@ class ReceiveCommits {
         final PatchSet.Id psId = ins.setGroups(groups).getPatchSetId();
         Account.Id me = user.getAccountId();
         List<FooterLine> footerLines = commit.getFooterLines();
-        checkNotNull(magicBranch);
+        requireNonNull(magicBranch);
 
         // TODO(dborowitz): Support reviewers by email from footers? Maybe not: kernel developers
         // with AOSP accounts already complain about these notifications, and that would make it
@@ -2496,15 +2496,20 @@ class ReceiveCommits {
           PermissionBackendException {
     Map<ObjectId, Change> bySha = Maps.newHashMapWithExpectedSize(create.size() + replace.size());
     for (CreateRequest r : create) {
-      checkNotNull(r.change, "cannot submit new change %s; op may not have run", r.changeId);
+      requireNonNull(
+          r.change,
+          () -> String.format("cannot submit new change %s; op may not have run", r.changeId));
       bySha.put(r.commit, r.change);
     }
     for (ReplaceRequest r : replace) {
       bySha.put(r.newCommitId, r.notes.getChange());
     }
     Change tipChange = bySha.get(magicBranch.cmd.getNewId());
-    checkNotNull(
-        tipChange, "tip of push does not correspond to a change; found these changes: %s", bySha);
+    requireNonNull(
+        tipChange,
+        () ->
+            String.format(
+                "tip of push does not correspond to a change; found these changes: %s", bySha));
     logger.atFine().log(
         "Processing submit with tip change %s (%s)", tipChange.getId(), magicBranch.cmd.getNewId());
     try (MergeOp op = mergeOpProvider.get()) {
@@ -2573,7 +2578,7 @@ class ReceiveCommits {
         Change.Id toChange, RevCommit newCommit, ReceiveCommand cmd, boolean checkMergedInto) {
       this.ontoChange = toChange;
       this.newCommitId = newCommit.copy();
-      this.inputCommand = checkNotNull(cmd);
+      this.inputCommand = requireNonNull(cmd);
       this.checkMergedInto = checkMergedInto;
 
       revisions = HashBiMap.create();
@@ -2853,7 +2858,7 @@ class ReceiveCommits {
     List<String> groups = ImmutableList.of();
 
     UpdateGroupsRequest(Ref ref, RevCommit commit) {
-      this.psId = checkNotNull(PatchSet.Id.fromRef(ref.getName()));
+      this.psId = requireNonNull(PatchSet.Id.fromRef(ref.getName()));
       this.commit = commit;
     }
 
@@ -2887,7 +2892,7 @@ class ReceiveCommits {
     final ReceiveCommand cmd;
 
     private UpdateOneRefOp(ReceiveCommand cmd) {
-      this.cmd = checkNotNull(cmd);
+      this.cmd = requireNonNull(cmd);
     }
 
     @Override

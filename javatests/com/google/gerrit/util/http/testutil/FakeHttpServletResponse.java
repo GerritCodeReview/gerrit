@@ -15,9 +15,9 @@
 package com.google.gerrit.util.http.testutil;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
@@ -262,7 +262,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public String getHeader(String name) {
-    return Iterables.getFirst(headers.get(checkNotNull(name.toLowerCase())), null);
+    return Iterables.getFirst(headers.get(requireNonNull(name.toLowerCase())), null);
   }
 
   @Override
@@ -272,7 +272,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public Collection<String> getHeaders(String name) {
-    return headers.get(checkNotNull(name.toLowerCase()));
+    return headers.get(requireNonNull(name.toLowerCase()));
   }
 
   public byte[] getActualBody() {

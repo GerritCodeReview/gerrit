@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermissionName;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Sets;
@@ -79,12 +79,12 @@ public class DefaultPermissionBackend extends PermissionBackend {
 
   @Override
   public WithUser user(CurrentUser user) {
-    return new WithUserImpl(checkNotNull(user, "user"));
+    return new WithUserImpl(requireNonNull(user, "user"));
   }
 
   @Override
   public WithUser absentUser(Account.Id id) {
-    IdentifiedUser identifiedUser = identifiedUserFactory.create(checkNotNull(id, "user"));
+    IdentifiedUser identifiedUser = identifiedUserFactory.create(requireNonNull(id, "user"));
     return new WithUserImpl(identifiedUser);
   }
 
@@ -98,7 +98,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
     private Boolean admin;
 
     WithUserImpl(CurrentUser user) {
-      this.user = checkNotNull(user, "user");
+      this.user = requireNonNull(user, "user");
     }
 
     @Override
@@ -238,7 +238,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     private boolean has(String permissionName) {
-      boolean has = allow(capabilities().getPermission(checkNotNull(permissionName)));
+      boolean has = allow(capabilities().getPermission(requireNonNull(permissionName)));
       if (has) {
         logger.atFinest().log(
             "user %s has global capability %s", user.getLoggableName(), permissionName);

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -225,7 +225,7 @@ public class CreateProject
       }
 
       ProjectState projectState = createProject(args);
-      checkNotNull(projectState, "failed to create project " + args.getProject().get());
+      requireNonNull(projectState, "failed to create project " + args.getProject().get());
 
       if (input.pluginConfigValues != null) {
         ConfigInput in = new ConfigInput();

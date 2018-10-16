@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.update;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -71,6 +71,6 @@ public interface ChangeContext extends Context {
 
   /** @return change corresponding to {@link #getNotes()}. */
   default Change getChange() {
-    return checkNotNull(getNotes().getChange());
+    return requireNonNull(getNotes().getChange());
   }
 }

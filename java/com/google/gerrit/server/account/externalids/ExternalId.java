@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -284,7 +284,7 @@ public abstract class ExternalId implements Serializable {
   }
 
   public static ExternalId createEmail(Account.Id accountId, String email) {
-    return createWithEmail(SCHEME_MAILTO, email, accountId, checkNotNull(email));
+    return createWithEmail(SCHEME_MAILTO, email, accountId, requireNonNull(email));
   }
 
   static ExternalId create(ExternalId extId, @Nullable ObjectId blobId) {
@@ -331,7 +331,7 @@ public abstract class ExternalId implements Serializable {
 
   public static ExternalId parse(String noteId, Config externalIdConfig, ObjectId blobId)
       throws ConfigInvalidException {
-    checkNotNull(blobId);
+    requireNonNull(blobId);
 
     Set<String> externalIdKeys = externalIdConfig.getSubsections(EXTERNAL_ID_SECTION);
     if (externalIdKeys.size() != 1) {

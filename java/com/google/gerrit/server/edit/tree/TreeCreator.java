@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.edit.tree;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class TreeCreator {
   private final List<TreeModification> treeModifications = new ArrayList<>();
 
   public TreeCreator(RevCommit baseCommit) {
-    this.baseCommit = checkNotNull(baseCommit, "baseCommit is required");
+    this.baseCommit = requireNonNull(baseCommit, "baseCommit is required");
   }
 
   /**
@@ -49,7 +49,7 @@ public class TreeCreator {
    * @param treeModifications modifications which should be applied to the base tree
    */
   public void addTreeModifications(List<TreeModification> treeModifications) {
-    checkNotNull(treeModifications, "treeModifications must not be null");
+    requireNonNull(treeModifications, "treeModifications must not be null");
     this.treeModifications.addAll(treeModifications);
   }
 

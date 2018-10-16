@@ -14,10 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.Iterables;
@@ -298,7 +298,7 @@ public class HashtagsIT extends AbstractDaemonTest {
 
   private void assertNoNewMessageSince(PushOneCommit.Result r, ChangeMessageInfo expected)
       throws Exception {
-    checkNotNull(expected);
+    requireNonNull(expected);
     ChangeMessageInfo last = getLastMessage(r);
     assertThat(last.message).isEqualTo(expected.message);
     assertThat(last.id).isEqualTo(expected.id);

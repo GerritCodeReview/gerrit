@@ -33,23 +33,11 @@ public class RelatedChangeAndCommitInfo {
     return MoreObjects.toStringHelper(this)
         .add("project", project)
         .add("changeId", changeId)
-        .add("commit", toString(commit))
+        .add("commit", commit)
         .add("_changeNumber", _changeNumber)
         .add("_revisionNumber", _revisionNumber)
         .add("_currentRevisionNumber", _currentRevisionNumber)
         .add("status", status)
-        .toString();
-  }
-
-  private static String toString(CommitInfo commit) {
-    return MoreObjects.toStringHelper(commit)
-        .add("commit", commit.commit)
-        .add("parent", commit.parents)
-        .add("author", commit.author)
-        .add("committer", commit.committer)
-        .add("subject", commit.subject)
-        .add("message", commit.message)
-        .add("webLinks", commit.webLinks)
         .toString();
   }
 }

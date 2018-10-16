@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "563046a6_a343c780",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-16T13:58:41Z",
+      "side": 1,
+      "message": "Does this mean that once added, comment links cannot be removed through the API?",
+      "range": {
+        "startLine": 3258,
+        "startChar": 0,
+        "endLine": 3260,
+        "endChar": 41
+      },
+      "revId": "60a45dbe2c335386008c65d350b25b1e9aa53e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1539638245 -0700\nnonce AP50N7YJ2NSqO1AyKBjkzopfsYwrNI0GRy6Cs2brZeM2BW2e0kRxmqU8cXu0Y7WOwQD/nWwTApUE\n\n0000000000000000000000000000000000000000 c878015408253151004fe4910fa16ee24c6e0597 refs/for/master%topic\u003drebase-on-closed-change,r\u003dhiesel@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJIBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlvFA+UVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMvnsP+MTeyasD5EVkz/wapqk4ZuGDQpU/\nsWEq3Z59UPCBJcWlh7NjofuSHgMbmbYHSG27uRg4wGJh8QByZA+AcHTcXYCTgOjE\nONVb3cxadW+HXgHmaIgM+tWRhdQxtGSy12lFq/51yVff7xaotM0radUfDkPUIlkU\ny0SdOyv6cjsDaKXZzukgPF9+ev2tVWs/80NsU0ZvIpGNyc2y8cInCSoGf6aXUvUv\nqXhOIdp3brfgZO4UOKCKIR75/ggcQ0A7E8953ZISRVgU98VwkAghh/Z7V5Az07xY\nXX8jnAytF8VQWC4pl9WINVDs5Gpw5pgvnYIrEjqu3n/UazzpCs6yv1rsd7sZBzBy\nnHCg+GM1NmR+humxDN6LrLf6Nms3lsdijh6KiNTiqDf48SX6az5gozkfbLGzb3Cp\n/rECA8IkSZd67i5FWqe7xxl+3bAmJB5thlJf0YGeiOE/iDr+qZ0CL80wyIQZ3sPO\neBW6EM4EYntccmYt5+HCXO+kTpY3/fIwsnOz4WQC+53HjTYcwxQgfFzde+nzB2yC\na8M+8Dz8Xl9dQxqS2rXvA+Ot+OjS0sygif2uxV9QTH0+gNbcRmWd25DSa7YDw04x\nPrEJ2TMcT1U2/d4vhkd+YOfMEdmXJwHcTBJy61ceNOfz7NxzVzesYMcx2ANpm7gq\naHVUBBSafsLg3mM\u003d\n\u003d9J/U\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4aaf83e_206533b1",
+        "filename": "java/com/google/gerrit/extensions/common/CommitInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-16T01:35:03Z",
+      "side": 1,
+      "message": "While we\u0027re in here, refactor it to use MoreObjects.ToStringHelper?",
+      "revId": "3b4da986c15310622383b6dad7b3387198ccc0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

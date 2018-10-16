@@ -17,6 +17,24 @@
       "revId": "3b4da986c15310622383b6dad7b3387198ccc0f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64ecd375_77f32397",
+        "filename": "java/com/google/gerrit/extensions/common/CommitInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-16T08:25:56Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "b4aaf83e_206533b1",
+      "revId": "3b4da986c15310622383b6dad7b3387198ccc0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

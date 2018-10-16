@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3098d51_578e2f89",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-10-16T18:27:30Z",
+      "side": 1,
+      "message": "this looks a little clumsy. It would be nice if there were a way to make a direct link.  I think you should be able to link to ../admin/repos/ as link for \"navigate to project page\".",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "50b5a3cb3cd2ea93f11c18a275116a2ca53a9613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

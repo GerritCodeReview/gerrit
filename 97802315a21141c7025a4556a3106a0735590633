@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f5dc05ef_2986fc98",
+        "filename": "java/com/google/gerrit/pgm/ProtobufImport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-16T09:41:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "df7c8da7_d26532c1",
+      "range": {
+        "startLine": 106,
+        "startChar": 18,
+        "endLine": 106,
+        "endChar": 89
+      },
+      "revId": "97802315a21141c7025a4556a3106a0735590633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54f5f080_05084c84",
         "filename": "java/com/google/gerrit/server/CreateGroupPermissionSyncer.java",
         "patchSetId": 1

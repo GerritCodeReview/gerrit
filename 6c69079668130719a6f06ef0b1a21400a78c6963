@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f78d3d35_52b7fadd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-16T16:13:50Z",
+      "side": 1,
+      "message": "Hmm. The strange behavior seems to only exist on file comments. I found a simpler repro case here: https://youtu.be/lTEkNCuXxNY\n\n(also, please use non-googleplex links on external Gerrit :))",
+      "parentUuid": "ca90bc82_264bea35",
+      "revId": "6c69079668130719a6f06ef0b1a21400a78c6963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eac4cdd9_332baddd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 4
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "I tried, and also split the loop-constant question which operations we want to match out of the loop. I am not quite sure if it\u0027s now clearer or too generic with the matchers, let me know what you think.",
       "parentUuid": "eac4cdd9_332baddd",
+      "range": {
+        "startLine": 334,
+        "startChar": 11,
+        "endLine": 343,
+        "endChar": 50
+      },
+      "revId": "6c69079668130719a6f06ef0b1a21400a78c6963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "633aa887_99a96831",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-16T16:13:50Z",
+      "side": 1,
+      "message": "Much better, thanks.",
+      "parentUuid": "01572c74_2f4620cf",
       "range": {
         "startLine": 334,
         "startChar": 11,

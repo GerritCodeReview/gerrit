@@ -389,6 +389,19 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickWorkInProgressChange() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master%wip");
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = "cherry pick message";
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
+
+    ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
+    assertThat(cherry.get().workInProgress).isTrue();
+  }
+
+  @Test
   public void cherryPickToSameBranch() throws Exception {
     PushOneCommit.Result r = createChange();
     CherryPickInput in = new CherryPickInput();

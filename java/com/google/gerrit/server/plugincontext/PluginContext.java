@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.plugincontext;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
@@ -173,7 +173,7 @@ public class PluginContext<T> {
    * @return the created trace context
    */
   public static <T> TraceContext newTrace(Extension<T> extension) {
-    return TraceContext.open().addPluginTag(checkNotNull(extension).getPluginName());
+    return TraceContext.open().addPluginTag(requireNonNull(extension).getPluginName());
   }
 
   /**

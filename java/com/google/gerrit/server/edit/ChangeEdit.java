@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.edit;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -35,10 +35,10 @@ public class ChangeEdit {
 
   public ChangeEdit(
       Change change, String editRefName, RevCommit editCommit, PatchSet basePatchSet) {
-    this.change = checkNotNull(change);
-    this.editRefName = checkNotNull(editRefName);
-    this.editCommit = checkNotNull(editCommit);
-    this.basePatchSet = checkNotNull(basePatchSet);
+    this.change = requireNonNull(change);
+    this.editRefName = requireNonNull(editRefName);
+    this.editCommit = requireNonNull(editCommit);
+    this.basePatchSet = requireNonNull(basePatchSet);
   }
 
   public Change getChange() {

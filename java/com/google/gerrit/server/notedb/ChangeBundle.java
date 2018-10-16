@@ -16,7 +16,6 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSortedMap.toImmutableSortedMap;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.checkColumns;
@@ -27,6 +26,7 @@ import static com.google.gerrit.server.util.time.TimeUtil.truncateToSecond;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsFirst;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
@@ -203,13 +203,13 @@ public class ChangeBundle {
       Iterable<PatchLineComment> patchLineComments,
       ReviewerSet reviewers,
       Source source) {
-    this.change = checkNotNull(change);
+    this.change = requireNonNull(change);
     this.changeMessages = changeMessageList(changeMessages);
     this.patchSets = ImmutableSortedMap.copyOfSorted(patchSetMap(patchSets));
     this.patchSetApprovals = ImmutableMap.copyOf(patchSetApprovalMap(patchSetApprovals));
     this.patchLineComments = ImmutableMap.copyOf(patchLineCommentMap(patchLineComments));
-    this.reviewers = checkNotNull(reviewers);
-    this.source = checkNotNull(source);
+    this.reviewers = requireNonNull(reviewers);
+    this.source = requireNonNull(source);
 
     for (ChangeMessage m : this.changeMessages) {
       checkArgument(m.getKey().getParentKey().equals(change.getId()));
@@ -706,8 +706,8 @@ public class ChangeBundle {
       // purposes, ignore the postSubmit bit in NoteDb in this case.
       Timestamp ta = a.getGranted();
       Timestamp tb = b.getGranted();
-      PatchSet psa = checkNotNull(bundleA.patchSets.get(a.getPatchSetId()));
-      PatchSet psb = checkNotNull(bundleB.patchSets.get(b.getPatchSetId()));
+      PatchSet psa = requireNonNull(bundleA.patchSets.get(a.getPatchSetId()));
+      PatchSet psb = requireNonNull(bundleB.patchSets.get(b.getPatchSetId()));
       boolean excludeGranted = false;
       boolean excludePostSubmit = false;
       List<String> exclude = new ArrayList<>(1);

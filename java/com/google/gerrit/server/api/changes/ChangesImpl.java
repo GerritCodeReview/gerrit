@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.api.changes;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -128,7 +128,7 @@ class ChangesImpl implements Changes {
 
       // Check type safety of result; the extension API should be safer than the
       // REST API in this case, since it's intended to be used in Java.
-      Object first = checkNotNull(result.iterator().next());
+      Object first = requireNonNull(result.iterator().next());
       checkState(first instanceof ChangeInfo);
       @SuppressWarnings("unchecked")
       List<ChangeInfo> infos = (List<ChangeInfo>) result;

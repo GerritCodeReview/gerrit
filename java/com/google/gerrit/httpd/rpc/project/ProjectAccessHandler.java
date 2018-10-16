@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.common.ProjectAccessUtil.mergeSections;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.data.AccessSection;
@@ -235,7 +235,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
 
   /** Provide a local cache for {@code ProjectPermission.WRITE_CONFIG} capability. */
   private boolean canWriteConfig() throws PermissionBackendException {
-    checkNotNull(user);
+    requireNonNull(user);
 
     if (canWriteConfig != null) {
       return canWriteConfig;

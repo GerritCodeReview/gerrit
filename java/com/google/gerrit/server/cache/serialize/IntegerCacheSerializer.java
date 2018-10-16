@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.cache.serialize;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.CodedOutputStream;
@@ -34,7 +34,7 @@ public enum IntegerCacheSerializer implements CacheSerializer<Integer> {
     byte[] buf = new byte[MAX_VARINT_SIZE];
     CodedOutputStream cout = CodedOutputStream.newInstance(buf);
     try {
-      cout.writeInt32NoTag(checkNotNull(object));
+      cout.writeInt32NoTag(requireNonNull(object));
       cout.flush();
     } catch (IOException e) {
       throw new IllegalStateException("Failed to serialize int");
@@ -45,7 +45,7 @@ public enum IntegerCacheSerializer implements CacheSerializer<Integer> {
 
   @Override
   public Integer deserialize(byte[] in) {
-    CodedInputStream cin = CodedInputStream.newInstance(checkNotNull(in));
+    CodedInputStream cin = CodedInputStream.newInstance(requireNonNull(in));
     int ret;
     try {
       ret = cin.readRawVarint32();

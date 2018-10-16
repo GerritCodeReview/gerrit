@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.server.config.ConfigUtil.storeSection;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -190,7 +191,7 @@ public class Schema_115 extends SchemaVersion {
   }
 
   private static Whitespace toWhitespace(String v) {
-    Preconditions.checkNotNull(v);
+    requireNonNull(v);
     if (v.isEmpty()) {
       return Whitespace.IGNORE_NONE;
     }

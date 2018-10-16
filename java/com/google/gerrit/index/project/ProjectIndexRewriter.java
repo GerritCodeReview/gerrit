@@ -14,7 +14,7 @@
 
 package com.google.gerrit.index.project;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.index.IndexRewriter;
 import com.google.gerrit.index.QueryOptions;
@@ -36,7 +36,7 @@ public class ProjectIndexRewriter implements IndexRewriter<ProjectData> {
   public Predicate<ProjectData> rewrite(Predicate<ProjectData> in, QueryOptions opts)
       throws QueryParseException {
     ProjectIndex index = indexes.getSearchIndex();
-    checkNotNull(index, "no active search index configured for projects");
+    requireNonNull(index, "no active search index configured for projects");
     return new IndexedProjectQuery(index, in, opts);
   }
 }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelTypes;
@@ -214,7 +214,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
       StringBuilder msg = new StringBuilder();
       msg.append("Removed ");
-      LabelVote.appendTo(msg, label, checkNotNull(oldApprovals.get(label)));
+      LabelVote.appendTo(msg, label, requireNonNull(oldApprovals.get(label)));
       msg.append(" by ").append(userFactory.create(accountId).getNameEmail()).append("\n");
       changeMessage =
           ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_VOTE);

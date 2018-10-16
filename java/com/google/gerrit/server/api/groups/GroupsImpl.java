@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.api.groups;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -90,7 +90,7 @@ class GroupsImpl implements Groups {
 
   @Override
   public GroupApi create(GroupInput in) throws RestApiException {
-    if (checkNotNull(in, "GroupInput").name == null) {
+    if (requireNonNull(in, "GroupInput").name == null) {
       throw new BadRequestException("GroupInput must specify name");
     }
     try {

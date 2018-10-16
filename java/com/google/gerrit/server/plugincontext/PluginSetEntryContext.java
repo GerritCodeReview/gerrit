@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.plugincontext;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
@@ -85,7 +85,7 @@ public class PluginSetEntryContext<T> {
   private final PluginMetrics pluginMetrics;
 
   PluginSetEntryContext(Extension<T> extension, PluginMetrics pluginMetrics) {
-    this.extension = checkNotNull(extension);
+    this.extension = requireNonNull(extension);
     this.pluginMetrics = pluginMetrics;
   }
 

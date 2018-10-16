@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.fixes;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,7 +36,7 @@ class LineIdentifier {
   private int currentLineEndIndex;
 
   LineIdentifier(String string) {
-    checkNotNull(string);
+    requireNonNull(string);
     lineSeparatorMatcher = LINE_SEPARATOR_PATTERN.matcher(string);
     reset();
   }

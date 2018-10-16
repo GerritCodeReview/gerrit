@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -120,7 +120,7 @@ public class DeleteChangeMessage
 
   @VisibleForTesting
   public static String createNewChangeMessage(String deletedBy, @Nullable String deletedReason) {
-    checkNotNull(deletedBy, "user name must not be null");
+    requireNonNull(deletedBy, "user name must not be null");
 
     if (Strings.isNullOrEmpty(deletedReason)) {
       return createNewChangeMessage(deletedBy);
@@ -130,7 +130,7 @@ public class DeleteChangeMessage
 
   @VisibleForTesting
   public static String createNewChangeMessage(String deletedBy) {
-    checkNotNull(deletedBy, "user name must not be null");
+    requireNonNull(deletedBy, "user name must not be null");
 
     return "Change message removed by: " + deletedBy;
   }

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.update;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.gerrit.reviewdb.client.Project;
@@ -66,9 +66,9 @@ public class RepoView {
         "expected RevWalk %s to be created by ObjectInserter %s",
         rw,
         inserter);
-    this.repo = checkNotNull(repo);
-    this.rw = checkNotNull(rw);
-    this.inserter = checkNotNull(inserter);
+    this.repo = requireNonNull(repo);
+    this.rw = requireNonNull(rw);
+    this.inserter = requireNonNull(inserter);
     inserterWrapper = new NonFlushingInserter(inserter);
     commands = new ChainedReceiveCommands(repo);
     closeRepo = false;

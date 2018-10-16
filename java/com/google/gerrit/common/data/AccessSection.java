@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common.data;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void setPermissions(List<Permission> list) {
-    checkNotNull(list);
+    requireNonNull(list);
 
     Set<String> names = new HashSet<>();
     for (Permission p : list) {
@@ -62,7 +64,7 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
 
   @Nullable
   public Permission getPermission(String name, boolean create) {
-    checkNotNull(name);
+    requireNonNull(name);
 
     if (permissions != null) {
       for (Permission p : permissions) {
@@ -86,7 +88,7 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void addPermission(Permission permission) {
-    checkNotNull(permission);
+    requireNonNull(permission);
 
     if (permissions == null) {
       permissions = new ArrayList<>();
@@ -102,12 +104,12 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void remove(Permission permission) {
-    checkNotNull(permission);
+    requireNonNull(permission);
     removePermission(permission.getName());
   }
 
   public void removePermission(String name) {
-    checkNotNull(name);
+    requireNonNull(name);
 
     if (permissions != null) {
       permissions.removeIf(permission -> name.equalsIgnoreCase(permission.getName()));
@@ -115,7 +117,7 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void mergeFrom(AccessSection section) {
-    checkNotNull(section);
+    requireNonNull(section);
 
     for (Permission src : section.getPermissions()) {
       Permission dst = getPermission(src.getName());
@@ -124,13 +126,6 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
       } else {
         permissions.add(src);
       }
-    }
-  }
-
-  // TODO(ekempin): Once the GWT UI is gone use com.google.common.base.Preconditions.checkNotNull
-  private static void checkNotNull(Object reference) {
-    if (reference == null) {
-      throw new NullPointerException();
     }
   }
 

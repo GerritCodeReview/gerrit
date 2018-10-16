@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.Nullable;
 import java.util.Collection;
@@ -40,7 +40,7 @@ public class MergeTip {
    * @param toMerge list of commits to be merged in merge operation; may not be null or empty.
    */
   public MergeTip(@Nullable CodeReviewCommit initialTip, Collection<CodeReviewCommit> toMerge) {
-    checkNotNull(toMerge, "toMerge may not be null");
+    requireNonNull(toMerge, "toMerge may not be null");
     checkArgument(!toMerge.isEmpty(), "toMerge may not be empty");
     this.initialTip = initialTip;
     this.branchTip = initialTip;

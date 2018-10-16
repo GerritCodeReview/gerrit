@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
@@ -110,7 +110,7 @@ public class DefaultPermissionMappings {
   }
 
   public static String globalPermissionName(GlobalPermission globalPermission) {
-    return checkNotNull(CAPABILITIES.get(globalPermission));
+    return requireNonNull(CAPABILITIES.get(globalPermission));
   }
 
   public static Optional<GlobalPermission> globalPermission(String capabilityName) {

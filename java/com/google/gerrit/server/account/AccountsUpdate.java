@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -230,19 +230,19 @@ public class AccountsUpdate {
       PersonIdent authorIdent,
       Runnable afterReadRevision,
       Runnable beforeCommit) {
-    this.repoManager = checkNotNull(repoManager, "repoManager");
-    this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
+    this.repoManager = requireNonNull(repoManager, "repoManager");
+    this.gitRefUpdated = requireNonNull(gitRefUpdated, "gitRefUpdated");
     this.currentUser = currentUser;
-    this.allUsersName = checkNotNull(allUsersName, "allUsersName");
-    this.externalIds = checkNotNull(externalIds, "externalIds");
+    this.allUsersName = requireNonNull(allUsersName, "allUsersName");
+    this.externalIds = requireNonNull(externalIds, "externalIds");
     this.metaDataUpdateInternalFactory =
-        checkNotNull(metaDataUpdateInternalFactory, "metaDataUpdateInternalFactory");
-    this.retryHelper = checkNotNull(retryHelper, "retryHelper");
-    this.extIdNotesLoader = checkNotNull(extIdNotesLoader, "extIdNotesLoader");
-    this.committerIdent = checkNotNull(committerIdent, "committerIdent");
-    this.authorIdent = checkNotNull(authorIdent, "authorIdent");
-    this.afterReadRevision = checkNotNull(afterReadRevision, "afterReadRevision");
-    this.beforeCommit = checkNotNull(beforeCommit, "beforeCommit");
+        requireNonNull(metaDataUpdateInternalFactory, "metaDataUpdateInternalFactory");
+    this.retryHelper = requireNonNull(retryHelper, "retryHelper");
+    this.extIdNotesLoader = requireNonNull(extIdNotesLoader, "extIdNotesLoader");
+    this.committerIdent = requireNonNull(committerIdent, "committerIdent");
+    this.authorIdent = requireNonNull(authorIdent, "authorIdent");
+    this.afterReadRevision = requireNonNull(afterReadRevision, "afterReadRevision");
+    this.beforeCommit = requireNonNull(beforeCommit, "beforeCommit");
   }
 
   private static PersonIdent createPersonIdent(
@@ -551,11 +551,11 @@ public class AccountsUpdate {
         AccountConfig accountConfig,
         ExternalIdNotes extIdNotes) {
       checkState(!Strings.isNullOrEmpty(message), "message for account update must be set");
-      this.allUsersName = checkNotNull(allUsersName);
-      this.externalIds = checkNotNull(externalIds);
-      this.message = checkNotNull(message);
-      this.accountConfig = checkNotNull(accountConfig);
-      this.extIdNotes = checkNotNull(extIdNotes);
+      this.allUsersName = requireNonNull(allUsersName);
+      this.externalIds = requireNonNull(externalIds);
+      this.message = requireNonNull(message);
+      this.accountConfig = requireNonNull(accountConfig);
+      this.extIdNotes = requireNonNull(extIdNotes);
     }
 
     public String getMessage() {

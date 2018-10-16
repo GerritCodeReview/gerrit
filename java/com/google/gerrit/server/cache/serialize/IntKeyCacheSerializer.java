@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.cache.serialize;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gwtorm.client.IntKey;
 import java.util.function.Function;
@@ -23,7 +23,7 @@ public class IntKeyCacheSerializer<K extends IntKey<?>> implements CacheSerializ
   private final Function<Integer, K> factory;
 
   public IntKeyCacheSerializer(Function<Integer, K> factory) {
-    this.factory = checkNotNull(factory);
+    this.factory = requireNonNull(factory);
   }
 
   @Override

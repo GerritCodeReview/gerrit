@@ -14,12 +14,12 @@
 
 package com.google.gerrit.httpd.raw;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.net.HttpHeaders.CONTENT_ENCODING;
 import static com.google.common.net.HttpHeaders.ETAG;
 import static com.google.common.net.HttpHeaders.IF_MODIFIED_SINCE;
 import static com.google.common.net.HttpHeaders.IF_NONE_MATCH;
 import static com.google.common.net.HttpHeaders.LAST_MODIFIED;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -111,7 +111,7 @@ public abstract class ResourceServlet extends HttpServlet {
       boolean refresh,
       boolean cacheOnClient,
       int cacheFileSizeLimitBytes) {
-    this.cache = checkNotNull(cache, "cache");
+    this.cache = requireNonNull(cache, "cache");
     this.refresh = refresh;
     this.cacheOnClient = cacheOnClient;
     this.cacheFileSizeLimitBytes = cacheFileSizeLimitBytes;
@@ -308,9 +308,9 @@ public abstract class ResourceServlet extends HttpServlet {
     final byte[] raw;
 
     Resource(FileTime lastModified, String contentType, byte[] raw) {
-      this.lastModified = checkNotNull(lastModified, "lastModified");
-      this.contentType = checkNotNull(contentType, "contentType");
-      this.raw = checkNotNull(raw, "raw");
+      this.lastModified = requireNonNull(lastModified, "lastModified");
+      this.contentType = requireNonNull(contentType, "contentType");
+      this.raw = requireNonNull(raw, "raw");
       this.etag = Hashing.murmur3_128().hashBytes(raw).toString();
     }
 

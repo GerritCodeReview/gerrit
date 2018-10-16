@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.api.accounts;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
@@ -34,6 +33,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPG
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -2848,7 +2848,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private void addExternalIdEmail(TestAccount account, String email) throws Exception {
-    checkNotNull(email);
+    requireNonNull(email);
     accountsUpdateProvider
         .get()
         .update(

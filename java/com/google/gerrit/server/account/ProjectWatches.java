@@ -15,7 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -112,9 +112,9 @@ public class ProjectWatches {
   private ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches;
 
   ProjectWatches(Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
-    this.accountId = checkNotNull(accountId, "accountId");
-    this.cfg = checkNotNull(cfg, "cfg");
-    this.validationErrorSink = checkNotNull(validationErrorSink, "validationErrorSink");
+    this.accountId = requireNonNull(accountId, "accountId");
+    this.cfg = requireNonNull(cfg, "cfg");
+    this.validationErrorSink = requireNonNull(validationErrorSink, "validationErrorSink");
   }
 
   public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {

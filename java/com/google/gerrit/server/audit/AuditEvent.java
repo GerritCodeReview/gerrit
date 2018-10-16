@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.audit;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.server.CurrentUser;
@@ -64,7 +65,7 @@ public class AuditEvent {
       long when,
       ListMultimap<String, ?> params,
       Object result) {
-    Preconditions.checkNotNull(what, "what is a mandatory not null param !");
+    requireNonNull(what, "what is a mandatory not null param !");
 
     this.sessionId = MoreObjects.firstNonNull(sessionId, UNKNOWN_SESSION_ID);
     this.who = who;

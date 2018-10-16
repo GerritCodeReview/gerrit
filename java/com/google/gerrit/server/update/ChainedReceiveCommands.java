@@ -15,7 +15,7 @@
 package com.google.gerrit.server.update;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
@@ -45,7 +45,7 @@ public class ChainedReceiveCommands implements RefCache {
   }
 
   public ChainedReceiveCommands(RepoRefCache refCache) {
-    this.refCache = checkNotNull(refCache);
+    this.refCache = requireNonNull(refCache);
   }
 
   public RepoRefCache getRepoRefCache() {

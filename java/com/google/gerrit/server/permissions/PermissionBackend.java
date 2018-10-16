@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
@@ -162,7 +162,7 @@ public abstract class PermissionBackend {
     }
 
     public T database(ReviewDb db) {
-      return database(Providers.of(checkNotNull(db, "ReviewDb")));
+      return database(Providers.of(requireNonNull(db, "ReviewDb")));
     }
 
     @SuppressWarnings("unchecked")
@@ -266,8 +266,8 @@ public abstract class PermissionBackend {
      */
     public Set<Project.NameKey> filter(ProjectPermission perm, Collection<Project.NameKey> projects)
         throws PermissionBackendException {
-      checkNotNull(perm, "ProjectPermission");
-      checkNotNull(projects, "projects");
+      requireNonNull(perm, "ProjectPermission");
+      requireNonNull(projects, "projects");
       Set<Project.NameKey> allowed = Sets.newHashSetWithExpectedSize(projects.size());
       for (Project.NameKey project : projects) {
         try {
@@ -485,7 +485,7 @@ public abstract class PermissionBackend {
      * @throws PermissionBackendException if failure consulting backend configuration.
      */
     public Set<LabelPermission.WithValue> test(LabelType label) throws PermissionBackendException {
-      return test(valuesOf(checkNotNull(label, "LabelType")));
+      return test(valuesOf(requireNonNull(label, "LabelType")));
     }
 
     /**
@@ -497,7 +497,7 @@ public abstract class PermissionBackend {
      */
     public Set<LabelPermission.WithValue> testLabels(Collection<LabelType> types)
         throws PermissionBackendException {
-      checkNotNull(types, "LabelType");
+      requireNonNull(types, "LabelType");
       return test(types.stream().flatMap((t) -> valuesOf(t).stream()).collect(toSet()));
     }
 

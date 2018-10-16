@@ -14,8 +14,8 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Sets;
@@ -132,7 +132,7 @@ public class Reindex extends SiteProgram {
       return;
     }
 
-    checkNotNull(indexDefs, "Called this method before injectMembers?");
+    requireNonNull(indexDefs, "Called this method before injectMembers?");
     Set<String> valid = indexDefs.stream().map(IndexDefinition::getName).sorted().collect(toSet());
     Set<String> invalid = Sets.difference(Sets.newHashSet(indices), valid);
     if (invalid.isEmpty()) {
@@ -192,7 +192,8 @@ public class Reindex extends SiteProgram {
   private <K, V, I extends Index<K, V>> boolean reindex(IndexDefinition<K, V, I> def)
       throws IOException {
     I index = def.getIndexCollection().getSearchIndex();
-    checkNotNull(index, "no active search index configured for %s", def.getName());
+    requireNonNull(
+        index, () -> String.format("no active search index configured for %s", def.getName()));
     index.markReady(false);
     index.deleteAll();
 

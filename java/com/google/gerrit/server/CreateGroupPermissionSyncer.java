@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Sets;
@@ -77,9 +77,11 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
    */
   public void syncIfNeeded() throws IOException, ConfigInvalidException {
     ProjectState allProjectsState = projectCache.checkedGet(allProjects);
-    checkNotNull(allProjectsState, "Can't obtain project state for " + allProjects);
+    requireNonNull(
+        allProjectsState, () -> String.format("Can't obtain project state for %s", allProjects));
     ProjectState allUsersState = projectCache.checkedGet(allUsers);
-    checkNotNull(allUsersState, "Can't obtain project state for " + allUsers);
+    requireNonNull(
+        allUsersState, () -> String.format("Can't obtain project state for %s", allUsers));
 
     Set<PermissionRule> createGroupsGlobal =
         new HashSet<>(allProjectsState.getCapabilityCollection().createGroup);

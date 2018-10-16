@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.config.ConfigUtil.loadSection;
 import static com.google.gerrit.server.config.ConfigUtil.skipField;
@@ -27,6 +26,7 @@ import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TOKEN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -104,10 +104,10 @@ public class Preferences {
       Config cfg,
       Config defaultCfg,
       ValidationError.Sink validationErrorSink) {
-    this.accountId = checkNotNull(accountId, "accountId");
-    this.cfg = checkNotNull(cfg, "cfg");
-    this.defaultCfg = checkNotNull(defaultCfg, "defaultCfg");
-    this.validationErrorSink = checkNotNull(validationErrorSink, "validationErrorSink");
+    this.accountId = requireNonNull(accountId, "accountId");
+    this.cfg = requireNonNull(cfg, "cfg");
+    this.defaultCfg = requireNonNull(defaultCfg, "defaultCfg");
+    this.validationErrorSink = requireNonNull(validationErrorSink, "validationErrorSink");
   }
 
   public GeneralPreferencesInfo getGeneralPreferences() {

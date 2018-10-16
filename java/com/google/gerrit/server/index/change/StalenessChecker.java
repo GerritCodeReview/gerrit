@@ -15,8 +15,8 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 
 import com.google.auto.value.AutoValue;
@@ -136,7 +136,7 @@ public class StalenessChecker {
 
   @VisibleForTesting
   static boolean reviewDbChangeIsStale(Change indexChange, @Nullable Change reviewDbChange) {
-    checkNotNull(indexChange);
+    requireNonNull(indexChange);
     PrimaryStorage storageFromIndex = PrimaryStorage.of(indexChange);
     PrimaryStorage storageFromReviewDb = PrimaryStorage.of(reviewDbChange);
     if (reviewDbChange == null) {

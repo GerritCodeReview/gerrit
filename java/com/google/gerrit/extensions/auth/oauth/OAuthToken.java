@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.auth.oauth;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -55,9 +55,9 @@ public class OAuthToken implements Serializable {
 
   public OAuthToken(
       String token, String secret, String raw, long expiresAt, @Nullable String providerId) {
-    this.token = checkNotNull(token, "token");
-    this.secret = checkNotNull(secret, "secret");
-    this.raw = checkNotNull(raw, "raw");
+    this.token = requireNonNull(token, "token");
+    this.secret = requireNonNull(secret, "secret");
+    this.raw = requireNonNull(raw, "raw");
     this.expiresAt = expiresAt;
     this.providerId = Strings.emptyToNull(providerId);
   }

@@ -15,11 +15,11 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
@@ -165,7 +165,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   }
 
   void setPatchSet(PatchSet patchSet) {
-    this.patchSet = checkNotNull(patchSet);
+    this.patchSet = requireNonNull(patchSet);
   }
 
   @Override
@@ -213,7 +213,7 @@ public class AddReviewersOp implements BatchUpdateOp {
     checkAdded();
 
     if (patchSet == null) {
-      patchSet = checkNotNull(psUtil.current(ctx.getDb(), ctx.getNotes()));
+      patchSet = requireNonNull(psUtil.current(ctx.getDb(), ctx.getNotes()));
     }
     return true;
   }

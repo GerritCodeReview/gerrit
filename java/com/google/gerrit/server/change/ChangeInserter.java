@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
@@ -263,7 +263,7 @@ public class ChangeInserter implements InsertChangeOp {
 
   public ChangeInserter setAccountsToNotify(
       ListMultimap<RecipientType, Account.Id> accountsToNotify) {
-    this.accountsToNotify = checkNotNull(accountsToNotify);
+    this.accountsToNotify = requireNonNull(accountsToNotify);
     return this;
   }
 
@@ -304,7 +304,7 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   public ChangeInserter setGroups(List<String> groups) {
-    checkNotNull(groups, "groups may not be empty");
+    requireNonNull(groups, "groups may not be empty");
     checkState(patchSet == null, "setGroups(Iterable<String>) only valid before creating change");
     this.groups = groups;
     return this;

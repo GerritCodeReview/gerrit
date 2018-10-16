@@ -15,8 +15,8 @@
 package com.google.gerrit.util.http.testutil;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -72,11 +72,11 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   }
 
   public FakeHttpServletRequest(String hostName, int port, String contextPath, String servletPath) {
-    this.hostName = checkNotNull(hostName, "hostName");
+    this.hostName = requireNonNull(hostName, "hostName");
     checkArgument(port > 0);
     this.port = port;
-    this.contextPath = checkNotNull(contextPath, "contextPath");
-    this.servletPath = checkNotNull(servletPath, "servletPath");
+    this.contextPath = requireNonNull(contextPath, "contextPath");
+    this.servletPath = requireNonNull(servletPath, "servletPath");
     attributes = Maps.newConcurrentMap();
     parameters = LinkedListMultimap.create();
     headers = LinkedListMultimap.create();

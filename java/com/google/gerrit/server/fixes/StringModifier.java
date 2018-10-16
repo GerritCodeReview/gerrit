@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.fixes;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * A modifier of a string. It allows to replace multiple parts of a string by indicating those parts
@@ -29,7 +29,7 @@ class StringModifier {
   private int previousEndOffset = Integer.MIN_VALUE;
 
   StringModifier(String string) {
-    checkNotNull(string, "string must not be null");
+    requireNonNull(string, "string must not be null");
     stringBuilder = new StringBuilder(string);
   }
 
@@ -45,7 +45,7 @@ class StringModifier {
    *     previous call of this method
    */
   public void replace(int startIndex, int endIndex, String replacement) {
-    checkNotNull(replacement, "replacement string must not be null");
+    requireNonNull(replacement, "replacement string must not be null");
     if (previousEndOffset > startIndex) {
       throw new StringIndexOutOfBoundsException(
           String.format(

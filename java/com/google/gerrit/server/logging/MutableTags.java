@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.logging;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -39,8 +39,8 @@ public class MutableTags {
    *     already exists
    */
   public boolean add(String name, String value) {
-    checkNotNull(name, "tag name is required");
-    checkNotNull(value, "tag value is required");
+    requireNonNull(name, "tag name is required");
+    requireNonNull(value, "tag value is required");
     boolean ret = tagMap.put(name, value);
     if (ret) {
       buildTags();
@@ -55,8 +55,8 @@ public class MutableTags {
    * @param value the value of the tag
    */
   public void remove(String name, String value) {
-    checkNotNull(name, "tag name is required");
-    checkNotNull(value, "tag value is required");
+    requireNonNull(name, "tag name is required");
+    requireNonNull(value, "tag value is required");
     if (tagMap.remove(name, value)) {
       buildTags();
     }

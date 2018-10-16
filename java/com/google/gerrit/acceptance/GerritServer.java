@@ -15,8 +15,8 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 import static org.apache.log4j.Logger.getLogger;
 
 import com.google.auto.value.AutoValue;
@@ -411,7 +411,7 @@ public class GerritServer implements AutoCloseable {
       CyclicBarrier serverStarted,
       String[] additionalArgs)
       throws Exception {
-    checkNotNull(site);
+    requireNonNull(site);
     ExecutorService daemonService = Executors.newSingleThreadExecutor();
     String[] args =
         Stream.concat(
@@ -535,10 +535,10 @@ public class GerritServer implements AutoCloseable {
       Injector testInjector,
       Daemon daemon,
       @Nullable ExecutorService daemonService) {
-    this.desc = checkNotNull(desc);
+    this.desc = requireNonNull(desc);
     this.sitePath = sitePath;
-    this.testInjector = checkNotNull(testInjector);
-    this.daemon = checkNotNull(daemon);
+    this.testInjector = requireNonNull(testInjector);
+    this.daemon = requireNonNull(daemon);
     this.daemonService = daemonService;
 
     Config cfg = testInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.cache.serialize;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Converter;
 import com.google.common.base.Enums;
@@ -29,11 +29,11 @@ public class EnumCacheSerializer<E extends Enum<E>> implements CacheSerializer<E
 
   @Override
   public byte[] serialize(E object) {
-    return converter.reverse().convert(checkNotNull(object)).getBytes(UTF_8);
+    return converter.reverse().convert(requireNonNull(object)).getBytes(UTF_8);
   }
 
   @Override
   public E deserialize(byte[] in) {
-    return converter.convert(new String(checkNotNull(in), UTF_8));
+    return converter.convert(new String(requireNonNull(in), UTF_8));
   }
 }

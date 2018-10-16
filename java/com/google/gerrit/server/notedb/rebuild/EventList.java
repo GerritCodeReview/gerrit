@@ -15,8 +15,8 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
@@ -103,7 +103,7 @@ class EventList<E extends Event> implements Iterable<E> {
   }
 
   PatchSet.Id getPatchSetId() {
-    PatchSet.Id id = checkNotNull(get(0).psId);
+    PatchSet.Id id = requireNonNull(get(0).psId);
     for (int i = 1; i < size(); i++) {
       checkState(
           get(i).psId.equals(id), "mismatched patch sets in EventList: %s != %s", id, get(i).psId);

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.util;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Throwables;
 import com.google.gerrit.reviewdb.client.Project;
@@ -83,7 +83,7 @@ public abstract class RequestScopePropagator {
    */
   @SuppressWarnings("javadoc") // See GuiceRequestScopePropagator#wrapImpl
   public final <T> Callable<T> wrap(Callable<T> callable) {
-    final RequestContext callerContext = checkNotNull(local.getContext());
+    final RequestContext callerContext = requireNonNull(local.getContext());
     final Callable<T> wrapped = wrapImpl(context(callerContext, cleanup(callable)));
     return new Callable<T>() {
       @Override

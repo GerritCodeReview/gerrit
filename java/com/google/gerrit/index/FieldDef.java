@@ -15,7 +15,7 @@
 package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.CharMatcher;
 import com.google.gwtorm.server.OrmException;
@@ -69,8 +69,8 @@ public final class FieldDef<I, T> {
     private boolean stored;
 
     public Builder(FieldType<T> type, String name) {
-      this.type = checkNotNull(type);
-      this.name = checkNotNull(name);
+      this.type = requireNonNull(type);
+      this.name = requireNonNull(name);
     }
 
     public Builder<T> stored() {
@@ -99,10 +99,10 @@ public final class FieldDef<I, T> {
         !(repeatable && type == FieldType.INTEGER_RANGE),
         "Range queries against repeated fields are unsupported");
     this.name = checkName(name);
-    this.type = checkNotNull(type);
+    this.type = requireNonNull(type);
     this.stored = stored;
     this.repeatable = repeatable;
-    this.getter = checkNotNull(getter);
+    this.getter = requireNonNull(getter);
   }
 
   private static String checkName(String name) {

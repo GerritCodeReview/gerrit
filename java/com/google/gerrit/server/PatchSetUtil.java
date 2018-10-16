@@ -15,10 +15,10 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
 import static com.google.gerrit.server.notedb.PatchSetState.PUBLISHED;
+import static java.util.Objects.requireNonNull;
 import static java.util.function.Function.identity;
 
 import com.google.common.collect.ImmutableCollection;
@@ -130,7 +130,7 @@ public class PatchSetUtil {
       String pushCertificate,
       String description)
       throws OrmException, IOException {
-    checkNotNull(groups, "groups may not be null");
+    requireNonNull(groups, "groups may not be null");
     ensurePatchSetMatches(psId, update);
 
     PatchSet ps = new PatchSet(psId);
@@ -197,7 +197,8 @@ public class PatchSetUtil {
     }
 
     ProjectState projectState = projectCache.checkedGet(notes.getProjectName());
-    checkNotNull(projectState, "Failed to load project %s", notes.getProjectName());
+    requireNonNull(
+        projectState, () -> String.format("Failed to load project %s", notes.getProjectName()));
 
     ApprovalsUtil approvalsUtil = approvalsUtilProvider.get();
     for (PatchSetApproval ap :

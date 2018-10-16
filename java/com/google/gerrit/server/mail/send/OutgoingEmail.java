@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.mail.send;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -84,11 +84,11 @@ public abstract class OutgoingEmail {
   }
 
   public void setNotify(NotifyHandling notify) {
-    this.notify = checkNotNull(notify);
+    this.notify = requireNonNull(notify);
   }
 
   public void setAccountsToNotify(ListMultimap<RecipientType, Account.Id> accountsToNotify) {
-    this.accountsToNotify = checkNotNull(accountsToNotify);
+    this.accountsToNotify = requireNonNull(accountsToNotify);
   }
 
   /**

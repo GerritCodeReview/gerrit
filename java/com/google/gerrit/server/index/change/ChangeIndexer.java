@@ -347,9 +347,7 @@ public class ChangeIndexer {
                   try {
                     db = Providers.of(schemaFactory.open());
                   } catch (OrmException e) {
-                    ProvisionException pe = new ProvisionException("error opening ReviewDb");
-                    pe.initCause(e);
-                    throw pe;
+                    throw new ProvisionException("error opening ReviewDb", e);
                   }
                   dbRef.set(db);
                 }

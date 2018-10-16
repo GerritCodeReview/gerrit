@@ -44,9 +44,7 @@ public class DefaultAdvertiseRefsHook extends AbstractAdvertiseRefsHook {
     try {
       return perm.filter(repo.getAllRefs(), repo, opts);
     } catch (PermissionBackendException e) {
-      ServiceMayNotContinueException ex = new ServiceMayNotContinueException();
-      ex.initCause(e);
-      throw ex;
+      throw new ServiceMayNotContinueException(e);
     }
   }
 }

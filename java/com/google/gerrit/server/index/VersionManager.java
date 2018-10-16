@@ -272,8 +272,6 @@ public abstract class VersionManager implements LifecycleListener {
   }
 
   private ProvisionException fail(Throwable t) {
-    ProvisionException e = new ProvisionException("Error scanning indexes");
-    e.initCause(t);
-    return e;
+    return new ProvisionException("Error scanning indexes", t);
   }
 }

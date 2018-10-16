@@ -42,9 +42,7 @@ public class HookUtil {
     } catch (ServiceMayNotContinueException e) {
       throw e;
     } catch (IOException e) {
-      ServiceMayNotContinueException ex = new ServiceMayNotContinueException();
-      ex.initCause(e);
-      throw ex;
+      throw new ServiceMayNotContinueException(e);
     }
     rp.setAdvertisedRefs(refs, rp.getAdvertisedObjects());
     return refs;

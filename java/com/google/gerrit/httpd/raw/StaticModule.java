@@ -365,9 +365,7 @@ public class StaticModule extends ServletModule {
             && GerritLauncher.NOT_ARCHIVED.equals(e.getMessage())) {
           return null;
         }
-        ProvisionException pe = new ProvisionException("Error reading gerrit.war");
-        pe.initCause(e);
-        throw pe;
+        throw new ProvisionException("Error reading gerrit.war", e);
       }
       return war;
     }
@@ -395,9 +393,7 @@ public class StaticModule extends ServletModule {
           return dstwar.getAbsoluteFile().toPath();
         }
       } catch (IOException e) {
-        ProvisionException pe = new ProvisionException("Cannot create war tempdir");
-        pe.initCause(e);
-        throw pe;
+        throw new ProvisionException("Cannot create war tempdir", e);
       }
     }
   }

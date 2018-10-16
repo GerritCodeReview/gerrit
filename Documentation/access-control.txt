@@ -5,6 +5,12 @@ member of one or more groups, and access and privileges are granted
 to those groups.  Access rights cannot be granted to individual
 users.
 
+To view/edit the access controls for a specific project, first
+navigate to the projects page: for example,
+https://gerrit-review.googlesource.com/admin/repos/ . Then click on
+the individual project, and then click Access. This will bring you
+to a url that looks like
+https://gerrit-review.googlesource.com/admin/repos/gerrit,access
 
 [[system_groups]]
 == System Groups

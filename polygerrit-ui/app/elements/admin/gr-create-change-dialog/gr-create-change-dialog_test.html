@@ -69,7 +69,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('new change created with default', done => {
+    test('new change created with default', async () => {
       const configInputObj = {
         branch: 'test-branch',
         subject: 'first change created with polygerrit ui',
@@ -79,9 +79,7 @@ limitations under the License.
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
-          'createChange', () => {
-            return Promise.resolve({});
-          });
+          'createChange', async () => ({}));
 
       element.branch = 'test-branch';
       element.topic = 'test-topic';
@@ -92,24 +90,20 @@ limitations under the License.
       element.$.tagNameInput.bindValue = configInputObj.topic;
       element.$.messageInput.bindValue = configInputObj.subject;
 
-      element.handleCreateChange().then(() => {
-        // Private change
-        assert.isFalse(saveStub.lastCall.args[4]);
-        // WIP Change
-        assert.isTrue(saveStub.lastCall.args[5]);
-        assert.isTrue(saveStub.called);
-        done();
-      });
+      await element.handleCreateChange();
+      // Private change
+      assert.isFalse(saveStub.lastCall.args[4]);
+      // WIP Change
+      assert.isTrue(saveStub.lastCall.args[5]);
+      assert.isTrue(saveStub.called);
     });
 
-    test('new change created with private', done => {
+    test('new change created with private', async () => {
       element.privateByDefault = {
         configured_value: 'TRUE',
         inherited_value: false,
       };
-      sandbox.stub(element, '_formatBooleanString', () => {
-        return Promise.resolve(true);
-      });
+      sandbox.stub(element, '_formatBooleanString', () => true);
       flushAsynchronousOperations();
 
       const configInputObj = {
@@ -121,9 +115,7 @@ limitations under the License.
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
-          'createChange', () => {
-            return Promise.resolve({});
-          });
+          'createChange', async () => ({}));
 
       element.branch = 'test-branch';
       element.topic = 'test-topic';
@@ -134,29 +126,24 @@ limitations under the License.
       element.$.tagNameInput.bindValue = configInputObj.topic;
       element.$.messageInput.bindValue = configInputObj.subject;
 
-      element.handleCreateChange().then(() => {
-        // Private change
-        assert.isTrue(saveStub.lastCall.args[4]);
-        // WIP Change
-        assert.isTrue(saveStub.lastCall.args[5]);
-        assert.isTrue(saveStub.called);
-        done();
-      });
+      await element.handleCreateChange();
+      // Private change
+      assert.isTrue(saveStub.lastCall.args[4]);
+      // WIP Change
+      assert.isTrue(saveStub.lastCall.args[5]);
+      assert.isTrue(saveStub.called);
     });
 
-    test('_getRepoBranchesSuggestions empty', done => {
-      element._getRepoBranchesSuggestions('nonexistent').then(branches => {
-        assert.equal(branches.length, 0);
-        done();
-      });
+    test('_getRepoBranchesSuggestions empty', async () => {
+      const branches =
+          await element._getRepoBranchesSuggestions('nonexistent');
+      assert.equal(branches.length, 0);
     });
 
-    test('_getRepoBranchesSuggestions non-empty', done => {
-      element._getRepoBranchesSuggestions('test-branch').then(branches => {
-        assert.equal(branches.length, 1);
-        assert.equal(branches[0].name, 'test-branch');
-        done();
-      });
+    test('_getRepoBranchesSuggestions non-empty', async () => {
+      const branches = await element._getRepoBranchesSuggestions('test-branch');
+      assert.equal(branches.length, 1);
+      assert.equal(branches[0].name, 'test-branch');
     });
   });
 </script>

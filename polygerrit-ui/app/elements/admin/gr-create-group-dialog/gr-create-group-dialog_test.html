@@ -60,7 +60,7 @@ limitations under the License.
       assert.deepEqual(element._name, GROUP_NAME);
     });
 
-    test('test for redirecting to group on successful creation', done => {
+    test('test for redirecting to group on successful creation', async () => {
       sandbox.stub(element.$.restAPI, 'createGroup')
           .returns(Promise.resolve({status: 201}));
 
@@ -68,14 +68,11 @@ limitations under the License.
           .returns(Promise.resolve({group_id: 551}));
 
       const showStub = sandbox.stub(page, 'show');
-      element.handleCreateGroup()
-          .then(() => {
-            assert.isTrue(showStub.calledWith('/admin/groups/551'));
-            done();
-          });
+      await element.handleCreateGroup();
+      assert.isTrue(showStub.calledWith('/admin/groups/551'));
     });
 
-    test('test for unsuccessful group creation', done => {
+    test('test for unsuccessful group creation', async () => {
       sandbox.stub(element.$.restAPI, 'createGroup')
           .returns(Promise.resolve({status: 409}));
 
@@ -83,11 +80,8 @@ limitations under the License.
           .returns(Promise.resolve({group_id: 551}));
 
       const showStub = sandbox.stub(page, 'show');
-      element.handleCreateGroup()
-          .then(() => {
-            assert.isFalse(showStub.called);
-            done();
-          });
+      await element.handleCreateGroup();
+      assert.isFalse(showStub.called);
     });
   });
 </script>

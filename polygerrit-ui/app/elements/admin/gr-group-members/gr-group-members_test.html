@@ -173,7 +173,7 @@ limitations under the License.
           'https://test/site/group/url');
     });
 
-    test('save members correctly', () => {
+    test('save members correctly', async () => {
       element._groupOwner = true;
 
       const memberName = 'test-admin';
@@ -192,15 +192,14 @@ limitations under the License.
 
       assert.isFalse(button.hasAttribute('disabled'));
 
-      return element._handleSavingGroupMember().then(() => {
-        assert.isTrue(button.hasAttribute('disabled'));
-        assert.isFalse(element.$.Title.classList.contains('edited'));
-        assert.isTrue(saveStub.lastCall.calledWithExactly('Administrators',
-            1234));
-      });
+      await element._handleSavingGroupMember();
+      assert.isTrue(button.hasAttribute('disabled'));
+      assert.isFalse(element.$.Title.classList.contains('edited'));
+      assert.isTrue(saveStub.lastCall.calledWithExactly('Administrators',
+          1234));
     });
 
-    test('save included groups correctly', () => {
+    test('save included groups correctly', async () => {
       element._groupOwner = true;
 
       const includedGroupName = 'testName';
@@ -219,15 +218,14 @@ limitations under the License.
 
       assert.isFalse(button.hasAttribute('disabled'));
 
-      return element._handleSavingIncludedGroups().then(() => {
-        assert.isTrue(button.hasAttribute('disabled'));
-        assert.isFalse(element.$.Title.classList.contains('edited'));
-        assert.equal(saveIncludedGroupStub.lastCall.args[0], 'Administrators');
-        assert.equal(saveIncludedGroupStub.lastCall.args[1], 'testId');
-      });
+      await element._handleSavingIncludedGroups();
+      assert.isTrue(button.hasAttribute('disabled'));
+      assert.isFalse(element.$.Title.classList.contains('edited'));
+      assert.equal(saveIncludedGroupStub.lastCall.args[0], 'Administrators');
+      assert.equal(saveIncludedGroupStub.lastCall.args[1], 'testId');
     });
 
-    test('add included group 404 shows helpful error text', () => {
+    test('add included group 404 shows helpful error text', async () => {
       element._groupOwner = true;
 
       const memberName = 'bad-name';
@@ -235,44 +233,39 @@ limitations under the License.
       element.addEventListener('show-alert', alertStub);
 
       sandbox.stub(element.$.restAPI, 'saveGroupMembers',
-          () => Promise.reject({status: 404}));
+          async () => Promise.reject({status: 404}));
 
       element.$.groupMemberSearchInput.text = memberName;
       element.$.groupMemberSearchInput.value = 1234;
 
-      return element._handleSavingIncludedGroups().then(() => {
-        assert.isTrue(alertStub.called);
-      });
+      await element._handleSavingIncludedGroups();
+      assert.isTrue(alertStub.called);
     });
 
-    test('_getAccountSuggestions empty', () => {
-      return element._getAccountSuggestions('nonexistent').then(accounts => {
-        assert.equal(accounts.length, 0);
-      });
+    test('_getAccountSuggestions empty', async () => {
+      const accounts = await element._getAccountSuggestions('nonexistent');
+      assert.equal(accounts.length, 0);
     });
 
-    test('_getAccountSuggestions non-empty', () => {
-      return element._getAccountSuggestions('test-').then(accounts => {
-        assert.equal(accounts.length, 3);
-        assert.equal(accounts[0].name,
-            'test-account <test.account@example.com>');
-        assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
-        assert.equal(accounts[2].name, 'test-git');
-      });
+    test('_getAccountSuggestions non-empty', async () => {
+      const accounts = await element._getAccountSuggestions('test-');
+      assert.equal(accounts.length, 3);
+      assert.equal(accounts[0].name,
+          'test-account <test.account@example.com>');
+      assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
+      assert.equal(accounts[2].name, 'test-git');
     });
 
-    test('_getGroupSuggestions empty', () => {
-      return element._getGroupSuggestions('nonexistent').then(groups => {
-        assert.equal(groups.length, 0);
-      });
+    test('_getGroupSuggestions empty', async () => {
+      const groups = await element._getGroupSuggestions('nonexistent');
+      assert.equal(groups.length, 0);
     });
 
-    test('_getGroupSuggestions non-empty', () => {
-      return element._getGroupSuggestions('test').then(groups => {
-        assert.equal(groups.length, 2);
-        assert.equal(groups[0].name, 'test-admin');
-        assert.equal(groups[1].name, 'test/Administrator (admin)');
-      });
+    test('_getGroupSuggestions non-empty', async () => {
+      const groups = await element._getGroupSuggestions('test');
+      assert.equal(groups.length, 2);
+      assert.equal(groups[0].name, 'test-admin');
+      assert.equal(groups[1].name, 'test/Administrator (admin)');
     });
 
     test('_computeHideItemClass returns string for admin', () => {

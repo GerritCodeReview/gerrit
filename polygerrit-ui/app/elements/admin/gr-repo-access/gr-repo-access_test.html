@@ -133,7 +133,7 @@ limitations under the License.
       assert.isTrue(element._repoChanged.called);
     });
 
-    test('_repoChanged', done => {
+    test('_repoChanged', async () => {
       const accessStub = sandbox.stub(element.$.restAPI,
           'getRepoAccessRights');
 
@@ -145,29 +145,25 @@ limitations under the License.
           'getCapabilities');
       capabilitiesStub.returns(Promise.resolve(capabilitiesRes));
 
-      element._repoChanged('New Repo').then(() => {
-        assert.isTrue(accessStub.called);
-        assert.isTrue(capabilitiesStub.called);
-        assert.isTrue(repoStub.called);
-        assert.isNotOk(element._inheritsFrom);
-        assert.deepEqual(element._local, accessRes.local);
-        assert.deepEqual(element._sections,
-            element.toSortedArray(accessRes.local));
-        assert.deepEqual(element._labels, repoRes.labels);
-        assert.equal(getComputedStyle(element.$$('.weblinks')).display,
-            'block');
-        return element._repoChanged('Another New Repo');
-      })
-          .then(() => {
-            assert.deepEqual(element._sections,
-                element.toSortedArray(accessRes2.local));
-            assert.equal(getComputedStyle(element.$$('.weblinks')).display,
-                'none');
-            done();
-          });
+      await element._repoChanged('New Repo');
+      assert.isTrue(accessStub.called);
+      assert.isTrue(capabilitiesStub.called);
+      assert.isTrue(repoStub.called);
+      assert.isNotOk(element._inheritsFrom);
+      assert.deepEqual(element._local, accessRes.local);
+      assert.deepEqual(element._sections,
+          element.toSortedArray(accessRes.local));
+      assert.deepEqual(element._labels, repoRes.labels);
+      assert.equal(getComputedStyle(element.$$('.weblinks')).display,
+          'block');
+
+      await element._repoChanged('Another New Repo');
+      assert.deepEqual(element._sections,
+          element.toSortedArray(accessRes2.local));
+      assert.equal(getComputedStyle(element.$$('.weblinks')).display, 'none');
     });
 
-    test('_repoChanged when repo changes to undefined returns', done => {
+    test('_repoChanged when repo changes to undefined returns', async () => {
       const capabilitiesRes = {
         accessDatabase: {
           id: 'accessDatabase',
@@ -179,12 +175,10 @@ limitations under the License.
       const capabilitiesStub = sandbox.stub(element.$.restAPI,
           'getCapabilities').returns(Promise.resolve(capabilitiesRes));
 
-      element._repoChanged().then(() => {
-        assert.isFalse(accessStub.called);
-        assert.isFalse(capabilitiesStub.called);
-        assert.isFalse(repoStub.called);
-        done();
-      });
+      await element._repoChanged();
+      assert.isFalse(accessStub.called);
+      assert.isFalse(capabilitiesStub.called);
+      assert.isFalse(repoStub.called);
     });
 
     test('_computeParentHref', () => {
@@ -1054,7 +1048,7 @@ limitations under the License.
         assert.equal(Object.keys(element._local).length, 1);
       });
 
-      test('_handleSaveForReview', done => {
+      test('_handleSaveForReview', async () => {
         const repoAccessInput = {
           add: {
             'refs/*': {
@@ -1089,12 +1083,10 @@ limitations under the License.
         element.repo = 'test-repo';
         sandbox.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
 
-        element._handleSaveForReview().then(() => {
-          assert.isTrue(saveForReviewStub.called);
-          assert.isTrue(Gerrit.Nav.navigateToChange
-              .lastCall.calledWithExactly({_number: 1}));
-          done();
-        });
+        await element._handleSaveForReview();
+        assert.isTrue(saveForReviewStub.called);
+        assert.isTrue(Gerrit.Nav.navigateToChange
+            .lastCall.calledWithExactly({_number: 1}));
       });
     });
   });

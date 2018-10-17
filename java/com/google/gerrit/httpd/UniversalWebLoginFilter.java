@@ -14,10 +14,11 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.plugincontext.PluginItemContext;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -34,8 +35,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class UniversalWebLoginFilter implements Filter {
-  private final DynamicItem<WebSession> session;
-  private final DynamicSet<WebLoginListener> webLoginListeners;
+  private final PluginItemContext<WebSession> session;
+  private final PluginSetContext<WebLoginListener> webLoginListeners;
   private final Provider<CurrentUser> userProvider;
 
   public static ServletModule module() {
@@ -52,8 +53,8 @@ public class UniversalWebLoginFilter implements Filter {
 
   @Inject
   public UniversalWebLoginFilter(
-      DynamicItem<WebSession> session,
-      DynamicSet<WebLoginListener> webLoginListeners,
+      PluginItemContext<WebSession> session,
+      PluginSetContext<WebLoginListener> webLoginListeners,
       Provider<CurrentUser> userProvider) {
     this.session = session;
     this.webLoginListeners = webLoginListeners;
@@ -75,20 +76,18 @@ public class UniversalWebLoginFilter implements Filter {
     Optional<IdentifiedUser> loggedInUserAfter = loggedInUser();
 
     if (!loggedInUserBefore.isPresent() && loggedInUserAfter.isPresent()) {
-      for (WebLoginListener loginListener : webLoginListeners) {
-        loginListener.onLogin(loggedInUserAfter.get(), httpRequest, wrappedResponse);
-      }
+      webLoginListeners.runEach(
+          l -> l.onLogin(loggedInUserAfter.get(), httpRequest, wrappedResponse));
     } else if (loggedInUserBefore.isPresent() && !loggedInUserAfter.isPresent()) {
-      for (WebLoginListener loginListener : webLoginListeners) {
-        loginListener.onLogout(loggedInUserBefore.get(), httpRequest, wrappedResponse);
-      }
+      webLoginListeners.runEach(
+          l -> l.onLogout(loggedInUserBefore.get(), httpRequest, wrappedResponse));
     }
 
     wrappedResponse.play();
   }
 
   private Optional<IdentifiedUser> loggedInUser() {
-    return session.get().isSignedIn()
+    return session.call(s -> s.isSignedIn())
         ? Optional.of(userProvider.get().asIdentifiedUser())
         : Optional.empty();
   }

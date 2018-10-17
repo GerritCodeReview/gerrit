@@ -17,9 +17,9 @@ package com.google.gerrit.server.config;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
 import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -29,11 +29,12 @@ public class GerritServerConfigReloader {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GerritServerConfigProvider configProvider;
-  private final DynamicSet<GerritConfigListener> configListeners;
+  private final PluginSetContext<GerritConfigListener> configListeners;
 
   @Inject
   GerritServerConfigReloader(
-      GerritServerConfigProvider configProvider, DynamicSet<GerritConfigListener> configListeners) {
+      GerritServerConfigProvider configProvider,
+      PluginSetContext<GerritConfigListener> configListeners) {
     this.configProvider = configProvider;
     this.configListeners = configListeners;
   }
@@ -53,9 +54,7 @@ public class GerritServerConfigReloader {
   public Multimap<UpdateResult, ConfigUpdateEntry> fireUpdatedConfigEvent(
       ConfigUpdatedEvent event) {
     Multimap<UpdateResult, ConfigUpdateEntry> updates = ArrayListMultimap.create();
-    for (GerritConfigListener configListener : configListeners) {
-      updates.putAll(configListener.configUpdated(event));
-    }
+    configListeners.runEach(l -> updates.putAll(l.configUpdated(event)));
     return updates;
   }
 }

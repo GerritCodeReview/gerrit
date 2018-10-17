@@ -38,6 +38,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -285,14 +286,14 @@ public class GitOverHttpServlet extends GitServlet {
     private final TransferConfig config;
     private final DynamicSet<PreUploadHook> preUploadHooks;
     private final DynamicSet<PostUploadHook> postUploadHooks;
-    private final DynamicSet<UploadPackInitializer> uploadPackInitializers;
+    private final PluginSetContext<UploadPackInitializer> uploadPackInitializers;
 
     @Inject
     UploadFactory(
         TransferConfig tc,
         DynamicSet<PreUploadHook> preUploadHooks,
         DynamicSet<PostUploadHook> postUploadHooks,
-        DynamicSet<UploadPackInitializer> uploadPackInitializers) {
+        PluginSetContext<UploadPackInitializer> uploadPackInitializers) {
       this.config = tc;
       this.preUploadHooks = preUploadHooks;
       this.postUploadHooks = postUploadHooks;
@@ -314,9 +315,7 @@ public class GitOverHttpServlet extends GitServlet {
         }
       }
       ProjectState state = (ProjectState) req.getAttribute(ATT_STATE);
-      for (UploadPackInitializer initializer : uploadPackInitializers) {
-        initializer.init(state.getNameKey(), up);
-      }
+      uploadPackInitializers.runEach(initializer -> initializer.init(state.getNameKey(), up));
       return up;
     }
   }

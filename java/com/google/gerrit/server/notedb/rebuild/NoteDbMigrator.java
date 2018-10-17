@@ -45,7 +45,6 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.FormatUtil;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.reviewdb.client.Change;
@@ -72,6 +71,7 @@ import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator.NoNoteDbStateException;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -150,7 +150,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private final WorkQueue workQueue;
     private final MutableNotesMigration globalNotesMigration;
     private final PrimaryStorageMigrator primaryStorageMigrator;
-    private final DynamicSet<NotesMigrationStateListener> listeners;
+    private final PluginSetContext<NotesMigrationStateListener> listeners;
 
     private int threads;
     private ImmutableList<Project.NameKey> projects = ImmutableList.of();
@@ -179,7 +179,7 @@ public class NoteDbMigrator implements AutoCloseable {
         WorkQueue workQueue,
         MutableNotesMigration globalNotesMigration,
         PrimaryStorageMigrator primaryStorageMigrator,
-        DynamicSet<NotesMigrationStateListener> listeners) {
+        PluginSetContext<NotesMigrationStateListener> listeners) {
       // Reload gerrit.config/notedb.config on each migrator invocation, in case a previous
       // migration in the same process modified the on-disk contents. This ensures the defaults for
       // trial/autoMigrate get set correctly below.
@@ -390,7 +390,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final ChangeRebuilderImpl rebuilder;
   private final MutableNotesMigration globalNotesMigration;
   private final PrimaryStorageMigrator primaryStorageMigrator;
-  private final DynamicSet<NotesMigrationStateListener> listeners;
+  private final PluginSetContext<NotesMigrationStateListener> listeners;
 
   private final ListeningExecutorService executor;
   private final ImmutableList<Project.NameKey> projects;
@@ -416,7 +416,7 @@ public class NoteDbMigrator implements AutoCloseable {
       ChangeRebuilderImpl rebuilder,
       MutableNotesMigration globalNotesMigration,
       PrimaryStorageMigrator primaryStorageMigrator,
-      DynamicSet<NotesMigrationStateListener> listeners,
+      PluginSetContext<NotesMigrationStateListener> listeners,
       ListeningExecutorService executor,
       ImmutableList<Project.NameKey> projects,
       ImmutableList<Change.Id> changes,
@@ -737,9 +737,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private void preStateChange(NotesMigrationState oldState, NotesMigrationState newState)
       throws IOException {
-    for (NotesMigrationStateListener listener : listeners) {
-      listener.preStateChange(oldState, newState);
-    }
+    listeners.runEach(l -> l.preStateChange(oldState, newState), IOException.class);
   }
 
   private void setControlFlags() throws MigrationException {

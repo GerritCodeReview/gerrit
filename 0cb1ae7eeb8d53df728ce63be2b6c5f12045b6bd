@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c2097ef_ee29464e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-17T22:31:28Z",
+      "side": 1,
+      "message": "Needs commenting, and docstring up above needs updating, because it implies that a triple click always results in an end object.",
+      "revId": "0cb1ae7eeb8d53df728ce63be2b6c5f12045b6bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "346f6a65_c9a103be",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-17T22:31:28Z",
+      "side": 1,
+      "message": "Needs parentheses to make order of operations explicit to humans.",
+      "revId": "0cb1ae7eeb8d53df728ce63be2b6c5f12045b6bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

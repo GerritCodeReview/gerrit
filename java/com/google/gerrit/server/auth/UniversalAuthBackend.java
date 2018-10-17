@@ -16,7 +16,7 @@ package com.google.gerrit.server.auth;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -25,10 +25,10 @@ import java.util.List;
 /** Universal implementation of the AuthBackend that works with the injected set of AuthBackends. */
 @Singleton
 public final class UniversalAuthBackend implements AuthBackend {
-  private final DynamicSet<AuthBackend> authBackends;
+  private final PluginSetContext<AuthBackend> authBackends;
 
   @Inject
-  UniversalAuthBackend(DynamicSet<AuthBackend> authBackends) {
+  UniversalAuthBackend(PluginSetContext<AuthBackend> authBackends) {
     this.authBackends = authBackends;
   }
 
@@ -36,15 +36,16 @@ public final class UniversalAuthBackend implements AuthBackend {
   public AuthUser authenticate(AuthRequest request) throws AuthException {
     List<AuthUser> authUsers = new ArrayList<>();
     List<AuthException> authExs = new ArrayList<>();
-    for (AuthBackend backend : authBackends) {
-      try {
-        authUsers.add(requireNonNull(backend.authenticate(request)));
-      } catch (MissingCredentialsException ex) {
-        // Not handled by this backend.
-      } catch (AuthException ex) {
-        authExs.add(ex);
-      }
-    }
+    authBackends.runEach(
+        backend -> {
+          try {
+            authUsers.add(requireNonNull(backend.authenticate(request)));
+          } catch (MissingCredentialsException ex) {
+            // Not handled by this backend.
+          } catch (AuthException ex) {
+            authExs.add(ex);
+          }
+        });
 
     // Handle the valid responses
     if (authUsers.size() == 1) {

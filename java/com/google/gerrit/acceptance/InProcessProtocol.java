@@ -39,6 +39,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.RequestContext;
@@ -208,7 +209,7 @@ class InProcessProtocol extends TestProtocol<Context> {
 
   private static class Upload implements UploadPackFactory<Context> {
     private final TransferConfig transferConfig;
-    private final DynamicSet<UploadPackInitializer> uploadPackInitializers;
+    private final PluginSetContext<UploadPackInitializer> uploadPackInitializers;
     private final DynamicSet<PreUploadHook> preUploadHooks;
     private final UploadValidators.Factory uploadValidatorsFactory;
     private final ThreadLocalRequestContext threadContext;
@@ -218,7 +219,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     @Inject
     Upload(
         TransferConfig transferConfig,
-        DynamicSet<UploadPackInitializer> uploadPackInitializers,
+        PluginSetContext<UploadPackInitializer> uploadPackInitializers,
         DynamicSet<PreUploadHook> preUploadHooks,
         UploadValidators.Factory uploadValidatorsFactory,
         ThreadLocalRequestContext threadContext,
@@ -267,9 +268,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
       hooks.add(uploadValidatorsFactory.create(projectState.getProject(), repo, "localhost-test"));
       up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
-      for (UploadPackInitializer initializer : uploadPackInitializers) {
-        initializer.init(req.project, up);
-      }
+      uploadPackInitializers.runEach(initializer -> initializer.init(req.project, up));
       return up;
     }
   }
@@ -279,7 +278,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final ProjectCache projectCache;
     private final AsyncReceiveCommits.Factory factory;
     private final TransferConfig config;
-    private final DynamicSet<ReceivePackInitializer> receivePackInitializers;
+    private final PluginSetContext<ReceivePackInitializer> receivePackInitializers;
     private final DynamicSet<PostReceiveHook> postReceiveHooks;
     private final ThreadLocalRequestContext threadContext;
     private final PermissionBackend permissionBackend;
@@ -290,7 +289,7 @@ class InProcessProtocol extends TestProtocol<Context> {
         ProjectCache projectCache,
         AsyncReceiveCommits.Factory factory,
         TransferConfig config,
-        DynamicSet<ReceivePackInitializer> receivePackInitializers,
+        PluginSetContext<ReceivePackInitializer> receivePackInitializers,
         DynamicSet<PostReceiveHook> postReceiveHooks,
         ThreadLocalRequestContext threadContext,
         PermissionBackend permissionBackend) {
@@ -339,9 +338,8 @@ class InProcessProtocol extends TestProtocol<Context> {
         rp.setTimeout(config.getTimeout());
         rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
 
-        for (ReceivePackInitializer initializer : receivePackInitializers) {
-          initializer.init(projectState.getNameKey(), rp);
-        }
+        receivePackInitializers.runEach(
+            initializer -> initializer.init(projectState.getNameKey(), rp));
 
         rp.setPostReceiveHook(PostReceiveHookChain.newChain(Lists.newArrayList(postReceiveHooks)));
         return rp;

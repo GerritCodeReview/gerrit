@@ -15,8 +15,8 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PluginName;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
@@ -28,10 +28,10 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 class UniversalServerPluginProvider implements ServerPluginProvider {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DynamicSet<ServerPluginProvider> serverPluginProviders;
+  private final PluginSetContext<ServerPluginProvider> serverPluginProviders;
 
   @Inject
-  UniversalServerPluginProvider(DynamicSet<ServerPluginProvider> sf) {
+  UniversalServerPluginProvider(PluginSetContext<ServerPluginProvider> sf) {
     this.serverPluginProviders = sf;
   }
 
@@ -80,15 +80,16 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
 
   private List<ServerPluginProvider> providersForHandlingPlugin(Path srcPath) {
     List<ServerPluginProvider> providers = new ArrayList<>();
-    for (ServerPluginProvider serverPluginProvider : serverPluginProviders) {
-      boolean handles = serverPluginProvider.handles(srcPath);
-      logger.atFine().log(
-          "File %s handled by %s ? => %s",
-          srcPath, serverPluginProvider.getProviderPluginName(), handles);
-      if (handles) {
-        providers.add(serverPluginProvider);
-      }
-    }
+    serverPluginProviders.runEach(
+        serverPluginProvider -> {
+          boolean handles = serverPluginProvider.handles(srcPath);
+          logger.atFine().log(
+              "File %s handled by %s ? => %s",
+              srcPath, serverPluginProvider.getProviderPluginName(), handles);
+          if (handles) {
+            providers.add(serverPluginProvider);
+          }
+        });
     return providers;
   }
 }

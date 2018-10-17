@@ -25,7 +25,6 @@ import com.google.common.primitives.Bytes;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
@@ -38,6 +37,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.restapi.account.GetDiffPreferences;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gwtjsonrpc.server.JsonServlet;
@@ -75,8 +75,8 @@ public class HostPageServlet extends HttpServlet {
   private static final int DEFAULT_JS_LOAD_TIMEOUT = 5000;
 
   private final Provider<CurrentUser> currentUser;
-  private final DynamicSet<WebUiPlugin> plugins;
-  private final DynamicSet<MessageOfTheDay> messages;
+  private final PluginSetContext<WebUiPlugin> plugins;
+  private final PluginSetContext<MessageOfTheDay> messages;
   private final HostPageData.Theme signedOutTheme;
   private final HostPageData.Theme signedInTheme;
   private final SitePaths site;
@@ -96,8 +96,8 @@ public class HostPageServlet extends HttpServlet {
       SitePaths sp,
       ThemeFactory themeFactory,
       ServletContext servletContext,
-      DynamicSet<WebUiPlugin> webUiPlugins,
-      DynamicSet<MessageOfTheDay> motd,
+      PluginSetContext<WebUiPlugin> webUiPlugins,
+      PluginSetContext<MessageOfTheDay> motd,
       @GerritServerConfig Config cfg,
       SiteStaticDirectoryServlet ss,
       NotesMigration migration,
@@ -231,9 +231,10 @@ public class HostPageServlet extends HttpServlet {
 
   private void plugins(StringWriter w) {
     List<String> urls = new ArrayList<>();
-    for (WebUiPlugin u : plugins) {
-      urls.add(String.format("plugins/%s/%s", u.getPluginName(), u.getJavaScriptResourcePath()));
-    }
+    plugins.runEach(
+        p ->
+            urls.add(
+                String.format("plugins/%s/%s", p.getPluginName(), p.getJavaScriptResourcePath())));
     if (!urls.isEmpty()) {
       w.write(HPD_ID + ".plugins=");
       json(urls, w);
@@ -243,16 +244,17 @@ public class HostPageServlet extends HttpServlet {
 
   private void messages(StringWriter w) {
     List<HostPageData.Message> list = new ArrayList<>(2);
-    for (MessageOfTheDay motd : messages) {
-      String html = motd.getHtmlMessage();
-      if (!Strings.isNullOrEmpty(html)) {
-        HostPageData.Message m = new HostPageData.Message();
-        m.id = motd.getMessageId();
-        m.redisplay = motd.getRedisplay();
-        m.html = html;
-        list.add(m);
-      }
-    }
+    messages.runEach(
+        motd -> {
+          String html = motd.getHtmlMessage();
+          if (!Strings.isNullOrEmpty(html)) {
+            HostPageData.Message m = new HostPageData.Message();
+            m.id = motd.getMessageId();
+            m.redisplay = motd.getRedisplay();
+            m.html = html;
+            list.add(m);
+          }
+        });
     if (!list.isEmpty()) {
       w.write(HPD_ID + ".messages=");
       json(list, w);

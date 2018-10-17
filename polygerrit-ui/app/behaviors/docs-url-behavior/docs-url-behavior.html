@@ -36,19 +36,23 @@ limitations under the License.
      * @return {!Promise<string>} A promise that resolves with the docs base
      *     URL.
      */
-    getDocsBaseUrl(config, restApi) {
+    async getDocsBaseUrl(config, restApi) {
       if (!cachedPromise) {
-        cachedPromise = new Promise(resolve => {
-          if (config && config.gerrit && config.gerrit.doc_url) {
-            resolve(config.gerrit.doc_url);
-          } else {
-            restApi.probePath(this.getBaseUrl() + PROBE_PATH).then(ok => {
-              resolve(ok ? (this.getBaseUrl() + DOCS_BASE_PATH) : null);
-            });
-          }
-        });
+        cachedPromise = this._getDocsBaseUrl(config, restApi);
       }
-      return cachedPromise;
+      return await cachedPromise;
+    },
+
+    async _getDocsBaseUrl(config, restApi) {
+      if (config && config.gerrit && config.gerrit.doc_url) {
+        return config.gerrit.doc_url;
+      } else {
+        if (await restApi.probePath(this.getBaseUrl() + PROBE_PATH)) {
+          return this.getBaseUrl() + DOCS_BASE_PATH;
+        } else {
+          return null;
+        }
+      }
     },
 
     /** For testing only. */

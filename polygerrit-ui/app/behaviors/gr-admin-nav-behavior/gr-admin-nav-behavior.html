@@ -59,19 +59,16 @@ limitations under the License.
      * @param {!Object=} opt_options
      * @return {Promise<!Object>}
      */
-    getAdminLinks(account, getAccountCapabilities, getAdminMenuLinks,
+    async getAdminLinks(account, getAccountCapabilities, getAdminMenuLinks,
         opt_options) {
       if (!account) {
-        return Promise.resolve(this._filterLinks(link => link.viewableToAll,
-            getAdminMenuLinks, opt_options));
+        return this._filterLinks(link => link.viewableToAll,
+            getAdminMenuLinks, opt_options);
       }
-      return getAccountCapabilities(ACCOUNT_CAPABILITIES)
-          .then(capabilities => {
-            return this._filterLinks(link => {
-              return !link.capability ||
-                  capabilities.hasOwnProperty(link.capability);
-            }, getAdminMenuLinks, opt_options);
-          });
+      const caps = await getAccountCapabilities(ACCOUNT_CAPABILITIES);
+      return this._filterLinks(
+          link => !link.capability || caps.hasOwnProperty(link.capability),
+          getAdminMenuLinks, opt_options);
     },
 
     /**

@@ -47,53 +47,45 @@ limitations under the License.
       element._clearDocsBaseUrlCache();
     });
 
-    test('null config', () => {
+    test('null config', async () => {
       const mockRestApi = {
         probePath: sinon.stub().returns(Promise.resolve(true)),
       };
-      return element.getDocsBaseUrl(null, mockRestApi)
-          .then(docsBaseUrl => {
-            assert.isTrue(
-                mockRestApi.probePath.calledWith('/Documentation/index.html'));
-            assert.equal(docsBaseUrl, '/Documentation');
-          });
+      const docsBaseUrl = await element.getDocsBaseUrl(null, mockRestApi);
+      assert.isTrue(
+          mockRestApi.probePath.calledWith('/Documentation/index.html'));
+      assert.equal(docsBaseUrl, '/Documentation');
     });
 
-    test('no doc config', () => {
+    test('no doc config', async () => {
       const mockRestApi = {
         probePath: sinon.stub().returns(Promise.resolve(true)),
       };
       const config = {gerrit: {}};
-      return element.getDocsBaseUrl(config, mockRestApi)
-          .then(docsBaseUrl => {
-            assert.isTrue(
-                mockRestApi.probePath.calledWith('/Documentation/index.html'));
-            assert.equal(docsBaseUrl, '/Documentation');
-          });
+      const docsBaseUrl = await element.getDocsBaseUrl(config, mockRestApi);
+      assert.isTrue(
+          mockRestApi.probePath.calledWith('/Documentation/index.html'));
+      assert.equal(docsBaseUrl, '/Documentation');
     });
 
-    test('has doc config', () => {
+    test('has doc config', async () => {
       const mockRestApi = {
         probePath: sinon.stub().returns(Promise.resolve(true)),
       };
       const config = {gerrit: {doc_url: 'foobar'}};
-      return element.getDocsBaseUrl(config, mockRestApi)
-          .then(docsBaseUrl => {
-            assert.isFalse(mockRestApi.probePath.called);
-            assert.equal(docsBaseUrl, 'foobar');
-          });
+      const docsBaseUrl = await element.getDocsBaseUrl(config, mockRestApi);
+      assert.isFalse(mockRestApi.probePath.called);
+      assert.equal(docsBaseUrl, 'foobar');
     });
 
-    test('no probe', () => {
+    test('no probe', async () => {
       const mockRestApi = {
         probePath: sinon.stub().returns(Promise.resolve(false)),
       };
-      return element.getDocsBaseUrl(null, mockRestApi)
-          .then(docsBaseUrl => {
-            assert.isTrue(
-                mockRestApi.probePath.calledWith('/Documentation/index.html'));
-            assert.isNotOk(docsBaseUrl);
-          });
+      const docsBaseUrl = await element.getDocsBaseUrl(null, mockRestApi);
+      assert.isTrue(
+          mockRestApi.probePath.calledWith('/Documentation/index.html'));
+      assert.isNotOk(docsBaseUrl);
     });
   });
 </script>

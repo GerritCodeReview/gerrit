@@ -17,6 +17,24 @@
       "revId": "2a8637ad5d675d4bca3dee15819b473cff39f73e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac9e7a49_4d868289",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-17T07:20:28Z",
+      "side": 1,
+      "message": "So what is your proposal, don\u0027t post a message at all?",
+      "parentUuid": "7e1ae598_d2e90082",
+      "revId": "2a8637ad5d675d4bca3dee15819b473cff39f73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

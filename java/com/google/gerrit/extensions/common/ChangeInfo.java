@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ChangeInfo {
+  // ActionJson#copy(List, ChangeInfo) must be adapted if new fields are added that are not
+  // protected by any ListChangesOption.
   public String id;
   public String project;
   public String branch;

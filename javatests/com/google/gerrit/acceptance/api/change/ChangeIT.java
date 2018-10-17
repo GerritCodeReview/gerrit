@@ -125,6 +125,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -140,8 +141,12 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -185,6 +190,9 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
 
   @Inject private AccountOperations accountOperations;
+
+  @Inject private ChangeIndexCollection changeIndexCollection;
+  @Inject private IndexConfig indexConfig;
 
   private ChangeIndexedCounter changeIndexedCounter;
   private RegistrationHandle changeIndexedCounterHandle;
@@ -1306,6 +1314,23 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expectMessage(
         String.format("Cannot delete change %s: patch set 1 is already merged", id));
     gApi.changes().id(changeId).delete();
+  }
+
+  @Test
+  public void deleteChangeUpdatesIndex() throws Exception {
+    PushOneCommit.Result changeResult = createChange();
+    String changeId = changeResult.getChangeId();
+    Change.Id id = changeResult.getChange().getId();
+
+    ChangeIndex idx = changeIndexCollection.getSearchIndex();
+
+    Optional<ChangeData> result =
+        idx.get(id, IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of()));
+
+    assertThat(result.isPresent()).isTrue();
+    gApi.changes().id(changeId).delete();
+    result = idx.get(id, IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of()));
+    assertThat(result.isPresent()).isFalse();
   }
 
   @Test

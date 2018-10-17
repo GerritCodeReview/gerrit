@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f86264a_e334ac07",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-17T14:41:44Z",
+      "side": 1,
+      "message": "The numbers here don\u0027t match the names that are used below, e.g. here it says c2b is private, but below c2a is private.",
+      "range": {
+        "startLine": 708,
+        "startChar": 7,
+        "endLine": 710,
+        "endChar": 42
+      },
+      "revId": "04a32c86f0e98edc69d1105f6b1ad3f8374cbff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c99929d_16cb1c98",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-17T14:41:44Z",
+      "side": 1,
+      "message": "It\u0027s not an ancestor of any other change?",
+      "range": {
+        "startLine": 728,
+        "startChar": 16,
+        "endLine": 728,
+        "endChar": 24
+      },
+      "revId": "04a32c86f0e98edc69d1105f6b1ad3f8374cbff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78fbe69f_e48f3048",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-17T14:41:44Z",
+      "side": 1,
+      "message": "change2a",
+      "range": {
+        "startLine": 757,
+        "startChar": 35,
+        "endLine": 757,
+        "endChar": 51
+      },
+      "revId": "04a32c86f0e98edc69d1105f6b1ad3f8374cbff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -35,14 +35,13 @@ limitations under the License.
      *     loop if called.
      * @return {!Promise<undefined>}
      */
-    asyncForeach(array, fn) {
-      if (!array.length) { return Promise.resolve(); }
+    async asyncForeach(array, fn) {
+      if (!array.length) { return; }
       let stop = false;
-      const stopCallback = () => { stop = true; };
-      return fn(array[0], stopCallback).then(exit => {
-        if (stop) { return Promise.resolve(); }
-        return this.asyncForeach(array.slice(1), fn);
-      });
+      for (const item of array) {
+        await fn(item, () => { stop = true; });
+        if (stop) { break; }
+      }
     },
   };
 })(window);

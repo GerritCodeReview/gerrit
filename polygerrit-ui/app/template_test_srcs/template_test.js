@@ -104,7 +104,11 @@ fs.readdir('./polygerrit-ui/temp/behaviors/', (err, data) => {
     }
   }
 
-  twinkie.checkTemplate(toCheck, additionalSources)
+  const additionalCompilerFlags = {
+    languageIn: 'ECMASCRIPT_NEXT', // Needed to support async/await
+  };
+
+  twinkie.checkTemplate(toCheck, additionalSources, additionalCompilerFlags)
       .then(() => {}, joinedErrors => {
         if (joinedErrors) {
           process.exit(1);

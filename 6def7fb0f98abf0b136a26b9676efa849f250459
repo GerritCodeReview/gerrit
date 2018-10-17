@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "676b3a71_2e7411b0",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-17T02:22:44Z",
+      "side": 1,
+      "message": "This won\u0027t work when the documentation is deployed on http://gerrit-documentation.storage.googleapis.com/Documentation/",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "6def7fb0f98abf0b136a26b9676efa849f250459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

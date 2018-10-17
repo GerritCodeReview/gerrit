@@ -252,9 +252,6 @@ public class ReviewCommand extends SshCommand {
   }
 
   private void reviewPatchSet(PatchSet patchSet) throws Exception {
-    if (notify == null) {
-      notify = NotifyHandling.ALL;
-    }
 
     ReviewInput review = new ReviewInput();
     review.message = Strings.emptyToNull(changeComment);

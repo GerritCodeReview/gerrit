@@ -71,7 +71,8 @@
     "valid-jsdoc": "off"
   },
   "plugins": [
-    "html"
+    "html",
+    "promise"
   ],
   "settings": {
     "html/report-bad-indent": "error"

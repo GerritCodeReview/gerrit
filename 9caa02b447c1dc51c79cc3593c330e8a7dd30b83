@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3373bc6d_1c141c2c",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-17T14:39:02Z",
+      "side": 1,
+      "message": "optional nit: make this check inside the method",
+      "range": {
+        "startLine": 101,
+        "startChar": 10,
+        "endLine": 101,
+        "endChar": 41
+      },
+      "revId": "9caa02b447c1dc51c79cc3593c330e8a7dd30b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee6c811d_9ddd2adc",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-17T14:39:02Z",
+      "side": 1,
+      "message": "nit: Please import checkNotNull and checkArgument statically",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 30
+      },
+      "revId": "9caa02b447c1dc51c79cc3593c330e8a7dd30b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e3c1851_c36c5e58",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-17T14:39:02Z",
+      "side": 1,
+      "message": "Please throw a IllegalArgumentException, so we make sure we surface this bad state.",
+      "revId": "9caa02b447c1dc51c79cc3593c330e8a7dd30b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4101d7c1_ed4a73b5",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-17T14:39:02Z",
+      "side": 1,
+      "message": "I think it would make sense to store a List\u003cPattern\u003e in ContributorAgreement instead of a List\u003cString\u003e. But that isn\u0027t possible right now because this class is part of the data package we share with the GWT UI and GWT doesn\u0027t support java.util.regex :(",
+      "revId": "9caa02b447c1dc51c79cc3593c330e8a7dd30b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

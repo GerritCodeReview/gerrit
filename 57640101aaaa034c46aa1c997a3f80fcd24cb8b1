@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "7903d764_22334e37",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-10-17T14:39:02Z",
+      "side": 1,
+      "message": "Sorry, my bad. I was under the impression that we use RE2 in Gerrit, but that is not correct.",
+      "parentUuid": "45d38b81_0c47a1e3",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "609f9b44_f58c18ce",
         "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
         "patchSetId": 9

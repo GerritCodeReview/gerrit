@@ -70,6 +70,30 @@
       "revId": "950d44926356f1479a807b526010399dbbeaa882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7553e83b_372e1d34",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-17T07:06:17Z",
+      "side": 1,
+      "message": "I see your point.  I would prefer to keep it like this though. Another advantage is that it\u0027s less churn later if for some reason we need to add any other assertions.",
+      "parentUuid": "8b9b5ae1_c08e4178",
+      "range": {
+        "startLine": 638,
+        "startChar": 2,
+        "endLine": 640,
+        "endChar": 3
+      },
+      "revId": "950d44926356f1479a807b526010399dbbeaa882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

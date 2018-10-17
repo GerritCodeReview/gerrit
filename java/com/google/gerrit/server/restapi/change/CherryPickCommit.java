@@ -100,7 +100,6 @@ public class CherryPickCommit
           cherryPickChange.cherryPick(
               updateFactory,
               null,
-              null,
               projectName,
               commit,
               input,

@@ -29,12 +29,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -58,8 +56,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdateOp;
-import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
@@ -109,7 +105,6 @@ public class CherryPickChange {
   private final ChangeNotes.Factory changeNotesFactory;
   private final ProjectCache projectCache;
   private final ApprovalsUtil approvalsUtil;
-  private final ChangeMessagesUtil changeMessagesUtil;
   private final NotifyUtil notifyUtil;
 
   @Inject
@@ -126,7 +121,6 @@ public class CherryPickChange {
       ChangeNotes.Factory changeNotesFactory,
       ProjectCache projectCache,
       ApprovalsUtil approvalsUtil,
-      ChangeMessagesUtil changeMessagesUtil,
       NotifyUtil notifyUtil) {
     this.dbProvider = dbProvider;
     this.seq = seq;
@@ -140,7 +134,6 @@ public class CherryPickChange {
     this.changeNotesFactory = changeNotesFactory;
     this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
-    this.changeMessagesUtil = changeMessagesUtil;
     this.notifyUtil = notifyUtil;
   }
 
@@ -155,7 +148,6 @@ public class CherryPickChange {
     return cherryPick(
         batchUpdateFactory,
         change,
-        patch.getId(),
         change.getProject(),
         ObjectId.fromString(patch.getRevision().get()),
         input,
@@ -165,7 +157,6 @@ public class CherryPickChange {
   public Result cherryPick(
       BatchUpdate.Factory batchUpdateFactory,
       @Nullable Change sourceChange,
-      @Nullable PatchSet.Id sourcePatchId,
       Project.NameKey project,
       ObjectId sourceCommit,
       CherryPickInput input,
@@ -275,13 +266,6 @@ public class CherryPickChange {
             changeId =
                 createNewChange(
                     bu, cherryPickCommit, dest.get(), newTopic, sourceChange, sourceCommit, input);
-
-            if (sourceChange != null && sourcePatchId != null) {
-              bu.addOp(
-                  sourceChange.getId(),
-                  new AddMessageToSourceChangeOp(
-                      changeMessagesUtil, sourcePatchId, dest.getShortName(), cherryPickCommit));
-            }
           }
           bu.execute();
           return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
@@ -388,43 +372,6 @@ public class CherryPickChange {
     }
     bu.insertChange(ins);
     return changeId;
-  }
-
-  private static class AddMessageToSourceChangeOp implements BatchUpdateOp {
-    private final ChangeMessagesUtil cmUtil;
-    private final PatchSet.Id psId;
-    private final String destBranch;
-    private final ObjectId cherryPickCommit;
-
-    private AddMessageToSourceChangeOp(
-        ChangeMessagesUtil cmUtil, PatchSet.Id psId, String destBranch, ObjectId cherryPickCommit) {
-      this.cmUtil = cmUtil;
-      this.psId = psId;
-      this.destBranch = destBranch;
-      this.cherryPickCommit = cherryPickCommit;
-    }
-
-    @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException {
-      StringBuilder sb =
-          new StringBuilder("Patch Set ")
-              .append(psId.get())
-              .append(": Cherry Picked")
-              .append("\n\n")
-              .append("This patchset was cherry picked to branch ")
-              .append(destBranch)
-              .append(" as commit ")
-              .append(cherryPickCommit.name());
-      ChangeMessage changeMessage =
-          ChangeMessagesUtil.newMessage(
-              psId,
-              ctx.getUser(),
-              ctx.getWhen(),
-              sb.toString(),
-              ChangeMessagesUtil.TAG_CHERRY_PICK_CHANGE);
-      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
-      return true;
-    }
   }
 
   private String messageForDestinationChange(

@@ -280,7 +280,7 @@ public class CherryPickChange {
               bu.addOp(
                   sourceChange.getId(),
                   new AddMessageToSourceChangeOp(
-                      changeMessagesUtil, sourcePatchId, dest.getShortName(), cherryPickCommit));
+                      changeMessagesUtil, sourcePatchId, cherryPickCommit));
             }
           }
           bu.execute();
@@ -393,14 +393,12 @@ public class CherryPickChange {
   private static class AddMessageToSourceChangeOp implements BatchUpdateOp {
     private final ChangeMessagesUtil cmUtil;
     private final PatchSet.Id psId;
-    private final String destBranch;
     private final ObjectId cherryPickCommit;
 
     private AddMessageToSourceChangeOp(
-        ChangeMessagesUtil cmUtil, PatchSet.Id psId, String destBranch, ObjectId cherryPickCommit) {
+        ChangeMessagesUtil cmUtil, PatchSet.Id psId, ObjectId cherryPickCommit) {
       this.cmUtil = cmUtil;
       this.psId = psId;
-      this.destBranch = destBranch;
       this.cherryPickCommit = cherryPickCommit;
     }
 
@@ -411,9 +409,7 @@ public class CherryPickChange {
               .append(psId.get())
               .append(": Cherry Picked")
               .append("\n\n")
-              .append("This patchset was cherry picked to branch ")
-              .append(destBranch)
-              .append(" as commit ")
+              .append("This patchset was cherry picked as commit ")
               .append(cherryPickCommit.name());
       ChangeMessage changeMessage =
           ChangeMessagesUtil.newMessage(

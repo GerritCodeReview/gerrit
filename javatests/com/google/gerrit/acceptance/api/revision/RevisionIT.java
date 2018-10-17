@@ -332,9 +332,8 @@ public class RevisionIT extends AbstractDaemonTest {
     String cherryPickedRevision = cherry.get().currentRevision;
     String expectedMessage =
         String.format(
-            "Patch Set 1: Cherry Picked\n\n"
-                + "This patchset was cherry picked to branch %s as commit %s",
-            in.destination, cherryPickedRevision);
+            "Patch Set 1: Cherry Picked\n\n" + "This patchset was cherry picked as commit %s",
+            cherryPickedRevision);
 
     Iterator<ChangeMessageInfo> origIt = messages.iterator();
     origIt.next();
@@ -609,9 +608,8 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(origIt.next().message)
         .isEqualTo(
             String.format(
-                "Patch Set 1: Cherry Picked\n\n"
-                    + "This patchset was cherry picked to branch %s as commit %s",
-                in.destination, cherryPickedRevision));
+                "Patch Set 1: Cherry Picked\n\n" + "This patchset was cherry picked as commit %s",
+                cherryPickedRevision));
 
     // Verify that a message has been posted on the cherry-pick change.
     assertThat(cherryPickChangeWithDetails.messages).hasSize(1);

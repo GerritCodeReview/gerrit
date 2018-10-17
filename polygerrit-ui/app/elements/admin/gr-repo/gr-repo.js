@@ -117,8 +117,8 @@
       this.fire('title-change', {title: this.repo});
     },
 
-    _loadRepo() {
-      if (!this.repo) { return Promise.resolve(); }
+    async _loadRepo() {
+      if (!this.repo) { return; }
 
       const promises = [];
 
@@ -126,46 +126,45 @@
         this.fire('page-error', {response});
       };
 
-      promises.push(this._getLoggedIn().then(loggedIn => {
-        this._loggedIn = loggedIn;
-        if (loggedIn) {
-          this.$.restAPI.getRepoAccess(this.repo).then(access => {
-            if (!access) { return Promise.resolve(); }
-
-            // If the user is not an owner, is_owner is not a property.
-            this._readOnly = !access[this.repo].is_owner;
-          });
+      promises.push((async () => {
+        this._loggedIn = await this._getLoggedIn();
+        if (this._loggedIn) {
+          const access = await this.$.restAPI.getRepoAccess(this.repo);
+          if (!access) { return; }
+          // If the user is not an owner, is_owner is not a property.
+          this._readOnly = !access[this.repo].is_owner;
         }
-      }));
+      })());
 
-      promises.push(this.$.restAPI.getProjectConfig(this.repo, errFn)
-          .then(config => {
-            if (!config) { return Promise.resolve(); }
+      promises.push((async () => {
+        const config = await this.$.restAPI.getProjectConfig(this.repo, errFn);
+        if (!config) { return; }
 
-            if (config.default_submit_type) {
-              // The gr-select is bound to submit_type, which needs to be the
-              // *configured* submit type. When default_submit_type is
-              // present, the server reports the *effective* submit type in
-              // submit_type, so we need to overwrite it before storing the
-              // config in this.
-              config.submit_type =
-                  config.default_submit_type.configured_value;
-            }
-            if (!config.state) {
-              config.state = STATES.active.value;
-            }
-            this._repoConfig = config;
-            this._loading = false;
-          }));
+        if (config.default_submit_type) {
+          // The gr-select is bound to submit_type, which needs to be the
+          // *configured* submit type. When default_submit_type is
+          // present, the server reports the *effective* submit type in
+          // submit_type, so we need to overwrite it before storing the
+          // config in this.
+          config.submit_type =
+              config.default_submit_type.configured_value;
+        }
+        if (!config.state) {
+          config.state = STATES.active.value;
+        }
+        this._repoConfig = config;
+        this._loading = false;
+      })());
 
-      promises.push(this.$.restAPI.getConfig().then(config => {
-        if (!config) { return Promise.resolve(); }
+      promises.push((async () => {
+        const config = await this.$.restAPI.getConfig();
+        if (!config) { return; }
 
         this._schemesObj = config.download.schemes;
         this._noteDbEnabled = !!config.note_db_enabled;
-      }));
+      })());
 
-      return Promise.all(promises);
+      await Promise.all(promises);
     },
 
     _computeLoadingClass(loading) {
@@ -176,14 +175,13 @@
       return !schemes || !schemes.length ? 'hideDownload' : '';
     },
 
-    _loggedInChanged(_loggedIn) {
+    async _loggedInChanged(_loggedIn) {
       if (!_loggedIn) { return; }
-      this.$.restAPI.getPreferences().then(prefs => {
-        if (prefs.download_scheme) {
-          // Note (issue 5180): normalize the download scheme with lower-case.
-          this._selectedScheme = prefs.download_scheme.toLowerCase();
-        }
-      });
+      const prefs = await this.$.restAPI.getPreferences();
+      if (prefs.download_scheme) {
+        // Note (issue 5180): normalize the download scheme with lower-case.
+        this._selectedScheme = prefs.download_scheme.toLowerCase();
+      }
     },
 
     _formatBooleanSelect(item) {
@@ -265,11 +263,10 @@
       return configInputObj;
     },
 
-    _handleSaveRepoConfig() {
-      return this.$.restAPI.saveRepoConfig(this.repo,
-          this._formatRepoConfigForSave(this._repoConfig)).then(() => {
-            this._configChanged = false;
-          });
+    async _handleSaveRepoConfig() {
+      await this.$.restAPI.saveRepoConfig(this.repo,
+          this._formatRepoConfigForSave(this._repoConfig));
+      this._configChanged = false;
     },
 
     _handleConfigChanged() {

@@ -62,25 +62,21 @@
       }
     },
 
-    handleCreateItem() {
+    async handleCreateItem() {
       const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
       if (this.itemDetail === DETAIL_TYPES.branches) {
-        return this.$.restAPI.createRepoBranch(this.repoName,
-            this._itemName, {revision: USE_HEAD})
-            .then(itemRegistered => {
-              if (itemRegistered.status === 201) {
-                page.show(this._computeItemUrl(this.itemDetail));
-              }
-            });
+        const itemRegistered = await this.$.restAPI.createRepoBranch(
+            this.repoName, this._itemName, {revision: USE_HEAD});
+        if (itemRegistered.status === 201) {
+          page.show(this._computeItemUrl(this.itemDetail));
+        }
       } else if (this.itemDetail === DETAIL_TYPES.tags) {
-        return this.$.restAPI.createRepoTag(this.repoName,
-            this._itemName,
-            {revision: USE_HEAD, message: this._itemAnnotation || null})
-            .then(itemRegistered => {
-              if (itemRegistered.status === 201) {
-                page.show(this._computeItemUrl(this.itemDetail));
-              }
-            });
+        const itemRegistered = await this.$.restAPI.createRepoTag(
+            this.repoName, this._itemName,
+            {revision: USE_HEAD, message: this._itemAnnotation || null});
+        if (itemRegistered.status === 201) {
+          page.show(this._computeItemUrl(this.itemDetail));
+        }
       }
     },
 

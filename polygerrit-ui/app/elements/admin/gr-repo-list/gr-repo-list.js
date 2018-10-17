@@ -102,27 +102,24 @@
       return this.getUrl(this._path + '/', name);
     },
 
-    _getCreateRepoCapability() {
-      return this.$.restAPI.getAccount().then(account => {
-        if (!account) { return; }
-        return this.$.restAPI.getAccountCapabilities(['createProject'])
-            .then(capabilities => {
-              if (capabilities.createProject) {
-                this._createNewCapability = true;
-              }
-            });
-      });
+    async _getCreateRepoCapability() {
+      const account = await this.$.restAPI.getAccount();
+      if (!account) { return; }
+      const capabilities = await this.$.restAPI.getAccountCapabilities(
+          ['createProject']);
+      if (capabilities.createProject) {
+        this._createNewCapability = true;
+      }
     },
 
-    _getRepos(filter, reposPerPage, offset) {
+    async _getRepos(filter, reposPerPage, offset) {
       this._repos = [];
-      return this.$.restAPI.getRepos(filter, reposPerPage, offset)
-          .then(repos => {
-            // Late response.
-            if (filter !== this._filter || !repos) { return; }
-            this._repos = repos;
-            this._loading = false;
-          });
+      const repos = await this.$.restAPI.getRepos(
+          filter, reposPerPage, offset);
+      // Late response.
+      if (filter !== this._filter || !repos) { return; }
+      this._repos = repos;
+      this._loading = false;
     },
 
     _handleCreateRepo() {

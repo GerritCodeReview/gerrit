@@ -52,16 +52,13 @@
       this.hasNewGroupName = !!name;
     },
 
-    handleCreateGroup() {
-      return this.$.restAPI.createGroup({name: this._name})
-          .then(groupRegistered => {
-            if (groupRegistered.status !== 201) { return; }
-            this._groupCreated = true;
-            return this.$.restAPI.getGroupConfig(this._name)
-                .then(group => {
-                  page.show(this._computeGroupUrl(group.group_id));
-                });
-          });
+    async handleCreateGroup() {
+      const groupRegistered =
+          await this.$.restAPI.createGroup({name: this._name});
+      if (groupRegistered.status !== 201) { return; }
+      this._groupCreated = true;
+      const group = await this.$.restAPI.getGroupConfig(this._name);
+      page.show(this._computeGroupUrl(group.group_id));
     },
   });
 })();

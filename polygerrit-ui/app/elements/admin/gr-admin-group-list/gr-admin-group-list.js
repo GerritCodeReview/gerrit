@@ -99,33 +99,28 @@
       return Gerrit.Nav.getUrlForGroup(id);
     },
 
-    _getCreateGroupCapability() {
-      return this.$.restAPI.getAccount().then(account => {
-        if (!account) { return; }
-        return this.$.restAPI.getAccountCapabilities(['createGroup'])
-            .then(capabilities => {
-              if (capabilities.createGroup) {
-                this._createNewCapability = true;
-              }
-            });
-      });
+    async _getCreateGroupCapability() {
+      const account = this.$.restAPI.getAccount();
+      if (!account) { return; }
+      const capabilities =
+          await this.$.restAPI.getAccountCapabilities(['createGroup']);
+      if (capabilities.createGroup) {
+        this._createNewCapability = true;
+      }
     },
 
-    _getGroups(filter, groupsPerPage, offset) {
+    async _getGroups(filter, groupsPerPage, offset) {
       this._groups = [];
-      return this.$.restAPI.getGroups(filter, groupsPerPage, offset)
-          .then(groups => {
-            if (!groups) {
-              return;
-            }
-            this._groups = Object.keys(groups)
-             .map(key => {
-               const group = groups[key];
-               group.name = key;
-               return group;
-             });
-            this._loading = false;
-          });
+      const groups =
+          await this.$.restAPI.getGroups(filter, groupsPerPage, offset);
+      if (!groups) { return; }
+      this._groups = Object.keys(groups)
+       .map(key => {
+         const group = groups[key];
+         group.name = key;
+         return group;
+       });
+      this._loading = false;
     },
 
     _handleCreateGroup() {

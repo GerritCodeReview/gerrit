@@ -81,7 +81,8 @@
     // Whitelist of files conforming to recommend promise rules.
     {
       "files": [
-        "behaviors/**"
+        "behaviors/**",
+        "elements/admin/**"
       ],
       "rules": {
         "promise/always-return": "error",

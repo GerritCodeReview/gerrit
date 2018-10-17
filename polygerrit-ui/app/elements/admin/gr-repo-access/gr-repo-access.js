@@ -138,7 +138,7 @@
       return this._reload(repo);
     },
 
-    _reload(repo) {
+    async _reload(repo) {
       const promises = [];
 
       const errFn = response => {
@@ -149,50 +149,44 @@
 
       // Always reset sections when a project changes.
       this._sections = [];
-      promises.push(this.$.restAPI.getRepoAccessRights(repo, errFn)
-          .then(res => {
-            if (!res) { return Promise.resolve(); }
+      promises.push((async () => {
+        const res = await this.$.restAPI.getRepoAccessRights(repo, errFn);
+        if (!res) { return; }
 
-            // Keep a copy of the original inherit from values separate from
-            // the ones data bound to gr-autocomplete, so the original value
-            // can be restored if the user cancels.
-            this._inheritsFrom = res.inherits_from ? Object.assign({},
-                res.inherits_from) : null;
-            this._originalInheritsFrom = res.inherits_from ? Object.assign({},
-                res.inherits_from) : null;
-            // Initialize the filter value so when the user clicks edit, the
-            // current value appears. If there is no parent repo, it is
-            // initialized as an empty string.
-            this._inheritFromFilter = res.inherits_from ?
-                this._inheritsFrom.name : '';
-            this._local = res.local;
-            this._groups = res.groups;
-            this._weblinks = res.config_web_links || [];
-            this._canUpload = res.can_upload;
-            this._ownerOf = res.owner_of || [];
-            return this.toSortedArray(this._local);
-          }));
+        // Keep a copy of the original inherit from values separate from
+        // the ones data bound to gr-autocomplete, so the original value
+        // can be restored if the user cancels.
+        this._inheritsFrom = res.inherits_from ? Object.assign({},
+            res.inherits_from) : null;
+        this._originalInheritsFrom = res.inherits_from ? Object.assign({},
+            res.inherits_from) : null;
+        // Initialize the filter value so when the user clicks edit, the
+        // current value appears. If there is no parent repo, it is
+        // initialized as an empty string.
+        this._inheritFromFilter = res.inherits_from ?
+            this._inheritsFrom.name : '';
+        this._local = res.local;
+        this._groups = res.groups;
+        this._weblinks = res.config_web_links || [];
+        this._canUpload = res.can_upload;
+        this._ownerOf = res.owner_of || [];
+        return this.toSortedArray(this._local);
+      })());
 
-      promises.push(this.$.restAPI.getCapabilities(errFn)
-          .then(res => {
-            if (!res) { return Promise.resolve(); }
+      promises.push(this.$.restAPI.getCapabilities(errFn));
 
-            return res;
-          }));
+      promises.push((async () => {
+        const res = await this.$.restAPI.getRepo(repo, errFn);
+        if (!res) { return; }
+        return res.labels;
+      })());
 
-      promises.push(this.$.restAPI.getRepo(repo, errFn)
-          .then(res => {
-            if (!res) { return Promise.resolve(); }
-
-            return res.labels;
-          }));
-
-      return Promise.all(promises).then(([sections, capabilities, labels]) => {
-        this._capabilities = capabilities;
-        this._labels = labels;
-        this._sections = sections;
-        this._loading = false;
-      });
+      const result = await Promise.all(promises);
+      const [sections, capabilities, labels] = result;
+      this._capabilities = capabilities;
+      this._labels = labels;
+      this._sections = sections;
+      this._loading = false;
     },
 
     _handleUpdateInheritFrom(e) {
@@ -204,21 +198,18 @@
       this._handleAccessModified();
     },
 
-    _getInheritFromSuggestions() {
-      return this.$.restAPI.getRepos(
-          this._inheritFromFilter,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(response => {
-            const projects = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              projects.push({
-                name: response[key].name,
-                value: response[key].id,
-              });
-            }
-            return projects;
-          });
+    async _getInheritFromSuggestions() {
+      const response = await this.$.restAPI.getRepos(
+          this._inheritFromFilter, MAX_AUTOCOMPLETE_RESULTS);
+      const projects = [];
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) { continue; }
+        projects.push({
+          name: response[key].name,
+          value: response[key].id,
+        });
+      }
+      return projects;
     },
 
     _computeLoadingClass(loading) {
@@ -417,22 +408,19 @@
       return obj;
     },
 
-    _handleSave() {
+    async _handleSave() {
       const obj = this._getObjforSave();
       if (!obj) { return; }
-      return this.$.restAPI.setRepoAccessRights(this.repo, obj)
-          .then(() => {
-            this._reload(this.repo);
-          });
+      await this.$.restAPI.setRepoAccessRights(this.repo, obj);
+      this._reload(this.repo);
     },
 
-    _handleSaveForReview() {
+    async _handleSaveForReview() {
       const obj = this._getObjforSave();
       if (!obj) { return; }
-      return this.$.restAPI.setRepoAccessRightsForReview(this.repo, obj)
-          .then(change => {
-            Gerrit.Nav.navigateToChange(change);
-          });
+      const change = await this.$.restAPI.setRepoAccessRightsForReview(
+          this.repo, obj);
+      Gerrit.Nav.navigateToChange(change);
     },
 
     _computeSaveReviewBtnClass(canUpload) {

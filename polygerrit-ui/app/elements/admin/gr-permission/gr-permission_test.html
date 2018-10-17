@@ -206,10 +206,11 @@ limitations under the License.
             groupsWithRules);
       });
 
-      test('_getGroupSuggestions without existing rules', done => {
-        element._groupsWithRules = {};
+      suite('_getGroupSuggestions', () => {
+        test('without existing rules', async () => {
+          element._groupsWithRules = {};
 
-        element._getGroupSuggestions().then(groups => {
+          const groups = await element._getGroupSuggestions();
           assert.deepEqual(groups, [
             {
               name: 'Administrators',
@@ -219,21 +220,18 @@ limitations under the License.
               value: {id: 'global%3AAnonymous-Users'},
             },
           ]);
-          done();
         });
-      });
 
-      test('_getGroupSuggestions with existing rules filters them', done => {
-        element._groupsWithRules = {
-          '4c97682e6ce61b7247f3381b6f1789356666de7f': true,
-        };
+        test('with existing rules filters them', async () => {
+          element._groupsWithRules = {
+            '4c97682e6ce61b7247f3381b6f1789356666de7f': true,
+          };
 
-        element._getGroupSuggestions().then(groups => {
+          const groups = await element._getGroupSuggestions();
           assert.deepEqual(groups, [{
             name: 'Anonymous Users',
             value: {id: 'global%3AAnonymous-Users'},
           }]);
-          done();
         });
       });
 

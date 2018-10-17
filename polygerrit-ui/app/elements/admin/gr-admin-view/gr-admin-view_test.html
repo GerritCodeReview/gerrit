@@ -37,7 +37,7 @@ limitations under the License.
     let element;
     let sandbox;
 
-    setup(done => {
+    setup(async () => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
       stub('gr-rest-api-interface', {
@@ -47,7 +47,8 @@ limitations under the License.
       });
       const pluginsLoaded = Promise.resolve();
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(pluginsLoaded);
-      pluginsLoaded.then(() => flush(done));
+      await pluginsLoaded;
+      flushAsynchronousOperations();
     });
 
     teardown(() => {
@@ -95,110 +96,101 @@ limitations under the License.
       assert.isNotOk(element.$$('gr-admin-create-repo'));
     });
 
-    test('_filteredLinks admin', done => {
+    test('_filteredLinks admin', async () => {
       sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
         name: 'test-user',
       }));
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', async () => {
+        return {
           createGroup: true,
           createProject: true,
           viewPlugins: true,
-        });
+        };
       });
-      element.reload().then(() => {
-        assert.equal(element._filteredLinks.length, 3);
+      await element.reload();
+      assert.equal(element._filteredLinks.length, 3);
 
-        // Repos
-        assert.isNotOk(element._filteredLinks[0].subsection);
+      // Repos
+      assert.isNotOk(element._filteredLinks[0].subsection);
 
-        // Groups
-        assert.isNotOk(element._filteredLinks[0].subsection);
+      // Groups
+      assert.isNotOk(element._filteredLinks[0].subsection);
 
-        // Plugins
-        assert.isNotOk(element._filteredLinks[0].subsection);
-        done();
-      });
+      // Plugins
+      assert.isNotOk(element._filteredLinks[0].subsection);
     });
 
-    test('_filteredLinks non admin authenticated', done => {
+    test('_filteredLinks non admin authenticated', async () => {
       sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
         name: 'test-user',
       }));
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({});
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', async () => {
+        return {};
       });
-      element.reload().then(() => {
-        assert.equal(element._filteredLinks.length, 2);
+      await element.reload();
+      assert.equal(element._filteredLinks.length, 2);
 
-        // Repos
-        assert.isNotOk(element._filteredLinks[0].subsection);
+      // Repos
+      assert.isNotOk(element._filteredLinks[0].subsection);
 
-        // Groups
-        assert.isNotOk(element._filteredLinks[0].subsection);
-        done();
-      });
+      // Groups
+      assert.isNotOk(element._filteredLinks[0].subsection);
     });
 
-    test('_filteredLinks non admin unathenticated', done => {
-      element.reload().then(() => {
-        assert.equal(element._filteredLinks.length, 1);
+    test('_filteredLinks non admin unathenticated', async () => {
+      await element.reload();
+      assert.equal(element._filteredLinks.length, 1);
 
-        // Repos
-        assert.isNotOk(element._filteredLinks[0].subsection);
-        done();
-      });
+      // Repos
+      assert.isNotOk(element._filteredLinks[0].subsection);
     });
 
-    test('_filteredLinks from plugin', () => {
+    test('_filteredLinks from plugin', async () => {
       sandbox.stub(element.$.jsAPI, 'getAdminMenuLinks').returns([
         {text: 'internal link text', url: '/internal/link/url'},
         {text: 'external link text', url: 'http://external/link/url'},
       ]);
-      return element.reload().then(() => {
-        assert.equal(element._filteredLinks.length, 3);
-        assert.deepEqual(element._filteredLinks[1], {
-          url: '/internal/link/url',
-          name: 'internal link text',
-          noBaseUrl: true,
-          view: null,
-          viewableToAll: true,
-          target: null,
-        });
-        assert.deepEqual(element._filteredLinks[2], {
-          url: 'http://external/link/url',
-          name: 'external link text',
-          noBaseUrl: false,
-          view: null,
-          viewableToAll: true,
-          target: '_blank',
-        });
+      await element.reload();
+      assert.equal(element._filteredLinks.length, 3);
+      assert.deepEqual(element._filteredLinks[1], {
+        url: '/internal/link/url',
+        name: 'internal link text',
+        noBaseUrl: true,
+        view: null,
+        viewableToAll: true,
+        target: null,
+      });
+      assert.deepEqual(element._filteredLinks[2], {
+        url: 'http://external/link/url',
+        name: 'external link text',
+        noBaseUrl: false,
+        view: null,
+        viewableToAll: true,
+        target: '_blank',
       });
     });
 
-    test('Repo shows up in nav', done => {
+    test('Repo shows up in nav', async () => {
       element._repoName = 'Test Repo';
       sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
         name: 'test-user',
       }));
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', async () => {
+        return {
           createGroup: true,
           createProject: true,
           viewPlugins: true,
-        });
+        };
       });
-      element.reload().then(() => {
-        flushAsynchronousOperations();
-        assert.equal(Polymer.dom(element.root)
-            .querySelectorAll('.sectionTitle').length, 3);
-        assert.equal(element.$$('.breadcrumbText').innerText, 'Test Repo');
-        assert.equal(element.$$('#pageSelect').items.length, 6);
-        done();
-      });
+      await element.reload();
+      flushAsynchronousOperations();
+      assert.equal(Polymer.dom(element.root)
+          .querySelectorAll('.sectionTitle').length, 3);
+      assert.equal(element.$$('.breadcrumbText').innerText, 'Test Repo');
+      assert.equal(element.$$('#pageSelect').items.length, 6);
     });
 
-    test('Group shows up in nav', done => {
+    test('Group shows up in nav', async () => {
       element._groupId = 'a15262';
       element._groupName = 'my-group';
       element._groupIsInternal = true;
@@ -207,28 +199,26 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
         name: 'test-user',
       }));
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', async () => {
+        return {
           createGroup: true,
           createProject: true,
           viewPlugins: true,
-        });
+        };
       });
-      element.reload().then(() => {
-        flushAsynchronousOperations();
-        assert.equal(element._filteredLinks.length, 3);
+      await element.reload();
+      flushAsynchronousOperations();
+      assert.equal(element._filteredLinks.length, 3);
 
-        // Repos
-        assert.isNotOk(element._filteredLinks[0].subsection);
+      // Repos
+      assert.isNotOk(element._filteredLinks[0].subsection);
 
-        // Groups
-        assert.equal(element._filteredLinks[1].subsection.children.length, 2);
-        assert.equal(element._filteredLinks[1].subsection.name, 'my-group');
+      // Groups
+      assert.equal(element._filteredLinks[1].subsection.children.length, 2);
+      assert.equal(element._filteredLinks[1].subsection.name, 'my-group');
 
-        // Plugins
-        assert.isNotOk(element._filteredLinks[2].subsection);
-        done();
-      });
+      // Plugins
+      assert.isNotOk(element._filteredLinks[2].subsection);
     });
 
     test('Nav is reloaded when repo changes', () => {
@@ -300,22 +290,22 @@ limitations under the License.
       assert.equal(getComputedStyle(element.$$('.mainHeader')).display, 'none');
     });
 
-    test('Dropdown only triggers navigation on explicit select', done => {
+    test('Dropdown only triggers navigation on explicit select', async () => {
       element._repoName = 'my-repo';
       element.params = {
         repo: 'my-repo',
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.ACCESS,
       };
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', async () => {
+        return {
           createGroup: true,
           createProject: true,
           viewPlugins: true,
-        });
+        };
       });
-      sandbox.stub(element.$.restAPI, 'getAccount', () => {
-        return Promise.resolve({_id: 1});
+      sandbox.stub(element.$.restAPI, 'getAccount', async () => {
+        return {_id: 1};
       });
       flushAsynchronousOperations();
       const expectedFilteredLinks = [
@@ -432,20 +422,18 @@ limitations under the License.
       sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
       sandbox.spy(element, '_selectedIsCurrentPage');
       sandbox.spy(element, '_handleSubsectionChange');
-      element.reload().then(() => {
-        assert.deepEqual(element._filteredLinks, expectedFilteredLinks);
-        assert.deepEqual(element._subsectionLinks, expectedSubsectionLinks);
-        assert.equal(element.$$('#pageSelect').value, 'repoaccess');
-        assert.isTrue(element._selectedIsCurrentPage.calledOnce);
-        // Doesn't trigger navigation from the page select menu.
-        assert.isFalse(Gerrit.Nav.navigateToRelativeUrl.called);
+      await element.reload();
+      assert.deepEqual(element._filteredLinks, expectedFilteredLinks);
+      assert.deepEqual(element._subsectionLinks, expectedSubsectionLinks);
+      assert.equal(element.$$('#pageSelect').value, 'repoaccess');
+      assert.isTrue(element._selectedIsCurrentPage.calledOnce);
+      // Doesn't trigger navigation from the page select menu.
+      assert.isFalse(Gerrit.Nav.navigateToRelativeUrl.called);
 
-        // When explicitly changed, navigation is called
-        element.$$('#pageSelect').value = 'repo';
-        assert.isTrue(element._selectedIsCurrentPage.calledTwice);
-        assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.calledOnce);
-        done();
-      });
+      // When explicitly changed, navigation is called
+      element.$$('#pageSelect').value = 'repo';
+      assert.isTrue(element._selectedIsCurrentPage.calledTwice);
+      assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.calledOnce);
     });
 
     test('_selectedIsCurrentPage', () => {
@@ -498,48 +486,45 @@ limitations under the License.
           assert.equal(selected.textContent.trim(), 'Repositories');
         });
 
-        test('repo', () => {
+        test('repo', async () => {
           element.params = {
             view: Gerrit.Nav.View.REPO,
             repoName: 'foo',
           };
           element._repoName = 'foo';
-          return element.reload().then(() => {
-            flushAsynchronousOperations();
-            const selected = element.$$('gr-page-nav .selected');
-            assert.isOk(selected);
-            assert.equal(selected.textContent.trim(), 'foo');
-          });
+          await element.reload();
+          flushAsynchronousOperations();
+          const selected = element.$$('gr-page-nav .selected');
+          assert.isOk(selected);
+          assert.equal(selected.textContent.trim(), 'foo');
         });
 
-        test('repo access', () => {
+        test('repo access', async () => {
           element.params = {
             view: Gerrit.Nav.View.REPO,
             detail: Gerrit.Nav.RepoDetailView.ACCESS,
             repoName: 'foo',
           };
           element._repoName = 'foo';
-          return element.reload().then(() => {
-            flushAsynchronousOperations();
-            const selected = element.$$('gr-page-nav .selected');
-            assert.isOk(selected);
-            assert.equal(selected.textContent.trim(), 'Access');
-          });
+          await element.reload();
+          flushAsynchronousOperations();
+          const selected = element.$$('gr-page-nav .selected');
+          assert.isOk(selected);
+          assert.equal(selected.textContent.trim(), 'Access');
         });
 
-        test('repo dashboards', () => {
+        test('repo dashboards', async () => {
           element.params = {
             view: Gerrit.Nav.View.REPO,
             detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
             repoName: 'foo',
           };
           element._repoName = 'foo';
-          return element.reload().then(() => {
-            flushAsynchronousOperations();
-            const selected = element.$$('gr-page-nav .selected');
-            assert.isOk(selected);
-            assert.equal(selected.textContent.trim(), 'Dashboards');
-          });
+          await element.reload();
+          flushAsynchronousOperations();
+          const selected = element.$$('gr-page-nav .selected');
+          assert.isOk(selected);
+          assert.equal(selected.textContent.trim(), 'Dashboards');
         });
       });
 
@@ -574,25 +559,25 @@ limitations under the License.
           assert.equal(selected.textContent.trim(), 'Groups');
         });
 
-        test('internal group', () => {
+        test('internal group', async () => {
           element.params = {
             view: Gerrit.Nav.View.GROUP,
             groupId: 1234,
           };
           element._groupName = 'foo';
-          return element.reload().then(() => {
-            flushAsynchronousOperations();
-            const subsectionItems = Polymer.dom(element.root)
-                .querySelectorAll('.subsectionItem');
-            assert.equal(subsectionItems.length, 2);
-            assert.isTrue(element._groupIsInternal);
-            const selected = element.$$('gr-page-nav .selected');
-            assert.isOk(selected);
-            assert.equal(selected.textContent.trim(), 'foo');
-          });
+          await element.reload();
+          flushAsynchronousOperations();
+          await element.reload();
+          const subsectionItems = Polymer.dom(element.root)
+              .querySelectorAll('.subsectionItem');
+          assert.equal(subsectionItems.length, 2);
+          assert.isTrue(element._groupIsInternal);
+          const selected = element.$$('gr-page-nav .selected');
+          assert.isOk(selected);
+          assert.equal(selected.textContent.trim(), 'foo');
         });
 
-        test('external group', () => {
+        test('external group', async () => {
           element.$.restAPI.getGroupConfig.restore();
           sandbox.stub(element.$.restAPI, 'getGroupConfig')
               .returns(Promise.resolve({
@@ -604,31 +589,29 @@ limitations under the License.
             groupId: 1234,
           };
           element._groupName = 'foo';
-          return element.reload().then(() => {
-            flushAsynchronousOperations();
-            const subsectionItems = Polymer.dom(element.root)
-                .querySelectorAll('.subsectionItem');
-            assert.equal(subsectionItems.length, 0);
-            assert.isFalse(element._groupIsInternal);
-            const selected = element.$$('gr-page-nav .selected');
-            assert.isOk(selected);
-            assert.equal(selected.textContent.trim(), 'foo');
-          });
+          await element.reload();
+          flushAsynchronousOperations();
+          const subsectionItems = Polymer.dom(element.root)
+              .querySelectorAll('.subsectionItem');
+          assert.equal(subsectionItems.length, 0);
+          assert.isFalse(element._groupIsInternal);
+          const selected = element.$$('gr-page-nav .selected');
+          assert.isOk(selected);
+          assert.equal(selected.textContent.trim(), 'foo');
         });
 
-        test('group members', () => {
+        test('group members', async () => {
           element.params = {
             view: Gerrit.Nav.View.GROUP,
             detail: Gerrit.Nav.GroupDetailView.MEMBERS,
             groupId: 1234,
           };
           element._groupName = 'foo';
-          return element.reload().then(() => {
-            flushAsynchronousOperations();
-            const selected = element.$$('gr-page-nav .selected');
-            assert.isOk(selected);
-            assert.equal(selected.textContent.trim(), 'Members');
-          });
+          await element.reload();
+          flushAsynchronousOperations();
+          const selected = element.$$('gr-page-nav .selected');
+          assert.isOk(selected);
+          assert.equal(selected.textContent.trim(), 'Members');
         });
       });
     });

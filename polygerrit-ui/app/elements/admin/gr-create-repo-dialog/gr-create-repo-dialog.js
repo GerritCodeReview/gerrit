@@ -70,29 +70,25 @@
       this.hasNewRepoName = !!name;
     },
 
-    handleCreateRepo() {
-      return this.$.restAPI.createRepo(this._repoConfig)
-          .then(repoRegistered => {
-            if (repoRegistered.status === 201) {
-              this._repoCreated = true;
-              page.show(this._computeRepoUrl(this._repoConfig.name));
-            }
-          });
+    async handleCreateRepo() {
+      const repoRegistered = await this.$.restAPI.createRepo(this._repoConfig);
+      if (repoRegistered.status === 201) {
+        this._repoCreated = true;
+        page.show(this._computeRepoUrl(this._repoConfig.name));
+      }
     },
 
-    _getRepoSuggestions(input) {
-      return this.$.restAPI.getSuggestedProjects(input)
-          .then(response => {
-            const repos = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              repos.push({
-                name: key,
-                value: response[key],
-              });
-            }
-            return repos;
-          });
+    async _getRepoSuggestions(input) {
+      const response = this.$.restAPI.getSuggestedProjects(input);
+      const repos = [];
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) { continue; }
+        repos.push({
+          name: key,
+          value: response[key],
+        });
+      }
+      return repos;
     },
   });
 })();

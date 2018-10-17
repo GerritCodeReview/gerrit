@@ -71,90 +71,62 @@ limitations under the License.
           .display === 'none');
     });
 
-    test('default values are populated with internal group', done => {
-      sandbox.stub(element.$.restAPI, 'getIsGroupOwner', () => {
-        return Promise.resolve(true);
-      });
+    test('default values are populated with internal group', async () => {
+      sandbox.stub(element.$.restAPI, 'getIsGroupOwner', async () => true);
       element.groupId = 1;
-      element._loadGroup().then(() => {
-        assert.isTrue(element._groupIsInternal);
-        assert.isFalse(element.$.visibleToAll.bindValue);
-        done();
-      });
+      await element._loadGroup();
+      assert.isTrue(element._groupIsInternal);
+      assert.isFalse(element.$.visibleToAll.bindValue);
     });
 
-    test('default values with external group', done => {
+    test('default values with external group', async () => {
       const groupExternal = Object.assign({}, group);
       groupExternal.id = 'external-group-id';
       groupStub.restore();
-      groupStub = sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
-        return Promise.resolve(groupExternal);
-      });
-      sandbox.stub(element.$.restAPI, 'getIsGroupOwner', () => {
-        return Promise.resolve(true);
-      });
+      groupStub = sandbox.stub(element.$.restAPI, 'getGroupConfig',
+          async () => groupExternal);
+      sandbox.stub(element.$.restAPI, 'getIsGroupOwner', async () => true);
       element.groupId = 1;
-      element._loadGroup().then(() => {
-        assert.isFalse(element._groupIsInternal);
-        assert.isFalse(element.$.visibleToAll.bindValue);
-        done();
-      });
+      await element._loadGroup();
+      assert.isFalse(element._groupIsInternal);
+      assert.isFalse(element.$.visibleToAll.bindValue);
     });
 
-    test('rename group', done => {
+    test('rename group', async () => {
       const groupName = 'test-group';
       const groupName2 = 'test-group2';
       element.groupId = 1;
       element._groupConfig = {
         name: groupName,
       };
-      element._groupConfigOwner = 'testId';
       element._groupName = groupName;
-      element._groupOwner = true;
 
-      sandbox.stub(element.$.restAPI, 'getIsGroupOwner', () => {
-        return Promise.resolve(true);
-      });
+      sandbox.stub(element.$.restAPI, 'getIsGroupOwner', async () => true);
 
-      sandbox.stub(element.$.restAPI, 'saveGroupName', () => {
-        return Promise.resolve({status: 200});
-      });
+      sandbox.stub(element.$.restAPI, 'saveGroupName',
+          async () => ({status: 200}));
 
       const button = element.$.inputUpdateNameBtn;
 
-      element._loadGroup().then(() => {
-        assert.isTrue(button.hasAttribute('disabled'));
-        assert.isFalse(element.$.Title.classList.contains('edited'));
+      await element._loadGroup();
 
-        element.$.groupNameInput.text = groupName2;
+      assert.isTrue(button.hasAttribute('disabled'));
+      assert.isFalse(element.$.Title.classList.contains('edited'));
 
-        element.$.groupOwnerInput.text = 'testId2';
+      element.$.groupNameInput.text = groupName2;
+      assert.isFalse(button.hasAttribute('disabled'));
+      assert.isTrue(element.$.groupName.classList.contains('edited'));
 
-        assert.isFalse(button.hasAttribute('disabled'));
-        assert.isTrue(element.$.groupName.classList.contains('edited'));
-
-        element._handleSaveName().then(() => {
-          assert.isTrue(button.hasAttribute('disabled'));
-          assert.isFalse(element.$.Title.classList.contains('edited'));
-          assert.equal(element._groupName, groupName2);
-          done();
-        });
-
-        element._handleSaveOwner().then(() => {
-          assert.isTrue(button.hasAttribute('disabled'));
-          assert.isFalse(element.$.Title.classList.contains('edited'));
-          assert.equal(element._groupConfigOwner, 'testId2');
-          done();
-        });
-      });
+      await element._handleSaveName();
+      assert.isTrue(button.hasAttribute('disabled'));
+      assert.isFalse(element.$.Title.classList.contains('edited'));
+      assert.equal(element._groupName, groupName2);
     });
 
-    test('test for undefined group name', done => {
+    test('test for undefined group name', async () => {
       groupStub.restore();
 
-      sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
-        return Promise.resolve({});
-      });
+      sandbox.stub(element.$.restAPI, 'getGroupConfig', async () => ({}));
 
       assert.isUndefined(element.groupId);
 
@@ -164,16 +136,12 @@ limitations under the License.
 
       // Test that loading shows instead of filling
       // in group details
-      element._loadGroup().then(() => {
-        assert.isTrue(element.$.loading.classList.contains('loading'));
-
-        assert.isTrue(element._loading);
-
-        done();
-      });
+      await element._loadGroup();
+      assert.isTrue(element.$.loading.classList.contains('loading'));
+      assert.isTrue(element._loading);
     });
 
-    test('test fire event', done => {
+    test('test fire event', async () => {
       element._groupConfig = {
         name: 'test-group',
       };
@@ -182,11 +150,8 @@ limitations under the License.
           .returns(Promise.resolve({status: 200}));
 
       const showStub = sandbox.stub(element, 'fire');
-      element._handleSaveName()
-          .then(() => {
-            assert.isTrue(showStub.called);
-            done();
-          });
+      await element._handleSaveName();
+      assert.isTrue(showStub.called);
     });
 
     test('_computeGroupDisabled', () => {

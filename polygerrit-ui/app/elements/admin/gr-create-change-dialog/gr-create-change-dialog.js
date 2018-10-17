@@ -51,11 +51,10 @@
       Gerrit.URLEncodingBehavior,
     ],
 
-    attached() {
+    async attached() {
       if (!this.repoName) { return; }
-      this.$.restAPI.getProjectConfig(this.repoName).then(config => {
-        this.privateByDefault = config.private_by_default;
-      });
+      const config = await this.$.restAPI.getProjectConfig(this.repoName);
+      this.privateByDefault = config.private_by_default;
     },
 
     observers: [
@@ -70,39 +69,37 @@
       this.canCreate = !!branch && !!subject;
     },
 
-    handleCreateChange() {
+    async handleCreateChange() {
       const isPrivate = this.$.privateChangeCheckBox.checked;
       const isWip = true;
-      return this.$.restAPI.createChange(this.repoName, this.branch,
-          this.subject, this.topic, isPrivate, isWip, this.baseChange,
-          this.baseCommit || null)
-          .then(changeCreated => {
-            if (!changeCreated) { return; }
-            Gerrit.Nav.navigateToChange(changeCreated);
-          });
+      const changeCreated = await this.$.restAPI.createChange(
+          this.repoName, this.branch, this.subject, this.topic, isPrivate,
+          isWip, this.baseChange, this.baseCommit || null);
+      if (changeCreated) {
+        Gerrit.Nav.navigateToChange(changeCreated);
+      }
     },
 
-    _getRepoBranchesSuggestions(input) {
+    async _getRepoBranchesSuggestions(input) {
       if (input.startsWith(REF_PREFIX)) {
         input = input.substring(REF_PREFIX.length);
       }
-      return this.$.restAPI.getRepoBranches(
-          input, this.repoName, SUGGESTIONS_LIMIT).then(response => {
-            const branches = [];
-            let branch;
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              if (response[key].ref.startsWith('refs/heads/')) {
-                branch = response[key].ref.substring('refs/heads/'.length);
-              } else {
-                branch = response[key].ref;
-              }
-              branches.push({
-                name: branch,
-              });
-            }
-            return branches;
-          });
+      const response = await this.$.restAPI.getRepoBranches(
+          input, this.repoName, SUGGESTIONS_LIMIT);
+      const branches = [];
+      let branch;
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) { continue; }
+        if (response[key].ref.startsWith('refs/heads/')) {
+          branch = response[key].ref.substring('refs/heads/'.length);
+        } else {
+          branch = response[key].ref;
+        }
+        branches.push({
+          name: branch,
+        });
+      }
+      return branches;
     },
 
     _formatBooleanString(config) {

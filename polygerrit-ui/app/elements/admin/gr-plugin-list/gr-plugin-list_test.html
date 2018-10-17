@@ -65,7 +65,7 @@ limitations under the License.
     });
 
     suite('list with plugins', () => {
-      setup(done => {
+      setup(async () => {
         plugins = _.times(26, pluginGenerator);
 
         stub('gr-rest-api-interface', {
@@ -74,7 +74,8 @@ limitations under the License.
           },
         });
 
-        element._paramsChanged(value).then(() => { flush(done); });
+        await element._paramsChanged(value);
+        flushAsynchronousOperations();
       });
 
       test('plugin in the list is formatted correctly', done => {
@@ -93,7 +94,7 @@ limitations under the License.
           assert.isOk(names[1].querySelector('a'));
           assert.equal(names[1].querySelector('a').innerText, 'test1');
           assert.isNotOk(names[2].querySelector('a'));
-          assert.equal(names[2].innerText, 'test2');
+          assert.equal(names[2].innerText.trim(), 'test2');
           done();
         });
       });
@@ -104,7 +105,7 @@ limitations under the License.
     });
 
     suite('list with less then 26 plugins', () => {
-      setup(done => {
+      setup(async () => {
         plugins = _.times(25, pluginGenerator);
 
         stub('gr-rest-api-interface', {
@@ -113,7 +114,8 @@ limitations under the License.
           },
         });
 
-        element._paramsChanged(value).then(() => { flush(done); });
+        await element._paramsChanged(value);
+        flushAsynchronousOperations();
       });
 
       test('_shownPlugins', () => {
@@ -122,7 +124,7 @@ limitations under the License.
     });
 
     suite('filter', () => {
-      test('_paramsChanged', done => {
+      test('_paramsChanged', async () => {
         sandbox.stub(element.$.restAPI, 'getPlugins', () => {
           return Promise.resolve(plugins);
         });
@@ -130,15 +132,10 @@ limitations under the License.
           filter: 'test',
           offset: 25,
         };
-        element._paramsChanged(value).then(() => {
-          assert.equal(element.$.restAPI.getPlugins.lastCall.args[0],
-              'test');
-          assert.equal(element.$.restAPI.getPlugins.lastCall.args[1],
-              25);
-          assert.equal(element.$.restAPI.getPlugins.lastCall.args[2],
-              25);
-          done();
-        });
+        await element._paramsChanged(value);
+        assert.equal(element.$.restAPI.getPlugins.lastCall.args[0], 'test');
+        assert.equal(element.$.restAPI.getPlugins.lastCall.args[1], 25);
+        assert.equal(element.$.restAPI.getPlugins.lastCall.args[2], 25);
       });
     });
 

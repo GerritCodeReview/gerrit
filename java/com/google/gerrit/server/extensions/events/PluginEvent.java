@@ -15,16 +15,16 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.gerrit.extensions.events.PluginEventListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class PluginEvent {
-  private final DynamicSet<PluginEventListener> listeners;
+  private final PluginSetContext<PluginEventListener> listeners;
 
   @Inject
-  PluginEvent(DynamicSet<PluginEventListener> listeners) {
+  PluginEvent(PluginSetContext<PluginEventListener> listeners) {
     this.listeners = listeners;
   }
 
@@ -33,9 +33,7 @@ public class PluginEvent {
       return;
     }
     Event e = new Event(pluginName, type, data);
-    for (PluginEventListener l : listeners) {
-      l.onPluginEvent(e);
-    }
+    listeners.runEach(l -> l.onPluginEvent(e));
   }
 
   private static class Event extends AbstractNoNotifyEvent implements PluginEventListener.Event {

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import java.util.Collection;
 import org.eclipse.jgit.transport.PostReceiveHook;
@@ -22,17 +22,15 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 
 class LazyPostReceiveHookChain implements PostReceiveHook {
-  private final DynamicSet<PostReceiveHook> hooks;
+  private final PluginSetContext<PostReceiveHook> hooks;
 
   @Inject
-  LazyPostReceiveHookChain(DynamicSet<PostReceiveHook> hooks) {
+  LazyPostReceiveHookChain(PluginSetContext<PostReceiveHook> hooks) {
     this.hooks = hooks;
   }
 
   @Override
   public void onPostReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
-    for (PostReceiveHook h : hooks) {
-      h.onPostReceive(rp, commands);
-    }
+    hooks.runEach(h -> h.onPostReceive(rp, commands));
   }
 }

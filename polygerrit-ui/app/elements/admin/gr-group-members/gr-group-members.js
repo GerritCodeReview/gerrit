@@ -74,7 +74,7 @@
       this.fire('title-change', {title: 'Members'});
     },
 
-    _loadGroupDetails() {
+    async _loadGroupDetails() {
       if (!this.groupId) { return; }
 
       const promises = [];
@@ -83,35 +83,31 @@
         this.fire('page-error', {response});
       };
 
-      return this.$.restAPI.getGroupConfig(this.groupId, errFn)
-          .then(config => {
-            if (!config || !config.name) { return Promise.resolve(); }
+      const config = await this.$.restAPI.getGroupConfig(this.groupId, errFn);
+      if (!config || !config.name) { return; }
 
-            this._groupName = config.name;
+      this._groupName = config.name;
 
-            promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
-              this._isAdmin = isAdmin ? true : false;
-            }));
+      promises.push((async () => {
+        this._isAdmin = !!(await this.$.restAPI.getIsAdmin());
+      })());
 
-            promises.push(this.$.restAPI.getIsGroupOwner(config.name)
-                .then(isOwner => {
-                  this._groupOwner = isOwner ? true : false;
-                }));
+      promises.push((async () => {
+        this._groupOwner =
+            !!(await this.$.restAPI.getIsGroupOwner(config.name));
+      })());
 
-            promises.push(this.$.restAPI.getGroupMembers(config.name).then(
-                members => {
-                  this._groupMembers = members;
-                }));
+      promises.push((async () => {
+        this._groupMembers = await this.$.restAPI.getGroupMembers(config.name);
+      })());
 
-            promises.push(this.$.restAPI.getIncludedGroup(config.name)
-                .then(includedGroup => {
-                  this._includedGroups = includedGroup;
-                }));
+      promises.push((async () => {
+        this._includedGroups =
+            await this.$.restAPI.getIncludedGroup(config.name);
+      })());
 
-            return Promise.all(promises).then(() => {
-              this._loading = false;
-            });
-          });
+      await Promise.all(promises);
+      this._loading = false;
     },
 
     _computeLoadingClass(loading) {
@@ -137,44 +133,34 @@
       return this.getBaseUrl() + url;
     },
 
-    _handleSavingGroupMember() {
-      return this.$.restAPI.saveGroupMembers(this._groupName,
-          this._groupMemberSearchId).then(config => {
-            if (!config) {
-              return;
-            }
-            this.$.restAPI.getGroupMembers(this._groupName).then(members => {
-              this._groupMembers = members;
-            });
-            this._groupMemberSearchName = '';
-            this._groupMemberSearchId = '';
-          });
+    async _handleSavingGroupMember() {
+      const config = await this.$.restAPI.saveGroupMembers(this._groupName,
+          this._groupMemberSearchId);
+      if (!config) {
+        return;
+      }
+      this._groupMembers =
+          await this.$.restAPI.getGroupMembers(this._groupName);
+      this._groupMemberSearchName = '';
+      this._groupMemberSearchId = '';
     },
 
-    _handleDeleteConfirm() {
+    async _handleDeleteConfirm() {
       this.$.overlay.close();
       if (this._itemType === 'member') {
-        return this.$.restAPI.deleteGroupMembers(this._groupName,
-            this._itemId)
-            .then(itemDeleted => {
-              if (itemDeleted.status === 204) {
-                this.$.restAPI.getGroupMembers(this._groupName)
-                    .then(members => {
-                      this._groupMembers = members;
-                    });
-              }
-            });
+        const itemDeleted = await this.$.restAPI.deleteGroupMembers(
+            this._groupName, this._itemId);
+        if (itemDeleted.status === 204) {
+          this._groupMembers =
+              await this.$.restAPI.getGroupMembers(this._groupName);
+        }
       } else if (this._itemType === 'includedGroup') {
-        return this.$.restAPI.deleteIncludedGroup(this._groupName,
-            this._itemId)
-            .then(itemDeleted => {
-              if (itemDeleted.status === 204 || itemDeleted.status === 205) {
-                this.$.restAPI.getIncludedGroup(this._groupName)
-                    .then(includedGroup => {
-                      this._includedGroups = includedGroup;
-                    });
-              }
-            });
+        const itemDeleted = await this.$.restAPI.deleteIncludedGroup(
+            this._groupName, this._itemId);
+        if (itemDeleted.status === 204 || itemDeleted.status === 205) {
+          this._includedGroups =
+              await this.$.restAPI.getIncludedGroup(this._groupName);
+        }
       }
     },
 
@@ -197,9 +183,11 @@
       this.$.overlay.open();
     },
 
-    _handleSavingIncludedGroups() {
-      return this.$.restAPI.saveIncludedGroup(this._groupName,
-          this._includedGroupSearchId, err => {
+    async _handleSavingIncludedGroups() {
+      const config = await this.$.restAPI.saveIncludedGroup(
+          this._groupName,
+          this._includedGroupSearchId,
+          err => {
             if (err.status === 404) {
               this.dispatchEvent(new CustomEvent('show-alert', {
                 detail: {message: SAVING_ERROR_TEXT},
@@ -208,18 +196,14 @@
               return err;
             }
             throw Error(err.statusText);
-          })
-          .then(config => {
-            if (!config) {
-              return;
-            }
-            this.$.restAPI.getIncludedGroup(this._groupName)
-                .then(includedGroup => {
-                  this._includedGroups = includedGroup;
-                });
-            this._includedGroupSearchName = '';
-            this._includedGroupSearchId = '';
           });
+
+      if (!config) { return; }
+
+      this._includedGroups =
+          await this.$.restAPI.getIncludedGroup(this._groupName);
+      this._includedGroupSearchName = '';
+      this._includedGroupSearchId = '';
     },
 
     _handleDeleteIncludedGroup(e) {
@@ -233,43 +217,40 @@
       this.$.overlay.open();
     },
 
-    _getAccountSuggestions(input) {
-      if (input.length === 0) { return Promise.resolve([]); }
-      return this.$.restAPI.getSuggestedAccounts(
-          input, SUGGESTIONS_LIMIT).then(accounts => {
-            const accountSuggestions = [];
-            let nameAndEmail;
-            if (!accounts) { return []; }
-            for (const key in accounts) {
-              if (!accounts.hasOwnProperty(key)) { continue; }
-              if (accounts[key].email !== undefined) {
-                nameAndEmail = accounts[key].name +
-                  ' <' + accounts[key].email + '>';
-              } else {
-                nameAndEmail = accounts[key].name;
-              }
-              accountSuggestions.push({
-                name: nameAndEmail,
-                value: accounts[key]._account_id,
-              });
-            }
-            return accountSuggestions;
-          });
+    async _getAccountSuggestions(input) {
+      if (input.length === 0) { []; }
+      const accounts = await this.$.restAPI.getSuggestedAccounts(
+          input, SUGGESTIONS_LIMIT);
+      const accountSuggestions = [];
+      let nameAndEmail;
+      if (!accounts) { return []; }
+      for (const key in accounts) {
+        if (!accounts.hasOwnProperty(key)) { continue; }
+        if (accounts[key].email !== undefined) {
+          nameAndEmail = accounts[key].name +
+            ' <' + accounts[key].email + '>';
+        } else {
+          nameAndEmail = accounts[key].name;
+        }
+        accountSuggestions.push({
+          name: nameAndEmail,
+          value: accounts[key]._account_id,
+        });
+      }
+      return accountSuggestions;
     },
 
-    _getGroupSuggestions(input) {
-      return this.$.restAPI.getSuggestedGroups(input)
-          .then(response => {
-            const groups = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              groups.push({
-                name: key,
-                value: decodeURIComponent(response[key].id),
-              });
-            }
-            return groups;
-          });
+    async _getGroupSuggestions(input) {
+      const response = await this.$.restAPI.getSuggestedGroups(input);
+      const groups = [];
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) { continue; }
+        groups.push({
+          name: key,
+          value: decodeURIComponent(response[key].id),
+        });
+      }
+      return groups;
     },
 
     _computeHideItemClass(owner, admin) {

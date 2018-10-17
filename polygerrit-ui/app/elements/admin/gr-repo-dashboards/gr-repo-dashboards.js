@@ -32,40 +32,39 @@
       _dashboards: Array,
     },
 
-    _repoChanged(repo) {
+    async _repoChanged(repo) {
       this._loading = true;
-      if (!repo) { return Promise.resolve(); }
+      if (!repo) { return; }
 
       const errFn = response => {
         this.fire('page-error', {response});
       };
 
-      this.$.restAPI.getRepoDashboards(this.repo, errFn).then(res => {
-        if (!res) { return Promise.resolve(); }
+      const res = await this.$.restAPI.getRepoDashboards(this.repo, errFn);
+      if (!res) { return; }
 
-        // Flatten 2 dimenional array, and sort by id.
-        const dashboards = res.concat.apply([], res).sort((a, b) =>
-            a.id > b.id);
-        const customList = dashboards.filter(a => a.ref === 'custom');
-        const defaultList = dashboards.filter(a => a.ref === 'default');
-        const dashboardBuilder = [];
-        if (customList.length) {
-          dashboardBuilder.push({
-            section: 'Custom',
-            dashboards: customList,
-          });
-        }
-        if (defaultList.length) {
-          dashboardBuilder.push({
-            section: 'Default',
-            dashboards: defaultList,
-          });
-        }
+      // Flatten 2 dimenional array, and sort by id.
+      const dashboards = res.concat.apply([], res).sort((a, b) =>
+          a.id > b.id);
+      const customList = dashboards.filter(a => a.ref === 'custom');
+      const defaultList = dashboards.filter(a => a.ref === 'default');
+      const dashboardBuilder = [];
+      if (customList.length) {
+        dashboardBuilder.push({
+          section: 'Custom',
+          dashboards: customList,
+        });
+      }
+      if (defaultList.length) {
+        dashboardBuilder.push({
+          section: 'Default',
+          dashboards: defaultList,
+        });
+      }
 
-        this._dashboards = dashboardBuilder;
-        this._loading = false;
-        Polymer.dom.flush();
-      });
+      this._dashboards = dashboardBuilder;
+      this._loading = false;
+      Polymer.dom.flush();
     },
 
     _getUrl(project, sections) {

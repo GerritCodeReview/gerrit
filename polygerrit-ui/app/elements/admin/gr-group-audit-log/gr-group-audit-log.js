@@ -43,22 +43,21 @@
       this._getAuditLogs();
     },
 
-    _getAuditLogs() {
+    async _getAuditLogs() {
       if (!this.groupId) { return ''; }
 
       const errFn = response => {
         this.fire('page-error', {response});
       };
 
-      return this.$.restAPI.getGroupAuditLog(this.groupId, errFn)
-          .then(auditLog => {
-            if (!auditLog) {
-              this._auditLog = [];
-              return;
-            }
-            this._auditLog = auditLog;
-            this._loading = false;
-          });
+      const auditLog =
+          await this.$.restAPI.getGroupAuditLog(this.groupId, errFn);
+      if (!auditLog) {
+        this._auditLog = [];
+        return;
+      }
+      this._auditLog = auditLog;
+      this._loading = false;
     },
 
     _status(item) {

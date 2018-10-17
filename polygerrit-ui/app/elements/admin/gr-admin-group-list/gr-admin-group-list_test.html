@@ -59,6 +59,12 @@ limitations under the License.
     let value;
 
     setup(() => {
+      stub('gr-rest-api-interface', {
+        async getAccountCapabilities(selector) {
+          return {createGroup: false};
+        },
+      });
+
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
     });
@@ -68,16 +74,17 @@ limitations under the License.
     });
 
     suite('list with groups', () => {
-      setup(done => {
+      setup(async () => {
         groups = _.times(26, groupGenerator);
 
         stub('gr-rest-api-interface', {
-          getGroups(num, offset) {
-            return Promise.resolve(groups);
+          async getGroups(num, offset) {
+            return groups;
           },
         });
 
-        element._paramsChanged(value).then(() => { flush(done); });
+        await element._paramsChanged(value);
+        flushAsynchronousOperations();
       });
 
       test('test for test group in the list', done => {
@@ -106,7 +113,7 @@ limitations under the License.
     });
 
     suite('test with less then 25 groups', () => {
-      setup(done => {
+      setup(async () => {
         groups = _.times(25, groupGenerator);
 
         stub('gr-rest-api-interface', {
@@ -115,7 +122,8 @@ limitations under the License.
           },
         });
 
-        element._paramsChanged(value).then(() => { flush(done); });
+        await element._paramsChanged(value);
+        flushAsynchronousOperations();
       });
 
       test('_shownGroups', () => {
@@ -124,7 +132,7 @@ limitations under the License.
     });
 
     suite('filter', () => {
-      test('_paramsChanged', done => {
+      test('_paramsChanged', async () => {
         sandbox.stub(element.$.restAPI, 'getGroups', () => {
           return Promise.resolve(groups);
         });
@@ -132,11 +140,9 @@ limitations under the License.
           filter: 'test',
           offset: 25,
         };
-        element._paramsChanged(value).then(() => {
-          assert.isTrue(element.$.restAPI.getGroups.lastCall
-              .calledWithExactly('test', 25, 25));
-          done();
-        });
+        await element._paramsChanged(value);
+        assert.isTrue(element.$.restAPI.getGroups.lastCall
+            .calledWithExactly('test', 25, 25));
       });
     });
 

@@ -71,7 +71,7 @@ limitations under the License.
                   Rename Group</gr-button>
               </span>
             </fieldset>
-            <h3 class$="[[_computeHeaderClass(_owner)]]">
+            <h3 id="groupOwner" class$="[[_computeHeaderClass(_owner)]]">
               Owners
             </h3>
             <fieldset>
@@ -86,6 +86,7 @@ limitations under the License.
               </span>
               <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 <gr-button
+                    id="inputUpdateOwnerBtn"
                     on-tap="_handleSaveOwner"
                     disabled="[[!_owner]]">
                   Change Owners</gr-button>

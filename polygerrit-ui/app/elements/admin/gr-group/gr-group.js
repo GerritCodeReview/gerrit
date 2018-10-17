@@ -90,7 +90,7 @@
 
     observers: [
       '_handleConfigName(_groupConfig.name)',
-      '_handleConfigOwner(_groupConfig.owner, _groupConfigOwner)',
+      '_handleConfigOwner(_groupConfig.owner, _groupConfigOwner, _groupOwner)',
       '_handleConfigDescription(_groupConfig.description)',
       '_handleConfigOptions(_groupConfig.options.visible_to_all)',
     ],
@@ -99,7 +99,7 @@
       this._loadGroup();
     },
 
-    _loadGroup() {
+    async _loadGroup() {
       if (!this.groupId) { return; }
 
       const promises = [];
@@ -108,37 +108,34 @@
         this.fire('page-error', {response});
       };
 
-      return this.$.restAPI.getGroupConfig(this.groupId, errFn)
-          .then(config => {
-            if (!config || !config.name) { return Promise.resolve(); }
+      const config = await this.$.restAPI.getGroupConfig(this.groupId, errFn);
+      if (!config || !config.name) { return; }
 
-            this._groupName = config.name;
-            this._groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
+      this._groupName = config.name;
+      this._groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
 
-            promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
-              this._isAdmin = isAdmin ? true : false;
-            }));
+      promises.push((async () => {
+        this._isAdmin = !!(await this.$.restAPI.getIsAdmin());
+      })());
 
-            promises.push(this.$.restAPI.getIsGroupOwner(config.name)
-                .then(isOwner => {
-                  this._groupOwner = isOwner ? true : false;
-                }));
+      promises.push((async () => {
+        this._groupOwner =
+            !!(await this.$.restAPI.getIsGroupOwner(config.name));
+      })());
 
-            // If visible to all is undefined, set to false. If it is defined
-            // as false, setting to false is fine. If any optional values
-            // are added with a default of true, then this would need to be an
-            // undefined check and not a truthy/falsy check.
-            if (!config.options.visible_to_all) {
-              config.options.visible_to_all = false;
-            }
-            this._groupConfig = config;
+      // If visible to all is undefined, set to false. If it is defined
+      // as false, setting to false is fine. If any optional values
+      // are added with a default of true, then this would need to be an
+      // undefined check and not a truthy/falsy check.
+      if (!config.options.visible_to_all) {
+        config.options.visible_to_all = false;
+      }
+      this._groupConfig = config;
 
-            this.fire('title-change', {title: config.name});
+      this.fire('title-change', {title: config.name});
 
-            return Promise.all(promises).then(() => {
-              this._loading = false;
-            });
-          });
+      await Promise.all(promises);
+      this._loading = false;
     },
 
     _computeLoadingClass(loading) {
@@ -149,37 +146,34 @@
       return this._loading || this._loading === undefined;
     },
 
-    _handleSaveName() {
-      return this.$.restAPI.saveGroupName(this.groupId, this._groupConfig.name)
-          .then(config => {
-            if (config.status === 200) {
-              this._groupName = this._groupConfig.name;
-              this.fire('name-changed', {name: this._groupConfig.name,
-                external: this._groupIsExtenral});
-              this._rename = false;
-            }
-          });
+    async _handleSaveName() {
+      const config = await this.$.restAPI.saveGroupName(
+          this.groupId, this._groupConfig.name);
+
+      if (config.status === 200) {
+        this._groupName = this._groupConfig.name;
+        this.fire('name-changed', {name: this._groupConfig.name,
+          external: this._groupIsExternal});
+        this._rename = false;
+      }
     },
 
-    _handleSaveOwner() {
+    async _handleSaveOwner() {
       let owner = this._groupConfig.owner;
       if (this._groupConfigOwner) {
         owner = decodeURIComponent(this._groupConfigOwner);
       }
-      return this.$.restAPI.saveGroupOwner(this.groupId,
-          owner).then(config => {
-            this._owner = false;
-          });
+      await this.$.restAPI.saveGroupOwner(this.groupId, owner);
+      this._owner = false;
     },
 
-    _handleSaveDescription() {
-      return this.$.restAPI.saveGroupDescription(this.groupId,
-          this._groupConfig.description).then(config => {
-            this._description = false;
-          });
+    async _handleSaveDescription() {
+      await this.$.restAPI.saveGroupDescription(
+          this.groupId, this._groupConfig.description);
+      this._description = false;
     },
 
-    _handleSaveOptions() {
+    async _handleSaveOptions() {
       let options;
       // The value is in string so we have to convert it to a boolean.
       if (this._groupConfig.options.visible_to_all) {
@@ -187,10 +181,8 @@
       } else if (!this._groupConfig.options.visible_to_all) {
         options = {visible_to_all: false};
       }
-      return this.$.restAPI.saveGroupOptions(this.groupId,
-          options).then(config => {
-            this._options = false;
-          });
+      await this.$.restAPI.saveGroupOptions(this.groupId, options);
+      this._options = false;
     },
 
     _handleConfigName() {
@@ -217,19 +209,17 @@
       return configChanged ? 'edited' : '';
     },
 
-    _getGroupSuggestions(input) {
-      return this.$.restAPI.getSuggestedGroups(input)
-          .then(response => {
-            const groups = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              groups.push({
-                name: key,
-                value: decodeURIComponent(response[key].id),
-              });
-            }
-            return groups;
-          });
+    async _getGroupSuggestions(input) {
+      const response = await this.$.restAPI.getSuggestedGroups(input);
+      const groups = [];
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) { continue; }
+        groups.push({
+          name: key,
+          value: decodeURIComponent(response[key].id),
+        });
+      }
+      return groups;
     },
 
     _computeGroupDisabled(owner, admin, groupIsInternal) {

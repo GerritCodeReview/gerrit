@@ -217,24 +217,21 @@
           groups[groupId].name : groupId;
     },
 
-    _getGroupSuggestions() {
-      return this.$.restAPI.getSuggestedGroups(
-          this._groupFilter,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(response => {
-            const groups = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              groups.push({
-                name: key,
-                value: response[key],
-              });
-            }
-            // Does not return groups in which we already have rules for.
-            return groups.filter(group => {
-              return !this._groupsWithRules[group.value.id];
-            });
-          });
+    async _getGroupSuggestions() {
+      const response = await this.$.restAPI.getSuggestedGroups(
+          this._groupFilter, MAX_AUTOCOMPLETE_RESULTS);
+      const groups = [];
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) { continue; }
+        groups.push({
+          name: key,
+          value: response[key],
+        });
+      }
+      // Does not return groups in which we already have rules for.
+      return groups.filter(group => {
+        return !this._groupsWithRules[group.value.id];
+      });
     },
 
     /**

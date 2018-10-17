@@ -87,23 +87,21 @@
       Gerrit.URLEncodingBehavior,
     ],
 
-    _determineIfOwner(repo) {
-      return this.$.restAPI.getRepoAccess(repo)
-          .then(access =>
-                this._isOwner = access && access[repo].is_owner);
+    async _determineIfOwner(repo) {
+      const access = await this.$.restAPI.getRepoAccess(repo);
+      this._isOwner = access && access[repo].is_owner;
     },
 
-    _paramsChanged(params) {
+    async _paramsChanged(params) {
       if (!params || !params.repo) { return; }
 
       this._repo = params.repo;
 
-      this._getLoggedIn().then(loggedIn => {
-        this._loggedIn = loggedIn;
-        if (loggedIn) {
-          this._determineIfOwner(this._repo);
-        }
-      });
+      const loggedIn = await this._getLoggedIn();
+      this._loggedIn = loggedIn;
+      if (loggedIn) {
+        this._determineIfOwner(this._repo);
+      }
 
       this.detailType = params.detail;
 
@@ -114,7 +112,7 @@
           this._itemsPerPage, this._offset, this.detailType);
     },
 
-    _getItems(filter, repo, itemsPerPage, offset, detailType) {
+    async _getItems(filter, repo, itemsPerPage, offset, detailType) {
       this._loading = true;
       this._items = [];
       Polymer.dom.flush();
@@ -122,19 +120,17 @@
         this.fire('page-error', {response});
       };
       if (detailType === DETAIL_TYPES.BRANCHES) {
-        return this.$.restAPI.getRepoBranches(
-            filter, repo, itemsPerPage, offset, errFn).then(items => {
-              if (!items) { return; }
-              this._items = items;
-              this._loading = false;
-            });
+        const items = await this.$.restAPI.getRepoBranches(
+            filter, repo, itemsPerPage, offset, errFn);
+        if (!items) { return; }
+        this._items = items;
+        this._loading = false;
       } else if (detailType === DETAIL_TYPES.TAGS) {
-        return this.$.restAPI.getRepoTags(
-            filter, repo, itemsPerPage, offset, errFn).then(items => {
-              if (!items) { return; }
-              this._items = items;
-              this._loading = false;
-            });
+        const items = await this.$.restAPI.getRepoTags(
+            filter, repo, itemsPerPage, offset, errFn);
+        if (!items) { return; }
+        this._items = items;
+        this._loading = false;
       }
     },
 
@@ -189,13 +185,12 @@
       this._setRepoHead(this._repo, this._revisedRef, e);
     },
 
-    _setRepoHead(repo, ref, e) {
-      return this.$.restAPI.setRepoHead(repo, ref).then(res => {
-        if (res.status < 400) {
-          this._isEditing = false;
-          e.model.set('item.revision', ref);
-        }
-      });
+    async _setRepoHead(repo, ref, e) {
+      const res = await this.$.restAPI.setRepoHead(repo, ref);
+      if (res.status < 400) {
+        this._isEditing = false;
+        e.model.set('item.revision', ref);
+      }
     },
 
     _computeItemName(detailType) {
@@ -206,26 +201,24 @@
       }
     },
 
-    _handleDeleteItemConfirm() {
+    async _handleDeleteItemConfirm() {
       this.$.overlay.close();
       if (this.detailType === DETAIL_TYPES.BRANCHES) {
-        return this.$.restAPI.deleteRepoBranches(this._repo, this._refName)
-            .then(itemDeleted => {
-              if (itemDeleted.status === 204) {
-                this._getItems(
-                    this._filter, this._repo, this._itemsPerPage,
-                    this._offset, this.detailType);
-              }
-            });
+        const itemDeleted = await this.$.restAPI.deleteRepoBranches(
+            this._repo, this._refName);
+        if (itemDeleted.status === 204) {
+          this._getItems(
+              this._filter, this._repo, this._itemsPerPage,
+              this._offset, this.detailType);
+        }
       } else if (this.detailType === DETAIL_TYPES.TAGS) {
-        return this.$.restAPI.deleteRepoTags(this._repo, this._refName)
-            .then(itemDeleted => {
-              if (itemDeleted.status === 204) {
-                this._getItems(
-                    this._filter, this._repo, this._itemsPerPage,
-                    this._offset, this.detailType);
-              }
-            });
+        const itemDeleted = await this.$.restAPI.deleteRepoTags(
+            this._repo, this._refName);
+        if (itemDeleted.status === 204) {
+          this._getItems(
+              this._filter, this._repo, this._itemsPerPage,
+              this._offset, this.detailType);
+        }
       }
     },
 

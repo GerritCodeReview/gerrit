@@ -31,6 +31,7 @@ sudo npm install -g \
   eslint \
   eslint-config-google \
   eslint-plugin-html \
+  eslint-plugin-promise \
   typescript \
   fried-twinkie \
   polylint \
@@ -146,13 +147,17 @@ It is available as a command line utility, as well as a plugin for most editors
 and IDEs.
 
 `eslint-config-google` is a port of the Google JS Style Guide to an ESLint
-config module, and `eslint-plugin-html` allows ESLint to lint scripts inside
-HTML.
+config module. `eslint-plugin-html` allows ESLint to lint scripts inside
+HTML. `eslint-plugin-promise` allows us to maintain best practices with our
+asynchronous code.
+
 We have an .eslintrc.json config file in the polygerrit-ui/ directory configured
 to enforce the preferred style of the PolyGerrit project.
 After installing, you can use `eslint` on any new file you create.
+
 In addition, you can supply the `--fix` flag to apply some suggested fixes for
 simple style issues.
+
 If you modify JS inside of `<script>` tags, like for test suites, you may have
 to supply the `--ext .html` flag.
 

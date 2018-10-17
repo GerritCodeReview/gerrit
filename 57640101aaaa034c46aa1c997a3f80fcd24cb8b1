@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "c1f39884_0ae36903",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-17T17:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e93defd_6acc4fd8",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2f8f795_061b730a",
         "filename": "java/com/google/gerrit/common/data/ContributorAgreement.java",
         "patchSetId": 9
@@ -274,6 +292,24 @@
       "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a08abd3e_069486ce",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-17T17:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ffca2d8_99b1a3a9",
+      "revId": "57640101aaaa034c46aa1c997a3f80fcd24cb8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5963bd4e_09ddba4a",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-17T17:42:40Z",
+      "side": 1,
+      "message": "Ack\n\nNot possible -- need different logic for the 2 uses.",
+      "parentUuid": "3373bc6d_1c141c2c",
+      "range": {
+        "startLine": 101,
+        "startChar": 10,
+        "endLine": 101,
+        "endChar": 41
+      },
+      "revId": "9caa02b447c1dc51c79cc3593c330e8a7dd30b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee6c811d_9ddd2adc",
         "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e10fb7c0_37548b07",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-17T17:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee6c811d_9ddd2adc",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 30
+      },
+      "revId": "9caa02b447c1dc51c79cc3593c330e8a7dd30b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e3c1851_c36c5e58",
         "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
         "patchSetId": 11
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "95937dad_72661bd8",
+        "filename": "java/com/google/gerrit/server/project/ContributorAgreementsChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-17T17:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e3c1851_c36c5e58",
+      "revId": "9caa02b447c1dc51c79cc3593c330e8a7dd30b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4101d7c1_ed4a73b5",
         "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
         "patchSetId": 11
@@ -76,6 +142,24 @@
       "writtenOn": "2018-10-17T14:39:02Z",
       "side": 1,
       "message": "I think it would make sense to store a List\u003cPattern\u003e in ContributorAgreement instead of a List\u003cString\u003e. But that isn\u0027t possible right now because this class is part of the data package we share with the GWT UI and GWT doesn\u0027t support java.util.regex :(",
+      "revId": "9caa02b447c1dc51c79cc3593c330e8a7dd30b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1f78131_5578d344",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1073305
+      },
+      "writtenOn": "2018-10-17T17:42:40Z",
+      "side": 1,
+      "message": "Ack\n\nThat\u0027s how I originally wrote it. As you point out, GWT doesn\u0027t like it.",
+      "parentUuid": "4101d7c1_ed4a73b5",
       "revId": "9caa02b447c1dc51c79cc3593c330e8a7dd30b83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -61,6 +61,9 @@ limitations under the License.
         flex-shrink: 0;
         width: 1.2em;
       }
+      .note {
+        color: var(--error-text-color);
+      }
       .relatedChanges a {
         display: inline-block;
       }
@@ -118,9 +121,11 @@ limitations under the License.
           </div>
         </template>
       </section>
-      <section hidden$="[[!_submittedTogether.length]]" hidden>
+      <section
+          id="submittedTogether"
+          class$="[[_computeSubmittedTogetherClass(_submittedTogether)]]">
         <h4>Submitted together</h4>
-        <template is="dom-repeat" items="[[_submittedTogether]]" as="related">
+        <template is="dom-repeat" items="[[_submittedTogether.changes]]" as="related">
           <div class$="[[_computeChangeContainerClass(change, related)]]">
             <a href$="[[_computeChangeURL(related._number, related.project)]]"
                 class$="[[_computeLinkClass(related)]]"
@@ -131,6 +136,11 @@ limitations under the License.
                 tabindex="-1"
                 title="Submittable"
                 class$="submittableCheck [[_computeLinkClass(related)]]">✓</span>
+          </div>
+        </template>
+        <template is="dom-if" if="[[_submittedTogether.non_visible_changes]]">
+          <div class="note">
+            [[_computeNonVisibleChangesNote(_submittedTogether.non_visible_changes)]]
           </div>
         </template>
       </section>

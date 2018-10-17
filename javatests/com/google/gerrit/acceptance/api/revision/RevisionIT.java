@@ -325,7 +325,6 @@ public class RevisionIT extends AbstractDaemonTest {
 
     ChangeInfo changeInfoWithDetails =
         gApi.changes().id(project.get() + "~master~" + r.getChangeId()).get();
-    assertThat(changeInfoWithDetails.workInProgress).isNull();
     Collection<ChangeMessageInfo> messages = changeInfoWithDetails.messages;
     assertThat(messages).hasSize(2);
 
@@ -340,8 +339,10 @@ public class RevisionIT extends AbstractDaemonTest {
     origIt.next();
     assertThat(origIt.next().message).isEqualTo(expectedMessage);
 
-    assertThat(cherry.get().messages).hasSize(1);
-    Iterator<ChangeMessageInfo> cherryIt = cherry.get().messages.iterator();
+    ChangeInfo cherryPickChangeInfoWithDetails = cherry.get();
+    assertThat(cherryPickChangeInfoWithDetails.workInProgress).isNull();
+    assertThat(cherryPickChangeInfoWithDetails.messages).hasSize(1);
+    Iterator<ChangeMessageInfo> cherryIt = cherryPickChangeInfoWithDetails.messages.iterator();
     expectedMessage = "Patch Set 1: Cherry Picked from branch master.";
     assertThat(cherryIt.next().message).isEqualTo(expectedMessage);
 

@@ -76,5 +76,29 @@
   ],
   "settings": {
     "html/report-bad-indent": "error"
-  }
+  },
+  "overrides": [
+    // Whitelist of files conforming to recommend promise rules.
+    {
+      "files": [
+        "behaviors/**"
+      ],
+      "rules": {
+        "promise/always-return": "error",
+        "promise/no-return-wrap": "error",
+        "promise/param-names": "error",
+        "promise/catch-or-return": "error",
+        "promise/no-native": "off",
+        "promise/no-nesting": "warn",
+        "promise/no-promise-in-callback": "warn",
+        "promise/no-callback-in-promise": "warn",
+        "promise/avoid-new": "off",
+        "promise/no-new-statics": "error",
+        "promise/no-return-in-finally": "warn",
+        "promise/valid-params": "warn",
+			  "promise/prefer-await-to-then": "error",
+			  "promise/prefer-await-to-callbacks": "error"
+      }
+    }
+  ]
 }

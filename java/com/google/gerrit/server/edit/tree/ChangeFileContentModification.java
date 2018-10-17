@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.edit.tree;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -43,7 +43,7 @@ public class ChangeFileContentModification implements TreeModification {
 
   public ChangeFileContentModification(String filePath, RawInput newContent) {
     this.filePath = filePath;
-    this.newContent = checkNotNull(newContent, "new content required");
+    this.newContent = requireNonNull(newContent, "new content required");
   }
 
   @Override

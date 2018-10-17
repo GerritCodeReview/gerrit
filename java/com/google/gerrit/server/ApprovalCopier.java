@@ -15,7 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ListMultimap;
@@ -152,12 +152,12 @@ public class ApprovalCopier {
       @Nullable Config repoConfig,
       Iterable<PatchSetApproval> dontCopy)
       throws OrmException {
-    checkNotNull(ps, "ps should not be null");
+    requireNonNull(ps, "ps should not be null");
     ChangeData cd = changeDataFactory.create(db, notes);
     try {
       ProjectState project = projectCache.checkedGet(cd.change().getDest().getParentKey());
       ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
-      checkNotNull(all, "all should not be null");
+      requireNonNull(all, "all should not be null");
 
       Table<String, Account.Id, PatchSetApproval> wontCopy = HashBasedTable.create();
       for (PatchSetApproval psa : dontCopy) {

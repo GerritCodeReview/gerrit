@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.ioutil;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
@@ -41,7 +41,7 @@ public final class RegexListSearcher<T> {
   private final boolean prefixOnly;
 
   public RegexListSearcher(String re, Function<T, String> toStringFunc) {
-    this.toStringFunc = checkNotNull(toStringFunc);
+    this.toStringFunc = requireNonNull(toStringFunc);
 
     if (re.startsWith("^")) {
       re = re.substring(1);
@@ -68,7 +68,7 @@ public final class RegexListSearcher<T> {
   }
 
   public Stream<T> search(List<T> list) {
-    checkNotNull(list);
+    requireNonNull(list);
     int begin;
     int end;
 

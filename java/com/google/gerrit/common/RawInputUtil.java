@@ -14,10 +14,11 @@
 
 package com.google.gerrit.common;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -31,8 +32,8 @@ public class RawInputUtil {
   }
 
   public static RawInput create(byte[] bytes, String contentType) {
-    Preconditions.checkNotNull(bytes);
-    Preconditions.checkArgument(bytes.length > 0);
+    requireNonNull(bytes);
+    checkArgument(bytes.length > 0);
     return new RawInput() {
       @Override
       public InputStream getInputStream() throws IOException {

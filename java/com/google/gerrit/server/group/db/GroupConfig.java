@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.group.db;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -187,7 +187,7 @@ public class GroupConfig extends VersionedMetaData {
   private boolean allowSaveEmptyName;
 
   private GroupConfig(AccountGroup.UUID groupUuid) {
-    this.groupUuid = checkNotNull(groupUuid);
+    this.groupUuid = requireNonNull(groupUuid);
     ref = RefNames.refsGroups(groupUuid);
   }
 

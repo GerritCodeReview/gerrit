@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
@@ -26,6 +27,7 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -685,19 +687,77 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     }
 
     // Submit is expected to fail.
-    submitWithConflict(
-        change2Result.getChangeId(),
-        "Failed to submit 1 change due to the following problems:\n"
-            + "Change "
-            + change2Result.getChange().getId()
-            + ": Depends on change that was not submitted."
-            + " Commit "
-            + change2Result.getCommit().name()
-            + " depends on commit "
-            + changeResult.getCommit().name()
-            + " which cannot be merged."
-            + " Is the change of this commit not visible or was it deleted?");
+    try {
+      gApi.changes().id(change2Result.getChangeId()).current().submit();
+      fail("expected failure");
+    } catch (AuthException e) {
+      assertThat(e.getMessage())
+          .isEqualTo(
+              "A change to be submitted with "
+                  + change2Result.getChange().getId().id
+                  + " is not visible");
+    }
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
+  }
 
+  @Test
+  public void dependencyOnHiddenChangeUsingTopicPreventsMerge() throws Exception {
+    // Construct a topic where a change included by topic depends on a private change that is not
+    // visible to the submitting user
+    // (c1) --- topic --- (c2b)
+    //                      |
+    //                    (c2a) <= private
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+
+    Project.NameKey p1 = createProject("project-where-we-submit");
+    Project.NameKey p2 = createProject("project-impacted-via-topic");
+
+    grantLabel("Code-Review", -2, 2, p1, "refs/heads/*", false, REGISTERED_USERS, false);
+    grant(p1, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
+    grantLabel("Code-Review", -2, 2, p2, "refs/heads/*", false, REGISTERED_USERS, false);
+    grant(p2, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
+
+    TestRepository<?> repo1 = cloneProject(p1);
+    TestRepository<?> repo2 = cloneProject(p2);
+
+    PushOneCommit.Result change1 =
+        createChange(repo1, "master", "A fresh change in repo1", "a.txt", "1", "topic-to-submit");
+    approve(change1.getChangeId());
+    PushOneCommit push =
+        pushFactory.create(
+            db, admin.getIdent(), repo2, "An ancestor change in repo2", "a.txt", "2");
+    PushOneCommit.Result change2a = push.to("refs/for/master");
+    approve(change2a.getChangeId());
+    PushOneCommit.Result change2b =
+        createChange(
+            repo2, "master", "A topic-linked change in repo2", "a.txt", "2", "topic-to-submit");
+    approve(change2b.getChangeId());
+
+    // Mark change2a private so that it's not visible to user.
+    gApi.changes().id(change2a.getChangeId()).setPrivate(true, "nobody should see this");
+
+    setApiUser(user);
+
+    // Verify that user cannot see change2a
+    try {
+      gApi.changes().id(change2a.getChangeId()).get();
+      fail("expected failure");
+    } catch (ResourceNotFoundException e) {
+      assertThat(e.getMessage()).isEqualTo("Not found: " + change2a.getChangeId());
+    }
+
+    // Submit is expected to fail.
+    try {
+      gApi.changes().id(change1.getChangeId()).current().submit();
+      fail("expected failure");
+    } catch (AuthException e) {
+      assertThat(e.getMessage())
+          .isEqualTo(
+              "A change to be submitted with "
+                  + change1.getChange().getId().id
+                  + " is not visible");
+    }
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
   }

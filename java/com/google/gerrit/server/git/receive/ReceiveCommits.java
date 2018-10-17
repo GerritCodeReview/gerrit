@@ -16,8 +16,8 @@ package com.google.gerrit.server.git.receive;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
@@ -31,6 +31,7 @@ import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCH
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparingInt;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
@@ -47,6 +48,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -55,6 +57,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
+import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
@@ -73,6 +76,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -495,11 +499,8 @@ class ReceiveCommits {
     for (ValidationMessage m : messages) {
       String msg = m.getType().getPrefix() + m.getMessage();
 
-      if (m.isError()) {
-        messageSender.sendError(msg);
-      } else {
-        messageSender.sendMessage(msg);
-      }
+      // Avoid calling sendError which will add its own error: prefix.
+      messageSender.sendMessage(msg);
     }
   }
 
@@ -841,10 +842,12 @@ class ReceiveCommits {
     } catch (ResourceConflictException e) {
       addError(e.getMessage());
       reject(magicBranchCmd, "conflict");
-    } catch (RestApiException | IOException err) {
-      logger.atSevere().withCause(err).log(
-          "Can't insert change/patch set for %s", project.getName());
-      reject(magicBranchCmd, "internal server error: " + err.getMessage());
+    } catch (BadRequestException | UnprocessableEntityException e) {
+      logger.atFine().withCause(e).log("Rejecting due to client error");
+      reject(magicBranchCmd, e.getMessage());
+    } catch (RestApiException | IOException e) {
+      logger.atSevere().withCause(e).log("Can't insert change/patch set for %s", project.getName());
+      reject(magicBranchCmd, "internal server error: " + e.getMessage());
     }
 
     if (magicBranch != null && magicBranch.submit) {
@@ -1327,8 +1330,8 @@ class ReceiveCommits {
     private final boolean defaultPublishComments;
     Branch.NameKey dest;
     PermissionBackend.ForRef perm;
-    Set<Account.Id> reviewer = Sets.newLinkedHashSet();
-    Set<Account.Id> cc = Sets.newLinkedHashSet();
+    Set<String> reviewer = Sets.newLinkedHashSet();
+    Set<String> cc = Sets.newLinkedHashSet();
     Map<String, Short> labels = new HashMap<>();
     String message;
     List<RevCommit> baseCommit;
@@ -1418,15 +1421,15 @@ class ReceiveCommits {
     @Option(
         name = "--reviewer",
         aliases = {"-r"},
-        metaVar = "USER",
+        metaVar = "REVIEWER",
         usage = "add reviewer to changes")
-    void reviewer(Account.Id id) {
-      reviewer.add(id);
+    void reviewer(String str) {
+      reviewer.add(str);
     }
 
-    @Option(name = "--cc", metaVar = "USER", usage = "add user as CC to changes")
-    void cc(Account.Id id) {
-      cc.add(id);
+    @Option(name = "--cc", metaVar = "CC", usage = "add CC to changes")
+    void cc(String str) {
+      cc.add(str);
     }
 
     @Option(
@@ -1500,8 +1503,38 @@ class ReceiveCommits {
               : false;
     }
 
-    MailRecipients getMailRecipients() {
-      return new MailRecipients(reviewer, cc);
+    /**
+     * Get reviewer strings from magic branch options, combined with additional recipients computed
+     * from some other place.
+     *
+     * <p>The set of reviewers on a change includes strings passed explicitly via options as well as
+     * account IDs computed from the commit message itself.
+     *
+     * @param additionalRecipients recipients parsed from the commit.
+     * @return set of reviewer strings to pass to {@code ReviewerAdder}.
+     */
+    ImmutableSet<String> getCombinedReviewers(MailRecipients additionalRecipients) {
+      return getCombinedReviewers(reviewer, additionalRecipients.getReviewers());
+    }
+
+    /**
+     * Get CC strings from magic branch options, combined with additional recipients computed from
+     * some other place.
+     *
+     * <p>The set of CCs on a change includes strings passed explicitly via options as well as
+     * account IDs computed from the commit message itself.
+     *
+     * @param additionalRecipients recipients parsed from the commit.
+     * @return set of CC strings to pass to {@code ReviewerAdder}.
+     */
+    ImmutableSet<String> getCombinedCcs(MailRecipients additionalRecipients) {
+      return getCombinedReviewers(cc, additionalRecipients.getCcOnly());
+    }
+
+    private static ImmutableSet<String> getCombinedReviewers(
+        Set<String> strings, Set<Account.Id> ids) {
+      return Streams.concat(strings.stream(), ids.stream().map(Account.Id::toString))
+          .collect(toImmutableSet());
     }
 
     ListMultimap<RecipientType, Account.Id> getAccountsToNotify() {
@@ -2392,12 +2425,16 @@ class ReceiveCommits {
         final PatchSet.Id psId = ins.setGroups(groups).getPatchSetId();
         Account.Id me = user.getAccountId();
         List<FooterLine> footerLines = commit.getFooterLines();
-        MailRecipients recipients = new MailRecipients();
-        checkNotNull(magicBranch);
-        recipients.add(magicBranch.getMailRecipients());
+        requireNonNull(magicBranch);
+
+        // TODO(dborowitz): Support reviewers by email from footers? Maybe not: kernel developers
+        // with AOSP accounts already complain about these notifications, and that would make it
+        // worse. Might be better to get rid of the feature entirely:
+        // https://groups.google.com/d/topic/repo-discuss/tIFxY7L4DXk/discussion
+        MailRecipients fromFooters = getRecipientsFromFooters(accountResolver, footerLines);
+        fromFooters.remove(me);
+
         Map<String, Short> approvals = magicBranch.labels;
-        recipients.add(getRecipientsFromFooters(accountResolver, footerLines));
-        recipients.remove(me);
         StringBuilder msg =
             new StringBuilder(
                 ApprovalsUtil.renderMessageWithApprovals(
@@ -2408,8 +2445,9 @@ class ReceiveCommits {
         }
 
         bu.insertChange(
-            ins.setReviewers(recipients.getReviewers())
-                .setExtraCC(recipients.getCcOnly())
+            ins.setReviewersAndCcsAsStrings(
+                    magicBranch.getCombinedReviewers(fromFooters),
+                    magicBranch.getCombinedCcs(fromFooters))
                 .setApprovals(approvals)
                 .setMessage(msg.toString())
                 .setNotify(magicBranch.getNotify())
@@ -2455,15 +2493,20 @@ class ReceiveCommits {
           PermissionBackendException {
     Map<ObjectId, Change> bySha = Maps.newHashMapWithExpectedSize(create.size() + replace.size());
     for (CreateRequest r : create) {
-      checkNotNull(r.change, "cannot submit new change %s; op may not have run", r.changeId);
+      requireNonNull(
+          r.change,
+          () -> String.format("cannot submit new change %s; op may not have run", r.changeId));
       bySha.put(r.commit, r.change);
     }
     for (ReplaceRequest r : replace) {
       bySha.put(r.newCommitId, r.notes.getChange());
     }
     Change tipChange = bySha.get(magicBranch.cmd.getNewId());
-    checkNotNull(
-        tipChange, "tip of push does not correspond to a change; found these changes: %s", bySha);
+    requireNonNull(
+        tipChange,
+        () ->
+            String.format(
+                "tip of push does not correspond to a change; found these changes: %s", bySha));
     logger.atFine().log(
         "Processing submit with tip change %s (%s)", tipChange.getId(), magicBranch.cmd.getNewId());
     try (MergeOp op = mergeOpProvider.get()) {
@@ -2532,7 +2575,7 @@ class ReceiveCommits {
         Change.Id toChange, RevCommit newCommit, ReceiveCommand cmd, boolean checkMergedInto) {
       this.ontoChange = toChange;
       this.newCommitId = newCommit.copy();
-      this.inputCommand = checkNotNull(cmd);
+      this.inputCommand = requireNonNull(cmd);
       this.checkMergedInto = checkMergedInto;
 
       revisions = HashBiMap.create();
@@ -2812,7 +2855,7 @@ class ReceiveCommits {
     List<String> groups = ImmutableList.of();
 
     UpdateGroupsRequest(Ref ref, RevCommit commit) {
-      this.psId = checkNotNull(PatchSet.Id.fromRef(ref.getName()));
+      this.psId = requireNonNull(PatchSet.Id.fromRef(ref.getName()));
       this.commit = commit;
     }
 
@@ -2846,7 +2889,7 @@ class ReceiveCommits {
     final ReceiveCommand cmd;
 
     private UpdateOneRefOp(ReceiveCommand cmd) {
-      this.cmd = checkNotNull(cmd);
+      this.cmd = requireNonNull(cmd);
     }
 
     @Override

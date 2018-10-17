@@ -14,7 +14,6 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
@@ -24,6 +23,7 @@ import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Function;
@@ -281,7 +281,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         throws QueryParseException {
       this.indexes = indexes;
       this.predicate = predicate;
-      this.query = checkNotNull(queryBuilder.toQuery(predicate), "null query from Lucene");
+      this.query = requireNonNull(queryBuilder.toQuery(predicate), "null query from Lucene");
       this.opts = opts;
       this.sort = sort;
       this.rawDocumentMapper = rawDocumentMapper;

@@ -16,8 +16,8 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -72,13 +72,13 @@ public class HttpResponse {
   }
 
   public boolean hasContent() {
-    Preconditions.checkNotNull(response, "Response is not initialized.");
+    requireNonNull(response, "Response is not initialized.");
     return response.getEntity() != null;
   }
 
   public String getEntityContent() throws IOException {
-    Preconditions.checkNotNull(response, "Response is not initialized.");
-    Preconditions.checkNotNull(response.getEntity(), "Response.Entity is not initialized.");
+    requireNonNull(response, "Response is not initialized.");
+    requireNonNull(response.getEntity(), "Response.Entity is not initialized.");
     ByteBuffer buf = IO.readWholeStream(response.getEntity().getContent(), 1024);
     return RawParseUtils.decode(buf.array(), buf.arrayOffset(), buf.limit()).trim();
   }

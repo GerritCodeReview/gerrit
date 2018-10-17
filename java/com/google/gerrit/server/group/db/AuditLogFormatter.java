@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.group.db;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
@@ -90,16 +90,16 @@ public class AuditLogFormatter {
       Function<Account.Id, Optional<Account>> accountRetriever,
       Function<AccountGroup.UUID, Optional<GroupDescription.Basic>> groupRetriever,
       String serverId) {
-    this.accountRetriever = checkNotNull(accountRetriever);
-    this.groupRetriever = checkNotNull(groupRetriever);
-    this.serverId = checkNotNull(serverId);
+    this.accountRetriever = requireNonNull(accountRetriever);
+    this.groupRetriever = requireNonNull(groupRetriever);
+    this.serverId = requireNonNull(serverId);
   }
 
   private AuditLogFormatter(
       Function<Account.Id, Optional<Account>> accountRetriever,
       Function<AccountGroup.UUID, Optional<GroupDescription.Basic>> groupRetriever) {
-    this.accountRetriever = checkNotNull(accountRetriever);
-    this.groupRetriever = checkNotNull(groupRetriever);
+    this.accountRetriever = requireNonNull(accountRetriever);
+    this.groupRetriever = requireNonNull(groupRetriever);
     serverId = null;
   }
 

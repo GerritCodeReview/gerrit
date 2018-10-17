@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
@@ -26,6 +25,7 @@ import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WIT
 import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -259,7 +259,7 @@ public class NoteDbMigrator implements AutoCloseable {
      * @return this.
      */
     public Builder setProgressOut(OutputStream progressOut) {
-      this.progressOut = checkNotNull(progressOut);
+      this.progressOut = requireNonNull(progressOut);
       return this;
     }
 

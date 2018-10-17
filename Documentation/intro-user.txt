@@ -601,7 +601,7 @@ In that case, care should be taken to prevent the CI system from
 exposing secret details.
 
 [[ignore]]
-== Ignoring and Muting Changes
+== Ignoring Or Marking Changes As 'Reviewed'
 
 Changes can be ignored, which means they will not appear in the 'Incoming
 Reviews' dashboard and any related email notifications will be suppressed.
@@ -609,9 +609,9 @@ This can be useful when you are added as a reviewer to a change on which
 you do not actively participate in the review, but do not want to completely
 remove yourself.
 
-Alternatively, rather than completely ignoring the change, it can be muted.
-Muting a change means it will always be marked as "reviewed" in dashboards,
-until a new patch set is uploaded.
+Alternatively, rather than completely ignoring the change, it can be marked
+as 'Reviewed'. Marking a change as 'Reviewed' means it will not be highlighted
+in the dashboard, until a new patch set is uploaded.
 
 [[inline-edit]]
 == Inline Edit

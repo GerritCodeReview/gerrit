@@ -140,11 +140,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     FileKey loc = FileKey.lenient(path.resolve(name.get()).toFile(), FS.DETECTED);
     try {
       return RepositoryCache.open(loc);
-    } catch (IOException e1) {
-      final RepositoryNotFoundException e2;
-      e2 = new RepositoryNotFoundException("Cannot open repository " + name);
-      e2.initCause(e1);
-      throw e2;
+    } catch (IOException e) {
+      throw new RepositoryNotFoundException("Cannot open repository " + name, e);
     }
   }
 
@@ -197,11 +194,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       }
 
       return db;
-    } catch (IOException e1) {
-      final RepositoryNotFoundException e2;
-      e2 = new RepositoryNotFoundException("Cannot create repository " + name);
-      e2.initCause(e1);
-      throw e2;
+    } catch (IOException e) {
+      throw new RepositoryNotFoundException("Cannot create repository " + name, e);
     }
   }
 

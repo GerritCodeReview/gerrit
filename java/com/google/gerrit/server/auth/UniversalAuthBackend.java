@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.inject.Inject;
@@ -38,7 +38,7 @@ public final class UniversalAuthBackend implements AuthBackend {
     List<AuthException> authExs = new ArrayList<>();
     for (AuthBackend backend : authBackends) {
       try {
-        authUsers.add(checkNotNull(backend.authenticate(request)));
+        authUsers.add(requireNonNull(backend.authenticate(request)));
       } catch (MissingCredentialsException ex) {
         // Not handled by this backend.
       } catch (AuthException ex) {

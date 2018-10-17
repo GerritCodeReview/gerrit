@@ -15,10 +15,10 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_SEQUENCES;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.github.rholder.retry.RetryException;
@@ -167,9 +167,9 @@ public class RepoSequence {
       Runnable afterReadRef,
       Retryer<RefUpdate.Result> retryer,
       int floor) {
-    this.repoManager = checkNotNull(repoManager, "repoManager");
-    this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
-    this.projectName = checkNotNull(projectName, "projectName");
+    this.repoManager = requireNonNull(repoManager, "repoManager");
+    this.gitRefUpdated = requireNonNull(gitRefUpdated, "gitRefUpdated");
+    this.projectName = requireNonNull(projectName, "projectName");
 
     checkArgument(
         name != null
@@ -179,13 +179,13 @@ public class RepoSequence {
         name);
     this.refName = RefNames.REFS_SEQUENCES + name;
 
-    this.seed = checkNotNull(seed, "seed");
+    this.seed = requireNonNull(seed, "seed");
     this.floor = floor;
 
     checkArgument(batchSize > 0, "expected batchSize > 0, got: %s", batchSize);
     this.batchSize = batchSize;
-    this.afterReadRef = checkNotNull(afterReadRef, "afterReadRef");
-    this.retryer = checkNotNull(retryer, "retryer");
+    this.afterReadRef = requireNonNull(afterReadRef, "afterReadRef");
+    this.retryer = requireNonNull(retryer, "retryer");
 
     counterLock = new ReentrantLock(true);
   }

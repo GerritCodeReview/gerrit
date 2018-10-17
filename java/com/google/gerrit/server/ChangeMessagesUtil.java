@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
@@ -82,7 +82,7 @@ public class ChangeMessagesUtil {
 
   public static ChangeMessage newMessage(
       PatchSet.Id psId, CurrentUser user, Timestamp when, String body, @Nullable String tag) {
-    checkNotNull(psId);
+    requireNonNull(psId);
     Account.Id accountId = user.isInternalUser() ? null : user.getAccountId();
     ChangeMessage m =
         new ChangeMessage(

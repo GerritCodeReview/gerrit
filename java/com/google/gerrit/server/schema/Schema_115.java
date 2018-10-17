@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.config.ConfigUtil.storeSection;
+import static java.util.Objects.requireNonNull;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -190,7 +191,7 @@ public class Schema_115 extends SchemaVersion {
   }
 
   private static Whitespace toWhitespace(String v) {
-    Preconditions.checkNotNull(v);
+    requireNonNull(v);
     if (v.isEmpty()) {
       return Whitespace.IGNORE_NONE;
     }
@@ -202,7 +203,7 @@ public class Schema_115 extends SchemaVersion {
   }
 
   private static boolean toBoolean(String v) {
-    Preconditions.checkState(!Strings.isNullOrEmpty(v));
+    checkState(!Strings.isNullOrEmpty(v));
     return v.equals("Y");
   }
 }

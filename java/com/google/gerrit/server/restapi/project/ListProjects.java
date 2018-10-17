@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
@@ -517,7 +517,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     List<Project.NameKey> projectNameKeys = matches.sorted().collect(toList());
     for (Project.NameKey nameKey : projectNameKeys) {
       ProjectState state = projectCache.get(nameKey);
-      checkNotNull(state, "Failed to load project %s", nameKey);
+      requireNonNull(state, () -> String.format("Failed to load project %s", nameKey));
 
       // Hidden projects(permitsRead = false) should only be accessible by the project owners.
       // READ_CONFIG is checked here because it's only allowed to project owners(ACCESS may also

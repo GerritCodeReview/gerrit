@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -77,7 +77,7 @@ public class ActionJson {
     List<ActionVisitor> visitors = visitors();
     if (!visitors.isEmpty()) {
       changeInfo = changeJson().format(rsrc);
-      revisionInfo = checkNotNull(Iterables.getOnlyElement(changeInfo.revisions.values()));
+      revisionInfo = requireNonNull(Iterables.getOnlyElement(changeInfo.revisions.values()));
       changeInfo.revisions = null;
     }
     return toActionMap(rsrc, visitors, changeInfo, revisionInfo);

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.validators;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
@@ -52,9 +52,9 @@ public interface OnSubmitValidationListener {
      * @param commands commands to be executed.
      */
     Arguments(Project.NameKey project, RevWalk rw, ChainedReceiveCommands commands) {
-      this.project = checkNotNull(project);
-      this.rw = checkNotNull(rw);
-      this.refs = checkNotNull(commands);
+      this.project = requireNonNull(project);
+      this.rw = requireNonNull(rw);
+      this.refs = requireNonNull(commands);
       this.commands = ImmutableMap.copyOf(commands.getCommands());
     }
 

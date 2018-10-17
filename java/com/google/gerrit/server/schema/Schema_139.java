@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -205,7 +206,7 @@ public class Schema_139 extends SchemaVersion {
   }
 
   private static boolean toBoolean(String v) {
-    Preconditions.checkState(!Strings.isNullOrEmpty(v));
+    checkState(!Strings.isNullOrEmpty(v));
     return v.equals("Y");
   }
 }

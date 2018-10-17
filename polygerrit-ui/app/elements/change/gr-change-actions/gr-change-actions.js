@@ -1153,14 +1153,14 @@
             break;
           case ChangeActions.DELETE:
             if (action.__type === ActionType.CHANGE) {
-              page.show('/');
+              Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getUrlForRoot());
             }
             break;
           case ChangeActions.WIP:
           case ChangeActions.DELETE_EDIT:
           case ChangeActions.PUBLISH_EDIT:
           case ChangeActions.REBASE_EDIT:
-            page.show(this.changePath(this.changeNum));
+            Gerrit.Nav.navigateToChange(this.change);
             break;
           default:
             this.dispatchEvent(new CustomEvent('reload-change',

@@ -14,13 +14,13 @@
 
 package com.google.gerrit.acceptance.server.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.common.ProblemInfo.Status.FIXED;
 import static com.google.gerrit.extensions.common.ProblemInfo.Status.FIX_FAILED;
 import static com.google.gerrit.testing.TestChanges.newPatchSet;
 import static java.util.Collections.singleton;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -953,8 +953,8 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
   private static ProblemInfo problem(String message, ProblemInfo.Status status, String outcome) {
     ProblemInfo p = problem(message);
-    p.status = checkNotNull(status);
-    p.outcome = checkNotNull(outcome);
+    p.status = requireNonNull(status);
+    p.outcome = requireNonNull(outcome);
     return p;
   }
 

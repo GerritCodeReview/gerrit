@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.api.accounts;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
@@ -95,7 +95,7 @@ public class AccountsImpl implements Accounts {
 
   @Override
   public AccountApi create(AccountInput in) throws RestApiException {
-    if (checkNotNull(in, "AccountInput").username == null) {
+    if (requireNonNull(in, "AccountInput").username == null) {
       throw new BadRequestException("AccountInput must specify username");
     }
     try {

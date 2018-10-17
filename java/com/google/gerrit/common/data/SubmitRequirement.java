@@ -14,10 +14,11 @@
 
 package com.google.gerrit.common.data;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public abstract class SubmitRequirement {
 
     public SubmitRequirement build() {
       SubmitRequirement requirement = autoBuild();
-      Preconditions.checkState(
+      checkState(
           validateType(requirement.type()),
           "SubmitRequirement's type contains non alphanumerical symbols.");
       return requirement;

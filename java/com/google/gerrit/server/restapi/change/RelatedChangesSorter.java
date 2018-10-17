@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -95,7 +95,7 @@ class RelatedChangesSorter {
 
     for (ChangeData cd : in) {
       for (PatchSet ps : cd.patchSets()) {
-        PatchSetData thisPsd = checkNotNull(byId.get(ps.getRevision().get()));
+        PatchSetData thisPsd = requireNonNull(byId.get(ps.getRevision().get()));
         if (cd.getId().equals(start.id()) && !ps.getId().equals(start.psId())) {
           otherPatchSetsOfStart.add(thisPsd);
         }
@@ -227,7 +227,7 @@ class RelatedChangesSorter {
     // If we saw the same change multiple times, prefer the latest patch set.
     List<PatchSetData> result = new ArrayList<>(allPatchSets.size());
     for (PatchSetData psd : allPatchSets) {
-      if (checkNotNull(maxPatchSetIds.get(psd.id())).equals(psd.psId())) {
+      if (requireNonNull(maxPatchSetIds.get(psd.id())).equals(psd.psId())) {
         result.add(psd);
       }
     }

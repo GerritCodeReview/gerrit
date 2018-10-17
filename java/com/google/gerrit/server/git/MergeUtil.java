@@ -15,10 +15,10 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -129,16 +129,18 @@ public class MergeUtil {
 
     public String generate(
         RevCommit original, RevCommit mergeTip, Branch.NameKey dest, String current) {
-      checkNotNull(original.getRawBuffer());
+      requireNonNull(original.getRawBuffer());
       if (mergeTip != null) {
-        checkNotNull(mergeTip.getRawBuffer());
+        requireNonNull(mergeTip.getRawBuffer());
       }
       for (ChangeMessageModifier changeMessageModifier : changeMessageModifiers) {
         current = changeMessageModifier.onSubmit(current, original, mergeTip, dest);
-        checkNotNull(
+        requireNonNull(
             current,
-            changeMessageModifier.getClass().getName()
-                + ".OnSubmit returned null instead of new commit message");
+            () ->
+                String.format(
+                    "%s.OnSubmit returned null instead of new commit message",
+                    changeMessageModifier.getClass().getName()));
       }
       return current;
     }

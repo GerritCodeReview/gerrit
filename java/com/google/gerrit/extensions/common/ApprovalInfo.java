@@ -26,4 +26,13 @@ public class ApprovalInfo extends AccountInfo {
   public ApprovalInfo(Integer id) {
     super(id);
   }
+
+  public ApprovalInfo(
+      Integer id, Integer value, VotingRangeInfo permittedVotingRange, String tag, Timestamp date) {
+    super(id);
+    this.value = value;
+    this.permittedVotingRange = permittedVotingRange;
+    this.date = date;
+    this.tag = tag;
+  }
 }

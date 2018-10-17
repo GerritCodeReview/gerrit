@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.plugins;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicItemsOf;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicMapsOf;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicSetsOf;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -215,7 +215,7 @@ public class PluginGuiceEnvironment {
     // This supports older plugins that bound a plugin in the HttpModule.
     TypeLiteral<WebUiPlugin> key = TypeLiteral.get(WebUiPlugin.class);
     DynamicSet<?> web = sysSets.get(key);
-    checkNotNull(web, "DynamicSet<WebUiPlugin> exists in sysInjector");
+    requireNonNull(web, "DynamicSet<WebUiPlugin> exists in sysInjector");
 
     Map<TypeLiteral<?>, DynamicSet<?>> m = new HashMap<>(dynamicSetsOf(i));
     m.put(key, web);

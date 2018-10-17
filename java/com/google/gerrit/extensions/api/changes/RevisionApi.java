@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
+import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -128,7 +129,11 @@ public interface RevisionApi {
 
   SubmitType testSubmitType(TestSubmitRuleInput in) throws RestApiException;
 
+  List<TestSubmitRuleInfo> testSubmitRule(TestSubmitRuleInput in) throws RestApiException;
+
   MergeListRequest getMergeList() throws RestApiException;
+
+  RelatedChangesInfo related() throws RestApiException;
 
   abstract class MergeListRequest {
     private boolean addLinks;
@@ -358,7 +363,17 @@ public interface RevisionApi {
     }
 
     @Override
+    public List<TestSubmitRuleInfo> testSubmitRule(TestSubmitRuleInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
     public MergeListRequest getMergeList() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public RelatedChangesInfo related() throws RestApiException {
       throw new NotImplementedException();
     }
 

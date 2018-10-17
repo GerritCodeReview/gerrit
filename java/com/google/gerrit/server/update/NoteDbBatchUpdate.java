@@ -15,10 +15,10 @@
 package com.google.gerrit.server.update;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Throwables;
@@ -216,7 +216,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
     private boolean deleted;
 
     protected ChangeContextImpl(ChangeNotes notes) {
-      this.notes = checkNotNull(notes);
+      this.notes = requireNonNull(notes);
       updates = new TreeMap<>(comparing(PatchSet.Id::get));
     }
 

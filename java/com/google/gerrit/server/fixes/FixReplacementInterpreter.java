@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.fixes;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
 
 import com.google.gerrit.common.RawInputUtil;
@@ -70,7 +70,7 @@ public class FixReplacementInterpreter {
       ObjectId patchSetCommitId,
       List<FixReplacement> fixReplacements)
       throws ResourceNotFoundException, IOException, ResourceConflictException {
-    checkNotNull(fixReplacements, "Fix replacements must not be null");
+    requireNonNull(fixReplacements, "Fix replacements must not be null");
 
     Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
         fixReplacements.stream().collect(groupingBy(fixReplacement -> fixReplacement.path));

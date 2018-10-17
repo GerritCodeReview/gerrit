@@ -14,13 +14,13 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.PATCH_SET_CODEC;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.collect.FluentIterable;
@@ -218,7 +218,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     if (c == null) {
       int id = source.get(ChangeField.LEGACY_ID.getName()).getAsInt();
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
-      String projectName = checkNotNull(source.get(ChangeField.PROJECT.getName()).getAsString());
+      String projectName = requireNonNull(source.get(ChangeField.PROJECT.getName()).getAsString());
       return changeDataFactory.create(
           db.get(), new Project.NameKey(projectName), new Change.Id(id));
     }

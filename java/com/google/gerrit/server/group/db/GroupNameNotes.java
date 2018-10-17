@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.group.db;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableBiMap.toImmutableBiMap;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -123,8 +123,8 @@ public class GroupNameNotes extends VersionedMetaData {
       AccountGroup.NameKey oldName,
       AccountGroup.NameKey newName)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    checkNotNull(oldName);
-    checkNotNull(newName);
+    requireNonNull(oldName);
+    requireNonNull(newName);
 
     GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, oldName, newName);
     groupNameNotes.load(projectName, repository);
@@ -154,7 +154,7 @@ public class GroupNameNotes extends VersionedMetaData {
       AccountGroup.UUID groupUuid,
       AccountGroup.NameKey groupName)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    checkNotNull(groupName);
+    requireNonNull(groupName);
 
     GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, null, groupName);
     groupNameNotes.load(projectName, repository);
@@ -313,7 +313,7 @@ public class GroupNameNotes extends VersionedMetaData {
       AccountGroup.UUID groupUuid,
       @Nullable AccountGroup.NameKey oldGroupName,
       @Nullable AccountGroup.NameKey newGroupName) {
-    this.groupUuid = checkNotNull(groupUuid);
+    this.groupUuid = requireNonNull(groupUuid);
 
     if (Objects.equals(oldGroupName, newGroupName)) {
       this.oldGroupName = Optional.empty();

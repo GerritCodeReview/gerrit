@@ -22,10 +22,6 @@
 
     properties: {
       changeNum: String,
-      comments: {
-        type: Array,
-        value() { return []; },
-      },
       projectName: String,
       patchForNewThreads: String,
       range: Object,
@@ -37,15 +33,11 @@
         type: Number,
         value: null,
       },
-      _threads: {
+      threads: {
         type: Array,
         value() { return []; },
       },
     },
-
-    observers: [
-      '_commentsChanged(comments.*)',
-    ],
 
     get threadEls() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
@@ -58,7 +50,7 @@
      * @param {!Object} opt_range
      */
     addNewThread(commentSide, opt_range) {
-      this.push('_threads', {
+      this.push('threads', {
         comments: [],
         commentSide,
         patchNum: this.patchForNewThreads,
@@ -67,9 +59,9 @@
     },
 
     removeThread(rootId) {
-      for (let i = 0; i < this._threads.length; i++) {
-        if (this._threads[i].rootId === rootId) {
-          this.splice('_threads', i, 1);
+      for (let i = 0; i < this.threads.length; i++) {
+        if (this.threads[i].rootId === rootId) {
+          this.splice('threads', i, 1);
           return;
         }
       }
@@ -114,10 +106,6 @@
           a.endChar === b.endChar;
     },
 
-    _commentsChanged() {
-      this._threads = this._getThreads(this.comments);
-    },
-
     _sortByDate(threadGroups) {
       if (!threadGroups.length) { return; }
       return threadGroups.sort((a, b) => {
@@ -140,52 +128,6 @@
           range.end_line + '-' +
           range.end_character + '-' +
           comment.__commentSide;
-    },
-
-    /**
-     * Determines what the patchNum of a thread should be. Use patchNum from
-     * comment if it exists, otherwise the property of the thread group.
-     * This is needed for switching between side-by-side and unified views when
-     * there are unsaved drafts.
-     */
-    _getPatchNum(comment) {
-      return comment.patch_set || this.patchForNewThreads;
-    },
-
-    _getThreads(comments) {
-      const sortedComments = comments.slice(0).sort((a, b) => {
-        if (b.__draft && !a.__draft ) { return 0; }
-        if (a.__draft && !b.__draft ) { return 1; }
-        return util.parseDate(a.updated) - util.parseDate(b.updated);
-      });
-
-      const threads = [];
-      for (const comment of sortedComments) {
-        // If the comment is in reply to another comment, find that comment's
-        // thread and append to it.
-        if (comment.in_reply_to) {
-          const thread = threads.find(thread =>
-              thread.comments.some(c => c.id === comment.in_reply_to));
-          if (thread) {
-            thread.comments.push(comment);
-            continue;
-          }
-        }
-
-        // Otherwise, this comment starts its own thread.
-        const newThread = {
-          start_datetime: comment.updated,
-          comments: [comment],
-          commentSide: comment.__commentSide,
-          patchNum: this._getPatchNum(comment),
-          rootId: comment.id || comment.__draftID,
-        };
-        if (comment.range) {
-          newThread.range = Object.assign({}, comment.range);
-        }
-        threads.push(newThread);
-      }
-      return threads;
     },
   });
 })();

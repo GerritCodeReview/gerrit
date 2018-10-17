@@ -15,11 +15,11 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
@@ -235,7 +235,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
               changeId, bundleReader.fromReviewDb(db, changeId)));
     }
     NoteDbChangeState newNoteDbState =
-        checkNotNull(NoteDbChangeState.parse(changeId, newNoteDbStateStr));
+        requireNonNull(NoteDbChangeState.parse(changeId, newNoteDbStateStr));
     try {
       db.changes()
           .atomicUpdate(

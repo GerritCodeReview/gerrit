@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
@@ -417,7 +417,7 @@ class DefaultRefFilter {
 
   private boolean isGroupOwner(
       InternalGroup group, @Nullable IdentifiedUser user, boolean isAdmin) {
-    checkNotNull(group);
+    requireNonNull(group);
 
     // Keep this logic in sync with GroupControl#isOwner().
     return isAdmin

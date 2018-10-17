@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -90,9 +90,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private List<ValidationError> validationErrors;
 
   public AccountConfig(Account.Id accountId, AllUsersName allUsersName, Repository allUsersRepo) {
-    this.accountId = checkNotNull(accountId, "accountId");
-    this.allUsersName = checkNotNull(allUsersName, "allUsersName");
-    this.repo = checkNotNull(allUsersRepo, "allUsersRepo");
+    this.accountId = requireNonNull(accountId, "accountId");
+    this.allUsersName = requireNonNull(allUsersName, "allUsersName");
+    this.repo = requireNonNull(allUsersRepo, "allUsersRepo");
     this.ref = RefNames.refsUsers(accountId);
   }
 

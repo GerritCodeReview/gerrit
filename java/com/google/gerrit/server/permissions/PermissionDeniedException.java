@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.extensions.api.access.GerritPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -33,7 +33,7 @@ public class PermissionDeniedException extends AuthException {
   private final Optional<String> resource;
 
   public PermissionDeniedException(GerritPermission permission) {
-    super(MESSAGE_PREFIX + checkNotNull(permission).describeForException());
+    super(MESSAGE_PREFIX + requireNonNull(permission).describeForException());
     this.permission = permission;
     this.resource = Optional.empty();
   }
@@ -41,9 +41,9 @@ public class PermissionDeniedException extends AuthException {
   public PermissionDeniedException(GerritPermission permission, String resource) {
     super(
         MESSAGE_PREFIX
-            + checkNotNull(permission).describeForException()
+            + requireNonNull(permission).describeForException()
             + " on "
-            + checkNotNull(resource));
+            + requireNonNull(resource));
     this.permission = permission;
     this.resource = Optional.of(resource);
   }

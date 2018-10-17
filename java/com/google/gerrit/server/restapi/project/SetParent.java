@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -112,7 +112,7 @@ public class SetParent
       cache.evict(rsrc.getProjectState().getProject());
 
       Project.NameKey parent = project.getParent(allProjects);
-      checkNotNull(parent);
+      requireNonNull(parent);
       return parent.get();
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(rsrc.getName());

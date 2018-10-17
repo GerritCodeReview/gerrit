@@ -27,7 +27,7 @@ import java.util.Map;
  * <p>This class is thread-safe.
  */
 public class ResultChangeIds {
-  enum Key {
+  public enum Key {
     CREATED,
     REPLACED,
     AUTOCLOSED,

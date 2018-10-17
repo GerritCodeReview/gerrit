@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.query.Predicate;
@@ -98,7 +98,7 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
   }
 
   public static ChangeStatusPredicate forStatus(Change.Status status) {
-    return new ChangeStatusPredicate(checkNotNull(status));
+    return new ChangeStatusPredicate(requireNonNull(status));
   }
 
   @Nullable private final Change.Status status;

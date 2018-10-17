@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.update;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.stream.Collectors.toList;
 
@@ -174,7 +174,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
 
     protected ChangeContextImpl(
         ChangeNotes notes, ReviewDbWrapper dbWrapper, Repository repo, RevWalk rw) {
-      this.notes = checkNotNull(notes);
+      this.notes = requireNonNull(notes);
       this.dbWrapper = dbWrapper;
       this.threadLocalRepo = repo;
       this.threadLocalRevWalk = rw;
@@ -183,7 +183,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
 
     @Override
     public ReviewDb getDb() {
-      checkNotNull(dbWrapper);
+      requireNonNull(dbWrapper);
       return dbWrapper;
     }
 

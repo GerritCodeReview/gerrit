@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -92,7 +92,7 @@ public abstract class AbstractChangeNotes<T> {
       } else if (id != null) {
         id = id.copy();
       }
-      return new AutoValue_AbstractChangeNotes_LoadHandle(checkNotNull(walk), id);
+      return new AutoValue_AbstractChangeNotes_LoadHandle(requireNonNull(walk), id);
     }
 
     public static LoadHandle missing() {
@@ -123,8 +123,8 @@ public abstract class AbstractChangeNotes<T> {
 
   AbstractChangeNotes(
       Args args, Change.Id changeId, @Nullable PrimaryStorage primaryStorage, boolean autoRebuild) {
-    this.args = checkNotNull(args);
-    this.changeId = checkNotNull(changeId);
+    this.args = requireNonNull(args);
+    this.changeId = requireNonNull(changeId);
     this.primaryStorage = primaryStorage;
     this.autoRebuild =
         primaryStorage == PrimaryStorage.REVIEW_DB

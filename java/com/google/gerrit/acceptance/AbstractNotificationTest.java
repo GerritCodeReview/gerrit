@@ -319,7 +319,8 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     public final String ccerByEmail = "ccByEmail@example.com";
     private final Map<NotifyType, TestAccount> watchers = new HashMap<>();
     private final Map<String, TestAccount> accountsByEmail = new HashMap<>();
-    boolean supportReviewersByEmail;
+
+    public boolean supportReviewersByEmail;
 
     private String usersCacheKey() {
       return description.getClassName();

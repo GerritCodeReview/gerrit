@@ -15,7 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Converter;
 import com.google.common.base.Enums;
@@ -85,10 +85,10 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
           "Cannot cache %s.%s",
           SubmitType.class.getSimpleName(),
           submitType);
-      this.commit = checkNotNull(commit, "commit");
-      this.into = checkNotNull(into, "into");
-      this.submitType = checkNotNull(submitType, "submitType");
-      this.mergeStrategy = checkNotNull(mergeStrategy, "mergeStrategy");
+      this.commit = requireNonNull(commit, "commit");
+      this.into = requireNonNull(into, "into");
+      this.submitType = requireNonNull(submitType, "submitType");
+      this.mergeStrategy = requireNonNull(mergeStrategy, "mergeStrategy");
     }
 
     public ObjectId getCommit() {

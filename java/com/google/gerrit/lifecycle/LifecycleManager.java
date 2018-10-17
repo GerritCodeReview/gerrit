@@ -14,7 +14,8 @@
 
 package com.google.gerrit.lifecycle;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -69,7 +70,7 @@ public class LifecycleManager {
    * @param injector the injector to add.
    */
   public void add(Injector injector) {
-    Preconditions.checkState(startedIndex < 0, "Already started");
+    checkState(startedIndex < 0, "Already started");
     for (Binding<LifecycleListener> binding : get(injector)) {
       add(binding.getProvider());
     }

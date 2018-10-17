@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
@@ -35,6 +36,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
+import static java.util.Comparator.comparing;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -57,7 +59,9 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -485,7 +489,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    if (notesMigration.readChanges()) {
+      assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    } else {
+      // CCs are considered reviewers in the storage layer and so get notified.
+      assertThat(m.rcpt()).containsExactly(user.emailAddress, user2.emailAddress);
+    }
 
     sender.clear();
     r = pushTo(pushSpec + ",notify=" + NotifyHandling.ALL);
@@ -565,7 +574,49 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 + nonExistingEmail
                 + ",cc="
                 + user.email);
-    r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
+    r.assertErrorStatus(nonExistingEmail + " does not identify a registered user or group");
+  }
+
+  @Test
+  public void pushForMasterWithCcByEmail() throws Exception {
+    ConfigInput conf = new ConfigInput();
+    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(conf);
+
+    PushOneCommit.Result r =
+        pushTo("refs/for/master%cc=non.existing.1@example.com,cc=non.existing.2@example.com");
+    if (notesMigration.readChanges()) {
+      r.assertOkStatus();
+
+      ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS);
+      ImmutableList<AccountInfo> ccs =
+          firstNonNull(ci.reviewers.get(ReviewerState.CC), ImmutableList.<AccountInfo>of())
+              .stream()
+              .sorted(comparing((AccountInfo a) -> a.email))
+              .collect(toImmutableList());
+      assertThat(ccs).hasSize(2);
+      assertThat(ccs.get(0).email).isEqualTo("non.existing.1@example.com");
+      assertThat(ccs.get(0)._accountId).isNull();
+      assertThat(ccs.get(1).email).isEqualTo("non.existing.2@example.com");
+      assertThat(ccs.get(1)._accountId).isNull();
+    } else {
+      r.assertErrorStatus("non.existing.1@example.com does not identify a registered user");
+    }
+  }
+
+  @Test
+  public void pushForMasterWithCcGroup() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+    String group = name("group");
+    GroupInput gin = new GroupInput();
+    gin.name = group;
+    gin.members = ImmutableList.of(user.username, user2.username);
+    gin.visibleToAll = true; // TODO(dborowitz): Shouldn't be necessary; see ReviewerAdder.
+    gApi.groups().create(gin);
+
+    PushOneCommit.Result r = pushTo("refs/for/master%cc=" + group);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null, ImmutableList.of(), ImmutableList.of(user, user2));
   }
 
   @Test
@@ -605,7 +656,49 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 + nonExistingEmail
                 + ",r="
                 + user.email);
-    r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
+    r.assertErrorStatus(nonExistingEmail + " does not identify a registered user or group");
+  }
+
+  @Test
+  public void pushForMasterWithReviewerByEmail() throws Exception {
+    ConfigInput conf = new ConfigInput();
+    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(conf);
+
+    PushOneCommit.Result r =
+        pushTo("refs/for/master%r=non.existing.1@example.com,r=non.existing.2@example.com");
+    if (notesMigration.readChanges()) {
+      r.assertOkStatus();
+
+      ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS);
+      ImmutableList<AccountInfo> reviewers =
+          firstNonNull(ci.reviewers.get(ReviewerState.REVIEWER), ImmutableList.<AccountInfo>of())
+              .stream()
+              .sorted(comparing((AccountInfo a) -> a.email))
+              .collect(toImmutableList());
+      assertThat(reviewers).hasSize(2);
+      assertThat(reviewers.get(0).email).isEqualTo("non.existing.1@example.com");
+      assertThat(reviewers.get(0)._accountId).isNull();
+      assertThat(reviewers.get(1).email).isEqualTo("non.existing.2@example.com");
+      assertThat(reviewers.get(1)._accountId).isNull();
+    } else {
+      r.assertErrorStatus("non.existing.1@example.com does not identify a registered user");
+    }
+  }
+
+  @Test
+  public void pushForMasterWithReviewerGroup() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+    String group = name("group");
+    GroupInput gin = new GroupInput();
+    gin.name = group;
+    gin.members = ImmutableList.of(user.username, user2.username);
+    gin.visibleToAll = true; // TODO(dborowitz): Shouldn't be necessary; see ReviewerAdder.
+    gApi.groups().create(gin);
+
+    PushOneCommit.Result r = pushTo("refs/for/master%r=" + group);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null, ImmutableList.of(user, user2), ImmutableList.of());
   }
 
   @Test
@@ -1461,6 +1554,22 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void errorMessageFormat() throws Exception {
+    RevCommit c = createCommit(testRepo, "Message without Change-Id");
+    assertThat(GitUtil.getChangeId(testRepo, c)).isEmpty();
+    String ref = "refs/for/master";
+    PushResult r = pushHead(testRepo, ref);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(ref);
+    assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    String reason =
+        String.format(
+            "commit %s: missing Change-Id in message footer", c.toObjectId().abbreviate(7).name());
+    assertThat(refUpdate.getMessage()).isEqualTo(reason);
+
+    assertThat(r.getMessages()).contains("\nERROR: " + reason);
+  }
+
+  @Test
   @GerritConfig(name = "receive.allowPushToRefsChanges", value = "true")
   public void testPushWithChangedChangeId() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
@@ -2254,6 +2363,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       String name = "reviewers for " + (i + 1);
       if (expectedReviewer != null) {
         assertThat(cd.reviewers().all()).named(name).containsExactly(expectedReviewer.getId());
+        // Remove reviewer from PS1 so we can test adding this same reviewer on PS2 below.
         gApi.changes().id(cd.getId().get()).reviewer(expectedReviewer.getId().toString()).remove();
       }
       assertThat(byCommit(c).reviewers().all()).named(name).isEmpty();

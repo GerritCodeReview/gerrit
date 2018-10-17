@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.update;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
@@ -112,7 +112,7 @@ public interface Context {
    * @return user.
    */
   default IdentifiedUser getIdentifiedUser() {
-    return checkNotNull(getUser()).asIdentifiedUser();
+    return requireNonNull(getUser()).asIdentifiedUser();
   }
 
   /**

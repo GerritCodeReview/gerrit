@@ -14,9 +14,9 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Iterables;
@@ -101,11 +101,9 @@ public class ProtobufImport extends SiteProgram {
           Map.Entry<Integer, UnknownFieldSet.Field> e =
               Iterables.getOnlyElement(msg.asMap().entrySet());
           Relation rel =
-              checkNotNull(
+              requireNonNull(
                   relations.get(e.getKey()),
-                  "unknown relation ID %s in message: %s",
-                  e.getKey(),
-                  msg);
+                  String.format("unknown relation ID %s in message: %s", e.getKey(), msg));
           List<ByteString> values = e.getValue().getLengthDelimitedList();
           checkState(values.size() == 1, "expected one string field in message: %s", msg);
           upsert(rel, values.get(0));

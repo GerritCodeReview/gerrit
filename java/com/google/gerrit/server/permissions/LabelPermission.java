@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.SELF;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
@@ -67,7 +67,7 @@ public class LabelPermission implements ChangePermissionOrLabel {
    * @param name name of the label, e.g. {@code "Code-Review"} or {@code "Verified"}.
    */
   public LabelPermission(ForUser forUser, String name) {
-    this.forUser = checkNotNull(forUser, "ForUser");
+    this.forUser = requireNonNull(forUser, "ForUser");
     this.name = LabelType.checkName(name);
   }
 
@@ -195,8 +195,8 @@ public class LabelPermission implements ChangePermissionOrLabel {
      * @param label label name and vote.
      */
     public WithValue(ForUser forUser, LabelVote label) {
-      this.forUser = checkNotNull(forUser, "ForUser");
-      this.label = checkNotNull(label, "LabelVote");
+      this.forUser = requireNonNull(forUser, "ForUser");
+      this.label = requireNonNull(label, "LabelVote");
     }
 
     /** @return {@code SELF} or {@code ON_BEHALF_OF} (or labelAs). */

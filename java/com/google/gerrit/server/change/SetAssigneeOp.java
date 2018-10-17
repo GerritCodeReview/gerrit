@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -70,7 +70,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
     this.setAssigneeSenderFactory = setAssigneeSenderFactory;
     this.user = user;
     this.userFactory = userFactory;
-    this.newAssignee = checkNotNull(newAssignee, "assignee");
+    this.newAssignee = requireNonNull(newAssignee, "assignee");
   }
 
   @Override

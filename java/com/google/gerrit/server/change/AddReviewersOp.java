@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
@@ -163,6 +164,10 @@ public class AddReviewersOp implements BatchUpdateOp {
     this.accountsToNotify = accountsToNotify;
   }
 
+  void setPatchSet(PatchSet patchSet) {
+    this.patchSet = requireNonNull(patchSet);
+  }
+
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws RestApiException, OrmException, IOException {
@@ -207,7 +212,9 @@ public class AddReviewersOp implements BatchUpdateOp {
 
     checkAdded();
 
-    patchSet = psUtil.current(ctx.getDb(), ctx.getNotes());
+    if (patchSet == null) {
+      patchSet = requireNonNull(psUtil.current(ctx.getDb(), ctx.getNotes()));
+    }
     return true;
   }
 

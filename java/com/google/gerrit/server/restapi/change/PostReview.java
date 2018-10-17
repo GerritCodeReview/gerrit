@@ -15,12 +15,12 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -288,7 +288,8 @@ public class PostReview
         reviewerInput.notify = NotifyHandling.NONE;
 
         ReviewerAddition result =
-            reviewerAdder.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
+            reviewerAdder.prepare(
+                db.get(), revision.getNotes(), revision.getUser(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           hasError = true;
@@ -443,10 +444,10 @@ public class PostReview
     List<Address> toByEmail = new ArrayList<>();
     List<Address> ccByEmail = new ArrayList<>();
     for (ReviewerAddition addition : reviewerAdditions) {
-      if (addition.state == ReviewerState.REVIEWER) {
+      if (addition.state() == ReviewerState.REVIEWER) {
         to.addAll(addition.reviewers);
         toByEmail.addAll(addition.reviewersByEmail);
-      } else if (addition.state == ReviewerState.CC) {
+      } else if (addition.state() == ReviewerState.CC) {
         cc.addAll(addition.reviewers);
         ccByEmail.addAll(addition.reviewersByEmail);
       }
@@ -886,7 +887,7 @@ public class PostReview
       this.projectState = projectState;
       this.psId = psId;
       this.in = in;
-      this.accountsToNotify = checkNotNull(accountsToNotify);
+      this.accountsToNotify = requireNonNull(accountsToNotify);
     }
 
     @Override
@@ -1186,7 +1187,7 @@ public class PostReview
       ChangeUpdate update = ctx.getUpdate(psId);
       for (Map.Entry<String, Short> ent : allApprovals.entrySet()) {
         String name = ent.getKey();
-        LabelType lt = checkNotNull(labelTypes.byLabel(name), name);
+        LabelType lt = requireNonNull(labelTypes.byLabel(name), name);
 
         PatchSetApproval c = current.remove(lt.getName());
         String normName = lt.getName();
@@ -1273,7 +1274,7 @@ public class PostReview
       List<String> disallowed = new ArrayList<>(labelTypes.getLabelTypes().size());
 
       for (PatchSetApproval psa : del) {
-        LabelType lt = checkNotNull(labelTypes.byLabel(psa.getLabel()));
+        LabelType lt = requireNonNull(labelTypes.byLabel(psa.getLabel()));
         String normName = lt.getName();
         if (!lt.allowPostSubmit()) {
           disallowed.add(normName);
@@ -1285,7 +1286,7 @@ public class PostReview
       }
 
       for (PatchSetApproval psa : ups) {
-        LabelType lt = checkNotNull(labelTypes.byLabel(psa.getLabel()));
+        LabelType lt = requireNonNull(labelTypes.byLabel(psa.getLabel()));
         String normName = lt.getName();
         if (!lt.allowPostSubmit()) {
           disallowed.add(normName);

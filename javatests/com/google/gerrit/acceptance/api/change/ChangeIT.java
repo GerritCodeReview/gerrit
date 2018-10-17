@@ -80,6 +80,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
@@ -943,13 +944,77 @@ public class ChangeIT extends AbstractDaemonTest {
     RevisionInfo ri2 = ci2.revisions.get(ci2.currentRevision);
     assertThat(ri2.commit.parents.get(0).commit).isEqualTo(branchTip);
 
+    Change.Id id1 = r1.getChange().getId();
     RebaseInput in = new RebaseInput();
-    in.base = Integer.toString(r1.getChange().getId().get());
+    in.base = id1.toString();
     gApi.changes().id(r2.getChangeId()).rebase(in);
 
+    Change.Id id2 = r2.getChange().getId();
     ci2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
     ri2 = ci2.revisions.get(ci2.currentRevision);
     assertThat(ri2.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
+
+    List<RelatedChangeAndCommitInfo> related = getRelated(id2, ri2._number);
+    assertThat(related).hasSize(2);
+    assertThat(related.get(0)._changeNumber).isEqualTo(id2.get());
+    assertThat(related.get(0)._revisionNumber).isEqualTo(2);
+    assertThat(related.get(1)._changeNumber).isEqualTo(id1.get());
+    assertThat(related.get(1)._revisionNumber).isEqualTo(1);
+  }
+
+  @Test
+  public void rebaseOnClosedChange() throws Exception {
+    String branchTip = testRepo.getRepository().exactRef("HEAD").getObjectId().name();
+    PushOneCommit.Result r1 = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    ChangeInfo ci2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
+    RevisionInfo ri2 = ci2.revisions.get(ci2.currentRevision);
+    assertThat(ri2.commit.parents.get(0).commit).isEqualTo(branchTip);
+
+    // Submit first change.
+    Change.Id id1 = r1.getChange().getId();
+    gApi.changes().id(id1.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(id1.get()).current().submit();
+
+    // Rebase second change on first change.
+    RebaseInput in = new RebaseInput();
+    in.base = id1.toString();
+    gApi.changes().id(r2.getChangeId()).rebase(in);
+
+    Change.Id id2 = r2.getChange().getId();
+    ci2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
+    ri2 = ci2.revisions.get(ci2.currentRevision);
+    assertThat(ri2.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
+
+    assertThat(getRelated(id2, ri2._number)).isEmpty();
+  }
+
+  @Test
+  public void rebaseFromRelationChainToClosedChange() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    testRepo.reset("HEAD~1");
+
+    createChange();
+    PushOneCommit.Result r3 = createChange();
+
+    // Submit first change.
+    Change.Id id1 = r1.getChange().getId();
+    gApi.changes().id(id1.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(id1.get()).current().submit();
+
+    // Rebase third change on first change.
+    RebaseInput in = new RebaseInput();
+    in.base = id1.toString();
+    gApi.changes().id(r3.getChangeId()).rebase(in);
+
+    Change.Id id3 = r3.getChange().getId();
+    ChangeInfo ci3 = get(r3.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
+    RevisionInfo ri3 = ci3.revisions.get(ci3.currentRevision);
+    assertThat(ri3.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
+
+    assertThat(getRelated(id3, ri3._number)).isEmpty();
   }
 
   @Test
@@ -1436,8 +1501,9 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
+    assertThat(m.from().getName()).isEqualTo("Administrator (Code Review)");
     assertThat(m.rcpt()).containsExactly(user.emailAddress);
-    assertThat(m.body()).contains(admin.fullName + " has uploaded this change for review");
+    assertThat(m.body()).contains("I'd like you to do a code review");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
     assertMailReplyTo(m, admin.email);
   }

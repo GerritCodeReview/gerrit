@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
@@ -200,10 +200,9 @@ public abstract class SubmitStrategy {
       this.dryrun = dryrun;
 
       this.project =
-          checkNotNull(
+          requireNonNull(
               projectCache.get(destBranch.getParentKey()),
-              "project not found: %s",
-              destBranch.getParentKey());
+              () -> String.format("project not found: %s", destBranch.getParentKey()));
       this.mergeSorter =
           new MergeSorter(rw, alreadyAccepted, canMergeFlag, queryProvider, incoming);
       this.rebaseSorter =
@@ -217,7 +216,7 @@ public abstract class SubmitStrategy {
   final Arguments args;
 
   SubmitStrategy(Arguments args) {
-    this.args = checkNotNull(args);
+    this.args = requireNonNull(args);
   }
 
   /**

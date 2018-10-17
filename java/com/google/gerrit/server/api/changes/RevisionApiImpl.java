@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
+import com.google.gerrit.extensions.api.changes.RelatedChangesInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -43,6 +44,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
+import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -63,6 +65,7 @@ import com.google.gerrit.server.restapi.change.GetCommit;
 import com.google.gerrit.server.restapi.change.GetDescription;
 import com.google.gerrit.server.restapi.change.GetMergeList;
 import com.google.gerrit.server.restapi.change.GetPatch;
+import com.google.gerrit.server.restapi.change.GetRelated;
 import com.google.gerrit.server.restapi.change.GetRevisionActions;
 import com.google.gerrit.server.restapi.change.ListRevisionComments;
 import com.google.gerrit.server.restapi.change.ListRevisionDrafts;
@@ -76,6 +79,7 @@ import com.google.gerrit.server.restapi.change.Reviewed;
 import com.google.gerrit.server.restapi.change.RevisionReviewers;
 import com.google.gerrit.server.restapi.change.RobotComments;
 import com.google.gerrit.server.restapi.change.Submit;
+import com.google.gerrit.server.restapi.change.TestSubmitRule;
 import com.google.gerrit.server.restapi.change.TestSubmitType;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -125,7 +129,9 @@ class RevisionApiImpl implements RevisionApi {
   private final GetRevisionActions revisionActions;
   private final TestSubmitType testSubmitType;
   private final TestSubmitType.Get getSubmitType;
+  private final Provider<TestSubmitRule> testSubmitRule;
   private final Provider<GetMergeList> getMergeList;
+  private final GetRelated getRelated;
   private final PutDescription putDescription;
   private final GetDescription getDescription;
 
@@ -164,7 +170,9 @@ class RevisionApiImpl implements RevisionApi {
       GetRevisionActions revisionActions,
       TestSubmitType testSubmitType,
       TestSubmitType.Get getSubmitType,
+      Provider<TestSubmitRule> testSubmitRule,
       Provider<GetMergeList> getMergeList,
+      GetRelated getRelated,
       PutDescription putDescription,
       GetDescription getDescription,
       @Assisted RevisionResource r) {
@@ -201,7 +209,9 @@ class RevisionApiImpl implements RevisionApi {
     this.revisionActions = revisionActions;
     this.testSubmitType = testSubmitType;
     this.getSubmitType = getSubmitType;
+    this.testSubmitRule = testSubmitRule;
     this.getMergeList = getMergeList;
+    this.getRelated = getRelated;
     this.putDescription = putDescription;
     this.getDescription = getDescription;
     this.revision = r;
@@ -559,6 +569,15 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
+  public List<TestSubmitRuleInfo> testSubmitRule(TestSubmitRuleInput in) throws RestApiException {
+    try {
+      return testSubmitRule.get().apply(revision, in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot test submit rule", e);
+    }
+  }
+
+  @Override
   public MergeListRequest getMergeList() throws RestApiException {
     return new MergeListRequest() {
       @Override
@@ -573,6 +592,15 @@ class RevisionApiImpl implements RevisionApi {
         }
       }
     };
+  }
+
+  @Override
+  public RelatedChangesInfo related() throws RestApiException {
+    try {
+      return getRelated.apply(revision);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get related changes", e);
+    }
   }
 
   @Override

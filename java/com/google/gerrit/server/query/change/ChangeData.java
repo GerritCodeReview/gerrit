@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
@@ -1030,7 +1030,7 @@ public class ChangeData {
         return Collections.emptyMap();
       }
       editsByUser = new HashMap<>();
-      Change.Id id = checkNotNull(change.getId());
+      Change.Id id = requireNonNull(change.getId());
       try (Repository repo = repoManager.openRepository(project())) {
         for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_USERS)) {
           String name = ref.getName().substring(RefNames.REFS_USERS.length());
@@ -1172,7 +1172,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return ImmutableMap.of();
       }
-      starRefs = checkNotNull(starredChangesUtil).byChange(legacyId);
+      starRefs = requireNonNull(starredChangesUtil).byChange(legacyId);
     }
     return starRefs;
   }

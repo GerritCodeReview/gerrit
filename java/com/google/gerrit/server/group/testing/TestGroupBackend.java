@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.group.testing;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.GroupDescription;
@@ -42,7 +42,7 @@ public class TestGroupBackend implements GroupBackend {
    * @return the created group
    */
   public GroupDescription.Basic create(String name) {
-    checkNotNull(name);
+    requireNonNull(name);
     return create(new AccountGroup.UUID(name.startsWith(PREFIX) ? name : PREFIX + name));
   }
 

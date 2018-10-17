@@ -16,10 +16,10 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.HashBasedTable;
@@ -186,7 +186,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
           "expected reader to be created from %s, but was %s",
           ins,
           reader.getCreatedFromInserter());
-      this.repo = checkNotNull(repo);
+      this.repo = requireNonNull(repo);
 
       if (saveObjects) {
         this.inMemIns = new InMemoryInserter(rw.getObjectReader());
@@ -199,7 +199,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
       this.rw = new RevWalk(tempIns.newReader());
       this.finalIns = ins;
-      this.cmds = checkNotNull(cmds);
+      this.cmds = requireNonNull(cmds);
       this.close = close;
       this.saveObjects = saveObjects;
     }

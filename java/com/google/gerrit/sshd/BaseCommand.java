@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
@@ -50,7 +51,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
-import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicReference;
@@ -262,25 +262,27 @@ public abstract class BaseCommand implements Command {
   }
 
   /**
-   * Spawn a function into its own thread with the provided context.
+   * Spawn a function into its own thread.
    *
    * <p>Typically this should be invoked within {@link Command#start(Environment)}, such as:
    *
    * <pre>
-   * startThreadWithContext(SshScope.Context context, new CommandRunnable() {
+   * startThread(new CommandRunnable() {
    *   public void run() throws Exception {
    *     runImp();
    *   }
-   * });
+   * },
+   * accessPath);
    * </pre>
    *
    * <p>If the function throws an exception, it is translated to a simple message for the client, a
    * non-zero exit code, and the stack trace is logged.
    *
    * @param thunk the runnable to execute on the thread, performing the command's logic.
+   * @param accessPath the path used by the end user for running the SSH command
    */
-  protected void startThreadWithContext(SshScope.Context context, CommandRunnable thunk) {
-    final TaskThunk tt = new TaskThunk(thunk, Optional.ofNullable(context));
+  protected void startThread(final CommandRunnable thunk, AccessPath accessPath) {
+    final TaskThunk tt = new TaskThunk(thunk, accessPath);
 
     if (isAdminHighPriorityCommand()) {
       // Admin commands should not block the main work threads (there
@@ -291,28 +293,6 @@ public abstract class BaseCommand implements Command {
     } else {
       task.set(executor.submit(tt));
     }
-  }
-
-  /**
-   * Spawn a function into its own thread.
-   *
-   * <p>Typically this should be invoked within {@link Command#start(Environment)}, such as:
-   *
-   * <pre>
-   * startThread(new CommandRunnable() {
-   *   public void run() throws Exception {
-   *     runImp();
-   *   }
-   * });
-   * </pre>
-   *
-   * <p>If the function throws an exception, it is translated to a simple message for the client, a
-   * non-zero exit code, and the stack trace is logged.
-   *
-   * @param thunk the runnable to execute on the thread, performing the command's logic.
-   */
-  protected void startThread(final CommandRunnable thunk) {
-    startThreadWithContext(null, thunk);
   }
 
   private boolean isAdminHighPriorityCommand() {
@@ -439,21 +419,21 @@ public abstract class BaseCommand implements Command {
 
   private final class TaskThunk implements CancelableRunnable, ProjectRunnable {
     private final CommandRunnable thunk;
-    private final Context taskContext;
     private final String taskName;
+    private final AccessPath accessPath;
 
     private Project.NameKey projectName;
 
-    private TaskThunk(CommandRunnable thunk, Optional<Context> oneOffContext) {
+    private TaskThunk(final CommandRunnable thunk, AccessPath accessPath) {
       this.thunk = thunk;
       this.taskName = getTaskName();
-      this.taskContext = oneOffContext.orElse(context);
+      this.accessPath = accessPath;
     }
 
     @Override
     public void cancel() {
       synchronized (this) {
-        final Context old = sshScope.set(taskContext);
+        final Context old = sshScope.set(context);
         try {
           onExit(STATUS_CANCEL);
         } finally {
@@ -468,7 +448,8 @@ public abstract class BaseCommand implements Command {
         final Thread thisThread = Thread.currentThread();
         final String thisName = thisThread.getName();
         int rc = 0;
-        final Context old = sshScope.set(taskContext);
+        context.getSession().setAccessPath(accessPath);
+        final Context old = sshScope.set(context);
         try {
           context.started = TimeUtil.nowMs();
           thisThread.setName("SSH " + taskName);

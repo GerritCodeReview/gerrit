@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_GC_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_AUTO;
 
@@ -59,7 +59,7 @@ public class GcAllUsers {
 
   public void run(PrintWriter writer) {
     // Print both log messages and progress to given writer.
-    run(checkNotNull(writer)::println, writer);
+    run(requireNonNull(writer)::println, writer);
   }
 
   private void run(Consumer<String> logOneLine, @Nullable PrintWriter progressWriter) {

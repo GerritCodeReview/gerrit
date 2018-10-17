@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.cache.serialize;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.protobuf.TextFormat;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ public enum BooleanCacheSerializer implements CacheSerializer<Boolean> {
 
   @Override
   public byte[] serialize(Boolean object) {
-    byte[] bytes = checkNotNull(object) ? TRUE : FALSE;
+    byte[] bytes = requireNonNull(object) ? TRUE : FALSE;
     return Arrays.copyOf(bytes, bytes.length);
   }
 

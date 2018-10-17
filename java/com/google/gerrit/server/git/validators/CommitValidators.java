@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.git.validators;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -331,7 +331,8 @@ public class CommitValidators {
             .append(getCommitMessageHookInstallationHint())
             .append("\n")
             .append("and then amend the commit:\n")
-            .append("  git commit --amend\n");
+            .append("  git commit --amend\n")
+            .append("Finally, push your changes again\n");
       }
       return new CommitValidationMessage(sb.toString(), Type.ERROR);
     }
@@ -346,7 +347,7 @@ public class CommitValidators {
       // HTTP(S)
       Optional<String> webUrl = urlFormatter.getWebUrl();
       if (hostKeys.isEmpty()) {
-        Preconditions.checkState(webUrl.isPresent());
+        checkState(webUrl.isPresent());
         return String.format(
             "  f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\" %stools/hooks/commit-msg ; chmod +x \"$f\"",
             webUrl.get());
@@ -359,7 +360,7 @@ public class CommitValidators {
       int c = host.lastIndexOf(':');
       if (0 <= c) {
         if (host.startsWith("*:")) {
-          Preconditions.checkState(webUrl.isPresent());
+          checkState(webUrl.isPresent());
           sshHost = getGerritHost(webUrl.get());
         } else {
           sshHost = host.substring(0, c);

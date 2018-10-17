@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -47,9 +47,9 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
   public InboundEmailRejectionSender(
       EmailArguments ea, @Assisted Address to, @Assisted String threadId, @Assisted Error reason) {
     super(ea, "error");
-    this.to = checkNotNull(to);
-    this.threadId = checkNotNull(threadId);
-    this.reason = checkNotNull(reason);
+    this.to = requireNonNull(to);
+    this.threadId = requireNonNull(threadId);
+    this.reason = requireNonNull(reason);
   }
 
   @Override

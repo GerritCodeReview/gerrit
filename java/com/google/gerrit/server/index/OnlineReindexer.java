@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.index;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
@@ -98,11 +98,9 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
       listener.onStart(name, oldVersion, newVersion);
     }
     index =
-        checkNotNull(
+        requireNonNull(
             indexes.getWriteIndex(newVersion),
-            "not an active write schema version: %s %s",
-            name,
-            newVersion);
+            () -> String.format("not an active write schema version: %s %s", name, newVersion));
     logger.atInfo().log(
         "Starting online reindex of %s from schema version %s to %s",
         name, version(indexes.getSearchIndex()), version(index));

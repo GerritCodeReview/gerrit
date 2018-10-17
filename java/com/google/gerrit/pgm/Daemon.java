@@ -14,9 +14,9 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
@@ -500,7 +500,7 @@ public class Daemon extends SiteProgram {
   }
 
   private boolean migrateToNoteDb() {
-    return migrateToNoteDb || NoteDbMigrator.getAutoMigrate(checkNotNull(config));
+    return migrateToNoteDb || NoteDbMigrator.getAutoMigrate(requireNonNull(config));
   }
 
   private Module createIndexModule() {

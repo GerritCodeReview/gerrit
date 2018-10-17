@@ -15,7 +15,7 @@
 package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
@@ -34,7 +34,7 @@ public abstract class SchemaDefinitions<V> {
   private final ImmutableSortedMap<Integer, Schema<V>> schemas;
 
   protected SchemaDefinitions(String name, Class<V> valueClass) {
-    this.name = checkNotNull(name);
+    this.name = requireNonNull(name);
     this.schemas = SchemaUtil.schemasFromClass(getClass(), valueClass);
   }
 

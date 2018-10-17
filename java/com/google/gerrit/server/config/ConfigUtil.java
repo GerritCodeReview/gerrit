@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.base.Preconditions;
+import static java.util.Objects.requireNonNull;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -289,7 +290,7 @@ public class ConfigUtil {
         Object c = f.get(s);
         Object d = f.get(defaults);
         if (!isString(t) && !isCollectionOrMap(t)) {
-          Preconditions.checkNotNull(d, "Default cannot be null for: " + n);
+          requireNonNull(d, "Default cannot be null for: " + n);
         }
         if (c == null || c.equals(d)) {
           cfg.unset(section, sub, n);
@@ -347,7 +348,7 @@ public class ConfigUtil {
         f.setAccessible(true);
         Object d = f.get(defaults);
         if (!isString(t) && !isCollectionOrMap(t)) {
-          Preconditions.checkNotNull(d, "Default cannot be null for: " + n);
+          requireNonNull(d, "Default cannot be null for: " + n);
         }
         if (isString(t)) {
           String v = cfg.getString(section, sub, n);

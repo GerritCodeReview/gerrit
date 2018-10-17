@@ -14,12 +14,11 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static java.util.Objects.requireNonNull;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
@@ -167,7 +166,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   public PatchSetInserter setGroups(List<String> groups) {
-    checkNotNull(groups, "groups may not be null");
+    requireNonNull(groups, "groups may not be null");
     this.groups = groups;
     return this;
   }
@@ -178,13 +177,13 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   public PatchSetInserter setNotify(NotifyHandling notify) {
-    this.notify = Preconditions.checkNotNull(notify);
+    this.notify = requireNonNull(notify);
     return this;
   }
 
   public PatchSetInserter setAccountsToNotify(
       ListMultimap<RecipientType, Account.Id> accountsToNotify) {
-    this.accountsToNotify = checkNotNull(accountsToNotify);
+    this.accountsToNotify = requireNonNull(accountsToNotify);
     return this;
   }
 

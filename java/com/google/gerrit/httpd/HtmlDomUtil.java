@@ -84,9 +84,7 @@ public class HtmlDomUtil {
       serializer.transform(domSource, streamResult);
       return out.toString();
     } catch (TransformerException e) {
-      IOException r = new IOException("Error transforming page");
-      r.initCause(e);
-      throw r;
+      throw new IOException("Error transforming page", e);
     }
   }
 

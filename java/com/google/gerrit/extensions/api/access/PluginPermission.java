@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.api.access;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
@@ -29,8 +29,8 @@ public class PluginPermission implements GlobalOrPluginPermission {
   }
 
   public PluginPermission(String pluginName, String capability, boolean fallBackToAdmin) {
-    this.pluginName = checkNotNull(pluginName, "pluginName");
-    this.capability = checkNotNull(capability, "capability");
+    this.pluginName = requireNonNull(pluginName, "pluginName");
+    this.capability = requireNonNull(capability, "capability");
     this.fallBackToAdmin = fallBackToAdmin;
   }
 

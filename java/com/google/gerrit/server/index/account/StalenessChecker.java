@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.index.account;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
@@ -140,7 +140,7 @@ public class StalenessChecker {
     }
 
     for (byte[] b : extIdStates) {
-      checkNotNull(b, "invalid external ID state");
+      requireNonNull(b, "invalid external ID state");
       String s = new String(b, UTF_8);
       List<String> parts = Splitter.on(':').splitToList(s);
       checkState(parts.size() == 2, "invalid external ID state: %s", s);

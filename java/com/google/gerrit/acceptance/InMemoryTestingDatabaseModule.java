@@ -134,9 +134,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     try {
       Files.createDirectories(p.resolve("etc"));
     } catch (IOException e) {
-      ProvisionException pe = new ProvisionException(e.getMessage());
-      pe.initCause(e);
-      throw pe;
+      throw new ProvisionException(e.getMessage(), e);
     }
   }
 }

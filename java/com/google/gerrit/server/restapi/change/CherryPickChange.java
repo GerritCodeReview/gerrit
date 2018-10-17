@@ -369,6 +369,9 @@ public class CherryPickChange {
             messageForDestinationChange(
                 ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit))
         .setTopic(topic)
+        .setWorkInProgress(
+            (sourceChange != null && sourceChange.isWorkInProgress())
+                || !cherryPickCommit.getFilesWithGitConflicts().isEmpty())
         .setNotify(input.notify)
         .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
     if (input.keepReviewers && sourceChange != null) {
@@ -381,7 +384,7 @@ public class CherryPickChange {
       reviewers.remove(user.get().getAccountId());
       Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
       ccs.remove(user.get().getAccountId());
-      ins.setReviewers(reviewers).setExtraCC(ccs);
+      ins.setReviewersAndCcs(reviewers, ccs);
     }
     bu.insertChange(ins);
     return changeId;

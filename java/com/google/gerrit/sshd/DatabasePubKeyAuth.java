@@ -14,10 +14,10 @@
 
 package com.google.gerrit.sshd;
 
+import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Preconditions;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -101,7 +101,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   @Override
   public boolean authenticate(String username, PublicKey suppliedKey, ServerSession session) {
     SshSession sd = session.getAttribute(SshSession.KEY);
-    Preconditions.checkState(sd.getUser() == null);
+    checkState(sd.getUser() == null);
     if (PeerDaemonUser.USER_NAME.equals(username)) {
       if (myHostKeys.contains(suppliedKey) || getPeerKeys().contains(suppliedKey)) {
         PeerDaemonUser user = peerFactory.create(sd.getRemoteAddress());

@@ -15,8 +15,8 @@
 package com.google.gerrit.acceptance;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
-import com.google.common.base.Preconditions;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -81,7 +81,7 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse putRaw(String endPoint, RawInput stream) throws IOException {
-    Preconditions.checkNotNull(stream);
+    requireNonNull(stream);
     Request put = Request.Put(getUrl(endPoint));
     put.addHeader(new BasicHeader("Content-Type", stream.getContentType()));
     put.body(

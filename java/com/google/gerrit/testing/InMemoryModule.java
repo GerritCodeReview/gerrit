@@ -329,9 +329,7 @@ public class InMemoryModule extends FactoryModule {
         | IllegalAccessException
         | InvocationTargetException e) {
       e.printStackTrace();
-      ProvisionException pe = new ProvisionException(e.getMessage());
-      pe.initCause(e);
-      throw pe;
+      throw new ProvisionException(e.getMessage(), e);
     }
   }
 

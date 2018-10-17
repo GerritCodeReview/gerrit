@@ -16,6 +16,8 @@ package com.google.gerrit.extensions.common;
 
 import static java.util.stream.Collectors.joining;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,17 +52,18 @@ public class CommitInfo {
 
   @Override
   public String toString() {
-    // Using something like the raw commit format might be nice, but we can't depend on JGit here.
-    StringBuilder sb = new StringBuilder().append(getClass().getSimpleName()).append('{');
-    sb.append(commit);
-    sb.append(", parents=").append(parents.stream().map(p -> p.commit).collect(joining(", ")));
-    sb.append(", author=").append(author);
-    sb.append(", committer=").append(committer);
-    sb.append(", subject=").append(subject);
-    sb.append(", message=").append(message);
-    if (webLinks != null) {
-      sb.append(", webLinks=").append(webLinks);
+    ToStringHelper helper = MoreObjects.toStringHelper(this).addValue(commit);
+    if (parents != null) {
+      helper.add("parents", parents.stream().map(p -> p.commit).collect(joining(", ")));
     }
-    return sb.append('}').toString();
+    helper
+        .add("author", author)
+        .add("committer", committer)
+        .add("subject", subject)
+        .add("message", message);
+    if (webLinks != null) {
+      helper.add("webLinks", webLinks);
+    }
+    return helper.toString();
   }
 }

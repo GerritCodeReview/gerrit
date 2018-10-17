@@ -15,9 +15,9 @@
 package com.google.gerrit.server.submit;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
@@ -238,8 +238,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       mergedPatchSet = getOrCreateAlreadyMergedPatchSet(ctx);
     } else {
       PatchSet newPatchSet = updateChangeImpl(ctx);
-      PatchSet.Id oldPsId = checkNotNull(toMerge.getPatchsetId());
-      PatchSet.Id newPsId = checkNotNull(ctx.getChange().currentPatchSetId());
+      PatchSet.Id oldPsId = requireNonNull(toMerge.getPatchsetId());
+      PatchSet.Id newPsId = requireNonNull(ctx.getChange().currentPatchSetId());
       if (newPatchSet == null) {
         checkState(
             oldPsId.equals(newPsId),
@@ -250,10 +250,9 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         // Ok to use stale notes to get the old patch set, which didn't change
         // during the submit strategy.
         mergedPatchSet =
-            checkNotNull(
+            requireNonNull(
                 args.psUtil.get(ctx.getDb(), ctx.getNotes(), oldPsId),
-                "missing old patch set %s",
-                oldPsId);
+                () -> String.format("missing old patch set %s", oldPsId));
       } else {
         PatchSet.Id n = newPatchSet.getId();
         checkState(
@@ -270,9 +269,11 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     Change c = ctx.getChange();
     Change.Id id = c.getId();
     CodeReviewCommit commit = args.commitStatus.get(id);
-    checkNotNull(commit, "missing commit for change " + id);
+    requireNonNull(commit, () -> String.format("missing commit for change %s", id));
     CommitMergeStatus s = commit.getStatusCode();
-    checkNotNull(s, "status not set for change " + id + " expected to previously fail fast");
+    requireNonNull(
+        s,
+        () -> String.format("status not set for change %s; expected to previously fail fast", id));
     logger.atFine().log("Status of change %s (%s) on %s: %s", id, commit.name(), c.getDest(), s);
     setApproval(ctx, args.caller);
 
@@ -426,7 +427,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private String getByAccountName() {
-    checkNotNull(submitter, "getByAccountName called before submitter populated");
+    requireNonNull(submitter, "getByAccountName called before submitter populated");
     Optional<Account> account =
         args.accountCache.get(submitter.getAccountId()).map(AccountState::getAccount);
     if (account.isPresent() && account.get().getFullName() != null) {
@@ -437,7 +438,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
   private ChangeMessage message(ChangeContext ctx, CodeReviewCommit commit, CommitMergeStatus s)
       throws OrmException {
-    checkNotNull(s, "CommitMergeStatus may not be null");
+    requireNonNull(s, "CommitMergeStatus may not be null");
     String txt = s.getDescription();
     if (s == CommitMergeStatus.CLEAN_MERGE) {
       return message(ctx, commit.getPatchsetId(), txt + getByAccountName());

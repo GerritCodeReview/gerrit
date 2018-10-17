@@ -131,11 +131,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
 
     int cnt = queries.size();
     List<QueryResult<ChangeData>> results = imp.query(qb.parse(queries));
-
-    ChangeJson cjson = json.create(options);
-    cjson.setPluginDefinedAttributesFactory(this.imp);
-    List<List<ChangeInfo>> res = cjson.formatQueryResults(results);
-
+    List<List<ChangeInfo>> res = json.create(options, this.imp).format(results);
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
       if (results.get(n).more() && !info.isEmpty()) {

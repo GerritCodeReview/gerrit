@@ -46,6 +46,30 @@
       "revId": "950d44926356f1479a807b526010399dbbeaa882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b9b5ae1_c08e4178",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-17T06:49:28Z",
+      "side": 1,
+      "message": "Not sure. I agree it\u0027s shorter, but to read the test I must look up the method to see what it\u0027s doing while the long line is just readable. I\u0027m fine either way.",
+      "parentUuid": "3c8de26e_6503ff39",
+      "range": {
+        "startLine": 638,
+        "startChar": 2,
+        "endLine": 640,
+        "endChar": 3
+      },
+      "revId": "950d44926356f1479a807b526010399dbbeaa882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,7 +21,7 @@ if [ -z "$npm_bin" ] || [ "$fried_twinkie_config" -eq "0" ]; then
     exit 1
 fi
 
-twinkie_version=$(npm list -g fried-twinkie@\>0.1 | grep fried-twinkie || :)
+twinkie_version=$(npm list -g fried-twinkie@\>0.2.1 | grep fried-twinkie || :)
 if [ -z "$twinkie_version" ]; then
     echo "Outdated version of fried-twinkie found. Bypassing template check."
     exit 0

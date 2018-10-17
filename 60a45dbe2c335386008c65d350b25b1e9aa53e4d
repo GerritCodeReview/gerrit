@@ -70,6 +70,30 @@
       "revId": "60a45dbe2c335386008c65d350b25b1e9aa53e4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27667396_1b8f44fe",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3260,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-17T10:39:16Z",
+      "side": 1,
+      "message": "The commentlink is identified within a project.config by its name, i.e. the config looks like:\n\n [commentlink \"name\"]\n\nalthough I\u0027m not sure what would happen if multiple sections with the same name exist. If that were the case, I think it would only be possible to do it manually because it shouldn\u0027t be possible to create multiple sections like that programmattically.\n\nTo support deletion, maybe we can implement in a similar way to hashtags.  I.e. within the input have separate maps for additions/updates and deletions.",
+      "parentUuid": "23f9ace2_e90d90ec",
+      "range": {
+        "startLine": 3258,
+        "startChar": 0,
+        "endLine": 3260,
+        "endChar": 41
+      },
+      "revId": "60a45dbe2c335386008c65d350b25b1e9aa53e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -53,6 +53,24 @@
       "revId": "2a8637ad5d675d4bca3dee15819b473cff39f73e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79d50483_b0fef7a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-17T08:30:08Z",
+      "side": 1,
+      "message": "OK, I made a new change that drops the message:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/200435",
+      "parentUuid": "514249d6_ff081c91",
+      "revId": "2a8637ad5d675d4bca3dee15819b473cff39f73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

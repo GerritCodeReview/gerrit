@@ -17,8 +17,8 @@ package com.google.gerrit.server.cache;
 import com.google.common.base.Strings;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PluginName;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -35,13 +35,13 @@ public class ForwardingRemovalListener<K, V> implements RemovalListener<K, V> {
     ForwardingRemovalListener create(String cacheName);
   }
 
-  private final DynamicSet<CacheRemovalListener> listeners;
+  private final PluginSetContext<CacheRemovalListener> listeners;
   private final String cacheName;
   private String pluginName = PluginName.GERRIT;
 
   @Inject
   ForwardingRemovalListener(
-      DynamicSet<CacheRemovalListener> listeners, @Assisted String cacheName) {
+      PluginSetContext<CacheRemovalListener> listeners, @Assisted String cacheName) {
     this.listeners = listeners;
     this.cacheName = cacheName;
   }
@@ -56,8 +56,6 @@ public class ForwardingRemovalListener<K, V> implements RemovalListener<K, V> {
   @Override
   @SuppressWarnings("unchecked")
   public void onRemoval(RemovalNotification<K, V> notification) {
-    for (CacheRemovalListener<K, V> l : listeners) {
-      l.onRemoval(pluginName, cacheName, notification);
-    }
+    listeners.runEach(l -> l.onRemoval(pluginName, cacheName, notification));
   }
 }

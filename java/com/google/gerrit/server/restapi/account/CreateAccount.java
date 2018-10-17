@@ -27,7 +27,6 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -51,6 +50,7 @@ import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -73,7 +73,7 @@ public class CreateAccount
   private final SshKeyCache sshKeyCache;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final AccountLoader.Factory infoLoader;
-  private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
+  private final PluginSetContext<AccountExternalIdCreator> externalIdCreators;
   private final Provider<GroupsUpdate> groupsUpdate;
   private final OutgoingEmailValidator validator;
 
@@ -85,7 +85,7 @@ public class CreateAccount
       SshKeyCache sshKeyCache,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       AccountLoader.Factory infoLoader,
-      DynamicSet<AccountExternalIdCreator> externalIdCreators,
+      PluginSetContext<AccountExternalIdCreator> externalIdCreators,
       @UserInitiated Provider<GroupsUpdate> groupsUpdate,
       OutgoingEmailValidator validator) {
     this.seq = seq;
@@ -131,9 +131,7 @@ public class CreateAccount
     }
 
     extIds.add(ExternalId.createUsername(username, accountId, input.httpPassword));
-    for (AccountExternalIdCreator c : externalIdCreators) {
-      extIds.addAll(c.create(accountId, username, input.email));
-    }
+    externalIdCreators.runEach(c -> extIds.addAll(c.create(accountId, username, input.email)));
 
     try {
       accountsUpdateProvider

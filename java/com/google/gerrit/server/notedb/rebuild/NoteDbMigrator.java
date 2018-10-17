@@ -45,7 +45,6 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.FormatUtil;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -71,6 +70,7 @@ import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator.NoNoteDbStateException;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.update.RefUpdateUtil;
@@ -150,7 +150,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private final WorkQueue workQueue;
     private final MutableNotesMigration globalNotesMigration;
     private final PrimaryStorageMigrator primaryStorageMigrator;
-    private final DynamicSet<NotesMigrationStateListener> listeners;
+    private final PluginSetContext<NotesMigrationStateListener> listeners;
 
     private int threads;
     private ImmutableList<Project.NameKey> projects = ImmutableList.of();
@@ -179,7 +179,7 @@ public class NoteDbMigrator implements AutoCloseable {
         WorkQueue workQueue,
         MutableNotesMigration globalNotesMigration,
         PrimaryStorageMigrator primaryStorageMigrator,
-        DynamicSet<NotesMigrationStateListener> listeners) {
+        PluginSetContext<NotesMigrationStateListener> listeners) {
       // Reload gerrit.config/notedb.config on each migrator invocation, in case a previous
       // migration in the same process modified the on-disk contents. This ensures the defaults for
       // trial/autoMigrate get set correctly below.
@@ -390,7 +390,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final ChangeRebuilderImpl rebuilder;
   private final MutableNotesMigration globalNotesMigration;
   private final PrimaryStorageMigrator primaryStorageMigrator;
-  private final DynamicSet<NotesMigrationStateListener> listeners;
+  private final PluginSetContext<NotesMigrationStateListener> listeners;
 
   private final ListeningExecutorService executor;
   private final ImmutableList<Project.NameKey> projects;
@@ -416,7 +416,7 @@ public class NoteDbMigrator implements AutoCloseable {
       ChangeRebuilderImpl rebuilder,
       MutableNotesMigration globalNotesMigration,
       PrimaryStorageMigrator primaryStorageMigrator,
-      DynamicSet<NotesMigrationStateListener> listeners,
+      PluginSetContext<NotesMigrationStateListener> listeners,
       ListeningExecutorService executor,
       ImmutableList<Project.NameKey> projects,
       ImmutableList<Change.Id> changes,
@@ -615,18 +615,23 @@ public class NoteDbMigrator implements AutoCloseable {
                               } catch (NoNoteDbStateException e) {
                                 if (canSkipPrimaryStorageMigration(
                                     ctx.getReviewDbProvider().get(), id)) {
-                                  logger.atWarning().withCause(e).log(
-                                      "Change %s previously failed to rebuild;"
-                                          + " skipping primary storage migration",
-                                      id);
+                                  logger
+                                      .atWarning()
+                                      .withCause(e)
+                                      .log(
+                                          "Change %s previously failed to rebuild;"
+                                              + " skipping primary storage migration",
+                                          id);
                                 } else {
                                   throw e;
                                 }
                               }
                               return true;
                             } catch (Exception e) {
-                              logger.atSevere().withCause(e).log(
-                                  "Error migrating primary storage for %s", id);
+                              logger
+                                  .atSevere()
+                                  .withCause(e)
+                                  .log("Error migrating primary storage for %s", id);
                               return false;
                             }
                           }))
@@ -634,9 +639,11 @@ public class NoteDbMigrator implements AutoCloseable {
 
       boolean ok = futuresToBoolean(futures, "Error migrating primary storage");
       double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-      logger.atInfo().log(
-          "Migrated primary storage of %d changes in %.01fs (%.01f/s)\n",
-          allChanges.size(), t, allChanges.size() / t);
+      logger
+          .atInfo()
+          .log(
+              "Migrated primary storage of %d changes in %.01fs (%.01f/s)\n",
+              allChanges.size(), t, allChanges.size() / t);
       if (!ok) {
         throw new MigrationException("Migrating primary storage for some changes failed, see log");
       }
@@ -672,8 +679,10 @@ public class NoteDbMigrator implements AutoCloseable {
     try {
       return Iterables.isEmpty(unwrapDb(db).patchSets().byChange(id));
     } catch (Exception e) {
-      logger.atSevere().withCause(e).log(
-          "Error checking if change %s can be skipped, assuming no", id);
+      logger
+          .atSevere()
+          .withCause(e)
+          .log("Error checking if change %s can be skipped, assuming no", id);
       return false;
     }
   }
@@ -688,8 +697,10 @@ public class NoteDbMigrator implements AutoCloseable {
       noteDbConfig.load();
       return NotesMigrationState.forConfig(noteDbConfig);
     } catch (ConfigInvalidException | IllegalArgumentException e) {
-      logger.atWarning().withCause(e).log(
-          "error reading NoteDb migration options from %s", noteDbConfig.getFile());
+      logger
+          .atWarning()
+          .withCause(e)
+          .log("error reading NoteDb migration options from %s", noteDbConfig.getFile());
       return Optional.empty();
     }
   }
@@ -737,9 +748,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private void preStateChange(NotesMigrationState oldState, NotesMigrationState newState)
       throws IOException {
-    for (NotesMigrationStateListener listener : listeners) {
-      listener.preStateChange(oldState, newState);
-    }
+    listeners.runEach(l -> l.preStateChange(oldState, newState), IOException.class);
   }
 
   private void setControlFlags() throws MigrationException {
@@ -783,9 +792,11 @@ public class NoteDbMigrator implements AutoCloseable {
 
       boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
       double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-      logger.atInfo().log(
-          "Rebuilt %d changes in %.01fs (%.01f/s)\n",
-          changesByProject.size(), t, changesByProject.size() / t);
+      logger
+          .atInfo()
+          .log(
+              "Rebuilt %d changes in %.01fs (%.01f/s)\n",
+              changesByProject.size(), t, changesByProject.size() / t);
       if (!ok) {
         throw new MigrationException("Rebuilding some changes failed, see log");
       }
@@ -895,10 +906,12 @@ public class NoteDbMigrator implements AutoCloseable {
           } catch (NoPatchSetsException e) {
             logger.atWarning().log(e.getMessage());
           } catch (ConflictingUpdateException ex) {
-            logger.atWarning().log(
-                "Rebuilding detected a conflicting ReviewDb update for change %s;"
-                    + " will be auto-rebuilt at runtime",
-                changeId);
+            logger
+                .atWarning()
+                .log(
+                    "Rebuilding detected a conflicting ReviewDb update for change %s;"
+                        + " will be auto-rebuilt at runtime",
+                    changeId);
           } catch (Throwable t) {
             logger.atSevere().withCause(t).log("Failed to rebuild change %s", changeId);
             ok = false;
@@ -918,10 +931,12 @@ public class NoteDbMigrator implements AutoCloseable {
         // to specify the repo name in the task text.
         pm.update(toSave);
       } catch (LockFailureException e) {
-        logger.atWarning().log(
-            "Rebuilding detected a conflicting NoteDb update for the following refs, which will"
-                + " be auto-rebuilt at runtime: %s",
-            e.getFailedRefs().stream().distinct().sorted().collect(joining(", ")));
+        logger
+            .atWarning()
+            .log(
+                "Rebuilding detected a conflicting NoteDb update for the following refs, which will"
+                    + " be auto-rebuilt at runtime: %s",
+                e.getFailedRefs().stream().distinct().sorted().collect(joining(", ")));
       } catch (IOException e) {
         logger.atSevere().withCause(e).log("Failed to save NoteDb state for %s", project);
       } finally {

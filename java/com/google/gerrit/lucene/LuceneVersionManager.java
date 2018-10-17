@@ -16,7 +16,6 @@ package com.google.gerrit.lucene;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.Schema;
@@ -25,6 +24,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.OnlineUpgradeListener;
 import com.google.gerrit.server.index.VersionManager;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class LuceneVersionManager extends VersionManager {
   LuceneVersionManager(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
-      DynamicSet<OnlineUpgradeListener> listeners,
+      PluginSetContext<OnlineUpgradeListener> listeners,
       Collection<IndexDefinition<?, ?, ?>> defs) {
     super(sitePaths, listeners, defs, VersionManager.getOnlineUpgrade(cfg));
   }

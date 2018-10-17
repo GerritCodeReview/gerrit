@@ -15,7 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -27,11 +27,12 @@ public class GerritServerConfigReloader {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GerritServerConfigProvider configProvider;
-  private final DynamicSet<GerritConfigListener> configListeners;
+  private final PluginSetContext<GerritConfigListener> configListeners;
 
   @Inject
   GerritServerConfigReloader(
-      GerritServerConfigProvider configProvider, DynamicSet<GerritConfigListener> configListeners) {
+      GerritServerConfigProvider configProvider,
+      PluginSetContext<GerritConfigListener> configListeners) {
     this.configProvider = configProvider;
     this.configListeners = configListeners;
   }
@@ -49,9 +50,7 @@ public class GerritServerConfigReloader {
 
   public List<ConfigUpdatedEvent.Update> fireUpdatedConfigEvent(ConfigUpdatedEvent event) {
     ArrayList<ConfigUpdatedEvent.Update> result = new ArrayList<>();
-    for (GerritConfigListener configListener : configListeners) {
-      result.addAll(configListener.configUpdated(event));
-    }
+    configListeners.runEach(l -> result.addAll(l.configUpdated(event)));
     return result;
   }
 }

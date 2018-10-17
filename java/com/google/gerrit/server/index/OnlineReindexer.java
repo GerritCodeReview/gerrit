@@ -18,11 +18,11 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.SiteIndexer;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -35,7 +35,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
   private final SiteIndexer<K, V, I> batchIndexer;
   private final int oldVersion;
   private final int newVersion;
-  private final DynamicSet<OnlineUpgradeListener> listeners;
+  private final PluginSetContext<OnlineUpgradeListener> listeners;
   private I index;
   private final AtomicBoolean running = new AtomicBoolean();
 
@@ -43,7 +43,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
       IndexDefinition<K, V, I> def,
       int oldVersion,
       int newVersion,
-      DynamicSet<OnlineUpgradeListener> listeners) {
+      PluginSetContext<OnlineUpgradeListener> listeners) {
     this.name = def.getName();
     this.indexes = def.getIndexCollection();
     this.batchIndexer = def.getSiteIndexer();
@@ -63,14 +63,14 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
                 reindex();
                 ok = true;
               } catch (IOException e) {
-                logger.atSevere().withCause(e).log(
-                    "Online reindex of %s schema version %s failed", name, version(index));
+                logger
+                    .atSevere()
+                    .withCause(e)
+                    .log("Online reindex of %s schema version %s failed", name, version(index));
               } finally {
                 running.set(false);
                 if (!ok) {
-                  for (OnlineUpgradeListener listener : listeners) {
-                    listener.onFailure(name, oldVersion, newVersion);
-                  }
+                  listeners.runEach(listener -> listener.onFailure(name, oldVersion, newVersion));
                 }
               }
             }
@@ -94,33 +94,33 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
   }
 
   private void reindex() throws IOException {
-    for (OnlineUpgradeListener listener : listeners) {
-      listener.onStart(name, oldVersion, newVersion);
-    }
+    listeners.runEach(listener -> listener.onStart(name, oldVersion, newVersion));
     index =
         requireNonNull(
             indexes.getWriteIndex(newVersion),
             () -> String.format("not an active write schema version: %s %s", name, newVersion));
-    logger.atInfo().log(
-        "Starting online reindex of %s from schema version %s to %s",
-        name, version(indexes.getSearchIndex()), version(index));
+    logger
+        .atInfo()
+        .log(
+            "Starting online reindex of %s from schema version %s to %s",
+            name, version(indexes.getSearchIndex()), version(index));
 
     if (oldVersion != newVersion) {
       index.deleteAll();
     }
     SiteIndexer.Result result = batchIndexer.indexAll(index);
     if (!result.success()) {
-      logger.atSevere().log(
-          "Online reindex of %s schema version %s failed. Successfully"
-              + " indexed %s, failed to index %s",
-          name, version(index), result.doneCount(), result.failedCount());
+      logger
+          .atSevere()
+          .log(
+              "Online reindex of %s schema version %s failed. Successfully"
+                  + " indexed %s, failed to index %s",
+              name, version(index), result.doneCount(), result.failedCount());
       return;
     }
     logger.atInfo().log("Reindex %s to version %s complete", name, version(index));
     activateIndex();
-    for (OnlineUpgradeListener listener : listeners) {
-      listener.onSuccess(name, oldVersion, newVersion);
-    }
+    listeners.runEach(listener -> listener.onSuccess(name, oldVersion, newVersion));
   }
 
   public void activateIndex() {

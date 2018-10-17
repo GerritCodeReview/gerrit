@@ -35,6 +35,24 @@
       "revId": "2a8637ad5d675d4bca3dee15819b473cff39f73e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "514249d6_ff081c91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-17T07:24:40Z",
+      "side": 1,
+      "message": "That might be better, but I don\u0027t know if anyone is relying on that message.\n\nPersonally I would be OK with getting rid of it.  I don\u0027t really like that a change gets bumped up to the top of the dashboard only because it\u0027s been cherry-picked.\n\nIf we go ahead with this change, maybe just amend the commit message to mention these limitations so it\u0027s clear that we were aware of them when the change was done?",
+      "parentUuid": "ac9e7a49_4d868289",
+      "revId": "2a8637ad5d675d4bca3dee15819b473cff39f73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

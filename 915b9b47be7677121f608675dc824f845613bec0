@@ -34,6 +34,24 @@
       "revId": "915b9b47be7677121f608675dc824f845613bec0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71b2af27_159f17f2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-17T06:29:27Z",
+      "side": 1,
+      "message": "Yes, the original change didn\u0027t need this assertion since it was already there. But if we add functionality that marks some cherry-pick changes as WIP, we should test both, one case where it is set and one case where it\u0027s not set. Hence I think this should be part of this change. It\u0027s just adding one more assertion, just change lines 316/317 to:\n\n    ChangeInfo changeInfoWithDetails \u003d\n        gApi.changes().id(project.get() + \"~master~\" + r.getChangeId()).get();\n    assertThat(changeInfoWithDetails.workInProgress).isNull();\n    Collection\u003cChangeMessageInfo\u003e messages \u003d changeInfoWithDetails.messages;",
+      "parentUuid": "7a35561b_47f788be",
+      "revId": "915b9b47be7677121f608675dc824f845613bec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

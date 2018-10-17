@@ -46,6 +46,30 @@
       "revId": "60a45dbe2c335386008c65d350b25b1e9aa53e4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23f9ace2_e90d90ec",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-17T10:32:50Z",
+      "side": 1,
+      "message": "Good question how deletions should be handled here. It feels naturally to put commentlinks into config-input since they are returned with config-info. I would prefer if we can find a solution to make this work with the PutConfig REST endpoint. If we add separate REST endpoints it means that we must add separate REST endpoints also for any other such config option which should be deletable. \n\nI wonder how you would specify a commentlink that should be deleted. Commentlink doesn\u0027t seem to have an ID or name that uniquely specifies it?",
+      "parentUuid": "9f156e26_10c25a3f",
+      "range": {
+        "startLine": 3258,
+        "startChar": 0,
+        "endLine": 3260,
+        "endChar": 41
+      },
+      "revId": "60a45dbe2c335386008c65d350b25b1e9aa53e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

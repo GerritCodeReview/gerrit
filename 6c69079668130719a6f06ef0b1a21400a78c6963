@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ec984a1a_3db0510f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-17T09:34:40Z",
+      "side": 1,
+      "message": "Whoops, yeah, still not quite used to developing outside of the Google bubble :)\n\nI added a unit test for that specific bug and fixed it. Thanks again for catching this.",
+      "parentUuid": "f78d3d35_52b7fadd",
+      "revId": "6c69079668130719a6f06ef0b1a21400a78c6963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eac4cdd9_332baddd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 4

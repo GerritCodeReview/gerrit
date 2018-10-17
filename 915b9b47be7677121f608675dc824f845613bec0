@@ -16,6 +16,24 @@
       "revId": "915b9b47be7677121f608675dc824f845613bec0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a35561b_47f788be",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-17T06:09:19Z",
+      "side": 1,
+      "message": "That wasn\u0027t included in the original change that I cherry-picked here.  It\u0027s in [1] which is about setting WIP if there were conflicts, and I didn\u0027t backport here because it\u0027s a new feature.\n\nIf we want those tests here, I think we should backport them as a separate change.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/199892",
+      "parentUuid": "2f4fa84e_73782016",
+      "revId": "915b9b47be7677121f608675dc824f845613bec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

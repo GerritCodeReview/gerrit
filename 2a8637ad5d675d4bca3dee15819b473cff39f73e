@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1539759455 +0200\nnonce ADWBXRCFKenhPfZoMu5jvA2+mD8Uxj2mTHVYLq+BkNHY8mLI/Bl1uGQmyE6sXdMZu7SaWXvLJoRT\n\n0000000000000000000000000000000000000000 2a8637ad5d675d4bca3dee15819b473cff39f73e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJbxt1fAAoJEHFVO370GiZWZ5gH/RujhbxnBVdcW3COTej3nORJ\nUjEFDoE69vgtnVEqLGDvaJAd6ghs/T4qJb7T7w6BkybM2zF/B6LflERRIIxEV8x7\n++dOLiblA01u3FUA5QzKLlwYaCEkyU745QiD9NjkAdRyxGDBX4vheab2pofpUg9U\nn/IvNd/ztUQiZXQ3bqqbBIt3BMs1NyKUEGKuCfg6M8XdE6DhkQfUo1ZB/WHdW1cX\nkaWzlOkWrbiA6PH2MLBNKn7o42yETKZnCtT6o0amTvFjGtJ/JekUEK5DQNecZcxq\nUrXAxb340ZhxJPeF/vI37v+hnVRdxtzoWVXqmo6lqDlDaNOlzTroVHg74rQrkko\u003d\n\u003d5AbD\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e1ae598_d2e90082",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-17T07:13:13Z",
+      "side": 1,
+      "message": "With this change we now get the message \"This patchset was cherry picked as commit xyz\".  If the destination branch is not visible, users clicking on the hyperlinked sha1 will get 404, and the fact that the message is there still reveals that there is at least one hidden branch.\n\nAside from that, I can see this causing support requests from people who don\u0027t understand that the sha1 is on a non-visible branch.  At least when the branch name is there, users can guess that they don\u0027t have permission for that branch.",
+      "revId": "2a8637ad5d675d4bca3dee15819b473cff39f73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

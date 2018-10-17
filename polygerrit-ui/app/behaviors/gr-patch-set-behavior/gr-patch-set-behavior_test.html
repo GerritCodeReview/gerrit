@@ -36,7 +36,7 @@ limitations under the License.
       assert.equal(get(revisions, '3'), undefined);
     });
 
-    test('fetchChangeUpdates on latest', done => {
+    test('fetchChangeUpdates on latest', async () => {
       const knownChange = {
         revisions: {
           sha1: {description: 'patch 1', _number: 1},
@@ -50,16 +50,14 @@ limitations under the License.
           return Promise.resolve(knownChange);
         },
       };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
-          .then(result => {
-            assert.isTrue(result.isLatest);
-            assert.isNotOk(result.newStatus);
-            assert.isFalse(result.newMessages);
-            done();
-          });
+      const result = await Gerrit.PatchSetBehavior.fetchChangeUpdates(
+          knownChange, mockRestApi);
+      assert.isTrue(result.isLatest);
+      assert.isNotOk(result.newStatus);
+      assert.isFalse(result.newMessages);
     });
 
-    test('fetchChangeUpdates not on latest', done => {
+    test('fetchChangeUpdates not on latest', async () => {
       const knownChange = {
         revisions: {
           sha1: {description: 'patch 1', _number: 1},
@@ -82,16 +80,14 @@ limitations under the License.
           return Promise.resolve(actualChange);
         },
       };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
-          .then(result => {
-            assert.isFalse(result.isLatest);
-            assert.isNotOk(result.newStatus);
-            assert.isFalse(result.newMessages);
-            done();
-          });
+      const result = await Gerrit.PatchSetBehavior.fetchChangeUpdates(
+          knownChange, mockRestApi);
+      assert.isFalse(result.isLatest);
+      assert.isNotOk(result.newStatus);
+      assert.isFalse(result.newMessages);
     });
 
-    test('fetchChangeUpdates new status', done => {
+    test('fetchChangeUpdates new status', async () => {
       const knownChange = {
         revisions: {
           sha1: {description: 'patch 1', _number: 1},
@@ -113,16 +109,14 @@ limitations under the License.
           return Promise.resolve(actualChange);
         },
       };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
-          .then(result => {
-            assert.isTrue(result.isLatest);
-            assert.equal(result.newStatus, 'MERGED');
-            assert.isFalse(result.newMessages);
-            done();
-          });
+      const result = await Gerrit.PatchSetBehavior.fetchChangeUpdates(
+          knownChange, mockRestApi);
+      assert.isTrue(result.isLatest);
+      assert.equal(result.newStatus, 'MERGED');
+      assert.isFalse(result.newMessages);
     });
 
-    test('fetchChangeUpdates new messages', done => {
+    test('fetchChangeUpdates new messages', async () => {
       const knownChange = {
         revisions: {
           sha1: {description: 'patch 1', _number: 1},
@@ -144,13 +138,11 @@ limitations under the License.
           return Promise.resolve(actualChange);
         },
       };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
-          .then(result => {
-            assert.isTrue(result.isLatest);
-            assert.isNotOk(result.newStatus);
-            assert.isTrue(result.newMessages);
-            done();
-          });
+      const result = await Gerrit.PatchSetBehavior.fetchChangeUpdates(
+          knownChange, mockRestApi);
+      assert.isTrue(result.isLatest);
+      assert.isNotOk(result.newStatus);
+      assert.isTrue(result.newMessages);
     });
 
     test('_computeWipForPatchSets', () => {

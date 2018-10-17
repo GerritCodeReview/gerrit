@@ -226,23 +226,20 @@ limitations under the License.
      *     has been loaded, and false if a newer patch has been uploaded in the
      *     meantime. The promise is rejected on network error.
      */
-    fetchChangeUpdates(change, restAPI) {
+    async fetchChangeUpdates(change, restAPI) {
       const knownLatest = Gerrit.PatchSetBehavior.computeLatestPatchNum(
           Gerrit.PatchSetBehavior.computeAllPatchSets(change));
-      return restAPI.getChangeDetail(change._number)
-          .then(detail => {
-            if (!detail) {
-              const error = new Error('Unable to check for latest patchset.');
-              return Promise.reject(error);
-            }
-            const actualLatest = Gerrit.PatchSetBehavior.computeLatestPatchNum(
-                Gerrit.PatchSetBehavior.computeAllPatchSets(detail));
-            return {
-              isLatest: actualLatest <= knownLatest,
-              newStatus: change.status !== detail.status ? detail.status : null,
-              newMessages: change.messages.length < detail.messages.length,
-            };
-          });
+      const detail = await restAPI.getChangeDetail(change._number);
+      if (!detail) {
+        throw new Error('Unable to check for latest patchset.');
+      }
+      const actualLatest = Gerrit.PatchSetBehavior.computeLatestPatchNum(
+          Gerrit.PatchSetBehavior.computeAllPatchSets(detail));
+      return {
+        isLatest: actualLatest <= knownLatest,
+        newStatus: change.status !== detail.status ? detail.status : null,
+        newMessages: change.messages.length < detail.messages.length,
+      };
     },
 
     /**

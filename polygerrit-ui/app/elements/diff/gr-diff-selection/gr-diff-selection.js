@@ -179,9 +179,15 @@
       const startLineEl =
           this.diffBuilder.getLineElByChild(range.startContainer);
       const endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
+      // Happens when triple click in side-by-side mode with other side empty.
+      const endsAtOtherEmptySide = !endLineEl &&
+          range.endOffset === 0 &&
+          range.endContainer.nodeName === 'TD' &&
+          (range.endContainer.classList.contains('left') ||
+           range.endContainer.classList.contains('right'));
       const startLineNum = parseInt(startLineEl.getAttribute('data-value'), 10);
-      const endLineNum = endLineEl === null ?
-          undefined :
+      const endLineNum = endsAtOtherEmptySide ?
+          (startLineNum + 1) :
           parseInt(endLineEl.getAttribute('data-value'), 10);
 
       return this._getRangeFromDiff(startLineNum, range.startOffset, endLineNum,

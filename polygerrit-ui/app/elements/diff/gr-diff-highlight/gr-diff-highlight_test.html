@@ -123,7 +123,7 @@ limitations under the License.
         <tbody class="section both">
           <tr class="diff-row side-by-side" left-type="both" right-type="both">
             <td class="left lineNum" data-value="165"></td>
-            <td class="content both"><div class="contentText">in physicis, quibus maxime gloriatur, primum totus est alienus. Democritea dicit</div></td>
+            <td class="content both"><div class="contentText"></div></td>
             <td class="right lineNum" data-value="147"></td>
             <td class="content both"><div class="contentText">in physicis, <hl><span class="tab-indicator" style="tab-size:8;">	</span></hl> quibus maxime gloriatur, primum totus est alienus. Democritea dicit</div></td>
           </tr>
@@ -586,6 +586,21 @@ limitations under the License.
           startChar: 0,
           endLine: 119,
           endChar: element._getLength(startContent),
+        });
+        assert.equal(getActionSide(), 'right');
+      });
+
+      test('_fixTripleClickSelection empty line', () => {
+        const startContent = stubContent(146, 'right');
+        const endContent = stubContent(165, 'left');
+        emulateSelection(startContent.firstChild, 0,
+            endContent.parentElement.previousElementSibling, 0);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 146,
+          startChar: 0,
+          endLine: 146,
+          endChar: 84,
         });
         assert.equal(getActionSide(), 'right');
       });

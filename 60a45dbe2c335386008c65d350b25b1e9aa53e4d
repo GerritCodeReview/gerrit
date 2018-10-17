@@ -94,6 +94,30 @@
       "revId": "60a45dbe2c335386008c65d350b25b1e9aa53e4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "439aaaca_c12197dc",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-17T12:31:38Z",
+      "side": 1,
+      "message": "Ups, I just looked at CommentlinkInfo and missed that there was still the map key, which is the name of the commentlink. That should be a good id :)\n\n\u003e To support deletion, maybe we can implement in a similar way to hashtags.  I.e. within the input have\n\u003e separate maps for additions/updates and deletions.\n\nYes, I was thinking that something like this would be best.",
+      "parentUuid": "27667396_1b8f44fe",
+      "range": {
+        "startLine": 3258,
+        "startChar": 0,
+        "endLine": 3260,
+        "endChar": 41
+      },
+      "revId": "60a45dbe2c335386008c65d350b25b1e9aa53e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

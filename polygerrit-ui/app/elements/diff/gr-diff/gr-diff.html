@@ -30,6 +30,11 @@ limitations under the License.
 <dom-module id="gr-diff">
   <template>
     <style include="shared-styles">
+      :host {
+        display: block;
+        overflow: auto;
+        padding-bottom: 16px;
+      }
       :host(.no-left) .sideBySide ::content .left,
       :host(.no-left) .sideBySide ::content .left + td,
       :host(.no-left) .sideBySide ::content .right:not([data-value]),

@@ -3084,6 +3084,25 @@ link:rest-api-changes.html#auto_closeable_changes_check_result[
 AutoCloseableChangesCheckResult] entity.
 |==================================================
 
+[[commentlink-info]]
+=== CommentLinkInfo
+The `CommentLinkInfo` entity describes a
+link:config-gerrit.html#commentlink[commentlink].
+
+[options="header",cols="1,^2,4"]
+|==================================================
+|Field Name |        |Description
+|`match`    |        |A JavaScript regular expression to match
+positions to be replaced with a hyperlink, as documented in
+link#config-gerrit.html#commentlink.name.match[commentlink.name.match].
+|`link`     |        |The URL to direct the user to whenever the
+regular expression is matched, as documented in
+link#config-gerrit.html#commentlink.name.link[commentlink.name.link].
+|`enabled`  |optional|Whether the commentlink is enabled, as documented
+in link#config-gerrit.html#commentlink.name.enabled[
+commentlink.name.enabled]. If not set the commentlink is enabled.
+|==================================================
+
 [[config-info]]
 === ConfigInfo
 The `ConfigInfo` entity contains information about the effective project
@@ -3150,10 +3169,8 @@ The state of the project, can be `ACTIVE`, `READ_ONLY` or `HIDDEN`. +
 Not set if the project state is `ACTIVE`.
 |`commentlinks`              ||
 Map with the comment link configurations of the project. The name of
-the comment link configuration is mapped to the comment link
-configuration, which has the same format as the
-link:config-gerrit.html#_a_id_commentlink_a_section_commentlink[
-commentlink section] of `gerrit.config`.
+the comment link configuration is mapped to a link:#commentlink-info[
+CommentlinkInfo] entity.
 |`theme`                                   |optional|
 The theme that is configured for the project as a link:#theme-info[
 ThemeInfo] entity.

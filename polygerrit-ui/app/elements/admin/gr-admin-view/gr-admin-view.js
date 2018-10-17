@@ -78,52 +78,49 @@
       this.reload();
     },
 
-    reload() {
+    async reload() {
       const promises = [
         this.$.restAPI.getAccount(),
         Gerrit.awaitPluginsLoaded(),
       ];
-      return Promise.all(promises).then(result => {
-        this._account = result[0];
-        let options;
-        if (this._repoName) {
-          options = {repoName: this._repoName};
-        } else if (this._groupId) {
-          options = {
-            groupId: this._groupId,
-            groupName: this._groupName,
-            groupIsInternal: this._groupIsInternal,
-            isAdmin: this._isAdmin,
-            groupOwner: this._groupOwner,
+      const result = await Promise.all(promises);
+      this._account = result[0];
+      let options;
+      if (this._repoName) {
+        options = {repoName: this._repoName};
+      } else if (this._groupId) {
+        options = {
+          groupId: this._groupId,
+          groupName: this._groupName,
+          groupIsInternal: this._groupIsInternal,
+          isAdmin: this._isAdmin,
+          groupOwner: this._groupOwner,
+        };
+      }
+
+      const res = await this.getAdminLinks(this._account,
+          this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
+          this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI),
+          options);
+      this._filteredLinks = res.links;
+      this._breadcrumbParentName = res.expandedSection ?
+          res.expandedSection.name : '';
+
+      if (!res.expandedSection) {
+        this._subsectionLinks = [];
+        return;
+      }
+      this._subsectionLinks = [res.expandedSection]
+        .concat(res.expandedSection.children).map(section => {
+          return {
+            text: !section.detailType ? 'Home' : section.name,
+            value: section.view + (section.detailType || ''),
+            view: section.view,
+            url: section.url,
+            detailType: section.detailType,
+            parent: this._groupId || this._repoName || '',
           };
-        }
-
-        return this.getAdminLinks(this._account,
-            this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
-            this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI),
-            options)
-            .then(res => {
-              this._filteredLinks = res.links;
-              this._breadcrumbParentName = res.expandedSection ?
-                  res.expandedSection.name : '';
-
-              if (!res.expandedSection) {
-                this._subsectionLinks = [];
-                return;
-              }
-              this._subsectionLinks = [res.expandedSection]
-              .concat(res.expandedSection.children).map(section => {
-                return {
-                  text: !section.detailType ? 'Home' : section.name,
-                  value: section.view + (section.detailType || ''),
-                  view: section.view,
-                  url: section.url,
-                  detailType: section.detailType,
-                  parent: this._groupId || this._repoName || '',
-                };
-              });
-            });
-      });
+        });
     },
 
     _computeSelectValue(params) {
@@ -250,30 +247,27 @@
       return itemView === params.adminView ? 'selected' : '';
     },
 
-    _computeGroupName(groupId) {
+    async _computeGroupName(groupId) {
       if (!groupId) { return ''; }
 
+      const group = await this.$.restAPI.getGroupConfig(groupId);
+      if (!group || !group.name) { return; }
+
       const promises = [];
-      this.$.restAPI.getGroupConfig(groupId).then(group => {
-        if (!group || !group.name) { return; }
 
-        this._groupName = group.name;
-        this._groupIsInternal = !!group.id.match(INTERNAL_GROUP_REGEX);
-        this.reload();
+      this._groupName = group.name;
+      this._groupIsInternal = !!group.id.match(INTERNAL_GROUP_REGEX);
 
-        promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
-          this._isAdmin = isAdmin;
-        }));
+      promises.push((async () => {
+        this._isAdmin = await this.$.restAPI.getIsAdmin();
+      })());
 
-        promises.push(this.$.restAPI.getIsGroupOwner(group.name).then(
-            isOwner => {
-              this._groupOwner = isOwner;
-            }));
+      promises.push((async () => {
+        this._groupOwner = await this.$.restAPI.getIsGroupOwner(group.name);
+      })());
 
-        return Promise.all(promises).then(() => {
-          this.reload();
-        });
-      });
+      await Promise.all(promises);
+      await this.reload();
     },
 
     _updateGroupName(e) {

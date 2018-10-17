@@ -47,20 +47,17 @@
       this.fire('title-change', {title: 'Repo Commands'});
     },
 
-    _loadRepo() {
-      if (!this.repo) { return Promise.resolve(); }
+    async _loadRepo() {
+      if (!this.repo) { return; }
 
       const errFn = response => {
         this.fire('page-error', {response});
       };
 
-      return this.$.restAPI.getProjectConfig(this.repo, errFn)
-          .then(config => {
-            if (!config) { return Promise.resolve(); }
-
-            this._repoConfig = config;
-            this._loading = false;
-          });
+      const config = await this.$.restAPI.getProjectConfig(this.repo, errFn);
+      if (!config) { return; }
+      this._repoConfig = config;
+      this._loading = false;
     },
 
     _computeLoadingClass(loading) {
@@ -71,13 +68,12 @@
       return this._loading || this._loading === undefined;
     },
 
-    _handleRunningGC() {
-      return this.$.restAPI.runRepoGC(this.repo).then(response => {
-        if (response.status === 200) {
-          this.dispatchEvent(new CustomEvent('show-alert',
-              {detail: {message: GC_MESSAGE}, bubbles: true}));
-        }
-      });
+    async _handleRunningGC() {
+      const response = await this.$.restAPI.runRepoGC(this.repo);
+      if (response.status === 200) {
+        this.dispatchEvent(new CustomEvent('show-alert',
+            {detail: {message: GC_MESSAGE}, bubbles: true}));
+      }
     },
 
     _createNewChange() {
@@ -93,19 +89,18 @@
       this.$.createChangeOverlay.close();
     },
 
-    _handleEditRepoConfig() {
-      return this.$.restAPI.createChange(this.repo, CONFIG_BRANCH,
-          EDIT_CONFIG_SUBJECT, undefined, false, true).then(change => {
-            const message = change ?
-                CREATE_CHANGE_SUCCEEDED_MESSAGE :
-                CREATE_CHANGE_FAILED_MESSAGE;
-            this.dispatchEvent(new CustomEvent('show-alert',
-                {detail: {message}, bubbles: true}));
-            if (!change) { return; }
+    async _handleEditRepoConfig() {
+      const change = await this.$.restAPI.createChange(this.repo, CONFIG_BRANCH,
+          EDIT_CONFIG_SUBJECT, undefined, false, true);
+      const message = change ?
+          CREATE_CHANGE_SUCCEEDED_MESSAGE :
+          CREATE_CHANGE_FAILED_MESSAGE;
+      this.dispatchEvent(new CustomEvent('show-alert',
+          {detail: {message}, bubbles: true}));
+      if (!change) { return; }
 
-            Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getEditUrlForDiff(
-                change, CONFIG_PATH, INITIAL_PATCHSET));
-          });
+      Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getEditUrlForDiff(
+          change, CONFIG_PATH, INITIAL_PATCHSET));
     },
   });
 })();

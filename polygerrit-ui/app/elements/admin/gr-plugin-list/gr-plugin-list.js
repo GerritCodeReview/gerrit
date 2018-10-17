@@ -80,24 +80,23 @@
           this._offset);
     },
 
-    _getPlugins(filter, pluginsPerPage, offset) {
+    async _getPlugins(filter, pluginsPerPage, offset) {
       const errFn = response => {
         this.fire('page-error', {response});
       };
-      return this.$.restAPI.getPlugins(filter, pluginsPerPage, offset, errFn)
-          .then(plugins => {
-            if (!plugins) {
-              this._plugins = [];
-              return;
-            }
-            this._plugins = Object.keys(plugins)
-             .map(key => {
-               const plugin = plugins[key];
-               plugin.name = key;
-               return plugin;
-             });
-            this._loading = false;
-          });
+      const plugins = await this.$.restAPI.getPlugins(
+          filter, pluginsPerPage, offset, errFn);
+      if (!plugins) {
+        this._plugins = [];
+        return;
+      }
+      this._plugins = Object.keys(plugins)
+       .map(key => {
+         const plugin = plugins[key];
+         plugin.name = key;
+         return plugin;
+       });
+      this._loading = false;
     },
 
     _status(item) {

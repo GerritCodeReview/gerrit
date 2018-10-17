@@ -66,14 +66,15 @@ limitations under the License.
     });
 
     suite('list with repos', () => {
-      setup(done => {
+      setup(async () => {
         repos = _.times(26, repoGenerator);
         stub('gr-rest-api-interface', {
-          getRepos(num, offset) {
-            return Promise.resolve(repos);
+          async getRepos(num, offset) {
+            return repos;
           },
         });
-        element._paramsChanged(value).then(() => { flush(done); });
+        await element._paramsChanged(value);
+        flushAsynchronousOperations();
       });
 
       test('test for test repo in the list', done => {
@@ -101,16 +102,17 @@ limitations under the License.
     });
 
     suite('list with less then 25 repos', () => {
-      setup(done => {
+      setup(async () => {
         repos = _.times(25, repoGenerator);
 
         stub('gr-rest-api-interface', {
-          getRepos(num, offset) {
-            return Promise.resolve(repos);
+          async getRepos(num, offset) {
+            return repos;
           },
         });
 
-        element._paramsChanged(value).then(() => { flush(done); });
+        await element._paramsChanged(value);
+        flushAsynchronousOperations();
       });
 
       test('_shownRepos', () => {
@@ -124,32 +126,28 @@ limitations under the License.
         reposFiltered = _.times(1, repoGenerator);
       });
 
-      test('_paramsChanged', done => {
-        sandbox.stub(element.$.restAPI, 'getRepos', () => {
-          return Promise.resolve(repos);
+      test('_paramsChanged', async () => {
+        sandbox.stub(element.$.restAPI, 'getRepos', async () => {
+          return repos;
         });
         const value = {
           filter: 'test',
           offset: 25,
         };
-        element._paramsChanged(value).then(() => {
-          assert.isTrue(element.$.restAPI.getRepos.lastCall
-              .calledWithExactly('test', 25, 25));
-          done();
-        });
+        await element._paramsChanged(value);
+        assert.isTrue(element.$.restAPI.getRepos.lastCall
+            .calledWithExactly('test', 25, 25));
       });
 
-      test('latest repos requested are always set', done => {
+      test('latest repos requested are always set', async () => {
         const repoStub = sandbox.stub(element.$.restAPI, 'getRepos');
         repoStub.withArgs('test').returns(Promise.resolve(repos));
         repoStub.withArgs('filter').returns(Promise.resolve(reposFiltered));
         element._filter = 'test';
 
         // Repos are not set because the element._filter differs.
-        element._getRepos('filter', 25, 0).then(() => {
-          assert.deepEqual(element._repos, []);
-          done();
-        });
+        await element._getRepos('filter', 25, 0);
+        assert.deepEqual(element._repos, []);
       });
     });
 

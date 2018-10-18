@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a201d8ab_13949b46",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-10-18T23:40:48Z",
+      "side": 1,
+      "message": "Why an extra level of nested parenthesis?",
+      "range": {
+        "startLine": 232,
+        "startChar": 25,
+        "endLine": 232,
+        "endChar": 26
+      },
+      "revId": "b4366cb02732e7183bcb1a72ff777f08063f7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

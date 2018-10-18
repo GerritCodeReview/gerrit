@@ -318,7 +318,11 @@ limitations under the License.
         assert.isNotOk(element._getThreadGroupForLine(contentEl));
 
         // A thread group gets created.
-        assert.isOk(element._getOrCreateThread(contentEl,
+        const threadGroupEl = element._getOrCreateThreadGroup(contentEl,
+            patchNum, commentSide, side);
+        assert.isOk(threadGroupEl);
+
+        assert.isOk(element._getOrCreateThread(threadGroupEl,
             patchNum, commentSide, side));
 
         // Try to fetch a thread with a different range.
@@ -330,7 +334,7 @@ limitations under the License.
         };
 
         assert.isOk(element._getOrCreateThread(
-            contentEl, patchNum, commentSide, side, range));
+            threadGroupEl, patchNum, commentSide, side, range));
         // The new thread group can be fetched.
         assert.isOk(element._getThreadGroupForLine(contentEl));
 

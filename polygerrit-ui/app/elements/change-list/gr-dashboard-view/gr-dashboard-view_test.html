@@ -279,7 +279,7 @@ limitations under the License.
 
       return element._fetchDashboardChanges({sections}, false).then(() => {
         assert.equal(element._results.length, 1);
-        assert.equal(element._results[0].sectionName, 'test2');
+        assert.equal(element._results[0].name, 'test2');
       });
     });
 

@@ -207,7 +207,7 @@
               this._showNewUserHelp = lastResultSet.length == 0;
             }
             this._results = changes.map((results, i) => ({
-              sectionName: res.sections[i].name,
+              name: res.sections[i].name,
               query: res.sections[i].query,
               results,
               isOutgoing: res.sections[i].isOutgoing,

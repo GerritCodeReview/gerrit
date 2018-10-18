@@ -23,7 +23,7 @@
     /**
      * Fired when the comment creation action was taken (hotkey, click).
      *
-     * @event create-comment
+     * @event create-range-comment
      */
 
     properties: {
@@ -110,7 +110,7 @@
     },
 
     _fireCreateComment() {
-      this.fire('create-comment', {side: this.side, range: this.range});
+      this.fire('create-range-comment', {side: this.side, range: this.range});
     },
   });
 })();

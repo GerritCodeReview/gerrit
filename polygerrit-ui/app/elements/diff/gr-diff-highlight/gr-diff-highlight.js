@@ -35,7 +35,7 @@
     listeners: {
       'comment-mouse-out': '_handleCommentMouseOut',
       'comment-mouse-over': '_handleCommentMouseOver',
-      'create-comment': '_createComment',
+      'create-range-comment': '_createRangeComment',
     },
 
     observers: [

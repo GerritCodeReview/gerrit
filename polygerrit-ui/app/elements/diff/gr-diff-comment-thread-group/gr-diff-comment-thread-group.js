@@ -24,7 +24,6 @@
       changeNum: String,
       projectName: String,
       patchForNewThreads: String,
-      range: Object,
       isOnParent: {
         type: Boolean,
         value: false,

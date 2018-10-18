@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -34,6 +37,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 @Singleton
 public class ContributorAgreementsChecker {
@@ -93,6 +98,20 @@ public class ContributorAgreementsChecker {
       List<AccountGroup.UUID> groupIds;
       groupIds = okGroupIds;
 
+      // matchProjects defaults to match all projects when missing.
+      List<String> matchProjectsRegexes = ca.getMatchProjectsRegexes();
+      if (!matchProjectsRegexes.isEmpty()
+          && !projectMatchesAnyPattern(project.get(), matchProjectsRegexes)) {
+        // Doesn't match, isn't checked.
+        continue;
+      }
+      // excludeProjects defaults to exclude no projects when missing.
+      List<String> excludeProjectsRegexes = ca.getExcludeProjectsRegexes();
+      if (!excludeProjectsRegexes.isEmpty()
+          && projectMatchesAnyPattern(project.get(), excludeProjectsRegexes)) {
+        // Matches, isn't checked.
+        continue;
+      }
       for (PermissionRule rule : ca.getAccepted()) {
         if ((rule.getAction() == Action.ALLOW)
             && (rule.getGroup() != null)
@@ -102,7 +121,7 @@ public class ContributorAgreementsChecker {
       }
     }
 
-    if (!iUser.getEffectiveGroups().containsAnyOf(okGroupIds)) {
+    if (!okGroupIds.isEmpty() && !iUser.getEffectiveGroups().containsAnyOf(okGroupIds)) {
       final StringBuilder msg = new StringBuilder();
       msg.append("No Contributor Agreement on file for user ")
           .append(iUser.getNameEmail())
@@ -113,5 +132,24 @@ public class ContributorAgreementsChecker {
       msg.append(urlFormatter.getSettingsUrl("Agreements").orElse(""));
       throw new AuthException(msg.toString());
     }
+  }
+
+  private boolean projectMatchesAnyPattern(String projectName, List<String> regexes) {
+    checkNotNull(regexes);
+    checkArgument(!regexes.isEmpty());
+    for (String patternString : regexes) {
+      Pattern pattern;
+      try {
+        pattern = Pattern.compile(patternString);
+      } catch (PatternSyntaxException e) {
+        // Should never happen: Regular expressions validated when reading project.config.
+        throw new IllegalStateException(
+            "Invalid matchProjects or excludeProjects clause in project.config", e);
+      }
+      if (pattern.matcher(projectName).find()) {
+        return true;
+      }
+    }
+    return false;
   }
 }

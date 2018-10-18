@@ -177,7 +177,7 @@
     },
 
     listeners: {
-      'draft-interaction': '_handleDraftInteraction',
+      'create-comment': '_handleCreateComment',
     },
 
     observers: [
@@ -445,8 +445,32 @@
           this.patchRange);
     },
 
-    _handleDraftInteraction() {
+    /** @param {CustomEvent} e */
+    _handleCreateComment(e) {
+      const {threadGroupEl, lineNum, side, range} = e.detail;
+      const threadEl = this._getOrCreateThread(threadGroupEl, side, range);
+      threadEl.addOrEditDraft(lineNum, range);
       this.$.reporting.recordDraftInteraction();
+    },
+
+    /**
+     * Gets or creates a comment thread from a specific thread group.
+     * May include a range, if the comment is a range comment.
+     *
+     * @param {!Object} threadGroupEl
+     * @param {string} commentSide
+     * @param {!Object=} range
+     * @return {!Object}
+     */
+    _getOrCreateThread(threadGroupEl, commentSide, range=undefined) {
+      let threadEl = threadGroupEl.getThread(commentSide, range);
+
+      if (!threadEl) {
+        threadGroupEl.addNewThread(commentSide, range);
+        Polymer.dom.flush();
+        threadEl = threadGroupEl.getThread(commentSide, range);
+      }
+      return threadEl;
     },
 
     /**

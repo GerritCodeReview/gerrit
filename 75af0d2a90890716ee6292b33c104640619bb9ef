@@ -16,6 +16,24 @@
       "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b20c188_3b1b5af8",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-18T17:37:04Z",
+      "side": 1,
+      "message": "Do you have a concrete proposal that should preempt this approach? Currently it needs to continue operating as a behavior because of how it interacts with iron-a11y-keys-behavior. I\u0027m happy to own the challenge of porting this to Polymer 2 in the meantime.",
+      "parentUuid": "23dcf68e_115bdde2",
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

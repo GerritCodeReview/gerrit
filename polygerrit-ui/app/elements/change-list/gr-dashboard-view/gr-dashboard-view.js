@@ -165,6 +165,7 @@
           this._getProjectDashboard(project, dashboard) :
           Promise.resolve(Gerrit.Nav.getUserDashboard(
               user,
+              '',
               sections,
               title || this._computeTitle(user)));
 

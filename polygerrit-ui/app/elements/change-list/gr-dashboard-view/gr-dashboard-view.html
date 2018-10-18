@@ -101,6 +101,9 @@ limitations under the License.
           <template is="dom-if" if="[[_showNewUserHelp]]">
             <gr-create-change-help on-create-tap="createChangeTap"></gr-create-change-help>
           </template>
+          <template is="dom-if" if="[[!_showNewUserHelp]]">
+            No changes
+          </template>
         </div>
       </gr-change-list>
     </div>

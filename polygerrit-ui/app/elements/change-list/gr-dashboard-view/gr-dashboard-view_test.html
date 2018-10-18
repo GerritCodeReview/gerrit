@@ -299,6 +299,20 @@ limitations under the License.
       });
     });
 
+    test('_showNewUserHelp', () => {
+      element._loading = false;
+      element._showNewUserHelp = false;
+      flushAsynchronousOperations();
+
+      assert.equal(element.$.emptyOutgoing.textContent.trim(), 'No changes');
+      assert.isNotOk(element.$$('gr-create-change-help'));
+      element._showNewUserHelp = true;
+      flushAsynchronousOperations();
+
+      assert.notEqual(element.$.emptyOutgoing.textContent.trim(), 'No changes');
+      assert.isOk(element.$$('gr-create-change-help'));
+    });
+
     test('_computeUserHeaderClass', () => {
       assert.equal(element._computeUserHeaderClass(undefined), '');
       assert.equal(element._computeUserHeaderClass(''), '');

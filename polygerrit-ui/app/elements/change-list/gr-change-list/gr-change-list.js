@@ -63,7 +63,7 @@
        * properties should not be used together.
        *
        * @type {!Array<{
-       *   sectionName: string,
+       *   name: string,
        *   query: string,
        *   results: !Array<!Object>
        * }>}

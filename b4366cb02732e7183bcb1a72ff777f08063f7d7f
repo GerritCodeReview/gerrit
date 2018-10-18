@@ -22,6 +22,30 @@
       "revId": "b4366cb02732e7183bcb1a72ff777f08063f7d7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4182eae6_0c80c3e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-10-18T23:46:14Z",
+      "side": 1,
+      "message": "Oh, right, i guess i could remove them. I thought i would need them to parse one or the other.",
+      "parentUuid": "a201d8ab_13949b46",
+      "range": {
+        "startLine": 232,
+        "startChar": 25,
+        "endLine": 232,
+        "endChar": 26
+      },
+      "revId": "b4366cb02732e7183bcb1a72ff777f08063f7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

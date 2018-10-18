@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48559e4c_f08c3d6c",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-10-18T06:55:27Z",
+      "side": 1,
+      "message": "Unrelated white space change.",
+      "revId": "43ddd042285fdba575fd4df2c91be66388d2b7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

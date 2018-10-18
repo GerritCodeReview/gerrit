@@ -79,6 +79,25 @@ limitations under the License.
               ],
             });
       });
+
+      test('suffixForQuery', () => {
+        const dashboard =
+            Gerrit.Nav.getUserDashboard('user', sections, 'title', ' suffix');
+        assert.deepEqual(
+            dashboard,
+            {
+              title: 'title',
+              sections: [
+                {name: 'section 1', query: 'query 1 suffix'},
+                {name: 'section 2', query: 'query 2 for user suffix'},
+                {
+                  name: 'section 4',
+                  query: 'query 4 suffix',
+                  suffixForDashboard: 'suffix',
+                },
+              ],
+            });
+      });
     });
   });
 </script>

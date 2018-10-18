@@ -711,12 +711,13 @@ limitations under the License.
       },
 
       getUserDashboard(user = 'self', sections = DEFAULT_SECTIONS,
-          title = '') {
+          title = '', suffixForQuery = '') {
         sections = sections
           .filter(section => (user === 'self' || !section.selfOnly))
           .map(section => Object.assign({}, section, {
             name: section.name,
-            query: section.query.replace(USER_PLACEHOLDER_PATTERN, user),
+            query: (section.query + suffixForQuery)
+                .replace(USER_PLACEHOLDER_PATTERN, user),
           }));
         return {title, sections};
       },

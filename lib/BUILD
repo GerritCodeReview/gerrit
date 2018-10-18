@@ -90,8 +90,10 @@ java_library(
     name = "guava",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guava//jar"],
-    runtime_deps = [":j2objc"],
+    exports = [
+        ":j2objc",
+        "@guava//jar",
+    ],
 )
 
 java_library(

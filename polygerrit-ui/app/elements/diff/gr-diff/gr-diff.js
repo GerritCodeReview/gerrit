@@ -395,18 +395,15 @@
     },
 
     /**
-     * Gets or creates a comment thread for a specific spot on a diff.
-     * May include a range, if the comment is a range comment.
-     *
+     * Gets or creates a comment thread group for a specific line and side on a
+     * diff.
      * @param {!Object} contentEl
      * @param {number} patchNum
      * @param {string} commentSide
      * @param {boolean} isOnParent
-     * @param {!Object=} opt_range
      * @return {!Object}
      */
-    _getOrCreateThread(contentEl, patchNum, commentSide,
-        isOnParent, opt_range) {
+    _getOrCreateThreadGroup(contentEl, patchNum, commentSide, isOnParent) {
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
@@ -414,13 +411,31 @@
             commentSide);
         contentEl.appendChild(threadGroupEl);
       }
+      return threadGroupEl;
+    },
 
-      let threadEl = this._getThread(threadGroupEl, commentSide, opt_range);
+    /**
+     * Gets or creates a comment thread for a specific spot on a diff.
+     * May include a range, if the comment is a range comment.
+     *
+     * @param {!Object} contentEl
+     * @param {number} patchNum
+     * @param {string} commentSide
+     * @param {boolean} isOnParent
+     * @param {!Object=} range
+     * @return {!Object}
+     */
+    _getOrCreateThread(contentEl, patchNum, commentSide, isOnParent,
+        range=undefined) {
+      const threadGroupEl = this._getOrCreateThreadGroup(contentEl, patchNum,
+          commentSide, isOnParent);
+
+      let threadEl = this._getThread(threadGroupEl, commentSide, range);
 
       if (!threadEl) {
-        threadGroupEl.addNewThread(commentSide, opt_range);
+        threadGroupEl.addNewThread(commentSide, range);
         Polymer.dom.flush();
-        threadEl = this._getThread(threadGroupEl, commentSide, opt_range);
+        threadEl = this._getThread(threadGroupEl, commentSide, range);
       }
       return threadEl;
     },

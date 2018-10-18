@@ -105,29 +105,5 @@
           a.endLine === b.endLine &&
           a.endChar === b.endChar;
     },
-
-    _sortByDate(threadGroups) {
-      if (!threadGroups.length) { return; }
-      return threadGroups.sort((a, b) => {
-        // If a comment is a draft, it doesn't have a start_datetime yet.
-        // Assume it is newer than the comment it is being compared to.
-        if (!a.start_datetime) {
-          return 1;
-        }
-        if (!b.start_datetime) {
-          return -1;
-        }
-        return util.parseDate(a.start_datetime) -
-            util.parseDate(b.start_datetime);
-      });
-    },
-
-    _calculateLocationRange(range, comment) {
-      return 'range-' + range.start_line + '-' +
-          range.start_character + '-' +
-          range.end_line + '-' +
-          range.end_character + '-' +
-          comment.__commentSide;
-    },
   });
 })();

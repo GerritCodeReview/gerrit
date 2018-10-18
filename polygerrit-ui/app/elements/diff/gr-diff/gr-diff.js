@@ -60,9 +60,9 @@
      */
 
      /**
-      * Fired when a draft is added or edited.
+      * Fired when a comment is created
       *
-      * @event draft-interaction
+      * @event create-comment-at-location
       */
 
     properties: {
@@ -359,23 +359,29 @@
 
     /**
      * @param {!Object} lineEl
-     * @param {number=} opt_lineNum
-     * @param {string=} opt_side
-     * @param {!Object=} opt_range
+     * @param {number=} lineNum
+     * @param {string=} side
+     * @param {!Object=} range
      */
-    _createComment(lineEl, opt_lineNum, opt_side, opt_range) {
-      this.dispatchEvent(new CustomEvent('draft-interaction', {bubbles: true}));
+    _createComment(lineEl, lineNum=undefined, side=undefined, range=undefined) {
       const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       const contentEl = contentText.parentElement;
-      const side = opt_side ||
+      side = side ||
           this._getCommentSideByLineAndContent(lineEl, contentEl);
       const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       const isOnParent =
         this._getIsParentCommentByLineAndContent(lineEl, contentEl);
       const threadGroupEl = this._getOrCreateThreadGroup(contentEl, patchNum,
           commentSide, isOnParent);
-      const threadEl = this._getOrCreateThread(threadGroupEl, side, opt_range);
-      threadEl.addOrEditDraft(opt_lineNum, opt_range);
+      this.dispatchEvent(new CustomEvent('create-comment-at-location', {
+        bubbles: true,
+        details: {
+          threadGroupEl,
+          lineNum,
+          side,
+          range,
+        },
+      }));
     },
 
     _getThreadGroupForLine(contentEl) {
@@ -400,26 +406,6 @@
         contentEl.appendChild(threadGroupEl);
       }
       return threadGroupEl;
-    },
-
-    /**
-     * Gets or creates a comment thread from a specific thread group.
-     * May include a range, if the comment is a range comment.
-     *
-     * @param {!Object} threadGroupEl
-     * @param {string} commentSide
-     * @param {!Object=} range
-     * @return {!Object}
-     */
-    _getOrCreateThread(threadGroupEl, commentSide, range=undefined) {
-      let threadEl = threadGroupEl.getThread(commentSide, range);
-
-      if (!threadEl) {
-        threadGroupEl.addNewThread(commentSide, range);
-        Polymer.dom.flush();
-        threadEl = threadGroupEl.getThread(commentSide, range);
-      }
-      return threadEl;
     },
 
     /**

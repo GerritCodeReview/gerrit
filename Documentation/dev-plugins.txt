@@ -1311,6 +1311,7 @@ have an account in Gerrit yet, but which exist in the user backend.
 
 This extension point is invoked only on the following occasions:
 
+* when adding a user as reviewer to a change
 * when adding a user as member to a Gerrit internal group
 * when parsing a user ID for an SSH command
 

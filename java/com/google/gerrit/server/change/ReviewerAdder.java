@@ -57,6 +57,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AutoAccountCreator;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupResolver;
@@ -68,6 +69,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -156,6 +158,8 @@ public class ReviewerAdder {
   private final Provider<AnonymousUser> anonymousProvider;
   private final AddReviewersOp.Factory addReviewersOpFactory;
   private final OutgoingEmailValidator validator;
+  private final PluginSetContext<AutoAccountCreator> autoAccountCreators;
+  private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
   ReviewerAdder(
@@ -171,7 +175,9 @@ public class ReviewerAdder {
       ProjectCache projectCache,
       Provider<AnonymousUser> anonymousProvider,
       AddReviewersOp.Factory addReviewersOpFactory,
-      OutgoingEmailValidator validator) {
+      OutgoingEmailValidator validator,
+      PluginSetContext<AutoAccountCreator> autoAccountCreators,
+      IdentifiedUser.GenericFactory userFactory) {
     this.accountResolver = accountResolver;
     this.permissionBackend = permissionBackend;
     this.groupResolver = groupResolver;
@@ -185,6 +191,8 @@ public class ReviewerAdder {
     this.anonymousProvider = anonymousProvider;
     this.addReviewersOpFactory = addReviewersOpFactory;
     this.validator = validator;
+    this.autoAccountCreators = autoAccountCreators;
+    this.userFactory = userFactory;
   }
 
   /**
@@ -273,14 +281,25 @@ public class ReviewerAdder {
       }
     } catch (UnprocessableEntityException | AuthException e) {
       // AuthException won't occur since the user is authenticated at this point.
-      if (!allowGroup && !allowByEmail) {
-        // Only return failure if we aren't going to try other interpretations.
-        return fail(
-            input,
-            FailureType.NOT_FOUND,
-            MessageFormat.format(ChangeMessages.get().reviewerNotFoundUser, input.reviewer));
+
+      Optional<Account> autoCreatedAccount =
+          AutoAccountCreator.createAccount(autoAccountCreators, input.reviewer);
+      if (autoCreatedAccount.isPresent()) {
+        reviewerUser = userFactory.create(autoCreatedAccount.get().getId());
+        if (input.reviewer.equalsIgnoreCase(reviewerUser.getName())
+            || input.reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {
+          exactMatchFound = true;
+        }
+      } else {
+        if (!allowGroup && !allowByEmail) {
+          // Only return failure if we aren't going to try other interpretations.
+          return fail(
+              input,
+              FailureType.NOT_FOUND,
+              MessageFormat.format(ChangeMessages.get().reviewerNotFoundUser, input.reviewer));
+        }
+        return null;
       }
-      return null;
     }
 
     if (isValidReviewer(db, notes.getChange().getDest(), reviewerUser.getAccount())) {

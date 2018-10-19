@@ -18,7 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.groups.GroupApi;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -68,24 +72,17 @@ public class AutoAccountCreationIT extends AbstractDaemonTest {
     String groupName = "testGroup";
     GroupApi groupApi = gApi.groups().create(groupName);
 
-    // check that the user doesn't exist yet
     String user = "foo";
-    try {
-      gApi.accounts().id(user).get();
-      fail("Expected exception");
-    } catch (ResourceNotFoundException e) {
-      assertThat(e.getMessage()).isEqualTo("Account '" + user + "' is not found or ambiguous");
-    }
+    assertThatUserDoesNotExist(user);
 
-    // check that the user can be added to a group anyway since an account is automatically created
+    // check that a non-existing user can be added to a group since an account is automatically
+    // created
     groupApi.addMembers(user);
     List<AccountInfo> members = gApi.groups().id(groupName).members();
     assertThat(Iterables.transform(members, i -> i.name))
         .containsExactly(admin.fullName, user)
         .inOrder();
-
-    // check that the user exists now
-    assertThat(gApi.accounts().id(user).get().name).isEqualTo(user);
+    assertThatUserExists(user);
 
     // check that adding a non-existing user as group member fails if auto account creation is
     // disabled
@@ -94,6 +91,57 @@ public class AutoAccountCreationIT extends AbstractDaemonTest {
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("Account '" + user + "' is not found or ambiguous");
     groupApi.addMembers(user);
+  }
+
+  @Test
+  public void autoCreateAccountOnAddingChangeReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    String user1 = "foo";
+    assertThatUserDoesNotExist(user1);
+
+    // check that a non-existing user can be added as reviewer since an account is automatically
+    // created
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user1;
+    AddReviewerResult addReviewerResult = gApi.changes().id(r.getChangeId()).addReviewer(in);
+    assertThat(addReviewerResult.error).isNull();
+    assertThat(Iterables.transform(addReviewerResult.reviewers, i -> i.name))
+        .containsExactly(user1);
+    assertThatUserExists(user1);
+    assertThat(
+            Iterables.transform(
+                gApi.changes().id(r.getChangeId()).get().reviewers.get(ReviewerState.REVIEWER),
+                i -> i.name))
+        .containsExactly(user1);
+
+    // check that adding a non-existing user as reviewer fails if auto account creation is disabled
+    String user2 = "bar";
+    testAutoAccountCreator.setEnabled(false);
+    in.reviewer = user2;
+    addReviewerResult = gApi.changes().id(r.getChangeId()).addReviewer(in);
+    assertThat(addReviewerResult.error)
+        .isEqualTo(user2 + " does not identify a registered user or group");
+    assertThat(addReviewerResult.reviewers).isNull();
+    assertThatUserDoesNotExist(user2);
+    assertThat(
+            Iterables.transform(
+                gApi.changes().id(r.getChangeId()).get().reviewers.get(ReviewerState.REVIEWER),
+                i -> i.name))
+        .containsExactly(user1);
+  }
+
+  private void assertThatUserDoesNotExist(String user) throws Exception {
+    try {
+      gApi.accounts().id(user).get();
+      fail("Expected exception");
+    } catch (ResourceNotFoundException e) {
+      assertThat(e.getMessage()).isEqualTo("Account '" + user + "' is not found or ambiguous");
+    }
+  }
+
+  private void assertThatUserExists(String user) throws Exception {
+    assertThat(gApi.accounts().id(user).get().name).isEqualTo(user);
   }
 
   private class TestAutoAccountCreator implements AutoAccountCreator {

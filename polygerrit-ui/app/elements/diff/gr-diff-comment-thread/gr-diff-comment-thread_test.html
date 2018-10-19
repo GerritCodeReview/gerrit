@@ -714,5 +714,32 @@ limitations under the License.
       assert.equal(element._orderedComments[1].id, '2');
       assert.equal(element._orderedComments[2].id, '3');
     });
+
+    test('reflects lineNum and commentSide to attributes', () => {
+      element.lineNum = 7;
+      element.commentSide = 'left';
+
+      assert.equal(element.getAttribute('line-num'), '7');
+      assert.equal(element.getAttribute('comment-side'), 'left');
+    });
+
+    test('reflects range to to attributes if set', () => {
+      element.range = {startLine: 4, endLine: 5, startChar: 6, endChar: 7};
+
+      assert.equal(element.getAttribute('range-start-line'), '4');
+      assert.equal(element.getAttribute('range-end-line'), '5');
+      assert.equal(element.getAttribute('range-start-char'), '6');
+      assert.equal(element.getAttribute('range-end-char'), '7');
+    });
+
+    test('removes range attributes if range is unset', () => {
+      element.range = {startLine: 4, endLine: 5, startChar: 6, endChar: 7};
+      element.range = undefined;
+
+      assert.notOk(element.getAttribute('range-start-line'));
+      assert.notOk(element.getAttribute('range-end-line'));
+      assert.notOk(element.getAttribute('range-start-char'));
+      assert.notOk(element.getAttribute('range-end-char'));
+    });
   });
 </script>

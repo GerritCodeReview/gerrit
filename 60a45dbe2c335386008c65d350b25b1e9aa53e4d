@@ -142,6 +142,30 @@
       "revId": "60a45dbe2c335386008c65d350b25b1e9aa53e4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99cdbcd3_15ff92c4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3260,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-19T09:55:04Z",
+      "side": 1,
+      "message": "Sounds good. I will implement it like this.\n\nI don\u0027t have time to work on it right now, so maybe later next week.",
+      "parentUuid": "485c6d03_0fc2c191",
+      "range": {
+        "startLine": 3258,
+        "startChar": 0,
+        "endLine": 3260,
+        "endChar": 41
+      },
+      "revId": "60a45dbe2c335386008c65d350b25b1e9aa53e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

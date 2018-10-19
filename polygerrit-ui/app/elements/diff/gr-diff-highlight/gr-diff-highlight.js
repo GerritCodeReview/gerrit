@@ -171,13 +171,19 @@
       }
       const start = range.start;
       const end = range.end;
+      // Happens when triple click in side-by-side mode with other side empty.
+      const endsAtOtherEmptySide = !end &&
+          domRange.endOffset === 0 &&
+          domRange.endContainer.nodeName === 'TD' &&
+          (domRange.endContainer.classList.contains('left') ||
+           domRange.endContainer.classList.contains('right'));
       const endsAtBeginningOfNextLine = end &&
           start.column === 0 &&
           end.column === 0 &&
           end.line === start.line + 1;
       const content = domRange.cloneContents().querySelector('.contentText');
       const lineLength = content && this._getLength(content) || 0;
-      if (lineLength && endsAtBeginningOfNextLine) {
+      if (lineLength && (endsAtBeginningOfNextLine || endsAtOtherEmptySide)) {
         // Move the selection to the end of the previous line.
         range.end = {
           node: start.node,

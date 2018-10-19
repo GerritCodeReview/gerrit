@@ -99,15 +99,17 @@ limitations under the License.
           'header middle content is not visible');
     });
 
-    test('clicking on date link does not trigger nav', () => {
-      const showStub = sinon.stub(page, 'show');
+    test('clicking on date link fires event', () => {
+      element.side = 'PARENT';
+      const stub = sinon.stub();
+      element.addEventListener('comment-anchor-tap', stub);
       const dateEl = element.$$('.date');
       assert.ok(dateEl);
       MockInteractions.tap(dateEl);
-      const dest = window.location.pathname + '#5';
-      assert(showStub.lastCall.calledWithExactly(dest, null, false),
-          'Should navigate to ' + dest + ' without triggering nav');
-      showStub.restore();
+
+      assert.isTrue(stub.called);
+      assert.deepEqual(stub.lastCall.args[0].detail,
+          {side: element.side, number: element.comment.line});
     });
 
     test('message is not retrieved from storage when other edits', done => {
@@ -731,17 +733,6 @@ limitations under the License.
       element.disabled = false;
       MockInteractions.tap(element.$$('.save'));
       assert.isTrue(saveStub.calledOnce);
-    });
-
-    test('clicking on date link does not trigger nav', () => {
-      const showStub = sinon.stub(page, 'show');
-      const dateEl = element.$$('.date');
-      assert.ok(dateEl);
-      MockInteractions.tap(dateEl);
-      const dest = window.location.pathname + '#5';
-      assert(showStub.lastCall.calledWithExactly(dest, null, false),
-          'Should navigate to ' + dest + ' without triggering nav');
-      showStub.restore();
     });
 
     test('proper event fires on resolve, comment is not saved', done => {

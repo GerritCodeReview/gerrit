@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.account.AutoAccountCreator;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.CacheModule;
@@ -32,6 +33,12 @@ public class LdapModule extends CacheModule {
   static final String GROUP_CACHE = "ldap_groups";
   static final String GROUP_EXIST_CACHE = "ldap_group_existence";
   static final String PARENT_GROUPS_CACHE = "ldap_groups_byinclude";
+
+  private final boolean createMissingAccountsAutomatically;
+
+  public LdapModule(boolean createMissingAccountsAutomatically) {
+    this.createMissingAccountsAutomatically = createMissingAccountsAutomatically;
+  }
 
   @Override
   protected void configure() {
@@ -53,5 +60,9 @@ public class LdapModule extends CacheModule {
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
 
     DynamicSet.bind(binder(), GroupBackend.class).to(LdapGroupBackend.class);
+
+    if (createMissingAccountsAutomatically) {
+      DynamicSet.bind(binder(), AutoAccountCreator.class).to(LdapAutoAccountCreator.class);
+    }
   }
 }

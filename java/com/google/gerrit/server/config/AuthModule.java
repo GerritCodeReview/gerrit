@@ -38,9 +38,12 @@ public class AuthModule extends AbstractModule {
     switch (loginType) {
       case HTTP_LDAP:
       case LDAP:
-      case LDAP_BIND:
       case CLIENT_SSL_CERT_LDAP:
-        install(new LdapModule());
+        install(new LdapModule(true));
+        break;
+
+      case LDAP_BIND:
+        install(new LdapModule(false));
         break;
 
       case OAUTH:

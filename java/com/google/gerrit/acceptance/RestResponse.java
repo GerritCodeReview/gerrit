@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.JSON_MAGIC;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -21,6 +22,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URI;
 import org.apache.http.HttpStatus;
 
 public class RestResponse extends HttpResponse {
@@ -82,5 +84,10 @@ public class RestResponse extends HttpResponse {
 
   public void assertPreconditionFailed() throws Exception {
     assertStatus(HttpStatus.SC_PRECONDITION_FAILED);
+  }
+
+  public void assertTemporaryRedirect(String path) throws Exception {
+    assertStatus(HttpStatus.SC_MOVED_TEMPORARILY);
+    assertThat(URI.create(getHeader("Location")).getPath()).isEqualTo(path);
   }
 }

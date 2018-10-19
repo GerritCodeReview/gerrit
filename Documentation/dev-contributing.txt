@@ -172,9 +172,18 @@ streamlines code review by reducing the need for time-consuming, tedious,
 and contentious discussions about trivial issues like whitespace.
 
 You may download and run `google-java-format` on your own, or you may
-run `./tools/setup_gjf.sh` to download a local copy and set up a
-wrapper script. If you run your own copy, please use the same version,
-as there may be slight differences between versions.
+run `./tools/format/google-java-format --setup` to download a local
+copy to set up the wrapper script `./tools/format/google-java-format.
+If you run this wrapper script it will always use the correct version
+of google-java-format, and you can run it from at git-alias like:
+`gerrit-format = !sh -c '$(git rev-parse --show-toplevel)/tools/format/google-java-format -i $(git show --name-only --format=\"\")' -`
+to format the latest commit `$ git gerrit-format` or:
+`gerrit-format = !sh -c '$(git rev-parse --show-toplevel)/tools/format/google-java-format -i $1' -`
+to format the files of your choosing
+`$ git gerrit-format $(git ls-files -m)`
+with the correct version of google-java-format.
+If you run your own copy, please use the same version, as there may be
+slight differences between versions.
 
 When considering the style beyond just formatting rules, it is often
 more important to match the style of the nearby code which you are

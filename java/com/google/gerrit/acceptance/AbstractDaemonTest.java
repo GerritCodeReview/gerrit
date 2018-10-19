@@ -269,6 +269,7 @@ public abstract class AbstractDaemonTest {
   protected Project.NameKey project;
   protected RestSession adminRestSession;
   protected RestSession userRestSession;
+  protected RestSession anonymousRestSession;
   protected ReviewDb db;
   protected SshSession adminSshSession;
   protected SshSession userSshSession;
@@ -445,6 +446,7 @@ public abstract class AbstractDaemonTest {
 
     adminRestSession = new RestSession(server, admin);
     userRestSession = new RestSession(server, user);
+    anonymousRestSession = new RestSession(server, null);
 
     initSsh();
 

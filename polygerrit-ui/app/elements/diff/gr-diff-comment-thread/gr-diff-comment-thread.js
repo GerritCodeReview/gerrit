@@ -41,12 +41,18 @@
         type: Array,
         value() { return []; },
       },
-      range: Object,
+      range: {
+        type: Object,
+        observer: '_rangeChanged',
+      },
       keyEventTarget: {
         type: Object,
         value() { return document.body; },
       },
-      commentSide: String,
+      commentSide: {
+        type: String,
+        reflectToAttribute: true,
+      },
       patchNum: String,
       path: String,
       projectName: {
@@ -79,8 +85,11 @@
         type: Boolean,
         value: false,
       },
-      /** Necessary only if showFilePath is true */
-      lineNum: Number,
+      /** Necessary only if showFilePath is true or when used with gr-diff */
+      lineNum: {
+        type: Number,
+        reflectToAttribute: true,
+      },
       unresolved: {
         type: Boolean,
         notify: true,
@@ -449,6 +458,25 @@
 
     _computeHostClass(unresolved) {
       return unresolved ? 'unresolved' : '';
+    },
+
+    /**
+     * Custom "reflectToAttribute".
+     *
+     * Splits the range into four number-valued attributes.
+     */
+    _rangeChanged(newRange) {
+      if (newRange) {
+        this.setAttribute('range-start-line', newRange.startLine);
+        this.setAttribute('range-end-line', newRange.endLine);
+        this.setAttribute('range-start-char', newRange.startChar);
+        this.setAttribute('range-end-char', newRange.endChar);
+      } else {
+        this.removeAttribute('range-start-line');
+        this.removeAttribute('range-end-line');
+        this.removeAttribute('range-start-char');
+        this.removeAttribute('range-end-char');
+      }
     },
 
     /**

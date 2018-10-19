@@ -131,7 +131,8 @@
       if (reviewer.account) {
         // Reviewer is an account suggestion from getChangeSuggestedReviewers.
         const reviewerName = this._accountOrAnon(reviewer.account);
-        name = reviewerName + ' <' + reviewer.account.email + '>' +
+        const reviewerEmail = this._reviewerEmail(reviewer.account.email);
+        name = reviewerName + reviewerEmail +
             generateStatusStr(reviewer.account);
         value = reviewer;
       } else if (reviewer.group) {
@@ -141,7 +142,8 @@
       } else if (reviewer._account_id) {
         // Reviewer is an account suggestion from getSuggestedAccounts.
         const reviewerName = this._accountOrAnon(reviewer);
-        name = reviewerName + ' <' + reviewer.email + '>' +
+        const reviewerEmail = this._reviewerEmail(reviewer.email);
+        name = reviewerName + reviewerEmail +
             generateStatusStr(reviewer);
         value = {account: reviewer, count: 1};
       }
@@ -167,6 +169,14 @@
             .filter(this.filter)
             .map(this._makeSuggestion.bind(this));
       });
+    },
+
+    _reviewerEmail(email) {
+      if (typeof email !== 'undefined') {
+        return ' <' + email + '>';
+      }
+
+      return '';
     },
   });
 })();

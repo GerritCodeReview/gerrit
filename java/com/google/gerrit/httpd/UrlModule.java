@@ -87,7 +87,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/settings/?$").with(screen(PageLinks.SETTINGS));
     serveRegex("^/register$").with(registerScreen(false));
     serveRegex("^/register/(.+)$").with(registerScreen(true));
-    serveRegex("^/([1-9][0-9]*)/?$").with(directChangeById());
+    serveRegex("^/([1-9][0-9]*)/?$").with(NumericChangeIdRedirectServlet.class);
     serveRegex("^/p/(.*)$").with(queryProjectNew());
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
 
@@ -158,30 +158,6 @@ class UrlModule extends ServletModule {
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             final String token = req.getPathInfo().substring(1);
             toGerrit(token, req, rsp);
-          }
-        });
-  }
-
-  private Key<HttpServlet> directChangeById() {
-    return key(
-        new HttpServlet() {
-          private static final long serialVersionUID = 1L;
-
-          @Override
-          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-            try {
-              String idString = req.getPathInfo();
-              if (idString.endsWith("/")) {
-                idString = idString.substring(0, idString.length() - 1);
-              }
-              Change.Id id = Change.Id.parse(idString);
-              // User accessed Gerrit with /1234, so we have no project yet.
-              // TODO(hiesel) Replace with a preflight request to obtain project before we deprecate
-              // the numeric change id.
-              toGerrit(PageLinks.toChange(null, id), req, rsp);
-            } catch (IllegalArgumentException err) {
-              rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-            }
           }
         });
   }

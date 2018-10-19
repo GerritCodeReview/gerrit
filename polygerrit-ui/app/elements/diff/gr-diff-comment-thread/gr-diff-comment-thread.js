@@ -35,18 +35,41 @@
      * @event thread-changed
      */
 
+     /**
+      * gr-diff-comment-thread exposes the following attributes that allow a
+      * diff widget like gr-diff to show the thread in the right location:
+      *
+      * line-num:
+      *     1-based line number or undefined if it refers to the entire file.
+      *
+      * comment-side:
+      *     "left" or "right". These indicate which of the two diffed versions
+      *     the comment relates to. In the case of unified diff, the left
+      *     version is the one whose line number column is further to the left.
+      *
+      * range-start-line, range-end-line, range-start-char, range-end-char:
+      *     The range of text that the comment refers to. If set, line-num will
+      *     be set to the same value range-start-line.
+      */
+
     properties: {
       changeNum: String,
       comments: {
         type: Array,
         value() { return []; },
       },
-      range: Object,
+      range: {
+        type: Object,
+        observer: '_rangeChanged',
+      },
       keyEventTarget: {
         type: Object,
         value() { return document.body; },
       },
-      commentSide: String,
+      commentSide: {
+        type: String,
+        reflectToAttribute: true,
+      },
       patchNum: String,
       path: String,
       projectName: {
@@ -79,8 +102,11 @@
         type: Boolean,
         value: false,
       },
-      /** Necessary only if showFilePath is true */
-      lineNum: Number,
+      /** Necessary only if showFilePath is true or when used with gr-diff */
+      lineNum: {
+        type: Number,
+        reflectToAttribute: true,
+      },
       unresolved: {
         type: Boolean,
         notify: true,
@@ -449,6 +475,25 @@
 
     _computeHostClass(unresolved) {
       return unresolved ? 'unresolved' : '';
+    },
+
+    /**
+     * Custom "reflectToAttribute".
+     *
+     * Splits the range into four number-valued attributes.
+     */
+    _rangeChanged(newRange) {
+      if (newRange) {
+        this.setAttribute('range-start-line', newRange.startLine);
+        this.setAttribute('range-end-line', newRange.endLine);
+        this.setAttribute('range-start-char', newRange.startChar);
+        this.setAttribute('range-end-char', newRange.endChar);
+      } else {
+        this.removeAttribute('range-start-line');
+        this.removeAttribute('range-end-line');
+        this.removeAttribute('range-start-char');
+        this.removeAttribute('range-end-char');
+      }
     },
 
     /**

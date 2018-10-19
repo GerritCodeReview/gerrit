@@ -92,6 +92,14 @@ public class ChangeIdIT extends AbstractDaemonTest {
     res.assertNotFound();
   }
 
+  @Test
+  public void changeNumberRedirects() throws Exception {
+    int changeId = createChange().getChange().getId().id;
+    RestResponse res = anonymousRestSession.get("/" + changeId);
+    res.assertOK();
+    // TODO(hiesel): Assert redirect
+  }
+
   private static String changeDetail(String changeId) {
     return "/changes/" + changeId + "/detail";
   }

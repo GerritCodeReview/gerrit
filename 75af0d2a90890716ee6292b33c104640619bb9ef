@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "6b62bedb_23cc3399",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-19T17:30:24Z",
+      "side": 1,
+      "message": "It might be helpful to add a JSDoc here describing how to add a keyboard shortcut.",
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f517c56_4c49838e",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-19T17:30:24Z",
+      "side": 1,
+      "message": "Are these in any particular order that should be maintained?",
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2339e6e_26494ff1",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-19T17:30:24Z",
+      "side": 1,
+      "message": "Incomplete comment?\n\nAlso, we prefer comments on newlines.",
+      "range": {
+        "startLine": 315,
+        "startChar": 40,
+        "endLine": 315,
+        "endChar": 47
+      },
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23dcf68e_115bdde2",
         "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
         "patchSetId": 10
@@ -31,6 +88,46 @@
       "side": 1,
       "message": "Do you have a concrete proposal that should preempt this approach? Currently it needs to continue operating as a behavior because of how it interacts with iron-a11y-keys-behavior. I\u0027m happy to own the challenge of porting this to Polymer 2 in the meantime.",
       "parentUuid": "23dcf68e_115bdde2",
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33f1f7e5_8166b8e6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-19T17:30:24Z",
+      "side": 1,
+      "message": "I know it makes this change even bigger, but do we think that shortcut-specific logic like this should also be refactored?",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 7
+      },
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dc8af65_fe4aaacd",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-19T17:30:24Z",
+      "side": 1,
+      "message": "Could this just iterate over directory?",
       "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -37,6 +37,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * <p>This extension point is invoked only on the following occasions:
  *
  * <ul>
+ *   <li>when adding a user as reviewer to a change
  *   <li>when adding a user as member to a Gerrit internal group
  *   <li>when parsing a user ID for an SSH command
  * </ul>

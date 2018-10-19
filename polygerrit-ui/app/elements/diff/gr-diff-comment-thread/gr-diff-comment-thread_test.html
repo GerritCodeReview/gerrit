@@ -714,5 +714,35 @@ limitations under the License.
       assert.equal(element._orderedComments[1].id, '2');
       assert.equal(element._orderedComments[2].id, '3');
     });
+
+    test('reflects lineNum and commentSide to attributes', () => {
+      const thread = document.createElement('gr-diff-comment-thread');
+      thread.lineNum = 7;
+      thread.commentSide = 'left';
+
+      assert.equal(thread.getAttribute('line-num'), '7');
+      assert.equal(thread.getAttribute('comment-side'), 'left');
+    });
+
+    test('reflects range to to attributes if set', () => {
+      const thread = document.createElement('gr-diff-comment-thread');
+      thread.range = {startLine: 4, endLine: 5, startChar: 6, endChar: 7};
+
+      assert.equal(thread.getAttribute('range-start-line'), '4');
+      assert.equal(thread.getAttribute('range-end-line'), '5');
+      assert.equal(thread.getAttribute('range-start-char'), '6');
+      assert.equal(thread.getAttribute('range-end-char'), '7');
+    });
+
+    test('removes range attributes if range is unset', () => {
+      const thread = document.createElement('gr-diff-comment-thread');
+      thread.range = {startLine: 4, endLine: 5, startChar: 6, endChar: 7};
+      thread.range = undefined;
+
+      assert.notOk(thread.getAttribute('range-start-line'));
+      assert.notOk(thread.getAttribute('range-end-line'));
+      assert.notOk(thread.getAttribute('range-start-char'));
+      assert.notOk(thread.getAttribute('range-end-char'));
+    });
   });
 </script>

@@ -29,5 +29,5 @@
 /local.properties
 /plugins/cookbook-plugin/
 /test_site
-/tools/format
+/tools/format/google-java-format-*-all-deps.jar
 /.vscode

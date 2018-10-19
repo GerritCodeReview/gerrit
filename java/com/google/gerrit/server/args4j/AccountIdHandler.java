@@ -16,18 +16,15 @@ package com.google.gerrit.server.args4j;
 
 import static com.google.gerrit.util.cli.Localizable.localizable;
 
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.account.AutoAccountCreator;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -38,21 +35,18 @@ import org.kohsuke.args4j.spi.Setter;
 
 public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final AccountResolver accountResolver;
-  private final AccountManager accountManager;
-  private final AuthType authType;
+  private final PluginSetContext<AutoAccountCreator> autoAccountCreators;
 
   @Inject
   public AccountIdHandler(
       AccountResolver accountResolver,
-      AccountManager accountManager,
-      AuthConfig authConfig,
+      PluginSetContext<AutoAccountCreator> autoAccountCreators,
       @Assisted CmdLineParser parser,
       @Assisted OptionDef option,
       @Assisted Setter<Account.Id> setter) {
     super(parser, option, setter);
     this.accountResolver = accountResolver;
-    this.accountManager = accountManager;
-    this.authType = authConfig.getAuthType();
+    this.autoAccountCreators = autoAccountCreators;
   }
 
   @Override
@@ -64,22 +58,13 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
       if (a != null) {
         accountId = a.getId();
       } else {
-        switch (authType) {
-          case HTTP_LDAP:
-          case CLIENT_SSL_CERT_LDAP:
-          case LDAP:
-            accountId = createAccountByLdap(token);
-            break;
-          case CUSTOM_EXTENSION:
-          case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-          case HTTP:
-          case LDAP_BIND:
-          case OAUTH:
-          case OPENID:
-          case OPENID_SSO:
-          default:
-            throw new CmdLineException(owner, localizable("user \"%s\" not found"), token);
-        }
+        Optional<Account> autoCreatedAccount =
+            AutoAccountCreator.createAccount(autoAccountCreators, token);
+        accountId =
+            autoCreatedAccount
+                .map(Account::getId)
+                .orElseThrow(
+                    () -> new CmdLineException(owner, localizable("user \"%s\" not found"), token));
       }
     } catch (OrmException e) {
       throw new CmdLineException(owner, localizable("database is down"));
@@ -90,20 +75,6 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
     }
     setter.addValue(accountId);
     return 1;
-  }
-
-  private Account.Id createAccountByLdap(String user) throws CmdLineException, IOException {
-    if (!ExternalId.isValidUsername(user)) {
-      throw new CmdLineException(owner, localizable("user \"%s\" not found"), user);
-    }
-
-    try {
-      AuthRequest req = AuthRequest.forUser(user);
-      req.setSkipAuthentication(true);
-      return accountManager.authenticate(req).getAccountId();
-    } catch (AccountException e) {
-      throw new CmdLineException(owner, localizable("user \"%s\" not found"), user);
-    }
   }
 
   @Override

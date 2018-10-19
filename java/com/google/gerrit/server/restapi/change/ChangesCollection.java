@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
@@ -101,7 +102,8 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   }
 
   public ChangeResource parse(Change.Id id)
-      throws RestApiException, OrmException, PermissionBackendException, IOException {
+      throws ResourceConflictException, ResourceNotFoundException, OrmException,
+          PermissionBackendException, IOException {
     List<ChangeNotes> notes = changeFinder.find(id);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(toIdString(id));
@@ -139,7 +141,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   }
 
   private void checkProjectStatePermitsRead(Project.NameKey project)
-      throws IOException, RestApiException {
+      throws IOException, ResourceNotFoundException, ResourceConflictException {
     ProjectState projectState = projectCache.checkedGet(project);
     if (projectState == null) {
       throw new ResourceNotFoundException("project not found: " + project.get());

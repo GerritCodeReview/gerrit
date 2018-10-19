@@ -281,6 +281,9 @@ limitations under the License.
         paramsWithQuery.basePatchNum = 5;
         assert.equal(element._generateUrl(paramsWithQuery),
             '/c/test/+/1234/5..10?revert&foo=bar');
+
+        params.messageHash = '#123';
+        assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10#123');
       });
 
       test('change with repo name encoding', () => {

@@ -56,6 +56,15 @@ limitations under the License.
         status: opt_status,
       };
     };
+    let _nextAccountId3 = 0;
+    const makeAccount3 = function(opt_status) {
+      const accountId3 = ++_nextAccountId3;
+      return {
+        _account_id: accountId3,
+        name: 'name ' + accountId3,
+        status: opt_status,
+      };
+    };
 
     let owner;
     let existingReviewer1;
@@ -115,6 +124,7 @@ limitations under the License.
       test('_makeSuggestion formats account or group accordingly', () => {
         let account = makeAccount();
         const account2 = makeAccount2();
+        const account3 = makeAccount3();
         let suggestion = element._makeSuggestion({account});
         assert.deepEqual(suggestion, {
           name: account.name + ' <' + account.email + '>',
@@ -154,6 +164,22 @@ limitations under the License.
           name: account.name + ' <' + account.email + '> (OOO)',
           value: {account, count: 1},
         });
+
+        sandbox.stub(element, '_reviewerEmail',
+            () => { return ''; });
+
+        suggestion = element._makeSuggestion(account3);
+        assert.deepEqual(suggestion, {
+          name: account3.name,
+          value: {account: account3, count: 1},
+        });
+      });
+
+      test('_reviewerEmail', () => {
+        assert.equal(
+            element._reviewerEmail('email@gerritreview.com'),
+            '<email@gerritreview.com>');
+        assert.equal(element._reviewerEmail(undefined), '');
       });
 
       test('_getReviewerSuggestions excludes owner+reviewers', done => {

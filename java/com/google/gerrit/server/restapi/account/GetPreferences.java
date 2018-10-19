@@ -15,6 +15,9 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -36,13 +39,18 @@ public class GetPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final AccountCache accountCache;
+  private final DynamicMap<DownloadScheme> downloadSchemes;
 
   @Inject
   GetPreferences(
-      Provider<CurrentUser> self, PermissionBackend permissionBackend, AccountCache accountCache) {
+      Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
+      AccountCache accountCache,
+      DynamicMap<DownloadScheme> downloadSchemes) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.accountCache = accountCache;
+    this.downloadSchemes = downloadSchemes;
   }
 
   @Override
@@ -53,9 +61,28 @@ public class GetPreferences implements RestReadView<AccountResource> {
     }
 
     Account.Id id = rsrc.getUser().getAccountId();
-    return accountCache
-        .get(id)
-        .map(AccountState::getGeneralPreferences)
-        .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
+    GeneralPreferencesInfo preferencesInfo =
+        accountCache
+            .get(id)
+            .map(AccountState::getGeneralPreferences)
+            .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
+    return unsetDownloadSchemeIfUnsupported(preferencesInfo);
+  }
+
+  private GeneralPreferencesInfo unsetDownloadSchemeIfUnsupported(
+      GeneralPreferencesInfo preferencesInfo) {
+    if (preferencesInfo.downloadScheme == null) {
+      return preferencesInfo;
+    }
+
+    for (Extension<DownloadScheme> e : downloadSchemes) {
+      if (e.getExportName().equals(preferencesInfo.downloadScheme)
+          && e.getProvider().get().isEnabled()) {
+        return preferencesInfo;
+      }
+    }
+
+    preferencesInfo.downloadScheme = null;
+    return preferencesInfo;
   }
 }

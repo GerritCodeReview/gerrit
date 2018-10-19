@@ -1296,6 +1296,19 @@ this can be specified by setting `scope = CapabilityScope.CORE`:
   [...]
 ----
 
+[[auto-account-creation]]
+== Auto account creation
+
+If in a request a user is specified for which Gerrit doens't find an
+account the request is rejected. By implementing the
+`AutoAccountCreator` interface it is possible to automatically create an
+account in this case so that the request can succeed.
+
+The `AutoAccountCreator` extension point is intended to be implemented
+if users are stored in an external backend (e.g. LDAP server). In this
+case Gerrit accounts can be created automatically for users that don't
+have an account in Gerrit yet, but which exist in the user backend.
+
 [[ui_extension]]
 == UI Extension
 

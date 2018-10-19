@@ -114,6 +114,21 @@ public class PluginItemContext<T> {
   }
 
   /**
+   * Returns the extension.
+   *
+   * <p>Should only be used in exceptional cases to get direct access to the extension. If possible
+   * the extension should be invoked through {@link #run(ExtensionImplConsumer)}, {@link
+   * #run(ExtensionImplConsumer, Class)}, {@link #call(ExtensionImplFunction)} and {@link
+   * #call(CheckedExtensionImplFunction, Class)}.
+   *
+   * @return the extension, {@code null} if no implementation is registered for this extension point
+   */
+  @Nullable
+  public Extension<T> getExtension() {
+    return dynamicItem.getEntry();
+  }
+
+  /**
    * Invokes the plugin extension of the item. All exceptions from the plugin extension are caught
    * and logged.
    *

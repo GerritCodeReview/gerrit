@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -27,6 +28,9 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.plugincontext.PluginContext;
+import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -52,6 +56,7 @@ public class AccountResolver {
   private final AccountControl.Factory accountControlFactory;
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final Emails emails;
+  private final PluginItemContext<AutoAccountCreator> autoAccountCreator;
 
   @Inject
   AccountResolver(
@@ -62,7 +67,8 @@ public class AccountResolver {
       IdentifiedUser.GenericFactory userFactory,
       AccountControl.Factory accountControlFactory,
       Provider<InternalAccountQuery> accountQueryProvider,
-      Emails emails) {
+      Emails emails,
+      PluginItemContext<AutoAccountCreator> autoAccountCreator) {
     this.self = self;
     this.realm = realm;
     this.accounts = accounts;
@@ -71,6 +77,7 @@ public class AccountResolver {
     this.accountControlFactory = accountControlFactory;
     this.accountQueryProvider = accountQueryProvider;
     this.emails = emails;
+    this.autoAccountCreator = autoAccountCreator;
   }
 
   /**
@@ -152,7 +159,8 @@ public class AccountResolver {
    * @return the single account that matches; null if no account matches or there are multiple
    *     candidates.
    */
-  public Account findByNameOrEmail(String nameOrEmail) throws OrmException, IOException {
+  public Account findByNameOrEmail(String nameOrEmail)
+      throws OrmException, IOException, ConfigInvalidException {
     Set<Account.Id> r = findAllByNameOrEmail(nameOrEmail);
     return r.size() == 1
         ? byId.get(r.iterator().next()).map(AccountState::getAccount).orElse(null)
@@ -166,7 +174,8 @@ public class AccountResolver {
    *     address ("email@example"), a full name ("Full Name").
    * @return the accounts that match, empty collection if none. Never null.
    */
-  public Set<Account.Id> findAllByNameOrEmail(String nameOrEmail) throws OrmException, IOException {
+  public Set<Account.Id> findAllByNameOrEmail(String nameOrEmail)
+      throws OrmException, IOException, ConfigInvalidException {
     int lt = nameOrEmail.indexOf('<');
     int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
@@ -205,12 +214,31 @@ public class AccountResolver {
     // and pray we come up with a reasonable result list.
     // TODO(dborowitz): This doesn't match the documentation; consider whether it's possible to be
     // more strict here.
-    return accountQueryProvider
-        .get()
-        .byDefault(nameOrEmail)
-        .stream()
-        .map(a -> a.getAccount().getId())
-        .collect(toSet());
+    Set<Account.Id> matchedAccounts =
+        accountQueryProvider
+            .get()
+            .byDefault(nameOrEmail)
+            .stream()
+            .map(a -> a.getAccount().getId())
+            .collect(toSet());
+    if (!matchedAccounts.isEmpty()) {
+      return matchedAccounts;
+    }
+
+    // We didn't find any matching account, try to auto-create one.
+    return autoCreateAccount(nameOrEmail).map(Collections::singleton).orElse(ImmutableSet.of());
+  }
+
+  private Optional<Account.Id> autoCreateAccount(String nameOrEmail)
+      throws IOException, OrmException, ConfigInvalidException {
+    if (!autoAccountCreator.hasImplementation()) {
+      return Optional.empty();
+    }
+
+    Extension<AutoAccountCreator> autoAccountCreationExtension = autoAccountCreator.getExtension();
+    try (TraceContext traceContext = PluginContext.newTrace(autoAccountCreationExtension)) {
+      return autoAccountCreationExtension.get().createAccount(nameOrEmail);
+    }
   }
 
   /**

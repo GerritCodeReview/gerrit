@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 
@@ -36,7 +37,7 @@ public class MailUtil {
 
   public static MailRecipients getRecipientsFromFooters(
       AccountResolver accountResolver, List<FooterLine> footerLines)
-      throws OrmException, IOException {
+      throws OrmException, IOException, ConfigInvalidException {
     MailRecipients recipients = new MailRecipients();
     for (FooterLine footerLine : footerLines) {
       try {
@@ -60,7 +61,7 @@ public class MailUtil {
   }
 
   private static Account.Id toAccountId(AccountResolver accountResolver, String nameOrEmail)
-      throws OrmException, NoSuchAccountException, IOException {
+      throws OrmException, NoSuchAccountException, IOException, ConfigInvalidException {
     Account a = accountResolver.findByNameOrEmail(nameOrEmail);
     if (a == null) {
       throw new NoSuchAccountException("\"" + nameOrEmail + "\" is not registered");

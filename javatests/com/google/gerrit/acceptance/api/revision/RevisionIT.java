@@ -323,28 +323,11 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(changeInfo.workInProgress).isNull();
     ChangeApi cherry = gApi.changes().id(changeInfo._number);
 
-    ChangeInfo changeInfoWithDetails =
-        gApi.changes().id(project.get() + "~master~" + r.getChangeId()).get();
-    Collection<ChangeMessageInfo> messages = changeInfoWithDetails.messages;
-    assertThat(messages).hasSize(2);
-
-    String cherryPickedRevision = cherry.get().currentRevision;
-    String expectedMessage =
-        String.format(
-            "Patch Set 1: Cherry Picked\n\n"
-                + "This patchset was cherry picked to branch %s as commit %s",
-            in.destination, cherryPickedRevision);
-
-    Iterator<ChangeMessageInfo> origIt = messages.iterator();
-    origIt.next();
-    assertThat(origIt.next().message).isEqualTo(expectedMessage);
-
     ChangeInfo cherryPickChangeInfoWithDetails = cherry.get();
     assertThat(cherryPickChangeInfoWithDetails.workInProgress).isNull();
     assertThat(cherryPickChangeInfoWithDetails.messages).hasSize(1);
     Iterator<ChangeMessageInfo> cherryIt = cherryPickChangeInfoWithDetails.messages.iterator();
-    expectedMessage = "Patch Set 1: Cherry Picked from branch master.";
-    assertThat(cherryIt.next().message).isEqualTo(expectedMessage);
+    assertThat(cherryIt.next().message).isEqualTo("Patch Set 1: Cherry Picked from branch master.");
 
     assertThat(cherry.get().subject).contains(in.message);
     assertThat(cherry.get().topic).isEqualTo("someTopic-foo");
@@ -474,10 +457,6 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(orig.get().messages).hasSize(1);
     ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
 
-    Collection<ChangeMessageInfo> messages =
-        gApi.changes().id(project.get() + "~master~" + r.getChangeId()).get().messages;
-    assertThat(messages).hasSize(2);
-
     assertThat(cherry.get().subject).contains(in.message);
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
@@ -599,20 +578,6 @@ public class RevisionIT extends AbstractDaemonTest {
     // Get details of cherry-pick change.
     ChangeInfo cherryPickChangeWithDetails = gApi.changes().id(cherryPickChange._number).get();
     assertThat(cherryPickChangeWithDetails.workInProgress).isTrue();
-
-    // Verify that a message has been posted on the original change.
-    String cherryPickedRevision = cherryPickChangeWithDetails.currentRevision;
-    changeApi = gApi.changes().id(r.getChange().getId().get());
-    Collection<ChangeMessageInfo> messages = changeApi.get().messages;
-    assertThat(messages).hasSize(2);
-    Iterator<ChangeMessageInfo> origIt = messages.iterator();
-    origIt.next();
-    assertThat(origIt.next().message)
-        .isEqualTo(
-            String.format(
-                "Patch Set 1: Cherry Picked\n\n"
-                    + "This patchset was cherry picked to branch %s as commit %s",
-                in.destination, cherryPickedRevision));
 
     // Verify that a message has been posted on the cherry-pick change.
     assertThat(cherryPickChangeWithDetails.messages).hasSize(1);

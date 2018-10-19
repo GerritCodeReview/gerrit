@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import static com.google.common.base.MoreObjects.toStringHelper;
+
 import com.google.common.collect.ComparisonChain;
 import java.util.Objects;
 
@@ -46,5 +48,15 @@ public class AccountExternalIdInfo implements Comparable<AccountExternalIdInfo> 
   @Override
   public int hashCode() {
     return Objects.hash(identity, emailAddress, trusted, canDelete);
+  }
+
+  @Override
+  public String toString() {
+    return toStringHelper(this)
+        .add("identity", identity)
+        .add("emailAddress", emailAddress)
+        .add("trusted", trusted)
+        .add("canDelete", canDelete)
+        .toString();
   }
 }

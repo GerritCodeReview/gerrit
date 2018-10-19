@@ -126,13 +126,15 @@
       let name;
       let value;
       const generateStatusStr = function(account) {
-        return account.status ? ' (' + account.status + ')' : '';
+        return account.status ? '(' + account.status + ')' : '';
       };
       if (reviewer.account) {
         // Reviewer is an account suggestion from getChangeSuggestedReviewers.
         const reviewerName = this._accountOrAnon(reviewer.account);
-        name = reviewerName + ' <' + reviewer.account.email + '>' +
-            generateStatusStr(reviewer.account);
+        const reviewerEmail = this._reviewerEmail(reviewer.account.email);
+        const reviewerStatus = generateStatusStr(reviewer.account);
+        name = [reviewerName, reviewerEmail, reviewerStatus]
+            .filter(p => p.length > 0).join(' ');
         value = reviewer;
       } else if (reviewer.group) {
         // Reviewer is a group suggestion from getChangeSuggestedReviewers.
@@ -141,8 +143,10 @@
       } else if (reviewer._account_id) {
         // Reviewer is an account suggestion from getSuggestedAccounts.
         const reviewerName = this._accountOrAnon(reviewer);
-        name = reviewerName + ' <' + reviewer.email + '>' +
-            generateStatusStr(reviewer);
+        const reviewerEmail = this._reviewerEmail(reviewer.email);
+        const reviewerStatus = generateStatusStr(reviewer);
+        name = [reviewerName, reviewerEmail, reviewerStatus]
+            .filter(p => p.length > 0).join(' ');
         value = {account: reviewer, count: 1};
       }
       return {name, value};
@@ -167,6 +171,14 @@
             .filter(this.filter)
             .map(this._makeSuggestion.bind(this));
       });
+    },
+
+    _reviewerEmail(email) {
+      if (typeof email !== 'undefined') {
+        return '<' + email + '>';
+      }
+
+      return '';
     },
   });
 })();

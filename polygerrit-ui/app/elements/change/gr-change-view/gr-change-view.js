@@ -136,6 +136,11 @@
       },
       /** @type {?} */
       _commitInfo: Object,
+      _currentRevision: {
+        type: Object,
+        computed: '_computeCurrentRevision(_change.current_revision, ' +
+            '_change.revisions)',
+      },
       _files: Object,
       _changeNum: String,
       _diffDrafts: {
@@ -1641,6 +1646,10 @@
     _handleToggleStar(e) {
       this.$.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
+    },
+
+    _computeCurrentRevision(currentRevision, revisions) {
+      return revisions && revisions[currentRevision];
     },
   });
 })();

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23e06898_33013ecc",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1073279
+      },
+      "writtenOn": "2018-10-21T08:46:16Z",
+      "side": 1,
+      "message": "This may not be such a hot tip since it won\u0027t work for plugin gits.",
+      "range": {
+        "startLine": 181,
+        "startChar": 27,
+        "endLine": 181,
+        "endChar": 56
+      },
+      "revId": "4b9c3cf775edeafd65ad199f3b9bf0dc3d334e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

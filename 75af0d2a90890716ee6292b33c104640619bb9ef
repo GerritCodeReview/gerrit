@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "545790c1_6ceb0c61",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-22T16:40:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b62bedb_23cc3399",
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f517c56_4c49838e",
         "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
         "patchSetId": 10
@@ -33,6 +51,24 @@
       "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "153a7712_a0383b8e",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-22T16:40:40Z",
+      "side": 1,
+      "message": "Nothing depends on the order of definition.",
+      "parentUuid": "0f517c56_4c49838e",
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b153689d_fe797828",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-22T16:40:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2339e6e_26494ff1",
+      "range": {
+        "startLine": 315,
+        "startChar": 40,
+        "endLine": 315,
+        "endChar": 47
+      },
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "c797e585_3299ba19",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-22T16:40:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3b20c188_3b1b5af8",
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33f1f7e5_8166b8e6",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 10
@@ -117,6 +195,30 @@
     },
     {
       "key": {
+        "uuid": "fce727ad_20edfe6c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-22T16:40:40Z",
+      "side": 1,
+      "message": "I want to refactor it but I don\u0027t have an approach figured out yet.",
+      "parentUuid": "33f1f7e5_8166b8e6",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 7
+      },
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dc8af65_fe4aaacd",
         "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.js",
         "patchSetId": 10
@@ -131,6 +233,24 @@
       "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4215490_57185609",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-22T16:40:40Z",
+      "side": 1,
+      "message": "I want to visit keys in a specific order. I could define a list of lists, giving the (column, section) ordering, and only write one instance of the has/push logic. The benefits either way seem negligible.",
+      "parentUuid": "1dc8af65_fe4aaacd",
+      "revId": "75af0d2a90890716ee6292b33c104640619bb9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

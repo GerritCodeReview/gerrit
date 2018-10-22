@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c502b840_beada4e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-10-22T08:42:47Z",
+      "side": 1,
+      "message": "Keep lines no longer than 72 chars as mentioned in our conrtribution documentation: [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/e822f0ae6a95b07566c4b1e4cac255ee0e864e78/Documentation/dev-contributing.txt#75",
+      "revId": "e822f0ae6a95b07566c4b1e4cac255ee0e864e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f0c3dbb_caa8c492",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-10-22T08:42:47Z",
+      "side": 1,
+      "message": "Quoting URLs is an exception from the above rule.",
+      "revId": "e822f0ae6a95b07566c4b1e4cac255ee0e864e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

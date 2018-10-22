@@ -425,17 +425,16 @@ limitations under the License.
       assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
     });
 
-    test('_setLabelValuesOnRevert', () => {
+    test('_setLabelValuesOnRevert', async () => {
       const labels = {'Foo': 1, 'Bar-Baz': -2};
       const changeId = 1234;
       sandbox.stub(element.$.jsAPI, 'getLabelValuesPostRevert').returns(labels);
       const saveStub = sandbox.stub(element.$.restAPI, 'saveChangeReview')
           .returns(Promise.resolve());
-      return element._setLabelValuesOnRevert(changeId).then(() => {
-        assert.isTrue(saveStub.calledOnce);
-        assert.equal(saveStub.lastCall.args[0], changeId);
-        assert.deepEqual(saveStub.lastCall.args[2], {labels});
-      });
+      await element._setLabelValuesOnRevert(changeId);
+      assert.isTrue(saveStub.calledOnce);
+      assert.equal(saveStub.lastCall.args[0], changeId);
+      assert.deepEqual(saveStub.lastCall.args[2], {labels});
     });
 
     suite('change edits', () => {
@@ -960,7 +959,7 @@ limitations under the License.
     });
 
     suite('ignore change', () => {
-      setup(done => {
+      setup(async () => {
         sandbox.stub(element, '_fireAction');
 
         const IgnoreAction = {
@@ -980,7 +979,8 @@ limitations under the License.
         element.changeNum = '2';
         element.latestPatchNum = '2';
 
-        element.reload().then(() => { flush(done); });
+        await element.reload();
+        flushAsynchronousOperations();
       });
 
       test('make sure the ignore button is not outside of the overflow menu',
@@ -999,7 +999,7 @@ limitations under the License.
     });
 
     suite('unignore change', () => {
-      setup(done => {
+      setup(async () => {
         sandbox.stub(element, '_fireAction');
 
         const UnignoreAction = {
@@ -1019,7 +1019,8 @@ limitations under the License.
         element.changeNum = '2';
         element.latestPatchNum = '2';
 
-        element.reload().then(() => { flush(done); });
+        await element.reload();
+        flushAsynchronousOperations();
       });
 
 
@@ -1039,7 +1040,7 @@ limitations under the License.
     });
 
     suite('reviewed change', () => {
-      setup(done => {
+      setup(async () => {
         sandbox.stub(element, '_fireAction');
 
         const ReviewedAction = {
@@ -1059,7 +1060,8 @@ limitations under the License.
         element.changeNum = '2';
         element.latestPatchNum = '2';
 
-        element.reload().then(() => { flush(done); });
+        await element.reload();
+        flushAsynchronousOperations();
       });
 
       test('make sure the reviewed button is not outside of the overflow menu',
@@ -1079,7 +1081,7 @@ limitations under the License.
     });
 
     suite('unreviewed change', () => {
-      setup(done => {
+      setup(async () => {
         sandbox.stub(element, '_fireAction');
 
         const UnreviewedAction = {
@@ -1099,9 +1101,9 @@ limitations under the License.
         element.changeNum = '2';
         element.latestPatchNum = '2';
 
-        element.reload().then(() => { flush(done); });
+        await element.reload();
+        flushAsynchronousOperations();
       });
-
 
       test('unreviewed button not outside of the overflow menu', () => {
         assert.isNotOk(element.$$('[data-action-key="unreviewed"]'));
@@ -1365,18 +1367,14 @@ limitations under the License.
           };
         };
 
-        test('succeed', () => {
+        test('succeed', async () => {
           sandbox.stub(element.$.restAPI, 'getChange', makeGetChange(5));
-          return element._waitForChangeReachable(123).then(success => {
-            assert.isTrue(success);
-          });
+          assert.isTrue(await element._waitForChangeReachable(123));
         });
 
-        test('fail', () => {
+        test('fail', async () => {
           sandbox.stub(element.$.restAPI, 'getChange', makeGetChange(6));
-          return element._waitForChangeReachable(123).then(success => {
-            assert.isFalse(success);
-          });
+          assert.isFalse(await element._waitForChangeReachable(123));
         });
       });
     });
@@ -1409,61 +1407,53 @@ limitations under the License.
               .returns(Promise.resolve({}));
         });
 
-        test('change action', () => {
-          return element._send('DELETE', payload, '/endpoint', false, cleanup)
-              .then(() => {
-                assert.isFalse(onShowError.called);
-                assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
-                    null, payload));
-              });
+        test('change action', async () => {
+          await element._send('DELETE', payload, '/endpoint', false, cleanup);
+          assert.isFalse(onShowError.called);
+          assert.isTrue(cleanup.calledOnce);
+          assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
+              null, payload));
         });
 
-        test('revision action', () => {
-          return element._send('DELETE', payload, '/endpoint', true, cleanup)
-              .then(() => {
-                assert.isFalse(onShowError.called);
-                assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
-                    12, payload));
-              });
+        test('revision action', async () => {
+          await element._send('DELETE', payload, '/endpoint', true, cleanup);
+          assert.isFalse(onShowError.called);
+          assert.isTrue(cleanup.calledOnce);
+          assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
+              12, payload));
         });
       });
 
       suite('failure modes', () => {
-        test('non-latest', () => {
+        test('non-latest', async () => {
           sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: false}));
           const sendStub = sandbox.stub(element.$.restAPI,
               'executeChangeAction');
 
-          return element._send('DELETE', payload, '/endpoint', true, cleanup)
-              .then(() => {
-                assert.isTrue(onShowAlert.calledOnce);
-                assert.isFalse(onShowError.called);
-                assert.isTrue(cleanup.calledOnce);
-                assert.isFalse(sendStub.called);
-              });
+          await element._send('DELETE', payload, '/endpoint', true, cleanup);
+          assert.isTrue(onShowAlert.calledOnce);
+          assert.isFalse(onShowError.called);
+          assert.isTrue(cleanup.calledOnce);
+          assert.isFalse(sendStub.called);
         });
 
-        test('send fails', () => {
+        test('send fails', async () => {
           sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
           const sendStub = sandbox.stub(element.$.restAPI,
               'executeChangeAction',
-              (num, method, patchNum, endpoint, payload, onErr) => {
+              async (num, method, patchNum, endpoint, payload, onErr) => {
                 onErr();
-                return Promise.resolve(null);
+                return null;
               });
           const handleErrorStub = sandbox.stub(element, '_handleResponseError');
 
-          return element._send('DELETE', payload, '/endpoint', true, cleanup)
-              .then(() => {
-                assert.isFalse(onShowError.called);
-                assert.isTrue(cleanup.called);
-                assert.isTrue(sendStub.calledOnce);
-                assert.isTrue(handleErrorStub.called);
-              });
+          await element._send('DELETE', payload, '/endpoint', true, cleanup);
+          assert.isFalse(onShowError.called);
+          assert.isTrue(cleanup.called);
+          assert.isTrue(sendStub.calledOnce);
+          assert.isTrue(handleErrorStub.called);
         });
       });
     });

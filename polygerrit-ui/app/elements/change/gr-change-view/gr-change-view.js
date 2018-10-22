@@ -284,20 +284,20 @@
       };
     },
 
-    attached() {
-      this._getServerConfig().then(config => {
-        this._serverConfig = config;
-      });
+    async attached() {
+      const promises = [];
 
-      this._getLoggedIn().then(loggedIn => {
-        this._loggedIn = loggedIn;
-        if (loggedIn) {
-          this.$.restAPI.getAccount().then(acct => {
-            this._account = acct;
-          });
+      promises.push((async () => {
+        this._serverConfig = await this._getServerConfig();
+      })());
+
+      promises.push((async () => {
+        this._loggedIn = await this._getLoggedIn();
+        if (this._loggedIn) {
+          this._account = await this.$.restAPI.getAccount();
         }
-        this._setDiffViewMode();
-      });
+        await this._setDiffViewMode();
+      })());
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
       this.addEventListener('comment-refresh', this._reloadDrafts.bind(this));
@@ -309,6 +309,8 @@
           this._handleCommitMessageCancel.bind(this));
       this.listen(window, 'scroll', '_handleScroll');
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
+
+      await Promise.all(promises);
     },
 
     detached() {
@@ -331,18 +333,14 @@
     /**
      * @param {boolean=} opt_reset
      */
-    _setDiffViewMode(opt_reset) {
+    async _setDiffViewMode(opt_reset) {
       if (!opt_reset && this.viewState.diffViewMode) { return; }
 
-      return this.$.restAPI.getPreferences().then( prefs => {
-        if (!this.viewState.diffMode) {
-          this.set('viewState.diffMode', prefs.default_diff_view);
-        }
-      }).then(() => {
-        if (!this.viewState.diffMode) {
-          this.set('viewState.diffMode', 'SIDE_BY_SIDE');
-        }
-      });
+      const prefs = await this.$.restAPI.getPreferences();
+      if (!this.viewState.diffMode) {
+        this.set('viewState.diffMode',
+            prefs.default_diff_view || 'SIDE_BY_SIDE');
+      }
     },
 
     _handleToggleDiffMode(e) {
@@ -366,25 +364,27 @@
       this.$.commitMessageEditor.focusTextarea();
     },
 
-    _handleCommitMessageSave(e) {
+    async _handleCommitMessageSave(e) {
       // Trim trailing whitespace from each line.
       const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
 
       this.$.jsAPI.handleCommitMessage(this._change, message);
 
       this.$.commitMessageEditor.disabled = true;
-      this.$.restAPI.putChangeCommitMessage(
-          this._changeNum, message).then(resp => {
-            this.$.commitMessageEditor.disabled = false;
-            if (!resp.ok) { return; }
+      try {
+        const resp = await this.$.restAPI.putChangeCommitMessage(
+            this._changeNum, message);
+        this.$.commitMessageEditor.disabled = false;
+        if (!resp.ok) { return; }
 
-            this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-                message);
-            this._editingCommitMessage = false;
-            this._reloadWindow();
-          }).catch(err => {
-            this.$.commitMessageEditor.disabled = false;
-          });
+        this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+            message);
+        this._editingCommitMessage = false;
+        this._reloadWindow();
+      } catch (err) {
+        this.$.commitMessageEditor.disabled = false;
+        throw err;
+      }
     },
 
     _reloadWindow() {
@@ -416,25 +416,23 @@
       return false;
     },
 
-    _handleReloadCommentThreads() {
+    async _handleReloadCommentThreads() {
       // Get any new drafts that have been saved in the diff view and show
       // in the comment thread view.
-      this._reloadDrafts().then(() => {
-        this._commentThreads = this._changeComments.getAllThreadsForChange()
-            .map(c => Object.assign({}, c));
-        Polymer.dom.flush();
-      });
+      await this._reloadDrafts();
+      this._commentThreads = this._changeComments.getAllThreadsForChange()
+          .map(c => Object.assign({}, c));
+      Polymer.dom.flush();
     },
 
-    _handleReloadDiffComments(e) {
+    async _handleReloadDiffComments(e) {
       // Keeps the file list counts updated.
-      this._reloadDrafts().then(() => {
-        // Get any new drafts that have been saved in the thread view and show
-        // in the diff view.
-        this.$.fileList.reloadCommentsForThreadWithRootId(e.detail.rootId,
-            e.detail.path);
-        Polymer.dom.flush();
-      });
+      await this._reloadDrafts();
+      // Get any new drafts that have been saved in the thread view and show
+      // in the diff view.
+      this.$.fileList.reloadCommentsForThreadWithRootId(e.detail.rootId,
+          e.detail.path);
+      Polymer.dom.flush();
     },
 
     _computeTotalCommentCounts(unresolvedCount, changeComments) {
@@ -525,8 +523,12 @@
       this.$.fileList.openDiffPrefs();
     },
 
-    _handleOpenIncludedInDialog() {
-      this.$.includedInDialog.loadData().then(() => {
+    async _handleOpenIncludedInDialog() {
+      // Open dialog immediate with info at hand, but also immediately kick
+      // off a query that may eventually resolve additional information for
+      // the dialog.
+      this.async(async () => {
+        await this.$.includedInDialog.loadData();
         Polymer.dom.flush();
         this.$.includedInOverlay.refit();
       });
@@ -537,12 +539,11 @@
       this.$.includedInOverlay.close();
     },
 
-    _handleOpenDownloadDialog() {
-      this.$.downloadOverlay.open().then(() => {
-        this.$.downloadOverlay
-            .setFocusStops(this.$.downloadDialog.getFocusStops());
-        this.$.downloadDialog.focus();
-      });
+    async _handleOpenDownloadDialog() {
+      await this.$.downloadOverlay.open();
+      this.$.downloadOverlay
+          .setFocusStops(this.$.downloadDialog.getFocusStops());
+      this.$.downloadDialog.focus();
     },
 
     _handleDownloadDialogClose(e) {
@@ -573,11 +574,10 @@
       this.$.mainContent.classList.remove('overlayOpen');
     },
 
-    _handleReplySent(e) {
+    async _handleReplySent(e) {
       this.$.replyOverlay.close();
-      this._reload().then(() => {
-        this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
-      });
+      await this._reload();
+      this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
     },
 
     _handleReplyCancel(e) {
@@ -617,7 +617,7 @@
       this.$.fileList.collapseAllDiffs();
     },
 
-    _paramsChanged(value) {
+    async _paramsChanged(value) {
       // Change the content of the comment tabs back to messages list, but
       // do not yet change the tab itself. The animation of tab switching will
       // get messed up if changed here, because it requires the tabs to be on
@@ -657,18 +657,15 @@
         if (patchRange.patchNum == null) {
           patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
         }
-        this._reloadPatchNumDependentResources().then(() => {
-          this._sendShowChangeEvent();
-        });
-        return;
+        await this._reloadPatchNumDependentResources();
+        this._sendShowChangeEvent();
+      } else {
+        this._changeNum = value.changeNum;
+        this.$.relatedChanges.clear();
+
+        await this._reload(true);
+        await this._performPostLoadTasks();
       }
-
-      this._changeNum = value.changeNum;
-      this.$.relatedChanges.clear();
-
-      this._reload(true).then(() => {
-        this._performPostLoadTasks();
-      });
     },
 
     _sendShowChangeEvent() {
@@ -744,33 +741,30 @@
       return null;
     },
 
-    _maybeShowRevertDialog() {
-      Gerrit.awaitPluginsLoaded()
-          .then(this._getLoggedIn.bind(this))
-          .then(loggedIn => {
-            if (!loggedIn || this._change.status !== this.ChangeStatus.MERGED) {
-            // Do not display dialog if not logged-in or the change is not
-            // merged.
-              return;
-            }
-            if (this._getUrlParameter('revert')) {
-              this.$.actions.showRevertDialog();
-            }
-          });
+    async _maybeShowRevertDialog() {
+      await Gerrit.awaitPluginsLoaded();
+      const loggedIn = await this._getLoggedIn();
+      if (!loggedIn || this._change.status !== this.ChangeStatus.MERGED) {
+      // Do not display dialog if not logged-in or the change is not
+      // merged.
+        return;
+      }
+      if (this._getUrlParameter('revert')) {
+        this.$.actions.showRevertDialog();
+      }
     },
 
-    _maybeShowReplyDialog() {
-      this._getLoggedIn().then(loggedIn => {
-        if (!loggedIn) { return; }
+    async _maybeShowReplyDialog() {
+      const loggedIn = await this._getLoggedIn();
+      if (!loggedIn) { return; }
 
-        if (this.viewState.showReplyDialog) {
-          this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
-          // TODO(kaspern@): Find a better signal for when to call center.
-          this.async(() => { this.$.replyOverlay.center(); }, 100);
-          this.async(() => { this.$.replyOverlay.center(); }, 1000);
-          this.set('viewState.showReplyDialog', false);
-        }
-      });
+      if (this.viewState.showReplyDialog) {
+        this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
+        // TODO(kaspern@): Find a better signal for when to call center.
+        this.async(() => { this.$.replyOverlay.center(); }, 100);
+        this.async(() => { this.$.replyOverlay.center(); }, 1000);
+        this.set('viewState.showReplyDialog', false);
+      }
     },
 
     _resetFileListViewState() {
@@ -903,20 +897,19 @@
       return label;
     },
 
-    _handleOpenReplyDialog(e) {
+    async _handleOpenReplyDialog(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) {
         return;
       }
-      this._getLoggedIn().then(isLoggedIn => {
-        if (!isLoggedIn) {
-          this.fire('show-auth-required');
-          return;
-        }
+      const isLoggedIn = await this._getLoggedIn();
+      if (!isLoggedIn) {
+        this.fire('show-auth-required');
+        return;
+      }
 
-        e.preventDefault();
-        this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
-      });
+      e.preventDefault();
+      this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
     },
 
     _handleOpenDownloadDialogShortcut(e) {
@@ -1009,24 +1002,22 @@
     /**
      * @param {string=} opt_section
      */
-    _openReplyDialog(opt_section) {
-      this.$.replyOverlay.open().then(() => {
-        this._resetReplyOverlayFocusStops();
-        this.$.replyDialog.open(opt_section);
-        Polymer.dom.flush();
-        this.$.replyOverlay.center();
-      });
+    async _openReplyDialog(opt_section) {
+      await this.$.replyOverlay.open();
+      this._resetReplyOverlayFocusStops();
+      this.$.replyDialog.open(opt_section);
+      Polymer.dom.flush();
+      this.$.replyOverlay.center();
     },
 
-    _handleReloadChange(e) {
-      return this._reload().then(() => {
-        // If the change was rebased or submitted, we need to reload the page
-        // with the latest patch.
-        const action = e.detail.action;
-        if (action === 'rebase' || action === 'submit') {
-          Gerrit.Nav.navigateToChange(this._change);
-        }
-      });
+    async _handleReloadChange(e) {
+      await this._reload();
+      // If the change was rebased or submitted, we need to reload the page
+      // with the latest patch.
+      const action = e.detail.action;
+      if (action === 'rebase' || action === 'submit') {
+        Gerrit.Nav.navigateToChange(this._change);
+      }
     },
 
     _handleGetChangeDetailError(response) {
@@ -1041,11 +1032,9 @@
       return this.$.restAPI.getConfig();
     },
 
-    _getProjectConfig() {
-      return this.$.restAPI.getProjectConfig(this._change.project).then(
-          config => {
-            this._projectConfig = config;
-          });
+    async _getProjectConfig() {
+      this._projectConfig = await this.$.restAPI.getProjectConfig(
+          this._change.project);
     },
 
     _updateRebaseAction(revisionActions) {
@@ -1097,60 +1086,59 @@
       }
     },
 
-    _getChangeDetail() {
+    async _getChangeDetail() {
       const detailCompletes = this.$.restAPI.getChangeDetail(
           this._changeNum, this._handleGetChangeDetailError.bind(this));
       const editCompletes = this._getEdit();
 
-      return Promise.all([detailCompletes, editCompletes])
-          .then(([change, edit]) => {
-            if (!change) {
-              return '';
-            }
-            this._processEdit(change, edit);
-            // Issue 4190: Coalesce missing topics to null.
-            if (!change.topic) { change.topic = null; }
-            if (!change.reviewer_updates) {
-              change.reviewer_updates = null;
-            }
-            const latestRevisionSha = this._getLatestRevisionSHA(change);
-            const currentRevision = change.revisions[latestRevisionSha];
-            if (currentRevision.commit && currentRevision.commit.message) {
-              this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-                  currentRevision.commit.message);
-            } else {
-              this._latestCommitMessage = null;
-            }
+      const result = await Promise.all([detailCompletes, editCompletes]);
+      const [change, edit] = result;
+      if (!change) {
+        return '';
+      }
+      this._processEdit(change, edit);
+      // Issue 4190: Coalesce missing topics to null.
+      if (!change.topic) { change.topic = null; }
+      if (!change.reviewer_updates) {
+        change.reviewer_updates = null;
+      }
+      const latestRevisionSha = this._getLatestRevisionSHA(change);
+      const currentRevision = change.revisions[latestRevisionSha];
+      if (currentRevision.commit && currentRevision.commit.message) {
+        this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+            currentRevision.commit.message);
+      } else {
+        this._latestCommitMessage = null;
+      }
 
-            // Update the submit enabled based on current revision.
-            this._submitEnabled = this._isSubmitEnabled(currentRevision);
+      // Update the submit enabled based on current revision.
+      this._submitEnabled = this._isSubmitEnabled(currentRevision);
 
-            const lineHeight = getComputedStyle(this).lineHeight;
+      const lineHeight = getComputedStyle(this).lineHeight;
 
-            // Slice returns a number as a string, convert to an int.
-            this._lineHeight =
-                parseInt(lineHeight.slice(0, lineHeight.length - 2), 10);
+      // Slice returns a number as a string, convert to an int.
+      this._lineHeight =
+          parseInt(lineHeight.slice(0, lineHeight.length - 2), 10);
 
-            this._change = change;
-            if (!this._patchRange || !this._patchRange.patchNum ||
-                this.patchNumEquals(this._patchRange.patchNum,
-                    currentRevision._number)) {
-              // CommitInfo.commit is optional, and may need patching.
-              if (!currentRevision.commit.commit) {
-                currentRevision.commit.commit = latestRevisionSha;
-              }
-              this._commitInfo = currentRevision.commit;
-              this._currentRevisionActions =
-                      this._updateRebaseAction(currentRevision.actions);
-              this._selectedRevision = currentRevision;
-              // TODO: Fetch and process files.
-            } else {
-              this._selectedRevision =
-                Object.values(this._change.revisions).find(
-                    revision => revision._number ===
-                      parseInt(this._patchRange.patchNum, 10));
-            }
-          });
+      this._change = change;
+      if (!this._patchRange || !this._patchRange.patchNum ||
+          this.patchNumEquals(this._patchRange.patchNum,
+              currentRevision._number)) {
+        // CommitInfo.commit is optional, and may need patching.
+        if (!currentRevision.commit.commit) {
+          currentRevision.commit.commit = latestRevisionSha;
+        }
+        this._commitInfo = currentRevision.commit;
+        this._currentRevisionActions =
+                this._updateRebaseAction(currentRevision.actions);
+        this._selectedRevision = currentRevision;
+        // TODO: Fetch and process files.
+      } else {
+        this._selectedRevision =
+          Object.values(this._change.revisions).find(
+              revision => revision._number ===
+                parseInt(this._patchRange.patchNum, 10));
+      }
     },
 
     _isSubmitEnabled(currentRevision) {
@@ -1162,12 +1150,11 @@
       return this.$.restAPI.getChangeEdit(this._changeNum, true);
     },
 
-    _getLatestCommitMessage() {
-      return this.$.restAPI.getChangeCommitInfo(this._changeNum,
-          this.computeLatestPatchNum(this._allPatchSets)).then(commitInfo => {
-            this._latestCommitMessage =
-                    this._prepareCommitMsgForLinkify(commitInfo.message);
-          });
+    async _getLatestCommitMessage() {
+      const commitInfo = await this.$.restAPI.getChangeCommitInfo(
+          this._changeNum, this.computeLatestPatchNum(this._allPatchSets));
+      this._latestCommitMessage =
+          this._prepareCommitMsgForLinkify(commitInfo.message);
     },
 
     _getLatestRevisionSHA(change) {
@@ -1189,44 +1176,36 @@
       return latestRev;
     },
 
-    _getCommitInfo() {
-      return this.$.restAPI.getChangeCommitInfo(
-          this._changeNum, this._patchRange.patchNum).then(
-          commitInfo => {
-            this._commitInfo = commitInfo;
-          });
+    async _getCommitInfo() {
+      this._commitInfo = await this.$.restAPI.getChangeCommitInfo(
+          this._changeNum, this._patchRange.patchNum);
     },
 
-    _reloadDraftsWithCallback(e) {
-      return this._reloadDrafts().then(() => {
-        return e.detail.resolve();
-      });
+    async _reloadDraftsWithCallback(e) {
+      await this._reloadDrafts();
+      return e.detail.resolve();
     },
 
     /**
      * Fetches a new changeComment object, and data for all types of comments
      * (comments, robot comments, draft comments) is requested.
      */
-    _reloadComments() {
-      return this.$.commentAPI.loadAll(this._changeNum)
-          .then(comments => {
-            this._changeComments = comments;
-            this._diffDrafts = Object.assign({}, this._changeComments.drafts);
-            this._commentThreads = this._changeComments.getAllThreadsForChange()
-              .map(c => Object.assign({}, c));
-          });
+    async _reloadComments() {
+      const comments = await this.$.commentAPI.loadAll(this._changeNum);
+      this._changeComments = comments;
+      this._diffDrafts = Object.assign({}, this._changeComments.drafts);
+      this._commentThreads = this._changeComments.getAllThreadsForChange()
+        .map(c => Object.assign({}, c));
     },
 
     /**
      * Fetches a new changeComment object, but only updated data for drafts is
      * requested.
      */
-    _reloadDrafts() {
-      return this.$.commentAPI.reloadDrafts(this._changeNum)
-          .then(comments => {
-            this._changeComments = comments;
-            this._diffDrafts = Object.assign({}, this._changeComments.drafts);
-          });
+    async _reloadDrafts() {
+      const comments = await this.$.commentAPI.reloadDrafts(this._changeNum);
+      this._changeComments = comments;
+      this._diffDrafts = Object.assign({}, this._changeComments.drafts);
     },
 
     /**
@@ -1237,7 +1216,7 @@
      *     Some non-core data loading may still be in-flight when the core data
      *     promise resolves.
      */
-    _reload(opt_reloadRelatedChanges) {
+    async _reload(opt_reloadRelatedChanges) {
       this._loading = true;
       this._relatedChangesCollapsed = true;
 
@@ -1246,22 +1225,26 @@
 
       // Resolves when the change detail and the edit patch set (if available)
       // are loaded.
-      const detailCompletes = this._getChangeDetail();
+      const detailCompletes = (async () => await this._getChangeDetail())();
       allDataPromises.push(detailCompletes);
 
       // Resolves when the loading flag is set to false, meaning that some
       // change content may start appearing.
-      const loadingFlagSet = detailCompletes
-          .then(() => { this._loading = false; });
+      const loadingFlagSet = (async () => {
+        await detailCompletes;
+        this._loading = false;
+      })();
 
       // Resolves when the project config has loaded.
-      const projectConfigLoaded = detailCompletes
-          .then(() => this._getProjectConfig());
+      const projectConfigLoaded = (async () => {
+        await detailCompletes;
+        await this._getProjectConfig();
+      })();
       allDataPromises.push(projectConfigLoaded);
 
       // Resolves when change comments have loaded (comments, drafts and robot
       // comments).
-      const commentsLoaded = this._reloadComments();
+      const commentsLoaded = (async () => await this._reloadComments())();
       allDataPromises.push(commentsLoaded);
 
       let coreDataPromise;
@@ -1270,7 +1253,9 @@
       if (this._patchRange.patchNum) {
         // Because a specific patchset is specified, reload the resources that
         // are keyed by patch number or patch range.
-        const patchResourcesLoaded = this._reloadPatchNumDependentResources();
+        const patchResourcesLoaded = (async () => {
+          await this._reloadPatchNumDependentResources();
+        })();
         allDataPromises.push(patchResourcesLoaded);
 
         // Promise resolves when the change detail and patch dependent resources
@@ -1279,33 +1264,42 @@
             Promise.all([patchResourcesLoaded, loadingFlagSet]);
 
         // Promise resolves when mergeability information has loaded.
-        const mergeabilityLoaded = detailAndPatchResourcesLoaded
-            .then(() => this._getMergeability());
+        const mergeabilityLoaded = (async () => {
+          await detailAndPatchResourcesLoaded;
+          await this._getMergeability();
+        })();
         allDataPromises.push(mergeabilityLoaded);
 
         // Promise resovles when the change actions have loaded.
-        const actionsLoaded = detailAndPatchResourcesLoaded
-            .then(() => this.$.actions.reload());
+        const actionsLoaded = (async () => {
+          await detailAndPatchResourcesLoaded;
+          await this.$.actions.reload();
+        })();
         allDataPromises.push(actionsLoaded);
 
         // The core data is loaded when both mergeability and actions are known.
         coreDataPromise = Promise.all([mergeabilityLoaded, actionsLoaded]);
       } else {
         // Resolves when the file list has loaded.
-        const fileListReload = loadingFlagSet
-            .then(() => this.$.fileList.reload());
+        const fileListReload = (async () => {
+          await loadingFlagSet;
+          this.$.fileList.reload();
+        })();
         allDataPromises.push(fileListReload);
 
-        const latestCommitMessageLoaded = loadingFlagSet.then(() => {
+        const latestCommitMessageLoaded = (async () => {
+          await loadingFlagSet;
           // If the latest commit message is known, there is nothing to do.
-          if (this._latestCommitMessage) { return Promise.resolve(); }
-          return this._getLatestCommitMessage();
-        });
+          if (this._latestCommitMessage) { return; }
+          await this._getLatestCommitMessage();
+        })();
         allDataPromises.push(latestCommitMessageLoaded);
 
         // Promise resolves when mergeability information has loaded.
-        const mergeabilityLoaded = loadingFlagSet
-            .then(() => this._getMergeability());
+        const mergeabilityLoaded = (async () => {
+          await loadingFlagSet;
+          await this._getMergeability();
+        })();
         allDataPromises.push(mergeabilityLoaded);
 
         // Core data is loaded when mergeability has been loaded.
@@ -1313,19 +1307,21 @@
       }
 
       if (opt_reloadRelatedChanges) {
-        const relatedChangesLoaded = coreDataPromise
-            .then(() => this.$.relatedChanges.reload());
+        const relatedChangesLoaded = (async () => {
+          await coreDataPromise;
+          this.$.relatedChanges.reload();
+        })();
         allDataPromises.push(relatedChangesLoaded);
       }
 
       this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
-      Promise.all(allDataPromises).then(() => {
-        this.$.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
-        this.$.reporting.changeFullyLoaded();
-      });
 
-      return coreDataPromise
-          .then(() => { this.$.reporting.changeDisplayed(); });
+      await coreDataPromise;
+      this.$.reporting.changeDisplayed();
+
+      await Promise.all(allDataPromises);
+      this.$.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
+      this.$.reporting.changeFullyLoaded();
     },
 
     /**
@@ -1339,20 +1335,19 @@
       ]);
     },
 
-    _getMergeability() {
+    async _getMergeability() {
       // If the change is closed, it is not mergeable. Note: already merged
       // changes are obviously not mergeable, but the mergeability API will not
       // answer for abandoned changes.
       if (this._change.status === this.ChangeStatus.MERGED ||
           this._change.status === this.ChangeStatus.ABANDONED) {
         this._mergeable = false;
-        return Promise.resolve();
+        return;
       }
 
       this._mergeable = null;
-      return this.$.restAPI.getMergeable(this._changeNum).then(m => {
-        this._mergeable = m.mergeable;
-      });
+      const m = await this.$.restAPI.getMergeable(this._changeNum);
+      this._mergeable = m.mergeable;
     },
 
     _computeCanStartReview(change) {
@@ -1511,37 +1506,37 @@
         return;
       }
 
-      this._updateCheckTimerHandle = this.async(() => {
-        this.fetchChangeUpdates(this._change, this.$.restAPI).then(result => {
-          let toastMessage = null;
-          if (!result.isLatest) {
-            toastMessage = ReloadToastMessage.NEWER_REVISION;
-          } else if (result.newStatus === this.ChangeStatus.MERGED) {
-            toastMessage = ReloadToastMessage.MERGED;
-          } else if (result.newStatus === this.ChangeStatus.ABANDONED) {
-            toastMessage = ReloadToastMessage.ABANDONED;
-          } else if (result.newStatus === this.ChangeStatus.NEW) {
-            toastMessage = ReloadToastMessage.RESTORED;
-          } else if (result.newMessages) {
-            toastMessage = ReloadToastMessage.NEW_MESSAGE;
-          }
+      this._updateCheckTimerHandle = this.async(async () => {
+        const result = await this.fetchChangeUpdates(
+            this._change, this.$.restAPI);
+        let toastMessage = null;
+        if (!result.isLatest) {
+          toastMessage = ReloadToastMessage.NEWER_REVISION;
+        } else if (result.newStatus === this.ChangeStatus.MERGED) {
+          toastMessage = ReloadToastMessage.MERGED;
+        } else if (result.newStatus === this.ChangeStatus.ABANDONED) {
+          toastMessage = ReloadToastMessage.ABANDONED;
+        } else if (result.newStatus === this.ChangeStatus.NEW) {
+          toastMessage = ReloadToastMessage.RESTORED;
+        } else if (result.newMessages) {
+          toastMessage = ReloadToastMessage.NEW_MESSAGE;
+        }
 
-          if (!toastMessage) {
-            this._startUpdateCheckTimer();
-            return;
-          }
+        if (!toastMessage) {
+          this._startUpdateCheckTimer();
+          return;
+        }
 
-          this._cancelUpdateCheckTimer();
-          this.fire('show-alert', {
-            message: toastMessage,
-            // Persist this alert.
-            dismissOnNavigation: true,
-            action: 'Reload',
-            callback: function() {
-              // Load the current change without any patch range.
-              Gerrit.Nav.navigateToChange(this._change);
-            }.bind(this),
-          });
+        this._cancelUpdateCheckTimer();
+        this.fire('show-alert', {
+          message: toastMessage,
+          // Persist this alert.
+          dismissOnNavigation: true,
+          action: 'Reload',
+          callback: function() {
+            // Load the current change without any patch range.
+            Gerrit.Nav.navigateToChange(this._change);
+          }.bind(this),
         });
       }, this._serverConfig.change.update_delay * 1000);
     },

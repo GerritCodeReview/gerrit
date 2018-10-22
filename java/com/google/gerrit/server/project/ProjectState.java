@@ -226,6 +226,10 @@ public class ProjectState {
         .anyMatch(Objects::nonNull);
   }
 
+  public GitRepositoryManager getRepositoryManager() {
+    return gitMgr;
+  }
+
   public Project getProject() {
     return config.getProject();
   }

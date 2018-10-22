@@ -135,6 +135,42 @@
   const ANONYMIZED_REVISION_BASE_URL = ANONYMIZED_CHANGE_BASE_URL +
       '/revisions/*';
 
+  /**
+   * Wrapper around Map for caching server responses. Site-based so that
+   * changes to CANONICAL_PATH will result in a different cache going into
+   * effect.
+   */
+  class SiteBasedCache {
+    constructor() {
+      // Container of per-canonical-path caches.
+      this._data = new Map();
+    }
+
+    // Returns the cache for the current canonical path.
+    _cache() {
+      if (!this._data.has(window.CANONICAL_PATH)) {
+        this._data.set(window.CANONICAL_PATH, new Map());
+      }
+      return this._data.get(window.CANONICAL_PATH);
+    }
+
+    has(key) {
+      return this._cache().has(key);
+    }
+
+    get(key) {
+      return this._cache().get(key);
+    }
+
+    set(key, value) {
+      this._cache().set(key, value);
+    }
+
+    delete(key) {
+      this._cache().delete(key);
+    }
+  }
+
   Polymer({
     is: 'gr-rest-api-interface',
 
@@ -171,7 +207,7 @@
     properties: {
       _cache: {
         type: Object,
-        value: {}, // Intentional to share the object across instances.
+        value: new SiteBasedCache(), // Shared across instances.
       },
       _credentialCheck: {
         type: Object,
@@ -268,7 +304,7 @@
         }
         return res;
       }).catch(err => {
-        const isLoggedIn = !!this._cache['/accounts/self/detail'];
+        const isLoggedIn = !!this._cache.get('/accounts/self/detail');
         if (isLoggedIn && err && err.message === FAILED_TO_FETCH_ERROR) {
           this.checkCredentials();
           return;
@@ -784,7 +820,7 @@
      */
     saveDiffPreferences(prefs, opt_errFn) {
       // Invalidate the cache.
-      this._cache['/accounts/self/preferences.diff'] = undefined;
+      this._cache.delete('/accounts/self/preferences.diff');
       return this._send({
         method: 'PUT',
         url: '/accounts/self/preferences.diff',
@@ -800,7 +836,7 @@
      */
     saveEditPreferences(prefs, opt_errFn) {
       // Invalidate the cache.
-      this._cache['/accounts/self/preferences.edit'] = undefined;
+      this._cache.delete('/accounts/self/preferences.edit');
       return this._send({
         method: 'PUT',
         url: '/accounts/self/preferences.edit',
@@ -816,7 +852,7 @@
         reportUrlAsIs: true,
         errFn: resp => {
           if (!resp || resp.status === 403) {
-            this._cache['/accounts/self/detail'] = null;
+            this._cache.delete('/accounts/self/detail');
           }
         },
       });
@@ -828,7 +864,7 @@
         reportUrlAsIs: true,
         errFn: resp => {
           if (!resp || resp.status === 403) {
-            this._cache['/accounts/self/avatar.change.url'] = null;
+            this._cache.delete('/accounts/self/avatar.change.url');
           }
         },
       });
@@ -910,7 +946,7 @@
       return this._send(req).then(() => {
         // If result of getAccountEmails is in cache, update it in the cache
         // so we don't have to invalidate it.
-        const cachedEmails = this._cache['/accounts/self/emails'];
+        const cachedEmails = this._cache.get('/accounts/self/emails');
         if (cachedEmails) {
           const emails = cachedEmails.map(entry => {
             if (entry.email === email) {
@@ -919,7 +955,7 @@
               return {email};
             }
           });
-          this._cache['/accounts/self/emails'] = emails;
+          this._cache.set('/accounts/self/emails', emails);
         }
       });
     },
@@ -930,11 +966,11 @@
     _updateCachedAccount(obj) {
       // If result of getAccount is in cache, update it in the cache
       // so we don't have to invalidate it.
-      const cachedAccount = this._cache['/accounts/self/detail'];
+      const cachedAccount = this._cache.get('/accounts/self/detail');
       if (cachedAccount) {
         // Replace object in cache with new object to force UI updates.
-        this._cache['/accounts/self/detail'] =
-            Object.assign({}, cachedAccount, obj);
+        this._cache.set('/accounts/self/detail',
+            Object.assign({}, cachedAccount, obj));
       }
     },
 
@@ -1064,14 +1100,14 @@
         if (!res) { return; }
         if (res.status === 403) {
           this.fire('auth-error');
-          this._cache['/accounts/self/detail'] = null;
+          this._cache.delete('/accounts/self/detail');
         } else if (res.ok) {
           return this.getResponseObject(res);
         }
       }).then(res => {
         this._credentialCheck.checking = false;
         if (res) {
-          this._cache['/accounts/self/detail'] = res;
+          this._cache.delete('/accounts/self/detail');
         }
         return res;
       }).catch(err => {
@@ -1154,13 +1190,13 @@
         return this._sharedFetchPromises[req.url];
       }
       // TODO(andybons): Periodic cache invalidation.
-      if (this._cache[req.url] !== undefined) {
-        return Promise.resolve(this._cache[req.url]);
+      if (this._cache.has(req.url)) {
+        return Promise.resolve(this._cache.get(req.url));
       }
       this._sharedFetchPromises[req.url] = this._fetchJSON(req)
           .then(response => {
             if (response !== undefined) {
-              this._cache[req.url] = response;
+              this._cache.set(req.url, response);
             }
             this._sharedFetchPromises[req.url] = undefined;
             return response;

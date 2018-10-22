@@ -206,13 +206,15 @@
       return false;
     },
 
-    _handleRemove(e) {
+    async _handleRemove(e) {
       e.preventDefault();
       const target = Polymer.dom(e).rootTarget;
       if (!target.account) { return; }
       const accountID = target.account._account_id || target.account.email;
       this.disabled = true;
-      this._xhrPromise = this._removeReviewer(accountID).then(response => {
+      try {
+        this._xhrPromise = this._removeReviewer(accountID);
+        const response = await this._xhrPromise;
         this.disabled = false;
         if (!response.ok) { return response; }
 
@@ -228,10 +230,10 @@
             }
           }
         }
-      }).catch(err => {
+      } catch (err) {
         this.disabled = false;
         throw err;
-      });
+      }
     },
 
     _handleAddTap(e) {

@@ -19,8 +19,10 @@ import com.google.gerrit.common.Nullable;
 import java.io.IOException;
 import java.net.URI;
 import org.apache.http.HttpHost;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 public class HttpSession {
   protected TestAccount account;
@@ -30,7 +32,8 @@ public class HttpSession {
   public HttpSession(GerritServer server, @Nullable TestAccount account) {
     this.url = CharMatcher.is('/').trimTrailingFrom(server.getUrl());
     URI uri = URI.create(url);
-    this.executor = Executor.newInstance();
+    HttpClient noRedirectClient = HttpClientBuilder.create().disableRedirectHandling().build();
+    this.executor = Executor.newInstance(noRedirectClient);
     this.account = account;
     if (account != null) {
       executor.auth(

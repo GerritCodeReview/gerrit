@@ -38,11 +38,15 @@ limitations under the License.
   suite('gr-rest-api-interface tests', () => {
     let element;
     let sandbox;
+    let ctr = 0;
 
     setup(() => {
+      // Modify CANONICAL_PATH to effectively reset cache.
+      ctr += 1;
+      window.CANONICAL_PATH = `test${ctr}`;
+
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
-      element._cache = {};
       element._projectLookup = {};
       const testJSON = ')]}\'\n{"hello": "bonjour"}';
       sandbox.stub(window, 'fetch').returns(Promise.resolve({
@@ -85,7 +89,7 @@ limitations under the License.
 
     test('cached promise', done => {
       const promise = Promise.reject('foo');
-      element._cache['/foo'] = promise;
+      element._cache.set('/foo', promise);
       element._fetchSharedCacheURL({url: '/foo'}).catch(p => {
         assert.equal(p, 'foo');
         done();
@@ -98,19 +102,20 @@ limitations under the License.
         gr: 'guten tag',
         noval: null,
       });
-      assert.equal(url, '/path/?sp=hola&gr=guten%20tag&noval');
+      assert.equal(url,
+          window.CANONICAL_PATH + '/path/?sp=hola&gr=guten%20tag&noval');
 
       url = element._urlWithParams('/path/', {
         sp: 'hola',
         en: ['hey', 'hi'],
       });
-      assert.equal(url, '/path/?sp=hola&en=hey&en=hi');
+      assert.equal(url, window.CANONICAL_PATH + '/path/?sp=hola&en=hey&en=hi');
 
       // Order must be maintained with array params.
       url = element._urlWithParams('/path/', {
         l: ['c', 'b', 'a'],
       });
-      assert.equal(url, '/path/?l=c&l=b&l=a');
+      assert.equal(url, window.CANONICAL_PATH + '/path/?l=c&l=b&l=a');
     });
 
     test('request callbacks can be canceled', done => {
@@ -441,7 +446,7 @@ limitations under the License.
           Promise.reject({message: 'Failed to fetch'}));
       window.fetch.onSecondCall().returns(Promise.resolve(fakeAuthResponse));
       // Emulate logged in.
-      element._cache['/accounts/self/detail'] = {};
+      element._cache.set('/accounts/self/detail', {});
       const serverErrorStub = sandbox.stub();
       element.addEventListener('server-error', serverErrorStub);
       const authErrorStub = sandbox.stub();
@@ -450,7 +455,7 @@ limitations under the License.
         flush(() => {
           assert.isTrue(authErrorStub.called);
           assert.isFalse(serverErrorStub.called);
-          assert.isNull(element._cache['/accounts/self/detail']);
+          assert.isFalse(element._cache.has('/accounts/self/detail'));
           done();
         });
       });
@@ -471,7 +476,7 @@ limitations under the License.
       ];
       window.fetch.restore();
       sandbox.stub(window, 'fetch', url => {
-        if (url === '/accounts/self/detail') {
+        if (url === window.CANONICAL_PATH + '/accounts/self/detail') {
           return Promise.resolve(responses.shift());
         }
       });
@@ -487,7 +492,7 @@ limitations under the License.
 
     test('checkCredentials promise rejection', () => {
       window.fetch.restore();
-      element._cache['/accounts/self/detail'] = true;
+      element._cache.set('/accounts/self/detail', true);
       sandbox.spy(element, 'checkCredentials');
       sandbox.stub(window, 'fetch', url => {
         return Promise.reject({message: 'Failed to fetch'});
@@ -515,10 +520,10 @@ limitations under the License.
     test('saveDiffPreferences invalidates cache line', () => {
       const cacheKey = '/accounts/self/preferences.diff';
       sandbox.stub(element, '_send');
-      element._cache[cacheKey] = {tab_size: 4};
+      element._cache.set(cacheKey, {tab_size: 4});
       element.saveDiffPreferences({tab_size: 8});
       assert.isTrue(element._send.called);
-      assert.notOk(element._cache[cacheKey]);
+      assert.isFalse(element._cache.has(cacheKey));
     });
 
     test('getAccount when resp is null does not add anything to the cache',
@@ -529,11 +534,11 @@ limitations under the License.
 
           element.getAccount().then(() => {
             assert.isTrue(element._fetchSharedCacheURL.called);
-            assert.isNull(element._cache[cacheKey]);
+            assert.isFalse(element._cache.has(cacheKey));
             done();
           });
 
-          element._cache[cacheKey] = 'fake cache';
+          element._cache.set(cacheKey, 'fake cache');
           stub.lastCall.args[0].errFn();
         });
 
@@ -545,10 +550,10 @@ limitations under the License.
 
           element.getAccount().then(() => {
             assert.isTrue(element._fetchSharedCacheURL.called);
-            assert.isNull(element._cache[cacheKey]);
+            assert.isFalse(element._cache.has(cacheKey));
             done();
           });
-          element._cache[cacheKey] = 'fake cache';
+          element._cache.set(cacheKey, 'fake cache');
           stub.lastCall.args[0].errFn({status: 403});
         });
 
@@ -559,10 +564,10 @@ limitations under the License.
 
       element.getAccount().then(response => {
         assert.isTrue(element._fetchSharedCacheURL.called);
-        assert.equal(element._cache[cacheKey], 'fake cache');
+        assert.equal(element._cache.get(cacheKey), 'fake cache');
         done();
       });
-      element._cache[cacheKey] = 'fake cache';
+      element._cache.set(cacheKey, 'fake cache');
 
       stub.lastCall.args[0].errFn({});
     });
@@ -728,7 +733,7 @@ limitations under the License.
 
     test('setAccountStatus', () => {
       sandbox.stub(element, '_send').returns(Promise.resolve('OOO'));
-      element._cache['/accounts/self/detail'] = {};
+      element._cache.set('/accounts/self/detail', {});
       return element.setAccountStatus('OOO').then(() => {
         assert.isTrue(element._send.calledOnce);
         assert.equal(element._send.lastCall.args[0].method, 'PUT');
@@ -736,7 +741,7 @@ limitations under the License.
             '/accounts/self/status');
         assert.deepEqual(element._send.lastCall.args[0].body,
             {status: 'OOO'});
-        assert.deepEqual(element._cache['/accounts/self/detail'],
+        assert.deepEqual(element._cache.get('/accounts/self/detail'),
             {status: 'OOO'});
       });
     });
@@ -830,7 +835,7 @@ limitations under the License.
           Promise.resolve([change_num, file_name, file_contents]));
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve([change_num, file_name, file_contents]));
-      element._cache['/changes/' + change_num + '/edit/' + file_name] = {};
+      element._cache.set('/changes/' + change_num + '/edit/' + file_name, {});
       return element.saveChangeEdit(change_num, file_name, file_contents)
           .then(() => {
             assert.isTrue(element._send.calledOnce);
@@ -849,7 +854,7 @@ limitations under the License.
           Promise.resolve([change_num, message]));
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve([change_num, message]));
-      element._cache['/changes/' + change_num + '/message'] = {};
+      element._cache.set('/changes/' + change_num + '/message', {});
       return element.putChangeCommitMessage(change_num, message).then(() => {
         assert.isTrue(element._send.calledOnce);
         assert.equal(element._send.lastCall.args[0].method, 'PUT');
@@ -1031,7 +1036,8 @@ limitations under the License.
         const changeNum = 4321;
         element._projectLookup[changeNum] = 'test';
         const params = {foo: 'bar'};
-        const expectedUrl = '/changes/test~4321/detail?foo=bar';
+        const expectedUrl =
+            window.CANONICAL_PATH + '/changes/test~4321/detail?foo=bar';
         sandbox.stub(element._etags, 'getOptions');
         sandbox.stub(element._etags, 'collect');
         return element._getChangeDetail(changeNum, params).then(() => {

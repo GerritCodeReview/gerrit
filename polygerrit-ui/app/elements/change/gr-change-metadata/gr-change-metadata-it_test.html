@@ -106,7 +106,7 @@ limitations under the License.
     });
 
     suite('with plugin style', () => {
-      setup(done => {
+      setup(async () => {
         Gerrit._resetPlugins();
         const pluginHost = fixture('plugin-host');
         pluginHost.config = {
@@ -120,11 +120,9 @@ limitations under the License.
         };
         element = createElement();
         const importSpy = sandbox.spy(element.$.externalStyle, '_import');
-        Gerrit.awaitPluginsLoaded().then(() => {
-          Promise.all(importSpy.returnValues).then(() => {
-            flush(done);
-          });
-        });
+        await Gerrit.awaitPluginsLoaded();
+        await Promise.all(importSpy.returnValues);
+        flushAsynchronousOperations();
       });
 
       for (const sectionSelector of sectionSelectors) {

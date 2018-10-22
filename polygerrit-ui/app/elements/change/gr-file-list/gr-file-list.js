@@ -246,9 +246,9 @@
       }
     },
 
-    reload() {
+    async reload() {
       if (!this.changeNum || !this.patchRange.patchNum) {
-        return Promise.resolve();
+        return;
       }
 
       this._loading = true;
@@ -256,33 +256,29 @@
       this.collapseAllDiffs();
       const promises = [];
 
-      promises.push(this._getFiles().then(filesByPath => {
-        this._filesByPath = filesByPath;
-      }));
-      promises.push(this._getLoggedIn().then(loggedIn => {
-        return this._loggedIn = loggedIn;
-      }).then(loggedIn => {
-        if (!loggedIn) { return; }
-
-        return this._getReviewedFiles().then(reviewed => {
-          this._reviewed = reviewed;
-        });
-      }));
+      promises.push((async () => {
+        this._filesByPath = await this._getFiles();
+      })());
+      promises.push((async () => {
+        this._loggedIn = await this._getLoggedIn();
+        if (this._loggedIn) {
+          this._reviewed = await this._getReviewedFiles();
+        }
+      })());
 
       this._localPrefs = this.$.storage.getPreferences();
-      promises.push(this._getDiffPreferences().then(prefs => {
-        this.diffPrefs = prefs;
-      }));
+      promises.push((async () => {
+        this.diffPrefs = await this._getDiffPreferences();
+      })());
 
-      promises.push(this._getPreferences().then(prefs => {
-        this._userPrefs = prefs;
-      }));
+      promises.push((async () => {
+        this._userPrefs = this._getPreferences();
+      })());
 
-      return Promise.all(promises).then(() => {
-        this._loading = false;
-        this._detectChromiteButler();
-        this.$.reporting.fileListDisplayed();
-      });
+      await Promise.all(promises);
+      this._loading = false;
+      this._detectChromiteButler();
+      this.$.reporting.fileListDisplayed();
     },
 
     _detectChromiteButler() {
@@ -990,35 +986,33 @@
      *   is used to generate log messages.
      * @return {!Promise}
      */
-    _renderInOrder(paths, diffElements, initialCount) {
+    async _renderInOrder(paths, diffElements, initialCount) {
       let iter = 0;
 
-      return (new Promise(resolve => {
-        this.fire('reload-drafts', {resolve});
-      })).then(() => {
-        return this.asyncForeach(paths, (path, cancel) => {
-          this._cancelForEachDiff = cancel;
+      await new Promise(resolve => this.fire('reload-drafts', {resolve}));
 
-          iter++;
-          console.log('Expanding diff', iter, 'of', initialCount, ':',
-              path);
-          const diffElem = this._findDiffByPath(path, diffElements);
-          diffElem.comments = this.changeComments.getCommentsBySideForPath(
-              path, this.patchRange, this.projectConfig);
-          const promises = [diffElem.reload()];
-          if (this._loggedIn && !this.diffPrefs.manual_review) {
-            promises.push(this._reviewFile(path, true));
-          }
-          return Promise.all(promises);
-        }).then(() => {
-          this._cancelForEachDiff = null;
-          this._nextRenderParams = null;
-          console.log('Finished expanding', initialCount, 'diff(s)');
-          this.$.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
-              EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
-          this.$.diffCursor.handleDiffUpdate();
-        });
+      await this.asyncForeach(paths, (path, cancel) => {
+        this._cancelForEachDiff = cancel;
+
+        iter++;
+        console.log('Expanding diff', iter, 'of', initialCount, ':',
+            path);
+        const diffElem = this._findDiffByPath(path, diffElements);
+        diffElem.comments = this.changeComments.getCommentsBySideForPath(
+            path, this.patchRange, this.projectConfig);
+        const promises = [diffElem.reload()];
+        if (this._loggedIn && !this.diffPrefs.manual_review) {
+          promises.push(this._reviewFile(path, true));
+        }
+        return Promise.all(promises);
       });
+
+      this._cancelForEachDiff = null;
+      this._nextRenderParams = null;
+      console.log('Finished expanding', initialCount, 'diff(s)');
+      this.$.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
+          EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
+      this.$.diffCursor.handleDiffUpdate();
     },
 
     /** Cancel the rendering work of every diff in the list */

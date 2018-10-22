@@ -56,27 +56,26 @@
       this.fire('cancel', null, {bubbles: false});
     },
 
-    _getProjectBranchesSuggestions(input) {
+    async _getProjectBranchesSuggestions(input) {
       if (input.startsWith('refs/heads/')) {
         input = input.substring('refs/heads/'.length);
       }
-      return this.$.restAPI.getRepoBranches(
-          input, this.project, SUGGESTIONS_LIMIT).then(response => {
-            const branches = [];
-            let branch;
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              if (response[key].ref.startsWith('refs/heads/')) {
-                branch = response[key].ref.substring('refs/heads/'.length);
-              } else {
-                branch = response[key].ref;
-              }
-              branches.push({
-                name: branch,
-              });
-            }
-            return branches;
-          });
+      const response = await this.$.restAPI.getRepoBranches(
+          input, this.project, SUGGESTIONS_LIMIT);
+      const branches = [];
+      let branch;
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) { continue; }
+        if (response[key].ref.startsWith('refs/heads/')) {
+          branch = response[key].ref.substring('refs/heads/'.length);
+        } else {
+          branch = response[key].ref;
+        }
+        branches.push({
+          name: branch,
+        });
+      }
+      return branches;
     },
   });
 })();

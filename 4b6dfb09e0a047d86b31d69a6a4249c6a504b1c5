@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6c45ea5_8ac38825",
+        "filename": "polygerrit-ui/app/elements/change/gr-upload-help-dialog/gr-upload-help-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-22T20:13:51Z",
+      "side": 1,
+      "message": "Alternatively,\nconst cmds \u003d Object.entries(revision.fetch[scheme].commands)\n    .reduce((o, [key, cmd]) \u003d\u003e {\n        o[key.toLowerCase()] \u003d cmd; \n        return o;\n    }, {});",
+      "revId": "4b6dfb09e0a047d86b31d69a6a4249c6a504b1c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

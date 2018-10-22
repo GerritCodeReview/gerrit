@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99174bd6_c17b5d2d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-22T19:29:03Z",
+      "side": 1,
+      "message": "I think I\u0027d prefer if these were explicitly declared properties that themselves had reflectToAttribute: true.",
+      "range": {
+        "startLine": 463,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 6
+      },
+      "revId": "fbb4ebb5dfa61d2addff347e5992802b4da2c1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04fe229c_1629b44d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-10-22T14:56:05Z",
+      "side": 1,
+      "message": "Might be worth adding a practical example of how this can be used.",
+      "revId": "2f86ead9927dce462d39f54caccc024ab2a1db79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

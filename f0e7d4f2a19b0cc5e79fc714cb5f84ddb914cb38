@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1540209033 +0200\nnonce ADWBXRDtB4xjuSjj44/n+jJnay0uwyWP9Mc9YMI9Vs/c9B9VWxzzdo8uPgOAhTzam6sNXHcy73qr\n\n0000000000000000000000000000000000000000 029b5c861460bac440d7c4e3062f3d805a1dc404 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlvNuYkACgkQUbX9l6DQ\n71EtpQf/dYW15tgeVjcD6R+uTV9qT4yXKUDkNjmLvrUMvYfvVOcQ2xqpXq1l5Xu8\ntAuBJOR0zLwtpaPnmDIaH4Ir2FAios8BdD5Nb7rTvMLeZHchnNVAa+9YLW7x6m/C\n4vqq6za7n7KPIzwf75ViOV0XSGFl2CAJg6giEbXAkJerk3+7DYB++lawGkx9rjFX\nGjP2eNDChPfND30mOcrZJ5jZGiHd+h82fDB6+Udh+vMfrytQNf620DBLsZPDpjDp\nW3HA6h1f6y8Zdcwh/7DsK0WmnwcCiz1iWnXEh4u3bb7fMJW9BjROrS9i1cIyxRHD\n1u3ar7xhhJ+Z6Pjg1w8KDSH6L0QwKA\u003d\u003d\n\u003dJvcO\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd115fd9_dcaf8555",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-22T17:59:18Z",
+      "side": 1,
+      "message": "The alternative would be to implement this transparently in AccountResolver. Is there a specific reason you didn\u0027t want to do it that way?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 43
+      },
+      "revId": "f0e7d4f2a19b0cc5e79fc714cb5f84ddb914cb38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bf0b826_92315726",
+        "filename": "java/com/google/gerrit/server/account/AutoAccountCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-22T17:59:18Z",
+      "side": 1,
+      "message": "This seems a little weird; admins have little if any control over the order in which elements are iterated in a DynamicSet. What\u0027s the use case for having multiple implementations in the first place?",
+      "range": {
+        "startLine": 47,
+        "startChar": 64,
+        "endLine": 48,
+        "endChar": 97
+      },
+      "revId": "f0e7d4f2a19b0cc5e79fc714cb5f84ddb914cb38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64a31294_d276cb69",
+        "filename": "java/com/google/gerrit/server/auth/ldap/LdapAutoAccountCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-22T17:59:18Z",
+      "side": 1,
+      "message": "Please at least log the exception.",
+      "revId": "f0e7d4f2a19b0cc5e79fc714cb5f84ddb914cb38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

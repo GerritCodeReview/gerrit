@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00d36d95_f4e0256d",
+        "filename": "java/com/google/gerrit/server/args4j/AccountIdHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-22T17:59:18Z",
+      "side": 0,
+      "message": "Do you know the reason for the different behavior for LDAP_BIND? I am not convinced just from looking at this block of code that it\u0027s not just a mistake. (If we can use the same behavior for all LDAP auth types, that would simplify the code.)",
+      "revId": "2af6ab03220b6ef6d63a96b6491622e426d41d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

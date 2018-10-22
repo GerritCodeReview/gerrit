@@ -428,7 +428,7 @@ def bundle_assets(*args, **kwargs):
     """Combine html, js, css files and optionally split into js and html bundles."""
     _bundle_rule(*args, pkg = native.package_name(), **kwargs)
 
-def polygerrit_plugin(name, app, srcs = [], assets = None, **kwargs):
+def polygerrit_plugin(name, app, srcs = [], assets = None, plugin_name = None, **kwargs):
     """Bundles plugin dependencies for deployment.
 
     This rule bundles all Polymer elements and JS dependencies into .html and .js files.
@@ -436,19 +436,39 @@ def polygerrit_plugin(name, app, srcs = [], assets = None, **kwargs):
     Output of this rule is a FileSet with "${name}_fs", with deploy artifacts in "plugins/${name}/static".
 
     Args:
-      name: String, plugin name.
+      name: String, rule name.
       app: String, the main or root source file.
       assets: Fileset, additional files to be used by plugin in runtime, exported to "plugins/${name}/static".
-      srcs: Source files required for combining.
+      plugin_name: String, plugin name. ${name} is used if not provided.
     """
+    if not plugin_name:
+        plugin_name = name
 
-    # Combines all .js and .html files into foo_combined.js and foo_combined.html
-    _bundle_rule(
-        name = name + "_combined",
-        app = app,
-        srcs = srcs if app in srcs else srcs + [app],
-        pkg = native.package_name(),
-        **kwargs
+    html_plugin = app.endswith(".html")
+    srcs = srcs if app in srcs else srcs + [app]
+
+    if html_plugin:
+        # Combines all .js and .html files into foo_combined.js and foo_combined.html
+        _bundle_rule(
+            name = name + "_combined",
+            app = app,
+            srcs = srcs,
+            pkg = native.package_name(),
+            **kwargs
+        )
+        js_srcs = [name + "_combined.js"]
+    else:
+        js_srcs = srcs
+
+    closure_js_library(
+        name = name + "_closure_lib",
+        srcs = js_srcs,
+        convention = "GOOGLE",
+        no_closure_library = True,
+        deps = [
+            "//lib/polymer_externs:polymer_closure",
+            "//polygerrit-ui/app/externs:plugin",
+        ],
     )
 
     closure_js_binary(
@@ -464,37 +484,27 @@ def polygerrit_plugin(name, app, srcs = [], assets = None, **kwargs):
         ],
     )
 
-    closure_js_library(
-        name = name + "_closure_lib",
-        srcs = [name + "_combined.js"],
-        convention = "GOOGLE",
-        no_closure_library = True,
-        deps = [
-            "//lib/polymer_externs:polymer_closure",
-            "//polygerrit-ui/app/externs:plugin",
-        ],
-    )
-
-    native.genrule(
-        name = name + "_rename_html",
-        srcs = [name + "_combined.html"],
-        outs = [name + ".html"],
-        cmd = "sed 's/<script src=\"" + name + "_combined.js\"/<script src=\"" + name + ".js\"/g' $(SRCS) > $(OUTS)",
-        output_to_bindir = True,
-    )
+    if html_plugin:
+        native.genrule(
+            name = name + "_rename_html",
+            srcs = [name + "_combined.html"],
+            outs = [plugin_name + ".html"],
+            cmd = "sed 's/<script src=\"" + name + "_combined.js\"/<script src=\"" + plugin_name + ".js\"/g' $(SRCS) > $(OUTS)",
+            output_to_bindir = True,
+        )
 
     native.genrule(
         name = name + "_rename_js",
         srcs = [name + "_bin.js"],
-        outs = [name + ".js"],
+        outs = [plugin_name + ".js"],
         cmd = "cp $< $@",
         output_to_bindir = True,
     )
 
-    static_files = [
-        name + ".js",
-        name + ".html",
-    ]
+    if html_plugin:
+        static_files = [plugin_name + ".js", plugin_name + ".html"]
+    else:
+        static_files = [plugin_name + ".js"]
 
     if assets:
         nested, direct = [], []

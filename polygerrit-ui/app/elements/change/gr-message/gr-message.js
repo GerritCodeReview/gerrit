@@ -107,13 +107,15 @@
       '_updateExpandedClass(message.expanded)',
     ],
 
-    ready() {
-      this.$.restAPI.getConfig().then(config => {
-        this.config = config;
-      });
-      this.$.restAPI.getLoggedIn().then(loggedIn => {
-        this._loggedIn = loggedIn;
-      });
+    async ready() {
+      await Promise.all([
+        (async () => {
+          this.config = await this.$.restAPI.getConfig();
+        })(),
+        (async () => {
+          this._loggedIn = await this.$.restAPI.getLoggedIn();
+        })(),
+      ]);
     },
 
     _updateExpandedClass(expanded) {
@@ -246,10 +248,8 @@
       this.fire('reply', {message: this.message});
     },
 
-    _projectNameChanged(name) {
-      this.$.restAPI.getProjectConfig(name).then(config => {
-        this._projectConfig = config;
-      });
+    async _projectNameChanged(name) {
+      this._projectConfig = await this.$.restAPI.getProjectConfig(name);
     },
 
     _computeExpandToggleIcon(expanded) {

@@ -138,8 +138,8 @@
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
-    _handleDescriptionRemoved(e) {
-      return this._updateDescription('', e);
+    async _handleDescriptionRemoved(e) {
+      return await this._updateDescription('', e);
     },
 
     /**
@@ -156,9 +156,9 @@
       }
     },
 
-    _handleDescriptionChanged(e) {
+    async _handleDescriptionChanged(e) {
       const desc = e.detail.trim();
-      this._updateDescription(desc, e);
+      await this._updateDescription(desc, e);
     },
 
     /**
@@ -167,23 +167,24 @@
      * @param {?(Event|Node)} e
      * @return {!Promise}
      */
-    _updateDescription(desc, e) {
+    async _updateDescription(desc, e) {
       const target = Polymer.dom(e).rootTarget;
       if (target) { target.disabled = true; }
       const rev = this.getRevisionByPatchNum(this.change.revisions,
           this.patchNum);
       const sha = this._getPatchsetHash(this.change.revisions, rev);
-      return this.$.restAPI.setDescription(this.changeNum, this.patchNum, desc)
-          .then(res => {
-            if (res.ok) {
-              if (target) { target.disabled = false; }
-              this.set(['change', 'revisions', sha, 'description'], desc);
-              this._patchsetDescription = desc;
-            }
-          }).catch(err => {
-            if (target) { target.disabled = false; }
-            return;
-          });
+      try {
+        const res = await this.$.restAPI.setDescription(
+            this.changeNum, this.patchNum, desc);
+        if (res.ok) {
+          if (target) { target.disabled = false; }
+          this.set(['change', 'revisions', sha, 'description'], desc);
+          this._patchsetDescription = desc;
+        }
+      } catch (err) {
+        if (target) { target.disabled = false; }
+        throw err;
+      }
     },
 
     _computePrefsButtonHidden(prefs, loggedIn) {

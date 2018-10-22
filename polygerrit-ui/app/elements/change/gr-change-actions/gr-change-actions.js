@@ -414,26 +414,26 @@
       this._handleLoadingComplete();
     },
 
-    reload() {
-      if (!this.changeNum || !this.latestPatchNum) {
-        return Promise.resolve();
-      }
+    async reload() {
+      if (!this.changeNum || !this.latestPatchNum) { return; }
 
       this._loading = true;
-      return this._getRevisionActions().then(revisionActions => {
+      try {
+        const revisionActions = await this._getRevisionActions();
         if (!revisionActions) { return; }
 
         this.revisionActions = revisionActions;
         this._handleLoadingComplete();
-      }).catch(err => {
+      } catch (err) {
         this.fire('show-alert', {message: ERR_REVISION_ACTIONS});
         this._loading = false;
         throw err;
-      });
+      }
     },
 
-    _handleLoadingComplete() {
-      Gerrit.awaitPluginsLoaded().then(() => this._loading = false);
+    async _handleLoadingComplete() {
+      await Gerrit.awaitPluginsLoaded();
+      this._loading = false;
     },
 
     _changeChanged() {
@@ -774,12 +774,11 @@
       return result.concat(additionalActions).concat(pluginActions);
     },
 
-    _populateActionUrl(action) {
+    async _populateActionUrl(action) {
       const patchNum =
             action.__type === ActionType.REVISION ? this.latestPatchNum : null;
-      this.$.restAPI.getChangeActionURL(
-          this.changeNum, patchNum, '/' + action.__key)
-          .then(url => action.__url = url);
+      action.__url = await this.$.restAPI.getChangeActionURL(
+          this.changeNum, patchNum, '/' + action.__key);
     },
 
     /**
@@ -1109,75 +1108,70 @@
      * @param {boolean} revAction
      * @param {!Object|string=} opt_payload
      */
-    _fireAction(endpoint, action, revAction, opt_payload) {
+    async _fireAction(endpoint, action, revAction, opt_payload) {
       const cleanupFn =
           this._setLoadingOnButtonWithKey(action.__type, action.__key);
-      this._send(action.method, opt_payload, endpoint, revAction, cleanupFn)
-          .then(this._handleResponse.bind(this, action));
+      const response = await this._send(
+          action.method, opt_payload, endpoint, revAction, cleanupFn);
+      await this._handleResponse(action, response);
     },
 
-    _showActionDialog(dialog) {
+    async _showActionDialog(dialog) {
       this._hideAllDialogs();
 
       dialog.hidden = false;
-      this.$.overlay.open().then(() => {
-        if (dialog.resetFocus) {
-          dialog.resetFocus();
-        }
-      });
+      await this.$.overlay.open();
+      if (dialog.resetFocus) {
+        dialog.resetFocus();
+      }
     },
 
     // TODO(rmistry): Redo this after
     // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
-    _setLabelValuesOnRevert(newChangeId) {
+    async _setLabelValuesOnRevert(newChangeId) {
       const labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
       if (!labels) { return Promise.resolve(); }
-      return this.$.restAPI.saveChangeReview(newChangeId, 'current', {labels});
+      await this.$.restAPI.saveChangeReview(newChangeId, 'current', {labels});
     },
 
-    _handleResponse(action, response) {
+    async _handleResponse(action, response) {
       if (!response) { return; }
-      return this.$.restAPI.getResponseObject(response).then(obj => {
-        switch (action.__key) {
-          case ChangeActions.REVERT:
-            this._waitForChangeReachable(obj._number)
-                .then(() => this._setLabelValuesOnRevert(obj._number))
-                .then(() => {
-                  Gerrit.Nav.navigateToChange(obj);
-                });
-            break;
-          case RevisionActions.CHERRYPICK:
-            this._waitForChangeReachable(obj._number).then(() => {
-              Gerrit.Nav.navigateToChange(obj);
-            });
-            break;
-          case ChangeActions.DELETE:
-            if (action.__type === ActionType.CHANGE) {
-              Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getUrlForRoot());
-            }
-            break;
-          case ChangeActions.WIP:
-          case ChangeActions.DELETE_EDIT:
-          case ChangeActions.PUBLISH_EDIT:
-          case ChangeActions.REBASE_EDIT:
-            Gerrit.Nav.navigateToChange(this.change);
-            break;
-          default:
-            this.dispatchEvent(new CustomEvent('reload-change',
-                {detail: {action: action.__key}, bubbles: false}));
-            break;
-        }
-      });
+      const obj = await this.$.restAPI.getResponseObject(response);
+      switch (action.__key) {
+        case ChangeActions.REVERT:
+          await this._waitForChangeReachable(obj._number);
+          await this._setLabelValuesOnRevert(obj._number);
+          Gerrit.Nav.navigateToChange(obj);
+          break;
+        case RevisionActions.CHERRYPICK:
+          await this._waitForChangeReachable(obj._number);
+          Gerrit.Nav.navigateToChange(obj);
+          break;
+        case ChangeActions.DELETE:
+          if (action.__type === ActionType.CHANGE) {
+            Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getUrlForRoot());
+          }
+          break;
+        case ChangeActions.WIP:
+        case ChangeActions.DELETE_EDIT:
+        case ChangeActions.PUBLISH_EDIT:
+        case ChangeActions.REBASE_EDIT:
+          Gerrit.Nav.navigateToChange(this.change);
+          break;
+        default:
+          this.dispatchEvent(new CustomEvent('reload-change',
+              {detail: {action: action.__key}, bubbles: false}));
+          break;
+      }
     },
 
-    _handleResponseError(response) {
-      return response.text().then(errText => {
-        this.fire('show-error',
-            {message: `Could not perform action: ${errText}`});
-        if (!errText.startsWith('Change is already up to date')) {
-          throw Error(errText);
-        }
-      });
+    async _handleResponseError(response) {
+      const errText = await response.text();
+      this.fire('show-error',
+          {message: `Could not perform action: ${errText}`});
+      if (!errText.startsWith('Change is already up to date')) {
+        throw new Error(errText);
+      }
     },
 
     /**
@@ -1188,40 +1182,38 @@
      * @param {?Function} cleanupFn
      * @param {?Function=} opt_errorFn
      */
-    _send(method, payload, actionEndpoint, revisionAction, cleanupFn,
+    async _send(method, payload, actionEndpoint, revisionAction, cleanupFn,
         opt_errorFn) {
       const handleError = response => {
         cleanupFn.call(this);
         this._handleResponseError(response);
       };
 
-      return this.fetchChangeUpdates(this.change, this.$.restAPI)
-          .then(result => {
-            if (!result.isLatest) {
-              this.fire('show-alert', {
-                message: 'Cannot set label: a newer patch has been ' +
-                    'uploaded to this change.',
-                action: 'Reload',
-                callback: () => {
-                  // Load the current change without any patch range.
-                  Gerrit.Nav.navigateToChange(this.change);
-                },
-              });
+      const result =
+          await this.fetchChangeUpdates(this.change, this.$.restAPI);
+      if (!result.isLatest) {
+        this.fire('show-alert', {
+          message: 'Cannot set label: a newer patch has been ' +
+              'uploaded to this change.',
+          action: 'Reload',
+          callback: () => {
+            // Load the current change without any patch range.
+            Gerrit.Nav.navigateToChange(this.change);
+          },
+        });
 
-              // Because this is not a network error, call the cleanup function
-              // but not the error handler.
-              cleanupFn();
+        // Because this is not a network error, call the cleanup function
+        // but not the error handler.
+        cleanupFn();
 
-              return Promise.resolve();
-            }
-            const patchNum = revisionAction ? this.latestPatchNum : null;
-            return this.$.restAPI.executeChangeAction(this.changeNum, method,
-                actionEndpoint, patchNum, payload, handleError)
-                .then(response => {
-                  cleanupFn.call(this);
-                  return response;
-                });
-          });
+        return;
+      }
+      const patchNum = revisionAction ? this.latestPatchNum : null;
+      const response = await this.$.restAPI.executeChangeAction(
+          this.changeNum, method, actionEndpoint, patchNum, payload,
+          handleError);
+      cleanupFn.call(this);
+      return response;
     },
 
     _handleAbandonTap() {
@@ -1385,28 +1377,19 @@
      * @param  {number} changeNum
      * @return {Promise<boolean>}
      */
-    _waitForChangeReachable(changeNum) {
-      let attempsRemaining = AWAIT_CHANGE_ATTEMPTS;
-      return new Promise(resolve => {
-        const check = () => {
-          attempsRemaining--;
-          // Pass a no-op error handler to avoid the "not found" error toast.
-          this.$.restAPI.getChange(changeNum, () => {}).then(response => {
-            // If the response is 404, the response will be undefined.
-            if (response) {
-              resolve(true);
-              return;
-            }
-
-            if (attempsRemaining) {
-              this.async(check, AWAIT_CHANGE_TIMEOUT_MS);
-            } else {
-              resolve(false);
-            }
-          });
-        };
-        check();
-      });
+    async _waitForChangeReachable(changeNum) {
+      for (let i = 0; i < AWAIT_CHANGE_ATTEMPTS; i++) {
+        // Pass a no-op error handler to avoid the "not found" error toast.
+        const response = await this.$.restAPI.getChange(changeNum, () => {});
+        if (response) {
+          return true;
+        }
+        if (i < AWAIT_CHANGE_ATTEMPTS - 1) {
+          await new Promise(
+              resolve => this.async(resolve, AWAIT_CHANGE_TIMEOUT_MS));
+        }
+      }
+      return false;
     },
 
     _handleEditTap() {

@@ -254,7 +254,7 @@ limitations under the License.
       assert.equal(element._getChangeNumber(change2), 1);
     });
 
-    test('event for section loaded fires for each section ', () => {
+    test('event for section loaded fires for each section ', async () => {
       const loadedStub = sandbox.stub();
       element.patchNum = 7;
       element.change = {
@@ -272,9 +272,8 @@ limitations under the License.
       sandbox.stub(element, '_getConflicts')
           .returns(Promise.resolve());
 
-      return element.reload().then(() => {
-        assert.equal(loadedStub.callCount, 4);
-      });
+      await element.reload();
+      assert.equal(loadedStub.callCount, 4);
     });
 
     suite('_getConflicts resolves undefined', () => {

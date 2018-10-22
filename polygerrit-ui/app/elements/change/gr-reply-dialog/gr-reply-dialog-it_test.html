@@ -129,7 +129,7 @@ limitations under the License.
       assert.isTrue(sendStub.called);
     });
 
-    test('lgtm plugin', done => {
+    test('lgtm plugin', async () => {
       Gerrit._resetPlugins();
       const pluginHost = fixture('plugin-host');
       pluginHost.config = {
@@ -145,21 +145,19 @@ limitations under the License.
       setupElement(element);
       const importSpy =
           sandbox.spy(element.$$('gr-endpoint-decorator'), '_import');
-      Gerrit.awaitPluginsLoaded().then(() => {
-        Promise.all(importSpy.returnValues).then(() => {
-          flush(() => {
-            const textarea = element.$.textarea.getNativeTextarea();
-            textarea.value = 'LGTM';
-            textarea.dispatchEvent(new CustomEvent('input', {bubbles: true}));
-            const labelScoreRows = Polymer.dom(element.$.labelScores.root)
-                .querySelector('gr-label-score-row[name="Code-Review"]');
-            const selectedBtn = Polymer.dom(labelScoreRows.root)
-                .querySelector('gr-button[value="+1"].iron-selected');
-            assert.isOk(selectedBtn);
-            done();
-          });
-        });
-      });
+      await Gerrit.awaitPluginsLoaded();
+      await Promise.all(importSpy.returnValues);
+      await new Promise(resolve => flush(() => {
+        const textarea = element.$.textarea.getNativeTextarea();
+        textarea.value = 'LGTM';
+        textarea.dispatchEvent(new CustomEvent('input', {bubbles: true}));
+        const labelScoreRows = Polymer.dom(element.$.labelScores.root)
+            .querySelector('gr-label-score-row[name="Code-Review"]');
+        const selectedBtn = Polymer.dom(labelScoreRows.root)
+            .querySelector('gr-button[value="+1"].iron-selected');
+        assert.isOk(selectedBtn);
+        resolve();
+      }));
     });
   });
 </script>

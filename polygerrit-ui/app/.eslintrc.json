@@ -82,7 +82,8 @@
     {
       "files": [
         "behaviors/**",
-        "elements/admin/**"
+        "elements/admin/**",
+        "elements/change/**"
       ],
       "rules": {
         "promise/always-return": "error",

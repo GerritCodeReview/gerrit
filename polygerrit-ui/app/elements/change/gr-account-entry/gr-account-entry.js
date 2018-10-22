@@ -77,13 +77,11 @@
       Gerrit.AnonymousNameBehavior,
     ],
 
-    attached() {
-      this.$.restAPI.getConfig().then(cfg => {
-        this._config = cfg;
-      });
-      this.$.restAPI.getLoggedIn().then(loggedIn => {
-        this._loggedIn = loggedIn;
-      });
+    async attached() {
+      await Promise.all([
+        (async () => this._config = this.$.restAPI.getConfig())(),
+        (async () => this._loggedIn = this.$.restAPI.getLoggedIn())(),
+      ]);
     },
 
     get focusStart() {
@@ -148,7 +146,7 @@
       return {name, value};
     },
 
-    _getReviewerSuggestions(input) {
+    async _getReviewerSuggestions(input) {
       if (!this.change || !this.change._number || !this._loggedIn) {
         return Promise.resolve([]);
       }
@@ -158,15 +156,14 @@
           api.getSuggestedAccounts(`cansee:${this.change._number} ${input}`) :
           api.getChangeSuggestedReviewers(this.change._number, input);
 
-      return xhr.then(reviewers => {
-        if (!reviewers) { return []; }
-        if (!this.filter) {
-          return reviewers.map(this._makeSuggestion.bind(this));
-        }
-        return reviewers
-            .filter(this.filter)
-            .map(this._makeSuggestion.bind(this));
-      });
+      const reviewers = await xhr;
+      if (!reviewers) { return []; }
+      if (!this.filter) {
+        return reviewers.map(this._makeSuggestion.bind(this));
+      }
+      return reviewers
+          .filter(this.filter)
+          .map(this._makeSuggestion.bind(this));
     },
   });
 })();

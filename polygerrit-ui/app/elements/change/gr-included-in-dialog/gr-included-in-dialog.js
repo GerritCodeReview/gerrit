@@ -44,15 +44,13 @@
       },
     },
 
-    loadData() {
+    async loadData() {
       if (!this.changeNum) { return; }
       this._filterText = '';
-      return this.$.restAPI.getChangeIncludedIn(this.changeNum).then(
-          configs => {
-            if (!configs) { return; }
-            this._includedIn = configs;
-            this._loaded = true;
-          });
+      const configs = await this.$.restAPI.getChangeIncludedIn(this.changeNum);
+      if (!configs) { return; }
+      this._includedIn = configs;
+      this._loaded = true;
     },
 
     _resetData() {

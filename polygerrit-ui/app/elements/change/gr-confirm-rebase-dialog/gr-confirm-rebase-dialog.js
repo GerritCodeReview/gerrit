@@ -57,32 +57,31 @@
     // them by the input. The query is re-run each time the dialog is opened
     // in case there are new/updated changes in the generic query since the
     // last time it was run.
-    fetchRecentChanges() {
-      return this.$.restAPI.getChanges(null, `is:open -age:90d`)
-          .then(response => {
-            const changes = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              changes.push({
-                name: `${response[key]._number}: ${response[key].subject}`,
-                value: response[key]._number,
-              });
-            }
-            this._recentChanges = changes;
-            return this._recentChanges;
-          });
-    },
-
-    _getRecentChanges() {
-      if (this._recentChanges) {
-        return Promise.resolve(this._recentChanges);
+    async fetchRecentChanges() {
+      const response =
+          await this.$.restAPI.getChanges(null, `is:open -age:90d`);
+      const changes = [];
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) { continue; }
+        changes.push({
+          name: `${response[key]._number}: ${response[key].subject}`,
+          value: response[key]._number,
+        });
       }
-      return this.fetchRecentChanges();
+      this._recentChanges = changes;
+      return this._recentChanges;
     },
 
-    _getChangeSuggestions(input) {
-      return this._getRecentChanges().then(changes =>
-          this._filterChanges(input, changes));
+    async _getRecentChanges() {
+      if (this._recentChanges) {
+        return this._recentChanges;
+      }
+      return await this.fetchRecentChanges();
+    },
+
+    async _getChangeSuggestions(input) {
+      const changes = await this._getRecentChanges();
+      return this._filterChanges(input, changes);
     },
 
     _filterChanges(input, changes) {

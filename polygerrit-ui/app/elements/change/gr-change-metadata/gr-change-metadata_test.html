@@ -533,7 +533,7 @@ limitations under the License.
         });
       });
 
-      test('changing topic', () => {
+      test('changing topic', async () => {
         const newTopic = 'the new topic';
         sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
             Promise.resolve(newTopic));
@@ -542,14 +542,12 @@ limitations under the License.
         element.addEventListener('topic-changed', topicChangedSpy);
         assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
             42, newTopic));
-        return element.$.restAPI.setChangeTopic.lastCall.returnValue
-            .then(() => {
-              assert.equal(element.change.topic, newTopic);
-              assert.isTrue(topicChangedSpy.called);
-            });
+        await element.$.restAPI.setChangeTopic.lastCall.returnValue;
+        assert.equal(element.change.topic, newTopic);
+        assert.isTrue(topicChangedSpy.called);
       });
 
-      test('topic removal', () => {
+      test('topic removal', async () => {
         sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
             Promise.resolve());
         const chip = element.$$('gr-linked-chip');
@@ -560,15 +558,13 @@ limitations under the License.
         assert.isTrue(chip.disabled);
         assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
             42, null));
-        return element.$.restAPI.setChangeTopic.lastCall.returnValue
-            .then(() => {
-              assert.isFalse(chip.disabled);
-              assert.equal(element.change.topic, '');
-              assert.isTrue(topicChangedSpy.called);
-            });
+        await element.$.restAPI.setChangeTopic.lastCall.returnValue;
+        assert.isFalse(chip.disabled);
+        assert.equal(element.change.topic, '');
+        assert.isTrue(topicChangedSpy.called);
       });
 
-      test('changing hashtag', () => {
+      test('changing hashtag', async () => {
         element.serverConfig = {
           note_db_enabled: true,
         };
@@ -580,10 +576,8 @@ limitations under the License.
         element._handleHashtagChanged({}, 'new hashtag');
         assert.isTrue(element.$.restAPI.setChangeHashtag.calledWith(
             42, {add: ['new hashtag']}));
-        return element.$.restAPI.setChangeHashtag.lastCall.returnValue
-            .then(() => {
-              assert.equal(element.change.hashtags, newHashtag);
-            });
+        await element.$.restAPI.setChangeHashtag.lastCall.returnValue;
+        assert.equal(element.change.hashtags, newHashtag);
       });
     });
 
@@ -594,14 +588,15 @@ limitations under the License.
         let hookEl;
         let plugin;
         Gerrit.install(
-            p => {
+            async p => {
               plugin = p;
-              plugin.hook('change-metadata-item').getLastAttached().then(
-                  el => hookEl = el);
+              hookEl =
+                  await plugin.hook('change-metadata-item').getLastAttached();
             },
             '0.1',
             'http://some/plugins/url.html');
         Gerrit._setPluginsCount(0);
+        flushAsynchronousOperations();
         flush(() => {
           assert.strictEqual(hookEl.plugin, plugin);
           assert.strictEqual(hookEl.change, element.change);

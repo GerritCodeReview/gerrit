@@ -97,52 +97,51 @@
       this._sameTopic = [];
     },
 
-    reload() {
-      if (!this.change || !this.patchNum) {
-        return Promise.resolve();
-      }
+    async reload() {
+      if (!this.change || !this.patchNum) { return; }
+
       this.loading = true;
       const promises = [
-        this._getRelatedChanges().then(response => {
+        (async () => {
+          const response = await this._getRelatedChanges();
           this._relatedResponse = response;
           this._fireReloadEvent();
           this.hasParent = this._calculateHasParent(this.change.change_id,
               response.changes);
-        }),
-        this._getSubmittedTogether().then(response => {
-          this._submittedTogether = response;
+        })(),
+        (async () => {
+          this._submittedTogether = await this._getSubmittedTogether();
           this._fireReloadEvent();
-        }),
-        this._getCherryPicks().then(response => {
-          this._cherryPicks = response;
+        })(),
+        (async () => {
+          this._cherryPicks = await this._getCherryPicks();
           this._fireReloadEvent();
-        }),
+        })(),
       ];
 
       // Get conflicts if change is open and is mergeable.
       if (this.changeIsOpen(this.change.status) && this.mergeable) {
-        promises.push(this._getConflicts().then(response => {
+        promises.push((async () => {
+          const response = await this._getConflicts();
           // Because the server doesn't always return a response and the
           // template expects an array, always return an array.
           this._conflicts = response ? response : [];
           this._fireReloadEvent();
-        }));
+        })());
       }
 
-      promises.push(this._getServerConfig().then(config => {
+      promises.push((async () => {
+        const config = await this._getServerConfig();
         if (this.change.topic && !config.change.submit_whole_topic) {
-          return this._getChangesWithSameTopic().then(response => {
-            this._sameTopic = response;
-          });
+          this._sameTopic = await this._getChangesWithSameTopic();
         } else {
           this._sameTopic = [];
         }
         return this._sameTopic;
-      }));
+      })());
 
-      return Promise.all(promises).then(() => {
-        this.loading = false;
-      });
+      await Promise.all(promises);
+      this.loading = false;
     },
 
     _fireReloadEvent() {

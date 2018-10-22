@@ -160,19 +160,18 @@
       return Object.keys(labels).sort();
     },
 
-    _handleTopicChanged(e, topic) {
+    async _handleTopicChanged(e, topic) {
       const lastTopic = this.change.topic;
       if (!topic.length) { topic = null; }
       this._settingTopic = true;
-      this.$.restAPI.setChangeTopic(this.change._number, topic)
-          .then(newTopic => {
-            this._settingTopic = false;
-            this.set(['change', 'topic'], newTopic);
-            if (newTopic !== lastTopic) {
-              this.dispatchEvent(
-                  new CustomEvent('topic-changed', {bubbles: true}));
-            }
-          });
+      const newTopic =
+          await this.$.restAPI.setChangeTopic(this.change._number, topic);
+      this._settingTopic = false;
+      this.set(['change', 'topic'], newTopic);
+      if (newTopic !== lastTopic) {
+        this.dispatchEvent(
+            new CustomEvent('topic-changed', {bubbles: true}));
+      }
     },
 
     _showAddTopic(changeRecord, settingTopic) {
@@ -185,19 +184,18 @@
       return hasTopic && !settingTopic;
     },
 
-    _handleHashtagChanged(e) {
+    async _handleHashtagChanged(e) {
       const lastHashtag = this.change.hashtag;
       if (!this._newHashtag.length) { return; }
       const newHashtag = this._newHashtag;
       this._newHashtag = '';
-      this.$.restAPI.setChangeHashtag(
-          this.change._number, {add: [newHashtag]}).then(newHashtag => {
-            this.set(['change', 'hashtags'], newHashtag);
-            if (newHashtag !== lastHashtag) {
-              this.dispatchEvent(
-                  new CustomEvent('hashtag-changed', {bubbles: true}));
-            }
-          });
+      const savedHashtag = await this.$.restAPI.setChangeHashtag(
+          this.change._number, {add: [newHashtag]});
+      this.set(['change', 'hashtags'], savedHashtag);
+      if (savedHashtag !== lastHashtag) {
+        this.dispatchEvent(
+            new CustomEvent('hashtag-changed', {bubbles: true}));
+      }
     },
 
     _computeTopicReadOnly(mutable, change) {
@@ -266,33 +264,34 @@
       return Gerrit.Nav.getUrlForHashtag(hashtag);
     },
 
-    _handleTopicRemoved(e) {
+    async _handleTopicRemoved(e) {
       const target = Polymer.dom(e).rootTarget;
       target.disabled = true;
-      this.$.restAPI.setChangeTopic(this.change._number, null).then(() => {
+      try {
+        await this.$.restAPI.setChangeTopic(this.change._number, null);
         target.disabled = false;
         this.set(['change', 'topic'], '');
         this.dispatchEvent(
             new CustomEvent('topic-changed', {bubbles: true}));
-      }).catch(err => {
+      } catch (err) {
         target.disabled = false;
-        return;
-      });
+        throw err;
+      }
     },
 
-    _handleHashtagRemoved(e) {
+    async _handleHashtagRemoved(e) {
       e.preventDefault();
       const target = Polymer.dom(e).rootTarget;
       target.disabled = true;
-      this.$.restAPI.setChangeHashtag(this.change._number,
-          {remove: [target.text]})
-          .then(newHashtag => {
-            target.disabled = false;
-            this.set(['change', 'hashtags'], newHashtag);
-          }).catch(err => {
-            target.disabled = false;
-            return;
-          });
+      try {
+        const newHashtag = await this.$.restAPI.setChangeHashtag(
+            this.change._number, {remove: [target.text]});
+        target.disabled = false;
+        this.set(['change', 'hashtags'], newHashtag);
+      } catch (err) {
+        target.disabled = false;
+        throw err;
+      }
     },
 
     _computeIsWip(change) {

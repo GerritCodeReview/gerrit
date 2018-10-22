@@ -22,6 +22,30 @@
       "revId": "51bc1f5222b36e57da9fd8674360af69f2e4a017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c659f16_a2a63858",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-22T19:36:27Z",
+      "side": 1,
+      "message": "That already existed: http://google3/third_party/javascript/polygerrit/elements/diff/gr-diff/gr-diff.js?l\u003d210\u0026rcl\u003d217874801\n\nI took a look at what it does and it\u0027s fired when you select a range or something, before you have figured out the corresponding line/side/range line element etc.\n\nDo you have another suggestion for a better name?",
+      "parentUuid": "e4a640d6_8af3f057",
+      "range": {
+        "startLine": 180,
+        "startChar": 7,
+        "endLine": 180,
+        "endChar": 33
+      },
+      "revId": "51bc1f5222b36e57da9fd8674360af69f2e4a017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

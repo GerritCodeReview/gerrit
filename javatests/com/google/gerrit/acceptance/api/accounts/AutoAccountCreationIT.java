@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -129,6 +130,31 @@ public class AutoAccountCreationIT extends AbstractDaemonTest {
                 gApi.changes().id(r.getChangeId()).get().reviewers.get(ReviewerState.REVIEWER),
                 i -> i.name))
         .containsExactly(user1);
+  }
+
+  @Test
+  public void autoCreateAccountOnSettingChangeAssignee() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    String user1 = "foo";
+    assertThatUserDoesNotExist(user1);
+
+    // check that a non-existing user can be set as assignee since an account is automatically
+    // created
+    AssigneeInput input = new AssigneeInput();
+    input.assignee = user1;
+    AccountInfo assigneeInfo = gApi.changes().id(r.getChangeId()).setAssignee(input);
+    assertThat(assigneeInfo.name).isEqualTo(user1);
+    assertThatUserExists(user1);
+    assertThat(gApi.changes().id(r.getChangeId()).get().assignee.name).isEqualTo(user1);
+
+    // check that adding a non-existing user as assignee fails if auto account creation is disabled
+    String user2 = "bar";
+    testAutoAccountCreator.setEnabled(false);
+    input.assignee = user2;
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("Account '" + user2 + "' is not found or ambiguous");
+    gApi.changes().id(r.getChangeId()).setAssignee(input);
   }
 
   private void assertThatUserDoesNotExist(String user) throws Exception {

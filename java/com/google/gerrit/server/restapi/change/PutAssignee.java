@@ -25,10 +25,12 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AutoAccountCreator;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
@@ -36,6 +38,7 @@ import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -46,6 +49,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -58,6 +62,8 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   private final ReviewerAdder reviewerAdder;
   private final AccountLoader.Factory accountLoaderFactory;
   private final PermissionBackend permissionBackend;
+  private final PluginSetContext<AutoAccountCreator> autoAccountCreators;
+  private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
   PutAssignee(
@@ -67,7 +73,9 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       Provider<ReviewDb> db,
       ReviewerAdder reviewerAdder,
       AccountLoader.Factory accountLoaderFactory,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      PluginSetContext<AutoAccountCreator> autoAccountCreators,
+      IdentifiedUser.GenericFactory userFactory) {
     super(retryHelper);
     this.accountResolver = accountResolver;
     this.assigneeFactory = assigneeFactory;
@@ -75,6 +83,8 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
     this.reviewerAdder = reviewerAdder;
     this.accountLoaderFactory = accountLoaderFactory;
     this.permissionBackend = permissionBackend;
+    this.autoAccountCreators = autoAccountCreators;
+    this.userFactory = userFactory;
   }
 
   @Override
@@ -89,7 +99,17 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       throw new BadRequestException("missing assignee field");
     }
 
-    IdentifiedUser assignee = accountResolver.parse(input.assignee);
+    IdentifiedUser assignee;
+    try {
+      assignee = accountResolver.parse(input.assignee);
+    } catch (UnprocessableEntityException e) {
+      Optional<Account> autoCreatedAccount =
+          AutoAccountCreator.createAccount(autoAccountCreators, input.assignee);
+      if (!autoCreatedAccount.isPresent()) {
+        throw e;
+      }
+      assignee = userFactory.create(autoCreatedAccount.get().getId());
+    }
     if (!assignee.getAccount().isActive()) {
       throw new UnprocessableEntityException(input.assignee + " is not active");
     }

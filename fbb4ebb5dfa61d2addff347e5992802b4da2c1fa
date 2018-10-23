@@ -70,6 +70,30 @@
       "revId": "fbb4ebb5dfa61d2addff347e5992802b4da2c1fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dab6ec5f_f962bfb3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-23T16:26:44Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of how the existence of these attributes isn\u0027t explicitly documented, declared, or laid out anywhere except in the implementation.\n\nI actually don\u0027t see how your point in the last comment about the compiler holds -- could you explain further?",
+      "parentUuid": "5cc9bc24_dfdda72c",
+      "range": {
+        "startLine": 463,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 6
+      },
+      "revId": "fbb4ebb5dfa61d2addff347e5992802b4da2c1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

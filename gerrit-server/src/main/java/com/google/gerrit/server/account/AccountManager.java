@@ -171,11 +171,17 @@ public class AccountManager {
               ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password()));
     }
 
-    if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
-        && !Strings.isNullOrEmpty(who.getDisplayName())
+    if (!Strings.isNullOrEmpty(who.getDisplayName())
         && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
-      toUpdate = load(toUpdate, user.getAccountId(), db);
-      toUpdate.setFullName(who.getDisplayName());
+      if (realm.allowsEdit(AccountFieldName.FULL_NAME)) {
+        toUpdate = load(toUpdate, user.getAccountId(), db);
+        toUpdate.setFullName(who.getDisplayName());
+      } else {
+        log.warn(
+            "Not changing already set display name '{}' to '{}'",
+            user.getAccount().getFullName(),
+            who.getDisplayName());
+      }
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)

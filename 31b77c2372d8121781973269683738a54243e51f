@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "252c3904_52f88e82",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-23T16:30:51Z",
+      "side": 1,
+      "message": "Prefer this to be a ternary.",
+      "range": {
+        "startLine": 548,
+        "startChar": 6,
+        "endLine": 551,
+        "endChar": 69
+      },
+      "revId": "31b77c2372d8121781973269683738a54243e51f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aecc3de7_dec9f6a8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-23T16:30:51Z",
+      "side": 1,
+      "message": "Change to just `parentIndex: Number,`",
+      "range": {
+        "startLine": 179,
+        "startChar": 6,
+        "endLine": 181,
+        "endChar": 8
+      },
+      "revId": "31b77c2372d8121781973269683738a54243e51f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -94,6 +94,30 @@
       "revId": "fbb4ebb5dfa61d2addff347e5992802b4da2c1fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51a2d260_92f26821",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-23T17:03:49Z",
+      "side": 1,
+      "message": "Sure. It\u0027s not valid to provide partial ranges, but it is valid to not have a range set at all. With individual properties, I can only either type them each required, or each optional, but not express that they either have to be all undefined, or all defined. With a single range property, I can express this by giving it the type \n/** @type {({beforeLine: number, afterLine: number, beforeChar: number, afterChar: number}|undefined)} */\n\nNow, I am not sure how much of this the current setup with Fried Twinkie can enforce. But in principle it could, and in Angular/TS world it definitely would enforce that.\n\nI understand and agree with the concern of not having these properties at the top. Can one declare attributes in some way without allowing others to set them? I could add four individual properties, set those in the computed function for range, and make them reflect to attributes, but nothing would keep people from providing those then, no?",
+      "parentUuid": "dab6ec5f_f962bfb3",
+      "range": {
+        "startLine": 463,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 6
+      },
+      "revId": "fbb4ebb5dfa61d2addff347e5992802b4da2c1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

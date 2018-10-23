@@ -70,6 +70,30 @@
       "revId": "51bc1f5222b36e57da9fd8674360af69f2e4a017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6a7cfda_4e1a8387",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-23T08:11:40Z",
+      "side": 1,
+      "message": "It turns out the existing create-comment bubbles, and probably has to because it\u0027s handled by both gr-diff and gr-diff-highlight. As a compromise, I renamed create-comment to create-range-comment (which reflects that it\u0027s an event that only fires when a range comment is created, not on every comment creation). Then I renamed the new event to create-comment. I do think it\u0027s less confusing to have different names for these different events that have different detail objects set on them, because otherwise you need to memorize the exact DOM nesting order to know if the event caught in gr-diff-host is the one fired in gr-diff or the one in gr-selection-action-box.",
+      "parentUuid": "adb05d87_f5f8f41d",
+      "range": {
+        "startLine": 180,
+        "startChar": 7,
+        "endLine": 180,
+        "endChar": 33
+      },
+      "revId": "51bc1f5222b36e57da9fd8674360af69f2e4a017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

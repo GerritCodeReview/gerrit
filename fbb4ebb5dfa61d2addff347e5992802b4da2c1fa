@@ -118,6 +118,30 @@
       "revId": "fbb4ebb5dfa61d2addff347e5992802b4da2c1fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f34213c_6ff5f35f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-10-23T18:53:40Z",
+      "side": 1,
+      "message": "Hmm. Good question.\n\nI think you could _probably_ make them individually computed properties that all observe range.*....\n\n      rangeStartLine: {\n        type: Number,\n        computed: \u0027_computeRangeStartLine(range.*)\u0027,\n        reflectToAttribute: true,\n      },\n\n...but I\u0027m not sure how the compiler would treat that. Alternately, if you add a comment to the top of the file or something describing this behavior, that\u0027d work.",
+      "parentUuid": "51a2d260_92f26821",
+      "range": {
+        "startLine": 463,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 6
+      },
+      "revId": "fbb4ebb5dfa61d2addff347e5992802b4da2c1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

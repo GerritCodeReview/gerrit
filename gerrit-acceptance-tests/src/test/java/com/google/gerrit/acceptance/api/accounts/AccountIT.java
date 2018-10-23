@@ -64,6 +64,8 @@ import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gerrit.server.account.WatchConfig;
@@ -117,6 +119,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private AccountByEmailCache byEmailCache;
 
   @Inject private ExternalIdsUpdate.User externalIdsUpdateFactory;
+
+  @Inject private AccountManager accountManager;
 
   private ExternalIdsUpdate externalIdsUpdate;
   private List<ExternalId> savedExternalIds;
@@ -882,6 +886,18 @@ public class AccountIT extends AbstractDaemonTest {
         assertThat(e).hasMessageThat().isEqualTo(String.format("Invalid username '%s'", name));
       }
     }
+  }
+
+  @Test
+  public void updateDisplayName() throws Exception {
+    String name = name("test");
+    gApi.accounts().create(name);
+    AuthRequest who = AuthRequest.forUser(name);
+    accountManager.authenticate(who);
+    assertThat(gApi.accounts().id(name).get().name).isEqualTo(name);
+    who.setDisplayName("Something Else");
+    accountManager.authenticate(who);
+    assertThat(gApi.accounts().id(name).get().name).isEqualTo("Something Else");
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

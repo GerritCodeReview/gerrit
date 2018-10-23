@@ -86,7 +86,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
@@ -167,6 +169,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject protected Emails emails;
+
+  @Inject private AccountManager accountManager;
 
   private AccountIndexedCounter accountIndexedCounter;
   private RegistrationHandle accountIndexEventCounterHandle;
@@ -1818,6 +1822,18 @@ public class AccountIT extends AbstractDaemonTest {
     String group = createGroup("group");
     String newUser = createAccount("user1", group);
     assertGroups(newUser, ImmutableList.of(group));
+  }
+
+  @Test
+  public void updateDisplayName() throws Exception {
+    String name = name("test");
+    gApi.accounts().create(name);
+    AuthRequest who = AuthRequest.forUser(name);
+    accountManager.authenticate(who);
+    assertThat(gApi.accounts().id(name).get().name).isEqualTo(name);
+    who.setDisplayName("Something Else");
+    accountManager.authenticate(who);
+    assertThat(gApi.accounts().id(name).get().name).isEqualTo("Something Else");
   }
 
   private void assertGroups(String user, List<String> expected) throws Exception {

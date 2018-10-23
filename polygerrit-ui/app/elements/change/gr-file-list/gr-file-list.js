@@ -197,23 +197,33 @@
     ],
 
     keyBindings: {
-      'shift+left': '_handleShiftLeftKey',
-      'shift+right': '_handleShiftRightKey',
-      'i:keyup': '_handleIKey',
-      'shift+i:keyup': '_handleCapitalIKey',
-      'down j': '_handleDownKey',
-      'up k': '_handleUpKey',
-      'c': '_handleCKey',
-      '[': '_handleLeftBracketKey',
-      ']': '_handleRightBracketKey',
-      'o': '_handleOKey',
-      'n': '_handleNKey',
-      'p': '_handlePKey',
-      'r': '_handleRKey',
-      'shift+a': '_handleCapitalAKey',
-      'esc': '_handleEscKey',
+      esc: '_handleEscKey',
     },
 
+    keyboardShortcuts() {
+      return {
+        [this.Shortcut.LEFT_PANE]: '_handleLeftPane',
+        [this.Shortcut.RIGHT_PANE]: '_handleRightPane',
+        [this.Shortcut.TOGGLE_INLINE_DIFF]: '_handleToggleInlineDiff',
+        [this.Shortcut.TOGGLE_ALL_INLINE_DIFFS]: '_handleToggleAllInlineDiffs',
+        [this.Shortcut.CURSOR_NEXT_FILE]: '_handleCursorNext',
+        [this.Shortcut.CURSOR_PREV_FILE]: '_handleCursorPrev',
+        [this.Shortcut.NEXT_LINE]: '_handleCursorNext',
+        [this.Shortcut.PREV_LINE]: '_handleCursorPrev',
+        [this.Shortcut.NEW_COMMENT]: '_handleNewComment',
+        [this.Shortcut.OPEN_LAST_FILE]: '_handleOpenLastFile',
+        [this.Shortcut.OPEN_FIRST_FILE]: '_handleOpenFirstFile',
+        [this.Shortcut.OPEN_FILE]: '_handleOpenFile',
+        [this.Shortcut.NEXT_CHUNK]: '_handleNextChunk',
+        [this.Shortcut.PREV_CHUNK]: '_handlePrevChunk',
+        [this.Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
+        [this.Shortcut.TOGGLE_LEFT_PANE]: '_handleToggleLeftPane',
+
+        // Final two are actually handled by gr-diff-comment-thread.
+        [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
+        [this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
+      };
+    },
     listeners: {
       keydown: '_scopedKeydownHandler',
     },
@@ -232,7 +242,7 @@
     _scopedKeydownHandler(e) {
       if (e.keyCode === 13) {
         // Enter.
-        this._handleOKey(e);
+        this._handleOpenFile(e);
       }
     },
 
@@ -536,7 +546,7 @@
       this._togglePathExpanded(path);
     },
 
-    _handleShiftLeftKey(e) {
+    _handleLeftPane(e) {
       if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
         return;
       }
@@ -545,7 +555,7 @@
       this.$.diffCursor.moveLeft();
     },
 
-    _handleShiftRightKey(e) {
+    _handleRightPane(e) {
       if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
         return;
       }
@@ -554,7 +564,7 @@
       this.$.diffCursor.moveRight();
     },
 
-    _handleIKey(e) {
+    _handleToggleInlineDiff(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e) ||
           this.$.fileCursor.index === -1) { return; }
@@ -563,14 +573,14 @@
       this._togglePathExpandedByIndex(this.$.fileCursor.index);
     },
 
-    _handleCapitalIKey(e) {
+    _handleToggleAllInlineDiffs(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this._toggleInlineDiffs();
     },
 
-    _handleDownKey(e) {
+    _handleCursorNext(e) {
       if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
         return;
       }
@@ -588,7 +598,7 @@
       }
     },
 
-    _handleUpKey(e) {
+    _handleCursorPrev(e) {
       if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
         return;
       }
@@ -606,7 +616,7 @@
       }
     },
 
-    _handleCKey(e) {
+    _handleNewComment(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -619,7 +629,7 @@
       }
     },
 
-    _handleLeftBracketKey(e) {
+    _handleOpenLastFile(e) {
       // Check for meta key to avoid overriding native chrome shortcut.
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.getKeyboardEvent(e).metaKey) { return; }
@@ -628,7 +638,7 @@
       this._openSelectedFile(this._files.length - 1);
     },
 
-    _handleRightBracketKey(e) {
+    _handleOpenFirstFile(e) {
       // Check for meta key to avoid overriding native chrome shortcut.
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.getKeyboardEvent(e).metaKey) { return; }
@@ -637,7 +647,7 @@
       this._openSelectedFile(0);
     },
 
-    _handleOKey(e) {
+    _handleOpenFile(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
       e.preventDefault();
@@ -650,7 +660,7 @@
       this._openSelectedFile();
     },
 
-    _handleNKey(e) {
+    _handleNextChunk(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
           this._noDiffsExpanded()) {
@@ -665,7 +675,7 @@
       }
     },
 
-    _handlePKey(e) {
+    _handlePrevChunk(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
           this._noDiffsExpanded()) {
@@ -680,7 +690,7 @@
       }
     },
 
-    _handleRKey(e) {
+    _handleToggleFileReviewed(e) {
       if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
         return;
       }
@@ -690,7 +700,7 @@
       this._reviewFile(this._files[this.$.fileCursor.index].__path);
     },
 
-    _handleCapitalAKey(e) {
+    _handleToggleLeftPane(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();

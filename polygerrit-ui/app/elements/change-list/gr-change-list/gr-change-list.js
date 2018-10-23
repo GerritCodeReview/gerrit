@@ -106,17 +106,6 @@
       Gerrit.URLEncodingBehavior,
     ],
 
-    keyBindings: {
-      'j': '_handleJKey',
-      'k': '_handleKKey',
-      'n ]': '_handleNKey',
-      'o': '_handleOKey',
-      'p [': '_handlePKey',
-      'r': '_handleRKey',
-      'shift+r': '_handleShiftRKey',
-      's': '_handleSKey',
-    },
-
     listeners: {
       keydown: '_scopedKeydownHandler',
     },
@@ -125,6 +114,19 @@
       '_sectionsChanged(sections.*)',
       '_computePreferences(account, preferences)',
     ],
+
+    keyboardShortcuts() {
+      return {
+        [this.Shortcut.CURSOR_NEXT_CHANGE]: '_nextChange',
+        [this.Shortcut.CURSOR_PREV_CHANGE]: '_prevChange',
+        [this.Shortcut.NEXT_PAGE]: '_nextPage',
+        [this.Shortcut.PREV_PAGE]: '_prevPage',
+        [this.Shortcut.OPEN_CHANGE]: '_openChange',
+        [this.Shortcut.TOGGLE_CHANGE_REVIEWED]: '_toggleChangeReviewed',
+        [this.Shortcut.TOGGLE_CHANGE_STAR]: '_toggleChangeStar',
+        [this.Shortcut.REFRESH_CHANGE_LIST]: '_refreshChangeList',
+      };
+    },
 
     /**
      * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
@@ -136,7 +138,7 @@
     _scopedKeydownHandler(e) {
       if (e.keyCode === 13) {
         // Enter.
-        this._handleOKey(e);
+        this._openChange(e);
       }
     },
 
@@ -238,7 +240,7 @@
       return account._account_id === change.assignee._account_id;
     },
 
-    _handleJKey(e) {
+    _nextChange(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -246,7 +248,7 @@
       this.$.cursor.next();
     },
 
-    _handleKKey(e) {
+    _prevChange(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -254,7 +256,7 @@
       this.$.cursor.previous();
     },
 
-    _handleOKey(e) {
+    _openChange(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -262,7 +264,7 @@
       Gerrit.Nav.navigateToChange(this._changeForIndex(this.selectedIndex));
     },
 
-    _handleNKey(e) {
+    _nextPage(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
         return;
@@ -272,7 +274,7 @@
       this.fire('next-page');
     },
 
-    _handlePKey(e) {
+    _prevPage(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
         return;
@@ -282,7 +284,7 @@
       this.fire('previous-page');
     },
 
-    _handleRKey(e) {
+    _toggleChangeReviewed(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -300,7 +302,7 @@
       changeEl.toggleReviewed();
     },
 
-    _handleShiftRKey(e) {
+    _refreshChangeList(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
@@ -311,7 +313,7 @@
       window.location.reload();
     },
 
-    _handleSKey(e) {
+    _toggleChangeStar(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 

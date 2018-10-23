@@ -17,6 +17,8 @@
 (function() {
   'use strict';
 
+  const {ShortcutSection} = window.Gerrit.KeyboardShortcutBinder;
+
   Polymer({
     is: 'gr-keyboard-shortcuts-dialog',
 
@@ -27,20 +29,97 @@
      */
 
     properties: {
-      view: String,
+      _left: Array,
+      _right: Array,
+
+      _propertyBySection: {
+        type: Object,
+        value() {
+          return {
+            [ShortcutSection.EVERYWHERE]: '_everywhere',
+            [ShortcutSection.NAVIGATION]: '_navigation',
+            [ShortcutSection.DASHBOARD]: '_dashboard',
+            [ShortcutSection.CHANGE_LIST]: '_changeList',
+            [ShortcutSection.ACTIONS]: '_actions',
+            [ShortcutSection.REPLY_DIALOG]: '_replyDialog',
+            [ShortcutSection.FILE_LIST]: '_fileList',
+            [ShortcutSection.DIFFS]: '_diffs',
+          };
+        },
+      },
     },
+
+    behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
+    ],
 
     hostAttributes: {
       role: 'dialog',
     },
 
-    _computeInView(currentView, view) {
-      return view === currentView;
+    attached() {
+      this.addKeyboardShortcutDirectoryListener(
+          this._onDirectoryUpdated.bind(this));
+    },
+
+    detached() {
+      this.removeKeyboardShortcutDirectoryListener(
+          this._onDirectoryUpdated.bind(this));
     },
 
     _handleCloseTap(e) {
       e.preventDefault();
       this.fire('close', null, {bubbles: false});
+    },
+
+    _onDirectoryUpdated(directory) {
+      const left = [];
+      const right = [];
+
+      if (directory.has(ShortcutSection.EVERYWHERE)) {
+        left.push({
+          section: ShortcutSection.EVERYWHERE,
+          shortcuts: directory.get(ShortcutSection.EVERYWHERE),
+        });
+      }
+
+      if (directory.has(ShortcutSection.NAVIGATION)) {
+        left.push({
+          section: ShortcutSection.NAVIGATION,
+          shortcuts: directory.get(ShortcutSection.NAVIGATION),
+        });
+      }
+
+      if (directory.has(ShortcutSection.ACTIONS)) {
+        right.push({
+          section: ShortcutSection.ACTIONS,
+          shortcuts: directory.get(ShortcutSection.ACTIONS),
+        });
+      }
+
+      if (directory.has(ShortcutSection.REPLY_DIALOG)) {
+        right.push({
+          section: ShortcutSection.REPLY_DIALOG,
+          shortcuts: directory.get(ShortcutSection.REPLY_DIALOG),
+        });
+      }
+
+      if (directory.has(ShortcutSection.FILE_LIST)) {
+        right.push({
+          section: ShortcutSection.FILE_LIST,
+          shortcuts: directory.get(ShortcutSection.FILE_LIST),
+        });
+      }
+
+      if (directory.has(ShortcutSection.DIFFS)) {
+        right.push({
+          section: ShortcutSection.DIFFS,
+          shortcuts: directory.get(ShortcutSection.DIFFS),
+        });
+      }
+
+      this.set('_left', left);
+      this.set('_right', right);
     },
   });
 })();

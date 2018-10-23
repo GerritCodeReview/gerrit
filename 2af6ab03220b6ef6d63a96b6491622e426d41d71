@@ -16,6 +16,24 @@
       "revId": "2af6ab03220b6ef6d63a96b6491622e426d41d71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17116340_d63c3795",
+        "filename": "java/com/google/gerrit/server/args4j/AccountIdHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-23T09:09:11Z",
+      "side": 0,
+      "message": "No, I don\u0027t know any reason why it shouldn\u0027t be done for LDAP_BIND.\n\nFixed.",
+      "parentUuid": "00d36d95_f4e0256d",
+      "revId": "2af6ab03220b6ef6d63a96b6491622e426d41d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

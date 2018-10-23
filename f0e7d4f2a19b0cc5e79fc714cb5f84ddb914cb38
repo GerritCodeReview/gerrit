@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2c1edc27_6c899d8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-23T09:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd115fd9_dcaf8555",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 43
+      },
+      "revId": "f0e7d4f2a19b0cc5e79fc714cb5f84ddb914cb38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bf0b826_92315726",
         "filename": "java/com/google/gerrit/server/account/AutoAccountCreator.java",
         "patchSetId": 2
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "26f7e54d_0d911243",
+        "filename": "java/com/google/gerrit/server/account/AutoAccountCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-23T09:09:11Z",
+      "side": 1,
+      "message": "Yes, propably there is no good use case for multiple implementations. Changed it to DynamicItem.",
+      "parentUuid": "9bf0b826_92315726",
+      "range": {
+        "startLine": 47,
+        "startChar": 64,
+        "endLine": 48,
+        "endChar": 97
+      },
+      "revId": "f0e7d4f2a19b0cc5e79fc714cb5f84ddb914cb38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64a31294_d276cb69",
         "filename": "java/com/google/gerrit/server/auth/ldap/LdapAutoAccountCreator.java",
         "patchSetId": 2
@@ -63,6 +111,24 @@
       "revId": "f0e7d4f2a19b0cc5e79fc714cb5f84ddb914cb38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35a660e6_767871bb",
+        "filename": "java/com/google/gerrit/server/auth/ldap/LdapAutoAccountCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-23T09:09:11Z",
+      "side": 1,
+      "message": "Maybe better to propagate this exception too.\n\nDone",
+      "parentUuid": "64a31294_d276cb69",
+      "revId": "f0e7d4f2a19b0cc5e79fc714cb5f84ddb914cb38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -176,9 +176,8 @@
         observer: '_blameChanged',
       },
 
-      _parentIndex: {
+      parentIndex: {
         type: Number,
-        computed: '_computeParentIndex(patchRange.*)',
       },
 
       _newlineWarning: {
@@ -691,16 +690,6 @@
      */
     _computeErrorClass(errorMessage) {
       return errorMessage ? 'showError' : '';
-    },
-
-    /**
-     * @return {number|null}
-     */
-    _computeParentIndex(patchRangeRecord) {
-      if (!this.isMergeParent(patchRangeRecord.base.basePatchNum)) {
-        return null;
-      }
-      return this.getParentIndex(patchRangeRecord.base.basePatchNum);
     },
 
     expandAllContext() {

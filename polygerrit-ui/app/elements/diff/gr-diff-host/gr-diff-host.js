@@ -174,7 +174,16 @@
       },
 
       _loadedWhitespaceLevel: String,
+
+      _parentIndex: {
+        type: Number,
+        computed: '_computeParentIndex(patchRange.*)',
+      },
     },
+
+    behaviors: [
+      Gerrit.PatchSetBehavior,
+    ],
 
     listeners: {
       'create-comment': '_handleCreateComment',
@@ -530,5 +539,17 @@
         this.reload();
       }
     },
+
+    /**
+     * @param {Object} patchRangeRecord
+     * @return {number|null}
+     */
+    _computeParentIndex(patchRangeRecord) {
+      if (!this.isMergeParent(patchRangeRecord.base.basePatchNum)) {
+        return null;
+      }
+      return this.getParentIndex(patchRangeRecord.base.basePatchNum);
+    },
+
   });
 })();

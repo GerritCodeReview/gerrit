@@ -46,6 +46,30 @@
       "revId": "fbb4ebb5dfa61d2addff347e5992802b4da2c1fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cc9bc24_dfdda72c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-23T08:11:46Z",
+      "side": 1,
+      "message": "Thinking about this some more, I want to challenge this suggestion. My concern is that splitting this into multiple attribute kind of requires us to handle all the cases where only a subset of the range dimensions are set, whereas the way it is right now a compiler could enforce that it\u0027s either all or none. Do you have any specific concern with my solution?",
+      "parentUuid": "21c16a5d_46190b17",
+      "range": {
+        "startLine": 463,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 6
+      },
+      "revId": "fbb4ebb5dfa61d2addff347e5992802b4da2c1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

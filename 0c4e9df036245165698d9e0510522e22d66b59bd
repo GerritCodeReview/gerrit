@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1539632469 -0700\nnonce AP50N7aRz5neRIx4AGeDMpqMT+IIk19qso+yogxUMcMDut/NUEq0lf0jca4LqIsSYPFFfuvphlgE\n\n0000000000000000000000000000000000000000 0c4e9df036245165698d9e0510522e22d66b59bd refs/for/master%r\u003ddpursehouse@collab.net\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlvE7VUVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMIZwP/ipVwFG2upAdOt4tMiqSGCZ89vqj\n7Ou87plcjo4FIIzhPyTQ6W5BFxoIffiztKV/KwqfTR4FDYOER+oPbpd3e/trgYxH\niNd//qVullT6X23HkPxg/mjU8MimwGho5EygopyTO/gCTRM13Wvyg2ZkC35U2ae+\nJClyQFD8J/18D4PoPSInbFtl9oLBLCC8i+A0IexMse/8awcWHqJaSccm4m5jMUfB\nm/78FeHTWGBDotxm4mCXRrccbuFUDclrm15HCNiPEUyMTNX0XoFvpjGcCbERYsKL\nXipXFYecwZKluIn2QWT/bvLw1uF84qd2WkUq7JSDszZfoqz2HMyyPoAFk5Ps5iKr\nB5hUXH+Mdcyz6su0t2uqEfHWFhEPDWPNisWALrqrqxTmC2cyJd31N0MjQ9KRbWZm\nt4bP8CbT0WI6p2wttVB2gJrHTkvHiFmXojZ8L3ZtxFH3Mv8omCXvyvqYPaxxQQ8D\n+1tkPx/ywEY7N3X8Gz+RJCSoRNJ7KGcIpegKpLiAwPACFRDUnwlDuLacWlOiAVvd\nMs5PMjeplMqvAKG8P98ie+SKroAWhCKQZb/K8rFcRTuMX8mMe+nJAoFBX0+GUiME\niOom+ErWNECr3sdb02KPoEOUP2N+UfSB8fPGAzcXurRLbH1nM8PxhuD4IODPKWOa\n0wwpUBwk5eBP1BIq\n\u003dsjOn\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6c85809_9dc8773e",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-10-24T11:40:49Z",
+      "side": 1,
+      "message": "Just something minor but I thought I should at least mention it: As the NotImplemented class doesn\u0027t override this method, this is a behavior change for it from throwing a NotImplementedException to throwing an UnsupportedOperationException.",
+      "range": {
+        "startLine": 180,
+        "startChar": 4,
+        "endLine": 180,
+        "endChar": 78
+      },
+      "revId": "0c4e9df036245165698d9e0510522e22d66b59bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

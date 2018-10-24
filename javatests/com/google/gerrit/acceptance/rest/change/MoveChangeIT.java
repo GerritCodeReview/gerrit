@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -30,6 +31,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -329,6 +331,16 @@ public class MoveChangeIT extends AbstractDaemonTest {
 
     exception.expect(BadRequestException.class);
     exception.expectMessage("destination branch is required");
+    move(r.getChangeId(), null);
+  }
+
+  @Test
+  @GerritConfig(name = "change.move", value = "false")
+  public void moveCanBeDisabledByConfig() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage("move changes endpoint is disabled");
     move(r.getChangeId(), null);
   }
 

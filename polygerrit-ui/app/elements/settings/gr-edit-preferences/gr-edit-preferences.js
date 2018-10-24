@@ -31,10 +31,8 @@
       editPrefs: Object,
     },
 
-    loadData() {
-      return this.$.restAPI.getEditPreferences().then(prefs => {
-        this.editPrefs = prefs;
-      });
+    async loadData() {
+      this.editPrefs = await this.$.restAPI.getEditPreferences();
     },
 
     _handleEditPrefsChanged() {
@@ -73,10 +71,9 @@
       this._handleEditPrefsChanged();
     },
 
-    save() {
-      return this.$.restAPI.saveEditPreferences(this.editPrefs).then(res => {
-        this.hasUnsavedChanges = false;
-      });
+    async save() {
+      await this.$.restAPI.saveEditPreferences(this.editPrefs);
+      this.hasUnsavedChanges = false;
     },
   });
 })();

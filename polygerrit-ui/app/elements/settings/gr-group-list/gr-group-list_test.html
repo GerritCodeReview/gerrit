@@ -38,7 +38,7 @@ limitations under the License.
     let element;
     let groups;
 
-    setup(done => {
+    setup(async () => {
       sandbox = sinon.sandbox.create();
       groups = [{
         url: 'some url',
@@ -60,12 +60,13 @@ limitations under the License.
       }];
 
       stub('gr-rest-api-interface', {
-        getAccountGroups() { return Promise.resolve(groups); },
+        async getAccountGroups() { return groups; },
       });
 
       element = fixture('basic');
 
-      element.loadData().then(() => { flush(done); });
+      await element.loadData();
+      flushAsynchronousOperations();
     });
 
     teardown(() => { sandbox.restore(); });

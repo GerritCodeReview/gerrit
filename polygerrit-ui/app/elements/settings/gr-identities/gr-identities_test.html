@@ -52,16 +52,17 @@ limitations under the License.
       },
     ];
 
-    setup(done => {
+    setup(async () => {
       sandbox = sinon.sandbox.create();
 
       stub('gr-rest-api-interface', {
-        getExternalIds() { return Promise.resolve(ids); },
+        async getExternalIds() { return ids; },
       });
 
       element = fixture('basic');
 
-      element.loadData().then(() => { flush(done); });
+      await element.loadData();
+      flushAsynchronousOperations();
     });
 
     teardown(() => {
@@ -106,13 +107,11 @@ limitations under the License.
       assert.isTrue(element.filterIdentities(ids[1]));
     });
 
-    test('delete id', done => {
+    test('delete id', async () => {
       element._idName = 'mailto:gerrit2@example.com';
       const loadDataStub = sandbox.stub(element, 'loadData');
-      element._handleDeleteItemConfirm().then(() => {
-        assert.isTrue(loadDataStub.called);
-        done();
-      });
+      await element._handleDeleteItemConfirm();
+      assert.isTrue(loadDataStub.called);
     });
 
     test('_handleDeleteItem opens modal', () => {

@@ -36,7 +36,7 @@ limitations under the License.
   suite('gr-email-editor tests', () => {
     let element;
 
-    setup(done => {
+    setup(async () => {
       const emails = [
         {email: 'email@one.com'},
         {email: 'email@two.com', preferred: true},
@@ -44,12 +44,12 @@ limitations under the License.
       ];
 
       stub('gr-rest-api-interface', {
-        getAccountEmails() { return Promise.resolve(emails); },
+        async getAccountEmails() { return emails; },
       });
 
       element = fixture('basic');
 
-      element.loadData().then(done);
+      await element.loadData();
     });
 
     test('renders', () => {
@@ -110,7 +110,7 @@ limitations under the License.
       assert.equal(element._emailsToRemove[0].email, 'email@three.com');
     });
 
-    test('save changes', done => {
+    test('save changes', async () => {
       const deleteEmailStub =
           sinon.stub(element.$.restAPI, 'deleteAccountEmail');
       const setPreferredStub = sinon.stub(element.$.restAPI,
@@ -133,15 +133,12 @@ limitations under the License.
       assert.equal(element._emails.length, 2);
 
       // Save the changes.
-      element.save().then(() => {
-        assert.equal(deleteEmailStub.callCount, 1);
-        assert.equal(deleteEmailStub.getCall(0).args[0], 'email@one.com');
+      await element.save();
+      assert.equal(deleteEmailStub.callCount, 1);
+      assert.equal(deleteEmailStub.getCall(0).args[0], 'email@one.com');
 
-        assert.isTrue(setPreferredStub.called);
-        assert.equal(setPreferredStub.getCall(0).args[0], 'email@three.com');
-
-        done();
-      });
+      assert.isTrue(setPreferredStub.called);
+      assert.equal(setPreferredStub.getCall(0).args[0], 'email@three.com');
     });
   });
 </script>

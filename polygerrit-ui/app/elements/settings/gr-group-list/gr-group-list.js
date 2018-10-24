@@ -24,12 +24,9 @@
       _groups: Array,
     },
 
-    loadData() {
-      return this.$.restAPI.getAccountGroups().then(groups => {
-        this._groups = groups.sort((a, b) => {
-          return a.name.localeCompare(b.name);
-        });
-      });
+    async loadData() {
+      const groups = await this.$.restAPI.getAccountGroups();
+      this._groups = groups.sort((a, b) => a.name.localeCompare(b.name));
     },
 
     _computeVisibleToAll(group) {

@@ -39,21 +39,18 @@
       },
     },
 
-    loadData() {
-      return this.$.restAPI.getAccountSSHKeys().then(keys => {
-        this._keys = keys;
-      });
+    async loadData() {
+      this._keys = await this.$.restAPI.getAccountSSHKeys();
     },
 
-    save() {
+    async save() {
       const promises = this._keysToRemove.map(key => {
         this.$.restAPI.deleteAccountSSHKey(key.seq);
       });
 
-      return Promise.all(promises).then(() => {
-        this._keysToRemove = [];
-        this.hasUnsavedChanges = false;
-      });
+      await Promise.all(promises);
+      this._keysToRemove = [];
+      this.hasUnsavedChanges = false;
     },
 
     _getStatusLabel(isValid) {
@@ -79,18 +76,18 @@
       this.hasUnsavedChanges = true;
     },
 
-    _handleAddKey() {
+    async _handleAddKey() {
       this.$.addButton.disabled = true;
       this.$.newKey.disabled = true;
-      return this.$.restAPI.addAccountSSHKey(this._newKey.trim())
-          .then(key => {
-            this.$.newKey.disabled = false;
-            this._newKey = '';
-            this.push('_keys', key);
-          }).catch(() => {
-            this.$.addButton.disabled = false;
-            this.$.newKey.disabled = false;
-          });
+      try {
+        const key = await this.$.restAPI.addAccountSSHKey(this._newKey.trim());
+        this.$.newKey.disabled = false;
+        this._newKey = '';
+        this.push('_keys', key);
+      } catch (err) {
+        this.$.addButton.disabled = false;
+        this.$.newKey.disabled = false;
+      }
     },
 
     _computeAddButtonDisabled(newKey) {

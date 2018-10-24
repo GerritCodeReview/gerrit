@@ -72,7 +72,7 @@ limitations under the License.
           () => { return Promise.resolve({status: statusCode}); });
     }
 
-    setup(done => {
+    setup(async () => {
       sandbox = sinon.sandbox.create();
       account = {
         _account_id: 123,
@@ -115,23 +115,19 @@ limitations under the License.
       config = {auth: {editable_account_fields: []}};
 
       stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-        getAccount() { return Promise.resolve(account); },
-        getPreferences() { return Promise.resolve(preferences); },
-        getDiffPreferences() {
-          return Promise.resolve(diffPreferences);
-        },
-        getWatchedProjects() {
-          return Promise.resolve([]);
-        },
-        getAccountEmails() { return Promise.resolve(); },
-        getConfig() { return Promise.resolve(config); },
-        getAccountGroups() { return Promise.resolve([]); },
+        async getLoggedIn() { return true; },
+        async getAccount() { return account; },
+        async getPreferences() { return preferences; },
+        async getDiffPreferences() { return diffPreferences; },
+        async getWatchedProjects() { return []; },
+        async getAccountEmails() {},
+        async getConfig() { return config; },
+        async getAccountGroups() { return []; },
       });
       element = fixture('basic');
 
       // Allow the element to render.
-      element._loadingPromise.then(done);
+      await element._loadingPromise;
     });
 
     teardown(() => {
@@ -156,7 +152,7 @@ limitations under the License.
           'Settings');
     });
 
-    test('user preferences', done => {
+    test('user preferences', async () => {
       // Rendered with the expected preferences selected.
       assert.equal(valueOf('Changes per page', 'preferences')
           .firstElementChild.bindValue, preferences.changes_per_page);
@@ -198,23 +194,20 @@ limitations under the License.
       assert.isFalse(element._menuChanged);
 
       stub('gr-rest-api-interface', {
-        savePreferences(prefs) {
+        async savePreferences(prefs) {
           assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
           assertMenusEqual(prefs.my, preferences.my);
           assert.equal(prefs.publish_comments_on_push, true);
-          return Promise.resolve();
         },
       });
 
       // Save the change.
-      element._handleSavePreferences().then(() => {
-        assert.isFalse(element._prefsChanged);
-        assert.isFalse(element._menuChanged);
-        done();
-      });
+      await element._handleSavePreferences();
+      assert.isFalse(element._prefsChanged);
+      assert.isFalse(element._menuChanged);
     });
 
-    test('publish comments on push', done => {
+    test('publish comments on push', async () => {
       const publishCommentsOnPush =
         valueOf('Publish comments on push', 'preferences').firstElementChild;
       MockInteractions.tap(publishCommentsOnPush);
@@ -223,21 +216,18 @@ limitations under the License.
       assert.isTrue(element._prefsChanged);
 
       stub('gr-rest-api-interface', {
-        savePreferences(prefs) {
+        async savePreferences(prefs) {
           assert.equal(prefs.publish_comments_on_push, true);
-          return Promise.resolve();
         },
       });
 
       // Save the change.
-      element._handleSavePreferences().then(() => {
-        assert.isFalse(element._prefsChanged);
-        assert.isFalse(element._menuChanged);
-        done();
-      });
+      await element._handleSavePreferences();
+      assert.isFalse(element._prefsChanged);
+      assert.isFalse(element._menuChanged);
     });
 
-    test('set new changes work-in-progress', done => {
+    test('set new changes work-in-progress', async () => {
       const newChangesWorkInProgress =
         valueOf('Set new changes to "work in progress" by default',
             'preferences').firstElementChild;
@@ -247,21 +237,18 @@ limitations under the License.
       assert.isTrue(element._prefsChanged);
 
       stub('gr-rest-api-interface', {
-        savePreferences(prefs) {
+        async savePreferences(prefs) {
           assert.equal(prefs.work_in_progress_by_default, true);
-          return Promise.resolve();
         },
       });
 
       // Save the change.
-      element._handleSavePreferences().then(() => {
-        assert.isFalse(element._prefsChanged);
-        assert.isFalse(element._menuChanged);
-        done();
-      });
+      await element._handleSavePreferences();
+      assert.isFalse(element._prefsChanged);
+      assert.isFalse(element._menuChanged);
     });
 
-    test('diff preferences', done => {
+    test('diff preferences', async () => {
       // Rendered with the expected preferences selected.
       assert.equal(valueOf('Context', 'diffPreferences')
           .firstElementChild.bindValue, diffPreferences.context);
@@ -288,17 +275,14 @@ limitations under the License.
       assert.isTrue(element._diffPrefsChanged);
 
       stub('gr-rest-api-interface', {
-        saveDiffPreferences(prefs) {
+        async saveDiffPreferences(prefs) {
           assert.equal(prefs.show_tabs, false);
-          return Promise.resolve();
         },
       });
 
       // Save the change.
-      element._handleSaveDiffPreferences().then(() => {
-        assert.isFalse(element._diffPrefsChanged);
-        done();
-      });
+      await element._handleSaveDiffPreferences();
+      assert.isFalse(element._diffPrefsChanged);
     });
 
     test('columns input is hidden with fit to scsreen is selected', () => {
@@ -311,7 +295,7 @@ limitations under the License.
       assert.isFalse(element.$.columnsPref.hidden);
     });
 
-    test('menu', done => {
+    test('menu', async () => {
       assert.isFalse(element._menuChanged);
       assert.isFalse(element._prefsChanged);
 
@@ -332,18 +316,15 @@ limitations under the License.
       assert.isFalse(element._prefsChanged);
 
       stub('gr-rest-api-interface', {
-        savePreferences(prefs) {
+        async savePreferences(prefs) {
           assertMenusEqual(prefs.my, element._localMenu);
-          return Promise.resolve();
         },
       });
 
-      element._handleSaveMenu().then(() => {
-        assert.isFalse(element._menuChanged);
-        assert.isFalse(element._prefsChanged);
-        assertMenusEqual(element.prefs.my, element._localMenu);
-        done();
-      });
+      await element._handleSaveMenu();
+      assert.isFalse(element._menuChanged);
+      assert.isFalse(element._prefsChanged);
+      assertMenusEqual(element.prefs.my, element._localMenu);
     });
 
     test('add email validation', () => {
@@ -374,7 +355,7 @@ limitations under the License.
       assert.isFalse(addEmailStub.called);
     });
 
-    test('add email does save valid', done => {
+    test('add email does save valid', async () => {
       const addEmailStub = stubAddAccountEmail(201);
 
       assert.isFalse(element._addingEmail);
@@ -387,13 +368,11 @@ limitations under the License.
       assert.isTrue(addEmailStub.called);
 
       assert.isTrue(addEmailStub.called);
-      addEmailStub.lastCall.returnValue.then(() => {
-        assert.isOk(element._lastSentVerificationEmail);
-        done();
-      });
+      await addEmailStub.lastCall.returnValue;
+      assert.isOk(element._lastSentVerificationEmail);
     });
 
-    test('add email does not set last-email if error', done => {
+    test('add email does not set last-email if error', async () => {
       const addEmailStub = stubAddAccountEmail(500);
 
       assert.isNotOk(element._lastSentVerificationEmail);
@@ -402,10 +381,8 @@ limitations under the License.
       element._handleAddEmailButton();
 
       assert.isTrue(addEmailStub.called);
-      addEmailStub.lastCall.returnValue.then(() => {
-        assert.isNotOk(element._lastSentVerificationEmail);
-        done();
-      });
+      await addEmailStub.lastCall.returnValue;
+      assert.isNotOk(element._lastSentVerificationEmail);
     });
 
     test('emails are loaded without emailToken', () => {
@@ -434,7 +411,7 @@ limitations under the License.
       assert.isTrue(element.prefs.legacycid_in_change_table);
     });
 
-    test('reset menu item back to default', done => {
+    test('reset menu item back to default', async () => {
       const originalMenu = {
         my: [
           {url: '/first/url', name: 'first name', target: '_blank'},
@@ -444,7 +421,7 @@ limitations under the License.
       };
 
       stub('gr-rest-api-interface', {
-        getDefaultPreferences() { return Promise.resolve(originalMenu); },
+        async getDefaultPreferences() { return originalMenu; },
       });
 
       const updatedMenu = [
@@ -456,10 +433,8 @@ limitations under the License.
 
       element.set('_localMenu', updatedMenu);
 
-      element._handleResetMenuButton().then(() => {
-        assertMenusEqual(element._localMenu, originalMenu.my);
-        done();
-      });
+      await element._handleResetMenuButton();
+      assertMenusEqual(element._localMenu, originalMenu.my);
     });
 
     test('test that reset button is called', () => {
@@ -524,22 +499,26 @@ limitations under the License.
         assert.isFalse(element.$.emailEditor.loadData.called);
       });
 
-      test('user emails are loaded after email confirmed', done => {
-        element._loadingPromise.then(() => {
+      test('user emails are loaded after email confirmed', async () => {
+        const promise = new Promise(async resolve => {
+          await element._loadingPromise;
           assert.isTrue(element.$.emailEditor.loadData.calledOnce);
-          done();
+          resolve();
         });
         resolveConfirm();
+        await promise;
       });
 
-      test('show-alert is fired when email is confirmed', done => {
+      test('show-alert is fired when email is confirmed', async () => {
         sandbox.spy(element, 'fire');
-        element._loadingPromise.then(() => {
+        const promise = new Promise(async resolve => {
+          await element._loadingPromise;
           assert.isTrue(
               element.fire.calledWith('show-alert', {message: 'bar'}));
-          done();
+          resolve();
         });
         resolveConfirm('bar');
+        await promise;
       });
     });
   });

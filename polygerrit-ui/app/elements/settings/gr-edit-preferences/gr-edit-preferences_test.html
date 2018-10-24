@@ -106,7 +106,7 @@ limitations under the License.
       assert.isFalse(element.hasUnsavedChanges);
     });
 
-    test('save changes', () => {
+    test('save changes', async () => {
       sandbox.stub(element.$.restAPI, 'saveEditPreferences')
           .returns(Promise.resolve());
       const showTabsCheckbox = valueOf('Show tabs', 'editPreferences')
@@ -117,9 +117,8 @@ limitations under the License.
       assert.isTrue(element.hasUnsavedChanges);
 
       // Save the change.
-      return element.save().then(() => {
-        assert.isFalse(element.hasUnsavedChanges);
-      });
+      await element.save();
+      assert.isFalse(element.hasUnsavedChanges);
     });
   });
 </script>

@@ -25,10 +25,8 @@
       _idName: String,
     },
 
-    loadData() {
-      return this.$.restAPI.getExternalIds().then(id => {
-        this._identities = id;
-      });
+    async loadData() {
+      this._identities = await this.$.restAPI.getExternalIds();
     },
 
     _computeIdentity(id) {
@@ -39,10 +37,10 @@
       return canDelete ? 'show' : '';
     },
 
-    _handleDeleteItemConfirm() {
+    async _handleDeleteItemConfirm() {
       this.$.overlay.close();
-      return this.$.restAPI.deleteAccountIdentity([this._idName])
-          .then(() => { this.loadData(); });
+      await this.$.restAPI.deleteAccountIdentity([this._idName]);
+      await this.loadData();
     },
 
     _handleConfirmDialogCancel() {

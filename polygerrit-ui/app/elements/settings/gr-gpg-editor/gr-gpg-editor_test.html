@@ -37,7 +37,7 @@ limitations under the License.
     let element;
     let keys;
 
-    setup(done => {
+    setup(async () => {
       const fingerprint1 = '0192 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B';
       const fingerprint2 = '0196 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B';
       keys = {
@@ -69,7 +69,8 @@ limitations under the License.
 
       element = fixture('basic');
 
-      element.loadData().then(() => { flush(done); });
+      await element.loadData();
+      flushAsynchronousOperations();
     });
 
     test('renders', () => {
@@ -84,7 +85,7 @@ limitations under the License.
       assert.equal(cells[0].textContent, 'AED9B59C');
     });
 
-    test('remove key', done => {
+    test('remove key', async () => {
       const lastKey = keys[Object.keys(keys)[1]];
 
       const saveStub = sinon.stub(element.$.restAPI, 'deleteAccountGPGKey',
@@ -105,13 +106,11 @@ limitations under the License.
       assert.isTrue(element.hasUnsavedChanges);
       assert.isFalse(saveStub.called);
 
-      element.save().then(() => {
-        assert.isTrue(saveStub.called);
-        assert.equal(saveStub.lastCall.args[0], Object.keys(keys)[1]);
-        assert.equal(element._keysToRemove.length, 0);
-        assert.isFalse(element.hasUnsavedChanges);
-        done();
-      });
+      await element.save();
+      assert.isTrue(saveStub.called);
+      assert.equal(saveStub.lastCall.args[0], Object.keys(keys)[1]);
+      assert.equal(element._keysToRemove.length, 0);
+      assert.isFalse(element.hasUnsavedChanges);
     });
 
     test('show key', () => {
@@ -127,7 +126,7 @@ limitations under the License.
       assert.isTrue(openSpy.called);
     });
 
-    test('add key', done => {
+    test('add key', async () => {
       const newKeyString =
           '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
           '\nVersion: BCPG v1.52\n\t<key 3>';
@@ -144,48 +143,52 @@ limitations under the License.
       };
 
       const addStub = sinon.stub(element.$.restAPI, 'addAccountGPGKey',
-          () => { return Promise.resolve(newKeyObject); });
+          async () => newKeyObject);
 
       element._newKey = newKeyString;
 
       assert.isFalse(element.$.addButton.disabled);
       assert.isFalse(element.$.newKey.disabled);
 
-      element._handleAddKey().then(() => {
+      const promise = new Promise(async resolve => {
+        await element._handleAddKey();
         assert.isTrue(element.$.addButton.disabled);
         assert.isFalse(element.$.newKey.disabled);
         assert.equal(element._keys.length, 2);
-        done();
+        resolve();
       });
 
       assert.isTrue(element.$.addButton.disabled);
       assert.isTrue(element.$.newKey.disabled);
 
+      await promise;
       assert.isTrue(addStub.called);
       assert.deepEqual(addStub.lastCall.args[0], {add: [newKeyString]});
     });
 
-    test('add invalid key', done => {
+    test('add invalid key', async () => {
       const newKeyString = 'not even close to valid';
 
       const addStub = sinon.stub(element.$.restAPI, 'addAccountGPGKey',
-          () => { return Promise.reject(); });
+          async () => { throw new Error(); });
 
       element._newKey = newKeyString;
 
       assert.isFalse(element.$.addButton.disabled);
       assert.isFalse(element.$.newKey.disabled);
 
-      element._handleAddKey().then(() => {
+      const promise = new Promise(async resolve => {
+        await element._handleAddKey();
         assert.isFalse(element.$.addButton.disabled);
         assert.isFalse(element.$.newKey.disabled);
         assert.equal(element._keys.length, 2);
-        done();
+        resolve();
       });
 
       assert.isTrue(element.$.addButton.disabled);
       assert.isTrue(element.$.newKey.disabled);
 
+      await promise;
       assert.isTrue(addStub.called);
       assert.deepEqual(addStub.lastCall.args[0], {add: [newKeyString]});
     });

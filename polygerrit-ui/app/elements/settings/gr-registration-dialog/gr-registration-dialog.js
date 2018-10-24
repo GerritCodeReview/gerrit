@@ -63,26 +63,26 @@
       role: 'dialog',
     },
 
-    loadData() {
+    async loadData() {
       this._loading = true;
 
-      const loadAccount = this.$.restAPI.getAccount().then(account => {
+      const loadAccount = (async () => {
+        const account = await this.$.restAPI.getAccount();
         // Using Object.assign here allows preservation of the default values
         // supplied in the value generating function of this._account, unless
         // they are overridden by properties in the account from the response.
         this._account = Object.assign({}, this._account, account);
-      });
+      })();
 
-      const loadConfig = this.$.restAPI.getConfig().then(config => {
-        this._serverConfig = config;
-      });
+      const loadConfig = (async () => {
+        this._serverConfig = await this.$.restAPI.getConfig();
+      })();
 
-      return Promise.all([loadAccount, loadConfig]).then(() => {
-        this._loading = false;
-      });
+      await Promise.all([loadAccount, loadConfig]);
+      this._loading = false;
     },
 
-    _save() {
+    async _save() {
       this._saving = true;
       const promises = [
         this.$.restAPI.setAccountName(this.$.name.value),
@@ -93,15 +93,15 @@
         promises.push(this.$.restAPI.setAccountUsername(this.$.username.value));
       }
 
-      return Promise.all(promises).then(() => {
-        this._saving = false;
-        this.fire('account-detail-update');
-      });
+      await Promise.all(promises);
+      this._saving = false;
+      this.fire('account-detail-update');
     },
 
-    _handleSave(e) {
+    async _handleSave(e) {
       e.preventDefault();
-      this._save().then(this.close.bind(this));
+      await this._save();
+      this.close();
     },
 
     _handleClose(e) {

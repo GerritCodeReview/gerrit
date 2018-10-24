@@ -26,26 +26,27 @@
       _passwordUrl: String,
     },
 
-    loadData() {
+    async loadData() {
       const promises = [];
 
-      promises.push(this.$.restAPI.getAccount().then(account => {
+      promises.push((async () => {
+        const account = await this.$.restAPI.getAccount();
         this._username = account.username;
-      }));
+      })());
 
-      promises.push(this.$.restAPI.getConfig().then(info => {
+      promises.push((async () => {
+        const info = await this.$.restAPI.getConfig();
         this._passwordUrl = info.auth.http_password_url || null;
-      }));
+      })());
 
-      return Promise.all(promises);
+      return await Promise.all(promises);
     },
 
-    _handleGenerateTap() {
+    async _handleGenerateTap() {
       this._generatedPassword = 'Generating...';
       this.$.generatedPasswordOverlay.open();
-      this.$.restAPI.generateAccountHttpPassword().then(newPassword => {
-        this._generatedPassword = newPassword;
-      });
+      this._generatedPassword =
+          await this.$.restAPI.generateAccountHttpPassword();
     },
 
     _closeOverlay() {

@@ -73,70 +73,69 @@
       '_statusChanged(_account.status)',
     ],
 
-    loadData() {
+    async loadData() {
       const promises = [];
 
       this._loading = true;
 
-      promises.push(this.$.restAPI.getConfig().then(config => {
-        this._serverConfig = config;
-      }));
+      try {
+        promises.push((async () => {
+          this._serverConfig = await this.$.restAPI.getConfig();
+        })());
 
-      promises.push(this.$.restAPI.getAccount().then(account => {
-        this._hasNameChange = false;
-        this._hasUsernameChange = false;
-        this._hasStatusChange = false;
-        // Provide predefined value for username to trigger computation of
-        // username mutability.
-        account.username = account.username || '';
-        this._account = account;
-        this._username = account.username;
-      }));
+        promises.push((async () => {
+          const account = await this.$.restAPI.getAccount();
+          this._hasNameChange = false;
+          this._hasUsernameChange = false;
+          this._hasStatusChange = false;
+          // Provide predefined value for username to trigger computation of
+          // username mutability.
+          account.username = account.username || '';
+          this._account = account;
+          this._username = account.username;
+        })());
 
-      promises.push(this.$.restAPI.getAvatarChangeUrl().then(url => {
-        this._avatarChangeUrl = url;
-      }));
+        promises.push((async () => {
+          this._avatarChangeUrl = await this.$.restAPI.getAvatarChangeUrl();
+        })());
 
-      return Promise.all(promises).then(() => {
+        await Promise.all(promises);
+      } finally {
         this._loading = false;
-      });
+      }
     },
 
-    save() {
-      if (!this.hasUnsavedChanges) {
-        return Promise.resolve();
-      }
+    async save() {
+      if (!this.hasUnsavedChanges) { return; }
 
       this._saving = true;
       // Set only the fields that have changed.
       // Must be done in sequence to avoid race conditions (@see Issue 5721)
-      return this._maybeSetName()
-          .then(this._maybeSetUsername.bind(this))
-          .then(this._maybeSetStatus.bind(this))
-          .then(() => {
-            this._hasNameChange = false;
-            this._hasStatusChange = false;
-            this._saving = false;
-            this.fire('account-detail-update');
-          });
+      await this._maybeSetName();
+      await this._maybeSetUsername();
+      await this._maybeSetStatus();
+      this._hasNameChange = false;
+      this._hasStatusChange = false;
+      this._saving = false;
+      this.fire('account-detail-update');
     },
 
-    _maybeSetName() {
-      return this._hasNameChange && this.nameMutable ?
-          this.$.restAPI.setAccountName(this._account.name) :
-          Promise.resolve();
+    async _maybeSetName() {
+      if (this._hasNameChange && this.nameMutable) {
+        return await this.$.restAPI.setAccountName(this._account.name);
+      }
     },
 
-    _maybeSetUsername() {
-      return this._hasUsernameChange && this.usernameMutable ?
-          this.$.restAPI.setAccountUsername(this._username) :
-          Promise.resolve();
+    async _maybeSetUsername() {
+      if (this._hasUsernameChange && this.usernameMutable) {
+        return await this.$.restAPI.setAccountUsername(this._username);
+      }
     },
 
-    _maybeSetStatus() {
-      return this._hasStatusChange ?
-          this.$.restAPI.setAccountStatus(this._account.status) :
-          Promise.resolve();
+    async _maybeSetStatus() {
+      if (this._hasStatusChange) {
+        return await this.$.restAPI.setAccountStatus(this._account.status);
+      }
     },
 
     _computeHasUnsavedChanges(nameChanged, usernameChanged, statusChanged) {

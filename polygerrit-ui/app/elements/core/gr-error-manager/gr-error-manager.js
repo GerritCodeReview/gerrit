@@ -90,28 +90,27 @@
       this._showAuthErrorAlert('Auth error', 'Refresh credentials.');
     },
 
-    _handleServerError(e) {
+    async _handleServerError(e) {
       const {request, response} = e.detail;
-      Promise.all([response.text(), this._getLoggedIn()])
-          .then(([errorText, loggedIn]) => {
-            const url = request && (request.anonymizedUrl || request.url);
-            const {status, statusText} = response;
-            if (response.status === 403 &&
-                loggedIn &&
-                errorText === AUTHENTICATION_REQUIRED) {
-              // The app was logged at one point and is now getting auth errors.
-              // This indicates the auth token is no longer valid.
-              this._handleAuthError();
-            } else if (!this._shouldSuppressError(errorText)) {
-              this._showErrorDialog(this._constructServerErrorMsg({
-                status,
-                statusText,
-                errorText,
-                url,
-              }));
-            }
-            console.error(errorText);
-          });
+      const result = await Promise.all([response.text(), this._getLoggedIn()]);
+      const [errorText, loggedIn] = result;
+      const url = request && (request.anonymizedUrl || request.url);
+      const {status, statusText} = response;
+      if (response.status === 403 &&
+          loggedIn &&
+          errorText === AUTHENTICATION_REQUIRED) {
+        // The app was logged at one point and is now getting auth errors.
+        // This indicates the auth token is no longer valid.
+        this._handleAuthError();
+      } else if (!this._shouldSuppressError(errorText)) {
+        this._showErrorDialog(this._constructServerErrorMsg({
+          status,
+          statusText,
+          errorText,
+          url,
+        }));
+      }
+      console.error(errorText);
     },
 
     _constructServerErrorMsg({errorText, status, statusText, url}) {
@@ -222,25 +221,24 @@
           'checkLoggedIn', this._checkSignedIn, CHECK_SIGN_IN_INTERVAL_MS);
     },
 
-    _checkSignedIn() {
-      this.$.restAPI.checkCredentials().then(account => {
-        const isLoggedIn = !!account;
-        this._lastCredentialCheck = Date.now();
-        if (this._refreshingCredentials) {
-          if (isLoggedIn) {
-            // If the credentials were refreshed but the account is different
-            // then reload the page completely.
-            if (account._account_id !== this.knownAccountId) {
-              this._reloadPage();
-              return;
-            }
-
-            this._handleCredentialRefreshed();
-          } else {
-            this._requestCheckLoggedIn();
+    async _checkSignedIn() {
+      const account = await this.$.restAPI.checkCredentials();
+      const isLoggedIn = !!account;
+      this._lastCredentialCheck = Date.now();
+      if (this._refreshingCredentials) {
+        if (isLoggedIn) {
+          // If the credentials were refreshed but the account is different
+          // then reload the page completely.
+          if (account._account_id !== this.knownAccountId) {
+            this._reloadPage();
+            return;
           }
+
+          this._handleCredentialRefreshed();
+        } else {
+          this._requestCheckLoggedIn();
         }
-      });
+      }
     },
 
     _reloadPage() {

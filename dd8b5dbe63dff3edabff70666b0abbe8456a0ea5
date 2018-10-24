@@ -52,6 +52,24 @@
       "revId": "dd8b5dbe63dff3edabff70666b0abbe8456a0ea5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29635f7c_02f67efd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-10-24T14:39:28Z",
+      "side": 1,
+      "message": "That\u0027s a fair argument for not documenting it. If this config will not be by others and we will remove it later. Then yes, no document SG. Also add some explaination in the java code, too.",
+      "parentUuid": "bec415ef_bcb766d2",
+      "revId": "dd8b5dbe63dff3edabff70666b0abbe8456a0ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

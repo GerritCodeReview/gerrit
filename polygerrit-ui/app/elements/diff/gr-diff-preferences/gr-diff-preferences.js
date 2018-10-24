@@ -107,21 +107,20 @@
       this.set('_newPrefs.manual_review', !Polymer.dom(e).rootTarget.checked);
     },
 
-    _handleSave(e) {
+    async _handleSave(e) {
       e.stopPropagation();
       this.prefs = this._newPrefs;
       this.localPrefs = this._newLocalPrefs;
       const el = Polymer.dom(e).rootTarget;
       el.disabled = true;
       this.$.storage.savePreferences(this._localPrefs);
-      this._saveDiffPreferences().then(response => {
-        el.disabled = false;
-        if (!response.ok) { return response; }
-
+      try {
+        const response = await this._saveDiffPreferences();
+        if (!response || !response.ok) { return response; }
         this.$.prefsOverlay.close();
-      }).catch(err => {
+      } finally {
         el.disabled = false;
-      });
+      }
     },
 
     _handleCancel(e) {
@@ -129,12 +128,11 @@
       this.$.prefsOverlay.close();
     },
 
-    open() {
-      this.$.prefsOverlay.open().then(() => {
-        const focusStops = this.getFocusStops();
-        this.$.prefsOverlay.setFocusStops(focusStops);
-        this.resetFocus();
-      });
+    async open() {
+      await this.$.prefsOverlay.open();
+      const focusStops = this.getFocusStops();
+      this.$.prefsOverlay.setFocusStops(focusStops);
+      this.resetFocus();
     },
 
     _saveDiffPreferences() {

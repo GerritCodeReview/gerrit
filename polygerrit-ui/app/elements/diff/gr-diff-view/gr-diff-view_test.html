@@ -96,7 +96,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('params change triggers diffViewDisplayed()', () => {
+    test('params change triggers diffViewDisplayed()', async () => {
       sandbox.stub(element.$.reporting, 'diffViewDisplayed');
       sandbox.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sandbox.spy(element, '_paramsChanged');
@@ -108,9 +108,8 @@ limitations under the License.
         path: '/COMMIT_MSG',
       };
 
-      return element._paramsChanged.returnValues[0].then(() => {
-        assert.isTrue(element.$.reporting.diffViewDisplayed.calledOnce);
-      });
+      await element._paramsChanged.returnValues[0];
+      assert.isTrue(element.$.reporting.diffViewDisplayed.calledOnce);
     });
 
     test('toggle left diff with a hotkey', () => {
@@ -375,32 +374,30 @@ limitations under the License.
       assert.isTrue(overlayOpenStub.called);
     });
 
-    test('_computeCommentString', done => {
+    test('_computeCommentString', async () => {
       loadCommentSpy = sandbox.spy(element.$.commentAPI, 'loadAll');
       const path = '/test';
-      element.$.commentAPI.loadAll().then(comments => {
-        const commentCountStub =
-            sandbox.stub(comments, 'computeCommentCount');
-        const unresolvedCountStub =
-            sandbox.stub(comments, 'computeUnresolvedNum');
-        commentCountStub.withArgs(1, path).returns(0);
-        commentCountStub.withArgs(2, path).returns(1);
-        commentCountStub.withArgs(3, path).returns(2);
-        commentCountStub.withArgs(4, path).returns(0);
-        unresolvedCountStub.withArgs(1, path).returns(1);
-        unresolvedCountStub.withArgs(2, path).returns(0);
-        unresolvedCountStub.withArgs(3, path).returns(2);
-        unresolvedCountStub.withArgs(4, path).returns(0);
+      const comments = await element.$.commentAPI.loadAll();
+      const commentCountStub =
+          sandbox.stub(comments, 'computeCommentCount');
+      const unresolvedCountStub =
+          sandbox.stub(comments, 'computeUnresolvedNum');
+      commentCountStub.withArgs(1, path).returns(0);
+      commentCountStub.withArgs(2, path).returns(1);
+      commentCountStub.withArgs(3, path).returns(2);
+      commentCountStub.withArgs(4, path).returns(0);
+      unresolvedCountStub.withArgs(1, path).returns(1);
+      unresolvedCountStub.withArgs(2, path).returns(0);
+      unresolvedCountStub.withArgs(3, path).returns(2);
+      unresolvedCountStub.withArgs(4, path).returns(0);
 
-        assert.equal(element._computeCommentString(comments, 1, path),
-            '1 unresolved');
-        assert.equal(element._computeCommentString(comments, 2, path),
-            '1 comment');
-        assert.equal(element._computeCommentString(comments, 3, path),
-            '2 comments, 2 unresolved');
-        assert.equal(element._computeCommentString(comments, 4, path), '');
-        done();
-      });
+      assert.equal(element._computeCommentString(comments, 1, path),
+          '1 unresolved');
+      assert.equal(element._computeCommentString(comments, 2, path),
+          '1 comment');
+      assert.equal(element._computeCommentString(comments, 3, path),
+          '2 comments, 2 unresolved');
+      assert.equal(element._computeCommentString(comments, 4, path), '');
     });
 
     suite('url params', () => {
@@ -877,14 +874,12 @@ limitations under the License.
     });
 
     suite('_loadComments', () => {
-      test('empty', done => {
-        element._loadComments().then(() => {
-          assert.equal(Object.keys(element._commentMap).length, 0);
-          done();
-        });
+      test('empty', async () => {
+        await element._loadComments();
+        assert.equal(Object.keys(element._commentMap).length, 0);
       });
 
-      test('has paths', done => {
+      test('has paths', async () => {
         sandbox.stub(element, '_getPaths').returns({
           'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
           'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
@@ -895,11 +890,9 @@ limitations under the License.
           basePatchNum: '3',
           patchNum: '5',
         };
-        element._loadComments().then(() => {
-          assert.deepEqual(Object.keys(element._commentMap),
-              ['path/to/file/one.cpp', 'path-to/file/two.py']);
-          done();
-        });
+        await element._loadComments();
+        assert.deepEqual(Object.keys(element._commentMap),
+            ['path/to/file/one.cpp', 'path-to/file/two.py']);
       });
     });
 
@@ -1051,23 +1044,16 @@ limitations under the License.
           [{value: '/foo'}, {value: '/bar'}]), 'show');
     });
 
-    test('_getReviewedStatus', () => {
-      const promises = [];
+    test('_getReviewedStatus', async () => {
       element.$.restAPI.getReviewedFiles.restore();
-
       sandbox.stub(element.$.restAPI, 'getReviewedFiles')
           .returns(Promise.resolve(['path']));
-
-      promises.push(element._getReviewedStatus(true, null, null, 'path')
-          .then(reviewed => assert.isFalse(reviewed)));
-
-      promises.push(element._getReviewedStatus(false, null, null, 'otherPath')
-          .then(reviewed => assert.isFalse(reviewed)));
-
-      promises.push(element._getReviewedStatus(false, null, null, 'path')
-          .then(reviewed => assert.isTrue(reviewed)));
-
-      return Promise.all(promises);
+      assert.isFalse(
+          await element._getReviewedStatus(true, null, null, 'path'));
+      assert.isFalse(
+          await element._getReviewedStatus(false, null, null, 'otherPath'));
+      assert.isTrue(
+          await element._getReviewedStatus(false, null, null, 'path'));
     });
 
     suite('editMode behavior', () => {

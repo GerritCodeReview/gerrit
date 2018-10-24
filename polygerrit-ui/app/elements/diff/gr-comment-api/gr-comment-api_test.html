@@ -47,7 +47,7 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
-    test('loads logged-out', () => {
+    test('loads logged-out', async () => {
       const changeNum = 1234;
 
       sandbox.stub(element.$.restAPI, 'getLoggedIn')
@@ -61,20 +61,19 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getDiffDrafts')
           .returns(Promise.resolve({}));
 
-      return element.loadAll(changeNum).then(() => {
-        assert.isTrue(element.$.restAPI.getDiffComments.calledWithExactly(
-            changeNum));
-        assert.isTrue(element.$.restAPI.getDiffRobotComments.calledWithExactly(
-            changeNum));
-        assert.isTrue(element.$.restAPI.getDiffDrafts.calledWithExactly(
-            changeNum));
-        assert.isOk(element._changeComments._comments);
-        assert.isOk(element._changeComments._robotComments);
-        assert.deepEqual(element._changeComments._drafts, {});
-      });
+      await element.loadAll(changeNum);
+      assert.isTrue(element.$.restAPI.getDiffComments.calledWithExactly(
+          changeNum));
+      assert.isTrue(element.$.restAPI.getDiffRobotComments.calledWithExactly(
+          changeNum));
+      assert.isTrue(element.$.restAPI.getDiffDrafts.calledWithExactly(
+          changeNum));
+      assert.isOk(element._changeComments._comments);
+      assert.isOk(element._changeComments._robotComments);
+      assert.deepEqual(element._changeComments._drafts, {});
     });
 
-    test('loads logged-in', () => {
+    test('loads logged-in', async () => {
       const changeNum = 1234;
 
       sandbox.stub(element.$.restAPI, 'getLoggedIn')
@@ -88,20 +87,19 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getDiffDrafts')
           .returns(Promise.resolve({'foo.c': [{id: '555', message: 'ack'}]}));
 
-      return element.loadAll(changeNum).then(() => {
-        assert.isTrue(element.$.restAPI.getDiffComments.calledWithExactly(
-            changeNum));
-        assert.isTrue(element.$.restAPI.getDiffRobotComments.calledWithExactly(
-            changeNum));
-        assert.isTrue(element.$.restAPI.getDiffDrafts.calledWithExactly(
-            changeNum));
-        assert.isOk(element._changeComments._comments);
-        assert.isOk(element._changeComments._robotComments);
-        assert.notDeepEqual(element._changeComments._drafts, {});
-      });
+      await element.loadAll(changeNum);
+      assert.isTrue(element.$.restAPI.getDiffComments.calledWithExactly(
+          changeNum));
+      assert.isTrue(element.$.restAPI.getDiffRobotComments.calledWithExactly(
+          changeNum));
+      assert.isTrue(element.$.restAPI.getDiffDrafts.calledWithExactly(
+          changeNum));
+      assert.isOk(element._changeComments._comments);
+      assert.isOk(element._changeComments._robotComments);
+      assert.notDeepEqual(element._changeComments._drafts, {});
     });
 
-    suite('reloadDrafts', () => {
+    suite('reloadDrafts', async () => {
       let commentStub;
       let robotCommentStub;
       let draftStub;
@@ -114,48 +112,42 @@ limitations under the License.
             .returns(Promise.resolve({}));
       });
 
-      test('without loadAll first', done => {
+      test('without loadAll first', async () => {
         assert.isNotOk(element._changeComments);
         sandbox.spy(element, 'loadAll');
-        element.reloadDrafts().then(() => {
-          assert.isTrue(element.loadAll.called);
-          assert.isOk(element._changeComments);
-          assert.equal(commentStub.callCount, 1);
-          assert.equal(robotCommentStub.callCount, 1);
-          assert.equal(draftStub.callCount, 1);
-          done();
-        });
+        await element.reloadDrafts();
+        assert.isTrue(element.loadAll.called);
+        assert.isOk(element._changeComments);
+        assert.equal(commentStub.callCount, 1);
+        assert.equal(robotCommentStub.callCount, 1);
+        assert.equal(draftStub.callCount, 1);
       });
 
-      test('with loadAll first', done => {
+      test('with loadAll first', async () => {
         assert.isNotOk(element._changeComments);
-        element.loadAll().then(() => {
-          assert.isOk(element._changeComments);
-          assert.equal(commentStub.callCount, 1);
-          assert.equal(robotCommentStub.callCount, 1);
-          assert.equal(draftStub.callCount, 1);
-          return element.reloadDrafts();
-        }).then(() => {
-          assert.isOk(element._changeComments);
-          assert.equal(commentStub.callCount, 1);
-          assert.equal(robotCommentStub.callCount, 1);
-          assert.equal(draftStub.callCount, 2);
-          done();
-        });
+        await element.loadAll();
+        assert.isOk(element._changeComments);
+        assert.equal(commentStub.callCount, 1);
+        assert.equal(robotCommentStub.callCount, 1);
+        assert.equal(draftStub.callCount, 1);
+
+        await element.reloadDrafts();
+        assert.isOk(element._changeComments);
+        assert.equal(commentStub.callCount, 1);
+        assert.equal(robotCommentStub.callCount, 1);
+        assert.equal(draftStub.callCount, 2);
       });
     });
 
     suite('_changeComment methods', () => {
-      setup(done => {
+      setup(async () => {
         const changeNum = 1234;
         stub('gr-rest-api-interface', {
           getDiffComments() { return Promise.resolve({}); },
           getDiffRobotComments() { return Promise.resolve({}); },
           getDiffDrafts() { return Promise.resolve({}); },
         });
-        element.loadAll(changeNum).then(() => {
-          done();
-        });
+        await element.loadAll(changeNum);
       });
 
       test('_isInBaseOfPatchRange', () => {

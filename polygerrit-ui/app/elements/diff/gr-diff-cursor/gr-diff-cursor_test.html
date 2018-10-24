@@ -46,7 +46,7 @@ limitations under the License.
     let diffElement;
     let mockDiffResponse;
 
-    setup(done => {
+    setup(async () => {
       sandbox = sinon.sandbox.create();
 
       const fixtureElems = fixture('basic');
@@ -61,15 +61,17 @@ limitations under the License.
       diffElement.loggedIn = false;
       diffElement.patchRange = {basePatchNum: 1, patchNum: 2};
       diffElement.comments = {left: [], right: []};
-      const setupDone = () => {
-        cursorElement._updateStops();
-        cursorElement.moveToFirstChunk();
-        diffElement.removeEventListener('render', setupDone);
-        done();
-      };
-      diffElement.addEventListener('render', setupDone);
 
-      restAPI.getDiffPreferences().then(prefs => {
+      await new Promise(async resolve => {
+        const setupDone = () => {
+          cursorElement._updateStops();
+          cursorElement.moveToFirstChunk();
+          diffElement.removeEventListener('render', setupDone);
+          resolve();
+        };
+        diffElement.addEventListener('render', setupDone);
+
+        const prefs = await restAPI.getDiffPreferences();
         diffElement.prefs = prefs;
         diffElement.diff = mockDiffResponse.diffResponse;
       });

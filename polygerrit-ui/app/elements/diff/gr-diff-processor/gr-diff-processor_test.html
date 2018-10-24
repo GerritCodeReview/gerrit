@@ -60,7 +60,7 @@ limitations under the License.
         element.context = 4;
       });
 
-      test('process loaded content', done => {
+      test('process loaded content', async () => {
         const content = [
           {
             ab: [
@@ -86,65 +86,62 @@ limitations under the License.
           },
         ];
 
-        element.process(content).then(() => {
-          const groups = element.groups;
+        await element.process(content);
+        const groups = element.groups;
 
-          assert.equal(groups.length, 4);
+        assert.equal(groups.length, 4);
 
-          let group = groups[0];
-          assert.equal(group.type, GrDiffGroup.Type.BOTH);
-          assert.equal(group.lines.length, 1);
-          assert.equal(group.lines[0].text, '');
-          assert.equal(group.lines[0].beforeNumber, GrDiffLine.FILE);
-          assert.equal(group.lines[0].afterNumber, GrDiffLine.FILE);
+        let group = groups[0];
+        assert.equal(group.type, GrDiffGroup.Type.BOTH);
+        assert.equal(group.lines.length, 1);
+        assert.equal(group.lines[0].text, '');
+        assert.equal(group.lines[0].beforeNumber, GrDiffLine.FILE);
+        assert.equal(group.lines[0].afterNumber, GrDiffLine.FILE);
 
-          group = groups[1];
-          assert.equal(group.type, GrDiffGroup.Type.BOTH);
-          assert.equal(group.lines.length, 2);
-          assert.equal(group.lines.length, 2);
+        group = groups[1];
+        assert.equal(group.type, GrDiffGroup.Type.BOTH);
+        assert.equal(group.lines.length, 2);
+        assert.equal(group.lines.length, 2);
 
-          function beforeNumberFn(l) { return l.beforeNumber; }
-          function afterNumberFn(l) { return l.afterNumber; }
-          function textFn(l) { return l.text; }
+        function beforeNumberFn(l) { return l.beforeNumber; }
+        function afterNumberFn(l) { return l.afterNumber; }
+        function textFn(l) { return l.text; }
 
-          assert.deepEqual(group.lines.map(beforeNumberFn), [1, 2]);
-          assert.deepEqual(group.lines.map(afterNumberFn), [1, 2]);
-          assert.deepEqual(group.lines.map(textFn), [
-            '<!DOCTYPE html>',
-            '<meta charset="utf-8">',
-          ]);
+        assert.deepEqual(group.lines.map(beforeNumberFn), [1, 2]);
+        assert.deepEqual(group.lines.map(afterNumberFn), [1, 2]);
+        assert.deepEqual(group.lines.map(textFn), [
+          '<!DOCTYPE html>',
+          '<meta charset="utf-8">',
+        ]);
 
-          group = groups[2];
-          assert.equal(group.type, GrDiffGroup.Type.DELTA);
-          assert.equal(group.lines.length, 3);
-          assert.equal(group.adds.length, 1);
-          assert.equal(group.removes.length, 2);
-          assert.deepEqual(group.removes.map(beforeNumberFn), [3, 4]);
-          assert.deepEqual(group.adds.map(afterNumberFn), [3]);
-          assert.deepEqual(group.removes.map(textFn), [
-            '  Welcome ',
-            '  to the wooorld of tomorrow!',
-          ]);
-          assert.deepEqual(group.adds.map(textFn), [
-            '  Hello, world!',
-          ]);
+        group = groups[2];
+        assert.equal(group.type, GrDiffGroup.Type.DELTA);
+        assert.equal(group.lines.length, 3);
+        assert.equal(group.adds.length, 1);
+        assert.equal(group.removes.length, 2);
+        assert.deepEqual(group.removes.map(beforeNumberFn), [3, 4]);
+        assert.deepEqual(group.adds.map(afterNumberFn), [3]);
+        assert.deepEqual(group.removes.map(textFn), [
+          '  Welcome ',
+          '  to the wooorld of tomorrow!',
+        ]);
+        assert.deepEqual(group.adds.map(textFn), [
+          '  Hello, world!',
+        ]);
 
-          group = groups[3];
-          assert.equal(group.type, GrDiffGroup.Type.BOTH);
-          assert.equal(group.lines.length, 3);
-          assert.deepEqual(group.lines.map(beforeNumberFn), [5, 6, 7]);
-          assert.deepEqual(group.lines.map(afterNumberFn), [4, 5, 6]);
-          assert.deepEqual(group.lines.map(textFn), [
-            'Leela: This is the only place the ship can’t hear us, so ',
-            'everyone pretend to shower.',
-            'Fry: Same as every day. Got it.',
-          ]);
-
-          done();
-        });
+        group = groups[3];
+        assert.equal(group.type, GrDiffGroup.Type.BOTH);
+        assert.equal(group.lines.length, 3);
+        assert.deepEqual(group.lines.map(beforeNumberFn), [5, 6, 7]);
+        assert.deepEqual(group.lines.map(afterNumberFn), [4, 5, 6]);
+        assert.deepEqual(group.lines.map(textFn), [
+          'Leela: This is the only place the ship can’t hear us, so ',
+          'everyone pretend to shower.',
+          'Fry: Same as every day. Got it.',
+        ]);
       });
 
-      test('insert context groups', done => {
+      test('insert context groups', async () => {
         const content = [
           {ab: []},
           {a: ['all work and no play make andybons a dull boy']},
@@ -163,63 +160,60 @@ limitations under the License.
         const context = 10;
         element.context = context;
 
-        element.process(content).then(() => {
-          const groups = element.groups;
+        await element.process(content);
+        const groups = element.groups;
 
-          assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[0].lines.length, 1);
-          assert.equal(groups[0].lines[0].text, '');
-          assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
-          assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
+        assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[0].lines.length, 1);
+        assert.equal(groups[0].lines[0].text, '');
+        assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
+        assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
 
-          assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[1].lines[0].contextGroup, GrDiffGroup);
-          assert.equal(groups[1].lines[0].contextGroup.lines.length, 90);
-          for (const l of groups[1].lines[0].contextGroup.lines) {
-            assert.equal(l.text, content[0].ab[0]);
-          }
+        assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+        assert.instanceOf(groups[1].lines[0].contextGroup, GrDiffGroup);
+        assert.equal(groups[1].lines[0].contextGroup.lines.length, 90);
+        for (const l of groups[1].lines[0].contextGroup.lines) {
+          assert.equal(l.text, content[0].ab[0]);
+        }
 
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[2].lines.length, context);
-          for (const l of groups[2].lines) {
-            assert.equal(l.text, content[0].ab[0]);
-          }
+        assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[2].lines.length, context);
+        for (const l of groups[2].lines) {
+          assert.equal(l.text, content[0].ab[0]);
+        }
 
-          assert.equal(groups[3].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[3].lines.length, 1);
-          assert.equal(groups[3].removes.length, 1);
-          assert.equal(groups[3].removes[0].text,
-              'all work and no play make andybons a dull boy');
+        assert.equal(groups[3].type, GrDiffGroup.Type.DELTA);
+        assert.equal(groups[3].lines.length, 1);
+        assert.equal(groups[3].removes.length, 1);
+        assert.equal(groups[3].removes[0].text,
+            'all work and no play make andybons a dull boy');
 
-          assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[4].lines.length, 5);
-          for (const l of groups[4].lines) {
-            assert.equal(l.text, content[2].ab[0]);
-          }
+        assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[4].lines.length, 5);
+        for (const l of groups[4].lines) {
+          assert.equal(l.text, content[2].ab[0]);
+        }
 
-          assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[5].lines.length, 1);
-          assert.equal(groups[5].adds.length, 1);
-          assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
+        assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
+        assert.equal(groups[5].lines.length, 1);
+        assert.equal(groups[5].adds.length, 1);
+        assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
 
-          assert.equal(groups[6].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[6].lines.length, context);
-          for (const l of groups[6].lines) {
-            assert.equal(l.text, content[4].ab[0]);
-          }
+        assert.equal(groups[6].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[6].lines.length, context);
+        for (const l of groups[6].lines) {
+          assert.equal(l.text, content[4].ab[0]);
+        }
 
-          assert.equal(groups[7].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[7].lines[0].contextGroup, GrDiffGroup);
-          assert.equal(groups[7].lines[0].contextGroup.lines.length, 90);
-          for (const l of groups[7].lines[0].contextGroup.lines) {
-            assert.equal(l.text, content[4].ab[0]);
-          }
-
-          done();
-        });
+        assert.equal(groups[7].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+        assert.instanceOf(groups[7].lines[0].contextGroup, GrDiffGroup);
+        assert.equal(groups[7].lines[0].contextGroup.lines.length, 90);
+        for (const l of groups[7].lines[0].contextGroup.lines) {
+          assert.equal(l.text, content[4].ab[0]);
+        }
       });
 
-      test('insert context groups', done => {
+      test('insert context groups', async () => {
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {ab: []},
@@ -232,47 +226,44 @@ limitations under the License.
         const context = 10;
         element.context = context;
 
-        element.process(content).then(() => {
-          const groups = element.groups;
+        await element.process(content);
+        const groups = element.groups;
 
-          assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[0].lines.length, 1);
-          assert.equal(groups[0].lines[0].text, '');
-          assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
-          assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
+        assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[0].lines.length, 1);
+        assert.equal(groups[0].lines[0].text, '');
+        assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
+        assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
 
-          assert.equal(groups[1].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[1].lines.length, 1);
-          assert.equal(groups[1].removes.length, 1);
-          assert.equal(groups[1].removes[0].text,
-              'all work and no play make andybons a dull boy');
+        assert.equal(groups[1].type, GrDiffGroup.Type.DELTA);
+        assert.equal(groups[1].lines.length, 1);
+        assert.equal(groups[1].removes.length, 1);
+        assert.equal(groups[1].removes[0].text,
+            'all work and no play make andybons a dull boy');
 
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[2].lines.length, context);
-          for (const l of groups[2].lines) {
-            assert.equal(l.text, content[1].ab[0]);
-          }
+        assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[2].lines.length, context);
+        for (const l of groups[2].lines) {
+          assert.equal(l.text, content[1].ab[0]);
+        }
 
-          assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[3].lines[0].contextGroup, GrDiffGroup);
-          assert.equal(groups[3].lines[0].contextGroup.lines.length, 30);
-          for (const l of groups[3].lines[0].contextGroup.lines) {
-            assert.equal(l.text, content[1].ab[0]);
-          }
+        assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+        assert.instanceOf(groups[3].lines[0].contextGroup, GrDiffGroup);
+        assert.equal(groups[3].lines[0].contextGroup.lines.length, 30);
+        for (const l of groups[3].lines[0].contextGroup.lines) {
+          assert.equal(l.text, content[1].ab[0]);
+        }
 
-          assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[4].lines.length, context);
-          for (const l of groups[4].lines) {
-            assert.equal(l.text, content[1].ab[0]);
-          }
+        assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[4].lines.length, context);
+        for (const l of groups[4].lines) {
+          assert.equal(l.text, content[1].ab[0]);
+        }
 
-          assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[5].lines.length, 1);
-          assert.equal(groups[5].adds.length, 1);
-          assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
-
-          done();
-        });
+        assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
+        assert.equal(groups[5].lines.length, 1);
+        assert.equal(groups[5].adds.length, 1);
+        assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
       });
 
       test('break up common diff chunks', () => {

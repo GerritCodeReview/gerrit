@@ -267,16 +267,15 @@ limitations under the License.
       assert.isTrue(element.$$('.action.delete')
           .classList.contains('showDeleteButtons'));
       MockInteractions.tap(element.$$('.action.delete'));
-      flush(() => {
-        element.confirmDeleteOverlay.open.lastCall.returnValue.then(() => {
-          const dialog =
-              this.confirmDeleteOverlay.querySelector('#confirmDeleteComment');
-          dialog.message = 'removal reason';
-          element._handleConfirmDeleteComment();
-          assert.isTrue(element.$.restAPI.deleteComment.calledWith(
-              42, 0xDEADBEEF, 'baf0414d_60047215', 'removal reason'));
-          done();
-        });
+      flush(async () => {
+        await element.confirmDeleteOverlay.open.lastCall.returnValue;
+        const dialog =
+            this.confirmDeleteOverlay.querySelector('#confirmDeleteComment');
+        dialog.message = 'removal reason';
+        element._handleConfirmDeleteComment();
+        assert.isTrue(element.$.restAPI.deleteComment.calledWith(
+            42, 0xDEADBEEF, 'baf0414d_60047215', 'removal reason'));
+        done();
       });
     });
 
@@ -296,32 +295,29 @@ limitations under the License.
             .returns({end: endStub});
       });
 
-      test('create', () => {
+      test('create', async () => {
         element.comment = {};
-        return element._handleSave(mockEvent).then(() => {
-          assert.isTrue(endStub.calledOnce);
-          assert.isTrue(getTimerStub.calledOnce);
-          assert.equal(getTimerStub.lastCall.args[0], 'CreateDraftComment');
-        });
+        await element._handleSave(mockEvent);
+        assert.isTrue(endStub.calledOnce);
+        assert.isTrue(getTimerStub.calledOnce);
+        assert.equal(getTimerStub.lastCall.args[0], 'CreateDraftComment');
       });
 
-      test('update', () => {
+      test('update', async () => {
         element.comment = {id: 'abc_123'};
-        return element._handleSave(mockEvent).then(() => {
-          assert.isTrue(endStub.calledOnce);
-          assert.isTrue(getTimerStub.calledOnce);
-          assert.equal(getTimerStub.lastCall.args[0], 'UpdateDraftComment');
-        });
+        await element._handleSave(mockEvent);
+        assert.isTrue(endStub.calledOnce);
+        assert.isTrue(getTimerStub.calledOnce);
+        assert.equal(getTimerStub.lastCall.args[0], 'UpdateDraftComment');
       });
 
-      test('discard', () => {
+      test('discard', async () => {
         element.comment = {id: 'abc_123'};
         sandbox.stub(element, '_closeConfirmDiscardOverlay');
-        return element._handleConfirmDiscard(mockEvent).then(() => {
-          assert.isTrue(endStub.calledOnce);
-          assert.isTrue(getTimerStub.calledOnce);
-          assert.equal(getTimerStub.lastCall.args[0], 'DiscardDraftComment');
-        });
+        await element._handleConfirmDiscard(mockEvent);
+        assert.isTrue(endStub.calledOnce);
+        assert.isTrue(getTimerStub.calledOnce);
+        assert.equal(getTimerStub.lastCall.args[0], 'DiscardDraftComment');
       });
     });
 
@@ -570,7 +566,7 @@ limitations under the License.
       element._handleConfirmDiscard({preventDefault: sinon.stub()});
     });
 
-    test('storage is cleared only after save success', () => {
+    test('storage is cleared only after save success', async () => {
       element._messageText = 'test';
       const eraseStub = sandbox.stub(element, '_eraseDraftComment');
       sandbox.stub(element.$.restAPI, 'getResponseObject')
@@ -580,16 +576,14 @@ limitations under the License.
 
       const savePromise = element.save();
       assert.isFalse(eraseStub.called);
-      return savePromise.then(() => {
-        assert.isFalse(eraseStub.called);
+      await savePromise;
+      assert.isFalse(eraseStub.called);
 
-        element._saveDraft.restore();
-        sandbox.stub(element, '_saveDraft')
-            .returns(Promise.resolve({ok: true}));
-        return element.save().then(() => {
-          assert.isTrue(eraseStub.called);
-        });
-      });
+      element._saveDraft.restore();
+      sandbox.stub(element, '_saveDraft')
+          .returns(Promise.resolve({ok: true}));
+      await element.save();
+      assert.isTrue(eraseStub.called);
     });
 
     test('_computeSaveDisabled', () => {
@@ -649,7 +643,7 @@ limitations under the License.
           83, 'ctrl'); // 'ctrl + s'
     });
 
-    test('draft saving/editing', done => {
+    test('draft saving/editing', async () => {
       const fireStub = sinon.stub(element, 'fire');
       const cancelDebounce = sandbox.stub(element, 'cancelDebouncer');
 
@@ -673,45 +667,42 @@ limitations under the License.
       assert.isTrue(element.disabled,
           'Element should be disabled when creating draft.');
 
-      element._xhrPromise.then(draft => {
-        assert(fireStub.calledWith('comment-save'),
-            'comment-save should be sent');
-        assert(cancelDebounce.calledWith('store'));
+      let draft = await element._xhrPromise;
+      assert(fireStub.calledWith('comment-save'),
+          'comment-save should be sent');
+      assert(cancelDebounce.calledWith('store'));
 
-        assert.deepEqual(fireStub.lastCall.args[1], {
-          comment: {
-            __commentSide: 'right',
-            __draft: true,
-            __draftID: 'temp_draft_id',
-            id: 'baf0414d_40572e03',
-            line: 5,
-            message: 'saved!',
-            path: '/path/to/file',
-            updated: '2015-12-08 21:52:36.177000000',
-          },
-          patchNum: 1,
-        });
-        assert.isFalse(element.disabled,
-            'Element should be enabled when done creating draft.');
-        assert.equal(draft.message, 'saved!');
-        assert.isFalse(element.editing);
-      }).then(() => {
-        MockInteractions.tap(element.$$('.edit'));
-        element._messageText = 'You’ll be delivering a package to Chapek 9, ' +
-            'a world where humans are killed on sight.';
-        MockInteractions.tap(element.$$('.save'));
-        assert.isTrue(element.disabled,
-            'Element should be disabled when updating draft.');
-
-        element._xhrPromise.then(draft => {
-          assert.isFalse(element.disabled,
-              'Element should be enabled when done updating draft.');
-          assert.equal(draft.message, 'saved!');
-          assert.isFalse(element.editing);
-          fireStub.restore();
-          done();
-        });
+      assert.deepEqual(fireStub.lastCall.args[1], {
+        comment: {
+          __commentSide: 'right',
+          __draft: true,
+          __draftID: 'temp_draft_id',
+          id: 'baf0414d_40572e03',
+          line: 5,
+          message: 'saved!',
+          path: '/path/to/file',
+          updated: '2015-12-08 21:52:36.177000000',
+        },
+        patchNum: 1,
       });
+      assert.isFalse(element.disabled,
+          'Element should be enabled when done creating draft.');
+      assert.equal(draft.message, 'saved!');
+      assert.isFalse(element.editing);
+
+      MockInteractions.tap(element.$$('.edit'));
+      element._messageText = 'You’ll be delivering a package to Chapek 9, ' +
+          'a world where humans are killed on sight.';
+      MockInteractions.tap(element.$$('.save'));
+      assert.isTrue(element.disabled,
+          'Element should be disabled when updating draft.');
+
+      draft = await element._xhrPromise;
+      assert.isFalse(element.disabled,
+          'Element should be enabled when done updating draft.');
+      assert.equal(draft.message, 'saved!');
+      assert.isFalse(element.editing);
+      fireStub.restore();
     });
 
     test('draft prevent save when disabled', () => {

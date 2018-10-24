@@ -109,11 +109,9 @@
       'e shift+e': '_handleEKey',
     },
 
-    attached() {
-      this._getLoggedIn().then(loggedIn => {
-        this._showActions = loggedIn;
-      });
+    async attached() {
       this._setInitialExpandedState();
+      this._showActions = await this._getLoggedIn();
     },
 
     addOrEditDraft(opt_lineNum, opt_range) {
@@ -455,11 +453,9 @@
      * Load the project config when a project name has been provided.
      * @param {string} name The project name.
      */
-    _projectNameChanged(name) {
+    async _projectNameChanged(name) {
       if (!name) { return; }
-      this.$.restAPI.getProjectConfig(name).then(config => {
-        this._projectConfig = config;
-      });
+      this._projectConfig = await this.$.restAPI.getProjectConfig(name);
     },
   });
 })();

@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 
 /**
@@ -57,7 +56,7 @@ public class SectionMatcher extends RefPatternMatcher {
     return matcher;
   }
 
-  public NameKey getProject() {
+  public Project.NameKey getProject() {
     return project;
   }
 }

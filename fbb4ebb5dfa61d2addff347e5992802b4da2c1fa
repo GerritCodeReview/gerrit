@@ -142,6 +142,30 @@
       "revId": "fbb4ebb5dfa61d2addff347e5992802b4da2c1fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82bab2cf_5260a86f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-24T14:24:05Z",
+      "side": 1,
+      "message": "I think comments are actually a good solution to this. I have added an API comment next to the events the component fires with the attribute it sets. I only listed the ones that are needed for the positioning because I don\u0027t know enough about why the others are set, but this could be added at a later point. Let me know what you think.",
+      "parentUuid": "5f34213c_6ff5f35f",
+      "range": {
+        "startLine": 463,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 6
+      },
+      "revId": "fbb4ebb5dfa61d2addff347e5992802b4da2c1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

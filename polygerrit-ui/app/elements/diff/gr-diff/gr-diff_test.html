@@ -298,12 +298,6 @@ limitations under the License.
         const commentSide = 'left';
         const patchNum = 1;
         const side = 'PARENT';
-        let range = {
-          startLine: 1,
-          startChar: 1,
-          endLine: 1,
-          endChar: 2,
-        };
 
         element.changeNum = 123;
         element.patchRange = {basePatchNum: 1, patchNum: 2};
@@ -322,30 +316,11 @@ limitations under the License.
             patchNum, commentSide, side);
         assert.isOk(threadGroupEl);
 
-        assert.isOk(element._getOrCreateThread(threadGroupEl,
-            commentSide, side));
-
-        // Try to fetch a thread with a different range.
-        range = {
-          startLine: 1,
-          startChar: 1,
-          endLine: 1,
-          endChar: 3,
-        };
-
-        assert.isOk(element._getOrCreateThread(
-            threadGroupEl, commentSide, range));
         // The new thread group can be fetched.
         assert.isOk(element._getThreadGroupForLine(contentEl));
 
         assert.equal(contentEl.querySelectorAll(
             'gr-diff-comment-thread-group').length, 1);
-
-        const threadGroup = contentEl.querySelector(
-            'gr-diff-comment-thread-group');
-        const threadLength = Polymer.dom(threadGroup.root).
-              querySelectorAll('gr-diff-comment-thread').length;
-        assert.equal(threadLength, 2);
       });
 
       suite('image diffs', () => {

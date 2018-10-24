@@ -98,7 +98,7 @@ limitations under the License.
       element.range = range;
       MockInteractions.pressAndReleaseKeyOn(document.body, 67, null, 'c');
       assert(element.fire.calledWithExactly(
-          'create-comment',
+          'create-range-comment',
           {
             side,
             range,

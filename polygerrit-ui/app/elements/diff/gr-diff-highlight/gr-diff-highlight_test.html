@@ -215,9 +215,9 @@ limitations under the License.
         assert.isFalse(builder.getContentsByLineRange.called);
       });
 
-      test('on create-comment action box is removed', () => {
+      test('on create-range-comment action box is removed', () => {
         sandbox.stub(element, '_removeActionBox');
-        element.fire('create-comment', {
+        element.fire('create-range-comment', {
           comment: {
             range: {},
           },

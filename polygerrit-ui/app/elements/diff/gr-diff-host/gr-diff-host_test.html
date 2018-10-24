@@ -776,6 +776,29 @@ limitations under the License.
       });
     });
 
+    test('_getOrCreateThread', () => {
+      const threadGroupEl =
+          document.createElement('gr-diff-comment-thread-group');
+      const commentSide = 'left';
+
+      assert.isOk(element._getOrCreateThread(threadGroupEl,
+          commentSide));
+
+      // Try to fetch a thread with a different range.
+      range = {
+        startLine: 1,
+        startChar: 1,
+        endLine: 1,
+        endChar: 3,
+      };
+
+      assert.isOk(element._getOrCreateThread(
+          threadGroupEl, commentSide, range));
+      const threadCount = Polymer.dom(threadGroupEl.root).
+            querySelectorAll('gr-diff-comment-thread').length;
+      assert.equal(threadCount, 2);
+    });
+
     suite('_translateChunksToIgnore', () => {
       let content;
 

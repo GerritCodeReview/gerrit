@@ -37,7 +37,7 @@ limitations under the License.
     let element;
     let agreements;
 
-    setup(done => {
+    setup(async () => {
       agreements = [{
         url: 'some url',
         description: 'Agreements 1 description',
@@ -45,24 +45,25 @@ limitations under the License.
       }];
 
       stub('gr-rest-api-interface', {
-        getAccountGroups() { return Promise.resolve(agreements); },
+        async getAccountAgreements() { return agreements; },
       });
 
       element = fixture('basic');
 
-      element.loadData().then(() => { flush(done); });
+      await element.loadData();
+      flushAsynchronousOperations();
     });
 
     test('renders', () => {
       const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
 
-      assert.equal(rows.length, 3);
+      assert.equal(rows.length, 1);
 
       const nameCells = rows.map(row =>
         row.querySelectorAll('td')[0].textContent
       );
 
-      assert.equal(nameCells[0], 'Agreements 1');
+      assert.equal(nameCells[0].trim(), 'Agreements 1');
     });
   });
 </script>

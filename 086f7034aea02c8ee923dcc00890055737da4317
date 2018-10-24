@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57c8a68b_9a1e94fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-10-24T18:29:39Z",
+      "side": 1,
+      "message": "Why plugin_name is actually needed and why name is not sufficient? Two rules with the same name cannot co-exist in the same Bazel package, so that these rules\n\n  polygerrit_plugin(\n    name \u003d \u0027foo\u0027,\n    app \u003d \"foo.html\",\n    [...]\n\nand\n\n  polygerrit_plugin(\n    name \u003d \u0027foo_js\u0027,\n    app \u003d \"foo.js\",\n    [...]\n\nwould already produce the following outputs correspondingly:\n\n  foo.html\n  foo_js.html\n\nOr what am I missing?",
+      "revId": "086f7034aea02c8ee923dcc00890055737da4317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2489bf7b_674db16b",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-10-24T18:29:39Z",
+      "side": 1,
+      "message": "Arguably this new argument could be done in another change, as it seems not directly related to the JS|HTML plugin split?",
+      "range": {
+        "startLine": 443,
+        "startChar": 6,
+        "endLine": 443,
+        "endChar": 51
+      },
+      "revId": "086f7034aea02c8ee923dcc00890055737da4317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "724c632f_a0395a97",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-10-24T18:29:39Z",
+      "side": 1,
+      "message": "Simpler:\n\n  if not plugin_name:",
+      "range": {
+        "startLine": 445,
+        "startChar": 4,
+        "endLine": 445,
+        "endChar": 27
+      },
+      "revId": "086f7034aea02c8ee923dcc00890055737da4317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

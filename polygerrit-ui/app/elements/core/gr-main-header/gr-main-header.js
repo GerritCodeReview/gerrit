@@ -224,7 +224,7 @@
       });
     },
 
-    _loadAccount() {
+    async _loadAccount() {
       this.loading = true;
       const promises = [
         this.$.restAPI.getAccount(),
@@ -232,38 +232,31 @@
         Gerrit.awaitPluginsLoaded(),
       ];
 
-      return Promise.all(promises).then(result => {
-        const account = result[0];
-        this._account = account;
-        this.loggedIn = !!account;
-        this.loading = false;
-        this._topMenus = result[1];
+      const result = await Promise.all(promises);
+      const [account, topMenus] = result;
+      this._account = account;
+      this._topMenus = topMenus;
+      this.loggedIn = !!account;
+      this.loading = false;
 
-        return this.getAdminLinks(account,
-            this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
-            this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI))
-            .then(res => {
-              this._adminLinks = res.links;
-            });
-      });
+      const res = await this.getAdminLinks(account,
+          this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
+          this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI));
+      this._adminLinks = res.links;
     },
 
-    _loadConfig() {
-      this.$.restAPI.getConfig()
-          .then(config => {
-            this._retrieveRegisterURL(config);
-            return this.getDocsBaseUrl(config, this.$.restAPI);
-          })
-          .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
+    async _loadConfig() {
+      const config = await this.$.restAPI.getConfig();
+      this._retrieveRegisterURL(config);
+      this._docBaseUrl = await this.getDocsBaseUrl(config, this.$.restAPI);
     },
 
-    _accountLoaded(account) {
+    async _accountLoaded(account) {
       if (!account) { return; }
 
-      this.$.restAPI.getPreferences().then(prefs => {
-        this._userLinks =
-            prefs.my.map(this._fixCustomMenuItem).filter(this._isSupportedLink);
-      });
+      const prefs = await this.$.restAPI.getPreferences();
+      this._userLinks =
+          prefs.my.map(this._fixCustomMenuItem).filter(this._isSupportedLink);
     },
 
     _retrieveRegisterURL(config) {

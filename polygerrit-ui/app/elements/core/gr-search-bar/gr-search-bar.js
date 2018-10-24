@@ -239,40 +239,38 @@
      * @return {!Promise} This returns a promise that resolves to an array of
      *     suggestions.
      */
-    _getSearchSuggestions(input) {
+    async _getSearchSuggestions(input) {
       // Allow spaces within quoted terms.
       const tokens = input.match(TOKENIZE_REGEX);
       const trimmedInput = tokens[tokens.length - 1].toLowerCase();
 
-      return this._fetchSuggestions(trimmedInput)
-          .then(suggestions => {
-            if (!suggestions || !suggestions.length) { return []; }
-            return suggestions
-                // Prioritize results that start with the input.
-                .sort((a, b) => {
-                  const aContains = a.text.toLowerCase().indexOf(trimmedInput);
-                  const bContains = b.text.toLowerCase().indexOf(trimmedInput);
-                  if (aContains === bContains) {
-                    return a.text.localeCompare(b.text);
-                  }
-                  if (aContains === -1) {
-                    return 1;
-                  }
-                  if (bContains === -1) {
-                    return -1;
-                  }
-                  return aContains - bContains;
-                })
-                // Return only the first {MAX_AUTOCOMPLETE_RESULTS} results.
-                .slice(0, MAX_AUTOCOMPLETE_RESULTS - 1)
-                // Map to an object to play nice with gr-autocomplete.
-                .map(({text, label}) => {
-                  return {
-                    name: text,
-                    value: text,
-                    label,
-                  };
-                });
+      const suggestions = await this._fetchSuggestions(trimmedInput);
+      if (!suggestions || !suggestions.length) { return []; }
+      return suggestions
+          // Prioritize results that start with the input.
+          .sort((a, b) => {
+            const aContains = a.text.toLowerCase().indexOf(trimmedInput);
+            const bContains = b.text.toLowerCase().indexOf(trimmedInput);
+            if (aContains === bContains) {
+              return a.text.localeCompare(b.text);
+            }
+            if (aContains === -1) {
+              return 1;
+            }
+            if (bContains === -1) {
+              return -1;
+            }
+            return aContains - bContains;
+          })
+          // Return only the first {MAX_AUTOCOMPLETE_RESULTS} results.
+          .slice(0, MAX_AUTOCOMPLETE_RESULTS - 1)
+          // Map to an object to play nice with gr-autocomplete.
+          .map(({text, label}) => {
+            return {
+              name: text,
+              value: text,
+              label,
+            };
           });
     },
 

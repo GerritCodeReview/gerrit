@@ -19,25 +19,32 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>Elements Test Runner</title>
 <meta charset="utf-8">
-<script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="../bower_components/web-component-tester/browser.js"></script>
 <script>
   const testFiles = [];
   const elementsPath = '../elements/';
   const behaviorsPath = '../behaviors/';
 
+  const pass = [
+    'gr-app_test.html',
+    'admin/gr-admin-group-list/gr-admin-group-list_test.html',
+    'admin/gr-access-section/gr-access-section_test.html',
+    'admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html',
+    'admin/gr-create-change-dialog/gr-create-change-dialog_test.html',
+    'admin/gr-admin-view/gr-admin-view_test.html',
+    'admin/gr-create-group-dialog/gr-create-group-dialog_test.html',
+  ];
+
   // Elements tests.
   /* eslint-disable max-len */
   const elements = [
     // This seemed to be flakey when it was farther down the list. Keep at the
     // beginning.
-    'gr-app_test.html',
-    'admin/gr-access-section/gr-access-section_test.html',
-    'admin/gr-admin-group-list/gr-admin-group-list_test.html',
-    'admin/gr-admin-view/gr-admin-view_test.html',
-    'admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html',
-    'admin/gr-create-change-dialog/gr-create-change-dialog_test.html',
-    'admin/gr-create-group-dialog/gr-create-group-dialog_test.html',
+    'shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.html',
+    'shared/gr-autocomplete/gr-autocomplete_test.html',
+  ];
+  const temp = [
     'admin/gr-create-pointer-dialog/gr-create-pointer-dialog_test.html',
     'admin/gr-create-repo-dialog/gr-create-repo-dialog_test.html',
     'admin/gr-group-audit-log/gr-group-audit-log_test.html',
@@ -194,12 +201,12 @@ limitations under the License.
   for (let file of elements) {
     file = elementsPath + file;
     testFiles.push(file);
-    testFiles.push(file + '?dom=shadow');
+    testFiles.push(file + '?wc-ce=true&wc-shadydom=true&wc-shimcssproperties=true');
   }
 
   // Behaviors tests.
   /* eslint-disable max-len */
-  const behaviors = [
+  const behaviors = []; const off = [
     'async-foreach-behavior/async-foreach-behavior_test.html',
     'base-url-behavior/base-url-behavior_test.html',
     'docs-url-behavior/docs-url-behavior_test.html',

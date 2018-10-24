@@ -1174,22 +1174,22 @@ bower_archive(
 bower_archive(
     name = "iron-dropdown",
     package = "polymerelements/iron-dropdown",
-    sha1 = "ac96fe31cdf203a63426fa75131b43c98c0597d3",
-    version = "1.5.5",
+    sha1 = "3902ba164552b1bfc59e6fa692efa4a1fd8dd4ea",
+    version = "2.2.1",
 )
 
 bower_archive(
     name = "iron-input",
     package = "polymerelements/iron-input",
-    sha1 = "9bc0c8e81de2527125383cbcf74dd9f27e7fa9ac",
-    version = "1.0.10",
+    sha1 = "f79952ff4f6f103c0a2cbd3dacf25935257ff392",
+    version = "2.1.3",
 )
 
 bower_archive(
     name = "iron-overlay-behavior",
     package = "polymerelements/iron-overlay-behavior",
-    sha1 = "74cda9d7bf98e7a5e5004bc7ebdb6d208d49e11e",
-    version = "2.0.0",
+    sha1 = "c2d2eac1b162420d9475ade2f16d5db8959b93fc",
+    version = "2.3.4",
 )
 
 bower_archive(
@@ -1209,8 +1209,8 @@ bower_archive(
 bower_archive(
     name = "paper-input",
     package = "polymerelements/paper-input",
-    sha1 = "6c934805e80ab201e143406edc73ea0ef35abf80",
-    version = "1.1.18",
+    sha1 = "c1a81a4173d22e72e8ab609eb3715a75273396b3",
+    version = "2.2.3",
 )
 
 bower_archive(
@@ -1251,8 +1251,8 @@ bower_archive(
 bower_archive(
     name = "paper-item",
     package = "polymerelements/paper-item",
-    sha1 = "803273ceb9ffebec8ecc9373ea638af4cd34af58",
-    version = "1.1.4",
+    sha1 = "c3bad022cf182d2bf1c8a44374c7fcb1409afbfa",
+    version = "2.1.1",
 )
 
 bower_archive(
@@ -1265,22 +1265,23 @@ bower_archive(
 bower_archive(
     name = "paper-toggle-button",
     package = "polymerelements/paper-toggle-button",
-    sha1 = "4a2edbdb52c4531d39fe091f12de650bccda270f",
-    version = "1.2.0",
+    sha1 = "9927960afb0062726ec1b585ef3e32764c3bbac9",
+    version = "2.1.1",
 )
 
+# TODO: use 2.6.2+ when released
 bower_archive(
     name = "polymer",
     package = "polymer/polymer",
-    sha1 = "158443ab05ade5e2cdc24ebc01f1deef9aebac1b",
-    version = "1.11.3",
+    sha1 = "62af70ab70b8324347726c16d4edc0c69c81fce6",
+    version = "79de83cee042e4f0532804da8b3951b3159bca16",
 )
 
 bower_archive(
     name = "polymer-resin",
     package = "polymer/polymer-resin",
-    sha1 = "5cb65081d461e710252a1ba1e671fe4c290356ef",
-    version = "1.2.8",
+    sha1 = "bd5ddd6fef0985abcc2bcd37b78e7df65aae4c0f",
+    version = "2.0.0",
 )
 
 bower_archive(

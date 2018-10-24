@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-labeled-autocomplete',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when a value is chosen.

@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-page-nav',
+    _legacyUndefinedCheck: true,
 
     properties: {
       _headerHeight: Number,

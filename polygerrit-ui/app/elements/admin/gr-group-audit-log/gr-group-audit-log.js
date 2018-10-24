@@ -21,6 +21,7 @@
 
   Polymer({
     is: 'gr-group-audit-log',
+    _legacyUndefinedCheck: true,
 
     properties: {
       groupId: String,

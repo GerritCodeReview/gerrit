@@ -22,6 +22,7 @@
 
   Polymer({
     is: 'gr-editable-label',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the value is changed.

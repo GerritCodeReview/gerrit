@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-error-dialog',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the dismiss button is pressed.

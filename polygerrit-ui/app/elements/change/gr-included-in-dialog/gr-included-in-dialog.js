@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-included-in-dialog',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the user presses the close button.

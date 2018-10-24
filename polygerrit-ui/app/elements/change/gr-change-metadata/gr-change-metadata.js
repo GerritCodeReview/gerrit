@@ -32,6 +32,7 @@
 
   Polymer({
     is: 'gr-change-metadata',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the change topic is changed.

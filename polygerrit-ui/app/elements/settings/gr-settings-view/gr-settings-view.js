@@ -40,6 +40,7 @@
 
   Polymer({
     is: 'gr-settings-view',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the title of the page should change.

@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-button',
+    _legacyUndefinedCheck: true,
 
     properties: {
       tooltip: String,

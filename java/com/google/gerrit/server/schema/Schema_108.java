@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -145,8 +144,8 @@ public class Schema_108 extends SchemaVersion {
 
   private SetMultimap<Project.NameKey, Change.Id> getOpenChangesByProject(ReviewDb db, UpdateUI ui)
       throws OrmException {
-    SortedSet<NameKey> projects = repoManager.list();
-    SortedSet<NameKey> nonExistentProjects = Sets.newTreeSet();
+    SortedSet<Project.NameKey> projects = repoManager.list();
+    SortedSet<Project.NameKey> nonExistentProjects = Sets.newTreeSet();
     SetMultimap<Project.NameKey, Change.Id> openByProject =
         MultimapBuilder.hashKeys().hashSetValues().build();
     for (Change c : db.changes().all()) {
@@ -155,7 +154,7 @@ public class Schema_108 extends SchemaVersion {
         continue;
       }
 
-      NameKey projectKey = c.getProject();
+      Project.NameKey projectKey = c.getProject();
       if (!projects.contains(projectKey)) {
         nonExistentProjects.add(projectKey);
       } else {

@@ -27,6 +27,7 @@
 
   Polymer({
     is: 'gr-ranged-comment-layer',
+    _legacyUndefinedCheck: true,
 
     properties: {
       comments: Object,

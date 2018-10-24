@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-repo-header',
+    _legacyUndefinedCheck: true,
     properties: {
       /** @type {?String} */
       repo: {

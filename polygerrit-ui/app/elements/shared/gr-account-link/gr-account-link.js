@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-account-link',
+    _legacyUndefinedCheck: true,
 
     properties: {
       additionalText: String,

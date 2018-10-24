@@ -20,6 +20,7 @@
 
   Polymer({
     is: 'gr-account-chip',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired to indicate a key was pressed while this chip was focused.

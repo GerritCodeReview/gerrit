@@ -17,11 +17,11 @@
 (function() {
   'use strict';
 
-
   const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
   Polymer({
     is: 'gr-admin-view',
+    _legacyUndefinedCheck: true,
 
     properties: {
       /** @type {?} */

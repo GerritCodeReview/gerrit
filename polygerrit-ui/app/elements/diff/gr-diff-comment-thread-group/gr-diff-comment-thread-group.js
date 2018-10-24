@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-diff-comment-thread-group',
+    _legacyUndefinedCheck: true,
 
     properties: {
       changeNum: String,

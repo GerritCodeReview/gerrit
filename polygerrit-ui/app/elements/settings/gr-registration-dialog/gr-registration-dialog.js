@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-registration-dialog',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when account details are changed.

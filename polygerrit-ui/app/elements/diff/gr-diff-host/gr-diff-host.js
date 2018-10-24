@@ -54,6 +54,7 @@
   // TODO(oler): Move all calls to restAPI from gr-diff here.
   Polymer({
     is: 'gr-diff-host',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the user selects a line.

@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-commit-info',
+    _legacyUndefinedCheck: true,
 
     properties: {
       change: Object,

@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-diff-highlight',
+    _legacyUndefinedCheck: true,
 
     properties: {
       comments: Object,

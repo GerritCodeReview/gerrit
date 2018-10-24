@@ -35,6 +35,7 @@
 
   Polymer({
     is: 'gr-diff-view',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the title of the page should change.

@@ -21,6 +21,7 @@
 
   Polymer({
     is: 'gr-endpoint-decorator',
+    _legacyUndefinedCheck: true,
 
     properties: {
       name: String,

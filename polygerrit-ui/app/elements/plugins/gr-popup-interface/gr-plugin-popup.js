@@ -18,6 +18,7 @@
   'use strict';
   Polymer({
     is: 'gr-plugin-popup',
+    _legacyUndefinedCheck: true,
     get opened() {
       return this.$.overlay.opened;
     },

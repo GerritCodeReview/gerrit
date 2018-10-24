@@ -22,6 +22,7 @@
 
   Polymer({
     is: 'gr-dropdown',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when a non-link dropdown item with the given ID is tapped.

@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-account-label',
+    _legacyUndefinedCheck: true,
 
     properties: {
       /**

@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-select',
+    _legacyUndefinedCheck: true,
     properties: {
       bindValue: {
         type: String,

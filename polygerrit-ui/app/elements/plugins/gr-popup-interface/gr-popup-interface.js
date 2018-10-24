@@ -42,11 +42,11 @@
    * if it was provided with constructor.
    * @returns {!Promise<!Object>}
    */
-  GrPopupInterface.prototype.open = function() {
+  GrPopupInterface.prototype.open = async function() {
     if (!this._openingPromise) {
-      this._openingPromise =
-          this.plugin.hook('plugin-overlay').getLastAttached()
-      .then(hookEl => {
+      this._openingPromise = (async () => {
+        const hookEl =
+            await this.plugin.hook('plugin-overlay').getLastAttached();
         const popup = document.createElement('gr-plugin-popup');
         if (this._moduleName) {
           const el = Polymer.dom(popup).appendChild(
@@ -55,10 +55,11 @@
         }
         this._popup = Polymer.dom(hookEl).appendChild(popup);
         Polymer.dom.flush();
-        return this._popup.open().then(() => this);
-      });
+        await this._popup.open();
+        return this;
+      })();
     }
-    return this._openingPromise;
+    return await this._openingPromise;
   };
 
   /**

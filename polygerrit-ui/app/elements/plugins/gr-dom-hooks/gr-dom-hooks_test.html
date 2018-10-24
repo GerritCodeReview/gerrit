@@ -116,13 +116,15 @@ limitations under the License.
         hookInternal.handleInstanceAttached(el1);
         hookInternal.handleInstanceAttached(el2);
         assert.deepEqual([el1, el2], hook.getAllAttached());
-        hookI.handleInstanceDetached(el1);
+        hookInternal.handleInstanceDetached(el1);
         assert.deepEqual([el2], hook.getAllAttached());
       });
 
-      test('getLastAttached', () => {
-        const beforeAttachedPromise = hook.getLastAttached().then(
-            el => assert.strictEqual(el1, el));
+      test('getLastAttached', async () => {
+        const beforeAttachedPromise = (async () => {
+          const el = await hook.getLastAttached();
+          assert.strictEqual(el1, el);
+        })();
         const [el1, el2] = [
           document.createElement(hook.getModuleName()),
           document.createElement(hook.getModuleName()),
@@ -131,9 +133,11 @@ limitations under the License.
         el2.textContent = 'two';
         hookInternal.handleInstanceAttached(el1);
         hookInternal.handleInstanceAttached(el2);
-        const afterAttachedPromise = hook.getLastAttached().then(
-            el => assert.strictEqual(el2, el));
-        return Promise.all([
+        const afterAttachedPromise = (async () => {
+          const el = await hook.getLastAttached();
+          assert.strictEqual(el2, el);
+        })();
+        await Promise.all([
           beforeAttachedPromise,
           afterAttachedPromise,
         ]);

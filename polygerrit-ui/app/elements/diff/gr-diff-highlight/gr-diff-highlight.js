@@ -366,6 +366,7 @@
           break;
         }
         const nextNode = travelLeft ? node.previousSibling : node.nextSibling;
+        // eslint-disable-next-line promise/prefer-await-to-callbacks
         if (callback(node)) {
           break;
         }

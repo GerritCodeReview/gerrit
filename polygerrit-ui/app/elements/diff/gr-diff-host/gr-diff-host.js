@@ -191,59 +191,48 @@
       }
     },
 
-    attached() {
-      this._getLoggedIn().then(loggedIn => {
-        this._loggedIn = loggedIn;
-      });
+    async attached() {
+      this._loggedIn = await this._getLoggedIn();
     },
 
     /** @return {!Promise} */
-    reload() {
+    async reload() {
       this._loading = true;
-      this._errorMessage = null;
-      const whitespaceLevel = this._getIgnoreWhitespace();
 
-      const diffRequest = this._getDiff()
-          .then(diff => {
-            this._loadedWhitespaceLevel = whitespaceLevel;
-            this._reportDiff(diff);
-            if (this._getIgnoreWhitespace() !== WHITESPACE_IGNORE_NONE) {
-              return this._translateChunksToIgnore(diff);
-            }
-            return diff;
-          })
-          .catch(e => {
-            this._handleGetDiffError(e);
-            return null;
+      try {
+        this._errorMessage = null;
+        const whitespaceLevel = this._getIgnoreWhitespace();
+
+        let diff;
+        try {
+          diff = await this._getDiff();
+          this._loadedWhitespaceLevel = whitespaceLevel;
+          this._reportDiff(diff);
+          if (this._getIgnoreWhitespace() !== WHITESPACE_IGNORE_NONE) {
+            diff = this._translateChunksToIgnore(diff);
+          }
+          await this._loadDiffAssets(diff);
+        } catch (err) {
+          this._handleGetDiffError(err);
+          return;
+        }
+
+        try {
+          this.filesWeblinks = this._getFilesWeblinks(diff);
+          await new Promise(resolve => {
+            const callback = () => {
+              resolve();
+              this.removeEventListener('render', callback);
+            };
+            this.addEventListener('render', callback);
+            this._diff = diff;
           });
-
-      const assetRequest = diffRequest.then(diff => {
-        // If the diff is null, then it's failed to load.
-        if (!diff) { return null; }
-
-        return this._loadDiffAssets(diff);
-      });
-
-      return Promise.all([diffRequest, assetRequest])
-          .then(results => {
-            const diff = results[0];
-            if (!diff) {
-              return Promise.resolve();
-            }
-            this.filesWeblinks = this._getFilesWeblinks(diff);
-            return new Promise(resolve => {
-              const callback = () => {
-                resolve();
-                this.removeEventListener('render', callback);
-              };
-              this.addEventListener('render', callback);
-              this._diff = diff;
-            });
-          })
-          .catch(err => {
-            console.warn('Error encountered loading diff:', err);
-          })
-          .then(() => { this._loading = false; });
+        } catch (err) {
+          console.warn('Error encountered loading diff:', err);
+        }
+      } finally {
+        this._loading = false;
+      }
     },
 
     _getFilesWeblinks(diff) {
@@ -281,17 +270,14 @@
      * Load and display blame information for the base of the diff.
      * @return {Promise} A promise that resolves when blame finishes rendering.
      */
-    loadBlame() {
-      return this.$.restAPI.getBlame(this.changeNum, this.patchRange.patchNum,
-          this.path, true)
-          .then(blame => {
-            if (!blame.length) {
-              this.fire('show-alert', {message: MSG_EMPTY_BLAME});
-              return Promise.reject(MSG_EMPTY_BLAME);
-            }
-
-            this._blame = blame;
-          });
+    async loadBlame() {
+      const blame = await this.$.restAPI.getBlame(
+          this.changeNum, this.patchRange.patchNum, this.path, true);
+      if (!blame.length) {
+        this.fire('show-alert', {message: MSG_EMPTY_BLAME});
+        throw new Error(MSG_EMPTY_BLAME);
+      }
+      this._blame = blame;
     },
 
     /** Unload blame information for the diff. */
@@ -329,19 +315,18 @@
     },
 
     /** @return {!Promise<!Object>} */
-    _getDiff() {
+    async _getDiff() {
       // Wrap the diff request in a new promise so that the error handler
       // rejects the promise, allowing the error to be handled in the .catch.
-      return new Promise((resolve, reject) => {
-        this.$.restAPI.getDiff(
-            this.changeNum,
-            this.patchRange.basePatchNum,
-            this.patchRange.patchNum,
-            this.path,
-            this._getIgnoreWhitespace(),
-            reject)
-            .then(resolve);
-      });
+      return await this.$.restAPI.getDiff(
+          this.changeNum,
+          this.patchRange.basePatchNum,
+          this.patchRange.patchNum,
+          this.path,
+          this._getIgnoreWhitespace(),
+          err => {
+            throw err;
+          });
     },
 
     _handleGetDiffError(response) {
@@ -407,16 +392,14 @@
      * @param {Object} diff
      * @return {!Promise}
      */
-    _loadDiffAssets(diff) {
+    async _loadDiffAssets(diff) {
       if (isImageDiff(diff)) {
-        return this._getImages(diff).then(images => {
-          this._baseImage = images.baseImage;
-          this._revisionImage = images.revisionImage;
-        });
+        const images = await this._getImages(diff);
+        this._baseImage = images.baseImage;
+        this._revisionImage = images.revisionImage;
       } else {
         this._baseImage = null;
         this._revisionImage = null;
-        return Promise.resolve();
       }
     },
 

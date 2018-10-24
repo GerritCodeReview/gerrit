@@ -214,50 +214,41 @@
       };
     },
 
-    attached() {
-      this._getLoggedIn().then(loggedIn => {
-        this._loggedIn = loggedIn;
-      });
-
+    async attached() {
       this.$.cursor.push('diffs', this.$.diffHost);
+      this._loggedIn = await this._getLoggedIn();
     },
 
-    _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
+    async _getLoggedIn() {
+      return await this.$.restAPI.getLoggedIn();
     },
 
-    _getProjectConfig(project) {
-      return this.$.restAPI.getProjectConfig(project).then(
-          config => {
-            this._projectConfig = config;
-          });
+    async _getProjectConfig(project) {
+      this._projectConfig = await this.$.restAPI.getProjectConfig(project);
     },
 
-    _getChangeDetail(changeNum) {
-      return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
-        this._change = change;
-        return change;
-      });
+    async _getChangeDetail(changeNum) {
+      this._change = await this.$.restAPI.getDiffChangeDetail(changeNum);
+      return this._change;
     },
 
-    _getChangeEdit(changeNum) {
-      return this.$.restAPI.getChangeEdit(this._changeNum);
+    async _getChangeEdit(changeNum) {
+      return await this.$.restAPI.getChangeEdit(this._changeNum);
     },
 
-    _getFiles(changeNum, patchRangeRecord) {
+    async _getFiles(changeNum, patchRangeRecord) {
       const patchRange = patchRangeRecord.base;
-      return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
-          changeNum, patchRange).then(files => {
-            this._fileList = files;
-          });
+      this._fileList =
+          await this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
+              changeNum, patchRange);
     },
 
-    _getDiffPreferences() {
-      return this.$.restAPI.getDiffPreferences();
+    async _getDiffPreferences() {
+      return await this.$.restAPI.getDiffPreferences();
     },
 
-    _getPreferences() {
-      return this.$.restAPI.getPreferences();
+    async _getPreferences() {
+      return await this.$.restAPI.getPreferences();
     },
 
     _getWindowWidth() {
@@ -268,17 +259,19 @@
       this._setReviewed(Polymer.dom(e).rootTarget.checked);
     },
 
-    _setReviewed(reviewed) {
+    async _setReviewed(reviewed) {
       if (this._editMode) { return; }
       this.$.reviewed.checked = reviewed;
-      this._saveReviewedState(reviewed).catch(err => {
+      try {
+        await this._saveReviewedState(reviewed);
+      } catch (err) {
         this.fire('show-alert', {message: ERR_REVIEW_STATUS});
         throw err;
-      });
+      }
     },
 
-    _saveReviewedState(reviewed) {
-      return this.$.restAPI.saveFileReviewed(this._changeNum,
+    async _saveReviewedState(reviewed) {
+      return await this.$.restAPI.saveFileReviewed(this._changeNum,
           this._patchRange.patchNum, this._path, reviewed);
     },
 
@@ -555,13 +548,13 @@
       return {path: fileList[idx]};
     },
 
-    _getReviewedStatus(editMode, changeNum, patchNum, path) {
-      if (editMode) { return Promise.resolve(false); }
-      return this.$.restAPI.getReviewedFiles(changeNum, patchNum)
-          .then(files => files.includes(path));
+    async _getReviewedStatus(editMode, changeNum, patchNum, path) {
+      if (editMode) { return false; }
+      const files = await this.$.restAPI.getReviewedFiles(changeNum, patchNum);
+      return files.includes(path);
     },
 
-    _paramsChanged(value) {
+    async _paramsChanged(value) {
       if (value.view !== Gerrit.Nav.View.DIFF) { return; }
 
       if (value.changeNum && value.project) {
@@ -596,15 +589,17 @@
       const promises = [];
 
       this._localPrefs = this.$.storage.getPreferences();
-      promises.push(this._getDiffPreferences().then(prefs => {
-        this._prefs = prefs;
-      }));
 
-      promises.push(this._getPreferences().then(prefs => {
-        this._userPrefs = prefs;
-      }));
+      promises.push((async () => {
+        this._prefs = await this._getDiffPreferences();
+      })());
 
-      promises.push(this._getChangeDetail(this._changeNum).then(change => {
+      promises.push((async () => {
+        this._userPrefs = await this._getPreferences();
+      })());
+
+      promises.push((async () => {
+        const change = await this._getChangeDetail(this._changeNum);
         let commit;
         let baseCommit;
         for (const commitSha in change.revisions) {
@@ -623,14 +618,15 @@
           }
         }
         this._commitRange = {commit, baseCommit};
-      }));
+      })());
 
       promises.push(this._loadComments());
 
       promises.push(this._getChangeEdit(this._changeNum));
 
       this._loading = true;
-      return Promise.all(promises).then(r => {
+      try {
+        const r = await Promise.all(promises);
         const edit = r[4];
         if (edit) {
           this.set('_change.revisions.' + edit.commit.commit, {
@@ -639,39 +635,37 @@
             commit: edit.commit,
           });
         }
-        this._loading = false;
         this.$.diffHost.comments = this._commentsForDiff;
-        return this.$.diffHost.reload();
-      }).then(() => {
+        return await this.$.diffHost.reload();
+      } finally {
         this.$.reporting.diffViewDisplayed();
-      });
-    },
-
-    _changeViewStateChanged(changeViewState) {
-      if (changeViewState.diffMode === null) {
-        // If screen size is small, always default to unified view.
-        this.$.restAPI.getPreferences().then(prefs => {
-          this.set('changeViewState.diffMode', prefs.default_diff_view);
-        });
+        this._loading = false;
       }
     },
 
-    _setReviewedObserver(_loggedIn, paramsRecord, _prefs) {
+    async _changeViewStateChanged(changeViewState) {
+      if (changeViewState.diffMode === null) {
+        // If screen size is small, always default to unified view.
+        const prefs = await this.$.restAPI.getPreferences();
+        this.set('changeViewState.diffMode', prefs.default_diff_view);
+      }
+    },
+
+    async _setReviewedObserver(_loggedIn, paramsRecord, _prefs) {
       const params = paramsRecord.base || {};
       if (!_loggedIn) { return; }
 
       if (_prefs.manual_review) {
         // Checkbox state needs to be set explicitly only when manual_review
         // is specified.
-        this._getReviewedStatus(this.editMode, this._changeNum,
-            this._patchRange.patchNum, this._path).then(status => {
-              this.$.reviewed.checked = status;
-            });
+        const status = await this._getReviewedStatus(this.editMode,
+            this._changeNum, this._patchRange.patchNum, this._path);
+        this.$.reviewed.checked = status;
         return;
       }
 
       if (params.view === Gerrit.Nav.View.DIFF) {
-        this._setReviewed(true);
+        await this._setReviewed(true);
       }
     },
 
@@ -827,19 +821,18 @@
       this.$.diffPreferences.open();
     },
 
-    _handlePrefsSave(e) {
+    async _handlePrefsSave(e) {
       e.stopPropagation();
       const el = Polymer.dom(e).rootTarget;
       el.disabled = true;
       this.$.storage.savePreferences(this._localPrefs);
-      this._saveDiffPreferences().then(response => {
-        el.disabled = false;
+      try {
+        const response = await this._saveDiffPreferences();
         if (!response.ok) { return response; }
-
         this.$.prefsOverlay.close();
-      }).catch(err => {
+      } finally {
         el.disabled = false;
-      });
+      }
     },
 
     /**
@@ -889,14 +882,13 @@
       return url;
     },
 
-    _loadComments() {
-      return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
-        this._changeComments = comments;
-        this._commentMap = this._getPaths(this._patchRange);
+    async _loadComments() {
+      const comments = await this.$.commentAPI.loadAll(this._changeNum);
+      this._changeComments = comments;
+      this._commentMap = this._getPaths(this._patchRange);
 
-        this._commentsForDiff = this._getCommentsForPath(this._path,
-            this._patchRange, this._projectConfig);
-      });
+      this._commentsForDiff = this._getCommentsForPath(this._path,
+          this._patchRange, this._projectConfig);
     },
 
     _getPaths(patchRange) {
@@ -966,7 +958,7 @@
      * Load and display blame information if it has not already been loaded.
      * Otherwise hide it.
      */
-    _toggleBlame() {
+    async _toggleBlame() {
       if (this._isBlameLoaded) {
         this.$.diffHost.clearBlame();
         return;
@@ -974,14 +966,12 @@
 
       this._isBlameLoading = true;
       this.fire('show-alert', {message: MSG_LOADING_BLAME});
-      this.$.diffHost.loadBlame()
-          .then(() => {
-            this._isBlameLoading = false;
-            this.fire('show-alert', {message: MSG_LOADED_BLAME});
-          })
-          .catch(() => {
-            this._isBlameLoading = false;
-          });
+      try {
+        await this.$.diffHost.loadBlame();
+        this.fire('show-alert', {message: MSG_LOADED_BLAME});
+      } finally {
+        this._isBlameLoading = false;
+      }
     },
 
     _computeBlameLoaderClass(isImageDiff) {

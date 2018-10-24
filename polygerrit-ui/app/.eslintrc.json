@@ -85,7 +85,8 @@
         "elements/admin/**",
         "elements/change/**",
         "elements/change-list/**",
-        "elements/core/**"
+        "elements/core/**",
+        "elements/diff/**"
       ],
       "rules": {
         "promise/always-return": "error",

@@ -163,15 +163,13 @@
       'esc': '_handleEsc',
     },
 
-    attached() {
+    async attached() {
       if (this.editing) {
         this.collapsed = false;
       } else if (this.comment) {
         this.collapsed = this.comment.collapsed;
       }
-      this._getIsAdmin().then(isAdmin => {
-        this._isAdmin = isAdmin;
-      });
+      this._isAdmin = await this._getIsAdmin();
     },
 
     detached() {
@@ -227,7 +225,7 @@
     /**
      * @param {*=} opt_comment
      */
-    save(opt_comment) {
+    async save(opt_comment) {
       let comment = opt_comment;
       if (!comment) { comment = this.comment; }
 
@@ -236,15 +234,16 @@
       this.disabled = true;
 
       if (!this._messageText) {
-        return this._discardDraft();
+        return await this._discardDraft();
       }
 
-      this._xhrPromise = this._saveDraft(comment).then(response => {
-        this.disabled = false;
-        if (!response.ok) { return response; }
+      this._xhrPromise = (async () => {
+        try {
+          const response = await this._saveDraft(comment);
+          if (!response.ok) { return response; }
 
-        this._eraseDraftComment();
-        return this.$.restAPI.getResponseObject(response).then(obj => {
+          this._eraseDraftComment();
+          const obj = await this.$.restAPI.getResponseObject(response);
           const resComment = obj;
           resComment.__draft = true;
           // Maintain the ephemeral draft ID for identification by other
@@ -256,13 +255,12 @@
           this.comment = resComment;
           this._fireSave();
           return obj;
-        });
-      }).catch(err => {
-        this.disabled = false;
-        throw err;
-      });
+        } finally {
+          this.disabled = false;
+        }
+      })();
 
-      return this._xhrPromise;
+      return await this._xhrPromise;
     },
 
     _eraseDraftComment() {
@@ -419,7 +417,7 @@
       this.$.reporting.recordDraftInteraction();
     },
 
-    _handleSave(e) {
+    async _handleSave(e) {
       e.preventDefault();
 
       // Ignore saves started while already saving.
@@ -428,7 +426,8 @@
           REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
       const timer = this.$.reporting.getTimer(timingLabel);
       this.set('comment.__editing', false);
-      return this.save().then(() => { timer.end(); });
+      await this.save();
+      timer.end();
     },
 
     _handleCancel(e) {
@@ -456,7 +455,7 @@
       }));
     },
 
-    _handleDiscard(e) {
+    async _handleDiscard(e) {
       e.preventDefault();
       this.$.reporting.recordDraftInteraction();
 
@@ -465,20 +464,20 @@
         return;
       }
 
-      this._openOverlay(this.confirmDiscardOverlay).then(() => {
-        this.confirmDiscardOverlay.querySelector('#confirmDiscardDialog')
-            .resetFocus();
-      });
+      await this._openOverlay(this.confirmDiscardOverlay);
+      this.confirmDiscardOverlay.querySelector('#confirmDiscardDialog')
+          .resetFocus();
     },
 
-    _handleConfirmDiscard(e) {
+    async _handleConfirmDiscard(e) {
       e.preventDefault();
       const timer = this.$.reporting.getTimer(REPORT_DISCARD_DRAFT);
       this._closeConfirmDiscardOverlay();
-      return this._discardDraft().then(() => { timer.end(); });
+      await this._discardDraft();
+      timer.end();
     },
 
-    _discardDraft() {
+    async _discardDraft() {
       if (!this.comment.__draft) {
         throw Error('Cannot discard a non-draft comment.');
       }
@@ -493,20 +492,21 @@
         return;
       }
 
-      this._xhrPromise = this._deleteDraft(this.comment).then(response => {
-        this.disabled = false;
-        if (!response.ok) {
-          this.discarding = false;
-          return response;
+      this._xhrPromise = (async () => {
+        try {
+          const response = await this._deleteDraft(this.comment);
+          if (!response.ok) {
+            this.discarding = false;
+            return response;
+          }
+
+          this._fireDiscard();
+        } finally {
+          this.disabled = false;
         }
+      })();
 
-        this._fireDiscard();
-      }).catch(err => {
-        this.disabled = false;
-        throw err;
-      });
-
-      return this._xhrPromise;
+      return await this._xhrPromise;
     },
 
     _closeConfirmDiscardOverlay() {
@@ -551,30 +551,28 @@
       }, TOAST_DEBOUNCE_INTERVAL);
     },
 
-    _saveDraft(draft) {
+    async _saveDraft(draft) {
       this._showStartRequest();
-      return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
-          .then(result => {
-            if (result.ok) {
-              this._showEndRequest();
-            } else {
-              this._handleFailedDraftRequest();
-            }
-            return result;
-          });
+      const result = await this.$.restAPI.saveDiffDraft(
+          this.changeNum, this.patchNum, draft);
+      if (result.ok) {
+        this._showEndRequest();
+      } else {
+        this._handleFailedDraftRequest();
+      }
+      return result;
     },
 
-    _deleteDraft(draft) {
+    async _deleteDraft(draft) {
       this._showStartRequest();
-      return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
-          draft).then(result => {
-            if (result.ok) {
-              this._showEndRequest();
-            } else {
-              this._handleFailedDraftRequest();
-            }
-            return result;
-          });
+      const result = await this.$.restAPI.deleteDiffDraft(
+          this.changeNum, this.patchNum, draft);
+      if (result.ok) {
+        this._showEndRequest();
+      } else {
+        this._handleFailedDraftRequest();
+      }
+      return result;
     },
 
     _getPatchNum() {
@@ -645,15 +643,12 @@
       overlay.close();
     },
 
-    _handleConfirmDeleteComment() {
+    async _handleConfirmDeleteComment() {
       const dialog =
           this.confirmDeleteOverlay.querySelector('#confirmDeleteComment');
-      this.$.restAPI.deleteComment(
-          this.changeNum, this.patchNum, this.comment.id, dialog.message)
-          .then(newComment => {
-            this._handleCancelDeleteComment();
-            this.comment = newComment;
-          });
+      this.comment = await this.$.restAPI.deleteComment(
+          this.changeNum, this.patchNum, this.comment.id, dialog.message);
+      this._handleCancelDeleteComment();
     },
   });
 })();

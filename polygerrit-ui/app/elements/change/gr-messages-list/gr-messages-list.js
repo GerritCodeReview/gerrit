@@ -27,6 +27,7 @@
 
   Polymer({
     is: 'gr-messages-list',
+    _legacyUndefinedCheck: true,
 
     properties: {
       changeNum: Number,

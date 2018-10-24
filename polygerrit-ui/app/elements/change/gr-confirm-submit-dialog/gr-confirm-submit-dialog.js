@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-confirm-submit-dialog',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the confirm button is pressed.

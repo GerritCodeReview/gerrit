@@ -22,6 +22,7 @@
 
   Polymer({
     is: 'gr-confirm-revert-dialog',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the confirm button is pressed.

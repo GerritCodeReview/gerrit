@@ -24,6 +24,7 @@
 
   Polymer({
     is: 'gr-create-pointer-dialog',
+    _legacyUndefinedCheck: true,
 
     properties: {
       detailType: String,

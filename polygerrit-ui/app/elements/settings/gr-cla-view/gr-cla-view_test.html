@@ -116,14 +116,15 @@ limitations under the License.
     },
     ];
 
-    setup(done => {
+    setup(async () => {
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve(config); },
-        getAccountGroups() { return Promise.resolve(groups); },
-        getAccountAgreements() { return Promise.resolve(signedAgreements); },
+        async getConfig() { return config; },
+        async getAccountGroups() { return groups; },
+        async getAccountAgreements() { return signedAgreements; },
       });
       element = fixture('basic');
-      element.loadData().then(() => { flush(done); });
+      await element.loadData();
+      flushAsynchronousOperations();
     });
 
     test('renders as expected with signed agreement', () => {

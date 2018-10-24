@@ -44,23 +44,25 @@
       this.fire('title-change', {title: 'New Contributor Agreement'});
     },
 
-    loadData() {
+    async loadData() {
       const promises = [];
-      promises.push(this.$.restAPI.getConfig(true).then(config => {
-        this._serverConfig = config;
-      }));
+      promises.push((async () => {
+        this._serverConfig = await this.$.restAPI.getConfig(true);
+      })());
 
-      promises.push(this.$.restAPI.getAccountGroups().then(groups => {
+      promises.push((async () => {
+        const groups = await this.$.restAPI.getAccountGroups();
         this._groups = groups.sort((a, b) => {
           return a.name.localeCompare(b.name);
         });
-      }));
+      })());
 
-      promises.push(this.$.restAPI.getAccountAgreements().then(agreements => {
+      promises.push((async () => {
+        const agreements = await this.$.restAPI.getAccountAgreements();
         this._signedAgreements = agreements || [];
-      }));
+      })());
 
-      return Promise.all(promises);
+      return await Promise.all(promises);
     },
 
     _getAgreementsUrl(configUrl) {
@@ -82,20 +84,19 @@
       this._showAgreements = true;
     },
 
-    _handleSaveAgreements(e) {
+    async _handleSaveAgreements(e) {
       this._createToast('Agreement saving...');
 
       const name = this._agreementName;
-      return this.$.restAPI.saveAccountAgreement({name}).then(res => {
-        let message = 'Agreement failed to be submitted, please try again';
-        if (res.status === 200) {
-          message = 'Agreement has been successfully submited.';
-        }
-        this._createToast(message);
-        this.loadData();
-        this._agreementsText = '';
-        this._showAgreements = false;
-      });
+      const res = await this.$.restAPI.saveAccountAgreement({name});
+      let message = 'Agreement failed to be submitted, please try again';
+      if (res.status === 200) {
+        message = 'Agreement has been successfully submited.';
+      }
+      this._createToast(message);
+      this._agreementsText = '';
+      this._showAgreements = false;
+      await this.loadData();
     },
 
     _createToast(message) {

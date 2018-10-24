@@ -122,18 +122,18 @@ limitations under the License.
       return promise;
     }
 
-    test('fires the close event on close', done => {
-      close().then(done);
+    test('fires the close event on close', async () => {
+      await close();
     });
 
-    test('fires the close event on save', done => {
-      close(() => {
+    test('fires the close event on save', async () => {
+      await close(() => {
         MockInteractions.tap(element.$.saveButton);
-      }).then(done);
+      });
     });
 
     test('saves account details', done => {
-      flush(() => {
+      flush(async () => {
         element.$.name.value = 'new name';
         element.$.username.value = 'new username';
         element.$.email.value = 'email3';
@@ -144,11 +144,11 @@ limitations under the License.
         assert.equal(account.email, 'email');
 
         // Save and verify new values are committed.
-        save().then(() => {
-          assert.equal(account.name, 'new name');
-          assert.equal(account.username, 'new username');
-          assert.equal(account.email, 'email3');
-        }).then(done);
+        await save();
+        assert.equal(account.name, 'new name');
+        assert.equal(account.username, 'new username');
+        assert.equal(account.email, 'email3');
+        done();
       });
     });
 

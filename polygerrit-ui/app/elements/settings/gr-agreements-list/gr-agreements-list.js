@@ -32,10 +32,8 @@
       this.loadData();
     },
 
-    loadData() {
-      return this.$.restAPI.getAccountAgreements().then(agreements => {
-        this._agreements = agreements;
-      });
+    async loadData() {
+      this._agreements = await this.$.restAPI.getAccountAgreements();
     },
 
     getUrl() {

@@ -83,7 +83,7 @@ limitations under the License.
       });
     });
 
-    test('decoration', () => {
+    test('decoration', async () => {
       const element =
           container.querySelector('gr-endpoint-decorator[name="first"]');
       const modules = Polymer.dom(element.root).children.filter(
@@ -92,27 +92,23 @@ limitations under the License.
       const [module] = modules;
       assert.isOk(module);
       assert.equal(module['someparam'], 'barbar');
-      return decorationHook.getLastAttached().then(element => {
-        assert.strictEqual(element, module);
-      }).then(() => {
-        element.remove();
-        assert.equal(decorationHook.getAllAttached().length, 0);
-      });
+      const lastAttachedElement = await decorationHook.getLastAttached();
+      assert.strictEqual(lastAttachedElement, module);
+      element.remove();
+      assert.equal(decorationHook.getAllAttached().length, 0);
     });
 
-    test('replacement', () => {
+    test('replacement', async () => {
       const element =
           container.querySelector('gr-endpoint-decorator[name="second"]');
       const module = Polymer.dom(element.root).children.find(
           element => element.nodeName === 'OTHER-MODULE');
       assert.isOk(module);
       assert.equal(module['someparam'], 'foofoo');
-      return replacementHook.getLastAttached().then(element => {
-        assert.strictEqual(element, module);
-      }).then(() => {
-        element.remove();
-        assert.equal(replacementHook.getAllAttached().length, 0);
-      });
+      const lastAttachedElement = await replacementHook.getLastAttached();
+      assert.strictEqual(lastAttachedElement, module);
+      element.remove();
+      assert.equal(replacementHook.getAllAttached().length, 0);
     });
 
     test('late registration', done => {

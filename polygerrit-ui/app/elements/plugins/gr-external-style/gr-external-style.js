@@ -48,23 +48,22 @@
       Polymer.dom(this.root).appendChild(s);
     },
 
-    _importAndApply() {
-      Promise.all(Gerrit._endpoints.getPlugins(this.name).map(
-          pluginUrl => this._import(pluginUrl))
-      ).then(() => {
-        const moduleNames = Gerrit._endpoints.getModules(this.name);
-        for (const name of moduleNames) {
-          this._applyStyle(name);
-        }
-      });
+    async _importAndApply() {
+      await Promise.all(Gerrit._endpoints.getPlugins(this.name).map(
+          pluginUrl => this._import(pluginUrl)));
+      const moduleNames = Gerrit._endpoints.getModules(this.name);
+      for (const name of moduleNames) {
+        this._applyStyle(name);
+      }
     },
 
     attached() {
       this._importAndApply();
     },
 
-    ready() {
-      Gerrit.awaitPluginsLoaded().then(() => this._importAndApply());
+    async ready() {
+      await Gerrit.awaitPluginsLoaded();
+      this._importAndApply();
     },
   });
 })();

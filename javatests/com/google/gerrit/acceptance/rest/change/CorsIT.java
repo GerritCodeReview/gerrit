@@ -34,6 +34,7 @@ import com.google.common.truth.StringSubject;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -44,6 +45,7 @@ import java.util.Locale;
 import java.util.stream.Stream;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.cookie.Cookie;
@@ -96,6 +98,30 @@ public class CorsIT extends AbstractDaemonTest {
 
     check(url, false, "http://evil.attacker");
     check(url, false, "http://friendsly");
+  }
+
+  @Test
+  public void originsOnNotFoundException() throws Exception {
+    String url = "/changes/999/detail";
+    check(url, true, "http://example.com", adminRestSession, 404);
+    check(url, false, "http://friendsly", adminRestSession, 404);
+  }
+
+  @Test
+  public void originsOnBadRequestException() throws Exception {
+    String url = "/config/server/caches/?format=NONSENSE";
+    check(url, true, "http://example.com", adminRestSession, 400);
+    check(url, false, "http://friendsly", adminRestSession, 400);
+  }
+
+  @Test
+  public void originsOnForbidden() throws Exception {
+    Result change = createChange();
+    // Make change private to hide it
+    gApi.changes().id(change.getChangeId()).setPrivate(true, "now private");
+    String url = "/changes/" + change.getChangeId() + "/detail";
+    check(url, true, "http://example.com", anonymousRestSession, 404);
+    check(url, false, "http://friendsly", anonymousRestSession, 404);
   }
 
   @Test
@@ -247,9 +273,15 @@ public class CorsIT extends AbstractDaemonTest {
   }
 
   private void check(String url, boolean accept, String origin) throws Exception {
+    check(url, accept, origin, adminRestSession, HttpStatus.SC_OK);
+  }
+
+  private void check(
+      String url, boolean accept, String origin, RestSession restSession, int httpStatusCode)
+      throws Exception {
     Header hdr = new BasicHeader(ORIGIN, origin);
-    RestResponse r = adminRestSession.getWithHeader(url, hdr);
-    r.assertOK();
+    RestResponse r = restSession.getWithHeader(url, hdr);
+    r.assertStatus(httpStatusCode);
     checkCors(r, accept, origin);
   }
 

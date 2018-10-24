@@ -79,37 +79,35 @@ suite('gr-edit-controls tests', () => {
       assert.isTrue(element._isValidPath('test.js'));
     });
 
-    test('open', () => {
+    test('open', async () => {
       MockInteractions.tap(element.$$('#open'));
       element.patchNum = 1;
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element._hideAllDialogs.called);
-        assert.isTrue(element.$.openDialog.disabled);
-        assert.isFalse(queryStub.called);
-        openAutoCcmplete.noDebounce = true;
-        openAutoCcmplete.text = 'src/test.cpp';
-        assert.isTrue(queryStub.called);
-        assert.isFalse(element.$.openDialog.disabled);
-        MockInteractions.tap(element.$.openDialog.$$('gr-button[primary]'));
-        for (const stub of navStubs) { assert.isTrue(stub.called); }
-        assert.deepEqual(Gerrit.Nav.getEditUrlForDiff.lastCall.args,
-            [element.change, 'src/test.cpp', element.patchNum]);
-        assert.isTrue(closeDialogSpy.called);
-      });
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element._hideAllDialogs.called);
+      assert.isTrue(element.$.openDialog.disabled);
+      assert.isFalse(queryStub.called);
+      openAutoCcmplete.noDebounce = true;
+      openAutoCcmplete.text = 'src/test.cpp';
+      assert.isTrue(queryStub.called);
+      assert.isFalse(element.$.openDialog.disabled);
+      MockInteractions.tap(element.$.openDialog.$$('gr-button[primary]'));
+      for (const stub of navStubs) { assert.isTrue(stub.called); }
+      assert.deepEqual(Gerrit.Nav.getEditUrlForDiff.lastCall.args,
+          [element.change, 'src/test.cpp', element.patchNum]);
+      assert.isTrue(closeDialogSpy.called);
     });
 
-    test('cancel', () => {
+    test('cancel', async () => {
       MockInteractions.tap(element.$$('#open'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.openDialog.disabled);
-        openAutoCcmplete.noDebounce = true;
-        openAutoCcmplete.text = 'src/test.cpp';
-        assert.isFalse(element.$.openDialog.disabled);
-        MockInteractions.tap(element.$.openDialog.$$('gr-button'));
-        for (const stub of navStubs) { assert.isFalse(stub.called); }
-        assert.isTrue(closeDialogSpy.called);
-        assert.equal(element._path, 'src/test.cpp');
-      });
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element.$.openDialog.disabled);
+      openAutoCcmplete.noDebounce = true;
+      openAutoCcmplete.text = 'src/test.cpp';
+      assert.isFalse(element.$.openDialog.disabled);
+      MockInteractions.tap(element.$.openDialog.$$('gr-button'));
+      for (const stub of navStubs) { assert.isFalse(stub.called); }
+      assert.isTrue(closeDialogSpy.called);
+      assert.equal(element._path, 'src/test.cpp');
     });
   });
 
@@ -125,63 +123,58 @@ suite('gr-edit-controls tests', () => {
           element.$.deleteDialog.querySelector('gr-autocomplete');
     });
 
-    test('delete', () => {
+    test('delete', async () => {
       deleteStub.returns(Promise.resolve({ok: true}));
       MockInteractions.tap(element.$$('#delete'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.deleteDialog.disabled);
-        assert.isFalse(queryStub.called);
-        deleteAutocomplete.noDebounce = true;
-        deleteAutocomplete.text = 'src/test.cpp';
-        assert.isTrue(queryStub.called);
-        assert.isFalse(element.$.deleteDialog.disabled);
-        MockInteractions.tap(element.$.deleteDialog.$$('gr-button[primary]'));
-        flushAsynchronousOperations();
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element.$.deleteDialog.disabled);
+      assert.isFalse(queryStub.called);
+      deleteAutocomplete.noDebounce = true;
+      deleteAutocomplete.text = 'src/test.cpp';
+      assert.isTrue(queryStub.called);
+      assert.isFalse(element.$.deleteDialog.disabled);
+      MockInteractions.tap(element.$.deleteDialog.$$('gr-button[primary]'));
+      flushAsynchronousOperations();
 
-        assert.isTrue(deleteStub.called);
+      assert.isTrue(deleteStub.called);
 
-        return deleteStub.lastCall.returnValue.then(() => {
-          assert.equal(element._path, '');
-          assert.isTrue(navStub.called);
-          assert.isTrue(closeDialogSpy.called);
-        });
-      });
+      await deleteStub.lastCall.returnValue;
+      assert.equal(element._path, '');
+      assert.isTrue(navStub.called);
+      assert.isTrue(closeDialogSpy.called);
     });
 
-    test('delete fails', () => {
+    test('delete fails', async () => {
       deleteStub.returns(Promise.resolve({ok: false}));
       MockInteractions.tap(element.$$('#delete'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.deleteDialog.disabled);
-        assert.isFalse(queryStub.called);
-        deleteAutocomplete.noDebounce = true;
-        deleteAutocomplete.text = 'src/test.cpp';
-        assert.isTrue(queryStub.called);
-        assert.isFalse(element.$.deleteDialog.disabled);
-        MockInteractions.tap(element.$.deleteDialog.$$('gr-button[primary]'));
-        flushAsynchronousOperations();
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element.$.deleteDialog.disabled);
+      assert.isFalse(queryStub.called);
+      deleteAutocomplete.noDebounce = true;
+      deleteAutocomplete.text = 'src/test.cpp';
+      assert.isTrue(queryStub.called);
+      assert.isFalse(element.$.deleteDialog.disabled);
+      MockInteractions.tap(element.$.deleteDialog.$$('gr-button[primary]'));
+      flushAsynchronousOperations();
 
-        assert.isTrue(deleteStub.called);
+      assert.isTrue(deleteStub.called);
 
-        return deleteStub.lastCall.returnValue.then(() => {
-          assert.isFalse(navStub.called);
-          assert.isFalse(closeDialogSpy.called);
-        });
-      });
+      await deleteStub.lastCall.returnValue;
+      assert.isFalse(navStub.called);
+      assert.isFalse(closeDialogSpy.called);
     });
 
-    test('cancel', () => {
+    test('cancel', async () => {
       MockInteractions.tap(element.$$('#delete'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.deleteDialog.disabled);
-        element.$.deleteDialog.querySelector('gr-autocomplete').text =
-            'src/test.cpp';
-        assert.isFalse(element.$.deleteDialog.disabled);
-        MockInteractions.tap(element.$.deleteDialog.$$('gr-button'));
-        assert.isFalse(navStub.called);
-        assert.isTrue(closeDialogSpy.called);
-        assert.equal(element._path, 'src/test.cpp');
-      });
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element.$.deleteDialog.disabled);
+      element.$.deleteDialog.querySelector('gr-autocomplete').text =
+          'src/test.cpp';
+      assert.isFalse(element.$.deleteDialog.disabled);
+      MockInteractions.tap(element.$.deleteDialog.$$('gr-button'));
+      assert.isFalse(navStub.called);
+      assert.isTrue(closeDialogSpy.called);
+      assert.equal(element._path, 'src/test.cpp');
     });
   });
 
@@ -197,76 +190,71 @@ suite('gr-edit-controls tests', () => {
           element.$.renameDialog.querySelector('gr-autocomplete');
     });
 
-    test('rename', () => {
+    test('rename', async () => {
       renameStub.returns(Promise.resolve({ok: true}));
       MockInteractions.tap(element.$$('#rename'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.renameDialog.disabled);
-        assert.isFalse(queryStub.called);
-        renameAutocomplete.noDebounce = true;
-        renameAutocomplete.text = 'src/test.cpp';
-        assert.isTrue(queryStub.called);
-        assert.isTrue(element.$.renameDialog.disabled);
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element.$.renameDialog.disabled);
+      assert.isFalse(queryStub.called);
+      renameAutocomplete.noDebounce = true;
+      renameAutocomplete.text = 'src/test.cpp';
+      assert.isTrue(queryStub.called);
+      assert.isTrue(element.$.renameDialog.disabled);
 
-        element.$.renameDialog.querySelector('.newPathInput').bindValue =
-            'src/test.newPath';
+      element.$.renameDialog.querySelector('.newPathInput').bindValue =
+          'src/test.newPath';
 
-        assert.isFalse(element.$.renameDialog.disabled);
-        MockInteractions.tap(element.$.renameDialog.$$('gr-button[primary]'));
-        flushAsynchronousOperations();
+      assert.isFalse(element.$.renameDialog.disabled);
+      MockInteractions.tap(element.$.renameDialog.$$('gr-button[primary]'));
+      flushAsynchronousOperations();
 
-        assert.isTrue(renameStub.called);
+      assert.isTrue(renameStub.called);
 
-        return renameStub.lastCall.returnValue.then(() => {
-          assert.equal(element._path, '');
-          assert.isTrue(navStub.called);
-          assert.isTrue(closeDialogSpy.called);
-        });
-      });
+      await renameStub.lastCall.returnValue;
+      assert.equal(element._path, '');
+      assert.isTrue(navStub.called);
+      assert.isTrue(closeDialogSpy.called);
     });
 
-    test('rename fails', () => {
+    test('rename fails', async () => {
       renameStub.returns(Promise.resolve({ok: false}));
       MockInteractions.tap(element.$$('#rename'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.renameDialog.disabled);
-        assert.isFalse(queryStub.called);
-        renameAutocomplete.noDebounce = true;
-        renameAutocomplete.text = 'src/test.cpp';
-        assert.isTrue(queryStub.called);
-        assert.isTrue(element.$.renameDialog.disabled);
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element.$.renameDialog.disabled);
+      assert.isFalse(queryStub.called);
+      renameAutocomplete.noDebounce = true;
+      renameAutocomplete.text = 'src/test.cpp';
+      assert.isTrue(queryStub.called);
+      assert.isTrue(element.$.renameDialog.disabled);
 
-        element.$.renameDialog.querySelector('.newPathInput').bindValue =
-            'src/test.newPath';
+      element.$.renameDialog.querySelector('.newPathInput').bindValue =
+          'src/test.newPath';
 
-        assert.isFalse(element.$.renameDialog.disabled);
-        MockInteractions.tap(element.$.renameDialog.$$('gr-button[primary]'));
-        flushAsynchronousOperations();
+      assert.isFalse(element.$.renameDialog.disabled);
+      MockInteractions.tap(element.$.renameDialog.$$('gr-button[primary]'));
+      flushAsynchronousOperations();
 
-        assert.isTrue(renameStub.called);
+      assert.isTrue(renameStub.called);
 
-        return renameStub.lastCall.returnValue.then(() => {
-          assert.isFalse(navStub.called);
-          assert.isFalse(closeDialogSpy.called);
-        });
-      });
+      await renameStub.lastCall.returnValue;
+      assert.isFalse(navStub.called);
+      assert.isFalse(closeDialogSpy.called);
     });
 
-    test('cancel', () => {
+    test('cancel', async () => {
       MockInteractions.tap(element.$$('#rename'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.renameDialog.disabled);
-        element.$.renameDialog.querySelector('gr-autocomplete').text =
-            'src/test.cpp';
-        element.$.renameDialog.querySelector('.newPathInput').bindValue =
-            'src/test.newPath';
-        assert.isFalse(element.$.renameDialog.disabled);
-        MockInteractions.tap(element.$.renameDialog.$$('gr-button'));
-        assert.isFalse(navStub.called);
-        assert.isTrue(closeDialogSpy.called);
-        assert.equal(element._path, 'src/test.cpp');
-        assert.equal(element._newPath, 'src/test.newPath');
-      });
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element.$.renameDialog.disabled);
+      element.$.renameDialog.querySelector('gr-autocomplete').text =
+          'src/test.cpp';
+      element.$.renameDialog.querySelector('.newPathInput').bindValue =
+          'src/test.newPath';
+      assert.isFalse(element.$.renameDialog.disabled);
+      MockInteractions.tap(element.$.renameDialog.$$('gr-button'));
+      assert.isFalse(navStub.called);
+      assert.isTrue(closeDialogSpy.called);
+      assert.equal(element._path, 'src/test.cpp');
+      assert.equal(element._newPath, 'src/test.newPath');
     });
   });
 
@@ -283,59 +271,53 @@ suite('gr-edit-controls tests', () => {
       assert.isTrue(element.$$('#restore').classList.contains('invisible'));
     });
 
-    test('restore', () => {
+    test('restore', async () => {
       restoreStub.returns(Promise.resolve({ok: true}));
       element._path = 'src/test.cpp';
       MockInteractions.tap(element.$$('#restore'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        MockInteractions.tap(element.$.restoreDialog.$$('gr-button[primary]'));
-        flushAsynchronousOperations();
+      await showDialogSpy.lastCall.returnValue;
+      MockInteractions.tap(element.$.restoreDialog.$$('gr-button[primary]'));
+      flushAsynchronousOperations();
 
-        assert.isTrue(restoreStub.called);
-        assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
-        return restoreStub.lastCall.returnValue.then(() => {
-          assert.equal(element._path, '');
-          assert.isTrue(navStub.called);
-          assert.isTrue(closeDialogSpy.called);
-        });
-      });
+      assert.isTrue(restoreStub.called);
+      assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
+      await restoreStub.lastCall.returnValue;
+      assert.equal(element._path, '');
+      assert.isTrue(navStub.called);
+      assert.isTrue(closeDialogSpy.called);
     });
 
-    test('restore fails', () => {
+    test('restore fails', async () => {
       restoreStub.returns(Promise.resolve({ok: false}));
       element._path = 'src/test.cpp';
       MockInteractions.tap(element.$$('#restore'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        MockInteractions.tap(element.$.restoreDialog.$$('gr-button[primary]'));
-        flushAsynchronousOperations();
+      await showDialogSpy.lastCall.returnValue;
+      MockInteractions.tap(element.$.restoreDialog.$$('gr-button[primary]'));
+      flushAsynchronousOperations();
 
-        assert.isTrue(restoreStub.called);
-        assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
-        return restoreStub.lastCall.returnValue.then(() => {
-          assert.isFalse(navStub.called);
-          assert.isFalse(closeDialogSpy.called);
-        });
-      });
+      assert.isTrue(restoreStub.called);
+      assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
+      await restoreStub.lastCall.returnValue;
+      assert.isFalse(navStub.called);
+      assert.isFalse(closeDialogSpy.called);
     });
 
-    test('cancel', () => {
+    test('cancel', async () => {
       element._path = 'src/test.cpp';
       MockInteractions.tap(element.$$('#restore'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        MockInteractions.tap(element.$.restoreDialog.$$('gr-button'));
-        assert.isFalse(navStub.called);
-        assert.isTrue(closeDialogSpy.called);
-        assert.equal(element._path, 'src/test.cpp');
-      });
+      await showDialogSpy.lastCall.returnValue;
+      MockInteractions.tap(element.$.restoreDialog.$$('gr-button'));
+      assert.isFalse(navStub.called);
+      assert.isTrue(closeDialogSpy.called);
+      assert.equal(element._path, 'src/test.cpp');
     });
   });
 
-  test('openOpenDialog', () => {
-    return element.openOpenDialog('test/path.cpp').then(() => {
-      assert.isFalse(element.$.openDialog.hasAttribute('hidden'));
-      assert.equal(element.$.openDialog.querySelector('gr-autocomplete').text,
-          'test/path.cpp');
-    });
+  test('openOpenDialog', async () => {
+    await element.openOpenDialog('test/path.cpp');
+    assert.isFalse(element.$.openDialog.hasAttribute('hidden'));
+    assert.equal(element.$.openDialog.querySelector('gr-autocomplete').text,
+        'test/path.cpp');
   });
 
   test('_getDialogFromEvent', () => {

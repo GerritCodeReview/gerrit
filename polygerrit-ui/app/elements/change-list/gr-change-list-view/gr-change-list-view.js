@@ -134,7 +134,7 @@
       this._loadPreferences();
     },
 
-    _paramsChanged(value) {
+    async _paramsChanged(value) {
       if (value.view !== Gerrit.Nav.View.SEARCH) { return; }
 
       this._loading = true;
@@ -151,36 +151,30 @@
       // in an async so that attachment to the DOM can take place first.
       this.async(() => this.fire('title-change', {title: this._query}));
 
-      this._getPreferences().then(prefs => {
-        this._changesPerPage = prefs.changes_per_page;
-        return this._getChanges();
-      }).then(changes => {
-        changes = changes || [];
-        if (this._query && changes.length === 1) {
-          for (const query in LookupQueryPatterns) {
-            if (LookupQueryPatterns.hasOwnProperty(query) &&
-                this._query.match(LookupQueryPatterns[query])) {
-              this._replaceCurrentLocation(
-                  Gerrit.Nav.getUrlForChange(changes[0]));
-              return;
-            }
+      const prefs = await this._getPreferences();
+      this._changesPerPage = prefs.changes_per_page;
+      const changes = (await this._getChanges()) || [];
+      if (this._query && changes.length === 1) {
+        for (const query in LookupQueryPatterns) {
+          if (LookupQueryPatterns.hasOwnProperty(query) &&
+              this._query.match(LookupQueryPatterns[query])) {
+            this._replaceCurrentLocation(
+                Gerrit.Nav.getUrlForChange(changes[0]));
+            return;
           }
         }
-        this._changes = changes;
-        this._loading = false;
-      });
+      }
+      this._changes = changes;
+      this._loading = false;
     },
 
-    _loadPreferences() {
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          this._getPreferences().then(preferences => {
-            this.preferences = preferences;
-          });
-        } else {
-          this.preferences = {};
-        }
-      });
+    async _loadPreferences() {
+      const loggedIn = await this.$.restAPI.getLoggedIn();
+      if (loggedIn) {
+        this.preferences = await this._getPreferences();
+      } else {
+        this.preferences = {};
+      }
     },
 
     _replaceCurrentLocation(url) {

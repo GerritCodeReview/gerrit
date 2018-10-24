@@ -44,6 +44,7 @@ import java.util.Locale;
 import java.util.stream.Stream;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.cookie.Cookie;
@@ -96,6 +97,20 @@ public class CorsIT extends AbstractDaemonTest {
 
     check(url, false, "http://evil.attacker");
     check(url, false, "http://friendsly");
+  }
+
+  @Test
+  public void originsOnNotFoundException() throws Exception {
+    String url = "/changes/999/detail";
+    check(url, true, "http://example.com", 404);
+    check(url, false, "http://friendsly", 404);
+  }
+
+  @Test
+  public void originsOnBadRequestException() throws Exception {
+    String url = "/config/server/caches/?format=NONSENSE";
+    check(url, true, "http://example.com", 400);
+    check(url, false, "http://friendsly", 400);
   }
 
   @Test
@@ -247,9 +262,14 @@ public class CorsIT extends AbstractDaemonTest {
   }
 
   private void check(String url, boolean accept, String origin) throws Exception {
+    check(url, accept, origin, HttpStatus.SC_OK);
+  }
+
+  private void check(String url, boolean accept, String origin, int httpStatusCode)
+      throws Exception {
     Header hdr = new BasicHeader(ORIGIN, origin);
     RestResponse r = adminRestSession.getWithHeader(url, hdr);
-    r.assertOK();
+    r.assertStatus(httpStatusCode);
     checkCors(r, accept, origin);
   }
 

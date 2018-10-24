@@ -29,6 +29,7 @@
       this._requestAnimationFrame(this._detect.bind(this));
     },
 
+    // eslint-disable-next-line promise/prefer-await-to-callbacks
     _requestAnimationFrame(callback) {
       window.requestAnimationFrame(callback);
     },

@@ -100,57 +100,43 @@ limitations under the License.
     });
 
     suite('_getSearchSuggestions', () => {
-      test('Autocompletes accounts', () => {
-        sandbox.stub(element, 'accountSuggestions', () =>
-          Promise.resolve([{text: 'owner:fred@goog.co'}])
-        );
-        return element._getSearchSuggestions('owner:fr').then(s => {
-          assert.equal(s[0].value, 'owner:fred@goog.co');
-        });
+      test('Autocompletes accounts', async () => {
+        sandbox.stub(element, 'accountSuggestions',
+            async () => [{text: 'owner:fred@goog.co'}]);
+        const s = await element._getSearchSuggestions('owner:fr');
+        assert.equal(s[0].value, 'owner:fred@goog.co');
       });
 
-      test('Autocompletes groups', done => {
-        sandbox.stub(element, 'groupSuggestions', () =>
-          Promise.resolve([
-            {text: 'ownerin:Polygerrit'},
-            {text: 'ownerin:gerrit'},
-          ])
-        );
-        element._getSearchSuggestions('ownerin:pol').then(s => {
-          assert.equal(s[0].value, 'ownerin:Polygerrit');
-          done();
-        });
+      test('Autocompletes groups', async () => {
+        sandbox.stub(element, 'groupSuggestions', async () => [
+          {text: 'ownerin:Polygerrit'},
+          {text: 'ownerin:gerrit'},
+        ]);
+        const s = await element._getSearchSuggestions('ownerin:pol');
+        assert.equal(s[0].value, 'ownerin:Polygerrit');
       });
 
-      test('Autocompletes projects', done => {
-        sandbox.stub(element, 'projectSuggestions', () =>
-          Promise.resolve([
-            {text: 'project:Polygerrit'},
-            {text: 'project:gerrit'},
-            {text: 'project:gerrittest'},
-          ])
-        );
-        element._getSearchSuggestions('project:pol').then(s => {
-          assert.equal(s[0].value, 'project:Polygerrit');
-          done();
-        });
+      test('Autocompletes projects', async () => {
+        sandbox.stub(element, 'projectSuggestions', async () => [
+          {text: 'project:Polygerrit'},
+          {text: 'project:gerrit'},
+          {text: 'project:gerrittest'},
+        ]);
+        const s = await element._getSearchSuggestions('project:pol');
+        assert.equal(s[0].value, 'project:Polygerrit');
       });
 
-      test('Autocompletes simple searches', done => {
-        element._getSearchSuggestions('is:o').then(s => {
-          assert.equal(s[0].name, 'is:open');
-          assert.equal(s[0].value, 'is:open');
-          assert.equal(s[1].name, 'is:owner');
-          assert.equal(s[1].value, 'is:owner');
-          done();
-        });
+      test('Autocompletes simple searches', async () => {
+        const s = await element._getSearchSuggestions('is:o');
+        assert.equal(s[0].name, 'is:open');
+        assert.equal(s[0].value, 'is:open');
+        assert.equal(s[1].name, 'is:owner');
+        assert.equal(s[1].value, 'is:owner');
       });
 
-      test('Does not autocomplete with no match', done => {
-        element._getSearchSuggestions('asdasdasdasd').then(s => {
-          assert.equal(s.length, 0);
-          done();
-        });
+      test('Does not autocomplete with no match', async () => {
+        const s = await element._getSearchSuggestions('asdasdasdasd');
+        assert.equal(s.length, 0);
       });
     });
   });

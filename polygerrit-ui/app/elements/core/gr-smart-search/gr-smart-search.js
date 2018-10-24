@@ -51,10 +51,8 @@
       Gerrit.AnonymousNameBehavior,
     ],
 
-    attached() {
-      this.$.restAPI.getConfig().then(cfg => {
-        this._config = cfg;
-      });
+    async attached() {
+      this._config = await this.$.restAPI.getConfig();
     },
 
     _handleSearch(e) {
@@ -77,15 +75,13 @@
      * @return {!Promise} This returns a promise that resolves to an array of
      *     strings.
      */
-    _fetchProjects(predicate, expression) {
-      return this.$.restAPI.getSuggestedProjects(
+    async _fetchProjects(predicate, expression) {
+      const projects = await this.$.restAPI.getSuggestedProjects(
           expression,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(projects => {
-            if (!projects) { return []; }
-            const keys = Object.keys(projects);
-            return keys.map(key => ({text: predicate + ':' + key}));
-          });
+          MAX_AUTOCOMPLETE_RESULTS);
+      if (!projects) { return []; }
+      const keys = Object.keys(projects);
+      return keys.map(key => ({text: predicate + ':' + key}));
     },
 
     /**
@@ -97,16 +93,14 @@
      * @return {!Promise} This returns a promise that resolves to an array of
      *     strings.
      */
-    _fetchGroups(predicate, expression) {
-      if (expression.length === 0) { return Promise.resolve([]); }
-      return this.$.restAPI.getSuggestedGroups(
+    async _fetchGroups(predicate, expression) {
+      if (expression.length === 0) { return []; }
+      const groups = await this.$.restAPI.getSuggestedGroups(
           expression,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(groups => {
-            if (!groups) { return []; }
-            const keys = Object.keys(groups);
-            return keys.map(key => ({text: predicate + ':' + key}));
-          });
+          MAX_AUTOCOMPLETE_RESULTS);
+      if (!groups) { return []; }
+      const keys = Object.keys(groups);
+      return keys.map(key => ({text: predicate + ':' + key}));
     },
 
     /**
@@ -118,26 +112,24 @@
      * @return {!Promise} This returns a promise that resolves to an array of
      *     strings.
      */
-    _fetchAccounts(predicate, expression) {
-      if (expression.length === 0) { return Promise.resolve([]); }
-      return this.$.restAPI.getSuggestedAccounts(
+    async _fetchAccounts(predicate, expression) {
+      if (expression.length === 0) { return []; }
+      const suggestions = await this.$.restAPI.getSuggestedAccounts(
           expression,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(accounts => {
-            if (!accounts) { return []; }
-            return this._mapAccountsHelper(accounts, predicate);
-          }).then(accounts => {
-            // When the expression supplied is a beginning substring of 'self',
-            // add it as an autocomplete option.
-            if (SELF_EXPRESSION.startsWith(expression)) {
-              return accounts.concat(
-                  [{text: predicate + ':' + SELF_EXPRESSION}]);
-            } else if (ME_EXPRESSION.startsWith(expression)) {
-              return accounts.concat([{text: predicate + ':' + ME_EXPRESSION}]);
-            } else {
-              return accounts;
-            }
-          });
+          MAX_AUTOCOMPLETE_RESULTS);
+      if (!suggestions) { return []; }
+
+      const accounts = this._mapAccountsHelper(suggestions, predicate);
+      // When the expression supplied is a beginning substring of 'self',
+      // add it as an autocomplete option.
+      if (SELF_EXPRESSION.startsWith(expression)) {
+        return accounts.concat(
+            [{text: predicate + ':' + SELF_EXPRESSION}]);
+      } else if (ME_EXPRESSION.startsWith(expression)) {
+        return accounts.concat([{text: predicate + ':' + ME_EXPRESSION}]);
+      } else {
+        return accounts;
+      }
     },
 
     _mapAccountsHelper(accounts, predicate) {

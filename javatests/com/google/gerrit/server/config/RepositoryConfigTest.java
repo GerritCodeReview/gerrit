@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.reviewdb.client.Project;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -41,35 +41,35 @@ public class RepositoryConfigTest {
   @Test
   public void defaultSubmitTypeWhenNotConfigured() {
     // Check expected value explicitly rather than depending on constant.
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new Project.NameKey("someProject")))
         .isEqualTo(SubmitType.INHERIT);
   }
 
   @Test
   public void defaultSubmitTypeForStarFilter() {
     configureDefaultSubmitType("*", SubmitType.CHERRY_PICK);
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new Project.NameKey("someProject")))
         .isEqualTo(SubmitType.CHERRY_PICK);
 
     configureDefaultSubmitType("*", SubmitType.FAST_FORWARD_ONLY);
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new Project.NameKey("someProject")))
         .isEqualTo(SubmitType.FAST_FORWARD_ONLY);
 
     configureDefaultSubmitType("*", SubmitType.REBASE_IF_NECESSARY);
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new Project.NameKey("someProject")))
         .isEqualTo(SubmitType.REBASE_IF_NECESSARY);
 
     configureDefaultSubmitType("*", SubmitType.REBASE_ALWAYS);
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new Project.NameKey("someProject")))
         .isEqualTo(SubmitType.REBASE_ALWAYS);
   }
 
   @Test
   public void defaultSubmitTypeForSpecificFilter() {
     configureDefaultSubmitType("someProject", SubmitType.CHERRY_PICK);
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("someOtherProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new Project.NameKey("someOtherProject")))
         .isEqualTo(RepositoryConfig.DEFAULT_SUBMIT_TYPE);
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new Project.NameKey("someProject")))
         .isEqualTo(SubmitType.CHERRY_PICK);
   }
 
@@ -79,13 +79,13 @@ public class RepositoryConfigTest {
     configureDefaultSubmitType("somePath/*", SubmitType.CHERRY_PICK);
     configureDefaultSubmitType("*", SubmitType.MERGE_ALWAYS);
 
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new Project.NameKey("someProject")))
         .isEqualTo(SubmitType.MERGE_ALWAYS);
 
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("somePath/someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new Project.NameKey("somePath/someProject")))
         .isEqualTo(SubmitType.CHERRY_PICK);
 
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("somePath/somePath/someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new Project.NameKey("somePath/somePath/someProject")))
         .isEqualTo(SubmitType.REBASE_IF_NECESSARY);
   }
 
@@ -99,14 +99,14 @@ public class RepositoryConfigTest {
 
   @Test
   public void ownerGroupsWhenNotConfigured() {
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEmpty();
+    assertThat(repoCfg.getOwnerGroups(new Project.NameKey("someProject"))).isEmpty();
   }
 
   @Test
   public void ownerGroupsForStarFilter() {
     ImmutableList<String> ownerGroups = ImmutableList.of("group1", "group2");
     configureOwnerGroups("*", ownerGroups);
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
+    assertThat(repoCfg.getOwnerGroups(new Project.NameKey("someProject")))
         .containsExactlyElementsIn(ownerGroups);
   }
 
@@ -114,8 +114,8 @@ public class RepositoryConfigTest {
   public void ownerGroupsForSpecificFilter() {
     ImmutableList<String> ownerGroups = ImmutableList.of("group1", "group2");
     configureOwnerGroups("someProject", ownerGroups);
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someOtherProject"))).isEmpty();
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
+    assertThat(repoCfg.getOwnerGroups(new Project.NameKey("someOtherProject"))).isEmpty();
+    assertThat(repoCfg.getOwnerGroups(new Project.NameKey("someProject")))
         .containsExactlyElementsIn(ownerGroups);
   }
 
@@ -129,13 +129,13 @@ public class RepositoryConfigTest {
     configureOwnerGroups("somePath/*", ownerGroups2);
     configureOwnerGroups("somePath/somePath/*", ownerGroups3);
 
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
+    assertThat(repoCfg.getOwnerGroups(new Project.NameKey("someProject")))
         .containsExactlyElementsIn(ownerGroups1);
 
-    assertThat(repoCfg.getOwnerGroups(new NameKey("somePath/someProject")))
+    assertThat(repoCfg.getOwnerGroups(new Project.NameKey("somePath/someProject")))
         .containsExactlyElementsIn(ownerGroups2);
 
-    assertThat(repoCfg.getOwnerGroups(new NameKey("somePath/somePath/someProject")))
+    assertThat(repoCfg.getOwnerGroups(new Project.NameKey("somePath/somePath/someProject")))
         .containsExactlyElementsIn(ownerGroups3);
   }
 
@@ -149,22 +149,24 @@ public class RepositoryConfigTest {
 
   @Test
   public void basePathWhenNotConfigured() {
-    assertThat(repoCfg.getBasePath(new NameKey("someProject"))).isNull();
+    assertThat(repoCfg.getBasePath(new Project.NameKey("someProject"))).isNull();
   }
 
   @Test
   public void basePathForStarFilter() {
     String basePath = "/someAbsolutePath/someDirectory";
     configureBasePath("*", basePath);
-    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath);
+    assertThat(repoCfg.getBasePath(new Project.NameKey("someProject")).toString())
+        .isEqualTo(basePath);
   }
 
   @Test
   public void basePathForSpecificFilter() {
     String basePath = "/someAbsolutePath/someDirectory";
     configureBasePath("someProject", basePath);
-    assertThat(repoCfg.getBasePath(new NameKey("someOtherProject"))).isNull();
-    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath);
+    assertThat(repoCfg.getBasePath(new Project.NameKey("someOtherProject"))).isNull();
+    assertThat(repoCfg.getBasePath(new Project.NameKey("someProject")).toString())
+        .isEqualTo(basePath);
   }
 
   @Test
@@ -179,12 +181,14 @@ public class RepositoryConfigTest {
     configureBasePath("project/*", basePath3);
     configureBasePath("*", basePath4);
 
-    assertThat(repoCfg.getBasePath(new NameKey("project1")).toString()).isEqualTo(basePath1);
-    assertThat(repoCfg.getBasePath(new NameKey("project/project/someProject")).toString())
+    assertThat(repoCfg.getBasePath(new Project.NameKey("project1")).toString())
+        .isEqualTo(basePath1);
+    assertThat(repoCfg.getBasePath(new Project.NameKey("project/project/someProject")).toString())
         .isEqualTo(basePath2);
-    assertThat(repoCfg.getBasePath(new NameKey("project/someProject")).toString())
+    assertThat(repoCfg.getBasePath(new Project.NameKey("project/someProject")).toString())
         .isEqualTo(basePath3);
-    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath4);
+    assertThat(repoCfg.getBasePath(new Project.NameKey("someProject")).toString())
+        .isEqualTo(basePath4);
   }
 
   @Test

@@ -41,19 +41,18 @@
       _switchAccountUrl: String,
     },
 
-    attached() {
+    async attached() {
       this._handleLocationChange();
       this.listen(window, 'location-change', '_handleLocationChange');
-      this.$.restAPI.getConfig().then(cfg => {
-        this.config = cfg;
 
-        if (cfg && cfg.auth && cfg.auth.switch_account_url) {
-          this._switchAccountUrl = cfg.auth.switch_account_url;
-        } else {
-          this._switchAccountUrl = '';
-        }
-        this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-      });
+      const cfg = await this.$.restAPI.getConfig();
+      this.config = cfg;
+      if (cfg && cfg.auth && cfg.auth.switch_account_url) {
+        this._switchAccountUrl = cfg.auth.switch_account_url;
+      } else {
+        this._switchAccountUrl = '';
+      }
+      this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
     },
 
     behaviors: [

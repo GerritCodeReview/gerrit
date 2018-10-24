@@ -84,7 +84,8 @@
         "behaviors/**",
         "elements/admin/**",
         "elements/change/**",
-        "elements/change-list/**"
+        "elements/change-list/**",
+        "elements/core/**"
       ],
       "rules": {
         "promise/always-return": "error",

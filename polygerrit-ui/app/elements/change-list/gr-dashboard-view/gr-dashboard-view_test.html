@@ -49,13 +49,12 @@ limitations under the License.
       getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges',
           (_, qs) => Promise.resolve(qs.map(() => [])));
 
-      let resolver;
       paramsChangedPromise = new Promise(resolve => {
-        resolver = resolve;
-      });
-      const paramsChanged = element._paramsChanged.bind(element);
-      sandbox.stub(element, '_paramsChanged', params => {
-        paramsChanged(params).then(() => resolver());
+        const paramsChanged = element._paramsChanged.bind(element);
+        sandbox.stub(element, '_paramsChanged', async params => {
+          await paramsChanged(params);
+          resolve();
+        });
       });
     });
 
@@ -158,19 +157,18 @@ limitations under the License.
         assert.equal(getChangesStub.callCount, 0);
       });
 
-      test('content is refreshed when user param is updated', () => {
+      test('content is refreshed when user param is updated', async () => {
         element.params = {
           view: Gerrit.Nav.View.DASHBOARD,
           user: 'self',
         };
-        return paramsChangedPromise.then(() => {
-          assert.equal(getChangesStub.callCount, 1);
-        });
+        await paramsChangedPromise;
+        assert.equal(getChangesStub.callCount, 1);
       });
     });
 
     suite('selfOnly sections', () => {
-      test('viewing self dashboard includes selfOnly sections', () => {
+      test('viewing self dashboard includes selfOnly sections', async () => {
         element.params = {
           view: Gerrit.Nav.View.DASHBOARD,
           sections: [
@@ -179,31 +177,30 @@ limitations under the License.
           ],
           user: 'self',
         };
-        return paramsChangedPromise.then(() => {
-          assert.isTrue(
-              getChangesStub.calledWith(
-                  null, ['1', '2', 'owner:self'], null, element.options));
-        });
+        await paramsChangedPromise;
+        assert.isTrue(
+            getChangesStub.calledWith(
+                null, ['1', '2', 'owner:self'], null, element.options));
       });
 
-      test('viewing another user\'s dashboard omits selfOnly sections', () => {
-        element.params = {
-          view: Gerrit.Nav.View.DASHBOARD,
-          sections: [
-            {query: '1'},
-            {query: '2', selfOnly: true},
-          ],
-          user: 'user',
-        };
-        return paramsChangedPromise.then(() => {
-          assert.isTrue(
-              getChangesStub.calledWith(
-                  null, ['1'], null, element.options));
-        });
-      });
+      test('viewing another user\'s dashboard omits selfOnly sections',
+          async () => {
+            element.params = {
+              view: Gerrit.Nav.View.DASHBOARD,
+              sections: [
+                {query: '1'},
+                {query: '2', selfOnly: true},
+              ],
+              user: 'user',
+            };
+            await paramsChangedPromise;
+            assert.isTrue(
+                getChangesStub.calledWith(
+                    null, ['1'], null, element.options));
+          });
     });
 
-    test('suffixForDashboard is included in getChanges query', () => {
+    test('suffixForDashboard is included in getChanges query', async () => {
       element.params = {
         view: Gerrit.Nav.View.DASHBOARD,
         sections: [
@@ -211,17 +208,16 @@ limitations under the License.
           {query: '2', suffixForDashboard: 'suffix'},
         ],
       };
-      return paramsChangedPromise.then(() => {
-        assert.isTrue(getChangesStub.calledOnce);
-        assert.deepEqual(
-            getChangesStub.firstCall.args,
-            [null, ['1', '2 suffix'], null, element.options]);
-      });
+      await paramsChangedPromise;
+      assert.isTrue(getChangesStub.calledOnce);
+      assert.deepEqual(
+          getChangesStub.firstCall.args,
+          [null, ['1', '2 suffix'], null, element.options]);
     });
 
     suite('_getProjectDashboard', () => {
-      test('dashboard with foreach', () => {
-        sandbox.stub(element.$.restAPI, 'getDashboard', () => Promise.resolve({
+      test('dashboard with foreach', async () => {
+        sandbox.stub(element.$.restAPI, 'getDashboard', async () => ({
           title: 'title',
           // Note: ${project} should not be resolved in foreach!
           foreach: 'foreach for ${project}',
@@ -230,45 +226,43 @@ limitations under the License.
             {name: 'section 2', query: '${project} query 2'},
           ],
         }));
-        return element._getProjectDashboard('project', '').then(dashboard => {
-          assert.deepEqual(
-              dashboard,
-              {
-                title: 'title',
-                sections: [
-                  {name: 'section 1', query: 'query 1 foreach for ${project}'},
-                  {
-                    name: 'section 2',
-                    query: 'project query 2 foreach for ${project}',
-                  },
-                ],
-              });
-        });
+        const dashboard = await element._getProjectDashboard('project', '');
+        assert.deepEqual(
+            dashboard,
+            {
+              title: 'title',
+              sections: [
+                {name: 'section 1', query: 'query 1 foreach for ${project}'},
+                {
+                  name: 'section 2',
+                  query: 'project query 2 foreach for ${project}',
+                },
+              ],
+            });
       });
 
-      test('dashboard without foreach', () => {
-        sandbox.stub(element.$.restAPI, 'getDashboard', () => Promise.resolve({
+      test('dashboard without foreach', async () => {
+        sandbox.stub(element.$.restAPI, 'getDashboard', async () => ({
           title: 'title',
           sections: [
             {name: 'section 1', query: 'query 1'},
             {name: 'section 2', query: '${project} query 2'},
           ],
         }));
-        return element._getProjectDashboard('project', '').then(dashboard => {
-          assert.deepEqual(
-              dashboard,
-              {
-                title: 'title',
-                sections: [
-                  {name: 'section 1', query: 'query 1'},
-                  {name: 'section 2', query: 'project query 2'},
-                ],
-              });
-        });
+        const dashboard = await element._getProjectDashboard('project', '');
+        assert.deepEqual(
+            dashboard,
+            {
+              title: 'title',
+              sections: [
+                {name: 'section 1', query: 'query 1'},
+                {name: 'section 2', query: 'project query 2'},
+              ],
+            });
       });
     });
 
-    test('hideIfEmpty sections', () => {
+    test('hideIfEmpty sections', async () => {
       const sections = [
         {name: 'test1', query: 'test1', hideIfEmpty: true},
         {name: 'test2', query: 'test2', hideIfEmpty: true},
@@ -277,13 +271,12 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getChanges')
           .returns(Promise.resolve([[], ['nonempty']]));
 
-      return element._fetchDashboardChanges({sections}, false).then(() => {
-        assert.equal(element._results.length, 1);
-        assert.equal(element._results[0].name, 'test2');
-      });
+      await element._fetchDashboardChanges({sections}, false);
+      assert.equal(element._results.length, 1);
+      assert.equal(element._results[0].name, 'test2');
     });
 
-    test('preserve isOutgoing sections', () => {
+    test('preserve isOutgoing sections', async () => {
       const sections = [
         {name: 'test1', query: 'test1', isOutgoing: true},
         {name: 'test2', query: 'test2'},
@@ -292,11 +285,10 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getChanges')
           .returns(Promise.resolve([[], []]));
 
-      return element._fetchDashboardChanges({sections}, false).then(() => {
-        assert.equal(element._results.length, 2);
-        assert.isTrue(element._results[0].isOutgoing);
-        assert.isNotOk(element._results[1].isOutgoing);
-      });
+      await element._fetchDashboardChanges({sections}, false);
+      assert.equal(element._results.length, 2);
+      assert.isTrue(element._results[0].isOutgoing);
+      assert.isNotOk(element._results[1].isOutgoing);
     });
 
     test('_showNewUserHelp', () => {
@@ -337,16 +329,15 @@ limitations under the License.
       };
     });
 
-    test('params change triggers dashboardDisplayed()', () => {
+    test('params change triggers dashboardDisplayed()', async () => {
       sandbox.stub(element.$.reporting, 'dashboardDisplayed');
       element.params = {
         view: Gerrit.Nav.View.DASHBOARD,
         project: 'project',
         dashboard: 'dashboard',
       };
-      return paramsChangedPromise.then(() => {
-        assert.isTrue(element.$.reporting.dashboardDisplayed.calledOnce);
-      });
+      await paramsChangedPromise;
+      assert.isTrue(element.$.reporting.dashboardDisplayed.calledOnce);
     });
   });
 </script>

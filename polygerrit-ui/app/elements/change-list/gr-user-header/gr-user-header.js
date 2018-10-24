@@ -51,19 +51,15 @@
       },
     },
 
-    _accountChanged(userId) {
+    async _accountChanged(userId) {
       if (!userId) {
         this._accountDetails = null;
         this._status = null;
         return;
       }
 
-      this.$.restAPI.getAccountDetails(userId).then(details => {
-        this._accountDetails = details;
-      });
-      this.$.restAPI.getAccountStatus(userId).then(status => {
-        this._status = status;
-      });
+      this._accountDetails = await this.$.restAPI.getAccountDetails(userId);
+      this._status = await this.$.restAPI.getAccountStatus(userId);
     },
 
     _computeDisplayClass(status) {

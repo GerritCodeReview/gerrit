@@ -90,40 +90,36 @@
       this._loadPreferences();
     },
 
-    _loadPreferences() {
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          this.$.restAPI.getPreferences().then(preferences => {
-            this.preferences = preferences;
-          });
-        } else {
-          this.preferences = {};
-        }
-      });
+    async _loadPreferences() {
+      const loggedIn = await this.$.restAPI.getLoggedIn();
+      if (loggedIn) {
+        this.preferences = await this.$.restAPI.getPreferences();
+      } else {
+        this.preferences = {};
+      }
     },
 
-    _getProjectDashboard(project, dashboard) {
+    async _getProjectDashboard(project, dashboard) {
       const errFn = response => {
         this.fire('page-error', {response});
       };
-      return this.$.restAPI.getDashboard(
-          project, dashboard, errFn).then(response => {
-            if (!response) {
-              return;
-            }
-            return {
-              title: response.title,
-              sections: response.sections.map(section => {
-                const suffix = response.foreach ? ' ' + response.foreach : '';
-                return {
-                  name: section.name,
-                  query:
-                      section.query.replace(
-                          PROJECT_PLACEHOLDER_PATTERN, project) + suffix,
-                };
-              }),
-            };
-          });
+      const response = await this.$.restAPI.getDashboard(
+          project, dashboard, errFn);
+      if (!response) {
+        return;
+      }
+      return {
+        title: response.title,
+        sections: response.sections.map(section => {
+          const suffix = response.foreach ? ' ' + response.foreach : '';
+          return {
+            name: section.name,
+            query:
+                section.query.replace(
+                    PROJECT_PLACEHOLDER_PATTERN, project) + suffix,
+          };
+        }),
+      };
     },
 
     _computeTitle(user) {
@@ -158,25 +154,25 @@
      *
      * @return {Promise<!Object>}
      */
-    _reload() {
+    async _reload() {
       this._loading = true;
       const {project, dashboard, title, user, sections} = this.params;
-      const dashboardPromise = project ?
-          this._getProjectDashboard(project, dashboard) :
-          Promise.resolve(Gerrit.Nav.getUserDashboard(
-              user,
-              sections,
-              title || this._computeTitle(user)));
 
-      const checkForNewUser = !project && user === 'self';
-      return dashboardPromise
-          .then(res => this._fetchDashboardChanges(res, checkForNewUser))
-          .then(() => {
-            this._maybeShowDraftsBanner();
-            this.$.reporting.dashboardDisplayed();
-          }).catch(err => {
-            console.warn(err);
-          }).then(() => { this._loading = false; });
+      try {
+        const checkForNewUser = !project && user === 'self';
+        const res = project ?
+            await this._getProjectDashboard(project, dashboard) :
+            Gerrit.Nav.getUserDashboard(user, sections,
+                title || this._computeTitle(user));
+
+        await this._fetchDashboardChanges(res, checkForNewUser);
+        this._maybeShowDraftsBanner();
+        this.$.reporting.dashboardDisplayed();
+      } catch (err) {
+        console.warn(err);
+      } finally {
+        this._loading = false;
+      }
     },
 
     /**
@@ -187,8 +183,8 @@
      * @param {boolean} checkForNewUser
      * @return {Promise}
      */
-    _fetchDashboardChanges(res, checkForNewUser) {
-      if (!res) { return Promise.resolve(); }
+    async _fetchDashboardChanges(res, checkForNewUser) {
+      if (!res) { return; }
 
       const queries = res.sections
           .map(section => section.suffixForDashboard ?
@@ -199,22 +195,21 @@
         queries.push('owner:self');
       }
 
-      return this.$.restAPI.getChanges(null, queries, null, this.options)
-          .then(changes => {
-            if (checkForNewUser) {
-              // Last set of results is not meant for dashboard display.
-              const lastResultSet = changes.pop();
-              this._showNewUserHelp = lastResultSet.length == 0;
-            }
-            this._results = changes.map((results, i) => ({
-              name: res.sections[i].name,
-              query: res.sections[i].query,
-              results,
-              isOutgoing: res.sections[i].isOutgoing,
-            })).filter((section, i) => i < res.sections.length && (
-                !res.sections[i].hideIfEmpty ||
-                section.results.length));
-          });
+      const changes = await this.$.restAPI.getChanges(
+          null, queries, null, this.options);
+      if (checkForNewUser) {
+        // Last set of results is not meant for dashboard display.
+        const lastResultSet = changes.pop();
+        this._showNewUserHelp = lastResultSet.length == 0;
+      }
+      this._results = changes.map((results, i) => ({
+        name: res.sections[i].name,
+        query: res.sections[i].query,
+        results,
+        isOutgoing: res.sections[i].isOutgoing,
+      })).filter((section, i) => i < res.sections.length && (
+          !res.sections[i].hideIfEmpty ||
+          section.results.length));
     },
 
     _computeUserHeaderClass(userParam) {
@@ -258,12 +253,11 @@
       this.$.confirmDeleteOverlay.open();
     },
 
-    _handleConfirmDelete() {
+    async _handleConfirmDelete() {
       this.$.confirmDeleteDialog.disabled = true;
-      return this.$.restAPI.deleteDraftComments('-is:open').then(() => {
-        this._closeConfirmDeleteOverlay();
-        this._reload();
-      });
+      await this.$.restAPI.deleteDraftComments('-is:open');
+      this._closeConfirmDeleteOverlay();
+      this._reload();
     },
 
     _closeConfirmDeleteOverlay() {

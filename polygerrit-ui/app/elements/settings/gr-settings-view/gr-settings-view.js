@@ -154,7 +154,7 @@
       '_handleChangeTableChanged(_localChangeTableColumns, _showNumber)',
     ],
 
-    attached() {
+    async attached() {
       this.fire('title-change', {title: 'Settings'});
 
       this._isDark = !!window.localStorage.getItem('dark-theme');
@@ -168,20 +168,21 @@
         this.$.editPrefs.loadData(),
       ];
 
-      promises.push(this.$.restAPI.getPreferences().then(prefs => {
+      promises.push((async () => {
+        const prefs = await this.$.restAPI.getPreferences();
         this.prefs = prefs;
         this._showNumber = !!prefs.legacycid_in_change_table;
         this._copyPrefs('_localPrefs', 'prefs');
         this._cloneMenu(prefs.my);
         this._cloneChangeTableColumns();
-      }));
+      })());
 
-      promises.push(this.$.restAPI.getDiffPreferences().then(prefs => {
-        this._diffPrefs = prefs;
-      }));
+      promises.push((async () => {
+        this._diffPrefs = await this.$.restAPI.getDiffPreferences();
+      })());
 
-      promises.push(this.$.restAPI.getConfig().then(config => {
-        this._serverConfig = config;
+      promises.push((async () => {
+        this._serverConfig = await this.$.restAPI.getConfig();
         const configPromises = [];
 
         if (this._serverConfig && this._serverConfig.sshd) {
@@ -194,32 +195,34 @@
           configPromises.push(this.$.gpgEditor.loadData());
         }
 
-        configPromises.push(
-            this.getDocsBaseUrl(config, this.$.restAPI)
-                .then(baseUrl => { this._docsBaseUrl = baseUrl; }));
+        configPromises.push((async () => {
+          this._docsBaseUrl =
+              await this.getDocsBaseUrl(this._serverConfig, this.$.restAPI);
+        })());
 
-        return Promise.all(configPromises);
-      }));
+        await Promise.all(configPromises);
+      })());
 
       if (this.params.emailToken) {
-        promises.push(this.$.restAPI.confirmEmail(this.params.emailToken).then(
-            message => {
-              if (message) {
-                this.fire('show-alert', {message});
-              }
-              this.$.emailEditor.loadData();
-            }));
+        promises.push((async () => {
+          const message =
+              await this.$.restAPI.confirmEmail(this.params.emailToken);
+          if (message) {
+            this.fire('show-alert', {message});
+          }
+          await this.$.emailEditor.loadData();
+        })());
       } else {
         promises.push(this.$.emailEditor.loadData());
       }
 
-      this._loadingPromise = Promise.all(promises).then(() => {
-        this._loading = false;
-      });
+      this._loadingPromise = Promise.all(promises);
+      await this._loadingPromise;
+      this._loading = false;
     },
 
-    reloadAccountDetail() {
-      Promise.all([
+    async reloadAccountDetail() {
+      await Promise.all([
         this.$.accountInfo.loadData(),
         this.$.emailEditor.loadData(),
       ]);
@@ -310,12 +313,11 @@
       this.$.accountInfo.save();
     },
 
-    _handleSavePreferences() {
+    async _handleSavePreferences() {
       this._copyPrefs('prefs', '_localPrefs');
 
-      return this.$.restAPI.savePreferences(this.prefs).then(() => {
-        this._prefsChanged = false;
-      });
+      await this.$.restAPI.savePreferences(this.prefs);
+      this._prefsChanged = false;
     },
 
     _handleDiffLineWrappingChanged() {
@@ -336,40 +338,35 @@
           this.$.diffSyntaxHighlighting.checked);
     },
 
-    _handleSaveChangeTable() {
+    async _handleSaveChangeTable() {
       this.set('prefs.change_table', this._localChangeTableColumns);
       this.set('prefs.legacycid_in_change_table', this._showNumber);
       this._cloneChangeTableColumns();
-      return this.$.restAPI.savePreferences(this.prefs).then(() => {
-        this._changeTableChanged = false;
-      });
+      await this.$.restAPI.savePreferences(this.prefs);
+      this._changeTableChanged = false;
     },
 
-    _handleSaveDiffPreferences() {
-      return this.$.restAPI.saveDiffPreferences(this._diffPrefs)
-          .then(() => {
-            this._diffPrefsChanged = false;
-          });
+    async _handleSaveDiffPreferences() {
+      await this.$.restAPI.saveDiffPreferences(this._diffPrefs);
+      this._diffPrefsChanged = false;
     },
 
     _handleSaveEditPreferences() {
       this.$.editPrefs.save();
     },
 
-    _handleSaveMenu() {
+    async _handleSaveMenu() {
       this.set('prefs.my', this._localMenu);
       this._cloneMenu(this.prefs.my);
-      return this.$.restAPI.savePreferences(this.prefs).then(() => {
-        this._menuChanged = false;
-      });
+      await this.$.restAPI.savePreferences(this.prefs);
+      this._menuChanged = false;
     },
 
-    _handleResetMenuButton() {
-      return this.$.restAPI.getDefaultPreferences().then(data => {
-        if (data && data.my) {
-          this._cloneMenu(data.my);
-        }
-      });
+    async _handleResetMenuButton() {
+      const data = await this.$.restAPI.getDefaultPreferences();
+      if (data && data.my) {
+        this._cloneMenu(data.my);
+      }
     },
 
     _handleSaveWatchedProjects() {
@@ -399,19 +396,18 @@
       return this._isNewEmailValid(newEmail) && !addingEmail;
     },
 
-    _handleAddEmailButton() {
+    async _handleAddEmailButton() {
       if (!this._isNewEmailValid(this._newEmail)) { return; }
 
       this._addingEmail = true;
-      this.$.restAPI.addAccountEmail(this._newEmail).then(response => {
-        this._addingEmail = false;
+      const response = await this.$.restAPI.addAccountEmail(this._newEmail);
+      this._addingEmail = false;
 
-        // If it was unsuccessful.
-        if (response.status < 200 || response.status >= 300) { return; }
+      // If it was unsuccessful.
+      if (response.status < 200 || response.status >= 300) { return; }
 
-        this._lastSentVerificationEmail = this._newEmail;
-        this._newEmail = '';
-      });
+      this._lastSentVerificationEmail = this._newEmail;
+      this._newEmail = '';
     },
 
     _getFilterDocsLink(docsBaseUrl) {

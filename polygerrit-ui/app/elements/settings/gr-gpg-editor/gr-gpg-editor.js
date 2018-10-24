@@ -39,30 +39,27 @@
       },
     },
 
-    loadData() {
+    async loadData() {
       this._keys = [];
-      return this.$.restAPI.getAccountGPGKeys().then(keys => {
-        if (!keys) {
-          return;
-        }
-        this._keys = Object.keys(keys)
-         .map(key => {
-           const gpgKey = keys[key];
-           gpgKey.id = key;
-           return gpgKey;
-         });
+      const keys = await this.$.restAPI.getAccountGPGKeys();
+      if (!keys) {
+        return;
+      }
+      this._keys = Object.keys(keys).map(key => {
+        const gpgKey = keys[key];
+        gpgKey.id = key;
+        return gpgKey;
       });
     },
 
-    save() {
+    async save() {
       const promises = this._keysToRemove.map(key => {
         this.$.restAPI.deleteAccountGPGKey(key.id);
       });
 
-      return Promise.all(promises).then(() => {
-        this._keysToRemove = [];
-        this.hasUnsavedChanges = false;
-      });
+      await Promise.all(promises);
+      this._keysToRemove = [];
+      this.hasUnsavedChanges = false;
     },
 
     _showKey(e) {
@@ -84,18 +81,18 @@
       this.hasUnsavedChanges = true;
     },
 
-    _handleAddKey() {
+    async _handleAddKey() {
       this.$.addButton.disabled = true;
       this.$.newKey.disabled = true;
-      return this.$.restAPI.addAccountGPGKey({add: [this._newKey.trim()]})
-          .then(key => {
-            this.$.newKey.disabled = false;
-            this._newKey = '';
-            this.loadData();
-          }).catch(() => {
-            this.$.addButton.disabled = false;
-            this.$.newKey.disabled = false;
-          });
+      try {
+        await this.$.restAPI.addAccountGPGKey({add: [this._newKey.trim()]});
+        this.$.newKey.disabled = false;
+        this._newKey = '';
+        await this.loadData();
+      } catch (err) {
+        this.$.addButton.disabled = false;
+        this.$.newKey.disabled = false;
+      }
     },
 
     _computeAddButtonDisabled(newKey) {

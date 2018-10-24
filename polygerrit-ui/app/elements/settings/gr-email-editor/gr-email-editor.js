@@ -39,13 +39,11 @@
       },
     },
 
-    loadData() {
-      return this.$.restAPI.getAccountEmails().then(emails => {
-        this._emails = emails;
-      });
+    async loadData() {
+      this._emails = await this.$.restAPI.getAccountEmails();
     },
 
-    save() {
+    async save() {
       const promises = [];
 
       for (const emailObj of this._emailsToRemove) {
@@ -57,11 +55,10 @@
             this._newPreferred));
       }
 
-      return Promise.all(promises).then(() => {
-        this._emailsToRemove = [];
-        this._newPreferred = null;
-        this.hasUnsavedChanges = false;
-      });
+      await Promise.all(promises);
+      this._emailsToRemove = [];
+      this._newPreferred = null;
+      this.hasUnsavedChanges = false;
     },
 
     _handleDeleteButton(e) {

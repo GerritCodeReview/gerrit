@@ -48,30 +48,19 @@
       },
     },
 
-    loadData() {
-      return this.$.restAPI.getWatchedProjects().then(projs => {
-        this._projects = projs;
-      });
+    async loadData() {
+      this._projects = await this.$.restAPI.getWatchedProjects();
     },
 
-    save() {
-      let deletePromise;
+    async save() {
       if (this._projectsToRemove.length) {
-        deletePromise = this.$.restAPI.deleteWatchedProjects(
-            this._projectsToRemove);
-      } else {
-        deletePromise = Promise.resolve();
+        await this.$.restAPI.deleteWatchedProjects(this._projectsToRemove);
       }
-
-      return deletePromise
-          .then(() => {
-            return this.$.restAPI.saveWatchedProjects(this._projects);
-          })
-          .then(projects => {
-            this._projects = projects;
-            this._projectsToRemove = [];
-            this.hasUnsavedChanges = false;
-          });
+      const projects =
+          await this.$.restAPI.saveWatchedProjects(this._projects);
+      this._projects = projects;
+      this._projectsToRemove = [];
+      this.hasUnsavedChanges = false;
     },
 
     _getTypes() {
@@ -86,19 +75,17 @@
       return project.hasOwnProperty(key);
     },
 
-    _getProjectSuggestions(input) {
-      return this.$.restAPI.getSuggestedProjects(input)
-          .then(response => {
-            const projects = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              projects.push({
-                name: key,
-                value: response[key],
-              });
-            }
-            return projects;
-          });
+    async _getProjectSuggestions(input) {
+      const response = await this.$.restAPI.getSuggestedProjects(input);
+      const projects = [];
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) { continue; }
+        projects.push({
+          name: key,
+          value: response[key],
+        });
+      }
+      return projects;
     },
 
     _handleRemoveProject(e) {

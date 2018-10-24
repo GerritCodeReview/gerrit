@@ -62,21 +62,17 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('resolved on value change from undefined', () => {
-      const promise = instance.get('fooBar').then(value => {
-        assert.equal(value, 'foo! bar!');
-      });
+    test('resolved on value change from undefined', async () => {
+      const promise = instance.get('fooBar');
       element.fooBar = 'foo! bar!';
-      return promise;
+      assert.equal(await promise, 'foo! bar!');
     });
 
-    test('resolves to current attribute value', () => {
+    test('resolves to current attribute value', async () => {
       element.fooBar = 'foo-foo-bar';
-      const promise = instance.get('fooBar').then(value => {
-        assert.equal(value, 'foo-foo-bar');
-      });
+      const promise = instance.get('fooBar');
       element.fooBar = 'no bar';
-      return promise;
+      assert.equal(await promise, 'foo-foo-bar');
     });
 
     test('bind', () => {

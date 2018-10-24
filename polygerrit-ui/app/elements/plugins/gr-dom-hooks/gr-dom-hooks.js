@@ -70,6 +70,7 @@
 
   GrDomHook.prototype.handleInstanceAttached = function(instance) {
     this._instances.push(instance);
+    // eslint-disable-next-line promise/prefer-await-to-callbacks
     this._callbacks.forEach(callback => callback(instance));
   };
 
@@ -78,24 +79,25 @@
    * Returns a Promise, that's resolved when attachment is done.
    * @return {!Promise<!Element>}
    */
-  GrDomHook.prototype.getLastAttached = function() {
+  GrDomHook.prototype.getLastAttached = async function() {
     if (this._instances.length) {
-      return Promise.resolve(this._instances.slice(-1)[0]);
+      return this._instances.slice(-1)[0];
     }
     if (!this._lastAttachedPromise) {
-      let resolve;
-      const promise = new Promise(r => resolve = r);
-      this._callbacks.push(resolve);
-      this._lastAttachedPromise = promise.then(element => {
+      let r;
+      const promise = new Promise(resolve => r = resolve);
+      this._callbacks.push(r);
+      this._lastAttachedPromise = (async () => {
+        const element = await promise;
         this._lastAttachedPromise = null;
-        const index = this._callbacks.indexOf(resolve);
+        const index = this._callbacks.indexOf(r);
         if (index !== -1) {
           this._callbacks.splice(index, 1);
         }
         return element;
-      });
+      })();
     }
-    return this._lastAttachedPromise;
+    return await this._lastAttachedPromise;
   };
 
   /**
@@ -110,7 +112,9 @@
    * is attached.
    * @param {function(Element)} callback
    */
-  GrDomHook.prototype.onAttached = function(callback) {
+  GrDomHook.prototype.onAttached = function(
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
+      callback) {
     this._callbacks.push(callback);
     return this;
   };

@@ -34,6 +34,24 @@
       "revId": "82290fd2e08d510da69d78c85d7952fb485145f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40b4084c_b02d7352",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-24T07:38:15Z",
+      "side": 1,
+      "message": "Note: you don\u0027t actually need to update it here, since this change and the core change can both be compiled independent of each other.  Both changes will get submitted at the same time anyway (and gerrit will update the revision) due to the same topic.",
+      "parentUuid": "d229ac91_93847265",
+      "revId": "82290fd2e08d510da69d78c85d7952fb485145f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

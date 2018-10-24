@@ -86,8 +86,8 @@
       'ctrl+s meta+s': '_handleSaveShortcut',
     },
 
-    attached() {
-      this._getEditPrefs().then(prefs => { this._prefs = prefs; });
+    async attached() {
+      this._prefs = await this._getEditPrefs();
     },
 
     get storageKey() {
@@ -125,22 +125,19 @@
       return Promise.all(promises);
     },
 
-    _getChangeDetail(changeNum) {
-      return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
-        this._change = change;
-      });
+    async _getChangeDetail(changeNum) {
+      this._change = await this.$.restAPI.getDiffChangeDetail(changeNum);
     },
 
-    _handlePathChanged(e) {
+    async _handlePathChanged(e) {
       const path = e.detail;
       if (path === this._path) { return Promise.resolve(); }
-      return this.$.restAPI.renameFileInChangeEdit(this._changeNum,
-          this._path, path).then(res => {
-            if (!res.ok) { return; }
+      const res = await this.$.restAPI.renameFileInChangeEdit(this._changeNum,
+          this._path, path);
+      if (!res.ok) { return; }
 
-            this._successfulSave = true;
-            this._viewEditInChangeView();
-          });
+      this._successfulSave = true;
+      this._viewEditInChangeView();
     },
 
     _viewEditInChangeView() {
@@ -149,47 +146,48 @@
           patch !== this.EDIT_NAME);
     },
 
-    _getFileData(changeNum, path, patchNum) {
+    async _getFileData(changeNum, path, patchNum) {
       const storedContent =
             this.$.storage.getEditableContentItem(this.storageKey);
 
-      return this.$.restAPI.getFileContent(changeNum, path, patchNum)
-          .then(res => {
-            if (storedContent && storedContent.message &&
-                storedContent.message !== res.content) {
-              this.dispatchEvent(new CustomEvent('show-alert',
-                  {detail: {message: RESTORED_MESSAGE}, bubbles: true}));
+      const res =
+          await this.$.restAPI.getFileContent(changeNum, path, patchNum);
+      if (storedContent && storedContent.message &&
+          storedContent.message !== res.content) {
+        this.dispatchEvent(new CustomEvent('show-alert',
+            {detail: {message: RESTORED_MESSAGE}, bubbles: true}));
 
-              this._newContent = storedContent.message;
-            } else {
-              this._newContent = res.content || '';
-            }
-            this._content = res.content || '';
+        this._newContent = storedContent.message;
+      } else {
+        this._newContent = res.content || '';
+      }
+      this._content = res.content || '';
 
-            // A non-ok response may result if the file does not yet exist.
-            // The `type` field of the response is only valid when the file
-            // already exists.
-            if (res.ok && res.type) {
-              this._type = res.type;
-            } else {
-              this._type = '';
-            }
-          });
+      // A non-ok response may result if the file does not yet exist.
+      // The `type` field of the response is only valid when the file
+      // already exists.
+      if (res.ok && res.type) {
+        this._type = res.type;
+      } else {
+        this._type = '';
+      }
     },
 
-    _saveEdit() {
+    async _saveEdit() {
       this._saving = true;
-      this._showAlert(SAVING_MESSAGE);
-      this.$.storage.eraseEditableContentItem(this.storageKey);
-      return this.$.restAPI.saveChangeEdit(this._changeNum, this._path,
-          this._newContent).then(res => {
-            this._saving = false;
-            this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
-            if (!res.ok) { return; }
+      try {
+        this._showAlert(SAVING_MESSAGE);
+        this.$.storage.eraseEditableContentItem(this.storageKey);
+        const res = await this.$.restAPI.saveChangeEdit(this._changeNum,
+            this._path, this._newContent);
+        this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
+        if (!res.ok) { return; }
 
-            this._content = this._newContent;
-            this._successfulSave = true;
-          });
+        this._content = this._newContent;
+        this._successfulSave = true;
+      } finally {
+        this._saving = false;
+      }
     },
 
     _showAlert(message) {

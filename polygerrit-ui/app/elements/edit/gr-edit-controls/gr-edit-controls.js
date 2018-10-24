@@ -135,18 +135,17 @@
       });
     },
 
-    _showDialog(dialog) {
+    async _showDialog(dialog) {
       // Some dialogs may not fire their on-close event when closed in certain
       // ways (e.g. by clicking outside the dialog body). This call prevents
       // multiple dialogs from being shown in the same overlay.
       this._hideAllDialogs();
 
-      return this.$.overlay.open().then(() => {
-        dialog.classList.toggle('invisible', false);
-        const autocomplete = dialog.querySelector('gr-autocomplete');
-        if (autocomplete) { autocomplete.focus(); }
-        this.async(() => { this.$.overlay.center(); }, 1);
-      });
+      await this.$.overlay.open();
+      dialog.classList.toggle('invisible', false);
+      const autocomplete = dialog.querySelector('gr-autocomplete');
+      if (autocomplete) { autocomplete.focus(); }
+      this.async(() => { this.$.overlay.center(); }, 1);
     },
 
     _hideAllDialogs() {
@@ -186,38 +185,34 @@
       this._closeDialog(this._getDialogFromEvent(e), true);
     },
 
-    _handleDeleteConfirm(e) {
-      this.$.restAPI.deleteFileInChangeEdit(this.change._number, this._path)
-          .then(res => {
-            if (!res.ok) { return; }
-            this._closeDialog(this._getDialogFromEvent(e), true);
-            Gerrit.Nav.navigateToChange(this.change);
-          });
+    async _handleDeleteConfirm(e) {
+      const res = await this.$.restAPI.deleteFileInChangeEdit(
+          this.change._number, this._path);
+      if (!res.ok) { return; }
+      this._closeDialog(this._getDialogFromEvent(e), true);
+      Gerrit.Nav.navigateToChange(this.change);
     },
 
-    _handleRestoreConfirm(e) {
-      this.$.restAPI.restoreFileInChangeEdit(this.change._number, this._path)
-          .then(res => {
-            if (!res.ok) { return; }
-            this._closeDialog(this._getDialogFromEvent(e), true);
-            Gerrit.Nav.navigateToChange(this.change);
-          });
+    async _handleRestoreConfirm(e) {
+      const res = await this.$.restAPI.restoreFileInChangeEdit(
+          this.change._number, this._path);
+      if (!res.ok) { return; }
+      this._closeDialog(this._getDialogFromEvent(e), true);
+      Gerrit.Nav.navigateToChange(this.change);
     },
 
-    _handleRenameConfirm(e) {
-      return this.$.restAPI.renameFileInChangeEdit(this.change._number,
-          this._path, this._newPath).then(res => {
-            if (!res.ok) { return; }
-            this._closeDialog(this._getDialogFromEvent(e), true);
-            Gerrit.Nav.navigateToChange(this.change);
-          });
+    async _handleRenameConfirm(e) {
+      const res = await this.$.restAPI.renameFileInChangeEdit(
+          this.change._number, this._path, this._newPath);
+      if (!res.ok) { return; }
+      this._closeDialog(this._getDialogFromEvent(e), true);
+      Gerrit.Nav.navigateToChange(this.change);
     },
 
-    _queryFiles(input) {
-      return this.$.restAPI.queryChangeFiles(this.change._number,
-          this.patchNum, input).then(res => res.map(file => {
-            return {name: file};
-          }));
+    async _queryFiles(input) {
+      const res = await this.$.restAPI.queryChangeFiles(
+          this.change._number, this.patchNum, input);
+      return res.map(file => ({name: file}));
     },
 
     _computeIsInvisible(id, hiddenActions) {

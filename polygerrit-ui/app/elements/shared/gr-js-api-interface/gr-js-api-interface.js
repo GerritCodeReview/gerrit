@@ -37,6 +37,7 @@
 
   Polymer({
     is: 'gr-js-api-interface',
+    _legacyUndefinedCheck: true,
 
     properties: {
       _elements: {

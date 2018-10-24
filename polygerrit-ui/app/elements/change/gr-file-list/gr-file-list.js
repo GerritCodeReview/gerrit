@@ -63,6 +63,7 @@
 
   Polymer({
     is: 'gr-file-list',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when a draft refresh should get triggered

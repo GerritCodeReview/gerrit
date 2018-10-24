@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-edit-file-controls',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when an action in the overflow menu is tapped.

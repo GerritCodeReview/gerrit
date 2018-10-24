@@ -26,6 +26,7 @@
 
   Polymer({
     is: 'gr-create-destination-dialog',
+    _legacyUndefinedCheck: true,
     properties: {
       _repo: String,
       _branch: String,

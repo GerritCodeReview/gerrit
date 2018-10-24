@@ -33,6 +33,7 @@
 
   Polymer({
     is: 'gr-comment',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the create fix comment action is triggered.

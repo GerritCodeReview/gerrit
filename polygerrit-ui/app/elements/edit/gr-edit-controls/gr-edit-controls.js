@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-edit-controls',
+    _legacyUndefinedCheck: true,
     properties: {
       change: Object,
       patchNum: String,

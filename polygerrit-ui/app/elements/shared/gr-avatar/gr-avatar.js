@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-avatar',
+    _legacyUndefinedCheck: true,
 
     properties: {
       account: {

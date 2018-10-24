@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-repo-command',
+    _legacyUndefinedCheck: true,
 
     properties: {
       title: String,

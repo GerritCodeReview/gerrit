@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-download-commands',
+    _legacyUndefinedCheck: true,
     properties: {
       commands: Array,
       _loggedIn: {

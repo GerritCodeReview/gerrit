@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-plugin-list',
+    _legacyUndefinedCheck: true,
 
     properties: {
       /**

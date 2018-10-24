@@ -34,6 +34,24 @@
       "revId": "7b666284778133bd7f50b014622f9363a5fe5cf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec67a77c_d8f31e2e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-24T14:03:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "10bfea03_aa1b32ac",
+      "revId": "7b666284778133bd7f50b014622f9363a5fe5cf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

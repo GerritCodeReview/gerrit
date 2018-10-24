@@ -532,22 +532,21 @@
      *
      * @param {?Object} params
      */
-    _normalizeLegacyRouteParams(params) {
-      if (!params.changeNum) { return Promise.resolve(); }
+    async _normalizeLegacyRouteParams(params) {
+      if (!params.changeNum) { return; }
 
-      return this.$.restAPI.getFromProjectLookup(params.changeNum)
-          .then(project => {
-            // Show a 404 and terminate if the lookup request failed. Attempting
-            // to redirect after failing to get the project loops infinitely.
-            if (!project) {
-              this._show404();
-              return;
-            }
+      const project =
+          await this.$.restAPI.getFromProjectLookup(params.changeNum);
+      // Show a 404 and terminate if the lookup request failed. Attempting
+      // to redirect after failing to get the project loops infinitely.
+      if (!project) {
+        this._show404();
+        return;
+      }
 
-            params.project = project;
-            this._normalizePatchRangeParams(params);
-            this._redirect(this._generateUrl(params));
-          });
+      params.project = project;
+      this._normalizePatchRangeParams(params);
+      this._redirect(this._generateUrl(params));
     },
 
     /**
@@ -628,20 +627,16 @@
      * @return {!Promise<!Object>} A promise yielding the original route data
      *     (if it resolves).
      */
-    _redirectIfNotLoggedIn(data) {
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          return Promise.resolve();
-        } else {
-          this._redirectToLogin(data.canonicalPath);
-          return Promise.reject();
-        }
-      });
+    async _redirectIfNotLoggedIn(data) {
+      if (await this.$.restAPI.getLoggedIn()) { return; }
+      this._redirectToLogin(data.canonicalPath);
+      throw new Error('redirected to login');
     },
 
     /**  Page.js middleware that warms the REST API's logged-in cache line. */
-    _loadUserMiddleware(ctx, next) {
-      this.$.restAPI.getLoggedIn().then(() => { next(); });
+    async _loadUserMiddleware(ctx, next) {
+      await this.$.restAPI.getLoggedIn();
+      next();
     },
 
     /**
@@ -663,11 +658,12 @@
             handlerName);
         return;
       }
-      page(pattern, this._loadUserMiddleware.bind(this), data => {
+      page(pattern, this._loadUserMiddleware.bind(this), async data => {
         this.$.reporting.locationChanged(handlerName);
-        const promise = opt_authRedirect ?
-          this._redirectIfNotLoggedIn(data) : Promise.resolve();
-        promise.then(() => { this[handlerName](data); });
+        if (opt_authRedirect) {
+          await this._redirectIfNotLoggedIn(data);
+        }
+        this[handlerName](data);
       });
     },
 
@@ -857,7 +853,7 @@
      * @return {Promise|null} if handling the route involves asynchrony, then a
      *     promise is returned. Otherwise, synchronous handling returns null.
      */
-    _handleRootRoute(data) {
+    async _handleRootRoute(data) {
       if (data.querystring.match(/^closeAfterLogin/)) {
         // Close child window on redirect after login.
         window.close();
@@ -884,13 +880,11 @@
         this._redirect(newUrl);
         return null;
       }
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          this._redirect('/dashboard/self');
-        } else {
-          this._redirect('/q/status:open');
-        }
-      });
+      if (await this.$.restAPI.getLoggedIn()) {
+        this._redirect('/dashboard/self');
+      } else {
+        this._redirect('/q/status:open');
+      }
     },
 
     /**
@@ -940,24 +934,23 @@
      *
      * @param {!Object} data The parsed route data.
      */
-    _handleDashboardRoute(data) {
+    async _handleDashboardRoute(data) {
       // User dashboard. We require viewing user to be logged in, else we
       // redirect to login for self dashboard or simple owner search for
       // other user dashboard.
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
-        if (!loggedIn) {
-          if (data.params[0].toLowerCase() === 'self') {
-            this._redirectToLogin(data.canonicalPath);
-          } else {
-            this._redirect('/q/owner:' + encodeURIComponent(data.params[0]));
-          }
+      const loggedIn = await this.$.restAPI.getLoggedIn();
+      if (!loggedIn) {
+        if (data.params[0].toLowerCase() === 'self') {
+          this._redirectToLogin(data.canonicalPath);
         } else {
-          this._setParams({
-            view: Gerrit.Nav.View.DASHBOARD,
-            user: data.params[0],
-          });
+          this._redirect('/q/owner:' + encodeURIComponent(data.params[0]));
         }
-      });
+      } else {
+        this._setParams({
+          view: Gerrit.Nav.View.DASHBOARD,
+          user: data.params[0],
+        });
+      }
     },
 
     /**

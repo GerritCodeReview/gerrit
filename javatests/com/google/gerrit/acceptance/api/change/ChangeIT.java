@@ -66,6 +66,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.common.FooterConstants;
@@ -825,6 +826,28 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Cannot revert initial commit");
     gApi.changes().id(r.getChangeId()).revert();
+  }
+
+  @Test
+  public void revertWithInactiveReviewer() throws Exception {
+    TestAccount reviewer = accountCreator.create(name("reviewer"));
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(reviewer.id.toString());
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    gApi.accounts().id(reviewer.id.get()).setActive(false);
+
+    assertThat(
+            gApi.changes()
+                .id(r.getChangeId())
+                .revert()
+                .get(ListChangesOption.DETAILED_LABELS)
+                .reviewers
+                .getOrDefault(ReviewerState.REVIEWER, ImmutableList.of())
+                .stream()
+                .map(a -> a._accountId))
+        .containsExactly(reviewer.id.get());
   }
 
   @FunctionalInterface

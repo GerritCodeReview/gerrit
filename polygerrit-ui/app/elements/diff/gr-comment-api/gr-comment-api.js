@@ -503,17 +503,17 @@
      * @param {number} changeNum
      * @return {!Promise<!Object>}
      */
-    loadAll(changeNum) {
+    async loadAll(changeNum) {
       const promises = [];
       promises.push(this.$.restAPI.getDiffComments(changeNum));
       promises.push(this.$.restAPI.getDiffRobotComments(changeNum));
       promises.push(this.$.restAPI.getDiffDrafts(changeNum));
 
-      return Promise.all(promises).then(([comments, robotComments, drafts]) => {
-        this._changeComments = new ChangeComments(comments,
-          robotComments, drafts, changeNum);
-        return this._changeComments;
-      });
+      const result = await Promise.all(promises);
+      const [comments, robotComments, drafts] = result;
+      this._changeComments =
+          new ChangeComments(comments, robotComments, drafts, changeNum);
+      return this._changeComments;
     },
 
     /**
@@ -524,15 +524,14 @@
      * @param {number} changeNum
      * @return {!Promise<!Object>}
      */
-    reloadDrafts(changeNum) {
+    async reloadDrafts(changeNum) {
       if (!this._changeComments) {
-        return this.loadAll(changeNum);
+        return await this.loadAll(changeNum);
       }
-      return this.$.restAPI.getDiffDrafts(changeNum).then(drafts => {
-        this._changeComments = new ChangeComments(this._changeComments.comments,
-            this._changeComments.robotComments, drafts, changeNum);
-        return this._changeComments;
-      });
+      const drafts = await this.$.restAPI.getDiffDrafts(changeNum);
+      this._changeComments = new ChangeComments(this._changeComments.comments,
+          this._changeComments.robotComments, drafts, changeNum);
+      return this._changeComments;
     },
   });
 })();

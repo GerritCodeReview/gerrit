@@ -1054,29 +1054,26 @@ limitations under the License.
         }];
       });
 
-      test('text', () => {
+      test('text', async () => {
         element.diff = {content};
-        return element.render(comments, prefs).then(() => {
-          assert.isTrue(processStub.calledOnce);
-          assert.isFalse(processStub.lastCall.args[1]);
-        });
+        await element.render(comments, prefs);
+        assert.isTrue(processStub.calledOnce);
+        assert.isFalse(processStub.lastCall.args[1]);
       });
 
-      test('image', () => {
+      test('image', async () => {
         element.diff = {content, binary: true};
         element.isImageDiff = true;
-        return element.render(comments, prefs).then(() => {
-          assert.isTrue(processStub.calledOnce);
-          assert.isTrue(processStub.lastCall.args[1]);
-        });
+        await element.render(comments, prefs);
+        assert.isTrue(processStub.calledOnce);
+        assert.isTrue(processStub.lastCall.args[1]);
       });
 
-      test('binary', () => {
+      test('binary', async () => {
         element.diff = {content, binary: true};
-        return element.render(comments, prefs).then(() => {
-          assert.isTrue(processStub.calledOnce);
-          assert.isTrue(processStub.lastCall.args[1]);
-        });
+        await element.render(comments, prefs);
+        assert.isTrue(processStub.calledOnce);
+        assert.isTrue(processStub.lastCall.args[1]);
       });
     });
 
@@ -1084,7 +1081,7 @@ limitations under the License.
       let content;
       let outputEl;
 
-      setup(done => {
+      setup(async () => {
         const prefs = {
           line_length: 10,
           show_tabs: true,
@@ -1124,10 +1121,10 @@ limitations under the License.
           return builder;
         });
         element.diff = {content};
-        element.render({left: [], right: []}, prefs).then(done);
+        await element.render({left: [], right: []}, prefs);
       });
 
-      test('reporting', done => {
+      test('reporting', () => {
         const timeStub = element.$.reporting.time;
         const timeEndStub = element.$.reporting.timeEnd;
         assert.isTrue(timeStub.calledWithExactly('Diff Total Render'));
@@ -1136,7 +1133,6 @@ limitations under the License.
         assert.isTrue(timeEndStub.calledWithExactly('Diff Total Render'));
         assert.isTrue(timeEndStub.calledWithExactly('Diff Content Render'));
         assert.isTrue(timeEndStub.calledWithExactly('Diff Syntax Render'));
-        done();
       });
 
       test('renderSection', () => {
@@ -1148,8 +1144,8 @@ limitations under the License.
         assert.equal(section.innerHTML, prevInnerHTML);
       });
 
-      test('addColumns is called', done => {
-        element.render({left: [], right: []}, {}).then(done);
+      test('addColumns is called', async () => {
+        await element.render({left: [], right: []}, {});
         assert.isTrue(element._builder.addColumns.called);
       });
 
@@ -1171,16 +1167,14 @@ limitations under the License.
         assert.strictEqual(sections[1], section[1]);
       });
 
-      test('render-start and render are fired', done => {
+      test('render-start and render are fired', async () => {
         const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
-        element.render({left: [], right: []}, {}).then(() => {
-          const firedEventTypes = dispatchEventStub.getCalls()
-              .map(c => { return c.args[0].type; });
-          assert.include(firedEventTypes, 'render-start');
-          assert.include(firedEventTypes, 'render-content');
-          assert.include(firedEventTypes, 'render');
-          done();
-        });
+        await element.render({left: [], right: []}, {});
+        const firedEventTypes = dispatchEventStub.getCalls()
+            .map(c => { return c.args[0].type; });
+        assert.include(firedEventTypes, 'render-start');
+        assert.include(firedEventTypes, 'render-content');
+        assert.include(firedEventTypes, 'render');
       });
 
       test('rendering normal-sized diff does not disable syntax', () => {
@@ -1219,7 +1213,7 @@ limitations under the License.
       let diff;
       let prefs;
 
-      setup(done => {
+      setup(async () => {
         element = fixture('mock-diff');
         diff = document.createElement('mock-diff-response').diffResponse;
         element.diff = diff;
@@ -1230,10 +1224,8 @@ limitations under the License.
           tab_size: 4,
         };
 
-        element.render({left: [], right: []}, prefs).then(() => {
-          builder = element._builder;
-          done();
-        });
+        await element.render({left: [], right: []}, prefs);
+        builder = element._builder;
       });
 
       test('getDiffLength', () => {
@@ -1337,44 +1329,38 @@ limitations under the License.
         assert.equal(nextElem.textContent, expectedNextString);
       });
 
-      test('_getNextContentOnSide unified left', done => {
+      test('_getNextContentOnSide unified left', async () => {
         // Re-render as unified:
         element.viewMode = 'UNIFIED_DIFF';
-        element.render({left: [], right: []}, prefs).then(() => {
-          builder = element._builder;
+        await element.render({left: [], right: []}, prefs);
+        builder = element._builder;
 
-          const startElem = builder.getContentByLine(5, 'left',
-              element.$.diffTable);
-          const expectedStartString = diff.content[2].ab[0];
-          const expectedNextString = diff.content[2].ab[1];
-          assert.equal(startElem.textContent, expectedStartString);
+        const startElem = builder.getContentByLine(5, 'left',
+            element.$.diffTable);
+        const expectedStartString = diff.content[2].ab[0];
+        const expectedNextString = diff.content[2].ab[1];
+        assert.equal(startElem.textContent, expectedStartString);
 
-          const nextElem = builder._getNextContentOnSide(startElem,
-              'left');
-          assert.equal(nextElem.textContent, expectedNextString);
-
-          done();
-        });
+        const nextElem = builder._getNextContentOnSide(startElem,
+            'left');
+        assert.equal(nextElem.textContent, expectedNextString);
       });
 
-      test('_getNextContentOnSide unified right', done => {
+      test('_getNextContentOnSide unified right', async () => {
         // Re-render as unified:
         element.viewMode = 'UNIFIED_DIFF';
-        element.render({left: [], right: []}, prefs).then(() => {
-          builder = element._builder;
+        await element.render({left: [], right: []}, prefs);
+        builder = element._builder;
 
-          const startElem = builder.getContentByLine(5, 'right',
-              element.$.diffTable);
-          const expectedStartString = diff.content[1].b[0];
-          const expectedNextString = diff.content[1].b[1];
-          assert.equal(startElem.textContent, expectedStartString);
+        const startElem = builder.getContentByLine(5, 'right',
+            element.$.diffTable);
+        const expectedStartString = diff.content[1].b[0];
+        const expectedNextString = diff.content[1].b[1];
+        assert.equal(startElem.textContent, expectedStartString);
 
-          const nextElem = builder._getNextContentOnSide(startElem,
-              'right');
-          assert.equal(nextElem.textContent, expectedNextString);
-
-          done();
-        });
+        const nextElem = builder._getNextContentOnSide(startElem,
+            'right');
+        assert.equal(nextElem.textContent, expectedNextString);
       });
 
       test('escaping HTML', () => {

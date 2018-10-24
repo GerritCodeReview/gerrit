@@ -67,7 +67,7 @@ limitations under the License.
         return getLoggedInPromise;
       });
 
-      test('reload() loads files weblinks', () => {
+      test('reload() loads files weblinks', async () => {
         const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
             .returns({name: 'stubb', url: '#s'});
         sandbox.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({
@@ -77,51 +77,49 @@ limitations under the License.
         element.path = 'test-path';
         element.commitRange = {baseCommit: 'test-base', commit: 'test-commit'};
         element.patchRange = {};
-        return element.reload().then(() => {
-          assert.isTrue(weblinksStub.calledTwice);
-          assert.isTrue(weblinksStub.firstCall.calledWith({
-            commit: 'test-base',
-            file: 'test-path',
-            options: {
-              weblinks: undefined,
-            },
-            repo: 'test-project',
-            type: Gerrit.Nav.WeblinkType.FILE}));
-          assert.isTrue(weblinksStub.secondCall.calledWith({
-            commit: 'test-commit',
-            file: 'test-path',
-            options: {
-              weblinks: undefined,
-            },
-            repo: 'test-project',
-            type: Gerrit.Nav.WeblinkType.FILE}));
-          assert.deepEqual(element.filesWeblinks, {
-            meta_a: [{name: 'stubb', url: '#s'}],
-            meta_b: [{name: 'stubb', url: '#s'}],
-          });
+        await element.reload();
+        assert.isTrue(weblinksStub.calledTwice);
+        assert.isTrue(weblinksStub.firstCall.calledWith({
+          commit: 'test-base',
+          file: 'test-path',
+          options: {
+            weblinks: undefined,
+          },
+          repo: 'test-project',
+          type: Gerrit.Nav.WeblinkType.FILE}));
+        assert.isTrue(weblinksStub.secondCall.calledWith({
+          commit: 'test-commit',
+          file: 'test-path',
+          options: {
+            weblinks: undefined,
+          },
+          repo: 'test-project',
+          type: Gerrit.Nav.WeblinkType.FILE}));
+        assert.deepEqual(element.filesWeblinks, {
+          meta_a: [{name: 'stubb', url: '#s'}],
+          meta_b: [{name: 'stubb', url: '#s'}],
         });
       });
 
-      test('_getDiff handles null diff responses', done => {
+      test('_getDiff handles null diff responses', async () => {
         stub('gr-rest-api-interface', {
-          getDiff() { return Promise.resolve(null); },
+          async getDiff() {},
         });
         element.changeNum = 123;
         element.patchRange = {basePatchNum: 1, patchNum: 2};
         element.path = 'file.txt';
-        element._getDiff().then(done);
+        await element._getDiff();
       });
 
-      test('reload resolves on error', () => {
+      test('reload resolves on error', async () => {
         const onErrStub = sandbox.stub(element, '_handleGetDiffError');
         const error = {ok: false, status: 500};
         sandbox.stub(element.$.restAPI, 'getDiff',
             (changeNum, basePatchNum, patchNum, path, onErr) => {
               onErr(error);
             });
-        return element.reload().then(() => {
-          assert.isTrue(onErrStub.calledOnce);
-        });
+        await element.reload();
+        assert.isTrue(onErrStub.calledOnce);
       });
 
       suite('_handleGetDiffError', () => {
@@ -184,7 +182,7 @@ limitations under the License.
           element.comments = {left: [], right: []};
         });
 
-        test('renders image diffs with same file name', done => {
+        test('renders image diffs with same file name', async () => {
           const mockDiff = {
             meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
             meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
@@ -203,6 +201,9 @@ limitations under the License.
           };
           sandbox.stub(element.$.restAPI, 'getDiff')
               .returns(Promise.resolve(mockDiff));
+
+          let done;
+          const promise = new Promise(resolve => done = resolve);
 
           const rendered = () => {
             // Recognizes that it should be an image diff.
@@ -259,13 +260,12 @@ limitations under the License.
 
           element.addEventListener('render', rendered);
 
-          element.$.restAPI.getDiffPreferences().then(prefs => {
-            element.prefs = prefs;
-            element.reload();
-          });
+          element.prefs = await element.$.restAPI.getDiffPreferences();
+          await element.reload();
+          await promise;
         });
 
-        test('renders image diffs with a different file name', done => {
+        test('renders image diffs with a different file name', async () => {
           const mockDiff = {
             meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
             meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg',
@@ -284,6 +284,9 @@ limitations under the License.
           };
           sandbox.stub(element.$.restAPI, 'getDiff')
               .returns(Promise.resolve(mockDiff));
+
+          let done;
+          const promise = new Promise(resolve => done = resolve);
 
           const rendered = () => {
             // Recognizes that it should be an image diff.
@@ -342,13 +345,12 @@ limitations under the License.
 
           element.addEventListener('render', rendered);
 
-          element.$.restAPI.getDiffPreferences().then(prefs => {
-            element.prefs = prefs;
-            element.reload();
-          });
+          element.prefs = await element.$.restAPI.getDiffPreferences();
+          await element.reload();
+          await promise;
         });
 
-        test('renders added image', done => {
+        test('renders added image', async () => {
           const mockDiff = {
             meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
               lines: 560},
@@ -367,29 +369,29 @@ limitations under the License.
           sandbox.stub(element.$.restAPI, 'getDiff')
               .returns(Promise.resolve(mockDiff));
 
-          element.addEventListener('render', () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+          await new Promise(async resolve => {
+            element.addEventListener('render', () => {
+              // Recognizes that it should be an image diff.
+              assert.isTrue(element.isImageDiff);
+              assert.instanceOf(
+                  element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
 
-            const leftImage =
-                element.$.diff.$.diffTable.querySelector('td.left img');
-            const rightImage =
-                element.$.diff.$.diffTable.querySelector('td.right img');
+              const leftImage =
+                  element.$.diff.$.diffTable.querySelector('td.left img');
+              const rightImage =
+                  element.$.diff.$.diffTable.querySelector('td.right img');
 
-            assert.isNotOk(leftImage);
-            assert.isOk(rightImage);
-            done();
-          });
+              assert.isNotOk(leftImage);
+              assert.isOk(rightImage);
+              resolve();
+            });
 
-          element.$.restAPI.getDiffPreferences().then(prefs => {
-            element.prefs = prefs;
-            element.reload();
+            element.prefs = await element.$.restAPI.getDiffPreferences();
+            await element.reload();
           });
         });
 
-        test('renders removed image', done => {
+        test('renders removed image', async () => {
           const mockDiff = {
             meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg',
               lines: 560},
@@ -408,29 +410,29 @@ limitations under the License.
           sandbox.stub(element.$.restAPI, 'getDiff')
               .returns(Promise.resolve(mockDiff));
 
-          element.addEventListener('render', () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+          await new Promise(async resolve => {
+            element.addEventListener('render', () => {
+              // Recognizes that it should be an image diff.
+              assert.isTrue(element.isImageDiff);
+              assert.instanceOf(
+                  element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
 
-            const leftImage =
-                element.$.diff.$.diffTable.querySelector('td.left img');
-            const rightImage =
-                element.$.diff.$.diffTable.querySelector('td.right img');
+              const leftImage =
+                  element.$.diff.$.diffTable.querySelector('td.left img');
+              const rightImage =
+                  element.$.diff.$.diffTable.querySelector('td.right img');
 
-            assert.isOk(leftImage);
-            assert.isNotOk(rightImage);
-            done();
-          });
+              assert.isOk(leftImage);
+              assert.isNotOk(rightImage);
+              resolve();
+            });
 
-          element.$.restAPI.getDiffPreferences().then(prefs => {
-            element.prefs = prefs;
-            element.reload();
+            element.prefs = await element.$.restAPI.getDiffPreferences();
+            await element.reload();
           });
         });
 
-        test('does not render disallowed image type', done => {
+        test('does not render disallowed image type', async () => {
           const mockDiff = {
             meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg-evil',
               lines: 560},
@@ -451,28 +453,28 @@ limitations under the License.
           sandbox.stub(element.$.restAPI, 'getDiff')
               .returns(Promise.resolve(mockDiff));
 
-          element.addEventListener('render', () => {
-            // Recognizes that it should be an image diff.
-            assert.isTrue(element.isImageDiff);
-            assert.instanceOf(
-                element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
-            const leftImage =
-                element.$.diff.$.diffTable.querySelector('td.left img');
-            assert.isNotOk(leftImage);
-            done();
-          });
+          await new Promise(async resolve => {
+            element.addEventListener('render', () => {
+              // Recognizes that it should be an image diff.
+              assert.isTrue(element.isImageDiff);
+              assert.instanceOf(
+                  element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+              const leftImage =
+                  element.$.diff.$.diffTable.querySelector('td.left img');
+              assert.isNotOk(leftImage);
+              resolve();
+            });
 
-          element.$.restAPI.getDiffPreferences().then(prefs => {
-            element.prefs = prefs;
-            element.reload();
+            element.prefs = await element.$.restAPI.getDiffPreferences();
+            await element.reload();
           });
         });
       });
     });
 
-    test('delegates cancel()', () => {
+    test('delegates cancel()', async () => {
       const stub = sandbox.stub(element.$.diff, 'cancel');
-      element.reload();
+      await element.reload();
       assert.isTrue(stub.calledOnce);
       assert.equal(stub.lastCall.args.length, 0);
     });
@@ -516,7 +518,7 @@ limitations under the License.
         assert.equal(element.isBlameLoaded, false);
       });
 
-      test('loadBlame', () => {
+      test('loadBlame', async () => {
         const mockBlame = [{id: 'commit id', ranges: [{start: 1, end: 2}]}];
         const showAlertStub = sinon.stub();
         element.addEventListener('show-alert', showAlertStub);
@@ -525,16 +527,15 @@ limitations under the License.
         element.changeNum = 42;
         element.patchRange = {patchNum: 5, basePatchNum: 4};
         element.path = 'foo/bar.baz';
-        return element.loadBlame().then(() => {
-          assert.isTrue(getBlameStub.calledWithExactly(
-              42, 5, 'foo/bar.baz', true));
-          assert.isFalse(showAlertStub.called);
-          assert.equal(element._blame, mockBlame);
-          assert.equal(element.isBlameLoaded, true);
-        });
+        await element.loadBlame();
+        assert.isTrue(getBlameStub.calledWithExactly(
+            42, 5, 'foo/bar.baz', true));
+        assert.isFalse(showAlertStub.called);
+        assert.equal(element._blame, mockBlame);
+        assert.equal(element.isBlameLoaded, true);
       });
 
-      test('loadBlame empty', () => {
+      test('loadBlame empty', async () => {
         const mockBlame = [];
         const showAlertStub = sinon.stub();
         element.addEventListener('show-alert', showAlertStub);
@@ -543,15 +544,14 @@ limitations under the License.
         element.changeNum = 42;
         element.patchRange = {patchNum: 5, basePatchNum: 4};
         element.path = 'foo/bar.baz';
-        return element.loadBlame()
-            .then(() => {
-              assert.isTrue(false, 'Promise should not resolve');
-            })
-            .catch(() => {
-              assert.isTrue(showAlertStub.calledOnce);
-              assert.isNull(element._blame);
-              assert.equal(element.isBlameLoaded, false);
-            });
+        try {
+          await element.loadBlame();
+          assert.fail('expected exception');
+        } catch (err) {
+          assert.isTrue(showAlertStub.calledOnce);
+          assert.isNull(element._blame);
+          assert.equal(element.isBlameLoaded, false);
+        }
       });
     });
 

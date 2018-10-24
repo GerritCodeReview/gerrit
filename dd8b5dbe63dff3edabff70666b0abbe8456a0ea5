@@ -34,6 +34,24 @@
       "revId": "dd8b5dbe63dff3edabff70666b0abbe8456a0ea5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec415ef_bcb766d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-24T14:28:19Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure since we also discussed the idea of having this option only temporary until the issues with move change are fixed and then remove this option again. Hence have intentionally no documentation so that this option can be easily removed in future.",
+      "parentUuid": "e4fbb91a_606ab0ca",
+      "revId": "dd8b5dbe63dff3edabff70666b0abbe8456a0ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

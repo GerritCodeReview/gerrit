@@ -1324,6 +1324,13 @@ If set to true, users are not allowed to create private changes.
 +
 The default is false.
 
+[[change.move]]change.move::
++
+If set to false, users are not allowed to move changes through the
+link:rest-api-changes.html#move[move change REST API].
++
+The default is true.
+
 [[changeCleanup]]
 === Section changeCleanup
 

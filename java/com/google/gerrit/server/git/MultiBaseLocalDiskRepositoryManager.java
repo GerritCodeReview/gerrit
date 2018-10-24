@@ -17,7 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -54,7 +54,7 @@ public class MultiBaseLocalDiskRepositoryManager extends LocalDiskRepositoryMana
   }
 
   @Override
-  public Path getBasePath(NameKey name) {
+  public Path getBasePath(Project.NameKey name) {
     Path alternateBasePath = config.getBasePath(name);
     return alternateBasePath != null ? alternateBasePath : super.getBasePath(name);
   }

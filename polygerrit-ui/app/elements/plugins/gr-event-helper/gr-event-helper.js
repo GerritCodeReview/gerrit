@@ -29,7 +29,9 @@
    * @param {function(Event):boolean} callback
    * @return {function()} Unsubscribe function.
    */
-  GrEventHelper.prototype.on = function(event, callback) {
+  GrEventHelper.prototype.on = function(
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
+      event, callback) {
     return this._listen(this.element, callback, {event});
   };
 
@@ -39,7 +41,9 @@
    * @param {function(Event):boolean} callback
    * @return {function()} Unsubscribe function.
    */
-  GrEventHelper.prototype.onTap = function(callback) {
+  GrEventHelper.prototype.onTap = function(
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
+      callback) {
     return this._listen(this.element, callback);
   };
 
@@ -51,17 +55,22 @@
    * @param {function(Event):boolean} callback
    * @return {function()} Unsubscribe function.
    */
-  GrEventHelper.prototype.captureTap = function(callback) {
+  GrEventHelper.prototype.captureTap = function(
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
+      callback) {
     return this._listen(this.element.parentElement, callback, {capture: true});
   };
 
-  GrEventHelper.prototype._listen = function(container, callback, opt_options) {
+  GrEventHelper.prototype._listen = function(
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
+      container, callback, opt_options) {
     const capture = opt_options && opt_options.capture;
     const event = opt_options && opt_options.event || 'tap';
     const handler = e => {
       if (e.path.indexOf(this.element) !== -1) {
         let mayContinue = true;
         try {
+          // eslint-disable-next-line promise/prefer-await-to-callbacks
           mayContinue = callback(e);
         } catch (e) {
           console.warn(`Plugin error handing event: ${e}`);

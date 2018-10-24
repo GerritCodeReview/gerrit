@@ -308,10 +308,10 @@ limitations under the License.
       assert.isTrue(element._focused);
     });
 
-    test('_focused flag properly triggered', done => {
+    test.only('_focused flag properly triggered', done => {
       flush(() => {
         assert.isFalse(element._focused);
-        const input = element.$$('paper-input').inputElement;
+        const input = element.$$('paper-input');
         MockInteractions.focus(input);
         assert.isTrue(element._focused);
         done();

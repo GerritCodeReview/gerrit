@@ -581,6 +581,7 @@
 
     _editStatusChanged(editMode, editPatchsetLoaded,
         editBasedOnCurrentPatchSet, disableEdit) {
+
       if (disableEdit) {
         this._deleteAndNotify('publishEdit');
         this._deleteAndNotify('rebaseEdit');

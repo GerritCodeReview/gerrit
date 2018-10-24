@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -47,6 +48,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -68,6 +70,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -87,6 +90,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   private final PatchSetUtil psUtil;
   private final ApprovalsUtil approvalsUtil;
   private final ProjectCache projectCache;
+  private final boolean moveEnabled;
 
   @Inject
   Move(
@@ -99,7 +103,8 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       RetryHelper retryHelper,
       PatchSetUtil psUtil,
       ApprovalsUtil approvalsUtil,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      @GerritServerConfig Config gerritConfig) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
@@ -110,6 +115,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     this.psUtil = psUtil;
     this.approvalsUtil = approvalsUtil;
     this.projectCache = projectCache;
+    this.moveEnabled = gerritConfig.getBoolean("change", null, "move", true);
   }
 
   @Override
@@ -117,6 +123,10 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, MoveInput input)
       throws RestApiException, OrmException, UpdateException, PermissionBackendException,
           IOException {
+    if (!moveEnabled) {
+      throw new MethodNotAllowedException("move changes endpoint is disabled");
+    }
+
     Change change = rsrc.getChange();
     Project.NameKey project = rsrc.getProject();
     IdentifiedUser caller = rsrc.getUser().asIdentifiedUser();

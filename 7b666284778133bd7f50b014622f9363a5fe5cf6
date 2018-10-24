@@ -16,6 +16,24 @@
       "revId": "7b666284778133bd7f50b014622f9363a5fe5cf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10bfea03_aa1b32ac",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-10-24T14:01:59Z",
+      "side": 1,
+      "message": "I tried this, but decided against it:\n\n* the number of reindexes is not a specified behavior of the API\n\n* it actually reindexes twice, because the unstarring triggers a reindexing too.",
+      "parentUuid": "cda468ec_a424bc2b",
+      "revId": "7b666284778133bd7f50b014622f9363a5fe5cf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -34,6 +34,7 @@
     });
   };
 
+  // eslint-disable-next-line promise/prefer-await-to-callbacks
   GrRepoApi.prototype.createCommand = function(title, callback) {
     if (this._hook) {
       console.warn('Already set up.');
@@ -41,6 +42,7 @@
     }
     this._createHook(title);
     this._hook.onAttached(element => {
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
       if (callback(element.repoName, element.config) === false) {
         element.hidden = true;
       }
@@ -48,6 +50,7 @@
     return this;
   };
 
+  // eslint-disable-next-line promise/prefer-await-to-callbacks
   GrRepoApi.prototype.onTap = function(callback) {
     if (!this._hook) {
       console.warn('Call createCommand first.');

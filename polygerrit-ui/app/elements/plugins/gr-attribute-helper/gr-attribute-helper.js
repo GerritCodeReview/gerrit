@@ -37,6 +37,7 @@
 
   GrAttributeHelper.prototype._reportValue = function(callback, value) {
     try {
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
       callback(value);
     } catch (e) {
       console.info(e);
@@ -50,7 +51,9 @@
    * @param {function(?)} callback
    * @return {function()} Unbind function.
    */
-  GrAttributeHelper.prototype.bind = function(name, callback) {
+  GrAttributeHelper.prototype.bind = function(
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
+      name, callback) {
     const attributeChangedEventName = this._getChangedEventName(name);
     const changedHandler = e => this._reportValue(callback, e.detail.value);
     const unbind = () => this.element.removeEventListener(
@@ -75,10 +78,10 @@
       return Promise.resolve(this.element[name]);
     }
     if (!this._promises[name]) {
-      let resolve;
-      const promise = new Promise(r => resolve = r);
+      let r;
+      const promise = new Promise(resolve => r = resolve);
       const unbind = this.bind(name, value => {
-        resolve(value);
+        r(value);
         unbind();
       });
       this._promises[name] = promise;

@@ -26,6 +26,7 @@
     this._hook = this.plugin.hook('change-metadata-item');
   };
 
+  // eslint-disable-next-line promise/prefer-await-to-callbacks
   GrChangeMetadataApi.prototype.onLabelsChanged = function(callback) {
     if (!this._hook) {
       this._createHook();

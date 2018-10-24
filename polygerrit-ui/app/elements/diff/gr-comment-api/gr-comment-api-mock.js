@@ -34,17 +34,14 @@
      * requests. Since this is for test purposes/mocked data anyway, keep this
      * file simpler by just using _reloadComments here instead.
      */
-    _reloadDraftsWithCallback(e) {
-      return this._reloadComments().then(() => {
-        return e.detail.resolve();
-      });
+    async _reloadDraftsWithCallback(e) {
+      await this._reloadComments();
+      return e.detail.resolve();
     },
 
-    _reloadComments() {
-      return this.$.commentAPI.loadAll(this._changeNum)
-          .then(comments => {
-            this._changeComments = this.$.commentAPI._changeComments;
-          });
+    async _reloadComments() {
+      await this.$.commentAPI.loadAll(this._changeNum);
+      this._changeComments = this.$.commentAPI._changeComments;
     },
   });
 })();

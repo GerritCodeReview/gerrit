@@ -165,14 +165,12 @@
      * as syntax info comes online.
      * @return {Promise}
      */
-    process() {
+    async process() {
       // Discard existing ranges.
       this._baseRanges = [];
       this._revisionRanges = [];
 
-      if (!this.enabled || !this.diff.content.length) {
-        return Promise.resolve();
-      }
+      if (!this.enabled || !this.diff.content.length) { return; }
 
       this.cancel();
 
@@ -195,38 +193,37 @@
         lastNotify: {left: 1, right: 1},
       };
 
-      return this._loadHLJS().then(() => {
-        return new Promise(resolve => {
-          const nextStep = () => {
-            this._processHandle = null;
-            this._processNextLine(state);
+      await this._loadHLJS();
+      await new Promise(resolve => {
+        const nextStep = () => {
+          this._processHandle = null;
+          this._processNextLine(state);
 
-            // Move to the next line in the section.
-            state.lineIndex++;
+          // Move to the next line in the section.
+          state.lineIndex++;
 
-            // If the section has been exhausted, move to the next one.
-            if (this._isSectionDone(state)) {
-              state.lineIndex = 0;
-              state.sectionIndex++;
-            }
+          // If the section has been exhausted, move to the next one.
+          if (this._isSectionDone(state)) {
+            state.lineIndex = 0;
+            state.sectionIndex++;
+          }
 
-            // If all sections have been exhausted, finish.
-            if (state.sectionIndex >= this.diff.content.length) {
-              resolve();
-              this._notify(state);
-              return;
-            }
+          // If all sections have been exhausted, finish.
+          if (state.sectionIndex >= this.diff.content.length) {
+            resolve();
+            this._notify(state);
+            return;
+          }
 
-            if (state.lineIndex % 100 === 0) {
-              this._notify(state);
-              this._processHandle = this.async(nextStep, ASYNC_DELAY);
-            } else {
-              nextStep.call(this);
-            }
-          };
+          if (state.lineIndex % 100 === 0) {
+            this._notify(state);
+            this._processHandle = this.async(nextStep, ASYNC_DELAY);
+          } else {
+            nextStep.call(this);
+          }
+        };
 
-          this._processHandle = this.async(nextStep, 1);
-        });
+        this._processHandle = this.async(nextStep, 1);
       });
     },
 
@@ -438,10 +435,8 @@
       }
     },
 
-    _loadHLJS() {
-      return this.$.libLoader.getHLJS().then(hljs => {
-        this._hljs = hljs;
-      });
+    async _loadHLJS() {
+      this._hljs = await this.$.libLoader.getHLJS();
     },
   });
 })();

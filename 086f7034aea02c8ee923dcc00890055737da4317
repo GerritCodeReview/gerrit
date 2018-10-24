@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2658cfce_b9b98a54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-24T23:16:37Z",
+      "side": 1,
+      "message": "At the moment many (most) of PG plugins use ${plugin_name}.js\nAlso, many (most) of the plugins that have server-side part, generate ${plugin_name}.jar as a result of a build rule commonly named as `plugin_name`.\npolygerrit_plugin, as you\u0027ve noted, generates output based on the rule name.\nAs a result, bazel can\u0027t generate both ${plugin_name}.jar and ${plugin_name}.js using existing build rules.\n\nTherefore, some sort of disambiguation is required, and this seems to be least complicated that doesn\u0027t affect status-quo.\n\nHere\u0027s an example:\nhttps://chromium-review.googlesource.com/c/infra/gerrit-plugins/landingwidget/+/1295049",
+      "parentUuid": "57c8a68b_9a1e94fb",
+      "revId": "086f7034aea02c8ee923dcc00890055737da4317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2489bf7b_674db16b",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "a4fb68d0_b4fc1e50",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-24T23:16:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2489bf7b_674db16b",
+      "range": {
+        "startLine": 443,
+        "startChar": 6,
+        "endLine": 443,
+        "endChar": 51
+      },
+      "revId": "086f7034aea02c8ee923dcc00890055737da4317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "724c632f_a0395a97",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 2
@@ -62,6 +104,30 @@
       "revId": "086f7034aea02c8ee923dcc00890055737da4317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36662827_2c3c10c4",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-24T23:16:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "724c632f_a0395a97",
+      "range": {
+        "startLine": 445,
+        "startChar": 4,
+        "endLine": 445,
+        "endChar": 27
+      },
+      "revId": "086f7034aea02c8ee923dcc00890055737da4317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

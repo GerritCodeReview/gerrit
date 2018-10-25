@@ -43,11 +43,8 @@
     threadEl.projectName = projectName;
     threadEl.range = thread.range;
     threadEl.addEventListener('thread-discard', e => {
-      const threadEl = /** @type {Node} */ (e.currentTarget);
-      // It seems depending on the shadow DOM implementation,
-      // e.currentTarget.parentNode is the Local DOM root or the light DOM
-      // parent.
-      const parent = threadEl.parentNode.root || threadEl.parentNode;
+      const threadEl = /** @type {!Node} */ (e.currentTarget);
+      const parent = Polymer.dom(threadEl).parentNode;
       Polymer.dom(parent).removeChild(threadEl);
     });
     return threadEl;
@@ -57,22 +54,11 @@
     is: 'gr-diff-comment-thread-group',
 
     properties: {
-      changeNum: String,
-      projectName: String,
-      patchForNewThreads: String,
-      isOnParent: {
-        type: Boolean,
-        value: false,
-      },
-      parentIndex: {
-        type: Number,
-        value: null,
-      },
-      path: String,
     },
 
     get threadEls() {
-      return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
+      return Polymer.dom(this).queryDistributedElements(
+          'gr-diff-comment-thread');
     },
 
     /**
@@ -93,37 +79,6 @@
     },
 
     /**
-     * Adds a new thread. Range is optional because a comment can be
-     * added to a line without a range selected.
-     *
-     * @param {!Object} opt_range
-     */
-    addNewThread(commentSide, opt_range) {
-      this._appendThread({
-        comments: [],
-        commentSide,
-        patchNum: this.patchForNewThreads,
-        range: opt_range,
-      });
-    },
-
-    /** @param {!Array<!Object>} threads */
-    setThreads(threads) {
-      // This is temporary, and the only usage is adding a full new list of
-      // threads in builder, so not optimizing for reusing any DOM elements.
-      this.clearThreads();
-      for (const thread of threads) {
-        this._appendThread(thread);
-      }
-    },
-
-    clearThreads() {
-      while (this.lastChild) {
-        Polymer.dom(this.root).removeChild(this.lastChild);
-      }
-    },
-
-    /**
      * Compare two ranges. Either argument may be falsy, but will only return
      * true if both are falsy or if neither are falsy and have the same position
      * values.
@@ -139,12 +94,6 @@
           a.startChar === b.startChar &&
           a.endLine === b.endLine &&
           a.endChar === b.endChar;
-    },
-
-    _appendThread(thread) {
-      Polymer.dom(this.root).appendChild(Gerrit.createThreadElement(
-          thread, this.isOnParent, this.parentIndex, this.changeNum,
-          this.path, this.projectName));
     },
   });
 })();

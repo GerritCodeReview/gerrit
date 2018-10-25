@@ -42,24 +42,22 @@ limitations under the License.
     });
 
     suite('default (xsrf token header)', () => {
-      test('GET', () => {
-        return auth.fetch('/url', {bar: 'bar'}).then(() => {
-          const [url, options] = fetch.lastCall.args;
-          assert.equal(url, '/url');
-          assert.equal(options.credentials, 'same-origin');
-        });
+      test('GET', async () => {
+        await auth.fetch('/url', {bar: 'bar'});
+        const [url, options] = fetch.lastCall.args;
+        assert.equal(url, '/url');
+        assert.equal(options.credentials, 'same-origin');
       });
 
-      test('POST', () => {
+      test('POST', async () => {
         sandbox.stub(auth, '_getCookie')
             .withArgs('XSRF_TOKEN')
             .returns('foobar');
-        return auth.fetch('/url', {method: 'POST'}).then(() => {
-          const [url, options] = fetch.lastCall.args;
-          assert.equal(url, '/url');
-          assert.equal(options.credentials, 'same-origin');
-          assert.equal(options.headers.get('X-Gerrit-Auth'), 'foobar');
-        });
+        await auth.fetch('/url', {method: 'POST'});
+        const [url, options] = fetch.lastCall.args;
+        assert.equal(url, '/url');
+        assert.equal(options.credentials, 'same-origin');
+        assert.equal(options.headers.get('X-Gerrit-Auth'), 'foobar');
       });
     });
 
@@ -79,63 +77,58 @@ limitations under the License.
         auth.setup(getToken);
       });
 
-      test('base url support', () => {
+      test('base url support', async () => {
         const baseUrl = 'http://foo';
         sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
-        return auth.fetch(baseUrl + '/url', {bar: 'bar'}).then(() => {
-          const [url] = fetch.lastCall.args;
-          assert.equal(url, 'http://foo/a/url?access_token=zbaz');
-        });
+        await auth.fetch(baseUrl + '/url', {bar: 'bar'});
+        const [url] = fetch.lastCall.args;
+        assert.equal(url, 'http://foo/a/url?access_token=zbaz');
       });
 
-      test('fetch not signed in', () => {
+      test('fetch not signed in', async () => {
         getToken.returns(Promise.resolve());
-        return auth.fetch('/url', {bar: 'bar'}).then(() => {
-          const [url, options] = fetch.lastCall.args;
-          assert.equal(url, '/url');
-          assert.equal(options.bar, 'bar');
-          assert.equal(Object.keys(options.headers).length, 0);
-        });
+        await auth.fetch('/url', {bar: 'bar'});
+        const [url, options] = fetch.lastCall.args;
+        assert.equal(url, '/url');
+        assert.equal(options.bar, 'bar');
+        assert.equal(Object.keys(options.headers).length, 0);
       });
 
-      test('fetch signed in', () => {
-        return auth.fetch('/url', {bar: 'bar'}).then(() => {
-          const [url, options] = fetch.lastCall.args;
-          assert.equal(url, '/a/url?access_token=zbaz');
-          assert.equal(options.bar, 'bar');
-        });
+      test('fetch signed in', async () => {
+        await auth.fetch('/url', {bar: 'bar'});
+        const [url, options] = fetch.lastCall.args;
+        assert.equal(url, '/a/url?access_token=zbaz');
+        assert.equal(options.bar, 'bar');
       });
 
-      test('getToken calls are cached', () => {
-        return Promise.all([
-          auth.fetch('/url-one'), auth.fetch('/url-two')]).then(() => {
-            assert.equal(getToken.callCount, 1);
-          });
+      test('getToken calls are cached', async () => {
+        await Promise.all([
+          auth.fetch('/url-one'), auth.fetch('/url-two')]);
+        assert.equal(getToken.callCount, 1);
       });
 
-      test('getToken refreshes token', () => {
+      test('getToken refreshes token', async () => {
         sandbox.stub(auth, '_isTokenValid');
         auth._isTokenValid
             .onFirstCall().returns(true)
             .onSecondCall().returns(false)
             .onThirdCall().returns(true);
-        return auth.fetch('/url-one').then(() => {
-          getToken.returns(Promise.resolve(makeToken('bzzbb')));
-          return auth.fetch('/url-two');
-        }).then(() => {
-          const [[firstUrl], [secondUrl]] = fetch.args;
-          assert.equal(firstUrl, '/a/url-one?access_token=zbaz');
-          assert.equal(secondUrl, '/a/url-two?access_token=bzzbb');
-        });
+
+        await auth.fetch('/url-one');
+        getToken.returns(Promise.resolve(makeToken('bzzbb')));
+
+        await auth.fetch('/url-two');
+        const [[firstUrl], [secondUrl]] = fetch.args;
+        assert.equal(firstUrl, '/a/url-one?access_token=zbaz');
+        assert.equal(secondUrl, '/a/url-two?access_token=bzzbb');
       });
 
-      test('signed in token error falls back to anonymous', () => {
+      test('signed in token error falls back to anonymous', async () => {
         getToken.returns(Promise.resolve('rubbish'));
-        return auth.fetch('/url', {bar: 'bar'}).then(() => {
-          const [url, options] = fetch.lastCall.args;
-          assert.equal(url, '/url');
-          assert.equal(options.bar, 'bar');
-        });
+        await auth.fetch('/url', {bar: 'bar'});
+        const [url, options] = fetch.lastCall.args;
+        assert.equal(url, '/url');
+        assert.equal(options.bar, 'bar');
       });
 
       test('_isTokenValid', () => {
@@ -152,35 +145,33 @@ limitations under the License.
         }));
       });
 
-      test('HTTP PUT with content type', () => {
+      test('HTTP PUT with content type', async () => {
         const originalOptions = {
           method: 'PUT',
           headers: new Headers({'Content-Type': 'mail/pigeon'}),
         };
-        return auth.fetch('/url', originalOptions).then(() => {
-          assert.isTrue(getToken.called);
-          const [url, options] = fetch.lastCall.args;
-          assert.include(url, '$ct=mail%2Fpigeon');
-          assert.include(url, '$m=PUT');
-          assert.include(url, 'access_token=zbaz');
-          assert.equal(options.method, 'POST');
-          assert.equal(options.headers.get('Content-Type'), 'text/plain');
-        });
+        await auth.fetch('/url', originalOptions);
+        assert.isTrue(getToken.called);
+        const [url, options] = fetch.lastCall.args;
+        assert.include(url, '$ct=mail%2Fpigeon');
+        assert.include(url, '$m=PUT');
+        assert.include(url, 'access_token=zbaz');
+        assert.equal(options.method, 'POST');
+        assert.equal(options.headers.get('Content-Type'), 'text/plain');
       });
 
-      test('HTTP PUT without content type', () => {
+      test('HTTP PUT without content type', async () => {
         const originalOptions = {
           method: 'PUT',
         };
-        return auth.fetch('/url', originalOptions).then(() => {
-          assert.isTrue(getToken.called);
-          const [url, options] = fetch.lastCall.args;
-          assert.include(url, '$ct=text%2Fplain');
-          assert.include(url, '$m=PUT');
-          assert.include(url, 'access_token=zbaz');
-          assert.equal(options.method, 'POST');
-          assert.equal(options.headers.get('Content-Type'), 'text/plain');
-        });
+        await auth.fetch('/url', originalOptions);
+        assert.isTrue(getToken.called);
+        const [url, options] = fetch.lastCall.args;
+        assert.include(url, '$ct=text%2Fplain');
+        assert.include(url, '$m=PUT');
+        assert.include(url, 'access_token=zbaz');
+        assert.equal(options.method, 'POST');
+        assert.equal(options.headers.get('Content-Type'), 'text/plain');
       });
     });
   });

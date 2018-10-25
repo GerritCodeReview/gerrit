@@ -128,7 +128,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 
 /** Run SSH daemon portions of Gerrit. */
 public class Daemon extends SiteProgram {
@@ -176,15 +175,6 @@ public class Daemon extends SiteProgram {
 
   @Option(name = "--stop-only", usage = "Stop the daemon", hidden = true)
   private boolean stopOnly;
-
-  @Option(
-      name = "--migrate-to-note-db",
-      usage = "Automatically migrate changes to NoteDb",
-      handler = ExplicitBooleanOptionHandler.class)
-  private boolean migrateToNoteDb;
-
-  @Option(name = "--trial", usage = "(With --migrate-to-note-db) " + MigrateToNoteDb.TRIAL_USAGE)
-  private boolean trial;
 
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
@@ -487,9 +477,9 @@ public class Daemon extends SiteProgram {
       modules.add(new AccountDeactivator.Module());
       modules.add(new ChangeCleanupRunner.Module());
     }
-    if (migrateToNoteDb()) {
-      modules.add(new OnlineNoteDbMigrator.Module(trial));
-    }
+
+    modules.add(new OnlineNoteDbMigrator.Module());
+
     if (testSysModule != null) {
       modules.add(testSysModule);
     }
@@ -500,7 +490,7 @@ public class Daemon extends SiteProgram {
   }
 
   private boolean migrateToNoteDb() {
-    return migrateToNoteDb || NoteDbMigrator.getAutoMigrate(requireNonNull(config));
+    return NoteDbMigrator.getAutoMigrate(requireNonNull(config));
   }
 
   private Module createIndexModule() {

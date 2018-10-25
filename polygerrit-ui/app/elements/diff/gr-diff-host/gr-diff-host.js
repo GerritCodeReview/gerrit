@@ -472,12 +472,12 @@
      * @return {!Object}
      */
     _getOrCreateThread(threadGroupEl, commentSide, range=undefined) {
-      let threadEl = threadGroupEl.getThread(commentSide, range);
+      let threadEl = threadGroupEl.getThreadEl(commentSide, range);
 
       if (!threadEl) {
         threadGroupEl.addNewThread(commentSide, range);
         Polymer.dom.flush();
-        threadEl = threadGroupEl.getThread(commentSide, range);
+        threadEl = threadGroupEl.getThreadEl(commentSide, range);
       }
       return threadEl;
     },

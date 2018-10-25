@@ -307,7 +307,7 @@ image::images/user-review-ui-change-screen-file-list-mark-as-reviewed.png[width=
 The type of a file modification is indicated by the character in front
 of the file name:
 
-- 'no character' (Modified):
+- `M` or 'no character' (Modified):
 +
 The file existed before this change and is modified.
 
@@ -326,6 +326,10 @@ The file is renamed.
 - `C` (Copied):
 +
 The file is new and is copied from an existing file.
+
+- `U` (Unchanged):
++
+The file is unchanged and has the same content.
 
 image::images/user-review-ui-change-screen-file-list-modification-type.png[width=800, link="images/user-review-ui-change-screen-file-list-modification-type.png"]
 

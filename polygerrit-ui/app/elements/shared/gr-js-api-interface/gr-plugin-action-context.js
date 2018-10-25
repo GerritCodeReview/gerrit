@@ -86,21 +86,22 @@
     return this.label(checkbox, title);
   };
 
-  GrPluginActionContext.prototype.call = function(payload, onSuccess) {
+  GrPluginActionContext.prototype.call = async function(payload, onSuccess) {
     if (!this.action.__url) {
       console.warn(`Unable to ${this.action.method} to ${this.action.__key}!`);
       return;
     }
-    this.plugin.restApi()
-        .send(this.action.method, this.action.__url, payload)
-        .then(onSuccess)
-        .catch(error => {
-          document.dispatchEvent(new CustomEvent('show-alert', {
-            detail: {
-              message: `Plugin network error: ${error}`,
-            },
-          }));
-        });
+    try {
+      await this.plugin.restApi()
+          .send(this.action.method, this.action.__url, payload);
+      onSuccess();
+    } catch (error) {
+      document.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {
+          message: `Plugin network error: ${error}`,
+        },
+      }));
+    }
   };
 
   window.GrPluginActionContext = GrPluginActionContext;

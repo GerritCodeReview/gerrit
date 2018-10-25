@@ -113,7 +113,7 @@
      * For now, supressing annotations.
      *
      * @suppress {checkTypes} */
-    _onDeleteVote(e) {
+    async _onDeleteVote(e) {
       e.preventDefault();
       let target = Polymer.dom(e).rootTarget;
       while (!target.classList.contains('deleteBtn')) {
@@ -123,35 +123,36 @@
 
       target.disabled = true;
       const accountID = parseInt(target.getAttribute('data-account-id'), 10);
-      this._xhrPromise =
-          this.$.restAPI.deleteVote(this.change._number, accountID, this.label)
-          .then(response => {
-            target.disabled = false;
-            if (!response.ok) { return response; }
+      this._xhrPromise = (async () => {
+        try {
+          const response = await this.$.restAPI.deleteVote(
+              this.change._number, accountID, this.label);
+          target.disabled = false;
+          if (!response.ok) { return response; }
 
-            const label = this.change.labels[this.label];
-            const labels = label.all || [];
-            let wasChanged = false;
-            for (let i = 0; i < labels.length; i++) {
-              if (labels[i]._account_id === accountID) {
-                for (const key in label) {
-                  if (label.hasOwnProperty(key) &&
-                      label[key]._account_id === accountID) {
-                    // Remove special label field, keeping change label values
-                    // in sync with the backend.
-                    this.change.labels[this.label][key] = null;
-                  }
+          const label = this.change.labels[this.label];
+          const labels = label.all || [];
+          let wasChanged = false;
+          for (let i = 0; i < labels.length; i++) {
+            if (labels[i]._account_id === accountID) {
+              for (const key in label) {
+                if (label.hasOwnProperty(key) &&
+                    label[key]._account_id === accountID) {
+                  // Remove special label field, keeping change label values
+                  // in sync with the backend.
+                  this.change.labels[this.label][key] = null;
                 }
-                this.change.labels[this.label].all.splice(i, 1);
-                wasChanged = true;
-                break;
               }
+              this.change.labels[this.label].all.splice(i, 1);
+              wasChanged = true;
+              break;
             }
-            if (wasChanged) { this.notifySplices('change.labels'); }
-          }).catch(err => {
-            target.disabled = false;
-            return;
-          });
+          }
+          if (wasChanged) { this.notifySplices('change.labels'); }
+        } finally {
+          target.disabled = false;
+        }
+      })();
     },
 
     _computeValueTooltip(labelInfo, score) {

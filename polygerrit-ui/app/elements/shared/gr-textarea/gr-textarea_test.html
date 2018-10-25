@@ -180,6 +180,7 @@ limitations under the License.
     });
 
     suite('keyboard shortcuts', () => {
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
       function setupDropdown(callback) {
         MockInteractions.focus(element.$.textarea);
         element.$.textarea.selectionStart = 1;

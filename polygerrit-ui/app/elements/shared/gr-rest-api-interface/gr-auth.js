@@ -34,7 +34,7 @@
     _retriesLeft: MAX_GET_TOKEN_RETRIES,
 
     _getToken() {
-      return Promise.resolve(this._cachedTokenPromise);
+      return this._cachedTokenPromise;
     },
 
     /**
@@ -70,16 +70,15 @@
      * @param {Object=} opt_options
      * @return {!Promise<!Response>}
      */
-    fetch(url, opt_options) {
+    async fetch(url, opt_options) {
       const options = Object.assign({
         headers: new Headers(),
       }, this._defaultOptions, opt_options);
       if (this._type === Gerrit.Auth.TYPE.ACCESS_TOKEN) {
-        return this._getAccessToken().then(
-            accessToken => this._fetchWithAccessToken(url, options, accessToken)
-        );
+        const accessToken = await this._getAccessToken();
+        return await this._fetchWithAccessToken(url, options, accessToken);
       } else {
-        return this._fetchWithXsrfToken(url, options);
+        return await this._fetchWithXsrfToken(url, options);
       }
     },
 
@@ -120,23 +119,22 @@
     /**
      * @return {!Promise<string>}
      */
-    _getAccessToken() {
+    async _getAccessToken() {
       if (!this._cachedTokenPromise) {
         this._cachedTokenPromise = this._getToken();
       }
-      return this._cachedTokenPromise.then(token => {
-        if (this._isTokenValid(token)) {
-          this._retriesLeft = MAX_GET_TOKEN_RETRIES;
-          return token.access_token;
-        }
-        if (this._retriesLeft > 0) {
-          this._retriesLeft--;
-          this._cachedTokenPromise = null;
-          return this._getAccessToken();
-        }
-        // Fall back to anonymous access.
-        return null;
-      });
+      const token = await this._cachedTokenPromise;
+      if (this._isTokenValid(token)) {
+        this._retriesLeft = MAX_GET_TOKEN_RETRIES;
+        return token.access_token;
+      }
+      if (this._retriesLeft > 0) {
+        this._retriesLeft--;
+        this._cachedTokenPromise = null;
+        return await this._getAccessToken();
+      }
+      // Fall back to anonymous access.
+      return null;
     },
 
     _fetchWithAccessToken(url, options, accessToken) {

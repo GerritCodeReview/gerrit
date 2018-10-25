@@ -56,10 +56,8 @@
       },
     },
 
-    ready() {
-      this._getHasAvatars().then(hasAvatars => {
-        this.showAvatar = hasAvatars;
-      });
+    async ready() {
+      this.showAvatar = await this._getHasAvatars();
     },
 
     _getBackgroundClass(transparent) {
@@ -71,10 +69,9 @@
       this.fire('remove', {account: this.account});
     },
 
-    _getHasAvatars() {
-      return this.$.restAPI.getConfig().then(cfg => {
-        return Promise.resolve(!!(cfg && cfg.plugin && cfg.plugin.has_avatars));
-      });
+    async _getHasAvatars() {
+      const cfg = await this.$.restAPI.getConfig();
+      return !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
     },
   });
 })();

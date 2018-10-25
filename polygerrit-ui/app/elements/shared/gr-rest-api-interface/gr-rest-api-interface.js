@@ -245,12 +245,15 @@
      * with timing and logging.
      * @param {Defs.FetchRequest} req
      */
-    _fetch(req) {
+    async _fetch(req) {
       const start = Date.now();
       const xhr = this._auth.fetch(req.url, req.fetchOptions);
 
       // Log the call after it completes.
-      xhr.then(res => this._logCall(req, start, res.status));
+      (async () => {
+        const res = await xhr;
+        this._logCall(req, start, res.status);
+      })();
 
       // Return the XHR directly (without the log).
       return xhr;
@@ -290,23 +293,24 @@
      * Validates auth expiry errors.
      * @param {Defs.FetchJSONRequest} req
      */
-    _fetchRawJSON(req) {
+    async _fetchRawJSON(req) {
       const urlWithParams = this._urlWithParams(req.url, req.params);
       const fetchReq = {
         url: urlWithParams,
         fetchOptions: req.fetchOptions,
         anonymizedUrl: req.reportUrlAsIs ? urlWithParams : req.anonymizedUrl,
       };
-      return this._fetch(fetchReq).then(res => {
+      try {
+        const res = await this._fetch(fetchReq);
         if (req.cancelCondition && req.cancelCondition()) {
           res.body.cancel();
           return;
         }
         return res;
-      }).catch(err => {
+      } catch (err) {
         const isLoggedIn = !!this._cache.get('/accounts/self/detail');
         if (isLoggedIn && err && err.message === FAILED_TO_FETCH_ERROR) {
-          this.checkCredentials();
+          await this.checkCredentials();
           return;
         }
         if (req.errFn) {
@@ -315,7 +319,7 @@
           this.fire('network-error', {error: err});
         }
         throw err;
-      });
+      }
     },
 
     /**
@@ -324,21 +328,20 @@
      * Same as {@link _fetchRawJSON}, plus error handling.
      * @param {Defs.FetchJSONRequest} req
      */
-    _fetchJSON(req) {
-      return this._fetchRawJSON(req).then(response => {
-        if (!response) {
+    async _fetchJSON(req) {
+      const response = await this._fetchRawJSON(req);
+      if (!response) {
+        return;
+      }
+      if (!response.ok) {
+        if (req.errFn) {
+          req.errFn.call(null, response);
           return;
         }
-        if (!response.ok) {
-          if (req.errFn) {
-            req.errFn.call(null, response);
-            return;
-          }
-          this.fire('server-error', {request: req, response});
-          return;
-        }
-        return response && this.getResponseObject(response);
-      });
+        this.fire('server-error', {request: req, response});
+        return;
+      }
+      return response && await this.getResponseObject(response);
     },
 
     /**
@@ -367,25 +370,24 @@
      * @param {!Object} response
      * @return {?}
      */
-    getResponseObject(response) {
-      return this._readResponsePayload(response)
-          .then(payload => payload.parsed);
+    async getResponseObject(response) {
+      const payload = await this._readResponsePayload(response);
+      return payload.parsed;
     },
 
     /**
      * @param {!Object} response
      * @return {!Object}
      */
-    _readResponsePayload(response) {
-      return response.text().then(text => {
-        let result;
-        try {
-          result = this._parsePrefixedJSON(text);
-        } catch (_) {
-          result = null;
-        }
-        return {parsed: result, raw: text};
-      });
+    async _readResponsePayload(response) {
+      const text = await response.text();
+      let result;
+      try {
+        result = this._parsePrefixedJSON(text);
+      } catch (_) {
+        result = null;
+      }
+      return {parsed: result, raw: text};
     },
 
     /**
@@ -604,14 +606,14 @@
      * @param {!string} groupName
      * @returns {!Promise<boolean>}
      */
-    getIsGroupOwner(groupName) {
+    async getIsGroupOwner(groupName) {
       const encodeName = encodeURIComponent(groupName);
       const req = {
         url: `/groups/?owned&q=${encodeName}`,
         anonymizedUrl: '/groups/owned&q=*',
       };
-      return this._fetchSharedCacheURL(req)
-          .then(configs => configs.hasOwnProperty(groupName));
+      const configs = await this._fetchSharedCacheURL(req);
+      return configs.hasOwnProperty(groupName);
     },
 
     getGroupMembers(groupName, opt_errFn) {
@@ -689,7 +691,7 @@
       });
     },
 
-    saveIncludedGroup(groupName, includedGroup, opt_errFn) {
+    async saveIncludedGroup(groupName, includedGroup, opt_errFn) {
       const encodeName = encodeURIComponent(groupName);
       const encodeIncludedGroup = encodeURIComponent(includedGroup);
       const req = {
@@ -698,11 +700,10 @@
         errFn: opt_errFn,
         anonymizedUrl: '/groups/*/groups/*',
       };
-      return this._send(req).then(response => {
-        if (response.ok) {
-          return this.getResponseObject(response);
-        }
-      });
+      const response = await this._send(req);
+      if (response.ok) {
+        return await this.getResponseObject(response);
+      }
     },
 
     deleteGroupMembers(groupName, groupMembers) {
@@ -732,66 +733,64 @@
       });
     },
 
-    getDiffPreferences() {
-      return this.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          return this._fetchSharedCacheURL({
-            url: '/accounts/self/preferences.diff',
-            reportUrlAsIs: true,
-          });
-        }
-        // These defaults should match the defaults in
-        // java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java
-        // NOTE: There are some settings that don't apply to PolyGerrit
-        // (Render mode being at least one of them).
-        return Promise.resolve({
-          auto_hide_diff_table_header: true,
-          context: 10,
-          cursor_blink_rate: 0,
-          font_size: 12,
-          ignore_whitespace: 'IGNORE_NONE',
-          intraline_difference: true,
-          line_length: 100,
-          line_wrapping: false,
-          show_line_endings: true,
-          show_tabs: true,
-          show_whitespace_errors: true,
-          syntax_highlighting: true,
-          tab_size: 8,
-          theme: 'DEFAULT',
+    async getDiffPreferences() {
+      const loggedIn = await this.getLoggedIn();
+      if (loggedIn) {
+        return this._fetchSharedCacheURL({
+          url: '/accounts/self/preferences.diff',
+          reportUrlAsIs: true,
         });
-      });
+      }
+      // These defaults should match the defaults in
+      // java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java
+      // NOTE: There are some settings that don't apply to PolyGerrit
+      // (Render mode being at least one of them).
+      return {
+        auto_hide_diff_table_header: true,
+        context: 10,
+        cursor_blink_rate: 0,
+        font_size: 12,
+        ignore_whitespace: 'IGNORE_NONE',
+        intraline_difference: true,
+        line_length: 100,
+        line_wrapping: false,
+        show_line_endings: true,
+        show_tabs: true,
+        show_whitespace_errors: true,
+        syntax_highlighting: true,
+        tab_size: 8,
+        theme: 'DEFAULT',
+      };
     },
 
-    getEditPreferences() {
-      return this.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          return this._fetchSharedCacheURL({
-            url: '/accounts/self/preferences.edit',
-            reportUrlAsIs: true,
-          });
-        }
-        // These defaults should match the defaults in
-        // java/com/google/gerrit/extensions/client/EditPreferencesInfo.java
-        return Promise.resolve({
-          auto_close_brackets: false,
-          cursor_blink_rate: 0,
-          hide_line_numbers: false,
-          hide_top_menu: false,
-          indent_unit: 2,
-          indent_with_tabs: false,
-          key_map_type: 'DEFAULT',
-          line_length: 100,
-          line_wrapping: false,
-          match_brackets: true,
-          show_base: false,
-          show_tabs: true,
-          show_whitespace_errors: true,
-          syntax_highlighting: true,
-          tab_size: 8,
-          theme: 'DEFAULT',
+    async getEditPreferences() {
+      const loggedIn = await this.getLoggedIn();
+      if (loggedIn) {
+        return this._fetchSharedCacheURL({
+          url: '/accounts/self/preferences.edit',
+          reportUrlAsIs: true,
         });
-      });
+      }
+      // These defaults should match the defaults in
+      // java/com/google/gerrit/extensions/client/EditPreferencesInfo.java
+      return {
+        auto_close_brackets: false,
+        cursor_blink_rate: 0,
+        hide_line_numbers: false,
+        hide_top_menu: false,
+        indent_unit: 2,
+        indent_with_tabs: false,
+        key_map_type: 'DEFAULT',
+        line_length: 100,
+        line_wrapping: false,
+        match_brackets: true,
+        show_base: false,
+        show_tabs: true,
+        show_whitespace_errors: true,
+        syntax_highlighting: true,
+        tab_size: 8,
+        theme: 'DEFAULT',
+      };
     },
 
     /**
@@ -935,7 +934,7 @@
      * @param {string} email
      * @param {function(?Response, string=)=} opt_errFn
      */
-    setPreferredAccountEmail(email, opt_errFn) {
+    async setPreferredAccountEmail(email, opt_errFn) {
       const encodedEmail = encodeURIComponent(email);
       const req = {
         method: 'PUT',
@@ -943,21 +942,22 @@
         errFn: opt_errFn,
         anonymizedUrl: '/accounts/self/emails/*/preferred',
       };
-      return this._send(req).then(() => {
-        // If result of getAccountEmails is in cache, update it in the cache
-        // so we don't have to invalidate it.
-        const cachedEmails = this._cache.get('/accounts/self/emails');
-        if (cachedEmails) {
-          const emails = cachedEmails.map(entry => {
-            if (entry.email === email) {
-              return {email, preferred: true};
-            } else {
-              return {email};
-            }
-          });
-          this._cache.set('/accounts/self/emails', emails);
-        }
-      });
+
+      await this._send(req);
+
+      // If result of getAccountEmails is in cache, update it in the cache
+      // so we don't have to invalidate it.
+      const cachedEmails = this._cache.get('/accounts/self/emails');
+      if (cachedEmails) {
+        const emails = cachedEmails.map(entry => {
+          if (entry.email === email) {
+            return {email, preferred: true};
+          } else {
+            return {email};
+          }
+        });
+        this._cache.set('/accounts/self/emails', emails);
+      }
     },
 
     /**
@@ -978,7 +978,7 @@
      * @param {string} name
      * @param {function(?Response, string=)=} opt_errFn
      */
-    setAccountName(name, opt_errFn) {
+    async setAccountName(name, opt_errFn) {
       const req = {
         method: 'PUT',
         url: '/accounts/self/name',
@@ -987,15 +987,15 @@
         parseResponse: true,
         reportUrlAsIs: true,
       };
-      return this._send(req)
-          .then(newName => this._updateCachedAccount({name: newName}));
+      const newName = await this._send(req);
+      this._updateCachedAccount({name: newName});
     },
 
     /**
      * @param {string} username
      * @param {function(?Response, string=)=} opt_errFn
      */
-    setAccountUsername(username, opt_errFn) {
+    async setAccountUsername(username, opt_errFn) {
       const req = {
         method: 'PUT',
         url: '/accounts/self/username',
@@ -1004,15 +1004,15 @@
         parseResponse: true,
         reportUrlAsIs: true,
       };
-      return this._send(req)
-          .then(newName => this._updateCachedAccount({username: newName}));
+      const newName = await this._send(req);
+      this._updateCachedAccount({username: newName});
     },
 
     /**
      * @param {string} status
      * @param {function(?Response, string=)=} opt_errFn
      */
-    setAccountStatus(status, opt_errFn) {
+    async setAccountStatus(status, opt_errFn) {
       const req = {
         method: 'PUT',
         url: '/accounts/self/status',
@@ -1021,8 +1021,8 @@
         parseResponse: true,
         reportUrlAsIs: true,
       };
-      return this._send(req)
-          .then(newStatus => this._updateCachedAccount({status: newStatus}));
+      const newStatus = await this._send(req);
+      this._updateCachedAccount({status: newStatus});
     },
 
     getAccountStatus(userId) {
@@ -1071,48 +1071,40 @@
       });
     },
 
-    getLoggedIn() {
-      return this.getAccount().then(account => {
-        return account != null;
-      });
+    async getLoggedIn() {
+      return (await this.getAccount()) != null;
     },
 
-    getIsAdmin() {
-      return this.getLoggedIn().then(isLoggedIn => {
-        if (isLoggedIn) {
-          return this.getAccountCapabilities();
-        } else {
-          return Promise.resolve();
-        }
-      }).then(capabilities => {
+    async getIsAdmin() {
+      if (await this.getLoggedIn()) {
+        const capabilities = await this.getAccountCapabilities();
         return capabilities && capabilities.administrateServer;
-      });
+      }
     },
 
-    checkCredentials() {
+    async checkCredentials() {
       if (this._credentialCheck.checking) {
         return;
       }
       this._credentialCheck.checking = true;
       const req = {url: '/accounts/self/detail', reportUrlAsIs: true};
-      // Skip the REST response cache.
-      return this._fetchRawJSON(req).then(res => {
+      try {
+        // Skip the REST response cache.
+        const res = await this._fetchRawJSON(req);
         if (!res) { return; }
         if (res.status === 403) {
           this.fire('auth-error');
           this._cache.delete('/accounts/self/detail');
         } else if (res.ok) {
-          return this.getResponseObject(res);
+          const detail = await this.getResponseObject(res);
+          this._cache.set('/accounts/self/detail', detail);
+          return detail;
         }
-      }).then(res => {
+      } catch (err) {
+        // TODO(logan): Log or throw?
+      } finally {
         this._credentialCheck.checking = false;
-        if (res) {
-          this._cache.delete('/accounts/self/detail');
-        }
-        return res;
-      }).catch(err => {
-        this._credentialCheck.checking = false;
-      });
+      }
     },
 
     getDefaultPreferences() {
@@ -1122,28 +1114,25 @@
       });
     },
 
-    getPreferences() {
-      return this.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          const req = {url: '/accounts/self/preferences', reportUrlAsIs: true};
-          return this._fetchSharedCacheURL(req).then(res => {
-            if (this._isNarrowScreen()) {
-              res.default_diff_view = DiffViewMode.UNIFIED;
-            } else {
-              res.default_diff_view = res.diff_view;
-            }
-            return Promise.resolve(res);
-          });
+    async getPreferences() {
+      if (await this.getLoggedIn()) {
+        const req = {url: '/accounts/self/preferences', reportUrlAsIs: true};
+        const res = await this._fetchSharedCacheURL(req);
+        if (this._isNarrowScreen()) {
+          res.default_diff_view = DiffViewMode.UNIFIED;
+        } else {
+          res.default_diff_view = res.diff_view;
         }
+        return res;
+      }
 
-        return Promise.resolve({
-          changes_per_page: 25,
-          default_diff_view: this._isNarrowScreen() ?
-              DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
-          diff_view: 'SIDE_BY_SIDE',
-          size_bar_in_change_table: true,
-        });
-      });
+      return {
+        changes_per_page: 25,
+        default_diff_view: this._isNarrowScreen() ?
+            DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
+        diff_view: 'SIDE_BY_SIDE',
+        size_bar_in_change_table: true,
+      };
     },
 
     getWatchedProjects() {
@@ -1185,25 +1174,27 @@
     /**
      * @param {Defs.FetchJSONRequest} req
      */
-    _fetchSharedCacheURL(req) {
+    async _fetchSharedCacheURL(req) {
       if (this._sharedFetchPromises[req.url]) {
         return this._sharedFetchPromises[req.url];
       }
       // TODO(andybons): Periodic cache invalidation.
       if (this._cache.has(req.url)) {
-        return Promise.resolve(this._cache.get(req.url));
+        return this._cache.get(req.url);
       }
-      this._sharedFetchPromises[req.url] = this._fetchJSON(req)
-          .then(response => {
-            if (response !== undefined) {
-              this._cache.set(req.url, response);
-            }
-            this._sharedFetchPromises[req.url] = undefined;
-            return response;
-          }).catch(err => {
-            this._sharedFetchPromises[req.url] = undefined;
-            throw err;
-          });
+      this._sharedFetchPromises[req.url] = (async () => {
+        try {
+          const response = await this._fetchJSON(req);
+          if (response !== undefined) {
+            this._cache.set(req.url, response);
+          }
+          this._sharedFetchPromises[req.url] = undefined;
+          return response;
+        } catch (err) {
+          this._sharedFetchPromises[req.url] = undefined;
+          throw err;
+        }
+      })();
       return this._sharedFetchPromises[req.url];
     },
 
@@ -1221,7 +1212,7 @@
      *     is unspecified or a string, _fetchJSON will return an array of
      *     changeInfos.
      */
-    getChanges(opt_changesPerPage, opt_query, opt_offset, opt_options) {
+    async getChanges(opt_changesPerPage, opt_query, opt_offset, opt_options) {
       const options = opt_options || this.listChangesOptionsToHex(
           this.ListChangesOption.LABELS,
           this.ListChangesOption.DETAILED_ACCOUNTS
@@ -1248,23 +1239,23 @@
         params,
         reportUrlAsIs: true,
       };
-      return this._fetchJSON(req).then(response => {
-        // Response may be an array of changes OR an array of arrays of
-        // changes.
-        if (opt_query instanceof Array) {
-          // Normalize the response to look like a multi-query response
-          // when there is only one query.
-          if (opt_query.length === 1) {
-            response = [response];
-          }
-          for (const arr of response) {
-            iterateOverChanges(arr);
-          }
-        } else {
-          iterateOverChanges(response);
+
+      let response = await this._fetchJSON(req);
+      // Response may be an array of changes OR an array of arrays of
+      // changes.
+      if (opt_query instanceof Array) {
+        // Normalize the response to look like a multi-query response
+        // when there is only one query.
+        if (opt_query.length === 1) {
+          response = [response];
         }
-        return response;
-      });
+        for (const arr of response) {
+          iterateOverChanges(arr);
+        }
+      } else {
+        iterateOverChanges(response);
+      }
+      return response;
     },
 
     /**
@@ -1286,9 +1277,9 @@
      * @param {?=} endpoint
      * @return {!Promise<string>}
      */
-    getChangeActionURL(changeNum, opt_patchNum, endpoint) {
-      return this._changeBaseURL(changeNum, opt_patchNum)
-          .then(url => url + endpoint);
+    async getChangeActionURL(changeNum, opt_patchNum, endpoint) {
+      const url = await this._changeBaseURL(changeNum, opt_patchNum);
+      return url + endpoint;
     },
 
     /**
@@ -1296,7 +1287,7 @@
      * @param {function(?Response, string=)=} opt_errFn
      * @param {function()=} opt_cancelCondition
      */
-    getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
+    async getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
       const options = this.listChangesOptionsToHex(
           this.ListChangesOption.ALL_COMMITS,
           this.ListChangesOption.ALL_REVISIONS,
@@ -1309,9 +1300,9 @@
           this.ListChangesOption.WEB_LINKS,
           this.ListChangesOption.SKIP_MERGEABLE
       );
-      return this._getChangeDetail(
-          changeNum, options, opt_errFn, opt_cancelCondition)
-          .then(GrReviewerUpdatesParser.parse);
+      const result = await this._getChangeDetail(
+          changeNum, options, opt_errFn, opt_cancelCondition);
+      return GrReviewerUpdatesParser.parse(result);
     },
 
     /**
@@ -1334,45 +1325,39 @@
      * @param {function(?Response, string=)=} opt_errFn
      * @param {function()=} opt_cancelCondition
      */
-    _getChangeDetail(changeNum, params, opt_errFn, opt_cancelCondition) {
-      return this.getChangeActionURL(changeNum, null, '/detail').then(url => {
-        const urlWithParams = this._urlWithParams(url, params);
-        const req = {
-          url,
-          errFn: opt_errFn,
-          cancelCondition: opt_cancelCondition,
-          params: {O: params},
-          fetchOptions: this._etags.getOptions(urlWithParams),
-          anonymizedUrl: '/changes/*~*/detail?O=' + params,
-        };
-        return this._fetchRawJSON(req).then(response => {
-          if (response && response.status === 304) {
-            return Promise.resolve(this._parsePrefixedJSON(
-                this._etags.getCachedPayload(urlWithParams)));
-          }
+    async _getChangeDetail(changeNum, params, opt_errFn, opt_cancelCondition) {
+      const url = await this.getChangeActionURL(changeNum, null, '/detail');
+      const urlWithParams = this._urlWithParams(url, params);
+      const req = {
+        url,
+        errFn: opt_errFn,
+        cancelCondition: opt_cancelCondition,
+        params: {O: params},
+        fetchOptions: this._etags.getOptions(urlWithParams),
+        anonymizedUrl: '/changes/*~*/detail?O=' + params,
+      };
+      const response = await this._fetchRawJSON(req);
+      if (response && response.status === 304) {
+        return this._parsePrefixedJSON(
+            this._etags.getCachedPayload(urlWithParams));
+      }
 
-          if (response && !response.ok) {
-            if (opt_errFn) {
-              opt_errFn.call(null, response);
-            } else {
-              this.fire('server-error', {request: req, response});
-            }
-            return;
-          }
+      if (response && !response.ok) {
+        if (opt_errFn) {
+          opt_errFn.call(null, response);
+        } else {
+          this.fire('server-error', {request: req, response});
+        }
+        return;
+      }
 
-          const payloadPromise = response ?
-              this._readResponsePayload(response) :
-              Promise.resolve(null);
-
-          return payloadPromise.then(payload => {
-            if (!payload) { return null; }
-            this._etags.collect(urlWithParams, response, payload.raw);
-            this._maybeInsertInLookup(payload.parsed);
-
-            return payload.parsed;
-          });
-        });
-      });
+      const payload = response ?
+          await this._readResponsePayload(response) :
+          null;
+      if (!payload) { return null; }
+      this._etags.collect(urlWithParams, response, payload.raw);
+      this._maybeInsertInLookup(payload.parsed);
+      return payload.parsed;
     },
 
     /**
@@ -1447,12 +1432,12 @@
      * @param {Defs.patchRange} patchRange
      * @return {!Promise<!Array<!Object>>}
      */
-    getChangeOrEditFiles(changeNum, patchRange) {
+    async getChangeOrEditFiles(changeNum, patchRange) {
       if (this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME)) {
-        return this.getChangeEditFiles(changeNum, patchRange).then(res =>
-            res.files);
+        const res = await this.getChangeEditFiles(changeNum, patchRange);
+        return res.files;
       }
-      return this.getChangeFiles(changeNum, patchRange);
+      return await this.getChangeFiles(changeNum, patchRange);
     },
 
     /**
@@ -1460,28 +1445,26 @@
      * valid.
      * @suppress {checkTypes}
      */
-    getChangeFilePathsAsSpeciallySortedArray(changeNum, patchRange) {
-      return this.getChangeFiles(changeNum, patchRange).then(files => {
-        return Object.keys(files).sort(this.specialFilePathCompare);
-      });
+    async getChangeFilePathsAsSpeciallySortedArray(changeNum, patchRange) {
+      const files = await this.getChangeFiles(changeNum, patchRange);
+      return Object.keys(files).sort(this.specialFilePathCompare);
     },
 
-    getChangeRevisionActions(changeNum, patchNum) {
+    async getChangeRevisionActions(changeNum, patchNum) {
       const req = {
         changeNum,
         endpoint: '/actions',
         patchNum,
         reportEndpointAsIs: true,
       };
-      return this._getChangeURLAndFetch(req).then(revisionActions => {
-        // The rebase button on change screen is always enabled.
-        if (revisionActions.rebase) {
-          revisionActions.rebase.rebaseOnCurrent =
-              !!revisionActions.rebase.enabled;
-          revisionActions.rebase.enabled = true;
-        }
-        return revisionActions;
-      });
+      const revisionActions = await this._getChangeURLAndFetch(req);
+      // The rebase button on change screen is always enabled.
+      if (revisionActions.rebase) {
+        revisionActions.rebase.rebaseOnCurrent =
+            !!revisionActions.rebase.enabled;
+        revisionActions.rebase.enabled = true;
+      }
+      return revisionActions;
     },
 
     /**
@@ -1752,23 +1735,21 @@
       return this._sendChangeReviewerRequest('DELETE', changeNum, reviewerID);
     },
 
-    _sendChangeReviewerRequest(method, changeNum, reviewerID) {
-      return this.getChangeActionURL(changeNum, null, '/reviewers')
-          .then(url => {
-            let body;
-            switch (method) {
-              case 'POST':
-                body = {reviewer: reviewerID};
-                break;
-              case 'DELETE':
-                url += '/' + encodeURIComponent(reviewerID);
-                break;
-              default:
-                throw Error('Unsupported HTTP method: ' + method);
-            }
+    async _sendChangeReviewerRequest(method, changeNum, reviewerID) {
+      let url = await this.getChangeActionURL(changeNum, null, '/reviewers');
+      let body;
+      switch (method) {
+        case 'POST':
+          body = {reviewer: reviewerID};
+          break;
+        case 'DELETE':
+          url += '/' + encodeURIComponent(reviewerID);
+          break;
+        default:
+          throw Error('Unsupported HTTP method: ' + method);
+      }
 
-            return this._send({method, url, body});
-          });
+      return await this._send({method, url, body});
     },
 
     getRelatedChanges(changeNum, patchNum) {
@@ -1877,31 +1858,29 @@
      * @param {!Object} review
      * @param {function(?Response, string=)=} opt_errFn
      */
-    saveChangeReview(changeNum, patchNum, review, opt_errFn) {
+    async saveChangeReview(changeNum, patchNum, review, opt_errFn) {
       const promises = [
         this.awaitPendingDiffDrafts(),
         this.getChangeActionURL(changeNum, patchNum, '/review'),
       ];
-      return Promise.all(promises).then(([, url]) => {
-        return this._send({
-          method: 'POST',
-          url,
-          body: review,
-          errFn: opt_errFn,
-        });
+      const result = await Promise.all(promises);
+      const [, url] = result;
+      return await this._send({
+        method: 'POST',
+        url,
+        body: review,
+        errFn: opt_errFn,
       });
     },
 
-    getChangeEdit(changeNum, opt_download_commands) {
+    async getChangeEdit(changeNum, opt_download_commands) {
       const params = opt_download_commands ? {'download-commands': true} : null;
-      return this.getLoggedIn().then(loggedIn => {
-        if (!loggedIn) { return false; }
-        return this._getChangeURLAndFetch({
-          changeNum,
-          endpoint: '/edit/',
-          params,
-          reportEndpointAsIs: true,
-        });
+      if (!(await this.getLoggedIn())) { return false; }
+      return await this._getChangeURLAndFetch({
+        changeNum,
+        endpoint: '/edit/',
+        params,
+        reportEndpointAsIs: true,
       });
     },
 
@@ -1940,7 +1919,7 @@
      * @param {string} path
      * @param {number|string} patchNum
      */
-    getFileContent(changeNum, path, patchNum) {
+    async getFileContent(changeNum, path, patchNum) {
       // 404s indicate the file does not exist yet in the revision, so suppress
       // them.
       const suppress404s = res => {
@@ -1951,16 +1930,14 @@
           this._getFileInChangeEdit(changeNum, path) :
           this._getFileInRevision(changeNum, path, patchNum, suppress404s);
 
-      return promise.then(res => {
-        if (!res.ok) { return res; }
+      const res = await promise;
+      if (!res.ok) { return res; }
 
-        // The file type (used for syntax highlighting) is identified in the
-        // X-FYI-Content-Type header of the response.
-        const type = res.headers.get('X-FYI-Content-Type');
-        return this.getResponseObject(res).then(content => {
-          return {content, type, ok: true};
-        });
-      });
+      // The file type (used for syntax highlighting) is identified in the
+      // X-FYI-Content-Type header of the response.
+      const type = res.headers.get('X-FYI-Content-Type');
+      const content = await this.getResponseObject(res);
+      return {content, type, ok: true};
     },
 
     /**
@@ -2106,7 +2083,7 @@
      * @param {Defs.SendRequest} req
      * @return {Promise}
      */
-    _send(req) {
+    async _send(req) {
       const options = {method: req.method};
       if (req.body) {
         options.headers = new Headers();
@@ -2129,28 +2106,27 @@
         fetchOptions: options,
         anonymizedUrl: req.reportUrlAsIs ? url : req.anonymizedUrl,
       };
-      const xhr = this._fetch(fetchReq).then(response => {
+
+      try {
+        const response = await this._fetch(fetchReq);
         if (!response.ok) {
           if (req.errFn) {
             return req.errFn.call(undefined, response);
           }
           this.fire('server-error', {request: fetchReq, response});
         }
+        if (req.parseResponse) {
+          return await this.getResponseObject(response);
+        }
         return response;
-      }).catch(err => {
+      } catch (err) {
         this.fire('network-error', {error: err});
         if (req.errFn) {
           return req.errFn.call(undefined, null, err);
         } else {
           throw err;
         }
-      });
-
-      if (req.parseResponse) {
-        return xhr.then(res => this.getResponseObject(res));
       }
-
-      return xhr;
     },
 
     /**
@@ -2246,12 +2222,11 @@
      * @param {string=} opt_path
      * @return {!Promise<!Object>}
      */
-    getDiffDrafts(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
-      return this.getLoggedIn().then(loggedIn => {
-        if (!loggedIn) { return Promise.resolve({}); }
-        return this._getDiffComments(changeNum, '/drafts', opt_basePatchNum,
-            opt_patchNum, opt_path);
-      });
+    async getDiffDrafts(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
+      if (await this.getLoggedIn()) {
+        return await this._getDiffComments(changeNum, '/drafts',
+            opt_basePatchNum, opt_patchNum, opt_path);
+      }
     },
 
     _setRange(comments, comment) {
@@ -2285,7 +2260,7 @@
      * @param {string=} opt_path
      * @return {!Promise<!Object>}
      */
-    _getDiffComments(changeNum, endpoint, opt_basePatchNum,
+    async _getDiffComments(changeNum, endpoint, opt_basePatchNum,
         opt_patchNum, opt_path) {
       /**
        * Fetches the comments for a given patchNum.
@@ -2313,8 +2288,8 @@
       const promises = [];
       let comments;
       let baseComments;
-      let fetchPromise;
-      fetchPromise = fetchComments(opt_patchNum).then(response => {
+      promises.push((async () => {
+        const response = await fetchComments(opt_patchNum);
         comments = response[opt_path] || [];
         // TODO(kaspern): Implement this on in the backend so this can
         // be removed.
@@ -2329,25 +2304,23 @@
         comments = comments.filter(withoutParent);
 
         comments.forEach(setPath);
-      });
-      promises.push(fetchPromise);
+      })());
 
       if (opt_basePatchNum != PARENT_PATCH_NUM) {
-        fetchPromise = fetchComments(opt_basePatchNum).then(response => {
+        promises.push((async () => {
+          const response = await fetchComments(opt_basePatchNum);
           baseComments = (response[opt_path] || [])
               .filter(withoutParent);
           baseComments = this._setRanges(baseComments);
           baseComments.forEach(setPath);
-        });
-        promises.push(fetchPromise);
+        })());
       }
 
-      return Promise.all(promises).then(() => {
-        return Promise.resolve({
-          baseComments,
-          comments,
-        });
-      });
+      await Promise.all(promises);
+      return {
+        baseComments,
+        comments,
+      };
     },
 
     /**
@@ -2355,9 +2328,9 @@
      * @param {string} endpoint
      * @param {number|string=} opt_patchNum
      */
-    _getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum) {
-      return this._changeBaseURL(changeNum, opt_patchNum)
-          .then(url => url + endpoint);
+    async _getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum) {
+      const url = await this._changeBaseURL(changeNum, opt_patchNum);
+      return url + endpoint;
     },
 
     saveDiffDraft(changeNum, patchNum, draft) {
@@ -2380,11 +2353,9 @@
      * @returns {!Promise<undefined>} A promise that resolves when all pending
      *    diff draft sends have resolved.
      */
-    awaitPendingDiffDrafts() {
-      return Promise.all(this._pendingRequests[Requests.SEND_DIFF_DRAFT] || [])
-          .then(() => {
-            this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
-          });
+    async awaitPendingDiffDrafts() {
+      await Promise.all(this._pendingRequests[Requests.SEND_DIFF_DRAFT] || []);
+      this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
     },
 
     _sendDiffDraftRequest(method, changeNum, patchNum, draft) {
@@ -2431,16 +2402,12 @@
       });
     },
 
-    _fetchB64File(url) {
-      return this._fetch({url: this.getBaseUrl() + url})
-          .then(response => {
-            if (!response.ok) { return Promise.reject(response.statusText); }
-            const type = response.headers.get('X-FYI-Content-Type');
-            return response.text()
-                .then(text => {
-                  return {body: text, type};
-                });
-          });
+    async _fetchB64File(url) {
+      const response = await this._fetch({url: this.getBaseUrl() + url});
+      if (!response.ok) { throw response.statusText; }
+      const type = response.headers.get('X-FYI-Content-Type');
+      const text = await response.text();
+      return {body: text, type};
     },
 
     /**
@@ -2449,16 +2416,15 @@
      * @param {string} path
      * @param {number=} opt_parentIndex
      */
-    getB64FileContents(changeId, patchNum, path, opt_parentIndex) {
+    async getB64FileContents(changeId, patchNum, path, opt_parentIndex) {
       const parent = typeof opt_parentIndex === 'number' ?
           '?parent=' + opt_parentIndex : '';
-      return this._changeBaseURL(changeId, patchNum).then(url => {
-        url = `${url}/files/${encodeURIComponent(path)}/content${parent}`;
-        return this._fetchB64File(url);
-      });
+      let url = await this._changeBaseURL(changeId, patchNum);
+      url = `${url}/files/${encodeURIComponent(path)}/content${parent}`;
+      return await this._fetchB64File(url);
     },
 
-    getImagesForDiff(changeNum, diff, patchRange) {
+    async getImagesForDiff(changeNum, diff, patchRange) {
       let promiseA;
       let promiseB;
 
@@ -2482,22 +2448,20 @@
         promiseB = Promise.resolve(null);
       }
 
-      return Promise.all([promiseA, promiseB]).then(results => {
-        const baseImage = results[0];
-        const revisionImage = results[1];
+      const [baseImage, revisionImage] =
+          await Promise.all([promiseA, promiseB]);
 
-        // Sometimes the server doesn't send back the content type.
-        if (baseImage) {
-          baseImage._expectedType = diff.meta_a.content_type;
-          baseImage._name = diff.meta_a.name;
-        }
-        if (revisionImage) {
-          revisionImage._expectedType = diff.meta_b.content_type;
-          revisionImage._name = diff.meta_b.name;
-        }
+      // Sometimes the server doesn't send back the content type.
+      if (baseImage) {
+        baseImage._expectedType = diff.meta_a.content_type;
+        baseImage._name = diff.meta_a.name;
+      }
+      if (revisionImage) {
+        revisionImage._expectedType = diff.meta_b.content_type;
+        revisionImage._name = diff.meta_b.name;
+      }
 
-        return {baseImage, revisionImage};
-      });
+      return {baseImage, revisionImage};
     },
 
     /**
@@ -2506,19 +2470,16 @@
      * @param {string=} opt_project
      * @return {!Promise<string>}
      */
-    _changeBaseURL(changeNum, opt_patchNum, opt_project) {
+    async _changeBaseURL(changeNum, opt_patchNum, opt_project) {
       // TODO(kaspern): For full slicer migration, app should warn with a call
       // stack every time _changeBaseURL is called without a project.
-      const projectPromise = opt_project ?
-          Promise.resolve(opt_project) :
-          this.getFromProjectLookup(changeNum);
-      return projectPromise.then(project => {
-        let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
-        if (opt_patchNum) {
-          url += `/revisions/${opt_patchNum}`;
-        }
-        return url;
-      });
+      const project =
+          opt_project || (await this.getFromProjectLookup(changeNum));
+      let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
+      if (opt_patchNum) {
+        url += `/revisions/${opt_patchNum}`;
+      }
+      return url;
     },
 
     /**
@@ -2583,7 +2544,7 @@
       });
     },
 
-    addAccountSSHKey(key) {
+    async addAccountSSHKey(key) {
       const req = {
         method: 'POST',
         url: '/accounts/self/sshkeys',
@@ -2591,17 +2552,13 @@
         contentType: 'plain/text',
         reportUrlAsIs: true,
       };
-      return this._send(req)
-          .then(response => {
-            if (response.status < 200 && response.status >= 300) {
-              return Promise.reject();
-            }
-            return this.getResponseObject(response);
-          })
-          .then(obj => {
-            if (!obj.valid) { return Promise.reject(); }
-            return obj;
-          });
+      const response = await this._send(req);
+      if (response.status < 200 && response.status >= 300) {
+        throw new Error();
+      }
+      const obj = await this.getResponseObject(response);
+      if (!obj.valid) { throw new Error(); }
+      return obj;
     },
 
     deleteAccountSSHKey(id) {
@@ -2619,24 +2576,20 @@
       });
     },
 
-    addAccountGPGKey(key) {
+    async addAccountGPGKey(key) {
       const req = {
         method: 'POST',
         url: '/accounts/self/gpgkeys',
         body: key,
         reportUrlAsIs: true,
       };
-      return this._send(req)
-          .then(response => {
-            if (response.status < 200 && response.status >= 300) {
-              return Promise.reject();
-            }
-            return this.getResponseObject(response);
-          })
-          .then(obj => {
-            if (!obj) { return Promise.reject(); }
-            return obj;
-          });
+      const response = await this._send(req);
+      if (response.status < 200 && response.status >= 300) {
+        throw new Error();
+      }
+      const obj = await this.getResponseObject(response);
+      if (!obj) { throw new Error(); }
+      return obj;
     },
 
     deleteAccountGPGKey(id) {
@@ -2666,19 +2619,18 @@
       });
     },
 
-    confirmEmail(token) {
+    async confirmEmail(token) {
       const req = {
         method: 'PUT',
         url: '/config/server/email.confirm',
         body: {token},
         reportUrlAsIs: true,
       };
-      return this._send(req).then(response => {
-        if (response.status === 204) {
-          return 'Email confirmed successfully.';
-        }
-        return null;
-      });
+      const response = await this._send(req);
+      if (response.status === 204) {
+        return 'Email confirmed successfully.';
+      }
+      return null;
     },
 
     getCapabilities(token, opt_errFn) {
@@ -2716,18 +2668,16 @@
       });
     },
 
-    probePath(path) {
-      return fetch(new Request(path, {method: 'HEAD'}))
-          .then(response => {
-            return response.ok;
-          });
+    async probePath(path) {
+      const response = await fetch(new Request(path, {method: 'HEAD'}));
+      return response.ok;
     },
 
     /**
      * @param {number|string} changeNum
      * @param {number|string=} opt_message
      */
-    startWorkInProgress(changeNum, opt_message) {
+    async startWorkInProgress(changeNum, opt_message) {
       const body = {};
       if (opt_message) {
         body.message = opt_message;
@@ -2739,11 +2689,10 @@
         body,
         reportUrlAsIs: true,
       };
-      return this._getChangeURLAndSend(req).then(response => {
-        if (response.status === 204) {
-          return 'Change marked as Work In Progress.';
-        }
-      });
+      const response = await this._getChangeURLAndSend(req);
+      if (response.status === 204) {
+        return 'Change marked as Work In Progress.';
+      }
     },
 
     /**
@@ -2786,16 +2735,15 @@
      * @param {function(?Response, string=)=} opt_errFn
      * @return {!Promise<?Object>} The change
      */
-    getChange(changeNum, opt_errFn) {
+    async getChange(changeNum, opt_errFn) {
       // Cannot use _changeBaseURL, as this function is used by _projectLookup.
-      return this._fetchJSON({
+      const res = await this._fetchJSON({
         url: `/changes/?q=change:${changeNum}`,
         errFn: opt_errFn,
         anonymizedUrl: '/changes/?q=change:*',
-      }).then(res => {
-        if (!res || !res.length) { return null; }
-        return res[0];
       });
+      if (!res || !res.length) { return null; }
+      return res[0];
     },
 
     /**
@@ -2819,20 +2767,19 @@
      * @param {string|number} changeNum
      * @return {!Promise<string|undefined>}
      */
-    getFromProjectLookup(changeNum) {
+    async getFromProjectLookup(changeNum) {
       const project = this._projectLookup[changeNum];
-      if (project) { return Promise.resolve(project); }
+      if (project) { return project; }
 
       const onError = response => {
         // Fire a page error so that the visual 404 is displayed.
         this.fire('page-error', {response});
       };
 
-      return this.getChange(changeNum, onError).then(change => {
-        if (!change || !change.project) { return; }
-        this.setInProjectLookup(changeNum, change.project);
-        return change.project;
-      });
+      const change = await this.getChange(changeNum, onError);
+      if (!change || !change.project) { return; }
+      this.setInProjectLookup(changeNum, change.project);
+      return change.project;
     },
 
     /**
@@ -2841,24 +2788,23 @@
      * @param {Defs.ChangeSendRequest} req
      * @return {!Promise<!Object>}
      */
-    _getChangeURLAndSend(req) {
+    async _getChangeURLAndSend(req) {
       const anonymizedBaseUrl = req.patchNum ?
           ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
       const anonymizedEndpoint = req.reportEndpointAsIs ?
           req.endpoint : req.anonymizedEndpoint;
 
-      return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
-        return this._send({
-          method: req.method,
-          url: url + req.endpoint,
-          body: req.body,
-          errFn: req.errFn,
-          contentType: req.contentType,
-          headers: req.headers,
-          parseResponse: req.parseResponse,
-          anonymizedUrl: anonymizedEndpoint ?
-              (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
-        });
+      const url = await this._changeBaseURL(req.changeNum, req.patchNum);
+      return await this._send({
+        method: req.method,
+        url: url + req.endpoint,
+        body: req.body,
+        errFn: req.errFn,
+        contentType: req.contentType,
+        headers: req.headers,
+        parseResponse: req.parseResponse,
+        anonymizedUrl: anonymizedEndpoint ?
+            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
       });
     },
 
@@ -2867,20 +2813,19 @@
      * @param {Defs.ChangeFetchRequest} req
      * @return {!Promise<!Object>}
      */
-    _getChangeURLAndFetch(req) {
+    async _getChangeURLAndFetch(req) {
       const anonymizedEndpoint = req.reportEndpointAsIs ?
           req.endpoint : req.anonymizedEndpoint;
       const anonymizedBaseUrl = req.patchNum ?
           ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
-      return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
-        return this._fetchJSON({
-          url: url + req.endpoint,
-          errFn: req.errFn,
-          params: req.params,
-          fetchOptions: req.fetchOptions,
-          anonymizedUrl: anonymizedEndpoint ?
-              (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
-        });
+      const url = await this._changeBaseURL(req.changeNum, req.patchNum);
+      return await this._fetchJSON({
+        url: url + req.endpoint,
+        errFn: req.errFn,
+        params: req.params,
+        fetchOptions: req.fetchOptions,
+        anonymizedUrl: anonymizedEndpoint ?
+            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
       });
     },
 
@@ -2933,26 +2878,25 @@
      * @param {Promise} promise The original promise.
      * @return {Promise} The modified promise.
      */
-    _failForCreate200(promise) {
-      return promise.then(result => {
-        if (result.status === 200) {
-          // Read the response headers into an object representation.
-          const headers = Array.from(result.headers.entries())
-              .reduce((obj, [key, val]) => {
-                if (!HEADER_REPORTING_BLACKLIST.test(key)) {
-                  obj[key] = val;
-                }
-                return obj;
-              }, {});
-          const err = new Error([
-            CREATE_DRAFT_UNEXPECTED_STATUS_MESSAGE,
-            JSON.stringify(headers),
-          ].join('\n'));
-          // Throw the error so that it is caught by gr-reporting.
-          throw err;
-        }
-        return result;
-      });
+    async _failForCreate200(promise) {
+      const result = await promise;
+      if (result.status === 200) {
+        // Read the response headers into an object representation.
+        const headers = Array.from(result.headers.entries())
+            .reduce((obj, [key, val]) => {
+              if (!HEADER_REPORTING_BLACKLIST.test(key)) {
+                obj[key] = val;
+              }
+              return obj;
+            }, {});
+        const err = new Error([
+          CREATE_DRAFT_UNEXPECTED_STATUS_MESSAGE,
+          JSON.stringify(headers),
+        ].join('\n'));
+        // Throw the error so that it is caught by gr-reporting.
+        throw err;
+      }
+      return result;
     },
 
     /**

@@ -110,6 +110,15 @@ public final class StoredValues {
         }
       };
 
+  public static final StoredValue<GitRepositoryManager> REPO_MANAGER =
+      new StoredValue<GitRepositoryManager>() {
+        @Override
+        public GitRepositoryManager createValue(Prolog engine) {
+          PrologEnvironment env = (PrologEnvironment) engine.control;
+          return env.getArgs().getGitRepositoryManager();
+        }
+      };
+
   public static final StoredValue<Repository> REPOSITORY =
       new StoredValue<Repository>() {
         @Override

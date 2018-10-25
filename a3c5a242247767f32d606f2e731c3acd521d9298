@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e442c0f3_937a6dcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-25T07:23:39Z",
+      "side": 1,
+      "message": "consensus",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "a3c5a242247767f32d606f2e731c3acd521d9298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f817aad4_ee215533",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-25T07:23:39Z",
+      "side": 1,
+      "message": "Move this line to the footer by removing the following blank line, and change \"BUG\" to \"Bug\"",
+      "revId": "a3c5a242247767f32d606f2e731c3acd521d9298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

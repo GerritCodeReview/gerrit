@@ -72,7 +72,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('element render', () => {
+    test('element render', async () => {
       // The dropdown is closed and the label is visible:
       assert.isFalse(element.$.dropdown.opened);
       assert.isTrue(label.classList.contains('editable'));
@@ -82,12 +82,11 @@ limitations under the License.
 
       MockInteractions.tap(label);
 
-      return showSpy.lastCall.returnValue.then(() => {
-        // The dropdown is open (which covers up the label):
-        assert.isTrue(element.$.dropdown.opened);
-        assert.isTrue(focusSpy.called);
-        assert.equal(input.value, 'value text');
-      });
+      await showSpy.lastCall.returnValue;
+      // The dropdown is open (which covers up the label):
+      assert.isTrue(element.$.dropdown.opened);
+      assert.isTrue(focusSpy.called);
+      assert.equal(input.value, 'value text');
     });
 
     test('title with placeholder', done => {

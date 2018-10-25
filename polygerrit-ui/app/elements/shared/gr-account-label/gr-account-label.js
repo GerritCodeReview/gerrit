@@ -55,10 +55,9 @@
       Gerrit.TooltipBehavior,
     ],
 
-    ready() {
+    async ready() {
       if (!this.additionalText) { this.additionalText = ''; }
-      this.$.restAPI.getConfig()
-          .then(config => { this._serverConfig = config; });
+      this._serverConfig = await this.$.restAPI.getConfig();
     },
 
     _computeName(account, config) {

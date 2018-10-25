@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8fb839e_a8ea40b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-25T06:49:09Z",
+      "side": 1,
+      "message": "I agree that this is much better than [1].\nHowever I would like to see some explanation in the commit message for the motivation of making repository manager available to predicates.\nI understand that you want to open repositories from PRED_check_owner_approval_2. The predicates are invoked on submit and whenever a change is reindexed, which means on any write operation that touches a change. Opening repositories is relatively expensive and doing so in a predicate means that all these write operations become slower and users see extra latency. So I\u0027m not sure that we really want to allow predicates to open repositories unless there is are very good reason for this.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/201410",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "ff10af39ace6d52edf9c922ed27465eee98d6988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

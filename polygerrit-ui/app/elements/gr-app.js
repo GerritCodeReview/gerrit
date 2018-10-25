@@ -17,10 +17,6 @@
 (function() {
   'use strict';
 
-  // The maximum age of a keydown event to be used in a jump navigation. This is
-  // only for cases when the keyup event is lost.
-  const G_KEY_TIMEOUT_MS = 1000;
-
   // Eagerly render Polymer components when backgrounded. (Skips
   // requestAnimationFrame.)
   // @see https://github.com/Polymer/polymer/issues/3851
@@ -112,11 +108,17 @@
       Gerrit.KeyboardShortcutBehavior,
     ],
 
-    keyBindings: {
-      '?': '_showKeyboardShortcuts',
-      'g:keydown': '_gKeyDown',
-      'g:keyup': '_gKeyUp',
-      'a m o': '_jumpKeyPressed',
+    keyboardShortcuts() {
+      return {
+        [this.Shortcut.OPEN_SHORTCUT_HELP_DIALOG]: '_showKeyboardShortcuts',
+        [this.Shortcut.GO_TO_OPENED_CHANGES]: '_goToOpenedChanges',
+        [this.Shortcut.GO_TO_MERGED_CHANGES]: '_goToMergedChanges',
+        [this.Shortcut.GO_TO_ABANDONED_CHANGES]: '_goToAbandonedChanges',
+      };
+    },
+
+    created() {
+      this._bindKeyboardShortcuts();
     },
 
     ready() {
@@ -169,6 +171,118 @@
           selectedChangeIndex: 0,
         },
       };
+    },
+
+    _bindKeyboardShortcuts() {
+      this.bindShortcut(this.Shortcut.SEND_REPLY,
+          this.DOC_ONLY, 'ctrl+enter', 'meta+enter');
+
+      this.bindShortcut(
+          this.Shortcut.OPEN_SHORTCUT_HELP_DIALOG, '?');
+      this.bindShortcut(
+          this.Shortcut.GO_TO_OPENED_CHANGES, this.GO_KEY, 'o');
+      this.bindShortcut(
+          this.Shortcut.GO_TO_MERGED_CHANGES, this.GO_KEY, 'm');
+      this.bindShortcut(
+          this.Shortcut.GO_TO_ABANDONED_CHANGES, this.GO_KEY, 'a');
+
+      this.bindShortcut(
+          this.Shortcut.CURSOR_NEXT_CHANGE, 'j');
+      this.bindShortcut(
+          this.Shortcut.CURSOR_PREV_CHANGE, 'k');
+      this.bindShortcut(
+          this.Shortcut.OPEN_CHANGE, 'o');
+      this.bindShortcut(
+          this.Shortcut.NEXT_PAGE, 'n', ']');
+      this.bindShortcut(
+          this.Shortcut.PREV_PAGE, 'p', '[');
+      this.bindShortcut(
+          this.Shortcut.TOGGLE_CHANGE_REVIEWED, 'r');
+      this.bindShortcut(
+          this.Shortcut.TOGGLE_CHANGE_STAR, 's');
+      this.bindShortcut(
+          this.Shortcut.REFRESH_CHANGE_LIST, 'shift+r');
+
+      this.bindShortcut(
+          this.Shortcut.OPEN_REPLY_DIALOG, 'a');
+      this.bindShortcut(
+          this.Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
+      this.bindShortcut(
+          this.Shortcut.EXPAND_ALL_MESSAGES, 'x');
+      this.bindShortcut(
+          this.Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
+      this.bindShortcut(
+          this.Shortcut.REFRESH_CHANGE, 'shift+r');
+      this.bindShortcut(
+          this.Shortcut.UP_TO_DASHBOARD, 'u');
+      this.bindShortcut(
+          this.Shortcut.UP_TO_CHANGE, 'u');
+      this.bindShortcut(
+          this.Shortcut.TOGGLE_DIFF_MODE, 'm');
+
+      this.bindShortcut(
+          this.Shortcut.NEXT_LINE, 'j', 'down');
+      this.bindShortcut(
+          this.Shortcut.PREV_LINE, 'k', 'up');
+      this.bindShortcut(
+          this.Shortcut.NEXT_CHUNK, 'n');
+      this.bindShortcut(
+          this.Shortcut.PREV_CHUNK, 'p');
+      this.bindShortcut(
+          this.Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
+      this.bindShortcut(
+          this.Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
+      this.bindShortcut(
+          this.Shortcut.PREV_COMMENT_THREAD, 'shift+p');
+      this.bindShortcut(
+          this.Shortcut.EXPAND_ALL_COMMENT_THREADS, this.DOC_ONLY, 'e');
+      this.bindShortcut(
+          this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
+          this.DOC_ONLY, 'shift+e');
+      this.bindShortcut(
+          this.Shortcut.LEFT_PANE, 'shift+left');
+      this.bindShortcut(
+          this.Shortcut.RIGHT_PANE, 'shift+right');
+      this.bindShortcut(
+          this.Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
+      this.bindShortcut(
+          this.Shortcut.NEW_COMMENT, 'c');
+      this.bindShortcut(
+          this.Shortcut.SAVE_COMMENT,
+          'ctrl+enter', 'meta+enter', 'ctrl+s', 'meta+s');
+      this.bindShortcut(
+          this.Shortcut.OPEN_DIFF_PREFS, ',');
+      this.bindShortcut(
+          this.Shortcut.TOGGLE_DIFF_REVIEWED, 'r');
+
+      this.bindShortcut(
+          this.Shortcut.NEXT_FILE, ']');
+      this.bindShortcut(
+          this.Shortcut.PREV_FILE, '[');
+      this.bindShortcut(
+          this.Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
+      this.bindShortcut(
+          this.Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
+      this.bindShortcut(
+          this.Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
+      this.bindShortcut(
+          this.Shortcut.CURSOR_PREV_FILE, 'k', 'up');
+      this.bindShortcut(
+          this.Shortcut.OPEN_FILE, 'o', 'enter');
+      this.bindShortcut(
+          this.Shortcut.TOGGLE_FILE_REVIEWED, 'r');
+      this.bindShortcut(
+          this.Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
+      this.bindShortcut(
+          this.Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
+
+      this.bindShortcut(
+          this.Shortcut.OPEN_FIRST_FILE, ']');
+      this.bindShortcut(
+          this.Shortcut.OPEN_LAST_FILE, '[');
+
+      this.bindShortcut(
+          this.Shortcut.SEARCH, '/');
     },
 
     _accountChanged(account) {
@@ -293,32 +407,16 @@
       return isShadowDom ? 'shadow' : '';
     },
 
-    _gKeyDown(e) {
-      if (this.modifierPressed(e)) { return; }
-      this._lastGKeyPressTimestamp = Date.now();
+    _goToOpenedChanges() {
+      Gerrit.Nav.navigateToStatusSearch('open');
     },
 
-    _gKeyUp() {
-      this._lastGKeyPressTimestamp = null;
+    _goToMergedChanges() {
+      Gerrit.Nav.navigateToStatusSearch('merged');
     },
 
-    _jumpKeyPressed(e) {
-      if (!this._lastGKeyPressTimestamp ||
-          (Date.now() - this._lastGKeyPressTimestamp > G_KEY_TIMEOUT_MS) ||
-          this.shouldSuppressKeyboardShortcut(e)) { return; }
-      e.preventDefault();
-
-      let status = null;
-      if (e.detail.key === 'a') {
-        status = 'abandoned';
-      } else if (e.detail.key === 'm') {
-        status = 'merged';
-      } else if (e.detail.key === 'o') {
-        status = 'open';
-      }
-      if (status !== null) {
-        Gerrit.Nav.navigateToStatusSearch(status);
-      }
+    _goToAbandonedChanges() {
+      Gerrit.Nav.navigateToStatusSearch('abandoned');
     },
 
     _computePluginScreenName({plugin, screen}) {

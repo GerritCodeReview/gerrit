@@ -396,6 +396,7 @@ public class GerritServer implements AutoCloseable {
                 bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
               }
             }));
+    daemon.setMigrateToNoteDb(false);
     daemon.start();
     return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
   }

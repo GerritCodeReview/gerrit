@@ -23,13 +23,13 @@ same repository as code changes.
 
 == Current Status
 
-- Storing change metadata is fully implemented in the 2.15 release, and is the
+- Storing change metadata is fully implemented in the 2.15/2.16 releases, and is the
   default for new sites.
 - Admins may use an link:#offline-migration[offline] or
   link:#online-migration[online] tool to migrate change data in an existing
   site from ReviewDb.
 - Storing link:config-accounts.html[account data] is fully implemented in the
-  2.15 release. Account data is migrated automatically during the upgrade
+  2.15/2.16 release. Account data is migrated automatically during the upgrade
   process by running `gerrit.war init`.
 - Storing link:config-groups.html[group metadata] is fully implemented
   for the 2.16 release. Group data is migrated automatically during
@@ -64,22 +64,11 @@ and group data is migrated automatically by `gerrit.war init`.
 [[online-migration]]
 === Online
 
-To start the online migration, set the `noteDb.changes.autoMigrate` option in
-`gerrit.config` and restart Gerrit:
-----
-[noteDb "changes"]
-  autoMigrate = true
-----
+Online migration is enabled by default at the first Gerrit startup after the init
+phase from migration from either 2.14/2.15.
 
-Alternatively, pass the `--migrate-to-note-db` flag to
-`gerrit.war daemon`:
-----
-  java -jar gerrit.war daemon -d /path/to/site --migrate-to-note-db
-----
-
-Both ways of starting the online migration are equivalent. Once started, it is
-safe to restart the server at any time; the migration will pick up where it left
-off. Migration progress will be reported to the Gerrit logs.
+Once started, it is safe to restart the server at any time; the migration will
+pick up where it left off. Migration progress will be reported to the Gerrit logs.
 
 *Advantages*
 

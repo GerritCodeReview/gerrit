@@ -25,6 +25,10 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
@@ -89,6 +93,7 @@ public class ProjectCacheImpl implements ProjectCache {
   private final Lock listLock;
   private final ProjectCacheClock clock;
   private final Provider<ProjectIndexer> indexer;
+  private final Timer0 guessRelevantGroupsLatency;
 
   @Inject
   ProjectCacheImpl(
@@ -97,7 +102,8 @@ public class ProjectCacheImpl implements ProjectCache {
       @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
       ProjectCacheClock clock,
-      Provider<ProjectIndexer> indexer) {
+      Provider<ProjectIndexer> indexer,
+      MetricMaker metricMaker) {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.byName = byName;
@@ -105,6 +111,13 @@ public class ProjectCacheImpl implements ProjectCache {
     this.listLock = new ReentrantLock(true /* fair */);
     this.clock = clock;
     this.indexer = indexer;
+
+    this.guessRelevantGroupsLatency =
+        metricMaker.newTimer(
+            "group/guess_relevant_groups_latency",
+            new Description("Latency for guessing relevant groups")
+                .setCumulative()
+                .setUnit(Units.NANOSECONDS));
   }
 
   @Override
@@ -234,15 +247,17 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
-    return all()
-        .stream()
-        .map(n -> byName.getIfPresent(n.get()))
-        .filter(Objects::nonNull)
-        .flatMap(p -> p.getConfig().getAllGroupUUIDs().stream())
-        // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
-        // against them just in case there is a bug or corner case.
-        .filter(id -> id != null && id.get() != null)
-        .collect(toSet());
+    try (Timer0.Context ignored = guessRelevantGroupsLatency.start()) {
+      return all()
+          .stream()
+          .map(n -> byName.getIfPresent(n.get()))
+          .filter(Objects::nonNull)
+          .flatMap(p -> p.getConfig().getAllGroupUUIDs().stream())
+          // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
+          // against them just in case there is a bug or corner case.
+          .filter(id -> id != null && id.get() != null)
+          .collect(toSet());
+    }
   }
 
   @Override

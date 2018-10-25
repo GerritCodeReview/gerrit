@@ -177,6 +177,10 @@ suggestion.
 * `plugin/latency`: Latency for plugin invocation.
 * `plugin/error_count`: Number of plugin errors.
 
+=== Group
+
+* `group/guess_relevant_groups_latency`: Latency for guessing relevant groups.
+
 === Replication Plugin
 
 * `plugins/replication/replication_latency`: Time spent pushing to remote

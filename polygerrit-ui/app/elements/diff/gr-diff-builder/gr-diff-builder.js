@@ -42,11 +42,14 @@
    */
   const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, createThreadGroupFn, prefs, outputEl,
-      layers) {
+  function GrDiffBuilder(diff, comments, parentIndex, changeNum, path,
+      projectName, prefs, outputEl, layers) {
     this._diff = diff;
     this._comments = comments;
-    this._createThreadGroupFn = createThreadGroupFn;
+    this._parentIndex = parentIndex;
+    this._changeNum = changeNum;
+    this._path = path;
+    this._projectName = projectName;
     this._prefs = prefs;
     this._outputEl = outputEl;
     this.groups = [];
@@ -464,14 +467,16 @@
     }
 
     const patchRange = this._comments.meta.patchRange;
-    const patchNumForNewThread = this._determinePatchNumForNewThreads(
-        patchRange, line, side);
     const isOnParent = this._determineIsOnParent(
         threads[0].side, patchRange, line, side);
 
-    const threadGroupEl = this._createThreadGroupFn(
-        patchNumForNewThread, isOnParent, side);
-    threadGroupEl.setThreads(threads);
+    const threadGroupEl =
+        document.createElement('gr-diff-comment-thread-group');
+    for (const thread of threads) {
+      Polymer.dom(threadGroupEl).appendChild(Gerrit.createThreadElement(
+          thread, isOnParent, this._parentIndex, this._changeNum,
+          this._path, this._projectName));
+    }
     if (side) {
       threadGroupEl.setAttribute('data-side', side);
     }

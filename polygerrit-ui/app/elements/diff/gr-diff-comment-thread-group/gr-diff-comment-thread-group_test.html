@@ -58,7 +58,7 @@ limitations under the License.
         end_line: 1,
         end_character: 2,
       };
-      element.setThreads([
+      const threads = [
         {
           rootId: 'sallys_confession',
           commentSide: 'left',
@@ -110,7 +110,11 @@ limitations under the License.
             },
           ],
         },
-      ]);
+      ];
+      for (const thread of threads) {
+        Polymer.dom(element).appendChild(Gerrit.createThreadElement(
+            thread, false, 1, '2', 'some/path', 'some_project'));
+      }
 
       flushAsynchronousOperations();
       assert.deepEqual(
@@ -123,26 +127,17 @@ limitations under the License.
       assert.deepEqual(element.getThreadEl('left', range).comments.length, 1);
     });
 
-    test('addNewThread', () => {
-      const commentSide = 'left';
-      const range = {startLine: 1, endLine: 2, startChar: 3, endChar: 4};
-      element.patchForNewThreads = 5;
-      element.addNewThread(commentSide, range);
-      assert.equal(element.threadEls.length, 1);
-      assert.equal(element.threadEls[0].comments.length, 0);
-      assert.equal(element.threadEls[0].commentSide, commentSide);
-      assert.equal(element.threadEls[0].patchNum, 5);
-      assert.equal(element.threadEls[0].range.startLine, range.startLine);
-      assert.equal(element.threadEls[0].range.endLine, range.endLine);
-      assert.equal(element.threadEls[0].range.startChar, range.startChar);
-      assert.equal(element.threadEls[0].range.endChar, range.endChar);
-    });
-
-    test('handles thread-discard', () => {
-      element.setThreads([
+    test('thread-discard handling', () => {
+      const threads = [
         {comments: [{id: 4711}]},
         {comments: [{id: 42}]},
-      ]);
+      ];
+      for (const thread of threads) {
+        const threadEl = Gerrit.createThreadElement(
+            thread, false, 1, 2, 'some/path', 'Some Project');
+        Polymer.dom(element).appendChild(threadEl);
+      }
+
       element.threadEls[0].dispatchEvent(
           new CustomEvent('thread-discard', {detail: {rootId: 4711}}));
       assert.equal(element.threadEls.length, 1);

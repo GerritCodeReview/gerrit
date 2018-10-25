@@ -471,7 +471,7 @@
 
     const threadGroupEl = this._createThreadGroupFn(
         patchNumForNewThread, isOnParent, side);
-    threadGroupEl.threads = threads;
+    threadGroupEl.setThreads(threads);
     if (side) {
       threadGroupEl.setAttribute('data-side', side);
     }

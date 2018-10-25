@@ -22,6 +22,30 @@
       "revId": "ff10af39ace6d52edf9c922ed27465eee98d6988",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9befc400_8a809469",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1032487
+      },
+      "writtenOn": "2018-10-25T16:42:58Z",
+      "side": 1,
+      "message": "Added more commit comment. The collection of OWNERS file info has always been cached to avoid repeated access during evaluation of submit rules. Accessing to multiple repositories should be rare, only if used in new OWNERS file directives that \"include\" OWNERS files from different repositories.",
+      "parentUuid": "b8fb839e_a8ea40b1",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "ff10af39ace6d52edf9c922ed27465eee98d6988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6c7eab4c_23c53600",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-10-25T04:38:19Z",
+      "side": 1,
+      "message": "\u003e Therefore, some sort of disambiguation is required, and this seems to be least complicated that doesn\u0027t affect status-quo.\n\u003e \n\u003e Here\u0027s an example:\n\u003e https://chromium-review.googlesource.com/c/infra/gerrit-plugins/landingwidget/+/1295049\n\nSo what we want to achieve is to have:\n\n  gerrit_plugin(\n    name \u003d \"landingwidget\",\n  [...]\n\nand\n\n  polygerrit_plugin(\n    name \u003d \"landingwidget_ui\",\n    plugin_name \u003d \"landingwidget\",\n  [...]\n\nand produce the following final artifacts:\n\n  landingwidget.jar\n  landingwidget.js\n\nOptional: Extend the commit message to make that goal of this commit more obvious.",
+      "parentUuid": "2658cfce_b9b98a54",
+      "revId": "086f7034aea02c8ee923dcc00890055737da4317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2489bf7b_674db16b",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 2

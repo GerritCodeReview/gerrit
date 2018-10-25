@@ -376,6 +376,13 @@ public class NoteDbMigrator implements AutoCloseable {
     }
   }
 
+  public static boolean needsMigrationToNoteDb(Config gerritConfig, SitePaths sitePaths) {
+    Optional<NotesMigrationState> maybeState =
+        NotesMigrationState.forConfig(
+            new FileBasedConfig(gerritConfig, sitePaths.notedb_config.toFile(), FS.detect()));
+    return maybeState.map(s -> s != NotesMigrationState.NOTE_DB).orElse(false);
+  }
+
   private final FileBasedConfig gerritConfig;
   private final FileBasedConfig noteDbConfig;
   private final SchemaFactory<ReviewDb> schemaFactory;

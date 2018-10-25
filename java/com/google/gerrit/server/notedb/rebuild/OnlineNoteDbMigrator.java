@@ -36,16 +36,11 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
   private static final String TRIAL = "OnlineNoteDbMigrator/trial";
 
   public static class Module extends LifecycleModule {
-    private final boolean trial;
-
-    public Module(boolean trial) {
-      this.trial = trial;
-    }
 
     @Override
     public void configure() {
       listener().to(OnlineNoteDbMigrator.class);
-      bindConstant().annotatedWith(Names.named(TRIAL)).to(trial);
+      bindConstant().annotatedWith(Names.named(TRIAL)).to(false);
     }
   }
 

@@ -72,6 +72,7 @@ import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker;
 import com.google.gerrit.server.events.StreamEventsApiListener;
@@ -125,10 +126,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 
 /** Run SSH daemon portions of Gerrit. */
 public class Daemon extends SiteProgram {
@@ -177,15 +178,7 @@ public class Daemon extends SiteProgram {
   @Option(name = "--stop-only", usage = "Stop the daemon", hidden = true)
   private boolean stopOnly;
 
-  @Option(
-      name = "--migrate-to-note-db",
-      usage = "Automatically migrate changes to NoteDb",
-      handler = ExplicitBooleanOptionHandler.class)
-  private boolean migrateToNoteDb;
-
-  @Option(name = "--trial", usage = "(With --migrate-to-note-db) " + MigrateToNoteDb.TRIAL_USAGE)
-  private boolean trial;
-
+  private Optional<Boolean> migrateToNoteDb = Optional.empty();
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
   private Injector cfgInjector;
@@ -328,6 +321,11 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void setAdditionalSysModuleForTesting(@Nullable Module m) {
     testSysModule = m;
+  }
+
+  @VisibleForTesting
+  public void setMigrateToNoteDb(boolean autoMigrate) {
+    migrateToNoteDb = Optional.of(autoMigrate);
   }
 
   @VisibleForTesting
@@ -487,8 +485,9 @@ public class Daemon extends SiteProgram {
       modules.add(new AccountDeactivator.Module());
       modules.add(new ChangeCleanupRunner.Module());
     }
+
     if (migrateToNoteDb()) {
-      modules.add(new OnlineNoteDbMigrator.Module(trial));
+      modules.add(new OnlineNoteDbMigrator.Module());
     }
     if (testSysModule != null) {
       modules.add(testSysModule);
@@ -500,7 +499,14 @@ public class Daemon extends SiteProgram {
   }
 
   private boolean migrateToNoteDb() {
-    return migrateToNoteDb || NoteDbMigrator.getAutoMigrate(requireNonNull(config));
+    if (!migrateToNoteDb.isPresent()) {
+      migrateToNoteDb =
+          Optional.of(
+              NoteDbMigrator.needsMigrationToNoteDb(
+                  config, cfgInjector.getInstance(SitePaths.class)));
+    }
+
+    return migrateToNoteDb.get() || NoteDbMigrator.getAutoMigrate(requireNonNull(config));
   }
 
   private Module createIndexModule() {

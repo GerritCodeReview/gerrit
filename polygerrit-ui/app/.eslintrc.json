@@ -89,7 +89,8 @@
         "elements/diff/**",
         "elements/edit/**",
         "elements/plugins/**",
-        "elements/settings/**"
+        "elements/settings/**",
+        "elements/shared/**"
       ],
       "rules": {
         "promise/always-return": "error",

@@ -62,21 +62,20 @@
    *    passed as null sometimes.
    * @return {!Promise} resolves on success, rejects on error.
    */
-  GrPluginRestApi.prototype.send = function(method, url, opt_payload,
+  GrPluginRestApi.prototype.send = async function(method, url, opt_payload,
       opt_errFn) {
-    return this.fetch(method, url, opt_payload, opt_errFn).then(response => {
-      if (response.status < 200 || response.status >= 300) {
-        return response.text().then(text => {
-          if (text) {
-            return Promise.reject(text);
-          } else {
-            return Promise.reject(response.status);
-          }
-        });
+    const response = await this.fetch(
+        method, url, opt_payload, opt_errFn);
+    if (response.status < 200 || response.status >= 300) {
+      const text = await response.text();
+      if (text) {
+        throw text;
       } else {
-        return getRestApi().getResponseObject(response);
+        throw response.status;
       }
-    });
+    } else {
+      return await getRestApi().getResponseObject(response);
+    }
   };
 
   /**
@@ -107,19 +106,17 @@
    * @param {string} url URL without base path or plugin prefix
    * @return {!Promise} resolves on 204, rejects on error.
    */
-  GrPluginRestApi.prototype.delete = function(url) {
-    return this.fetch('DELETE', url).then(response => {
-      if (response.status !== 204) {
-        return response.text().then(text => {
-          if (text) {
-            return Promise.reject(text);
-          } else {
-            return Promise.reject(response.status);
-          }
-        });
+  GrPluginRestApi.prototype.delete = async function(url) {
+    const response = await this.fetch('DELETE', url);
+    if (response.status !== 204) {
+      const text = await response.text();
+      if (text) {
+        throw text;
+      } else {
+        throw response.status;
       }
-      return response;
-    });
+    }
+    return response;
   };
 
   window.GrPluginRestApi = GrPluginRestApi;

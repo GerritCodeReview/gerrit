@@ -90,13 +90,12 @@
       return value;
     },
 
-    _showDropdown() {
+    async _showDropdown() {
       if (this.readOnly || this.editing) { return; }
-      return this._open().then(() => {
-        this.$.input.$.input.focus();
-        if (!this.$.input.value) { return; }
-        this.$.input.$.input.setSelectionRange(0, this.$.input.value.length);
-      });
+      await this._open();
+      this.$.input.$.input.focus();
+      if (!this.$.input.value) { return; }
+      this.$.input.$.input.setSelectionRange(0, this.$.input.value.length);
     },
 
     _open(...args) {

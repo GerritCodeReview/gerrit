@@ -22,6 +22,7 @@
     this._callbacks = {};
   }
 
+  // eslint-disable-next-line promise/prefer-await-to-callbacks
   GrPluginEndpoints.prototype.onNewEndpoint = function(endpoint, callback) {
     if (!this._callbacks[endpoint]) {
       this._callbacks[endpoint] = [];
@@ -59,6 +60,7 @@
     const moduleInfo = this._getOrCreateModuleInfo(plugin, endpoint, type,
         moduleName, domHook);
     if (Gerrit._arePluginsLoaded() && this._callbacks[endpoint]) {
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
       this._callbacks[endpoint].forEach(callback => callback(moduleInfo));
     }
   };

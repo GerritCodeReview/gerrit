@@ -34,6 +34,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -56,6 +57,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -80,6 +82,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private final ChangesCollection changes;
   private final ChangeInserter.Factory changeInserterFactory;
   private final BatchUpdate.Factory updateFactory;
+  private final boolean allowProjectOwnersToChangeParent;
 
   @Inject
   ReviewProjectAccess(
@@ -97,6 +100,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       Sequences seq,
       ContributorAgreementsChecker contributorAgreements,
       Provider<CurrentUser> user,
+      @GerritServerConfig Config config,
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
@@ -124,6 +128,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.changes = changes;
     this.changeInserterFactory = changeInserterFactory;
     this.updateFactory = updateFactory;
+    this.allowProjectOwnersToChangeParent =
+        config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
   }
 
   // TODO(dborowitz): Hack MetaDataUpdate so it can be created within a BatchUpdate and we can avoid
@@ -178,7 +184,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       throw new IOException(e);
     }
     addProjectOwnersAsReviewers(rsrc);
-    if (parentProjectUpdate) {
+    if (parentProjectUpdate && !allowProjectOwnersToChangeParent) {
       addAdministratorsAsReviewers(rsrc);
     }
     return changeId;

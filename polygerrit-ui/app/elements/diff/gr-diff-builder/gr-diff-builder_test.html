@@ -60,9 +60,12 @@ limitations under the License.
     let prefs;
     let element;
     let builder;
-    let createThreadGroupFn;
     let sandbox;
     const LINE_FEED_HTML = '<span class="style-scope gr-diff br"></span>';
+    const parentIndex = 3;
+    const changeNum = 4;
+    const path = 'some/path.ext';
+    const projectName = 'Awesome Project';
 
     setup(() => {
       sandbox = sinon.sandbox.create();
@@ -76,12 +79,9 @@ limitations under the License.
         show_tabs: true,
         tab_size: 4,
       };
-      createThreadGroupFn = sinon.spy(() => ({
-        setAttribute: sinon.spy(),
-        setThreads: sinon.spy(),
-      }));
       builder = new GrDiffBuilder(
-          {content: []}, {left: [], right: []}, createThreadGroupFn, prefs);
+          {content: []}, {left: [], right: []}, parentIndex, changeNum, path,
+          projectName, prefs);
     });
 
     teardown(() => { sandbox.restore(); });
@@ -466,9 +466,9 @@ limitations under the License.
       const l3 = {id: 'l3', line: 3, updated: '2016-08-09 00:42:32.000000000',
         __commentSide: 'left'};
       const l5 = {id: 'l5', line: 5, updated: '2016-08-09 00:42:32.000000000',
-        __commentSide: 'left'};
+        __commentSide: 'left', patch_set: '2'};
       const r5 = {id: 'r5', line: 5, updated: '2016-08-09 00:42:32.000000000',
-        __commentSide: 'right'};
+        __commentSide: 'right', patch_set: '3'};
 
       builder = new GrDiffBuilder(
           {content: []}, {
@@ -483,58 +483,51 @@ limitations under the License.
             },
             left: [l3, l5],
             right: [r5],
-          }, createThreadGroupFn, prefs);
-
-      function threadForComment(c, patchNum) {
-        return {
-          commentSide: c.__commentSide,
-          comments: [c],
-          patchNum,
-          rootId: c.id,
-          start_datetime: c.updated,
-        };
-      }
+          }, parentIndex, changeNum, path, projectName, prefs);
 
       function checkThreadGroupProps(threadGroupEl, patchNum, isOnParent,
           comments) {
-        assert.equal(createThreadGroupFn.lastCall.args[0], patchNum);
-        assert.equal(createThreadGroupFn.lastCall.args[1], isOnParent);
-        assert.deepEqual(
-            threadGroupEl.setThreads.lastCall.args[0],
-            comments.map(c => threadForComment(c, undefined)));
+        const threadEls = Polymer.dom(threadGroupEl).queryDistributedElements(
+            'gr-diff-comment-thread');
+        assert.equal(threadEls.length, comments.length);
+        for (let i=0; i < comments.length; i++) {
+          const threadEl = threadEls[i];
+          assert.equal(threadEl.isOnParent, isOnParent);
+
+          const comment = comments[i];
+          assert.equal(threadEl.patchNum, comment.patch_set);
+          assert.equal(threadEl.commentSide, comment.__commentSide);
+          assert.equal(threadEl.comments.length, 1);
+          assert.equal(threadEl.comments[0], comment);
+          assert.equal(threadEl.rootId, comment.id);
+        }
       }
 
       let line = new GrDiffLine(GrDiffLine.Type.BOTH);
       line.beforeNumber = 5;
       line.afterNumber = 5;
       let threadGroupEl = builder._commentThreadGroupForLine(line);
-      assert.isTrue(createThreadGroupFn.calledOnce);
       checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5]);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
-      assert.isTrue(createThreadGroupFn.calledTwice);
       checkThreadGroupProps(threadGroupEl, '3', false, [r5]);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
-      assert.isTrue(createThreadGroupFn.calledThrice);
       checkThreadGroupProps(threadGroupEl, '3', true, [l5]);
 
       builder._comments.meta.patchRange.basePatchNum = '1';
 
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      assert.equal(createThreadGroupFn.callCount, 4);
       checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5]);
 
       threadEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
-      assert.equal(createThreadGroupFn.callCount, 5);
       checkThreadGroupProps(threadEl, '1', false, [l5]);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
-      assert.equal(createThreadGroupFn.callCount, 6);
       checkThreadGroupProps(threadGroupEl, '3', false, [r5]);
 
       builder._comments.meta.patchRange.basePatchNum = 'PARENT';
@@ -543,14 +536,12 @@ limitations under the License.
       line.beforeNumber = 5;
       line.afterNumber = 5;
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      assert.equal(createThreadGroupFn.callCount, 7);
       checkThreadGroupProps(threadGroupEl, '3', true, [l5, r5]);
 
       line = new GrDiffLine(GrDiffLine.Type.ADD);
       line.beforeNumber = 3;
       line.afterNumber = 5;
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      assert.equal(createThreadGroupFn.callCount, 8);
       checkThreadGroupProps(threadGroupEl, '3', false, [l3, r5]);
     });
 
@@ -1113,7 +1104,8 @@ limitations under the License.
         outputEl = element.queryEffectiveChildren('#diffTable');
         sandbox.stub(element, '_getDiffBuilder', () => {
           const builder = new GrDiffBuilder(
-              {content}, {left: [], right: []}, null, prefs, outputEl);
+              {content}, {left: [], right: []}, parentIndex, changeNum, path,
+              projectName, prefs, outputEl);
           sandbox.stub(builder, 'addColumns');
           builder.buildSectionElement = function(group) {
             const section = document.createElement('stub');

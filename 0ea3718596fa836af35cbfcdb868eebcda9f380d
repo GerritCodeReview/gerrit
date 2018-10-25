@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d514b7d6_ec073187",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-10-25T07:13:32Z",
+      "side": 1,
+      "message": "I think my expectation would be that inactive reviewers are just dropped and don\u0027t appear on the revert change. Since they are inactive they cannot login and hence cannot do the review (at least for upstream).",
+      "range": {
+        "startLine": 887,
+        "startChar": 4,
+        "endLine": 896,
+        "endChar": 44
+      },
+      "revId": "0ea3718596fa836af35cbfcdb868eebcda9f380d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

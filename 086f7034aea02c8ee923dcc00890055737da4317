@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ad4ab7bb_9ab4bcc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-25T16:36:08Z",
+      "side": 1,
+      "message": "Yes! I went ahead and shamelessly stole this and put directly into commit message.\nThanks for taking a look!",
+      "parentUuid": "6c7eab4c_23c53600",
+      "revId": "086f7034aea02c8ee923dcc00890055737da4317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2489bf7b_674db16b",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 2

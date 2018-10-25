@@ -113,16 +113,13 @@ limitations under the License.
           isImageDiff: Boolean,
           baseImage: Object,
           revisionImage: Object,
+          parentIndex: Number,
+          path: String,
           projectName: String,
           /**
            * @type {Defs.LineOfInterest|null}
            */
           lineOfInterest: Object,
-
-          /**
-           * @type {function(number, booleam, !string)}
-           */
-          createCommentFn: Function,
 
           _builder: Object,
           _groups: Array,
@@ -305,19 +302,22 @@ limitations under the License.
           }
 
           let builder = null;
-          const createFn = this.createCommentFn;
           if (this.isImageDiff) {
-            builder = new GrDiffBuilderImage(diff, comments, createFn, prefs,
+            builder = new GrDiffBuilderImage(diff, comments, this.parentIndex,
+              this.changeNum, this.path, this.projectName, prefs,
               this.diffElement, this.baseImage, this.revisionImage);
           } else if (diff.binary) {
             // If the diff is binary, but not an image.
-            return new GrDiffBuilderBinary(diff, comments, prefs,
+            return new GrDiffBuilderBinary(diff, comments, this.parentIndex,
+                this.changeNum, this.path, this.projectName, prefs,
                 this.diffElement);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            builder = new GrDiffBuilderSideBySide(diff, comments, createFn,
+            builder = new GrDiffBuilderSideBySide(diff, comments,
+                this.parentIndex, this.changeNum, this.path, this.projectName,
                 prefs, this.diffElement, this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            builder = new GrDiffBuilderUnified(diff, comments, createFn, prefs,
+            builder = new GrDiffBuilderUnified(diff, comments, this.parentIndex,
+                this.changeNum, this.path, this.projectName, prefs,
                 this.diffElement, this._layers);
           }
           if (!builder) {

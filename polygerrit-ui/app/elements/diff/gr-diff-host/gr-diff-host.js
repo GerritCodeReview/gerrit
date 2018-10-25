@@ -456,8 +456,10 @@
 
     /** @param {CustomEvent} e */
     _handleCreateComment(e) {
-      const {threadGroupEl, lineNum, side, range} = e.detail;
-      const threadEl = this._getOrCreateThread(threadGroupEl, side, range);
+      const {threadGroupEl, lineNum, side, range, isOnParent,
+          patchForNewThreads} = e.detail;
+      const threadEl = this._getOrCreateThread(threadGroupEl, side, range,
+          isOnParent, patchForNewThreads);
       threadEl.addOrEditDraft(lineNum, range);
       this.$.reporting.recordDraftInteraction();
     },
@@ -466,18 +468,27 @@
      * Gets or creates a comment thread from a specific thread group.
      * May include a range, if the comment is a range comment.
      *
-     * @param {!Object} threadGroupEl
+     * @param {!Node} threadGroupEl
      * @param {string} commentSide
-     * @param {!Object=} range
+     * @param {?Object} range
+     * @param {boolean} isOnParent
+     * @param {string} patchForNewThreads
      * @return {!Object}
      */
-    _getOrCreateThread(threadGroupEl, commentSide, range=undefined) {
+    _getOrCreateThread(threadGroupEl, commentSide, range, isOnParent,
+        patchForNewThreads) {
       let threadEl = threadGroupEl.getThreadEl(commentSide, range);
 
       if (!threadEl) {
-        threadGroupEl.addNewThread(commentSide, range);
-        Polymer.dom.flush();
-        threadEl = threadGroupEl.getThreadEl(commentSide, range);
+        threadEl = Gerrit.createThreadElement(
+            {
+              comments: [],
+              commentSide,
+              patchNum: patchForNewThreads,
+              range,
+            }, isOnParent, this._parentIndex, this.changeNum,
+            this.path, this.projectName);
+        Polymer.dom(threadGroupEl).appendChild(threadEl);
       }
       return threadEl;
     },

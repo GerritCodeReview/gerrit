@@ -123,22 +123,28 @@ limitations under the License.
     });
 
     test('addNewThread', () => {
-      const locationRange = 'range-1-2-3-4';
-      element._threads = [{locationRange: 'line'}];
-      element.addNewThread(locationRange);
-      assert(element._threads.length, 2);
+      const commentSide = 'left';
+      const range = {startLine: 1, endLine: 2, startChar: 3, endChar: 4};
+      element.patchForNewThreads = 5;
+      element.addNewThread(commentSide, range);
+      assert.equal(element.threads.length, 1);
+      assert.equal(element.threads[0].comments.length, 0);
+      assert.equal(element.threads[0].commentSide, commentSide);
+      assert.equal(element.threads[0].patchNum, 5);
+      assert.equal(element.threads[0].range.startLine, range.startLine);
+      assert.equal(element.threads[0].range.endLine, range.endLine);
+      assert.equal(element.threads[0].range.startChar, range.startChar);
+      assert.equal(element.threads[0].range.endChar, range.endChar);
     });
 
     test('removeThread', () => {
-      const locationRange = 'range-1-2-3-4';
-      element._threads = [
-        {locationRange: 'range-1-2-3-4', comments: []},
-        {locationRange: 'line', comments: []},
+      element.threads = [
+        {rootId: 4711},
+        {rootId: 42},
       ];
-      flushAsynchronousOperations();
-      element.removeThread(locationRange);
-      flushAsynchronousOperations();
-      assert(element._threads.length, 1);
+      element.removeThread(4711);
+      assert.equal(element.threads.length, 1);
+      assert.equal(element.threads[0].rootId, 42);
     });
 
     test('_rangesEqual', () => {

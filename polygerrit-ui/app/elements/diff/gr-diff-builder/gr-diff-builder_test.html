@@ -78,6 +78,7 @@ limitations under the License.
       };
       createThreadGroupFn = sinon.spy(() => ({
         setAttribute: sinon.spy(),
+        setThreads: sinon.spy(),
       }));
       builder = new GrDiffBuilder(
           {content: []}, {left: [], right: []}, createThreadGroupFn, prefs);
@@ -499,7 +500,7 @@ limitations under the License.
         assert.equal(createThreadGroupFn.lastCall.args[0], patchNum);
         assert.equal(createThreadGroupFn.lastCall.args[1], isOnParent);
         assert.deepEqual(
-            threadGroupEl.threads,
+            threadGroupEl.setThreads.lastCall.args[0],
             comments.map(c => threadForComment(c, undefined)));
       }
 

@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "12749bd8_6e4c18df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-25T07:01:17Z",
+      "side": 1,
+      "message": "consensus",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "c442d8416ae6a0c6ff922932fc1f96beff604698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21b4f21e_4d00cd76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-10-25T07:01:17Z",
+      "side": 1,
+      "message": "Move this into the footer, i.e. remove the following blank line, and change \"BUG\" to \"Bug\".",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "c442d8416ae6a0c6ff922932fc1f96beff604698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "02381622_ca394432",
         "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
         "patchSetId": 4

@@ -60,25 +60,21 @@
   };
 
   // TODO (viktard): deprecate in favor of GrPluginRestApi.
-  function send(method, url, opt_callback, opt_payload) {
-    return getRestAPI().send(method, url, opt_payload).then(response => {
-      if (response.status < 200 || response.status >= 300) {
-        return response.text().then(text => {
-          if (text) {
-            return Promise.reject(text);
-          } else {
-            return Promise.reject(response.status);
-          }
-        });
+  async function send(method, url, opt_callback, opt_payload) {
+    const response = await getRestAPI().send(method, url, opt_payload);
+    if (response.status < 200 || response.status >= 300) {
+      const text = await response.text();
+      if (text) {
+        throw text;
       } else {
-        return getRestAPI().getResponseObject(response);
+        throw response.status;
       }
-    }).then(response => {
-      if (opt_callback) {
-        opt_callback(response);
-      }
-      return response;
-    });
+    }
+    const responseObj = await getRestAPI().getResponseObject(response);
+    if (opt_callback) {
+      opt_callback(responseObj);
+    }
+    return responseObj;
   }
 
   const API_VERSION = '0.1';
@@ -212,6 +208,7 @@
     return document.createElement('gr-rest-api-interface').getConfig();
   };
 
+  // eslint-disable-next-line promise/prefer-await-to-callbacks
   Plugin.prototype.on = function(eventName, callback) {
     Plugin._sharedAPIElement.addEventCallback(eventName, callback);
   };
@@ -352,17 +349,18 @@
       }
     },
 
-    popup(el) {
+    async popup(el) {
       console.warn('plugin.deprecated.popup() is deprecated, ' +
           'use plugin.popup() insted!');
       if (!el) {
         throw new Error('Popup contents not found');
       }
-      const api = new GrPopupInterface(this);
-      api.open().then(api => api._getElement().appendChild(el));
+      const api = await (new GrPopupInterface(this)).open();
+      api._getElement().appendChild(el);
       return api;
     },
 
+    // eslint-disable-next-line promise/prefer-await-to-callbacks
     onAction(type, action, callback) {
       console.warn('plugin.deprecated.onAction() is deprecated,' +
           ' use plugin.changeActions() instead!');
@@ -378,11 +376,13 @@
           return;
         }
         this.changeActions().addTapListener(details.__key, () => {
+          // eslint-disable-next-line promise/prefer-await-to-callbacks
           callback(new GrPluginActionContext(this, details, change, revision));
         });
       });
     },
 
+    // eslint-disable-next-line promise/prefer-await-to-callbacks
     screen(pattern, callback) {
       console.warn('plugin.deprecated.screen is deprecated,' +
           ' use plugin.screen instead!');
@@ -394,6 +394,7 @@
       this.hook(Gerrit._getPluginScreenName(this.getPluginName(), pattern))
           .onAttached(el => {
             el.style.display = 'none';
+            // eslint-disable-next-line promise/prefer-await-to-callbacks
             callback({
               body: el,
               token: el.token,
@@ -407,6 +408,7 @@
           });
     },
 
+    // eslint-disable-next-line promise/prefer-await-to-callbacks
     settingsScreen(path, menu, callback) {
       console.warn('.settingsScreen() is deprecated! Use .settings() instead.');
       const hook = this.settings()
@@ -417,6 +419,7 @@
       hook.onAttached(el => {
         el.style.display = 'none';
         const body = el.querySelector('div');
+        // eslint-disable-next-line promise/prefer-await-to-callbacks
         callback({
           body,
           onUnload: () => {},
@@ -429,6 +432,7 @@
       });
     },
 
+    // eslint-disable-next-line promise/prefer-await-to-callbacks
     panel(extensionpoint, callback) {
       console.warn('.panel() is deprecated! ' +
           'Use registerCustomComponent() instead.');
@@ -437,6 +441,7 @@
         console.warn(`.panel ${extensionpoint} not supported!`);
         return;
       }
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
       this.hook(endpoint).onAttached(el => callback({
         body: el,
         p: {
@@ -513,6 +518,7 @@
     const existingPlugin = _plugins[name];
     const plugin = existingPlugin || new Plugin(src);
     try {
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
       callback(plugin);
       if (name) {
         _plugins[name] = plugin;
@@ -531,38 +537,39 @@
     return document.createElement('gr-rest-api-interface').getLoggedIn();
   };
 
+  // eslint-disable-next-line promise/prefer-await-to-callbacks
   Gerrit.get = function(url, callback) {
     console.warn('.get() is deprecated! Use plugin.restApi().get()');
     send('GET', url, callback);
   };
 
+  // eslint-disable-next-line promise/prefer-await-to-callbacks
   Gerrit.post = function(url, payload, callback) {
     console.warn('.post() is deprecated! Use plugin.restApi().post()');
     send('POST', url, callback, payload);
   };
 
+  // eslint-disable-next-line promise/prefer-await-to-callbacks
   Gerrit.put = function(url, payload, callback) {
     console.warn('.put() is deprecated! Use plugin.restApi().put()');
     send('PUT', url, callback, payload);
   };
 
-  Gerrit.delete = function(url, opt_callback) {
+  Gerrit.delete = async function(url, opt_callback) {
     console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
-    return getRestAPI().send('DELETE', url).then(response => {
-      if (response.status !== 204) {
-        return response.text().then(text => {
-          if (text) {
-            return Promise.reject(text);
-          } else {
-            return Promise.reject(response.status);
-          }
-        });
+    const response = await getRestAPI().send('DELETE', url);
+    if (response.status !== 204) {
+      const text = await response.text();
+      if (text) {
+        throw text;
+      } else {
+        throw response.status;
       }
-      if (opt_callback) {
-        opt_callback(response);
-      }
-      return response;
-    });
+    }
+    if (opt_callback) {
+      opt_callback(response);
+    }
+    return response;
   };
 
   /**
@@ -582,18 +589,20 @@
     return plugin;
   };
 
-  Gerrit.awaitPluginsLoaded = function() {
+  Gerrit.awaitPluginsLoaded = async function() {
     if (!_allPluginsPromise) {
       if (Gerrit._arePluginsLoaded()) {
-        _allPluginsPromise = Promise.resolve();
+        _allPluginsPromise = await undefined;
       } else {
         let timeoutId;
-        _allPluginsPromise =
-          Promise.race([
+        _allPluginsPromise = (async () => {
+          await Promise.race([
             new Promise(resolve => _resolveAllPluginsLoaded = resolve),
             new Promise(resolve => timeoutId = setTimeout(
                 Gerrit._pluginLoadingTimeout, PLUGIN_LOADING_TIMEOUT_MS)),
-          ]).then(() => clearTimeout(timeoutId));
+          ]);
+          clearTimeout(timeoutId);
+        })();
       }
     }
     return _allPluginsPromise;

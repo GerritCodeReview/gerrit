@@ -63,19 +63,18 @@ limitations under the License.
             ]));
       });
 
-      test('converts to suggestion objects', () => {
+      test('converts to suggestion objects', async () => {
         const input = 'plugins/avatars';
-        return element._getRepoSuggestions(input).then(suggestions => {
-          assert.isTrue(element.$.restAPI.getRepos.calledWith(input));
-          const unencodedNames = [
-            'plugins/avatars-external',
-            'plugins/avatars-gravatar',
-            'plugins/avatars/external',
-            'plugins/avatars/gravatar',
-          ];
-          assert.deepEqual(suggestions.map(s => s.name), unencodedNames);
-          assert.deepEqual(suggestions.map(s => s.value), unencodedNames);
-        });
+        const suggestions = await element._getRepoSuggestions(input);
+        assert.isTrue(element.$.restAPI.getRepos.calledWith(input));
+        const unencodedNames = [
+          'plugins/avatars-external',
+          'plugins/avatars-gravatar',
+          'plugins/avatars/external',
+          'plugins/avatars/gravatar',
+        ];
+        assert.deepEqual(suggestions.map(s => s.name), unencodedNames);
+        assert.deepEqual(suggestions.map(s => s.value), unencodedNames);
       });
     });
 
@@ -92,48 +91,42 @@ limitations under the License.
             ]));
       });
 
-      test('converts to suggestion objects', () => {
+      test('converts to suggestion objects', async () => {
         const repo = 'gerrit';
         const branchInput = 'stable-2.1';
         element.repo = repo;
-        return element._getRepoBranchesSuggestions(branchInput)
-            .then(suggestions => {
-              assert.isTrue(element.$.restAPI.getRepoBranches.calledWith(
-                  branchInput, repo, 15));
-              const refNames = [
-                'stable-2.10',
-                'stable-2.11',
-                'stable-2.12',
-                'stable-2.13',
-                'stable-2.14',
-                'stable-2.15',
-              ];
-              assert.deepEqual(suggestions.map(s => s.name), refNames);
-              assert.deepEqual(suggestions.map(s => s.value), refNames);
-            });
+        const suggestions =
+            await element._getRepoBranchesSuggestions(branchInput);
+        assert.isTrue(element.$.restAPI.getRepoBranches.calledWith(
+            branchInput, repo, 15));
+        const refNames = [
+          'stable-2.10',
+          'stable-2.11',
+          'stable-2.12',
+          'stable-2.13',
+          'stable-2.14',
+          'stable-2.15',
+        ];
+        assert.deepEqual(suggestions.map(s => s.name), refNames);
+        assert.deepEqual(suggestions.map(s => s.value), refNames);
       });
 
-      test('filters out ref prefix', () => {
+      test('filters out ref prefix', async () => {
         const repo = 'gerrit';
         const branchInput = 'refs/heads/stable-2.1';
         element.repo = repo;
-        return element._getRepoBranchesSuggestions(branchInput)
-            .then(suggestions => {
-              assert.isTrue(element.$.restAPI.getRepoBranches.calledWith(
-                  'stable-2.1', repo, 15));
-            });
+        await element._getRepoBranchesSuggestions(branchInput);
+        assert.isTrue(element.$.restAPI.getRepoBranches.calledWith(
+            'stable-2.1', repo, 15));
       });
 
-      test('does not query when repo is unset', () => {
-        return element._getRepoBranchesSuggestions('')
-            .then(() => {
-              assert.isFalse(element.$.restAPI.getRepoBranches.called);
-              element.repo = 'gerrit';
-              return element._getRepoBranchesSuggestions('');
-            })
-            .then(() => {
-              assert.isTrue(element.$.restAPI.getRepoBranches.called);
-            });
+      test('does not query when repo is unset', async () => {
+        await element._getRepoBranchesSuggestions('');
+        assert.isFalse(element.$.restAPI.getRepoBranches.called);
+        element.repo = 'gerrit';
+
+        await element._getRepoBranchesSuggestions('');
+        assert.isTrue(element.$.restAPI.getRepoBranches.called);
       });
     });
   });

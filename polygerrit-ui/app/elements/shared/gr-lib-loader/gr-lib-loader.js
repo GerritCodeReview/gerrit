@@ -42,23 +42,23 @@
      * it's already been loaded.
      * @return {!Promise<Object>}
      */
-    getHLJS() {
-      return new Promise((resolve, reject) => {
-        // If the lib is totally loaded, resolve immediately.
-        if (this._getHighlightLib()) {
-          resolve(this._getHighlightLib());
-          return;
-        }
+    async getHLJS() {
+      // If the lib is totally loaded, resolve immediately.
+      if (this._getHighlightLib()) {
+        return this._getHighlightLib();
+      }
 
-        // If the library is not currently being loaded, then start loading it.
-        if (!this._hljsState.loading) {
-          this._hljsState.loading = true;
-          this._loadScript(this._getHLJSUrl())
-              .then(this._onHLJSLibLoaded.bind(this)).catch(reject);
-        }
+      const promise = new Promise(
+          resolve => this._hljsState.callbacks.push(resolve));
 
-        this._hljsState.callbacks.push(resolve);
-      });
+      // If the library is not currently being loaded, then start loading it.
+      if (!this._hljsState.loading) {
+        this._hljsState.loading = true;
+        await this._loadScript(this._getHLJSUrl());
+        this._onHLJSLibLoaded();
+      }
+
+      return await promise;
     },
 
     /**
@@ -83,6 +83,7 @@
       const lib = this._getHighlightLib();
       this._hljsState.loading = false;
       for (const cb of this._hljsState.callbacks) {
+        // eslint-disable-next-line promise/prefer-await-to-callbacks
         cb(lib);
       }
       this._hljsState.callbacks = [];

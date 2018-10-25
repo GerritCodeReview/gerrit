@@ -54,27 +54,26 @@
     Element,
     EventType,
 
-    handleEvent(type, detail) {
-      Gerrit.awaitPluginsLoaded().then(() => {
-        switch (type) {
-          case EventType.HISTORY:
-            this._handleHistory(detail);
-            break;
-          case EventType.SHOW_CHANGE:
-            this._handleShowChange(detail);
-            break;
-          case EventType.COMMENT:
-            this._handleComment(detail);
-            break;
-          case EventType.LABEL_CHANGE:
-            this._handleLabelChange(detail);
-            break;
-          default:
-            console.warn('handleEvent called with unsupported event type:',
-                type);
-            break;
-        }
-      });
+    async handleEvent(type, detail) {
+      await Gerrit.awaitPluginsLoaded();
+      switch (type) {
+        case EventType.HISTORY:
+          this._handleHistory(detail);
+          break;
+        case EventType.SHOW_CHANGE:
+          this._handleShowChange(detail);
+          break;
+        case EventType.COMMENT:
+          this._handleComment(detail);
+          break;
+        case EventType.LABEL_CHANGE:
+          this._handleLabelChange(detail);
+          break;
+        default:
+          console.warn('handleEvent called with unsupported event type:',
+              type);
+          break;
+      }
     },
 
     addElement(key, el) {
@@ -85,6 +84,7 @@
       return this._elements[key];
     },
 
+    // eslint-disable-next-line promise/prefer-await-to-callbacks
     addEventCallback(eventName, callback) {
       if (!this._eventCallbacks[eventName]) {
         this._eventCallbacks[eventName] = [];
@@ -94,8 +94,10 @@
 
     canSubmitChange(change, revision) {
       const submitCallbacks = this._getEventCallbacks(EventType.SUBMIT_CHANGE);
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
       const cancelSubmit = submitCallbacks.some(callback => {
         try {
+          // eslint-disable-next-line promise/prefer-await-to-callbacks
           return callback(change, revision) === false;
         } catch (err) {
           console.error(err);
@@ -116,6 +118,7 @@
     _handleHistory(detail) {
       for (const cb of this._getEventCallbacks(EventType.HISTORY)) {
         try {
+          // eslint-disable-next-line promise/prefer-await-to-callbacks
           cb(detail.path);
         } catch (err) {
           console.error(err);
@@ -151,6 +154,7 @@
 
       for (const cb of this._getEventCallbacks(EventType.SHOW_CHANGE)) {
         try {
+          // eslint-disable-next-line promise/prefer-await-to-callbacks
           cb(change, revision, info);
         } catch (err) {
           console.error(err);
@@ -161,6 +165,7 @@
     handleCommitMessage(change, msg) {
       for (const cb of this._getEventCallbacks(EventType.COMMIT_MSG_EDIT)) {
         try {
+          // eslint-disable-next-line promise/prefer-await-to-callbacks
           cb(change, msg);
         } catch (err) {
           console.error(err);
@@ -171,6 +176,7 @@
     _handleComment(detail) {
       for (const cb of this._getEventCallbacks(EventType.COMMENT)) {
         try {
+          // eslint-disable-next-line promise/prefer-await-to-callbacks
           cb(detail.node);
         } catch (err) {
           console.error(err);
@@ -181,6 +187,7 @@
     _handleLabelChange(detail) {
       for (const cb of this._getEventCallbacks(EventType.LABEL_CHANGE)) {
         try {
+          // eslint-disable-next-line promise/prefer-await-to-callbacks
           cb(detail.change);
         } catch (err) {
           console.error(err);
@@ -191,6 +198,7 @@
     modifyRevertMsg(change, revertMsg, origMsg) {
       for (const cb of this._getEventCallbacks(EventType.REVERT)) {
         try {
+          // eslint-disable-next-line promise/prefer-await-to-callbacks
           revertMsg = cb(change, revertMsg, origMsg);
         } catch (err) {
           console.error(err);
@@ -226,6 +234,7 @@
       let labels = {};
       for (const cb of this._getEventCallbacks(EventType.POST_REVERT)) {
         try {
+          // eslint-disable-next-line promise/prefer-await-to-callbacks
           labels = cb(change);
         } catch (err) {
           console.error(err);

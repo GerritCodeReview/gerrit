@@ -63,18 +63,27 @@ limitations under the License.
       element._hljsState.callbacks = [];
     });
 
-    test('only load once', done => {
-      sandbox.stub(element, '_getHLJSUrl').returns('');
+    test('only load once', async () => {
       const firstCallHandler = sinon.stub();
-      element.getHLJS().then(firstCallHandler);
+      const secondCallHandler = sinon.stub();
+
+      const promise1 = new Promise(async resolve => {
+        sandbox.stub(element, '_getHLJSUrl').returns('');
+        await element.getHLJS();
+        firstCallHandler();
+        resolve();
+      });
 
       // It should now be in the loading state.
       assert.isTrue(loadStub.called);
       assert.isTrue(element._hljsState.loading);
       assert.isFalse(firstCallHandler.called);
 
-      const secondCallHandler = sinon.stub();
-      element.getHLJS().then(secondCallHandler);
+      const promise2 = new Promise(async resolve => {
+        await element.getHLJS();
+        secondCallHandler();
+        resolve();
+      });
 
       // No change in state.
       assert.isTrue(element._hljsState.loading);
@@ -83,13 +92,12 @@ limitations under the License.
 
       // Now load the library.
       resolveLoad();
-      flush(() => {
-        // The state should be loaded and both handlers called.
-        assert.isFalse(element._hljsState.loading);
-        assert.isTrue(firstCallHandler.called);
-        assert.isTrue(secondCallHandler.called);
-        done();
-      });
+      await Promise.all([promise1, promise2]);
+
+      // The state should be loaded and both handlers called.
+      assert.isFalse(element._hljsState.loading);
+      assert.isTrue(firstCallHandler.called);
+      assert.isTrue(secondCallHandler.called);
     });
 
     suite('preloaded', () => {
@@ -106,21 +114,13 @@ limitations under the License.
         delete window.hljs;
       });
 
-      test('returns hljs', done => {
-        const firstCallHandler = sinon.stub();
-        element.getHLJS().then(firstCallHandler);
-        flush(() => {
-          assert.isTrue(firstCallHandler.called);
-          assert.isTrue(firstCallHandler.calledWith(hljsStub));
-          done();
-        });
+      test('returns hljs', async () => {
+        assert.strictEqual(await element.getHLJS(), hljsStub);
       });
 
-      test('configures hljs', done => {
-        element.getHLJS().then(() => {
-          assert.isTrue(window.hljs.configure.calledOnce);
-          done();
-        });
+      test('configures hljs', async () => {
+        await element.getHLJS();
+        assert.isTrue(window.hljs.configure.calledOnce);
       });
     });
 

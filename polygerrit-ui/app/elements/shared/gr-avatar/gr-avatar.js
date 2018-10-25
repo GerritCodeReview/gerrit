@@ -39,19 +39,18 @@
       Gerrit.BaseUrlBehavior,
     ],
 
-    attached() {
-      Promise.all([
+    async attached() {
+      const [cfg] = await Promise.all([
         this.$.restAPI.getConfig(),
         Gerrit.awaitPluginsLoaded(),
-      ]).then(([cfg]) => {
-        this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-        if (this._hasAvatars && this.account) {
-          // src needs to be set if avatar becomes visible
-          this._updateAvatarURL();
-        } else {
-          this.hidden = true;
-        }
-      });
+      ]);
+      this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+      if (this._hasAvatars && this.account) {
+        // src needs to be set if avatar becomes visible
+        this._updateAvatarURL();
+      } else {
+        this.hidden = true;
+      }
     },
 
     _accountChanged(account) {

@@ -295,9 +295,6 @@ limitations under the License.
 
       test('thread groups', () => {
         const contentEl = document.createElement('div');
-        const commentSide = 'left';
-        const patchNum = 1;
-        const side = 'PARENT';
 
         element.changeNum = 123;
         element.patchRange = {basePatchNum: 1, patchNum: 2};
@@ -312,8 +309,7 @@ limitations under the License.
         assert.isNotOk(element._getThreadGroupForLine(contentEl));
 
         // A thread group gets created.
-        const threadGroupEl = element._getOrCreateThreadGroup(contentEl,
-            patchNum, commentSide, side);
+        const threadGroupEl = element._getOrCreateThreadGroup(contentEl);
         assert.isOk(threadGroupEl);
 
         // The new thread group can be fetched.

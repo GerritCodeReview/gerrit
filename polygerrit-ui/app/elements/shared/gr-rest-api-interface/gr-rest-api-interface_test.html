@@ -61,39 +61,35 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('JSON prefix is properly removed', done => {
-      element._fetchJSON('/dummy/url').then(obj => {
-        assert.deepEqual(obj, {hello: 'bonjour'});
-        done();
-      });
+    test('JSON prefix is properly removed', async () => {
+      const obj = await element._fetchJSON('/dummy/url');
+      assert.deepEqual(obj, {hello: 'bonjour'});
     });
 
-    test('cached results', done => {
+    test('cached results', async () => {
       let n = 0;
-      sandbox.stub(element, '_fetchJSON', () => {
-        return Promise.resolve(++n);
-      });
+      sandbox.stub(element, '_fetchJSON', async () => ++n);
       const promises = [];
       promises.push(element._fetchSharedCacheURL('/foo'));
       promises.push(element._fetchSharedCacheURL('/foo'));
       promises.push(element._fetchSharedCacheURL('/foo'));
 
-      Promise.all(promises).then(results => {
-        assert.deepEqual(results, [1, 1, 1]);
-        element._fetchSharedCacheURL('/foo').then(foo => {
-          assert.equal(foo, 1);
-          done();
-        });
-      });
+      const results = await Promise.all(promises);
+      assert.deepEqual(results, [1, 1, 1]);
+
+      const foo = await element._fetchSharedCacheURL('/foo');
+      assert.equal(foo, 1);
     });
 
-    test('cached promise', done => {
+    test('cached promise', async () => {
       const promise = Promise.reject('foo');
       element._cache.set('/foo', promise);
-      element._fetchSharedCacheURL({url: '/foo'}).catch(p => {
+      try {
+        await element._fetchSharedCacheURL({url: '/foo'});
+        assert.fail('expected exception');
+      } catch (p) {
         assert.equal(p, 'foo');
-        done();
-      });
+      }
     });
 
     test('params are properly encoded', () => {
@@ -118,7 +114,7 @@ limitations under the License.
       assert.equal(url, window.CANONICAL_PATH + '/path/?l=c&l=b&l=a');
     });
 
-    test('request callbacks can be canceled', done => {
+    test('request callbacks can be canceled', async () => {
       let cancelCalled = false;
       window.fetch.returns(Promise.resolve({
         body: {
@@ -126,48 +122,42 @@ limitations under the License.
         },
       }));
       const cancelCondition = () => { return true; };
-      element._fetchJSON({url: '/dummy/url', cancelCondition}).then(
-          obj => {
-            assert.isUndefined(obj);
-            assert.isTrue(cancelCalled);
-            done();
-          });
+      const obj = await element._fetchJSON(
+          {url: '/dummy/url', cancelCondition});
+      assert.isUndefined(obj);
+      assert.isTrue(cancelCalled);
     });
 
-    test('parent diff comments are properly grouped', done => {
-      sandbox.stub(element, '_fetchJSON', () => {
-        return Promise.resolve({
-          '/COMMIT_MSG': [],
-          'sieve.go': [
-            {
-              updated: '2017-02-03 22:32:28.000000000',
-              message: 'this isn’t quite right',
-            },
-            {
-              side: 'PARENT',
-              message: 'how did this work in the first place?',
-              updated: '2017-02-03 22:33:28.000000000',
-            },
-          ],
-        });
+    test('parent diff comments are properly grouped', async () => {
+      sandbox.stub(element, '_fetchJSON', async () => ({
+        '/COMMIT_MSG': [],
+        'sieve.go': [
+          {
+            updated: '2017-02-03 22:32:28.000000000',
+            message: 'this isn’t quite right',
+          },
+          {
+            side: 'PARENT',
+            message: 'how did this work in the first place?',
+            updated: '2017-02-03 22:33:28.000000000',
+          },
+        ],
+      }));
+      const obj = await element._getDiffComments(
+          '42', '', 'PARENT', 1, 'sieve.go');
+      assert.equal(obj.baseComments.length, 1);
+      assert.deepEqual(obj.baseComments[0], {
+        side: 'PARENT',
+        message: 'how did this work in the first place?',
+        path: 'sieve.go',
+        updated: '2017-02-03 22:33:28.000000000',
       });
-      element._getDiffComments('42', '', 'PARENT', 1, 'sieve.go').then(
-          obj => {
-            assert.equal(obj.baseComments.length, 1);
-            assert.deepEqual(obj.baseComments[0], {
-              side: 'PARENT',
-              message: 'how did this work in the first place?',
-              path: 'sieve.go',
-              updated: '2017-02-03 22:33:28.000000000',
-            });
-            assert.equal(obj.comments.length, 1);
-            assert.deepEqual(obj.comments[0], {
-              message: 'this isn’t quite right',
-              path: 'sieve.go',
-              updated: '2017-02-03 22:32:28.000000000',
-            });
-            done();
-          });
+      assert.equal(obj.comments.length, 1);
+      assert.deepEqual(obj.comments[0], {
+        message: 'this isn’t quite right',
+        path: 'sieve.go',
+        updated: '2017-02-03 22:32:28.000000000',
+      });
     });
 
     test('_setRange', () => {
@@ -275,13 +265,13 @@ limitations under the License.
       assert.deepEqual(element._setRanges(comments), expectedResult);
     });
 
-    test('differing patch diff comments are properly grouped', done => {
+    test('differing patch diff comments are properly grouped', async () => {
       sandbox.stub(element, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
-      sandbox.stub(element, '_fetchJSON', request => {
+      sandbox.stub(element, '_fetchJSON', async request => {
         const url = request.url;
         if (url === '/changes/test~42/revisions/1') {
-          return Promise.resolve({
+          return {
             '/COMMIT_MSG': [],
             'sieve.go': [
               {
@@ -294,9 +284,9 @@ limitations under the License.
                 updated: '2017-02-03 22:33:28.000000000',
               },
             ],
-          });
+          };
         } else if (url === '/changes/test~42/revisions/2') {
-          return Promise.resolve({
+          return {
             '/COMMIT_MSG': [],
             'sieve.go': [
               {
@@ -313,30 +303,28 @@ limitations under the License.
                 updated: '2017-02-04 22:33:28.000000000',
               },
             ],
-          });
+          };
         }
       });
-      element._getDiffComments('42', '', 1, 2, 'sieve.go').then(
-          obj => {
-            assert.equal(obj.baseComments.length, 1);
-            assert.deepEqual(obj.baseComments[0], {
-              message: 'this isn’t quite right',
-              path: 'sieve.go',
-              updated: '2017-02-03 22:32:28.000000000',
-            });
-            assert.equal(obj.comments.length, 2);
-            assert.deepEqual(obj.comments[0], {
-              message: 'What on earth are you thinking, here?',
-              path: 'sieve.go',
-              updated: '2017-02-03 22:32:28.000000000',
-            });
-            assert.deepEqual(obj.comments[1], {
-              message: '¯\\_(ツ)_/¯',
-              path: 'sieve.go',
-              updated: '2017-02-04 22:33:28.000000000',
-            });
-            done();
-          });
+      const obj = await element._getDiffComments(
+          '42', '', 1, 2, 'sieve.go');
+      assert.equal(obj.baseComments.length, 1);
+      assert.deepEqual(obj.baseComments[0], {
+        message: 'this isn’t quite right',
+        path: 'sieve.go',
+        updated: '2017-02-03 22:32:28.000000000',
+      });
+      assert.equal(obj.comments.length, 2);
+      assert.deepEqual(obj.comments[0], {
+        message: 'What on earth are you thinking, here?',
+        path: 'sieve.go',
+        updated: '2017-02-03 22:32:28.000000000',
+      });
+      assert.deepEqual(obj.comments[1], {
+        message: '¯\\_(ツ)_/¯',
+        path: 'sieve.go',
+        updated: '2017-02-04 22:33:28.000000000',
+      });
     });
 
     test('special file path sorting', () => {
@@ -401,43 +389,45 @@ limitations under the License.
             }));
       });
 
-      test('no rebase on current', done => {
-        element.getChangeRevisionActions('42', '1337').then(
-            response => {
-              assert.isTrue(response.rebase.enabled);
-              assert.isFalse(response.rebase.rebaseOnCurrent);
-              done();
-            });
+      test('no rebase on current', async () => {
+        const promise = new Promise(async resolve => {
+          const response = await element.getChangeRevisionActions('42', '1337');
+          assert.isTrue(response.rebase.enabled);
+          assert.isFalse(response.rebase.rebaseOnCurrent);
+          resolve();
+        });
         resolve_fetchJSON({rebase: {}});
+        await promise;
       });
 
-      test('rebase on current', done => {
-        element.getChangeRevisionActions('42', '1337').then(
-            response => {
-              assert.isTrue(response.rebase.enabled);
-              assert.isTrue(response.rebase.rebaseOnCurrent);
-              done();
-            });
+      test('rebase on current', async () => {
+        const promise = new Promise(async resolve => {
+          const response = await element.getChangeRevisionActions(
+              '42', '1337');
+          assert.isTrue(response.rebase.enabled);
+          assert.isTrue(response.rebase.rebaseOnCurrent);
+          resolve();
+        });
         resolve_fetchJSON({rebase: {enabled: true}});
+        await promise;
       });
     });
 
 
-    test('server error', done => {
+    test('server error', async () => {
       const getResponseObjectStub = sandbox.stub(element, 'getResponseObject');
       window.fetch.returns(Promise.resolve({ok: false}));
       const serverErrorEventPromise = new Promise(resolve => {
         element.addEventListener('server-error', resolve);
       });
 
-      element._fetchJSON({}).then(response => {
-        assert.isUndefined(response);
-        assert.isTrue(getResponseObjectStub.notCalled);
-        serverErrorEventPromise.then(() => done());
-      });
+      const response = await element._fetchJSON({});
+      assert.isUndefined(response);
+      assert.isTrue(getResponseObjectStub.notCalled);
+      await serverErrorEventPromise;
     });
 
-    test('auth failure', done => {
+    test('auth failure', async () => {
       const fakeAuthResponse = {
         ok: false,
         status: 403,
@@ -451,63 +441,57 @@ limitations under the License.
       element.addEventListener('server-error', serverErrorStub);
       const authErrorStub = sandbox.stub();
       element.addEventListener('auth-error', authErrorStub);
-      element._fetchJSON('/bar').then(r => {
-        flush(() => {
-          assert.isTrue(authErrorStub.called);
-          assert.isFalse(serverErrorStub.called);
-          assert.isFalse(element._cache.has('/accounts/self/detail'));
-          done();
-        });
-      });
+      await element._fetchJSON('/bar');
+      assert.isTrue(authErrorStub.called);
+      assert.isFalse(serverErrorStub.called);
+      assert.isFalse(element._cache.has('/accounts/self/detail'));
     });
 
-    test('checkCredentials', done => {
+    test('checkCredentials', async () => {
       const responses = [
         {
           ok: false,
           status: 403,
-          text() { return Promise.resolve(); },
+          async text() {},
         },
         {
           ok: true,
           status: 200,
-          text() { return Promise.resolve(')]}\'{}'); },
+          async text() { return ')]}\'{}'; },
         },
       ];
       window.fetch.restore();
-      sandbox.stub(window, 'fetch', url => {
+      sandbox.stub(window, 'fetch', async url => {
         if (url === window.CANONICAL_PATH + '/accounts/self/detail') {
-          return Promise.resolve(responses.shift());
+          return responses.shift();
         }
       });
 
-      element.getLoggedIn().then(account => {
-        assert.isNotOk(account);
-        element.checkCredentials().then(account => {
-          assert.isOk(account);
-          done();
-        });
-      });
+      assert.isNotOk(await element.getLoggedIn());
+      assert.isOk(await element.checkCredentials());
     });
 
-    test('checkCredentials promise rejection', () => {
+    test('checkCredentials promise rejection', async () => {
       window.fetch.restore();
       element._cache.set('/accounts/self/detail', true);
       sandbox.spy(element, 'checkCredentials');
-      sandbox.stub(window, 'fetch', url => {
-        return Promise.reject({message: 'Failed to fetch'});
+      sandbox.stub(window, 'fetch', async url => {
+        throw new Error('Failed to fetch');
       });
-      return element.getConfig(true)
-          .catch(err => undefined)
-          .then(() => {
-            // When the top-level fetch call throws an error, it invokes
-            // checkCredentials, which in turn makes another fetch call.
-            // The second fetch call also fails, which leads to a second
-            // invocation of checkCredentials, which should immediately
-            // return instead of making further fetch calls.
-            assert.isTrue(element.checkCredentials.calledTwice);
-            assert.isTrue(window.fetch.calledTwice);
-          });
+      try {
+        console.log('calling getConfig');
+        await element.getConfig(true);
+        assert.fail('expected exception');
+      } catch (err) {
+        // When the top-level fetch call throws an error, it invokes
+        // checkCredentials, which in turn makes another fetch call.
+        // The second fetch call also fails, which leads to a second
+        // invocation of checkCredentials, which should immediately
+        // return instead of making further fetch calls.
+        console.log('making assertions');
+        assert.isTrue(element.checkCredentials.calledTwice);
+        assert.isTrue(window.fetch.calledTwice);
+      }
     });
 
     test('legacy n,z key in change url is replaced', () => {
@@ -527,120 +511,113 @@ limitations under the License.
     });
 
     test('getAccount when resp is null does not add anything to the cache',
-        done => {
+        async () => {
           const cacheKey = '/accounts/self/detail';
           const stub = sandbox.stub(element, '_fetchSharedCacheURL',
-              () => Promise.resolve());
+              async () => undefined);
 
-          element.getAccount().then(() => {
+          const promise = new Promise(async resolve => {
+            await element.getAccount();
             assert.isTrue(element._fetchSharedCacheURL.called);
             assert.isFalse(element._cache.has(cacheKey));
-            done();
+            resolve();
           });
 
           element._cache.set(cacheKey, 'fake cache');
           stub.lastCall.args[0].errFn();
+          await promise;
         });
 
     test('getAccount does not add to the cache when resp.status is 403',
-        done => {
+        async () => {
           const cacheKey = '/accounts/self/detail';
           const stub = sandbox.stub(element, '_fetchSharedCacheURL',
-              () => Promise.resolve());
+              async () => undefined);
 
-          element.getAccount().then(() => {
+          const promise = new Promise(async resolve => {
+            await element.getAccount();
             assert.isTrue(element._fetchSharedCacheURL.called);
             assert.isFalse(element._cache.has(cacheKey));
-            done();
+            resolve();
           });
           element._cache.set(cacheKey, 'fake cache');
           stub.lastCall.args[0].errFn({status: 403});
+          await promise;
         });
 
-    test('getAccount when resp is successful', done => {
+    test('getAccount when resp is successful', async () => {
       const cacheKey = '/accounts/self/detail';
       const stub = sandbox.stub(element, '_fetchSharedCacheURL',
-          () => Promise.resolve());
+          async () => undefined);
 
-      element.getAccount().then(response => {
+      const promise = new Promise(async resolve => {
+        await element.getAccount();
         assert.isTrue(element._fetchSharedCacheURL.called);
         assert.equal(element._cache.get(cacheKey), 'fake cache');
-        done();
+        resolve();
       });
       element._cache.set(cacheKey, 'fake cache');
 
       stub.lastCall.args[0].errFn({});
+      await promise;
     });
 
     const preferenceSetup = function(testJSON, loggedIn, smallScreen) {
-      sandbox.stub(element, 'getLoggedIn', () => {
-        return Promise.resolve(loggedIn);
-      });
-      sandbox.stub(element, '_isNarrowScreen', () => {
-        return smallScreen;
-      });
-      sandbox.stub(element, '_fetchSharedCacheURL', () => {
-        return Promise.resolve(testJSON);
-      });
+      sandbox.stub(element, 'getLoggedIn', async () => loggedIn);
+      sandbox.stub(element, '_isNarrowScreen', async () => smallScreen);
+      sandbox.stub(element, '_fetchSharedCacheURL', async () => testJSON);
     };
 
     test('getPreferences returns correctly on small screens logged in',
-        done => {
+        async () => {
           const testJSON = {diff_view: 'SIDE_BY_SIDE'};
           const loggedIn = true;
           const smallScreen = true;
 
           preferenceSetup(testJSON, loggedIn, smallScreen);
 
-          element.getPreferences().then(obj => {
-            assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
-            assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
-            done();
-          });
+          const obj = await element.getPreferences();
+          assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
+          assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
         });
 
     test('getPreferences returns correctly on small screens not logged in',
-        done => {
+        async () => {
           const testJSON = {diff_view: 'SIDE_BY_SIDE'};
           const loggedIn = false;
           const smallScreen = true;
 
           preferenceSetup(testJSON, loggedIn, smallScreen);
-          element.getPreferences().then(obj => {
-            assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
-            assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
-            done();
-          });
+
+          const obj = await element.getPreferences();
+          assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
+          assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
         });
 
     test('getPreferences returns correctly on larger screens logged in',
-        done => {
+        async () => {
           const testJSON = {diff_view: 'UNIFIED_DIFF'};
           const loggedIn = true;
           const smallScreen = false;
 
           preferenceSetup(testJSON, loggedIn, smallScreen);
 
-          element.getPreferences().then(obj => {
-            assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
-            assert.equal(obj.diff_view, 'UNIFIED_DIFF');
-            done();
-          });
+          const obj = await element.getPreferences();
+          assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
+          assert.equal(obj.diff_view, 'UNIFIED_DIFF');
         });
 
     test('getPreferences returns correctly on larger screens not logged in',
-        done => {
+        async () => {
           const testJSON = {diff_view: 'UNIFIED_DIFF'};
           const loggedIn = false;
           const smallScreen = false;
 
           preferenceSetup(testJSON, loggedIn, smallScreen);
 
-          element.getPreferences().then(obj => {
-            assert.equal(obj.default_diff_view, 'SIDE_BY_SIDE');
-            assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
-            done();
-          });
+          const obj = await element.getPreferences();
+          assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
+          assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
         });
 
     test('savPreferences normalizes download scheme', () => {
@@ -650,26 +627,24 @@ limitations under the License.
       assert.equal(element._send.lastCall.args[0].body.download_scheme, 'http');
     });
 
-    test('getDiffPreferences returns correct defaults', done => {
-      sandbox.stub(element, 'getLoggedIn', () => Promise.resolve(false));
+    test('getDiffPreferences returns correct defaults', async () => {
+      sandbox.stub(element, 'getLoggedIn', async () => false);
 
-      element.getDiffPreferences().then(obj => {
-        assert.equal(obj.auto_hide_diff_table_header, true);
-        assert.equal(obj.context, 10);
-        assert.equal(obj.cursor_blink_rate, 0);
-        assert.equal(obj.font_size, 12);
-        assert.equal(obj.ignore_whitespace, 'IGNORE_NONE');
-        assert.equal(obj.intraline_difference, true);
-        assert.equal(obj.line_length, 100);
-        assert.equal(obj.line_wrapping, false);
-        assert.equal(obj.show_line_endings, true);
-        assert.equal(obj.show_tabs, true);
-        assert.equal(obj.show_whitespace_errors, true);
-        assert.equal(obj.syntax_highlighting, true);
-        assert.equal(obj.tab_size, 8);
-        assert.equal(obj.theme, 'DEFAULT');
-        done();
-      });
+      const obj = await element.getDiffPreferences();
+      assert.equal(obj.auto_hide_diff_table_header, true);
+      assert.equal(obj.context, 10);
+      assert.equal(obj.cursor_blink_rate, 0);
+      assert.equal(obj.font_size, 12);
+      assert.equal(obj.ignore_whitespace, 'IGNORE_NONE');
+      assert.equal(obj.intraline_difference, true);
+      assert.equal(obj.line_length, 100);
+      assert.equal(obj.line_wrapping, false);
+      assert.equal(obj.show_line_endings, true);
+      assert.equal(obj.show_tabs, true);
+      assert.equal(obj.show_whitespace_errors, true);
+      assert.equal(obj.syntax_highlighting, true);
+      assert.equal(obj.tab_size, 8);
+      assert.equal(obj.theme, 'DEFAULT');
     });
 
     test('saveDiffPreferences set show_tabs to false', () => {
@@ -679,30 +654,26 @@ limitations under the License.
       assert.equal(element._send.lastCall.args[0].body.show_tabs, false);
     });
 
-    test('getEditPreferences returns correct defaults', done => {
-      sandbox.stub(element, 'getLoggedIn', () => {
-        return Promise.resolve(false);
-      });
+    test('getEditPreferences returns correct defaults', async () => {
+      sandbox.stub(element, 'getLoggedIn', async () => false);
 
-      element.getEditPreferences().then(obj => {
-        assert.equal(obj.auto_close_brackets, false);
-        assert.equal(obj.cursor_blink_rate, 0);
-        assert.equal(obj.hide_line_numbers, false);
-        assert.equal(obj.hide_top_menu, false);
-        assert.equal(obj.indent_unit, 2);
-        assert.equal(obj.indent_with_tabs, false);
-        assert.equal(obj.key_map_type, 'DEFAULT');
-        assert.equal(obj.line_length, 100);
-        assert.equal(obj.line_wrapping, false);
-        assert.equal(obj.match_brackets, true);
-        assert.equal(obj.show_base, false);
-        assert.equal(obj.show_tabs, true);
-        assert.equal(obj.show_whitespace_errors, true);
-        assert.equal(obj.syntax_highlighting, true);
-        assert.equal(obj.tab_size, 8);
-        assert.equal(obj.theme, 'DEFAULT');
-        done();
-      });
+      const obj = await element.getEditPreferences();
+      assert.equal(obj.auto_close_brackets, false);
+      assert.equal(obj.cursor_blink_rate, 0);
+      assert.equal(obj.hide_line_numbers, false);
+      assert.equal(obj.hide_top_menu, false);
+      assert.equal(obj.indent_unit, 2);
+      assert.equal(obj.indent_with_tabs, false);
+      assert.equal(obj.key_map_type, 'DEFAULT');
+      assert.equal(obj.line_length, 100);
+      assert.equal(obj.line_wrapping, false);
+      assert.equal(obj.match_brackets, true);
+      assert.equal(obj.show_base, false);
+      assert.equal(obj.show_tabs, true);
+      assert.equal(obj.show_whitespace_errors, true);
+      assert.equal(obj.syntax_highlighting, true);
+      assert.equal(obj.tab_size, 8);
+      assert.equal(obj.theme, 'DEFAULT');
     });
 
     test('saveEditPreferences set show_tabs to false', () => {
@@ -722,32 +693,30 @@ limitations under the License.
       assert.deepEqual(element._send.lastCall.args[0].body, {token: 'foo'});
     });
 
-    test('GrReviewerUpdatesParser.parse is used', () => {
+    test('GrReviewerUpdatesParser.parse is used', async () => {
       sandbox.stub(GrReviewerUpdatesParser, 'parse').returns(
           Promise.resolve('foo'));
-      return element.getChangeDetail(42).then(result => {
-        assert.isTrue(GrReviewerUpdatesParser.parse.calledOnce);
-        assert.equal(result, 'foo');
-      });
+      const result = await element.getChangeDetail(42);
+      assert.isTrue(GrReviewerUpdatesParser.parse.calledOnce);
+      assert.equal(result, 'foo');
     });
 
-    test('setAccountStatus', () => {
+    test('setAccountStatus', async () => {
       sandbox.stub(element, '_send').returns(Promise.resolve('OOO'));
       element._cache.set('/accounts/self/detail', {});
-      return element.setAccountStatus('OOO').then(() => {
-        assert.isTrue(element._send.calledOnce);
-        assert.equal(element._send.lastCall.args[0].method, 'PUT');
-        assert.equal(element._send.lastCall.args[0].url,
-            '/accounts/self/status');
-        assert.deepEqual(element._send.lastCall.args[0].body,
-            {status: 'OOO'});
-        assert.deepEqual(element._cache.get('/accounts/self/detail'),
-            {status: 'OOO'});
-      });
+      await element.setAccountStatus('OOO');
+      assert.isTrue(element._send.calledOnce);
+      assert.equal(element._send.lastCall.args[0].method, 'PUT');
+      assert.equal(element._send.lastCall.args[0].url,
+          '/accounts/self/status');
+      assert.deepEqual(element._send.lastCall.args[0].body,
+          {status: 'OOO'});
+      assert.deepEqual(element._cache.get('/accounts/self/detail'),
+          {status: 'OOO'});
     });
 
     suite('draft comments', () => {
-      test('_sendDiffDraftRequest pending requests tracked', () => {
+      test('_sendDiffDraftRequest pending requests tracked', async () => {
         const obj = element._pendingRequests;
         sandbox.stub(element, '_getChangeURLAndSend', () => mockPromise());
         assert.notOk(element.hasPendingDiffDrafts());
@@ -762,36 +731,33 @@ limitations under the License.
 
         for (const promise of obj.sendDiffDraft) { promise.resolve(); }
 
-        return element.awaitPendingDiffDrafts().then(() => {
-          assert.equal(obj.sendDiffDraft.length, 0);
-          assert.isFalse(!!element.hasPendingDiffDrafts());
-        });
+        await element.awaitPendingDiffDrafts();
+        assert.equal(obj.sendDiffDraft.length, 0);
+        assert.isFalse(!!element.hasPendingDiffDrafts());
       });
 
       suite('_failForCreate200', () => {
-        test('_sendDiffDraftRequest checks for 200 on create', () => {
+        test('_sendDiffDraftRequest checks for 200 on create', async () => {
           const sendPromise = Promise.resolve();
           sandbox.stub(element, '_getChangeURLAndSend').returns(sendPromise);
           const failStub = sandbox.stub(element, '_failForCreate200')
               .returns(Promise.resolve());
-          return element._sendDiffDraftRequest('PUT', 123, 4, {}).then(() => {
-            assert.isTrue(failStub.calledOnce);
-            assert.isTrue(failStub.calledWithExactly(sendPromise));
-          });
+          await element._sendDiffDraftRequest('PUT', 123, 4, {});
+          assert.isTrue(failStub.calledOnce);
+          assert.isTrue(failStub.calledWithExactly(sendPromise));
         });
 
-        test('_sendDiffDraftRequest no checks for 200 on non create', () => {
-          sandbox.stub(element, '_getChangeURLAndSend')
-              .returns(Promise.resolve());
-          const failStub = sandbox.stub(element, '_failForCreate200')
-              .returns(Promise.resolve());
-          return element._sendDiffDraftRequest('PUT', 123, 4, {id: '123'})
-              .then(() => {
-                assert.isFalse(failStub.called);
-              });
-        });
+        test('_sendDiffDraftRequest no checks for 200 on non create',
+            async () => {
+              sandbox.stub(element, '_getChangeURLAndSend')
+                  .returns(Promise.resolve());
+              const failStub = sandbox.stub(element, '_failForCreate200')
+                  .returns(Promise.resolve());
+              await element._sendDiffDraftRequest('PUT', 123, 4, {id: '123'});
+              assert.isFalse(failStub.called);
+            });
 
-        test('_failForCreate200 fails on 200', done => {
+        test('_failForCreate200 fails on 200', async () => {
           const result = {
             ok: true,
             status: 200,
@@ -800,33 +766,29 @@ limitations under the License.
               ['Innocuous', 'hello'],
             ]},
           };
-          element._failForCreate200(Promise.resolve(result)).then(() => {
-            assert.isTrue(false, 'Promise should not resolve');
-          }).catch(e => {
+          try {
+            await element._failForCreate200(Promise.resolve(result));
+            assert.fail('Promise should not resolve');
+          } catch (e) {
             assert.isOk(e);
             assert.include(e.message, 'Saving draft resulted in HTTP 200');
             assert.include(e.message, 'hello');
             assert.notInclude(e.message, 'secret');
-            done();
-          });
+          }
         });
 
-        test('_failForCreate200 does not fail on 201', done => {
+        test('_failForCreate200 does not fail on 201', async () => {
           const result = {
             ok: true,
             status: 201,
             headers: {entries: () => []},
           };
-          element._failForCreate200(Promise.resolve(result)).then(() => {
-            done();
-          }).catch(e => {
-            assert.isTrue(false, 'Promise should not fail');
-          });
+          await element._failForCreate200(Promise.resolve(result));
         });
       });
     });
 
-    test('saveChangeEdit', () => {
+    test('saveChangeEdit', async () => {
       element._projectLookup = {1: 'test'};
       const change_num = '1';
       const file_name = 'index.php';
@@ -835,18 +797,17 @@ limitations under the License.
           Promise.resolve([change_num, file_name, file_contents]));
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve([change_num, file_name, file_contents]));
-      element._cache.set('/changes/' + change_num + '/edit/' + file_name, {});
-      return element.saveChangeEdit(change_num, file_name, file_contents)
-          .then(() => {
-            assert.isTrue(element._send.calledOnce);
-            assert.equal(element._send.lastCall.args[0].method, 'PUT');
-            assert.equal(element._send.lastCall.args[0].url,
-                '/changes/test~1/edit/' + file_name);
-            assert.equal(element._send.lastCall.args[0].body, file_contents);
-          });
+      element._cache.set(
+          '/changes/' + change_num + '/edit/' + file_name, {});
+      await element.saveChangeEdit(change_num, file_name, file_contents);
+      assert.isTrue(element._send.calledOnce);
+      assert.equal(element._send.lastCall.args[0].method, 'PUT');
+      assert.equal(element._send.lastCall.args[0].url,
+          '/changes/test~1/edit/' + file_name);
+      assert.equal(element._send.lastCall.args[0].body, file_contents);
     });
 
-    test('putChangeCommitMessage', () => {
+    test('putChangeCommitMessage', async () => {
       element._projectLookup = {1: 'test'};
       const change_num = '1';
       const message = 'this is a commit message';
@@ -855,13 +816,12 @@ limitations under the License.
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve([change_num, message]));
       element._cache.set('/changes/' + change_num + '/message', {});
-      return element.putChangeCommitMessage(change_num, message).then(() => {
-        assert.isTrue(element._send.calledOnce);
-        assert.equal(element._send.lastCall.args[0].method, 'PUT');
-        assert.equal(element._send.lastCall.args[0].url,
-            '/changes/test~1/message');
-        assert.deepEqual(element._send.lastCall.args[0].body, {message});
-      });
+      await element.putChangeCommitMessage(change_num, message);
+      assert.isTrue(element._send.calledOnce);
+      assert.equal(element._send.lastCall.args[0].method, 'PUT');
+      assert.equal(element._send.lastCall.args[0].url,
+          '/changes/test~1/message');
+      assert.deepEqual(element._send.lastCall.args[0].body, {message});
     });
 
     test('startWorkInProgress', () => {
@@ -898,41 +858,38 @@ limitations under the License.
           {message: 'Please review.'});
     });
 
-    test('deleteComment', () => {
+    test('deleteComment', async () => {
       const sendStub = sandbox.stub(element, '_getChangeURLAndSend')
           .returns(Promise.resolve('some response'));
-      return element.deleteComment('foo', 'bar', '01234', 'removal reason')
-          .then(response => {
-            assert.equal(response, 'some response');
-            assert.isTrue(sendStub.calledOnce);
-            assert.equal(sendStub.lastCall.args[0].changeNum, 'foo');
-            assert.equal(sendStub.lastCall.args[0].method, 'POST');
-            assert.equal(sendStub.lastCall.args[0].patchNum, 'bar');
-            assert.equal(sendStub.lastCall.args[0].endpoint,
-                '/comments/01234/delete');
-            assert.deepEqual(sendStub.lastCall.args[0].body,
-                {reason: 'removal reason'});
-          });
+      const response =
+          await element.deleteComment('foo', 'bar', '01234', 'removal reason');
+      assert.equal(response, 'some response');
+      assert.isTrue(sendStub.calledOnce);
+      assert.equal(sendStub.lastCall.args[0].changeNum, 'foo');
+      assert.equal(sendStub.lastCall.args[0].method, 'POST');
+      assert.equal(sendStub.lastCall.args[0].patchNum, 'bar');
+      assert.equal(sendStub.lastCall.args[0].endpoint,
+          '/comments/01234/delete');
+      assert.deepEqual(sendStub.lastCall.args[0].body,
+          {reason: 'removal reason'});
     });
 
-    test('createRepo encodes name', () => {
+    test('createRepo encodes name', async () => {
       const sendStub = sandbox.stub(element, '_send')
           .returns(Promise.resolve());
-      return element.createRepo({name: 'x/y'}).then(() => {
-        assert.isTrue(sendStub.calledOnce);
-        assert.equal(sendStub.lastCall.args[0].url, '/projects/x%2Fy');
-      });
+      await element.createRepo({name: 'x/y'});
+      assert.isTrue(sendStub.calledOnce);
+      assert.equal(sendStub.lastCall.args[0].url, '/projects/x%2Fy');
     });
 
-    test('queryChangeFiles', () => {
+    test('queryChangeFiles', async () => {
       const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
-      return element.queryChangeFiles('42', 'edit', 'test/path.js').then(() => {
-        assert.equal(fetchStub.lastCall.args[0].changeNum, '42');
-        assert.equal(fetchStub.lastCall.args[0].endpoint,
-            '/files?q=test%2Fpath.js');
-        assert.equal(fetchStub.lastCall.args[0].patchNum, 'edit');
-      });
+      await element.queryChangeFiles('42', 'edit', 'test/path.js');
+      assert.equal(fetchStub.lastCall.args[0].changeNum, '42');
+      assert.equal(fetchStub.lastCall.args[0].endpoint,
+          '/files?q=test%2Fpath.js');
+      assert.equal(fetchStub.lastCall.args[0].patchNum, 'edit');
     });
 
     suite('getRepos', () => {
@@ -1012,27 +969,25 @@ limitations under the License.
       assert(Gerrit.Auth.fetch.called);
     });
 
-    test('getSuggestedAccounts does not return _fetchJSON', () => {
+    test('getSuggestedAccounts does not return _fetchJSON', async () => {
       const _fetchJSONSpy = sandbox.spy(element, '_fetchJSON');
-      return element.getSuggestedAccounts().then(accts => {
-        assert.isFalse(_fetchJSONSpy.called);
-        assert.equal(accts.length, 0);
-      });
+      const accts = await element.getSuggestedAccounts();
+      assert.isFalse(_fetchJSONSpy.called);
+      assert.equal(accts.length, 0);
     });
 
-    test('_fetchJSON gets called by getSuggestedAccounts', () => {
+    test('_fetchJSON gets called by getSuggestedAccounts', async () => {
       const _fetchJSONStub = sandbox.stub(element, '_fetchJSON',
-          () => Promise.resolve());
-      return element.getSuggestedAccounts('own').then(() => {
-        assert.deepEqual(_fetchJSONStub.lastCall.args[0].params, {
-          q: 'own',
-          suggest: null,
-        });
+          async () => undefined);
+      await element.getSuggestedAccounts('own');
+      assert.deepEqual(_fetchJSONStub.lastCall.args[0].params, {
+        q: 'own',
+        suggest: null,
       });
     });
 
     suite('_getChangeDetail', () => {
-      test('_getChangeDetail passes params to ETags decorator', () => {
+      test('_getChangeDetail passes params to ETags decorator', async () => {
         const changeNum = 4321;
         element._projectLookup[changeNum] = 'test';
         const params = {foo: 'bar'};
@@ -1040,25 +995,23 @@ limitations under the License.
             window.CANONICAL_PATH + '/changes/test~4321/detail?foo=bar';
         sandbox.stub(element._etags, 'getOptions');
         sandbox.stub(element._etags, 'collect');
-        return element._getChangeDetail(changeNum, params).then(() => {
-          assert.isTrue(element._etags.getOptions.calledWithExactly(
-              expectedUrl));
-          assert.equal(element._etags.collect.lastCall.args[0], expectedUrl);
-        });
+        await element._getChangeDetail(changeNum, params);
+        assert.isTrue(element._etags.getOptions.calledWithExactly(
+            expectedUrl));
+        assert.equal(element._etags.collect.lastCall.args[0], expectedUrl);
       });
 
-      test('_getChangeDetail calls errFn on 500', () => {
+      test('_getChangeDetail calls errFn on 500', async () => {
         const errFn = sinon.stub();
         sandbox.stub(element, 'getChangeActionURL')
             .returns(Promise.resolve(''));
         sandbox.stub(element, '_fetchRawJSON')
             .returns(Promise.resolve({ok: false, status: 500}));
-        return element._getChangeDetail(123, {}, errFn).then(() => {
-          assert.isTrue(errFn.called);
-        });
+        await element._getChangeDetail(123, {}, errFn);
+        assert.isTrue(errFn.called);
       });
 
-      test('_getChangeDetail populates _projectLookup', () => {
+      test('_getChangeDetail populates _projectLookup', async () => {
         sandbox.stub(element, 'getChangeActionURL')
             .returns(Promise.resolve(''));
         sandbox.stub(element, '_fetchRawJSON')
@@ -1069,10 +1022,9 @@ limitations under the License.
           parsed: mockResponse,
           raw: JSON.stringify(mockResponse),
         }));
-        return element._getChangeDetail(1).then(() => {
-          assert.equal(Object.keys(element._projectLookup).length, 1);
-          assert.equal(element._projectLookup[1], 'test');
-        });
+        await element._getChangeDetail(1);
+        assert.equal(Object.keys(element._projectLookup).length, 1);
+        assert.equal(element._projectLookup[1], 'test');
       });
 
       suite('_getChangeDetail ETag cache', () => {
@@ -1093,32 +1045,30 @@ limitations under the License.
           getPayloadSpy = sandbox.spy(element._etags, 'getCachedPayload');
         });
 
-        test('contributes to cache', () => {
+        test('contributes to cache', async () => {
           sandbox.stub(element, '_fetchRawJSON').returns(Promise.resolve({
             text: () => Promise.resolve(mockResponseSerial),
             status: 200,
             ok: true,
           }));
 
-          return element._getChangeDetail(123, {}).then(detail => {
-            assert.isFalse(getPayloadSpy.called);
-            assert.isTrue(collectSpy.calledOnce);
-            const cachedResponse = element._etags.getCachedPayload(requestUrl);
-            assert.equal(cachedResponse, mockResponseSerial);
-          });
+          await element._getChangeDetail(123, {});
+          assert.isFalse(getPayloadSpy.called);
+          assert.isTrue(collectSpy.calledOnce);
+          const cachedResponse = element._etags.getCachedPayload(requestUrl);
+          assert.equal(cachedResponse, mockResponseSerial);
         });
 
-        test('uses cache on HTTP 304', () => {
+        test('uses cache on HTTP 304', async () => {
           sandbox.stub(element, '_fetchRawJSON').returns(Promise.resolve({
             text: () => Promise.resolve(mockResponseSerial),
             status: 304,
             ok: true,
           }));
 
-          return element._getChangeDetail(123, {}).then(detail => {
-            assert.isFalse(collectSpy.called);
-            assert.isTrue(getPayloadSpy.calledOnce);
-          });
+          await element._getChangeDetail(123, {});
+          assert.isFalse(collectSpy.called);
+          assert.isTrue(getPayloadSpy.calledOnce);
         });
       });
     });
@@ -1129,35 +1079,32 @@ limitations under the License.
     });
 
     suite('getFromProjectLookup', () => {
-      test('getChange fails', () => {
+      test('getChange fails', async () => {
         sandbox.stub(element, 'getChange')
             .returns(Promise.resolve(null));
-        return element.getFromProjectLookup().then(val => {
-          assert.strictEqual(val, undefined);
-          assert.deepEqual(element._projectLookup, {});
-        });
+        const val = await element.getFromProjectLookup();
+        assert.strictEqual(val, undefined);
+        assert.deepEqual(element._projectLookup, {});
       });
 
-      test('getChange succeeds, no project', () => {
+      test('getChange succeeds, no project', async () => {
         sandbox.stub(element, 'getChange').returns(Promise.resolve(null));
-        return element.getFromProjectLookup().then(val => {
-          assert.strictEqual(val, undefined);
-          assert.deepEqual(element._projectLookup, {});
-        });
+        const val = await element.getFromProjectLookup();
+        assert.strictEqual(val, undefined);
+        assert.deepEqual(element._projectLookup, {});
       });
 
-      test('getChange succeeds with project', () => {
+      test('getChange succeeds with project', async () => {
         sandbox.stub(element, 'getChange')
             .returns(Promise.resolve({project: 'project'}));
-        return element.getFromProjectLookup('test').then(val => {
-          assert.equal(val, 'project');
-          assert.deepEqual(element._projectLookup, {test: 'project'});
-        });
+        const val = await element.getFromProjectLookup('test');
+        assert.equal(val, 'project');
+        assert.deepEqual(element._projectLookup, {test: 'project'});
       });
     });
 
     suite('getChanges populates _projectLookup', () => {
-      test('multiple queries', () => {
+      test('multiple queries', async () => {
         sandbox.stub(element, '_fetchJSON')
             .returns(Promise.resolve([
               [
@@ -1169,15 +1116,14 @@ limitations under the License.
             ]));
         // When opt_query instanceof Array, _fetchJSON returns
         // Array<Array<Object>>.
-        return element.getChanges(null, []).then(() => {
-          assert.equal(Object.keys(element._projectLookup).length, 3);
-          assert.equal(element._projectLookup[1], 'test');
-          assert.equal(element._projectLookup[2], 'test');
-          assert.equal(element._projectLookup[3], 'test/test');
-        });
+        await element.getChanges(null, []);
+        assert.equal(Object.keys(element._projectLookup).length, 3);
+        assert.equal(element._projectLookup[1], 'test');
+        assert.equal(element._projectLookup[2], 'test');
+        assert.equal(element._projectLookup[3], 'test/test');
       });
 
-      test('no query', () => {
+      test('no query', async () => {
         sandbox.stub(element, '_fetchJSON')
             .returns(Promise.resolve([
               {_number: 1, project: 'test'},
@@ -1187,27 +1133,25 @@ limitations under the License.
 
         // When opt_query !instanceof Array, _fetchJSON returns
         // Array<Object>.
-        return element.getChanges().then(() => {
-          assert.equal(Object.keys(element._projectLookup).length, 3);
-          assert.equal(element._projectLookup[1], 'test');
-          assert.equal(element._projectLookup[2], 'test');
-          assert.equal(element._projectLookup[3], 'test/test');
-        });
+        await element.getChanges();
+        assert.equal(Object.keys(element._projectLookup).length, 3);
+        assert.equal(element._projectLookup[1], 'test');
+        assert.equal(element._projectLookup[2], 'test');
+        assert.equal(element._projectLookup[3], 'test/test');
       });
     });
 
-    test('_getChangeURLAndFetch', () => {
+    test('_getChangeURLAndFetch', async () => {
       element._projectLookup = {1: 'test'};
       const fetchStub = sandbox.stub(element, '_fetchJSON')
           .returns(Promise.resolve());
       const req = {changeNum: 1, endpoint: '/test', patchNum: 1};
-      return element._getChangeURLAndFetch(req).then(() => {
-        assert.equal(fetchStub.lastCall.args[0].url,
-            '/changes/test~1/revisions/1/test');
-      });
+      await element._getChangeURLAndFetch(req);
+      assert.equal(fetchStub.lastCall.args[0].url,
+          '/changes/test~1/revisions/1/test');
     });
 
-    test('_getChangeURLAndSend', () => {
+    test('_getChangeURLAndSend', async () => {
       element._projectLookup = {1: 'test'};
       const sendStub = sandbox.stub(element, '_send')
           .returns(Promise.resolve());
@@ -1218,23 +1162,21 @@ limitations under the License.
         patchNum: 1,
         endpoint: '/test',
       };
-      return element._getChangeURLAndSend(req).then(() => {
-        assert.isTrue(sendStub.calledOnce);
-        assert.equal(sendStub.lastCall.args[0].method, 'POST');
-        assert.equal(sendStub.lastCall.args[0].url,
-            '/changes/test~1/revisions/1/test');
-      });
+      await element._getChangeURLAndSend(req);
+      assert.isTrue(sendStub.calledOnce);
+      assert.equal(sendStub.lastCall.args[0].method, 'POST');
+      assert.equal(sendStub.lastCall.args[0].url,
+          '/changes/test~1/revisions/1/test');
     });
 
     suite('reading responses', () => {
-      test('_readResponsePayload', () => {
+      test('_readResponsePayload', async () => {
         const mockObject = {foo: 'bar', baz: 'foo'};
         const serial = element.JSON_PREFIX + JSON.stringify(mockObject);
         const mockResponse = {text: () => Promise.resolve(serial)};
-        return element._readResponsePayload(mockResponse).then(payload => {
-          assert.deepEqual(payload.parsed, mockObject);
-          assert.equal(payload.raw, serial);
-        });
+        const payload = await element._readResponsePayload(mockResponse);
+        assert.deepEqual(payload.parsed, mockObject);
+        assert.equal(payload.raw, serial);
       });
 
       test('_parsePrefixedJSON', () => {
@@ -1245,104 +1187,95 @@ limitations under the License.
       });
     });
 
-    test('setChangeTopic', () => {
+    test('setChangeTopic', async () => {
       const sendSpy = sandbox.spy(element, '_getChangeURLAndSend');
-      return element.setChangeTopic(123, 'foo-bar').then(() => {
-        assert.isTrue(sendSpy.calledOnce);
-        assert.deepEqual(sendSpy.lastCall.args[0].body, {topic: 'foo-bar'});
-      });
+      await element.setChangeTopic(123, 'foo-bar');
+      assert.isTrue(sendSpy.calledOnce);
+      assert.deepEqual(sendSpy.lastCall.args[0].body, {topic: 'foo-bar'});
     });
 
-    test('setChangeHashtag', () => {
+    test('setChangeHashtag', async () => {
       const sendSpy = sandbox.spy(element, '_getChangeURLAndSend');
-      return element.setChangeHashtag(123, 'foo-bar').then(() => {
-        assert.isTrue(sendSpy.calledOnce);
-        assert.equal(sendSpy.lastCall.args[0].body, 'foo-bar');
-      });
+      await element.setChangeHashtag(123, 'foo-bar');
+      assert.isTrue(sendSpy.calledOnce);
+      assert.equal(sendSpy.lastCall.args[0].body, 'foo-bar');
     });
 
-    test('generateAccountHttpPassword', () => {
+    test('generateAccountHttpPassword', async () => {
       const sendSpy = sandbox.spy(element, '_send');
-      return element.generateAccountHttpPassword().then(() => {
-        assert.isTrue(sendSpy.calledOnce);
-        assert.deepEqual(sendSpy.lastCall.args[0].body, {generate: true});
-      });
+      await element.generateAccountHttpPassword();
+      assert.isTrue(sendSpy.calledOnce);
+      assert.deepEqual(sendSpy.lastCall.args[0].body, {generate: true});
     });
 
     suite('getChangeFiles', () => {
-      test('patch only', () => {
+      test('patch only', async () => {
         const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
             .returns(Promise.resolve());
         const range = {basePatchNum: 'PARENT', patchNum: 2};
-        return element.getChangeFiles(123, range).then(() => {
-          assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[0].patchNum, 2);
-          assert.isNotOk(fetchStub.lastCall.args[0].params);
-        });
+        await element.getChangeFiles(123, range);
+        assert.isTrue(fetchStub.calledOnce);
+        assert.equal(fetchStub.lastCall.args[0].patchNum, 2);
+        assert.isNotOk(fetchStub.lastCall.args[0].params);
       });
 
-      test('simple range', () => {
+      test('simple range', async () => {
         const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
             .returns(Promise.resolve());
         const range = {basePatchNum: 4, patchNum: 5};
-        return element.getChangeFiles(123, range).then(() => {
-          assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
-          assert.isOk(fetchStub.lastCall.args[0].params);
-          assert.equal(fetchStub.lastCall.args[0].params.base, 4);
-          assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
-        });
+        await element.getChangeFiles(123, range);
+        assert.isTrue(fetchStub.calledOnce);
+        assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+        assert.isOk(fetchStub.lastCall.args[0].params);
+        assert.equal(fetchStub.lastCall.args[0].params.base, 4);
+        assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
       });
 
-      test('parent index', () => {
+      test('parent index', async () => {
         const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
             .returns(Promise.resolve());
         const range = {basePatchNum: -3, patchNum: 5};
-        return element.getChangeFiles(123, range).then(() => {
-          assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
-          assert.isOk(fetchStub.lastCall.args[0].params);
-          assert.isNotOk(fetchStub.lastCall.args[0].params.base);
-          assert.equal(fetchStub.lastCall.args[0].params.parent, 3);
-        });
+        await element.getChangeFiles(123, range);
+        assert.isTrue(fetchStub.calledOnce);
+        assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+        assert.isOk(fetchStub.lastCall.args[0].params);
+        assert.isNotOk(fetchStub.lastCall.args[0].params.base);
+        assert.equal(fetchStub.lastCall.args[0].params.parent, 3);
       });
     });
 
     suite('getDiff', () => {
-      test('patchOnly', () => {
+      test('patchOnly', async () => {
         const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
             .returns(Promise.resolve());
-        return element.getDiff(123, 'PARENT', 2, 'foo/bar.baz').then(() => {
-          assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[0].patchNum, 2);
-          assert.isOk(fetchStub.lastCall.args[0].params);
-          assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
-          assert.isNotOk(fetchStub.lastCall.args[0].params.base);
-        });
+        await element.getDiff(123, 'PARENT', 2, 'foo/bar.baz');
+        assert.isTrue(fetchStub.calledOnce);
+        assert.equal(fetchStub.lastCall.args[0].patchNum, 2);
+        assert.isOk(fetchStub.lastCall.args[0].params);
+        assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
+        assert.isNotOk(fetchStub.lastCall.args[0].params.base);
       });
 
-      test('simple range', () => {
+      test('simple range', async () => {
         const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
             .returns(Promise.resolve());
-        return element.getDiff(123, 4, 5, 'foo/bar.baz').then(() => {
-          assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
-          assert.isOk(fetchStub.lastCall.args[0].params);
-          assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
-          assert.equal(fetchStub.lastCall.args[0].params.base, 4);
-        });
+        await element.getDiff(123, 4, 5, 'foo/bar.baz');
+        assert.isTrue(fetchStub.calledOnce);
+        assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+        assert.isOk(fetchStub.lastCall.args[0].params);
+        assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
+        assert.equal(fetchStub.lastCall.args[0].params.base, 4);
       });
 
-      test('parent index', () => {
+      test('parent index', async () => {
         const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
             .returns(Promise.resolve());
-        return element.getDiff(123, -3, 5, 'foo/bar.baz').then(() => {
-          assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
-          assert.isOk(fetchStub.lastCall.args[0].params);
-          assert.isNotOk(fetchStub.lastCall.args[0].params.base);
-          assert.equal(fetchStub.lastCall.args[0].params.parent, 3);
-        });
+        await element.getDiff(123, -3, 5, 'foo/bar.baz');
+        assert.isTrue(fetchStub.calledOnce);
+        assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+        assert.isOk(fetchStub.lastCall.args[0].params);
+        assert.isNotOk(fetchStub.lastCall.args[0].params.base);
+        assert.equal(fetchStub.lastCall.args[0].params.parent, 3);
       });
     });
 
@@ -1355,7 +1288,7 @@ limitations under the License.
           '/projects/gerrit%2Fproject/dashboards/default%3Amain');
     });
 
-    test('getFileContent', () => {
+    test('getFileContent', async () => {
       sandbox.stub(element, '_getChangeURLAndSend')
           .returns(Promise.resolve({
             ok: 'true',
@@ -1371,54 +1304,59 @@ limitations under the License.
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve('new content'));
 
-      const edit = element.getFileContent('1', 'tst/path', 'EDIT').then(res => {
+      const edit = (async () => {
+        const res = await element.getFileContent('1', 'tst/path', 'EDIT');
         assert.deepEqual(res,
             {content: 'new content', type: 'text/java', ok: true});
-      });
+      })();
 
-      const normal = element.getFileContent('1', 'tst/path', '3').then(res => {
+      const normal = (async () => {
+        const res = await element.getFileContent('1', 'tst/path', '3');
         assert.deepEqual(res,
             {content: 'new content', type: 'text/java', ok: true});
-      });
+      })();
 
-      return Promise.all([edit, normal]);
+      await Promise.all([edit, normal]);
     });
 
-    test('getFileContent suppresses 404s', done => {
+    test('getFileContent suppresses 404s', async () => {
+      const promise = new Promise(resolve => {
+        const handler = e => {
+          assert.isFalse(e.detail.res.status === 404);
+          resolve();
+        };
+        element.addEventListener('server-error', handler);
+      });
+
       const res = {status: 404};
-      const handler = e => {
-        assert.isFalse(e.detail.res.status === 404);
-        done();
-      };
-      element.addEventListener('server-error', handler);
       sandbox.stub(Gerrit.Auth, 'fetch').returns(Promise.resolve(res));
       sandbox.stub(element, '_changeBaseURL').returns(Promise.resolve(''));
-      element.getFileContent('1', 'tst/path', '1').then(() => {
-        flushAsynchronousOperations();
+      await element.getFileContent('1', 'tst/path', '1');
+      flushAsynchronousOperations();
 
-        res.status = 500;
-        element.getFileContent('1', 'tst/path', '1');
-      });
+      res.status = 500;
+      await element.getFileContent('1', 'tst/path', '1');
+
+      await promise;
     });
 
-    test('getChangeFilesOrEditFiles is edit-sensitive', () => {
+    test('getChangeFilesOrEditFiles is edit-sensitive', async () => {
       const fn = element.getChangeOrEditFiles.bind(element);
       const getChangeFilesStub = sandbox.stub(element, 'getChangeFiles')
           .returns(Promise.resolve({}));
       const getChangeEditFilesStub = sandbox.stub(element, 'getChangeEditFiles')
           .returns(Promise.resolve({}));
 
-      return fn('1', {patchNum: 'edit'}).then(() => {
-        assert.isTrue(getChangeEditFilesStub.calledOnce);
-        assert.isFalse(getChangeFilesStub.called);
-        return fn('1', {patchNum: '1'}).then(() => {
-          assert.isTrue(getChangeEditFilesStub.calledOnce);
-          assert.isTrue(getChangeFilesStub.calledOnce);
-        });
-      });
+      await fn('1', {patchNum: 'edit'});
+      assert.isTrue(getChangeEditFilesStub.calledOnce);
+      assert.isFalse(getChangeFilesStub.called);
+
+      await fn('1', {patchNum: '1'});
+      assert.isTrue(getChangeEditFilesStub.calledOnce);
+      assert.isTrue(getChangeFilesStub.calledOnce);
     });
 
-    test('_fetch forwards request and logs', () => {
+    test('_fetch forwards request and logs', async () => {
       const logStub = sandbox.stub(element, '_logCall');
       const response = {status: 404, text: sinon.stub()};
       const url = 'my url';
@@ -1427,11 +1365,10 @@ limitations under the License.
       const startTime = 123;
       sandbox.stub(Date, 'now').returns(startTime);
       const req = {url, fetchOptions};
-      return element._fetch(req).then(() => {
-        assert.isTrue(logStub.calledOnce);
-        assert.isTrue(logStub.calledWith(req, startTime, response.status));
-        assert.isFalse(response.text.called);
-      });
+      await element._fetch(req);
+      assert.isTrue(logStub.calledOnce);
+      assert.isTrue(logStub.calledWith(req, startTime, response.status));
+      assert.isFalse(response.text.called);
     });
 
     test('_logCall only reports requests with anonymized URLss', () => {

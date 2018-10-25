@@ -246,21 +246,20 @@
         return;
       }
 
-      const update = () => {
-        this.query(text).then(suggestions => {
-          if (text !== this.text) {
-            // Late response.
-            return;
-          }
-          for (const suggestion of suggestions) {
-            suggestion.text = suggestion.name;
-          }
-          this._suggestions = suggestions;
-          Polymer.dom.flush();
-          if (this._index === -1) {
-            this.value = '';
-          }
-        });
+      const update = async () => {
+        const suggestions = await this.query(text);
+        if (text !== this.text) {
+          // Late response.
+          return;
+        }
+        for (const suggestion of suggestions) {
+          suggestion.text = suggestion.name;
+        }
+        this._suggestions = suggestions;
+        Polymer.dom.flush();
+        if (this._index === -1) {
+          this.value = '';
+        }
       };
 
       if (noDebounce) {

@@ -85,14 +85,13 @@ limitations under the License.
     }
 
     suite('24 hours time format preference', () => {
-      setup(() => {
-        return stubRestAPI(
+      setup(async () => {
+        await stubRestAPI(
           {time_format: 'HHMM_24', relative_date_in_change_table: false}
-        ).then(() => {
-          element = fixture('basic');
-          sandbox.stub(element, '_getUtcOffsetString').returns('');
-          return element._loadPreferences();
-        });
+        );
+        element = fixture('basic');
+        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        await element._loadPreferences();
       });
 
       test('invalid dates are quietly rejected', () => {
@@ -134,15 +133,12 @@ limitations under the License.
     });
 
     suite('12 hours time format preference', () => {
-      setup(() => {
+      setup(async () => {
         // relative_date_in_change_table is not set when false.
-        return stubRestAPI(
-          {time_format: 'HHMM_12'}
-        ).then(() => {
-          element = fixture('basic');
-          sandbox.stub(element, '_getUtcOffsetString').returns('');
-          return element._loadPreferences();
-        });
+        await stubRestAPI({time_format: 'HHMM_12'});
+        element = fixture('basic');
+        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        await element._loadPreferences();
       });
 
       test('Within 24 hours on same day', done => {
@@ -155,14 +151,13 @@ limitations under the License.
     });
 
     suite('relative date preference', () => {
-      setup(() => {
-        return stubRestAPI(
+      setup(async () => {
+        await stubRestAPI(
           {time_format: 'HHMM_12', relative_date_in_change_table: true}
-        ).then(() => {
-          element = fixture('basic');
-          sandbox.stub(element, '_getUtcOffsetString').returns('');
-          return element._loadPreferences();
-        });
+        );
+        element = fixture('basic');
+        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        await element._loadPreferences();
       });
 
       test('Within 24 hours on same day', done => {
@@ -183,13 +178,12 @@ limitations under the License.
     });
 
     suite('logged in', () => {
-      setup(() => {
-        return stubRestAPI(
+      setup(async () => {
+        await stubRestAPI(
           {time_format: 'HHMM_12', relative_date_in_change_table: true}
-        ).then(() => {
-          element = fixture('basic');
-          return element._loadPreferences();
-        });
+        );
+        element = fixture('basic');
+        await element._loadPreferences();
       });
 
       test('Preferences are respected', () => {
@@ -199,11 +193,10 @@ limitations under the License.
     });
 
     suite('logged out', () => {
-      setup(() => {
-        return stubRestAPI(null).then(() => {
-          element = fixture('basic');
-          return element._loadPreferences();
-        });
+      setup(async () => {
+        await stubRestAPI(null);
+        element = fixture('basic');
+        await element._loadPreferences();
       });
 
       test('Default preferences are respected', () => {

@@ -129,7 +129,7 @@ limitations under the License.
           'METHOD', '/changes/1/revisions/2/foo~bar', payload));
     });
 
-    test('call error', done => {
+    test('call error', async () => {
       instance.action = {
         method: 'METHOD',
         __key: 'key',
@@ -139,15 +139,11 @@ limitations under the License.
       sandbox.stub(plugin, 'restApi').returns({
         send: sendStub,
       });
-      const errorStub = sandbox.stub();
-      document.addEventListener('network-error', errorStub);
-      instance.call();
-      flush(() => {
-        assert.isTrue(errorStub.calledOnce);
-        assert.equal(errorStub.args[0][0].detail.message,
-            'Plugin network error: boom');
-        done();
+      const e = await new Promise(async resolve => {
+        document.addEventListener('show-alert', resolve);
+        instance.call();
       });
+      assert.equal(e.detail.message, 'Plugin network error: boom');
     });
   });
 </script>

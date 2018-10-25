@@ -85,7 +85,7 @@ limitations under the License.
         assert.isFalse(isHidden(button));
       });
 
-      test('deletes votes', () => {
+      test('deletes votes', async () => {
         const deleteResponse = Promise.resolve({ok: true});
         const deleteStub = sandbox.stub(
             element.$.restAPI, 'deleteVote').returns(deleteResponse);
@@ -96,11 +96,10 @@ limitations under the License.
         const button = element.$$('gr-button');
         MockInteractions.tap(button);
         assert.isTrue(button.disabled);
-        return deleteResponse.then(() => {
-          assert.isFalse(button.disabled);
-          assert.notOk(element.change.labels.test.recommended);
-          assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
-        });
+        await deleteResponse;
+        assert.isFalse(button.disabled);
+        assert.notOk(element.change.labels.test.recommended);
+        assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
       });
     });
 

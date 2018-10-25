@@ -98,31 +98,27 @@ limitations under the License.
         assert.equal(element.$.downloadTabs.selected, '2');
       });
 
-      test('loads scheme from preferences', done => {
+      test('loads scheme from preferences', async () => {
         stub('gr-rest-api-interface', {
-          getPreferences() {
-            return Promise.resolve({download_scheme: 'repo'});
+          async getPreferences() {
+            return {download_scheme: 'repo'};
           },
         });
         element._loggedIn = true;
         assert.isTrue(element.$.restAPI.getPreferences.called);
-        element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
-          assert.equal(element.selectedScheme, 'repo');
-          done();
-        });
+        await element.$.restAPI.getPreferences.lastCall.returnValue;
+        assert.equal(element.selectedScheme, 'repo');
       });
 
-      test('normalize scheme from preferences', done => {
+      test('normalize scheme from preferences', async () => {
         stub('gr-rest-api-interface', {
-          getPreferences() {
-            return Promise.resolve({download_scheme: 'REPO'});
+          async getPreferences() {
+            return {download_scheme: 'REPO'};
           },
         });
         element._loggedIn = true;
-        element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
-          assert.equal(element.selectedScheme, 'repo');
-          done();
-        });
+        await element.$.restAPI.getPreferences.lastCall.returnValue;
+        assert.equal(element.selectedScheme, 'repo');
       });
 
       test('saves scheme to preferences', () => {

@@ -76,41 +76,38 @@
       return ' UTC' + moment().format('Z');
     },
 
-    _loadPreferences() {
-      return this._getLoggedIn().then(loggedIn => {
-        if (!loggedIn) {
+    async _loadPreferences() {
+      const loggedIn = await this._getLoggedIn();
+      if (!loggedIn) {
+        this._timeFormat = TimeFormats.TIME_24;
+        this._relative = false;
+        return;
+      }
+      return await Promise.all([
+        this._loadTimeFormat(),
+        this._loadRelative(),
+      ]);
+    },
+
+    async _loadTimeFormat() {
+      const preferences = await this._getPreferences();
+      const timeFormat = preferences && preferences.time_format;
+      switch (timeFormat) {
+        case 'HHMM_12':
+          this._timeFormat = TimeFormats.TIME_12;
+          break;
+        case 'HHMM_24':
           this._timeFormat = TimeFormats.TIME_24;
-          this._relative = false;
-          return;
-        }
-        return Promise.all([
-          this._loadTimeFormat(),
-          this._loadRelative(),
-        ]);
-      });
+          break;
+        default:
+          throw Error('Invalid time format: ' + timeFormat);
+      }
     },
 
-    _loadTimeFormat() {
-      return this._getPreferences().then(preferences => {
-        const timeFormat = preferences && preferences.time_format;
-        switch (timeFormat) {
-          case 'HHMM_12':
-            this._timeFormat = TimeFormats.TIME_12;
-            break;
-          case 'HHMM_24':
-            this._timeFormat = TimeFormats.TIME_24;
-            break;
-          default:
-            throw Error('Invalid time format: ' + timeFormat);
-        }
-      });
-    },
-
-    _loadRelative() {
-      return this._getPreferences().then(prefs => {
-        // prefs.relative_date_in_change_table is not set when false.
-        this._relative = !!(prefs && prefs.relative_date_in_change_table);
-      });
+    async _loadRelative() {
+      const prefs = await this._getPreferences();
+      // prefs.relative_date_in_change_table is not set when false.
+      this._relative = !!(prefs && prefs.relative_date_in_change_table);
     },
 
     _getLoggedIn() {

@@ -62,18 +62,20 @@
       this._branchDisabled = !this.repo;
     },
 
-    _getRepoBranchesSuggestions(input) {
-      if (!this.repo) { return Promise.resolve([]); }
+    async _getRepoBranchesSuggestions(input) {
+      if (!this.repo) { return; }
       if (input.startsWith(REF_PREFIX)) {
         input = input.substring(REF_PREFIX.length);
       }
-      return this.$.restAPI.getRepoBranches(input, this.repo, SUGGESTIONS_LIMIT)
-          .then(this._branchResponseToSuggestions.bind(this));
+      const res = await this.$.restAPI.getRepoBranches(
+          input, this.repo, SUGGESTIONS_LIMIT);
+      return this._branchResponseToSuggestions(res);
     },
 
-    _getRepoSuggestions(input) {
-      return this.$.restAPI.getRepos(input, SUGGESTIONS_LIMIT)
-          .then(this._repoResponseToSuggestions.bind(this));
+    async _getRepoSuggestions(input) {
+      const res = await this.$.restAPI.getRepos(
+          input, SUGGESTIONS_LIMIT);
+      return this._repoResponseToSuggestions(res);
     },
 
     _repoResponseToSuggestions(res) {

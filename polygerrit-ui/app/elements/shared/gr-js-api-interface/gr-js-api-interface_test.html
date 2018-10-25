@@ -120,14 +120,13 @@ limitations under the License.
       });
     });
 
-    test('get using Promise', () => {
+    test('get using Promise', async () => {
       const response = {foo: 'foo'};
       getResponseObjectStub.returns(Promise.resolve(response));
-      return plugin.get('/url', r => 'rubbish').then(r => {
-        assert.isTrue(sendStub.calledWith(
-            'GET', 'http://test.com/plugins/testplugin/url'));
-        assert.strictEqual(r, response);
-      });
+      const r = await plugin.get('/url', () => 'rubbish');
+      assert.isTrue(sendStub.calledWith(
+          'GET', 'http://test.com/plugins/testplugin/url'));
+      assert.strictEqual(r, response);
     });
 
     test('post', () => {
@@ -162,16 +161,19 @@ limitations under the License.
       });
     });
 
-    test('delete fails', () => {
+    test('delete fails', async () => {
       sendStub.returns(Promise.resolve(
-          {status: 400, text() { return Promise.resolve('text'); }}));
-      return plugin.delete('/url', r => {
-        throw new Error('Should not resolve');
-      }).catch(err => {
+          {status: 400, async text() { return 'text'; }}));
+      try {
+        await plugin.delete('/url', () => {
+          throw new Error('Should not resolve');
+        });
+        assert.fail('expected exception');
+      } catch (err) {
         assert.isTrue(sendStub.calledWith(
             'DELETE', 'http://test.com/plugins/testplugin/url'));
         assert.equal('text', err);
-      });
+      }
     });
 
     test('history event', done => {
@@ -306,11 +308,8 @@ limitations under the License.
       assert(callback.notCalled);
     });
 
-    test('getAccount', done => {
-      Gerrit.getLoggedIn().then(loggedIn => {
-        assert.isTrue(loggedIn);
-        done();
-      });
+    test('getAccount', async () => {
+      assert.isTrue(await Gerrit.getLoggedIn());
     });
 
     test('_setPluginsCount', done => {
@@ -374,14 +373,13 @@ limitations under the License.
       return Gerrit.awaitPluginsLoaded();
     });
 
-    test('plugin install errors shows toasts', () => {
+    test('plugin install errors shows toasts', async () => {
       const alertStub = sandbox.stub();
       document.addEventListener('show-alert', alertStub);
       Gerrit._setPluginsCount(1);
       Gerrit.install(() => {}, '0.0pre-alpha');
-      return Gerrit.awaitPluginsLoaded().then(() => {
-        assert.isTrue(alertStub.calledOnce);
-      });
+      await Gerrit.awaitPluginsLoaded();
+      assert.isTrue(alertStub.calledOnce);
     });
 
     test('installGwt calls _pluginInstalled', () => {

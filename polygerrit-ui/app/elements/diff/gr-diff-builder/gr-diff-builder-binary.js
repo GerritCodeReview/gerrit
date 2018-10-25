@@ -14,14 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window, GrDiffBuilderSideBySide) {
+(function(window, GrDiffBuilder) {
   'use strict';
 
   // Prevent redefinition.
   if (window.GrDiffBuilderBinary) { return; }
 
-  function GrDiffBuilderBinary(diff, comments, prefs, outputEl) {
-    GrDiffBuilder.call(this, diff, comments, null, prefs, outputEl);
+  function GrDiffBuilderBinary(diff, comments, parentIndex, changeNum, path,
+      projectName, prefs, outputEl) {
+    GrDiffBuilder.call(this, diff, comments, parentIndex, changeNum, path,
+        projectName, prefs, outputEl);
   }
 
   GrDiffBuilderBinary.prototype = Object.create(GrDiffBuilder.prototype);
@@ -43,4 +45,4 @@
   };
 
   window.GrDiffBuilderBinary = GrDiffBuilderBinary;
-})(window, GrDiffBuilderSideBySide);
+})(window, GrDiffBuilder);

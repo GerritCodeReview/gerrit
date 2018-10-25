@@ -17,6 +17,44 @@
 (function() {
   'use strict';
 
+  window.Gerrit = window.Gerrit || {};
+
+  /**
+   * @param {Object} thread
+   * @param {boolean} isOnParent
+   * @param {number} parentIndex
+   * @param {number} changeNum
+   * @param {string} path
+   * @param {string} projectName
+   */
+  window.Gerrit.createThreadElement = function(
+      thread, isOnParent, parentIndex, changeNum, path, projectName) {
+    const threadEl = document.createElement('gr-diff-comment-thread');
+    threadEl.comments = thread.comments;
+    threadEl.commentSide = thread.commentSide;
+    threadEl.isOnParent = isOnParent;
+    threadEl.parentIndex = parentIndex;
+    threadEl.changeNum = changeNum;
+    threadEl.patchNum = thread.patchNum;
+    threadEl.lineNum = thread.lineNum;
+    const rootIdChangedListener = changeEvent => {
+      thread.rootId = changeEvent.detail.value;
+    };
+    threadEl.addEventListener('root-id-changed', rootIdChangedListener);
+    threadEl.path = path;
+    threadEl.projectName = projectName;
+    threadEl.range = thread.range;
+    const threadDiscardListener = e => {
+      const threadEl = /** @type {!Node} */ (e.currentTarget);
+      const parent = Polymer.dom(threadEl).parentNode;
+      threadEl.removeEventListener('root-id-changed', rootIdChangedListener);
+      threadEl.removeEventListener('thread-discard', threadDiscardListener);
+      Polymer.dom(parent).removeChild(threadEl);
+    };
+    threadEl.addEventListener('thread-discard', threadDiscardListener);
+    return threadEl;
+  };
+
   Polymer({
     is: 'gr-diff-comment-thread-group',
 
@@ -32,14 +70,28 @@
         type: Number,
         value: null,
       },
-      threads: {
-        type: Array,
-        value() { return []; },
-      },
+      path: String,
     },
 
     get threadEls() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
+    },
+
+    /**
+     * Fetch the thread element at the given range, or the range-less thread
+     * element on the line if no range is provided, lineNum, and side.
+     *
+     * @param {string} side
+     * @param {!Object=} opt_range
+     * @return {!Object|undefined}
+     */
+    getThreadEl(side, opt_range) {
+      const threads = [].filter.call(this.threadEls,
+          thread => this._rangesEqual(thread.range, opt_range))
+          .filter(thread => thread.commentSide === side);
+      if (threads.length === 1) {
+        return threads[0];
+      }
     },
 
     /**
@@ -49,7 +101,7 @@
      * @param {!Object} opt_range
      */
     addNewThread(commentSide, opt_range) {
-      this.push('threads', {
+      this._appendThread({
         comments: [],
         commentSide,
         patchNum: this.patchForNewThreads,
@@ -57,34 +109,20 @@
       });
     },
 
-    removeThread(rootId) {
-      for (let i = 0; i < this.threads.length; i++) {
-        if (this.threads[i].rootId === rootId) {
-          this.splice('threads', i, 1);
-          return;
-        }
+    /** @param {!Array<!Object>} threads */
+    setThreads(threads) {
+      // This is temporary, and the only usage is adding a full new list of
+      // threads in builder, so not optimizing for reusing any DOM elements.
+      this.clearThreads();
+      for (const thread of threads) {
+        this._appendThread(thread);
       }
     },
 
-    /**
-     * Fetch the thread group at the given range, or the range-less thread
-     * on the line if no range is provided, lineNum, and side.
-     *
-     * @param {string} side
-     * @param {!Object=} opt_range
-     * @return {!Object|undefined}
-     */
-    getThread(side, opt_range) {
-      const threads = [].filter.call(this.threadEls,
-          thread => this._rangesEqual(thread.range, opt_range))
-          .filter(thread => thread.commentSide === side);
-      if (threads.length === 1) {
-        return threads[0];
+    clearThreads() {
+      while (this.lastChild) {
+        Polymer.dom(this.root).removeChild(this.lastChild);
       }
-    },
-
-    _handleThreadDiscard(e) {
-      this.removeThread(e.detail.rootId);
     },
 
     /**
@@ -103,6 +141,12 @@
           a.startChar === b.startChar &&
           a.endLine === b.endLine &&
           a.endChar === b.endChar;
+    },
+
+    _appendThread(thread) {
+      Polymer.dom(this.root).appendChild(Gerrit.createThreadElement(
+          thread, this.isOnParent, this.parentIndex, this.changeNum,
+          this.path, this.projectName));
     },
   });
 })();

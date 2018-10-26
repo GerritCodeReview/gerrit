@@ -80,7 +80,8 @@
         // onload (second param) needs to be a function. When null or undefined
         // were passed, plugins were not loaded correctly.
         this.importHref(
-            this._urlFor(url), () => {},
+            this._urlFor(url),
+            () => Gerrit._pluginInstalled(url, true),
             Gerrit._pluginInstallError.bind(null, `${url} import error`),
             async);
       }

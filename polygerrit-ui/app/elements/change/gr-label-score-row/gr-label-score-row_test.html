@@ -258,6 +258,11 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isOk(element.$$('iron-selector'));
       assert.isTrue(element.$$('iron-selector').hidden);
+
+      element.permittedLabels = {Verified: []};
+      flushAsynchronousOperations();
+      assert.isOk(element.$$('iron-selector'));
+      assert.isTrue(element.$$('iron-selector').hidden);
     });
 
     test('asymetrical labels', () => {

@@ -11,8 +11,8 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 describe('example ', () => {
   let driver;
 
-  beforeAll(() => {
-    return setup().then(d => driver = d);
+  beforeAll(async () => {
+    driver = await setup();
   });
 
   afterAll(() => {

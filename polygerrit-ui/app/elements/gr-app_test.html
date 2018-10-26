@@ -102,10 +102,9 @@ limitations under the License.
       });
     });
 
-    test('passes config to gr-plugin-host', () => {
-      return element.$.restAPI.getConfig.lastCall.returnValue.then(config => {
-        assert.deepEqual(element.$.plugins.config, config);
-      });
+    test('passes config to gr-plugin-host', async () => {
+      const config = await element.$.restAPI.getConfig.lastCall.returnValue;
+      assert.deepEqual(element.$.plugins.config, config);
     });
 
     test('_paramsChanged sets search page', () => {

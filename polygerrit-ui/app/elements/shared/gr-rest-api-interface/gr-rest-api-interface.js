@@ -2086,7 +2086,7 @@
     },
 
     saveChangeStarred(changeNum, starred) {
-      return this._send({
+      return this._getChangeURLAndSend({
         method: starred ? 'PUT' : 'DELETE',
         url: '/accounts/self/starred.changes/' + changeNum,
         anonymizedUrl: '/accounts/self/starred.changes/*',

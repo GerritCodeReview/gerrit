@@ -71,6 +71,11 @@
       }
     }
 
+    if (!this._comments) {
+      this._threadEls = [];
+      return;
+    }
+
     const allComments = [];
     for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
       // This is needed by the threading.
@@ -79,7 +84,15 @@
       }
       allComments.push(...this._comments[side]);
     }
-    this._threads = this._createThreads(allComments);
+    const threads = this._createThreads(allComments);
+    this._threadEls = threads.map(thread => {
+      // TODO(oler): Figure out how to determine that here already - for now,
+      //             this is set later.
+      const isOnParent = false;
+      return Gerrit.createThreadElement(
+          thread, isOnParent, this._parentIndex, this._changeNum,
+          this._path, this._projectName);
+    });
   }
 
   GrDiffBuilder.GroupType = {
@@ -333,27 +346,29 @@
   };
 
   /**
-   * @param {!Array<Object>} threads
-   * @param {!GrDiffLine} line
+   * @param {!Array<!HTMLElement>} threadEls
+   * @param {!GrDiffLine} lineInfo
    * @param {!GrDiffBuilder.Side=} side The side (LEFT, RIGHT, BOTH) for which
    *     to return the threads (default: BOTH).
    */
-  GrDiffBuilder.prototype._filterThreadsForLine = function(
-      threads, line, side = GrDiffBuilder.Side.BOTH) {
-    function matchesLeftLine(thread) {
-      return thread.commentSide == GrDiffBuilder.Side.LEFT &&
-          thread.comments[0].line == line.beforeNumber;
+  GrDiffBuilder.prototype._filterThreadEls = function(
+      threadEls, lineInfo, side = GrDiffBuilder.Side.BOTH) {
+    function matchesLeftLine(threadEl) {
+      return threadEl.getAttribute('comment-side') ==
+          GrDiffBuilder.Side.LEFT &&
+          threadEl.getAttribute('line-num') == lineInfo.beforeNumber;
     }
-    function matchesRightLine(thread) {
-      return thread.commentSide == GrDiffBuilder.Side.RIGHT &&
-          thread.comments[0].line == line.afterNumber;
+    function matchesRightLine(threadEl) {
+      return threadEl.getAttribute('comment-side') ==
+          GrDiffBuilder.Side.RIGHT &&
+          threadEl.getAttribute('line-num') == lineInfo.afterNumber;
     }
-    function matchesFileComment(thread) {
+    function matchesFileComment(threadEl) {
       return (side === GrDiffBuilder.Side.BOTH ||
-              thread.commentSide == side) &&
-             // line/range comments have 1-based line set, if line is falsy it's
-             // a file comment
-             !thread.comments[0].line;
+              threadEl.getAttribute('comment-side') == side) &&
+            // line/range comments have 1-based line set, if line is falsy it's
+            // a file comment
+            !threadEl.getAttribute('line-num');
     }
 
     // Select the appropriate matchers for the desired side and line
@@ -365,12 +380,12 @@
     if (side !== GrDiffBuilder.Side.LEFT) {
       matchers.push(matchesRightLine);
     }
-    if (line.afterNumber === GrDiffLine.FILE ||
-        line.beforeNumber === GrDiffLine.FILE) {
+    if (lineInfo.afterNumber === GrDiffLine.FILE ||
+        lineInfo.beforeNumber === GrDiffLine.FILE) {
       matchers.push(matchesFileComment);
     }
-
-    return threads.filter(thread => matchers.find(matcher => matcher(thread)));
+    return threadEls.filter(threadEl =>
+        matchers.some(matcher => matcher(threadEl)));
   };
 
   /**
@@ -403,6 +418,7 @@
         commentSide: comment.__commentSide,
         patchNum: comment.patch_set,
         rootId: comment.id || comment.__draftID,
+        lineNum: comment.line,
       };
       if (comment.range) {
         newThread.range = Object.assign({}, comment.range);
@@ -460,22 +476,19 @@
    */
   GrDiffBuilder.prototype._commentThreadGroupForLine = function(
       line, side = GrDiffBuilder.Side.BOTH) {
-    const threads =
-        this._filterThreadsForLine(this._threads, line, side);
-    if (!threads || threads.length === 0) {
+    const threadElsForGroup =
+        this._filterThreadEls(this._threadEls, line, side);
+    if (!threadElsForGroup || threadElsForGroup.length === 0) {
       return null;
     }
 
-    const patchRange = this._comments.meta.patchRange;
-    const isOnParent = this._determineIsOnParent(
-        threads[0].side, patchRange, line, side);
-
     const threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
-    for (const thread of threads) {
-      Polymer.dom(threadGroupEl).appendChild(Gerrit.createThreadElement(
-          thread, isOnParent, this._parentIndex, this._changeNum,
-          this._path, this._projectName));
+    const patchRange = this._comments.meta.patchRange;
+    for (const threadEl of threadElsForGroup) {
+      threadEl.isOnParent = this._determineIsOnParent(
+          threadEl.comments[0].side, patchRange, line, side);
+      Polymer.dom(threadGroupEl).appendChild(threadEl);
     }
     if (side) {
       threadGroupEl.setAttribute('data-side', side);

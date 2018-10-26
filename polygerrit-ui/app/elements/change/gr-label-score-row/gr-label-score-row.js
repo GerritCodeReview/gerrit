@@ -69,7 +69,8 @@
     },
 
     _computeBlankItems(permittedLabels, label, side) {
-      if (!permittedLabels || !permittedLabels[label] || !this.labelValues ||
+      if (!permittedLabels || !permittedLabels[label] ||
+          !permittedLabels[label].length || !this.labelValues ||
           !Object.keys(this.labelValues).length) {
         return [];
       }
@@ -135,7 +136,8 @@
     },
 
     _computeAnyPermittedLabelValues(permittedLabels, label) {
-      return permittedLabels.hasOwnProperty(label);
+      return permittedLabels.hasOwnProperty(label) &&
+        permittedLabels[label].length;
     },
 
     _computeHiddenClass(permittedLabels, label) {

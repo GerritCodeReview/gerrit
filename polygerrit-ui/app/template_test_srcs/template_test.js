@@ -40,7 +40,8 @@ const EXTERN_NAMES = [
   'util',
 ];
 
-fs.readdir('./polygerrit-ui/temp/behaviors/', (err, data) => {
+// eslint-disable-next-line promise/prefer-await-to-callbacks
+fs.readdir('./polygerrit-ui/temp/behaviors/', async (err, data) => {
   if (err) {
     console.log('error /polygerrit-ui/temp/behaviors/ directory');
   }
@@ -108,13 +109,11 @@ fs.readdir('./polygerrit-ui/temp/behaviors/', (err, data) => {
     languageIn: 'ECMASCRIPT_NEXT', // Needed to support async/await
   };
 
-  twinkie.checkTemplate(toCheck, additionalSources, additionalCompilerFlags)
-      .then(() => {}, joinedErrors => {
-        if (joinedErrors) {
-          process.exit(1);
-        }
-      }).catch(e => {
-        console.error(e);
-        process.exit(1);
-      });
+  try {
+    await twinkie.checkTemplate(
+        toCheck, additionalSources, additionalCompilerFlags);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
 });

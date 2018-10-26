@@ -616,7 +616,10 @@
   Gerrit._setPluginsPending = function(plugins) {
     _pluginsPending = plugins.reduce((o, url) => {
       // TODO(viktard): Remove guard (@see Issue 8962)
-      o[getPluginNameFromUrl(url) || UNKNOWN_PLUGIN] = url;
+      const pluginName = getPluginNameFromUrl(url) || UNKNOWN_PLUGIN;
+      if (!_pluginsInstalled.includes(pluginName)) {
+        o[pluginName] = url;
+      }
       return o;
     }, {});
     Gerrit._setPluginsCount(Object.keys(_pluginsPending).length);
@@ -642,10 +645,12 @@
     Gerrit._setPluginsCount(_pluginsPendingCount - 1);
   };
 
-  Gerrit._pluginInstalled = function(url) {
+  Gerrit._pluginInstalled = function(url, opt_force) {
     const name = getPluginNameFromUrl(url) || UNKNOWN_PLUGIN;
     if (!_pluginsPending[name]) {
-      console.warn(`Unexpected plugin ${name} installed from ${url}.`);
+      if (!opt_force) {
+        console.warn(`Unexpected plugin ${name} installed from ${url}.`);
+      }
     } else {
       delete _pluginsPending[name];
       _pluginsInstalled.push(name);

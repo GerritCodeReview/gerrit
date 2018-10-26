@@ -55,17 +55,16 @@
       }).enableToggleCheckbox('Display Coverage', checkbox => {
         // Checkbox is attached so now add the notifier that will be controlled
         // by the checkbox.
-        annotationApi.addNotifier(notifyFunc => {
-          new Promise(resolve => setTimeout(resolve, 3000)).then(() => {
-            populateWithDummyData(coverageData);
-            checkbox.disabled = false;
-            checkbox.onclick = e => {
-              displayCoverage = e.target.checked;
-              Object.keys(coverageData).forEach(file => {
-                notifyFunc(file, 0, coverageData[file].totalLines, 'right');
-              });
-            };
-          });
+        annotationApi.addNotifier(async notifyFunc => {
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          populateWithDummyData(coverageData);
+          checkbox.disabled = false;
+          checkbox.onclick = e => {
+            displayCoverage = e.target.checked;
+            Object.keys(coverageData).forEach(file => {
+              notifyFunc(file, 0, coverageData[file].totalLines, 'right');
+            });
+          };
         });
       });
     });

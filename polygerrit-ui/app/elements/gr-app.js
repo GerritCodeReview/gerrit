@@ -121,29 +121,35 @@
       this._bindKeyboardShortcuts();
     },
 
-    ready() {
+    async ready() {
       this._isShadowDom = Polymer.Settings.useShadow;
       this.$.router.start();
 
-      this.$.restAPI.getAccount().then(account => {
-        this._account = account;
-      });
-      this.$.restAPI.getConfig().then(config => {
+      const promises = [];
+
+      promises.push((async () => {
+        this._account = await this.$.restAPI.getAccount();
+      })());
+
+      promises.push((async () => {
+        const config = await this.$.restAPI.getConfig();
         this._serverConfig = config;
 
         if (config && config.gerrit && config.gerrit.report_bug_url) {
           this._feedbackUrl = config.gerrit.report_bug_url;
         }
-      });
-      this.$.restAPI.getVersion().then(version => {
-        this._version = version;
+      })());
+
+      promises.push((async () => {
+        this._version = await this.$.restAPI.getVersion();
         this._logWelcome();
-      });
+      })());
 
       if (window.localStorage.getItem('dark-theme')) {
-        this.$.libLoader.getDarkTheme().then(module => {
+        promises.push((async () => {
+          const module = await this.$.libLoader.getDarkTheme();
           Polymer.dom(this.root).appendChild(module);
-        });
+        })());
       }
 
       // Note: this is evaluated here to ensure that it only happens after the
@@ -171,6 +177,8 @@
           selectedChangeIndex: 0,
         },
       };
+
+      await Promise.all(promises);
     },
 
     _bindKeyboardShortcuts() {
@@ -317,9 +325,10 @@
       }
       if (this.params.justRegistered) {
         this.$.registrationOverlay.open();
-        this.$.registrationDialog.loadData().then(() => {
+        (async () => {
+          await this.$.registrationDialog.loadData();
           this.$.registrationOverlay.refit();
-        });
+        })();
       }
       this.$.header.unfloat();
     },
@@ -329,7 +338,7 @@
           config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
     },
 
-    _handlePageError(e) {
+    async _handlePageError(e) {
       const props = [
         '_showChangeListView',
         '_showDashboardView',
@@ -350,10 +359,8 @@
         this._lastError = err;
       } else {
         err.emoji = 'o_O';
-        response.text().then(text => {
-          err.moreInfo = text;
-          this._lastError = err;
-        });
+        err.moreInfo = await response.text();
+        this._lastError = err;
       }
     },
 

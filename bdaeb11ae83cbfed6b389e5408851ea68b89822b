@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad2f660_669945f5",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1016502
+      },
+      "writtenOn": "2018-10-26T10:41:44Z",
+      "side": 1,
+      "message": "I\u0027d prefer to see the documentation of the \"--migrate-to-note-db\" option left in, with a comment that it is only available in 2.15.\nMy reason is just that often people look at the documentation at https://gerrit-review.googlesource.com/Documentation/, which is always the latest version. It might be confusing if they see an option in, e.g. their local scripts, which doesn\u0027t appear to exist.  Or if today someone wanted to migrate to 2.15 the latest release version), the docs would be missing a real option.",
+      "revId": "bdaeb11ae83cbfed6b389e5408851ea68b89822b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

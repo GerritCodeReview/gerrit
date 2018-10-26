@@ -2086,10 +2086,17 @@
     },
 
     saveChangeStarred(changeNum, starred) {
-      return this._send({
-        method: starred ? 'PUT' : 'DELETE',
-        url: '/accounts/self/starred.changes/' + changeNum,
-        anonymizedUrl: '/accounts/self/starred.changes/*',
+      // Some servers may require the project name to be provided
+      // alongside the change number, so resolve the project name
+      // first.
+      return this.getFromProjectLookup(changeNum).then(project => {
+        const url = '/accounts/self/starred.changes/' +
+            (project ? encodeURIComponent(project) + '~' : '') + changeNum;
+        return this._send({
+          method: starred ? 'PUT' : 'DELETE',
+          url,
+          anonymizedUrl: '/accounts/self/starred.changes/*',
+        });
       });
     },
 

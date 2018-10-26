@@ -1,5 +1,6 @@
 <dom-module id="my-plugin">
   <script>
+    console.log('installing my-plugin');
     Gerrit.install(plugin =>
       plugin.registerStyleModule('app-theme', 'myplugin-app-theme')
     );

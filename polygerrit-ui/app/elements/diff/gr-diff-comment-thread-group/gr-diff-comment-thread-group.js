@@ -36,6 +36,7 @@
     threadEl.parentIndex = parentIndex;
     threadEl.changeNum = changeNum;
     threadEl.patchNum = thread.patchNum;
+    threadEl.lineNum = thread.lineNum;
     threadEl.addEventListener('root-id-changed', changeEvent => {
       thread.rootId = changeEvent.detail.value;
     });

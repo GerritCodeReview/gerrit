@@ -263,7 +263,7 @@
         // Ensure drafts are at the end. There should only be one but in edge
         // cases could be more. In the unlikely event two drafts are being
         // compared, use the typical date compare.
-        if (c2.__draft && !c1.__draft ) { return 0; }
+        if (c2.__draft && !c1.__draft ) { return -1; }
         if (c1.__draft && !c2.__draft ) { return 1; }
         if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) { return 0; }
         // If same date, fall back to sorting by id.

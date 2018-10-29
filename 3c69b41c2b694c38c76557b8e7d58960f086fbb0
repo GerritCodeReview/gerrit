@@ -16,6 +16,24 @@
       "revId": "3c69b41c2b694c38c76557b8e7d58960f086fbb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b16a953_62db0f76",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-29T21:47:55Z",
+      "side": 1,
+      "message": "I could, yes. I left it there on purpose to make it explicit that this test suite (\u0027not logged in\u0027) needs to have this set to false. The one above might change over time - I set the top one to false only because it meant that less requests are made that I would have had to stub out - but it could in principle be changed to true.",
+      "parentUuid": "284ae570_b86e4515",
+      "revId": "3c69b41c2b694c38c76557b8e7d58960f086fbb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

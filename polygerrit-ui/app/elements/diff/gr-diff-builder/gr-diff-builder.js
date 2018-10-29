@@ -20,6 +20,60 @@
   // Prevent redefinition.
   if (window.GrDiffBuilder) { return; }
 
+  /** @enum {string} */
+  Gerrit.DiffSide = {
+    LEFT: 'left',
+    RIGHT: 'right',
+    BOTH: 'both',
+  };
+
+  /**
+   * @param {!Array<!HTMLElement>} threadEls
+   * @param {!{beforeNumber: (number|string|undefined),
+   *           afterNumber: (number|string|undefined)}}
+   *     lineInfo
+   * @param {!Gerrit.DiffSide=} side The side (LEFT, RIGHT, BOTH) for
+   *     which to return the threads (default: BOTH).
+   * @return {!Array<!HTMLElement>} The thread elements matching the given
+   *     location.
+   */
+  Gerrit.filterThreadElsForLocation = function(
+      threadEls, lineInfo, side = Gerrit.DiffSide.BOTH) {
+    function matchesLeftLine(threadEl) {
+      return threadEl.getAttribute('comment-side') ==
+          Gerrit.DiffSide.LEFT &&
+          threadEl.getAttribute('line-num') == lineInfo.beforeNumber;
+    }
+    function matchesRightLine(threadEl) {
+      return threadEl.getAttribute('comment-side') ==
+          Gerrit.DiffSide.RIGHT &&
+          threadEl.getAttribute('line-num') == lineInfo.afterNumber;
+    }
+    function matchesFileComment(threadEl) {
+      return (side === Gerrit.DiffSide.BOTH ||
+              threadEl.getAttribute('comment-side') == side) &&
+            // line/range comments have 1-based line set, if line is falsy it's
+            // a file comment
+            !threadEl.getAttribute('line-num');
+    }
+
+    // Select the appropriate matchers for the desired side and line
+    // If side is BOTH, we want both the left and right matcher.
+    const matchers = [];
+    if (side !== Gerrit.DiffSide.RIGHT) {
+      matchers.push(matchesLeftLine);
+    }
+    if (side !== Gerrit.DiffSide.LEFT) {
+      matchers.push(matchesRightLine);
+    }
+    if (lineInfo.afterNumber === 'FILE' ||
+        lineInfo.beforeNumber === 'FILE') {
+      matchers.push(matchesFileComment);
+    }
+    return threadEls.filter(threadEl =>
+        matchers.some(matcher => matcher(threadEl)));
+  };
+
   /**
    * In JS, unicode code points above 0xFFFF occupy two elements of a string.
    * For example '𐀏'.length is 2. An occurence of such a code point is called a
@@ -346,49 +400,6 @@
   };
 
   /**
-   * @param {!Array<!HTMLElement>} threadEls
-   * @param {!GrDiffLine} lineInfo
-   * @param {!GrDiffBuilder.Side=} side The side (LEFT, RIGHT, BOTH) for which
-   *     to return the threads (default: BOTH).
-   */
-  GrDiffBuilder.prototype._filterThreadEls = function(
-      threadEls, lineInfo, side = GrDiffBuilder.Side.BOTH) {
-    function matchesLeftLine(threadEl) {
-      return threadEl.getAttribute('comment-side') ==
-          GrDiffBuilder.Side.LEFT &&
-          threadEl.getAttribute('line-num') == lineInfo.beforeNumber;
-    }
-    function matchesRightLine(threadEl) {
-      return threadEl.getAttribute('comment-side') ==
-          GrDiffBuilder.Side.RIGHT &&
-          threadEl.getAttribute('line-num') == lineInfo.afterNumber;
-    }
-    function matchesFileComment(threadEl) {
-      return (side === GrDiffBuilder.Side.BOTH ||
-              threadEl.getAttribute('comment-side') == side) &&
-            // line/range comments have 1-based line set, if line is falsy it's
-            // a file comment
-            !threadEl.getAttribute('line-num');
-    }
-
-    // Select the appropriate matchers for the desired side and line
-    // If side is BOTH, we want both the left and right matcher.
-    const matchers = [];
-    if (side !== GrDiffBuilder.Side.RIGHT) {
-      matchers.push(matchesLeftLine);
-    }
-    if (side !== GrDiffBuilder.Side.LEFT) {
-      matchers.push(matchesRightLine);
-    }
-    if (lineInfo.afterNumber === GrDiffLine.FILE ||
-        lineInfo.beforeNumber === GrDiffLine.FILE) {
-      matchers.push(matchesFileComment);
-    }
-    return threadEls.filter(threadEl =>
-        matchers.some(matcher => matcher(threadEl)));
-  };
-
-  /**
    * @param {Array<Object>} comments
    */
   GrDiffBuilder.prototype._createThreads = function(comments) {
@@ -477,7 +488,7 @@
   GrDiffBuilder.prototype._commentThreadGroupForLine = function(
       line, side = GrDiffBuilder.Side.BOTH) {
     const threadElsForGroup =
-        this._filterThreadEls(this._threadEls, line, side);
+        Gerrit.filterThreadElsForLocation(this._threadEls, line, side);
     if (!threadElsForGroup || threadElsForGroup.length === 0) {
       return null;
     }

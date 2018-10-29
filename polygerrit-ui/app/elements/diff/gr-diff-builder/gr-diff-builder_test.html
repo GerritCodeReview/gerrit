@@ -86,6 +86,65 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
+    test('filterThreadElsForLocation with no threads', () => {
+      const line = {beforeNumber: 3, afterNumber: 5};
+
+      const threads = [];
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threads, line), []);
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threads, line,
+          Gerrit.DiffSide.LEFT), []);
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threads, line,
+          Gerrit.DiffSide.RIGHT), []);
+    });
+
+    test('filterThreadElsForLocation for line comments', () => {
+      const line = {beforeNumber: 3, afterNumber: 5};
+
+      const l3 = document.createElement('div');
+      l3.setAttribute('line-num', 3);
+      l3.setAttribute('comment-side', 'left');
+
+      const l5 = document.createElement('div');
+      l5.setAttribute('line-num', 5);
+      l5.setAttribute('comment-side', 'left');
+
+      const r3 = document.createElement('div');
+      r3.setAttribute('line-num', 3);
+      r3.setAttribute('comment-side', 'right');
+
+      const r5 = document.createElement('div');
+      r5.setAttribute('line-num', 5);
+      r5.setAttribute('comment-side', 'right');
+
+      const threadEls = [l3, l5, r3, r5];
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line),
+          [l3, r5]);
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.LEFT), [l3]);
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.RIGHT), [r5]);
+    });
+
+    test('filterThreadElsForLocation for file comments', () => {
+      const line = {beforeNumber: 'FILE', afterNumber: 'FILE'};
+
+      const l = document.createElement('div');
+      l.setAttribute('comment-side', 'left');
+
+      const r = document.createElement('div');
+      r.setAttribute('comment-side', 'right');
+
+      const threadEls = [l, r];
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line),
+          [l, r]);
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.BOTH), [l, r]);
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.LEFT), [l]);
+      assert.deepEqual(Gerrit.filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.RIGHT), [r]);
+    });
+
     test('_createThreads', () => {
       const comments = [
         {
@@ -374,72 +433,6 @@ limitations under the License.
         expect(html).to.match(pattern);
         assert.equal(html.match(pattern)[1], size);
       }
-    });
-
-    test('_filterThreadEls with no threads', () => {
-      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
-      line.beforeNumber = 3;
-      line.afterNumber = 5;
-
-      const threads = [];
-      assert.deepEqual(
-          builder._filterThreadEls(threads, line), []);
-      assert.deepEqual(builder._filterThreadEls(threads, line,
-          GrDiffBuilder.Side.LEFT), []);
-      assert.deepEqual(builder._filterThreadEls(threads, line,
-          GrDiffBuilder.Side.RIGHT), []);
-    });
-
-    test('_filterThreadEls for line comments', () => {
-      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
-      line.beforeNumber = 3;
-      line.afterNumber = 5;
-
-      const l3 = document.createElement('div');
-      l3.setAttribute('line-num', 3);
-      l3.setAttribute('comment-side', 'left');
-
-      const l5 = document.createElement('div');
-      l5.setAttribute('line-num', 5);
-      l5.setAttribute('comment-side', 'left');
-
-      const r3 = document.createElement('div');
-      r3.setAttribute('line-num', 3);
-      r3.setAttribute('comment-side', 'right');
-
-      const r5 = document.createElement('div');
-      r5.setAttribute('line-num', 5);
-      r5.setAttribute('comment-side', 'right');
-
-      const threadEls = [l3, l5, r3, r5];
-      assert.deepEqual(builder._filterThreadEls(threadEls, line),
-          [l3, r5]);
-      assert.deepEqual(builder._filterThreadEls(threadEls, line,
-          GrDiffBuilder.Side.LEFT), [l3]);
-      assert.deepEqual(builder._filterThreadEls(threadEls, line,
-          GrDiffBuilder.Side.RIGHT), [r5]);
-    });
-
-    test('_filterThreadEls for file comments', () => {
-      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
-      line.beforeNumber = GrDiffLine.FILE;
-      line.afterNumber = GrDiffLine.FILE;
-
-      const l = document.createElement('div');
-      l.setAttribute('comment-side', 'left');
-
-      const r = document.createElement('div');
-      r.setAttribute('comment-side', 'right');
-
-      const threadEls = [l, r];
-      assert.deepEqual(builder._filterThreadEls(threadEls, line),
-          [l, r]);
-      assert.deepEqual(builder._filterThreadEls(threadEls, line,
-          GrDiffBuilder.Side.BOTH), [l, r]);
-      assert.deepEqual(builder._filterThreadEls(threadEls, line,
-          GrDiffBuilder.Side.LEFT), [l]);
-      assert.deepEqual(builder._filterThreadEls(threadEls, line,
-          GrDiffBuilder.Side.RIGHT), [r]);
     });
 
     test('comment thread group creation', () => {

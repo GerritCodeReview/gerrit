@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fdf0f066_502ae33e",
+        "filename": "plugins/replication",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-29T21:52:59Z",
+      "side": 1,
+      "message": "good catch!",
+      "parentUuid": "cb1a7528_910d5c15",
+      "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b475828_9a950d64",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2018-10-29T21:42:59Z",
       "side": 1,
       "message": "Would it be possible to add those as Polymer properties with reflectToAttribute if needed instead?\nthis.rangeStartLine should be auto-transformed into range-start-line",
+      "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1976fb9_ac20f796",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-29T21:52:59Z",
+      "side": 1,
+      "message": "It would be possible, but that would mean that users can set either the range property, or the four individual ones. My concern with the individual ones is that a compiler cannot enforce that all of none of them are set - which is the behavior I want. The other concern is that this widget is used in a couple of places outside gr-diff, and I am trying to change it as little as possible. Does that make sense? Or do you still think reflected properties are better? See a similar conversation I had with Kasper - we decided to use a comment at the top to document that this attributes exist.",
+      "parentUuid": "0b475828_9a950d64",
       "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

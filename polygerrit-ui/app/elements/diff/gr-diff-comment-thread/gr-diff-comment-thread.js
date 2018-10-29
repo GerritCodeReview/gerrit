@@ -17,6 +17,58 @@
 (function() {
   'use strict';
 
+  /** @enum {string} */
+  Gerrit.DiffSide = {
+    LEFT: 'left',
+    RIGHT: 'right',
+    BOTH: 'both',
+  };
+
+  /**
+   * @param {!Array<Object>} threadEls
+   * @param {!{beforeNumber: (number|string|undefined), afterNumber: (number|string|undefined)}}
+   *     lineInfo
+   * @param {!Gerrit.DiffSide=} side The side (LEFT, RIGHT, BOTH) for
+   *     which to return the threads (default: BOTH).
+   * @return {!Array<!Object>} The thread elements matching the given location.
+   */
+  Gerrit.filterThreadElsForLocation = function(
+      threadEls, lineInfo, side = Gerrit.DiffSide.BOTH) {
+    function matchesLeftLine(threadEl) {
+      return threadEl.getAttribute('comment-side') ==
+          Gerrit.DiffSide.LEFT &&
+          threadEl.getAttribute('line-num') == lineInfo.beforeNumber;
+    }
+    function matchesRightLine(threadEl) {
+      return threadEl.getAttribute('comment-side') ==
+          Gerrit.DiffSide.RIGHT &&
+          threadEl.getAttribute('line-num') == lineInfo.afterNumber;
+    }
+    function matchesFileComment(threadEl) {
+      return (side === Gerrit.DiffSide.BOTH ||
+              threadEl.getAttribute('comment-side') == side) &&
+            // line/range comments have 1-based line set, if line is falsy it's
+            // a file comment
+            !threadEl.getAttribute('line-num');
+    }
+
+    // Select the appropriate matchers for the desired side and line
+    // If side is BOTH, we want both the left and right matcher.
+    const matchers = [];
+    if (side !== Gerrit.DiffSide.RIGHT) {
+      matchers.push(matchesLeftLine);
+    }
+    if (side !== Gerrit.DiffSide.LEFT) {
+      matchers.push(matchesRightLine);
+    }
+    if (lineInfo.afterNumber === 'FILE' ||
+        lineInfo.beforeNumber === 'FILE') {
+      matchers.push(matchesFileComment);
+    }
+    return threadEls.filter(threadEl =>
+        matchers.some(matcher => matcher(threadEl)));
+  };
+
   const UNRESOLVED_EXPAND_COUNT = 5;
   const NEWLINE_PATTERN = /\n/g;
 

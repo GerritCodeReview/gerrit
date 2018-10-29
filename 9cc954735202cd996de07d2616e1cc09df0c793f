@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb1a7528_910d5c15",
+        "filename": "plugins/replication",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-29T21:42:59Z",
+      "side": 1,
+      "message": "Is this intentional? Please revert if not.",
+      "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b475828_9a950d64",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-29T21:42:59Z",
+      "side": 1,
+      "message": "Would it be possible to add those as Polymer properties with reflectToAttribute if needed instead?\nthis.rangeStartLine should be auto-transformed into range-start-line",
+      "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

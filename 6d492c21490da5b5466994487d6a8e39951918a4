@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b5df546_83597c74",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-29T21:45:28Z",
+      "side": 1,
+      "message": "Just curious: why attributes and not Polymer properties? Shouldn\u0027t they be the same?",
+      "revId": "6d492c21490da5b5466994487d6a8e39951918a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

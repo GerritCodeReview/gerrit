@@ -346,49 +346,6 @@
   };
 
   /**
-   * @param {!Array<!Object>} threadEls
-   * @param {!GrDiffLine} lineInfo
-   * @param {!GrDiffBuilder.Side=} side The side (LEFT, RIGHT, BOTH) for which
-   *     to return the threads (default: BOTH).
-   */
-  GrDiffBuilder.prototype._filterThreadEls = function(
-      threadEls, lineInfo, side = GrDiffBuilder.Side.BOTH) {
-    function matchesLeftLine(threadEl) {
-      return threadEl.getAttribute('comment-side') ==
-          GrDiffBuilder.Side.LEFT &&
-          threadEl.getAttribute('line-num') == lineInfo.beforeNumber;
-    }
-    function matchesRightLine(threadEl) {
-      return threadEl.getAttribute('comment-side') ==
-          GrDiffBuilder.Side.RIGHT &&
-          threadEl.getAttribute('line-num') == lineInfo.afterNumber;
-    }
-    function matchesFileComment(threadEl) {
-      return (side === GrDiffBuilder.Side.BOTH ||
-              threadEl.getAttribute('comment-side') == side) &&
-            // line/range comments have 1-based line set, if line is falsy it's
-            // a file comment
-            !threadEl.getAttribute('line-num');
-    }
-
-    // Select the appropriate matchers for the desired side and line
-    // If side is BOTH, we want both the left and right matcher.
-    const matchers = [];
-    if (side !== GrDiffBuilder.Side.RIGHT) {
-      matchers.push(matchesLeftLine);
-    }
-    if (side !== GrDiffBuilder.Side.LEFT) {
-      matchers.push(matchesRightLine);
-    }
-    if (lineInfo.afterNumber === GrDiffLine.FILE ||
-        lineInfo.beforeNumber === GrDiffLine.FILE) {
-      matchers.push(matchesFileComment);
-    }
-    return threadEls.filter(threadEl =>
-        matchers.some(matcher => matcher(threadEl)));
-  };
-
-  /**
    * @param {Array<Object>} comments
    */
   GrDiffBuilder.prototype._createThreads = function(comments) {
@@ -477,7 +434,7 @@
   GrDiffBuilder.prototype._commentThreadGroupForLine = function(
       line, side = GrDiffBuilder.Side.BOTH) {
     const threadElsForGroup =
-        this._filterThreadEls(this._threadEls, line, side);
+        Gerrit.filterThreadElsForLocation(this._threadEls, line, side);
     if (!threadElsForGroup || threadElsForGroup.length === 0) {
       return null;
     }

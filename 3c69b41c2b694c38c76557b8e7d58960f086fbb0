@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "284ae570_b86e4515",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-29T21:37:56Z",
+      "side": 1,
+      "message": "Looks like you can drop this line?",
+      "revId": "3c69b41c2b694c38c76557b8e7d58960f086fbb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

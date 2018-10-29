@@ -37,9 +37,14 @@ limitations under the License.
   suite('gr-diff-host tests', () => {
     let element;
     let sandbox;
+    let getLoggedInPromise;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
+      getLoggedInPromise = Promise.resolve(false);
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return getLoggedInPromise; },
+      });
       element = fixture('basic');
     });
 
@@ -59,10 +64,7 @@ limitations under the License.
 
     suite('not logged in', () => {
       setup(() => {
-        const getLoggedInPromise = Promise.resolve(false);
-        stub('gr-rest-api-interface', {
-          getLoggedIn() { return getLoggedInPromise; },
-        });
+        getLoggedInPromise = Promise.resolve(false);
         element = fixture('basic');
         return getLoggedInPromise;
       });

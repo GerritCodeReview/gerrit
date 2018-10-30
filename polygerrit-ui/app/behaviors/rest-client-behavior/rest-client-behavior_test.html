@@ -68,8 +68,8 @@ limitations under the License.
 
     test('changeBaseURL', () => {
       assert.deepEqual(
-          element.changeBaseURL('1', '1'),
-          '/r/changes/1/revisions/1'
+          element.changeBaseURL('test/project', '1', '2'),
+          '/r/changes/test%2Fproject~1/revisions/2'
       );
     });
 

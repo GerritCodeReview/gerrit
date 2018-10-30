@@ -115,8 +115,8 @@
      * @return {string} Not sure why there was a mismatch
      */
     _computeDownloadLink(change, patchNum, opt_zip) {
-      return this.changeBaseURL(change._number, patchNum) + '/patch?' +
-          (opt_zip ? 'zip' : 'download');
+      return this.changeBaseURL(change.project, change._number, patchNum) +
+          '/patch?' + (opt_zip ? 'zip' : 'download');
     },
 
 
@@ -139,7 +139,7 @@
     },
 
     _computeArchiveDownloadLink(change, patchNum, format) {
-      return this.changeBaseURL(change._number, patchNum) +
+      return this.changeBaseURL(change.project, change._number, patchNum) +
           '/archive?format=' + format;
     },
 

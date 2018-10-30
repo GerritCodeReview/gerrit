@@ -172,8 +172,8 @@ limitations under the License.
 
       test('computed fields', () => {
         assert.equal(element._computeArchiveDownloadLink(
-            {_number: 123}, 2, 'tgz'),
-            '/changes/123/revisions/2/archive?format=tgz');
+            {project: 'test/project', _number: 123}, 2, 'tgz'),
+            '/changes/test%2Fproject~123/revisions/2/archive?format=tgz');
       });
 
       test('close event', done => {

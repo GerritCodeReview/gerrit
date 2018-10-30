@@ -556,6 +556,7 @@ limitations under the License.
     });
 
     test('download link', () => {
+      element._change = {project: 'test'},
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: PARENT,
@@ -566,7 +567,7 @@ limitations under the License.
       flushAsynchronousOperations();
       const link = element.$$('.downloadLink');
       assert.equal(link.getAttribute('href'),
-          '/changes/42/revisions/10/patch?zip&path=glados.txt');
+          '/changes/test~42/revisions/10/patch?zip&path=glados.txt');
       assert.isTrue(link.hasAttribute('download'));
     });
 

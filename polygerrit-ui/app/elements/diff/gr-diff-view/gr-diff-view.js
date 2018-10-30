@@ -883,8 +883,8 @@
       history.replaceState(null, '', url);
     },
 
-    _computeDownloadLink(changeNum, patchRange, path) {
-      let url = this.changeBaseURL(changeNum, patchRange.patchNum);
+    _computeDownloadLink(project, changeNum, patchRange, path) {
+      let url = this.changeBaseURL(project, changeNum, patchRange.patchNum);
       url += '/patch?zip&path=' + encodeURIComponent(path);
       return url;
     },

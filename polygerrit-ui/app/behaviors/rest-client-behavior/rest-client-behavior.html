@@ -110,8 +110,9 @@ limitations under the License.
     /**
      *  @return {string}
      */
-    changeBaseURL(changeNum, patchNum) {
-      let v = this.getBaseUrl() + '/changes/' + changeNum;
+    changeBaseURL(project, changeNum, patchNum) {
+      let v = this.getBaseUrl() + '/changes/' +
+         encodeURIComponent(project) + '~' + changeNum;
       if (patchNum) {
         v += '/revisions/' + patchNum;
       }

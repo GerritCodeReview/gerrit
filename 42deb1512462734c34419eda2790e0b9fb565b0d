@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ac4443a_15b59ea3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-31T22:46:19Z",
+      "side": 1,
+      "message": "The comment answers the question \"what\" but not \"why\".\n\nWhat\u0027s the purpose of this method?",
+      "revId": "42deb1512462734c34419eda2790e0b9fb565b0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

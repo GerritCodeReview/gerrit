@@ -69,6 +69,24 @@
       "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "118e31bc_3c01e996",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-31T22:44:49Z",
+      "side": 1,
+      "message": "\u003e users can set either the range property, or the four individual ones\n\nI\u0027m not sure if this change avoid this situation.\nThere are still four individual attributes and two range properties available to user, which is a bit confusing.\nWhich one is the source of truth? \nHow can you guarantee users wouldn\u0027t read wrong one? \nIf you think individual properties are the way to go, ranges should be private (prefix with underscore).\n\n\u003e a compiler cannot enforce that all of none of them are set - which is the behavior I want.\n\nI\u0027m not sure either if that\u0027s easy or even possible.",
+      "parentUuid": "f1976fb9_ac20f796",
+      "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

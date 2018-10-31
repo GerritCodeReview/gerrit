@@ -110,6 +110,18 @@ public final class StoredValues {
         }
       };
 
+  // Accessing GitRepositoryManager could be slow.
+  // It should be minimized or cached to reduce pause time
+  // when evaluating Prolog submit rules.
+  public static final StoredValue<GitRepositoryManager> REPO_MANAGER =
+      new StoredValue<GitRepositoryManager>() {
+        @Override
+        public GitRepositoryManager createValue(Prolog engine) {
+          PrologEnvironment env = (PrologEnvironment) engine.control;
+          return env.getArgs().getGitRepositoryManager();
+        }
+      };
+
   public static final StoredValue<Repository> REPOSITORY =
       new StoredValue<Repository>() {
         @Override

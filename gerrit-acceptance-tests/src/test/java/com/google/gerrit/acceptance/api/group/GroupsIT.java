@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupIncludeCache;
+import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.GroupsUpdate;
 import com.google.gerrit.server.group.InternalGroup;
@@ -68,6 +69,32 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
   @Inject private Groups groups;
   @Inject private GroupIncludeCache groupIncludeCache;
+
+  @Test
+  public void updateGroupUUID() throws Exception {
+    // Create a group
+    String name = name("test");
+    GroupInfo info = gApi.groups().create(name).get();
+    String originalId = info.id;
+
+    // Update the group's UUID
+    AccountGroup.UUID newUUid = GroupUUID.make(name("new"), serverIdent.get());
+    groupsUpdateProvider
+        .get()
+        .updateGroup(db, new AccountGroup.UUID(info.id), g -> g.setGroupUUID(newUUid));
+
+    // The group should now be found by its new UUID
+    info = gApi.groups().id(newUUid.get()).get();
+    assertThat(info.name).isEqualTo(name);
+    assertThat(info.id).isEqualTo(newUUid.get());
+
+    // There should only be one group with the name
+    assertThat(gApi.groups().query(name).get()).hasSize(1);
+
+    // The group's original Id should not exist any more
+    exception.expect(ResourceNotFoundException.class);
+    gApi.groups().id(originalId).get();
+  }
 
   @Test
   public void systemGroupCanBeRetrievedFromIndex() throws Exception {

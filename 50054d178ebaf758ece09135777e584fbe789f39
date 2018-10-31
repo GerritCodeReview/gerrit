@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ded8e38_48dc4f92",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-31T16:35:40Z",
+      "side": 1,
+      "message": "I don\u0027t know either - maybe it\u0027s not running over tests? Also Fried Twinky sometimes catches compile bugs and sometimes does not.",
+      "parentUuid": "2a49d7df_793ad982",
+      "range": {
+        "startLine": 493,
+        "startChar": 22,
+        "endLine": 493,
+        "endChar": 39
+      },
+      "revId": "50054d178ebaf758ece09135777e584fbe789f39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "191f0ed7_c9a37206",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
         "patchSetId": 10
@@ -39,6 +63,24 @@
       "revId": "50054d178ebaf758ece09135777e584fbe789f39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81f70449_be78e3a1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-31T16:35:40Z",
+      "side": 1,
+      "message": "I heard so, but I think slot only exists in Polymer 2? I tried slot, and it did not seem to work properly. Looking at the source of polymer-mini.html, there is no mention of slot anywhere, but there are multiple places where it queries for \"content\". Maybe it\u0027s working in other places where the default insertion point works because they do not use a selector?",
+      "parentUuid": "191f0ed7_c9a37206",
+      "revId": "50054d178ebaf758ece09135777e584fbe789f39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

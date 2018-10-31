@@ -36,18 +36,17 @@
   //      easier to read.
   /**
    * @param {Object} thread
-   * @param {boolean} isOnParent
    * @param {number} parentIndex
    * @param {number} changeNum
    * @param {string} path
    * @param {string} projectName
    */
   window.Gerrit.createThreadElement = function(
-      thread, isOnParent, parentIndex, changeNum, path, projectName) {
+      thread, parentIndex, changeNum, path, projectName) {
     const threadEl = document.createElement('gr-diff-comment-thread');
     threadEl.comments = thread.comments;
     threadEl.commentSide = thread.commentSide;
-    threadEl.isOnParent = isOnParent;
+    threadEl.isOnParent = thread.isOnParent;
     threadEl.parentIndex = parentIndex;
     threadEl.changeNum = changeNum;
     threadEl.patchNum = thread.patchNum;

@@ -140,11 +140,8 @@
     }
     const threads = this._createThreads(allComments);
     this._threadEls = threads.map(thread => {
-      // TODO(oler): Figure out how to determine that here already - for now,
-      //             this is set later.
-      const isOnParent = false;
       return Gerrit.createThreadElement(
-          thread, isOnParent, this._parentIndex, this._changeNum,
+          thread, this._parentIndex, this._changeNum,
           this._path, this._projectName);
     });
   }
@@ -430,6 +427,7 @@
         patchNum: comment.patch_set,
         rootId: comment.id || comment.__draftID,
         lineNum: comment.line,
+        isOnParent: comment.side === 'PARENT',
       };
       if (comment.range) {
         newThread.range = Object.assign({}, comment.range);
@@ -460,26 +458,6 @@
   };
 
   /**
-   * Returns whether the comments on the given line are on a (merge) parent.
-   *
-   * @param {string} firstCommentSide
-   * @param {{basePatchNum: number, patchNum: number}} patchRange
-   * @param {GrDiffLine} line The line the comments are on.
-   * @param {string=} opt_side
-   * @return {boolean} True iff the comments on the given line are on a (merge)
-   *    parent.
-   */
-  GrDiffBuilder.prototype._determineIsOnParent = function(
-      firstCommentSide, patchRange, line, opt_side) {
-    return ((line.type === GrDiffLine.Type.REMOVE ||
-             opt_side === GrDiffBuilder.Side.LEFT) &&
-            (patchRange.basePatchNum === 'PARENT' ||
-             Gerrit.PatchSetBehavior.isMergeParent(
-                 patchRange.basePatchNum))) ||
-          firstCommentSide === 'PARENT';
-  };
-
-  /**
    * @param {!GrDiffLine} line
    * @param {!GrDiffBuilder.Side=} side The side (LEFT, RIGHT, BOTH) for which to return
    *     the thread group (default: BOTH).
@@ -495,10 +473,7 @@
 
     const threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
-    const patchRange = this._comments.meta.patchRange;
     for (const threadEl of threadElsForGroup) {
-      threadEl.isOnParent = this._determineIsOnParent(
-          threadEl.comments[0].side, patchRange, line, side);
       Polymer.dom(threadGroupEl).appendChild(threadEl);
     }
     if (side) {

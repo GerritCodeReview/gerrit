@@ -486,7 +486,8 @@
               commentSide,
               patchNum: patchForNewThreads,
               range,
-            }, isOnParent, this._parentIndex, this.changeNum,
+              isOnParent,
+            }, this._parentIndex, this.changeNum,
             this.path, this.projectName);
         Polymer.dom(threadGroupEl).appendChild(threadEl);
       }

@@ -44,6 +44,8 @@
 
   const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
+  const MSG_PREFIX = '#message-';
+
   const ReloadToastMessage = {
     NEWER_REVISION: 'A newer patch set has been uploaded',
     RESTORED: 'This change has been restored',
@@ -720,10 +722,17 @@
       this.viewState.numFilesShown = numFilesShown;
     },
 
+    _handleMessageAnchorTap(e) {
+      const hash = MSG_PREFIX + e.detail.id;
+      const url = Gerrit.Nav.getUrlForChange(this._change,
+          this._patchRange.patchNum, this._patchRange.basePatchNum,
+          this._editMode, hash);
+      history.replaceState(null, '', url);
+    },
+
     _maybeScrollToMessage(hash) {
-      const msgPrefix = '#message-';
-      if (hash.startsWith(msgPrefix)) {
-        this.messagesList.scrollToMessage(hash.substr(msgPrefix.length));
+      if (hash.startsWith(MSG_PREFIX)) {
+        this.messagesList.scrollToMessage(hash.substr(MSG_PREFIX.length));
       }
     },
 

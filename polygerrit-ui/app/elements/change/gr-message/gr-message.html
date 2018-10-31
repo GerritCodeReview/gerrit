@@ -132,8 +132,11 @@ limitations under the License.
         right: var(--default-horizontal-margin);
         top: 10px;
       }
-      .date {
+      span.date {
         color: var(--deemphasized-text-color);
+      }
+      span.date:hover {
+        text-decoration: underline;
       }
       .dateContainer iron-icon {
         cursor: pointer;
@@ -227,12 +230,12 @@ limitations under the License.
             </span>
           </template>
           <template is="dom-if" if="[[message.id]]">
-            <a class="date" href$="[[_computeMessageHash(message)]]" on-tap="_handleLinkTap">
+            <span class="date" on-tap="_handleAnchorTap">
               <gr-date-formatter
                   has-tooltip
                   show-date-and-time
                   date-str="[[message.date]]"></gr-date-formatter>
-            </a>
+            </span>
           </template>
           <iron-icon
               id="expandToggle"

@@ -395,6 +395,9 @@
       } else if (params.edit) {
         suffix += ',edit';
       }
+      if (params.messageHash) {
+        suffix += params.messageHash;
+      }
       if (params.project) {
         const encodedProject = this.encodeURL(params.project, true);
         return `/c/${encodedProject}/+/${params.changeNum}${suffix}`;

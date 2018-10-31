@@ -24,15 +24,15 @@
     is: 'gr-message',
 
     /**
-     * Fired when this message's permalink is tapped.
-     *
-     * @event scroll-to
-     */
-
-    /**
      * Fired when this message's reply link is tapped.
      *
      * @event reply
+     */
+
+    /**
+     * Fired when the message's timestamp is tapped.
+     *
+     * @event message-anchor-tap
      */
 
     listeners: {
@@ -223,22 +223,12 @@
       return classes.join(' ');
     },
 
-    _computeMessageHash(message) {
-      return '#message-' + message.id;
-    },
-
-    _handleLinkTap(e) {
+    _handleAnchorTap(e) {
       e.preventDefault();
-
-      this.fire('scroll-to', {message: this.message}, {bubbles: false});
-
-      const hash = this._computeMessageHash(this.message);
-      // Don't add the hash to the window history if it's already there.
-      // Otherwise you mess up expected back button behavior.
-      if (window.location.hash == hash) { return; }
-      // Change the URL but don’t trigger a nav event. Otherwise it will
-      // reload the page.
-      page.show(window.location.pathname + hash, null, false);
+      this.dispatchEvent(new CustomEvent('message-anchor-tap', {
+        bubbles: true,
+        detail: {id: this.message.id},
+      }));
     },
 
     _handleReplyTap(e) {

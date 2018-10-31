@@ -33,6 +33,8 @@ limitations under the License.
     //        also be provided.
     //    - `edit`, optional, Boolean: whether or not to load the file list with
     //        edit controls.
+    //    - `messageHash`, optional, String: the hash of the change message to
+    //        scroll to.
     //
     // - Gerrit.Nav.View.SEARCH:
     //    - `query`, optional, String: the literal search query. If provided,
@@ -352,9 +354,11 @@ limitations under the License.
        * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
        *     used for none.
        * @param {boolean=} opt_isEdit
+       * @param {string=} opt_messageHash
        * @return {string}
        */
-      getUrlForChange(change, opt_patchNum, opt_basePatchNum, opt_isEdit) {
+      getUrlForChange(change, opt_patchNum, opt_basePatchNum, opt_isEdit,
+          opt_messageHash) {
         if (opt_basePatchNum === PARENT_PATCHNUM) {
           opt_basePatchNum = undefined;
         }
@@ -368,6 +372,7 @@ limitations under the License.
           basePatchNum: opt_basePatchNum,
           edit: opt_isEdit,
           host: change.internalHost || undefined,
+          messageHash: opt_messageHash,
         });
       },
 

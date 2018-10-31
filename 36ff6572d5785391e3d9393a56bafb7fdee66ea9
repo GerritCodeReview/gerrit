@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1da0b53d_f5e8c527",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-31T22:52:28Z",
+      "side": 1,
+      "message": "Can this be a function, private to this scope?\ni.e. var createThreadElement \u003d function() {\n};",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fef854e_c6d2360c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-31T22:52:28Z",
+      "side": 1,
+      "message": "I wonder if this could become a part of gr-diff-comment-thread",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b50d5ad2_70cb0447",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-31T22:52:28Z",
+      "side": 1,
+      "message": "Should this also remove event listeners?\nAlternatively, consider using thread.listen() and thread.unlisten()",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28f531f6_c33836c1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-31T22:52:28Z",
+      "side": 1,
+      "message": "Nit: AFAIR Polymer.dom() converts NodeList to Array",
+      "range": {
+        "startLine": 87,
+        "startChar": 22,
+        "endLine": 87,
+        "endChar": 51
+      },
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

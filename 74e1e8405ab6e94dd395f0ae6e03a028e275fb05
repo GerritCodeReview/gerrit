@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3bab9e0_140f20c5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-31T15:51:59Z",
+      "side": 1,
+      "message": "Would be good to mention these are all 1-based as well. And this is an inclusive range on both ends?",
+      "revId": "74e1e8405ab6e94dd395f0ae6e03a028e275fb05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cd429c8_efc710f9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-31T15:51:59Z",
+      "side": 1,
+      "message": "Why not use the element variable that is in scope here?",
+      "revId": "74e1e8405ab6e94dd395f0ae6e03a028e275fb05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

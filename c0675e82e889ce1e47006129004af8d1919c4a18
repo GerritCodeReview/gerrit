@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "eca0b65f_09d5afa1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-31T22:31:11Z",
+      "side": 1,
+      "message": "I\u0027m not convinced this is better in the long run, but making it a bit more standard is only marginally better.\nUp to you.",
+      "parentUuid": "65db104a_399315ec",
+      "revId": "c0675e82e889ce1e47006129004af8d1919c4a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11cf08d7_d390d6eb",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 2

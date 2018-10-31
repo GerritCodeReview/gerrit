@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ba623251_de67ee74",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-31T16:07:56Z",
+      "side": 1,
+      "message": "Good point. It\u0027s the same as the API returns (https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-range), I mentioned it here again.",
+      "parentUuid": "b3bab9e0_140f20c5",
+      "revId": "74e1e8405ab6e94dd395f0ae6e03a028e275fb05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2cd429c8_efc710f9",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "74e1e8405ab6e94dd395f0ae6e03a028e275fb05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a127a455_c8c7f12c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-31T16:07:56Z",
+      "side": 1,
+      "message": "Mostly personal preference. That `element` is declared in line 206, roughly 500 lines away. Given how poor the cross referencing support for JS is in many places, I tend to like to keep stuff as self contained as possible in a test. But you are right that this a bit of a divergence from what this code is doing, so I fixed it.",
+      "parentUuid": "2cd429c8_efc710f9",
+      "revId": "74e1e8405ab6e94dd395f0ae6e03a028e275fb05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

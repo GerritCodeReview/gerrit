@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00735353_e976f2c0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-31T17:11:35Z",
+      "side": 1,
+      "message": "What about the existing logic that checks Gerrit.PatchSetBehavior.isMergeParent? After this change, is it still possible to create new comments on merge parents?\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/142770\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4760",
+      "revId": "6b0a905cf0a4e69091635fe3eee526edd5dca83d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

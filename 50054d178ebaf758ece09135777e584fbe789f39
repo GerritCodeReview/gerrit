@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a49d7df_793ad982",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-31T16:18:46Z",
+      "side": 1,
+      "message": "Missing whitespace around \u0027\u003c\u0027 (I wonder why eslint didn\u0027t complain).",
+      "range": {
+        "startLine": 493,
+        "startChar": 22,
+        "endLine": 493,
+        "endChar": 39
+      },
+      "revId": "50054d178ebaf758ece09135777e584fbe789f39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "191f0ed7_c9a37206",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-31T16:18:46Z",
+      "side": 1,
+      "message": "I believe these should use \u003cslot\u003e now.",
+      "revId": "50054d178ebaf758ece09135777e584fbe789f39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

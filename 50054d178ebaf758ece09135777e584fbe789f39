@@ -99,6 +99,24 @@
       "revId": "50054d178ebaf758ece09135777e584fbe789f39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4218425_9c07abea",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-31T17:08:23Z",
+      "side": 1,
+      "message": "Too long ago now. I could not repro the problem on this CL, so I changed it. I will watch out if I see it reappearing.",
+      "parentUuid": "cb18f289_bef25de1",
+      "revId": "50054d178ebaf758ece09135777e584fbe789f39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

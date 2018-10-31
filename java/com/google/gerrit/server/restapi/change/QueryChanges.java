@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -38,7 +39,7 @@ import java.util.EnumSet;
 import java.util.List;
 import org.kohsuke.args4j.Option;
 
-public class QueryChanges implements RestReadView<TopLevelResource> {
+public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOptions.BeanReceiver {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangeJson.Factory json;
@@ -79,6 +80,11 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
       usage = "Number of changes to skip")
   public void setStart(int start) {
     imp.setStart(start);
+  }
+
+  public void setDynamicBean(String plugin,
+      DynamicOptions.DynamicBean dynamicBean) {
+    imp.setDynamicBean(plugin, dynamicBean);
   }
 
   @Inject

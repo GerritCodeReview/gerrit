@@ -24,6 +24,7 @@ import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
@@ -178,6 +179,11 @@ public class OutputStreamQuery {
   public void setOutput(OutputStream out, OutputFormat fmt) {
     this.outputStream = out;
     this.outputFormat = fmt;
+  }
+
+  public void setDynamicBean(String plugin,
+      DynamicOptions.DynamicBean dynamicBean) {
+    queryProcessor.setDynamicBean(plugin, dynamicBean);
   }
 
   public void query(String queryString) throws IOException {

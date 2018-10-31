@@ -1024,7 +1024,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void queryChangesWithUnresolvedCommentCount() throws Exception {
+  public void queryChangesWithCommentCounts() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
 
     PushOneCommit.Result r1 = createChange();
@@ -1043,6 +1043,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
       // if we allow users to resolve a robot comment, then this test should
       // be modified.
       assertThat(result.unresolvedCommentCount).isEqualTo(0);
+      assertThat(result.totalCommentCount).isEqualTo(1);
     } finally {
       enableDb(ctx);
     }

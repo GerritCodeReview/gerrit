@@ -716,7 +716,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void queryChangesWithUnresolvedCommentCount() throws Exception {
+  public void queryChangesWithCommentCount() throws Exception {
     // PS1 has three comments in three different threads, PS2 has one comment in one thread.
     PushOneCommit.Result result = createChange("change 1", FILE_NAME, "content 1");
     String changeId1 = result.getChangeId();
@@ -751,8 +751,11 @@ public class CommentsIT extends AbstractDaemonTest {
       ChangeInfo changeInfo2 = Iterables.getOnlyElement(query(changeId2));
       ChangeInfo changeInfo3 = Iterables.getOnlyElement(query(changeId3));
       assertThat(changeInfo1.unresolvedCommentCount).isEqualTo(2);
+      assertThat(changeInfo1.totalCommentCount).isEqualTo(4);
       assertThat(changeInfo2.unresolvedCommentCount).isEqualTo(0);
+      assertThat(changeInfo2.totalCommentCount).isEqualTo(2);
       assertThat(changeInfo3.unresolvedCommentCount).isEqualTo(1);
+      assertThat(changeInfo3.totalCommentCount).isEqualTo(2);
     } finally {
       enableDb(ctx);
     }

@@ -2378,6 +2378,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     cd.reviewers();
     cd.unresolvedCommentCount();
 
+    if (getSchemaVersion() < 51) {
+      assertMissingField(ChangeField.TOTAL_COMMENT_COUNT);
+    } else {
+      cd.totalCommentCount();
+    }
+
     // TODO(dborowitz): Swap out GitRepositoryManager somehow? Will probably be
     // necessary for NoteDb anyway.
     cd.isMergeable();

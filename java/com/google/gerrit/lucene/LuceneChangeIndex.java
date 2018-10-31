@@ -76,6 +76,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.function.Consumer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexableField;
@@ -129,6 +130,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName();
   private static final String SUBMIT_RECORD_STRICT_FIELD =
       ChangeField.STORED_SUBMIT_RECORD_STRICT.getName();
+  private static final String TOTAL_COMMENT_COUNT_FIELD = ChangeField.TOTAL_COMMENT_COUNT.getName();
   private static final String UNRESOLVED_COMMENT_COUNT_FIELD =
       ChangeField.UNRESOLVED_COMMENT_COUNT.getName();
 
@@ -504,6 +506,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
 
     decodeUnresolvedCommentCount(doc, cd);
+    decodeTotalCommentCount(doc, cd);
     return cd;
   }
 
@@ -633,9 +636,18 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private void decodeUnresolvedCommentCount(
       ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    IndexableField f = Iterables.getFirst(doc.get(UNRESOLVED_COMMENT_COUNT_FIELD), null);
+    decodeIntField(doc, UNRESOLVED_COMMENT_COUNT_FIELD, cd::setUnresolvedCommentCount);
+  }
+
+  private void decodeTotalCommentCount(ListMultimap<String, IndexableField> doc, ChangeData cd) {
+    decodeIntField(doc, TOTAL_COMMENT_COUNT_FIELD, cd::setTotalCommentCount);
+  }
+
+  private static void decodeIntField(
+      ListMultimap<String, IndexableField> doc, String fieldName, Consumer<Integer> consumer) {
+    IndexableField f = Iterables.getFirst(doc.get(fieldName), null);
     if (f != null && f.numericValue() != null) {
-      cd.setUnresolvedCommentCount(f.numericValue().intValue());
+      consumer.accept(f.numericValue().intValue());
     }
   }
 

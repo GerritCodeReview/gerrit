@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c5453be_ef0cfabd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-31T16:59:09Z",
+      "side": 1,
+      "message": "I understand the critique but I think it\u0027s best to leave the editorial comments out of the commit message. (FWIW, neither the developer nor the reviewer of that code is on the team anymore, so I appreciate you finding these issues and making them better).",
+      "range": {
+        "startLine": 10,
+        "startChar": 59,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "aa2ae093e3aa6638faf94a61874ef5366f998ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

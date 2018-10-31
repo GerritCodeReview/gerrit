@@ -81,6 +81,24 @@
       "revId": "50054d178ebaf758ece09135777e584fbe789f39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb18f289_bef25de1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-31T16:53:21Z",
+      "side": 1,
+      "message": "Yes, \u003ccontent\u003e transitions to \u003cslot\u003e in Polymer 2, but it can also be used in Polymer 1 (which eases the transition). We\u0027re currently using \u003cslot\u003e exclusively.\n\nWhat did you try when you tried \u003cslot\u003e?",
+      "parentUuid": "81f70449_be78e3a1",
+      "revId": "50054d178ebaf758ece09135777e584fbe789f39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

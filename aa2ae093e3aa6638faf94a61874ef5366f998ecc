@@ -22,6 +22,30 @@
       "revId": "aa2ae093e3aa6638faf94a61874ef5366f998ecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c77ccb64_bab2e951",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-10-31T17:06:56Z",
+      "side": 1,
+      "message": "Sure - I guess I wanted to explain why I did not simplify this more. Removed.",
+      "parentUuid": "8c5453be_ef0cfabd",
+      "range": {
+        "startLine": 10,
+        "startChar": 59,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "aa2ae093e3aa6638faf94a61874ef5366f998ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

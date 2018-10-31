@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10515425_895dbf4b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-10-31T15:54:42Z",
+      "side": 1,
+      "message": "There should be an explicit import in gr-diff-host.html for this behavior:\n\n \u003clink rel\u003d\"import\" href\u003d\"../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html\"\u003e",
+      "revId": "7ad0b2a5558343b3a5a6ff5091cc2df0459baea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

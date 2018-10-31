@@ -46,6 +46,30 @@
       "revId": "ff10af39ace6d52edf9c922ed27465eee98d6988",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c86490a_d7d0ff4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-10-31T18:27:13Z",
+      "side": 1,
+      "message": "I think you\u0027ve adequately explained your use case and I believe you that caching will reduce latency to an acceptable level. (Although we might be unpleasantly surprised when this hits production.) But the fact remains that this is probably dangerous for some other plugin author to implement a naive predicate around. I would feel better if there were a warning comment in in the code so that someone considering using this StoredValue understands the tradeoffs.",
+      "parentUuid": "9befc400_8a809469",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "ff10af39ace6d52edf9c922ed27465eee98d6988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

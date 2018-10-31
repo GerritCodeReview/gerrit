@@ -210,7 +210,7 @@ limitations under the License.
         line: 1,
       }];
 
-      expectedThreadGroups = [
+      expectedThreads = [
         {
           start_datetime: '2015-12-24 15:00:10.396000000',
           commentSide: 'left',
@@ -237,30 +237,60 @@ limitations under the License.
             end_character: 2,
           },
           lineNum: 1,
+          isOnParent: false,
         },
       ];
 
       assert.deepEqual(
           builder._createThreads(comments),
-          expectedThreadGroups);
+          expectedThreads);
     });
 
-    test('multiple comments at same location but not threaded', () => {
-      const comments = [
-        {
-          id: 'sallys_confession',
-          message: 'i like you, jack',
-          updated: '2015-12-23 15:00:20.396000000',
-          __commentSide: 'left',
-        }, {
-          id: 'jacks_reply',
-          message: 'i like you, too',
-          updated: '2015-12-24 15:01:20.396000000',
-          __commentSide: 'left',
-        },
-      ];
-      assert.equal(builder._createThreads(comments).length, 2);
-    });
+    test('_createThreads does not thread unrelated comments at same location',
+        () => {
+          const comments = [
+            {
+              id: 'sallys_confession',
+              message: 'i like you, jack',
+              updated: '2015-12-23 15:00:20.396000000',
+              __commentSide: 'left',
+            }, {
+              id: 'jacks_reply',
+              message: 'i like you, too',
+              updated: '2015-12-24 15:01:20.396000000',
+              __commentSide: 'left',
+            },
+          ];
+          assert.equal(builder._createThreads(comments).length, 2);
+        });
+
+    test('_createThreads derives isOnParent using  side from first comment',
+        () => {
+          const comments = [
+            {
+              id: 'sallys_confession',
+              message: 'i like you, jack',
+              updated: '2015-12-23 15:00:20.396000000',
+              // line: 1,
+              // __commentSide: 'left',
+            }, {
+              id: 'jacks_reply',
+              message: 'i like you, too',
+              updated: '2015-12-24 15:01:20.396000000',
+              // __commentSide: 'left',
+              // line: 1,
+              in_reply_to: 'sallys_confession',
+            },
+          ];
+
+          assert.equal(builder._createThreads(comments)[0].isOnParent, false);
+
+          comments[0].side = 'REVISION';
+          assert.equal(builder._createThreads(comments)[0].isOnParent, false);
+
+          comments[0].side = 'PARENT';
+          assert.equal(builder._createThreads(comments)[0].isOnParent, true);
+        });
 
     test('_createElement classStr applies all classes', () => {
       const node = builder._createElement('div', 'test classes');
@@ -437,9 +467,9 @@ limitations under the License.
 
     test('comment thread group creation', () => {
       const l3 = {id: 'l3', line: 3, updated: '2016-08-09 00:42:32.000000000',
-        __commentSide: 'left'};
+        __commentSide: 'left', side: 'PARENT'};
       const l5 = {id: 'l5', line: 5, updated: '2016-08-09 00:42:32.000000000',
-        __commentSide: 'left', patch_set: '2'};
+        __commentSide: 'left', patch_set: '2', side: 'REVISION'};
       const r5 = {id: 'r5', line: 5, updated: '2016-08-09 00:42:32.000000000',
         __commentSide: 'right', patch_set: '3'};
 
@@ -458,14 +488,13 @@ limitations under the License.
             right: [r5],
           }, parentIndex, changeNum, path, projectName, prefs);
 
-      function checkThreadGroupProps(threadGroupEl, patchNum, isOnParent,
+      function checkThreadGroupProps(threadGroupEl, patchNum,
           comments) {
         const threadEls = Polymer.dom(threadGroupEl).queryDistributedElements(
             'gr-diff-comment-thread');
         assert.equal(threadEls.length, comments.length);
         for (let i=0; i < comments.length; i++) {
           const threadEl = threadEls[i];
-          assert.equal(threadEl.isOnParent, isOnParent);
 
           const comment = comments[i];
           assert.equal(threadEl.patchNum, comment.patch_set);
@@ -480,28 +509,28 @@ limitations under the License.
       line.beforeNumber = 5;
       line.afterNumber = 5;
       let threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5]);
+      checkThreadGroupProps(threadGroupEl, '3', [l5, r5]);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
-      checkThreadGroupProps(threadGroupEl, '3', false, [r5]);
+      checkThreadGroupProps(threadGroupEl, '3', [r5]);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
-      checkThreadGroupProps(threadGroupEl, '3', true, [l5]);
+      checkThreadGroupProps(threadGroupEl, '3', [l5]);
 
       builder._comments.meta.patchRange.basePatchNum = '1';
 
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5]);
+      checkThreadGroupProps(threadGroupEl, '3', [l5, r5]);
 
       threadEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
-      checkThreadGroupProps(threadEl, '1', false, [l5]);
+      checkThreadGroupProps(threadEl, '1', [l5]);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
-      checkThreadGroupProps(threadGroupEl, '3', false, [r5]);
+      checkThreadGroupProps(threadGroupEl, '3', [r5]);
 
       builder._comments.meta.patchRange.basePatchNum = 'PARENT';
 
@@ -509,13 +538,13 @@ limitations under the License.
       line.beforeNumber = 5;
       line.afterNumber = 5;
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', true, [l5, r5]);
+      checkThreadGroupProps(threadGroupEl, '3', [l5, r5]);
 
       line = new GrDiffLine(GrDiffLine.Type.ADD);
       line.beforeNumber = 3;
       line.afterNumber = 5;
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', false, [l3, r5]);
+      checkThreadGroupProps(threadGroupEl, '3', [l3, r5]);
     });
 
 

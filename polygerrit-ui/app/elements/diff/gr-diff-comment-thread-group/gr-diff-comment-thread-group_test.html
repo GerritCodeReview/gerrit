@@ -113,7 +113,7 @@ limitations under the License.
       ];
       for (const thread of threads) {
         Polymer.dom(element).appendChild(Gerrit.createThreadElement(
-            thread, false, 1, '2', 'some/path', 'some_project'));
+            thread, 1, '2', 'some/path', 'some_project'));
       }
 
       flushAsynchronousOperations();
@@ -134,7 +134,7 @@ limitations under the License.
       ];
       for (const thread of threads) {
         const threadEl = Gerrit.createThreadElement(
-            thread, false, 1, 2, 'some/path', 'Some Project');
+            thread, 1, 2, 'some/path', 'Some Project');
         Polymer.dom(element).appendChild(threadEl);
       }
 

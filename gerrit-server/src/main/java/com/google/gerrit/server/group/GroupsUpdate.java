@@ -157,6 +157,9 @@ public class GroupsUpdate {
       throws OrmException, IOException, NoSuchGroupException {
     AccountGroup updatedGroup = updateGroupInDb(db, groupUuid, groupConsumer);
     groupCache.evict(updatedGroup.getGroupUUID(), updatedGroup.getId(), updatedGroup.getNameKey());
+    if (!updatedGroup.getGroupUUID().equals(groupUuid)) {
+      groupCache.evict(groupUuid, null, null);
+    }
   }
 
   @VisibleForTesting
@@ -165,7 +168,24 @@ public class GroupsUpdate {
       throws OrmException, NoSuchGroupException {
     AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     groupConsumer.accept(group);
-    db.accountGroups().update(ImmutableList.of(group));
+    if (group.getGroupUUID().equals(groupUuid)) {
+      db.accountGroups().update(ImmutableList.of(group));
+    } else {
+      // The update changed the group's UUID, so we have to delete the
+      // original one and insert a new entry with the new UUID. We can't
+      // simply do an update because we'll end up with two groups with the
+      // same name but different UUIDs.
+      db.accountGroups().beginTransaction(group.getId());
+      try {
+        AccountGroup original = new AccountGroup(group);
+        original.setGroupUUID(groupUuid);
+        db.accountGroups().delete(ImmutableList.of(original));
+        db.accountGroups().insert(ImmutableList.of(group));
+        db.commit();
+      } finally {
+        db.rollback();
+      }
+    }
     return group;
   }
 

@@ -176,6 +176,15 @@ public final class AccountGroup {
     this.createdOn = createdOn;
   }
 
+  public AccountGroup(AccountGroup other) {
+    this.name = other.name;
+    this.groupId = other.groupId;
+    this.visibleToAll = other.visibleToAll;
+    this.groupUUID = other.groupUUID;
+    this.ownerGroupUUID = other.ownerGroupUUID;
+    this.createdOn = other.createdOn;
+  }
+
   public AccountGroup.Id getId() {
     return groupId;
   }

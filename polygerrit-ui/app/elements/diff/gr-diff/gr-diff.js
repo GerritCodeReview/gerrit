@@ -78,10 +78,6 @@
         type: Object,
         observer: '_prefsObserver',
       },
-      projectConfig: {
-        type: Object,
-        observer: '_projectConfigChanged',
-      },
       projectName: String,
       displayLine: {
         type: Boolean,
@@ -610,13 +606,6 @@
 
     clearDiffContent() {
       this.$.diffTable.innerHTML = null;
-    },
-
-    _projectConfigChanged(projectConfig) {
-      const threadEls = this.getThreadEls();
-      for (let i = 0; i < threadEls.length; i++) {
-        threadEls[i].projectConfig = projectConfig;
-      }
     },
 
     /** @return {!Array} */

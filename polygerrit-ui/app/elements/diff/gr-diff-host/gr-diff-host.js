@@ -84,9 +84,6 @@
       prefs: {
         type: Object,
       },
-      projectConfig: {
-        type: Object,
-      },
       projectName: String,
       displayLine: {
         type: Boolean,

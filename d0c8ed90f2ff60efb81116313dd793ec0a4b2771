@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f757e4b_ccb4c652",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-10-31T22:32:06Z",
+      "side": 1,
+      "message": "Here and in other places: anchor, to be in sync with https://gerrit-review.googlesource.com/c/gerrit/+/201012",
+      "range": {
+        "startLine": 72,
+        "startChar": 22,
+        "endLine": 72,
+        "endChar": 31
+      },
+      "revId": "d0c8ed90f2ff60efb81116313dd793ec0a4b2771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

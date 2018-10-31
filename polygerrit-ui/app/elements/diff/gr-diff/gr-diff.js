@@ -612,13 +612,6 @@
       this.$.diffTable.innerHTML = null;
     },
 
-    _projectConfigChanged(projectConfig) {
-      const threadEls = this.getThreadEls();
-      for (let i = 0; i < threadEls.length; i++) {
-        threadEls[i].projectConfig = projectConfig;
-      }
-    },
-
     /** @return {!Array} */
     _computeDiffHeaderItems(diffInfoRecord) {
       const diffInfo = diffInfoRecord.base;

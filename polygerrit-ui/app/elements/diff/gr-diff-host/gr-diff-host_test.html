@@ -618,12 +618,6 @@ limitations under the License.
       assert.equal(element.$.diff.prefs, value);
     });
 
-    test('passes in projectConfig', () => {
-      const value = {};
-      element.projectConfig = value;
-      assert.equal(element.$.diff.projectConfig, value);
-    });
-
     test('passes in changeNum', () => {
       const value = '12345';
       element.changeNum = value;

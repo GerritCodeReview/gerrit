@@ -105,6 +105,24 @@
       "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b7ee07c_882562c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2018-11-01T13:22:07Z",
+      "side": 1,
+      "message": "I looked into this some more and found:\n1) reflectToAttribute properties are indeed synced both ways, also from attribute to property.\n2) If a property starts with _, the corresponding attribute will also start with _.\n\nNew approach: I am actually reflecting the complex valued range to attribute. This uses JSON.serialize to convert it to a string, and it\u0027s easy enough to deserialize afterwards. This should alleviate the concerns about having two properties/attributes for the same value that can get out of sync, and is hopefully less confusing. Let me know what you think.",
+      "parentUuid": "af751b08_fc122f2a",
+      "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

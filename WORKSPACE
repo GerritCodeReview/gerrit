@@ -220,6 +220,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "j2objc",
+    artifact = "com.google.j2objc:j2objc-annotations:1.1",
+    sha1 = "ed28ded51a8b1c6b112568def5f4b455e6809019",
+)
+
+maven_jar(
     name = "velocity",
     artifact = "org.apache.velocity:velocity:1.7",
     sha1 = "2ceb567b8f3f21118ecdec129fe1271dbc09aa7a",

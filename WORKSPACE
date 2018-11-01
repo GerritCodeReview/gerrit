@@ -750,9 +750,9 @@ maven_jar(
 
 maven_jar(
     name = "derby",
-    artifact = "org.apache.derby:derby:10.11.1.1",
+    artifact = "org.apache.derby:derby:10.12.1.1",
     attach_source = False,
-    sha1 = "df4b50061e8e4c348ce243b921f53ee63ba9bbe1",
+    sha1 = "75070c744a8e52a7d17b8b476468580309d5cd09",
 )
 
 JETTY_VERS = "9.3.17.v20170317"

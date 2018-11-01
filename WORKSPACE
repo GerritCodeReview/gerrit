@@ -832,8 +832,8 @@ maven_jar(
 
 maven_jar(
     name = "postgresql",
-    artifact = "org.postgresql:postgresql:42.2.4",
-    sha1 = "dff98730c28a4b3a3263f0cf4abb9a3392f815a7",
+    artifact = "org.postgresql:postgresql:42.2.5",
+    sha1 = "951b7eda125f3137538a94e2cbdcf744088ad4c2",
 )
 
 maven_jar(

@@ -1446,5 +1446,28 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isTrue(handler.calledOnce);
     });
+
+    test('saveChangeStarred', async () => {
+      sandbox.stub(element, 'getFromProjectLookup')
+          .returns(Promise.resolve('test'));
+      const sendStub =
+          sandbox.stub(element, '_send').returns(Promise.resolve());
+
+      await element.saveChangeStarred(123, true);
+      assert.isTrue(sendStub.calledOnce);
+      assert.deepEqual(sendStub.lastCall.args[0], {
+        method: 'PUT',
+        url: '/accounts/self/starred.changes/test~123',
+        anonymizedUrl: '/accounts/self/starred.changes/*',
+      });
+
+      await element.saveChangeStarred(456, false);
+      assert.isTrue(sendStub.calledTwice);
+      assert.deepEqual(sendStub.lastCall.args[0], {
+        method: 'DELETE',
+        url: '/accounts/self/starred.changes/test~456',
+        anonymizedUrl: '/accounts/self/starred.changes/*',
+      });
+    });
   });
 </script>

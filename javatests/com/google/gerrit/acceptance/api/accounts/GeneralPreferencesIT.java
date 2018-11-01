@@ -30,7 +30,13 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
+import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.inject.Inject;
+import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.Before;
@@ -38,6 +44,8 @@ import org.junit.Test;
 
 @NoHttpd
 public class GeneralPreferencesIT extends AbstractDaemonTest {
+  @Inject private DynamicMap<DownloadScheme> downloadSchemes;
+
   private TestAccount user42;
 
   @Before
@@ -176,5 +184,67 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
     GeneralPreferencesInfo o = gApi.accounts().id(user42.getId().toString()).setPreferences(i);
     assertThat(o.my).containsExactly(new MenuItem("name", "url", "_blank", "id"));
+  }
+
+  @Test
+  public void rejectUnsupportedDownloadScheme() throws Exception {
+    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    i.downloadScheme = "foo";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("Unsupported download scheme: " + i.downloadScheme);
+    gApi.accounts().id(user42.getId().toString()).setPreferences(i);
+  }
+
+  @Test
+  public void setDownloadScheme() throws Exception {
+    String schemeName = "foo";
+    RegistrationHandle registrationHandle =
+        ((PrivateInternals_DynamicMapImpl<DownloadScheme>) downloadSchemes)
+            .put("myPlugin", schemeName, Providers.of(new TestDownloadScheme()));
+    try {
+      GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+      i.downloadScheme = schemeName;
+
+      GeneralPreferencesInfo o = gApi.accounts().id(user42.getId().toString()).setPreferences(i);
+      assertThat(o.downloadScheme).isEqualTo(schemeName);
+
+      o = gApi.accounts().id(user42.getId().toString()).getPreferences();
+      assertThat(o.downloadScheme).isEqualTo(schemeName);
+    } finally {
+      registrationHandle.remove();
+    }
+  }
+
+  @Test
+  public void unsupportedDownloadSchemeIsNotReturned() throws Exception {
+    // Set a download scheme and unregister the plugin that provides this download scheme so that it
+    // becomes unsupported.
+    setDownloadScheme();
+
+    GeneralPreferencesInfo o = gApi.accounts().id(user42.getId().toString()).getPreferences();
+    assertThat(o.downloadScheme).isNull();
+  }
+
+  private static class TestDownloadScheme extends DownloadScheme {
+    @Override
+    public String getUrl(String project) {
+      return "http://foo/" + project;
+    }
+
+    @Override
+    public boolean isAuthRequired() {
+      return false;
+    }
+
+    @Override
+    public boolean isAuthSupported() {
+      return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+      return true;
+    }
   }
 }

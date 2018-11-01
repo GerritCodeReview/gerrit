@@ -248,10 +248,16 @@ public class AccountManager {
       }
     }
 
-    if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
-        && !Strings.isNullOrEmpty(who.getDisplayName())
+    if (!Strings.isNullOrEmpty(who.getDisplayName())
         && !Objects.equals(user.getAccount().getFullName(), who.getDisplayName())) {
       accountUpdates.add(u -> u.setFullName(who.getDisplayName()));
+      if (realm.allowsEdit(AccountFieldName.FULL_NAME)) {
+        accountUpdates.add(a -> a.setFullName(who.getDisplayName()));
+      } else {
+        logger.atWarning().log(
+            "Not changing already set display name '%s' to '%s'",
+            user.getAccount().getFullName(), who.getDisplayName());
+      }
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)

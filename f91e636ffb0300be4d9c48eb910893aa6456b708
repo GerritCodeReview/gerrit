@@ -46,6 +46,30 @@
       "revId": "f91e636ffb0300be4d9c48eb910893aa6456b708",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5258c80_deb85112",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 2094,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-11-01T22:50:58Z",
+      "side": 1,
+      "message": "I think we should go one way or another, or else it\u0027ll end up in more confusion.",
+      "parentUuid": "97cb4dd8_f36b7c89",
+      "range": {
+        "startLine": 2094,
+        "startChar": 42,
+        "endLine": 2094,
+        "endChar": 49
+      },
+      "revId": "f91e636ffb0300be4d9c48eb910893aa6456b708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

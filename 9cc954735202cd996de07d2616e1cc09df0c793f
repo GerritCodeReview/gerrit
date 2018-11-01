@@ -87,6 +87,24 @@
       "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af751b08_fc122f2a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2018-11-01T10:16:17Z",
+      "side": 1,
+      "message": "Sorry, long response, but we have been going back and forth on this a bit, and I\u0027d rather explain my thinking in detail to make sure we understand each other.\n\nOkay, let me first describe in a typed language that could be TypeScript what I am trying to do, then we can discuss how to best achieve that.. I know that\u0027s not what we are using right now, but I think the medium term goal is to have code that could compile, and to some extend you already do compile using Fried Twinkie. \n\nBefore this CL, there is the Polymer equivalent of \n\nclass GrDiffCommentThread {\n  setRange(range: Range) { ... }\n  getRange(): Range { ... }\n}\n\nNow I need a way to read the range without knowing that it\u0027s a GrDiffCommentThread (to allow people using other classes). The way one would achieve this in Java is by creating an interface:\n\ninterface ICommentThread {\n  getRange(): Range;\n}\n\nAnd implement that \n\nclass GrDiffCommentThread implements ICommentThread  { ... }\n\nNow there are two complications: \n1) Custom properties on DOM nodes are discouraged, as far as I am aware of (https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes).\n2) Attributes cannot have complex values, such as Range.\n\nThe solution I have been going for is basically:\n\ninterface ICommentThread {\n  getRangeStartLine(): number;\n  getRangeEndLine(): number;\n  getRangeStartChar(): number;\n  getRangeStartEnd(): number;\n}\n\nNow I could of course refactor GrDiffCommentThread to use getters and setter for these individual number-values. This has two downsides:\n1) I need to update everything working with GrDiffCommentThreads - meaning it creates churn.\n2) I would argue that that API is actually worse, because when you have individual setters for the 4 numbers in a range, these setters can no longer enforce that they are either none or all set. I am pretty sure this can be compiler enforced (in can be in Angular, and I don\u0027t see why Fried Twinkie could not do that, too. You can give a property a type like /** @type {{startLine: number, endLine: number, ...}|undefined} */, and I would expect that to enforce that all or nothing property).\n\n \nThat\u0027s why I opt to have a class like this:\n\nclass GrDiffCommentThread implements ICommentThread {\n  setRange(range: Range) { ... }\n  getRange(): Range { ... }\n  getRangeStartLine(): number { ... }\n  getRangeEndLine(): number { ... }\n  getRangeStartChar(): number { ... }\n  getRangeStartEnd(): number { ... }\n}\n\nYes, the user now has two kinds of getters to get the same value. I would argue that is not a problem. They can use either, they do not have to know which one is the source of truth.\n\nNow, here is where the analogy breaks down slightly:\nOn a dom element, you can always set any attribute you want. So what\u0027s really happening is that our class looks like this:\n\nclass GrDiffCommentThread implements ICommentThread {\n  setRange(range: Range) { ... }\n  getRange(): Range { ... }\n  getRangeStartLine(): number { ... }\n  getRangeEndLine(): number { ... }\n  getRangeStartChar(): number { ... }\n  getRangeStartEnd(): number { ... }\n  setAttribute(name: string, value: any) { ... } // Uups.\n}\n\nSo you can actually set these attributes using that generic setter, and that will get your range and range-* property/attribute out of sync. \n\nNow how can we avoid that? What I can look into is:\n1) If you do use reflectToAttribute - does that also reflect attribute changes back to the property? The documentation does not mention that. If that is indeed not working both ways, then the problem of my solution also exists with reflect attribute, and I would argue we should not worry about that. Maybe just improve the documentation.\n2) Maybe it is possible to have private properties _rangeStartLine and reflect them to attributes resulting in \"read-only\" range-start-line attributes? I don\u0027t know.\n\nI hope my reasoning for the behavior I want became clear, and why I think the current solution fits that bill relatively well, at least better than having individual reflected properties. But I am happy to hear where you disagree and what improvements you would suggest concretely.",
+      "parentUuid": "118e31bc_3c01e996",
+      "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

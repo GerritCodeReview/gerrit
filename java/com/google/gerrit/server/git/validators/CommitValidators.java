@@ -98,6 +98,7 @@ public class CommitValidators {
     private final AccountValidator accountValidator;
     private final String installCommitMsgHookCommand;
     private final ProjectCache projectCache;
+    private final ProjectConfig.Factory projectConfigFactory;
 
     @Inject
     Factory(
@@ -110,7 +111,8 @@ public class CommitValidators {
         AllProjectsName allProjects,
         ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
         AccountValidator accountValidator,
-        ProjectCache projectCache) {
+        ProjectCache projectCache,
+        ProjectConfig.Factory projectConfigFactory) {
       this.gerritIdent = gerritIdent;
       this.urlFormatter = urlFormatter;
       this.pluginValidators = pluginValidators;
@@ -122,6 +124,7 @@ public class CommitValidators {
       this.installCommitMsgHookCommand =
           cfg != null ? cfg.getString("gerrit", null, "installCommitMsgHookCommand") : null;
       this.projectCache = projectCache;
+      this.projectConfigFactory = projectConfigFactory;
     }
 
     public CommitValidators forReceiveCommits(
@@ -145,7 +148,7 @@ public class CommitValidators {
               new SignedOffByValidator(user, perm, projectState),
               new ChangeIdValidator(
                   projectState, user, urlFormatter, installCommitMsgHookCommand, sshInfo, change),
-              new ConfigValidator(branch, user, rw, allUsers, allProjects),
+              new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects),
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
@@ -172,7 +175,7 @@ public class CommitValidators {
               new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.getParentKey())),
               new ChangeIdValidator(
                   projectState, user, urlFormatter, installCommitMsgHookCommand, sshInfo, change),
-              new ConfigValidator(branch, user, rw, allUsers, allProjects),
+              new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
               new AccountCommitValidator(repoManager, allUsers, accountValidator),
@@ -379,6 +382,7 @@ public class CommitValidators {
 
   /** If this is the special project configuration branch, validate the config. */
   public static class ConfigValidator implements CommitValidationListener {
+    private final ProjectConfig.Factory projectConfigFactory;
     private final Branch.NameKey branch;
     private final IdentifiedUser user;
     private final RevWalk rw;
@@ -386,11 +390,13 @@ public class CommitValidators {
     private final AllProjectsName allProjects;
 
     public ConfigValidator(
+        ProjectConfig.Factory projectConfigFactory,
         Branch.NameKey branch,
         IdentifiedUser user,
         RevWalk rw,
         AllUsersName allUsers,
         AllProjectsName allProjects) {
+      this.projectConfigFactory = projectConfigFactory;
       this.branch = branch;
       this.user = user;
       this.rw = rw;
@@ -405,7 +411,7 @@ public class CommitValidators {
         List<CommitValidationMessage> messages = new ArrayList<>();
 
         try {
-          ProjectConfig cfg = new ProjectConfig(receiveEvent.project.getNameKey());
+          ProjectConfig cfg = projectConfigFactory.create(receiveEvent.project.getNameKey());
           cfg.load(rw, receiveEvent.command.getNewId());
           if (!cfg.getValidationErrors().isEmpty()) {
             addError("Invalid project configuration:", messages);

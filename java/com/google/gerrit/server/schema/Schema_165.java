@@ -48,6 +48,7 @@ public class Schema_165 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final SystemGroupBackend systemGroupBackend;
+  private final ProjectConfig.Factory projectConfigFactory;
   private final PersonIdent serverUser;
 
   @Inject
@@ -56,11 +57,13 @@ public class Schema_165 extends SchemaVersion {
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       SystemGroupBackend systemGroupBackend,
+      ProjectConfig.Factory projectConfigFactory,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.systemGroupBackend = systemGroupBackend;
+    this.projectConfigFactory = projectConfigFactory;
     this.serverUser = serverUser;
   }
 
@@ -68,7 +71,7 @@ public class Schema_165 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     try (Repository git = repoManager.openRepository(allUsersName);
         MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git)) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       Optional<Permission> permission = findDefaultPermission(config);
       if (!permission.isPresent()) {
         // the default permission was not found, hence it cannot be fixed

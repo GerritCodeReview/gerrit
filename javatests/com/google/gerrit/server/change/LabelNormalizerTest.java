@@ -74,6 +74,7 @@ public class LabelNormalizerTest {
   @Inject private SchemaCreator schemaCreator;
   @Inject protected ThreadLocalRequestContext requestContext;
   @Inject private ChangeNotes.Factory changeNotesFactory;
+  @Inject private ProjectConfig.Factory projectConfigFactory;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
@@ -198,7 +199,7 @@ public class LabelNormalizerTest {
 
   private ProjectConfig loadAllProjects() throws Exception {
     try (Repository repo = repoManager.openRepository(allProjects)) {
-      ProjectConfig pc = new ProjectConfig(allProjects);
+      ProjectConfig pc = projectConfigFactory.create(allProjects);
       pc.load(repo);
       return pc;
     }

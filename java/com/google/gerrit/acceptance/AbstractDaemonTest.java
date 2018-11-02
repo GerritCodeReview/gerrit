@@ -253,6 +253,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected PatchSetUtil psUtil;
   @Inject protected ProjectCache projectCache;
+  @Inject protected ProjectConfig.Factory projectConfigFactory;
   @Inject protected ProjectResetter.Builder.Factory projectResetter;
   @Inject protected Provider<InternalChangeQuery> queryProvider;
   @Inject protected PushOneCommit.Factory pushFactory;
@@ -1000,7 +1001,7 @@ public abstract class AbstractDaemonTest {
 
   protected void setUseContributorAgreements(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       config.getProject().setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, value);
       config.commit(md);
       projectCache.evict(config.getProject());
@@ -1009,7 +1010,7 @@ public abstract class AbstractDaemonTest {
 
   protected void setUseSignedOffBy(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       config.getProject().setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, value);
       config.commit(md);
       projectCache.evict(config.getProject());
@@ -1018,7 +1019,7 @@ public abstract class AbstractDaemonTest {
 
   protected void setRequireChangeId(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       config.getProject().setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, value);
       config.commit(md);
       projectCache.evict(config.getProject());
@@ -1080,7 +1081,7 @@ public abstract class AbstractDaemonTest {
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       md.setMessage(String.format("Grant %s on %s", permission, ref));
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       AccessSection s = config.getAccessSection(ref, true);
       Permission p = s.getPermission(permission, true);
       PermissionRule rule = Util.newRule(config, groupUUID);
@@ -1104,7 +1105,7 @@ public abstract class AbstractDaemonTest {
     String permission = Permission.LABEL + label;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       md.setMessage(String.format("Grant %s on %s", permission, ref));
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       AccessSection s = config.getAccessSection(ref, true);
       Permission p = s.getPermission(permission, true);
       p.setExclusiveGroup(exclusive);
@@ -1122,7 +1123,7 @@ public abstract class AbstractDaemonTest {
       throws IOException, ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       md.setMessage(String.format("Remove %s on %s", permission, ref));
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       AccessSection s = config.getAccessSection(ref, true);
       Permission p = s.getPermission(permission, true);
       p.clearRules();
@@ -1672,7 +1673,7 @@ public abstract class AbstractDaemonTest {
 
     private ProjectConfigUpdate(Project.NameKey projectName) throws Exception {
       metaDataUpdate = metaDataUpdateFactory.create(projectName);
-      projectConfig = ProjectConfig.read(metaDataUpdate);
+      projectConfig = projectConfigFactory.read(metaDataUpdate);
     }
 
     public ProjectConfig getConfig() {

@@ -88,6 +88,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   ReviewProjectAccess(
       PermissionBackend permissionBackend,
       GroupBackend groupBackend,
+      ProjectConfig.Factory projectConfigFactory,
       MetaDataUpdate.User metaDataUpdateFactory,
       ReviewDb db,
       Provider<PostReviewers> reviewersProvider,
@@ -108,6 +109,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       @Nullable @Assisted String message) {
     super(
         groupBackend,
+        projectConfigFactory,
         metaDataUpdateFactory,
         allProjects,
         setParent,

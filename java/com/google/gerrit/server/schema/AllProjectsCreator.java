@@ -73,6 +73,7 @@ public class AllProjectsCreator {
   private final AllProjectsName allProjectsName;
   private final PersonIdent serverUser;
   private final NotesMigration notesMigration;
+  private final ProjectConfig.Factory projectConfigFactory;
   private final GroupReference anonymous;
   private final GroupReference registered;
   private final GroupReference owners;
@@ -90,11 +91,13 @@ public class AllProjectsCreator {
       AllProjectsName allProjectsName,
       @GerritPersonIdent PersonIdent serverUser,
       NotesMigration notesMigration,
-      SystemGroupBackend systemGroupBackend) {
+      SystemGroupBackend systemGroupBackend,
+      ProjectConfig.Factory projectConfigFactory) {
     this.repositoryManager = repositoryManager;
     this.allProjectsName = allProjectsName;
     this.serverUser = serverUser;
     this.notesMigration = notesMigration;
+    this.projectConfigFactory = projectConfigFactory;
 
     this.anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS);
     this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
@@ -170,7 +173,7 @@ public class AllProjectsCreator {
               Strings.emptyToNull(message),
               "Initialized Gerrit Code Review " + Version.getVersion()));
 
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       Project p = config.getProject();
       p.setDescription("Access inherited by all other projects.");
       p.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.TRUE);

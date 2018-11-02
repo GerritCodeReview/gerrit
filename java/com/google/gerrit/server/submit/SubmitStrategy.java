@@ -46,6 +46,7 @@ import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.MergeOp.CommitStatus;
@@ -115,6 +116,7 @@ public abstract class SubmitStrategy {
     final OnSubmitValidators.Factory onSubmitValidatorsFactory;
     final TagCache tagCache;
     final Provider<InternalChangeQuery> queryProvider;
+    final ProjectConfig.Factory projectConfigFactory;
 
     final Branch.NameKey destBranch;
     final CodeReviewRevWalk rw;
@@ -154,6 +156,7 @@ public abstract class SubmitStrategy {
         OnSubmitValidators.Factory onSubmitValidatorsFactory,
         TagCache tagCache,
         Provider<InternalChangeQuery> queryProvider,
+        ProjectConfig.Factory projectConfigFactory,
         @Assisted Branch.NameKey destBranch,
         @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
@@ -176,6 +179,7 @@ public abstract class SubmitStrategy {
       this.repoManager = repoManager;
       this.cmUtil = cmUtil;
       this.labelNormalizer = labelNormalizer;
+      this.projectConfigFactory = projectConfigFactory;
       this.patchSetInfoFactory = patchSetInfoFactory;
       this.psUtil = psUtil;
       this.projectCache = projectCache;

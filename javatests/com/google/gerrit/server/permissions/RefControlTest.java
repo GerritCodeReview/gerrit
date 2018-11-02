@@ -206,6 +206,7 @@ public class RefControlTest {
   @Inject private DefaultRefFilter.Factory refFilterFactory;
   @Inject private TransferConfig transferConfig;
   @Inject private MetricMaker metricMaker;
+  @Inject private ProjectConfig.Factory projectConfigFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -274,7 +275,8 @@ public class RefControlTest {
 
     try {
       Repository repo = repoManager.createRepository(allProjectsName);
-      ProjectConfig allProjects = new ProjectConfig(new Project.NameKey(allProjectsName.get()));
+      ProjectConfig allProjects =
+          projectConfigFactory.create(new Project.NameKey(allProjectsName.get()));
       allProjects.load(repo);
       LabelType cr = Util.codeReview();
       allProjects.getLabelSections().put(cr.getName(), cr);
@@ -295,11 +297,11 @@ public class RefControlTest {
         CacheBuilder.newBuilder().build();
     sectionSorter = new PermissionCollection.Factory(new SectionSortCache(c), metricMaker);
 
-    parent = new ProjectConfig(parentKey);
+    parent = projectConfigFactory.create(parentKey);
     parent.load(newRepository(parentKey));
     add(parent);
 
-    local = new ProjectConfig(localKey);
+    local = projectConfigFactory.create(localKey);
     local.load(newRepository(localKey));
     add(local);
     local.getProject().setParentName(parentKey);
@@ -455,7 +457,7 @@ public class RefControlTest {
     allow(local, READ, DEVS, "refs/heads/*");
     assertCanAccess(user(local, "a", ADMIN));
 
-    local = new ProjectConfig(localKey);
+    local = projectConfigFactory.create(localKey);
     local.load(newRepository(localKey));
     local.getProject().setParentName(parentKey);
     allow(local, READ, DEVS, "refs/*");

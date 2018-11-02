@@ -56,6 +56,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   private final Provider<IdentifiedUser> identifiedUser;
   private final SetAccessUtil accessUtil;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
+  private final ProjectConfig.Factory projectConfigFactory;
 
   @Inject
   private SetAccess(
@@ -66,7 +67,8 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       GetAccess getAccess,
       Provider<IdentifiedUser> identifiedUser,
       SetAccessUtil accessUtil,
-      CreateGroupPermissionSyncer createGroupPermissionSyncer) {
+      CreateGroupPermissionSyncer createGroupPermissionSyncer,
+      ProjectConfig.Factory projectConfigFactory) {
     this.groupBackend = groupBackend;
     this.permissionBackend = permissionBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -75,6 +77,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     this.identifiedUser = identifiedUser;
     this.accessUtil = accessUtil;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
+    this.projectConfigFactory = projectConfigFactory;
   }
 
   @Override
@@ -89,7 +92,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     List<AccessSection> removals = accessUtil.getAccessSections(input.remove);
     List<AccessSection> additions = accessUtil.getAccessSections(input.add);
     try (MetaDataUpdate md = metaDataUpdateUser.create(rsrc.getNameKey())) {
-      config = ProjectConfig.read(md);
+      config = projectConfigFactory.read(md);
 
       // Check that the user has the right permissions.
       boolean checkedAdmin = false;

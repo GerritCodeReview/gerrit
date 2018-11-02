@@ -42,15 +42,18 @@ import org.eclipse.jgit.transport.RefSpec;
 public class Schema_120 extends SchemaVersion {
 
   private final GitRepositoryManager mgr;
+  private final ProjectConfig.Factory projectConfigFactory;
   private final PersonIdent serverUser;
 
   @Inject
   Schema_120(
       Provider<Schema_119> prior,
       GitRepositoryManager mgr,
+      ProjectConfig.Factory projectConfigFactory,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
     this.mgr = mgr;
+    this.projectConfigFactory = projectConfigFactory;
     this.serverUser = serverUser;
   }
 
@@ -64,7 +67,7 @@ public class Schema_120 extends SchemaVersion {
         md.getCommitBuilder().setAuthor(serverUser);
         md.getCommitBuilder().setCommitter(serverUser);
         md.setMessage("Added superproject subscription during upgrade");
-        ProjectConfig pc = ProjectConfig.read(md);
+        ProjectConfig pc = projectConfigFactory.read(md);
 
         SubscribeSection s = null;
         for (SubscribeSection s1 : pc.getSubscribeSections(subbranch)) {

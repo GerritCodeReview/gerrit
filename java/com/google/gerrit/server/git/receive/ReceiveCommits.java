@@ -321,6 +321,7 @@ class ReceiveCommits {
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
+  private final ProjectConfig.Factory projectConfigFactory;
 
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
@@ -365,6 +366,7 @@ class ReceiveCommits {
       AccountResolver accountResolver,
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
+      ProjectConfig.Factory projectConfigFactory,
       @GerritServerConfig Config cfg,
       ChangeEditUtil editUtil,
       ChangeIndexer indexer,
@@ -437,6 +439,7 @@ class ReceiveCommits {
     this.seq = seq;
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
+    this.projectConfigFactory = projectConfigFactory;
 
     // Assisted injected fields.
     this.allRefsWatcher = allRefsWatcher;
@@ -1055,7 +1058,7 @@ class ReceiveCommits {
       case UPDATE:
       case UPDATE_NONFASTFORWARD:
         try {
-          ProjectConfig cfg = new ProjectConfig(project.getNameKey());
+          ProjectConfig cfg = projectConfigFactory.create(project.getNameKey());
           cfg.load(project.getNameKey(), receivePack.getRevWalk(), cmd.getNewId());
           if (!cfg.getValidationErrors().isEmpty()) {
             addError("Invalid project configuration:");

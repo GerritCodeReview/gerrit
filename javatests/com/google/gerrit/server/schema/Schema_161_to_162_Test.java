@@ -47,6 +47,7 @@ public class Schema_161_to_162_Test {
   @Inject private GitRepositoryManager repoManager;
   @Inject private Schema_162 schema162;
   @Inject private ReviewDb db;
+  @Inject private ProjectConfig.Factory projectConfigFactory;
   @Inject @GerritPersonIdent private PersonIdent serverUser;
 
   @Test
@@ -73,7 +74,7 @@ public class Schema_161_to_162_Test {
 
     try (Repository git = repoManager.openRepository(allUsersName);
         MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git)) {
-      ProjectConfig cfg = ProjectConfig.read(md);
+      ProjectConfig cfg = projectConfigFactory.read(md);
       cfg.getProject().setParentName(testProject);
       md.getCommitBuilder().setCommitter(serverUser);
       md.getCommitBuilder().setAuthor(serverUser);

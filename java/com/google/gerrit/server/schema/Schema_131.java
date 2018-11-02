@@ -38,15 +38,18 @@ public class Schema_131 extends SchemaVersion {
       "Rename 'Push Annotated/Signed Tag' permission to 'Create Annotated/Signed Tag'";
 
   private final GitRepositoryManager repoManager;
+  private final ProjectConfig.Factory projectConfigFactory;
   private final PersonIdent serverUser;
 
   @Inject
   Schema_131(
       Provider<Schema_130> prior,
       GitRepositoryManager repoManager,
+      ProjectConfig.Factory projectConfigFactory,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
     this.repoManager = repoManager;
+    this.projectConfigFactory = projectConfigFactory;
     this.serverUser = serverUser;
   }
 
@@ -58,7 +61,7 @@ public class Schema_131 extends SchemaVersion {
     for (Project.NameKey projectName : repoList) {
       try (Repository git = repoManager.openRepository(projectName);
           MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, git)) {
-        ProjectConfig config = ProjectConfig.read(md);
+        ProjectConfig config = projectConfigFactory.read(md);
         if (config.hasLegacyPermissions()) {
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);

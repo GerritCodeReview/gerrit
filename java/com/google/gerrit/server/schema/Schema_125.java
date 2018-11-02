@@ -57,6 +57,7 @@ public class Schema_125 extends SchemaVersion {
   private final AllUsersName allUsersName;
   private final AllProjectsName allProjectsName;
   private final SystemGroupBackend systemGroupBackend;
+  private final ProjectConfig.Factory projectConfigFactory;
   private final PersonIdent serverUser;
 
   @Inject
@@ -66,12 +67,14 @@ public class Schema_125 extends SchemaVersion {
       AllUsersName allUsersName,
       AllProjectsName allProjectsName,
       SystemGroupBackend systemGroupBackend,
+      ProjectConfig.Factory projectConfigFactory,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.allProjectsName = allProjectsName;
     this.systemGroupBackend = systemGroupBackend;
+    this.projectConfigFactory = projectConfigFactory;
     this.serverUser = serverUser;
   }
 
@@ -79,7 +82,7 @@ public class Schema_125 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     try (Repository git = repoManager.openRepository(allUsersName);
         MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git)) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
 
       config
           .getAccessSection(RefNames.REFS_USERS + "*", true)
@@ -114,7 +117,7 @@ public class Schema_125 extends SchemaVersion {
     while (parent != null) {
       try (Repository git = repoManager.openRepository(parent);
           MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, parent, git)) {
-        ProjectConfig parentConfig = ProjectConfig.read(md);
+        ProjectConfig parentConfig = projectConfigFactory.read(md);
         for (LabelType lt : parentConfig.getLabelSections().values()) {
           if (!labelTypes.containsKey(lt.getName())) {
             labelTypes.put(lt.getName(), lt);

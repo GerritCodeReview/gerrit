@@ -145,7 +145,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     if (RefNames.REFS_CONFIG.equals(refName)) {
       logger.atFine().log("Loading new configuration from %s", RefNames.REFS_CONFIG);
       try {
-        ProjectConfig cfg = new ProjectConfig(getProject());
+        ProjectConfig cfg = args.projectConfigFactory.create(getProject());
         cfg.load(ctx.getRevWalk(), commit);
       } catch (Exception e) {
         throw new IntegrationException(

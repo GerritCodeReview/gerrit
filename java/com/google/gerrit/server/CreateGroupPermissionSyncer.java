@@ -57,17 +57,20 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
   private final AllUsersName allUsers;
   private final ProjectCache projectCache;
   private final Provider<MetaDataUpdate.Server> metaDataUpdateFactory;
+  private final ProjectConfig.Factory projectConfigFactory;
 
   @Inject
   CreateGroupPermissionSyncer(
       AllProjectsName allProjects,
       AllUsersName allUsers,
       ProjectCache projectCache,
-      Provider<MetaDataUpdate.Server> metaDataUpdateFactory) {
+      Provider<MetaDataUpdate.Server> metaDataUpdateFactory,
+      ProjectConfig.Factory projectConfigFactory) {
     this.allProjects = allProjects;
     this.allUsers = allUsers;
     this.projectCache = projectCache;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.projectConfigFactory = projectConfigFactory;
   }
 
   /**
@@ -102,7 +105,7 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
     }
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsers)) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       AccessSection createGroupAccessSection =
           config.getAccessSection(RefNames.REFS_GROUPS + "*", true);
       if (createGroupsGlobal.isEmpty()) {

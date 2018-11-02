@@ -34,6 +34,7 @@ public class Schema_162 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
+  private final ProjectConfig.Factory projectConfigFactory;
   private final PersonIdent serverUser;
 
   @Inject
@@ -42,11 +43,13 @@ public class Schema_162 extends SchemaVersion {
       GitRepositoryManager repoManager,
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
+      ProjectConfig.Factory projectConfigFactory,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
     this.repoManager = repoManager;
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
+    this.projectConfigFactory = projectConfigFactory;
     this.serverUser = serverUser;
   }
 
@@ -54,7 +57,7 @@ public class Schema_162 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     try (Repository git = repoManager.openRepository(allUsersName);
         MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git)) {
-      ProjectConfig cfg = ProjectConfig.read(md);
+      ProjectConfig cfg = projectConfigFactory.read(md);
       if (allProjectsName.equals(cfg.getProject().getParent(allProjectsName))) {
         return;
       }

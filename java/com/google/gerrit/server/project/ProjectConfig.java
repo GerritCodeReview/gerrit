@@ -59,6 +59,7 @@ import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -167,6 +168,29 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final Pattern EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN = Pattern.compile("[, \t]{1,}");
 
+  // Don't use an assisted factory, since instances created by an assisted factory retain references
+  // to their enclosing injector. Instances of ProjectConfig are cached for a long time in the
+  // ProjectCache, so this would retain lots more memory.
+  @Singleton
+  public static class Factory {
+    public ProjectConfig create(Project.NameKey projectName) {
+      return new ProjectConfig(projectName);
+    }
+
+    public ProjectConfig read(MetaDataUpdate update) throws IOException, ConfigInvalidException {
+      ProjectConfig r = create(update.getProjectName());
+      r.load(update);
+      return r;
+    }
+
+    public ProjectConfig read(MetaDataUpdate update, ObjectId id)
+        throws IOException, ConfigInvalidException {
+      ProjectConfig r = create(update.getProjectName());
+      r.load(update, id);
+      return r;
+    }
+  }
+
   private Project project;
   private AccountsSection accountsSection;
   private GroupList groupList;
@@ -187,20 +211,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean hasLegacyPermissions;
   private Map<String, List<String>> extensionPanelSections;
   private Map<String, GroupReference> groupsByName;
-
-  public static ProjectConfig read(MetaDataUpdate update)
-      throws IOException, ConfigInvalidException {
-    ProjectConfig r = new ProjectConfig(update.getProjectName());
-    r.load(update);
-    return r;
-  }
-
-  public static ProjectConfig read(MetaDataUpdate update, ObjectId id)
-      throws IOException, ConfigInvalidException {
-    ProjectConfig r = new ProjectConfig(update.getProjectName());
-    r.load(update, id);
-    return r;
-  }
 
   public static CommentLinkInfoImpl buildCommentLink(Config cfg, String name, boolean allowRaw)
       throws IllegalArgumentException {
@@ -243,7 +253,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     commentLinkSections.add(commentLink);
   }
 
-  public ProjectConfig(Project.NameKey projectName) {
+  private ProjectConfig(Project.NameKey projectName) {
     this.projectName = projectName;
   }
 

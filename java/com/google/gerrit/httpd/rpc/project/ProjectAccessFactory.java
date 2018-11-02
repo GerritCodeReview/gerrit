@@ -71,6 +71,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   private final GroupControl.Factory groupControlFactory;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final AllProjectsName allProjectsName;
+  private final ProjectConfig.Factory projectConfigFactory;
 
   private final Project.NameKey projectName;
   private WebLinks webLinks;
@@ -83,6 +84,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       GroupControl.Factory groupControlFactory,
       MetaDataUpdate.Server metaDataUpdateFactory,
       AllProjectsName allProjectsName,
+      ProjectConfig.Factory projectConfigFactory,
       WebLinks webLinks,
       @Assisted final Project.NameKey name) {
     this.groupBackend = groupBackend;
@@ -91,6 +93,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     this.groupControlFactory = groupControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allProjectsName = allProjectsName;
+    this.projectConfigFactory = projectConfigFactory;
     this.webLinks = webLinks;
 
     this.projectName = name;
@@ -108,7 +111,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     //
     ProjectConfig config;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
-      config = ProjectConfig.read(md);
+      config = projectConfigFactory.read(md);
       if (config.updateGroupNames(groupBackend)) {
         md.setMessage("Update group names\n");
         config.commit(md);

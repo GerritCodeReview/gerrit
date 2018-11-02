@@ -42,6 +42,7 @@ public class Schema_128 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
   private final SystemGroupBackend systemGroupBackend;
+  private final ProjectConfig.Factory projectConfigFactory;
   private final PersonIdent serverUser;
 
   @Inject
@@ -50,11 +51,13 @@ public class Schema_128 extends SchemaVersion {
       GitRepositoryManager repoManager,
       AllProjectsName allProjectsName,
       SystemGroupBackend systemGroupBackend,
+      ProjectConfig.Factory projectConfigFactory,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
     this.repoManager = repoManager;
     this.allProjectsName = allProjectsName;
     this.systemGroupBackend = systemGroupBackend;
+    this.projectConfigFactory = projectConfigFactory;
     this.serverUser = serverUser;
   }
 
@@ -63,7 +66,7 @@ public class Schema_128 extends SchemaVersion {
     try (Repository git = repoManager.openRepository(allProjectsName);
         MetaDataUpdate md =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git)) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
 
       GroupReference registered = systemGroupBackend.getGroup(REGISTERED_USERS);
       AccessSection refsFor = config.getAccessSection("refs/for/*", true);

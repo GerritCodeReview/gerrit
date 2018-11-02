@@ -47,6 +47,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
   private final DashboardsCollection dashboards;
   private final Provider<GetDashboard> get;
   private final PermissionBackend permissionBackend;
+  private final ProjectConfig.Factory projectConfigFactory;
 
   @Option(name = "--inherited", usage = "set dashboard inherited by children")
   boolean inherited;
@@ -57,12 +58,14 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       MetaDataUpdate.Server updateFactory,
       DashboardsCollection dashboards,
       Provider<GetDashboard> get,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectConfig.Factory projectConfigFactory) {
     this.cache = cache;
     this.updateFactory = updateFactory;
     this.dashboards = dashboards;
     this.get = get;
     this.permissionBackend = permissionBackend;
+    this.projectConfigFactory = projectConfigFactory;
   }
 
   @Override
@@ -93,7 +96,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
     }
 
     try (MetaDataUpdate md = updateFactory.create(rsrc.getProjectState().getNameKey())) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       Project project = config.getProject();
       if (inherited) {
         project.setDefaultDashboard(input.id);

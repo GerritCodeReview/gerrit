@@ -302,12 +302,16 @@ public class ProjectConfigEntry {
 
     private final GitRepositoryManager repoManager;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+    private final ProjectConfig.Factory projectConfigFactory;
 
     @Inject
     UpdateChecker(
-        GitRepositoryManager repoManager, DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
+        GitRepositoryManager repoManager,
+        DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+        ProjectConfig.Factory projectConfigFactory) {
       this.repoManager = repoManager;
       this.pluginConfigEntries = pluginConfigEntries;
+      this.projectConfigFactory = projectConfigFactory;
     }
 
     @Override
@@ -361,7 +365,7 @@ public class ProjectConfigEntry {
         return null;
       }
       try (Repository repo = repoManager.openRepository(p)) {
-        ProjectConfig pc = new ProjectConfig(p);
+        ProjectConfig pc = projectConfigFactory.create(p);
         pc.load(repo, id);
         return pc;
       }

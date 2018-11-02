@@ -659,6 +659,20 @@ maven_jar(
     sha1 = "2f8757f5ac5e38f46c794e5229d1f3c522e9b1df",
 )
 
+# elasticsearch-rest-client explicitly depends on this version
+maven_jar(
+    name = "httpasyncclient",
+    artifact = "org.apache.httpcomponents:httpasyncclient:4.1.2",
+    sha1 = "95aa3e6fb520191a0970a73cf09f62948ee614be",
+)
+
+# elasticsearch-rest-client explicitly depends on this version
+maven_jar(
+    name = "httpcore-nio",
+    artifact = "org.apache.httpcomponents:httpcore-nio:4.4.5",
+    sha1 = "f4be009e7505f6ceddf21e7960c759f413f15056",
+)
+
 # Test-only dependencies below.
 
 maven_jar(
@@ -880,6 +894,8 @@ maven_jar(
     sha1 = "76716d529710fc03d1d429b43e3cedd4419f78d4",
 )
 
+# When upgrading elasticsearch-rest-client, also upgrade http-niocore
+# and httpasyncclient as necessary.
 maven_jar(
     name = "elasticsearch-rest-client",
     artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.4.2",
@@ -892,18 +908,6 @@ maven_jar(
     name = "jackson-core",
     artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
     sha1 = "4b7f0e0dc527fab032e9800ed231080fdc3ac015",
-)
-
-maven_jar(
-    name = "httpasyncclient",
-    artifact = "org.apache.httpcomponents:httpasyncclient:4.1.2",
-    sha1 = "95aa3e6fb520191a0970a73cf09f62948ee614be",
-)
-
-maven_jar(
-    name = "httpcore-nio",
-    artifact = "org.apache.httpcomponents:httpcore-nio:" + HTTPCOMP_VERS,
-    sha1 = "a8c5e3c3bfea5ce23fb647c335897e415eb442e3",
 )
 
 maven_jar(

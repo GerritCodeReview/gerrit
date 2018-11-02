@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eddfe6d8_92e65834",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-11-02T17:44:14Z",
+      "side": 1,
+      "message": "Line \u003e 80 ch, would it be possible to make it multi-line?",
+      "revId": "ba651a6baa765bcada6fdfdc894d77c82df8134d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -123,6 +123,24 @@
       "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f55245e_b8e9dd51",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-11-02T17:44:14Z",
+      "side": 1,
+      "message": "Yes, this looks much cleaner now, thanks!",
+      "parentUuid": "1b7ee07c_882562c6",
+      "revId": "9cc954735202cd996de07d2616e1cc09df0c793f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

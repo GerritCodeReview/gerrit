@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "ff859922_0bf54edd",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-11-02T11:10:45Z",
+      "side": 1,
+      "message": "Having two sets makes for a more complicated implementation of the add method and GerritServerConfigReloader#reloadConfig would still need to return some sort of collection of Sets of ConfigUpdateEntry.\n\nIf we use Multimap instead (which IMO would be the way to go) we wouldn\u0027t even need this class.",
+      "parentUuid": "b7f10ea6_8eb94d18",
+      "range": {
+        "startLine": 148,
+        "startChar": 64,
+        "endLine": 148,
+        "endChar": 81
+      },
+      "revId": "696fe95a562796ad53f3e12d9c4e171ed1bf498a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65d35f64_8aa49c7f",
         "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
         "patchSetId": 3

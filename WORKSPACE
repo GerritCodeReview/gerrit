@@ -586,36 +586,36 @@ maven_jar(
     sha1 = "5e3bda828a80c7a21dfbe2308d1755759c2fd7b4",
 )
 
-OW2_VERS = "6.2.1"
+OW2_VERS = "7.0"
 
 maven_jar(
     name = "ow2-asm",
     artifact = "org.ow2.asm:asm:" + OW2_VERS,
-    sha1 = "c01b6798f81b0fc2c5faa70cbe468c275d4b50c7",
+    sha1 = "d74d4ba0dee443f68fb2dcb7fcdb945a2cd89912",
 )
 
 maven_jar(
     name = "ow2-asm-analysis",
     artifact = "org.ow2.asm:asm-analysis:" + OW2_VERS,
-    sha1 = "e8b876c5ccf226cae2f44ed2c436ad3407d0ec1d",
+    sha1 = "4b310d20d6f1c6b7197a75f1b5d69f169bc8ac1f",
 )
 
 maven_jar(
     name = "ow2-asm-commons",
     artifact = "org.ow2.asm:asm-commons:" + OW2_VERS,
-    sha1 = "eaf31376d741a3e2017248a4c759209fe25c77d3",
+    sha1 = "478006d07b7c561ae3a92ddc1829bca81ae0cdd1",
 )
 
 maven_jar(
     name = "ow2-asm-tree",
     artifact = "org.ow2.asm:asm-tree:" + OW2_VERS,
-    sha1 = "332b022092ecec53cdb6272dc436884b2d940615",
+    sha1 = "29bc62dcb85573af6e62e5b2d735ef65966c4180",
 )
 
 maven_jar(
     name = "ow2-asm-util",
     artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
-    sha1 = "400d664d7c92a659d988c00cb65150d1b30cf339",
+    sha1 = "18d4d07010c24405129a6dbb0e92057f8779fb9d",
 )
 
 AUTO_VALUE_VERSION = "1.6.2"

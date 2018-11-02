@@ -127,6 +127,7 @@ public class MergeValidators {
     private final ProjectCache projectCache;
     private final PermissionBackend permissionBackend;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+    private final ProjectConfig.Factory projectConfigFactory;
     private final boolean allowProjectOwnersToChangeParent;
 
     public interface Factory {
@@ -140,12 +141,14 @@ public class MergeValidators {
         ProjectCache projectCache,
         PermissionBackend permissionBackend,
         DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+        ProjectConfig.Factory projectConfigFactory,
         @GerritServerConfig Config config) {
       this.allProjectsName = allProjectsName;
       this.allUsersName = allUsersName;
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
       this.pluginConfigEntries = pluginConfigEntries;
+      this.projectConfigFactory = projectConfigFactory;
       this.allowProjectOwnersToChangeParent =
           config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
     }
@@ -162,7 +165,7 @@ public class MergeValidators {
       if (RefNames.REFS_CONFIG.equals(destBranch.get())) {
         final Project.NameKey newParent;
         try {
-          ProjectConfig cfg = new ProjectConfig(destProject.getNameKey());
+          ProjectConfig cfg = projectConfigFactory.create(destProject.getNameKey());
           cfg.load(destProject.getNameKey(), repo, commit);
           newParent = cfg.getProject().getParent(allProjectsName);
           final Project.NameKey oldParent = destProject.getProject().getParent(allProjectsName);

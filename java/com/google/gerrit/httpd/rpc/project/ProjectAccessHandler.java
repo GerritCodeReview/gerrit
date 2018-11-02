@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
@@ -58,6 +59,7 @@ import org.eclipse.jgit.lib.ObjectId;
 public abstract class ProjectAccessHandler<T> extends Handler<T> {
 
   protected final GroupBackend groupBackend;
+  protected final ProjectConfig.Factory projectConfigFactory;
   protected final Project.NameKey projectName;
   protected final ObjectId base;
   protected final CurrentUser user;
@@ -77,14 +79,15 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
 
   protected ProjectAccessHandler(
       GroupBackend groupBackend,
+      ProjectConfig.Factory projectConfigFactory,
       MetaDataUpdate.User metaDataUpdateFactory,
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
       CurrentUser user,
-      Project.NameKey projectName,
+      NameKey projectName,
       ObjectId base,
       List<AccessSection> sectionList,
-      Project.NameKey parentProjectName,
+      NameKey parentProjectName,
       String message,
       ContributorAgreementsChecker contributorAgreements,
       PermissionBackend permissionBackend,
@@ -102,6 +105,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     this.message = message;
     this.contributorAgreements = contributorAgreements;
     this.permissionBackend = permissionBackend;
+    this.projectConfigFactory = projectConfigFactory;
     this.checkIfOwner = checkIfOwner;
   }
 
@@ -113,7 +117,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     contributorAgreements.check(projectName, user);
 
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
-      ProjectConfig config = ProjectConfig.read(md, base);
+      ProjectConfig config = projectConfigFactory.read(md, base);
       Set<String> toDelete = scanSectionNames(config);
       PermissionBackend.ForProject forProject = permissionBackend.user(user).project(projectName);
 

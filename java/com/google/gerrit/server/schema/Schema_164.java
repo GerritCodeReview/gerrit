@@ -44,6 +44,7 @@ public class Schema_164 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final SystemGroupBackend systemGroupBackend;
+  private final ProjectConfig.Factory projectConfigFactory;
   private final PersonIdent serverUser;
 
   @Inject
@@ -52,11 +53,13 @@ public class Schema_164 extends SchemaVersion {
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       SystemGroupBackend systemGroupBackend,
+      ProjectConfig.Factory projectConfigFactory,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.systemGroupBackend = systemGroupBackend;
+    this.projectConfigFactory = projectConfigFactory;
     this.serverUser = serverUser;
   }
 
@@ -68,7 +71,7 @@ public class Schema_164 extends SchemaVersion {
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage(COMMIT_MSG);
 
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       AccessSection groups = config.getAccessSection(RefNames.REFS_GROUPS + "*", true);
       grant(
           config,

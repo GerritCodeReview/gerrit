@@ -49,6 +49,7 @@ class RenameGroupOp extends DefaultQueueOp {
 
   private final ProjectCache projectCache;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
+  private final ProjectConfig.Factory projectConfigFactory;
 
   private final PersonIdent author;
   private final AccountGroup.UUID uuid;
@@ -63,6 +64,7 @@ class RenameGroupOp extends DefaultQueueOp {
       WorkQueue workQueue,
       ProjectCache projectCache,
       MetaDataUpdate.Server metaDataUpdateFactory,
+      ProjectConfig.Factory projectConfigFactory,
       @Assisted("author") PersonIdent author,
       @Assisted AccountGroup.UUID uuid,
       @Assisted("oldName") String oldName,
@@ -70,6 +72,7 @@ class RenameGroupOp extends DefaultQueueOp {
     super(workQueue);
     this.projectCache = projectCache;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.projectConfigFactory = projectConfigFactory;
 
     this.author = author;
     this.uuid = uuid;
@@ -109,7 +112,7 @@ class RenameGroupOp extends DefaultQueueOp {
   private void rename(MetaDataUpdate md) throws IOException, ConfigInvalidException {
     boolean success = false;
     for (int attempts = 0; !success && attempts < MAX_TRIES; attempts++) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
 
       // The group isn't referenced, or its name has been fixed already.
       //

@@ -68,6 +68,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
   private final SetAccessUtil setAccess;
   private final ChangeJson.Factory jsonFactory;
   private final ProjectCache projectCache;
+  private final ProjectConfig.Factory projectConfigFactory;
 
   @Inject
   CreateAccessChange(
@@ -79,7 +80,8 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
       Provider<ReviewDb> db,
       SetAccessUtil accessUtil,
       ChangeJson.Factory jsonFactory,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ProjectConfig.Factory projectConfigFactory) {
     this.permissionBackend = permissionBackend;
     this.seq = seq;
     this.changeInserterFactory = changeInserterFactory;
@@ -89,6 +91,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
     this.setAccess = accessUtil;
     this.jsonFactory = jsonFactory;
     this.projectCache = projectCache;
+    this.projectConfigFactory = projectConfigFactory;
   }
 
   @Override
@@ -117,7 +120,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
         input.parent == null ? null : new Project.NameKey(input.parent);
 
     try (MetaDataUpdate md = metaDataUpdateUser.create(rsrc.getNameKey())) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       ObjectId oldCommit = config.getRevision();
       String oldCommitSha1 = oldCommit == null ? null : oldCommit.getName();
 

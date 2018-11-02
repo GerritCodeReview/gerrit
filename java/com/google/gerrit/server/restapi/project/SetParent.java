@@ -60,6 +60,7 @@ public class SetParent
   private final MetaDataUpdate.Server updateFactory;
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
+  private final ProjectConfig.Factory projectConfigFactory;
   private volatile boolean allowProjectOwnersToChangeParent;
 
   @Inject
@@ -69,12 +70,14 @@ public class SetParent
       MetaDataUpdate.Server updateFactory,
       AllProjectsName allProjects,
       AllUsersName allUsers,
+      ProjectConfig.Factory projectConfigFactory,
       @GerritServerConfig Config config) {
     this.cache = cache;
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.allProjects = allProjects;
     this.allUsers = allUsers;
+    this.projectConfigFactory = projectConfigFactory;
     this.allowProjectOwnersToChangeParent =
         config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
   }
@@ -96,7 +99,7 @@ public class SetParent
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
     validateParentUpdate(rsrc.getProjectState().getNameKey(), user, parentName, checkIfAdmin);
     try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       Project project = config.getProject();
       project.setParentName(parentName);
 

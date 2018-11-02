@@ -115,6 +115,7 @@ public class CreateProject
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
   private final PluginItemContext<ProjectNameLockManager> lockManager;
+  private final ProjectConfig.Factory projectConfigFactory;
 
   @Inject
   CreateProject(
@@ -135,7 +136,8 @@ public class CreateProject
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
       AllUsersName allUsers,
-      PluginItemContext<ProjectNameLockManager> lockManager) {
+      PluginItemContext<ProjectNameLockManager> lockManager,
+      ProjectConfig.Factory projectConfigFactory) {
     this.projectsCollection = projectsCollection;
     this.groupResolver = groupResolver;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
@@ -154,6 +156,7 @@ public class CreateProject
     this.allProjects = allProjects;
     this.allUsers = allUsers;
     this.lockManager = lockManager;
+    this.projectConfigFactory = projectConfigFactory;
   }
 
   @Override
@@ -286,7 +289,7 @@ public class CreateProject
   private void createProjectConfig(CreateProjectArgs args)
       throws IOException, ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(args.getProject())) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
 
       Project newProject = config.getProject();
       newProject.setDescription(args.projectDescription);

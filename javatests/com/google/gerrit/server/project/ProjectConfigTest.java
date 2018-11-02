@@ -78,11 +78,13 @@ public class ProjectConfigTest extends GerritBaseTests {
       new GroupReference(new AccountGroup.UUID("X"), "Developers");
   private final GroupReference staff = new GroupReference(new AccountGroup.UUID("Y"), "Staff");
 
+  private ProjectConfig.Factory factory;
   private Repository db;
   private TestRepository<?> tr;
 
   @Before
   public void setUp() throws Exception {
+    factory = new ProjectConfig.Factory();
     db = new InMemoryRepository(new DfsRepositoryDescription("repo"));
     tr = new TestRepository<>(db);
   }
@@ -404,7 +406,7 @@ public class ProjectConfigTest extends GerritBaseTests {
 
   @Test
   public void readUnexistingPluginConfig() throws Exception {
-    ProjectConfig cfg = new ProjectConfig(new Project.NameKey("test"));
+    ProjectConfig cfg = factory.create(new Project.NameKey("test"));
     cfg.load(db);
     PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
     assertThat(pluginCfg.getNames()).isEmpty();
@@ -592,7 +594,7 @@ public class ProjectConfigTest extends GerritBaseTests {
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {
-    ProjectConfig cfg = new ProjectConfig(new Project.NameKey("test"));
+    ProjectConfig cfg = factory.create(new Project.NameKey("test"));
     cfg.load(db, rev);
     return cfg;
   }

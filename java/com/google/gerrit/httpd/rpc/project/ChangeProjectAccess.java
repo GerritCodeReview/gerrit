@@ -62,6 +62,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       ProjectAccessFactory.Factory projectAccessFactory,
       ProjectCache projectCache,
       GroupBackend groupBackend,
+      ProjectConfig.Factory projectConfigFactory,
       MetaDataUpdate.User metaDataUpdateFactory,
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
@@ -77,6 +78,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       @Nullable @Assisted String message) {
     super(
         groupBackend,
+        projectConfigFactory,
         metaDataUpdateFactory,
         allProjects,
         setParent,

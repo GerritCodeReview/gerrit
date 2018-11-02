@@ -50,6 +50,8 @@ public class SchemaCreatorTest {
 
   @Inject private InMemoryDatabase db;
 
+  @Inject private ProjectConfig.Factory projectConfigFactory;
+
   @Before
   public void setUp() throws Exception {
     new InMemoryModule().inject(this);
@@ -85,7 +87,7 @@ public class SchemaCreatorTest {
 
   private LabelTypes getLabelTypes() throws Exception {
     db.create();
-    ProjectConfig c = new ProjectConfig(allProjects);
+    ProjectConfig c = projectConfigFactory.create(allProjects);
     try (Repository repo = repoManager.openRepository(allProjects)) {
       c.load(repo);
       return new LabelTypes(ImmutableList.copyOf(c.getLabelSections().values()));

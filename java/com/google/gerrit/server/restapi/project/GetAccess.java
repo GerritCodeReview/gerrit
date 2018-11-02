@@ -95,6 +95,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final GroupBackend groupBackend;
   private final WebLinks webLinks;
+  private final ProjectConfig.Factory projectConfigFactory;
 
   @Inject
   public GetAccess(
@@ -105,7 +106,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectJson projectJson,
       GroupBackend groupBackend,
-      WebLinks webLinks) {
+      WebLinks webLinks,
+      ProjectConfig.Factory projectConfigFactory) {
     this.user = self;
     this.permissionBackend = permissionBackend;
     this.allProjectsName = allProjectsName;
@@ -114,6 +116,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.groupBackend = groupBackend;
     this.webLinks = webLinks;
+    this.projectConfigFactory = projectConfigFactory;
   }
 
   public ProjectAccessInfo apply(Project.NameKey nameKey)
@@ -141,7 +144,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
 
     ProjectConfig config;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
-      config = ProjectConfig.read(md);
+      config = projectConfigFactory.read(md);
       info.configWebLinks = new ArrayList<>();
 
       // config may have a null revision if the repo doesn't have its own refs/meta/config.

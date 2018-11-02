@@ -42,15 +42,18 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
   private final PermissionBackend permissionBackend;
+  private final ProjectConfig.Factory projectConfigFactory;
 
   @Inject
   PutDescription(
       ProjectCache cache,
       MetaDataUpdate.Server updateFactory,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectConfig.Factory projectConfigFactory) {
     this.cache = cache;
     this.updateFactory = updateFactory;
     this.permissionBackend = permissionBackend;
+    this.projectConfigFactory = projectConfigFactory;
   }
 
   @Override
@@ -68,7 +71,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
         .check(ProjectPermission.WRITE_CONFIG);
 
     try (MetaDataUpdate md = updateFactory.create(resource.getNameKey())) {
-      ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = projectConfigFactory.read(md);
       Project project = config.getProject();
       project.setDescription(Strings.emptyToNull(input.description));
 

@@ -189,7 +189,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(sub)) {
       md.setMessage("Added superproject subscription");
       SubscribeSection s;
-      ProjectConfig pc = ProjectConfig.read(md);
+      ProjectConfig pc = projectConfigFactory.read(md);
       if (pc.getSubscribeSections().containsKey(superName)) {
         s = pc.getSubscribeSections().get(superName);
       } else {

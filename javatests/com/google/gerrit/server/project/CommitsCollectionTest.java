@@ -57,6 +57,7 @@ public class CommitsCollectionTest {
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected AllProjectsName allProjects;
   @Inject private CommitsCollection commits;
+  @Inject private ProjectConfig.Factory projectConfigFactory;
 
   private TestRepository<InMemoryRepository> repo;
   private ProjectConfig project;
@@ -70,7 +71,7 @@ public class CommitsCollectionTest {
 
     Project.NameKey name = new Project.NameKey("project");
     InMemoryRepository inMemoryRepo = repoManager.createRepository(name);
-    project = new ProjectConfig(name);
+    project = projectConfigFactory.create(name);
     project.load(inMemoryRepo);
     repo = new TestRepository<>(inMemoryRepo);
   }

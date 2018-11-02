@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "083a8ade_7729e97d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-02T16:56:59Z",
+      "side": 1,
+      "message": "You should also mention forcing ShadyDOM here if you want to include that in this commit.",
+      "revId": "f4161cacf8eac8d7d98fa1df14045e600682dc46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

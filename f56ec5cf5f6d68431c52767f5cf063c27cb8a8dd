@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a76636b6_f994f2f2",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-02T09:12:51Z",
+      "side": 1,
+      "message": "Isn\u0027t this change still missing for stable-2.14?",
+      "range": {
+        "startLine": 588,
+        "startChar": 31,
+        "endLine": 588,
+        "endChar": 56
+      },
+      "revId": "f56ec5cf5f6d68431c52767f5cf063c27cb8a8dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

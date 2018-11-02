@@ -12,6 +12,7 @@ junit_tests(
         "//java/com/google/gerrit/pgm/init/api",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/securestore/testing",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:junit",
         "//lib/easymock",

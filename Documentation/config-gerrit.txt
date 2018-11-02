@@ -4959,6 +4959,38 @@ executions are `Wed 10:30`, `Fri 10:30`. etc.
 Assuming that the server is started on `Mon 07:00` then this yields the
 first run on Tuesday at 06:00 and a repetition interval of 1 day.
 
+[[All-Projects-project.config]]
+== File `etc/All-Projects/project.config`
+
+The optional file `'$site_path'/etc/All-Projects/project.config` provides
+defaults for configuration read from
+link:config-project-config.html[`project.config`] in the
+`All-Projects` repo. Unlike `gerrit.config`, this file contains project-type
+configuration rather than server-type configuration.
+
+Most administrators will not need this file, and should instead make commits to
+`All-Projects` to modify global config. However, a separate file can be useful
+when managing multiple Gerrit servers, since pushing changes to defaults using
+Puppet or a similar tool can be easier than scripting git updates to
+`All-Projects`.
+
+The contents of the file are loaded each time the `All-Projects` project is
+reloaded. Updating the file requires either evicting the project cache or
+restarting the server.
+
+Caveats:
+
+* The path from which the file is read corresponds to the name of the repo,
+  which is link:#gerrit.allProjects[configurable].
+* Although the file lives in a directory that shares a name with a repository,
+  this directory is not a Git repository.
+* Only the file `project.config` is read from this directory to provide
+  defaults; any other files in this directory, such as `rules.pl`, are ignored.
+  (This behavior may change in the future.)
+* Group names listed in the access config in this file are resolved to UUIDs
+  using the `groups` file in the repository, not in the config directory. As a
+  result, setting ACLs in this file is not recommended.
+
 [[secure.config]]
 == File `etc/secure.config`
 

@@ -230,7 +230,6 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
     if (key != null) {
       info.id = PublicKeyStore.keyIdToString(key.getKeyID());
       info.fingerprint = Fingerprint.toString(key.getFingerprint());
-      @SuppressWarnings("unchecked")
       Iterator<String> userIds = key.getUserIDs();
       info.userIds = ImmutableList.copyOf(userIds);
 

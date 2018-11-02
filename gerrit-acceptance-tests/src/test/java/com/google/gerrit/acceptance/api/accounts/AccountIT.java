@@ -963,7 +963,6 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(actual.fingerprint)
         .named(id)
         .isEqualTo(Fingerprint.toString(expected.getPublicKey().getFingerprint()));
-    @SuppressWarnings("unchecked")
     List<String> userIds = ImmutableList.copyOf(expected.getPublicKey().getUserIDs());
     assertThat(actual.userIds).named(id).containsExactlyElementsIn(userIds);
     assertThat(actual.key).named(id).startsWith("-----BEGIN PGP PUBLIC KEY BLOCK-----\n");

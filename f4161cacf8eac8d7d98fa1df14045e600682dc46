@@ -16,6 +16,24 @@
       "revId": "f4161cacf8eac8d7d98fa1df14045e600682dc46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43873c82_1c8195ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-11-02T17:50:53Z",
+      "side": 1,
+      "message": "Good point, but that\u0027ll be in another CL.\nI\u0027m sending this one out since it\u0027s massive and dumb.\nOther changes will be more specific and targeted.",
+      "parentUuid": "083a8ade_7729e97d",
+      "revId": "f4161cacf8eac8d7d98fa1df14045e600682dc46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e75e2c61_331e9735",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-02T08:35:43Z",
+      "side": 1,
+      "message": "This looks like a typical case for a Multimap, one key more than one value.",
+      "revId": "696fe95a562796ad53f3e12d9c4e171ed1bf498a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7f10ea6_8eb94d18",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-02T08:35:43Z",
+      "side": 1,
+      "message": "I wonder if it makes sense to have a Map for two keys? We could have just two sets:\n\n  private Set\u003cConfigUpdateEntry\u003e applied;\n  private Set\u003cConfigUpdateEntry\u003e rejected;",
+      "range": {
+        "startLine": 148,
+        "startChar": 64,
+        "endLine": 148,
+        "endChar": 81
+      },
+      "revId": "696fe95a562796ad53f3e12d9c4e171ed1bf498a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65d35f64_8aa49c7f",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-02T08:35:43Z",
+      "side": 1,
+      "message": "With Multimap this would be as simple as:\n\n  updates.put(result, entry);",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 37
+      },
+      "revId": "696fe95a562796ad53f3e12d9c4e171ed1bf498a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3480ea9_c57ae4a7",
+        "filename": "java/com/google/gerrit/sshd/commands/ReloadConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-02T08:35:43Z",
+      "side": 1,
+      "message": "Multimap?",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "696fe95a562796ad53f3e12d9c4e171ed1bf498a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

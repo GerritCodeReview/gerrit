@@ -20,6 +20,7 @@ import static com.google.gerrit.common.data.Permission.isPermission;
 import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -52,13 +53,16 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -83,8 +87,11 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.util.FS;
 
 public class ProjectConfig extends VersionedMetaData implements ValidationError.Sink {
   public static final String COMMENTLINK = "commentlink";
@@ -103,6 +110,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_VALUE = "value";
   public static final String KEY_CAN_OVERRIDE = "canOverride";
   public static final String KEY_BRANCH = "branch";
+
+  @VisibleForTesting static final String ALL_PROJECTS_CONFIG = "all_projects.config";
 
   private static final String KEY_MATCH = "match";
   private static final String KEY_HTML = "html";
@@ -173,8 +182,23 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   // ProjectCache, so this would retain lots more memory.
   @Singleton
   public static class Factory {
+    private final SitePaths sitePaths;
+    private final AllProjectsName allProjects;
+
+    @Inject
+    Factory(SitePaths sitePaths, AllProjectsName allProjects) {
+      this.sitePaths = sitePaths;
+      this.allProjects = allProjects;
+    }
+
     public ProjectConfig create(Project.NameKey projectName) {
-      return new ProjectConfig(projectName);
+      return new ProjectConfig(
+          projectName,
+          projectName.equals(allProjects)
+              // Delay loading till onLoad method.
+              ? new FileBasedConfig(
+                  sitePaths.etc_dir.resolve(ALL_PROJECTS_CONFIG).toFile(), FS.DETECTED)
+              : null);
     }
 
     public ProjectConfig read(MetaDataUpdate update) throws IOException, ConfigInvalidException {
@@ -190,6 +214,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       return r;
     }
   }
+
+  private final StoredConfig baseConfig;
 
   private Project project;
   private AccountsSection accountsSection;
@@ -253,8 +279,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     commentLinkSections.add(commentLink);
   }
 
-  private ProjectConfig(Project.NameKey projectName) {
+  private ProjectConfig(Project.NameKey projectName, @Nullable StoredConfig baseConfig) {
     this.projectName = projectName;
+    this.baseConfig = baseConfig;
   }
 
   public void load(Repository repo) throws IOException, ConfigInvalidException {
@@ -516,11 +543,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
+    if (baseConfig != null) {
+      baseConfig.load();
+    }
     readGroupList();
     groupsByName = mapGroupReferences();
 
     rulesId = getObjectId("rules.pl");
-    Config rc = readConfig(PROJECT_CONFIG);
+    Config rc = readConfig(PROJECT_CONFIG, baseConfig);
     project = new Project(projectName);
 
     Project p = project;

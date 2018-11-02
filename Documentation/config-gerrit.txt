@@ -5050,6 +5050,20 @@ executions are `Wed 10:30`, `Fri 10:30`. etc.
 Assuming that the server is started on `Mon 07:00` then this yields the
 first run on Tuesday at 06:00 and a repetition interval of 1 day.
 
+[[all_projects.config]]
+== File `etc/all_projects.config`
+
+The optional file `'$site_path'/etc/all_projects.config` provides defaults for
+configuration read from link:config-project-config.html[`project.config`] in the
+`All-Projects` repo. Unlike `gerrit.config`, this file contains project-type
+configuration rather than server-type configuration.
+
+Most administrators will not need `all_projects.config`, and should instead make
+commits to `All-Projects` to modify global config. However,
+`all_projects.config` can be useful when managing multiple Gerrit servers, since
+pushing changes to defaults using Puppet or a similar tool can be easier than
+scripting git updates to `All-Projects`.
+
 [[secure.config]]
 == File `etc/secure.config`
 

@@ -16,7 +16,10 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.reviewdb.client.BooleanProjectConfig.REQUIRE_CHANGE_ID;
+import static com.google.gerrit.server.project.ProjectConfig.ALL_PROJECTS_CONFIG;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -24,16 +27,21 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.testing.GerritBaseTests;
+import com.google.gerrit.testing.TempFileUtil;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -50,6 +58,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -74,19 +83,29 @@ public class ProjectConfigTest extends GerritBaseTests {
           + !LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE
           + "\n";
 
+  private static final AllProjectsName ALL_PROJECTS = new AllProjectsName("All-The-Projects");
+
   private final GroupReference developers =
       new GroupReference(new AccountGroup.UUID("X"), "Developers");
   private final GroupReference staff = new GroupReference(new AccountGroup.UUID("Y"), "Staff");
 
+  private SitePaths sitePaths;
   private ProjectConfig.Factory factory;
   private Repository db;
   private TestRepository<?> tr;
 
   @Before
   public void setUp() throws Exception {
-    factory = new ProjectConfig.Factory();
+    sitePaths = new SitePaths(TempFileUtil.createTempDirectory().toPath());
+    Files.createDirectories(sitePaths.etc_dir);
+    factory = new ProjectConfig.Factory(sitePaths, ALL_PROJECTS);
     db = new InMemoryRepository(new DfsRepositoryDescription("repo"));
     tr = new TestRepository<>(db);
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    TempFileUtil.cleanup();
   }
 
   @Test
@@ -591,6 +610,42 @@ public class ProjectConfigTest extends GerritBaseTests {
             new ValidationError(
                 "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
                     + "commentlink.bugzilla must have either link or html"));
+  }
+
+  @Test
+  public void readAllProjectsBaseConfigFromSitePaths() throws Exception {
+    ProjectConfig cfg = factory.create(ALL_PROJECTS);
+    cfg.load(db);
+    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_CHANGE_ID))
+        .isEqualTo(InheritableBoolean.INHERIT);
+
+    Files.write(
+        sitePaths.etc_dir.resolve(ALL_PROJECTS_CONFIG),
+        ImmutableList.of("[receive]", "requireChangeId = false"));
+
+    cfg.load(db);
+    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_CHANGE_ID))
+        .isEqualTo(InheritableBoolean.FALSE);
+  }
+
+  @Test
+  public void readOtherProjectIgnoresAllProjectsBaseConfig() throws Exception {
+    ProjectConfig cfg = factory.create(new Project.NameKey("test"));
+    cfg.load(db);
+    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_CHANGE_ID))
+        .isEqualTo(InheritableBoolean.INHERIT);
+
+    Files.write(
+        sitePaths.etc_dir.resolve(ALL_PROJECTS_CONFIG),
+        ImmutableList.of("[receive]", "requireChangeId = false"));
+
+    cfg.load(db);
+    // If we went through ProjectState, then this would return FALSE, since project.config for
+    // All-Projects would inherit from all_projects.config, and this project would inherit from
+    // All-Projects. But in ProjectConfig itself, there is no inheritance from All-Projects, so this
+    // continues to return the default.
+    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_CHANGE_ID))
+        .isEqualTo(InheritableBoolean.INHERIT);
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {

@@ -22,6 +22,30 @@
       "revId": "f56ec5cf5f6d68431c52767f5cf063c27cb8a8dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72681bc2_7769c389",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-02T09:32:57Z",
+      "side": 1,
+      "message": "Yes. I\u0027ll do it at the same time as updating the API version.",
+      "parentUuid": "a76636b6_f994f2f2",
+      "range": {
+        "startLine": 588,
+        "startChar": 31,
+        "endLine": 588,
+        "endChar": 56
+      },
+      "revId": "f56ec5cf5f6d68431c52767f5cf063c27cb8a8dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

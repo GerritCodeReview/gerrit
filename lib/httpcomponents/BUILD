@@ -28,13 +28,6 @@ java_library(
 )
 
 java_library(
-    name = "httpmime",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@httpmime//jar"],
-)
-
-java_library(
     name = "httpasyncclient",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//gerrit-elasticsearch:__pkg__"],

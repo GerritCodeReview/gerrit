@@ -52,6 +52,24 @@
       "revId": "66e2327478da0c04c9c4dd48759a97980613e29d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a165e8f7_5ff20378",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-02T09:51:30Z",
+      "side": 1,
+      "message": "OK, well since it\u0027s definitely not needed on stable-2.14, 2.15 and 2.16 I think we can let this change go in. Then, if it turns out we need it for the Lucene 7 upgrade, we can add it back.",
+      "parentUuid": "bb828d12_9b594222",
+      "revId": "66e2327478da0c04c9c4dd48759a97980613e29d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -653,12 +653,6 @@ maven_jar(
     sha1 = "f5aa318bda4c6c8d688c9d00b90681dcd82ce636",
 )
 
-maven_jar(
-    name = "httpmime",
-    artifact = "org.apache.httpcomponents:httpmime:" + HTTPCOMP_VERS,
-    sha1 = "2f8757f5ac5e38f46c794e5229d1f3c522e9b1df",
-)
-
 # elasticsearch-rest-client explicitly depends on this version
 maven_jar(
     name = "httpasyncclient",

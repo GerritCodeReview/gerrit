@@ -45,6 +45,30 @@
       "revId": "af73939b78e0e2c08d542823b3550657a9375175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94492a38_a2102d54",
+        "filename": "tools/bzl/junit.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-02T07:14:34Z",
+      "side": 1,
+      "message": "Error message: [1].\n\n* [1] http://paste.openstack.org/show/733937",
+      "parentUuid": "7b72cb69_2c1d3e31",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 36
+      },
+      "revId": "af73939b78e0e2c08d542823b3550657a9375175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

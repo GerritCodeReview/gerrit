@@ -34,6 +34,24 @@
       "revId": "66e2327478da0c04c9c4dd48759a97980613e29d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb828d12_9b594222",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-02T09:46:34Z",
+      "side": 1,
+      "message": "I havn\u0027t checked, but I guess it is not needed. It should be easily to test: remove this library, apply the upgrade and re-run the acceptance tests.",
+      "parentUuid": "7dee83ec_bc571950",
+      "revId": "66e2327478da0c04c9c4dd48759a97980613e29d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

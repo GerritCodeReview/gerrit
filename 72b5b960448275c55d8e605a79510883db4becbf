@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fb12269_4c7c3800",
+        "filename": "tools/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-02T09:30:51Z",
+      "side": 0,
+      "message": "This was inadvertently replaced to build on most recent Bazel version and is not compatible with Bazel 0.17.1 taht is used on the CI side.",
+      "range": {
+        "startLine": 16,
+        "startChar": 63,
+        "endLine": 16,
+        "endChar": 64
+      },
+      "revId": "72b5b960448275c55d8e605a79510883db4becbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

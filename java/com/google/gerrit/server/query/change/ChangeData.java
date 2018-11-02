@@ -30,6 +30,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -391,6 +392,7 @@ public class ChangeData {
   private PersonIdent committer;
   private int parentCount;
   private Integer unresolvedCommentCount;
+  private Integer totalCommentCount;
   private LabelTypes labelTypes;
 
   private ImmutableList<byte[]> refStates;
@@ -923,6 +925,23 @@ public class ChangeData {
 
   public void setUnresolvedCommentCount(Integer count) {
     this.unresolvedCommentCount = count;
+  }
+
+  public Integer totalCommentCount() throws OrmException {
+    if (totalCommentCount == null) {
+      if (!lazyLoad) {
+        return null;
+      }
+
+      // Fail on overflow.
+      totalCommentCount =
+          Ints.checkedCast((long) publishedComments().size() + robotComments().size());
+    }
+    return totalCommentCount;
+  }
+
+  public void setTotalCommentCount(Integer count) {
+    this.totalCommentCount = count;
   }
 
   public List<ChangeMessage> messages() throws OrmException {

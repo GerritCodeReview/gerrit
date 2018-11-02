@@ -535,6 +535,7 @@ public class ChangeJson {
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();
     out._number = in.getId().get();
+    out.totalCommentCount = cd.totalCommentCount();
     out.unresolvedCommentCount = cd.unresolvedCommentCount();
 
     if (user.isIdentifiedUser()) {

@@ -508,10 +508,14 @@ public class ChangeField {
                           cd.messages().stream().map(ChangeMessage::getMessage))
                       .collect(toSet()));
 
-  /** Number of unresolved comments of the change. */
+  /** Number of unresolved comment threads of the change, including robot comments. */
   public static final FieldDef<ChangeData, Integer> UNRESOLVED_COMMENT_COUNT =
       intRange(ChangeQueryBuilder.FIELD_UNRESOLVED_COMMENT_COUNT)
           .build(ChangeData::unresolvedCommentCount);
+
+  /** Total number of published inline comments of the change, including robot comments. */
+  public static final FieldDef<ChangeData, Integer> TOTAL_COMMENT_COUNT =
+      intRange("total_comments").build(ChangeData::totalCommentCount);
 
   /** Whether the change is mergeable. */
   public static final FieldDef<ChangeData, String> MERGEABLE =

@@ -5769,8 +5769,12 @@ Only set if link:#submittable[requested].
 Number of inserted lines.
 |`deletions`          ||
 Number of deleted lines.
+|`total_comment_count`  |optional|
+Total number of inline comments across all patch sets. Not set if the current
+change index doesn't have the data.
 |`unresolved_comment_count`  |optional|
-Number of unresolved comments. Not set if the current change index doesn't have the data.
+Number of unresolved inline comment threads across all patch sets. Not set if
+the current change index doesn't have the data.
 |`_number`            ||The legacy numeric ID of the change.
 |`owner`              ||
 The owner of the change as an link:rest-api-accounts.html#account-info[

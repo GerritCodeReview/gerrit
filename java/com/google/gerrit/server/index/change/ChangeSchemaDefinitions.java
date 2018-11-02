@@ -99,7 +99,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V49 = schema(V48);
 
   // Bump Lucene version requires reindexing
-  static final Schema<ChangeData> V50 = schema(V49);
+  @Deprecated static final Schema<ChangeData> V50 = schema(V49);
+
+  static final Schema<ChangeData> V51 = schema(V50, ChangeField.TOTAL_COMMENT_COUNT);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

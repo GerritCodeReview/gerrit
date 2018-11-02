@@ -373,7 +373,7 @@ public class GerritPublicKeyCheckerTest {
 
     PGPPublicKeyRing keyRingB = keyB().getPublicKeyRing();
     PGPPublicKey keyB = keyRingB.getPublicKey();
-    keyB = PGPPublicKey.removeCertification(keyB, (String) keyB.getUserIDs().next());
+    keyB = PGPPublicKey.removeCertification(keyB, keyB.getUserIDs().next());
     keyRingB = PGPPublicKeyRing.insertPublicKey(keyRingB, keyB);
     add(keyRingB, addUser("userB"));
 
@@ -391,8 +391,7 @@ public class GerritPublicKeyCheckerTest {
     List<ExternalId> newExtIds = new ArrayList<>(2);
     newExtIds.add(ExternalId.create(toExtIdKey(kr.getPublicKey()), id));
 
-    @SuppressWarnings("unchecked")
-    String userId = (String) Iterators.getOnlyElement(kr.getPublicKey().getUserIDs(), null);
+    String userId = Iterators.getOnlyElement(kr.getPublicKey().getUserIDs(), null);
     if (userId != null) {
       String email = PushCertificateIdent.parse(userId).getEmailAddress();
       assertThat(email).contains("@");

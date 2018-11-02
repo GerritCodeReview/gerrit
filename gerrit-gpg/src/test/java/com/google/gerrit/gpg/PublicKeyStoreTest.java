@@ -236,7 +236,6 @@ public class PublicKeyStoreTest {
 
   private void assertUserIds(PGPPublicKeyRing keyRing, String... expected) throws Exception {
     List<String> actual = new ArrayList<>();
-    @SuppressWarnings("unchecked")
     Iterator<String> userIds =
         store.get(keyRing.getPublicKey().getKeyID()).iterator().next().getPublicKey().getUserIDs();
     while (userIds.hasNext()) {

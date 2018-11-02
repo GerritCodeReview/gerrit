@@ -41,15 +41,18 @@ public class Schema_130 extends ReviewDbSchemaVersion {
 
   private final GitRepositoryManager repoManager;
   private final PersonIdent serverUser;
+  private final ProjectConfigSchemaUpdate.Factory projectConfigSchemaUpdateFactory;
 
   @Inject
   Schema_130(
       Provider<Schema_129> prior,
       GitRepositoryManager repoManager,
-      @GerritPersonIdent PersonIdent serverUser) {
+      @GerritPersonIdent PersonIdent serverUser,
+      ProjectConfigSchemaUpdate.Factory projectConfigSchemaUpdateFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.serverUser = serverUser;
+    this.projectConfigSchemaUpdateFactory = projectConfigSchemaUpdateFactory;
   }
 
   @Override
@@ -60,7 +63,7 @@ public class Schema_130 extends ReviewDbSchemaVersion {
     for (Project.NameKey projectName : repoList) {
       try (Repository git = repoManager.openRepository(projectName);
           MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, git)) {
-        ProjectConfigSchemaUpdate cfg = ProjectConfigSchemaUpdate.read(md);
+        ProjectConfigSchemaUpdate cfg = projectConfigSchemaUpdateFactory.read(md);
         cfg.removeForceFromPermission("pushTag");
         if (cfg.isUpdated()) {
           repoUpgraded.add(projectName);

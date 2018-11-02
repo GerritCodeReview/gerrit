@@ -16,6 +16,24 @@
       "revId": "66e2327478da0c04c9c4dd48759a97980613e29d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dee83ec_bc571950",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-02T08:05:29Z",
+      "side": 1,
+      "message": "It looks like that change doesn\u0027t declare an explicit dependency on httpmime.  Is it actually needed?\n\nIf it is needed there, it\u0027s probably better not to remove it here.",
+      "parentUuid": "b45e7a1b_232b3ee1",
+      "revId": "66e2327478da0c04c9c4dd48759a97980613e29d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

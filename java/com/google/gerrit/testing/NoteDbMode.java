@@ -52,7 +52,7 @@ public enum NoteDbMode {
       value = System.getProperty(SYS_PROP);
     }
     if (Strings.isNullOrEmpty(value)) {
-      return OFF;
+      return ON;
     }
     value = value.toUpperCase().replace("-", "_");
     NoteDbMode mode = Enums.getIfPresent(NoteDbMode.class, value).orNull();

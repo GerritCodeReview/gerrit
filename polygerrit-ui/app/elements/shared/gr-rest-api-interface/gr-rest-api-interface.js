@@ -2981,6 +2981,22 @@
       });
     },
 
+    /**
+     * @param {string} filter
+     * @return {!Promise<?Object>}
+     */
+    getDocumentationSearches(filter) {
+      filter = filter.trim();
+      const encodedFilter = encodeURIComponent(filter);
+
+      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
+      // supports it.
+      return this._fetchSharedCacheURL({
+        url: `/Documentation/?q=${encodedFilter}`,
+        anonymizedUrl: '/Documentation/?*',
+      });
+    },
+
     getMergeable(changeNum) {
       return this._getChangeURLAndFetch({
         changeNum,

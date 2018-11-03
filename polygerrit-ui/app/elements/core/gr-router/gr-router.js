@@ -148,6 +148,10 @@
     IMPROPERLY_ENCODED_PLUS: /^\/c\/(.+)\/\ \/(.+)$/,
 
     PLUGIN_SCREEN: /^\/x\/([\w-]+)\/([\w-]+)\/?/,
+
+    DOCUMENTATION_SEARCH_FILTER: '/Documentation/q/filter::filter',
+    DOCUMENTATION_SEARCH: /^\/Documentation\/q\/(.*)$/,
+    DOCUMENTATION: /^\/Documentation(\/)?(.+)?/,
   };
 
   /**
@@ -848,6 +852,16 @@
 
       this._mapRoute(RoutePattern.PLUGIN_SCREEN, '_handlePluginScreen');
 
+      this._mapRoute(RoutePattern.DOCUMENTATION_SEARCH_FILTER,
+          '_handleDocumentationSearchRoute');
+
+      // redirects /Documentation/q/* to /Documentation/q/filter:*
+      this._mapRoute(RoutePattern.DOCUMENTATION_SEARCH,
+          '_handleDocumentationSearchRedirectRoute');
+
+      // Makes sure /Documentation/* links work (doin't return 404)
+      this._mapRoute(RoutePattern.DOCUMENTATION, '_handlePassThroughRoute');
+
       // Note: this route should appear last so it only catches URLs unmatched
       // by other patterns.
       this._mapRoute(RoutePattern.DEFAULT, '_handleDefaultRoute');
@@ -1423,6 +1437,18 @@
       const plugin = ctx.params[0];
       const screen = ctx.params[1];
       this._setParams({view, plugin, screen});
+    },
+
+    _handleDocumentationSearchRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.DOCUMENTATION_SEARCH,
+        filter: data.params.filter || null,
+      });
+    },
+
+    _handleDocumentationSearchRedirectRoute(data) {
+      this._redirect('/Documentation/q/filter:' +
+          encodeURIComponent(data.params[0]));
     },
 
     /**

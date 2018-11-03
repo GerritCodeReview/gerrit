@@ -71,7 +71,15 @@ public class StaticModule extends ServletModule {
    */
   public static final ImmutableList<String> POLYGERRIT_INDEX_PATHS =
       ImmutableList.of(
-          "/", "/c/*", "/p/*", "/q/*", "/x/*", "/admin/*", "/dashboard/*", "/settings/*");
+          "/",
+          "/c/*",
+          "/p/*",
+          "/q/*",
+          "/x/*",
+          "/admin/*",
+          "/dashboard/*",
+          "/settings/*",
+          "/Documentation/q/*");
   // TODO(dborowitz): These fragments conflict with the REST API
   // namespace, so they will need to use a different path.
   // "/groups/*",

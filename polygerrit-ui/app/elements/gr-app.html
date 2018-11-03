@@ -48,6 +48,7 @@ limitations under the License.
 <link rel="import" href="../styles/shared-styles.html">
 <link rel="import" href="../styles/themes/app-theme.html">
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
+<link rel="import" href="./documentation/gr-documentation-search/gr-documentation-search.html">
 <link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">
 <link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
 <link rel="import" href="./change/gr-change-view/gr-change-view.html">
@@ -197,6 +198,11 @@ limitations under the License.
       </template>
       <template is="dom-if" if="[[_showCLAView]]" restamp="true">
         <gr-cla-view></gr-cla-view>
+      </template>
+      <template is="dom-if" if="[[_showDocumentationSearch]]" restamp="true">
+        <gr-documentation-search
+            params="[[params]]">
+        </gr-documentation-search>
       </template>
       <div id="errorView" class="errorView">
         <div class="errorEmoji">[[_lastError.emoji]]</div>

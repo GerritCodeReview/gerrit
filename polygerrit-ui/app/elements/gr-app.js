@@ -72,6 +72,7 @@
       _showCLAView: Boolean,
       _showEditorView: Boolean,
       _showPluginScreen: Boolean,
+      _showDocumentationSearch: Boolean,
       /** @type {?} */
       _viewState: Object,
       /** @type {?} */
@@ -315,6 +316,8 @@
       if (isPluginScreen) {
         this.async(() => this.set('_showPluginScreen', true), 1);
       }
+      this.set('_showDocumentationSearch',
+          view === Gerrit.Nav.View.DOCUMENTATION_SEARCH);
       if (this.params.justRegistered) {
         this.$.registrationOverlay.open();
         this.$.registrationDialog.loadData().then(() => {

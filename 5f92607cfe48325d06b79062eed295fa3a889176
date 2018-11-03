@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae7491e5_6f1b41f1",
+        "filename": "WORKSPACE",
+        "patchSetId": 18
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-03T07:00:02Z",
+      "side": 1,
+      "message": "Typo: missing :.",
+      "range": {
+        "startLine": 1134,
+        "startChar": 43,
+        "endLine": 1134,
+        "endChar": 48
+      },
+      "revId": "5f92607cfe48325d06b79062eed295fa3a889176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

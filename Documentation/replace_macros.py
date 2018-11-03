@@ -89,7 +89,7 @@ SEARCH_BOX = """
 </button>
 <script type="text/javascript">
 var f = function() {
-  window.location = '../#/Documentation/' +
+  window.location = '../#/Documentation/q/' +
     encodeURIComponent(document.getElementById("docSearch").value);
 }
 document.getElementById("searchBox").onclick = f;

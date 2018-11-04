@@ -16,6 +16,24 @@
       "revId": "6b0a905cf0a4e69091635fe3eee526edd5dca83d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e630ecf_f8a26e3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2018-11-04T21:37:49Z",
+      "side": 1,
+      "message": "Yes, that is still possible. \nThere are two code paths where threads are being created:\n1) At comment creation time. That is untouched by this change and has the same kind of logic that I am deleting here. It\u0027s currently here: \nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js#372\n\n2) At comment load time. The Gerrit API returns the comments, and this code that I am touching in this CL groups them into threads. At that point, this logic is not needed, because the comment has already been created, either on the merge parent or not. If it has been created on a merge parent, `side` will already be set to \"PARENT\", and does not need to be recomputed here.",
+      "parentUuid": "00735353_e976f2c0",
+      "revId": "6b0a905cf0a4e69091635fe3eee526edd5dca83d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

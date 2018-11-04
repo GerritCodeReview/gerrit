@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f6d48fc6_3c98b11f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2018-11-04T21:37:11Z",
+      "side": 1,
+      "message": "No. That is, it could maybe in this change, but that method call moves out of this file in the next change: https://gerrit-review.googlesource.com/c/gerrit/+/201872/14",
+      "parentUuid": "1da0b53d_f5e8c527",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fef854e_c6d2360c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "558165fe_187cfbe8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2018-11-04T21:37:11Z",
+      "side": 1,
+      "message": "I don\u0027t think it can - it modifies not threadEl, but thread, which the element has no access to.",
+      "parentUuid": "1fef854e_c6d2360c",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b4c8c25d_1b8d5819",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2018-11-04T21:37:11Z",
+      "side": 1,
+      "message": "Good point. Added that. I don\u0027t think listen/unlisten are applicable here, because they work by passing the string representation of methods on the element, but these listeners are outside of the element.",
+      "parentUuid": "b50d5ad2_70cb0447",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28f531f6_c33836c1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 8
@@ -64,6 +118,30 @@
       "writtenOn": "2018-10-31T22:52:28Z",
       "side": 1,
       "message": "Nit: AFAIR Polymer.dom() converts NodeList to Array",
+      "range": {
+        "startLine": 87,
+        "startChar": 22,
+        "endLine": 87,
+        "endChar": 51
+      },
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "886f5d2a_4a4e1afe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2018-11-04T21:37:11Z",
+      "side": 1,
+      "message": "Yes, that is correct. But I only moved the method up to make it easier to read, and would like to edit it because it will be deleted 2-3 changes later and this causes only conflicts. But in principle you are correct.",
+      "parentUuid": "28f531f6_c33836c1",
       "range": {
         "startLine": 87,
         "startChar": 22,

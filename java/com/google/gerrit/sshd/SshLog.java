@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
-import com.google.gerrit.server.audit.AuditService;
+import com.google.gerrit.server.audit.AuditEventDispatcher;
 import com.google.gerrit.server.audit.SshAuditEvent;
 import com.google.gerrit.server.config.ConfigKey;
 import com.google.gerrit.server.config.ConfigUpdatedEvent;
@@ -56,7 +56,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   private final Provider<SshSession> session;
   private final Provider<Context> context;
   private volatile AsyncAppender async;
-  private final AuditService auditService;
+  private final AuditEventDispatcher auditEventDispatcher;
   private final SystemLog systemLog;
 
   private final Object lock = new Object();
@@ -67,10 +67,10 @@ class SshLog implements LifecycleListener, GerritConfigListener {
       final Provider<Context> context,
       SystemLog systemLog,
       @GerritServerConfig Config config,
-      AuditService auditService) {
+      AuditEventDispatcher auditEventDispatcher) {
     this.session = session;
     this.context = context;
-    this.auditService = auditService;
+    this.auditEventDispatcher = auditEventDispatcher;
     this.systemLog = systemLog;
 
     if (config.getBoolean("sshd", "requestLog", true)) {
@@ -302,7 +302,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
       currentUser = session.getUser();
       created = ctx.created;
     }
-    auditService.dispatch(new SshAuditEvent(sessionId, currentUser, cmd, created, params, result));
+    auditEventDispatcher.dispatch(new SshAuditEvent(sessionId, currentUser, cmd, created, params, result));
   }
 
   private String extractWhat(DispatchCommand dcmd) {

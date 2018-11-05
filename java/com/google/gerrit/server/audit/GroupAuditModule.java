@@ -19,12 +19,11 @@ import com.google.gerrit.server.audit.group.GroupAuditListener;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.inject.AbstractModule;
 
-public class AuditModule extends AbstractModule {
+public class GroupAuditModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    DynamicSet.setOf(binder(), AuditListener.class);
     DynamicSet.setOf(binder(), GroupAuditListener.class);
-    bind(GroupAuditService.class).to(AuditService.class);
+    bind(GroupAuditService.class).to(GroupAuditServiceImpl.class);
   }
 }

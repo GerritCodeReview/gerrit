@@ -48,7 +48,8 @@ import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.api.GerritApiModule;
-import com.google.gerrit.server.audit.AuditModule;
+import com.google.gerrit.server.audit.AuditEventDispatcherModule;
+import com.google.gerrit.server.audit.GroupAuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
@@ -345,7 +346,8 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new LocalMergeSuperSetComputation.Module());
-    modules.add(new AuditModule());
+    modules.add(new GroupAuditModule());
+    modules.add(new AuditEventDispatcherModule());
 
     // Plugin module needs to be inserted *before* the index module.
     // There is the concept of LifecycleModule, in Gerrit's own extension

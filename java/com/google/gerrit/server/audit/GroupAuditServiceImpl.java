@@ -27,21 +27,14 @@ import com.google.inject.Singleton;
 import java.sql.Timestamp;
 
 @Singleton
-public class AuditService implements GroupAuditService {
-  private final PluginSetContext<AuditListener> auditListeners;
+public class GroupAuditServiceImpl implements GroupAuditService {
   private final PluginSetContext<GroupAuditListener> groupAuditListeners;
 
   @Inject
-  public AuditService(
-      PluginSetContext<AuditListener> auditListeners,
-      PluginSetContext<GroupAuditListener> groupAuditListeners) {
-    this.auditListeners = auditListeners;
+  public GroupAuditServiceImpl(PluginSetContext<GroupAuditListener> groupAuditListeners) {
     this.groupAuditListeners = groupAuditListeners;
   }
 
-  public void dispatch(AuditEvent action) {
-    auditListeners.runEach(l -> l.onAuditableAction(action));
-  }
 
   @Override
   public void dispatchAddMembers(

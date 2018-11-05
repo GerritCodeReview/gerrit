@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bae84ef4_566ac2a2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-05T14:43:28Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be name\u003d\"comment-thread\"?\n\nIt\u0027s hard for me to see where this slot is used, because that change exists in a different commit in this series?",
+      "range": {
+        "startLine": 34,
+        "startChar": 10,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "e79f57ff34ea26467faaf910a0565924808e64a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

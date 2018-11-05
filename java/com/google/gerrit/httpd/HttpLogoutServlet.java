@@ -19,7 +19,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.audit.AuditEvent;
-import com.google.gerrit.server.audit.AuditService;
+import com.google.gerrit.server.audit.AuditEventDispatcher;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -38,14 +38,14 @@ public class HttpLogoutServlet extends HttpServlet {
   private final DynamicItem<WebSession> webSession;
   private final Provider<String> urlProvider;
   private final String logoutUrl;
-  private final AuditService audit;
+  private final AuditEventDispatcher audit;
 
   @Inject
   protected HttpLogoutServlet(
       AuthConfig authConfig,
       DynamicItem<WebSession> webSession,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      AuditService audit) {
+      AuditEventDispatcher audit) {
     this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.logoutUrl = authConfig.getLogoutURL();

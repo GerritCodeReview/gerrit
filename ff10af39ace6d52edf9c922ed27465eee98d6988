@@ -94,6 +94,30 @@
       "revId": "ff10af39ace6d52edf9c922ed27465eee98d6988",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1793ec52_63c11224",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-05T09:48:32Z",
+      "side": 1,
+      "message": "Thanks for updating the commit message and adding a warning to the code :)",
+      "parentUuid": "f82e6fae_e30b5ab7",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "ff10af39ace6d52edf9c922ed27465eee98d6988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

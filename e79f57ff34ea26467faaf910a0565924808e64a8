@@ -22,6 +22,30 @@
       "revId": "e79f57ff34ea26467faaf910a0565924808e64a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a89a874f_c205ecb8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-05T15:01:27Z",
+      "side": 1,
+      "message": "Good catch, yes, I decided to not use a named slot at all in a later CL, but I had not back patched this change. Remove the selector now.\n\nThis is used in this CL, in gr-diff-builder.js:476. Over time, we can probably remove the thread group element altogether because at the end of all these changes it\u0027s not much more than a simple div. But at this point we still need it.",
+      "parentUuid": "bae84ef4_566ac2a2",
+      "range": {
+        "startLine": 34,
+        "startChar": 10,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "e79f57ff34ea26467faaf910a0565924808e64a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

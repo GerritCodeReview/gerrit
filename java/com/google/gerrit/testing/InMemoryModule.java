@@ -35,7 +35,8 @@ import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
-import com.google.gerrit.server.audit.AuditModule;
+import com.google.gerrit.server.audit.AuditEventDispatcherModule;
+import com.google.gerrit.server.audit.GroupAuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -180,7 +181,8 @@ public class InMemoryModule extends FactoryModule {
     install(new DefaultPermissionBackendModule());
     install(new SearchingChangeCacheImpl.Module());
     factory(GarbageCollection.Factory.class);
-    install(new AuditModule());
+    install(new GroupAuditModule());
+    install(new AuditEventDispatcherModule());
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 

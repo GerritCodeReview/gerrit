@@ -104,7 +104,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
-import com.google.gerrit.server.audit.AuditService;
+import com.google.gerrit.server.audit.AuditEventDispatcher;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -224,7 +224,7 @@ public class RestApiServlet extends HttpServlet {
     final DynamicItem<WebSession> webSession;
     final Provider<ParameterParser> paramParser;
     final PermissionBackend permissionBackend;
-    final AuditService auditService;
+    final AuditEventDispatcher auditDispatcher;
     final RestApiMetrics metrics;
     final Pattern allowOrigin;
 
@@ -234,14 +234,14 @@ public class RestApiServlet extends HttpServlet {
         DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
         PermissionBackend permissionBackend,
-        AuditService auditService,
+        AuditEventDispatcher auditDispatcher,
         RestApiMetrics metrics,
         @GerritServerConfig Config cfg) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
       this.permissionBackend = permissionBackend;
-      this.auditService = auditService;
+      this.auditDispatcher = auditDispatcher;
       this.metrics = metrics;
       allowOrigin = makeAllowOrigin(cfg);
     }
@@ -617,7 +617,7 @@ public class RestApiServlet extends HttpServlet {
         }
         globals.metrics.serverLatency.record(
             metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
-        globals.auditService.dispatch(
+        globals.auditDispatcher.dispatch(
             new ExtendedHttpAuditEvent(
                 globals.webSession.get().getSessionId(),
                 globals.currentUser.get(),

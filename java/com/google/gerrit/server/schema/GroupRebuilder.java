@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -276,7 +277,7 @@ class GroupRebuilder {
    *
    * <p>Events at the same time by the same user are batched together by type. The types should
    * correspond to the possible batch operations supported by {@link
-   * com.google.gerrit.server.audit.AuditService}.
+   * GroupAuditService}.
    */
   enum Type {
     ADD_MEMBER,

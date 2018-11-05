@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
  * Audit annotation for JSON/RPC interfaces.
  *
  * <p>Flag with @Audit all the JSON/RPC methods to be traced in audit-trail and submitted to the
- * AuditService.
+ * GroupAuditService.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})

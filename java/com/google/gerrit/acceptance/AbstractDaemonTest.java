@@ -126,12 +126,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.testing.ConfigSuite;
-import com.google.gerrit.testing.FakeEmailSender;
+import com.google.gerrit.testing.*;
 import com.google.gerrit.testing.FakeEmailSender.Message;
-import com.google.gerrit.testing.NoteDbMode;
-import com.google.gerrit.testing.SshMode;
-import com.google.gerrit.testing.TempFileUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -264,6 +260,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;
+  @Inject protected FakeAuditEventDispatcherService auditService;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;

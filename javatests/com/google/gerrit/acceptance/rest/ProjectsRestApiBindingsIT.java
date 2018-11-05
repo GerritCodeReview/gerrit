@@ -60,7 +60,6 @@ public class ProjectsRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.post("/projects/%s/access"),
           RestCall.put("/projects/%s/access:review"),
           RestCall.get("/projects/%s/check.access"),
-          RestCall.post("/projects/%s/check.access"),
           RestCall.put("/projects/%s/ban"),
           RestCall.get("/projects/%s/statistics.git"),
           RestCall.post("/projects/%s/index"),

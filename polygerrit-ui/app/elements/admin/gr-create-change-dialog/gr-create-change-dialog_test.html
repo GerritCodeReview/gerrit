@@ -158,5 +158,15 @@ limitations under the License.
         done();
       });
     });
+
+    test('_computeBranchClass', () => {
+      assert.equal(element._computeBranchClass(true), 'hide');
+      assert.equal(element._computeBranchClass(false), '');
+    });
+
+    test('_computePrivateSectionClass', () => {
+      assert.equal(element._computePrivateSectionClass(true), 'hide');
+      assert.equal(element._computePrivateSectionClass(false), '');
+    });
   });
 </script>

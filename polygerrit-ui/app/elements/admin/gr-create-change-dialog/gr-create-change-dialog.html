@@ -55,7 +55,7 @@ limitations under the License.
           padding: 0 .15em;
         }
       }
-      .hideBranch {
+      .hide {
         display: none;
       }
     </style>
@@ -108,7 +108,7 @@ limitations under the License.
             </iron-autogrow-textarea>
           </span>
         </section>
-        <section>
+        <section class$="[[_computePrivateSectionClass(_privateChangesEnabled)]]">
           <label
               class="title"
               for="privateChangeCheckBox">Private change</label>

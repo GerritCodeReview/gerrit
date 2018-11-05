@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -23,6 +24,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.audit.AuditService;
+import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -36,6 +39,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -146,17 +150,20 @@ public class GitOverHttpServlet extends GitServlet {
     private final PermissionBackend permissionBackend;
     private final Provider<CurrentUser> userProvider;
     private final ProjectCache projectCache;
+    private final AuditService auditService;
 
     @Inject
     Resolver(
         GitRepositoryManager manager,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
-        ProjectCache projectCache) {
+        ProjectCache projectCache,
+        AuditService auditService) {
       this.manager = manager;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
       this.projectCache = projectCache;
+      this.auditService = auditService;
     }
 
     @Override
@@ -200,6 +207,21 @@ public class GitOverHttpServlet extends GitServlet {
         return manager.openRepository(nameKey);
       } catch (IOException | PermissionBackendException err) {
         throw new ServiceMayNotContinueException(projectName + " unavailable", err);
+      }
+      finally {
+        auditService.dispatch(
+            new HttpAuditEvent(
+                "http cli session",
+                userProvider.get(),
+                "open." + projectName,
+                TimeUtil.nowMs(),
+                ImmutableListMultimap.of(),
+                req.getMethod(),
+                null,
+                200,
+                null
+            )
+        );
       }
     }
   }

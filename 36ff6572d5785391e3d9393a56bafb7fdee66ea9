@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "08e41e1d_5279b17b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-05T21:43:41Z",
+      "side": 1,
+      "message": "It is important to understand the goal state here: gr-diff-comment-thread-group will stay a dependency of gr-diff, and will be used also to group custom thread widgets. gr-diff-comment-thread will be a Gerrit only thing, that gr-diff must not depend on, and that will be created by gr-diff-host for Gerrit. \nSo this factory will eventually move to gr-diff-host, and that is why I want it to be as independent as can be from gr-diff-comment-thread-group. It\u0027s in the same file only because there is a short period between two files where I need to depend on it both from builder and from host.\nDoes that make sense?",
+      "parentUuid": "d7cf0355_150a6444",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1fef854e_c6d2360c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 8
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Wouldn\u0027t it be a bit more obvious if thread was passed into threadEl?",
       "parentUuid": "558165fe_187cfbe8",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51e2f06d_bf559c54",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-05T21:43:41Z",
+      "side": 1,
+      "message": "Possibly, but really do not want to touch gr-diff-comment-thread any more than I absolutely have to. This widget is used in other places of Gerrit, and changing it would require me to change a bunch of code that I really want nothing to do with. I am trying to do the minimal change to break gr-diff-comment-thread and dependencies lose from gr-diff, and if you look at all these commits, that already requires a ton of changes. I don\u0027t think refactoring gr-diff-comment-thread to get a thread passed in is strictly necessary for cutting this dependency, and so I would prefer not to do it.\nDoes that make sense?",
+      "parentUuid": "203aaadd_95b5ebe7",
       "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -158,6 +194,24 @@
       "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "831c5582_cf6d400c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-05T21:43:41Z",
+      "side": 1,
+      "message": "I don\u0027t want to touch threadEl - see above. That would require me to change things like this: http://google3/third_party/javascript/polygerrit/elements/change/gr-thread-list/gr-thread-list.js?l\u003d137\u0026rcl\u003d195429541\nWhich requires me to update more tests, risks more rollbacks etc.\n\nAnd I tried using remove(), but it\u0027s not supported by the Polymer.dom() API (https://www.polymer-project.org/1.0/docs/devguide/local-dom) and using a native method caused problems (things like getDistributedElements() not updating correctly).",
+      "parentUuid": "1f3df72c_626e9438",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

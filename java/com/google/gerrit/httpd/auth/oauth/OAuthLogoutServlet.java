@@ -18,7 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HttpLogoutServlet;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.server.audit.AuditService;
+import com.google.gerrit.server.audit.AuditEventDispatcher;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
@@ -39,7 +39,7 @@ class OAuthLogoutServlet extends HttpLogoutServlet {
       AuthConfig authConfig,
       DynamicItem<WebSession> webSession,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      AuditService audit,
+      AuditEventDispatcher audit,
       Provider<OAuthSession> oauthSession) {
     super(authConfig, webSession, urlProvider, audit);
     this.oauthSession = oauthSession;

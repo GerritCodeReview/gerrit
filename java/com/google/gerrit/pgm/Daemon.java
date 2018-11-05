@@ -57,7 +57,8 @@ import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
-import com.google.gerrit.server.audit.AuditModule;
+import com.google.gerrit.server.audit.AuditEventDispatcherModule;
+import com.google.gerrit.server.audit.GroupAuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
@@ -198,6 +199,7 @@ public class Daemon extends SiteProgram {
   private boolean inMemoryTest;
   private AbstractModule luceneModule;
   private Module emailModule;
+  private Module auditEventModule;
   private Module testSysModule;
 
   private Runnable serverStarted;
@@ -320,6 +322,11 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
+  public void setAuditEventModuleForTesting(Module module) {
+    auditEventModule = module;
+  }
+
+  @VisibleForTesting
   public void setLuceneModule(LuceneIndexModule m) {
     luceneModule = m;
     inMemoryTest = true;
@@ -425,7 +432,12 @@ public class Daemon extends SiteProgram {
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
     modules.add(new PluginApiModule());
-    modules.add(new AuditModule());
+    modules.add(new GroupAuditModule());
+    if (auditEventModule != null) {
+      modules.add(auditEventModule);
+    } else {
+      modules.add(new AuditEventDispatcherModule());
+    }
 
     modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());

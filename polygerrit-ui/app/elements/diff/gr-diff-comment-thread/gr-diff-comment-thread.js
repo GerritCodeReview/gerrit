@@ -35,18 +35,47 @@
      * @event thread-changed
      */
 
+     /**
+      * gr-diff-comment-thread exposes the following attributes that allow a
+      * diff widget like gr-diff to show the thread in the right location:
+      *
+      * line-num:
+      *     1-based line number or undefined if it refers to the entire file.
+      *
+      * comment-side:
+      *     "left" or "right". These indicate which of the two diffed versions
+      *     the comment relates to. In the case of unified diff, the left
+      *     version is the one whose line number column is further to the left.
+      *
+      * range:
+      *     The range of text that the comment refers to (startLine, startChar,
+      *     endLine, endChar), serialized as JSON. If set, range's startLine
+      *     will have the same value as line-num. Line numbers are 1-based,
+      *     char numbers are 0-based. The start position (startLine, startChar)
+      *     is inclusive, and the end position (endLine, endChar) is exclusive.
+      */
     properties: {
       changeNum: String,
       comments: {
         type: Array,
         value() { return []; },
       },
-      range: Object,
+      /**
+       * @type {?{startLine: number, startChar: number, endLine: number,
+       *          endChar: number}}
+       */
+      range: {
+        type: Object,
+        reflectToAttribute: true,
+      },
       keyEventTarget: {
         type: Object,
         value() { return document.body; },
       },
-      commentSide: String,
+      commentSide: {
+        type: String,
+        reflectToAttribute: true,
+      },
       patchNum: String,
       path: String,
       projectName: {
@@ -79,8 +108,11 @@
         type: Boolean,
         value: false,
       },
-      /** Necessary only if showFilePath is true */
-      lineNum: Number,
+      /** Necessary only if showFilePath is true or when used with gr-diff */
+      lineNum: {
+        type: Number,
+        reflectToAttribute: true,
+      },
       unresolved: {
         type: Boolean,
         notify: true,

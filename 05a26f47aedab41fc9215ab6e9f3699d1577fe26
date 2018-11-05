@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a944a53b_4e5ff093",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-05T21:33:14Z",
+      "side": 1,
+      "message": "Did you run google-java-format?",
+      "revId": "05a26f47aedab41fc9215ab6e9f3699d1577fe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b636bf87_d801b5ee",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-05T21:33:14Z",
+      "side": 1,
+      "message": "I would add an audit entry here, saying that we executed an upload-pack",
+      "revId": "05a26f47aedab41fc9215ab6e9f3699d1577fe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75a24915_319982e1",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-05T21:33:14Z",
+      "side": 1,
+      "message": "and another audit here saying that we executed a receive-pack",
+      "revId": "05a26f47aedab41fc9215ab6e9f3699d1577fe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "17442bc74dc6ec4ce2e2e4b9163986532845bd54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e7bb80c_ae6f9d69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/AddReviewerSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-11-06T12:20:25Z",
+      "side": 1,
+      "message": "I see. It is problematic though. Because plugins like the \"Reviewers Plugin\" keeps re-adding users and those users keeps getting notified on changes they have chosen to actively Ignore.\n\nI think Assignee is OK to get a notification from, since it is a more direct request for Action.\n\nBut I think it is a common scenario to Ignore a change and then remove yourself as reviewer. If you do get added anyway (especially automatically) you really do not want a mail about it. To ignore a change, you most certainly have been a reviewer at one point and decided that you do not want to be involved in that change.",
+      "parentUuid": "b42a2fe9_9007fefc",
+      "revId": "17442bc74dc6ec4ce2e2e4b9163986532845bd54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

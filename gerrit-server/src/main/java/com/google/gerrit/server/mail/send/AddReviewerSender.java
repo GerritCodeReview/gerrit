@@ -39,5 +39,6 @@ public class AddReviewerSender extends NewChangeSender {
     super.init();
 
     ccExistingReviewers();
+    removeUsersThatIgnoredTheChange();
   }
 }

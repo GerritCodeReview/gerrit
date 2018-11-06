@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f8f4e831_3550d209",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5054,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-06T06:28:11Z",
+      "side": 1,
+      "message": "Should we document that the name of this file does not change even if the All-Projects name is defined differently?",
+      "revId": "bcf970d33ffc37f3ddd9a608af3c717318b73f5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b04f989_e76dc4f9",
         "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
         "patchSetId": 2

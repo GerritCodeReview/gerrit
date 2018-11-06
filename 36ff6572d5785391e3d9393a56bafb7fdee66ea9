@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "f6774d14_88eefb70",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-11-06T17:47:05Z",
+      "side": 1,
+      "message": "Generally, it\u0027s advised in such cases accompany temporary implementations with commends that outline general direction, for the clarity. Priorities may change, or another person may join you in your task, and those comments would be super-helpful to make progress.\nNot to mention they save time during review.\n\nYes, this clears this a bit, but I\u0027m still not sure why element method is not a better alternative to a global function.\n\n\u003e So this factory will eventually move to gr-diff-host\n\nWhat\u0027s blocking the move right now?\nWhat\u0027s the plan on resolving those blockers?",
+      "parentUuid": "08e41e1d_5279b17b",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1fef854e_c6d2360c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 8
@@ -138,6 +156,24 @@
       "side": 1,
       "message": "Possibly, but really do not want to touch gr-diff-comment-thread any more than I absolutely have to. This widget is used in other places of Gerrit, and changing it would require me to change a bunch of code that I really want nothing to do with. I am trying to do the minimal change to break gr-diff-comment-thread and dependencies lose from gr-diff, and if you look at all these commits, that already requires a ton of changes. I don\u0027t think refactoring gr-diff-comment-thread to get a thread passed in is strictly necessary for cutting this dependency, and so I would prefer not to do it.\nDoes that make sense?",
       "parentUuid": "203aaadd_95b5ebe7",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4dfa715_de1cf1a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-11-06T17:47:05Z",
+      "side": 1,
+      "message": "You\u0027re adding an implicit dependency here. This may be acceptable in the short-term, but in the long run this would increase tech debt. Generally, I feel much more confident when there is at least a path (if not a plan) on resolving such issues.\n\nBasically, gr-thread-element will have different behaviors depending on if was created with the help of this factory method or directly.\n\nIf you don\u0027t want to touch gr-diff-comment-thread, I can understand that. Have you considered wrapping gr-diff-comment-thread in another element that would have those custom behaviors?",
+      "parentUuid": "51e2f06d_bf559c54",
       "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

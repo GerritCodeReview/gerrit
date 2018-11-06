@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "fb044d3f_27cf7d08",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2018-11-06T19:07:42Z",
+      "side": 1,
+      "message": "Fair point. I left a long comment explaining the motivation and the plan. Let me know if that makes sense.",
+      "parentUuid": "f6774d14_88eefb70",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1fef854e_c6d2360c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 8
@@ -174,6 +192,24 @@
       "side": 1,
       "message": "You\u0027re adding an implicit dependency here. This may be acceptable in the short-term, but in the long run this would increase tech debt. Generally, I feel much more confident when there is at least a path (if not a plan) on resolving such issues.\n\nBasically, gr-thread-element will have different behaviors depending on if was created with the help of this factory method or directly.\n\nIf you don\u0027t want to touch gr-diff-comment-thread, I can understand that. Have you considered wrapping gr-diff-comment-thread in another element that would have those custom behaviors?",
       "parentUuid": "51e2f06d_bf559c54",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31c9d521_c25561e8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2018-11-06T19:07:42Z",
+      "side": 1,
+      "message": "I think that difference in how you create the element was already there before this change:\n 1) https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html#35\n 2) https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html#85\n\nAlso wrapping this into another element would not solve that problem - unless I would use that wrapper also in gr-thread-list, which again means I need to update more code than I would like to.\n\nI just made one of them imperative to make it easier to move. I can convert it back after the move. Okay?",
+      "parentUuid": "c4dfa715_de1cf1a0",
       "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

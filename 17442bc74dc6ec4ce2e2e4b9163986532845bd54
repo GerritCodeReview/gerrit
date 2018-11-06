@@ -34,6 +34,24 @@
       "revId": "17442bc74dc6ec4ce2e2e4b9163986532845bd54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77040c15_ed1a6741",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/AddReviewerSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-06T12:25:11Z",
+      "side": 1,
+      "message": "Maybe the \"Reviewers Plugin\" should just not add users as reviewers that have ignored the change?\n\nThe use-case that currently works well is this:\n1) you watch all changes of a project\n2) there is a change with many updates that don\u0027t interest you, hence you ignore it\n3) somewhen later somebody thinks that you should comment on this change and adds you as reviewer\n4) you get an email now, as somebody explicitly wants your review on the change and you get a chance to accept this review request",
+      "parentUuid": "6e7bb80c_ae6f9d69",
+      "revId": "17442bc74dc6ec4ce2e2e4b9163986532845bd54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

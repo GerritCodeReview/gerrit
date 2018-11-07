@@ -59,13 +59,21 @@ public class Index implements RestModifyView<ProjectResource, ProjectInput> {
     Task mpt =
         new MultiProgressMonitor(ByteStreams.nullOutputStream(), "Reindexing project")
             .beginSubTask("", MultiProgressMonitor.UNKNOWN);
+<<<<<<< HEAD
     AllChangesIndexer allChangesIndexer = allChangesIndexerProvider.get();
     allChangesIndexer.setVerboseOut(NullOutputStream.INSTANCE);
+=======
+    PrintWriter pw = new PrintWriter(CharStreams.nullWriter());
+>>>>>>> stable-2.14
     // The REST call is just a trigger for async reindexing, so it is safe to ignore the future's
     // return value.
     @SuppressWarnings("unused")
     Future<Void> ignored =
+<<<<<<< HEAD
         executor.submit(allChangesIndexer.reindexProject(indexer, project, mpt, mpt));
+=======
+        executor.submit(allChangesIndexer.reindexProject(indexer, project, mpt, mpt, pw));
+>>>>>>> stable-2.14
     return Response.accepted("Project " + project + " submitted for reindexing");
   }
 }

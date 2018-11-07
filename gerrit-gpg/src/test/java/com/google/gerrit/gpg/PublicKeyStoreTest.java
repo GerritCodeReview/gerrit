@@ -26,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.collect.Iterators;
 import com.google.gerrit.gpg.testutil.TestKey;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -163,6 +164,8 @@ public class PublicKeyStoreTest {
     TestKey key5 = validKeyWithSecondUserId();
     PGPPublicKeyRing keyRing = key5.getPublicKeyRing();
     PGPPublicKey key = keyRing.getPublicKey();
+    PGPPublicKey subKey =
+        keyRing.getPublicKey(Iterators.get(keyRing.getPublicKeys(), 1).getKeyID());
     store.add(keyRing);
     assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
 
@@ -171,9 +174,11 @@ public class PublicKeyStoreTest {
         "Testuser Five <test5@example.com>",
         "foo:myId");
 
+    keyRing = PGPPublicKeyRing.removePublicKey(keyRing, subKey);
     keyRing = PGPPublicKeyRing.removePublicKey(keyRing, key);
     key = PGPPublicKey.removeCertification(key, "foo:myId");
     keyRing = PGPPublicKeyRing.insertPublicKey(keyRing, key);
+    keyRing = PGPPublicKeyRing.insertPublicKey(keyRing, subKey);
     store.add(keyRing);
     assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
 

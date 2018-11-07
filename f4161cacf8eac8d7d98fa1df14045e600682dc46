@@ -34,6 +34,24 @@
       "revId": "f4161cacf8eac8d7d98fa1df14045e600682dc46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf8beed7_f322255d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-07T17:47:59Z",
+      "side": 1,
+      "message": "Did you intend to include the soy template in this commit, then?",
+      "parentUuid": "43873c82_1c8195ee",
+      "revId": "f4161cacf8eac8d7d98fa1df14045e600682dc46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

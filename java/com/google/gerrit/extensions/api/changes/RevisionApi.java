@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CherryPickChangeInfo;
@@ -71,7 +72,7 @@ public interface RevisionApi {
 
   Map<String, FileInfo> files() throws RestApiException;
 
-  Map<String, FileInfo> files(String base) throws RestApiException;
+  Map<String, FileInfo> files(@Nullable String base) throws RestApiException;
 
   Map<String, FileInfo> files(int parentNum) throws RestApiException;
 

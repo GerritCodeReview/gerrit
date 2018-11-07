@@ -84,9 +84,6 @@
       prefs: {
         type: Object,
       },
-      projectConfig: {
-        type: Object,
-      },
       projectName: String,
       displayLine: {
         type: Boolean,
@@ -308,7 +305,10 @@
       this._blame = null;
     },
 
-    /** @return {!Array<!HTMLElement>} */
+    /**
+     * The thread elements in this diff, in no particular order.
+     * @return {!Array<!HTMLElement>}
+     */
     getThreadEls() {
       return this.$.diff.getThreadEls();
     },

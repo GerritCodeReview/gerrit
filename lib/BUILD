@@ -76,10 +76,20 @@ java_library(
 )
 
 java_library(
+    name = "j2objc",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@j2objc//jar"],
+)
+
+java_library(
     name = "guava",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guava//jar"],
+    exports = [
+        ":j2objc",
+        "@guava//jar",
+    ],
 )
 
 java_library(

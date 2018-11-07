@@ -220,6 +220,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "j2objc",
+    artifact = "com.google.j2objc:j2objc-annotations:1.1",
+    sha1 = "ed28ded51a8b1c6b112568def5f4b455e6809019",
+)
+
+maven_jar(
     name = "velocity",
     artifact = "org.apache.velocity:velocity:1.7",
     sha1 = "2ceb567b8f3f21118ecdec129fe1271dbc09aa7a",
@@ -459,36 +465,36 @@ maven_jar(
     sha1 = "18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3",
 )
 
-LUCENE_VERS = "5.5.4"
+LUCENE_VERS = "5.5.5"
 
 maven_jar(
     name = "lucene-core",
     artifact = "org.apache.lucene:lucene-core:" + LUCENE_VERS,
-    sha1 = "ab9c77e75cf142aa6e284b310c8395617bd9b19b",
+    sha1 = "c34bcd9274859dc07cfed2a935aaca90c4f4b861",
 )
 
 maven_jar(
     name = "lucene-analyzers-common",
     artifact = "org.apache.lucene:lucene-analyzers-common:" + LUCENE_VERS,
-    sha1 = "08ce9d34c8124c80e176e8332ee947480bbb9576",
+    sha1 = "e6b3f5d1b33ed24da7eef0a72f8062bd4652700c",
 )
 
 maven_jar(
     name = "backward-codecs",
     artifact = "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
-    sha1 = "a933f42e758c54c43083398127ea7342b54d8212",
+    sha1 = "d1dee5c7676a313758adb30d7b0bd4c69a4cd214",
 )
 
 maven_jar(
     name = "lucene-misc",
     artifact = "org.apache.lucene:lucene-misc:" + LUCENE_VERS,
-    sha1 = "a74388857f73614e528ae44d742c60187cb55a5a",
+    sha1 = "bc0eb46ba0377594cac7b0cdaab35562d7877521",
 )
 
 maven_jar(
     name = "lucene-queryparser",
     artifact = "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
-    sha1 = "8a06fad4675473d98d93b61fea529e3f464bf69e",
+    sha1 = "6c965eb5838a2ba58b0de0fd860a420dcda11937",
 )
 
 maven_jar(
@@ -579,25 +585,25 @@ maven_jar(
     sha1 = "bb562ee73f740bb6b2bf7955f97be6b870d9e9f0",
 )
 
-# When updading Bouncy Castle, also update it in bazlets.
-BC_VERS = "1.57"
+# When updating Bouncy Castle, also update it in bazlets.
+BC_VERS = "1.60"
 
 maven_jar(
     name = "bcprov",
     artifact = "org.bouncycastle:bcprov-jdk15on:" + BC_VERS,
-    sha1 = "f66a135611d42c992e5745788c3f94eb06464537",
+    sha1 = "bd47ad3bd14b8e82595c7adaa143501e60842a84",
 )
 
 maven_jar(
     name = "bcpg",
     artifact = "org.bouncycastle:bcpg-jdk15on:" + BC_VERS,
-    sha1 = "7b2d587f5e3780b79e1d35af3e84d00634e9420b",
+    sha1 = "13c7a199c484127daad298996e95818478431a2c",
 )
 
 maven_jar(
     name = "bcpkix",
     artifact = "org.bouncycastle:bcpkix-jdk15on:" + BC_VERS,
-    sha1 = "5c96e34bc9bd4cd6870e6d193a99438f1e274ca7",
+    sha1 = "d0c46320fbc07be3a24eb13a56cee4e3d38e0c75",
 )
 
 # TODO(davido): Remove exlusion of file system provider, when this issue is fixed:
@@ -650,10 +656,18 @@ maven_jar(
     sha1 = "f5aa318bda4c6c8d688c9d00b90681dcd82ce636",
 )
 
+# elasticsearch-rest-client explicitly depends on this version
 maven_jar(
-    name = "httpmime",
-    artifact = "org.apache.httpcomponents:httpmime:" + HTTPCOMP_VERS,
-    sha1 = "2f8757f5ac5e38f46c794e5229d1f3c522e9b1df",
+    name = "httpasyncclient",
+    artifact = "org.apache.httpcomponents:httpasyncclient:4.1.2",
+    sha1 = "95aa3e6fb520191a0970a73cf09f62948ee614be",
+)
+
+# elasticsearch-rest-client explicitly depends on this version
+maven_jar(
+    name = "httpcore-nio",
+    artifact = "org.apache.httpcomponents:httpcore-nio:4.4.5",
+    sha1 = "f4be009e7505f6ceddf21e7960c759f413f15056",
 )
 
 # Test-only dependencies below.
@@ -755,65 +769,65 @@ maven_jar(
 
 maven_jar(
     name = "derby",
-    artifact = "org.apache.derby:derby:10.11.1.1",
+    artifact = "org.apache.derby:derby:10.12.1.1",
     attach_source = False,
-    sha1 = "df4b50061e8e4c348ce243b921f53ee63ba9bbe1",
+    sha1 = "75070c744a8e52a7d17b8b476468580309d5cd09",
 )
 
-JETTY_VERS = "9.3.18.v20170406"
+JETTY_VERS = "9.3.24.v20180605"
 
 maven_jar(
     name = "jetty-servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
-    sha1 = "534e7fa0e4fb6e08f89eb3f6a8c48b4f81ff5738",
+    sha1 = "db09c8e226c07c46dc3d84626fc97955ec6bf8bf",
 )
 
 maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
-    sha1 = "16b900e91b04511f42b706c925c8af6023d2c05e",
+    sha1 = "dfc4e2169f3dd91954804e7fdff9c4f67c63f385",
 )
 
 maven_jar(
     name = "jetty-servlets",
     artifact = "org.eclipse.jetty:jetty-servlets:" + JETTY_VERS,
-    sha1 = "f9311d1d8e6124d2792f4db5b29514d0ecf46812",
+    sha1 = "189db52691aacab9e13546429583765d143faf81",
 )
 
 maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
-    sha1 = "0a32feea88cba2d43951d22b60861c643454bb3f",
+    sha1 = "0e629740cf0a08b353ec07c35eeab8fd06590041",
 )
 
 maven_jar(
     name = "jetty-jmx",
     artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
-    sha1 = "f988136dc5aa634afed6c5a35d910ee9599c6c23",
+    sha1 = "aaeda444192a42389d2ac17a786329a1b6f4cf68",
 )
 
 maven_jar(
     name = "jetty-continuation",
     artifact = "org.eclipse.jetty:jetty-continuation:" + JETTY_VERS,
-    sha1 = "3c5d89c8204d4a48a360087f95e4cbd4520b5de0",
+    sha1 = "44d7b4a9aef498abef268f3aade92daa459050f6",
 )
 
 maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
-    sha1 = "30ece6d732d276442d513b94d914de6fa1075fae",
+    sha1 = "f3d614a7c82b5ee028df78bdb3cdadb6c3be89bc",
 )
 
 maven_jar(
     name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
-    sha1 = "36cb411ee89be1b527b0c10747aa3153267fc3ec",
+    sha1 = "f12a02ab2cb79eb9c3fa01daf28a58e8ea7cbea9",
 )
 
 maven_jar(
     name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
-    sha1 = "8600b7d028a38cb462eff338de91390b3ff5040e",
+    sha1 = "f74fb3f999e658a2ddea397155e20da5b9126b5d",
 )
 
 maven_jar(
@@ -837,8 +851,8 @@ maven_jar(
 
 maven_jar(
     name = "postgresql",
-    artifact = "org.postgresql:postgresql:42.2.4",
-    sha1 = "dff98730c28a4b3a3263f0cf4abb9a3392f815a7",
+    artifact = "org.postgresql:postgresql:42.2.5",
+    sha1 = "951b7eda125f3137538a94e2cbdcf744088ad4c2",
 )
 
 maven_jar(
@@ -878,6 +892,8 @@ maven_jar(
     sha1 = "76716d529710fc03d1d429b43e3cedd4419f78d4",
 )
 
+# When upgrading elasticsearch-rest-client, also upgrade http-niocore
+# and httpasyncclient as necessary.
 maven_jar(
     name = "elasticsearch-rest-client",
     artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.4.2",
@@ -890,18 +906,6 @@ maven_jar(
     name = "jackson-core",
     artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
     sha1 = "4b7f0e0dc527fab032e9800ed231080fdc3ac015",
-)
-
-maven_jar(
-    name = "httpasyncclient",
-    artifact = "org.apache.httpcomponents:httpasyncclient:4.1.2",
-    sha1 = "95aa3e6fb520191a0970a73cf09f62948ee614be",
-)
-
-maven_jar(
-    name = "httpcore-nio",
-    artifact = "org.apache.httpcomponents:httpcore-nio:" + HTTPCOMP_VERS,
-    sha1 = "a8c5e3c3bfea5ce23fb647c335897e415eb442e3",
 )
 
 maven_jar(

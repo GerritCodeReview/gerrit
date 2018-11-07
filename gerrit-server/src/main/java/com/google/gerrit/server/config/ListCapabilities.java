@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -24,6 +23,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class ListCapabilities implements RestReadView<ConfigResource> {
   private static final Logger log = LoggerFactory.getLogger(ListCapabilities.class);
+  private static final Pattern PLUGIN_NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9-]+$");
+
   private final DynamicMap<CapabilityDefinition> pluginCapabilities;
 
   @Inject
@@ -59,10 +61,11 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
 
   private void collectPluginCapabilities(Map<String, CapabilityInfo> output) {
     for (String pluginName : pluginCapabilities.plugins()) {
-      if (!isPluginNameSane(pluginName)) {
+      if (!PLUGIN_NAME_PATTERN.matcher(pluginName).matches()) {
         log.warn(
-            "Plugin name {} must match [A-Za-z0-9-]+ to use capabilities;" + " rename the plugin",
-            pluginName);
+            "Plugin name '{}' must match '{}' to use capabilities; rename the plugin",
+            pluginName,
+            PLUGIN_NAME_PATTERN.pattern());
         continue;
       }
       for (Map.Entry<String, Provider<CapabilityDefinition>> entry :
@@ -71,10 +74,6 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
         output.put(id, new CapabilityInfo(id, entry.getValue().get().getDescription()));
       }
     }
-  }
-
-  private static boolean isPluginNameSane(String pluginName) {
-    return CharMatcher.javaLetterOrDigit().or(CharMatcher.is('-')).matchesAllOf(pluginName);
   }
 
   public static class CapabilityInfo {

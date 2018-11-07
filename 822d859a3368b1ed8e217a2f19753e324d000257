@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09811d69_2c7efd7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-07T03:50:23Z",
+      "side": 1,
+      "message": "How should this work when two different versions of httpcore are shippes in release.war? Gerrit is not a OSGI application and cannot control which of two jars supplied in release.war is used.",
+      "revId": "822d859a3368b1ed8e217a2f19753e324d000257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

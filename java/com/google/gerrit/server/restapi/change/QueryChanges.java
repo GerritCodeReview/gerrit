@@ -82,6 +82,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     imp.setStart(start);
   }
 
+  @Override
   public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
     imp.setDynamicBean(plugin, dynamicBean);
   }

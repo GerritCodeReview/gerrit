@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "379f3604_ad8bb37b",
+        "filename": "java/com/google/gerrit/pgm/init/InitJavaOptions.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-07T22:35:00Z",
+      "side": 1,
+      "message": "Does this have any advantage over this:\n\n  return javaOptions.contains(javaOption)",
+      "revId": "05dfd5967c9939a6eb4012ade87ba14364a24438",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

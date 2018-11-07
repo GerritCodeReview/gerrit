@@ -23,6 +23,30 @@
       "revId": "89151b05e94bb3ff830b5f668f267feb6a817d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86cfed5e_8578bd8b",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-07T07:32:37Z",
+      "side": 1,
+      "message": "Fixed in:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/203150",
+      "parentUuid": "0be0f7b9_7cd21e72",
+      "range": {
+        "startLine": 334,
+        "startChar": 0,
+        "endLine": 334,
+        "endChar": 12
+      },
+      "revId": "89151b05e94bb3ff830b5f668f267feb6a817d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

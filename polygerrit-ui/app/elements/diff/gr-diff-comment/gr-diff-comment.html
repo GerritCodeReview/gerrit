@@ -91,9 +91,11 @@ limitations under the License.
         text-align: right;
         white-space: nowrap;
       }
-      a.date:link,
-      a.date:visited {
+      span.date {
         color: var(--deemphasized-text-color);
+      }
+      span.date:hover {
+        text-decoration: underline;
       }
       .actions {
         display: flex;
@@ -255,11 +257,11 @@ limitations under the License.
             on-tap="_handleCommentDelete">
           (Delete)
         </gr-button>
-        <a class="date" href$="[[_computeLinkToComment(comment)]]" on-tap="_handleLinkTap">
+        <span class="date" on-tap="_handleAnchorTap">
           <gr-date-formatter
               has-tooltip
               date-str="[[comment.updated]]"></gr-date-formatter>
-        </a>
+        </span>
         <div class="show-hide">
           <label class="show-hide">
             <input type="checkbox" class="show-hide"

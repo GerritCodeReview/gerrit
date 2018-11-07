@@ -29,6 +29,8 @@
   const REPORT_UPDATE_DRAFT = 'UpdateDraftComment';
   const REPORT_DISCARD_DRAFT = 'DiscardDraftComment';
 
+  const FILE = 'FILE';
+
   Polymer({
     is: 'gr-diff-comment',
 
@@ -62,6 +64,12 @@
 
     /**
      * @event comment-mouse-out
+     */
+
+    /**
+     * Fired when the comment's timestamp is tapped.
+     *
+     * @event comment-anchor-tap
      */
 
     properties: {
@@ -333,10 +341,6 @@
       }
     },
 
-    _computeLinkToComment(comment) {
-      return '#' + comment.line;
-    },
-
     _computeDeleteButtonClass(isAdmin, draft) {
       return isAdmin && !draft ? 'showDeleteButtons' : '';
     },
@@ -401,15 +405,16 @@
       }, STORAGE_DEBOUNCE_INTERVAL);
     },
 
-    _handleLinkTap(e) {
+    _handleAnchorTap(e) {
       e.preventDefault();
-      const hash = this._computeLinkToComment(this.comment);
-      // Don't add the hash to the window history if it's already there.
-      // Otherwise you mess up expected back button behavior.
-      if (window.location.hash == hash) { return; }
-      // Change the URL but don’t trigger a nav event. Otherwise it will
-      // reload the page.
-      page.show(window.location.pathname + hash, null, false);
+      if (!this.comment.line) { return; }
+      this.dispatchEvent(new CustomEvent('comment-anchor-tap', {
+        bubbles: true,
+        detail: {
+          number: this.comment.line || FILE,
+          side: this.side,
+        },
+      }));
     },
 
     _handleEdit(e) {

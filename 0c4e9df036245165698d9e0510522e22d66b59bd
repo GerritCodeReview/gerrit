@@ -23,6 +23,30 @@
       "revId": "0c4e9df036245165698d9e0510522e22d66b59bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13a76b43_90250c51",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-07T20:47:39Z",
+      "side": 1,
+      "message": "True, but NotImplementedException already inherits from UnsupportedOperationException; I think the risk of this breaking someone is quite low. I would rather take the code savings of eliminating multiple concrete implementations of this method in subclasses.",
+      "parentUuid": "d6c85809_9dc8773e",
+      "range": {
+        "startLine": 180,
+        "startChar": 4,
+        "endLine": 180,
+        "endChar": 78
+      },
+      "revId": "0c4e9df036245165698d9e0510522e22d66b59bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

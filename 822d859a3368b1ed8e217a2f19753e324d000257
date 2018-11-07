@@ -16,6 +16,24 @@
       "revId": "822d859a3368b1ed8e217a2f19753e324d000257",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82a062ec_67d03969",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-07T03:57:24Z",
+      "side": 1,
+      "message": "Hmm, good point, I hadn\u0027t thought about that.\n\nI wonder if we really need to have exactly the version ES uses?  It seems to have worked OK so far.",
+      "parentUuid": "09811d69_2c7efd7e",
+      "revId": "822d859a3368b1ed8e217a2f19753e324d000257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

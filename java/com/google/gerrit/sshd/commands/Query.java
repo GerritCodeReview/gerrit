@@ -104,6 +104,7 @@ public class Query extends SshCommand implements DynamicOptions.BeanReceiver {
     processor.query(join(query, " "));
   }
 
+  @Override
   public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
     processor.setDynamicBean(plugin, dynamicBean);
   }

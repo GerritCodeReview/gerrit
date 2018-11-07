@@ -667,6 +667,13 @@ maven_jar(
     sha1 = "f4be009e7505f6ceddf21e7960c759f413f15056",
 )
 
+# elasticsearch-rest-client explicitly depends on this version
+maven_jar(
+    name = "httpcore-4_4_5",
+    artifact = "org.apache.httpcomponents:httpcore:4.4.5",
+    sha1 = "e7501a1b34325abb00d17dde96150604a0658b54",
+)
+
 # Test-only dependencies below.
 
 maven_jar(

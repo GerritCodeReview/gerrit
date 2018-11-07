@@ -20,7 +20,7 @@ java_library(
         "//lib/guice:guice-assistedinject",
         "//lib/httpcomponents:httpasyncclient",
         "//lib/httpcomponents:httpclient",
-        "//lib/httpcomponents:httpcore",
+        "//lib/httpcomponents:httpcore-4_4_5",
         "//lib/httpcomponents:httpcore-nio",
         "//lib/jackson:jackson-core",
         "//lib/jgit/org.eclipse.jgit:jgit",

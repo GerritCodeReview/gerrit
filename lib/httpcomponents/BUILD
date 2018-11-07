@@ -40,3 +40,10 @@ java_library(
     visibility = ["//gerrit-elasticsearch:__pkg__"],
     exports = ["@httpcore-nio//jar"],
 )
+
+java_library(
+    name = "httpcore-4_4_5",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//gerrit-elasticsearch:__pkg__"],
+    exports = ["@httpcore-4_4_5//jar"],
+)

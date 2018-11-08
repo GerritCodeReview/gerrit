@@ -388,8 +388,8 @@
       return null;
     }
 
-    const threadGroupEl =
-        document.createElement('gr-diff-comment-thread-group');
+    const threadGroupEl = document.createElement('div');
+    threadGroupEl.className = 'thread-group';
     for (const threadEl of threadElsForGroup) {
       Polymer.dom(threadGroupEl).appendChild(threadEl);
     }

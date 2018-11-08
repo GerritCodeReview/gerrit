@@ -318,5 +318,9 @@
     _computeRepositoriesClass(config) {
       return config ? 'showConfig': '';
     },
+
+    _computeChangesUrl(name) {
+      return Gerrit.Nav.getUrlForProjectChanges(name);
+    },
   });
 })();

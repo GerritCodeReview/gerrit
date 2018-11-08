@@ -315,8 +315,7 @@ limitations under the License.
         // The new thread group can be fetched.
         assert.isOk(element._getThreadGroupForLine(contentEl));
 
-        assert.equal(contentEl.querySelectorAll(
-            'gr-diff-comment-thread-group').length, 1);
+        assert.equal(contentEl.querySelectorAll('.thread-group').length, 1);
       });
 
       suite('image diffs', () => {

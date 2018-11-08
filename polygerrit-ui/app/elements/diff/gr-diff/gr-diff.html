@@ -36,6 +36,11 @@ limitations under the License.
       :host(.no-left) .sideBySide ::content .right:not([data-value]) + td {
         display: none;
       }
+      ::slotted(*) .thread-group {
+        display: block;
+        max-width: var(--content-width, 80ch);
+        white-space: normal;
+      }
       .diffContainer {
         display: flex;
         font-family: var(--monospace-font-family);

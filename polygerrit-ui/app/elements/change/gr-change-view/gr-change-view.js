@@ -108,6 +108,14 @@
         type: Boolean,
         value: false,
       },
+      disableDiffPrefs: {
+        type: Boolean,
+        value: false,
+      },
+      _diffPrefsDisabled: {
+        type: Boolean,
+        computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
+      },
       _commentThreads: Array,
       /** @type {?} */
       _serverConfig: {
@@ -978,6 +986,8 @@
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
+      if (this._diffPrefsDisabled) { return; }
+
       e.preventDefault();
       this.$.fileList.openDiffPrefs();
     },
@@ -1663,6 +1673,10 @@
 
     _computeCurrentRevision(currentRevision, revisions) {
       return revisions && revisions[currentRevision];
+    },
+
+    _computeDiffPrefsDisabled(disableDiffPrefs, loggedIn) {
+      return disableDiffPrefs || !loggedIn;
     },
   });
 })();

@@ -249,10 +249,10 @@ limitations under the License.
           <gr-diff-mode-selector
               id="modeSelect"
               mode="{{diffViewMode}}"
-              save-on-change="[[loggedIn]]"></gr-diff-mode-selector>
+              save-on-change="[[!diffPrefsDisabled]]"></gr-diff-mode-selector>
           <span id="diffPrefsContainer"
               class="hideOnEdit"
-              hidden$="[[_computePrefsButtonHidden(diffPrefs, loggedIn)]]"
+              hidden$="[[_computePrefsButtonHidden(diffPrefs, diffPrefsDisabled)]]"
               hidden>
             <gr-button
                 link

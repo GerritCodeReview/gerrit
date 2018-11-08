@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0edf381f_e7020e27",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-08T12:33:31Z",
+      "side": 1,
+      "message": "\u003e Found trailing space\n\nPlease Fix",
+      "parentUuid": "1fe8ea4c_df9ee5c4",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 3
+      },
+      "revId": "b703236d86bf105a907dbc554621f8e821db5cc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

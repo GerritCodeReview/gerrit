@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -227,23 +228,12 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public void submit() throws RestApiException {
-    SubmitInput in = new SubmitInput();
-    submit(in);
-  }
-
-  @Override
   public void submit(SubmitInput in) throws RestApiException {
     try {
       submit.apply(revision, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot submit change", e);
     }
-  }
-
-  @Override
-  public BinaryResult submitPreview() throws RestApiException {
-    return submitPreview("zip");
   }
 
   @Override
@@ -254,22 +244,6 @@ class RevisionApiImpl implements RevisionApi {
     } catch (Exception e) {
       throw asRestApiException("Cannot get submit preview", e);
     }
-  }
-
-  @Override
-  public void publish() throws RestApiException {
-    throw new UnsupportedOperationException("draft workflow is discontinued");
-  }
-
-  @Override
-  public void delete() throws RestApiException {
-    throw new UnsupportedOperationException("draft workflow is discontinued");
-  }
-
-  @Override
-  public ChangeApi rebase() throws RestApiException {
-    RebaseInput in = new RebaseInput();
-    return rebase(in);
   }
 
   @Override
@@ -366,17 +340,7 @@ class RevisionApiImpl implements RevisionApi {
 
   @SuppressWarnings("unchecked")
   @Override
-  public Map<String, FileInfo> files() throws RestApiException {
-    try {
-      return (Map<String, FileInfo>) listFiles.apply(revision).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot retrieve files", e);
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public Map<String, FileInfo> files(String base) throws RestApiException {
+  public Map<String, FileInfo> files(@Nullable String base) throws RestApiException {
     try {
       return (Map<String, FileInfo>) listFiles.setBase(base).apply(revision).value();
     } catch (Exception e) {

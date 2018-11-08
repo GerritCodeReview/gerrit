@@ -43,7 +43,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
-import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
@@ -256,16 +255,6 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public RevisionApi current() throws RestApiException {
-    return revision("current");
-  }
-
-  @Override
-  public RevisionApi revision(int id) throws RestApiException {
-    return revision(String.valueOf(id));
-  }
-
-  @Override
   public RevisionApi revision(String id) throws RestApiException {
     try {
       return revisionApi.create(revisions.parse(change, IdString.fromDecoded(id)));
@@ -284,11 +273,6 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public void abandon() throws RestApiException {
-    abandon(new AbandonInput());
-  }
-
-  @Override
   public void abandon(AbandonInput in) throws RestApiException {
     try {
       abandon.apply(change, in);
@@ -298,24 +282,12 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public void restore() throws RestApiException {
-    restore(new RestoreInput());
-  }
-
-  @Override
   public void restore(RestoreInput in) throws RestApiException {
     try {
       restore.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot restore change", e);
     }
-  }
-
-  @Override
-  public void move(String destination) throws RestApiException {
-    MoveInput in = new MoveInput();
-    in.destinationBranch = destination;
-    move(in);
   }
 
   @Override
@@ -360,11 +332,6 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public ChangeApi revert() throws RestApiException {
-    return revert(new RevertInput());
-  }
-
-  @Override
   public ChangeApi revert(RevertInput in) throws RestApiException {
     try {
       return changeApi.id(revert.apply(change, in)._number);
@@ -383,20 +350,6 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public List<ChangeInfo> submittedTogether() throws RestApiException {
-    SubmittedTogetherInfo info =
-        submittedTogether(
-            EnumSet.noneOf(ListChangesOption.class), EnumSet.noneOf(SubmittedTogetherOption.class));
-    return info.changes;
-  }
-
-  @Override
-  public SubmittedTogetherInfo submittedTogether(EnumSet<SubmittedTogetherOption> options)
-      throws RestApiException {
-    return submittedTogether(EnumSet.noneOf(ListChangesOption.class), options);
-  }
-
-  @Override
   public SubmittedTogetherInfo submittedTogether(
       EnumSet<ListChangesOption> listOptions, EnumSet<SubmittedTogetherOption> submitOptions)
       throws RestApiException {
@@ -409,17 +362,6 @@ class ChangeApiImpl implements ChangeApi {
     } catch (Exception e) {
       throw asRestApiException("Cannot query submittedTogether", e);
     }
-  }
-
-  @Deprecated
-  @Override
-  public void publish() throws RestApiException {
-    throw new UnsupportedOperationException("draft workflow is discontinued");
-  }
-
-  @Override
-  public void rebase() throws RestApiException {
-    rebase(new RebaseInput());
   }
 
   @Override
@@ -466,13 +408,6 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public AddReviewerResult addReviewer(String reviewer) throws RestApiException {
-    AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = reviewer;
-    return addReviewer(in);
-  }
-
-  @Override
   public AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException {
     try {
       return postReviewers.apply(change, in);
@@ -489,11 +424,6 @@ class ChangeApiImpl implements ChangeApi {
         return ChangeApiImpl.this.suggestReviewers(this);
       }
     };
-  }
-
-  @Override
-  public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
-    return suggestReviewers().withQuery(query);
   }
 
   private List<SuggestedReviewerInfo> suggestReviewers(SuggestedReviewersRequest r)
@@ -517,27 +447,8 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public ChangeInfo get() throws RestApiException {
-    return get(
-        EnumSet.complementOf(
-            EnumSet.of(ListChangesOption.CHECK, ListChangesOption.SKIP_MERGEABLE)));
-  }
-
-  @Override
-  public EditInfo getEdit() throws RestApiException {
-    return edit().get().orElse(null);
-  }
-
-  @Override
   public ChangeEditApi edit() throws RestApiException {
     return changeEditApi.create(change);
-  }
-
-  @Override
-  public void setMessage(String msg) throws RestApiException {
-    CommitMessageInput in = new CommitMessageInput();
-    in.message = msg;
-    setMessage(in);
   }
 
   @Override
@@ -547,11 +458,6 @@ class ChangeApiImpl implements ChangeApi {
     } catch (Exception e) {
       throw asRestApiException("Cannot edit commit message", e);
     }
-  }
-
-  @Override
-  public ChangeInfo info() throws RestApiException {
-    return get(EnumSet.noneOf(ListChangesOption.class));
   }
 
   @Override

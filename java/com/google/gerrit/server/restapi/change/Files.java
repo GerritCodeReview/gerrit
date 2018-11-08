@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -332,7 +333,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       return this;
     }
 
-    public ListFiles setBase(String base) {
+    public ListFiles setBase(@Nullable String base) {
       this.base = base;
       return this;
     }

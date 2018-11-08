@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "11a0a1e4_ac6bd453",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-08T18:35:12Z",
+      "side": 1,
+      "message": "Thanks for catching the removal of the comment - that was not on purpose.\n\nSorry, but I don\u0027t understand.\n\nThis global function is called from builder in the next change (https://gerrit-review.googlesource.com/c/gerrit/+/201872/18/polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js#476). In that change, I could still call it if it was a public element method, because I have access to the a threadGroupEl.\n\nBut then in a later change also currently under review (https://gerrit-review.googlesource.com/c/gerrit/+/197112/27/polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js#602) I am moving that call to gr-diff-host, which does not have access to a threadGroupEl, and so at that point I would have to move it. \n\nI do make an element method on gr-diff-host in another change under review (https://gerrit-review.googlesource.com/c/gerrit/+/203330/3). \n\nSo I would say there is a clear plan, even actual changes, to make this an element method again. Would you prefer that I move that code around in each of the changes? Or is there maybe a more suitable namespace that is less global?",
+      "parentUuid": "2fdbd421_454587f7",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1fef854e_c6d2360c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 8

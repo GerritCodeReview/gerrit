@@ -191,7 +191,6 @@
       return diffPrefsDisabled || !prefs;
     },
 
-
     _fileListActionsVisible(shownFileCount, maxFilesForBulkActions) {
       return shownFileCount <= maxFilesForBulkActions;
     },

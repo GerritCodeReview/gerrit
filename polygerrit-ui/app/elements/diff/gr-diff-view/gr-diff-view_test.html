@@ -135,6 +135,7 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
       element.changeViewState.selectedFileIndex = 1;
+      element._loggedIn = true;
 
       const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
       const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
@@ -174,6 +175,10 @@ limitations under the License.
           sandbox.stub(element.$.diffPreferences.$.prefsOverlay, 'open',
               () => Promise.resolve());
 
+      MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
+      assert(showPrefsStub.calledOnce);
+
+      element.disableDiffPrefs = true;
       MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
       assert(showPrefsStub.calledOnce);
 
@@ -343,23 +348,39 @@ limitations under the License.
           PARENT), 'Should navigate to /c/42/1');
     });
 
-    test('Diff preferences hidden when no prefs or logged out', () => {
-      element._loggedIn = false;
-      flushAsynchronousOperations();
-      assert.isTrue(element.$.diffPrefsContainer.hidden);
+    suite('diff prefs hidden', () => {
+      test('when no prefs or logged out', () => {
+        element.disableDiffPrefs = false;
+        element._loggedIn = false;
+        flushAsynchronousOperations();
+        assert.isTrue(element.$.diffPrefsContainer.hidden);
 
-      element._loggedIn = true;
-      flushAsynchronousOperations();
-      assert.isTrue(element.$.diffPrefsContainer.hidden);
+        element._loggedIn = true;
+        flushAsynchronousOperations();
+        assert.isTrue(element.$.diffPrefsContainer.hidden);
 
-      element._loggedIn = false;
-      element._prefs = {font_size: '12'};
-      flushAsynchronousOperations();
-      assert.isTrue(element.$.diffPrefsContainer.hidden);
+        element._loggedIn = false;
+        element._prefs = {font_size: '12'};
+        flushAsynchronousOperations();
+        assert.isTrue(element.$.diffPrefsContainer.hidden);
 
-      element._loggedIn = true;
-      flushAsynchronousOperations();
-      assert.isFalse(element.$.diffPrefsContainer.hidden);
+        element._loggedIn = true;
+        flushAsynchronousOperations();
+        assert.isFalse(element.$.diffPrefsContainer.hidden);
+      });
+
+      test('when disableDiffPrefs is set', () => {
+        element._loggedIn = true;
+        element._prefs = {font_size: '12'};
+        element.disableDiffPrefs = false;
+        flushAsynchronousOperations();
+
+        assert.isFalse(element.$.diffPrefsContainer.hidden);
+        element.disableDiffPrefs = true;
+        flushAsynchronousOperations();
+
+        assert.isTrue(element.$.diffPrefsContainer.hidden);
+      });
     });
 
     test('prefsButton opens gr-diff-preferences', () => {

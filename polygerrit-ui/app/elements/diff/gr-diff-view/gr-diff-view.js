@@ -69,6 +69,14 @@
         value() { return {}; },
         observer: '_changeViewStateChanged',
       },
+      disableDiffPrefs: {
+        type: Boolean,
+        value: false,
+      },
+      _diffPrefsDisabled: {
+        type: Boolean,
+        computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
+      },
       /** @type {?} */
       _patchRange: Object,
       /** @type {?} */
@@ -450,6 +458,7 @@
     _handleCommaKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
+      if (this._diffPrefsDisabled) { return; }
 
       e.preventDefault();
       this.$.diffPreferences.open();
@@ -791,8 +800,8 @@
           (unresolvedString ? `${unresolvedString}` : '');
     },
 
-    _computePrefsButtonHidden(prefs, loggedIn) {
-      return !loggedIn || !prefs;
+    _computePrefsButtonHidden(prefs, prefsDisabled) {
+      return prefsDisabled || !prefs;
     },
 
     _handleFileChange(e) {
@@ -1011,6 +1020,10 @@
     _handleExpandAllDiffContext(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       this.$.diffHost.expandAllContext();
+    },
+
+    _computeDiffPrefsDisabled(disableDiffPrefs, loggedIn) {
+      return disableDiffPrefs || !loggedIn;
     },
   });
 })();

@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "2fdbd421_454587f7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-11-08T18:18:15Z",
+      "side": 1,
+      "message": "The comment was removed from the latest patchset.\n\nCan you please use a method instead of global function? Since there\u0027s no clear path for moving this function into final destination, let\u0027s move it into a place where it wouldn\u0027t cause problems - keep in mind that the Gerrit scope is global and used by integrations and plugins.",
+      "parentUuid": "fb044d3f_27cf7d08",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1fef854e_c6d2360c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 8
@@ -213,6 +231,24 @@
       "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7318bbfe_ebddd090",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-11-08T18:18:15Z",
+      "side": 1,
+      "message": "Looks like you\u0027re right. I\u0027m trying to improve code health, but it\u0027s already not there.",
+      "parentUuid": "31c9d521_c25561e8",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

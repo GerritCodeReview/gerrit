@@ -22,6 +22,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
@@ -432,6 +433,13 @@ public abstract class AbstractDaemonTest {
 
     Context ctx = newRequestContext(admin);
     atrScope.set(ctx);
+    grant(
+        allProjects,
+        AccessSection.ALL,
+        Permission.READ,
+        false,
+        systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
+
     ProjectInput in = projectInput(description);
     gApi.projects().create(in);
     project = new Project.NameKey(in.name);

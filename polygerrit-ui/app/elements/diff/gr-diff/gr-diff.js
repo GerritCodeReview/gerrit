@@ -365,7 +365,7 @@
     },
 
     _getThreadGroupForLine(contentEl) {
-      return contentEl.querySelector('gr-diff-comment-thread-group');
+      return contentEl.querySelector('.thread-group');
     },
 
     /**
@@ -378,7 +378,8 @@
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
-        threadGroupEl = document.createElement('gr-diff-comment-thread-group');
+        threadGroupEl = document.createElement('div');
+        threadGroupEl.className = 'thread-group';
         contentEl.appendChild(threadGroupEl);
       }
       return threadGroupEl;

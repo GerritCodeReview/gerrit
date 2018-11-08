@@ -290,14 +290,14 @@
     _resultsChanged(related, submittedTogether, conflicts,
         cherryPicks, sameTopic) {
       const results = [
-        related,
-        submittedTogether,
+        related && related.changes,
+        submittedTogether && submittedTogether.changes,
         conflicts,
         cherryPicks,
         sameTopic,
       ];
       for (let i = 0; i < results.length; i++) {
-        if (results[i].length > 0) {
+        if (results[i] && results[i].length > 0) {
           this.hidden = false;
           this.fire('update', null, {bubbles: false});
           return;

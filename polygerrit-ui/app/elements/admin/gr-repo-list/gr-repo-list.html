@@ -43,6 +43,7 @@ limitations under the License.
         <tr class="headerRow">
           <th class="name topHeader">Repository Name</th>
           <th class="description topHeader">Repository Description</th>
+          <th class="changesLink topHeader">Changes</th>
           <th class="repositoryBrowser topHeader">Repository Browser</th>
           <th class="readOnly topHeader">Read only</th>
         </tr>
@@ -56,6 +57,7 @@ limitations under the License.
                 <a href$="[[_computeRepoUrl(item.name)]]">[[item.name]]</a>
               </td>
               <td class="description">[[item.description]]</td>
+              <td class="changesLink"><a href$="[[_computeChangesLink(item.name)]]">(view all)</a></td>
               <td class="repositoryBrowser">
                 <template is="dom-repeat"
                     items="[[_computeWeblink(item)]]" as="link">

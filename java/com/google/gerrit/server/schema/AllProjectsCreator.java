@@ -191,7 +191,7 @@ public class AllProjectsCreator {
       AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
 
       grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
-      grant(config, all, Permission.READ, admin, anonymous);
+      grant(config, all, Permission.READ, admin);
       grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
 
       if (batch != null) {

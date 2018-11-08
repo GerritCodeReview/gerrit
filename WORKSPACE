@@ -30,7 +30,7 @@ http_file(
     urls = ["https://raw.githubusercontent.com/google/closure-compiler/35d2b3340ff23a69441f10fa3bc820691c2942f2/contrib/externs/polymer-1.0.js"],
 )
 
-load("@bazel_skylib//:lib.bzl", "versions")
+load("@bazel_skylib//lib:versions.bzl", "versions")
 
 versions.check(minimum_bazel_version = "0.17.1")
 
@@ -759,7 +759,7 @@ maven_jar(
     sha1 = "bb562ee73f740bb6b2bf7955f97be6b870d9e9f0",
 )
 
-# When updading Bouncy Castle, also update it in bazlets.
+# When updating Bouncy Castle, also update it in bazlets.
 BC_VERS = "1.60"
 
 maven_jar(
@@ -833,10 +833,18 @@ maven_jar(
     sha1 = "f5aa318bda4c6c8d688c9d00b90681dcd82ce636",
 )
 
+# elasticsearch-rest-client explicitly depends on this version
 maven_jar(
-    name = "httpmime",
-    artifact = "org.apache.httpcomponents:httpmime:" + HTTPCOMP_VERS,
-    sha1 = "2f8757f5ac5e38f46c794e5229d1f3c522e9b1df",
+    name = "httpasyncclient",
+    artifact = "org.apache.httpcomponents:httpasyncclient:4.1.2",
+    sha1 = "95aa3e6fb520191a0970a73cf09f62948ee614be",
+)
+
+# elasticsearch-rest-client explicitly depends on this version
+maven_jar(
+    name = "httpcore-nio",
+    artifact = "org.apache.httpcomponents:httpcore-nio:4.4.5",
+    sha1 = "f4be009e7505f6ceddf21e7960c759f413f15056",
 )
 
 # Test-only dependencies below.
@@ -956,9 +964,9 @@ maven_jar(
 
 maven_jar(
     name = "derby",
-    artifact = "org.apache.derby:derby:10.11.1.1",
+    artifact = "org.apache.derby:derby:10.12.1.1",
     attach_source = False,
-    sha1 = "df4b50061e8e4c348ce243b921f53ee63ba9bbe1",
+    sha1 = "75070c744a8e52a7d17b8b476468580309d5cd09",
 )
 
 JETTY_VERS = "9.4.12.v20180830"
@@ -1038,8 +1046,8 @@ maven_jar(
 
 maven_jar(
     name = "postgresql",
-    artifact = "org.postgresql:postgresql:42.2.4",
-    sha1 = "dff98730c28a4b3a3263f0cf4abb9a3392f815a7",
+    artifact = "org.postgresql:postgresql:42.2.5",
+    sha1 = "951b7eda125f3137538a94e2cbdcf744088ad4c2",
 )
 
 maven_jar(
@@ -1079,10 +1087,12 @@ maven_jar(
     sha1 = "76716d529710fc03d1d429b43e3cedd4419f78d4",
 )
 
+# When upgrading elasticsearch-rest-client, also upgrade http-niocore
+# and httpasyncclient as necessary.
 maven_jar(
     name = "elasticsearch-rest-client",
-    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.4.2",
-    sha1 = "a2baf2d4fdf03f31fbd39351a32bee25fcdfa1cf",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.4.3",
+    sha1 = "5c24325430971ba2fa4769eb446f026b7680d5e7",
 )
 
 JACKSON_VERSION = "2.9.7"
@@ -1091,18 +1101,6 @@ maven_jar(
     name = "jackson-core",
     artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
     sha1 = "4b7f0e0dc527fab032e9800ed231080fdc3ac015",
-)
-
-maven_jar(
-    name = "httpasyncclient",
-    artifact = "org.apache.httpcomponents:httpasyncclient:4.1.2",
-    sha1 = "95aa3e6fb520191a0970a73cf09f62948ee614be",
-)
-
-maven_jar(
-    name = "httpcore-nio",
-    artifact = "org.apache.httpcomponents:httpcore-nio:" + HTTPCOMP_VERS,
-    sha1 = "a8c5e3c3bfea5ce23fb647c335897e415eb442e3",
 )
 
 maven_jar(

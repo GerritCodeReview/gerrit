@@ -36,38 +36,14 @@ limitations under the License.
 
 <script>
   suite('gr-diff-comment-thread-group tests', () => {
-    let element;
     let sandbox;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      element = fixture('basic');
     });
 
     teardown(() => {
       sandbox.restore();
-    });
-
-    test('thread-discard handling', () => {
-      const threads = [
-        {comments: [{id: 4711}]},
-        {comments: [{id: 42}]},
-      ];
-      const threadEls = threads.map(thread => Gerrit.createThreadElement(
-          thread, 1, 2, 'some/path', 'Some Project'));
-      assert.equal(threadEls.length, 2);
-      assert.equal(threadEls[0].rootId, 4711);
-      assert.equal(threadEls[1].rootId, 42);
-      for (const threadEl of threadEls) {
-        Polymer.dom(element).appendChild(threadEl);
-      }
-
-      threadEls[0].dispatchEvent(
-          new CustomEvent('thread-discard', {detail: {rootId: 4711}}));
-      const attachedThreads = element.queryAllEffectiveChildren(
-          'gr-diff-comment-thread');
-      assert.equal(attachedThreads.length, 1);
-      assert.equal(attachedThreads[0].rootId, 42);
     });
   });
 </script>

@@ -55,6 +55,32 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('thread-discard handling', () => {
+      const threads = [
+        {comments: [{id: 4711}]},
+        {comments: [{id: 42}]},
+      ];
+      element._parentIndex = 1;
+      element.changeNum = '2';
+      element.path = 'some/path';
+      element.projectName = 'Some project';
+      const threadEls = threads.map(
+          thread => element._createThreadElement(thread));
+      assert.equal(threadEls.length, 2);
+      assert.equal(threadEls[0].rootId, 4711);
+      assert.equal(threadEls[1].rootId, 42);
+      for (const threadEl of threadEls) {
+        Polymer.dom(element).appendChild(threadEl);
+      }
+
+      threadEls[0].dispatchEvent(
+          new CustomEvent('thread-discard', {detail: {rootId: 4711}}));
+      const attachedThreads = element.queryAllEffectiveChildren(
+          'gr-diff-comment-thread');
+      assert.equal(attachedThreads.length, 1);
+      assert.equal(attachedThreads[0].rootId, 42);
+    });
+
     test('reload() cancels before network resolves', () => {
       const cancelStub = sandbox.stub(element.$.diff, 'cancel');
 

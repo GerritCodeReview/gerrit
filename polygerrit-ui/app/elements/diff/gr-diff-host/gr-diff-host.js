@@ -599,15 +599,36 @@
     },
 
     _createThreadElement(thread) {
-      const threadEl = Gerrit.createThreadElement(
-          thread, this._parentIndex, this.changeNum, this.path,
-          this.projectName);
+      const threadEl = document.createElement('gr-diff-comment-thread');
       threadEl.className = 'comment-thread';
-      threadEl.addEventListener('thread-discard', e => {
+      threadEl.comments = thread.comments;
+      threadEl.commentSide = thread.commentSide;
+      threadEl.isOnParent = !!thread.isOnParent;
+      threadEl.parentIndex = this._parentIndex;
+      threadEl.changeNum = this.changeNum;
+      threadEl.patchNum = thread.patchNum;
+      threadEl.lineNum = thread.lineNum;
+      const rootIdChangedListener = changeEvent => {
+        thread.rootId = changeEvent.detail.value;
+      };
+      threadEl.addEventListener('root-id-changed', rootIdChangedListener);
+      threadEl.path = this.path;
+      threadEl.projectName = this.projectName;
+      threadEl.range = thread.range;
+      const threadDiscardListener = e => {
+        const threadEl = /** @type {!Node} */ (e.currentTarget);
+
+        const parent = Polymer.dom(threadEl).parentNode;
+        Polymer.dom(parent).removeChild(threadEl);
+
         const i = this._threadEls.findIndex(
             threadEl => threadEl.rootId == e.detail.rootId);
         this._threadEls.splice(i, 1);
-      });
+
+        threadEl.removeEventListener('root-id-changed', rootIdChangedListener);
+        threadEl.removeEventListener('thread-discard', threadDiscardListener);
+      };
+      threadEl.addEventListener('thread-discard', threadDiscardListener);
       return threadEl;
     },
 

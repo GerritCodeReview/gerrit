@@ -55,7 +55,17 @@ limitations under the License.
     </style>
     <style include="gr-form-styles"></style>
     <main class="gr-form-styles read-only">
-      <h1 id="Title">[[repo]]</h1>
+      <style include="shared-styles"></style>
+      <style include="dashboard-header-styles"></style>
+      <div class="info">
+        <h1 id="Title" class$="name">
+          [[repo]]
+          <hr/>
+        </h1>
+        <div>
+          <a href$="[[_computeChangesUrl(repo)]]">(view changes)</a>
+        </div>
+      </div>
       <div id="loading" class$="[[_computeLoadingClass(_loading)]]">Loading...</div>
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
         <div id="downloadContent" class$="[[_computeDownloadClass(_schemes)]]">

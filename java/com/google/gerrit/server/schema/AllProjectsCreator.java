@@ -16,7 +16,6 @@ package com.google.gerrit.server.schema;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_SEQUENCES;
-import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.grant;
@@ -74,7 +73,6 @@ public class AllProjectsCreator {
   private final PersonIdent serverUser;
   private final NotesMigration notesMigration;
   private final ProjectConfig.Factory projectConfigFactory;
-  private final GroupReference anonymous;
   private final GroupReference registered;
   private final GroupReference owners;
 
@@ -99,7 +97,6 @@ public class AllProjectsCreator {
     this.notesMigration = notesMigration;
     this.projectConfigFactory = projectConfigFactory;
 
-    this.anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS);
     this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
     this.owners = systemGroupBackend.getGroup(PROJECT_OWNERS);
     this.codeReviewLabel = getDefaultCodeReviewLabel();
@@ -191,7 +188,7 @@ public class AllProjectsCreator {
       AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
 
       grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
-      grant(config, all, Permission.READ, admin, anonymous);
+      grant(config, all, Permission.READ, admin);
       grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
 
       if (batch != null) {

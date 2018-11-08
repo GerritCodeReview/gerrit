@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "fe52ee63_4389951f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-11-08T21:46:21Z",
+      "side": 1,
+      "message": "Looks like 203330 solves all the questions that I had.",
+      "parentUuid": "11a0a1e4_ac6bd453",
+      "revId": "36ff6572d5785391e3d9393a56bafb7fdee66ea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fef854e_c6d2360c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 8

@@ -291,6 +291,16 @@ limitations under the License.
 
       test(', should open diff preferences', () => {
         const stub = sandbox.stub(element.$.fileList.$.diffPreferences, 'open');
+        element._loggedIn = false;
+        element.disableDiffPrefs = true;
+        MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
+        assert.isFalse(stub.called);
+
+        element._loggedIn = true;
+        MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
+        assert.isFalse(stub.called);
+
+        element.disableDiffPrefs = false;
         MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
         assert.isTrue(stub.called);
       });

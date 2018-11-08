@@ -62,21 +62,21 @@ limitations under the License.
       });
     });
 
-    test('Diff preferences hidden when no prefs or logged out', () => {
-      element.loggedIn = false;
+    test('Diff preferences hidden when no prefs or diffPrefsDisabled', () => {
+      element.diffPrefsDisabled = true;
       flushAsynchronousOperations();
       assert.isTrue(element.$.diffPrefsContainer.hidden);
 
-      element.loggedIn = true;
+      element.diffPrefsDisabled = false;
       flushAsynchronousOperations();
       assert.isTrue(element.$.diffPrefsContainer.hidden);
 
-      element.loggedIn = false;
+      element.diffPrefsDisabled = true;
       element.diffPrefs = {font_size: '12'};
       flushAsynchronousOperations();
       assert.isTrue(element.$.diffPrefsContainer.hidden);
 
-      element.loggedIn = true;
+      element.diffPrefsDisabled = false;
       flushAsynchronousOperations();
       assert.isFalse(element.$.diffPrefsContainer.hidden);
     });
@@ -265,7 +265,7 @@ limitations under the License.
 
     suite('editMode behavior', () => {
       setup(() => {
-        element.loggedIn = true;
+        element.diffPrefsDisabled = false;
         element.diffPrefs = {};
       });
 

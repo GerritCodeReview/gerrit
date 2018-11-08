@@ -62,6 +62,7 @@
       serverConfig: Object,
       shownFileCount: Number,
       diffPrefs: Object,
+      diffPrefsDisabled: Boolean,
       diffViewMode: {
         type: String,
         notify: true,
@@ -186,8 +187,8 @@
           });
     },
 
-    _computePrefsButtonHidden(prefs, loggedIn) {
-      return !loggedIn || !prefs;
+    _computePrefsButtonHidden(prefs, diffPrefsDisabled) {
+      return diffPrefsDisabled || !prefs;
     },
 
 

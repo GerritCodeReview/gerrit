@@ -20,10 +20,8 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderUnified) { return; }
 
-  function GrDiffBuilderUnified(diff, commentThreadEls, prefs,
-      outputEl, layers) {
-    GrDiffBuilder.call(this, diff, commentThreadEls, prefs,
-        outputEl, layers);
+  function GrDiffBuilderUnified(diff, prefs, outputEl, layers) {
+    GrDiffBuilder.call(this, diff, prefs, outputEl, layers);
   }
   GrDiffBuilderUnified.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderUnified.prototype.constructor = GrDiffBuilderUnified;
@@ -88,10 +86,6 @@
       row.appendChild(action);
     } else {
       const textEl = this._createTextEl(line);
-      const threadGroupEl = this._commentThreadGroupForLine(line);
-      if (threadGroupEl) {
-        textEl.appendChild(threadGroupEl);
-      }
       row.appendChild(textEl);
     }
     return row;

@@ -63,6 +63,12 @@
         a.end_character === b.end_character;
   }
 
+  /** @enum {string} */
+  Gerrit.DiffSide = {
+    LEFT: 'left',
+    RIGHT: 'right',
+  };
+
   /**
    * Wrapper around gr-diff.
    *
@@ -195,11 +201,6 @@
       _parentIndex: {
         type: Number,
         computed: '_computeParentIndex(patchRange.*)',
-      },
-
-      _threadEls: {
-        type: Array,
-        value: () => [],
       },
     },
 
@@ -344,7 +345,7 @@
      * @return {!Array<!HTMLElement>}
      */
     getThreadEls() {
-      return this._threadEls;
+      return Polymer.dom(this.$.diff).querySelectorAll('.comment-thread');
     },
 
     /** @param {HTMLElement} el */
@@ -471,7 +472,6 @@
       return isImageDiff(diff);
     },
 
-
     _commentsChanged(newComments) {
       const allComments = [];
       for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
@@ -590,21 +590,20 @@
     },
 
     _attachThreadElement(threadEl) {
-      this._threadEls.push(threadEl);
       Polymer.dom(this.$.diff).appendChild(threadEl);
     },
 
     _clearThreads() {
-      for (const threadEl of this._threadEls) {
+      for (const threadEl of this.getThreadEls()) {
         const parent = Polymer.dom(threadEl).parentNode;
         Polymer.dom(parent).removeChild(threadEl);
       }
-      this._threadEls = [];
     },
 
     _createThreadElement(thread) {
       const threadEl = document.createElement('gr-diff-comment-thread');
       threadEl.className = 'comment-thread';
+      threadEl.slot = `${thread.commentSide}-${thread.lineNum}`;
       threadEl.comments = thread.comments;
       threadEl.commentSide = thread.commentSide;
       threadEl.isOnParent = !!thread.isOnParent;
@@ -624,10 +623,6 @@
 
         const parent = Polymer.dom(threadEl).parentNode;
         Polymer.dom(parent).removeChild(threadEl);
-
-        const i = this._threadEls.findIndex(
-            threadEl => threadEl.rootId == e.detail.rootId);
-        this._threadEls.splice(i, 1);
 
         threadEl.removeEventListener('root-id-changed', rootIdChangedListener);
         threadEl.removeEventListener('thread-discard', threadDiscardListener);
@@ -660,9 +655,54 @@
         return rangesEqual(threadRange, range);
       }
 
-      const filteredThreadEls = Gerrit.filterThreadElsForLocation(
-          this._threadEls, line, commentSide).filter(matchesRange);
+      const filteredThreadEls = this._filterThreadElsForLocation(
+          this.getThreadEls(), line, commentSide).filter(matchesRange);
       return filteredThreadEls.length ? filteredThreadEls[0] : null;
+    },
+
+    /**
+     * @param {!Array<!HTMLElement>} threadEls
+     * @param {!{beforeNumber: (number|string|undefined|null),
+     *           afterNumber: (number|string|undefined|null)}}
+     *     lineInfo
+     * @param {!Gerrit.DiffSide=} side The side (LEFT, RIGHT) for
+     *     which to return the threads.
+     * @return {!Array<!HTMLElement>} The thread elements matching the given
+     *     location.
+     */
+    _filterThreadElsForLocation(threadEls, lineInfo, side) {
+      function matchesLeftLine(threadEl) {
+        return threadEl.getAttribute('comment-side') ==
+            Gerrit.DiffSide.LEFT &&
+            threadEl.getAttribute('line-num') == lineInfo.beforeNumber;
+      }
+      function matchesRightLine(threadEl) {
+        return threadEl.getAttribute('comment-side') ==
+            Gerrit.DiffSide.RIGHT &&
+            threadEl.getAttribute('line-num') == lineInfo.afterNumber;
+      }
+      function matchesFileComment(threadEl) {
+        return threadEl.getAttribute('comment-side') == side &&
+              // line/range comments have 1-based line set, if line is falsy it's
+              // a file comment
+              !threadEl.getAttribute('line-num');
+      }
+
+      // Select the appropriate matchers for the desired side and line
+      // If side is BOTH, we want both the left and right matcher.
+      const matchers = [];
+      if (side !== Gerrit.DiffSide.RIGHT) {
+        matchers.push(matchesLeftLine);
+      }
+      if (side !== Gerrit.DiffSide.LEFT) {
+        matchers.push(matchesRightLine);
+      }
+      if (lineInfo.afterNumber === 'FILE' ||
+          lineInfo.beforeNumber === 'FILE') {
+        matchers.push(matchesFileComment);
+      }
+      return threadEls.filter(threadEl =>
+          matchers.some(matcher => matcher(threadEl)));
     },
 
     /**

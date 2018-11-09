@@ -121,10 +121,6 @@ limitations under the License.
           return this.queryEffectiveChildren('#diffTable');
         },
 
-        get _commentThreadElements() {
-          return this.queryAllEffectiveChildren('.comment-thread');
-        },
-
         observers: [
           '_groupsChanged(_groups.splices)',
         ],
@@ -292,20 +288,16 @@ limitations under the License.
 
           let builder = null;
           if (this.isImageDiff) {
-            builder = new GrDiffBuilderImage(diff,
-              this._commentThreadElements, prefs, this.diffElement,
+            builder = new GrDiffBuilderImage(diff, prefs, this.diffElement,
               this.baseImage, this.revisionImage);
           } else if (diff.binary) {
             // If the diff is binary, but not an image.
-            return new GrDiffBuilderBinary(diff,
-                this._commentThreadElements, prefs, this.diffElement);
+            return new GrDiffBuilderBinary(diff, prefs, this.diffElement);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            builder = new GrDiffBuilderSideBySide(diff,
-                this._commentThreadElements, prefs, this.diffElement,
+            builder = new GrDiffBuilderSideBySide(diff, prefs, this.diffElement,
                 this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            builder = new GrDiffBuilderUnified(diff,
-                this._commentThreadElements, prefs, this.diffElement,
+            builder = new GrDiffBuilderUnified(diff, prefs, this.diffElement,
                 this._layers);
           }
           if (!builder) {

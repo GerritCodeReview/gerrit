@@ -769,10 +769,11 @@ limitations under the License.
       });
     });
 
-    test('getThreadEls() returns _threadEls', () => {
-      const returnValue = [document.createElement('b')];
-      element._threadEls = returnValue;
-      assert.equal(element.getThreadEls(), returnValue);
+    test('getThreadEls() returns .comment-threads', () => {
+      const threadEl = document.createElement('div');
+      threadEl.className = 'comment-thread';
+      Polymer.dom(element.$.diff).appendChild(threadEl);
+      assert.deepEqual(element.getThreadEls(), [threadEl]);
     });
 
     test('delegates addDraftAtLine(el)', () => {
@@ -1157,6 +1158,65 @@ limitations under the License.
       assert.equal(threads[1].range, range);
       assert.equal(threads[1].isOnParent, true);
       assert.equal(threads[1].patchNum, 3);
+    });
+
+    test('_filterThreadElsForLocation with no threads', () => {
+      const line = {beforeNumber: 3, afterNumber: 5};
+
+      const threads = [];
+      assert.deepEqual(element._filterThreadElsForLocation(threads, line), []);
+      assert.deepEqual(element._filterThreadElsForLocation(threads, line,
+          Gerrit.DiffSide.LEFT), []);
+      assert.deepEqual(element._filterThreadElsForLocation(threads, line,
+          Gerrit.DiffSide.RIGHT), []);
+    });
+
+    test('_filterThreadElsForLocation for line comments', () => {
+      const line = {beforeNumber: 3, afterNumber: 5};
+
+      const l3 = document.createElement('div');
+      l3.setAttribute('line-num', 3);
+      l3.setAttribute('comment-side', 'left');
+
+      const l5 = document.createElement('div');
+      l5.setAttribute('line-num', 5);
+      l5.setAttribute('comment-side', 'left');
+
+      const r3 = document.createElement('div');
+      r3.setAttribute('line-num', 3);
+      r3.setAttribute('comment-side', 'right');
+
+      const r5 = document.createElement('div');
+      r5.setAttribute('line-num', 5);
+      r5.setAttribute('comment-side', 'right');
+
+      const threadEls = [l3, l5, r3, r5];
+      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
+          [l3, r5]);
+      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.LEFT), [l3]);
+      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.RIGHT), [r5]);
+    });
+
+    test('_filterThreadElsForLocation for file comments', () => {
+      const line = {beforeNumber: 'FILE', afterNumber: 'FILE'};
+
+      const l = document.createElement('div');
+      l.setAttribute('comment-side', 'left');
+
+      const r = document.createElement('div');
+      r.setAttribute('comment-side', 'right');
+
+      const threadEls = [l, r];
+      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
+          [l, r]);
+      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.BOTH), [l, r]);
+      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.LEFT), [l]);
+      assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
+          Gerrit.DiffSide.RIGHT), [r]);
     });
 
     suite('_translateChunksToIgnore', () => {

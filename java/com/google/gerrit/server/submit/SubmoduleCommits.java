@@ -277,6 +277,9 @@ class SubmoduleCommits {
           }
         });
 
+    if (verboseSuperProject == VerboseSuperprojectUpdate.COPY_TIP_MESSAGE) {
+      commitMsg.setLength(0);
+    }
     if (verboseSuperProject != VerboseSuperprojectUpdate.FALSE) {
       createSubmoduleCommitMsg(msgbuf, s, subOr, newCommit, oldCommit);
     }
@@ -290,13 +293,16 @@ class SubmoduleCommits {
       OpenRepo subOr,
       RevCommit newCommit,
       RevCommit oldCommit) {
-    msgbuf.append("* Update ");
-    msgbuf.append(s.getPath());
-    msgbuf.append(" from branch '");
-    msgbuf.append(s.getSubmodule().shortName());
-    msgbuf.append("'");
-    msgbuf.append("\n  to ");
-    msgbuf.append(newCommit.getName());
+
+    if (verboseSuperProject != VerboseSuperprojectUpdate.COPY_TIP_MESSAGE) {
+      msgbuf.append("* Update ");
+      msgbuf.append(s.getPath());
+      msgbuf.append(" from branch '");
+      msgbuf.append(s.getSubmodule().shortName());
+      msgbuf.append("'");
+      msgbuf.append("\n  to ");
+      msgbuf.append(newCommit.getName());
+    }
 
     // newly created submodule gitlink, do not append whole history
     if (oldCommit == null) {
@@ -311,6 +317,12 @@ class SubmoduleCommits {
       for (Iterator<RevCommit> iter = subOr.rw.iterator(); iter.hasNext(); ) {
         RevCommit c = iter.next();
         subOr.rw.parseBody(c);
+
+        // Copy over top submodule commit message...
+        if (verboseSuperProject == VerboseSuperprojectUpdate.COPY_TIP_MESSAGE) {
+          msgbuf.append(c.getFullMessage());
+          return;
+        }
 
         String message =
             verboseSuperProject == VerboseSuperprojectUpdate.SUBJECT_ONLY

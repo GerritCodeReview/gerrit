@@ -35,7 +35,8 @@ limitations under the License.
       :host(.no-left) .sideBySide ::content .right:not([data-value]) + td {
         display: none;
       }
-      .thread-group, ::slotted(*) .thread-group {
+       /* TODO(oler): Make sure this works both with shady and shadow */
+      ::slotted(*) {
         display: block;
         max-width: var(--content-width, 80ch);
         white-space: normal;
@@ -295,7 +296,7 @@ limitations under the License.
               base-image="[[baseImage]]"
               revision-image="[[revisionImage]]"
               line-of-interest="[[lineOfInterest]]">
-            <slot></slot>
+            <!-- <slot name="right-3"></slot> -->
             <table
                 id="diffTable"
                 class$="[[_diffTableClass]]"

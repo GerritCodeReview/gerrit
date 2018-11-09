@@ -73,8 +73,7 @@
     _handleCommentMouseOver(e) {
       const comment = e.detail.comment;
       if (!comment.range) { return; }
-      const lineEl = this.diffBuilder.getLineElByChild(e.target);
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
+      const side = e.target.getAttribute('comment-side');
       const index = this._indexOfComment(side, comment);
       if (index !== undefined) {
         this.set(['comments', side, index, '__hovering'], true);
@@ -84,8 +83,7 @@
     _handleCommentMouseOut(e) {
       const comment = e.detail.comment;
       if (!comment.range) { return; }
-      const lineEl = this.diffBuilder.getLineElByChild(e.target);
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
+      const side = e.target.getAttribute('comment-side');
       const index = this._indexOfComment(side, comment);
       if (index !== undefined) {
         this.set(['comments', side, index, '__hovering'], false);

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "06f00b2c_32bfbd10",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T19:44:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b5f504e9_20266cd5",
+      "revId": "ad41e1834fa80874b491aca6ce68571dd67ae31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3801776_a5669de3",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
         "patchSetId": 19
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "71f55d7d_27ea3ae3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T19:44:28Z",
+      "side": 1,
+      "message": "Thanks, done. (i figured out how to :))",
+      "parentUuid": "0d07d201_68f36e3b",
+      "revId": "ad41e1834fa80874b491aca6ce68571dd67ae31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25c4cbc7_7fcd7e1b",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
         "patchSetId": 19
@@ -68,6 +104,24 @@
       "revId": "ad41e1834fa80874b491aca6ce68571dd67ae31b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d333e33_86d2c9d8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T19:44:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "25c4cbc7_7fcd7e1b",
+      "revId": "ad41e1834fa80874b491aca6ce68571dd67ae31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "ba18963d_40c4161e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T19:44:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "747b0f0f_22dfe996",
+      "revId": "ad41e1834fa80874b491aca6ce68571dd67ae31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "555c279e_eff27721",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog_test.html",
         "patchSetId": 19
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "18ab8251_31a78786",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog_test.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T19:44:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "555c279e_eff27721",
+      "revId": "ad41e1834fa80874b491aca6ce68571dd67ae31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "826d0ba4_d5b8e142",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 19
@@ -119,6 +209,24 @@
       "revId": "ad41e1834fa80874b491aca6ce68571dd67ae31b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56ed5d9a_0b6d5b81",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T19:44:28Z",
+      "side": 1,
+      "message": "Nope. Thanks, done.",
+      "parentUuid": "826d0ba4_d5b8e142",
+      "revId": "ad41e1834fa80874b491aca6ce68571dd67ae31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

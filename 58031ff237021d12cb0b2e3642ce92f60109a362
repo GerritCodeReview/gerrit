@@ -33,6 +33,24 @@
       "revId": "58031ff237021d12cb0b2e3642ce92f60109a362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac724cad_64ff0642",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T22:26:15Z",
+      "side": 1,
+      "message": "This can be either [] or unset. Up to you weather it would be worth doing []?",
+      "parentUuid": "51cabd7e_a65a7a9d",
+      "revId": "58031ff237021d12cb0b2e3642ce92f60109a362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

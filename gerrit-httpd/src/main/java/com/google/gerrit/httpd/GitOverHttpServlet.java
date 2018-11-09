@@ -15,8 +15,13 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.audit.HttpAuditEvent;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -141,6 +146,30 @@ public class GitOverHttpServlet extends GitServlet {
     addReceivePackFilter(receiveFilter);
   }
 
+  private static String extractWhat(HttpServletRequest request) {
+    StringBuilder commandName = new StringBuilder(request.getRequestURL());
+    if (request.getQueryString() != null) {
+      commandName.append("?").append(request.getQueryString());
+    }
+    return commandName.toString();
+  }
+
+  private static ListMultimap<String, String> extractParameters(HttpServletRequest request) {
+
+    ListMultimap<String, String> multiMap = ArrayListMultimap.create();
+    if (request.getQueryString() != null) {
+      request
+          .getParameterMap()
+          .forEach(
+              (k, v) -> {
+                for (int i = 0; i < v.length; i++) {
+                  multiMap.put(k, v[i]);
+                }
+              });
+    }
+    return multiMap;
+  }
+
   static class Resolver implements RepositoryResolver<HttpServletRequest> {
     private final GitRepositoryManager manager;
     private final PermissionBackend permissionBackend;
@@ -243,15 +272,21 @@ public class GitOverHttpServlet extends GitServlet {
     private final VisibleRefFilter.Factory refFilterFactory;
     private final UploadValidators.Factory uploadValidatorsFactory;
     private final PermissionBackend permissionBackend;
+    private final Provider<CurrentUser> userProvider;
+    private final AuditService auditService;
 
     @Inject
     UploadFilter(
         VisibleRefFilter.Factory refFilterFactory,
         UploadValidators.Factory uploadValidatorsFactory,
-        PermissionBackend permissionBackend) {
+        PermissionBackend permissionBackend,
+        Provider<CurrentUser> userProvider,
+        AuditService auditService) {
       this.refFilterFactory = refFilterFactory;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.permissionBackend = permissionBackend;
+      this.userProvider = userProvider;
+      this.auditService = auditService;
     }
 
     @Override
@@ -276,7 +311,22 @@ public class GitOverHttpServlet extends GitServlet {
         return;
       } catch (PermissionBackendException e) {
         throw new ServletException(e);
+      } finally {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        auditService.dispatch(
+            new HttpAuditEvent(
+                httpRequest.getSession().getId(),
+                userProvider.get(),
+                extractWhat(httpRequest),
+                TimeUtil.nowMs(),
+                extractParameters(httpRequest),
+                httpRequest.getMethod(),
+                httpRequest,
+                httpResponse.getStatus(),
+                httpResponse));
       }
+
       // We use getRemoteHost() here instead of getRemoteAddr() because REMOTE_ADDR
       // may have been overridden by a proxy server -- we'll try to avoid this.
       UploadValidators uploadValidators =
@@ -331,13 +381,19 @@ public class GitOverHttpServlet extends GitServlet {
   static class ReceiveFilter implements Filter {
     private final Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache;
     private final PermissionBackend permissionBackend;
+    private final Provider<CurrentUser> userProvider;
+    private final AuditService auditService;
 
     @Inject
     ReceiveFilter(
         @Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache,
-        PermissionBackend permissionBackend) {
+        PermissionBackend permissionBackend,
+        Provider<CurrentUser> userProvider,
+        AuditService auditService) {
       this.cache = cache;
       this.permissionBackend = permissionBackend;
+      this.userProvider = userProvider;
+      this.auditService = auditService;
     }
 
     @Override
@@ -365,6 +421,20 @@ public class GitOverHttpServlet extends GitServlet {
         return;
       } catch (PermissionBackendException e) {
         throw new RuntimeException(e);
+      } finally {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        auditService.dispatch(
+            new HttpAuditEvent(
+                httpRequest.getSession().getId(),
+                userProvider.get(),
+                extractWhat(httpRequest),
+                TimeUtil.nowMs(),
+                extractParameters(httpRequest),
+                httpRequest.getMethod(),
+                httpRequest,
+                httpResponse.getStatus(),
+                httpResponse));
       }
 
       Capable s = arc.canUpload();

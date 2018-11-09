@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -162,6 +163,7 @@ public class InMemoryModule extends FactoryModule {
     install(new DefaultPermissionBackendModule());
     install(new SearchingChangeCacheImpl.Module());
     factory(GarbageCollection.Factory.class);
+    install(new AuditModule());
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 

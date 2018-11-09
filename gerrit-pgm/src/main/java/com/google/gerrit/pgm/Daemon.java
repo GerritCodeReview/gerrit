@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventBroker;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
@@ -193,6 +194,7 @@ public class Daemon extends SiteProgram {
   private AbstractModule luceneModule;
   private Module emailModule;
   private Module testSysModule;
+  private Module auditEventModule;
 
   private Runnable serverStarted;
   private IndexType indexType;
@@ -310,6 +312,11 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
+  public void setAuditEventModuleForTesting(Module module) {
+    auditEventModule = module;
+  }
+
+  @VisibleForTesting
   public void setLuceneModule(LuceneIndexModule m) {
     luceneModule = m;
     inMemoryTest = true;
@@ -420,6 +427,11 @@ public class Daemon extends SiteProgram {
       modules.add(emailModule);
     } else {
       modules.add(new SmtpEmailSender.Module());
+    }
+    if (auditEventModule != null) {
+      modules.add(auditEventModule);
+    } else {
+      modules.add(new AuditModule());
     }
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginRestApiModule());

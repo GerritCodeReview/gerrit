@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "14520719_4a2bd996",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T20:34:41Z",
+      "side": 1,
+      "message": "Not sure what you mean by observed directly?",
+      "parentUuid": "4b1c6722_4bb4789b",
+      "revId": "0f0394c781e7ab331fa7a55fbd9c809b418d7536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d1580c9_328ae4fe",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
         "patchSetId": 22

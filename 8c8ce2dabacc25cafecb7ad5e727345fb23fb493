@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "60e05697_9fe5fa25",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-11-09T18:38:42Z",
+      "side": 1,
+      "message": "Looks like it\u0027s covered with tests, and tests run for both shadow and shady DOMs.",
+      "parentUuid": "709eb997_74ae6503",
+      "range": {
+        "startLine": 130,
+        "startChar": 7,
+        "endLine": 136,
+        "endChar": 10
+      },
+      "revId": "8c8ce2dabacc25cafecb7ad5e727345fb23fb493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91419df1_c7e8c509",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 28

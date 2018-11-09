@@ -592,6 +592,9 @@
 
     _handleRenderContent() {
       this._nodeObserver = Polymer.dom(this).observeNodes(info => {
+        console.log('observeNodes fired with ', info);
+        this.distributeContent(true);
+        console.log('slots are: ', this.getDestinationInsertionPoints());
         const addedThreadEls = info.addedNodes.filter(
             node => node.nodeType === Node.ELEMENT_NODE);
         // In principal we should also handle removed nodes, but I have not
@@ -606,8 +609,9 @@
               lineNum, commentSide);
           const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
           const contentEl = contentText.parentElement;
-          const threadGroupEl = this._getOrCreateThreadGroup(contentEl);
-          Polymer.dom(threadGroupEl).appendChild(threadEl);
+          console.log('content el is ', contentEl);
+          // const threadGroupEl = this._getOrCreateThreadGroup(contentEl);
+          // Polymer.dom(threadGroupEl).appendChild(threadEl);
         }
       });
     },

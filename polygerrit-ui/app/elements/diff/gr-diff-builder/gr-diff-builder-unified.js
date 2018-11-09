@@ -88,6 +88,15 @@
       row.appendChild(action);
     } else {
       const textEl = this._createTextEl(line);
+      // const contentSlot = document.createElement('content');
+      // Polymer.dom(textEl).appendChild(contentSlot);
+      const leftSlot = document.createElement('slot');
+      leftSlot.name = `left-${line.beforeNumber}`;
+      Polymer.dom(textEl).appendChild(leftSlot);
+      const rightSlot = document.createElement('slot');
+      rightSlot.name = `right-${line.afterNumber}`;
+      Polymer.dom(textEl).appendChild(rightSlot);
+      console.log('created the slot');
       const threadGroupEl = this._commentThreadGroupForLine(line);
       if (threadGroupEl) {
         textEl.appendChild(threadGroupEl);

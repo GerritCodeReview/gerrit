@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d276a874_1d4666db",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T21:05:31Z",
+      "side": 1,
+      "message": "Unnecessary variable.",
+      "revId": "cff21d88e6837b6ed175e1dde5d759d0e337a96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10912fa3_4dff8902",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog_test.html",
+        "patchSetId": 24
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T21:05:31Z",
+      "side": 1,
+      "message": "This line is no longer needed.",
+      "revId": "cff21d88e6837b6ed175e1dde5d759d0e337a96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

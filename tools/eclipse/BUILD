@@ -31,6 +31,7 @@ DEPS = [
     "//lib/gwt:tapestry",
     "//lib/gwt:w3c-css-sac",
     "//lib/jetty:servlets",
+    "//lib/mockito",
     "//lib/prolog:compiler-lib",
     "//proto:reviewdb_java_proto",
 ]

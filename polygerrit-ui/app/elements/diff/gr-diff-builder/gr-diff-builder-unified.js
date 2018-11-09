@@ -88,6 +88,13 @@
       row.appendChild(action);
     } else {
       const textEl = this._createTextEl(line);
+      const leftSlot = document.createElement('slot');
+      leftSlot.name = `left-${line.beforeNumber}`;
+      Polymer.dom(textEl).appendChild(Gerrit.slotToContent(leftSlot));
+      const rightSlot = document.createElement('slot');
+      rightSlot.name = `right-${line.afterNumber}`;
+      Polymer.dom(textEl).appendChild(Gerrit.slotToContent(rightSlot));
+      console.log('created the slot');
       const threadGroupEl = this._commentThreadGroupForLine(line);
       if (threadGroupEl) {
         textEl.appendChild(threadGroupEl);
@@ -96,6 +103,9 @@
     }
     return row;
   };
+
+
+
 
   GrDiffBuilderUnified.prototype._getNextContentOnSide = function(
       content, side) {

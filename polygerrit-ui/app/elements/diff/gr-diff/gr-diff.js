@@ -39,6 +39,14 @@
   const FULL_CONTEXT = -1;
   const LIMITED_CONTEXT = 10;
 
+  // Not sure which magic does that for declarative but not for imperative slots
+  Gerrit.slotToContent = function(slot) {
+    const content = document.createElement('content');
+    content.name = slot.name;
+    content.setAttribute('select', `[slot='${slot.name}']`);
+    return content;
+  };
+
   Polymer({
     is: 'gr-diff',
 
@@ -600,14 +608,15 @@
         // removed by no longer slotting them in, so I decided to not handle
         // this situation until it occurs.
         for (const threadEl of addedThreadEls) {
-          const lineNum = Number(threadEl.getAttribute('line-num'));
-          const commentSide = threadEl.getAttribute('comment-side');
-          const lineEl = this.$.diffBuilder.getLineElByNumber(
-              lineNum, commentSide);
-          const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
-          const contentEl = contentText.parentElement;
-          const threadGroupEl = this._getOrCreateThreadGroup(contentEl);
-          Polymer.dom(threadGroupEl).appendChild(threadEl);
+          // Distribute the thread from the light DOM of gr-diff via this
+          // on-demand slot into gr-diff-builder, where each line and side has
+          // another slot.
+          const innerSlot = document.createElement('slot');
+          innerSlot.className = 'thread-group';
+          innerSlot.name = threadEl.slot;
+          innerSlot.slot = threadEl.slot;
+          Polymer.dom(this.$.diffBuilder).appendChild(
+              Gerrit.slotToContent(innerSlot));
         }
       });
     },

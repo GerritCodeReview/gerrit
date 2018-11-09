@@ -61,6 +61,18 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/commit-message-length-validator/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[delete-project]]
+=== delete-project
+
+Provides the ability to delete a project.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/delete-project[
+Project] |
+link:https://gerrit.googlesource.com/plugins/delete-project/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/delete-project/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[download-commands]]
 === download-commands
 
@@ -219,16 +231,6 @@ link:https://gerrit.googlesource.com/plugins/changemessage/+doc/master/src/main/
 Plugin Documentation] |
 link:https://gerrit.googlesource.com/plugins/changemessage/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
-
-[[delete-project]]
-=== delete-project
-
-Provides the ability to delete a project.
-
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/delete-project[
-Project] |
-link:https://gerrit.googlesource.com/plugins/delete-project/+doc/master/src/main/resources/Documentation/about.md[
-Documentation]
 
 [[egit]]
 === egit

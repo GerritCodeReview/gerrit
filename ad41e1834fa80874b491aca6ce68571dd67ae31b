@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "0d07d201_68f36e3b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T19:30:30Z",
+      "side": 1,
+      "message": "Any examples i could follow for testing observers please? (i doin\u0027t think i have done that yet)",
+      "parentUuid": "a3801776_a5669de3",
+      "revId": "ad41e1834fa80874b491aca6ce68571dd67ae31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "25c4cbc7_7fcd7e1b",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
         "patchSetId": 19

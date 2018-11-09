@@ -8,6 +8,11 @@
 	url = ../plugins/commit-message-length-validator
 	branch = .
 
+[submodule "plugins/delete-project"]
+	path = plugins/delete-project
+	url = ../plugins/delete-project
+	branch = .
+
 [submodule "plugins/download-commands"]
 	path = plugins/download-commands
 	url = ../plugins/download-commands

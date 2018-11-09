@@ -35,7 +35,7 @@ import java.util.Set;
 
 public interface RevisionApi {
   @Deprecated
-  default void delete() throws RestApiException {
+  default void delete() {
     throw new UnsupportedOperationException("draft workflow is discontinued");
   }
 
@@ -59,7 +59,7 @@ public interface RevisionApi {
   BinaryResult submitPreview(String format) throws RestApiException;
 
   @Deprecated
-  default void publish() throws RestApiException {
+  default void publish() {
     throw new UnsupportedOperationException("draft workflow is discontinued");
   }
 

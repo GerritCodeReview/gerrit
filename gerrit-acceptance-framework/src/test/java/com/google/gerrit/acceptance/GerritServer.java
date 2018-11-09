@@ -33,6 +33,7 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
+import com.google.gerrit.testutil.FakeAuditService;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
@@ -301,6 +302,7 @@ public class GerritServer implements AutoCloseable {
             },
             site);
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
+    daemon.setAuditEventModuleForTesting(new FakeAuditService.Module());
     daemon.setAdditionalSysModuleForTesting(testSysModule);
     daemon.setEnableSshd(desc.useSsh());
 

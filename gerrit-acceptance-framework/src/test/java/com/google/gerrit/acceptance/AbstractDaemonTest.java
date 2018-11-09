@@ -109,6 +109,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.FakeAuditService;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.NoteDbMode;
@@ -215,6 +216,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected ChangeNoteUtil changeNoteUtil;
   @Inject protected ChangeResource.Factory changeResourceFactory;
   @Inject protected FakeEmailSender sender;
+  @Inject protected FakeAuditService auditService;
   @Inject protected GerritApi gApi;
   @Inject protected GitRepositoryManager repoManager;
   @Inject protected GroupCache groupCache;

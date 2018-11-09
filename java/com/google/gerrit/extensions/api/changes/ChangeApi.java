@@ -176,7 +176,7 @@ public interface ChangeApi {
 
   /** Publishes a draft change. */
   @Deprecated
-  default void publish() throws RestApiException {
+  default void publish() {
     throw new UnsupportedOperationException("draft workflow is discontinued");
   }
 

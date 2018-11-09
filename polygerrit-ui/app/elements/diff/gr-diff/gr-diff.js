@@ -179,16 +179,6 @@
         computed: '_computeNewlineWarning(diff)',
       },
 
-      /**
-       * @type {function(number, boolean, !string)}
-       */
-      _createThreadGroupFn: {
-        type: Function,
-        value() {
-          return this._createCommentThreadGroup.bind(this);
-        },
-      },
-
       _diffLength: Number,
     },
 
@@ -361,11 +351,11 @@
       const contentEl = contentText.parentElement;
       side = side ||
           this._getCommentSideByLineAndContent(lineEl, contentEl);
-      const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
+      const patchForNewThreads = this._getPatchNumByLineAndContent(
+          lineEl, contentEl);
       const isOnParent =
         this._getIsParentCommentByLineAndContent(lineEl, contentEl);
-      const threadGroupEl = this._getOrCreateThreadGroup(contentEl, patchNum,
-          side, isOnParent);
+      const threadGroupEl = this._getOrCreateThreadGroup(contentEl);
       this.dispatchEvent(new CustomEvent('create-comment', {
         bubbles: true,
         detail: {
@@ -373,6 +363,8 @@
           lineNum,
           side,
           range,
+          isOnParent,
+          patchForNewThreads,
         },
       }));
     },
@@ -385,40 +377,18 @@
      * Gets or creates a comment thread group for a specific line and side on a
      * diff.
      * @param {!Object} contentEl
-     * @param {number} patchNum
-     * @param {string} commentSide
-     * @param {boolean} isOnParent
      * @return {!Object}
      */
-    _getOrCreateThreadGroup(contentEl, patchNum, commentSide, isOnParent) {
+    _getOrCreateThreadGroup(contentEl) {
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
-        threadGroupEl = this._createCommentThreadGroup(patchNum, isOnParent,
-            commentSide);
+        threadGroupEl = document.createElement('gr-diff-comment-thread-group');
         contentEl.appendChild(threadGroupEl);
       }
       return threadGroupEl;
     },
 
-    /**
-     * @param {number} patchNum
-     * @param {boolean} isOnParent
-     * @param {!string} commentSide
-     * @return {!Object}
-     */
-    _createCommentThreadGroup(patchNum, isOnParent, commentSide) {
-      const threadGroupEl =
-          document.createElement('gr-diff-comment-thread-group');
-      threadGroupEl.changeNum = this.changeNum;
-      threadGroupEl.commentSide = commentSide;
-      threadGroupEl.patchForNewThreads = patchNum;
-      threadGroupEl.path = this.path;
-      threadGroupEl.isOnParent = isOnParent;
-      threadGroupEl.projectName = this.projectName;
-      threadGroupEl.parentIndex = this._parentIndex;
-      return threadGroupEl;
-    },
 
     /**
      * The value to be used for the patch number of new comments created at the

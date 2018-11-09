@@ -51,14 +51,14 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('getThread', () => {
+    test('getThreadEl', () => {
       const range = {
         start_line: 1,
         start_character: 1,
         end_line: 1,
         end_character: 2,
       };
-      element.threads = [
+      const threads = [
         {
           rootId: 'sallys_confession',
           commentSide: 'left',
@@ -111,40 +111,37 @@ limitations under the License.
           ],
         },
       ];
+      for (const thread of threads) {
+        Polymer.dom(element).appendChild(Gerrit.createThreadElement(
+            thread, 1, '2', 'some/path', 'some_project'));
+      }
 
       flushAsynchronousOperations();
-      assert.deepEqual(element.getThread('right').rootId, 'right_side_comment');
-      assert.deepEqual(element.getThread('right').comments.length, 1);
-      assert.deepEqual(element.getThread('left').rootId, 'sallys_confession');
-      assert.deepEqual(element.getThread('left').comments.length, 3);
-      assert.deepEqual(element.getThread('left', range).rootId,
+      assert.deepEqual(
+          element.getThreadEl('right').rootId, 'right_side_comment');
+      assert.deepEqual(element.getThreadEl('right').comments.length, 1);
+      assert.deepEqual(element.getThreadEl('left').rootId, 'sallys_confession');
+      assert.deepEqual(element.getThreadEl('left').comments.length, 3);
+      assert.deepEqual(element.getThreadEl('left', range).rootId,
           'betsys_confession');
-      assert.deepEqual(element.getThread('left', range).comments.length, 1);
+      assert.deepEqual(element.getThreadEl('left', range).comments.length, 1);
     });
 
-    test('addNewThread', () => {
-      const commentSide = 'left';
-      const range = {startLine: 1, endLine: 2, startChar: 3, endChar: 4};
-      element.patchForNewThreads = 5;
-      element.addNewThread(commentSide, range);
-      assert.equal(element.threads.length, 1);
-      assert.equal(element.threads[0].comments.length, 0);
-      assert.equal(element.threads[0].commentSide, commentSide);
-      assert.equal(element.threads[0].patchNum, 5);
-      assert.equal(element.threads[0].range.startLine, range.startLine);
-      assert.equal(element.threads[0].range.endLine, range.endLine);
-      assert.equal(element.threads[0].range.startChar, range.startChar);
-      assert.equal(element.threads[0].range.endChar, range.endChar);
-    });
-
-    test('removeThread', () => {
-      element.threads = [
-        {rootId: 4711},
-        {rootId: 42},
+    test('thread-discard handling', () => {
+      const threads = [
+        {comments: [{id: 4711}]},
+        {comments: [{id: 42}]},
       ];
-      element.removeThread(4711);
-      assert.equal(element.threads.length, 1);
-      assert.equal(element.threads[0].rootId, 42);
+      for (const thread of threads) {
+        const threadEl = Gerrit.createThreadElement(
+            thread, 1, 2, 'some/path', 'Some Project');
+        Polymer.dom(element).appendChild(threadEl);
+      }
+
+      element.threadEls[0].dispatchEvent(
+          new CustomEvent('thread-discard', {detail: {rootId: 4711}}));
+      assert.equal(element.threadEls.length, 1);
+      assert.equal(element.threadEls[0].rootId, 42);
     });
 
     test('_rangesEqual', () => {

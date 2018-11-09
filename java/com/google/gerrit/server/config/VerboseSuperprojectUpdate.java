@@ -22,6 +22,9 @@ public enum VerboseSuperprojectUpdate {
   /** Only include the commit subjects. */
   SUBJECT_ONLY,
 
+  /** Copy over full commit message from first commit in submodule. */
+  COPY_TIP_MESSAGE,
+
   /** Include full commit messages. */
   TRUE
 }

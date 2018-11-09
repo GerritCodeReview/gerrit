@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b1c6722_4bb4789b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T20:25:01Z",
+      "side": 1,
+      "message": "This is the property that should be observed directly for propagation into _repoConfig.",
+      "revId": "0f0394c781e7ab331fa7a55fbd9c809b418d7536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c159b3f7_83ada22b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T20:25:01Z",
+      "side": 1,
+      "message": "This should be more clearly named \"_repoOwnerId\".",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 22
+      },
+      "revId": "0f0394c781e7ab331fa7a55fbd9c809b418d7536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d1580c9_328ae4fe",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T20:25:01Z",
+      "side": 1,
+      "message": "Observers should not be accessing properties, they should operate purely in terms of their parameters. (This will be solved by making this an observer of _repoConfigOwner instead).",
+      "revId": "0f0394c781e7ab331fa7a55fbd9c809b418d7536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38e94195_2b0ca628",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T20:25:01Z",
+      "side": 1,
+      "message": "Hasn\u0027t this value already passed through decodeURIComponent on line 127?",
+      "revId": "0f0394c781e7ab331fa7a55fbd9c809b418d7536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

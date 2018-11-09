@@ -1,6 +1,7 @@
 CORE_PLUGINS = [
     "codemirror-editor",
     "commit-message-length-validator",
+    "delete-project",
     "download-commands",
     "hooks",
     "replication",

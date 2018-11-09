@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "1ff2e2be_7c1e5ca6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T20:36:48Z",
+      "side": 1,
+      "message": "Move the observer from _repoOwner to _repoOwnerId, and only worry about the new value of _repoOwnerId in the observer method itself.",
+      "parentUuid": "14520719_4a2bd996",
+      "revId": "0f0394c781e7ab331fa7a55fbd9c809b418d7536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d1580c9_328ae4fe",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
         "patchSetId": 22

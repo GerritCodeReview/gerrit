@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aab0d269_2793501d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T18:05:29Z",
+      "side": 1,
+      "message": "This text is confusing, because you did add test code in this change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 74
+      },
+      "revId": "6fb3fbed292949ae7ac9d358b493111675b7e6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e0e5861_d5068dde",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1530,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T18:05:29Z",
+      "side": 1,
+      "message": "Adding an optional boolean parameter to a gr-rest-api-interface method is hard to understand when encountered at the call site. A more explicit API would be to add a method for cache invalidation:\n\n  this.$.restAPI.invalidateGroupsCache()\n  return this.$.restAPI.getGroups(...)\n\nWhat do you think?",
+      "revId": "6fb3fbed292949ae7ac9d358b493111675b7e6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ac7785_78798ec9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T18:05:29Z",
+      "side": 1,
+      "message": "Why check for existence before undefining? You could just delete it:\n\n  delete this._sharedFetchPromises[url];",
+      "revId": "6fb3fbed292949ae7ac9d358b493111675b7e6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b20ecb1a_db262b58",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1543,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T18:05:29Z",
+      "side": 1,
+      "message": "There is an error here that would have been caught by a unit test.\n\nthis._cache is no longer used this way. Treat it like a Map:\n\n  if (this._cache.has(url)) {\n    this._cache.delete(url);\n  }\n\n(in fact, you don\u0027t even need to guard the delete with a has check, just delete it)",
+      "revId": "6fb3fbed292949ae7ac9d358b493111675b7e6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

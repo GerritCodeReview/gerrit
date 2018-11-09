@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e03dd6e_4cd5af8f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T22:36:59Z",
+      "side": 1,
+      "message": "Ok, will do this in a seperate change. I am working on other changes you reviewed too :)",
+      "parentUuid": "ce41eeb7_a1473994",
+      "revId": "58031ff237021d12cb0b2e3642ce92f60109a362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "51cabd7e_a65a7a9d",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
         "patchSetId": 26

@@ -39,6 +39,12 @@
   const FULL_CONTEXT = -1;
   const LIMITED_CONTEXT = 10;
 
+  function isThreadEl(node) {
+    return node.nodeType === Node.ELEMENT_NODE &&
+        node.classList.contains('comment-thread');
+  }
+
+
   Polymer({
     is: 'gr-diff',
 
@@ -95,6 +101,10 @@
       comments: {
         type: Object,
         value: {left: [], right: []},
+      },
+      _commentRanges: {
+        type: Array,
+        value: [],
       },
       lineWrapping: {
         type: Boolean,
@@ -195,6 +205,24 @@
       'comment-save': '_handleCommentSave',
       'create-range-comment': '_handleCreateRangeComment',
       'render-content': '_handleRenderContent',
+    },
+
+    attached() {
+      function commentRangeFromThreadEl(threadEl) {
+        const side = threadEl.getAttribute('comment-side');
+        const range = JSON.parse(threadEl.getAttribute('range'));
+        return {side, range, hovering: false};
+      }
+
+      // TODO(oler): Unregister
+      Polymer.dom(this).observeNodes(info => {
+        const addedThreadEls = info.addedNodes.filter(isThreadEl);
+        const addedCommentRanges = addedThreadEls
+            .map(commentRangeFromThreadEl)
+            .filter(({range}) => range);
+        this.push('_commentRanges', ...addedCommentRanges);
+        // TODO(oler): Removed elements.
+      });
     },
 
     detached() {
@@ -592,8 +620,7 @@
 
     _handleRenderContent() {
       this._nodeObserver = Polymer.dom(this).observeNodes(info => {
-        const addedThreadEls = info.addedNodes.filter(
-            node => node.nodeType === Node.ELEMENT_NODE);
+        const addedThreadEls = info.addedNodes.filter(isThreadEl);
         // In principal we should also handle removed nodes, but I have not
         // figured out how to do that yet without also catching all the removals
         // caused by further redistribution. Right now, comments are never

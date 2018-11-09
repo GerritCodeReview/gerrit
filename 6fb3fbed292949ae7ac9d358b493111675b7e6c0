@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6ec8b46_e1127e07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T23:57:35Z",
+      "side": 1,
+      "message": "I\u0027ve removed it. Thanks, done.",
+      "parentUuid": "aab0d269_2793501d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 74
+      },
+      "revId": "6fb3fbed292949ae7ac9d358b493111675b7e6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e0e5861_d5068dde",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 14

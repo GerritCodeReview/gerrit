@@ -1692,7 +1692,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange();
 
     String username = name("new-user");
-    gApi.accounts().create(username).setActive(false);
+    accountOperations.newAccount().username(username).inactive().create();
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = username;
@@ -1714,7 +1714,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange();
 
     String username = "user@domain.com";
-    gApi.accounts().create(username).setActive(false);
+    accountOperations.newAccount().username(username).inactive().create();
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = username;
@@ -2096,7 +2096,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
 
-    gApi.accounts().id(admin.id.get()).setStatus("new status");
+    accountOperations.account(admin.id).forUpdate().status("new status").update();
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
   }

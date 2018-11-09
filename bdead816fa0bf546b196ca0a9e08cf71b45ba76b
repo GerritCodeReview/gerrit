@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b6c413d_12196611",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2018-11-09T15:05:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b76ccd08_40b942ba",
+      "range": {
+        "startLine": 232,
+        "startChar": 16,
+        "endLine": 232,
+        "endChar": 28
+      },
+      "revId": "bdead816fa0bf546b196ca0a9e08cf71b45ba76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "816681b6_a9d0de8d",
         "filename": "javatests/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
         "patchSetId": 7

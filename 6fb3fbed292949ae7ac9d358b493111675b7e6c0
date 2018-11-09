@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "341c1f4a_dac3390c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1530,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T23:57:12Z",
+      "side": 1,
+      "message": "Yes (i\u0027ve split the logic up in that function too so i can use it in both (ie not duplicating things twice) :)",
+      "parentUuid": "1e0e5861_d5068dde",
+      "revId": "6fb3fbed292949ae7ac9d358b493111675b7e6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53ac7785_78798ec9",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 14
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "9d1dab3f_ab186c1a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T23:57:12Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "53ac7785_78798ec9",
+      "revId": "6fb3fbed292949ae7ac9d358b493111675b7e6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b20ecb1a_db262b58",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 14
@@ -73,6 +109,24 @@
       "revId": "6fb3fbed292949ae7ac9d358b493111675b7e6c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6171fd01_e81a72fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1543,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T23:57:12Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b20ecb1a_db262b58",
+      "revId": "6fb3fbed292949ae7ac9d358b493111675b7e6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

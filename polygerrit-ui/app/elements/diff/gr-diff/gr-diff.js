@@ -43,6 +43,11 @@
    *             end_line: number, end_character: number}} */
   Gerrit.Range;
 
+  function isThreadEl(node) {
+    return node.nodeType === Node.ELEMENT_NODE &&
+        node.classList.contains('comment-thread');
+  }
+
   Polymer({
     is: 'gr-diff',
 
@@ -99,6 +104,11 @@
       comments: {
         type: Object,
         value: {left: [], right: []},
+      },
+      /** @type {!Array<!Gerrit.HoveredRange>} */
+      _commentRanges: {
+        type: Array,
+        value: [],
       },
       lineWrapping: {
         type: Boolean,
@@ -185,7 +195,19 @@
 
       _diffLength: Number,
 
-      /** @type {?PolymerDomApi.ObserveHandle} */
+      /**
+       * Observes comment nodes added or removed after the initial render.
+       * Can be used to unregister when the entire diff is (re-)rendered or upon
+       * detachment.
+       * @type {?PolymerDomApi.ObserveHandle}
+       */
+      _incrementalNodeObserver: Object,
+
+      /**
+       * Observes comment nodes added or removed at any point.
+       * Can be used to unregister upon detachment.
+       * @type {?PolymerDomApi.ObserveHandle}
+       */
       _nodeObserver: Object,
     },
 
@@ -201,8 +223,34 @@
       'render-content': '_handleRenderContent',
     },
 
+    attached() {
+      this._updateRangesWhenNodesChange();
+    },
+
     detached() {
+      this._unobserveIncrementalNodes();
       this._unobserveNodes();
+    },
+
+    _updateRangesWhenNodesChange() {
+      function commentRangeFromThreadEl(threadEl) {
+        const side = threadEl.getAttribute('comment-side');
+        const range = JSON.parse(threadEl.getAttribute('range'));
+        return {side, range, hovering: false};
+      }
+
+      this._nodeObserver = Polymer.dom(this).observeNodes(info => {
+        const addedThreadEls = info.addedNodes.filter(isThreadEl);
+        const addedCommentRanges = addedThreadEls
+            .map(commentRangeFromThreadEl)
+            .filter(({range}) => range);
+        this.push('_commentRanges', ...addedCommentRanges);
+        // In principal we should also handle removed nodes, but I have not
+        // figured out how to do that yet without also catching all the removals
+        // caused by further redistribution. Right now, comments are never
+        // removed by no longer slotting them in, so I decided to not handle
+        // this situation until it occurs.
+      });
     },
 
     /** Cancel any remaining diff builder rendering work. */
@@ -577,7 +625,7 @@
     },
 
     _renderDiffTable() {
-      this._unobserveNodes();
+      this._unobserveIncrementalNodes();
       if (!this.prefs) {
         this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
         return;
@@ -595,9 +643,8 @@
     },
 
     _handleRenderContent() {
-      this._nodeObserver = Polymer.dom(this).observeNodes(info => {
-        const addedThreadEls = info.addedNodes.filter(
-            node => node.nodeType === Node.ELEMENT_NODE);
+      this._incrementalNodeObserver = Polymer.dom(this).observeNodes(info => {
+        const addedThreadEls = info.addedNodes.filter(isThreadEl);
         // In principal we should also handle removed nodes, but I have not
         // figured out how to do that yet without also catching all the removals
         // caused by further redistribution. Right now, comments are never
@@ -614,6 +661,12 @@
           Polymer.dom(threadGroupEl).appendChild(threadEl);
         }
       });
+    },
+
+    _unobserveIncrementalNodes() {
+      if (this._incrementalNodeObserver) {
+        Polymer.dom(this).unobserveNodes(this._incrementalNodeObserver);
+      }
     },
 
     _unobserveNodes() {
@@ -633,7 +686,7 @@
     },
 
     clearDiffContent() {
-      this._unobserveNodes();
+      this._unobserveIncrementalNodes();
       this.$.diffTable.innerHTML = null;
     },
 

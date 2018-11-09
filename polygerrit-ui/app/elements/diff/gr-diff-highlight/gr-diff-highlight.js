@@ -21,7 +21,11 @@
     is: 'gr-diff-highlight',
 
     properties: {
-      comments: Object,
+      /** @type {!Array<!Gerrit.HoveredRange>} */
+      commentRanges: {
+        type: Array,
+        notify: true,
+      },
       loggedIn: Boolean,
       /**
        * querySelector can return null, so needs to be nullable.
@@ -71,35 +75,44 @@
     },
 
     _handleCommentMouseOver(e) {
-      const comment = e.detail.comment;
-      if (!comment.range) { return; }
-      const lineEl = this.diffBuilder.getLineElByChild(e.target);
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
-      const index = this._indexOfComment(side, comment);
+      const threadEl = Polymer.dom(e).localTarget;
+      const index = this._indexForThreadEl(threadEl);
+
       if (index !== undefined) {
-        this.set(['comments', side, index, '__hovering'], true);
+        this.set(['commentRanges', index, 'hovering'], true);
       }
     },
 
     _handleCommentMouseOut(e) {
-      const comment = e.detail.comment;
-      if (!comment.range) { return; }
-      const lineEl = this.diffBuilder.getLineElByChild(e.target);
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
-      const index = this._indexOfComment(side, comment);
+      const threadEl = Polymer.dom(e).localTarget;
+      const index = this._indexForThreadEl(threadEl);
+
       if (index !== undefined) {
-        this.set(['comments', side, index, '__hovering'], false);
+        this.set(['commentRanges', index, 'hovering'], false);
       }
     },
 
-    _indexOfComment(side, comment) {
-      const idProp = comment.id ? 'id' : '__draftID';
-      for (let i = 0; i < this.comments[side].length; i++) {
-        if (comment[idProp] &&
-            this.comments[side][i][idProp] === comment[idProp]) {
-          return i;
-        }
+    _indexForThreadEl(threadEl) {
+      const side = threadEl.getAttribute('comment-side');
+      const range = JSON.parse(threadEl.getAttribute('range'));
+
+      if (!range) return undefined;
+
+      return this._indexOfCommentRange(side, range);
+    },
+
+    _indexOfCommentRange(side, range) {
+      function rangesEqual(a, b) {
+        if (!a && !b) { return true; }
+        if (!a || !b) { return false; }
+        return a.start_line === b.start_line &&
+            a.start_character === b.start_character &&
+            a.end_line === b.end_line &&
+            a.end_character === b.end_character;
       }
+
+      return this.commentRanges.findIndex(commentRange =>
+          commentRange.side === side && rangesEqual(commentRange.range, range));
     },
 
     /**

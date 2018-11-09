@@ -389,7 +389,7 @@ limitations under the License.
     test('_handlePreferenceError called with invalid preference', () => {
       sandbox.stub(element, '_handlePreferenceError');
       const prefs = {tab_size: 0};
-      element._getDiffBuilder(element.diff, element.comments, prefs);
+      element._getDiffBuilder(element.diff, undefined, prefs);
       assert.isTrue(element._handlePreferenceError.lastCall
           .calledWithExactly('tab size'));
     });

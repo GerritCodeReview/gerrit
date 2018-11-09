@@ -29,7 +29,7 @@ limitations under the License.
     </div>
     <gr-ranged-comment-layer
         id="rangeLayer"
-        comments="[[comments]]"></gr-ranged-comment-layer>
+        comment-ranges="[[commentRanges]]"></gr-ranged-comment-layer>
     <gr-syntax-layer
         id="syntaxLayer"
         diff="[[diff]]"></gr-syntax-layer>
@@ -109,7 +109,6 @@ limitations under the License.
           changeNum: String,
           patchNum: String,
           viewMode: String,
-          comments: Object,
           isImageDiff: Boolean,
           baseImage: Object,
           revisionImage: Object,
@@ -125,6 +124,10 @@ limitations under the License.
           _groups: Array,
           _layers: Array,
           _showTabs: Boolean,
+          /** @type {!Array<!Gerrit.HoveredRange>} */
+          commentRanges: {
+            type: Array,
+          },
         },
 
         get diffElement() {

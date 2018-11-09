@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "709eb997_74ae6503",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-09T17:05:59Z",
+      "side": 1,
+      "message": "I worry that this isn\u0027t using the Polymer.dom API, and may behave unexpectedly in shadow DOM.\n\nViktar is the expert on this, I\u0027ll add him to this change.",
+      "range": {
+        "startLine": 130,
+        "startChar": 7,
+        "endLine": 136,
+        "endChar": 10
+      },
+      "revId": "8c8ce2dabacc25cafecb7ad5e727345fb23fb493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91419df1_c7e8c509",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-09T17:05:59Z",
+      "side": 1,
+      "message": "Nice.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 15
+      },
+      "revId": "8c8ce2dabacc25cafecb7ad5e727345fb23fb493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

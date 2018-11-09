@@ -27,7 +27,7 @@ import org.eclipse.jgit.util.IO;
 
 @GwtIncompatible("Unemulated classes in java.io, java.nio and JGit")
 public class FileUtil {
-  public static boolean modified(FileBasedConfig cfg) throws IOException {
+  public static boolean modified(FileBasedConfig cfg) throws IOException {      
     byte[] curVers;
     try {
       curVers = IO.readFully(cfg.getFile());

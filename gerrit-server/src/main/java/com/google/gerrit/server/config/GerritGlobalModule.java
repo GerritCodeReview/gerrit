@@ -17,7 +17,6 @@ package com.google.gerrit.server.config;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
-import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -299,7 +298,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     bind(AccountControl.Factory.class);
 
-    install(new AuditModule());
     bind(UiActions.class);
     install(new com.google.gerrit.server.access.Module());
     install(new com.google.gerrit.server.account.Module());

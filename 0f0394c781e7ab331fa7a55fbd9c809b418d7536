@@ -78,6 +78,30 @@
     },
     {
       "key": {
+        "uuid": "7c1ef770_b866d532",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T20:57:50Z",
+      "side": 1,
+      "message": "Aha i see. Thanks!",
+      "parentUuid": "c159b3f7_83ada22b",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 22
+      },
+      "revId": "0f0394c781e7ab331fa7a55fbd9c809b418d7536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d1580c9_328ae4fe",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
         "patchSetId": 22
@@ -95,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "5187e038_53d61c25",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T20:57:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3d1580c9_328ae4fe",
+      "revId": "0f0394c781e7ab331fa7a55fbd9c809b418d7536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38e94195_2b0ca628",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
         "patchSetId": 22
@@ -109,6 +151,24 @@
       "revId": "0f0394c781e7ab331fa7a55fbd9c809b418d7536",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40c382ae_8625110d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T20:57:50Z",
+      "side": 1,
+      "message": "Yep, tested without doing that here and it works.",
+      "parentUuid": "38e94195_2b0ca628",
+      "revId": "0f0394c781e7ab331fa7a55fbd9c809b418d7536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

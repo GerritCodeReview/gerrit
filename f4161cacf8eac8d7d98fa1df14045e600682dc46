@@ -52,6 +52,24 @@
       "revId": "f4161cacf8eac8d7d98fa1df14045e600682dc46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7db2e1a_8e95021a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-11-09T21:53:13Z",
+      "side": 1,
+      "message": "Ah, indeed. Reverted.",
+      "parentUuid": "bf8beed7_f322255d",
+      "revId": "f4161cacf8eac8d7d98fa1df14045e600682dc46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce41eeb7_a1473994",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T22:24:33Z",
+      "side": 1,
+      "message": "Sorry, one more thing I just thought of: this property governs whether the repo can be created in gr-repo-list. If we don\u0027t change its behavior, wouldn\u0027t it still be possible to create a repo with no owner?\n\nWe can fix that with these additional changes:\n\n1. Rename hasNewRepoName to configValidation here (and update gr-repo-list accordingly).\n2. Modify the multi-property observer on line 67 to look like:\n  \u0027_updateConfigValidation(_repoConfig.name, _repoConfig.owners)\u0027\n3. Rewrite the _updateRepoName method here like so:\n\n  _updateConfigValidation(name, owners) {\n    this.configValidation \u003d !!name \u0026\u0026 owners \u0026\u0026 owners.length \u003e 0;\n  },\n\nSince you are using this.set to assign to _repoConfig.owners, this observer method will be called and will update the enabled status of the dialog once an owner is selected.\n\nAlternatively, you could use deep observation on the _repoConfig object instead. You still have to declare this kind of observer in the observers property:\n\n  observers: [\n    \u0027_updateRepoConfig(_repoConfig.*)\u0027,\n  ]\n  \n  _updateRepoConfig(changeRecord) {\n    const config \u003d changeRecord.base;\n    this.configValidation \u003d !!config.name \u0026\u0026 config.owners \u0026\u0026 config.owners.length \u003e 0;\n  }\n\nSee https://www.polymer-project.org/1.0/docs/devguide/observers#deep-observation for details.",
+      "revId": "58031ff237021d12cb0b2e3642ce92f60109a362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51cabd7e_a65a7a9d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T22:24:33Z",
+      "side": 1,
+      "message": "Should _repoConfig.owners be set to [] or undefined when !id?",
+      "revId": "58031ff237021d12cb0b2e3642ce92f60109a362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "ec9bdeca_c57de883",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T19:01:20Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "654aea87_687d6e99",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "b421f539771b38e057bfffb00b12908dc924d90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70cdac64_020083be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T19:01:20Z",
+      "side": 1,
+      "message": "Yes, we need this for wikimedia gerrit where we have a group called \"gerrit managers\" who can create projects / create groups but cannot edit the project once created because it defaults to admins.",
+      "parentUuid": "90d56762_4fa595ba",
+      "revId": "b421f539771b38e057bfffb00b12908dc924d90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2263a901_2a63a961",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.html",
         "patchSetId": 17
@@ -56,6 +98,24 @@
       "revId": "b421f539771b38e057bfffb00b12908dc924d90e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b9c08c8_f857f0f7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-09T19:01:20Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2263a901_2a63a961",
+      "revId": "b421f539771b38e057bfffb00b12908dc924d90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

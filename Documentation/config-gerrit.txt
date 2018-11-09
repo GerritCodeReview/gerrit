@@ -5232,6 +5232,8 @@ If `FALSE`, will not include any commit messages for the gitlink update.
 +
 If `SUBJECT_ONLY`, will include only the commit subjects.
 +
+If `COPY_TIP_MESSAGE`, full commit message will be copied over from tip of submodule.
++
 If `TRUE`, will include full commit messages.
 +
 By default this is `TRUE`.

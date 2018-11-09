@@ -225,6 +225,9 @@ public class SubmoduleOp {
     commit.setTreeId(newTreeId);
     commit.setParentId(currentCommit);
     StringBuilder commitMsg = new StringBuilder("Update git submodules\n\n");
+    if (verboseSuperProject == VerboseSuperprojectUpdate.COPY_TIP_MESSAGE) {
+      commitMsg.setLength(0);
+    }
     if (verboseSuperProject != VerboseSuperprojectUpdate.FALSE) {
       commitMsg.append(msgbuf);
     }
@@ -352,13 +355,15 @@ public class SubmoduleOp {
       OpenRepo subOr,
       RevCommit newCommit,
       RevCommit oldCommit) {
-    msgbuf.append("* Update ");
-    msgbuf.append(s.getPath());
-    msgbuf.append(" from branch '");
-    msgbuf.append(s.getSubmodule().shortName());
-    msgbuf.append("'");
-    msgbuf.append("\n  to ");
-    msgbuf.append(newCommit.getName());
+    if (verboseSuperProject != VerboseSuperprojectUpdate.COPY_TIP_MESSAGE) {
+      msgbuf.append("* Update ");
+      msgbuf.append(s.getPath());
+      msgbuf.append(" from branch '");
+      msgbuf.append(s.getSubmodule().shortName());
+      msgbuf.append("'");
+      msgbuf.append("\n  to ");
+      msgbuf.append(newCommit.getName());
+    }
 
     // newly created submodule gitlink, do not append whole history
     if (oldCommit == null) {
@@ -373,6 +378,12 @@ public class SubmoduleOp {
       for (Iterator<RevCommit> iter = subOr.rw.iterator(); iter.hasNext(); ) {
         RevCommit c = iter.next();
         subOr.rw.parseBody(c);
+
+        // Copy over top submodule commit message...
+        if (verboseSuperProject == VerboseSuperprojectUpdate.COPY_TIP_MESSAGE) {
+          msgbuf.append(c.getFullMessage());
+          return;
+        }
 
         String message =
             verboseSuperProject == VerboseSuperprojectUpdate.SUBJECT_ONLY

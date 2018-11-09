@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "4df62ed8_e3b42266",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T23:09:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3e03dd6e_4cd5af8f",
+      "revId": "58031ff237021d12cb0b2e3642ce92f60109a362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51cabd7e_a65a7a9d",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
         "patchSetId": 26
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Ok :) (which it is already per the if value statement)",
       "parentUuid": "148263dc_02ce25f8",
+      "revId": "58031ff237021d12cb0b2e3642ce92f60109a362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c984cba_b70112e8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T23:09:54Z",
+      "side": 1,
+      "message": "Do you want to add an else to set \u0027_repoConfig.owners\u0027 to undefined?",
+      "parentUuid": "87420985_1510836f",
       "revId": "58031ff237021d12cb0b2e3642ce92f60109a362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

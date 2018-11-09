@@ -199,6 +199,7 @@ limitations under the License.
 
       test('comment-thread-mouseenter from line comments is ignored', () => {
         const threadEl = document.createElement('div');
+        threadEl.className = 'comment-thread';
         threadEl.setAttribute('comment-side', 'right');
         threadEl.setAttribute('line-num', 3);
         element.appendChild(threadEl);
@@ -212,6 +213,7 @@ limitations under the License.
 
       test('comment-thread-mouseenter from ranged comment causes set', () => {
         const threadEl = document.createElement('div');
+        threadEl.className = 'comment-thread';
         threadEl.setAttribute('comment-side', 'right');
         threadEl.setAttribute('line-num', 3);
         threadEl.setAttribute('range', JSON.stringify({
@@ -239,6 +241,7 @@ limitations under the License.
 
       test('comment-thread-mouseleave from line comments is ignored', () => {
         const threadEl = document.createElement('div');
+        threadEl.className = 'comment-thread';
         threadEl.setAttribute('comment-side', 'right');
         threadEl.setAttribute('line-num', 3);
         element.appendChild(threadEl);

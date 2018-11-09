@@ -60,6 +60,20 @@
         node.classList.contains('comment-thread');
   }
 
+  /**
+   * Turn a slot element into the corresponding content element.
+   * Slots are only fully supported in Polymer 2 - in Polymer 1, they are
+   * replaced with content elements during template parsing. This conversion is
+   * not applied for imperatively created slot elements, so this method
+   * implements the same behavior as the template parsing for imperative slots.
+   */
+  Gerrit.slotToContent = function(slot) {
+    const content = document.createElement('content');
+    content.name = slot.name;
+    content.setAttribute('select', `[slot='${slot.name}']`);
+    return content;
+  };
+
   Polymer({
     is: 'gr-diff',
 
@@ -455,14 +469,16 @@
      * Gets or creates a comment thread group for a specific line and side on a
      * diff.
      * @param {!Object} contentEl
+     * @param {!Gerrit.DiffSide} commentSide
      * @return {!Node}
      */
-    _getOrCreateThreadGroup(contentEl) {
+    _getOrCreateThreadGroup(contentEl, commentSide) {
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
         threadGroupEl = document.createElement('div');
         threadGroupEl.className = 'thread-group';
+        threadGroupEl.setAttribute('data-side', commentSide);
         contentEl.appendChild(threadGroupEl);
       }
       return threadGroupEl;
@@ -624,8 +640,17 @@
               lineNumString, commentSide);
           const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
           const contentEl = contentText.parentElement;
-          const threadGroupEl = this._getOrCreateThreadGroup(contentEl);
-          Polymer.dom(threadGroupEl).appendChild(threadEl);
+          const threadGroupEl = this._getOrCreateThreadGroup(
+              contentEl, commentSide);
+          // Create a slot for the thread and attach it to the thread group.
+          // The Polyfill has some bugs and this only works if the slot is
+          // attached to the group after the group is attached to the DOM.
+          // The thread group may already have a slot with the right name, but
+          // that is okay because the first matching slot is used and the rest
+          // are ignored.
+          const slot = document.createElement('slot');
+          slot.name = threadEl.slot;
+          Polymer.dom(threadGroupEl).appendChild(Gerrit.slotToContent(slot));
         }
       });
     },

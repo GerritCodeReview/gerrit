@@ -74,8 +74,16 @@
       this.debounce('selectionChange', this._handleSelection, 200);
     },
 
+    _getThreadEl(e) {
+      const path = Polymer.dom(e).path || [];
+      for (const pathEl of path) {
+        if (pathEl.classList.contains('comment-thread')) return pathEl;
+      }
+      return null;
+    },
+
     _handleCommentThreadMouseenter(e) {
-      const threadEl = Polymer.dom(e).localTarget;
+      const threadEl = this._getThreadEl(e);
       const index = this._indexForThreadEl(threadEl);
 
       if (index !== undefined) {
@@ -84,7 +92,7 @@
     },
 
     _handleCommentThreadMouseleave(e) {
-      const threadEl = Polymer.dom(e).localTarget;
+      const threadEl = this._getThreadEl(e);
       const index = this._indexForThreadEl(threadEl);
 
       if (index !== undefined) {

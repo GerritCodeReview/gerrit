@@ -20,10 +20,8 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderSideBySide) { return; }
 
-  function GrDiffBuilderSideBySide(diff, commentThreadEls,
-      prefs, outputEl, layers) {
-    GrDiffBuilder.call(this, diff, commentThreadEls, prefs,
-        outputEl, layers);
+  function GrDiffBuilderSideBySide(diff, prefs, outputEl, layers) {
+    GrDiffBuilder.call(this, diff, prefs, outputEl, layers);
   }
   GrDiffBuilderSideBySide.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderSideBySide.prototype.constructor = GrDiffBuilderSideBySide;
@@ -99,10 +97,6 @@
       row.appendChild(action);
     } else {
       const textEl = this._createTextEl(line, side);
-      const threadGroupEl = this._commentThreadGroupForLine(line, side);
-      if (threadGroupEl) {
-        textEl.appendChild(threadGroupEl);
-      }
       row.appendChild(textEl);
     }
   };

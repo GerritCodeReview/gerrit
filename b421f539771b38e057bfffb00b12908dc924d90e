@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90d56762_4fa595ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T17:49:15Z",
+      "side": 1,
+      "message": "This description is confusing to me. Are you trying to say that we want to require an owner for a new project so there exists someone who can administrate it?",
+      "revId": "b421f539771b38e057bfffb00b12908dc924d90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "654aea87_687d6e99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T17:49:15Z",
+      "side": 1,
+      "message": "you\u0027re",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "b421f539771b38e057bfffb00b12908dc924d90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2263a901_2a63a961",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-09T17:49:15Z",
+      "side": 1,
+      "message": "The type of this field in this object (ProjectInfo) is an array. Overloading the field with a string value and then wrapping it in an array just before sending it over the network is confusing and error-prone.\n\nInstead, bind this to a string property, and use an observer to propagate changes into _repoConfig properly.",
+      "revId": "b421f539771b38e057bfffb00b12908dc924d90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

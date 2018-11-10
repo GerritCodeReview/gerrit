@@ -109,7 +109,7 @@ public class CreateProject
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final GitReferenceUpdated referenceUpdated;
   private final RepositoryConfig repositoryCfg;
-  private final PersonIdent serverIdent;
+  private final Provider<PersonIdent> serverIdent;
   private final Provider<IdentifiedUser> identifiedUser;
   private final Provider<PutConfig> putConfig;
   private final AllProjectsName allProjects;
@@ -130,7 +130,7 @@ public class CreateProject
       MetaDataUpdate.User metaDataUpdateFactory,
       GitReferenceUpdated referenceUpdated,
       RepositoryConfig repositoryCfg,
-      @GerritPersonIdent PersonIdent serverIdent,
+      @GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<IdentifiedUser> identifiedUser,
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
@@ -354,7 +354,7 @@ public class CreateProject
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
       cb.setAuthor(metaDataUpdateFactory.getUserPersonIdent());
-      cb.setCommitter(serverIdent);
+      cb.setCommitter(serverIdent.get());
       cb.setMessage("Initial empty repository\n");
 
       ObjectId id = oi.insert(cb);

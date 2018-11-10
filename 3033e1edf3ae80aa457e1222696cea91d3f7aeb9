@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59b97a91_9545d8a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-10T18:42:23Z",
+      "side": 1,
+      "message": "Unnecessary nesting in a suite.",
+      "revId": "3033e1edf3ae80aa457e1222696cea91d3f7aeb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

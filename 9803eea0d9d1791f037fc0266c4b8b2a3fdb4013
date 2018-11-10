@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f41bc81_76705c57",
+        "filename": "java/com/google/gerrit/common/FileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-10T00:51:56Z",
+      "side": 1,
+      "message": "IIUC the spacey robot checks for trailing whitespace, not indentation issues.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "9803eea0d9d1791f037fc0266c4b8b2a3fdb4013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -115,6 +115,7 @@ java_library2(
         "//lib:gwtorm",
         "//lib:jsch",
         "//lib:servlet-api-3_1",
+        "//lib/commons:lang",
         "//lib/greenmail",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

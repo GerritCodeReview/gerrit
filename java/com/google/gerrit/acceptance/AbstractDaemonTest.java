@@ -1193,6 +1193,7 @@ public abstract class AbstractDaemonTest {
     return changeResourceFactory.create(notes.get(0), atrScope.get().getUser());
   }
 
+  @Nullable
   protected RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
       Ref r = repo.exactRef(name);
@@ -1204,16 +1205,19 @@ public abstract class AbstractDaemonTest {
     return getHead(repo, "HEAD");
   }
 
+  @Nullable
   protected RevCommit getRemoteHead(Project.NameKey project, String branch) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       return getHead(repo, branch.startsWith(Constants.R_REFS) ? branch : "refs/heads/" + branch);
     }
   }
 
+  @Nullable
   protected RevCommit getRemoteHead(String project, String branch) throws Exception {
     return getRemoteHead(new Project.NameKey(project), branch);
   }
 
+  @Nullable
   protected RevCommit getRemoteHead() throws Exception {
     return getRemoteHead(project, "master");
   }

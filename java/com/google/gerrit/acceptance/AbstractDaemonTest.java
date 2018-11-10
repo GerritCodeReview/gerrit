@@ -452,7 +452,7 @@ public abstract class AbstractDaemonTest {
         UNSAFE_PROJECT_NAME
             .matcher(description.getClassName() + "_" + description.getMethodName() + "_")
             .replaceAll("");
-
+    GerritServer.setResourcePrefix(resourcePrefix);
     Context ctx = newRequestContext(admin);
     atrScope.set(ctx);
     ProjectInput in = projectInput(description);

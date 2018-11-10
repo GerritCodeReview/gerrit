@@ -144,6 +144,26 @@ public class GroupsIT extends AbstractDaemonTest {
     }
   }
 
+  // Creates a group, but with uniquified name.
+  @Override
+  protected String createGroup(String name) throws Exception {
+    name = name(name);
+    GroupInput in = new GroupInput();
+    in.name = name;
+    in.ownerId = "Administrators";
+    gApi.groups().create(in);
+    return name;
+  }
+
+  protected String createGroup(String name, String owner) throws Exception {
+    name = name(name);
+    GroupInput in = new GroupInput();
+    in.name = name;
+    in.ownerId = owner;
+    gApi.groups().create(in);
+    return name;
+  }
+
   @Override
   protected ProjectResetter.Config resetProjects() {
     // Don't reset All-Users since deleting users makes groups inconsistent (e.g. groups would

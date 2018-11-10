@@ -108,5 +108,11 @@ public abstract class TestGroupCreation {
       TestGroupCreation groupCreation = autoBuild();
       return groupCreation.groupCreator().apply(groupCreation);
     }
+
+    public String createName() throws Exception {
+      TestGroupCreation groupCreation = autoBuild();
+      groupCreation.groupCreator().apply(groupCreation);
+      return groupCreation.name().orElseThrow(() -> new IllegalStateException());
+    }
   }
 }

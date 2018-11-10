@@ -218,7 +218,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   @Test
   public void cyclicSubgroup() throws Exception {
     updateGroupFile(RefNames.refsGroups(new AccountGroup.UUID(g1.id)), "subgroups", g1.id + "\n");
-    assertWarning("cyclic");
+    assertWarning("cycle");
   }
 
   private void assertError(String msg) throws Exception {

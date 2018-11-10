@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec8d91d7_e0a664ba",
+        "filename": "java/com/google/gerrit/common/FileUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-10T09:33:43Z",
+      "side": 1,
+      "message": "\u003e Found trailing space\n\nPlease Fix",
+      "parentUuid": "d2ce261b_e5d8d47d",
+      "range": {
+        "startLine": 30,
+        "startChar": 74,
+        "endLine": 30,
+        "endChar": 79
+      },
+      "revId": "45fa2a886b3d554189254e54177c857786be112d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

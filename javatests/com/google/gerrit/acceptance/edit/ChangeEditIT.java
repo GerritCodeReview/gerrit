@@ -41,7 +41,6 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -235,16 +234,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createArbitraryEditFor(changeId);
     adminRestSession.delete(urlEdit(changeId)).assertNoContent();
     assertThat(getEdit(changeId)).isAbsent();
-  }
-
-  @Test
-  public void publishEditRestWithoutCLA() throws Exception {
-    configureContributorAgreement(true);
-    createArbitraryEditFor(changeId);
-    setUseContributorAgreements(InheritableBoolean.TRUE);
-    adminRestSession.post(urlPublish(changeId)).assertForbidden();
-    setUseContributorAgreements(InheritableBoolean.FALSE);
-    adminRestSession.post(urlPublish(changeId)).assertNoContent();
   }
 
   @Test

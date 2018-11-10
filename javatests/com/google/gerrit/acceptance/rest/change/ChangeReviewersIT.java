@@ -31,6 +31,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
@@ -52,6 +53,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
+import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -62,12 +64,15 @@ import java.util.Map;
 import org.junit.Test;
 
 public class ChangeReviewersIT extends AbstractDaemonTest {
+
+  @Inject protected GroupOperations groupOperations;
+
   @Test
   public void addGroupAsReviewer() throws Exception {
     // Set up two groups, one that is too large too add as reviewer, and one
     // that is too large to add without confirmation.
-    String largeGroup = createGroup("largeGroup");
-    String mediumGroup = createGroup("mediumGroup");
+    String largeGroup = groupOperations.newGroup().name("largeGroup").create().get();
+    String mediumGroup = groupOperations.newGroup().name("mediumGroup").create().get();
 
     int largeGroupSize = ReviewerAdder.DEFAULT_MAX_REVIEWERS + 1;
     int mediumGroupSize = ReviewerAdder.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK + 1;
@@ -170,7 +175,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = createGroup("cc1");
+    in.reviewer = groupOperations.newGroup().name("cc1").create().get();
     in.state = CC;
     gApi.groups()
         .id(in.reviewer)
@@ -209,7 +214,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     result = addReviewer(changeId, reviewer.username);
     assertThat(result.error).isNull();
     sender.clear();
-    in.reviewer = createGroup("cc2");
+    in.reviewer = groupOperations.newGroup().name("cc2").create().get();
     gApi.groups().id(in.reviewer).addMembers(usernames.toArray(new String[usernames.size()]));
     gApi.groups().id(in.reviewer).addMembers(reviewer.username);
     result = addReviewer(changeId, in);
@@ -479,8 +484,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       usernames.add(u.username);
     }
 
-    String largeGroup = createGroup("largeGroup");
-    String mediumGroup = createGroup("mediumGroup");
+    String largeGroup = groupOperations.newGroup().name("largeGroup").create().get();
+    String mediumGroup = groupOperations.newGroup().name("mediumGroup").create().get();
     gApi.groups().id(largeGroup).addMembers(usernames.toArray(new String[largeGroupSize]));
     gApi.groups()
         .id(mediumGroup)
@@ -622,8 +627,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         accountCreator.create(name("user2"), emailPrefix + "user2@example.com", "User2");
     TestAccount user3 =
         accountCreator.create(name("user3"), emailPrefix + "user3@example.com", "User3");
-    String group1 = createGroup("group1");
-    String group2 = createGroup("group2");
+    String group1 = groupOperations.newGroup().name("group1").create().get();
+    String group2 = groupOperations.newGroup().name("group2").create().get();
     gApi.groups().id(group1).addMembers(user1.username, user2.username);
     gApi.groups().id(group2).addMembers(user2.username, user3.username);
 

@@ -145,14 +145,11 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   // Creates a group, but with uniquified name.
-  @Override
   protected String createGroup(String name) throws Exception {
-    name = name(name);
-    GroupInput in = new GroupInput();
-    in.name = name;
-    in.ownerId = "Administrators";
-    gApi.groups().create(in);
-    return name;
+    // TODO(hanwen): rewrite this test in terms of UUID. This requires redoing the assertion helpers
+    // too.
+    AccountGroup.UUID g = groupOperations.newGroup().ownerGroupUuid(adminGroupUuid()).create();
+    return groupRef(g).getName();
   }
 
   protected String createGroup(String name, String owner) throws Exception {

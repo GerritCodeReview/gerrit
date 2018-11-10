@@ -20,17 +20,22 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
 public class IndexChangeIT extends AbstractDaemonTest {
+
+  @Inject protected GroupOperations groupOperations;
+
   @Test
   public void indexChange() throws Exception {
     String changeId = createChange().getChangeId();
@@ -48,7 +53,8 @@ public class IndexChangeIT extends AbstractDaemonTest {
   public void indexChangeAfterOwnerLosesVisibility() throws Exception {
     // Create a test group with 2 users as members
     TestAccount user2 = accountCreator.user2();
-    String group = createGroup("test");
+    AccountGroup.UUID groupId = groupOperations.newGroup().name("test").create();
+    String group = groupOperations.group(groupId).get().name();
     gApi.groups().id(group).addMembers("admin", "user", user2.username);
 
     // Create a project and restrict its visibility to the group

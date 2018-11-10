@@ -38,6 +38,8 @@ import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -291,6 +293,7 @@ public abstract class AbstractDaemonTest {
   @Inject private AccountIndexer accountIndexer;
   @Inject private Groups groups;
   @Inject private GroupIndexer groupIndexer;
+  @Inject private ProjectOperations projectOperations;
 
   private ProjectResetter resetter;
   private List<Repository> toClose;
@@ -567,14 +570,16 @@ public abstract class AbstractDaemonTest {
 
   protected Project.NameKey createProject(
       String nameSuffix, Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
-      throws RestApiException {
-    ProjectInput in = new ProjectInput();
-    in.name = name(nameSuffix);
-    in.parent = parent != null ? parent.get() : null;
-    in.submitType = submitType;
-    in.createEmptyCommit = createEmptyCommit;
-    gApi.projects().create(in);
-    return new Project.NameKey(in.name);
+      throws Exception {
+    TestProjectCreation.Builder b = projectOperations.newProject();
+    b.createEmptyCommit(createEmptyCommit);
+    if (parent != null) {
+      b.parent(parent);
+    }
+    if (submitType != null) {
+      b.submitType(submitType);
+    }
+    return b.create();
   }
 
   protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p) throws Exception {

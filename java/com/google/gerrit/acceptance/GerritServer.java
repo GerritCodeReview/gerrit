@@ -28,6 +28,8 @@ import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperationsImpl;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -496,6 +498,7 @@ public class GerritServer implements AutoCloseable {
             bind(AccountCreator.class);
             bind(AccountOperations.class).to(AccountOperationsImpl.class);
             bind(GroupOperations.class).to(GroupOperationsImpl.class);
+            bind(ProjectOperations.class).to(ProjectOperationsImpl.class);
             factory(PushOneCommit.Factory.class);
             install(InProcessProtocol.module());
             install(new NoSshModule());

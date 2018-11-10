@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e75ceb74_14969ea1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 1609,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-10T00:08:53Z",
+      "side": 1,
+      "message": "You can just do this:\n\n  url,",
+      "revId": "90148de03e600a2e430dfd2929a25ddfb6b743dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0360f099_7a7cbb2a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-10T00:08:53Z",
+      "side": 1,
+      "message": "And here as well:\n\n  url,",
+      "revId": "90148de03e600a2e430dfd2929a25ddfb6b743dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283f52f1_21bb9a58",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-10T00:08:53Z",
+      "side": 1,
+      "message": "Unintended newline?",
+      "revId": "90148de03e600a2e430dfd2929a25ddfb6b743dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ef2a392_adc197f0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-10T00:08:53Z",
+      "side": 1,
+      "message": "No need for a suite if there\u0027s just one test.",
+      "revId": "90148de03e600a2e430dfd2929a25ddfb6b743dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d0a0bcc_0c2174ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-10T00:08:53Z",
+      "side": 1,
+      "message": "This is just testing the statement preceding it, I would just remove this assertion. Technically you could also test the shared promise invalidation.",
+      "revId": "90148de03e600a2e430dfd2929a25ddfb6b743dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e16f3270_c76fb1aa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-10T00:08:53Z",
+      "side": 1,
+      "message": "Insert a newline here.",
+      "revId": "90148de03e600a2e430dfd2929a25ddfb6b743dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

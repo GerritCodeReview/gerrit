@@ -38,7 +38,6 @@ import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
-import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -1193,12 +1192,6 @@ public abstract class AbstractDaemonTest {
     return changeResourceFactory.create(notes.get(0), atrScope.get().getUser());
   }
 
-  @Inject private GroupOperations groupOperations;
-
-  protected String createGroup(String name) throws Exception {
-    return groupOperations.newGroup().name(name).createName();
-  }
-
   protected RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
       Ref r = repo.exactRef(name);
@@ -1233,7 +1226,8 @@ public abstract class AbstractDaemonTest {
   protected ContributorAgreement configureContributorAgreement(boolean autoVerify)
       throws Exception {
     ContributorAgreement ca;
-    String g = createGroup(autoVerify ? "cla-test-group" : "cla-test-no-auto-verify-group");
+    String name = autoVerify ? "cla-test-group" : "cla-test-no-auto-verify-group";
+    String g = groupOperations.newGroup().name(name).createName();
     GroupApi groupApi = gApi.groups().id(g);
     groupApi.description("CLA test group");
     InternalGroup caGroup = group(new AccountGroup.UUID(groupApi.detail().id));

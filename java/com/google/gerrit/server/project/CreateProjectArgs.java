@@ -49,6 +49,7 @@ public class CreateProjectArgs {
     enableSignedPush = InheritableBoolean.INHERIT;
     requireSignedPush = InheritableBoolean.INHERIT;
     submitType = SubmitType.MERGE_IF_NECESSARY;
+    rejectEmptyCommit = InheritableBoolean.INHERIT;
   }
 
   public Project.NameKey getProject() {

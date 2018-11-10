@@ -38,6 +38,7 @@ import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -55,7 +56,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.groups.GroupApi;
-import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -264,6 +264,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;
+  @Inject protected GroupOperations groupOperations;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;
@@ -1194,23 +1195,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected String createGroup(String name) throws Exception {
-    return createGroup(name, "Administrators");
-  }
-
-  protected String createGroupWithRealName(String name) throws Exception {
-    GroupInput in = new GroupInput();
-    in.name = name;
-    in.ownerId = "Administrators";
-    gApi.groups().create(in);
-    return name;
-  }
-
-  protected String createGroup(String name, String owner) throws Exception {
-    name = name(name);
-    GroupInput in = new GroupInput();
-    in.name = name;
-    in.ownerId = owner;
-    gApi.groups().create(in);
+    groupOperations.newGroup().name(name).create();
     return name;
   }
 

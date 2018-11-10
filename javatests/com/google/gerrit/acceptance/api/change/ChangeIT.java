@@ -1823,7 +1823,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .preferredEmail(email)
             .fullname(fullname)
             .create();
-    String testGroup = createGroupWithRealName("ab");
+    String testGroup = createGroup("ab");
     GroupApi groupApi = gApi.groups().id(testGroup);
     groupApi.description("test group");
     groupApi.addMembers(user.fullName);
@@ -1884,7 +1884,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .fullname(myGroupUserFullname)
             .create();
 
-    String testGroup = createGroupWithRealName("kobe");
+    String testGroup = createGroup("kobe");
     GroupApi groupApi = gApi.groups().id(testGroup);
     groupApi.description("test group");
     groupApi.addMembers(myGroupUserFullname);

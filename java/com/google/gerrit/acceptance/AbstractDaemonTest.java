@@ -567,9 +567,13 @@ public abstract class AbstractDaemonTest {
       String nameSuffix, Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
       throws RestApiException {
     ProjectInput in = new ProjectInput();
+
     in.name = name(nameSuffix);
+
     in.parent = parent != null ? parent.get() : null;
+
     in.submitType = submitType;
+
     in.createEmptyCommit = createEmptyCommit;
     gApi.projects().create(in);
     return new Project.NameKey(in.name);

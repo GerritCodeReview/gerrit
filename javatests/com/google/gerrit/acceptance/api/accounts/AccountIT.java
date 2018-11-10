@@ -56,6 +56,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -97,6 +98,7 @@ import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -232,6 +234,8 @@ public class AccountIT extends AbstractDaemonTest {
   private DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners;
 
   @Inject private AccountManager accountManager;
+
+  @Inject protected GroupOperations groupOperations;
 
   private AccountIndexedCounter accountIndexedCounter;
   private RegistrationHandle accountIndexEventCounterHandle;
@@ -2208,7 +2212,9 @@ public class AccountIT extends AbstractDaemonTest {
   public void allGroupsForAUserAccountCanBeRetrieved() throws Exception {
     String username = name("user1");
     accountOperations.newAccount().username(username).create();
-    String group = createGroup("group");
+    AccountGroup.UUID groupID = groupOperations.newGroup().name("group").create();
+    String group = groupOperations.group(groupID).get().name();
+
     gApi.groups().id(group).addMembers(username);
 
     List<GroupInfo> allGroups = gApi.accounts().id(username).getGroups();

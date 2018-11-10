@@ -21,6 +21,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -63,8 +64,6 @@ import org.junit.Test;
 
 public class AccessIT extends AbstractDaemonTest {
 
-  private static final String PROJECT_NAME = "newProject";
-
   private static final String REFS_ALL = Constants.R_REFS + "*";
   private static final String REFS_HEADS = Constants.R_HEADS + "*";
 
@@ -73,10 +72,11 @@ public class AccessIT extends AbstractDaemonTest {
   private Project.NameKey newProjectName;
 
   @Inject private DynamicSet<FileHistoryWebLink> fileHistoryWebLinkDynamicSet;
+  @Inject protected ProjectOperations projectOperations;
 
   @Before
   public void setUp() throws Exception {
-    newProjectName = createProject(PROJECT_NAME);
+    newProjectName = projectOperations.newProject().withEmptyCommit().create();
   }
 
   @Test
@@ -412,7 +412,7 @@ public class AccessIT extends AbstractDaemonTest {
   @Test
   public void updateParentAsUser() throws Exception {
     // Create child
-    String newParentProjectName = createProject(PROJECT_NAME + "PA").get();
+    String newParentProjectName = projectOperations.newProject().create().get();
 
     // Set new parent
     ProjectAccessInput accessInput = newProjectAccessInput();
@@ -427,7 +427,7 @@ public class AccessIT extends AbstractDaemonTest {
   @Test
   public void updateParentAsAdministrator() throws Exception {
     // Create parent
-    String newParentProjectName = createProject(PROJECT_NAME + "PA").get();
+    String newParentProjectName = projectOperations.newProject().create().get();
 
     // Set new parent
     ProjectAccessInput accessInput = newProjectAccessInput();

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01a855f3_a4476eb5",
+        "filename": "java/com/google/gerrit/server/plugincontext/PluginSetEntryContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-11T21:52:05Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is correct; now both links are the same rather than being the two separate variants of the run method.",
+      "range": {
+        "startLine": 106,
+        "startChar": 5,
+        "endLine": 106,
+        "endChar": 67
+      },
+      "revId": "01fdddccf9e59d78293dce9ec2361d36c6015ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

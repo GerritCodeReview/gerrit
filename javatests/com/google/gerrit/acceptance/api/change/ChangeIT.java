@@ -1613,7 +1613,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void pushCommitWithFooterOfOtherUserThatCannotSeeChange() throws Exception {
     // create hidden project that is only visible to administrators
-    Project.NameKey p = createProject("p");
+    Project.NameKey p = projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(p)) {
       Util.allow(u.getConfig(), Permission.READ, adminGroupUuid(), "refs/*");
       Util.block(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
@@ -1657,7 +1657,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void addReviewerThatCannotSeeChange() throws Exception {
     // create hidden project that is only visible to administrators
-    Project.NameKey p = createProject("p");
+    Project.NameKey p = projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(p)) {
       Util.allow(u.getConfig(), Permission.READ, adminGroupUuid(), "refs/*");
       Util.block(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");

@@ -201,7 +201,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Map<String, LabelType> labelSections;
   private ConfiguredMimeTypes mimeTypes;
   private Map<Project.NameKey, SubscribeSection> subscribeSections;
-  private List<CommentLinkInfoImpl> commentLinkSections;
+  private Map<String, CommentLinkInfoImpl> commentLinkSections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
   private long maxObjectSizeLimit;
@@ -250,7 +250,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public void addCommentLinkSection(CommentLinkInfoImpl commentLink) {
-    commentLinkSections.add(commentLink);
+    commentLinkSections.put(commentLink.name, commentLink);
   }
 
   private ProjectConfig(Project.NameKey projectName) {
@@ -427,7 +427,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public Collection<CommentLinkInfoImpl> getCommentLinkSections() {
-    return commentLinkSections;
+    return commentLinkSections.values();
   }
 
   public ConfiguredMimeTypes getMimeTypes() {
@@ -969,10 +969,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void loadCommentLinkSections(Config rc) {
     Set<String> subsections = rc.getSubsections(COMMENTLINK);
-    commentLinkSections = new ArrayList<>(subsections.size());
+    commentLinkSections = new HashMap<>(subsections.size());
     for (String name : subsections) {
       try {
-        commentLinkSections.add(buildCommentLink(rc, name, false));
+        commentLinkSections.put(name, buildCommentLink(rc, name, false));
       } catch (PatternSyntaxException e) {
         error(
             new ValidationError(
@@ -1159,7 +1159,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void saveCommentLinkSections(Config rc) {
     if (commentLinkSections != null) {
-      for (CommentLinkInfoImpl cm : commentLinkSections) {
+      for (CommentLinkInfoImpl cm : commentLinkSections.values()) {
         rc.setString(COMMENTLINK, cm.name, KEY_MATCH, cm.match);
         if (!Strings.isNullOrEmpty(cm.html)) {
           rc.setString(COMMENTLINK, cm.name, KEY_HTML, cm.html);

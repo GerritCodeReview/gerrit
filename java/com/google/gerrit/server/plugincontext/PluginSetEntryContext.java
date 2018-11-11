@@ -103,8 +103,9 @@ public class PluginSetEntryContext<T> {
    *
    * <p>Should only be used in exceptional cases to get direct access to the extension
    * implementation. If possible the extension should be invoked through {@link
-   * #run(ExtensionImplConsumer)}, {@link #run(ExtensionImplConsumer, Class)}, {@link
-   * #call(ExtensionImplFunction)} and {@link #call(CheckedExtensionImplFunction, Class)}.
+   * #run(PluginContext.ExtensionImplConsumer)}, {@link #run(PluginContext.ExtensionImplConsumer,
+   * java.lang.Class)}, {@link #call(PluginContext.ExtensionImplFunction)} and {@link
+   * #call(PluginContext.CheckedExtensionImplFunction, java.lang.Class)}.
    *
    * @return the implementation of this extension
    */

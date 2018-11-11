@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
-import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
@@ -28,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.WebLinks;
+import com.google.gerrit.server.api.projects.TagComparator;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -57,6 +57,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final WebLinks links;
+  private final TagComparator tagComparator;
 
   @Option(
       name = "--limit",
@@ -101,10 +102,14 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   @Inject
   public ListTags(
-      GitRepositoryManager repoManager, PermissionBackend permissionBackend, WebLinks webLinks) {
+      GitRepositoryManager repoManager,
+      PermissionBackend permissionBackend,
+      WebLinks webLinks,
+      TagComparator tagComparator) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.links = webLinks;
+    this.tagComparator = tagComparator;
   }
 
   public ListTags request(ListRefsRequest<TagInfo> request) {
@@ -134,7 +139,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       }
     }
 
-    tags.sort(comparing(t -> t.ref));
+    tags.sort(tagComparator.get());
 
     return new RefFilter<TagInfo>(Constants.R_TAGS)
         .start(start)

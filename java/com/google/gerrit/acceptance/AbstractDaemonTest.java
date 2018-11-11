@@ -51,7 +51,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
@@ -558,19 +557,19 @@ public abstract class AbstractDaemonTest {
   }
 
   protected Project.NameKey createProject(
-      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit)
-      throws Exception {
+      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit) throws Exception {
     // Default for createEmptyCommit should match TestProjectConfig.
     return createProject(nameSuffix, parent, createEmptyCommit, null);
   }
 
-  @javax.inject.Inject
-  protected ProjectOperations projectOperations;
+  @javax.inject.Inject protected ProjectOperations projectOperations;
+
   protected Project.NameKey createProject(
       String nameSuffix, Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
       throws Exception {
-    TestProjectCreation.Builder b = projectOperations.newProject().name(nameSuffix).createEmptyCommit(createEmptyCommit);
-    if (parent != null){
+    TestProjectCreation.Builder b =
+        projectOperations.newProject().name(nameSuffix).createEmptyCommit(createEmptyCommit);
+    if (parent != null) {
       b.parent(parent.get());
     }
     if (submitType != null) {
@@ -1666,14 +1665,5 @@ public abstract class AbstractDaemonTest {
     }
     comments.sort(Comparator.comparing(c -> c.id));
     return comments;
-  }
-
-  protected List<RelatedChangeAndCommitInfo> getRelated(PatchSet.Id ps) throws Exception {
-    return getRelated(ps.getParentKey(), ps.get());
-  }
-
-  protected List<RelatedChangeAndCommitInfo> getRelated(Change.Id changeId, int ps)
-      throws Exception {
-    return gApi.changes().id(changeId.get()).revision(ps).related().changes;
   }
 }

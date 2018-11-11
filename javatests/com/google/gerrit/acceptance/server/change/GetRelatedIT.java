@@ -622,7 +622,9 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   private void assertRelated(PatchSet.Id psId, RelatedChangeAndCommitInfo... expected)
       throws Exception {
-    List<RelatedChangeAndCommitInfo> actual = getRelated(psId);
+    List<RelatedChangeAndCommitInfo> actual =
+        gApi.changes().id(psId.getParentKey().get()).revision(psId.get()).related().changes;
+
     assertThat(actual).named("related to " + psId).hasSize(expected.length);
     for (int i = 0; i < actual.size(); i++) {
       String name = "index " + i + " related to " + psId;

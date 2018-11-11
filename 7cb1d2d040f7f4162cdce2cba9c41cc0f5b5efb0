@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c310ba4_788cb32d",
+        "filename": "java/com/google/gerrit/server/project/CreateProjectArgs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-11T23:59:03Z",
+      "side": 1,
+      "message": "I don\u0027t understand the meaning of this comment.",
+      "range": {
+        "startLine": 52,
+        "startChar": 52,
+        "endLine": 52,
+        "endChar": 64
+      },
+      "revId": "7cb1d2d040f7f4162cdce2cba9c41cc0f5b5efb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

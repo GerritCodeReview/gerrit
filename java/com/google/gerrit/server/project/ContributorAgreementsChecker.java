@@ -15,7 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.PermissionRule;
@@ -135,7 +135,7 @@ public class ContributorAgreementsChecker {
   }
 
   private boolean projectMatchesAnyPattern(String projectName, List<String> regexes) {
-    checkNotNull(regexes);
+    requireNonNull(regexes);
     checkArgument(!regexes.isEmpty());
     for (String patternString : regexes) {
       Pattern pattern;

@@ -38,6 +38,8 @@ import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -546,33 +548,36 @@ public abstract class AbstractDaemonTest {
     return resourcePrefix + name;
   }
 
-  protected Project.NameKey createProject(String nameSuffix) throws RestApiException {
+  protected Project.NameKey createProject(String nameSuffix) throws Exception {
     return createProject(nameSuffix, null);
   }
 
   protected Project.NameKey createProject(String nameSuffix, Project.NameKey parent)
-      throws RestApiException {
+      throws Exception {
     // Default for createEmptyCommit should match TestProjectConfig.
     return createProject(nameSuffix, parent, true, null);
   }
 
   protected Project.NameKey createProject(
       String nameSuffix, Project.NameKey parent, boolean createEmptyCommit)
-      throws RestApiException {
+      throws Exception {
     // Default for createEmptyCommit should match TestProjectConfig.
     return createProject(nameSuffix, parent, createEmptyCommit, null);
   }
 
+  @javax.inject.Inject
+  protected ProjectOperations projectOperations;
   protected Project.NameKey createProject(
       String nameSuffix, Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
-      throws RestApiException {
-    ProjectInput in = new ProjectInput();
-    in.name = name(nameSuffix);
-    in.parent = parent != null ? parent.get() : null;
-    in.submitType = submitType;
-    in.createEmptyCommit = createEmptyCommit;
-    gApi.projects().create(in);
-    return new Project.NameKey(in.name);
+      throws Exception {
+    TestProjectCreation.Builder b = projectOperations.newProject().name(nameSuffix).createEmptyCommit(createEmptyCommit);
+    if (parent != null){
+      b.parent(parent.get());
+    }
+    if (submitType != null) {
+      b.submitType(submitType);
+    }
+    return b.create();
   }
 
   protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p) throws Exception {

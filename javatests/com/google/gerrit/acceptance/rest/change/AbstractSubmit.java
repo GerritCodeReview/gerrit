@@ -65,6 +65,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -315,7 +316,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   public void submitNoPermission() throws Exception {
     // create project where submit is blocked
-    Project.NameKey p = createProject("p");
+    Project.NameKey p = projectOperations.newProject().create();
     block(p, "refs/*", Permission.SUBMIT, REGISTERED_USERS);
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
@@ -329,7 +330,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   public void noSelfSubmit() throws Exception {
     // create project where submit is blocked for the change owner
-    Project.NameKey p = createProject("p");
+    Project.NameKey p = projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(p)) {
       Util.block(u.getConfig(), Permission.SUBMIT, CHANGE_OWNER, "refs/*");
       Util.allow(u.getConfig(), Permission.SUBMIT, REGISTERED_USERS, "refs/heads/*");
@@ -355,7 +356,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   public void onlySelfSubmit() throws Exception {
     // create project where only the change owner can submit
-    Project.NameKey p = createProject("p");
+    Project.NameKey p = projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(p)) {
       Util.block(u.getConfig(), Permission.SUBMIT, REGISTERED_USERS, "refs/*");
       Util.allow(u.getConfig(), Permission.SUBMIT, CHANGE_OWNER, "refs/*");
@@ -385,8 +386,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     String topic = "test-topic";
 
     // Create test projects
-    TestRepository<?> repoA = createProjectWithPush("project-a", null, getSubmitType());
-    TestRepository<?> repoB = createProjectWithPush("project-b", null, getSubmitType());
+    TestRepository<?> repoA = createProjectWithPush(null, getSubmitType());
+    TestRepository<?> repoB = createProjectWithPush(null, getSubmitType());
 
     // Create changes on project-a
     PushOneCommit.Result change1 =
@@ -420,7 +421,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     // Create test project
     String projectName = "project-a";
-    TestRepository<?> repoA = createProjectWithPush(projectName, null, getSubmitType());
+    TestRepository<?> repoA = createProjectWithPush(null, getSubmitType());
 
     RevCommit initialHead = getRemoteHead(new Project.NameKey(name(projectName)), "master");
 
@@ -769,8 +770,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     String topic = "test-topic";
 
     // Create test projects
-    TestRepository<?> repoA = createProjectWithPush("project-a", null, getSubmitType());
-    TestRepository<?> repoB = createProjectWithPush("project-b", null, getSubmitType());
+    TestRepository<?> repoA = createProjectWithPush(null, getSubmitType());
+    TestRepository<?> repoB = createProjectWithPush(null, getSubmitType());
 
     // Create changes on project-a
     PushOneCommit.Result change1 =
@@ -934,8 +935,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     String topic = "test-topic";
 
-    TestRepository<?> repoA = createProjectWithPush("project-a", null, getSubmitType());
-    TestRepository<?> repoB = createProjectWithPush("project-b", null, getSubmitType());
+    TestRepository<?> repoA = createProjectWithPush(null, getSubmitType());
+    TestRepository<?> repoB = createProjectWithPush(null, getSubmitType());
 
     PushOneCommit.Result change1 =
         createChange(repoA, "master", "Change 1", "a.txt", "content", topic);
@@ -1353,9 +1354,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  private TestRepository<?> createProjectWithPush(
-      String name, @Nullable Project.NameKey parent, SubmitType submitType) throws Exception {
-    Project.NameKey project = createProject(name, parent, true, submitType);
+  private TestRepository<?> createProjectWithPush(@Nullable NameKey parent, SubmitType submitType)
+      throws Exception {
+    Project.NameKey project =
+        projectOperations.newProject().withEmptyCommit().submitType(submitType).create();
     grant(project, "refs/heads/*", Permission.PUSH);
     grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
     return cloneProject(project);

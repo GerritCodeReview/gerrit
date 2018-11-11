@@ -46,6 +46,30 @@
       "revId": "a2744ab644f984fdc4615308d1003a26a0d91686",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6e650d7_3450a455",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-11T19:03:22Z",
+      "side": 1,
+      "message": "Hi, something like https://github.com/GerritCodeReview/gerrit/blob/d7116e12c587bf457c6e32b00b165da12a8289ce/polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list_test.html#L92 (will have to be modified slightly for Gerrit.Nav.getUrlForProjectChanges (and what is expected for it to return)",
+      "parentUuid": "85dc5d8a_a0a87550",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 23
+      },
+      "revId": "a2744ab644f984fdc4615308d1003a26a0d91686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -15,7 +15,9 @@
 package com.google.gerrit.server.api.projects;
 
 import com.google.gerrit.extensions.api.projects.Projects;
+import com.google.gerrit.extensions.api.projects.TagComparator;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicItem;
 
 public class Module extends FactoryModule {
   @Override
@@ -28,5 +30,7 @@ public class Module extends FactoryModule {
     factory(ChildProjectApiImpl.Factory.class);
     factory(CommitApiImpl.Factory.class);
     factory(DashboardApiImpl.Factory.class);
+
+    DynamicItem.bind(binder(), TagComparator.class).to(DefaultTagComparator.class);
   }
 }

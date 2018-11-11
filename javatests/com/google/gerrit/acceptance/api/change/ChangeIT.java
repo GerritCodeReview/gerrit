@@ -4253,4 +4253,9 @@ public class ChangeIT extends AbstractDaemonTest {
   private BranchApi createBranch(String branch) throws Exception {
     return createBranch(new Branch.NameKey(project, branch));
   }
+
+  protected List<RelatedChangeAndCommitInfo> getRelated(Change.Id changeId, int ps)
+      throws Exception {
+    return gApi.changes().id(changeId.get()).revision(ps).related().changes;
+  }
 }

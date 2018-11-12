@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9229e514_e5b17066",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-12T13:55:04Z",
+      "side": 1,
+      "message": "com.google.inject.Inject, like in all other places in the code base. It was multiple time attempts to consistently switch to using @javax.inject.Inject annotation, but it was abandoned because of problems with Application Servers like JBoss and similar.",
+      "range": {
+        "startLine": 567,
+        "startChar": 2,
+        "endLine": 567,
+        "endChar": 22
+      },
+      "revId": "40a8da1b53e53118b6a424207a4803de81e6e47e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b6b396d_d695b2a0",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-12T13:55:04Z",
+      "side": 1,
+      "message": "Move this declaration where all other variables are defined, e.g. line 266.",
+      "range": {
+        "startLine": 568,
+        "startChar": 2,
+        "endLine": 568,
+        "endChar": 48
+      },
+      "revId": "40a8da1b53e53118b6a424207a4803de81e6e47e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

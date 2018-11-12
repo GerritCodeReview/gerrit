@@ -38,7 +38,9 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
 
   public static final ProjectSchemaDefinitions INSTANCE = new ProjectSchemaDefinitions();
 
+  public static final String NAME = "projects";
+
   private ProjectSchemaDefinitions() {
-    super("projects", ProjectData.class);
+    super(NAME, ProjectData.class);
   }
 }

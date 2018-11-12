@@ -236,7 +236,7 @@ public class Dispatcher {
     if (matchPrefix(QUERY, token)) {
       query(token);
 
-    } else if (matchPrefix("/Documentation/", token)) {
+    } else if (matchPrefix("/Documentation/q/", token)) {
       docSearch(token);
 
     } else if (matchPrefix("/c/", token)) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c9a4981b_3caf9663",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-12T16:50:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "dcd681c6_d3d5d857",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 9
+      },
+      "revId": "02b62e119deff7ff3e2c556dacb63cfd095628d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79548391_e452b3f6",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "02b62e119deff7ff3e2c556dacb63cfd095628d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d686f57_f532f7a3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-12T16:50:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "79548391_e452b3f6",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 25
+      },
+      "revId": "02b62e119deff7ff3e2c556dacb63cfd095628d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

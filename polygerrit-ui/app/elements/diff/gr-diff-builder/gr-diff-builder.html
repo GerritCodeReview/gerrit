@@ -156,10 +156,6 @@ limitations under the License.
           }
 
           this._layers = layers;
-
-          this.async(() => {
-            this._preRenderThread();
-          });
         },
 
         render(comments, prefs) {
@@ -446,25 +442,6 @@ limitations under the License.
               }
             },
           };
-        },
-
-        /**
-         * In pages with large diffs, creating the first comment thread can be
-         * slow because nested Polymer elements (particularly
-         * iron-autogrow-textarea) add style elements to the document head,
-         * which, in turn, triggers a reflow on the page. Create a hidden
-         * thread, attach it to the page, and remove it so the stylesheet will
-         * already exist and the user's comment will be quick to load.
-         * @see https://gerrit-review.googlesource.com/c/82213/
-         */
-        _preRenderThread() {
-          const thread = document.createElement('gr-diff-comment-thread');
-          thread.setAttribute('hidden', true);
-          thread.addDraft();
-          const parent = Polymer.dom(this.root);
-          parent.appendChild(thread);
-          Polymer.dom.flush();
-          parent.removeChild(thread);
         },
 
         /**

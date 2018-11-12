@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f11ba3f5_40e5bfb5",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T14:13:51Z",
+      "side": 1,
+      "message": "I\u0027m honestly not a fan of spreading the resource prefix which is generated here. Isn\u0027t there another way of generating unique names or ensuring that chosen names are unique (e.g. append a unique prefix similarly as we generate unique test group names)?",
+      "range": {
+        "startLine": 455,
+        "startChar": 4,
+        "endLine": 455,
+        "endChar": 51
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d47125d1_c44f8d40",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T14:13:51Z",
+      "side": 1,
+      "message": "Here and for TestProjectCreation: Please add Javadoc descriptions in a similar style as the test APIs for groups and accounts currently have.",
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0aca559_f5280aa4",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T14:13:51Z",
+      "side": 1,
+      "message": "Please add tests in a similar fashion as the test API for groups currently has (see GroupOperationsImplTest).",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 34
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30f5212e_2f825de6",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T14:13:51Z",
+      "side": 1,
+      "message": "Can\u0027t we generate a name similarly as we do for groups if nothing is specified?",
+      "range": {
+        "startLine": 55,
+        "startChar": 29,
+        "endLine": 55,
+        "endChar": 82
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddb0615c_45172684",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T14:13:51Z",
+      "side": 1,
+      "message": "Here and below: It\u0027s better to use Optional#ifPresent instead.",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 5
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce7dc237_0087a72e",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T14:13:51Z",
+      "side": 1,
+      "message": "Is this a reasonable, obvious default for a test? Can\u0027t we be more explicit? Couldn\u0027t we for instance not set an owner?",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 88
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "942dda57_3356bfaa",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectCreation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T14:13:51Z",
+      "side": 1,
+      "message": "If we return Project.NameKey for newly created projects, wouldn\u0027t it make sense to use Project.NameKey here to refer to other projects?",
+      "range": {
+        "startLine": 28,
+        "startChar": 27,
+        "endLine": 28,
+        "endChar": 33
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02b79c04_3021f5d6",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectCreation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T14:13:51Z",
+      "side": 1,
+      "message": "Instead of this method with a boolean parameter, I would offer the two public methods withEmptyCommit() and withoutEmptyCommit(), which call this package-private method with the correct boolean value. Thus, test readability would improve.\n\nBy the way, we should also make sure to choose a good default when a test doesn\u0027t specify this setting.",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 81
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2daa17e_bfc95d58",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectCreation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T14:13:51Z",
+      "side": 1,
+      "message": "Can\u0027t ProjectOperationsImpl#createNewProject return Project.NameKey instead of a String?",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92f5e8ab_4d9c8642",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T14:13:51Z",
+      "side": 1,
+      "message": "Is this setting important for the test? (The default for this setting should be chosen so that most tests simply work if they don\u0027t assume specific conditions.)",
+      "range": {
+        "startLine": 82,
+        "startChar": 58,
+        "endLine": 82,
+        "endChar": 81
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

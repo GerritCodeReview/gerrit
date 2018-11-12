@@ -43,7 +43,7 @@
   };
 
   const ButtonTooltips = {
-    SAVE: 'Save reply but do not send',
+    SAVE: 'Save reply but do not send notification',
     START_REVIEW: 'Mark as ready for review and send reply',
     SEND: 'Send reply',
   };

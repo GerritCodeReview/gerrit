@@ -185,115 +185,130 @@ limitations under the License.
       assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
     });
 
-    test('_computeShowUploader test for uploader', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1019328,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-            uploader: {
-              _account_id: 1011123,
-            },
-          },
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      assert.deepEqual(element._computeShowUploader(change),
-          {_account_id: 1011123});
-    });
+    suite('_getNonOwnerRole', () => {
+      let change;
 
-    test('_computeShowUploader test that it does not return uploader', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1011123,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-            uploader: {
-              _account_id: 1011123,
+      setup(() => {
+        change = {
+          owner: {
+            email: 'abc@def',
+            _account_id: 1019328,
+          },
+          revisions: {
+            rev1: {
+              _number: 1,
+              uploader: {
+                email: 'ghi@def',
+                _account_id: 1011123,
+              },
+              commit: {
+                author: {email: 'jkl@def'},
+                committer: {email: 'ghi@def'},
+              },
             },
           },
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      assert.isNotOk(element._computeShowUploader(change));
-    });
+          current_revision: 'rev1',
+        };
+      });
 
-    test('no current_revision makes _computeShowUploader return null', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1011123,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-            uploader: {
-              _account_id: 1011123,
-            },
-          },
-        },
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      assert.isNotOk(element._computeShowUploader(change));
-    });
+      suite('role=uploader', () => {
+        test('_getNonOwnerRole for uploader', () => {
+          assert.deepEqual(
+              element._getNonOwnerRole(change, element._CHANGE_ROLE.UPLOADER),
+              {email: 'ghi@def', _account_id: 1011123});
+        });
 
-    test('_computeShowUploaderHide test for string which equals true', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1019328,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-            uploader: {
-              _account_id: 1011123,
-            },
-          },
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      assert.equal(element._computeShowUploaderHide(change), '');
-    });
+        test('_getNonOwnerRole that it does not return uploader', () => {
+          // Set the uploader email to be the same as the owner.
+          change.revisions.rev1.uploader._account_id = 1019328;
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.UPLOADER));
+        });
 
-    test('_computeShowUploaderHide test for hideDisplay', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1011123,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-            uploader: {
-              _account_id: 1011123,
-            },
-          },
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      assert.equal(
-          element._computeShowUploaderHide(change), 'hideDisplay');
+        test('_getNonOwnerRole null for uploader with no current rev', () => {
+          delete change.current_revision;
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.UPLOADER));
+        });
+
+        test('_computeShowRoleClass show uploader', () => {
+          assert.equal(element._computeShowRoleClass(
+              change, element._CHANGE_ROLE.UPLOADER), '');
+        });
+
+        test('_computeShowRoleClass hide uploader', () => {
+          // Set the uploader email to be the same as the owner.
+          change.revisions.rev1.uploader._account_id = 1019328;
+          assert.equal(element._computeShowRoleClass(change,
+              element._CHANGE_ROLE.UPLOADER), 'hideDisplay');
+        });
+      });
+
+      suite('role=committer', () => {
+        test('_getNonOwnerRole for committer', () => {
+          assert.deepEqual(
+              element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER),
+              {email: 'ghi@def'});
+        });
+
+        test('_getNonOwnerRole that it does not return committer', () => {
+          // Set the committer email to be the same as the owner.
+          change.revisions.rev1.commit.committer.email = 'abc@def';
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.COMMITTER));
+        });
+
+        test('_getNonOwnerRole null for committer with no current rev', () => {
+          delete change.current_revision;
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.COMMITTER));
+        });
+
+        test('_getNonOwnerRole null for committer with no commit', () => {
+          delete change.revisions.rev1.commit;
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.COMMITTER));
+        });
+
+        test('_getNonOwnerRole null for committer with no committer', () => {
+          delete change.revisions.rev1.commit.committer;
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.COMMITTER));
+        });
+      });
+
+      suite('role=author', () => {
+        test('_getNonOwnerRole for author', () => {
+          assert.deepEqual(
+              element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR),
+              {email: 'jkl@def'});
+        });
+
+        test('_getNonOwnerRole that it does not return author', () => {
+          // Set the author email to be the same as the owner.
+          change.revisions.rev1.commit.author.email = 'abc@def';
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.AUTHOR));
+        });
+
+        test('_getNonOwnerRole null for author with no current rev', () => {
+          delete change.current_revision;
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.AUTHOR));
+        });
+
+        test('_getNonOwnerRole null for author with no commit', () => {
+          delete change.revisions.rev1.commit;
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.AUTHOR));
+        });
+
+        test('_getNonOwnerRole null for author with no author', () => {
+          delete change.revisions.rev1.commit.author;
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.AUTHOR));
+        });
+      });
     });
 
     test('_computeParents', () => {

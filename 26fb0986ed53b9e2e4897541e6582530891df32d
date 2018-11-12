@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e4548fcb_c2ad7c2e",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-12T17:22:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5447ce9f_c352351f",
+      "range": {
+        "startLine": 1199,
+        "startChar": 38,
+        "endLine": 1199,
+        "endChar": 48
+      },
+      "revId": "26fb0986ed53b9e2e4897541e6582530891df32d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38daed5e_bdebb6a2",
         "filename": "java/com/google/gerrit/acceptance/testsuite/group/TestGroupCreation.java",
         "patchSetId": 1

@@ -82,7 +82,7 @@
     ],
 
     observers: [
-      '_resultsChanged(_relatedResponse.changes, _submittedTogether, ' +
+      '_resultsChanged(_relatedResponse, _submittedTogether, ' +
           '_conflicts, _cherryPicks, _sameTopic)',
     ],
 

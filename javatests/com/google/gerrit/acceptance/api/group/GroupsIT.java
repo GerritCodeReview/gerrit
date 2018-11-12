@@ -39,6 +39,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
@@ -126,6 +127,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private DynamicSet<GroupIndexedListener> groupIndexedListeners;
   @Inject private Sequences seq;
   @Inject private AccountOperations accountOperations;
+  @Inject private GroupOperations groupOperations;
 
   @Before
   public void setTimeForTesting() {

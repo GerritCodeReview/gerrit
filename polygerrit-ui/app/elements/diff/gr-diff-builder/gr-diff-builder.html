@@ -16,9 +16,10 @@ limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
+<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
+<link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
 <link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
 <link rel="import" href="../gr-diff-comment-thread-group/gr-diff-comment-thread-group.html">
-<link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
 <link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
 <link rel="import" href="../gr-syntax-layer/gr-syntax-layer.html">
 
@@ -131,6 +132,10 @@ limitations under the License.
           return this.queryEffectiveChildren('#diffTable');
         },
 
+        get _commentThreadElements() {
+          return this.queryAllEffectiveChildren('.comment-thread');
+        },
+
         observers: [
           '_groupsChanged(_groups.splices)',
         ],
@@ -166,7 +171,8 @@ limitations under the License.
           // Stop the processor and syntax layer (if they're running).
           this.cancel();
 
-          this._builder = this._getDiffBuilder(this.diff, comments, prefs);
+          this._builder = this._getDiffBuilder(
+              this.diff, comments.meta.patchRange, prefs);
 
           this.$.processor.context = prefs.context;
           this.$.processor.keyLocations = this._getKeyLocations(comments,
@@ -290,7 +296,7 @@ limitations under the License.
           throw Error(`Invalid preference value: ${pref}`);
         },
 
-        _getDiffBuilder(diff, comments, prefs) {
+        _getDiffBuilder(diff, patchRange, prefs) {
           if (isNaN(prefs.tab_size) || prefs.tab_size <= 0) {
             this._handlePreferenceError('tab size');
             return;
@@ -303,22 +309,21 @@ limitations under the License.
 
           let builder = null;
           if (this.isImageDiff) {
-            builder = new GrDiffBuilderImage(diff, comments, this.parentIndex,
-              this.changeNum, this.path, this.projectName, prefs,
-              this.diffElement, this.baseImage, this.revisionImage);
+            builder = new GrDiffBuilderImage(diff, patchRange,
+              this._commentThreadElements, prefs, this.diffElement,
+              this.baseImage, this.revisionImage);
           } else if (diff.binary) {
             // If the diff is binary, but not an image.
-            return new GrDiffBuilderBinary(diff, comments, this.parentIndex,
-                this.changeNum, this.path, this.projectName, prefs,
-                this.diffElement);
+            return new GrDiffBuilderBinary(diff, patchRange,
+                this._commentThreadElements, prefs, this.diffElement);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            builder = new GrDiffBuilderSideBySide(diff, comments,
-                this.parentIndex, this.changeNum, this.path, this.projectName,
-                prefs, this.diffElement, this._layers);
+            builder = new GrDiffBuilderSideBySide(diff, patchRange,
+                this._commentThreadElements, prefs, this.diffElement,
+                this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            builder = new GrDiffBuilderUnified(diff, comments, this.parentIndex,
-                this.changeNum, this.path, this.projectName, prefs,
-                this.diffElement, this._layers);
+            builder = new GrDiffBuilderUnified(diff, patchRange,
+                this._commentThreadElements, prefs, this.diffElement,
+                this._layers);
           }
           if (!builder) {
             throw Error('Unsupported diff view mode: ' + this.viewMode);

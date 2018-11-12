@@ -315,8 +315,7 @@ limitations under the License.
         // The new thread group can be fetched.
         assert.isOk(element._getThreadGroupForLine(contentEl));
 
-        assert.equal(contentEl.querySelectorAll(
-            'gr-diff-comment-thread-group').length, 1);
+        assert.equal(contentEl.querySelectorAll('.thread-group').length, 1);
       });
 
       suite('image diffs', () => {
@@ -335,7 +334,11 @@ limitations under the License.
           };
 
           element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
-          element.comments = {left: [], right: []};
+          element.comments = {
+            left: [],
+            right: [],
+            meta: {patchRange: undefined},
+          };
           element.isImageDiff = true;
           element.prefs = {
             auto_hide_diff_table_header: true,
@@ -664,6 +667,7 @@ limitations under the License.
           element.comments = {
             left: [],
             right: [],
+            meta: {patchRange: undefined},
           };
           element.prefs = {
             context: 10,

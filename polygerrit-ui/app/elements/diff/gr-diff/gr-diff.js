@@ -180,6 +180,9 @@
       },
 
       _diffLength: Number,
+
+      /** @type {?PolymerDomApi.ObserveHandle} */
+      _nodeObserver: Object,
     },
 
     behaviors: [
@@ -191,6 +194,11 @@
       'comment-update': '_handleCommentUpdate',
       'comment-save': '_handleCommentSave',
       'create-range-comment': '_handleCreateRangeComment',
+      'render-content': '_handleRenderContent',
+    },
+
+    detached() {
+      this._unobserveNodes();
     },
 
     /** Cancel any remaining diff builder rendering work. */
@@ -228,17 +236,6 @@
     _handleCommentSaveOrDiscard() {
       this.dispatchEvent(new CustomEvent('diff-comments-modified',
           {bubbles: true}));
-    },
-
-    /** @return {!Array<!HTMLElement>} */
-    getThreadEls() {
-      let threads = [];
-      const threadGroupEls = Polymer.dom(this.root)
-          .querySelectorAll('gr-diff-comment-thread-group');
-      for (const threadGroupEl of threadGroupEls) {
-        threads = threads.concat(threadGroupEl.threadEls);
-      }
-      return threads;
     },
 
     /** @return {string} */
@@ -354,41 +351,39 @@
       const patchForNewThreads = this._getPatchNumByLineAndContent(
           lineEl, contentEl);
       const isOnParent =
-        this._getIsParentCommentByLineAndContent(lineEl, contentEl);
-      const threadGroupEl = this._getOrCreateThreadGroup(contentEl);
+          this._getIsParentCommentByLineAndContent(lineEl, contentEl);
       this.dispatchEvent(new CustomEvent('create-comment', {
         bubbles: true,
         detail: {
-          threadGroupEl,
           lineNum,
           side,
-          range,
+          patchNum: patchForNewThreads,
           isOnParent,
-          patchForNewThreads,
+          range,
         },
       }));
     },
 
     _getThreadGroupForLine(contentEl) {
-      return contentEl.querySelector('gr-diff-comment-thread-group');
+      return contentEl.querySelector('.thread-group');
     },
 
     /**
      * Gets or creates a comment thread group for a specific line and side on a
      * diff.
      * @param {!Object} contentEl
-     * @return {!Object}
+     * @return {!Node}
      */
     _getOrCreateThreadGroup(contentEl) {
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
-        threadGroupEl = document.createElement('gr-diff-comment-thread-group');
+        threadGroupEl = document.createElement('div');
+        threadGroupEl.className = 'thread-group';
         contentEl.appendChild(threadGroupEl);
       }
       return threadGroupEl;
     },
-
 
     /**
      * The value to be used for the patch number of new comments created at the
@@ -578,6 +573,7 @@
     },
 
     _renderDiffTable() {
+      this._unobserveNodes();
       if (!this.prefs) {
         this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
         return;
@@ -594,6 +590,34 @@
       this.$.diffBuilder.render(this.comments, this._getBypassPrefs());
     },
 
+    _handleRenderContent() {
+      this._nodeObserver = Polymer.dom(this).observeNodes(info => {
+        const addedThreadEls = info.addedNodes.filter(
+            node => node.nodeType === Node.ELEMENT_NODE);
+        // In principal we should also handle removed nodes, but I have not
+        // figured out how to do that yet without also catching all the removals
+        // caused by further redistribution. Right now, comments are never
+        // removed by no longer slotting them in, so I decided to not handle
+        // this situation until it occurs.
+        for (const threadEl of addedThreadEls) {
+          const lineNum = Number(threadEl.getAttribute('line-num'));
+          const commentSide = threadEl.getAttribute('comment-side');
+          const lineEl = this.$.diffBuilder.getLineElByNumber(
+              lineNum, commentSide);
+          const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
+          const contentEl = contentText.parentElement;
+          const threadGroupEl = this._getOrCreateThreadGroup(contentEl);
+          Polymer.dom(threadGroupEl).appendChild(threadEl);
+        }
+      });
+    },
+
+    _unobserveNodes() {
+      if (this._nodeObserver) {
+        Polymer.dom(this).unobserveNodes(this._nodeObserver);
+      }
+    },
+
     /**
      * Get the preferences object including the safety bypass context (if any).
      */
@@ -605,6 +629,7 @@
     },
 
     clearDiffContent() {
+      this._unobserveNodes();
       this.$.diffTable.innerHTML = null;
     },
 

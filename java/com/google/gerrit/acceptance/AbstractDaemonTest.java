@@ -1194,11 +1194,6 @@ public abstract class AbstractDaemonTest {
     return changeResourceFactory.create(notes.get(0), atrScope.get().getUser());
   }
 
-  protected String createGroup(String name) throws Exception {
-    groupOperations.newGroup().name(name).create();
-    return name;
-  }
-
   protected RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
       Ref r = repo.exactRef(name);
@@ -1233,7 +1228,8 @@ public abstract class AbstractDaemonTest {
   protected ContributorAgreement configureContributorAgreement(boolean autoVerify)
       throws Exception {
     ContributorAgreement ca;
-    String g = createGroup(autoVerify ? "cla-test-group" : "cla-test-no-auto-verify-group");
+    String name = autoVerify ? "cla-test-group" : "cla-test-no-auto-verify-group";
+    String g = groupOperations.newGroup().name(name).createName();
     GroupApi groupApi = gApi.groups().id(g);
     groupApi.description("CLA test group");
     InternalGroup caGroup = group(new AccountGroup.UUID(groupApi.detail().id));

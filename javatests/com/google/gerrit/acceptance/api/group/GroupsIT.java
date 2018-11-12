@@ -145,7 +145,6 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   // Creates a group, but with uniquified name.
-  @Override
   protected String createGroup(String name) throws Exception {
     name = name(name);
     GroupInput in = new GroupInput();

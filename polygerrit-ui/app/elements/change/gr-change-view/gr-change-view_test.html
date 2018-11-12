@@ -78,6 +78,7 @@ limitations under the License.
       });
       element = fixture('basic');
       sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
+      sandbox.stub(element.$.metadata, '_getNonOwnerRole');
       Gerrit._setPluginsCount(0);
     });
 
@@ -592,6 +593,7 @@ limitations under the License.
       };
       element._change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {email: 'abc@def'},
         revisions: {
           rev2: {_number: 2, commit: {parents: []}},
           rev1: {_number: 1, commit: {parents: []}},

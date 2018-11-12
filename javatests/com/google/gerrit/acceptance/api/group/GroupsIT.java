@@ -96,6 +96,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang.RandomStringUtils;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -145,9 +146,8 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   // Creates a group, but with uniquified name.
-  @Override
   protected String createGroup(String name) throws Exception {
-    name = name(name);
+    name = RandomStringUtils.random(8) + name(name);
     GroupInput in = new GroupInput();
     in.name = name;
     in.ownerId = "Administrators";

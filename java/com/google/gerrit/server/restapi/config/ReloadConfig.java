@@ -16,12 +16,12 @@ package com.google.gerrit.server.restapi.config;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.api.config.ConfigUpdateEntryInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.config.ConfigUpdatedEvent;
 import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
 import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
 import com.google.gerrit.server.config.GerritServerConfigReloader;
@@ -29,10 +29,11 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ReloadConfig implements RestModifyView<ConfigResource, Input> {
 
@@ -49,25 +50,22 @@ public class ReloadConfig implements RestModifyView<ConfigResource, Input> {
   public Map<String, List<ConfigUpdateEntryInfo>> apply(ConfigResource resource, Input input)
       throws RestApiException, PermissionBackendException {
     permissions.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
-
-    List<ConfigUpdatedEvent.Update> updates = config.reloadConfig();
-
-    Map<String, List<ConfigUpdateEntryInfo>> reply = new HashMap<>();
-    for (UpdateResult result : UpdateResult.values()) {
-      reply.put(result.name().toLowerCase(), new ArrayList<>());
-    }
+    Multimap<UpdateResult, ConfigUpdateEntry> updates = config.reloadConfig();
     if (updates.isEmpty()) {
-      return reply;
+      return Collections.emptyMap();
     }
-    updates
+    return updates
+        .asMap()
+        .entrySet()
         .stream()
-        .forEach(u -> reply.get(u.getResult().name().toLowerCase()).addAll(toEntryInfos(u)));
-    return reply;
+        .collect(
+            Collectors.toMap(
+                e -> e.getKey().name().toLowerCase(), e -> toEntryInfos(e.getValue())));
   }
 
-  private static List<ConfigUpdateEntryInfo> toEntryInfos(ConfigUpdatedEvent.Update update) {
-    return update
-        .getConfigUpdates()
+  private static List<ConfigUpdateEntryInfo> toEntryInfos(
+      Collection<ConfigUpdateEntry> updateEntries) {
+    return updateEntries
         .stream()
         .map(ReloadConfig::toConfigUpdateEntryInfo)
         .collect(toImmutableList());

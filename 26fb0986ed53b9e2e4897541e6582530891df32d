@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "2acf3bea_9da3527b",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1196,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T12:57:20Z",
+      "side": 1,
+      "message": "This will still be needed even after the follow-up changes and hence we should move it close to the other private fields of this class.",
+      "range": {
+        "startLine": 1196,
+        "startChar": 2,
+        "endLine": 1196,
+        "endChar": 50
+      },
+      "revId": "26fb0986ed53b9e2e4897541e6582530891df32d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8bcff435_6b214fd6",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 1

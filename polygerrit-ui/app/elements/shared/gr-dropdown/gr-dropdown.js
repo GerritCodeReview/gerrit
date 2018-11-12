@@ -229,7 +229,7 @@
       if (typeof link.url === 'undefined') {
         return '';
       }
-      if (link.target) {
+      if (link.target || !link.url.startsWith('/')) {
         return link.url;
       }
       return this._computeRelativeURL(link.url);

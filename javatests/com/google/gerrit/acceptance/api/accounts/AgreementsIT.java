@@ -16,13 +16,22 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -34,8 +43,14 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
@@ -46,6 +61,46 @@ import org.junit.Test;
 public class AgreementsIT extends AbstractDaemonTest {
   private ContributorAgreement caAutoVerify;
   private ContributorAgreement caNoAutoVerify;
+  @Inject private GroupOperations groupOperations;
+
+  protected void setUseContributorAgreements(InheritableBoolean value) throws Exception {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig config = projectConfigFactory.read(md);
+      config.getProject().setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, value);
+      config.commit(md);
+      projectCache.evict(config.getProject());
+    }
+  }
+
+  protected ContributorAgreement configureContributorAgreement(boolean autoVerify)
+      throws Exception {
+    ContributorAgreement ca;
+    String name = autoVerify ? "cla-test-group" : "cla-test-no-auto-verify-group";
+    AccountGroup.UUID g = groupOperations.newGroup().name(name).create();
+    GroupApi groupApi = gApi.groups().id(g.get());
+    groupApi.description("CLA test group");
+    InternalGroup caGroup = group(new AccountGroup.UUID(groupApi.detail().id));
+    GroupReference groupRef = new GroupReference(caGroup.getGroupUUID(), caGroup.getName());
+    PermissionRule rule = new PermissionRule(groupRef);
+    rule.setAction(PermissionRule.Action.ALLOW);
+    if (autoVerify) {
+      ca = new ContributorAgreement("cla-test");
+      ca.setAutoVerify(groupRef);
+      ca.setAccepted(ImmutableList.of(rule));
+    } else {
+      ca = new ContributorAgreement("cla-test-no-auto-verify");
+    }
+    ca.setDescription("description");
+    ca.setAgreementUrl("agreement-url");
+    ca.setAccepted(ImmutableList.of(rule));
+    ca.setExcludeProjectsRegexes(ImmutableList.of("ExcludedProject"));
+
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      u.getConfig().replace(ca);
+      u.save();
+      return ca;
+    }
+  }
 
   @ConfigSuite.Config
   public static Config enableAgreementsConfig() {
@@ -290,5 +345,34 @@ public class AgreementsIT extends AbstractDaemonTest {
     in.subject = "test";
     in.project = project.get();
     return in;
+  }
+
+  @Test
+  @GerritConfig(name = "auth.contributorAgreements", value = "true")
+  public void anonymousAccessServerInfoEvenWithCLAs() throws Exception {
+    setApiUserAnonymous();
+    gApi.config().server().getInfo();
+  }
+
+  @Test
+  public void publishEditRestWithoutCLA() throws Exception {
+    String filename = "foo";
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, "subject1", filename, "contentold");
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+    String changeId = result.getChangeId();
+
+    gApi.changes().id(changeId).edit().create();
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyFile(filename, RawInputUtil.create("newcontent".getBytes(UTF_8)));
+
+    String url = "/changes/" + changeId + "/edit:publish";
+    setUseContributorAgreements(InheritableBoolean.TRUE);
+    userRestSession.post(url).assertForbidden();
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    userRestSession.post(url).assertNoContent();
   }
 }

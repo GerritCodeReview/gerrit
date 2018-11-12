@@ -41,7 +41,6 @@ import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelFunction;
@@ -55,7 +54,6 @@ import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
-import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -1000,15 +998,6 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected void setUseContributorAgreements(InheritableBoolean value) throws Exception {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      ProjectConfig config = projectConfigFactory.read(md);
-      config.getProject().setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, value);
-      config.commit(md);
-      projectCache.evict(config.getProject());
-    }
-  }
-
   protected void setUseSignedOffBy(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig config = projectConfigFactory.read(md);
@@ -1227,36 +1216,6 @@ public abstract class AbstractDaemonTest {
     assertThat(message.headers()).containsKey("Reply-To");
     EmailHeader.String replyTo = (EmailHeader.String) message.headers().get("Reply-To");
     assertThat(replyTo.getString()).contains(email);
-  }
-
-  protected ContributorAgreement configureContributorAgreement(boolean autoVerify)
-      throws Exception {
-    ContributorAgreement ca;
-    String name = autoVerify ? "cla-test-group" : "cla-test-no-auto-verify-group";
-    String g = groupOperations.newGroup().name(name).create().get();
-    GroupApi groupApi = gApi.groups().id(g);
-    groupApi.description("CLA test group");
-    InternalGroup caGroup = group(new AccountGroup.UUID(groupApi.detail().id));
-    GroupReference groupRef = new GroupReference(caGroup.getGroupUUID(), caGroup.getName());
-    PermissionRule rule = new PermissionRule(groupRef);
-    rule.setAction(PermissionRule.Action.ALLOW);
-    if (autoVerify) {
-      ca = new ContributorAgreement("cla-test");
-      ca.setAutoVerify(groupRef);
-      ca.setAccepted(ImmutableList.of(rule));
-    } else {
-      ca = new ContributorAgreement("cla-test-no-auto-verify");
-    }
-    ca.setDescription("description");
-    ca.setAgreementUrl("agreement-url");
-    ca.setAccepted(ImmutableList.of(rule));
-    ca.setExcludeProjectsRegexes(ImmutableList.of("ExcludedProject"));
-
-    try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      u.getConfig().replace(ca);
-      u.save();
-      return ca;
-    }
   }
 
   protected Map<Branch.NameKey, ObjectId> fetchFromSubmitPreview(String changeId) throws Exception {

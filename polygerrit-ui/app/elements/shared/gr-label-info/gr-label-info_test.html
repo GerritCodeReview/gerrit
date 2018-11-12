@@ -20,10 +20,10 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="../../../test/common-test-setup.html" />
 <link rel="import" href="gr-label-info.html">
 
-<script>void(0);</script>
+<script>void (0);</script>
 
 <test-fixture id="basic">
   <template>
@@ -87,8 +87,9 @@ limitations under the License.
 
       test('deletes votes', () => {
         const deleteResponse = Promise.resolve({ok: true});
-        const deleteStub = sandbox.stub(
-            element.$.restAPI, 'deleteVote').returns(deleteResponse);
+        const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+        const deleteStub = sandbox.stub(element.$.restAPI, 'deleteVote')
+            .returns(deleteResponse);
 
         element.change.removable_reviewers = [element.account];
         element.change.labels.test.recommended = {_account_id: 1};
@@ -98,7 +99,7 @@ limitations under the License.
         assert.isTrue(button.disabled);
         return deleteResponse.then(() => {
           assert.isFalse(button.disabled);
-          assert.notOk(element.change.labels.test.recommended);
+          assert.isTrue(navStub.called);
           assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
         });
       });
@@ -197,7 +198,7 @@ limitations under the License.
         };
         flushAsynchronousOperations();
         const chips =
-            Polymer.dom(element.root).querySelectorAll('gr-account-chip');
+          Polymer.dom(element.root).querySelectorAll('gr-account-chip');
         assert.equal(chips[0].account._account_id, element.account._account_id);
       });
     });

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a0cdb4b3_1c08b537",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-11-12T18:22:42Z",
+      "side": 1,
+      "message": "Actually it was, thanks for the hint.",
+      "parentUuid": "dda3afb5_6bf85d95",
+      "revId": "20bd87e8b30caa52db2f7825b10b7e2cb11bfbcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7c68dcb_2b98cac6",
         "filename": "java/com/google/gerrit/pgm/Init.java",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "20bd87e8b30caa52db2f7825b10b7e2cb11bfbcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48251561_4b737ded",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-11-12T18:22:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7c68dcb_2b98cac6",
+      "range": {
+        "startLine": 273,
+        "startChar": 28,
+        "endLine": 273,
+        "endChar": 29
+      },
+      "revId": "20bd87e8b30caa52db2f7825b10b7e2cb11bfbcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

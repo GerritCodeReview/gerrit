@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a86bfc7_681efd60",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-12T20:04:21Z",
+      "side": 1,
+      "message": "Should we ensure that the currently viewed file always appears in unreviewedFiles, so we resolve the right \"next\" file?",
+      "revId": "ff45b6e7e8a028ee47f29cce2775b8d3d4179b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

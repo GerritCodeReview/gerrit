@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.CurrentUser;
@@ -24,6 +25,8 @@ import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.audit.SshAuditEvent;
 import com.google.gerrit.server.config.ConfigKey;
 import com.google.gerrit.server.config.ConfigUpdatedEvent;
+import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
+import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ioutil.HexFormat;
@@ -33,8 +36,6 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.Collections;
-import java.util.List;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -318,25 +319,22 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   }
 
   @Override
-  public List<ConfigUpdatedEvent.Update> configUpdated(ConfigUpdatedEvent event) {
+  public Multimap<UpdateResult, ConfigUpdateEntry> configUpdated(ConfigUpdatedEvent event) {
     ConfigKey sshdRequestLog = ConfigKey.create("sshd", "requestLog");
     if (!event.isValueUpdated(sshdRequestLog)) {
-      return Collections.emptyList();
+      return ConfigUpdatedEvent.NO_UPDATES;
     }
     boolean stateUpdated;
     try {
       boolean enabled = event.getNewConfig().getBoolean("sshd", "requestLog", true);
-
       if (enabled) {
         stateUpdated = enableLogging();
       } else {
         stateUpdated = disableLogging();
       }
-      return stateUpdated
-          ? Collections.singletonList(event.accept(sshdRequestLog))
-          : Collections.emptyList();
+      return stateUpdated ? event.accept(sshdRequestLog) : ConfigUpdatedEvent.NO_UPDATES;
     } catch (IllegalArgumentException iae) {
-      return Collections.singletonList(event.reject(sshdRequestLog));
+      return event.reject(sshdRequestLog);
     }
   }
 }

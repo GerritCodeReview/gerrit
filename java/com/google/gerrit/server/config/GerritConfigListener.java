@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
+import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
 import java.util.EventListener;
-import java.util.List;
 
 /**
  * Implementations of the GerritConfigListener interface expects to react GerritServerConfig
@@ -24,5 +26,5 @@ import java.util.List;
  */
 @ExtensionPoint
 public interface GerritConfigListener extends EventListener {
-  List<ConfigUpdatedEvent.Update> configUpdated(ConfigUpdatedEvent event);
+  Multimap<UpdateResult, ConfigUpdateEntry> configUpdated(ConfigUpdatedEvent event);
 }

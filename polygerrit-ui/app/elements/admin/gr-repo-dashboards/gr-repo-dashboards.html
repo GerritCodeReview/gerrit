@@ -53,7 +53,7 @@ limitations under the License.
           </tr>
           <template is="dom-repeat" items="[[item.dashboards]]">
             <tr class="table">
-              <td class="name"><a href$="[[_getUrl(item.project, item.sections)]]">[[item.path]]</a></td>
+              <td class="name"><a href$="[[_getUrl(item.project, item.id)]]">[[item.path]]</a></td>
               <td class="title">[[item.title]]</td>
               <td class="desc">[[item.description]]</td>
               <td class="inherited">[[_computeInheritedFrom(item.project, item.defining_project)]]</td>

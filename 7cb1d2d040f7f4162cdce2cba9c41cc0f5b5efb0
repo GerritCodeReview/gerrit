@@ -22,6 +22,30 @@
       "revId": "7cb1d2d040f7f4162cdce2cba9c41cc0f5b5efb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "636a0ba8_19e58f0b",
+        "filename": "java/com/google/gerrit/server/project/CreateProjectArgs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-12T07:48:31Z",
+      "side": 1,
+      "message": "I\u0027m not sure if the lack of initialization was intentional or not.",
+      "parentUuid": "7c310ba4_788cb32d",
+      "range": {
+        "startLine": 52,
+        "startChar": 52,
+        "endLine": 52,
+        "endChar": 64
+      },
+      "revId": "7cb1d2d040f7f4162cdce2cba9c41cc0f5b5efb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

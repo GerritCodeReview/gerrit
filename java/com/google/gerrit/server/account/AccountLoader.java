@@ -39,6 +39,7 @@ public class AccountLoader {
               FillOptions.ID,
               FillOptions.NAME,
               FillOptions.EMAIL,
+              FillOptions.SECONDARY_EMAILS,
               FillOptions.USERNAME,
               FillOptions.STATUS,
               FillOptions.AVATARS));

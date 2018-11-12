@@ -127,27 +127,8 @@
           this.$.restAPI.deleteVote(this.change._number, accountID, this.label)
           .then(response => {
             target.disabled = false;
-            if (!response.ok) { return response; }
-
-            const label = this.change.labels[this.label];
-            const labels = label.all || [];
-            let wasChanged = false;
-            for (let i = 0; i < labels.length; i++) {
-              if (labels[i]._account_id === accountID) {
-                for (const key in label) {
-                  if (label.hasOwnProperty(key) &&
-                      label[key]._account_id === accountID) {
-                    // Remove special label field, keeping change label values
-                    // in sync with the backend.
-                    this.change.labels[this.label][key] = null;
-                  }
-                }
-                this.change.labels[this.label].all.splice(i, 1);
-                wasChanged = true;
-                break;
-              }
-            }
-            if (wasChanged) { this.notifySplices('change.labels'); }
+            if (!response.ok) { return; }
+            Gerrit.Nav.navigateToChange(this.change);
           }).catch(err => {
             target.disabled = false;
             return;

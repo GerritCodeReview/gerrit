@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd83c462_882f937c",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-12T17:53:16Z",
+      "side": 1,
+      "message": "Use ui.message?",
+      "range": {
+        "startLine": 272,
+        "startChar": 4,
+        "endLine": 272,
+        "endChar": 22
+      },
+      "revId": "a53b96331ab7680c92c07a9002677846029cba2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

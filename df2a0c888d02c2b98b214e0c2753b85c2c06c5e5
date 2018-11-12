@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3abdb7d6_45bf6cce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-12T22:45:27Z",
+      "side": 0,
+      "message": "Nice, to kill that code,",
+      "revId": "df2a0c888d02c2b98b214e0c2753b85c2c06c5e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

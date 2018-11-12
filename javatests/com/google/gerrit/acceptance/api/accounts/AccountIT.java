@@ -56,6 +56,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -232,6 +233,8 @@ public class AccountIT extends AbstractDaemonTest {
   private DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners;
 
   @Inject private AccountManager accountManager;
+
+  @Inject protected GroupOperations groupOperations;
 
   private AccountIndexedCounter accountIndexedCounter;
   private RegistrationHandle accountIndexEventCounterHandle;
@@ -2208,7 +2211,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void allGroupsForAUserAccountCanBeRetrieved() throws Exception {
     String username = name("user1");
     accountOperations.newAccount().username(username).create();
-    String group = createGroup("group");
+    String group = groupOperations.newGroup().name("group").createName();
     gApi.groups().id(group).addMembers(username);
 
     List<GroupInfo> allGroups = gApi.accounts().id(username).getGroups();

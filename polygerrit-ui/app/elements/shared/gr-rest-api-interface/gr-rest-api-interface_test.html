@@ -722,15 +722,6 @@ limitations under the License.
       assert.deepEqual(element._send.lastCall.args[0].body, {token: 'foo'});
     });
 
-    test('GrReviewerUpdatesParser.parse is used', () => {
-      sandbox.stub(GrReviewerUpdatesParser, 'parse').returns(
-          Promise.resolve('foo'));
-      return element.getChangeDetail(42).then(result => {
-        assert.isTrue(GrReviewerUpdatesParser.parse.calledOnce);
-        assert.equal(result, 'foo');
-      });
-    });
-
     test('setAccountStatus', () => {
       sandbox.stub(element, '_send').returns(Promise.resolve('OOO'));
       element._cache.set('/accounts/self/detail', {});
@@ -1031,7 +1022,49 @@ limitations under the License.
       });
     });
 
-    suite('_getChangeDetail', () => {
+    suite('getChangeDetail', () => {
+      suite('change detail options', () => {
+        let toHexStub;
+
+        setup(() => {
+          toHexStub = sandbox.stub(element, 'listChangesOptionsToHex',
+              options => 'deadbeef');
+          sandbox.stub(element, '_getChangeDetail',
+              async (changeNum, options) => ({changeNum, options}));
+        });
+
+        test('signed pushes disabled', async () => {
+          const {PUSH_CERTIFICATES} = element.ListChangesOption;
+          sandbox.stub(element, 'getConfig', async () => ({}));
+          const {changeNum, options} = await element.getChangeDetail(123);
+          assert.strictEqual(123, changeNum);
+          assert.strictEqual('deadbeef', options);
+          assert.isTrue(toHexStub.calledOnce);
+          assert.isFalse(toHexStub.lastCall.args.includes(PUSH_CERTIFICATES));
+        });
+
+        test('signed pushes enabled', async () => {
+          const {PUSH_CERTIFICATES} = element.ListChangesOption;
+          sandbox.stub(element, 'getConfig', async () => {
+            return {receive: {enable_signed_push: true}};
+          });
+          const {changeNum, options} = await element.getChangeDetail(123);
+          assert.strictEqual(123, changeNum);
+          assert.strictEqual('deadbeef', options);
+          assert.isTrue(toHexStub.calledOnce);
+          assert.isTrue(toHexStub.lastCall.args.includes(PUSH_CERTIFICATES));
+        });
+      });
+
+      test('GrReviewerUpdatesParser.parse is used', () => {
+        sandbox.stub(GrReviewerUpdatesParser, 'parse').returns(
+            Promise.resolve('foo'));
+        return element.getChangeDetail(42).then(result => {
+          assert.isTrue(GrReviewerUpdatesParser.parse.calledOnce);
+          assert.equal(result, 'foo');
+        });
+      });
+
       test('_getChangeDetail passes params to ETags decorator', () => {
         const changeNum = 4321;
         element._projectLookup[changeNum] = 'test';

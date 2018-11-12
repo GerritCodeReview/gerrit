@@ -54,6 +54,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.WebLinks;
+import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -72,10 +73,13 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -85,6 +89,17 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Produces {@link RevisionInfo} and {@link CommitInfo} which are serialized to JSON afterwards. */
 public class RevisionJson {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final Set<FillOptions> DETAILED_ACCOUNT_OPTIONS =
+      Collections.unmodifiableSet(
+          EnumSet.of(
+              FillOptions.ID,
+              FillOptions.NAME,
+              FillOptions.EMAIL,
+              FillOptions.USERNAME,
+              FillOptions.STATUS,
+              FillOptions.SECONDARY_EMAILS,
+              FillOptions.AVATARS));
 
   public interface Factory {
     RevisionJson create(Iterable<ListChangesOption> options);
@@ -158,7 +173,13 @@ public class RevisionJson {
   public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException,
           PermissionBackendException {
-    AccountLoader accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+    AccountLoader accountLoader;
+    // Use an extended set of detailed account options to ensure secondary emails are returned.
+    if (has(DETAILED_ACCOUNTS)) {
+      accountLoader = accountLoaderFactory.create(DETAILED_ACCOUNT_OPTIONS);
+    } else {
+      accountLoader = accountLoaderFactory.create(false);
+    }
     try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
       RevisionInfo rev = toRevisionInfo(accountLoader, cd, in, repo, rw, true, null);

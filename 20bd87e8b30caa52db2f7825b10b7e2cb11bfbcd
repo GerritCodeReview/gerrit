@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dda3afb5_6bf85d95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-12T17:59:24Z",
+      "side": 1,
+      "message": "I guess it wouldn\u0027t be trivial to write a test, even using StandaloneSiteTest.java?",
+      "revId": "20bd87e8b30caa52db2f7825b10b7e2cb11bfbcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7c68dcb_2b98cac6",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-12T17:59:24Z",
+      "side": 1,
+      "message": "Nit: superfluous blank.",
+      "range": {
+        "startLine": 273,
+        "startChar": 28,
+        "endLine": 273,
+        "endChar": 29
+      },
+      "revId": "20bd87e8b30caa52db2f7825b10b7e2cb11bfbcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

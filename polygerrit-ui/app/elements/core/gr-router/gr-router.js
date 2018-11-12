@@ -424,7 +424,8 @@
         return `/dashboard/${user}?${queryParams.join('&')}`;
       } else if (repoName) {
         // Project dashboard.
-        return `/p/${repoName}/+/dashboard/${params.dashboard}`;
+        const encodedRepo = this.encodeURL(repoName, true);
+        return `/p/${encodedRepo}/+/dashboard/${params.dashboard}`;
       } else {
         // User dashboard.
         return `/dashboard/${params.user || 'self'}`;

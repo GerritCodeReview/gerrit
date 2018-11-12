@@ -87,6 +87,7 @@
 .. link:dev-stars.html[Starring Changes]
 . link:dev-design.html[System Design]
 . link:i18n-readme.html[i18n Support]
+. link:quota.html[Quota for Plugin developers]
 
 == Maintainer
 . link:dev-release.html[Making a Gerrit Release]

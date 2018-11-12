@@ -14,11 +14,15 @@
 
 package com.google.gerrit.pgm;
 
+import static java.util.stream.Collectors.joining;
+
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.PluginData;
+import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.pgm.init.BaseInit;
 import com.google.gerrit.pgm.init.Browser;
 import com.google.gerrit.pgm.init.InitPlugins;
@@ -54,6 +58,9 @@ public class Init extends BaseInit {
 
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
+
+  @Option(name = "--no-reindex", usage = "Don't automatically reindex any entities")
+  private boolean noReindex;
 
   @Option(name = "--skip-plugins", usage = "Don't install plugins")
   private boolean skipPlugins;
@@ -137,6 +144,7 @@ public class Init extends BaseInit {
         });
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
+    reindexProjects();
     start(run);
   }
 
@@ -194,7 +202,6 @@ public class Init extends BaseInit {
     if (run.flags.autoStart) {
       if (HostPlatform.isWin32()) {
         System.err.println("Automatic startup not supported on Win32.");
-
       } else {
         startDaemon(run);
         if (!run.ui.isBatch()) {
@@ -247,6 +254,25 @@ public class Init extends BaseInit {
       ui.message("Cannot find plugin(s): %s\n", Joiner.on(", ").join(missing));
       listPlugins = true;
     }
+  }
+
+  private void reindexProjects() throws Exception {
+    if (noReindex) {
+      return;
+    }
+    // Reindex all projects, so that we bootstrap the project index for new installations
+    List<String> reindexArgs =
+        ImmutableList.of(
+            "--site-path",
+            getSitePath().toString(),
+            "--threads",
+            Integer.toString(1),
+            "--index",
+            ProjectSchemaDefinitions.NAME);
+    getConsoleUI().message("Init complete, reindexing projects with:");
+    getConsoleUI().message(" reindex " + reindexArgs.stream().collect(joining(" ")));
+    Reindex reindexPgm = new Reindex();
+    reindexPgm.main(reindexArgs.stream().toArray(String[]::new));
   }
 
   private static boolean nullOrEmpty(List<?> list) {

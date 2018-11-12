@@ -169,6 +169,10 @@
         type: Object,
         computed: '_getRevisionInfo(_change)',
       },
+      _reviewedFiles: {
+        type: Object,
+        value: () => new Set(),
+      },
     },
 
     behaviors: [
@@ -215,6 +219,7 @@
         [this.Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
         [this.Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
         [this.Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_handleExpandAllDiffContext',
+        [this.Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
 
         // Final two are actually handled by gr-diff-comment-thread.
         [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
@@ -564,10 +569,18 @@
       return {path: fileList[idx]};
     },
 
+    _getReviewedFiles(changeNum, patchNum) {
+      return this.$.restAPI.getReviewedFiles(changeNum, patchNum)
+          .then(files => {
+            this._reviewedFiles = new Set(files);
+            return this._reviewedFiles;
+          });
+    },
+
     _getReviewedStatus(editMode, changeNum, patchNum, path) {
       if (editMode) { return Promise.resolve(false); }
-      return this.$.restAPI.getReviewedFiles(changeNum, patchNum)
-          .then(files => files.includes(path));
+      return this._getReviewedFiles(changeNum, patchNum)
+          .then(files => files.has(path));
     },
 
     _paramsChanged(value) {
@@ -1024,6 +1037,16 @@
 
     _computeDiffPrefsDisabled(disableDiffPrefs, loggedIn) {
       return disableDiffPrefs || !loggedIn;
+    },
+
+    _handleNextUnreviewedFile(e) {
+      this._setReviewed(true);
+      // Ensure that the currently viewed file always appears in unreviewedFiles
+      // so we resolve the right "next" file.
+      const unreviewedFiles = this._fileList
+          .filter(file =>
+          (file === this._path || !this._reviewedFiles.has(file)));
+      this._navToFile(this._path, unreviewedFiles, 1);
     },
   });
 })();

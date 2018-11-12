@@ -85,6 +85,7 @@
 .. link:js-api.html[JavaScript Plugin API]
 .. link:config-validation.html[Validation Interfaces]
 .. link:dev-stars.html[Starring Changes]
+.. link:quota.html[Quota Enforcement]
 . link:dev-design.html[System Design]
 . link:i18n-readme.html[i18n Support]
 

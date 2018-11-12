@@ -16,15 +16,17 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.server.config.ConfigUpdatedEvent;
+import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
+import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
@@ -64,11 +66,11 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>>, Ger
   }
 
   @Override
-  public List<ConfigUpdatedEvent.Update> configUpdated(ConfigUpdatedEvent event) {
+  public Multimap<UpdateResult, ConfigUpdateEntry> configUpdated(ConfigUpdatedEvent event) {
     if (event.isSectionUpdated(ProjectConfig.COMMENTLINK)) {
       commentLinks = parseConfig(event.getNewConfig());
-      return Collections.singletonList(event.accept(ProjectConfig.COMMENTLINK));
+      return event.accept(ProjectConfig.COMMENTLINK);
     }
-    return Collections.emptyList();
+    return ConfigUpdatedEvent.NO_UPDATES;
   }
 }

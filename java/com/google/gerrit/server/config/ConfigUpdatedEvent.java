@@ -13,10 +13,11 @@
 // limitations under the License.
 package com.google.gerrit.server.config;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -36,6 +37,8 @@ import org.eclipse.jgit.lib.Config;
  * (+ various overloaded versions of these)
  */
 public class ConfigUpdatedEvent {
+  public static final Multimap<UpdateResult, ConfigUpdateEntry> NO_UPDATES =
+      new ImmutableMultimap.Builder<UpdateResult, ConfigUpdateEntry>().build();
   private final Config oldConfig;
   private final Config newConfig;
 
@@ -52,25 +55,25 @@ public class ConfigUpdatedEvent {
     return this.newConfig;
   }
 
-  public Update accept(ConfigKey entry) {
+  public Multimap<UpdateResult, ConfigUpdateEntry> accept(ConfigKey entry) {
     return accept(Collections.singleton(entry));
   }
 
-  public Update accept(Set<ConfigKey> entries) {
+  public Multimap<UpdateResult, ConfigUpdateEntry> accept(Set<ConfigKey> entries) {
     return createUpdate(entries, UpdateResult.APPLIED);
   }
 
-  public Update accept(String section) {
+  public Multimap<UpdateResult, ConfigUpdateEntry> accept(String section) {
     Set<ConfigKey> entries = getEntriesFromSection(oldConfig, section);
     entries.addAll(getEntriesFromSection(newConfig, section));
     return createUpdate(entries, UpdateResult.APPLIED);
   }
 
-  public Update reject(ConfigKey entry) {
+  public Multimap<UpdateResult, ConfigUpdateEntry> reject(ConfigKey entry) {
     return reject(Collections.singleton(entry));
   }
 
-  public Update reject(Set<ConfigKey> entries) {
+  public Multimap<UpdateResult, ConfigUpdateEntry> reject(Set<ConfigKey> entries) {
     return createUpdate(entries, UpdateResult.REJECTED);
   }
 
@@ -87,20 +90,22 @@ public class ConfigUpdatedEvent {
     return res;
   }
 
-  private Update createUpdate(Set<ConfigKey> entries, UpdateResult updateResult) {
-    Update update = new Update(updateResult);
+  private Multimap<UpdateResult, ConfigUpdateEntry> createUpdate(
+      Set<ConfigKey> entries, UpdateResult updateResult) {
+    Multimap<UpdateResult, ConfigUpdateEntry> updates = ArrayListMultimap.create();
     entries
         .stream()
         .filter(this::isValueUpdated)
         .forEach(
             key -> {
-              update.addConfigUpdate(
+              updates.put(
+                  updateResult,
                   new ConfigUpdateEntry(
                       key,
                       oldConfig.getString(key.section(), key.subsection(), key.name()),
                       newConfig.getString(key.section(), key.subsection(), key.name())));
             });
-    return update;
+    return updates;
   }
 
   public boolean isSectionUpdated(String section) {
@@ -139,31 +144,6 @@ public class ConfigUpdatedEvent {
     @Override
     public String toString() {
       return StringUtils.capitalize(name().toLowerCase());
-    }
-  }
-
-  /**
-   * One Accepted/Rejected Update have one or more config updates (ConfigUpdateEntry) tied to it.
-   */
-  public static class Update {
-    private UpdateResult result;
-    private final Set<ConfigUpdateEntry> configUpdates;
-
-    public Update(UpdateResult result) {
-      this.configUpdates = new LinkedHashSet<>();
-      this.result = result;
-    }
-
-    public UpdateResult getResult() {
-      return result;
-    }
-
-    public List<ConfigUpdateEntry> getConfigUpdates() {
-      return ImmutableList.copyOf(configUpdates);
-    }
-
-    public void addConfigUpdate(ConfigUpdateEntry entry) {
-      this.configUpdates.add(entry);
     }
   }
 

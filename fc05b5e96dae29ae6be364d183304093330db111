@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f7ab0cfd_69ed42f2",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2018-11-12T19:01:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ba527b6_42dda694",
+      "revId": "fc05b5e96dae29ae6be364d183304093330db111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ee92fb6_44b2f817",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "fc05b5e96dae29ae6be364d183304093330db111",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b0022ae_6f5699e3",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2018-11-12T19:01:07Z",
+      "side": 1,
+      "message": "Intellij has a default setting that collapses imports with wildcards, (set by default to a count of 3).\nI have disabled that now.",
+      "parentUuid": "9ee92fb6_44b2f817",
+      "revId": "fc05b5e96dae29ae6be364d183304093330db111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

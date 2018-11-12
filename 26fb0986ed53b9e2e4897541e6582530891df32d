@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65a7f492_26261a89",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1197,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-12T13:06:32Z",
+      "side": 0,
+      "message": "We still need this.",
+      "range": {
+        "startLine": 1196,
+        "startChar": 2,
+        "endLine": 1197,
+        "endChar": 0
+      },
+      "revId": "26fb0986ed53b9e2e4897541e6582530891df32d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

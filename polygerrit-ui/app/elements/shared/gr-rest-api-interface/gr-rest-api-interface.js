@@ -1297,21 +1297,27 @@
      * @param {function()=} opt_cancelCondition
      */
     getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
-      const options = this.listChangesOptionsToHex(
-          this.ListChangesOption.ALL_COMMITS,
-          this.ListChangesOption.ALL_REVISIONS,
-          this.ListChangesOption.CHANGE_ACTIONS,
-          this.ListChangesOption.CURRENT_ACTIONS,
-          this.ListChangesOption.DETAILED_LABELS,
-          this.ListChangesOption.DOWNLOAD_COMMANDS,
-          this.ListChangesOption.MESSAGES,
-          this.ListChangesOption.SUBMITTABLE,
-          this.ListChangesOption.WEB_LINKS,
-          this.ListChangesOption.SKIP_MERGEABLE
-      );
-      return this._getChangeDetail(
-          changeNum, options, opt_errFn, opt_cancelCondition)
-          .then(GrReviewerUpdatesParser.parse);
+      const options = [
+        this.ListChangesOption.ALL_COMMITS,
+        this.ListChangesOption.ALL_REVISIONS,
+        this.ListChangesOption.CHANGE_ACTIONS,
+        this.ListChangesOption.CURRENT_ACTIONS,
+        this.ListChangesOption.DETAILED_LABELS,
+        this.ListChangesOption.DOWNLOAD_COMMANDS,
+        this.ListChangesOption.MESSAGES,
+        this.ListChangesOption.SUBMITTABLE,
+        this.ListChangesOption.WEB_LINKS,
+        this.ListChangesOption.SKIP_MERGEABLE,
+      ];
+      return this.getConfig(false).then(config => {
+        if (config.receive && config.receive.enable_signed_push) {
+          options.push(this.ListChangesOption.PUSH_CERTIFICATES);
+        }
+        const optionsHex = this.listChangesOptionsToHex(...options);
+        return this._getChangeDetail(
+            changeNum, optionsHex, opt_errFn, opt_cancelCondition)
+            .then(GrReviewerUpdatesParser.parse);
+      });
     },
 
     /**

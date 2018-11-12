@@ -70,6 +70,30 @@
       "revId": "a2744ab644f984fdc4615308d1003a26a0d91686",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4c397e1_05435d15",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1015669
+      },
+      "writtenOn": "2018-11-12T08:02:52Z",
+      "side": 1,
+      "message": "Puh. This test seems to mock nearly everything and asserts basically that the mocking framework works :D is this really the intention for tests?\n\nAlso, it seems I\u0027m unable to npm install web-component-tester on my Fedora 28 for some completely un-obvious (to me) reason - so I cannot run tests anyway... Makes it a little hard to contribute them :D",
+      "parentUuid": "f6e650d7_3450a455",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 23
+      },
+      "revId": "a2744ab644f984fdc4615308d1003a26a0d91686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

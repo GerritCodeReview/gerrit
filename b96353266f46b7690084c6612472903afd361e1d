@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a557b2c_92d40796",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-12T15:24:30Z",
+      "side": 1,
+      "message": "Optional: whole text can just be \"(view changes)\"",
+      "range": {
+        "startLine": 66,
+        "startChar": 10,
+        "endLine": 66,
+        "endChar": 87
+      },
+      "revId": "b96353266f46b7690084c6612472903afd361e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "138c5127_ea7058de",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
         "patchSetId": 2

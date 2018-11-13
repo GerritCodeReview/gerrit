@@ -67,6 +67,7 @@ limitations under the License.
     kb.bindShortcut(kb.Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
     kb.bindShortcut(kb.Shortcut.EXPAND_ALL_COMMENT_THREADS, 'e');
     kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_COMMENT_THREADS, 'shift+e');
+    kb.bindShortcut(kb.Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
 
     let element;
     let sandbox;
@@ -1126,6 +1127,23 @@ limitations under the License.
       });
       assert.isTrue(setStub.calledOnce);
       assert.isTrue(setStub.calledWith(101, 'test-project'));
+    });
+
+    test('shift+m navigates to next unreviewed file', () => {
+      element._fileList = ['file1', 'file2', 'file3'];
+      element._reviewedFiles = new Set(['file1', 'file2']);
+      element._path = 'file1';
+      const reviewedStub = sandbox.stub(element, '_setReviewed');
+      const navStub = sandbox.stub(element, '_navToFile');
+      MockInteractions.pressAndReleaseKeyOn(element, 77, 'shift', 'm');
+      flushAsynchronousOperations();
+
+      assert.isTrue(reviewedStub.lastCall.args[0]);
+      assert.deepEqual(navStub.lastCall.args, [
+        'file1',
+        ['file1', 'file3'],
+        1,
+      ]);
     });
   });
 </script>

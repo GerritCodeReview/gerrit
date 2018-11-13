@@ -49,6 +49,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupUUID;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
@@ -125,6 +126,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
   @Inject private GroupBackend groupBackend;
   @Inject private DynamicSet<GroupBackend> backends;
   @Inject private Sequences seq;
+  @Inject private ExternalIds externalIds;
 
   private JdbcSchema jdbcSchema;
 
@@ -967,7 +969,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
         rw.setRetainBody(true);
         rw.markStart(rw.parseCommit(ref.getObjectId()));
         for (RevCommit c : rw) {
-          result.add(CommitUtil.toCommitInfo(c));
+          result.add(CommitUtil.toCommitInfo(c, externalIds));
           commitDates.add(c.getCommitterIdent().getWhen());
         }
       }

@@ -6457,6 +6457,8 @@ author/committer of a commit.
 [options="header",cols="1,6"]
 |==========================
 |Field Name    |Description
+|`_account_id` |This field is optional here if a commit was uploaded
+from an unregistered user.
 |`name`        |The name of the author/committer.
 |`email`       |The email address of the author/committer.
 |`date`        |The link:rest-api.html#timestamp[timestamp] of when

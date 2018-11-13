@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommonConverters;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.args4j.TimestampHandler;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -43,6 +44,7 @@ public class GetReflog implements RestReadView<BranchResource> {
 
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
+  private final ExternalIds externalIds;
 
   @Option(
       name = "--limit",
@@ -83,9 +85,13 @@ public class GetReflog implements RestReadView<BranchResource> {
   private Timestamp to;
 
   @Inject
-  public GetReflog(GitRepositoryManager repoManager, PermissionBackend permissionBackend) {
+  public GetReflog(
+      GitRepositoryManager repoManager,
+      PermissionBackend permissionBackend,
+      ExternalIds externalIds) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
+    this.externalIds = externalIds;
   }
 
   @Override
@@ -123,15 +129,15 @@ public class GetReflog implements RestReadView<BranchResource> {
           }
         }
       }
-      return Lists.transform(entries, this::newReflogEntryInfo);
+      return Lists.transform(entries, e -> newReflogEntryInfo(externalIds, e));
     }
   }
 
-  private ReflogEntryInfo newReflogEntryInfo(ReflogEntry e) {
+  private ReflogEntryInfo newReflogEntryInfo(ExternalIds externalIds, ReflogEntry e) {
     return new ReflogEntryInfo(
         e.getOldId().getName(),
         e.getNewId().getName(),
-        CommonConverters.toGitPerson(e.getWho()),
+        CommonConverters.toGitPerson(e.getWho(), externalIds),
         e.getComment());
   }
 }

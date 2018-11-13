@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.change.DownloadCommandsJson;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,20 +38,23 @@ public class ChangeEditJson {
   private final DynamicMap<DownloadCommand> downloadCommands;
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final Provider<CurrentUser> userProvider;
+  private final ExternalIds externalIds;
 
   @Inject
   ChangeEditJson(
       DynamicMap<DownloadCommand> downloadCommand,
       DynamicMap<DownloadScheme> downloadSchemes,
-      Provider<CurrentUser> userProvider) {
+      Provider<CurrentUser> userProvider,
+      ExternalIds externalIds) {
     this.downloadCommands = downloadCommand;
     this.downloadSchemes = downloadSchemes;
     this.userProvider = userProvider;
+    this.externalIds = externalIds;
   }
 
   public EditInfo toEditInfo(ChangeEdit edit, boolean downloadCommands) {
     EditInfo out = new EditInfo();
-    out.commit = fillCommit(edit.getEditCommit());
+    out.commit = fillCommit(edit.getEditCommit(), externalIds);
     out.baseRevision = edit.getBasePatchSet().getRevision().get();
     out.basePatchSetNumber = edit.getBasePatchSet().getPatchSetId();
     if (downloadCommands) {
@@ -59,11 +63,11 @@ public class ChangeEditJson {
     return out;
   }
 
-  private static CommitInfo fillCommit(RevCommit editCommit) {
+  private static CommitInfo fillCommit(RevCommit editCommit, ExternalIds externalIds) {
     CommitInfo commit = new CommitInfo();
     commit.commit = editCommit.toObjectId().getName();
-    commit.author = CommonConverters.toGitPerson(editCommit.getAuthorIdent());
-    commit.committer = CommonConverters.toGitPerson(editCommit.getCommitterIdent());
+    commit.author = CommonConverters.toGitPerson(editCommit.getAuthorIdent(), externalIds);
+    commit.committer = CommonConverters.toGitPerson(editCommit.getCommitterIdent(), externalIds);
     commit.subject = editCommit.getShortMessage();
     commit.message = editCommit.getFullMessage();
 

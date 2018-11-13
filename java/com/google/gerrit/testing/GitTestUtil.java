@@ -37,7 +37,7 @@ public class GitTestUtil {
             .map(
                 c -> {
                   try {
-                    return CommitUtil.toCommitInfo(c);
+                    return CommitUtil.toCommitInfo(c, null);
                   } catch (IOException e) {
                     throw new IllegalStateException(
                         "unexpected state when converting commit " + c.getName(), e);

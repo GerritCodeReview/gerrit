@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.WebLinks;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -57,6 +58,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final WebLinks links;
+  private final ExternalIds externalIds;
 
   @Option(
       name = "--limit",
@@ -101,10 +103,14 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   @Inject
   public ListTags(
-      GitRepositoryManager repoManager, PermissionBackend permissionBackend, WebLinks webLinks) {
+      GitRepositoryManager repoManager,
+      PermissionBackend permissionBackend,
+      WebLinks webLinks,
+      ExternalIds externalIds) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.links = webLinks;
+    this.externalIds = externalIds;
   }
 
   public ListTags request(ListRefsRequest<TagInfo> request) {
@@ -130,7 +136,8 @@ public class ListTags implements RestReadView<ProjectResource> {
           visibleTags(resource.getNameKey(), repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
       for (Ref ref : all.values()) {
         tags.add(
-            createTagInfo(perm.ref(ref.getName()), ref, rw, resource.getProjectState(), links));
+            createTagInfo(
+                perm.ref(ref.getName()), ref, rw, resource.getProjectState(), links, externalIds));
       }
     }
 
@@ -164,14 +171,20 @@ public class ListTags implements RestReadView<ProjectResource> {
             ref,
             rw,
             resource.getProjectState(),
-            links);
+            links,
+            externalIds);
       }
     }
     throw new ResourceNotFoundException(id);
   }
 
   public static TagInfo createTagInfo(
-      PermissionBackend.ForRef perm, Ref ref, RevWalk rw, ProjectState projectState, WebLinks links)
+      PermissionBackend.ForRef perm,
+      Ref ref,
+      RevWalk rw,
+      ProjectState projectState,
+      WebLinks links,
+      ExternalIds externalIds)
       throws IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
 
@@ -192,7 +205,7 @@ public class ListTags implements RestReadView<ProjectResource> {
           tag.getName(),
           tag.getObject().getName(),
           tag.getFullMessage().trim(),
-          tagger != null ? CommonConverters.toGitPerson(tagger) : null,
+          tagger != null ? CommonConverters.toGitPerson(tagger, externalIds) : null,
           canDelete,
           webLinks.isEmpty() ? null : webLinks,
           tagger != null ? new Timestamp(tagger.getWhen().getTime()) : null);

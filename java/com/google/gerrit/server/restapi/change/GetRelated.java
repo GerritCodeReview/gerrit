@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -53,17 +54,20 @@ public class GetRelated implements RestReadView<RevisionResource> {
   private final PatchSetUtil psUtil;
   private final RelatedChangesSorter sorter;
   private final IndexConfig indexConfig;
+  private final ExternalIds externalIds;
 
   @Inject
   GetRelated(
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
       RelatedChangesSorter sorter,
-      IndexConfig indexConfig) {
+      IndexConfig indexConfig,
+      ExternalIds externalIds) {
     this.queryProvider = queryProvider;
     this.psUtil = psUtil;
     this.sorter = sorter;
     this.indexConfig = indexConfig;
+    this.externalIds = externalIds;
   }
 
   @Override
@@ -108,7 +112,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       } else {
         commit = d.commit();
       }
-      result.add(newChangeAndCommit(rsrc.getProject(), d.data().change(), ps, commit));
+      result.add(newChangeAndCommit(externalIds, rsrc.getProject(), d.data().change(), ps, commit));
     }
 
     if (result.size() == 1) {
@@ -137,7 +141,11 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   static RelatedChangeAndCommitInfo newChangeAndCommit(
-      Project.NameKey project, @Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
+      ExternalIds externalIds,
+      Project.NameKey project,
+      @Nullable Change change,
+      @Nullable PatchSet ps,
+      RevCommit c) {
     RelatedChangeAndCommitInfo info = new RelatedChangeAndCommitInfo();
     info.project = project.get();
 
@@ -158,7 +166,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       p.commit = c.getParent(i).name();
       info.commit.parents.add(p);
     }
-    info.commit.author = CommonConverters.toGitPerson(c.getAuthorIdent());
+    info.commit.author = CommonConverters.toGitPerson(c.getAuthorIdent(), externalIds);
     info.commit.subject = c.getShortMessage();
     return info;
   }

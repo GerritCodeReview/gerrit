@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.server.CommonConverters;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -24,16 +25,18 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Static utilities for working with {@link RevCommit}s. */
 public class CommitUtil {
-  public static CommitInfo toCommitInfo(RevCommit commit) throws IOException {
-    return toCommitInfo(commit, null);
+  public static CommitInfo toCommitInfo(RevCommit commit, @Nullable ExternalIds externalIds)
+      throws IOException {
+    return toCommitInfo(commit, externalIds, null);
   }
 
-  public static CommitInfo toCommitInfo(RevCommit commit, @Nullable RevWalk walk)
+  public static CommitInfo toCommitInfo(
+      RevCommit commit, @Nullable ExternalIds externalIds, @Nullable RevWalk walk)
       throws IOException {
     CommitInfo info = new CommitInfo();
     info.commit = commit.getName();
-    info.author = CommonConverters.toGitPerson(commit.getAuthorIdent());
-    info.committer = CommonConverters.toGitPerson(commit.getCommitterIdent());
+    info.author = CommonConverters.toGitPerson(commit.getAuthorIdent(), externalIds);
+    info.committer = CommonConverters.toGitPerson(commit.getCommitterIdent(), externalIds);
     info.subject = commit.getShortMessage();
     info.message = commit.getFullMessage();
     info.parents = new ArrayList<>(commit.getParentCount());

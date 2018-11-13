@@ -56,6 +56,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GpgApiAdapter;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -108,6 +109,7 @@ public class RevisionJson {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final ChangeNotes.Factory notesFactory;
+  private final ExternalIds externalIds;
   private final boolean lazyLoad;
 
   @Inject
@@ -129,6 +131,7 @@ public class RevisionJson {
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       ChangeNotes.Factory notesFactory,
+      ExternalIds externalIds,
       @Assisted Iterable<ListChangesOption> options) {
     this.userProvider = userProvider;
     this.anonymous = anonymous;
@@ -146,6 +149,7 @@ public class RevisionJson {
     this.changeKindCache = changeKindCache;
     this.permissionBackend = permissionBackend;
     this.notesFactory = notesFactory;
+    this.externalIds = externalIds;
     this.repoManager = repoManager;
     this.options = ImmutableSet.copyOf(options);
     this.lazyLoad = containsAnyOf(this.options, ChangeJson.REQUIRE_LAZY_LOAD);
@@ -179,8 +183,8 @@ public class RevisionJson {
       info.commit = commit.name();
     }
     info.parents = new ArrayList<>(commit.getParentCount());
-    info.author = toGitPerson(commit.getAuthorIdent());
-    info.committer = toGitPerson(commit.getCommitterIdent());
+    info.author = toGitPerson(commit.getAuthorIdent(), externalIds);
+    info.committer = toGitPerson(commit.getCommitterIdent(), externalIds);
     info.subject = commit.getShortMessage();
     info.message = commit.getFullMessage();
 

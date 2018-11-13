@@ -28,7 +28,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 
 /** Set HEAD for All-Users to refs/meta/config. */
-public class Schema_166 extends SchemaVersion {
+public class Schema_166 extends ReviewDbSchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
 

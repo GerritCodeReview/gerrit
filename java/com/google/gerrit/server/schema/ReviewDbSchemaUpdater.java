@@ -44,22 +44,22 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /** Creates or updates the current database schema. */
-public class SchemaUpdater {
+public class ReviewDbSchemaUpdater {
   private final SchemaFactory<ReviewDb> schema;
   private final SitePaths site;
-  private final SchemaCreator creator;
-  private final Provider<SchemaVersion> updater;
+  private final ReviewDbSchemaCreator creator;
+  private final Provider<ReviewDbSchemaVersion> updater;
 
   @Inject
-  SchemaUpdater(
+  ReviewDbSchemaUpdater(
       @ReviewDbFactory SchemaFactory<ReviewDb> schema,
       SitePaths site,
-      SchemaCreator creator,
+      ReviewDbSchemaCreator creator,
       Injector parent) {
     this.schema = schema;
     this.site = site;
     this.creator = creator;
-    this.updater = buildInjector(parent).getProvider(SchemaVersion.class);
+    this.updater = buildInjector(parent).getProvider(ReviewDbSchemaVersion.class);
   }
 
   private static Injector buildInjector(Injector parent) {
@@ -71,7 +71,7 @@ public class SchemaUpdater {
         new AbstractModule() {
           @Override
           protected void configure() {
-            bind(SchemaVersion.class).to(SchemaVersion.C);
+            bind(ReviewDbSchemaVersion.class).to(ReviewDbSchemaVersion.C);
 
             for (Key<?> k :
                 new Key<?>[] {
@@ -104,7 +104,7 @@ public class SchemaUpdater {
   public void update(UpdateUI ui) throws OrmException {
     try (ReviewDb db = ReviewDbUtil.unwrapDb(schema.open())) {
 
-      final SchemaVersion u = updater.get();
+      final ReviewDbSchemaVersion u = updater.get();
       final CurrentSchemaVersion version = getSchemaVersion(db);
       if (version == null) {
         try {
@@ -126,7 +126,7 @@ public class SchemaUpdater {
   }
 
   @VisibleForTesting
-  public SchemaVersion getLatestSchemaVersion() {
+  public ReviewDbSchemaVersion getLatestSchemaVersion() {
     return updater.get();
   }
 

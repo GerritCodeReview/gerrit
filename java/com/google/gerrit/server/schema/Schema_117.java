@@ -24,7 +24,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Set;
 
-public class Schema_117 extends SchemaVersion {
+public class Schema_117 extends ReviewDbSchemaVersion {
   @Inject
   Schema_117(Provider<Schema_116> prior) {
     super(prior);

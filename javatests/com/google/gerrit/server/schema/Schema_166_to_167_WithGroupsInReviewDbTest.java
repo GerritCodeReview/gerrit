@@ -920,7 +920,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     }
   }
 
-  private void executeSchemaMigration(SchemaVersion schema, AccountGroup... groupsToVerify)
+  private void executeSchemaMigration(ReviewDbSchemaVersion schema, AccountGroup... groupsToVerify)
       throws Exception {
     executeSchemaMigration(
         schema,
@@ -929,7 +929,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
             .toArray(AccountGroup.UUID[]::new));
   }
 
-  private void executeSchemaMigration(SchemaVersion schema, GroupInfo... groupsToVerify)
+  private void executeSchemaMigration(ReviewDbSchemaVersion schema, GroupInfo... groupsToVerify)
       throws Exception {
     executeSchemaMigration(
         schema,
@@ -938,8 +938,8 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
             .toArray(AccountGroup.UUID[]::new));
   }
 
-  private void executeSchemaMigration(SchemaVersion schema, AccountGroup.UUID... groupsToVerify)
-      throws Exception {
+  private void executeSchemaMigration(
+      ReviewDbSchemaVersion schema, AccountGroup.UUID... groupsToVerify) throws Exception {
     List<GroupBundle> reviewDbBundles = new ArrayList<>();
     for (AccountGroup.UUID groupUuid : groupsToVerify) {
       reviewDbBundles.add(GroupBundle.Factory.fromReviewDb(db, groupUuid));

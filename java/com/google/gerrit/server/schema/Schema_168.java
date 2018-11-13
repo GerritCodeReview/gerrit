@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /** Drop group tables. */
-public class Schema_168 extends SchemaVersion {
+public class Schema_168 extends ReviewDbSchemaVersion {
   @Inject
   Schema_168(Provider<Schema_167> prior) {
     super(prior);

@@ -28,7 +28,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import org.eclipse.jgit.lib.Config;
 
-public class Schema_127 extends SchemaVersion {
+public class Schema_127 extends ReviewDbSchemaVersion {
   private static final int MAX_BATCH_SIZE = 1000;
 
   private final SitePaths sitePaths;

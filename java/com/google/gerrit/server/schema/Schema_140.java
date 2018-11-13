@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /** Remove ChangeMessage sequence. */
-public class Schema_140 extends SchemaVersion {
+public class Schema_140 extends ReviewDbSchemaVersion {
   @Inject
   Schema_140(Provider<Schema_139> prior) {
     super(prior);

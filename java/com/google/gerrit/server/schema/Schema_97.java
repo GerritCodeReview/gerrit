@@ -17,7 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class Schema_97 extends SchemaVersion {
+public class Schema_97 extends ReviewDbSchemaVersion {
   @Inject
   Schema_97(Provider<Schema_96> prior) {
     super(prior);

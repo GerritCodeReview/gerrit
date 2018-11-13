@@ -20,7 +20,7 @@ import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class Schema_109 extends SchemaVersion {
+public class Schema_109 extends ReviewDbSchemaVersion {
   @Inject
   Schema_109(Provider<Schema_108> prior) {
     super(prior);

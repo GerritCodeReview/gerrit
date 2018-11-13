@@ -85,7 +85,7 @@ import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
 import com.google.gerrit.server.schema.ReviewDbFactory;
-import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
@@ -303,7 +303,7 @@ public class InMemoryModule extends FactoryModule {
 
   @Provides
   @Singleton
-  InMemoryDatabase getInMemoryDatabase(SchemaCreator schemaCreator) throws OrmException {
+  InMemoryDatabase getInMemoryDatabase(ReviewDbSchemaCreator schemaCreator) throws OrmException {
     return new InMemoryDatabase(schemaCreator);
   }
 

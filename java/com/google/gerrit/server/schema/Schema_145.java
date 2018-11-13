@@ -24,7 +24,7 @@ import com.google.inject.Provider;
 import java.sql.SQLException;
 
 /** Create account_external_ids_byEmail index. */
-public class Schema_145 extends SchemaVersion {
+public class Schema_145 extends ReviewDbSchemaVersion {
 
   @Inject
   Schema_145(Provider<Schema_144> prior) {

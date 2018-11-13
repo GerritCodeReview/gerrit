@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /** Add isPrivate field to change. */
-public class Schema_143 extends SchemaVersion {
+public class Schema_143 extends ReviewDbSchemaVersion {
   @Inject
   Schema_143(Provider<Schema_142> prior) {
     super(prior);

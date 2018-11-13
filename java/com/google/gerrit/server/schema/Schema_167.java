@@ -60,7 +60,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 /** Migrate groups from ReviewDb to NoteDb. */
-public class Schema_167 extends SchemaVersion {
+public class Schema_167 extends ReviewDbSchemaVersion {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager repoManager;

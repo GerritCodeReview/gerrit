@@ -59,7 +59,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 /** Creates the current database schema and populates initial code rows. */
-public class SchemaCreator {
+public class ReviewDbSchemaCreator {
   @SitePath private final Path site_path;
 
   private final GitRepositoryManager repoManager;
@@ -77,7 +77,7 @@ public class SchemaCreator {
   private final AllProjectsName allProjectsName;
 
   @Inject
-  public SchemaCreator(
+  public ReviewDbSchemaCreator(
       SitePaths site,
       GitRepositoryManager repoManager,
       AllProjectsCreator ap,
@@ -107,7 +107,7 @@ public class SchemaCreator {
         apName);
   }
 
-  public SchemaCreator(
+  public ReviewDbSchemaCreator(
       @SitePath Path site,
       GitRepositoryManager repoManager,
       AllProjectsCreator ap,
@@ -144,7 +144,7 @@ public class SchemaCreator {
     }
 
     final CurrentSchemaVersion sVer = CurrentSchemaVersion.create();
-    sVer.versionNbr = SchemaVersion.getBinaryVersion();
+    sVer.versionNbr = ReviewDbSchemaVersion.getBinaryVersion();
     db.schemaVersion().insert(Collections.singleton(sVer));
 
     GroupReference admins = createGroupReference("Administrators");

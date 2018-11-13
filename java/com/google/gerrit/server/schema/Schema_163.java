@@ -26,7 +26,7 @@ import com.google.inject.Provider;
 import java.sql.SQLException;
 
 /** Create group sequence in NoteDb */
-public class Schema_163 extends SchemaVersion {
+public class Schema_163 extends ReviewDbSchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
 

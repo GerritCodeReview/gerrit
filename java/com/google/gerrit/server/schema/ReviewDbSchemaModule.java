@@ -30,7 +30,7 @@ import com.google.gerrit.server.config.GerritServerIdProvider;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /** Validate the schema and connect to Git. */
-public class SchemaModule extends FactoryModule {
+public class ReviewDbSchemaModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(PersonIdent.class)

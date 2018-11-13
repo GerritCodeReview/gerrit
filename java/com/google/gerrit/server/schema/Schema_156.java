@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /** Add revertOf field to change. */
-public class Schema_156 extends SchemaVersion {
+public class Schema_156 extends ReviewDbSchemaVersion {
   @Inject
   Schema_156(Provider<Schema_155> prior) {
     super(prior);

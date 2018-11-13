@@ -26,7 +26,7 @@ import java.sql.SQLException;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-public class Schema_102 extends SchemaVersion {
+public class Schema_102 extends ReviewDbSchemaVersion {
   @Inject
   Schema_102(Provider<Schema_101> prior) {
     super(prior);

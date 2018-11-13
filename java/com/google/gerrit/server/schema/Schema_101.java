@@ -38,7 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Schema_101 extends SchemaVersion {
+public class Schema_101 extends ReviewDbSchemaVersion {
 
   private static class PrimaryKey {
     String oldNameInDb;

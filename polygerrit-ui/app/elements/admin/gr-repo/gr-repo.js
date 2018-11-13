@@ -72,7 +72,11 @@
         observer: '_loggedInChanged',
       },
       /** @type {?} */
-      _repoConfig: Object,
+      _repoConfig: {
+        type: Object,
+        notify: true,
+      },
+      _repoPluginConfig: Object,
       _readOnly: {
         type: Boolean,
         value: true,
@@ -155,6 +159,14 @@
               config.state = STATES.active.value;
             }
             this._repoConfig = config;
+            if (config.plugin_config) {
+              this._repoPluginConfig = Object.keys(config.plugin_config)
+               .map(key => {
+                 const plugin = config.plugin_config[key];
+                 plugin.name = key;
+                 return plugin;
+               });
+            }
             this._loading = false;
           }));
 
@@ -203,6 +215,23 @@
         }, {
           label: 'False',
           value: 'FALSE',
+        },
+      ];
+    },
+
+    _formatPluginBooleanSelect(item) {
+      if (!item) { return; }
+      return [
+        {
+          label: 'Enforced',
+          value: 'enforced',
+        },
+        {
+          label: 'True',
+          value: 'true',
+        }, {
+          label: 'False',
+          value: 'false',
         },
       ];
     },
@@ -321,6 +350,23 @@
 
     _computeChangesUrl(name) {
       return Gerrit.Nav.getUrlForProjectChanges(name);
+    },
+
+    _toArray(obj) {
+      var array = [];
+      for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          array.push({
+            key: key,
+            val: obj[key]
+          });
+        }
+      }
+      return array;
+    },
+
+    callingFunc(pluginConfig) {
+      console.log(pluginConfig);
     },
   });
 })();

@@ -343,5 +343,12 @@
     _computeIsMutable(account) {
       return !!Object.keys(account).length;
     },
+
+    editTopic() {
+      if (this._topicReadOnly || this.change.topic) { return; }
+      // Cannot use `this.$.ID` syntax because the element exists inside of a
+      // dom-if.
+      this.$$('.topicEditableLabel').open();
+    },
   });
 })();

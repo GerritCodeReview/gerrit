@@ -78,7 +78,7 @@ public final class GerritLauncher {
    * @throws Exception if any error occurs.
    */
   public static int mainImpl(String[] argv) throws Exception {
-    if (argv.length == 0) {
+    if (argv.length == 0 || "-h".equals(argv[0]) || "--help".equals(argv[0])) {
       File me;
       try {
         me = getDistributionArchive();

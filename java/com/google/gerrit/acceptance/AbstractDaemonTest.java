@@ -38,6 +38,7 @@ import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -55,7 +56,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.groups.GroupApi;
-import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -264,6 +264,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;
+  @Inject protected GroupOperations groupOperations;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;
@@ -1193,27 +1194,7 @@ public abstract class AbstractDaemonTest {
     return changeResourceFactory.create(notes.get(0), atrScope.get().getUser());
   }
 
-  protected String createGroup(String name) throws Exception {
-    return createGroup(name, "Administrators");
-  }
-
-  protected String createGroupWithRealName(String name) throws Exception {
-    GroupInput in = new GroupInput();
-    in.name = name;
-    in.ownerId = "Administrators";
-    gApi.groups().create(in);
-    return name;
-  }
-
-  protected String createGroup(String name, String owner) throws Exception {
-    name = name(name);
-    GroupInput in = new GroupInput();
-    in.name = name;
-    in.ownerId = owner;
-    gApi.groups().create(in);
-    return name;
-  }
-
+  @Nullable
   protected RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
       Ref r = repo.exactRef(name);
@@ -1225,16 +1206,19 @@ public abstract class AbstractDaemonTest {
     return getHead(repo, "HEAD");
   }
 
+  @Nullable
   protected RevCommit getRemoteHead(Project.NameKey project, String branch) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       return getHead(repo, branch.startsWith(Constants.R_REFS) ? branch : "refs/heads/" + branch);
     }
   }
 
+  @Nullable
   protected RevCommit getRemoteHead(String project, String branch) throws Exception {
     return getRemoteHead(new Project.NameKey(project), branch);
   }
 
+  @Nullable
   protected RevCommit getRemoteHead() throws Exception {
     return getRemoteHead(project, "master");
   }
@@ -1248,7 +1232,8 @@ public abstract class AbstractDaemonTest {
   protected ContributorAgreement configureContributorAgreement(boolean autoVerify)
       throws Exception {
     ContributorAgreement ca;
-    String g = createGroup(autoVerify ? "cla-test-group" : "cla-test-no-auto-verify-group");
+    String name = autoVerify ? "cla-test-group" : "cla-test-no-auto-verify-group";
+    String g = groupOperations.newGroup().name(name).create().get();
     GroupApi groupApi = gApi.groups().id(g);
     groupApi.description("CLA test group");
     InternalGroup caGroup = group(new AccountGroup.UUID(groupApi.detail().id));

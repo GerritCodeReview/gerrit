@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c196791_1a9c3e6d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-13T21:56:55Z",
+      "side": 1,
+      "message": "Let\u0027s call this _privateChangesEnabled",
+      "revId": "8de32392bf9d33135f67dea8e41687d0eb175502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28d84e0a_cd023ab0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-13T21:56:55Z",
+      "side": 1,
+      "message": "You can just return;",
+      "revId": "8de32392bf9d33135f67dea8e41687d0eb175502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "077254e8_e1a51df5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-13T21:56:55Z",
+      "side": 1,
+      "message": "Call this _computePrivateSectionClass or something like that (similar to _computeBranchClass).",
+      "revId": "8de32392bf9d33135f67dea8e41687d0eb175502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

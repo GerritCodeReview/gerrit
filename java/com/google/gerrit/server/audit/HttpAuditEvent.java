@@ -14,6 +14,7 @@
 package com.google.gerrit.server.audit;
 
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.server.AuditEvent;
 import com.google.gerrit.server.CurrentUser;
 
 public class HttpAuditEvent extends AuditEvent {

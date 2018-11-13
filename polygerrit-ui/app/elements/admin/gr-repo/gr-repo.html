@@ -26,7 +26,7 @@ limitations under the License.
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/gr-subpage-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
-
+<link rel="import" href="../gr-repo-plugin-config/gr-repo-plugin-config.html">
 
 <dom-module id="gr-repo">
   <template>
@@ -347,7 +347,9 @@ limitations under the License.
                 </span>
               </section>
             </fieldset>
-            <!-- TODO @beckysiegel add plugin config widgets -->
+            <gr-repo-plugin-config
+                repo-plugin-config="[[_repoPluginConfig]]">
+            </gr-repo-plugin-config>
             <gr-button
                 on-tap="_handleSaveRepoConfig"
                 disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">Save changes</gr-button>

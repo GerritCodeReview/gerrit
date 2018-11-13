@@ -169,8 +169,7 @@ limitations under the License.
           // Stop the processor and syntax layer (if they're running).
           this.cancel();
 
-          this._builder = this._getDiffBuilder(
-              this.diff, comments.meta.patchRange, prefs);
+          this._builder = this._getDiffBuilder(this.diff, prefs);
 
           this.$.processor.context = prefs.context;
           this.$.processor.keyLocations = this._getKeyLocations(comments,
@@ -294,7 +293,7 @@ limitations under the License.
           throw Error(`Invalid preference value: ${pref}`);
         },
 
-        _getDiffBuilder(diff, patchRange, prefs) {
+        _getDiffBuilder(diff, prefs) {
           if (isNaN(prefs.tab_size) || prefs.tab_size <= 0) {
             this._handlePreferenceError('tab size');
             return;
@@ -307,19 +306,19 @@ limitations under the License.
 
           let builder = null;
           if (this.isImageDiff) {
-            builder = new GrDiffBuilderImage(diff, patchRange,
+            builder = new GrDiffBuilderImage(diff,
               this._commentThreadElements, prefs, this.diffElement,
               this.baseImage, this.revisionImage);
           } else if (diff.binary) {
             // If the diff is binary, but not an image.
-            return new GrDiffBuilderBinary(diff, patchRange,
+            return new GrDiffBuilderBinary(diff,
                 this._commentThreadElements, prefs, this.diffElement);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            builder = new GrDiffBuilderSideBySide(diff, patchRange,
+            builder = new GrDiffBuilderSideBySide(diff,
                 this._commentThreadElements, prefs, this.diffElement,
                 this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            builder = new GrDiffBuilderUnified(diff, patchRange,
+            builder = new GrDiffBuilderUnified(diff,
                 this._commentThreadElements, prefs, this.diffElement,
                 this._layers);
           }

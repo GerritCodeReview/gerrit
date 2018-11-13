@@ -75,8 +75,7 @@ limitations under the License.
         show_tabs: true,
         tab_size: 4,
       };
-      builder = new GrDiffBuilder(
-          {content: []}, {left: [], right: []}, [], prefs);
+      builder = new GrDiffBuilder({content: []}, [], prefs);
     });
 
     teardown(() => { sandbox.restore(); });
@@ -329,9 +328,7 @@ limitations under the License.
       r5.setAttribute('comment-side', 'right');
       r5.setAttribute('line-num', 5);
 
-      builder = new GrDiffBuilder(
-          {content: []}, {basePatchNum: 'PARENT', patchNum: '3'}, [l3, l5, r5],
-          prefs);
+      builder = new GrDiffBuilder({content: []}, [l3, l5, r5], prefs);
 
       function checkThreadGroupProps(threadGroupEl,
           expectedThreadEls) {
@@ -357,8 +354,6 @@ limitations under the License.
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
       checkThreadGroupProps(threadGroupEl, [l5]);
 
-      builder._patchRange.basePatchNum = '1';
-
       threadGroupEl = builder._commentThreadGroupForLine(line);
       checkThreadGroupProps(threadGroupEl, [l5, r5]);
 
@@ -369,8 +364,6 @@ limitations under the License.
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
       checkThreadGroupProps(threadGroupEl, [r5]);
-
-      builder._patchRange.basePatchNum = 'PARENT';
 
       line = new GrDiffLine(GrDiffLine.Type.REMOVE);
       line.beforeNumber = 5;
@@ -389,7 +382,7 @@ limitations under the License.
     test('_handlePreferenceError called with invalid preference', () => {
       sandbox.stub(element, '_handlePreferenceError');
       const prefs = {tab_size: 0};
-      element._getDiffBuilder(element.diff, undefined, prefs);
+      element._getDiffBuilder(element.diff, prefs);
       assert.isTrue(element._handlePreferenceError.lastCall
           .calledWithExactly('tab size'));
     });
@@ -947,8 +940,7 @@ limitations under the License.
         outputEl = element.queryEffectiveChildren('#diffTable');
         comments = {left: [], right: [], meta: {patchRange: undefined}};
         sandbox.stub(element, '_getDiffBuilder', () => {
-          const builder = new GrDiffBuilder(
-              {content}, undefined, [], prefs, outputEl);
+          const builder = new GrDiffBuilder({content}, [], prefs, outputEl);
           sandbox.stub(builder, 'addColumns');
           builder.buildSectionElement = function(group) {
             const section = document.createElement('stub');

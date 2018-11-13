@@ -161,7 +161,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
 
     Base base = rebaseUtil.parseBase(rsrc, str);
     if (base == null) {
-      throw new ResourceConflictException("base revision is missing: " + str);
+      throw new ResourceConflictException(
+          "base revision is missing from the destination branch: " + str);
     }
     PatchSet.Id baseId = base.patchSet().getId();
     if (change.getId().equals(baseId.getParentKey())) {

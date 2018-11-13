@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "face5d61_23e88eb2",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-13T17:02:08Z",
+      "side": 1,
+      "message": "TBH, I think this is going overboard. These tests are effectively testing https://gerrit-review.googlesource.com/c/gerrit/+/203797/7/java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java#47 which is about 10 lines of code, and just copies some data from the Builder into CreateProjectArgs. It\u0027s hard to make this test be anything but a change detector, https://sites.google.com/a/google.com/tater-tott/posts/2014/09/episode_350__change_detector_tests_considered_harmful\n\nthe exhaustive testing is also wasteful, because the code is exercised in the proper *IT.java tests. If something is wrong in this code, it will trigger test failures there.\n\nFinally, some aspects are not specified in the interface so I can make up my mind later about what how they\u0027re supposed to work (eg. defaults), and pinning down the behavior with a test will overspecify the behavior, causing extra work on the tests when I want to change it later on.",
+      "parentUuid": "09796053_96dbdbf3",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 38
+      },
+      "revId": "d53993122368ddb51fb8194a9b967ff5dd0136bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "62c001e6_51d382c8",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e7608982_109a727d",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-13T17:02:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62c001e6_51d382c8",
+      "range": {
+        "startLine": 30,
+        "startChar": 10,
+        "endLine": 30,
+        "endChar": 19
+      },
+      "revId": "d53993122368ddb51fb8194a9b967ff5dd0136bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d360e5d5_65a92181",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
         "patchSetId": 7
@@ -59,6 +107,30 @@
       "writtenOn": "2018-11-13T12:25:20Z",
       "side": 1,
       "message": "The test succeeds without this line. As it is not an assertion either, I\u0027ve been wondering if it could be deleted.",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "d53993122368ddb51fb8194a9b967ff5dd0136bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe81886b_1b68434f",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-13T17:02:08Z",
+      "side": 1,
+      "message": "I have to check if the project exists, right? If it deosn\u0027t exist, this would throw RestApiException.",
+      "parentUuid": "d360e5d5_65a92181",
       "range": {
         "startLine": 35,
         "startChar": 4,

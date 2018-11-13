@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d23dfac_a1e718ce",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-13T17:22:45Z",
+      "side": 1,
+      "message": "I think we should name this EDIT_TOPIC, in anticipation of broader functionality.",
+      "revId": "3dc0fe90fb18c199893412d0a587b416b6bf3d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

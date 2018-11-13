@@ -324,14 +324,10 @@
       if (!weblinks || !weblinks.length) return [];
       return weblinks.filter(weblink => !this._isDirectCommit(weblink)).map(
           ({name, url}) => {
-            if (url.startsWith('https:') || url.startsWith('http:')) {
-              return {name, url};
-            } else {
-              return {
-                name,
-                url: `../../${url}`,
-              };
+            if (!url.startsWith('https:') && !url.startsWith('http:')) {
+              url = this.getBaseUrl() + (url.startsWith('/') ? '' : '/') + url;
             }
+            return {name, url};
           });
     },
 

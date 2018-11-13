@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.update;
 
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.server.git.LockFailureException;
 import java.io.IOException;
@@ -101,6 +102,32 @@ public class RefUpdateUtil {
       throw new LockFailureException("Update aborted with one or more lock failures: " + bru, bru);
     } else if (failure > 0) {
       throw new IOException("Update failed: " + bru);
+    }
+  }
+
+  /**
+   * Check results of a single ref update, throwing an exception if there was a failure.
+   *
+   * @param ru ref update; must already have been executed.
+   * @throws IllegalArgumentException if the result was {@code NOT_ATTEMPTED}.
+   * @throws LockFailureException if the result was {@code LOCK_FAILURE}.
+   * @throws IOException if the result failed for another reason.
+   */
+  public static void checkResult(RefUpdate ru) throws IOException {
+    RefUpdate.Result result = ru.getResult();
+    switch (result) {
+      case NOT_ATTEMPTED:
+        throw new IllegalArgumentException("Not attempted: " + ru.getName());
+      case NEW:
+      case FORCED:
+      case NO_CHANGE:
+      case FAST_FORWARD:
+      case RENAMED:
+        return;
+      case LOCK_FAILURE:
+        throw new LockFailureException("Failed to update " + ru.getName() + ": " + result, ru);
+      default:
+        throw new IOException("Failed to update " + ru.getName() + ": " + ru.getResult());
     }
   }
 

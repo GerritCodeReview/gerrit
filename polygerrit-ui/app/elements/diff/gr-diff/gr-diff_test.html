@@ -302,8 +302,7 @@ limitations under the License.
 
         const mock = document.createElement('mock-diff-response');
         element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder(
-            mock.diffResponse, {left: [], right: []},
-            {tab_size: 2, line_length: 80});
+            mock.diffResponse, {tab_size: 2, line_length: 80});
 
         // No thread groups.
         assert.isNotOk(element._getThreadGroupForLine(contentEl));

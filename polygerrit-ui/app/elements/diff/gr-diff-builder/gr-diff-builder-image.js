@@ -22,9 +22,9 @@
 
   const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|jpeg|jpg|png|tiff|webp)$/;
 
-  function GrDiffBuilderImage(diff, patchRange, commentThreadEls, prefs,
+  function GrDiffBuilderImage(diff, commentThreadEls, prefs,
       outputEl, baseImage, revisionImage) {
-    GrDiffBuilderSideBySide.call(this, diff, patchRange, commentThreadEls,
+    GrDiffBuilderSideBySide.call(this, diff, commentThreadEls,
         prefs, outputEl, []);
     this._baseImage = baseImage;
     this._revisionImage = revisionImage;

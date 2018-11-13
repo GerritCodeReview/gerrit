@@ -357,8 +357,6 @@ limitations under the License.
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
       checkThreadGroupProps(threadGroupEl, [l5]);
 
-      builder._patchRange.basePatchNum = '1';
-
       threadGroupEl = builder._commentThreadGroupForLine(line);
       checkThreadGroupProps(threadGroupEl, [l5, r5]);
 
@@ -369,8 +367,6 @@ limitations under the License.
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
       checkThreadGroupProps(threadGroupEl, [r5]);
-
-      builder._patchRange.basePatchNum = 'PARENT';
 
       line = new GrDiffLine(GrDiffLine.Type.REMOVE);
       line.beforeNumber = 5;

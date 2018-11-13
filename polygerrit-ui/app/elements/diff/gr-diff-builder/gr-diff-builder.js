@@ -96,10 +96,9 @@
    */
   const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, patchRange, commentThreadEls, prefs,
+  function GrDiffBuilder(diff, commentThreadEls, prefs,
       outputEl, layers) {
     this._diff = diff;
-    this._patchRange = patchRange;
     this._prefs = prefs;
     this._outputEl = outputEl;
     this.groups = [];

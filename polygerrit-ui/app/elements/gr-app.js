@@ -203,6 +203,8 @@
           this.Shortcut.TOGGLE_CHANGE_STAR, 's');
       this.bindShortcut(
           this.Shortcut.REFRESH_CHANGE_LIST, 'shift+r');
+      this.bindShortcut(
+          this.Shortcut.EDIT_TOPIC, 't');
 
       this.bindShortcut(
           this.Shortcut.OPEN_REPLY_DIALOG, 'a');

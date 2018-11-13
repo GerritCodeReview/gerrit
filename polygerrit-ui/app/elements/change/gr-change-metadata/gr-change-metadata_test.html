@@ -587,6 +587,20 @@ limitations under the License.
       });
     });
 
+    test('editTopic', () => {
+      element.account = {test: true};
+      element.change = {actions: {topic: {enabled: true}}};
+      flushAsynchronousOperations();
+
+      const label = element.$$('.topicEditableLabel');
+      assert.ok(label);
+      sandbox.stub(label, 'open');
+      element.editTopic();
+      flushAsynchronousOperations();
+
+      assert.isTrue(label.open.called);
+    });
+
     suite('plugin endpoints', () => {
       test('endpoint params', done => {
         element.change = {labels: {}};

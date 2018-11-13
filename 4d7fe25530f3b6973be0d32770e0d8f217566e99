@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8df9393e_9196a333",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-13T22:19:21Z",
+      "side": 1,
+      "message": "Why do we sort by ID?",
+      "revId": "4d7fe25530f3b6973be0d32770e0d8f217566e99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80566943_9a0b17b3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-13T22:19:21Z",
+      "side": 1,
+      "message": "Could this become an async test?",
+      "revId": "4d7fe25530f3b6973be0d32770e0d8f217566e99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

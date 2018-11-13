@@ -34,10 +34,10 @@
       range: {
         type: Object,
         value: {
-          startLine: NaN,
-          startChar: NaN,
-          endLine: NaN,
-          endChar: NaN,
+          start_line: NaN,
+          start_character: NaN,
+          end_line: NaN,
+          end_character: NaN,
         },
       },
       positionBelow: Boolean,

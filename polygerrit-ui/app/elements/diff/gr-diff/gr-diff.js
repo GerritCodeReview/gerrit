@@ -305,7 +305,7 @@
     _handleCreateRangeComment(e) {
       const range = e.detail.range;
       const side = e.detail.side;
-      const lineNum = range.endLine;
+      const lineNum = range.end_line;
       const lineEl = this.$.diffBuilder.getLineElByNumber(lineNum, side);
 
       if (this._isValidElForComment(lineEl)) {

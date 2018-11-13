@@ -318,10 +318,10 @@ limitations under the License.
         const actionBox = element.$$('gr-selection-action-box');
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 138,
-          startChar: 5,
-          endLine: 138,
-          endChar: 12,
+          start_line: 138,
+          start_character: 5,
+          end_line: 138,
+          end_character: 12,
         });
         assert.equal(getActionSide(), 'left');
         assert.notOk(actionBox.positionBelow);
@@ -337,10 +337,10 @@ limitations under the License.
         const actionBox = element.$$('gr-selection-action-box');
 
         assert.deepEqual(getActionRange(), {
-          startLine: 119,
-          startChar: 10,
-          endLine: 120,
-          endChar: 36,
+          start_line: 119,
+          start_character: 10,
+          end_line: 120,
+          end_character: 36,
         });
         assert.equal(getActionSide(), 'right');
         assert.notOk(actionBox.positionBelow);
@@ -370,10 +370,10 @@ limitations under the License.
         element._handleSelection();
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 119,
-          startChar: 10,
-          endLine: 120,
-          endChar: 36,
+          start_line: 119,
+          start_character: 10,
+          end_line: 120,
+          end_character: 36,
         });
       });
 
@@ -383,10 +383,10 @@ limitations under the License.
         emulateSelection(startContent.firstChild, 10, endContent.firstChild, 2);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 119,
-          startChar: 10,
-          endLine: 120,
-          endChar: 2,
+          start_line: 119,
+          start_character: 10,
+          end_line: 120,
+          end_character: 2,
         });
         assert.equal(getActionSide(), 'right');
       });
@@ -404,10 +404,10 @@ limitations under the License.
         emulateSelection(hl.firstChild, 2, hl.nextSibling, 7);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 140,
-          startChar: 8,
-          endLine: 140,
-          endChar: 23,
+          start_line: 140,
+          start_character: 8,
+          end_line: 140,
+          end_character: 23,
         });
         assert.equal(getActionSide(), 'left');
       });
@@ -418,10 +418,10 @@ limitations under the License.
         emulateSelection(hl.previousSibling, 2, hl.firstChild, 3);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 140,
-          startChar: 18,
-          endLine: 140,
-          endChar: 27,
+          start_line: 140,
+          start_character: 18,
+          end_line: 140,
+          end_character: 27,
         });
       });
 
@@ -431,10 +431,10 @@ limitations under the License.
         emulateSelection(content.firstChild, 2, hl.firstChild, 2);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 140,
-          startChar: 2,
-          endLine: 140,
-          endChar: 61,
+          start_line: 140,
+          start_character: 2,
+          end_line: 140,
+          end_character: 61,
         });
         assert.equal(getActionSide(), 'left');
       });
@@ -470,10 +470,10 @@ limitations under the License.
         emulateSelection(comment.firstChild, 2, endContent.firstChild, 4);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 140,
-          startChar: 83,
-          endLine: 141,
-          endChar: 4,
+          start_line: 140,
+          start_character: 83,
+          end_line: 141,
+          end_character: 4,
         });
         assert.equal(getActionSide(), 'left');
       });
@@ -485,10 +485,10 @@ limitations under the License.
         emulateSelection(content.firstChild, 4, comment.firstChild, 1);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 140,
-          startChar: 4,
-          endLine: 140,
-          endChar: 83,
+          start_line: 140,
+          start_character: 4,
+          end_line: 140,
+          end_character: 83,
         });
         assert.equal(getActionSide(), 'left');
       });
@@ -517,10 +517,10 @@ limitations under the License.
         emulateSelection(startContent.firstChild, 3, endContent.firstChild, 14);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 130,
-          startChar: 3,
-          endLine: 146,
-          endChar: 14,
+          start_line: 130,
+          start_character: 3,
+          end_line: 146,
+          end_character: 14,
         });
         assert.equal(getActionSide(), 'right');
       });
@@ -531,10 +531,10 @@ limitations under the License.
             content.firstChild, 1, content.querySelector('span'), 0);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 140,
-          startChar: 1,
-          endLine: 140,
-          endChar: 51,
+          start_line: 140,
+          start_character: 1,
+          end_line: 140,
+          end_character: 51,
         });
         assert.equal(getActionSide(), 'left');
       });
@@ -546,10 +546,10 @@ limitations under the License.
             content.querySelectorAll('span')[1].nextSibling, 1);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 140,
-          startChar: 51,
-          endLine: 140,
-          endChar: 71,
+          start_line: 140,
+          start_character: 51,
+          end_line: 140,
+          end_character: 71,
         });
         assert.equal(getActionSide(), 'left');
       });
@@ -582,10 +582,10 @@ limitations under the License.
         emulateSelection(startContent.firstChild, 0, endContent.firstChild, 0);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 119,
-          startChar: 0,
-          endLine: 119,
-          endChar: element._getLength(startContent),
+          start_line: 119,
+          start_character: 0,
+          end_line: 119,
+          end_character: element._getLength(startContent),
         });
         assert.equal(getActionSide(), 'right');
       });
@@ -597,10 +597,10 @@ limitations under the License.
             endContent.parentElement.previousElementSibling, 0);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
-          startLine: 146,
-          startChar: 0,
-          endLine: 146,
-          endChar: 84,
+          start_line: 146,
+          start_character: 0,
+          end_line: 146,
+          end_character: 84,
         });
         assert.equal(getActionSide(), 'right');
       });

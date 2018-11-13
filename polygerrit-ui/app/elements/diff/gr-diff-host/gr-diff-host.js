@@ -45,8 +45,8 @@
     return !!(diff.binary && (isA || isB));
   }
 
-  /** @typedef {{startLine: number, startChar: number,
-   *             endLine: number, endChar: number}} */
+  /** @typedef {{start_line: number, start_character: number,
+   *             end_line: number, end_character: number}} */
   Gerrit.Range;
 
 
@@ -62,10 +62,10 @@
   function rangesEqual(a, b) {
     if (!a && !b) { return true; }
     if (!a || !b) { return false; }
-    return a.startLine === b.startLine &&
-        a.startChar === b.startChar &&
-        a.endLine === b.endLine &&
-        a.endChar === b.endChar;
+    return a.start_line === b.start_line &&
+        a.start_character === b.start_character &&
+        a.end_line === b.end_line &&
+        a.end_character === b.end_character;
   }
 
   /**

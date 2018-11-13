@@ -16,16 +16,25 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.project.CommitResource;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
 public class GetCommit implements RestReadView<CommitResource> {
 
+  private final ExternalIds externalsIds;
+
+  @Inject
+  GetCommit(ExternalIds externalsIds) {
+    this.externalsIds = externalsIds;
+  }
+
   @Override
   public CommitInfo apply(CommitResource rsrc) throws IOException {
-    return CommitUtil.toCommitInfo(rsrc.getCommit());
+    return CommitUtil.toCommitInfo(rsrc.getCommit(), externalsIds);
   }
 }

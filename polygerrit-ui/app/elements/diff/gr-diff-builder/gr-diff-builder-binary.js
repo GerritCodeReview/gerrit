@@ -20,9 +20,9 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderBinary) { return; }
 
-  function GrDiffBuilderBinary(diff, patchRange, commentThreadEls, prefs,
+  function GrDiffBuilderBinary(diff, commentThreadEls, prefs,
       outputEl) {
-    GrDiffBuilder.call(this, diff, patchRange, commentThreadEls, prefs,
+    GrDiffBuilder.call(this, diff, commentThreadEls, prefs,
         outputEl);
   }
 

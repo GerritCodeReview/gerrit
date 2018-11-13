@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e650c5e3_306a7080",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-13T20:22:21Z",
+      "side": 1,
+      "message": "Long line.  This will likely cause CI to fail on the code style check.",
+      "range": {
+        "startLine": 164,
+        "startChar": 97,
+        "endLine": 164,
+        "endChar": 106
+      },
+      "revId": "1f606f60af24362369a15479460d29bb36229b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

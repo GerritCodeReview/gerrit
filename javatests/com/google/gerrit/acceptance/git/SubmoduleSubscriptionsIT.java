@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -47,198 +48,169 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   @Test
   @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "false")
   public void testSubscriptionWithoutGlobalServerSetting() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
 
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
     pushChangeTo(subRepo, "master");
-    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isFalse();
+    assertThat(hasSubmodule(superRepo, "master", subKey)).isFalse();
   }
 
   @Test
   public void subscriptionWithoutSpecificSubscription() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
     pushChangeTo(subRepo, "master");
-    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isFalse();
+    assertThat(hasSubmodule(superRepo, "master", subKey)).isFalse();
   }
 
   @Test
   public void subscriptionToEmptyRepo() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
 
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
+
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
     pushChangeTo(subRepo, "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
-    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isTrue();
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subHEAD);
+    assertThat(hasSubmodule(superRepo, "master", subKey)).isTrue();
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEAD);
   }
 
   @Test
   public void subscriptionToExistingRepo() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
-    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isTrue();
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subHEAD);
+    assertThat(hasSubmodule(superRepo, "master", subKey)).isTrue();
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEAD);
   }
 
   @Test
   public void subscriptionWildcardACLForSingleBranch() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
     // master is allowed to be subscribed to master branch only:
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", null);
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, null);
     // create 'branch':
     pushChangeTo(superRepo, "branch");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
-    createSubmoduleSubscription(superRepo, "branch", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
+    createSubmoduleSubscription(superRepo, "branch", subKey, "master");
 
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
 
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subHEAD);
-    assertThat(hasSubmodule(superRepo, "branch", "subscribed-to-project")).isFalse();
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEAD);
+    assertThat(hasSubmodule(superRepo, "branch", subKey)).isFalse();
   }
 
   @Test
   public void subscriptionWildcardACLForMissingProject() throws Exception {
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
     allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/*", "not-existing-super-project", "refs/heads/*");
+        subKey, "refs/heads/*", new Project.NameKey("not-existing-super-project"), "refs/heads/*");
     pushChangeTo(subRepo, "master");
   }
 
   @Test
   public void subscriptionWildcardACLForMissingBranch() throws Exception {
-    createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/*", "super-project", "refs/heads/*");
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/*", superKey, "refs/heads/*");
     pushChangeTo(subRepo, "foo");
   }
 
   @Test
   public void subscriptionWildcardACLForMissingGitmodules() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/*", "super-project", "refs/heads/*");
+
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/*", superKey, "refs/heads/*");
     pushChangeTo(superRepo, "master");
     pushChangeTo(subRepo, "master");
   }
 
   @Test
   public void subscriptionWildcardACLOneOnOneMapping() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
     // any branch is allowed to be subscribed to the same superprojects branch:
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/*", "super-project", "refs/heads/*");
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/*", superKey, "refs/heads/*");
 
     // create 'branch' in both repos:
     pushChangeTo(superRepo, "branch");
     pushChangeTo(subRepo, "branch");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
-    createSubmoduleSubscription(superRepo, "branch", "subscribed-to-project", "branch");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
+    createSubmoduleSubscription(superRepo, "branch", subKey, "branch");
 
     ObjectId subHEAD1 = pushChangeTo(subRepo, "master");
     ObjectId subHEAD2 = pushChangeTo(subRepo, "branch");
 
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subHEAD1);
-    expectToHaveSubmoduleState(superRepo, "branch", "subscribed-to-project", subHEAD2);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEAD1);
+    expectToHaveSubmoduleState(superRepo, "branch", subKey, subHEAD2);
 
     // Now test that cross subscriptions do not work:
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "branch");
+    createSubmoduleSubscription(superRepo, "master", subKey, "branch");
     ObjectId subHEAD3 = pushChangeTo(subRepo, "branch");
 
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subHEAD1);
-    expectToHaveSubmoduleState(superRepo, "branch", "subscribed-to-project", subHEAD3);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEAD1);
+    expectToHaveSubmoduleState(superRepo, "branch", subKey, subHEAD3);
   }
 
   @Test
   public void subscriptionWildcardACLForManyBranches() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
     // Any branch is allowed to be subscribed to any superproject branch:
-    allowSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/*", "super-project", null, false);
+    allowSubmoduleSubscription(subKey, "refs/heads/*", superKey, null, false);
     pushChangeTo(superRepo, "branch");
     pushChangeTo(subRepo, "another-branch");
-    createSubmoduleSubscription(superRepo, "branch", "subscribed-to-project", "another-branch");
+    createSubmoduleSubscription(superRepo, "branch", subKey, "another-branch");
     ObjectId subHEAD = pushChangeTo(subRepo, "another-branch");
-    expectToHaveSubmoduleState(superRepo, "branch", "subscribed-to-project", subHEAD);
+    expectToHaveSubmoduleState(superRepo, "branch", subKey, subHEAD);
   }
 
   @Test
   public void subscriptionWildcardACLOneToManyBranches() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
     // Any branch is allowed to be subscribed to any superproject branch:
-    allowSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/*", false);
+    allowSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/*", false);
     pushChangeTo(superRepo, "branch");
-    createSubmoduleSubscription(superRepo, "branch", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "branch", subKey, "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
-    expectToHaveSubmoduleState(superRepo, "branch", "subscribed-to-project", subHEAD);
+    expectToHaveSubmoduleState(superRepo, "branch", subKey, subHEAD);
 
-    createSubmoduleSubscription(superRepo, "branch", "subscribed-to-project", "branch");
+    createSubmoduleSubscription(superRepo, "branch", subKey, "branch");
     pushChangeTo(subRepo, "branch");
 
     // no change expected, as only master is subscribed:
-    expectToHaveSubmoduleState(superRepo, "branch", "subscribed-to-project", subHEAD);
+    expectToHaveSubmoduleState(superRepo, "branch", subKey, subHEAD);
   }
 
   @Test
   @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "false")
   public void testSubmoduleShortCommitMessage() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
 
     // The first update doesn't include any commit messages
     ObjectId subRepoId = pushChangeTo(subRepo, "master");
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subRepoId);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subRepoId);
     expectToHaveCommitMessage(superRepo, "master", "Update git submodules\n\n");
 
     // Any following update also has a short message
     subRepoId = pushChangeTo(subRepo, "master");
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subRepoId);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subRepoId);
     expectToHaveCommitMessage(superRepo, "master", "Update git submodules\n\n");
   }
 
   @Test
   @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "SUBJECT_ONLY")
   public void testSubmoduleSubjectCommitMessage() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
 
     // The first update doesn't include the rev log
@@ -248,7 +220,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "master",
         "Update git submodules\n\n"
             + "* Update "
-            + name("subscribed-to-project")
+            + subKey.get()
             + " from branch 'master'\n  to "
             + subHEAD.getName());
 
@@ -261,7 +233,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "master",
         "Update git submodules\n\n"
             + "* Update "
-            + name("subscribed-to-project")
+            + subKey.get()
             + " from branch 'master'\n  to "
             + subHEAD.getName()
             + "\n  - "
@@ -270,13 +242,11 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
   public void submoduleCommitMessage() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
 
     // The first update doesn't include the rev log
@@ -286,7 +256,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "master",
         "Update git submodules\n\n"
             + "* Update "
-            + name("subscribed-to-project")
+            + subKey.get()
             + " from branch 'master'\n  to "
             + subHEAD.getName());
 
@@ -299,7 +269,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "master",
         "Update git submodules\n\n"
             + "* Update "
-            + name("subscribed-to-project")
+            + subKey.get()
             + " from branch 'master'\n  to "
             + subHEAD.getName()
             + "\n  - "
@@ -308,171 +278,151 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
   public void subscriptionUnsubscribe() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
 
     pushChangeTo(subRepo, "master");
     ObjectId subHEADbeforeUnsubscribing = pushChangeTo(subRepo, "master");
 
     deleteAllSubscriptions(superRepo, "master");
-    expectToHaveSubmoduleState(
-        superRepo, "master", "subscribed-to-project", subHEADbeforeUnsubscribing);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEADbeforeUnsubscribing);
 
     pushChangeTo(superRepo, "refs/heads/master", "commit after unsubscribe", "");
     pushChangeTo(subRepo, "refs/heads/master", "commit after unsubscribe", "");
-    expectToHaveSubmoduleState(
-        superRepo, "master", "subscribed-to-project", subHEADbeforeUnsubscribing);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEADbeforeUnsubscribing);
   }
 
   @Test
   public void subscriptionUnsubscribeByDeletingGitModules() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
 
     pushChangeTo(subRepo, "master");
     ObjectId subHEADbeforeUnsubscribing = pushChangeTo(subRepo, "master");
 
     deleteGitModulesFile(superRepo, "master");
-    expectToHaveSubmoduleState(
-        superRepo, "master", "subscribed-to-project", subHEADbeforeUnsubscribing);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEADbeforeUnsubscribing);
 
     pushChangeTo(superRepo, "refs/heads/master", "commit after unsubscribe", "");
     pushChangeTo(subRepo, "refs/heads/master", "commit after unsubscribe", "");
-    expectToHaveSubmoduleState(
-        superRepo, "master", "subscribed-to-project", subHEADbeforeUnsubscribing);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEADbeforeUnsubscribing);
   }
 
   @Test
   public void subscriptionToDifferentBranches() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/foo", "super-project", "refs/heads/master");
 
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "foo");
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/foo", superKey, "refs/heads/master");
+
+    createSubmoduleSubscription(superRepo, "master", subKey, "foo");
     ObjectId subFoo = pushChangeTo(subRepo, "foo");
     pushChangeTo(subRepo, "master");
 
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subFoo);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subFoo);
   }
 
   @Test
   public void branchCircularSubscription() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
-    allowMatchingSubmoduleSubscription(
-        "super-project", "refs/heads/master", "subscribed-to-project", "refs/heads/master");
+
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
+    allowMatchingSubmoduleSubscription(superKey, "refs/heads/master", subKey, "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
     pushChangeTo(superRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
-    createSubmoduleSubscription(subRepo, "master", "super-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
+    createSubmoduleSubscription(subRepo, "master", superKey, "master");
 
     pushChangeTo(subRepo, "master");
     pushChangeTo(superRepo, "master");
 
-    assertThat(hasSubmodule(subRepo, "master", "super-project")).isFalse();
-    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isFalse();
+    assertThat(hasSubmodule(subRepo, "master", superKey)).isFalse();
+    assertThat(hasSubmodule(superRepo, "master", subKey)).isFalse();
   }
 
   @Test
   public void projectCircularSubscription() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
-    allowMatchingSubmoduleSubscription(
-        "super-project", "refs/heads/dev", "subscribed-to-project", "refs/heads/dev");
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
+    allowMatchingSubmoduleSubscription(superKey, "refs/heads/dev", subKey, "refs/heads/dev");
 
     pushChangeTo(subRepo, "master");
     pushChangeTo(superRepo, "master");
     pushChangeTo(subRepo, "dev");
     pushChangeTo(superRepo, "dev");
 
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
-    createSubmoduleSubscription(subRepo, "dev", "super-project", "dev");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
+    createSubmoduleSubscription(subRepo, "dev", superKey, "dev");
 
     ObjectId subMasterHead = pushChangeTo(subRepo, "master");
     ObjectId superDevHead = pushChangeTo(superRepo, "dev");
 
-    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isTrue();
-    assertThat(hasSubmodule(subRepo, "dev", "super-project")).isTrue();
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subMasterHead);
-    expectToHaveSubmoduleState(subRepo, "dev", "super-project", superDevHead);
+    assertThat(hasSubmodule(superRepo, "master", subKey)).isTrue();
+    assertThat(hasSubmodule(subRepo, "dev", superKey)).isTrue();
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subMasterHead);
+    expectToHaveSubmoduleState(subRepo, "dev", superKey, superDevHead);
   }
 
   @Test
   public void subscriptionFailOnMissingACL() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
     pushChangeTo(subRepo, "master");
-    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isFalse();
+    assertThat(hasSubmodule(superRepo, "master", subKey)).isFalse();
   }
 
   @Test
   public void subscriptionFailOnWrongProjectACL() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
     allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "wrong-super-project", "refs/heads/master");
+        subKey,
+        "refs/heads/master",
+        new Project.NameKey("wrong-super-project"),
+        "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
     pushChangeTo(subRepo, "master");
-    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isFalse();
+    assertThat(hasSubmodule(superRepo, "master", subKey)).isFalse();
   }
 
   @Test
   public void subscriptionFailOnWrongBranchACL() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
     allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/wrong-branch");
+        subKey, "refs/heads/master", superKey, "refs/heads/wrong-branch");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
     pushChangeTo(subRepo, "master");
-    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isFalse();
+    assertThat(hasSubmodule(superRepo, "master", subKey)).isFalse();
   }
 
   @Test
   public void subscriptionInheritACL() throws Exception {
-    createProjectWithPush("config-repo");
-    createProjectWithPush("config-repo2", new Project.NameKey(name("config-repo")));
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo =
-        createProjectWithPush("subscribed-to-project", new Project.NameKey(name("config-repo2")));
-    allowMatchingSubmoduleSubscription(
-        "config-repo", "refs/heads/*", "super-project", "refs/heads/*");
+    Project.NameKey configKey = createProjectForPush("config-repo", null, true, getSubmitType());
+    Project.NameKey config2Key =
+        createProjectForPush("config-repo2", configKey, true, getSubmitType());
+    cloneProject(config2Key);
+
+    subKey = createProjectForPush("subrepo", config2Key, true, getSubmitType());
+    subRepo = cloneProject(subKey);
+
+    allowMatchingSubmoduleSubscription(configKey, "refs/heads/*", superKey, "refs/heads/*");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subHEAD);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEAD);
   }
 
   @Test
   public void allowedButNotSubscribed() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
     subRepo
@@ -490,16 +440,16 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     assertThat(r.getRemoteUpdate("refs/heads/master").getStatus())
         .isEqualTo(RemoteRefUpdate.Status.OK);
 
-    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isFalse();
+    assertThat(hasSubmodule(superRepo, "master", subKey)).isFalse();
   }
 
   @Test
   public void subscriptionDeepRelative() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("nested/subscribed-to-project");
+    Project.NameKey nest =
+        createProjectForPush("nested/subscribed-to-project", null, true, getSubmitType());
+    TestRepository<?> subRepo = cloneProject(nest);
     // master is allowed to be subscribed to any superprojects branch:
-    allowMatchingSubmoduleSubscription(
-        "nested/subscribed-to-project", "refs/heads/master", "super-project", null);
+    allowMatchingSubmoduleSubscription(nest, "refs/heads/master", superKey, null);
 
     pushChangeTo(subRepo, "master");
     createRelativeSubmoduleSubscription(
@@ -530,11 +480,10 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     // Make sure that the commit is created at an earlier timestamp than the submit timestamp.
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     try {
-      TestRepository<?> superRepo = createProjectWithPush("super-project");
-      TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
       allowMatchingSubmoduleSubscription(
-          "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
-      createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+          subKey, "refs/heads/master", superKey, "refs/heads/master");
+      createSubmoduleSubscription(superRepo, "master", subKey, "master");
 
       PushOneCommit.Result pushResult =
           createChange(subRepo, "refs/heads/master", "Change", "a.txt", "some content", null);
@@ -561,18 +510,18 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     // is afterwards.
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     try {
-      TestRepository<?> superRepo = createProjectWithPush("super-project");
-      TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-      TestRepository<?> subRepo2 = createProjectWithPush("subscribed-to-project-2");
 
+      Project.NameKey proj2 =
+          createProjectForPush("subscribed-to-project-2", null, true, getSubmitType());
+
+      TestRepository<?> subRepo2 = cloneProject(proj2);
       allowMatchingSubmoduleSubscription(
-          "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
-      allowMatchingSubmoduleSubscription(
-          "subscribed-to-project-2", "refs/heads/master", "super-project", "refs/heads/master");
+          subKey, "refs/heads/master", superKey, "refs/heads/master");
+      allowMatchingSubmoduleSubscription(proj2, "refs/heads/master", superKey, "refs/heads/master");
 
       Config config = new Config();
-      prepareSubmoduleConfigEntry(config, "subscribed-to-project", "master");
-      prepareSubmoduleConfigEntry(config, "subscribed-to-project-2", "master");
+      prepareSubmoduleConfigEntry(config, subKey, subKey, "master");
+      prepareSubmoduleConfigEntry(config, proj2, proj2, "master");
       pushSubmoduleConfig(superRepo, "master", config);
 
       String topic = "foo";
@@ -610,21 +559,17 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     // is afterwards.
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     try {
-      TestRepository<?> superRepo = createProjectWithPush("super-project");
-      TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-
-      createProjectWithPush("subscribed-to-project-2");
-      TestRepository<?> subRepo2 =
-          cloneProject(new Project.NameKey(name("subscribed-to-project-2")), user);
+      Project.NameKey proj2 =
+          createProjectForPush("subscribed-to-project-2", null, true, getSubmitType());
+      TestRepository<InMemoryRepository> repo2 = cloneProject(proj2, user);
 
       allowMatchingSubmoduleSubscription(
-          "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
-      allowMatchingSubmoduleSubscription(
-          "subscribed-to-project-2", "refs/heads/master", "super-project", "refs/heads/master");
+          subKey, "refs/heads/master", superKey, "refs/heads/master");
+      allowMatchingSubmoduleSubscription(proj2, "refs/heads/master", superKey, "refs/heads/master");
 
       Config config = new Config();
-      prepareSubmoduleConfigEntry(config, "subscribed-to-project", "master");
-      prepareSubmoduleConfigEntry(config, "subscribed-to-project-2", "master");
+      prepareSubmoduleConfigEntry(config, subKey, subKey, "master");
+      prepareSubmoduleConfigEntry(config, proj2, proj2, "master");
       pushSubmoduleConfig(superRepo, "master", config);
 
       String topic = "foo";
@@ -636,7 +581,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
       // Create change as user.
       PushOneCommit push =
-          pushFactory.create(db, user.getIdent(), subRepo2, "Change 2", "b.txt", "other content");
+          pushFactory.create(db, user.getIdent(), repo2, "Change 2", "b.txt", "other content");
       PushOneCommit.Result pushResult2 = push.to("refs/for/master/" + name(topic));
       approve(pushResult2.getChangeId());
 
@@ -659,14 +604,15 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
   public void updateOnlyRelevantSubmodules() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo1 = createProjectWithPush("subscribed-to-project-1");
-    TestRepository<?> subRepo2 = createProjectWithPush("subscribed-to-project-2");
+    Project.NameKey subkey1 =
+        createProjectForPush("subscribed-to-project-1", null, true, getSubmitType());
+    Project.NameKey subkey2 =
+        createProjectForPush("subscribed-to-project-2", null, true, getSubmitType());
+    TestRepository<?> subRepo1 = cloneProject(subkey1);
+    TestRepository<?> subRepo2 = cloneProject(subkey2);
 
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project-1", "refs/heads/master", "super-project", "refs/heads/master");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project-2", "refs/heads/master", "super-project", "refs/heads/master");
+    allowMatchingSubmoduleSubscription(subkey1, "refs/heads/master", superKey, "refs/heads/master");
+    allowMatchingSubmoduleSubscription(subkey2, "refs/heads/master", superKey, "refs/heads/master");
 
     Config config = new Config();
     prepareSubmoduleConfigEntry(config, "subscribed-to-project-1", "master");
@@ -689,41 +635,36 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
   public void skipUpdatingBrokenGitlinkPointer() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
 
     // Push once to initialize submodule.
     ObjectId subTip = pushChangeTo(subRepo, "master");
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subTip);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subTip);
 
     // Write an invalid SHA-1 directly to the gitlink.
     ObjectId badId = ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
-    directUpdateSubmodule("super-project", "refs/heads/master", "subscribed-to-project", badId);
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", badId);
+    directUpdateSubmodule(superKey, "refs/heads/master", subKey, badId);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, badId);
 
     // Push succeeds, but gitlink update is skipped.
     pushChangeTo(subRepo, "master");
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", badId);
+    expectToHaveSubmoduleState(superRepo, "master", subKey, badId);
   }
 
   private ObjectId directUpdateRef(String project, String ref) throws Exception {
-    try (Repository serverRepo = repoManager.openRepository(new Project.NameKey(name(project)))) {
+    try (Repository serverRepo = repoManager.openRepository(nameKey(project))) {
       return new TestRepository<>(serverRepo).branch(ref).commit().create().copy();
     }
   }
 
   private void testSubmoduleSubjectCommitMessageAndExpectTruncation() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
     // The first update doesn't include the rev log, so we ignore it
     pushChangeTo(subRepo, "master");
 
@@ -736,6 +677,6 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "master",
         String.format(
             "Update git submodules\n\n* Update %s from branch 'master'\n  to %s\n  - %s\n\n[...]",
-            name("subscribed-to-project"), subHEAD.getName(), subCommitMsg.getShortMessage()));
+            subKey.get(), subHEAD.getName(), subCommitMsg.getShortMessage()));
   }
 }

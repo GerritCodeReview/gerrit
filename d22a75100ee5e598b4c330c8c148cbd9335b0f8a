@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f5cd1ca_5925f001",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-13T20:38:50Z",
+      "side": 1,
+      "message": "The spacing between items could get messy if any of these parts are empty. I recommend something like:\n\n  name \u003d [reviewerName, reviewerEmail, reviewerStatus].filter(p \u003d\u003e p.length \u003e 0).join(\u0027 \u0027)",
+      "revId": "d22a75100ee5e598b4c330c8c148cbd9335b0f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

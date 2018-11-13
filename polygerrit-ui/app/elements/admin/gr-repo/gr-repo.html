@@ -347,7 +347,24 @@ limitations under the License.
                 </span>
               </section>
             </fieldset>
-            <!-- TODO @beckysiegel add plugin config widgets -->
+            <template is="dom-repeat" items="[[_repoPluginConfig]]" as="config">
+              <h3 id="Options">[[config.name]] Plugin</h3>
+              <template is="dom-repeat" items="[[_toArray(config)]]" as="pluginConfig">
+                <span class="title">[[pluginConfig.val.display_name]]</span>
+                <span class="value">
+                  <gr-select
+                        id$="pluginSelect[[config.name]]"
+                        bind-value="{{pluginConfig.val.value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatPluginBooleanSelect(pluginConfig.val.permitted_values)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </template>
+            </template>
             <gr-button
                 on-tap="_handleSaveRepoConfig"
                 disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">Save changes</gr-button>

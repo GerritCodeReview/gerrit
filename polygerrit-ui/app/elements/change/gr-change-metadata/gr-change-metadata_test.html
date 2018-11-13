@@ -296,6 +296,107 @@ limitations under the License.
           element._computeShowUploaderHide(change), 'hideDisplay');
     });
 
+    test('Push Certificate Validation test BAD', () => {
+      const serverConfig = {
+        receive: {
+          enable_signed_push: true,
+        },
+      };
+      const change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {
+          _account_id: 1019328,
+        },
+        revisions: {
+          rev1: {
+            _number: 1,
+            push_certificate: {
+              key: {
+                status: 'BAD',
+                problems: [
+                  'No public keys found for key ID E5E20E52',
+                ],
+              },
+            },
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        mergeable: true,
+      };
+      assert.equal(element._computePushCertificateValidation(
+          serverConfig, change).message,
+          'Push certificate is invalid:\n' +
+          'No public keys found for key ID E5E20E52');
+      assert.equal(element._computePushCertificateValidation(
+          serverConfig, change).icon,
+          'gr-icons:close');
+    });
+
+    test('Push Certificate Validation test TRUSTED', () => {
+      const serverConfig = {
+        receive: {
+          enable_signed_push: true,
+        },
+      };
+      const change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {
+          _account_id: 1019328,
+        },
+        revisions: {
+          rev1: {
+            _number: 1,
+            push_certificate: {
+              key: {
+                status: 'TRUSTED',
+              },
+            },
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        mergeable: true,
+      };
+      assert.equal(element._computePushCertificateValidation(
+          serverConfig, change).message,
+          'Push certificate is valid and key is trusted');
+      assert.equal(element._computePushCertificateValidation(
+          serverConfig, change).icon,
+          'gr-icons:check');
+    });
+
+    test('Push Certificate Validation is missing test', () => {
+      const serverConfig = {
+        receive: {
+          enable_signed_push: true,
+        },
+      };
+      const change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {
+          _account_id: 1019328,
+        },
+        revisions: {
+          rev1: {
+            _number: 1,
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        mergeable: true,
+      };
+      assert.equal(element._computePushCertificateValidation(
+          serverConfig, change).message,
+          'This patch set was created without a push certificate');
+      assert.equal(element._computePushCertificateValidation(
+          serverConfig, change).icon,
+          'gr-icons:help');
+    });
+
     test('_computeParents', () => {
       const parents = [{commit: '123', subject: 'abc'}];
       assert.isUndefined(element._computeParents(

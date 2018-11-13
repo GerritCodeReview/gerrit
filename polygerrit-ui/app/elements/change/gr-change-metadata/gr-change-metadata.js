@@ -30,6 +30,24 @@
 
   const NOT_CURRENT_MESSAGE = 'Not current - rebase possible';
 
+  /**
+   * @enum {string}
+   */
+  const CertificateStatus = {
+    /**
+     * This certificate status is bad.
+     */
+    BAD: 'BAD',
+    /**
+     * This certificate status is OK.
+     */
+    OK: 'OK',
+    /**
+     * This certificate status is TRUSTED.
+     */
+    TRUSTED: 'TRUSTED',
+  };
+
   Polymer({
     is: 'gr-change-metadata',
 
@@ -75,6 +93,10 @@
       _showReviewersByState: {
         type: Boolean,
         computed: '_computeShowReviewersByState(serverConfig)',
+      },
+      _pushCertificateValidation: {
+        type: Object,
+        computed: '_computePushCertificateValidation(serverConfig, change)',
       },
       _showRequirements: {
         type: Boolean,
@@ -246,6 +268,53 @@
       const hasLabels = !!change.labels &&
           Object.keys(change.labels).length > 0;
       return hasRequirements || hasLabels || !!change.work_in_progress;
+    },
+
+    _computePushCertificateValidation(serverConfig, change) {
+      if (!serverConfig || !serverConfig.receive ||
+          !serverConfig.receive.enable_signed_push) {
+        return null;
+      }
+      const rev = change.revisions[change.current_revision];
+      if (!rev.push_certificate || !rev.push_certificate.key) {
+        return {
+          icon: 'gr-icons:help',
+          message: 'This patch set was created without a push certificate',
+        };
+      }
+
+      const key = rev.push_certificate.key;
+      switch (key.status) {
+        case CertificateStatus.BAD:
+          return {
+            icon: 'gr-icons:close',
+            message: this._problems('Push certificate is invalid', key),
+          };
+        case CertificateStatus.OK:
+          return {
+            icon: 'gr-icons:info',
+            message: this._problems(
+                'Push certificate is valid, but key is not trusted', key),
+          };
+        case CertificateStatus.TRUSTED:
+          return {
+            icon: 'gr-icons:check',
+            message: this._problems(
+                'Push certificate is valid and key is trusted', key),
+          };
+      }
+    },
+
+    _problems(msg, key) {
+      if (!key || !key.problems || key.problems.length === 0) {
+        return msg;
+      }
+
+      let problems = msg + ':';
+      for (const p of key.problems) {
+        problems += '\n' + p;
+      }
+      return problems;
     },
 
     _computeProjectURL(project) {

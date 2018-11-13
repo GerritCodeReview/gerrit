@@ -137,6 +137,15 @@ limitations under the License.
         <span class="title">Owner</span>
         <span class="value">
           <gr-account-link account="[[change.owner]]"></gr-account-link>
+          <template is="dom-if" if="[[_pushCertificateValidation]]">
+            <span
+              title="[[_pushCertificateValidation.message]]">
+              <iron-icon
+                  class="icon"
+                  icon="[[_pushCertificateValidation.icon]]">
+              </iron-icon>
+            </span>
+          </template>
         </span>
       </section>
       <section class$="[[_computeShowUploaderHide(change)]]">

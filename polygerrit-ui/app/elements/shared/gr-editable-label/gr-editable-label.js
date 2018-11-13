@@ -99,6 +99,12 @@
       });
     },
 
+    open() {
+      return this._open().then(() => {
+        this.$.input.$.input.focus();
+      });
+    },
+
     _open(...args) {
       this.$.dropdown.open();
       this._inputText = this.value;

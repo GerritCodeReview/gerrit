@@ -68,8 +68,10 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void subscriptionUpdateOfManyChanges() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    TestRepository<?> superRepo =
+        createProjectWithPush("super-project", null, true, getSubmitType());
+    TestRepository<?> subRepo =
+        createProjectWithPush("subscribed-to-project", null, true, getSubmitType());
     allowMatchingSubmoduleSubscription(
         "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
 
@@ -176,8 +178,10 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void subscriptionUpdateIncludingChangeInSuperproject() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    TestRepository<?> superRepo =
+        createProjectWithPush("super-project", null, true, getSubmitType());
+    TestRepository<?> subRepo =
+        createProjectWithPush("subscribed-to-project", null, true, getSubmitType());
     allowMatchingSubmoduleSubscription(
         "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
 
@@ -279,10 +283,11 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void updateManySubmodules() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> sub1 = createProjectWithPush("sub1");
-    TestRepository<?> sub2 = createProjectWithPush("sub2");
-    TestRepository<?> sub3 = createProjectWithPush("sub3");
+    TestRepository<?> superRepo =
+        createProjectWithPush("super-project", null, true, getSubmitType());
+    TestRepository<?> sub1 = createProjectWithPush("sub1", null, true, getSubmitType());
+    TestRepository<?> sub2 = createProjectWithPush("sub2", null, true, getSubmitType());
+    TestRepository<?> sub3 = createProjectWithPush("sub3", null, true, getSubmitType());
 
     allowMatchingSubmoduleSubscription(
         "sub1", "refs/heads/master", "super-project", "refs/heads/master");
@@ -374,8 +379,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void doNotUseFastForward() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project", false);
-    TestRepository<?> sub = createProjectWithPush("sub", false);
+    TestRepository<?> superRepo =
+        createProjectWithPush("super-project", null, false, getSubmitType());
+    TestRepository<?> sub = createProjectWithPush("sub", null, false, getSubmitType());
 
     allowMatchingSubmoduleSubscription(
         "sub", "refs/heads/master", "super-project", "refs/heads/master");
@@ -400,8 +406,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void useFastForwardWhenNoSubmodule() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project", false);
-    TestRepository<?> sub = createProjectWithPush("sub", false);
+    TestRepository<?> superRepo =
+        createProjectWithPush("super-project", null, false, getSubmitType());
+    TestRepository<?> sub = createProjectWithPush("sub", null, false, getSubmitType());
 
     ObjectId subId = pushChangeTo(sub, "refs/for/master", "some message", "same-topic");
 
@@ -420,8 +427,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void sameProjectSameBranchDifferentPaths() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> sub = createProjectWithPush("sub");
+    TestRepository<?> superRepo =
+        createProjectWithPush("super-project", null, true, getSubmitType());
+    TestRepository<?> sub = createProjectWithPush("sub", null, true, getSubmitType());
 
     allowMatchingSubmoduleSubscription(
         "sub", "refs/heads/master", "super-project", "refs/heads/master");
@@ -457,8 +465,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void sameProjectDifferentBranchDifferentPaths() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> sub = createProjectWithPush("sub");
+    TestRepository<?> superRepo =
+        createProjectWithPush("super-project", null, true, getSubmitType());
+    TestRepository<?> sub = createProjectWithPush("sub", null, true, getSubmitType());
 
     allowMatchingSubmoduleSubscription(
         "sub", "refs/heads/master", "super-project", "refs/heads/master");
@@ -504,9 +513,10 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void nonSubmoduleInSameTopic() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> sub = createProjectWithPush("sub");
-    TestRepository<?> standAlone = createProjectWithPush("standalone");
+    TestRepository<?> superRepo =
+        createProjectWithPush("super-project", null, true, getSubmitType());
+    TestRepository<?> sub = createProjectWithPush("sub", null, true, getSubmitType());
+    TestRepository<?> standAlone = createProjectWithPush("standalone", null, true, getSubmitType());
 
     allowMatchingSubmoduleSubscription(
         "sub", "refs/heads/master", "super-project", "refs/heads/master");
@@ -546,9 +556,10 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void recursiveSubmodules() throws Exception {
-    TestRepository<?> topRepo = createProjectWithPush("top-project");
-    TestRepository<?> midRepo = createProjectWithPush("mid-project");
-    TestRepository<?> bottomRepo = createProjectWithPush("bottom-project");
+    TestRepository<?> topRepo = createProjectWithPush("top-project", null, true, getSubmitType());
+    TestRepository<?> midRepo = createProjectWithPush("mid-project", null, true, getSubmitType());
+    TestRepository<?> bottomRepo =
+        createProjectWithPush("bottom-project", null, true, getSubmitType());
 
     allowMatchingSubmoduleSubscription(
         "mid-project", "refs/heads/master", "top-project", "refs/heads/master");
@@ -575,9 +586,10 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void triangleSubmodules() throws Exception {
-    TestRepository<?> topRepo = createProjectWithPush("top-project");
-    TestRepository<?> midRepo = createProjectWithPush("mid-project");
-    TestRepository<?> bottomRepo = createProjectWithPush("bottom-project");
+    TestRepository<?> topRepo = createProjectWithPush("top-project", null, true, getSubmitType());
+    TestRepository<?> midRepo = createProjectWithPush("mid-project", null, true, getSubmitType());
+    TestRepository<?> bottomRepo =
+        createProjectWithPush("bottom-project", null, true, getSubmitType());
 
     allowMatchingSubmoduleSubscription(
         "mid-project", "refs/heads/master", "top-project", "refs/heads/master");
@@ -609,9 +621,10 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   }
 
   private String prepareBranchCircularSubscription() throws Exception {
-    TestRepository<?> topRepo = createProjectWithPush("top-project");
-    TestRepository<?> midRepo = createProjectWithPush("mid-project");
-    TestRepository<?> bottomRepo = createProjectWithPush("bottom-project");
+    TestRepository<?> topRepo = createProjectWithPush("top-project", null, true, getSubmitType());
+    TestRepository<?> midRepo = createProjectWithPush("mid-project", null, true, getSubmitType());
+    TestRepository<?> bottomRepo =
+        createProjectWithPush("bottom-project", null, true, getSubmitType());
 
     createSubmoduleSubscription(midRepo, "master", "bottom-project", "master");
     createSubmoduleSubscription(topRepo, "master", "mid-project", "master");
@@ -649,8 +662,10 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void projectCircularSubscriptionWholeTopic() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    TestRepository<?> superRepo =
+        createProjectWithPush("super-project", null, true, getSubmitType());
+    TestRepository<?> subRepo =
+        createProjectWithPush("subscribed-to-project", null, true, getSubmitType());
 
     allowMatchingSubmoduleSubscription(
         "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
@@ -679,8 +694,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void projectNoSubscriptionWholeTopic() throws Exception {
-    TestRepository<?> repoA = createProjectWithPush("project-a");
-    TestRepository<?> repoB = createProjectWithPush("project-b");
+    TestRepository<?> repoA = createProjectWithPush("project-a", null, true, getSubmitType());
+    TestRepository<?> repoB = createProjectWithPush("project-b", null, true, getSubmitType());
     // bootstrap the dev branch
     ObjectId a0 = pushChangeTo(repoA, "dev");
 
@@ -747,8 +762,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void twoProjectsMultipleBranchesWholeTopic() throws Exception {
-    TestRepository<?> repoA = createProjectWithPush("project-a");
-    TestRepository<?> repoB = createProjectWithPush("project-b");
+    TestRepository<?> repoA = createProjectWithPush("project-a", null, true, getSubmitType());
+    TestRepository<?> repoB = createProjectWithPush("project-b", null, true, getSubmitType());
     // bootstrap the dev branch
     pushChangeTo(repoA, "dev");
 
@@ -796,9 +811,10 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   public void retrySubmitAfterTornTopicOnLockFailure() throws Exception {
     assume().that(notesMigration.disableChangeReviewDb()).isTrue();
 
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> sub1 = createProjectWithPush("sub1");
-    TestRepository<?> sub2 = createProjectWithPush("sub2");
+    TestRepository<?> superRepo =
+        createProjectWithPush("super-project", null, true, getSubmitType());
+    TestRepository<?> sub1 = createProjectWithPush("sub1", null, true, getSubmitType());
+    TestRepository<?> sub2 = createProjectWithPush("sub2", null, true, getSubmitType());
 
     allowMatchingSubmoduleSubscription(
         "sub1", "refs/heads/master", "super-project", "refs/heads/master");
@@ -859,9 +875,10 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void skipUpdatingBrokenGitlinkPointer() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> sub1 = createProjectWithPush("sub1");
-    TestRepository<?> sub2 = createProjectWithPush("sub2");
+    TestRepository<?> superRepo =
+        createProjectWithPush("super-project", null, true, getSubmitType());
+    TestRepository<?> sub1 = createProjectWithPush("sub1", null, true, getSubmitType());
+    TestRepository<?> sub2 = createProjectWithPush("sub2", null, true, getSubmitType());
 
     allowMatchingSubmoduleSubscription(
         "sub1", "refs/heads/master", "super-project", "refs/heads/master");

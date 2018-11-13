@@ -14,8 +14,13 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.common.GitPerson;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Set;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /**
@@ -32,6 +37,16 @@ public class CommonConverters {
     result.email = ident.getEmailAddress();
     result.date = new Timestamp(ident.getWhen().getTime());
     result.tz = ident.getTimeZoneOffset();
+    return result;
+  }
+
+  public static GitPerson toGitPersonWithAccountId(PersonIdent ident, ExternalIds externalIds)
+      throws IOException {
+    GitPerson result = toGitPerson(ident);
+    Set<ExternalId> externalIdsByEmail = externalIds.byEmail(ident.getEmailAddress());
+    if (externalIdsByEmail.size() == 1) {
+      result._accountId = Iterables.getOnlyElement(externalIdsByEmail).accountId().get();
+    }
     return result;
   }
 

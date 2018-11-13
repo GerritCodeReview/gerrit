@@ -275,8 +275,7 @@ class GroupRebuilder {
    * Distinct event types.
    *
    * <p>Events at the same time by the same user are batched together by type. The types should
-   * correspond to the possible batch operations supported by {@link
-   * com.google.gerrit.server.audit.AuditService}.
+   * correspond to the possible batch operations supported by AuditService.
    */
   enum Type {
     ADD_MEMBER,

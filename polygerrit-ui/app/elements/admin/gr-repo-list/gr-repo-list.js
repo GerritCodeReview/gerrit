@@ -102,6 +102,10 @@
       return this.getUrl(this._path + '/', name);
     },
 
+    _computeChangesLink(name) {
+      return Gerrit.Nav.getUrlForProjectChanges(name);
+    },
+
     _getCreateRepoCapability() {
       return this.$.restAPI.getAccount().then(account => {
         if (!account) { return; }

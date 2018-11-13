@@ -600,10 +600,10 @@
         // removed by no longer slotting them in, so I decided to not handle
         // this situation until it occurs.
         for (const threadEl of addedThreadEls) {
-          const lineNum = Number(threadEl.getAttribute('line-num'));
+          const lineNumString = threadEl.getAttribute('line-num') || 'FILE';
           const commentSide = threadEl.getAttribute('comment-side');
           const lineEl = this.$.diffBuilder.getLineElByNumber(
-              lineNum, commentSide);
+              lineNumString, commentSide);
           const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
           const contentEl = contentText.parentElement;
           const threadGroupEl = this._getOrCreateThreadGroup(contentEl);

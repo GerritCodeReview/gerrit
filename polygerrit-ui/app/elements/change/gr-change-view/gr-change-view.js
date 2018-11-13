@@ -461,9 +461,9 @@
     },
 
     _handleCommentSave(e) {
-      if (!e.target.comment.__draft) { return; }
+      const draft = Polymer.dom(e).rootTarget.comment;
+      if (!draft.__draft) { return; }
 
-      const draft = e.target.comment;
       draft.patch_set = draft.patch_set || this._patchRange.patchNum;
 
       // The use of path-based notification helpers (set, push) can’t be used

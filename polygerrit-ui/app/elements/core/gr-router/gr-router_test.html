@@ -44,6 +44,23 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
+    test('_getChangeWeblinks', () => {
+      sandbox.stub(element, '_isDirectCommit').returns(false);
+      sandbox.stub(element, 'getBaseUrl').returns('base');
+      const link = {name: 'test', url: 'test/url'};
+      const mapLinksToConfig = weblink => ({options: {weblinks: [weblink]}});
+      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig(link))[0],
+          {name: 'test', url: 'base/test/url'});
+
+      link.url = '/' + link.url;
+      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig(link))[0],
+          {name: 'test', url: 'base/test/url'});
+
+      link.url = 'https:/' + link.url;
+      assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig(link))[0],
+          {name: 'test', url: 'https://test/url'});
+    });
+
     test('_getHashFromCanonicalPath', () => {
       let url = '/foo/bar';
       let hash = element._getHashFromCanonicalPath(url);

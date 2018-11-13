@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ae82ad81_2b5e5ae6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-13T22:36:24Z",
+      "side": 1,
+      "message": "Not sure, this was preexisting code. I don\u0027t think the GWT UI sorted. We receive dashboards from the server in order that they appeared in a tree walk, I\u0027m not sure what order they\u0027d be guaranteed to be in.",
+      "parentUuid": "8df9393e_9196a333",
+      "revId": "4d7fe25530f3b6973be0d32770e0d8f217566e99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80566943_9a0b17b3",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards_test.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-13T22:19:21Z",
       "side": 1,
       "message": "Could this become an async test?",
+      "revId": "4d7fe25530f3b6973be0d32770e0d8f217566e99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a3de3c4_add64f08",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-13T22:36:24Z",
+      "side": 1,
+      "message": "It could, but in my experience this sort of flush-based test doesn\u0027t benefit much (it just adds more boilerplate).",
+      "parentUuid": "80566943_9a0b17b3",
       "revId": "4d7fe25530f3b6973be0d32770e0d8f217566e99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

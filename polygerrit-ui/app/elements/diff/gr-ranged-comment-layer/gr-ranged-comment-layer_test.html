@@ -40,62 +40,48 @@ limitations under the License.
     let sandbox;
 
     setup(() => {
-      const initialComments = {
-        left: [
-          {
-            id: '12345',
-            line: 39,
-            message: 'range comment',
-            range: {
-              end_character: 9,
-              end_line: 39,
-              start_character: 6,
-              start_line: 36,
-            },
-          }, {
-            id: '23456',
-            line: 100,
-            message: 'non range comment',
+      const initialCommentRanges = [
+        {
+          side: 'left',
+          range: {
+            end_character: 9,
+            end_line: 39,
+            start_character: 6,
+            start_line: 36,
           },
-        ],
-        right: [
-          {
-            id: '34567',
-            line: 10,
-            message: 'range comment',
-            range: {
-              end_character: 22,
-              end_line: 12,
-              start_character: 10,
-              start_line: 10,
-            },
-          }, {
-            id: '45678',
-            line: 100,
-            message: 'single line range comment',
-            range: {
-              end_character: 15,
-              end_line: 100,
-              start_character: 5,
-              start_line: 100,
-            },
-          }, {
-            id: '8675309',
-            line: 55,
-            message: 'nonsense range',
-            range: {
-              end_character: 2,
-              end_line: 55,
-              start_character: 32,
-              start_line: 55,
-            },
+        },
+        {
+          side: 'right',
+          range: {
+            end_character: 22,
+            end_line: 12,
+            start_character: 10,
+            start_line: 10,
           },
-        ],
-      };
+        },
+        {
+          side: 'right',
+          range: {
+            end_character: 15,
+            end_line: 100,
+            start_character: 5,
+            start_line: 100,
+          },
+        },
+        {
+          side: 'right',
+          range: {
+            end_character: 2,
+            end_line: 55,
+            start_character: 32,
+            start_line: 55,
+          },
+        },
+      ];
 
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
-      element.comments = initialComments;
+      element.commentRanges = initialCommentRanges;
     });
 
     teardown(() => {
@@ -149,7 +135,7 @@ limitations under the License.
       test('type=Remove has-comment hovering', () => {
         line.type = GrDiffLine.Type.REMOVE;
         line.beforeNumber = 36;
-        element.set(['comments', 'left', 0, '__hovering'], true);
+        element.set(['commentRanges', 0, 'hovering'], true);
 
         const expectedStart = 6;
         const expectedLength = line.text.length - expectedStart;
@@ -210,29 +196,18 @@ limitations under the License.
       });
     });
 
-    test('_handleCommentChange overwrite', () => {
-      const handlerSpy = sandbox.spy(element, '_handleCommentChange');
-      const mapSpy = sandbox.spy(element, '_computeCommentMap');
+    test('_handleCommentRangesChange overwrite', () => {
+      element.set('commentRanges', []);
 
-      element.set('comments', {left: [], right: []});
-
-      assert.isTrue(handlerSpy.called);
-      assert.equal(mapSpy.callCount, 2);
-
-      assert.equal(Object.keys(element._commentMap.left).length, 0);
-      assert.equal(Object.keys(element._commentMap.right).length, 0);
+      assert.equal(Object.keys(element._rangesMap.left).length, 0);
+      assert.equal(Object.keys(element._rangesMap.right).length, 0);
     });
 
-    test('_handleCommentChange hovering', () => {
-      const handlerSpy = sandbox.spy(element, '_handleCommentChange');
-      const mapSpy = sandbox.spy(element, '_computeCommentMap');
+    test('_handleCommentRangesChange hovering', () => {
       const notifyStub = sinon.stub();
       element.addListener(notifyStub);
 
-      element.set(['comments', 'right', 0, '__hovering'], true);
-
-      assert.isTrue(handlerSpy.called);
-      assert.isTrue(mapSpy.called);
+      element.set(['commentRanges', 1, 'hovering'], true);
 
       assert.isTrue(notifyStub.called);
       const lastCall = notifyStub.lastCall;
@@ -241,16 +216,11 @@ limitations under the License.
       assert.equal(lastCall.args[2], 'right');
     });
 
-    test('_handleCommentChange splice out', () => {
-      const handlerSpy = sandbox.spy(element, '_handleCommentChange');
-      const mapSpy = sandbox.spy(element, '_computeCommentMap');
+    test('_handleCommentRangesChange splice out', () => {
       const notifyStub = sinon.stub();
       element.addListener(notifyStub);
 
-      element.splice('comments.right', 0, 1);
-
-      assert.isTrue(handlerSpy.called);
-      assert.isTrue(mapSpy.called);
+      element.splice('commentRanges', 1, 1);
 
       assert.isTrue(notifyStub.called);
       const lastCall = notifyStub.lastCall;
@@ -259,16 +229,12 @@ limitations under the License.
       assert.equal(lastCall.args[2], 'right');
     });
 
-    test('_handleCommentChange splice in', () => {
-      const handlerSpy = sandbox.spy(element, '_handleCommentChange');
-      const mapSpy = sandbox.spy(element, '_computeCommentMap');
+    test('_handleCommentRangesChange splice in', () => {
       const notifyStub = sinon.stub();
       element.addListener(notifyStub);
 
-      element.splice('comments.left', element.comments.left.length, 0, {
-        id: '56123',
-        line: 250,
-        message: 'new range comment',
+      element.splice('commentRanges', 1, 0, {
+        side: 'left',
         range: {
           end_character: 15,
           end_line: 275,
@@ -276,9 +242,6 @@ limitations under the License.
           start_line: 250,
         },
       });
-
-      assert.isTrue(handlerSpy.called);
-      assert.isTrue(mapSpy.called);
 
       assert.isTrue(notifyStub.called);
       const lastCall = notifyStub.lastCall;
@@ -291,48 +254,48 @@ limitations under the License.
       // There is only one ranged comment on the left, but it spans ll.36-39.
       const leftKeys = [];
       for (let i = 36; i <= 39; i++) { leftKeys.push('' + i); }
-      assert.deepEqual(Object.keys(element._commentMap.left).sort(),
+      assert.deepEqual(Object.keys(element._rangesMap.left).sort(),
           leftKeys.sort());
 
-      assert.equal(element._commentMap.left[36].length, 1);
-      assert.equal(element._commentMap.left[36][0].start, 6);
-      assert.equal(element._commentMap.left[36][0].end, -1);
+      assert.equal(element._rangesMap.left[36].length, 1);
+      assert.equal(element._rangesMap.left[36][0].start, 6);
+      assert.equal(element._rangesMap.left[36][0].end, -1);
 
-      assert.equal(element._commentMap.left[37].length, 1);
-      assert.equal(element._commentMap.left[37][0].start, 0);
-      assert.equal(element._commentMap.left[37][0].end, -1);
+      assert.equal(element._rangesMap.left[37].length, 1);
+      assert.equal(element._rangesMap.left[37][0].start, 0);
+      assert.equal(element._rangesMap.left[37][0].end, -1);
 
-      assert.equal(element._commentMap.left[38].length, 1);
-      assert.equal(element._commentMap.left[38][0].start, 0);
-      assert.equal(element._commentMap.left[38][0].end, -1);
+      assert.equal(element._rangesMap.left[38].length, 1);
+      assert.equal(element._rangesMap.left[38][0].start, 0);
+      assert.equal(element._rangesMap.left[38][0].end, -1);
 
-      assert.equal(element._commentMap.left[39].length, 1);
-      assert.equal(element._commentMap.left[39][0].start, 0);
-      assert.equal(element._commentMap.left[39][0].end, 9);
+      assert.equal(element._rangesMap.left[39].length, 1);
+      assert.equal(element._rangesMap.left[39][0].start, 0);
+      assert.equal(element._rangesMap.left[39][0].end, 9);
 
       // The right has two ranged comments, one spanning ll.10-12 and the other
       // on line 100.
       const rightKeys = [];
       for (let i = 10; i <= 12; i++) { rightKeys.push('' + i); }
       rightKeys.push('55', '100');
-      assert.deepEqual(Object.keys(element._commentMap.right).sort(),
+      assert.deepEqual(Object.keys(element._rangesMap.right).sort(),
           rightKeys.sort());
 
-      assert.equal(element._commentMap.right[10].length, 1);
-      assert.equal(element._commentMap.right[10][0].start, 10);
-      assert.equal(element._commentMap.right[10][0].end, -1);
+      assert.equal(element._rangesMap.right[10].length, 1);
+      assert.equal(element._rangesMap.right[10][0].start, 10);
+      assert.equal(element._rangesMap.right[10][0].end, -1);
 
-      assert.equal(element._commentMap.right[11].length, 1);
-      assert.equal(element._commentMap.right[11][0].start, 0);
-      assert.equal(element._commentMap.right[11][0].end, -1);
+      assert.equal(element._rangesMap.right[11].length, 1);
+      assert.equal(element._rangesMap.right[11][0].start, 0);
+      assert.equal(element._rangesMap.right[11][0].end, -1);
 
-      assert.equal(element._commentMap.right[12].length, 1);
-      assert.equal(element._commentMap.right[12][0].start, 0);
-      assert.equal(element._commentMap.right[12][0].end, 22);
+      assert.equal(element._rangesMap.right[12].length, 1);
+      assert.equal(element._rangesMap.right[12][0].start, 0);
+      assert.equal(element._rangesMap.right[12][0].end, 22);
 
-      assert.equal(element._commentMap.right[100].length, 1);
-      assert.equal(element._commentMap.right[100][0].start, 5);
-      assert.equal(element._commentMap.right[100][0].end, 15);
+      assert.equal(element._rangesMap.right[100].length, 1);
+      assert.equal(element._rangesMap.right[100][0].start, 5);
+      assert.equal(element._rangesMap.right[100][0].end, 15);
     });
 
     test('_getRangesForLine normalizes invalid ranges', () => {

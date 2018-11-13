@@ -48,11 +48,12 @@
       *     version is the one whose line number column is further to the left.
       *
       * range:
-      *     The range of text that the comment refers to (startLine, startChar,
-      *     endLine, endChar), serialized as JSON. If set, range's startLine
-      *     will have the same value as line-num. Line numbers are 1-based,
-      *     char numbers are 0-based. The start position (startLine, startChar)
-      *     is inclusive, and the end position (endLine, endChar) is exclusive.
+      *     The range of text that the comment refers to (start_line,
+      *     start_character, end_line, end_character), serialized as JSON. If
+      *     set, range's end_line will have the same value as line-num. Line
+      *     numbers are 1-based, char numbers are 0-based. The start position
+      *     (start_line, start_character) is inclusive, and the end position
+      *     (end_line, end_character) is exclusive.
       */
     properties: {
       changeNum: String,
@@ -61,8 +62,8 @@
         value() { return []; },
       },
       /**
-       * @type {?{startLine: number, startChar: number, endLine: number,
-       *          endChar: number}}
+       * @type {?{start_line: number, start_character: number, end_line: number,
+       *          end_character: number}}
        */
       range: {
         type: Object,
@@ -390,12 +391,7 @@
         d.line = opt_lineNum;
       }
       if (opt_range) {
-        d.range = {
-          start_line: opt_range.startLine,
-          start_character: opt_range.startChar,
-          end_line: opt_range.endLine,
-          end_character: opt_range.endChar,
-        };
+        d.range = opt_range;
       }
       if (this.parentIndex) {
         d.parent = this.parentIndex;

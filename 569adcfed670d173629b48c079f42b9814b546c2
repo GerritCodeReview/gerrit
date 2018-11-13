@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "213a50c0_8c588cae",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-13T22:07:44Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3c19d9bb_03f20304",
+      "revId": "569adcfed670d173629b48c079f42b9814b546c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bc5f8f8_6d56a465",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
         "patchSetId": 13
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ffd1cda2_b45cdfcf",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-13T22:07:44Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0bc5f8f8_6d56a465",
+      "revId": "569adcfed670d173629b48c079f42b9814b546c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aad5c500_4bd40762",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
         "patchSetId": 13
@@ -50,6 +86,24 @@
       "revId": "569adcfed670d173629b48c079f42b9814b546c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193143ef_37a5adb8",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-11-13T22:07:44Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "aad5c500_4bd40762",
+      "revId": "569adcfed670d173629b48c079f42b9814b546c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d79d174_8d1dc92e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-13T20:08:24Z",
+      "side": 1,
+      "message": "Prefer the strict-equal check first, to avoid the O(n) computation during this one iteration.\n\nIt occurs to me that the filter operation is O(n^2). I bet on changes with hundreds of files there will be noticeable delay. So let\u0027s fix that by constructing a set from this._reviewedFiles to use for membership checks in this filter predicate.",
+      "revId": "cc50c339982fe0a6d8af8185baa9e046d9cc49b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

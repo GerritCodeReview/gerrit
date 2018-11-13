@@ -462,9 +462,9 @@
     },
 
     _handleCommentSave(e) {
-      if (!e.target.comment.__draft) { return; }
+      const draft = e.detail.comment;
+      if (!draft.__draft) { return; }
 
-      const draft = e.target.comment;
       draft.patch_set = draft.patch_set || this._patchRange.patchNum;
 
       // The use of path-based notification helpers (set, push) can’t be used
@@ -494,9 +494,9 @@
     },
 
     _handleCommentDiscard(e) {
-      if (!e.target.comment.__draft) { return; }
+      const draft = e.detail.comment;
+      if (!draft.__draft) { return; }
 
-      const draft = e.target.comment;
       if (!this._diffDrafts[draft.path]) {
         return;
       }

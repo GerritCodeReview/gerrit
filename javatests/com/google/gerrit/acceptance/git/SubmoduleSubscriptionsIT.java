@@ -454,10 +454,15 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   @Test
   public void subscriptionInheritACL() throws Exception {
     createProjectWithPush("config-repo");
-    createProjectWithPush("config-repo2", new Project.NameKey(name("config-repo")));
+    createProjectWithPush(
+        "config-repo2", new Project.NameKey(name("config-repo")), true, getSubmitType());
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo =
-        createProjectWithPush("subscribed-to-project", new Project.NameKey(name("config-repo2")));
+        createProjectWithPush(
+            "subscribed-to-project",
+            new Project.NameKey(name("config-repo2")),
+            true,
+            getSubmitType());
     allowMatchingSubmoduleSubscription(
         "config-repo", "refs/heads/*", "super-project", "refs/heads/*");
 

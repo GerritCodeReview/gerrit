@@ -53,6 +53,7 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.junit.Before;
 
 public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
 
@@ -126,6 +127,24 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
   }
 
   private static AtomicInteger contentCounter = new AtomicInteger(0);
+  protected TestRepository<?> superRepo;
+  protected Project.NameKey superKey;
+  protected TestRepository<?> subRepo;
+  protected Project.NameKey subKey;
+
+  @Before
+  public void setUp() throws Exception {
+    superKey = createProject("super", null, true, getSubmitType());
+    subKey = createProject("sub", null, true, getSubmitType());
+
+    grant(subKey, "refs/heads/*", Permission.PUSH);
+    grant(subKey, "refs/for/refs/heads/*", Permission.SUBMIT);
+    grant(superKey, "refs/heads/*", Permission.PUSH);
+    grant(superKey, "refs/for/refs/heads/*", Permission.SUBMIT);
+
+    superRepo = cloneProject(superKey);
+    subRepo = cloneProject(subKey);
+  }
 
   protected ObjectId pushChangeTo(
       TestRepository<?> repo, String ref, String file, String content, String message, String topic)
@@ -189,11 +208,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       String submodule, String subBranch, String superproject, String superBranch, boolean match)
       throws Exception {
     allowSubmoduleSubscription(
-        nameKey(submodule),
-        subBranch,
-        nameKey(superproject),
-        superBranch,
-        match);
+        nameKey(submodule), subBranch, nameKey(superproject), superBranch, match);
   }
 
   protected void allowMatchingSubmoduleSubscription(

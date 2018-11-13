@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47c099bd_3443a1ab",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/IndexChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-13T11:03:56Z",
+      "side": 1,
+      "message": "Here and in other tests: In theory, this should be private but it\u0027s not important enough to block all the other changes.",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 19
+      },
+      "revId": "a9ae62dc15f23d8b52fc7260db95c4f0065a9140",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -281,6 +281,7 @@
         [this.Shortcut.EXPAND_ALL_MESSAGES]: '_handleExpandAllMessages',
         [this.Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
         [this.Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
+        [this.Shortcut.EDIT_TOPIC]: '_handleEditTopic',
       };
     },
 
@@ -925,6 +926,14 @@
 
       e.preventDefault();
       this.$.downloadOverlay.open();
+    },
+
+    _handleEditTopic(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
+
+      e.preventDefault();
+      this.$.metadata.editTopic();
     },
 
     _handleRefreshChange(e) {

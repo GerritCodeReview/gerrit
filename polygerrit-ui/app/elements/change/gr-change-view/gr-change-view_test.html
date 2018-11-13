@@ -54,6 +54,7 @@ limitations under the License.
     kb.bindShortcut(kb.Shortcut.EXPAND_ALL_MESSAGES, 'x');
     kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
     kb.bindShortcut(kb.Shortcut.OPEN_DIFF_PREFS, ',');
+    kb.bindShortcut(kb.Shortcut.EDIT_TOPIC, 't');
 
     let element;
     let sandbox;
@@ -95,6 +96,12 @@ limitations under the License.
     };
 
     suite('keyboard shortcuts', () => {
+      test('t to add topic', () => {
+        const editStub = sandbox.stub(element.$.metadata, 'editTopic');
+        MockInteractions.pressAndReleaseKeyOn(element, 83, null, 't');
+        assert(editStub.called);
+      });
+
       test('S should toggle the CL star', () => {
         const starStub = sandbox.stub(element.$.changeStar, 'toggleStar');
         MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');

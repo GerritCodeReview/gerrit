@@ -658,12 +658,12 @@ limitations under the License.
         path: '/foo/bar.txt',
         text: 'hello',
       };
-      element._handleCommentSave({target: {comment: draft}});
+      element._handleCommentSave({detail: {comment: draft}});
       draft.patch_set = 2;
       assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
       draft.patch_set = null;
       draft.text = 'hello, there';
-      element._handleCommentSave({target: {comment: draft}});
+      element._handleCommentSave({detail: {comment: draft}});
       draft.patch_set = 2;
       assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
       const draft2 = {
@@ -672,14 +672,14 @@ limitations under the License.
         path: '/foo/bar.txt',
         text: 'hola',
       };
-      element._handleCommentSave({target: {comment: draft2}});
+      element._handleCommentSave({detail: {comment: draft2}});
       draft2.patch_set = 2;
       assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft, draft2]});
       draft.patch_set = null;
-      element._handleCommentDiscard({target: {comment: draft}});
+      element._handleCommentDiscard({detail: {comment: draft}});
       draft.patch_set = 2;
       assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft2]});
-      element._handleCommentDiscard({target: {comment: draft2}});
+      element._handleCommentDiscard({detail: {comment: draft2}});
       assert.deepEqual(element._diffDrafts, {});
     });
 

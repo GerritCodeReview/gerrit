@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.server.WebLinks;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TagCache;
@@ -62,6 +63,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
   private final TagCache tagCache;
   private final GitReferenceUpdated referenceUpdated;
   private final WebLinks links;
+  private final ExternalIds externalIds;
 
   @Inject
   CreateTag(
@@ -69,12 +71,14 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
       GitRepositoryManager repoManager,
       TagCache tagCache,
       GitReferenceUpdated referenceUpdated,
-      WebLinks webLinks) {
+      WebLinks webLinks,
+      ExternalIds externalIds) {
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.tagCache = tagCache;
     this.referenceUpdated = referenceUpdated;
     this.links = webLinks;
+    this.externalIds = externalIds;
   }
 
   @Override
@@ -140,7 +144,8 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
             result.getObjectId(),
             resource.getUser().asIdentifiedUser().state());
         try (RevWalk w = new RevWalk(repo)) {
-          return ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links);
+          return ListTags.createTagInfo(
+              perm, result, w, resource.getProjectState(), links, externalIds);
         }
       }
     } catch (InvalidRevisionException e) {

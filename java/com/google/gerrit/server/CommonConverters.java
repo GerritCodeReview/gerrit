@@ -14,8 +14,15 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.GitPerson;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Set;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /**
@@ -26,12 +33,27 @@ import org.eclipse.jgit.lib.PersonIdent;
  * static utility methods.
  */
 public class CommonConverters {
-  public static GitPerson toGitPerson(PersonIdent ident) {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public static GitPerson toGitPerson(PersonIdent ident, @Nullable ExternalIds externalIds) {
     GitPerson result = new GitPerson();
     result.name = ident.getName();
     result.email = ident.getEmailAddress();
     result.date = new Timestamp(ident.getWhen().getTime());
     result.tz = ident.getTimeZoneOffset();
+
+    if (externalIds == null) {
+      return result;
+    }
+
+    try {
+      Set<ExternalId> externalIdsByEmail = externalIds.byEmail(ident.getEmailAddress());
+      if (externalIdsByEmail.size() == 1) {
+        result._accountId = Iterables.getOnlyElement(externalIdsByEmail).accountId().get();
+      }
+    } catch (IOException e) {
+      logger.atSevere().withCause(e).log("Can't retrieve account by email");
+    }
     return result;
   }
 

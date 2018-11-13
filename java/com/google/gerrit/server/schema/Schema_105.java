@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Schema_105 extends SchemaVersion {
+public class Schema_105 extends ReviewDbSchemaVersion {
   private static final String TABLE = "changes";
 
   @Inject

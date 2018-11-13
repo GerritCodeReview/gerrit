@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class Schema_87 extends SchemaVersion {
+public class Schema_87 extends ReviewDbSchemaVersion {
   @Inject
   Schema_87(Provider<Schema_86> prior) {
     super(prior);

@@ -18,14 +18,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
-public class Schema_83 extends SchemaVersion {
+public class Schema_83 extends ReviewDbSchemaVersion {
 
   @Inject
   Schema_83() {
     super(
-        new Provider<SchemaVersion>() {
+        new Provider<ReviewDbSchemaVersion>() {
           @Override
-          public SchemaVersion get() {
+          public ReviewDbSchemaVersion get() {
             throw new ProvisionException("Upgrade first to 2.8 or 2.9");
           }
         });

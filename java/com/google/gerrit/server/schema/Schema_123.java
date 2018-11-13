@@ -40,7 +40,7 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-public class Schema_123 extends SchemaVersion {
+public class Schema_123 extends ReviewDbSchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
 

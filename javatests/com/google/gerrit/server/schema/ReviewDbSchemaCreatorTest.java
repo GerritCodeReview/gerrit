@@ -43,7 +43,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SchemaCreatorTest {
+public class ReviewDbSchemaCreatorTest {
   @Inject private AllProjectsName allProjects;
 
   @Inject private GitRepositoryManager repoManager;

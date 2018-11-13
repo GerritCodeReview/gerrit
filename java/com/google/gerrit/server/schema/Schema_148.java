@@ -33,7 +33,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-public class Schema_148 extends SchemaVersion {
+public class Schema_148 extends ReviewDbSchemaVersion {
   private static final String COMMIT_MSG = "Make account IDs of external IDs human-readable";
 
   private final GitRepositoryManager repoManager;

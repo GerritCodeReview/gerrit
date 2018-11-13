@@ -41,7 +41,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 /** Make default Label-Code-Review permission on user branches exclusive. */
-public class Schema_165 extends SchemaVersion {
+public class Schema_165 extends ReviewDbSchemaVersion {
   private static final String COMMIT_MSG =
       "Make default Label-Code-Review permission on user branches exclusive";
 

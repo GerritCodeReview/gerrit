@@ -34,8 +34,8 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
 import com.google.gerrit.server.schema.ReviewDbFactory;
-import com.google.gerrit.server.schema.SchemaModule;
-import com.google.gerrit.server.schema.SchemaVersion;
+import com.google.gerrit.server.schema.ReviewDbSchemaModule;
+import com.google.gerrit.server.schema.ReviewDbSchemaVersion;
 import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryH2Type;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -101,8 +101,8 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(SitePaths.class);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
 
-    install(new SchemaModule());
-    bind(SchemaVersion.class).to(SchemaVersion.C);
+    install(new ReviewDbSchemaModule());
+    bind(ReviewDbSchemaVersion.class).to(ReviewDbSchemaVersion.C);
 
     install(new SshdModule());
   }

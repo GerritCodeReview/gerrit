@@ -41,7 +41,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.InMemoryDatabase;
@@ -80,7 +80,7 @@ public class GerritPublicKeyCheckerTest {
 
   @Inject private InMemoryDatabase schemaFactory;
 
-  @Inject private SchemaCreator schemaCreator;
+  @Inject private ReviewDbSchemaCreator schemaCreator;
 
   @Inject private ThreadLocalRequestContext requestContext;
 

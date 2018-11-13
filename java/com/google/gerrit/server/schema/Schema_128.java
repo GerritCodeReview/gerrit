@@ -36,7 +36,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-public class Schema_128 extends SchemaVersion {
+public class Schema_128 extends ReviewDbSchemaVersion {
   private static final String COMMIT_MSG = "Add addPatchSet permission to all projects";
 
   private final GitRepositoryManager repoManager;

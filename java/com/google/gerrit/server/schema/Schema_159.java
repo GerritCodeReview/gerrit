@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /** Migrate draft changes to private or wip changes. */
-public class Schema_159 extends SchemaVersion {
+public class Schema_159 extends ReviewDbSchemaVersion {
 
   private enum DraftWorkflowMigrationStrategy {
     PRIVATE,

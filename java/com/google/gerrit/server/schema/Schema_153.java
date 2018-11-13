@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /** Add reviewStarted field to change. */
-public class Schema_153 extends SchemaVersion {
+public class Schema_153 extends ReviewDbSchemaVersion {
   @Inject
   Schema_153(Provider<Schema_152> prior) {
     super(prior);

@@ -39,7 +39,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 
-public class Schema_120 extends SchemaVersion {
+public class Schema_120 extends ReviewDbSchemaVersion {
 
   private final GitRepositoryManager mgr;
   private final ProjectConfig.Factory projectConfigFactory;

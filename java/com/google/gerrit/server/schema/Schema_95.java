@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-public class Schema_95 extends SchemaVersion {
+public class Schema_95 extends ReviewDbSchemaVersion {
   private final AllUsersCreator allUsersCreator;
 
   @Inject

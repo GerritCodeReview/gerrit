@@ -34,7 +34,7 @@ import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
-import com.google.gerrit.server.schema.SchemaModule;
+import com.google.gerrit.server.schema.ReviewDbSchemaModule;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
@@ -188,7 +188,7 @@ public abstract class SiteProgram extends AbstractProgram {
           }
         });
     modules.add(new DatabaseModule());
-    modules.add(new SchemaModule());
+    modules.add(new ReviewDbSchemaModule());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new NotesMigration.Module());
 

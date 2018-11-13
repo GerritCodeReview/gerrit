@@ -51,7 +51,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-public class Schema_115 extends SchemaVersion {
+public class Schema_115 extends ReviewDbSchemaVersion {
   private final GitRepositoryManager mgr;
   private final AllUsersName allUsersName;
   private final PersonIdent serverUser;

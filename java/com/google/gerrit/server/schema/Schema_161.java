@@ -39,7 +39,7 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-public class Schema_161 extends SchemaVersion {
+public class Schema_161 extends ReviewDbSchemaVersion {
   private static final String MUTE_LABEL = "mute";
 
   private final GitRepositoryManager repoManager;

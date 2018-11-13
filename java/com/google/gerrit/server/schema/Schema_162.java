@@ -30,7 +30,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-public class Schema_162 extends SchemaVersion {
+public class Schema_162 extends ReviewDbSchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;

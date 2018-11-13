@@ -58,7 +58,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-public class Schema_119 extends SchemaVersion {
+public class Schema_119 extends ReviewDbSchemaVersion {
   private static final ImmutableMap<String, String> LEGACY_DISPLAYNAME_MAP =
       ImmutableMap.<String, String>of(
           "ANON_GIT", ANON_GIT,

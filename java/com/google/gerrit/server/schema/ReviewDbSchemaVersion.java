@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /** A version of the database schema. */
-public abstract class SchemaVersion {
+public abstract class ReviewDbSchemaVersion {
   /** The current schema version. */
   public static final Class<Schema_169> C = Schema_169.class;
 
@@ -42,10 +42,10 @@ public abstract class SchemaVersion {
     return guessVersion(C);
   }
 
-  private final Provider<? extends SchemaVersion> prior;
+  private final Provider<? extends ReviewDbSchemaVersion> prior;
   private final int versionNbr;
 
-  protected SchemaVersion(Provider<? extends SchemaVersion> prior) {
+  protected ReviewDbSchemaVersion(Provider<? extends ReviewDbSchemaVersion> prior) {
     this.prior = prior;
     this.versionNbr = guessVersion(getClass());
   }
@@ -66,7 +66,7 @@ public abstract class SchemaVersion {
   }
 
   @VisibleForTesting
-  public final SchemaVersion getPrior() {
+  public final ReviewDbSchemaVersion getPrior() {
     return prior.get();
   }
 
@@ -89,7 +89,7 @@ public abstract class SchemaVersion {
   /** Runs check on the prior schema version, and then upgrades. */
   private void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)
       throws OrmException, SQLException {
-    List<SchemaVersion> pending = pending(curr.versionNbr);
+    List<ReviewDbSchemaVersion> pending = pending(curr.versionNbr);
     updateSchema(pending, ui, db);
     migrateData(pending, ui, curr, db);
 
@@ -115,18 +115,18 @@ public abstract class SchemaVersion {
     }
   }
 
-  private List<SchemaVersion> pending(int curr) {
-    List<SchemaVersion> r = Lists.newArrayListWithCapacity(versionNbr - curr);
-    for (SchemaVersion v = this; curr < v.getVersionNbr(); v = v.prior.get()) {
+  private List<ReviewDbSchemaVersion> pending(int curr) {
+    List<ReviewDbSchemaVersion> r = Lists.newArrayListWithCapacity(versionNbr - curr);
+    for (ReviewDbSchemaVersion v = this; curr < v.getVersionNbr(); v = v.prior.get()) {
       r.add(v);
     }
     Collections.reverse(r);
     return r;
   }
 
-  private void updateSchema(List<SchemaVersion> pending, UpdateUI ui, ReviewDb db)
+  private void updateSchema(List<ReviewDbSchemaVersion> pending, UpdateUI ui, ReviewDb db)
       throws OrmException, SQLException {
-    for (SchemaVersion v : pending) {
+    for (ReviewDbSchemaVersion v : pending) {
       ui.message(String.format("Upgrading schema to %d ...", v.getVersionNbr()));
       v.preUpdateSchema(db);
     }
@@ -147,9 +147,9 @@ public abstract class SchemaVersion {
   protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {}
 
   private void migrateData(
-      List<SchemaVersion> pending, UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)
+      List<ReviewDbSchemaVersion> pending, UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)
       throws OrmException, SQLException {
-    for (SchemaVersion v : pending) {
+    for (ReviewDbSchemaVersion v : pending) {
       Stopwatch sw = Stopwatch.createStarted();
       ui.message(String.format("Migrating data to schema %d ...", v.getVersionNbr()));
       v.migrateData(db, ui);

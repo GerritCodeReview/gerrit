@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /* Add resolved field to PatchLineComment */
-public class Schema_138 extends SchemaVersion {
+public class Schema_138 extends ReviewDbSchemaVersion {
   @Inject
   Schema_138(Provider<Schema_137> prior) {
     super(prior);

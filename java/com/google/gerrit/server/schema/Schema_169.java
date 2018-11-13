@@ -35,7 +35,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 
 /** Migrate NoteDb inline comments to JSON format. */
-public class Schema_169 extends SchemaVersion {
+public class Schema_169 extends ReviewDbSchemaVersion {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final CommentJsonMigrator migrator;
   private final GitRepositoryManager repoManager;

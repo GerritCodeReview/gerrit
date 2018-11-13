@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.SQLException;
 
-public class Schema_89 extends SchemaVersion {
+public class Schema_89 extends ReviewDbSchemaVersion {
   @Inject
   Schema_89(Provider<Schema_88> prior) {
     super(prior);

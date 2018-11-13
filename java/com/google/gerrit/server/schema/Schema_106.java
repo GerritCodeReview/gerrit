@@ -40,7 +40,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-public class Schema_106 extends SchemaVersion {
+public class Schema_106 extends ReviewDbSchemaVersion {
   // we can use multiple threads per CPU as we can expect that threads will be
   // waiting for IO
   private static final int THREADS_PER_CPU = 4;

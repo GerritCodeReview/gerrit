@@ -56,7 +56,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SchemaUpdaterTest {
+public class ReviewDbSchemaUpdaterTest {
   private LifecycleManager lifecycle;
   private InMemoryDatabase db;
 
@@ -81,7 +81,7 @@ public class SchemaUpdaterTest {
 
     final Path site = Paths.get(UUID.randomUUID().toString());
     final SitePaths paths = new SitePaths(site);
-    SchemaUpdater u =
+    ReviewDbSchemaUpdater u =
         Guice.createInjector(
                 new FactoryModule() {
                   @Override
@@ -126,9 +126,11 @@ public class SchemaUpdaterTest {
                     bind(MetricMaker.class).to(DisabledMetricMaker.class);
                   }
                 })
-            .getInstance(SchemaUpdater.class);
+            .getInstance(ReviewDbSchemaUpdater.class);
 
-    for (SchemaVersion s = u.getLatestSchemaVersion(); s.getVersionNbr() > 1; s = s.getPrior()) {
+    for (ReviewDbSchemaVersion s = u.getLatestSchemaVersion();
+        s.getVersionNbr() > 1;
+        s = s.getPrior()) {
       try {
         assertThat(s.getPrior().getVersionNbr())
             .named(

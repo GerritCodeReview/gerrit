@@ -38,7 +38,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 /** Grant read on group branches */
-public class Schema_164 extends SchemaVersion {
+public class Schema_164 extends ReviewDbSchemaVersion {
   private static final String COMMIT_MSG = "Grant read permissions on group branches";
 
   private final GitRepositoryManager repoManager;

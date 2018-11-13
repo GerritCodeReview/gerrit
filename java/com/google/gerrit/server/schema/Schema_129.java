@@ -22,7 +22,7 @@ import com.google.inject.Provider;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Schema_129 extends SchemaVersion {
+public class Schema_129 extends ReviewDbSchemaVersion {
 
   @Inject
   Schema_129(Provider<Schema_128> prior) {

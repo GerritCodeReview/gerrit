@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /* change the type of SystemConfig#sitePath to CLOB */
-public class Schema_137 extends SchemaVersion {
+public class Schema_137 extends ReviewDbSchemaVersion {
   @Inject
   Schema_137(Provider<Schema_136> prior) {
     super(prior);

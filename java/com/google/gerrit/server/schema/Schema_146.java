@@ -54,7 +54,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * commit with the registration date as commit time is inserted (if such a commit doesn't exist
  * yet).
  */
-public class Schema_146 extends SchemaVersion {
+public class Schema_146 extends ReviewDbSchemaVersion {
   private static final String CREATE_ACCOUNT_MSG = "Create Account";
 
   private final GitRepositoryManager repoManager;

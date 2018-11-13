@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class GitPerson {
+  public Integer _accountId;
   public String name;
   public String email;
   public Timestamp date;
@@ -29,7 +30,8 @@ public class GitPerson {
       return false;
     }
     GitPerson p = (GitPerson) o;
-    return Objects.equals(name, p.name)
+    return Objects.equals(_accountId, p._accountId)
+        && Objects.equals(name, p.name)
         && Objects.equals(email, p.email)
         && Objects.equals(date, p.date)
         && tz == p.tz;
@@ -37,13 +39,15 @@ public class GitPerson {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, email, date, tz);
+    return Objects.hash(_accountId, name, email, date, tz);
   }
 
   @Override
   public String toString() {
     return getClass().getSimpleName()
-        + "{name="
+        + "{accountId="
+        + _accountId
+        + ", name="
         + name
         + ", email="
         + email

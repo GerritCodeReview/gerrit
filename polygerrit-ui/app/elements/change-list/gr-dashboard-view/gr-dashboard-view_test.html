@@ -314,10 +314,13 @@ limitations under the License.
     });
 
     test('_computeUserHeaderClass', () => {
-      assert.equal(element._computeUserHeaderClass(undefined), '');
-      assert.equal(element._computeUserHeaderClass(''), '');
-      assert.equal(element._computeUserHeaderClass('self'), 'hide');
-      assert.equal(element._computeUserHeaderClass('user'), '');
+      assert.equal(element._computeUserHeaderClass(undefined), 'hide');
+      assert.equal(element._computeUserHeaderClass({}), 'hide');
+      assert.equal(element._computeUserHeaderClass({user: 'self'}), 'hide');
+      assert.equal(element._computeUserHeaderClass({user: 'user'}), '');
+      assert.equal(
+          element._computeUserHeaderClass({project: 'p', user: 'user'}),
+          'hide');
     });
 
     test('404 page', done => {

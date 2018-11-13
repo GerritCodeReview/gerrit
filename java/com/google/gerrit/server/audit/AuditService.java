@@ -17,6 +17,7 @@ package com.google.gerrit.server.audit;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.AuditEvent;
 import com.google.gerrit.server.audit.group.GroupAuditListener;
 import com.google.gerrit.server.audit.group.GroupMemberAuditEvent;
 import com.google.gerrit.server.audit.group.GroupSubgroupAuditEvent;

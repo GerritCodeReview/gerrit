@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09796053_96dbdbf3",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-13T12:25:20Z",
+      "side": 1,
+      "message": "Thanks for the tests. Some tests are missing in my opinion:\n- without empty commit\n- empty commit is default\n- with parent\n- with a specific submit type\n\nCould you please add them?",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 38
+      },
+      "revId": "d53993122368ddb51fb8194a9b967ff5dd0136bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62c001e6_51d382c8",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-13T12:25:20Z",
+      "side": 1,
+      "message": "Here and in other tests: Could be private.",
+      "range": {
+        "startLine": 30,
+        "startChar": 10,
+        "endLine": 30,
+        "endChar": 19
+      },
+      "revId": "d53993122368ddb51fb8194a9b967ff5dd0136bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d360e5d5_65a92181",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-13T12:25:20Z",
+      "side": 1,
+      "message": "The test succeeds without this line. As it is not an assertion either, I\u0027ve been wondering if it could be deleted.",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "d53993122368ddb51fb8194a9b967ff5dd0136bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

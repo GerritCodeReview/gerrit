@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d50f3f50_ae045a58",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-13T12:25:20Z",
+      "side": 0,
+      "message": "Nit: Unnecessary removal of line.",
+      "revId": "4a905d9a54b02bd54e0ed0af53d3857d6638b4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

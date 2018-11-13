@@ -22,6 +22,30 @@
       "revId": "1f606f60af24362369a15479460d29bb36229b7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e58c647_92d9fdb1",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2018-11-13T20:36:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e650c5e3_306a7080",
+      "range": {
+        "startLine": 164,
+        "startChar": 97,
+        "endLine": 164,
+        "endChar": 106
+      },
+      "revId": "1f606f60af24362369a15479460d29bb36229b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

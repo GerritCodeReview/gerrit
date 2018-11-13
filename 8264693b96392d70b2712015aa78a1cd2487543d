@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2a25992_d7f26f4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-13T18:57:05Z",
+      "side": 1,
+      "message": "Looks good! We probably want to document the schema of the return type object in a JDoc.",
+      "revId": "8264693b96392d70b2712015aa78a1cd2487543d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9900b34a_e94e3e3f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-13T18:57:05Z",
+      "side": 1,
+      "message": "I think we should add a \"class\" field to this object that corresponds to the icon so that we can style with colors.\n\n  ...\n  class: \u0027help\u0027,\n  ...\n\n...etc.",
+      "revId": "8264693b96392d70b2712015aa78a1cd2487543d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

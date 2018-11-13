@@ -39,6 +39,10 @@
   const FULL_CONTEXT = -1;
   const LIMITED_CONTEXT = 10;
 
+  /** @typedef {{start_line: number, start_character: number,
+   *             end_line: number, end_character: number}} */
+  Gerrit.Range;
+
   Polymer({
     is: 'gr-diff',
 
@@ -305,7 +309,7 @@
     _handleCreateRangeComment(e) {
       const range = e.detail.range;
       const side = e.detail.side;
-      const lineNum = range.endLine;
+      const lineNum = range.end_line;
       const lineEl = this.$.diffBuilder.getLineElByNumber(lineNum, side);
 
       if (this._isValidElForComment(lineEl)) {

@@ -45,11 +45,6 @@
     return !!(diff.binary && (isA || isB));
   }
 
-  /** @typedef {{startLine: number, startChar: number,
-   *             endLine: number, endChar: number}} */
-  Gerrit.Range;
-
-
   /**
    * Compare two ranges. Either argument may be falsy, but will only return
    * true if both are falsy or if neither are falsy and have the same position
@@ -62,10 +57,10 @@
   function rangesEqual(a, b) {
     if (!a && !b) { return true; }
     if (!a || !b) { return false; }
-    return a.startLine === b.startLine &&
-        a.startChar === b.startChar &&
-        a.endLine === b.endLine &&
-        a.endChar === b.endChar;
+    return a.start_line === b.start_line &&
+        a.start_character === b.start_character &&
+        a.end_line === b.end_line &&
+        a.end_character === b.end_character;
   }
 
   /**

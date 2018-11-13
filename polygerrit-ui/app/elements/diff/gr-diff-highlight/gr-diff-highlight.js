@@ -295,10 +295,10 @@
       const root = Polymer.dom(this.root);
       root.insertBefore(actionBox, root.firstElementChild);
       actionBox.range = {
-        startLine: start.line,
-        startChar: start.column,
-        endLine: end.line,
-        endChar: end.column,
+        start_line: start.line,
+        start_character: start.column,
+        end_line: end.line,
+        end_character: end.column,
       };
       actionBox.side = start.side;
       if (start.line === end.line) {

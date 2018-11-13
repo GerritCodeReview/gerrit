@@ -724,15 +724,25 @@ limitations under the License.
     });
 
     test('reflects range to JSON serialized attribute if set', () => {
-      element.range = {startLine: 4, endLine: 5, startChar: 6, endChar: 7};
+      element.range = {
+        start_line: 4,
+        end_line: 5,
+        start_character: 6,
+        end_character: 7,
+      };
 
       assert.deepEqual(
           JSON.parse(element.getAttribute('range')),
-          {startLine: 4, endLine: 5, startChar: 6, endChar: 7});
+          {start_line: 4, end_line: 5, start_character: 6, end_character: 7});
     });
 
     test('removes range attribute if range is unset', () => {
-      element.range = {startLine: 4, endLine: 5, startChar: 6, endChar: 7};
+      element.range = {
+        start_line: 4,
+        end_line: 5,
+        start_character: 6,
+        end_character: 7,
+      };
       element.range = undefined;
 
       assert.notOk(element.hasAttribute('range'));

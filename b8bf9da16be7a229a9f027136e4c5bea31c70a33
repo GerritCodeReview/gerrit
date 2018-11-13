@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "320ceabe_0928f259",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-13T22:11:16Z",
+      "side": 1,
+      "message": "How about the case where url doesn\u0027t have a leading \u0027/\u0027?",
+      "revId": "b8bf9da16be7a229a9f027136e4c5bea31c70a33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

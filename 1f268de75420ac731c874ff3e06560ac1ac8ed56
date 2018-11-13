@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e39d230_2f23b7f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-13T17:08:01Z",
+      "side": 1,
+      "message": "risk? You are doing this to fix a real problem, no? Can you mention the problem? Better yet, put this information into the source code so nobody will move it back in the future.",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 43
+      },
+      "revId": "1f268de75420ac731c874ff3e06560ac1ac8ed56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

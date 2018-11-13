@@ -43,24 +43,24 @@
       this.$.restAPI.getRepoDashboards(this.repo, errFn).then(res => {
         if (!res) { return Promise.resolve(); }
 
-        // Flatten 2 dimenional array, and sort by id.
+        // Group by ref and sort by id.
         const dashboards = res.concat.apply([], res).sort((a, b) =>
-            a.id > b.id);
-        const customList = dashboards.filter(a => a.ref === 'custom');
-        const defaultList = dashboards.filter(a => a.ref === 'default');
+            a.id < b.id ? -1 : 1);
+        const dashboardsByRef = {};
+        dashboards.forEach(d => {
+          if (!dashboardsByRef[d.ref]) {
+            dashboardsByRef[d.ref] = [];
+          }
+          dashboardsByRef[d.ref].push(d);
+        });
+
         const dashboardBuilder = [];
-        if (customList.length) {
+        Object.keys(dashboardsByRef).sort().forEach(ref => {
           dashboardBuilder.push({
-            section: 'Custom',
-            dashboards: customList,
+            section: ref,
+            dashboards: dashboardsByRef[ref],
           });
-        }
-        if (defaultList.length) {
-          dashboardBuilder.push({
-            section: 'Default',
-            dashboards: defaultList,
-          });
-        }
+        });
 
         this._dashboards = dashboardBuilder;
         this._loading = false;
@@ -68,10 +68,10 @@
       });
     },
 
-    _getUrl(project, sections) {
-      if (!project || !sections) { return ''; }
+    _getUrl(project, id) {
+      if (!project || !id) { return ''; }
 
-      return Gerrit.Nav.getUrlForCustomDashboard(project, sections);
+      return Gerrit.Nav.getUrlForRepoDashboard(project, id);
     },
 
     _computeLoadingClass(loading) {

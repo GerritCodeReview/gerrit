@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa565562_8ccf80c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-13T22:44:25Z",
+      "side": 1,
+      "message": "Can this be combined with _handleResponseError?",
+      "revId": "aa0c7b2c005697fd8f37623757845ffd6c3b911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35d24dc4_a1d16b67",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-13T22:44:25Z",
+      "side": 1,
+      "message": "I don\u0027t see why you need a key variable and a switch. Why not:\n\n  if (action \u0026\u0026 action.__key \u003d\u003d\u003d RevisionActions.CHERRYPICK) {\n    // maybe show action dialog and return;\n  }\n  // do _handleResponseError stuff here",
+      "revId": "aa0c7b2c005697fd8f37623757845ffd6c3b911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

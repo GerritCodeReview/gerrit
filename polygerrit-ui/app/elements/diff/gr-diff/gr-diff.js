@@ -35,6 +35,18 @@
     RIGHT: 'right',
   };
 
+  const Defs = {};
+
+  /**
+   * Special line number which should not be collapsed into a shared region.
+   *
+   * @typedef {{
+   *  number: number,
+   *  leftSide: boolean
+   * }}
+   */
+  Defs.LineOfInterest;
+
   const LARGE_DIFF_THRESHOLD_LINES = 10000;
   const FULL_CONTEXT = -1;
   const LIMITED_CONTEXT = 10;
@@ -121,13 +133,7 @@
         observer: '_viewModeObserver',
       },
 
-      /**
-       * Special line number which should not be collapsed into a shared region.
-       * @type {{
-       *  number: number,
-       *  leftSide: {boolean}
-       * }|null}
-       */
+       /** @type ?Defs.LineOfInterest */
       lineOfInterest: Object,
 
       loading: {
@@ -639,7 +645,9 @@
       }
 
       this._showWarning = false;
-      this.$.diffBuilder.render(this.comments, this._getBypassPrefs());
+      const keyLocations = this._getKeyLocations(this.comments,
+          this.lineOfInterest);
+      this.$.diffBuilder.render(keyLocations, this._getBypassPrefs());
     },
 
     _handleRenderContent() {
@@ -673,6 +681,39 @@
       if (this._nodeObserver) {
         Polymer.dom(this).unobserveNodes(this._nodeObserver);
       }
+    },
+
+    /**
+     * Returns the key locations based on the comments and line of interests,
+     * where lines should not be collapsed.
+     *
+     * @param {!Object} comments
+     * @param {Defs.LineOfInterest|null} lineOfInterest
+     *
+     * @return {{left: Object<(string|number), boolean>,
+     *     right: Object<(string|number), boolean>}}
+     */
+    _getKeyLocations(comments, lineOfInterest) {
+      const result = {
+        left: {},
+        right: {},
+      };
+      for (const side in comments) {
+        if (side !== GrDiffBuilder.Side.LEFT &&
+            side !== GrDiffBuilder.Side.RIGHT) {
+          continue;
+        }
+        for (const c of comments[side]) {
+          result[side][c.line || GrDiffLine.FILE] = true;
+        }
+      }
+
+      if (lineOfInterest) {
+        const side = lineOfInterest.leftSide ? 'left' : 'right';
+        result[side][lineOfInterest.number] = true;
+      }
+
+      return result;
     },
 
     /**

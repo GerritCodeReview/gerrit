@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37498e29_ef7992d2",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-14T12:40:17Z",
+      "side": 1,
+      "message": "Unrelated to this change but if you are already changing this code I would propose to\ncreate instances of the ConfigUpdateEntry type using the \"map\" method of the java stream API:\n\n    entries\n        .stream()\n        .filter(this::isValueUpdated)\n        .map(e -\u003e new ConfigUpdateEntry(e, getString(e, oldConfig), getString(e, newConfig)))\n        .forEach(e -\u003e updates.put(updateResult, e));\n\nThis is a bit cleaner as each stage in the stream pipeline does one thing.",
+      "revId": "1e0375af9ddcb52f803d8ee76e7f86562d12ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13df875f_da48e394",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-14T12:40:17Z",
+      "side": 1,
+      "message": "Extract that code in a private getString method so that it can be reused from the next line\nand the .map call (see the previous comment) fits in one line.",
+      "range": {
+        "startLine": 105,
+        "startChar": 22,
+        "endLine": 105,
+        "endChar": 86
+      },
+      "revId": "1e0375af9ddcb52f803d8ee76e7f86562d12ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00e85198_4e680bde",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReloadConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-14T12:40:17Z",
+      "side": 1,
+      "message": "If we get a stream of the Map entries (instead of just keys) then we can avoid calling updates.get(k) for each key. The code would look like:\n\n    return updates\n        .asMap()\n        .entrySet()\n        .stream()\n        .collect(\n            Collectors.toMap(\n                e -\u003e e.getKey().name().toLowerCase(), e -\u003e toEntryInfos(e.getValue())));",
+      "revId": "1e0375af9ddcb52f803d8ee76e7f86562d12ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e2a5958_6f7c80bb",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReloadConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-14T12:40:17Z",
+      "side": 1,
+      "message": "Change to Collection, so that the downcast at the line 63 is not needed.",
+      "range": {
+        "startLine": 66,
+        "startChar": 58,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "1e0375af9ddcb52f803d8ee76e7f86562d12ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

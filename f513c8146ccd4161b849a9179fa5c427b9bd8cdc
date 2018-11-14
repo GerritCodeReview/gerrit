@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55d622fd_68a32a51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-14T19:27:32Z",
+      "side": 1,
+      "message": "can you make it private in the baseclass instead?\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/203795 should remove it from ADT",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "f513c8146ccd4161b849a9179fa5c427b9bd8cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

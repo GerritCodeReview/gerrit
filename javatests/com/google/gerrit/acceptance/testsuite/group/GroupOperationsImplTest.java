@@ -41,8 +41,6 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
 
   @Inject private AccountOperations accountOperations;
 
-  @Inject private GroupOperationsImpl groupOperations;
-
   private int uniqueGroupNameIndex;
 
   @Test

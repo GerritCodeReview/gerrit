@@ -68,7 +68,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
-import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
@@ -194,8 +193,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Inject private ChangeIndexCollection changeIndexCollection;
   @Inject private IndexConfig indexConfig;
-
-  @Inject protected GroupOperations groupOperations;
 
   private ChangeIndexedCounter changeIndexedCounter;
   private RegistrationHandle changeIndexedCounterHandle;

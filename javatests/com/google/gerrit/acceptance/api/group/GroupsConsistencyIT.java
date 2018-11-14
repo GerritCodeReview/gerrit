@@ -20,7 +20,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
-import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
@@ -31,7 +30,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.testing.GroupTestUtil;
-import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RefRename;
@@ -50,7 +48,6 @@ import org.junit.Test;
 @NoHttpd
 public class GroupsConsistencyIT extends AbstractDaemonTest {
 
-  @Inject protected GroupOperations groupOperations;
   private GroupInfo gAdmin;
   private GroupInfo g1;
   private GroupInfo g2;

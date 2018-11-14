@@ -56,7 +56,6 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
-import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -234,8 +233,6 @@ public class AccountIT extends AbstractDaemonTest {
   private DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners;
 
   @Inject private AccountManager accountManager;
-
-  @Inject protected GroupOperations groupOperations;
 
   private AccountIndexedCounter accountIndexedCounter;
   private RegistrationHandle accountIndexEventCounterHandle;

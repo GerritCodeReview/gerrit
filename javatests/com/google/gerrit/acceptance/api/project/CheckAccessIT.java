@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
@@ -31,7 +30,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -40,8 +38,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CheckAccessIT extends AbstractDaemonTest {
-
-  @Inject private GroupOperations groupOperations;
 
   private Project.NameKey normalProject;
   private Project.NameKey secretProject;

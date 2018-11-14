@@ -20,21 +20,17 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.testing.Util;
-import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
 public class IndexChangeIT extends AbstractDaemonTest {
-
-  @Inject protected GroupOperations groupOperations;
 
   @Test
   public void indexChange() throws Exception {

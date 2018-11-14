@@ -31,7 +31,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
@@ -53,7 +52,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -64,8 +62,6 @@ import java.util.Map;
 import org.junit.Test;
 
 public class ChangeReviewersIT extends AbstractDaemonTest {
-
-  @Inject protected GroupOperations groupOperations;
 
   @Test
   public void addGroupAsReviewer() throws Exception {

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afeb969c_267469f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-14T13:38:06Z",
+      "side": 1,
+      "message": "What happens if an admin flushes all caches:\n\n  ssh ... gerrit flush-caches\n\n?",
+      "revId": "49d4d5f63f7822cf835a31c6dc644ede5ffe7f38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9cde776_6b304bb0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-14T13:38:06Z",
+      "side": 1,
+      "message": "Also suggest here how to rebuild the cache?\n\nAlternatively, we should make it impossible (or harder) to flush this cache.\nThe same goes for a couple of other persistent caches which are expensive to compute\nlike the \"diff_summary\" cache. An accidental flush of this cache costed us a couple of weeks\nto rebuild it.\n\nWe can consider having a special property on persistent caches marking them non-flushable\nby default. This should prevent accidental flushing of such caches?",
+      "range": {
+        "startLine": 1016,
+        "startChar": 9,
+        "endLine": 1017,
+        "endChar": 40
+      },
+      "revId": "49d4d5f63f7822cf835a31c6dc644ede5ffe7f38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b56bdf89_74d778af",
+        "filename": "java/com/google/gerrit/gpg/SubkeyToMasterKeyCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-14T13:38:06Z",
+      "side": 1,
+      "message": "Define a large(r) disk limit for persistent cache? IIRC, the default is 128MB.\n\nI am still undecided about this cache which doesn\u0027t have a loader.\nIf an entry gets evicted from the cache, because the cache reached its max size, then\ninstead of just experiencing performance degradation (due to having to load again the\nmissing entries) we will actually get errors because some keys will not be found. Right?\nThen again we have two ways to fix the issue:\n* let the user delete/add his key\n* let the admin rebuild the complete cache (probably requires a restart afterwards?)",
+      "revId": "49d4d5f63f7822cf835a31c6dc644ede5ffe7f38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

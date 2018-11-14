@@ -71,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "a13ca04a_36347947",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-14T14:23:55Z",
+      "side": 1,
+      "message": "Looks like there should be an interface (QueueSuccessMessages) and two implementations of it (QueueSuccessMessagesSequential and QueueSuccessMessagesGrouped). The code from the queueSuccessMessagesGrouped and queueSuccessMessagesSequential methods should be moved into\nthese implementations. Besides a better separation of concerns, this would also protect this\nalready huge class from getting even larger.",
+      "range": {
+        "startLine": 707,
+        "startChar": 0,
+        "endLine": 711,
+        "endChar": 5
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a1fda90e_50f95570",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 2

@@ -1512,9 +1512,10 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private static void assertIncludes(Iterable<GroupInfo> includes, String... expectedNames) {
-    assertThat(Iterables.transform(includes, i -> i.name))
-        .containsExactlyElementsIn(Arrays.asList(expectedNames))
-        .inOrder();
+    Iterable<String> names = Iterables.transform(includes, i -> i.name);
+    assertThat(names)
+        .containsExactlyElementsIn(Arrays.asList(expectedNames));
+    assertThat(names).isOrdered();
   }
 
   private void assertNoIncludes(String group) throws Exception {

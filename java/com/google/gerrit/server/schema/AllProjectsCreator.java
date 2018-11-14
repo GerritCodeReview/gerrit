@@ -106,53 +106,14 @@ public class AllProjectsCreator {
     this.additionalLabelType = new ArrayList<>();
   }
 
-  /** If called, grant default permissions to this admin group */
-  public AllProjectsCreator setAdministrators(GroupReference admin) {
-    this.admin = admin;
-    return this;
-  }
-
-  /** If called, grant stream-events permission and set appropriate priority for this group */
-  public AllProjectsCreator setBatchUsers(GroupReference batch) {
-    this.batch = batch;
-    return this;
-  }
-
-  public AllProjectsCreator setCommitMessage(String message) {
-    this.message = message;
-    return this;
-  }
-
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public AllProjectsCreator setFirstChangeIdForNoteDb(int id) {
-    checkArgument(id > 0, "id must be positive: %s", id);
-    firstChangeId = id;
-    return this;
-  }
-
-  /** If called, the provided "Code-Review" label will be used rather than the default. */
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public AllProjectsCreator setCodeReviewLabel(LabelType labelType) {
-    checkArgument(
-        labelType.getName().equals("Code-Review"), "label should have 'Code-Review' as its name");
-    this.codeReviewLabel = labelType;
-    return this;
-  }
-
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public AllProjectsCreator addAdditionalLabel(LabelType labelType) {
-    additionalLabelType.add(labelType);
-    return this;
-  }
-
-  public void create() throws IOException, ConfigInvalidException {
+  public void create(AllProjectsCreatorInput input) throws IOException, ConfigInvalidException {
     try (Repository git = repositoryManager.openRepository(allProjectsName)) {
-      initAllProjects(git);
+      initAllProjects(git, input);
     } catch (RepositoryNotFoundException notFound) {
       // A repository may be missing if this project existed only to store
       // inheritable permissions. For example 'All-Projects'.
       try (Repository git = repositoryManager.createRepository(allProjectsName)) {
-        initAllProjects(git);
+        initAllProjects(git, input);
         RefUpdate u = git.updateRef(Constants.HEAD);
         u.link(RefNames.REFS_CONFIG);
       } catch (RepositoryNotFoundException err) {
@@ -162,7 +123,7 @@ public class AllProjectsCreator {
     }
   }
 
-  private void initAllProjects(Repository git) throws IOException, ConfigInvalidException {
+  private void initAllProjects(Repository git, AllProjectsCreatorInput input) throws IOException, ConfigInvalidException {
     BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate md =
         new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git, bru)) {
@@ -170,7 +131,7 @@ public class AllProjectsCreator {
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage(
           MoreObjects.firstNonNull(
-              Strings.emptyToNull(message),
+              Strings.emptyToNull(input.commitMessage()),
               "Initialized Gerrit Code Review " + Version.getVersion()));
 
       ProjectConfig config = projectConfigFactory.read(md);
@@ -190,6 +151,8 @@ public class AllProjectsCreator {
       AccessSection refsFor = config.getAccessSection("refs/for/*", true);
       AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
 
+      GroupReference admin = input.adminGroup();
+      GroupReference batch = input.batchGroup();
       grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
       grant(config, all, Permission.READ, admin, anonymous);
       grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
@@ -204,7 +167,10 @@ public class AllProjectsCreator {
         stream.add(rule(config, batch));
       }
 
-      initLabels(config);
+
+      LabelType codeReviewLabel = input.codeReviewLabel();
+      initLabels(config, codeReviewLabel, input.additionalLabelType());
+
       grant(config, heads, codeReviewLabel, -1, 1, registered);
 
       grant(config, heads, codeReviewLabel, -2, 2, admin, owners);
@@ -230,7 +196,7 @@ public class AllProjectsCreator {
       grant(config, meta, Permission.SUBMIT, admin, owners);
 
       config.commitToNewRef(md, RefNames.REFS_CONFIG);
-      initSequences(git, bru);
+      initSequences(git, bru, input.firstChangeId());
       execute(git, bru);
     }
   }
@@ -251,12 +217,13 @@ public class AllProjectsCreator {
     return type;
   }
 
-  private void initLabels(ProjectConfig projectConfig) {
+  private void initLabels(
+      ProjectConfig projectConfig, LabelType codeReviewLabel, ImmutableList<LabelType> additionalLabelType) {
     projectConfig.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel);
     additionalLabelType.forEach(t -> projectConfig.getLabelSections().put(t.getName(), t));
   }
 
-  private void initSequences(Repository git, BatchRefUpdate bru) throws IOException {
+  private void initSequences(Repository git, BatchRefUpdate bru, int firstChangeId) throws IOException {
     if (notesMigration.readChangeSequence()
         && git.exactRef(REFS_SEQUENCES + Sequences.NAME_CHANGES) == null) {
       // Can't easily reuse the inserter from MetaDataUpdate, but this shouldn't slow down site

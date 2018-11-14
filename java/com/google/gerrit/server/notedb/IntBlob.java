@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
@@ -28,6 +29,7 @@ import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -116,8 +118,9 @@ public abstract class IntBlob {
     return result == RefUpdate.Result.NEW || result == RefUpdate.Result.FORCED;
   }
 
-  private static IntBlob create(ObjectId id, int value) {
-    return new AutoValue_IntBlob(id, value);
+  @VisibleForTesting
+  static IntBlob create(AnyObjectId id, int value) {
+    return new AutoValue_IntBlob(id.copy(), value);
   }
 
   public abstract ObjectId id();

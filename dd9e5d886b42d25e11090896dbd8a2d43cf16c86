@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0cb59ca_47d13f77",
+        "filename": "lib/mockito/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-14T17:59:52Z",
+      "side": 1,
+      "message": "Add testonly \u003d 1, here and in all libraries below.",
+      "revId": "dd9e5d886b42d25e11090896dbd8a2d43cf16c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b35c7eec_10aa71a7",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-14T17:59:52Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be needed. instead of adding this here just export this in java/com/google/gerrit/acceptance:lib:\n\n  @@ -49,6 +49,7 @@ java_library(\n         \"//lib/guice:guice-servlet\",\n         \"//lib/jgit/org.eclipse.jgit:jgit\",\n         \"//lib/mina:sshd\",\n+        \"//lib/mockito\",",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 20
+      },
+      "revId": "dd9e5d886b42d25e11090896dbd8a2d43cf16c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

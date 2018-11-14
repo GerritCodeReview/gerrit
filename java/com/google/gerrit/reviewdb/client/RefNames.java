@@ -49,6 +49,9 @@ public class RefNames {
   /** Sequence counters in NoteDb. */
   public static final String REFS_SEQUENCES = "refs/sequences/";
 
+  /** NoteDb schema version number. */
+  public static final String REFS_VERSION = "refs/meta/version";
+
   /**
    * Prefix applied to merge commit base nodes.
    *

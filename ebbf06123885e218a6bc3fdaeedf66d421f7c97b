@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fef6d422_f09f3d34",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-14T00:34:10Z",
+      "side": 1,
+      "message": "This should be icon, not icon$ (because icon is a property, not an attribute).",
+      "range": {
+        "startLine": 160,
+        "startChar": 18,
+        "endLine": 160,
+        "endChar": 23
+      },
+      "revId": "ebbf06123885e218a6bc3fdaeedf66d421f7c97b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "686312b4_11323624",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-14T00:34:10Z",
+      "side": 1,
+      "message": "return [msg + \u0027:\u0027].concat(key.problems).join(\u0027\\n\u0027)",
+      "range": {
+        "startLine": 337,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 22
+      },
+      "revId": "ebbf06123885e218a6bc3fdaeedf66d421f7c97b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

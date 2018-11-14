@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4fd62eb2_2048a980",
+        "filename": "lib/mockito/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-14T18:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0cb59ca_47d13f77",
+      "revId": "dd9e5d886b42d25e11090896dbd8a2d43cf16c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b35c7eec_10aa71a7",
         "filename": "tools/eclipse/BUILD",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "dd9e5d886b42d25e11090896dbd8a2d43cf16c86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7850519b_db33ea1e",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-14T18:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b35c7eec_10aa71a7",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 20
+      },
+      "revId": "dd9e5d886b42d25e11090896dbd8a2d43cf16c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

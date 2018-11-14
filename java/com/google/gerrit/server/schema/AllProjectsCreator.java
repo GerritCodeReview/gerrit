@@ -48,9 +48,11 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,6 +75,7 @@ public class AllProjectsCreator {
   private final AllProjectsName allProjectsName;
   private final PersonIdent serverUser;
   private final NotesMigration notesMigration;
+  private final NoteDbSchemaVersionManager versionManager;
   private final ProjectConfig.Factory projectConfigFactory;
   private final GroupReference anonymous;
   private final GroupReference registered;
@@ -91,12 +94,14 @@ public class AllProjectsCreator {
       AllProjectsName allProjectsName,
       @GerritPersonIdent PersonIdent serverUser,
       NotesMigration notesMigration,
+      NoteDbSchemaVersionManager versionManager,
       SystemGroupBackend systemGroupBackend,
       ProjectConfig.Factory projectConfigFactory) {
     this.repositoryManager = repositoryManager;
     this.allProjectsName = allProjectsName;
     this.serverUser = serverUser;
     this.notesMigration = notesMigration;
+    this.versionManager = versionManager;
     this.projectConfigFactory = projectConfigFactory;
 
     this.anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS);
@@ -145,7 +150,7 @@ public class AllProjectsCreator {
     return this;
   }
 
-  public void create() throws IOException, ConfigInvalidException {
+  public void create() throws IOException, ConfigInvalidException, OrmException {
     try (Repository git = repositoryManager.openRepository(allProjectsName)) {
       initAllProjects(git);
     } catch (RepositoryNotFoundException notFound) {
@@ -162,7 +167,8 @@ public class AllProjectsCreator {
     }
   }
 
-  private void initAllProjects(Repository git) throws IOException, ConfigInvalidException {
+  private void initAllProjects(Repository git)
+      throws IOException, ConfigInvalidException, OrmException {
     BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate md =
         new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git, bru)) {
@@ -231,6 +237,7 @@ public class AllProjectsCreator {
 
       config.commitToNewRef(md, RefNames.REFS_CONFIG);
       initSequences(git, bru);
+      initSchemaVersion(git, bru);
       execute(git, bru);
     }
   }
@@ -265,6 +272,13 @@ public class AllProjectsCreator {
         bru.addCommand(RepoSequence.storeNew(ins, Sequences.NAME_CHANGES, firstChangeId));
         ins.flush();
       }
+    }
+  }
+
+  private void initSchemaVersion(Repository git, BatchRefUpdate bru)
+      throws IOException, OrmException {
+    if (notesMigration.commitChangeWrites()) {
+      versionManager.init();
     }
   }
 

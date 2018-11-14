@@ -17,7 +17,6 @@ package com.google.gerrit.reviewdb.server;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.Relation;
 import com.google.gwtorm.server.Schema;
@@ -31,7 +30,6 @@ import com.google.gwtorm.server.Sequence;
  * <ul>
  *   <li>{@link Account}: Per-user account registration, preferences, identity.
  *   <li>{@link Change}: All review information about a single proposed change.
- *   <li>{@link SystemConfig}: Server-wide settings, managed by administrator.
  * </ul>
  */
 public interface ReviewDb extends Schema {
@@ -40,8 +38,7 @@ public interface ReviewDb extends Schema {
   @Relation(id = 1)
   SchemaVersionAccess schemaVersion();
 
-  @Relation(id = 2)
-  SystemConfigAccess systemConfig();
+  // Deleted @Relation(id = 2)
 
   // Deleted @Relation(id = 3)
 

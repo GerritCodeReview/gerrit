@@ -105,9 +105,8 @@ script and modify it for your configuration:
 ----
 
 [TIP]
-Under Jetty, restarting the web application (e.g. after modifying
-`system_config`) is as simple as touching the context config file:
-`'$JETTY_HOME'/contexts/gerrit.xml`
+Under Jetty, restarting the web application is as simple as
+touching the context config file: `'$JETTY_HOME'/contexts/gerrit.xml`
 
 [[tomcat]]
 == Tomcat 7.x

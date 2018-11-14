@@ -51,16 +51,6 @@ limitations under the License.
     (function() {
       'use strict';
 
-      const Defs = {};
-
-      /**
-       * @typedef {{
-       *  number: number,
-       *  leftSide: {boolean}
-       * }}
-       */
-      Defs.LineOfInterest;
-
       const DiffViewMode = {
         SIDE_BY_SIDE: 'SIDE_BY_SIDE',
         UNIFIED: 'UNIFIED_DIFF',
@@ -115,10 +105,6 @@ limitations under the License.
           parentIndex: Number,
           path: String,
           projectName: String,
-          /**
-           * @type {Defs.LineOfInterest|null}
-           */
-          lineOfInterest: Object,
 
           _builder: Object,
           _groups: Array,
@@ -161,7 +147,7 @@ limitations under the License.
           this._layers = layers;
         },
 
-        render(comments, prefs) {
+        render(keyLocations, prefs) {
           this.$.syntaxLayer.enabled = prefs.syntax_highlighting;
           this._showTabs = !!prefs.show_tabs;
           this._showTrailingWhitespace = !!prefs.show_whitespace_errors;
@@ -172,8 +158,7 @@ limitations under the License.
           this._builder = this._getDiffBuilder(this.diff, prefs);
 
           this.$.processor.context = prefs.context;
-          this.$.processor.keyLocations = this._getKeyLocations(comments,
-              this.lineOfInterest);
+          this.$.processor.keyLocations = keyLocations;
 
           this._clearDiffContent();
           this._builder.addColumns(this.diffElement, prefs.font_size);
@@ -330,33 +315,6 @@ limitations under the License.
 
         _clearDiffContent() {
           this.diffElement.innerHTML = null;
-        },
-
-        /**
-         * @param {!Object} comments
-         * @param {Defs.LineOfInterest|null} lineOfInterest
-         */
-        _getKeyLocations(comments, lineOfInterest) {
-          const result = {
-            left: {},
-            right: {},
-          };
-          for (const side in comments) {
-            if (side !== GrDiffBuilder.Side.LEFT &&
-                side !== GrDiffBuilder.Side.RIGHT) {
-              continue;
-            }
-            for (const c of comments[side]) {
-              result[side][c.line || GrDiffLine.FILE] = true;
-            }
-          }
-
-          if (lineOfInterest) {
-            const side = lineOfInterest.leftSide ? 'left' : 'right';
-            result[side][lineOfInterest.number] = true;
-          }
-
-          return result;
         },
 
         _groupsChanged(changeRecord) {

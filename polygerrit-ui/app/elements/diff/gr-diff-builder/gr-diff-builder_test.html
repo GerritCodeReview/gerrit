@@ -396,33 +396,6 @@ limitations under the License.
         `Fix in diff preferences`);
     });
 
-    test('_getKeyLocations', () => {
-      assert.deepEqual(element._getKeyLocations({left: [], right: []}, null),
-          {left: {}, right: {}});
-      const comments = {
-        left: [{line: 123}, {}],
-        right: [{line: 456}],
-      };
-      assert.deepEqual(element._getKeyLocations(comments, null), {
-        left: {FILE: true, 123: true},
-        right: {456: true},
-      });
-
-      const lineOfInterest = {number: 789, leftSide: true};
-      assert.deepEqual(
-          element._getKeyLocations(comments, lineOfInterest), {
-            left: {FILE: true, 123: true, 789: true},
-            right: {456: true},
-          });
-
-      delete lineOfInterest.leftSide;
-      assert.deepEqual(
-          element._getKeyLocations(comments, lineOfInterest), {
-            left: {FILE: true, 123: true},
-            right: {456: true, 789: true},
-          });
-    });
-
     suite('_isTotal', () => {
       test('is total for add', () => {
         const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
@@ -852,7 +825,7 @@ limitations under the License.
 
     suite('rendering text, images and binary files', () => {
       let processStub;
-      let comments;
+      let keyLocations;
       let prefs;
       let content;
 
@@ -862,7 +835,7 @@ limitations under the License.
         processStub = sandbox.stub(element.$.processor, 'process')
             .returns(Promise.resolve());
         sandbox.stub(element, '_anyLineTooLong').returns(true);
-        comments = {left: [], right: [], meta: {patchRange: undefined}};
+        keyLocations = {left: {}, right: {}};
         prefs = {
           line_length: 10,
           show_tabs: true,
@@ -883,7 +856,7 @@ limitations under the License.
 
       test('text', () => {
         element.diff = {content};
-        return element.render(comments, prefs).then(() => {
+        return element.render(keyLocations, prefs).then(() => {
           assert.isTrue(processStub.calledOnce);
           assert.isFalse(processStub.lastCall.args[1]);
         });
@@ -892,7 +865,7 @@ limitations under the License.
       test('image', () => {
         element.diff = {content, binary: true};
         element.isImageDiff = true;
-        return element.render(comments, prefs).then(() => {
+        return element.render(keyLocations, prefs).then(() => {
           assert.isTrue(processStub.calledOnce);
           assert.isTrue(processStub.lastCall.args[1]);
         });
@@ -900,7 +873,7 @@ limitations under the License.
 
       test('binary', () => {
         element.diff = {content, binary: true};
-        return element.render(comments, prefs).then(() => {
+        return element.render(keyLocations, prefs).then(() => {
           assert.isTrue(processStub.calledOnce);
           assert.isTrue(processStub.lastCall.args[1]);
         });
@@ -910,7 +883,7 @@ limitations under the License.
     suite('rendering', () => {
       let content;
       let outputEl;
-      let comments;
+      let keyLocations;
 
       setup(done => {
         const prefs = {
@@ -938,7 +911,7 @@ limitations under the License.
         });
         element = fixture('basic');
         outputEl = element.queryEffectiveChildren('#diffTable');
-        comments = {left: [], right: [], meta: {patchRange: undefined}};
+        keyLocations = {left: {}, right: {}};
         sandbox.stub(element, '_getDiffBuilder', () => {
           const builder = new GrDiffBuilder({content}, [], prefs, outputEl);
           sandbox.stub(builder, 'addColumns');
@@ -952,7 +925,7 @@ limitations under the License.
           return builder;
         });
         element.diff = {content};
-        element.render(comments, prefs).then(done);
+        element.render(keyLocations, prefs).then(done);
       });
 
       test('reporting', done => {
@@ -977,7 +950,7 @@ limitations under the License.
       });
 
       test('addColumns is called', done => {
-        element.render(comments, {}).then(done);
+        element.render(keyLocations, {}).then(done);
         assert.isTrue(element._builder.addColumns.called);
       });
 
@@ -1001,7 +974,7 @@ limitations under the License.
 
       test('render-start and render are fired', done => {
         const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
-        element.render(comments, {}).then(() => {
+        element.render(keyLocations, {}).then(() => {
           const firedEventTypes = dispatchEventStub.getCalls()
               .map(c => { return c.args[0].type; });
           assert.include(firedEventTypes, 'render-start');
@@ -1029,7 +1002,7 @@ limitations under the License.
           context: -1,
           syntax_highlighting: true,
         };
-        element.render(comments, prefs);
+        element.render(keyLocations, prefs);
       });
 
       test('cancel', () => {
@@ -1046,7 +1019,7 @@ limitations under the License.
       let builder;
       let diff;
       let prefs;
-      let comments;
+      let keyLocations;
 
       setup(done => {
         element = fixture('mock-diff');
@@ -1058,9 +1031,9 @@ limitations under the License.
           show_tabs: true,
           tab_size: 4,
         };
-        comments = {left: [], right: [], meta: {patchRange: undefined}};
+        keyLocations = {left: {}, right: {}};
 
-        element.render(comments, prefs).then(() => {
+        element.render(keyLocations, prefs).then(() => {
           builder = element._builder;
           done();
         });
@@ -1170,7 +1143,7 @@ limitations under the License.
       test('_getNextContentOnSide unified left', done => {
         // Re-render as unified:
         element.viewMode = 'UNIFIED_DIFF';
-        element.render(comments, prefs).then(() => {
+        element.render(keyLocations, prefs).then(() => {
           builder = element._builder;
 
           const startElem = builder.getContentByLine(5, 'left',
@@ -1190,7 +1163,7 @@ limitations under the License.
       test('_getNextContentOnSide unified right', done => {
         // Re-render as unified:
         element.viewMode = 'UNIFIED_DIFF';
-        element.render(comments, prefs).then(() => {
+        element.render(keyLocations, prefs).then(() => {
           builder = element._builder;
 
           const startElem = builder.getContentByLine(5, 'right',

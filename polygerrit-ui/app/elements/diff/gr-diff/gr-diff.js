@@ -35,6 +35,18 @@
     RIGHT: 'right',
   };
 
+  const Defs = {};
+
+  /**
+   * Special line number which should not be collapsed into a shared region.
+   *
+   * @typedef {{
+   *  number: number,
+   *  leftSide: boolean
+   * }}
+   */
+  Defs.LineOfInterest;
+
   const LARGE_DIFF_THRESHOLD_LINES = 10000;
   const FULL_CONTEXT = -1;
   const LIMITED_CONTEXT = 10;
@@ -121,13 +133,7 @@
         observer: '_viewModeObserver',
       },
 
-      /**
-       * Special line number which should not be collapsed into a shared region.
-       * @type {{
-       *  number: number,
-       *  leftSide: {boolean}
-       * }|null}
-       */
+       /** @type ?Defs.LineOfInterest */
       lineOfInterest: Object,
 
       loading: {
@@ -169,6 +175,21 @@
       _safetyBypass: {
         type: Number,
         value: null,
+      },
+
+      /**
+       * The key locations based on the comments and line of interests,
+       * where lines should not be collapsed.
+       *
+       * @type {{left: Object<(string|number), number>,
+       *     right: Object<(string|number), number>}}
+       */
+      _keyLocations: {
+        type: Object,
+        value: {
+          left: {},
+          right: {},
+        }
       },
 
       _showWarning: Boolean,
@@ -250,6 +271,25 @@
         // caused by further redistribution. Right now, comments are never
         // removed by no longer slotting them in, so I decided to not handle
         // this situation until it occurs.
+
+        const removedThreadEls = info.removedNodes.filter(isThreadEl);
+        for (const threadEl of removedThreadEls) {
+          const lineNumString = threadEl.getAttribute('line-num') || 'FILE';
+          const commentSide = threadEl.getAttribute('comment-side');
+          this._keyLocations[commentSide][lineNumString]--;
+        }
+        for (const threadEl of addedThreadEls) {
+          const lineNumString = threadEl.getAttribute('line-num') || 'FILE';
+          const commentSide = threadEl.getAttribute('comment-side');
+          this._keyLocations[commentSide][lineNumString]++;
+          const lineEl = this.$.diffBuilder.getLineElByNumber(
+              lineNumString, commentSide);
+          const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
+          const contentEl = contentText.parentElement;
+          const threadGroupEl = this._getOrCreateThreadGroup(contentEl);
+          Polymer.dom(threadGroupEl).appendChild(threadEl);
+        }
+        console.log('_updateRangesWhenNodesChange: keyLocations', this._keylocations);
       });
     },
 
@@ -619,6 +659,8 @@
 
     _diffChanged(newValue) {
       if (newValue) {
+        this._keyLocations = this._getKeyLocations(//this.comments,
+            this.lineOfInterest);
         this._diffLength = this.$.diffBuilder.getDiffLength();
         this._renderDiffTable();
       }
@@ -639,11 +681,19 @@
       }
 
       this._showWarning = false;
-      this.$.diffBuilder.render(this.comments, this._getBypassPrefs());
+      console.log('keyLocations', this._keylocations);
+      this.$.diffBuilder.render(this._keyLocations, this._getBypassPrefs());
     },
 
     _handleRenderContent() {
       this._incrementalNodeObserver = Polymer.dom(this).observeNodes(info => {
+        const removedThreadEls = info.removedNodes.filter(isThreadEl);
+        for (const threadEl of removedThreadEls) {
+          const lineNumString = threadEl.getAttribute('line-num') || 'FILE';
+          const commentSide = threadEl.getAttribute('comment-side');
+          this._keyLocations[commentSide][lineNumString]--;
+        }
+
         const addedThreadEls = info.addedNodes.filter(isThreadEl);
         // In principal we should also handle removed nodes, but I have not
         // figured out how to do that yet without also catching all the removals
@@ -653,6 +703,7 @@
         for (const threadEl of addedThreadEls) {
           const lineNumString = threadEl.getAttribute('line-num') || 'FILE';
           const commentSide = threadEl.getAttribute('comment-side');
+          this._keyLocations[commentSide][lineNumString]++;
           const lineEl = this.$.diffBuilder.getLineElByNumber(
               lineNumString, commentSide);
           const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
@@ -660,6 +711,7 @@
           const threadGroupEl = this._getOrCreateThreadGroup(contentEl);
           Polymer.dom(threadGroupEl).appendChild(threadEl);
         }
+        console.log('handleRendercontent: keyLocations', this._keylocations);
       });
     },
 
@@ -673,6 +725,34 @@
       if (this._nodeObserver) {
         Polymer.dom(this).unobserveNodes(this._nodeObserver);
       }
+    },
+
+    /**
+     * Returns the key locations based on the comments and line of interests,
+     * where lines should not be collapsed.
+     *
+     * @param {?Defs.LineOfInterest} lineOfInterest
+     *
+     * @return {{left: Object<(string|number), boolean>,
+     *     right: Object<(string|number), boolean>}}
+     */
+    _getKeyLocations(/*comments, */lineOfInterest) {
+      // for (const side in comments) {
+      //   if (side !== GrDiffBuilder.Side.LEFT &&
+      //       side !== GrDiffBuilder.Side.RIGHT) {
+      //     continue;
+      //   }
+      //   for (const c of comments[side]) {
+      //     result[side][c.line || GrDiffLine.FILE] = true;
+      //   }
+      // }
+
+      if (lineOfInterest) {
+        const side = lineOfInterest.leftSide ? 'left' : 'right';
+        result[side][lineOfInterest.number]++;
+      }
+
+      return result;
     },
 
     /**

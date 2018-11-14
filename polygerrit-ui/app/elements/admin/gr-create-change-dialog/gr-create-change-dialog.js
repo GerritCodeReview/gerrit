@@ -44,6 +44,7 @@
         notify: true,
         value: false,
       },
+      _privateChangesEnabled: Boolean,
     },
 
     behaviors: [
@@ -52,10 +53,23 @@
     ],
 
     attached() {
-      if (!this.repoName) { return; }
-      this.$.restAPI.getProjectConfig(this.repoName).then(config => {
-        this.privateByDefault = config.private_by_default;
-      });
+      if (!this.repoName) { return Promise.resolve(); }
+
+      const promises = [];
+
+      promises.push(this.$.restAPI.getProjectConfig(this.repoName)
+          .then(config => {
+            this.privateByDefault = config.private_by_default;
+          }));
+
+      promises.push(this.$.restAPI.getConfig().then(config => {
+        if (!config) { return; }
+
+        this._privateConfig = config && config.change &&
+            config.change.disable_private_changes;
+      }));
+
+      return Promise.all(promises);
     },
 
     observers: [
@@ -63,7 +77,7 @@
     ],
 
     _computeBranchClass(baseChange) {
-      return baseChange ? 'hideBranch' : '';
+      return baseChange ? 'hide' : '';
     },
 
     _allowCreate(branch, subject) {
@@ -119,6 +133,10 @@
       } else {
         return false;
       }
+    },
+
+    _computePrivateSectionClass(config) {
+      return config ? 'hide' : '';
     },
   });
 })();

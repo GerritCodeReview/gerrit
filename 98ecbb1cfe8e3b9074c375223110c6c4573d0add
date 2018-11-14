@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "a1971958_5c4691de",
+        "filename": "java/com/google/gerrit/server/audit/HttpAuditEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2018-11-14T21:28:53Z",
+      "side": 1,
+      "message": "This is because AuditEvent has now been moved to a different package.",
+      "parentUuid": "990b52c3_f3bd98c9",
+      "revId": "98ecbb1cfe8e3b9074c375223110c6c4573d0add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd9b5e03_41ce55e5",
         "filename": "java/com/google/gerrit/server/audit/SshAuditEvent.java",
         "patchSetId": 2
@@ -50,6 +68,24 @@
       "revId": "98ecbb1cfe8e3b9074c375223110c6c4573d0add",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a7ffc03_06355997",
+        "filename": "java/com/google/gerrit/server/audit/SshAuditEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2018-11-14T21:28:53Z",
+      "side": 1,
+      "message": "Same as above",
+      "parentUuid": "bd9b5e03_41ce55e5",
+      "revId": "98ecbb1cfe8e3b9074c375223110c6c4573d0add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

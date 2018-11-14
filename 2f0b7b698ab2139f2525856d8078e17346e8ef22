@@ -16,6 +16,24 @@
       "revId": "2f0b7b698ab2139f2525856d8078e17346e8ef22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7303517f_1f560966",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1518,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-14T23:17:07Z",
+      "side": 1,
+      "message": "I guess if we get rid of this, then there is no place where we actually check that the output of this extension API is sorted.\n\nBut if we care about that, then we can test it directly:\n\n* remove inOrder() as I suggested in the previous comment\n* add assertThat(names).isSorted();",
+      "parentUuid": "e7a5a662_6ee12e26",
+      "revId": "2f0b7b698ab2139f2525856d8078e17346e8ef22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

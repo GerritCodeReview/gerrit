@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e1bca88_1dd3067c",
+        "filename": "java/com/google/gerrit/server/update/RefUpdateUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-14T18:51:28Z",
+      "side": 1,
+      "message": "I guess this blank line is what causes the code style check to fail.",
+      "revId": "9f42da7378dce41a83036631bb45e68ca8d48cd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -65,6 +65,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.MutableNotesMigration;
+import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
 import com.google.gerrit.server.notedb.NoteDbTable;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigrationState;
@@ -151,6 +152,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private final MutableNotesMigration globalNotesMigration;
     private final PrimaryStorageMigrator primaryStorageMigrator;
     private final DynamicSet<NotesMigrationStateListener> listeners;
+    private final NoteDbSchemaVersionManager versionManager;
 
     private int threads;
     private ImmutableList<Project.NameKey> projects = ImmutableList.of();
@@ -179,7 +181,8 @@ public class NoteDbMigrator implements AutoCloseable {
         WorkQueue workQueue,
         MutableNotesMigration globalNotesMigration,
         PrimaryStorageMigrator primaryStorageMigrator,
-        DynamicSet<NotesMigrationStateListener> listeners) {
+        DynamicSet<NotesMigrationStateListener> listeners,
+        NoteDbSchemaVersionManager versionManager) {
       // Reload gerrit.config/notedb.config on each migrator invocation, in case a previous
       // migration in the same process modified the on-disk contents. This ensures the defaults for
       // trial/autoMigrate get set correctly below.
@@ -199,6 +202,7 @@ public class NoteDbMigrator implements AutoCloseable {
       this.globalNotesMigration = globalNotesMigration;
       this.primaryStorageMigrator = primaryStorageMigrator;
       this.listeners = listeners;
+      this.versionManager = versionManager;
       this.trial = getTrialMode(cfg);
       this.autoMigrate = getAutoMigrate(cfg);
     }
@@ -361,6 +365,7 @@ public class NoteDbMigrator implements AutoCloseable {
           globalNotesMigration,
           primaryStorageMigrator,
           listeners,
+          versionManager,
           threads > 1
               ? MoreExecutors.listeningDecorator(
                   workQueue.createQueue(threads, "RebuildChange", true))
@@ -391,6 +396,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final MutableNotesMigration globalNotesMigration;
   private final PrimaryStorageMigrator primaryStorageMigrator;
   private final DynamicSet<NotesMigrationStateListener> listeners;
+  private final NoteDbSchemaVersionManager versionManager;
 
   private final ListeningExecutorService executor;
   private final ImmutableList<Project.NameKey> projects;
@@ -417,6 +423,7 @@ public class NoteDbMigrator implements AutoCloseable {
       MutableNotesMigration globalNotesMigration,
       PrimaryStorageMigrator primaryStorageMigrator,
       DynamicSet<NotesMigrationStateListener> listeners,
+      NoteDbSchemaVersionManager versionManager,
       ListeningExecutorService executor,
       ImmutableList<Project.NameKey> projects,
       ImmutableList<Change.Id> changes,
@@ -447,6 +454,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.globalNotesMigration = globalNotesMigration;
     this.primaryStorageMigrator = primaryStorageMigrator;
     this.listeners = listeners;
+    this.versionManager = versionManager;
     this.executor = executor;
     this.projects = projects;
     this.changes = changes;
@@ -546,7 +554,9 @@ public class NoteDbMigrator implements AutoCloseable {
     }
   }
 
-  private NotesMigrationState turnOnWrites(NotesMigrationState prev) throws IOException {
+  private NotesMigrationState turnOnWrites(NotesMigrationState prev)
+      throws OrmException, IOException {
+    versionManager.init();
     return saveState(prev, WRITE);
   }
 

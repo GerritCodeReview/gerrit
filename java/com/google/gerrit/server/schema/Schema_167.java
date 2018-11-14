@@ -40,6 +40,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupNameNotes;
+import com.google.gerrit.server.notedb.schema.UpdateUI;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

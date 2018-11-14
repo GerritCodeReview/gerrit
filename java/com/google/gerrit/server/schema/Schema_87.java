@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.notedb.schema.UpdateUI;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

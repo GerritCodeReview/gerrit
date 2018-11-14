@@ -41,10 +41,11 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.notedb.schema.NoteDbSchemaUpdater;
+import com.google.gerrit.server.notedb.schema.UpdateUI;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.schema.ReviewDbSchemaUpdater;
-import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
@@ -358,7 +359,8 @@ public class BaseInit extends SiteProgram {
     public final ConsoleUI ui;
     public final SitePaths site;
     public final InitFlags flags;
-    final ReviewDbSchemaUpdater schemaUpdater;
+    final ReviewDbSchemaUpdater reviewDbSchemaUpdater;
+    final NoteDbSchemaUpdater noteDbSchemaUpdater;
     final SchemaFactory<ReviewDb> schema;
     final GitRepositoryManager repositoryManager;
 
@@ -367,57 +369,23 @@ public class BaseInit extends SiteProgram {
         ConsoleUI ui,
         SitePaths site,
         InitFlags flags,
-        ReviewDbSchemaUpdater schemaUpdater,
+        ReviewDbSchemaUpdater reviewDbSchemaUpdater,
+        com.google.gerrit.server.notedb.schema.NoteDbSchemaUpdater noteDbSchemaUpdater,
         @ReviewDbFactory SchemaFactory<ReviewDb> schema,
         GitRepositoryManager repositoryManager) {
       this.ui = ui;
       this.site = site;
       this.flags = flags;
-      this.schemaUpdater = schemaUpdater;
+      this.reviewDbSchemaUpdater = reviewDbSchemaUpdater;
+      this.noteDbSchemaUpdater = noteDbSchemaUpdater;
       this.schema = schema;
       this.repositoryManager = repositoryManager;
     }
 
     void upgradeSchema() throws OrmException {
       final List<String> pruneList = new ArrayList<>();
-      schemaUpdater.update(
-          new UpdateUI() {
-            @Override
-            public void message(String message) {
-              System.err.println(message);
-              System.err.flush();
-            }
-
-            @Override
-            public boolean yesno(boolean defaultValue, String message) {
-              return ui.yesno(defaultValue, message);
-            }
-
-            @Override
-            public void waitForUser() {
-              ui.waitForUser();
-            }
-
-            @Override
-            public String readString(
-                String defaultValue, Set<String> allowedValues, String message) {
-              return ui.readString(defaultValue, allowedValues, message);
-            }
-
-            @Override
-            public boolean isBatch() {
-              return ui.isBatch();
-            }
-
-            @Override
-            public void pruneSchema(StatementExecutor e, List<String> prune) {
-              for (String p : prune) {
-                if (!pruneList.contains(p)) {
-                  pruneList.add(p);
-                }
-              }
-            }
-          });
+      UpdateUI ui = new UpdateUiImpl(pruneList);
+      reviewDbSchemaUpdater.update(ui);
 
       if (!pruneList.isEmpty()) {
         StringBuilder msg = new StringBuilder();
@@ -429,16 +397,61 @@ public class BaseInit extends SiteProgram {
           msg.append(";\n");
         }
 
-        if (ui.isBatch()) {
+        if (this.ui.isBatch()) {
           System.err.print(msg);
           System.err.flush();
 
-        } else if (ui.yesno(true, "%s\nExecute now", msg)) {
+        } else if (this.ui.yesno(true, "%s\nExecute now", msg)) {
           try (JdbcSchema db = (JdbcSchema) unwrapDb(schema.open());
               JdbcExecutor e = new JdbcExecutor(db)) {
             for (String sql : pruneList) {
               e.execute(sql);
             }
+          }
+        }
+      }
+
+      noteDbSchemaUpdater.update(ui);
+    }
+
+    private class UpdateUiImpl implements UpdateUI {
+      private final List<String> pruneList;
+
+      UpdateUiImpl(List<String> pruneList) {
+        this.pruneList = pruneList;
+      }
+
+      @Override
+      public void message(String message) {
+        System.err.println(message);
+        System.err.flush();
+      }
+
+      @Override
+      public boolean yesno(boolean defaultValue, String message) {
+        return SiteRun.this.ui.yesno(defaultValue, message);
+      }
+
+      @Override
+      public void waitForUser() {
+        SiteRun.this.ui.waitForUser();
+      }
+
+      @Override
+      public String readString(String defaultValue, Set<String> allowedValues, String message) {
+        return SiteRun.this.ui.readString(defaultValue, allowedValues, message);
+      }
+
+      @Override
+      public boolean isBatch() {
+        return SiteRun.this.ui.isBatch();
+      }
+
+      @Override
+      public void pruneSchema(StatementExecutor e, List<String> prune) {
+        for (String p : prune) {
+          if (!pruneList.contains(p)) {
+            pruneList.add(p);
           }
         }
       }

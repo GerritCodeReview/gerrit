@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.schema;
+package com.google.gerrit.server.notedb.schema;
 
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;

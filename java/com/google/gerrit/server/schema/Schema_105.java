@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.notedb.schema.UpdateUI;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;

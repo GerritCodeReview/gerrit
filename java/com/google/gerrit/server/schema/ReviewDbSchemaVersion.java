@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.UsedAt;
+import com.google.gerrit.server.notedb.schema.UpdateUI;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -36,7 +39,13 @@ import java.util.concurrent.TimeUnit;
 /** A version of the database schema. */
 public abstract class ReviewDbSchemaVersion {
   /** The current schema version. */
+  // DO NOT upgrade this version in the master branch. Future versions must all be implemented as
+  // NoteDbSchemaVersions.
   public static final Class<Schema_169> C = Schema_169.class;
+
+  static {
+    checkState(C.equals(Schema_169.class));
+  }
 
   public static int getBinaryVersion() {
     return guessVersion(C);

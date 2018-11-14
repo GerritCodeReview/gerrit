@@ -30,6 +30,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.notedb.schema.UpdateUI;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;

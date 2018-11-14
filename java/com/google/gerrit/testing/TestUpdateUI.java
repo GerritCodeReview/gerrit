@@ -14,7 +14,7 @@
 
 package com.google.gerrit.testing;
 
-import com.google.gerrit.server.schema.UpdateUI;
+import com.google.gerrit.server.notedb.schema.UpdateUI;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import java.util.List;

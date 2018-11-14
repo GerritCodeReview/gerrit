@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.HashedPassword;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.notedb.schema.UpdateUI;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

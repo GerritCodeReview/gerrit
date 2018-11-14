@@ -22,6 +22,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.notedb.schema.UpdateUI;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;

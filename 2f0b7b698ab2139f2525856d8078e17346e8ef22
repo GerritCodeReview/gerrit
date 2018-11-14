@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7a5a662_6ee12e26",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1518,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-14T23:13:35Z",
+      "side": 1,
+      "message": "Is there any case in this class where we *do* care about the order? If not, I would suggest just removing this line.",
+      "revId": "2f0b7b698ab2139f2525856d8078e17346e8ef22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

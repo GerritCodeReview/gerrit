@@ -1,8 +1,11 @@
 load("//tools/bzl:junit.bzl", "junit_tests")
 
 junit_tests(
-    name = "common_tests",
-    srcs = glob(["**/*.java"]),
+    name = "server_tests",
+    srcs = [
+        "AutoValueTest.java",
+        "VersionTest.java",
+    ],
     tags = ["no_windows"],
     deps = [
         "//java/com/google/gerrit/common:server",

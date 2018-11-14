@@ -95,6 +95,23 @@
     },
     {
       "key": {
+        "uuid": "2f404e6b_6281ac02",
+        "filename": "java/com/google/gerrit/server/notedb/schema/Schema_170.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-14T14:37:42Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this class implement a ctor that accepts NoteDbSchemaVersion.Arguments? It\u0027s instantiated like this on NoteDbSchemaVersions.java#55:\n\n  clazz.getConstructor(NoteDbSchemaVersion.Arguments.class).newInstance(args);",
+      "revId": "0cb4d896d8e6ba92f367930e0a45ce56c11d0112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ecf14165_edb03257",
         "filename": "java/com/google/gerrit/server/notedb/schema/Schema_170.java",
         "patchSetId": 1

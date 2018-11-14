@@ -16,6 +16,24 @@
       "revId": "3a8350ddf7002e08c27dce22e0f83afd3faf1f89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "007247f1_0717f396",
+        "filename": "java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-14T22:50:42Z",
+      "side": 1,
+      "message": "SSH support was added.",
+      "parentUuid": "a447eb6c_03b57fed",
+      "revId": "3a8350ddf7002e08c27dce22e0f83afd3faf1f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

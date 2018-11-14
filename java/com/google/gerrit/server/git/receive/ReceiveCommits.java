@@ -30,7 +30,6 @@ import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Comparator.comparingInt;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -183,6 +182,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -700,15 +700,62 @@ class ReceiveCommits {
 
   /** Appends messages for successful change creation/updates. */
   private void queueSuccessMessages(List<CreateRequest> newChanges) {
-    List<CreateRequest> created =
-        newChanges.stream().filter(r -> r.change != null).collect(toList());
-    List<ReplaceRequest> updated =
+    final String start = "START";
+    Map<String, String> adjList = new HashMap<>();
+    List<String> outOfOrderCommits = new ArrayList<>();
+    for (CreateRequest cr : newChanges) {
+      String parent = cr.commit.getParentCount() < 1 ? start : cr.commit.getParent(0).name();
+      adjList.put(parent, cr.commit.name());
+    }
+    for (ReplaceRequest rr : replaceByChange.values()) {
+      try {
+        RevCommit revCommit = receivePack.getRevWalk().parseCommit(rr.newCommitId);
+        String parent = revCommit.getParentCount() < 1 ? start : revCommit.getParent(0).name();
+        adjList.put(parent, rr.newCommitId.name());
+      } catch (IOException e) {
+        logger.atWarning().withCause(e).log(
+            "failed to parse commit %s for success message.", rr.newCommitId.name());
+        outOfOrderCommits.add(rr.newCommitId.name());
+      }
+    }
+
+    if (adjList.get(start) == null) {
+      Set<String> parentSet = new HashSet<>(adjList.keySet());
+      parentSet.removeAll(adjList.values());
+
+      if (parentSet.size() > 1) {
+        List<String> parents = new ArrayList<>(parentSet);
+        int last = parents.size() - 1;
+        parentSet = new HashSet<>(Arrays.asList(parents.get(last)));
+        parents.remove(last);
+        parents.forEach(p -> outOfOrderCommits.add(p));
+      }
+      parentSet.forEach(
+          s -> {
+            adjList.put(start, adjList.get(s));
+            adjList.remove(s);
+          });
+    }
+
+    List<String> commitSequence = new ArrayList<>();
+    String val = adjList.get(start);
+    while (val != null) {
+      commitSequence.add(val);
+      val = adjList.get(val);
+    }
+    commitSequence.addAll(outOfOrderCommits);
+
+    Map<String, CreateRequest> created =
+        newChanges
+            .stream()
+            .filter(r -> r.change != null)
+            .collect(Collectors.toMap(r -> r.commit.name(), r -> r));
+    Map<String, ReplaceRequest> updated =
         replaceByChange
             .values()
             .stream()
             .filter(r -> r.inputCommand.getResult() == OK)
-            .sorted(comparingInt(r -> r.notes.getChangeId().get()))
-            .collect(toList());
+            .collect(Collectors.toMap(r -> r.newCommitId.name(), r -> r));
 
     if (created.isEmpty() && updated.isEmpty()) {
       return;
@@ -716,23 +763,13 @@ class ReceiveCommits {
 
     addMessage("");
     addMessage("SUCCESS");
+    addMessage("");
 
-    if (!created.isEmpty()) {
-      addMessage("");
-      addMessage("New Changes:");
-      for (CreateRequest c : created) {
-        addMessage(
-            changeFormatter.newChange(
-                ChangeReportFormatter.Input.builder().setChange(c.change).build()));
-      }
-    }
-
+    boolean edit = false;
+    Boolean isPrivate = null;
+    Boolean wip = null;
     if (!updated.isEmpty()) {
-      addMessage("");
-      addMessage("Updated Changes:");
-      boolean edit = magicBranch != null && (magicBranch.edit || magicBranch.draft);
-      Boolean isPrivate = null;
-      Boolean wip = null;
+      edit = magicBranch != null && (magicBranch.edit || magicBranch.draft);
       if (magicBranch != null) {
         if (magicBranch.isPrivate) {
           isPrivate = true;
@@ -745,39 +782,54 @@ class ReceiveCommits {
           wip = false;
         }
       }
-      for (ReplaceRequest u : updated) {
-        String subject;
-        if (edit) {
-          try {
-            subject = receivePack.getRevWalk().parseCommit(u.newCommitId).getShortMessage();
-          } catch (IOException e) {
-            // Log and fall back to original change subject
-            logger.atWarning().withCause(e).log("failed to get subject for edit patch set");
-            subject = u.notes.getChange().getSubject();
-          }
-        } else {
-          subject = u.info.getSubject();
-        }
-
-        if (isPrivate == null) {
-          isPrivate = u.notes.getChange().isPrivate();
-        }
-        if (wip == null) {
-          wip = u.notes.getChange().isWorkInProgress();
-        }
-
-        ChangeReportFormatter.Input input =
-            ChangeReportFormatter.Input.builder()
-                .setChange(u.notes.getChange())
-                .setSubject(subject)
-                .setIsEdit(edit)
-                .setIsPrivate(isPrivate)
-                .setIsWorkInProgress(wip)
-                .build();
-        addMessage(changeFormatter.changeUpdated(input));
-      }
-      addMessage("");
     }
+
+    for (String commit : commitSequence) {
+      if (created.get(commit) != null) {
+        addCreatedMessage(created.get(commit));
+      } else if (updated.get(commit) != null) {
+        addReplacedMessage(updated.get(commit), edit, isPrivate, wip);
+      }
+    }
+    addMessage("");
+  }
+
+  private void addCreatedMessage(CreateRequest c) {
+    addMessage(
+        changeFormatter.newChange(ChangeReportFormatter.Input.builder().setChange(c.change).build())
+            + " *NEW*");
+  }
+
+  private void addReplacedMessage(ReplaceRequest u, boolean edit, Boolean isPrivate, Boolean wip) {
+    String subject;
+    if (edit) {
+      try {
+        subject = receivePack.getRevWalk().parseCommit(u.newCommitId).getShortMessage();
+      } catch (IOException e) {
+        // Log and fall back to original change subject
+        logger.atWarning().withCause(e).log("failed to get subject for edit patch set");
+        subject = u.notes.getChange().getSubject();
+      }
+    } else {
+      subject = u.info.getSubject();
+    }
+
+    if (isPrivate == null) {
+      isPrivate = u.notes.getChange().isPrivate();
+    }
+    if (wip == null) {
+      wip = u.notes.getChange().isWorkInProgress();
+    }
+
+    ChangeReportFormatter.Input input =
+        ChangeReportFormatter.Input.builder()
+            .setChange(u.notes.getChange())
+            .setSubject(subject)
+            .setIsEdit(edit)
+            .setIsPrivate(isPrivate)
+            .setIsWorkInProgress(wip)
+            .build();
+    addMessage(changeFormatter.changeUpdated(input));
   }
 
   private void insertChangesAndPatchSets(List<CreateRequest> newChanges, Task replaceProgress) {

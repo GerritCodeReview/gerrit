@@ -18,6 +18,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_REJECT_COMMITS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;

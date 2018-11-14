@@ -10,6 +10,7 @@ junit_tests(
         "//java/com/google/gerrit/common/data/testing:common-data-test-util",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/extensions/common/testing:common-test-util",
+        "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/group/db/testing",

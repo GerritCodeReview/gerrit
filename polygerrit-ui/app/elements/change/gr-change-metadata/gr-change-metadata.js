@@ -133,6 +133,18 @@
         type: Array,
         computed: '_computeParents(change)',
       },
+
+      /** @type {?} */
+      _CHANGE_ROLE: {
+        type: Object,
+        readOnly: true,
+        value: {
+          OWNER: 'owner',
+          UPLOADER: 'uploader',
+          AUTHOR: 'author',
+          COMMITTER: 'committer',
+        },
+      },
     },
 
     behaviors: [
@@ -388,24 +400,45 @@
       return !!change.work_in_progress;
     },
 
-    _computeShowUploaderHide(change) {
-      return this._computeShowUploader(change) ? '' : 'hideDisplay';
+    _computeShowRoleClass(change, role) {
+      return this._getNonOwnerRole(change, role) ? '' : 'hideDisplay';
     },
 
-    _computeShowUploader(change) {
+    /**
+     * Get the user with the specified role on the change. Returns null if the
+     * user with that role is the same as the owner.
+     * @param {!Object} change
+     * @param {string} role One of the values from _CHANGE_ROLE
+     * @return {Object|null} either an accound or null.
+     */
+    _getNonOwnerRole(change, role) {
       if (!change.current_revision ||
           !change.revisions[change.current_revision]) {
         return null;
       }
 
       const rev = change.revisions[change.current_revision];
+      if (!rev) { return null; }
 
-      if (!rev || !rev.uploader ||
-        change.owner._account_id === rev.uploader._account_id) {
-        return null;
+      if (role === this._CHANGE_ROLE.UPLOADER &&
+          rev.uploader &&
+          change.owner._account_id !== rev.uploader._account_id) {
+        return rev.uploader;
       }
 
-      return rev.uploader;
+      if (role === this._CHANGE_ROLE.AUTHOR &&
+          rev.commit && rev.commit.author &&
+          change.owner.email !== rev.commit.author.email) {
+        return rev.commit.author;
+      }
+
+      if (role === this._CHANGE_ROLE.COMMITTER &&
+          rev.commit && rev.commit.committer &&
+          change.owner.email !== rev.commit.committer.email) {
+        return rev.commit.committer;
+      }
+
+      return null;
     },
 
     _computeParents(change) {

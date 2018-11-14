@@ -1127,6 +1127,33 @@ limitations under the License.
         assert.equal(element._computeNewlineWarningClass('foo', false), shown);
       });
     });
+
+    test('_getKeyLocations', () => {
+      assert.deepEqual(element._getKeyLocations({left: [], right: []}, null),
+          {left: {}, right: {}});
+      const comments = {
+        left: [{line: 123}, {}],
+        right: [{line: 456}],
+      };
+      assert.deepEqual(element._getKeyLocations(comments, null), {
+        left: {FILE: true, 123: true},
+        right: {456: true},
+      });
+
+      const lineOfInterest = {number: 789, leftSide: true};
+      assert.deepEqual(
+          element._getKeyLocations(comments, lineOfInterest), {
+            left: {FILE: true, 123: true, 789: true},
+            right: {456: true},
+          });
+
+      delete lineOfInterest.leftSide;
+      assert.deepEqual(
+          element._getKeyLocations(comments, lineOfInterest), {
+            left: {FILE: true, 123: true},
+            right: {456: true, 789: true},
+          });
+    });
   });
 
   a11ySuite('basic');

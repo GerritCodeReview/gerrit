@@ -43,7 +43,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.ReviewDbFactory;
-import com.google.gerrit.server.schema.SchemaUpdater;
+import com.google.gerrit.server.schema.ReviewDbSchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
@@ -358,7 +358,7 @@ public class BaseInit extends SiteProgram {
     public final ConsoleUI ui;
     public final SitePaths site;
     public final InitFlags flags;
-    final SchemaUpdater schemaUpdater;
+    final ReviewDbSchemaUpdater schemaUpdater;
     final SchemaFactory<ReviewDb> schema;
     final GitRepositoryManager repositoryManager;
 
@@ -367,7 +367,7 @@ public class BaseInit extends SiteProgram {
         ConsoleUI ui,
         SitePaths site,
         InitFlags flags,
-        SchemaUpdater schemaUpdater,
+        ReviewDbSchemaUpdater schemaUpdater,
         @ReviewDbFactory SchemaFactory<ReviewDb> schema,
         GitRepositoryManager repositoryManager) {
       this.ui = ui;

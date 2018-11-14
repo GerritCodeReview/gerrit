@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /** Drop ACCOUNT_EXTERNAL_IDS table. */
-public class Schema_150 extends SchemaVersion {
+public class Schema_150 extends ReviewDbSchemaVersion {
   @Inject
   Schema_150(Provider<Schema_149> prior) {
     super(prior);

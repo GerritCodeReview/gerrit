@@ -9,6 +9,7 @@ acceptance_tests(
         "no_windows",
     ],
     deps = [
+        "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/mail",
         "//java/com/google/gerrit/server/util/time",
     ],

@@ -24,7 +24,7 @@ import com.google.inject.Provider;
 import java.sql.SQLException;
 
 /** Drop unused indexes from accounts table. */
-public class Schema_152 extends SchemaVersion {
+public class Schema_152 extends ReviewDbSchemaVersion {
   @Inject
   Schema_152(Provider<Schema_151> prior) {
     super(prior);

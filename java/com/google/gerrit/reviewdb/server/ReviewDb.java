@@ -35,7 +35,7 @@ import com.google.gwtorm.server.Sequence;
  * </ul>
  */
 public interface ReviewDb extends Schema {
-  /* If you change anything, update SchemaVersion.C to use a new version. */
+  /* If you change anything, update ReviewDbSchemaVersion.C to use a new version. */
 
   @Relation(id = 1)
   SchemaVersionAccess schemaVersion();

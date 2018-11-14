@@ -206,7 +206,7 @@ public class Schema_166_to_167_WithGroupsInNoteDbTest {
     }
   }
 
-  private void executeSchemaMigration(SchemaVersion schema) throws Exception {
+  private void executeSchemaMigration(ReviewDbSchemaVersion schema) throws Exception {
     schema.migrateData(db, new TestUpdateUI());
   }
 

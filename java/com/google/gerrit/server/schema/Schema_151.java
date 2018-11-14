@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 /** A schema which adds the 'created on' field to groups. */
-public class Schema_151 extends SchemaVersion {
+public class Schema_151 extends ReviewDbSchemaVersion {
   @Inject
   protected Schema_151(Provider<Schema_150> prior) {
     super(prior);

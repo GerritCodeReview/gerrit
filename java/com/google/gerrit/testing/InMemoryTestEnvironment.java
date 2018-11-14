@@ -21,7 +21,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.SchemaFactory;
@@ -50,7 +50,7 @@ public final class InMemoryTestEnvironment implements MethodRule {
   @Inject private AccountManager accountManager;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private SchemaFactory<ReviewDb> schemaFactory;
-  @Inject private SchemaCreator schemaCreator;
+  @Inject private ReviewDbSchemaCreator schemaCreator;
   @Inject private ThreadLocalRequestContext requestContext;
   // Only for use in setting up/tearing down injector.
   @Inject private InMemoryDatabase inMemoryDatabase;

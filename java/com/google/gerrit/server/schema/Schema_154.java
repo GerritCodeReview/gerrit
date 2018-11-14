@@ -47,7 +47,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 
 /** Migrate accounts to NoteDb. */
-public class Schema_154 extends SchemaVersion {
+public class Schema_154 extends ReviewDbSchemaVersion {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String TABLE = "accounts";

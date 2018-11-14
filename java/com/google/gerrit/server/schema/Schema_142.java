@@ -29,7 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Schema_142 extends SchemaVersion {
+public class Schema_142 extends ReviewDbSchemaVersion {
   private static final int MAX_BATCH_SIZE = 1000;
 
   @Inject

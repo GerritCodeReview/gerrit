@@ -23,8 +23,8 @@ import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.schema.SchemaCreator;
-import com.google.gerrit.server.schema.SchemaVersion;
+import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
+import com.google.gerrit.server.schema.ReviewDbSchemaVersion;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.gwtorm.server.OrmException;
@@ -62,7 +62,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
     }
   }
 
-  private final SchemaCreator schemaCreator;
+  private final ReviewDbSchemaCreator schemaCreator;
   private final Instance dbInstance;
 
   private boolean created;
@@ -86,7 +86,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
                 }
               }
             });
-    this.schemaCreator = childInjector.getInstance(SchemaCreator.class);
+    this.schemaCreator = childInjector.getInstance(ReviewDbSchemaCreator.class);
     Instance dbInstanceFromInjector = childInjector.getInstance(Instance.class);
     if (dbInstanceFromInjector != null) {
       this.dbInstance = dbInstanceFromInjector;
@@ -96,7 +96,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
     }
   }
 
-  InMemoryDatabase(SchemaCreator schemaCreator) throws OrmException {
+  InMemoryDatabase(ReviewDbSchemaCreator schemaCreator) throws OrmException {
     this.schemaCreator = schemaCreator;
     this.dbInstance = new Instance();
   }
@@ -140,7 +140,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   }
 
   public void assertSchemaVersion() throws OrmException {
-    assertThat(getSchemaVersion().versionNbr).isEqualTo(SchemaVersion.getBinaryVersion());
+    assertThat(getSchemaVersion().versionNbr).isEqualTo(ReviewDbSchemaVersion.getBinaryVersion());
   }
 
   public static class Instance {

@@ -54,7 +54,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-public class Schema_139 extends SchemaVersion {
+public class Schema_139 extends ReviewDbSchemaVersion {
   private static final String MSG = "Migrate project watches to git";
 
   private final GitRepositoryManager repoManager;

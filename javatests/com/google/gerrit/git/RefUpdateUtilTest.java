@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.update;
+package com.google.gerrit.git;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.server.git.LockFailureException;
 import java.io.IOException;
 import java.util.function.Consumer;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;

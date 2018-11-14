@@ -48,7 +48,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-public class Schema_108 extends SchemaVersion {
+public class Schema_108 extends ReviewDbSchemaVersion {
   private final GitRepositoryManager repoManager;
 
   @Inject

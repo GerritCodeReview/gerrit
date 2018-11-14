@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /** Add status field to account. */
-public class Schema_141 extends SchemaVersion {
+public class Schema_141 extends ReviewDbSchemaVersion {
   @Inject
   Schema_141(Provider<Schema_140> prior) {
     super(prior);

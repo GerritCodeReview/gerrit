@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /** Add workInProgress field to change. */
-public class Schema_149 extends SchemaVersion {
+public class Schema_149 extends ReviewDbSchemaVersion {
   @Inject
   Schema_149(Provider<Schema_148> prior) {
     super(prior);

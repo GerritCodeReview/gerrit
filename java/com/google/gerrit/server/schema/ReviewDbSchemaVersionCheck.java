@@ -26,12 +26,12 @@ import com.google.inject.Module;
 import com.google.inject.ProvisionException;
 
 /** Validates the current schema version. */
-public class SchemaVersionCheck implements LifecycleListener {
+public class ReviewDbSchemaVersionCheck implements LifecycleListener {
   public static Module module() {
     return new LifecycleModule() {
       @Override
       protected void configure() {
-        listener().to(SchemaVersionCheck.class);
+        listener().to(ReviewDbSchemaVersionCheck.class);
       }
     };
   }
@@ -40,7 +40,7 @@ public class SchemaVersionCheck implements LifecycleListener {
   private final SitePaths site;
 
   @Inject
-  public SchemaVersionCheck(SchemaFactory<ReviewDb> schemaFactory, SitePaths site) {
+  public ReviewDbSchemaVersionCheck(SchemaFactory<ReviewDb> schemaFactory, SitePaths site) {
     this.schema = schemaFactory;
     this.site = site;
   }
@@ -49,7 +49,7 @@ public class SchemaVersionCheck implements LifecycleListener {
   public void start() {
     try (ReviewDb db = schema.open()) {
       final CurrentSchemaVersion currentVer = getSchemaVersion(db);
-      final int expectedVer = SchemaVersion.getBinaryVersion();
+      final int expectedVer = ReviewDbSchemaVersion.getBinaryVersion();
 
       if (currentVer == null) {
         throw new ProvisionException(

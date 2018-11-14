@@ -46,7 +46,7 @@ import org.junit.rules.ExpectedException;
 
 public class RepoSequenceTest {
   // Don't sleep in tests.
-  private static final Retryer<RefUpdate.Result> RETRYER =
+  private static final Retryer<RefUpdate> RETRYER =
       RepoSequence.retryerBuilder().withBlockStrategy(t -> {}).build();
 
   @Rule public ExpectedException exception = ExpectedException.none();
@@ -200,11 +200,11 @@ public class RepoSequenceTest {
             1,
             10,
             () -> writeBlob("id", Integer.toString(bgCounter.getAndAdd(1000))),
-            RetryerBuilder.<RefUpdate.Result>newBuilder()
+            RetryerBuilder.<RefUpdate>newBuilder()
                 .withStopStrategy(StopStrategies.stopAfterAttempt(3))
                 .build());
     exception.expect(OrmException.class);
-    exception.expectMessage("failed to update refs/sequences/id: LOCK_FAILURE");
+    exception.expectMessage("Failed to update refs/sequences/id: LOCK_FAILURE");
     s.next();
   }
 
@@ -335,11 +335,11 @@ public class RepoSequenceTest {
             1,
             10,
             () -> writeBlob("id", Integer.toString(bgCounter.getAndAdd(1000))),
-            RetryerBuilder.<RefUpdate.Result>newBuilder()
+            RetryerBuilder.<RefUpdate>newBuilder()
                 .withStopStrategy(StopStrategies.stopAfterAttempt(3))
                 .build());
     exception.expect(OrmException.class);
-    exception.expectMessage("failed to update refs/sequences/id: LOCK_FAILURE");
+    exception.expectMessage("Failed to update refs/sequences/id: LOCK_FAILURE");
     s.increaseTo(2);
   }
 
@@ -352,7 +352,7 @@ public class RepoSequenceTest {
       final int start,
       int batchSize,
       Runnable afterReadRef,
-      Retryer<RefUpdate.Result> retryer) {
+      Retryer<RefUpdate> retryer) {
     return new RepoSequence(
         repoManager,
         GitReferenceUpdated.DISABLED,

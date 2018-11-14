@@ -38,7 +38,7 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 
 /** Delete user branches for which no account exists. */
-public class Schema_147 extends SchemaVersion {
+public class Schema_147 extends ReviewDbSchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
 

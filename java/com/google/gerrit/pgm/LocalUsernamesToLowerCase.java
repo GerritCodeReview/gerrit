@@ -29,7 +29,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
-import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gerrit.server.schema.ReviewDbSchemaVersionCheck;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -55,7 +55,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
   @Override
   public int run() throws Exception {
     Injector dbInjector = createDbInjector(MULTI_USER);
-    manager.add(dbInjector, dbInjector.createChildInjector(SchemaVersionCheck.module()));
+    manager.add(dbInjector, dbInjector.createChildInjector(ReviewDbSchemaVersionCheck.module()));
     manager.start();
     dbInjector
         .createChildInjector(

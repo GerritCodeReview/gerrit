@@ -63,7 +63,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.testing.Util;
-import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.InMemoryDatabase;
@@ -199,7 +199,7 @@ public class RefControlTest {
 
   @Inject private PermissionBackend permissionBackend;
   @Inject private CapabilityCollection.Factory capabilityCollectionFactory;
-  @Inject private SchemaCreator schemaCreator;
+  @Inject private ReviewDbSchemaCreator schemaCreator;
   @Inject private SingleVersionListener singleVersionListener;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;

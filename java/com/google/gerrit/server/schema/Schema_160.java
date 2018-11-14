@@ -60,7 +60,7 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
  * <p>Other menus containing {@code is:draft} in other positions are not affected; this is still a
  * valid predicate that matches no changes.
  */
-public class Schema_160 extends SchemaVersion {
+public class Schema_160 extends ReviewDbSchemaVersion {
   @VisibleForTesting static final ImmutableList<String> DEFAULT_DRAFT_ITEMS;
 
   static {

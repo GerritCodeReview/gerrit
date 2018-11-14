@@ -88,6 +88,7 @@ import com.google.gerrit.server.mail.send.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator;
+import com.google.gerrit.server.notedb.schema.NoteDbSchemaVersionCheck;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
@@ -392,6 +393,7 @@ public class Daemon extends SiteProgram {
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(ReviewDbSchemaVersionCheck.module());
+    modules.add(NoteDbSchemaVersionCheck.module());
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
 

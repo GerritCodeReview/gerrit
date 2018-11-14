@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
@@ -36,7 +38,13 @@ import java.util.concurrent.TimeUnit;
 /** A version of the database schema. */
 public abstract class ReviewDbSchemaVersion {
   /** The current schema version. */
+  // DO NOT upgrade this version in the master branch. Future versions must all be implemented as
+  // NoteDbSchemaVersions.
   public static final Class<Schema_169> C = Schema_169.class;
+
+  static {
+    checkState(C.equals(Schema_169.class));
+  }
 
   public static int getBinaryVersion() {
     return guessVersion(C);

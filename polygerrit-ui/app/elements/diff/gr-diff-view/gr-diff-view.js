@@ -1027,6 +1027,7 @@
     },
 
     _handleNextUnreviewedFile(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       this._setReviewed(true);
       // Ensure that the currently viewed file always appears in unreviewedFiles
       // so we resolve the right "next" file.

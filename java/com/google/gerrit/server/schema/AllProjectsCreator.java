@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
@@ -22,16 +21,12 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.server.schema.AclUtil.rule;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -40,7 +35,6 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -52,8 +46,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -77,13 +70,6 @@ public class AllProjectsCreator {
   private final GroupReference registered;
   private final GroupReference owners;
 
-  @Nullable private GroupReference admin;
-  @Nullable private GroupReference batch;
-  private String message;
-  private int firstChangeId = Sequences.FIRST_CHANGE_ID;
-  private LabelType codeReviewLabel;
-  private List<LabelType> additionalLabelType;
-
   @Inject
   AllProjectsCreator(
       GitRepositoryManager repositoryManager,
@@ -101,57 +87,17 @@ public class AllProjectsCreator {
     this.anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS);
     this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
     this.owners = systemGroupBackend.getGroup(PROJECT_OWNERS);
-    this.codeReviewLabel = getDefaultCodeReviewLabel();
-    this.additionalLabelType = new ArrayList<>();
   }
 
-  /** If called, grant default permissions to this admin group */
-  public AllProjectsCreator setAdministrators(GroupReference admin) {
-    this.admin = admin;
-    return this;
-  }
-
-  /** If called, grant stream-events permission and set appropriate priority for this group */
-  public AllProjectsCreator setBatchUsers(GroupReference batch) {
-    this.batch = batch;
-    return this;
-  }
-
-  public AllProjectsCreator setCommitMessage(String message) {
-    this.message = message;
-    return this;
-  }
-
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public AllProjectsCreator setFirstChangeIdForNoteDb(int id) {
-    checkArgument(id > 0, "id must be positive: %s", id);
-    firstChangeId = id;
-    return this;
-  }
-
-  /** If called, the provided "Code-Review" label will be used rather than the default. */
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public AllProjectsCreator setCodeReviewLabel(LabelType labelType) {
-    checkArgument(
-        labelType.getName().equals("Code-Review"), "label should have 'Code-Review' as its name");
-    this.codeReviewLabel = labelType;
-    return this;
-  }
-
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public AllProjectsCreator addAdditionalLabel(LabelType labelType) {
-    additionalLabelType.add(labelType);
-    return this;
-  }
-
-  public void create() throws IOException, ConfigInvalidException, OrmException {
+  public void create(AllProjectsInput input)
+      throws IOException, ConfigInvalidException, OrmException {
     try (Repository git = repositoryManager.openRepository(allProjectsName)) {
-      initAllProjects(git);
+      initAllProjects(git, input);
     } catch (RepositoryNotFoundException notFound) {
       // A repository may be missing if this project existed only to store
       // inheritable permissions. For example 'All-Projects'.
       try (Repository git = repositoryManager.createRepository(allProjectsName)) {
-        initAllProjects(git);
+        initAllProjects(git, input);
         RefUpdate u = git.updateRef(Constants.HEAD);
         u.link(RefNames.REFS_CONFIG);
       } catch (RepositoryNotFoundException err) {
@@ -161,7 +107,7 @@ public class AllProjectsCreator {
     }
   }
 
-  private void initAllProjects(Repository git)
+  private void initAllProjects(Repository git, AllProjectsInput input)
       throws IOException, ConfigInvalidException, OrmException {
     BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate md =
@@ -169,9 +115,9 @@ public class AllProjectsCreator {
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage(
-          MoreObjects.firstNonNull(
-              Strings.emptyToNull(message),
-              "Initialized Gerrit Code Review " + Version.getVersion()));
+          input.commitMessage().isPresent()
+              ? input.commitMessage().get()
+              : "Initialized Gerrit Code Review " + Version.getVersion());
 
       ProjectConfig config = projectConfigFactory.read(md);
       Project p = config.getProject();
@@ -190,47 +136,58 @@ public class AllProjectsCreator {
       AccessSection refsFor = config.getAccessSection("refs/for/*", true);
       AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
 
-      grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
-      grant(config, all, Permission.READ, admin, anonymous);
+      Optional<GroupReference> admin = input.administratorsGroup();
+      Optional<GroupReference> batch = input.batchUsersGroup();
+      if (admin.isPresent()) {
+        grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin.get());
+        grant(config, all, Permission.READ, admin.get(), anonymous);
+      }
+
       grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
 
-      if (batch != null) {
+      if (batch.isPresent()) {
         Permission priority = cap.getPermission(GlobalCapability.PRIORITY, true);
-        PermissionRule r = rule(config, batch);
+        PermissionRule r = rule(config, batch.get());
         r.setAction(Action.BATCH);
         priority.add(r);
 
         Permission stream = cap.getPermission(GlobalCapability.STREAM_EVENTS, true);
-        stream.add(rule(config, batch));
+        stream.add(rule(config, batch.get()));
       }
 
-      initLabels(config);
+      LabelType codeReviewLabel = input.codeReviewLabel();
+      initLabels(config, codeReviewLabel, input.additionalLabelType());
+
       grant(config, heads, codeReviewLabel, -1, 1, registered);
 
-      grant(config, heads, codeReviewLabel, -2, 2, admin, owners);
-      grant(config, heads, Permission.CREATE, admin, owners);
-      grant(config, heads, Permission.PUSH, admin, owners);
-      grant(config, heads, Permission.SUBMIT, admin, owners);
-      grant(config, heads, Permission.FORGE_AUTHOR, registered);
-      grant(config, heads, Permission.FORGE_COMMITTER, admin, owners);
-      grant(config, heads, Permission.EDIT_TOPIC_NAME, true, admin, owners);
+      if (admin.isPresent()) {
+        grant(config, heads, codeReviewLabel, -2, 2, admin.get(), owners);
+        grant(config, heads, Permission.CREATE, admin.get(), owners);
+        grant(config, heads, Permission.PUSH, admin.get(), owners);
+        grant(config, heads, Permission.SUBMIT, admin.get(), owners);
+        grant(config, heads, Permission.FORGE_COMMITTER, admin.get(), owners);
+        grant(config, heads, Permission.EDIT_TOPIC_NAME, true, admin.get(), owners);
 
-      grant(config, tags, Permission.CREATE, admin, owners);
-      grant(config, tags, Permission.CREATE_TAG, admin, owners);
-      grant(config, tags, Permission.CREATE_SIGNED_TAG, admin, owners);
+        grant(config, tags, Permission.CREATE, admin.get(), owners);
+        grant(config, tags, Permission.CREATE_TAG, admin.get(), owners);
+        grant(config, tags, Permission.CREATE_SIGNED_TAG, admin.get(), owners);
+      }
+      grant(config, heads, Permission.FORGE_AUTHOR, registered);
 
       grant(config, magic, Permission.PUSH, registered);
       grant(config, magic, Permission.PUSH_MERGE, registered);
 
       meta.getPermission(Permission.READ, true).setExclusiveGroup(true);
-      grant(config, meta, Permission.READ, admin, owners);
-      grant(config, meta, codeReviewLabel, -2, 2, admin, owners);
-      grant(config, meta, Permission.CREATE, admin, owners);
-      grant(config, meta, Permission.PUSH, admin, owners);
-      grant(config, meta, Permission.SUBMIT, admin, owners);
+      if (admin.isPresent()) {
+        grant(config, meta, Permission.READ, admin.get(), owners);
+        grant(config, meta, codeReviewLabel, -2, 2, admin.get(), owners);
+        grant(config, meta, Permission.CREATE, admin.get(), owners);
+        grant(config, meta, Permission.PUSH, admin.get(), owners);
+        grant(config, meta, Permission.SUBMIT, admin.get(), owners);
+      }
 
       config.commitToNewRef(md, RefNames.REFS_CONFIG);
-      initSequences(git, bru);
+      initSequences(git, bru, input.firstChangeIdForNoteDb());
 
       // init schema
       versionManager.init();
@@ -239,28 +196,16 @@ public class AllProjectsCreator {
     }
   }
 
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public static LabelType getDefaultCodeReviewLabel() {
-    LabelType type =
-        new LabelType(
-            "Code-Review",
-            ImmutableList.of(
-                new LabelValue((short) 2, "Looks good to me, approved"),
-                new LabelValue((short) 1, "Looks good to me, but someone else must approve"),
-                new LabelValue((short) 0, "No score"),
-                new LabelValue((short) -1, "I would prefer this is not merged as is"),
-                new LabelValue((short) -2, "This shall not be merged")));
-    type.setCopyMinScore(true);
-    type.setCopyAllScoresOnTrivialRebase(true);
-    return type;
-  }
-
-  private void initLabels(ProjectConfig projectConfig) {
+  private void initLabels(
+      ProjectConfig projectConfig,
+      LabelType codeReviewLabel,
+      ImmutableList<LabelType> additionalLabelType) {
     projectConfig.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel);
     additionalLabelType.forEach(t -> projectConfig.getLabelSections().put(t.getName(), t));
   }
 
-  private void initSequences(Repository git, BatchRefUpdate bru) throws IOException {
+  private void initSequences(Repository git, BatchRefUpdate bru, int firstChangeId)
+      throws IOException {
     if (git.exactRef(REFS_SEQUENCES + Sequences.NAME_CHANGES) == null) {
       // Can't easily reuse the inserter from MetaDataUpdate, but this shouldn't slow down site
       // initialization unduly.

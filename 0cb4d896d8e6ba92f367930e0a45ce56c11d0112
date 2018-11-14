@@ -68,6 +68,30 @@
       "revId": "0cb4d896d8e6ba92f367930e0a45ce56c11d0112",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1dbc3d1_39ec7f66",
+        "filename": "java/com/google/gerrit/server/notedb/schema/NoteDbSchemaVersions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-14T05:21:31Z",
+      "side": 1,
+      "message": "I can\u0027t put my finger on why this would actually be bad but my gut says it is too much magic.",
+      "parentUuid": "a4d89777_39fc6f01",
+      "range": {
+        "startLine": 35,
+        "startChar": 5,
+        "endLine": 36,
+        "endChar": 14
+      },
+      "revId": "0cb4d896d8e6ba92f367930e0a45ce56c11d0112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -14,6 +14,7 @@
 
 package gerrit;
 
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
@@ -90,7 +91,7 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
         String newName = entry.getNewName();
         String oldName = entry.getOldName();
 
-        if (newName.equals("/COMMIT_MSG")) {
+        if (Patch.isMagic(newName)) {
           continue;
         }
 

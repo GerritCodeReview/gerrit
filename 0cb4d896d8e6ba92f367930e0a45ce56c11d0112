@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2d5ad83c_dcbdbfec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-14T14:48:13Z",
+      "side": 1,
+      "message": "Would it be possible to remove SchemaVersion and SchemaVersionAccess as a last regular ReviewDb driven Schema migration? That would remove the schema_version from the database. We could probably even do this on stable-2.16 branch?",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 67
+      },
+      "revId": "0cb4d896d8e6ba92f367930e0a45ce56c11d0112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc277456_c2f0876d",
         "filename": "java/com/google/gerrit/server/notedb/schema/NoteDbSchemaVersion.java",
         "patchSetId": 1

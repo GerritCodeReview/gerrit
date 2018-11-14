@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a12d519_6505efcf",
+        "filename": "java/com/google/gerrit/server/audit/AuditService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-14T21:21:48Z",
+      "side": 1,
+      "message": "Change is coming from AuditServiceImpl on stable-2.15, but makes sense to be applied to AuditService on stable-2.16 because contains the implementation of the audit service.",
+      "revId": "98ecbb1cfe8e3b9074c375223110c6c4573d0add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990b52c3_f3bd98c9",
+        "filename": "java/com/google/gerrit/server/audit/HttpAuditEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-14T21:21:48Z",
+      "side": 1,
+      "message": "Why is this needed? can\u0027t find it on stable-2.15",
+      "revId": "98ecbb1cfe8e3b9074c375223110c6c4573d0add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd9b5e03_41ce55e5",
+        "filename": "java/com/google/gerrit/server/audit/SshAuditEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-14T21:21:48Z",
+      "side": 1,
+      "message": "Why is this needed? Can\u0027t find it on stable-2.15",
+      "revId": "98ecbb1cfe8e3b9074c375223110c6c4573d0add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

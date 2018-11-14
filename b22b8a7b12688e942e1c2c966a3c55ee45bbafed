@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aeaeb727_d8b3ecb2",
+        "filename": "java/com/google/gerrit/server/AuditEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-14T21:21:48Z",
+      "side": -1,
+      "message": "Is this relevant to the merge?",
+      "revId": "b22b8a7b12688e942e1c2c966a3c55ee45bbafed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a82a6034_00f3d5a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-14T17:37:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "49a75785_2c0a5a3d",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1ab6118_ae48bdda",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0256110c_57178218",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-14T17:37:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d1ab6118_ae48bdda",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e27f6367_652c44ad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2018-11-14T05:32:58Z",
       "side": 1,
       "message": "I think the new order is better overall. Could we do it without the option? Options make the whole thing more complicated",
+      "range": {
+        "startLine": 13,
+        "startChar": 33,
+        "endLine": 13,
+        "endChar": 58
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc1b1ece_ed4664f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-14T17:37:46Z",
+      "side": 1,
+      "message": "Ok, I will remove the old ordering.",
+      "parentUuid": "e27f6367_652c44ad",
       "range": {
         "startLine": 13,
         "startChar": 33,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "fdc7e1ca_f7dbc8c2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-14T17:37:46Z",
+      "side": 1,
+      "message": "We will remove QueueSuccessMessagesGrouped altogether, this will make the code back to its original size. Do you think it\u0027s still a good idea to introduce a new interface?",
+      "parentUuid": "a13ca04a_36347947",
+      "range": {
+        "startLine": 707,
+        "startChar": 0,
+        "endLine": 711,
+        "endChar": 5
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a1fda90e_50f95570",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2018-11-14T05:32:58Z",
       "side": 1,
       "message": "why do you print anything at all here?",
+      "range": {
+        "startLine": 736,
+        "startChar": 8,
+        "endLine": 736,
+        "endChar": 25
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "768b0f49_0195e68c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-14T17:37:46Z",
+      "side": 1,
+      "message": "This one prints the current ordering (which is now I refer to as \"Grouped\" ordering). But we will remove this.",
+      "parentUuid": "a1fda90e_50f95570",
       "range": {
         "startLine": 736,
         "startChar": 8,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "356fefb9_5f072e76",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-14T17:37:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b23f34f9_8e9e5bfd",
+      "range": {
+        "startLine": 757,
+        "startChar": 2,
+        "endLine": 757,
+        "endChar": 9
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c623aa7e_bc3cc708",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 2
@@ -151,6 +295,30 @@
       "writtenOn": "2018-11-14T05:32:58Z",
       "side": 1,
       "message": "could you devise some sort of fallback so you don\u0027t switch to a completely new format of the changes?",
+      "range": {
+        "startLine": 795,
+        "startChar": 8,
+        "endLine": 795,
+        "endChar": 35
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ee3bced_050f04fc",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-14T17:37:46Z",
+      "side": 1,
+      "message": "That is actually a good point. I will provide something without falling back.",
+      "parentUuid": "c623aa7e_bc3cc708",
       "range": {
         "startLine": 795,
         "startChar": 8,

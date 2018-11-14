@@ -36,7 +36,6 @@ import java.util.List;
 public class FakeGroupAuditService implements GroupAuditService {
 
   private final PluginSetContext<GroupAuditListener> groupAuditListeners;
-  private final PluginSetContext<AuditListener> auditListeners;
 
   public static class Module extends AbstractModule {
     @Override
@@ -48,11 +47,8 @@ public class FakeGroupAuditService implements GroupAuditService {
   }
 
   @Inject
-  public FakeGroupAuditService(
-      PluginSetContext<GroupAuditListener> groupAuditListeners,
-      PluginSetContext<AuditListener> auditListeners) {
+  public FakeGroupAuditService(PluginSetContext<GroupAuditListener> groupAuditListeners) {
     this.groupAuditListeners = groupAuditListeners;
-    this.auditListeners = auditListeners;
   }
 
   public List<AuditEvent> auditEvents = new ArrayList<>();

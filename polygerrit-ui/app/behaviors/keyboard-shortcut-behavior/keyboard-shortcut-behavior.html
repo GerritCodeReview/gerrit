@@ -165,6 +165,7 @@ shortcuts are.
     PREV_FILE: 'PREV_FILE',
     NEXT_FILE_WITH_COMMENTS: 'NEXT_FILE_WITH_COMMENTS',
     PREV_FILE_WITH_COMMENTS: 'PREV_FILE_WITH_COMMENTS',
+    NEXT_UNREVIEWED_FILE: 'NEXT_UNREVIEWED_FILE',
     CURSOR_NEXT_FILE: 'CURSOR_NEXT_FILE',
     CURSOR_PREV_FILE: 'CURSOR_PREV_FILE',
     OPEN_FILE: 'OPEN_FILE',
@@ -255,6 +256,8 @@ shortcuts are.
       'Mark/unmark file as reviewed');
   _describe(Shortcut.TOGGLE_DIFF_MODE, ShortcutSection.DIFFS,
       'Toggle unified/side-by-side diff');
+  _describe(Shortcut.NEXT_UNREVIEWED_FILE, ShortcutSection.DIFFS,
+      'Mark file as reviewed and go to next unreviewed file');
 
   _describe(Shortcut.NEXT_FILE, ShortcutSection.NAVIGATION, 'Select next file');
   _describe(Shortcut.PREV_FILE, ShortcutSection.NAVIGATION,

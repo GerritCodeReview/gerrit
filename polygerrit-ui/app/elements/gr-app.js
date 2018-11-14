@@ -275,6 +275,8 @@
       this.bindShortcut(
           this.Shortcut.TOGGLE_FILE_REVIEWED, 'r');
       this.bindShortcut(
+          this.Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
+      this.bindShortcut(
           this.Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
       this.bindShortcut(
           this.Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');

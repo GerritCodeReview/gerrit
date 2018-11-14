@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49a75785_2c0a5a3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-14T05:32:58Z",
+      "side": 1,
+      "message": "can you reformat this to be at 72 cols?",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1ab6118_ae48bdda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-14T05:32:58Z",
+      "side": 1,
+      "message": "reordered",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e27f6367_652c44ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-14T05:32:58Z",
+      "side": 1,
+      "message": "I think the new order is better overall. Could we do it without the option? Options make the whole thing more complicated",
+      "range": {
+        "startLine": 13,
+        "startChar": 33,
+        "endLine": 13,
+        "endChar": 58
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1fda90e_50f95570",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-14T05:32:58Z",
+      "side": 1,
+      "message": "why do you print anything at all here?",
+      "range": {
+        "startLine": 736,
+        "startChar": 8,
+        "endLine": 736,
+        "endChar": 25
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b23f34f9_8e9e5bfd",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-14T05:32:58Z",
+      "side": 1,
+      "message": "@Nullable , here and below.",
+      "range": {
+        "startLine": 757,
+        "startChar": 2,
+        "endLine": 757,
+        "endChar": 9
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c623aa7e_bc3cc708",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-14T05:32:58Z",
+      "side": 1,
+      "message": "could you devise some sort of fallback so you don\u0027t switch to a completely new format of the changes?",
+      "range": {
+        "startLine": 795,
+        "startChar": 8,
+        "endLine": 795,
+        "endChar": 35
+      },
+      "revId": "8c06c97b90e6c865c2cb07d9af32ec0e98c0e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

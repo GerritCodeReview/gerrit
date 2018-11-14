@@ -196,13 +196,4 @@ public class ServerInfoIT extends AbstractDaemonTest {
     // user
     assertThat(i.user.anonymousCowardName).isEqualTo(AnonymousCowardNameProvider.DEFAULT);
   }
-
-  @Test
-  @GerritConfig(name = "auth.contributorAgreements", value = "true")
-  public void anonymousAccess() throws Exception {
-    configureContributorAgreement(true);
-
-    setApiUserAnonymous();
-    gApi.config().server().getInfo();
-  }
 }

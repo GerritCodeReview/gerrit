@@ -92,6 +92,29 @@
       "revId": "0cb4d896d8e6ba92f367930e0a45ce56c11d0112",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecf14165_edb03257",
+        "filename": "java/com/google/gerrit/server/notedb/schema/Schema_170.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-14T14:33:09Z",
+      "side": 1,
+      "message": "Would it make sense to let a gap between last ReviewDb and and first NoteDb version, just in case some ReviewDb schema migration will be implemented, say start with 180?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "0cb4d896d8e6ba92f367930e0a45ce56c11d0112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

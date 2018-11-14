@@ -20,6 +20,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -116,6 +118,25 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
           "  value = +1 Looks good to me, but someone else must approve",
           "  value = +2 Looks good to me, approved");
 
+  private static final LabelType TEST_LABEL =
+      new LabelType(
+          "Test-Label",
+          ImmutableList.of(
+              new LabelValue((short) 2, "Two"),
+              new LabelValue((short) 0, "Zero"),
+              new LabelValue((short) 1, "One")));
+
+  private static final String TEST_LABEL_STRING =
+      String.join(
+          "\n",
+          ImmutableList.of(
+              "[label \"Test-Label\"]",
+              "\tfunction = MaxWithBlock",
+              "\tdefaultValue = 0",
+              "\tvalue = 0 Zero",
+              "\tvalue = +1 One",
+              "\tvalue = +2 Two"));
+
   @Inject private AllProjectsName allProjectsName;
 
   @Inject @GerritPersonIdent private PersonIdent serverUser;
@@ -142,7 +163,12 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
 
     GroupReference adminsGroup = createGroupReference("Administrators");
     GroupReference batchUsersGroup = createGroupReference("Non-Interactive Users");
-    allProjectsCreator.setAdministrators(adminsGroup).setBatchUsers(batchUsersGroup).create();
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builder()
+            .administratorsGroup(adminsGroup)
+            .batchUsersGroup(batchUsersGroup)
+            .build();
+    allProjectsCreator.create(allProjectsInput);
 
     Config config = readAllProjectsConfig();
     assertTwoConfigsEquivalent(config, expectedConfig);
@@ -163,6 +189,19 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
   private GroupReference createGroupReference(String name) {
     AccountGroup.UUID groupUuid = GroupUUID.make(name, serverUser);
     return new GroupReference(groupUuid, name);
+  }
+
+  @Test
+  public void createAllProjectsWithNewCodeReviewLabel() throws Exception {
+    Config expectedLabelConfig = new Config();
+    expectedLabelConfig.fromText(TEST_LABEL_STRING);
+
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builder().codeReviewLabel(TEST_LABEL).build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config config = readAllProjectsConfig();
+    assertSectionEquivalent(config, expectedLabelConfig, "label");
   }
 
   // Loads the "project.config" from the All-Projects repo.

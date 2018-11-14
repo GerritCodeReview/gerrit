@@ -37,7 +37,7 @@
       /** @type {{ selectedChangeIndex: number }} */
       viewState: Object,
 
-      /** @type {{ user: string }} */
+      /** @type {{ project: string, user: string }} */
       params: {
         type: Object,
       },
@@ -217,8 +217,12 @@
           });
     },
 
-    _computeUserHeaderClass(userParam) {
-      return userParam === 'self' ? 'hide' : '';
+    _computeUserHeaderClass(params) {
+      if (!params || !!params.project || !params.user
+          || params.user === 'self') {
+        return 'hide';
+      }
+      return '';
     },
 
     _handleToggleStar(e) {

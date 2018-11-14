@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6738eb74_a27d7218",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-14T17:57:34Z",
+      "side": 1,
+      "message": "Possible, but I don\u0027t see the benefit.\n\nAs soon as you upgrade to 3.0, the whole database containing all of your changes, comments, etc. will be obsolete, but it will still exist. The 3.0 upgrade code is not gonna drop all those tables and/or the whole database for you, you\u0027ll have to do it manually. If you even care. Given that we will still leave the whole Changes table, the leftover SchemaVersion table is a trivial amount of data.",
+      "parentUuid": "2d5ad83c_dcbdbfec",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 67
+      },
+      "revId": "0cb4d896d8e6ba92f367930e0a45ce56c11d0112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc277456_c2f0876d",
         "filename": "java/com/google/gerrit/server/notedb/schema/NoteDbSchemaVersion.java",
         "patchSetId": 1
@@ -146,6 +170,30 @@
       "writtenOn": "2018-11-14T14:33:09Z",
       "side": 1,
       "message": "Would it make sense to let a gap between last ReviewDb and and first NoteDb version, just in case some ReviewDb schema migration will be implemented, say start with 180?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "0cb4d896d8e6ba92f367930e0a45ce56c11d0112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d796402_12e8a6fe",
+        "filename": "java/com/google/gerrit/server/notedb/schema/Schema_170.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-14T17:57:34Z",
+      "side": 1,
+      "message": "I see why you said that: https://gerrit-review.googlesource.com/c/gerrit/+/75801 :)\n\nYeah, I think that\u0027s probably fine.",
+      "parentUuid": "ecf14165_edb03257",
       "range": {
         "startLine": 19,
         "startChar": 13,

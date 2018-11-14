@@ -1508,7 +1508,8 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void assertIncludes(String group, String... expectedNames) throws Exception {
-    assertIncludes(gApi.groups().id(group).includedGroups(), expectedNames);
+    String[] sorted = Arrays.stream(expectedNames).sorted().toArray(String[]::new);
+    assertIncludes(gApi.groups().id(group).includedGroups(), sorted);
   }
 
   private static void assertIncludes(Iterable<GroupInfo> includes, String... expectedNames) {

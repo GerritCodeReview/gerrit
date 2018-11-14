@@ -94,7 +94,9 @@ public class SchemaCreatorImpl implements SchemaCreator {
     GroupReference admins = createGroupReference("Administrators");
     GroupReference batchUsers = createGroupReference("Non-Interactive Users");
 
-    allProjectsCreator.setAdministrators(admins).setBatchUsers(batchUsers).create();
+    AllProjectsCreatorInput allProjectsCreatorInput =
+        AllProjectsCreatorInput.builder().adminGroup(admins).batchGroup(batchUsers).build();
+    allProjectsCreator.create(allProjectsCreatorInput);
     // We have to create the All-Users repository before we can use it to store the groups in it.
     allUsersCreator.setAdministrators(admins).create();
 

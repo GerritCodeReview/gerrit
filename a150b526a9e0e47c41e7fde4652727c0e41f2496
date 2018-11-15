@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7fcbb30_ddc87b06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-15T08:41:44Z",
+      "side": 1,
+      "message": "Apparently, the project rule is to not have a . here. Might save you a roundtrip.",
+      "range": {
+        "startLine": 7,
+        "startChar": 69,
+        "endLine": 7,
+        "endChar": 70
+      },
+      "revId": "a150b526a9e0e47c41e7fde4652727c0e41f2496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "518aa72d_1fcb86ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-15T08:41:44Z",
+      "side": 1,
+      "message": "a?",
+      "range": {
+        "startLine": 9,
+        "startChar": 20,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "a150b526a9e0e47c41e7fde4652727c0e41f2496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8bc23c2_6b47936b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-15T08:41:44Z",
+      "side": 1,
+      "message": "Is this still needed here? I am not sure if defining it twice will lead to problems when compilation is turned on.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 26
+      },
+      "revId": "a150b526a9e0e47c41e7fde4652727c0e41f2496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef664147_810f3aef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-15T08:41:44Z",
+      "side": 1,
+      "message": "What does the {} mean here? I think it should just be boolean? I think you just copied it, but I also think that annotation is broken, except the template type checker ignores it :(",
+      "range": {
+        "startLine": 45,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 25
+      },
+      "revId": "a150b526a9e0e47c41e7fde4652727c0e41f2496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec585682_bdc044ab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-15T08:41:44Z",
+      "side": 1,
+      "message": "I wonder if this is actually null or undefined when not set. If it\u0027s null, I think the more idiomatic type is `?Defs.LineOfInterest`. If it\u0027s undefined, I would make it `Defs.LineOfInterest\u003d`. If you want to support either, you can use `?Defs.LineOfInterest\u003d`.\n\nAlso, I would put it on a single line, if I read the style guide correctly:\nhttps://google.github.io/styleguide/jsguide.html#jsdoc-general-form",
+      "range": {
+        "startLine": 137,
+        "startChar": 36,
+        "endLine": 137,
+        "endChar": 41
+      },
+      "revId": "a150b526a9e0e47c41e7fde4652727c0e41f2496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23122738_a2e29d1d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-15T08:41:44Z",
+      "side": 1,
+      "message": "Please add an @return annotation - I know it did not used to have one, but I think that was an oversight. Looks like it is \n{left: Object\u003c(string|number), boolean\u003e, right: Object\u003c(string|number), boolean\u003e}\n?",
+      "range": {
+        "startLine": 694,
+        "startChar": 5,
+        "endLine": 694,
+        "endChar": 7
+      },
+      "revId": "a150b526a9e0e47c41e7fde4652727c0e41f2496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8d4e3a8_a34d1e96",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2018-11-15T08:41:44Z",
+      "side": 1,
+      "message": "Are you planning to actually convert that into something depending on threadEl in a separate CL? I think we want to break the dep on comments also in gr-diff.js...",
+      "range": {
+        "startLine": 695,
+        "startChar": 21,
+        "endLine": 695,
+        "endChar": 29
+      },
+      "revId": "a150b526a9e0e47c41e7fde4652727c0e41f2496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

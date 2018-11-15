@@ -48,6 +48,7 @@ import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.api.GerritApiModule;
+import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
@@ -60,6 +61,7 @@ import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
+import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -326,6 +328,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
+    modules.add(new PluginApiModule());
     modules.add(new SearchingChangeCacheImpl.Module());
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultPermissionBackendModule());
@@ -375,6 +378,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
           @Override
           protected void configure() {
             bind(GerritOptions.class).toInstance(new GerritOptions(config, false, false, false));
+            bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
           }
         });
     modules.add(new GarbageCollectionModule());

@@ -56,5 +56,38 @@ public class RequestUtil {
     return pathInfo;
   }
 
+  /**
+   * Trims leading '/' and 'a/'. Removes the context path, but keeps the servlet path. Removes all
+   * IDs from the rest of the URI.
+   *
+   * <p>The returned string is a good fit for cases where one wants the full context of the request
+   * without any identifiable data. For example: Logging or quota checks.
+   *
+   * <p>Examples:
+   *
+   * <ul>
+   *   <li>/a/accounts/self/detail => /accounts/detail
+   *   <li>/changes/123/revisions/current/detail => /changes/revisions/detail
+   *   <li>/changes/ => /changes
+   * </ul>
+   */
+  public static String getRestPathWithoutIds(HttpServletRequest req) {
+    String encodedPathInfo = req.getRequestURI().substring(req.getContextPath().length());
+    if (encodedPathInfo.startsWith("/")) {
+      encodedPathInfo = encodedPathInfo.substring(1);
+    }
+    if (encodedPathInfo.startsWith("a/")) {
+      encodedPathInfo = encodedPathInfo.substring(2);
+    }
+
+    String[] parts = encodedPathInfo.split("/");
+    StringBuilder result = new StringBuilder(parts.length / 2 + 1);
+    for (int i = 0; i < parts.length; i = i + 2) {
+      result.append("/");
+      result.append(parts[i]);
+    }
+    return result.toString();
+  }
+
   private RequestUtil() {}
 }

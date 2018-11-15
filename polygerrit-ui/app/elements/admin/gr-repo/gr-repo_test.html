@@ -125,6 +125,29 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('_computePluginData', () => {
+      assert.deepEqual(element._computePluginData(), []);
+      assert.deepEqual(element._computePluginData({}), []);
+      assert.deepEqual(element._computePluginData({base: {}}), []);
+      assert.deepEqual(element._computePluginData({base: {plugin: 'data'}}),
+          [{name: 'plugin', config: 'data'}]);
+    });
+
+    test('_handlePluginConfigChanged', () => {
+      const notifyStub = sandbox.stub(element, 'notifyPath');
+      element._repoConfig = {plugin_config: {}};
+      element._handlePluginConfigChanged({detail: {
+        name: 'test',
+        config: 'data',
+        notifyPath: 'path',
+      }});
+      flushAsynchronousOperations();
+
+      assert.equal(element._repoConfig.plugin_config.test, 'data');
+      assert.equal(notifyStub.lastCall.args[0],
+          '_repoConfig.plugin_config.path');
+    });
+
     test('loading displays before repo config is loaded', () => {
       assert.isTrue(element.$.loading.classList.contains('loading'));
       assert.isFalse(getComputedStyle(element.$.loading).display === 'none');
@@ -136,14 +159,12 @@ limitations under the License.
     test('download commands visibility', () => {
       element._loading = false;
       flushAsynchronousOperations();
-      assert.isTrue(element.$.downloadContent.classList
-          .contains('hideDownload'));
+      assert.isTrue(element.$.downloadContent.classList.contains('hide'));
       assert.isTrue(getComputedStyle(element.$.downloadContent)
           .display == 'none');
       element._schemesObj = SCHEMES;
       flushAsynchronousOperations();
-      assert.isFalse(element.$.downloadContent.classList
-          .contains('hideDownload'));
+      assert.isFalse(element.$.downloadContent.classList.contains('hide'));
       assert.isFalse(getComputedStyle(element.$.downloadContent)
           .display == 'none');
     });

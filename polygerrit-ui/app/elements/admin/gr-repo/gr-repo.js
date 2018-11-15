@@ -73,6 +73,11 @@
       },
       /** @type {?} */
       _repoConfig: Object,
+      /** @type {?} */
+      _pluginData: {
+        type: Array,
+        computed: '_computePluginData(_repoConfig.plugin_config.*)',
+      },
       _readOnly: {
         type: Boolean,
         value: true,
@@ -115,6 +120,15 @@
       this._loadRepo();
 
       this.fire('title-change', {title: this.repo});
+    },
+
+    _computePluginData(configRecord) {
+      if (!configRecord ||
+          !configRecord.base) { return []; }
+
+      const pluginConfig = configRecord.base;
+      return Object.keys(pluginConfig)
+          .map(name => ({name, config: pluginConfig[name]}));
     },
 
     _loadRepo() {
@@ -172,8 +186,8 @@
       return loading ? 'loading' : '';
     },
 
-    _computeDownloadClass(schemes) {
-      return !schemes || !schemes.length ? 'hideDownload' : '';
+    _computeHideClass(arr) {
+      return !arr || !arr.length ? 'hide' : '';
     },
 
     _loggedInChanged(_loggedIn) {
@@ -245,20 +259,22 @@
       return this.$.restAPI.getLoggedIn();
     },
 
-    _formatRepoConfigForSave(p) {
+    _formatRepoConfigForSave(repoConfig) {
       const configInputObj = {};
-      for (const key in p) {
-        if (p.hasOwnProperty(key)) {
+      for (const key in repoConfig) {
+        if (repoConfig.hasOwnProperty(key)) {
           if (key === 'default_submit_type') {
             // default_submit_type is not in the input type, and the
             // configured value was already copied to submit_type by
             // _loadProject. Omit this property when saving.
             continue;
           }
-          if (typeof p[key] === 'object') {
-            configInputObj[key] = p[key].configured_value;
+          if (key === 'plugin_config') {
+            configInputObj.plugin_config_values = repoConfig[key];
+          } else if (typeof repoConfig[key] === 'object') {
+            configInputObj[key] = repoConfig[key].configured_value;
           } else {
-            configInputObj[key] = p[key];
+            configInputObj[key] = repoConfig[key];
           }
         }
       }
@@ -321,6 +337,11 @@
 
     _computeChangesUrl(name) {
       return Gerrit.Nav.getUrlForProjectChanges(name);
+    },
+
+    _handlePluginConfigChanged({detail: {name, config, notifyPath}}) {
+      this._repoConfig.plugin_config[name] = config;
+      this.notifyPath('_repoConfig.plugin_config.' + notifyPath);
     },
   });
 })();

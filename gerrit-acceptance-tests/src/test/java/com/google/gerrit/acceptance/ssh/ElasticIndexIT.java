@@ -14,26 +14,15 @@
 
 package com.google.gerrit.acceptance.ssh;
 
-import com.google.gerrit.elasticsearch.ElasticContainer;
-import com.google.gerrit.elasticsearch.ElasticTestUtils;
-import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
+import static com.google.gerrit.elasticsearch.ElasticTestUtils.createAllIndexes;
+import static com.google.gerrit.elasticsearch.ElasticTestUtils.getConfig;
+
 import com.google.gerrit.elasticsearch.ElasticVersion;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Injector;
-import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
 
 public class ElasticIndexIT extends AbstractIndexTests {
-
-  private static Config getConfig(ElasticVersion version) {
-    ElasticNodeInfo elasticNodeInfo;
-    ElasticContainer<?> container = ElasticContainer.createAndStart(version);
-    elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
-    String indicesPrefix = UUID.randomUUID().toString();
-    Config cfg = new Config();
-    ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix, version);
-    return cfg;
-  }
 
   @ConfigSuite.Default
   public static Config elasticsearchV2() {
@@ -52,6 +41,6 @@ public class ElasticIndexIT extends AbstractIndexTests {
 
   @Override
   public void configureIndex(Injector injector) throws Exception {
-    ElasticTestUtils.createAllIndexes(injector);
+    createAllIndexes(injector);
   }
 }

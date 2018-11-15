@@ -199,7 +199,7 @@
 
       _threadEls: {
         type: Array,
-        value: [],
+        value: () => [],
       },
     },
 

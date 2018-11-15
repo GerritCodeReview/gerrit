@@ -208,7 +208,16 @@
     ],
 
     listeners: {
+      // These are named inconsistently for a reason:
+      // The create-comment event is fired to indicate that we should
+      // create a comment.
+      // The comment-* events are just notifying that the comments did already
+      // change in some way, and that we should update any models we may want
+      // to keep in sync.
       'create-comment': '_handleCreateComment',
+      'comment-discard': '_handleCommentDiscard',
+      'comment-update': '_handleCommentUpdate',
+      'comment-save': '_handleCommentSave',
     },
 
     observers: [
@@ -723,5 +732,76 @@
           this.getParentIndex(patchRangeRecord.base.basePatchNum) : null;
     },
 
+    _handleCommentSave(e) {
+      const comment = e.detail.comment;
+      const side = e.detail.comment.__commentSide;
+      const idx = this._findDraftIndex(comment, side);
+      this.set(['comments', side, idx], comment);
+      this._handleCommentSaveOrDiscard();
+    },
+
+    _handleCommentDiscard(e) {
+      const comment = e.detail.comment;
+      this._removeComment(comment);
+      this._handleCommentSaveOrDiscard();
+    },
+
+    /**
+     * Closure annotation for Polymer.prototype.push is off. Submitted PR:
+     * https://github.com/Polymer/polymer/pull/4776
+     * but for not supressing annotations.
+     *
+     * @suppress {checkTypes}
+     */
+    _handleCommentUpdate(e) {
+      const comment = e.detail.comment;
+      const side = e.detail.comment.__commentSide;
+      let idx = this._findCommentIndex(comment, side);
+      if (idx === -1) {
+        idx = this._findDraftIndex(comment, side);
+      }
+      if (idx !== -1) { // Update draft or comment.
+        this.set(['comments', side, idx], comment);
+      } else { // Create new draft.
+        this.push(['comments', side], comment);
+      }
+    },
+
+    _handleCommentSaveOrDiscard() {
+      this.dispatchEvent(new CustomEvent('diff-comments-modified',
+          {bubbles: true}));
+    },
+
+    _removeComment(comment) {
+      const side = comment.__commentSide;
+      this._removeCommentFromSide(comment, side);
+    },
+
+    _removeCommentFromSide(comment, side) {
+      let idx = this._findCommentIndex(comment, side);
+      if (idx === -1) {
+        idx = this._findDraftIndex(comment, side);
+      }
+      if (idx !== -1) {
+        this.splice('comments.' + side, idx, 1);
+      }
+    },
+
+    /** @return {number} */
+    _findCommentIndex(comment, side) {
+      if (!comment.id || !this.comments[side]) {
+        return -1;
+      }
+      return this.comments[side].findIndex(item => item.id === comment.id);
+    },
+
+    /** @return {number} */
+    _findDraftIndex(comment, side) {
+      if (!comment.__draftID || !this.comments[side]) {
+        return -1;
+      }
+      return this.comments[side].findIndex(
+          item => item.__draftID === comment.__draftID);
+    },
   });
 })();

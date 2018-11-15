@@ -191,6 +191,11 @@ Preconditions] section.
 "`422 Unprocessable Entity`" is returned if the ID of a resource that is
 specified in the request body cannot be resolved.
 
+==== 429 Too Many Requests
+"`429 Too Many Requests`" is returned if the request exhausted any set
+quota limits. Depending on the exhausted quota, the request may be retried
+with exponential backoff.
+
 [[tracing]]
 === Request Tracing
 For each REST endpoint tracing can be enabled by setting the

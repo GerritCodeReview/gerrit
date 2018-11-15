@@ -31,7 +31,6 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.File;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -63,7 +62,7 @@ public class ReviewDbSchemaCreatorTest {
   }
 
   @Test
-  public void getCauses_CreateSchema() throws OrmException, SQLException, IOException {
+  public void getCauses_CreateSchema() throws OrmException, SQLException {
     // Initially the schema should be empty.
     String[] types = {"TABLE", "VIEW"};
     try (JdbcSchema d = (JdbcSchema) db.open();
@@ -82,7 +81,6 @@ public class ReviewDbSchemaCreatorTest {
     if (sitePath.getName().equals(".")) {
       sitePath = sitePath.getParentFile();
     }
-    assertThat(db.getSystemConfig().sitePath).isEqualTo(sitePath.getCanonicalPath());
   }
 
   private LabelTypes getLabelTypes() throws Exception {

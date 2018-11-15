@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
+import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
 
 /** Issues a configuration reload from the GerritServerConfigProvider and notify all listeners. */
 @Singleton
@@ -40,18 +42,20 @@ public class GerritServerConfigReloader {
    * Reloads the Gerrit Server Configuration from disk. Synchronized to ensure that one issued
    * reload is fully completed before a new one starts.
    */
-  public List<ConfigUpdatedEvent.Update> reloadConfig() {
+  public Multimap<UpdateResult, ConfigUpdateEntry> reloadConfig() {
     logger.atInfo().log("Starting server configuration reload");
-    List<ConfigUpdatedEvent.Update> updates = fireUpdatedConfigEvent(configProvider.updateConfig());
+    Multimap<UpdateResult, ConfigUpdateEntry> updates =
+        fireUpdatedConfigEvent(configProvider.updateConfig());
     logger.atInfo().log("Server configuration reload completed succesfully");
     return updates;
   }
 
-  public List<ConfigUpdatedEvent.Update> fireUpdatedConfigEvent(ConfigUpdatedEvent event) {
-    ArrayList<ConfigUpdatedEvent.Update> result = new ArrayList<>();
+  public Multimap<UpdateResult, ConfigUpdateEntry> fireUpdatedConfigEvent(
+      ConfigUpdatedEvent event) {
+    Multimap<UpdateResult, ConfigUpdateEntry> updates = ArrayListMultimap.create();
     for (GerritConfigListener configListener : configListeners) {
-      result.addAll(configListener.configUpdated(event));
+      updates.putAll(configListener.configUpdated(event));
     }
-    return result;
+    return updates;
   }
 }

@@ -199,6 +199,7 @@ public class Daemon extends SiteProgram {
   private AbstractModule luceneModule;
   private Module emailModule;
   private Module testSysModule;
+  private Module auditEventModule;
 
   private Runnable serverStarted;
   private IndexType indexType;
@@ -320,6 +321,11 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
+  public void setAuditEventModuleForTesting(Module module) {
+    auditEventModule = module;
+  }
+
+  @VisibleForTesting
   public void setLuceneModule(LuceneIndexModule m) {
     luceneModule = m;
     inMemoryTest = true;
@@ -425,7 +431,6 @@ public class Daemon extends SiteProgram {
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
     modules.add(new PluginApiModule());
-    modules.add(new AuditModule());
 
     modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());
@@ -437,6 +442,11 @@ public class Daemon extends SiteProgram {
       modules.add(emailModule);
     } else {
       modules.add(new SmtpEmailSender.Module());
+    }
+    if (auditEventModule != null) {
+      modules.add(auditEventModule);
+    } else {
+      modules.add(new AuditModule());
     }
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new RestApiModule());

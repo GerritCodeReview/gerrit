@@ -18,9 +18,11 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.AuditEvent;
 import java.sql.Timestamp;
 
 public interface GroupAuditService {
+  void dispatch(AuditEvent action);
 
   void dispatchAddMembers(
       Account.Id actor,

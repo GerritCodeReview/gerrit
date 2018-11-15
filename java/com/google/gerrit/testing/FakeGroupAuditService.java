@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,37 +12,58 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.audit;
+package com.google.gerrit.testing;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.AuditEvent;
+import com.google.gerrit.server.audit.AuditListener;
 import com.google.gerrit.server.audit.group.GroupAuditListener;
 import com.google.gerrit.server.audit.group.GroupMemberAuditEvent;
 import com.google.gerrit.server.audit.group.GroupSubgroupAuditEvent;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
-public class AuditService implements GroupAuditService {
-  private final PluginSetContext<AuditListener> auditListeners;
+public class FakeGroupAuditService implements GroupAuditService {
+
   private final PluginSetContext<GroupAuditListener> groupAuditListeners;
+  private final PluginSetContext<AuditListener> auditListeners;
+
+  public static class Module extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.setOf(binder(), GroupAuditListener.class);
+      DynamicSet.setOf(binder(), AuditListener.class);
+      bind(GroupAuditService.class).to(FakeGroupAuditService.class);
+    }
+  }
 
   @Inject
-  public AuditService(
-      PluginSetContext<AuditListener> auditListeners,
-      PluginSetContext<GroupAuditListener> groupAuditListeners) {
-    this.auditListeners = auditListeners;
+  public FakeGroupAuditService(
+      PluginSetContext<GroupAuditListener> groupAuditListeners,
+      PluginSetContext<AuditListener> auditListeners) {
     this.groupAuditListeners = groupAuditListeners;
+    this.auditListeners = auditListeners;
+  }
+
+  public List<AuditEvent> auditEvents = new ArrayList<>();
+
+  public void clearEvents() {
+    auditEvents.clear();
   }
 
   @Override
   public void dispatch(AuditEvent action) {
-    auditListeners.runEach(l -> l.onAuditableAction(action));
+    auditEvents.add(action);
   }
 
   @Override

@@ -12,15 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.schema;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-public class GerritConfigListenerHelper {
-  public static GerritConfigListener acceptIfChanged(ConfigKey... keys) {
-    return e ->
-        e.isEntriesUpdated(ImmutableSet.copyOf(keys))
-            ? e.accept(ImmutableSet.copyOf(keys))
-            : ConfigUpdatedEvent.NO_UPDATES;
+public class Schema_170 extends SchemaVersion {
+  @Inject
+  Schema_170(Provider<Schema_169> prior) {
+    super(prior);
   }
 }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.audit;
+package com.google.gerrit.server;
 
 import static java.util.Objects.requireNonNull;
 
@@ -20,7 +20,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.util.time.TimeUtil;
 
 public class AuditEvent {

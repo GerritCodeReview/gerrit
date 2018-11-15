@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -32,6 +33,8 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigKey;
 import com.google.gerrit.server.config.ConfigUpdatedEvent;
+import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
+import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -46,8 +49,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -175,18 +176,18 @@ public class SetParent
   }
 
   @Override
-  public List<ConfigUpdatedEvent.Update> configUpdated(ConfigUpdatedEvent event) {
+  public Multimap<UpdateResult, ConfigUpdateEntry> configUpdated(ConfigUpdatedEvent event) {
     ConfigKey receiveSetParent = ConfigKey.create("receive", "allowProjectOwnersToChangeParent");
     if (!event.isValueUpdated(receiveSetParent)) {
-      return Collections.emptyList();
+      return ConfigUpdatedEvent.NO_UPDATES;
     }
     try {
       boolean enabled =
           event.getNewConfig().getBoolean("receive", "allowProjectOwnersToChangeParent", false);
       this.allowProjectOwnersToChangeParent = enabled;
-      return Collections.singletonList(event.accept(receiveSetParent));
     } catch (IllegalArgumentException iae) {
-      return Collections.singletonList(event.reject(receiveSetParent));
+      return event.reject(receiveSetParent);
     }
+    return event.accept(receiveSetParent);
   }
 }

@@ -110,7 +110,7 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
 
   @Test
   public void projectPermissions_differentResourceSameUserDoesNotEqual() throws Exception {
-    Project.NameKey project2 = createProject("p2");
+    Project.NameKey project2 = projectOperations.newProject().create();
     BooleanCondition cond1 = pb.user(user()).project(project).testCond(ProjectPermission.READ);
     BooleanCondition cond2 = pb.user(user()).project(project2).testCond(ProjectPermission.READ);
 

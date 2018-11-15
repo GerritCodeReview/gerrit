@@ -36,8 +36,8 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    project1 = createProject("project-1");
-    project2 = createProject("project-2", project1);
+    project1 = projectOperations.newProject().create();
+    project2 = projectOperations.newProject().create();
   }
 
   @After

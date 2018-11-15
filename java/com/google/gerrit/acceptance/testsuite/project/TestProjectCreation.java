@@ -46,7 +46,7 @@ public abstract class TestProjectCreation {
 
     public abstract TestProjectCreation.Builder submitType(SubmitType submitType);
 
-    protected abstract TestProjectCreation.Builder createEmptyCommit(boolean value);
+    public abstract TestProjectCreation.Builder createEmptyCommit(boolean value);
 
     /**
      * Creates empty commit on creation. This is necessary for the project's branches to be born.

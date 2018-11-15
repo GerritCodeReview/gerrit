@@ -74,12 +74,6 @@
      * @event show-auth-required
      */
 
-    /**
-     * Fired when a comment is saved or discarded
-     *
-     * @event diff-comments-modified
-     */
-
      /**
       * Fired when a comment is created
       *
@@ -113,10 +107,6 @@
         reflectToAttribute: true,
       },
       noRenderOnPrefsChange: Boolean,
-      comments: {
-        type: Object,
-        value: {left: [], right: []},
-      },
       /** @type {!Array<!Gerrit.HoveredRange>} */
       _commentRanges: {
         type: Array,
@@ -237,9 +227,6 @@
     ],
 
     listeners: {
-      'comment-discard': '_handleCommentDiscard',
-      'comment-update': '_handleCommentUpdate',
-      'comment-save': '_handleCommentSave',
       'create-range-comment': '_handleCreateRangeComment',
       'render-content': '_handleRenderContent',
     },
@@ -256,7 +243,7 @@
     _observeNodes() {
       this._nodeObserver = Polymer.dom(this).observeNodes(info => {
         const addedThreadEls = info.addedNodes.filter(isThreadEl);
-        // In principal we should also handle removed nodes, but I have not
+        // In principle we should also handle removed nodes, but I have not
         // figured out how to do that yet without also catching all the removals
         // caused by further redistribution. Right now, comments are never
         // removed by no longer slotting them in, so I decided to not handle
@@ -317,11 +304,6 @@
       } else {
         this.classList.remove('showBlame');
       }
-    },
-
-    _handleCommentSaveOrDiscard() {
-      this.dispatchEvent(new CustomEvent('diff-comments-modified',
-          {bubbles: true}));
     },
 
     /** @return {string} */
@@ -518,75 +500,6 @@
       return side;
     },
 
-    _handleCommentDiscard(e) {
-      const comment = e.detail.comment;
-      this._removeComment(comment);
-      this._handleCommentSaveOrDiscard();
-    },
-
-    _removeComment(comment) {
-      const side = comment.__commentSide;
-      this._removeCommentFromSide(comment, side);
-    },
-
-    _handleCommentSave(e) {
-      const comment = e.detail.comment;
-      const side = e.detail.comment.__commentSide;
-      const idx = this._findDraftIndex(comment, side);
-      this.set(['comments', side, idx], comment);
-      this._handleCommentSaveOrDiscard();
-    },
-
-    /**
-     * Closure annotation for Polymer.prototype.push is off. Submitted PR:
-     * https://github.com/Polymer/polymer/pull/4776
-     * but for not supressing annotations.
-     *
-     * @suppress {checkTypes} */
-    _handleCommentUpdate(e) {
-      const comment = e.detail.comment;
-      const side = e.detail.comment.__commentSide;
-      let idx = this._findCommentIndex(comment, side);
-      if (idx === -1) {
-        idx = this._findDraftIndex(comment, side);
-      }
-      if (idx !== -1) { // Update draft or comment.
-        this.set(['comments', side, idx], comment);
-      } else { // Create new draft.
-        this.push(['comments', side], comment);
-      }
-    },
-
-    _removeCommentFromSide(comment, side) {
-      let idx = this._findCommentIndex(comment, side);
-      if (idx === -1) {
-        idx = this._findDraftIndex(comment, side);
-      }
-      if (idx !== -1) {
-        this.splice('comments.' + side, idx, 1);
-      }
-    },
-
-    /** @return {number} */
-    _findCommentIndex(comment, side) {
-      if (!comment.id || !this.comments[side]) {
-        return -1;
-      }
-      return this.comments[side].findIndex(item => {
-        return item.id === comment.id;
-      });
-    },
-
-    /** @return {number} */
-    _findDraftIndex(comment, side) {
-      if (!comment.__draftID || !this.comments[side]) {
-        return -1;
-      }
-      return this.comments[side].findIndex(item => {
-        return item.__draftID === comment.__draftID;
-      });
-    },
-
     _prefsObserver(newPrefs, oldPrefs) {
       // Scan the preference objects one level deep to see if they differ.
       let differ = !oldPrefs;
@@ -646,7 +559,7 @@
 
       this.updateStyles(stylesToUpdate);
 
-      if (this.diff && this.comments && !this.noRenderOnPrefsChange) {
+      if (this.diff && !this.noRenderOnPrefsChange) {
         this._renderDiffTable();
       }
     },
@@ -684,7 +597,7 @@
     _handleRenderContent() {
       this._incrementalNodeObserver = Polymer.dom(this).observeNodes(info => {
         const addedThreadEls = info.addedNodes.filter(isThreadEl);
-        // In principal we should also handle removed nodes, but I have not
+        // In principle we should also handle removed nodes, but I have not
         // figured out how to do that yet without also catching all the removals
         // caused by further redistribution. Right now, comments are never
         // removed by no longer slotting them in, so I decided to not handle

@@ -73,6 +73,10 @@
       },
       /** @type {?} */
       _repoConfig: Object,
+      _pluginData: {
+        type: Array,
+        computed: '_computePluginData(_repoConfig.plugin_config.*)',
+      },
       _readOnly: {
         type: Boolean,
         value: true,
@@ -115,6 +119,15 @@
       this._loadRepo();
 
       this.fire('title-change', {title: this.repo});
+    },
+
+    _computePluginData(configRecord) {
+      if (!configRecord ||
+          !configRecord.base) { return []; }
+
+      const pluginConfig = configRecord.base;
+      return Object.keys(pluginConfig)
+          .map(name => ({name, config: pluginConfig[name]}));
     },
 
     _loadRepo() {
@@ -172,8 +185,8 @@
       return loading ? 'loading' : '';
     },
 
-    _computeDownloadClass(schemes) {
-      return !schemes || !schemes.length ? 'hideDownload' : '';
+    _computeHideClass(arr) {
+      return !arr || !arr.length ? 'hide' : '';
     },
 
     _loggedInChanged(_loggedIn) {
@@ -203,6 +216,23 @@
         }, {
           label: 'False',
           value: 'FALSE',
+        },
+      ];
+    },
+
+    _formatPluginBooleanSelect(item) {
+      if (!item) { return; }
+      return [
+        {
+          label: 'Enforced',
+          value: 'enforced',
+        },
+        {
+          label: 'True',
+          value: 'true',
+        }, {
+          label: 'False',
+          value: 'false',
         },
       ];
     },
@@ -254,8 +284,10 @@
             // configured value was already copied to submit_type by
             // _loadProject. Omit this property when saving.
             continue;
-          }
-          if (typeof p[key] === 'object') {
+          } else if (key === 'plugin_config') {
+            configInputObj.plugin_config_values =
+                this._formatPluginConfigForSave(p[key]);
+          } else if (typeof p[key] === 'object') {
             configInputObj[key] = p[key].configured_value;
           } else {
             configInputObj[key] = p[key];
@@ -263,6 +295,24 @@
         }
       }
       return configInputObj;
+    },
+
+    _formatPluginConfigForSave(config) {
+      const output = {};
+      for (const pluginName of Object.keys(config)) {
+        const outputOption = {};
+        const plugin = config[pluginName];
+        for (const optionName of Object.keys(config[pluginName])) {
+          const option = plugin[optionName];
+          if (option.hasOwnProperty('values')) {
+            outputOption[optionName] = {values: option.values};
+          } else if (option.hasOwnProperty('value')) {
+            outputOption[optionName] = {value: option.value};
+          }
+        }
+        output[pluginName] = outputOption;
+      }
+      return output;
     },
 
     _handleSaveRepoConfig() {
@@ -321,6 +371,11 @@
 
     _computeChangesUrl(name) {
       return Gerrit.Nav.getUrlForProjectChanges(name);
+    },
+
+    _handlePluginConfigChanged({detail: {name, config, notifyPath}}) {
+      this._repoConfig.plugin_config[name] = config;
+      this.notifyPath('_repoConfig.plugin_config.' + notifyPath);
     },
   });
 })();

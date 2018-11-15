@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -152,8 +155,25 @@ public class ReviewDbSchemaCreator {
 
     initSystemConfig(db);
 
+    ImmutableMap<BooleanProjectConfig, InheritableBoolean> booleanProjectConfigs =
+        ImmutableMap.of(
+            BooleanProjectConfig.REQUIRE_CHANGE_ID,
+            InheritableBoolean.TRUE,
+            BooleanProjectConfig.USE_CONTENT_MERGE,
+            InheritableBoolean.TRUE,
+            BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS,
+            InheritableBoolean.FALSE,
+            BooleanProjectConfig.USE_SIGNED_OFF_BY,
+            InheritableBoolean.FALSE,
+            BooleanProjectConfig.ENABLE_SIGNED_PUSH,
+            InheritableBoolean.FALSE);
+
     AllProjectsCreatorInput allProjectsCreatorInput =
-        AllProjectsCreatorInput.builder().adminGroup(admins).batchGroup(batchUsers).build();
+        AllProjectsCreatorInput.builder()
+            .adminGroup(admins)
+            .batchGroup(batchUsers)
+            .booleanProjectConfigs(booleanProjectConfigs)
+            .build();
     allProjectsCreator.create(allProjectsCreatorInput);
     // We have to create the All-Users repository before we can use it to store the groups in it.
     allUsersCreator.setAdministrators(admins).create();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97129813_1c910b3f",
+        "filename": "java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-15T00:53:17Z",
+      "side": 1,
+      "message": "Wrong formatting.",
+      "revId": "0bd083fcba7daaafdcb3f083ba41cdb4b4a3eb01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

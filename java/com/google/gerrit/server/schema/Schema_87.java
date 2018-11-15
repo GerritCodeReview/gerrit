@@ -59,7 +59,7 @@ public class Schema_87 extends ReviewDbSchemaVersion {
       PreparedStatement uuidRetrieval, AccountGroup.Id id) throws SQLException {
     uuidRetrieval.setInt(1, id.get());
     try (ResultSet uuidResults = uuidRetrieval.executeQuery()) {
-      if (uuidResults.first()) {
+      if (uuidResults.next()) {
         Optional.of(new AccountGroup.UUID(uuidResults.getString(1)));
       }
     }

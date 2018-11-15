@@ -12,19 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest;
+package com.google.gerrit.acceptance.rest.binding;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
+import com.google.gerrit.acceptance.rest.util.RestCall;
 import org.junit.Test;
 
 /**
  * Tests for checking the bindings of the groups REST API.
  *
  * <p>These tests only verify that the group REST endpoints are correctly bound, they do no test the
- * functionality of the group REST endpoints (for details see JavaDoc on {@link
- * AbstractRestApiBindingsTest}).
+ * functionality of the group REST endpoints.
  */
-public class GroupsRestApiBindingsIT extends AbstractRestApiBindingsTest {
+public class GroupsRestApiBindingsIT extends AbstractDaemonTest {
   /**
    * Group REST endpoints to be tested, each URL contains a placeholder for the group identifier.
    */
@@ -80,14 +82,14 @@ public class GroupsRestApiBindingsIT extends AbstractRestApiBindingsTest {
   @Test
   public void groupEndpoints() throws Exception {
     String group = gApi.groups().create("test-group").get().name;
-    execute(GROUP_ENDPOINTS, group);
+    RestApiCallHelper.execute(adminRestSession, GROUP_ENDPOINTS, group);
   }
 
   @Test
   public void memberEndpoints() throws Exception {
     String group = gApi.groups().create("test-group").get().name;
     gApi.groups().id(group).addMembers(admin.email);
-    execute(MEMBER_ENDPOINTS, group, admin.email);
+    RestApiCallHelper.execute(adminRestSession, MEMBER_ENDPOINTS, group, admin.email);
   }
 
   @Test
@@ -95,6 +97,6 @@ public class GroupsRestApiBindingsIT extends AbstractRestApiBindingsTest {
     String group = gApi.groups().create("test-group").get().name;
     String subgroup = gApi.groups().create("test-subgroup").get().name;
     gApi.groups().id(group).addGroups(subgroup);
-    execute(SUBGROUP_ENDPOINTS, group, subgroup);
+    RestApiCallHelper.execute(adminRestSession, SUBGROUP_ENDPOINTS, group, subgroup);
   }
 }

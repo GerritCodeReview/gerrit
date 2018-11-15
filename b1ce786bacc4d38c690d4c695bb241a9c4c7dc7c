@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eac306d6_7e93c40f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-15T22:40:18Z",
+      "side": 1,
+      "message": "Done in later patch set.",
+      "parentUuid": "f215ebea_e5368707",
+      "range": {
+        "startLine": 759,
+        "startChar": 8,
+        "endLine": 759,
+        "endChar": 47
+      },
+      "revId": "b1ce786bacc4d38c690d4c695bb241a9c4c7dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11ab6843_63a6c477",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 3

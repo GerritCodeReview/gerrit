@@ -46,6 +46,30 @@
       "revId": "437d7ef616b33e5c22dafe76b51dc700c65853d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44c7f351_c4327b37",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-15T00:49:18Z",
+      "side": 1,
+      "message": "Ah, right, that\u0027s because multiple values are allowed:\n\n  Git-Protocol: version\u003d1:version\u003d2",
+      "parentUuid": "89430387_10b3aa92",
+      "range": {
+        "startLine": 266,
+        "startChar": 32,
+        "endLine": 266,
+        "endChar": 53
+      },
+      "revId": "437d7ef616b33e5c22dafe76b51dc700c65853d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "cdcdd82f9cc0e7ca8bcf0309bfc761db0828114f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8126f33_d60b34da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2018-11-15T22:11:20Z",
+      "side": 1,
+      "message": "Thanks. Opted to fix it in https://gerrit-review.googlesource.com/c/gerrit/+/204738 since it was not added in this change and that\u0027s more convenient.",
+      "parentUuid": "cae15075_189158fd",
+      "range": {
+        "startLine": 259,
+        "startChar": 14,
+        "endLine": 259,
+        "endChar": 23
+      },
+      "revId": "cdcdd82f9cc0e7ca8bcf0309bfc761db0828114f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

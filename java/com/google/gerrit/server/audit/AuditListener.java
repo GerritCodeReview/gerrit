@@ -15,6 +15,7 @@
 package com.google.gerrit.server.audit;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.server.AuditEvent;
 
 @ExtensionPoint
 public interface AuditListener {

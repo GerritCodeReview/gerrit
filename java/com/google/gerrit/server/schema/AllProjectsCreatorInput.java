@@ -2,14 +2,18 @@ package com.google.gerrit.server.schema;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.UsedAt;
 import java.util.List;
 import java.util.Optional;
 
+/** Input for initialing an "All-Projects". */
 @AutoValue
 public abstract class AllProjectsCreatorInput {
   @UsedAt(UsedAt.Project.GOOGLE)
@@ -49,6 +53,13 @@ public abstract class AllProjectsCreatorInput {
   @UsedAt(UsedAt.Project.GOOGLE)
   public abstract ImmutableList<LabelType> additionalLabelType();
 
+  /** Description for the All-Projects. */
+  public abstract Optional<String> projectDescription();
+
+  /** Boolean project configs to be set in the All-Projects */
+  public abstract Optional<ImmutableMap<BooleanProjectConfig, InheritableBoolean>>
+      booleanProjectConfigs();
+
   public abstract Builder toBuilder();
 
   static Builder builder() {
@@ -72,6 +83,11 @@ public abstract class AllProjectsCreatorInput {
     public abstract Builder codeReviewLabel(LabelType codeReviewLabel);
 
     public abstract Builder additionalLabelType(List<LabelType> additionalLabelType);
+
+    public abstract Builder projectDescription(String projectDescription);
+
+    public abstract Builder booleanProjectConfigs(
+        ImmutableMap<BooleanProjectConfig, InheritableBoolean> booleanProjectConfigs);
 
     abstract AllProjectsCreatorInput build();
   }

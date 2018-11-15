@@ -22,7 +22,8 @@ public enum ElasticVersion {
   V5_6("5.6.*"),
   V6_2("6.2.*"),
   V6_3("6.3.*"),
-  V6_4("6.4.*");
+  V6_4("6.4.*"),
+  V6_5("6.5.*");
 
   private final String version;
   private final Pattern pattern;

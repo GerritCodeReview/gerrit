@@ -21,6 +21,7 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
 
 public final class ElasticTestUtils {
@@ -53,6 +54,16 @@ public final class ElasticTestUtils {
     for (IndexDefinition<?, ?, ?> indexDef : indexDefs) {
       indexDef.getIndexCollection().getSearchIndex().deleteAll();
     }
+  }
+
+  public static Config getConfig(ElasticVersion version) {
+    ElasticNodeInfo elasticNodeInfo;
+    ElasticContainer<?> container = ElasticContainer.createAndStart(version);
+    elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
+    String indicesPrefix = UUID.randomUUID().toString();
+    Config cfg = new Config();
+    configure(cfg, elasticNodeInfo.port, indicesPrefix, version);
+    return cfg;
   }
 
   private ElasticTestUtils() {

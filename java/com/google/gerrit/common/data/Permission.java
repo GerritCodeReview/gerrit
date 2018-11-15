@@ -19,6 +19,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+
 /** A single permission within an {@link AccessSection} of a project. */
 public class Permission implements Comparable<Permission> {
   public static final String ABANDON = "abandon";
@@ -157,12 +159,8 @@ public class Permission implements Comparable<Permission> {
     exclusiveGroup = newExclusiveGroup;
   }
 
-  // TODO(ekempin): Make this method return an ImmutableList once the GWT UI is gone.
   public List<PermissionRule> getRules() {
-    if (rules == null) {
-      return new ArrayList<>();
-    }
-    return new ArrayList<>(rules);
+    return rules == null ? ImmutableList.of() : ImmutableList.copyOf(rules);
   }
 
   public void setRules(List<PermissionRule> list) {

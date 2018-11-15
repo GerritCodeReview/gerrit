@@ -14,8 +14,33 @@ associated.
 The following quota groups are defined in core Gerrit:
 
 === REST API
+[[rest-api]]
 
-TODO(hiesel,luca.milanesio,matthias.sohn,david.pursehouse): Add more :)
+The REST API enforces quota after the resource was parsed (if applicable) and before the
+endpoint's logic is executed. This enables quota enforcer implementations to throttle calls
+to specific endpoints while knowing the general context (user and top-level entity such as
+change, project or account).
+
+If the quota enforcer wants to throttle HTTP requests, they should use
+link:quota.html#http-requests[HTTP Requests] instead.
+
+The quota groups used for checking follow the exact definition of the endoint in the REST
+API, but remove all IDs. The schema is:
+
+/restapi/<ENDPOINT>:<HTTP-METHOD>
+
+Examples:
+
+[options="header",cols="1,6"]
+|=======================
+|HTTP call                                 |Quota Group                    |Metadata
+|GET /a/changes/1/revisions/current/detail |/changes/revisions/detail:GET  |CurrentUser, Change.Id, Project.NameKey
+|POST /a/changes/                          |/changes/:POST                 |CurrentUser
+|GET /a/accounts/self/detail               |/accounts/detail:GET           |CurrentUser, Account.Id
+|=======================
+
+The user provided in the check's metadata is always the calling user (having the
+impersonation bit and real user set in case the user is impersonating another user).
 
 GERRIT
 ------

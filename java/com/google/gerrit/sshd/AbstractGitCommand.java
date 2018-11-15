@@ -47,11 +47,15 @@ public abstract class AbstractGitCommand extends BaseCommand {
   protected Repository repo;
   protected Project.NameKey projectName;
   protected Project project;
-  protected String gitProtocol;
+  protected String[] extraParameters;
 
   @Override
   public void start(Environment env) {
-    gitProtocol = env.getEnv().get(GIT_PROTOCOL);
+    String gitProtocol = env.getEnv().get(GIT_PROTOCOL);
+    if (gitProtocol != null) {
+      extraParameters = gitProtocol.split(":");
+    }
+
     Context ctx = context.subContext(newSession(), context.getCommandLine());
     final Context old = sshScope.set(ctx);
     try {

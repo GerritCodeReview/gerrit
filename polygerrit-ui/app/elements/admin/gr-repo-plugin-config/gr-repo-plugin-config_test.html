@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-repo-plugin-config</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-repo-plugin-config.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-repo-plugin-config></gr-repo-plugin-config>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-repo-plugin-config tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(() => sandbox.restore());
+
+    test('_computePluginConfigOptions', () => {
+      assert.deepEqual(element._computePluginConfigOptions(), []);
+      assert.deepEqual(element._computePluginConfigOptions({}), []);
+      assert.deepEqual(element._computePluginConfigOptions({base: {}}), []);
+      assert.deepEqual(element._computePluginConfigOptions(
+          {base: {config: {}}}), []);
+      assert.deepEqual(element._computePluginConfigOptions(
+          {base: {config: {testKey: 'testInfo'}}}),
+          [{_key: 'testKey', info: 'testInfo'}]);
+    });
+
+    test('_computeDisabled', () => {
+      assert.isFalse(element._computeDisabled('true'));
+      assert.isTrue(element._computeDisabled('false'));
+    });
+
+    test('_handleChange', () => {
+      const eventStub = sandbox.stub(element, 'dispatchEvent');
+      element.pluginData = {
+        name: 'testName',
+        config: {plugin: {value: 'test'}},
+      };
+      element._handleChange({
+        _key: 'plugin',
+        info: {value: 'newTest'},
+        notifyPath: 'plugin.value',
+      });
+
+      assert.isTrue(eventStub.called);
+
+      const {detail} = eventStub.lastCall.args[0];
+      assert.equal(detail.name, 'testName');
+      assert.deepEqual(detail.config, {plugin: {value: 'newTest'}});
+      assert.equal(detail.notifyPath, 'testName.plugin.value');
+    });
+
+    suite('option types', () => {
+      let changeStub;
+      let buildStub;
+
+      setup(() => {
+        changeStub = sandbox.stub(element, '_handleChange');
+        buildStub = sandbox.stub(element, '_buildConfigChangeInfo');
+      });
+
+      test('ARRAY type option', () => {
+        element.pluginData = {
+          name: 'testName',
+          config: {plugin: {value: 'test', type: 'ARRAY'}},
+        };
+        flushAsynchronousOperations();
+
+        const editor = element.$$('gr-plugin-config-array-editor');
+        assert.ok(editor);
+        element._handleArrayChange({detail: 'test'});
+        assert.isTrue(changeStub.called);
+        assert.equal(changeStub.lastCall.args[0], 'test');
+      });
+
+      test('BOOLEAN type option', () => {
+        element.pluginData = {
+          name: 'testName',
+          config: {plugin: {value: 'true', type: 'BOOLEAN'}},
+        };
+        flushAsynchronousOperations();
+
+        const toggle = element.$$('paper-toggle-button');
+        assert.ok(toggle);
+        toggle.click();
+        flushAsynchronousOperations();
+
+        assert.isTrue(buildStub.called);
+        assert.deepEqual(buildStub.lastCall.args, ['false', 'plugin']);
+
+        assert.isTrue(changeStub.called);
+      });
+
+      test('INT/LONG/STRING type option', () => {
+        element.pluginData = {
+          name: 'testName',
+          config: {plugin: {value: 'test', type: 'STRING'}},
+        };
+        flushAsynchronousOperations();
+
+        const input = element.$$('input');
+        assert.ok(input);
+        input.value = 'newTest';
+        input.dispatchEvent(new Event('input'));
+        flushAsynchronousOperations();
+
+        assert.isTrue(buildStub.called);
+        assert.deepEqual(buildStub.lastCall.args, ['newTest', 'plugin']);
+
+        assert.isTrue(changeStub.called);
+      });
+
+      test('LIST type option', () => {
+        const permitted_values = ['test', 'newTest'];
+        element.pluginData = {
+          name: 'testName',
+          config: {plugin: {value: 'test', type: 'LIST', permitted_values}},
+        };
+        flushAsynchronousOperations();
+
+        const select = element.$$('select');
+        assert.ok(select);
+        select.value = 'newTest';
+        select.dispatchEvent(new Event('change', {bubbles: true}));
+        flushAsynchronousOperations();
+
+        assert.isTrue(buildStub.called);
+        assert.deepEqual(buildStub.lastCall.args, ['newTest', 'plugin']);
+
+        assert.isTrue(changeStub.called);
+      });
+    });
+
+    test('_buildConfigChangeInfo', () => {
+      element.pluginData = {
+        name: 'testName',
+        config: {plugin: {value: 'test'}},
+      };
+      const detail = element._buildConfigChangeInfo('newTest', 'plugin');
+      assert.equal(detail._key, 'plugin');
+      assert.deepEqual(detail.info, {value: 'newTest'});
+      assert.equal(detail.notifyPath, 'plugin.value');
+    });
+  });
+</script>

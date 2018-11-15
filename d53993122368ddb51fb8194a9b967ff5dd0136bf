@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "19e9f988_51a1a054",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-15T14:30:58Z",
+      "side": 1,
+      "message": "Thanks for the explanations. I understand the concern that we shouldn\u0027t add unnecessary code as well as the desire for brevity in general. On the other hand, I also had my reasons why I asked for the tests. I accept your decision to not add further tests.\n\nOptional part:\nSince your comment contained some hints that I was asking for something unreasonable and just wasting time, let me explain a bit more.\n\nWhen I added the groups test API, I deliberately added Javadoc descriptions with a lot of explanations so that other developers would easily know how to use the API. I also made sure to add proper tests so that other tests using the API can rely on it working correctly (within reasonable bounds). Our current situation without that API is that we have multiple tests which re-check that a specific state was correctly set up. I would really like to avoid that situation with the new test API.\n\nEven though ProjectOperationsImpl is just some lines of code, it relies on other parts of Gerrit and hence can change its behavior unexpectedly. Other integration tests aren\u0027t relevant as the tests for the project test API shouldn\u0027t care about the general behavior of Gerrit or how exactly it is implemented (e.g. What if we added the possibility to delete projects via the test API but didn\u0027t have this possibility in Gerrit in general?). Instead, the tests should be written in a way that the behavior of the project test API in itself is documented.\n\nI agree that each of these integration tests adds additional execution time to our integration tests but I don\u0027t think that we should leave out reasonable tests because of that reason. Gerrit\u0027s tests are our safety belt and ensuring that our tests do what we think they do is also important. If we are concerned about execution time, we should find another solution to speed up our tests.\n\nI also agree that we shouldn\u0027t test defaults too closely. My previous comment probably wasn\u0027t clear in that regard. What I rather meant is that we should ensure that a project which is created without specifying any further parameters is in a reasonable state (e.g. Gerrit changes can be created for it). The tests in GroupOperationsImplTest, which I originally recommended as an example, are implemented following that spirit.",
+      "parentUuid": "face5d61_23e88eb2",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 38
+      },
+      "revId": "d53993122368ddb51fb8194a9b967ff5dd0136bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62c001e6_51d382c8",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
         "patchSetId": 7
@@ -140,6 +164,30 @@
       "revId": "d53993122368ddb51fb8194a9b967ff5dd0136bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aea49d2_23c797f3",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-15T14:30:58Z",
+      "side": 1,
+      "message": "Thanks. The comment is helpful. Without it, I would have never guessed that this test doesn\u0027t just check the generated name as the test name suggests but also covers the aspect that the project was successfully created.",
+      "parentUuid": "fe81886b_1b68434f",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "d53993122368ddb51fb8194a9b967ff5dd0136bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

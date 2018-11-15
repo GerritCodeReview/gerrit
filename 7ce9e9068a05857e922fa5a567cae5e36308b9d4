@@ -277,6 +277,30 @@
     },
     {
       "key": {
+        "uuid": "f9c354f5_16b0dc01",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-15T14:30:58Z",
+      "side": 1,
+      "message": "What about using an empty list? If I do so, all the tests still pass.",
+      "parentUuid": "c72cd710_82b8b36e",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 88
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "942dda57_3356bfaa",
         "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectCreation.java",
         "patchSetId": 1

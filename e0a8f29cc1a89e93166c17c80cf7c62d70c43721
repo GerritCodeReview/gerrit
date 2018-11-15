@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4610ecb4_ff462e8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-15T00:27:40Z",
+      "side": 1,
+      "message": "mention that this is possible now that GWT is removed.  Previously it was not possible because the AccessSection was referenced from GWT code where guava cannot be used.",
+      "revId": "e0a8f29cc1a89e93166c17c80cf7c62d70c43721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

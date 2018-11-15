@@ -120,7 +120,7 @@
       /** @type {!Array<!Gerrit.HoveredRange>} */
       _commentRanges: {
         type: Array,
-        value: [],
+        value: () => [],
       },
       lineWrapping: {
         type: Boolean,
@@ -135,6 +135,21 @@
 
        /** @type ?Defs.LineOfInterest */
       lineOfInterest: Object,
+
+      /**
+       * The key locations based on the comments and line of interests,
+       * where lines should not be collapsed.
+       *
+       * @type {{left: Object<(string|number), number>,
+       *     right: Object<(string|number), number>}}
+       */
+      _keyLocations: {
+        type: Object,
+        value: () => ({
+          left: {},
+          right: {},
+        }),
+      },
 
       loading: {
         type: Boolean,
@@ -230,7 +245,7 @@
     },
 
     attached() {
-      this._updateRangesWhenNodesChange();
+      this._observeNodes();
     },
 
     detached() {
@@ -238,25 +253,38 @@
       this._unobserveNodes();
     },
 
-    _updateRangesWhenNodesChange() {
+    _observeNodes() {
+      this._nodeObserver = Polymer.dom(this).observeNodes(info => {
+        const addedThreadEls = info.addedNodes.filter(isThreadEl);
+        // In principal we should also handle removed nodes, but I have not
+        // figured out how to do that yet without also catching all the removals
+        // caused by further redistribution. Right now, comments are never
+        // removed by no longer slotting them in, so I decided to not handle
+        // this situation until it occurs.
+        this._updateRanges(addedThreadEls);
+        this._updateKeyLocations(addedThreadEls);
+      });
+    },
+
+    _updateRanges(addedThreadEls) {
       function commentRangeFromThreadEl(threadEl) {
         const side = threadEl.getAttribute('comment-side');
         const range = JSON.parse(threadEl.getAttribute('range'));
         return {side, range, hovering: false};
       }
 
-      this._nodeObserver = Polymer.dom(this).observeNodes(info => {
-        const addedThreadEls = info.addedNodes.filter(isThreadEl);
-        const addedCommentRanges = addedThreadEls
-            .map(commentRangeFromThreadEl)
-            .filter(({range}) => range);
-        this.push('_commentRanges', ...addedCommentRanges);
-        // In principal we should also handle removed nodes, but I have not
-        // figured out how to do that yet without also catching all the removals
-        // caused by further redistribution. Right now, comments are never
-        // removed by no longer slotting them in, so I decided to not handle
-        // this situation until it occurs.
-      });
+      const addedCommentRanges = addedThreadEls
+          .map(commentRangeFromThreadEl)
+          .filter(({range}) => range);
+      this.push('_commentRanges', ...addedCommentRanges);
+    },
+
+    _updateKeyLocations(addedThreadEls) {
+      for (const threadEl of addedThreadEls) {
+        const commentSide = threadEl.getAttribute('comment-side');
+        const lineNum = threadEl.getAttribute('line-num') || GrDiffLine.FILE;
+        this._keyLocations[commentSide][lineNum] = true;
+      }
     },
 
     /** Cancel any remaining diff builder rendering work. */
@@ -645,9 +673,12 @@
       }
 
       this._showWarning = false;
-      const keyLocations = this._getKeyLocations(this.comments,
-          this.lineOfInterest);
-      this.$.diffBuilder.render(keyLocations, this._getBypassPrefs());
+
+      if (this.lineOfInterest) {
+        const side = this.lineOfInterest.leftSide ? 'left' : 'right';
+        this._keyLocations[side][this.lineOfInterest.number] = true;
+      }
+      this.$.diffBuilder.render(this._keyLocations, this._getBypassPrefs());
     },
 
     _handleRenderContent() {
@@ -681,39 +712,6 @@
       if (this._nodeObserver) {
         Polymer.dom(this).unobserveNodes(this._nodeObserver);
       }
-    },
-
-    /**
-     * Returns the key locations based on the comments and line of interests,
-     * where lines should not be collapsed.
-     *
-     * @param {!Object} comments
-     * @param {Defs.LineOfInterest|null} lineOfInterest
-     *
-     * @return {{left: Object<(string|number), boolean>,
-     *     right: Object<(string|number), boolean>}}
-     */
-    _getKeyLocations(comments, lineOfInterest) {
-      const result = {
-        left: {},
-        right: {},
-      };
-      for (const side in comments) {
-        if (side !== GrDiffBuilder.Side.LEFT &&
-            side !== GrDiffBuilder.Side.RIGHT) {
-          continue;
-        }
-        for (const c of comments[side]) {
-          result[side][c.line || GrDiffLine.FILE] = true;
-        }
-      }
-
-      if (lineOfInterest) {
-        const side = lineOfInterest.leftSide ? 'left' : 'right';
-        result[side][lineOfInterest.number] = true;
-      }
-
-      return result;
     },
 
     /**

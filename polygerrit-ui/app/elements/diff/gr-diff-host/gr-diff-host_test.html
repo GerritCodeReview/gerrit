@@ -46,9 +46,6 @@ limitations under the License.
         async getLoggedIn() { return getLoggedIn; },
       });
       element = fixture('basic');
-      // For reasons beyond me, fixture reuses elements, cleans out some
-      // stuff but not that list.
-      element._threadEls = [];
     });
 
     teardown(() => {

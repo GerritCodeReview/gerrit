@@ -114,6 +114,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.quota.QuotaException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.util.http.CacheHeaders;
@@ -227,6 +228,7 @@ public class RestApiServlet extends HttpServlet {
     final AuditService auditService;
     final RestApiMetrics metrics;
     final Pattern allowOrigin;
+    final RestApiQuotaEnforcer quotaChecker;
 
     @Inject
     Globals(
@@ -236,6 +238,7 @@ public class RestApiServlet extends HttpServlet {
         PermissionBackend permissionBackend,
         AuditService auditService,
         RestApiMetrics metrics,
+        RestApiQuotaEnforcer quotaChecker,
         @GerritServerConfig Config cfg) {
       this.currentUser = currentUser;
       this.webSession = webSession;
@@ -243,6 +246,7 @@ public class RestApiServlet extends HttpServlet {
       this.permissionBackend = permissionBackend;
       this.auditService = auditService;
       this.metrics = metrics;
+      this.quotaChecker = quotaChecker;
       allowOrigin = makeAllowOrigin(cfg);
     }
 
@@ -317,6 +321,7 @@ public class RestApiServlet extends HttpServlet {
         viewData = new ViewData(null, null);
 
         if (path.isEmpty()) {
+          globals.quotaChecker.enforce(req);
           if (rc instanceof NeedsParams) {
             ((NeedsParams) rc).setParams(qp.params());
           }
@@ -339,6 +344,7 @@ public class RestApiServlet extends HttpServlet {
           IdString id = path.remove(0);
           try {
             rsrc = rc.parse(rsrc, id);
+            globals.quotaChecker.enforce(rsrc, req);
             if (path.isEmpty()) {
               checkPreconditions(req);
             }
@@ -346,6 +352,7 @@ public class RestApiServlet extends HttpServlet {
             if (!path.isEmpty()) {
               throw e;
             }
+            globals.quotaChecker.enforce(req);
 
             if (isPost(req) || isPut(req)) {
               RestView<RestResource> createView = rc.views().get(PluginName.GERRIT, "CREATE./");
@@ -602,6 +609,9 @@ public class RestApiServlet extends HttpServlet {
           status = SC_INTERNAL_SERVER_ERROR;
           responseBytes = handleException(e, req, res);
         }
+      } catch (QuotaException e) {
+        responseBytes =
+            replyError(req, res, status = 429, messageOr(e, "Quota limit reached"), e.caching(), e);
       } catch (Exception e) {
         status = SC_INTERNAL_SERVER_ERROR;
         responseBytes = handleException(e, req, res);

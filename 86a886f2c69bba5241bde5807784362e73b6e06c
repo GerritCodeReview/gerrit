@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5415d698_74f90363",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-15T22:35:43Z",
+      "side": 1,
+      "message": "Is this import used?",
+      "revId": "86a886f2c69bba5241bde5807784362e73b6e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fbc907f_43f0bb8a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-15T22:35:43Z",
+      "side": 1,
+      "message": "I\u0027d like to see multiple values in the array in this test.",
+      "revId": "86a886f2c69bba5241bde5807784362e73b6e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

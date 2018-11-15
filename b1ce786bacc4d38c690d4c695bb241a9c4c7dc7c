@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f215ebea_e5368707",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-15T22:12:57Z",
+      "side": 1,
+      "message": "Still need to either suppress checkTypes for this function or modify this path to string representation (`comments.${side}`) instead of array representation.",
+      "range": {
+        "startLine": 759,
+        "startChar": 8,
+        "endLine": 759,
+        "endChar": 47
+      },
+      "revId": "b1ce786bacc4d38c690d4c695bb241a9c4c7dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "11ab6843_63a6c477",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 3
@@ -46,6 +69,30 @@
       "revId": "b1ce786bacc4d38c690d4c695bb241a9c4c7dc7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6893a9f3_f12b06f1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-15T22:12:57Z",
+      "side": 1,
+      "message": "D\u0027oh, you\u0027re right. My mistake.",
+      "parentUuid": "e08fa30b_298860b3",
+      "range": {
+        "startLine": 753,
+        "startChar": 6,
+        "endLine": 760,
+        "endChar": 7
+      },
+      "revId": "b1ce786bacc4d38c690d4c695bb241a9c4c7dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

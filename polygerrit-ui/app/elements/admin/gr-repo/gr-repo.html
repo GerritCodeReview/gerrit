@@ -26,7 +26,7 @@ limitations under the License.
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/gr-subpage-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
-
+<link rel="import" href="../gr-repo-plugin-config/gr-repo-plugin-config.html">
 
 <dom-module id="gr-repo">
   <template>
@@ -37,7 +37,7 @@ limitations under the License.
         content: ' *';
       }
       .loading,
-      .hideDownload {
+      .hide {
         display: none;
       }
       #loading.loading {
@@ -67,7 +67,7 @@ limitations under the License.
       </div>
       <div id="loading" class$="[[_computeLoadingClass(_loading)]]">Loading...</div>
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
-        <div id="downloadContent" class$="[[_computeDownloadClass(_schemes)]]">
+        <div id="downloadContent" class$="[[_computeHideClass(_schemes)]]">
           <h2 id="download">Download</h2>
           <fieldset>
             <gr-download-commands
@@ -346,7 +346,15 @@ limitations under the License.
                 </span>
               </section>
             </fieldset>
-            <!-- TODO @beckysiegel add plugin config widgets -->
+            <div
+                class$="pluginConfig [[_computeHideClass(_pluginData)]]"
+                on-plugin-config-changed="_handlePluginConfigChanged">
+              <h3>Plugins</h3>
+              <template is="dom-repeat" items="[[_pluginData]]" as="data">
+                <gr-repo-plugin-config
+                    plugin-data="[[data]]"></gr-repo-plugin-config>
+              </template>
+            </div>
             <gr-button
                 on-tap="_handleSaveRepoConfig"
                 disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">Save changes</gr-button>

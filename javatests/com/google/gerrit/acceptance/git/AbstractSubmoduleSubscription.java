@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.SubscribeSection;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.StreamSupport;
+import javax.inject.Inject;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -56,6 +58,12 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Before;
 
 public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
+
+  protected TestRepository<?> superRepo;
+  protected Project.NameKey superKey;
+  protected TestRepository<?> subRepo;
+  protected Project.NameKey subKey;
+  @Inject protected ProjectOperations projectOperations;
 
   protected SubmitType getSubmitType() {
     return cfg.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
@@ -108,29 +116,20 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     return project;
   }
 
-  protected TestRepository<?> createProjectWithPush(String name) throws Exception {
-    return createProjectWithPush(name, null, true, getSubmitType());
-  }
-
   protected TestRepository<?> createProjectWithPush(
       String name,
       @Nullable Project.NameKey parent,
       boolean createEmptyCommit,
       SubmitType submitType)
       throws Exception {
-    return cloneProject(createProjectForPush(name, parent, createEmptyCommit, submitType));
-  }
-
-  protected TestRepository<?> createProjectWithPush(String name, boolean createEmptyCommit)
-      throws Exception {
     return cloneProject(createProjectForPush(name, null, createEmptyCommit, getSubmitType()));
   }
 
+  protected TestRepository<?> createProjectWithPush(String name) throws Exception {
+    return createProjectWithPush(name, null, true, getSubmitType());
+  }
+
   private static AtomicInteger contentCounter = new AtomicInteger(0);
-  protected TestRepository<?> superRepo;
-  protected Project.NameKey superKey;
-  protected TestRepository<?> subRepo;
-  protected Project.NameKey subKey;
 
   @Before
   public void setUp() throws Exception {

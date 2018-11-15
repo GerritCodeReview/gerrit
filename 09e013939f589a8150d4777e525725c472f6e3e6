@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8093ff9_b85016bf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-15T22:49:19Z",
+      "side": 1,
+      "message": "Couldn\u0027t we support number validation, with prevent-invalid-input and allowed-pattern\u003d\"[0-9]\"?",
+      "revId": "09e013939f589a8150d4777e525725c472f6e3e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a49a5cc1_7d2c29ed",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-15T22:49:19Z",
+      "side": 1,
+      "message": "Does this belong in this change?",
+      "revId": "09e013939f589a8150d4777e525725c472f6e3e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

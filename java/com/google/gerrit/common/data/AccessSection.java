@@ -16,6 +16,7 @@ package com.google.gerrit.common.data;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import java.util.ArrayList;
@@ -36,12 +37,8 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
     super(refPattern);
   }
 
-  // TODO(ekempin): Make this method return an ImmutableList once the GWT UI is gone.
   public List<Permission> getPermissions() {
-    if (permissions == null) {
-      return new ArrayList<>();
-    }
-    return new ArrayList<>(permissions);
+    return permissions == null ? ImmutableList.of() : ImmutableList.copyOf(permissions);
   }
 
   public void setPermissions(List<Permission> list) {

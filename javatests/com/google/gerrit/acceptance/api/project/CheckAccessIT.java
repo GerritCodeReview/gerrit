@@ -50,9 +50,9 @@ public class CheckAccessIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    normalProject = createProject("normal");
-    secretProject = createProject("secret");
-    secretRefProject = createProject("secretRef");
+    normalProject = projectOperations.newProject().create();
+    secretProject = projectOperations.newProject().create();
+    secretRefProject = projectOperations.newProject().create();
     AccountGroup.UUID privilegedGroupUuid =
         groupOperations.newGroup().name(name("privilegedGroup")).create();
 

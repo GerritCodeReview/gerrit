@@ -462,10 +462,11 @@
     saveRepoConfig(repo, config, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      const encodeName = encodeURIComponent(repo);
+      const url = `/projects/${encodeURIComponent(repo)}/config`;
+      this._cache.delete(url);
       return this._send({
         method: 'PUT',
-        url: `/projects/${encodeName}/config`,
+        url,
         body: config,
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/config',

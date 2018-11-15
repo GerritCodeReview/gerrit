@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11ab6843_63a6c477",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-15T22:05:20Z",
+      "side": 1,
+      "message": "These conditionals can be combined.",
+      "range": {
+        "startLine": 753,
+        "startChar": 6,
+        "endLine": 760,
+        "endChar": 7
+      },
+      "revId": "b1ce786bacc4d38c690d4c695bb241a9c4c7dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30208b0c_b7d1ba02",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-15T22:05:20Z",
+      "side": 1,
+      "message": "Remove empty line.",
+      "revId": "b1ce786bacc4d38c690d4c695bb241a9c4c7dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a238097_0e2338ca",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-15T22:05:20Z",
+      "side": 1,
+      "message": "This can be a bracketless arrow function.",
+      "range": {
+        "startLine": 789,
+        "startChar": 51,
+        "endLine": 791,
+        "endChar": 8
+      },
+      "revId": "b1ce786bacc4d38c690d4c695bb241a9c4c7dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0605710e_851b5444",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-15T22:05:20Z",
+      "side": 1,
+      "message": "This can be a bracketless arrow function.",
+      "range": {
+        "startLine": 799,
+        "startChar": 51,
+        "endLine": 801,
+        "endChar": 9
+      },
+      "revId": "b1ce786bacc4d38c690d4c695bb241a9c4c7dc7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

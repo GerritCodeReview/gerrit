@@ -60,7 +60,7 @@ public class Schema_151 extends SchemaVersion {
       PreparedStatement addedOnRetrieval, AccountGroup.Id groupId) throws SQLException {
     addedOnRetrieval.setInt(1, groupId.get());
     try (ResultSet resultSet = addedOnRetrieval.executeQuery()) {
-      if (resultSet.first()) {
+      if (resultSet.next()) {
         return Optional.of(resultSet.getTimestamp(1));
       }
     }

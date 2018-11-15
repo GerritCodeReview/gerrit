@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74c492da_7f9a1d6d",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-15T00:26:41Z",
+      "side": 1,
+      "message": "Arrays.asList(params)[1]? Otherwise you also put \"Git-Protocol\" in the list; may be:\n\n  String protocol \u003d header.split(\":\")[1];\n  up.setExtraParameters(ImmutableList.of(protocol));\n\nor\n\n  int statFrom \u003d header.indexOf( \u0027:\u0027 );\n  String protocol2 \u003d header.substring(statFrom +1, header.length());\n  up.setExtraParameters(ImmutableList.of(protocol2));",
+      "range": {
+        "startLine": 266,
+        "startChar": 32,
+        "endLine": 266,
+        "endChar": 53
+      },
+      "revId": "437d7ef616b33e5c22dafe76b51dc700c65853d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4543911_e197e0e9",
+        "filename": "java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-15T00:26:41Z",
+      "side": 0,
+      "message": "Nit: Unrelated new line change.",
+      "revId": "48827f691680b52064b050754096afc49443e734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

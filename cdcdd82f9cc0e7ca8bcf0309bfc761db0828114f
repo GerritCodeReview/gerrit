@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cae15075_189158fd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-15T22:02:19Z",
+      "side": 1,
+      "message": "Nit: \u0027principle\u0027",
+      "range": {
+        "startLine": 259,
+        "startChar": 14,
+        "endLine": 259,
+        "endChar": 23
+      },
+      "revId": "cdcdd82f9cc0e7ca8bcf0309bfc761db0828114f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

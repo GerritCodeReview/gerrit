@@ -12,16 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest;
+package com.google.gerrit.acceptance.rest.binding;
 
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.acceptance.rest.AbstractRestApiBindingsTest.Method.GET;
+import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
 import static com.google.gerrit.extensions.common.testing.RobotCommentInfoSubject.assertThatList;
 import static java.util.stream.Collectors.toList;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
+import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -43,10 +46,9 @@ import org.junit.Test;
  * Tests for checking the bindings of the changes REST API.
  *
  * <p>These tests only verify that the change REST endpoints are correctly bound, they do no test
- * the functionality of the change REST endpoints (for details see JavaDoc on {@link
- * AbstractRestApiBindingsTest}).
+ * the functionality of the change REST endpoints.
  */
-public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
+public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
   /**
    * Change REST endpoints to be tested, each URL contains a placeholder for the change identifier.
    */
@@ -279,7 +281,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
   public void changeEndpoints() throws Exception {
     String changeId = createChange().getChangeId();
     gApi.changes().id(changeId).edit().create();
-    execute(CHANGE_ENDPOINTS, changeId);
+    RestApiCallHelper.execute(adminRestSession, CHANGE_ENDPOINTS, changeId);
   }
 
   @Test
@@ -287,7 +289,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
     assume().that(notesMigration.readChanges()).isTrue();
 
     String changeId = createChange().getChangeId();
-    execute(CHANGE_ENDPOINTS_NOTEDB, changeId);
+    RestApiCallHelper.execute(adminRestSession, CHANGE_ENDPOINTS_NOTEDB, changeId);
   }
 
   @Test
@@ -297,7 +299,8 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
     AddReviewerInput addReviewerInput = new AddReviewerInput();
     addReviewerInput.reviewer = user.email;
 
-    execute(
+    RestApiCallHelper.execute(
+        adminRestSession,
         REVIEWER_ENDPOINTS,
         () -> gApi.changes().id(changeId).addReviewer(addReviewerInput),
         changeId,
@@ -308,7 +311,8 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
   public void voteEndpoints() throws Exception {
     String changeId = createChange().getChangeId();
 
-    execute(
+    RestApiCallHelper.execute(
+        adminRestSession,
         VOTE_ENDPOINTS,
         () -> gApi.changes().id(changeId).current().review(ReviewInput.approve()),
         changeId,
@@ -319,7 +323,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
   @Test
   public void revisionEndpoints() throws Exception {
     String changeId = createChange().getChangeId();
-    execute(REVISION_ENDPOINTS, changeId, "current");
+    RestApiCallHelper.execute(adminRestSession, REVISION_ENDPOINTS, changeId, "current");
   }
 
   @Test
@@ -329,7 +333,8 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
     AddReviewerInput addReviewerInput = new AddReviewerInput();
     addReviewerInput.reviewer = user.email;
 
-    execute(
+    RestApiCallHelper.execute(
+        adminRestSession,
         REVISION_REVIEWER_ENDPOINTS,
         () -> gApi.changes().id(changeId).addReviewer(addReviewerInput),
         changeId,
@@ -341,7 +346,8 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
   public void revisionVoteEndpoints() throws Exception {
     String changeId = createChange().getChangeId();
 
-    execute(
+    RestApiCallHelper.execute(
+        adminRestSession,
         REVISION_VOTE_ENDPOINTS,
         () -> gApi.changes().id(changeId).current().review(ReviewInput.approve()),
         changeId,
@@ -362,7 +368,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
       draftInput.message = "draft comment";
       CommentInfo draftInfo = gApi.changes().id(changeId).current().createDraft(draftInput).get();
 
-      execute(restCall, changeId, "current", draftInfo.id);
+      RestApiCallHelper.execute(adminRestSession, restCall, changeId, "current", draftInfo.id);
     }
   }
 
@@ -382,7 +388,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
       reviewInput.drafts = DraftHandling.PUBLISH;
       gApi.changes().id(changeId).current().review(reviewInput);
 
-      execute(restCall, changeId, "current", commentInfo.id);
+      RestApiCallHelper.execute(adminRestSession, restCall, changeId, "current", commentInfo.id);
     }
   }
 
@@ -409,7 +415,8 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
         gApi.changes().id(changeId).current().robotCommentsAsList();
     RobotCommentInfo robotCommentInfo = Iterables.getOnlyElement(robotCommentInfos);
 
-    execute(ROBOT_COMMENT_ENDPOINTS, changeId, "current", robotCommentInfo.id);
+    RestApiCallHelper.execute(
+        adminRestSession, ROBOT_COMMENT_ENDPOINTS, changeId, "current", robotCommentInfo.id);
   }
 
   @Test
@@ -449,13 +456,14 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    execute(FIX_ENDPOINTS, changeId, "current", fixId);
+    RestApiCallHelper.execute(adminRestSession, FIX_ENDPOINTS, changeId, "current", fixId);
   }
 
   @Test
   public void revisionFileEndpoints() throws Exception {
     String changeId = createChange("Subject", FILENAME, "content").getChangeId();
-    execute(REVISION_FILE_ENDPOINTS, changeId, "current", FILENAME);
+    RestApiCallHelper.execute(
+        adminRestSession, REVISION_FILE_ENDPOINTS, changeId, "current", FILENAME);
   }
 
   @Test
@@ -465,7 +473,8 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
     // A change message is created on change creation.
     String changeMessageId = Iterables.getOnlyElement(gApi.changes().id(changeId).messages()).id;
 
-    execute(CHANGE_MESSAGE_ENDPOINTS, changeId, changeMessageId);
+    RestApiCallHelper.execute(
+        adminRestSession, CHANGE_MESSAGE_ENDPOINTS, changeId, changeMessageId);
   }
 
   @Test
@@ -473,7 +482,8 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
     String changeId = createChange("Subject", FILENAME, "content").getChangeId();
 
     // Each of the REST calls creates the change edit newly.
-    execute(
+    RestApiCallHelper.execute(
+        adminRestSession,
         CHANGE_EDIT_CREATE_ENDPOINTS,
         () -> adminRestSession.delete("/changes/" + changeId + "/edit"),
         changeId,
@@ -484,7 +494,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
   public void changeEditEndpoints() throws Exception {
     String changeId = createChange("Subject", FILENAME, "content").getChangeId();
     gApi.changes().id(changeId).edit().create();
-    execute(CHANGE_EDIT_ENDPOINTS, changeId, FILENAME);
+    RestApiCallHelper.execute(adminRestSession, CHANGE_EDIT_ENDPOINTS, changeId, FILENAME);
   }
 
   private static Comment.Range createRange(

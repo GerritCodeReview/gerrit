@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -157,12 +158,8 @@ public class Permission implements Comparable<Permission> {
     exclusiveGroup = newExclusiveGroup;
   }
 
-  // TODO(ekempin): Make this method return an ImmutableList once the GWT UI is gone.
   public List<PermissionRule> getRules() {
-    if (rules == null) {
-      return new ArrayList<>();
-    }
-    return new ArrayList<>(rules);
+    return rules == null ? ImmutableList.of() : ImmutableList.copyOf(rules);
   }
 
   public void setRules(List<PermissionRule> list) {

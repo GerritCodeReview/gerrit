@@ -120,7 +120,7 @@
       /** @type {!Array<!Gerrit.HoveredRange>} */
       _commentRanges: {
         type: Array,
-        value: [],
+        value: () => [],
       },
       lineWrapping: {
         type: Boolean,

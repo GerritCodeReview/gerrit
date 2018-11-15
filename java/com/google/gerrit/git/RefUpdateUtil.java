@@ -125,6 +125,11 @@ public class RefUpdateUtil {
       case LOCK_FAILURE:
         throw new LockFailureException("Failed to update " + ru.getName() + ": " + result, ru);
       default:
+      case IO_FAILURE:
+      case REJECTED:
+      case REJECTED_CURRENT_BRANCH:
+      case REJECTED_MISSING_OBJECT:
+      case REJECTED_OTHER_REASON:
         throw new IOException("Failed to update " + ru.getName() + ": " + ru.getResult());
     }
   }

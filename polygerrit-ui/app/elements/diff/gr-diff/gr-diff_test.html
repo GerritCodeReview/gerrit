@@ -1128,31 +1128,55 @@ limitations under the License.
       });
     });
 
-    test('_getKeyLocations', () => {
-      assert.deepEqual(element._getKeyLocations({left: [], right: []}, null),
-          {left: {}, right: {}});
-      const comments = {
-        left: [{line: 123}, {}],
-        right: [{line: 456}],
-      };
-      assert.deepEqual(element._getKeyLocations(comments, null), {
-        left: {FILE: true, 123: true},
-        right: {456: true},
+    suite('key locations', () => {
+      let renderStub;
+
+      setup(() => {
+        element = fixture('basic');
+        element.prefs = {};
+        renderStub = sandbox.stub(element.$.diffBuilder, 'render');
       });
 
-      const lineOfInterest = {number: 789, leftSide: true};
-      assert.deepEqual(
-          element._getKeyLocations(comments, lineOfInterest), {
-            left: {FILE: true, 123: true, 789: true},
-            right: {456: true},
-          });
+      test('lineOfInterest is a key location', () => {
+        element.lineOfInterest = {number: 789, leftSide: true};
+        element._renderDiffTable();
+        assert.isTrue(renderStub.called);
+        assert.deepEqual(renderStub.lastCall.args[0], {
+          left: {789: true},
+          right: {},
+        });
+      });
 
-      delete lineOfInterest.leftSide;
-      assert.deepEqual(
-          element._getKeyLocations(comments, lineOfInterest), {
-            left: {FILE: true, 123: true},
-            right: {456: true, 789: true},
-          });
+      test('line comments are key locations', () => {
+        const threadEl = document.createElement('div');
+        threadEl.className = 'comment-thread';
+        threadEl.setAttribute('comment-side', 'right');
+        threadEl.setAttribute('line-num', 3);
+        Polymer.dom(element).appendChild(threadEl);
+        Polymer.dom.flush();
+
+        element._renderDiffTable();
+        assert.isTrue(renderStub.called);
+        assert.deepEqual(renderStub.lastCall.args[0], {
+          left: {},
+          right: {3: true},
+        });
+      });
+
+      test('file comments are key locations', () => {
+        const threadEl = document.createElement('div');
+        threadEl.className = 'comment-thread';
+        threadEl.setAttribute('comment-side', 'left');
+        Polymer.dom(element).appendChild(threadEl);
+        Polymer.dom.flush();
+
+        element._renderDiffTable();
+        assert.isTrue(renderStub.called);
+        assert.deepEqual(renderStub.lastCall.args[0], {
+          left: {FILE: true},
+          right: {},
+        });
+      });
     });
   });
 

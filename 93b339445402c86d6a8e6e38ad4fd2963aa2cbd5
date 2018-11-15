@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "beef97b9_170d779d",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-15T19:49:20Z",
+      "side": 1,
+      "message": "We usually don\u0027t import Map.Entry explicitly, but reference it explicitly in the code (see below).",
+      "revId": "93b339445402c86d6a8e6e38ad4fd2963aa2cbd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b471e8b8_dff44b29",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-15T19:49:20Z",
+      "side": 1,
+      "message": "Map.Entry",
+      "range": {
+        "startLine": 153,
+        "startChar": 9,
+        "endLine": 153,
+        "endChar": 14
+      },
+      "revId": "93b339445402c86d6a8e6e38ad4fd2963aa2cbd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

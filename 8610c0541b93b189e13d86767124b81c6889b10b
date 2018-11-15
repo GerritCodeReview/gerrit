@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a30f640_e28b73f5",
+        "filename": "javatests/com/google/gerrit/server/notedb/IntBlobTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-15T15:42:59Z",
+      "side": 1,
+      "message": "Use ExpectedException here?  Or do I remember you saying something about google starting to prefer not to use that?",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "8610c0541b93b189e13d86767124b81c6889b10b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

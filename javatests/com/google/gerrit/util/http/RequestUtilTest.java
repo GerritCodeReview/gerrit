@@ -15,42 +15,53 @@
 package com.google.gerrit.util.http;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.util.http.RequestUtil.getEncodedPathInfo;
+import static com.google.gerrit.util.http.RequestUtil.getRestPathWithoutIds;
 
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import org.junit.Test;
 
 public class RequestUtilTest {
   @Test
-  public void emptyContextPath() {
-    assertThat(RequestUtil.getEncodedPathInfo(fakeRequest("", "/s", "/foo/bar")))
-        .isEqualTo("/foo/bar");
-    assertThat(RequestUtil.getEncodedPathInfo(fakeRequest("", "/s", "/foo%2Fbar")))
-        .isEqualTo("/foo%2Fbar");
+  public void getEncodedPathInfo_emptyContextPath() {
+    assertThat(getEncodedPathInfo(fakeRequest("", "/s", "/foo/bar"))).isEqualTo("/foo/bar");
+    assertThat(getEncodedPathInfo(fakeRequest("", "/s", "/foo%2Fbar"))).isEqualTo("/foo%2Fbar");
   }
 
   @Test
-  public void emptyServletPath() {
-    assertThat(RequestUtil.getEncodedPathInfo(fakeRequest("", "/c", "/foo/bar")))
-        .isEqualTo("/foo/bar");
-    assertThat(RequestUtil.getEncodedPathInfo(fakeRequest("", "/c", "/foo%2Fbar")))
-        .isEqualTo("/foo%2Fbar");
+  public void getEncodedPathInfo_emptyServletPath() {
+    assertThat(getEncodedPathInfo(fakeRequest("", "/c", "/foo/bar"))).isEqualTo("/foo/bar");
+    assertThat(getEncodedPathInfo(fakeRequest("", "/c", "/foo%2Fbar"))).isEqualTo("/foo%2Fbar");
   }
 
   @Test
-  public void trailingSlashes() {
-    assertThat(RequestUtil.getEncodedPathInfo(fakeRequest("/c", "/s", "/foo/bar/")))
-        .isEqualTo("/foo/bar/");
-    assertThat(RequestUtil.getEncodedPathInfo(fakeRequest("/c", "/s", "/foo/bar///")))
-        .isEqualTo("/foo/bar/");
-    assertThat(RequestUtil.getEncodedPathInfo(fakeRequest("/c", "/s", "/foo%2Fbar/")))
-        .isEqualTo("/foo%2Fbar/");
-    assertThat(RequestUtil.getEncodedPathInfo(fakeRequest("/c", "/s", "/foo%2Fbar///")))
+  public void getEncodedPathInfo_trailingSlashes() {
+    assertThat(getEncodedPathInfo(fakeRequest("/c", "/s", "/foo/bar/"))).isEqualTo("/foo/bar/");
+    assertThat(getEncodedPathInfo(fakeRequest("/c", "/s", "/foo/bar///"))).isEqualTo("/foo/bar/");
+    assertThat(getEncodedPathInfo(fakeRequest("/c", "/s", "/foo%2Fbar/"))).isEqualTo("/foo%2Fbar/");
+    assertThat(getEncodedPathInfo(fakeRequest("/c", "/s", "/foo%2Fbar///")))
         .isEqualTo("/foo%2Fbar/");
   }
 
   @Test
   public void emptyPathInfo() {
-    assertThat(RequestUtil.getEncodedPathInfo(fakeRequest("/c", "/s", ""))).isNull();
+    assertThat(getEncodedPathInfo(fakeRequest("/c", "/s", ""))).isNull();
+  }
+
+  @Test
+  public void getRestPathWithoutIds_emptyContextPath() {
+    assertThat(getRestPathWithoutIds(fakeRequest("", "/a/accounts", "/123/test")))
+        .isEqualTo("/accounts/test");
+    assertThat(getRestPathWithoutIds(fakeRequest("", "/accounts", "/123/test")))
+        .isEqualTo("/accounts/test");
+  }
+
+  @Test
+  public void getEncodedPathInfo_nonEmptyContextPath() {
+    assertThat(getRestPathWithoutIds(fakeRequest("/c", "/a/accounts", "/123/test")))
+        .isEqualTo("/accounts/test");
+    assertThat(getRestPathWithoutIds(fakeRequest("/c", "/accounts", "/123/test")))
+        .isEqualTo("/accounts/test");
   }
 
   private FakeHttpServletRequest fakeRequest(

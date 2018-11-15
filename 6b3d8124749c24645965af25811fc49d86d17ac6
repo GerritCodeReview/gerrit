@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43b62a82_1028a74f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-15T05:29:28Z",
+      "side": 1,
+      "message": "can be static.",
+      "range": {
+        "startLine": 703,
+        "startChar": 17,
+        "endLine": 703,
+        "endChar": 22
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "245dbe15_078ab5f3",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-15T05:29:28Z",
+      "side": 1,
+      "message": "add a small comment what this map means. I think its \n\n commitID \u003d\u003e parent commitID \n\nbut not sure.",
+      "range": {
+        "startLine": 704,
+        "startChar": 24,
+        "endLine": 704,
+        "endChar": 31
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab777e2e_e2f40851",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-15T05:29:28Z",
+      "side": 1,
+      "message": "nit \"\u003d\u003d 0\" is probably clearer.",
+      "range": {
+        "startLine": 707,
+        "startChar": 49,
+        "endLine": 707,
+        "endChar": 50
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eee1e7ce_0d39e117",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-15T05:29:28Z",
+      "side": 1,
+      "message": "a single push can have multiple commits with the same parent, so I think this might destroy information, which seems wrong.\n\nI had some trouble following the below code, and think it can be simpler. Here is how I would do it (python):\n\n# commit \u003d\u003e parent, or None if parent is not part of the push.\nparents \u003d ...\n\n# find the commits that are not parents.\nleafs \u003d parents.keys()\nfor p in leafs.values():\n  leafs.delete(p)\n\n# go backward from the leafs.\nordered \u003d []\nfor t in leafs:\n   if t in ordered: continue\n   while t: \n      if t not in ordered: ordered.append(t)\n      t \u003d parent[t]\n\n# reverse to start with the earliest commit.\nordered.reverse()",
+      "range": {
+        "startLine": 714,
+        "startChar": 20,
+        "endLine": 714,
+        "endChar": 26
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed40063c_47040c4a",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-15T05:29:28Z",
+      "side": 1,
+      "message": "this shoudl be part of ChangeReportFormatter.Input.",
+      "range": {
+        "startLine": 800,
+        "startChar": 12,
+        "endLine": 800,
+        "endChar": 24
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

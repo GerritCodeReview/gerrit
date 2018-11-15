@@ -48,6 +48,7 @@ import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.api.GerritApiModule;
+import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
@@ -60,6 +61,7 @@ import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
+import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -107,6 +109,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
@@ -134,6 +137,8 @@ import org.eclipse.jgit.lib.Config;
 public class WebAppInitializer extends GuiceServletContextListener implements Filter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private static final String GERRIT_SITE_PATH = "gerrit.site_path";
+
   private Path sitePath;
   private Injector dbInjector;
   private Injector cfgInjector;
@@ -155,9 +160,11 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
   private synchronized void init() {
     if (manager == null) {
-      final String path = System.getProperty("gerrit.site_path");
+      String path = System.getProperty(GERRIT_SITE_PATH);
       if (path != null) {
         sitePath = Paths.get(path);
+      } else {
+        throw new ProvisionException(GERRIT_SITE_PATH + " must be defined");
       }
 
       if (System.getProperty("gerrit.init") != null) {
@@ -171,7 +178,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
         }
         new SiteInitializer(
                 path,
-                System.getProperty("gerrit.init_path"),
+                System.getProperty(GERRIT_SITE_PATH),
                 new UnzippedDistribution(servletContext),
                 pluginsToInstall)
             .init();
@@ -292,21 +299,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
               listener().to(ReviewDbDataSourceProvider.class);
             }
           });
-
-      // If we didn't get the site path from the system property
-      // we need to get it from the database, as that's our old
-      // method of locating the site path on disk.
-      //
-      modules.add(
-          new AbstractModule() {
-            @Override
-            protected void configure() {
-              bind(Path.class)
-                  .annotatedWith(SitePath.class)
-                  .toProvider(SitePathFromSystemConfigProvider.class)
-                  .in(SINGLETON);
-            }
-          });
       modules.add(new GerritServerConfigModule());
     }
     modules.add(new DatabaseModule());
@@ -336,6 +328,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
+    modules.add(new PluginApiModule());
     modules.add(new SearchingChangeCacheImpl.Module());
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultPermissionBackendModule());
@@ -385,6 +378,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
           @Override
           protected void configure() {
             bind(GerritOptions.class).toInstance(new GerritOptions(false, false, false));
+            bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
           }
         });
     modules.add(new GarbageCollectionModule());

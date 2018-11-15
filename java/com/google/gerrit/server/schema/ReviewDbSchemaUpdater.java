@@ -16,7 +16,6 @@ package com.google.gerrit.server.schema;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
-import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -38,7 +37,6 @@ import com.google.inject.Provider;
 import com.google.inject.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collections;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -46,18 +44,15 @@ import org.eclipse.jgit.lib.PersonIdent;
 /** Creates or updates the current database schema. */
 public class ReviewDbSchemaUpdater {
   private final SchemaFactory<ReviewDb> schema;
-  private final SitePaths site;
   private final ReviewDbSchemaCreator creator;
   private final Provider<ReviewDbSchemaVersion> updater;
 
   @Inject
   ReviewDbSchemaUpdater(
       @ReviewDbFactory SchemaFactory<ReviewDb> schema,
-      SitePaths site,
       ReviewDbSchemaCreator creator,
       Injector parent) {
     this.schema = schema;
-    this.site = site;
     this.creator = creator;
     this.updater = buildInjector(parent).getProvider(ReviewDbSchemaVersion.class);
   }
@@ -119,8 +114,6 @@ public class ReviewDbSchemaUpdater {
         } catch (SQLException e) {
           throw new OrmException("Cannot upgrade schema", e);
         }
-
-        updateSystemConfig(db);
       }
     }
   }
@@ -136,18 +129,5 @@ public class ReviewDbSchemaUpdater {
     } catch (OrmException e) {
       return null;
     }
-  }
-
-  private void updateSystemConfig(ReviewDb db) throws OrmException {
-    final SystemConfig sc = db.systemConfig().get(new SystemConfig.Key());
-    if (sc == null) {
-      throw new OrmException("No record in system_config table");
-    }
-    try {
-      sc.sitePath = site.site_path.toRealPath().normalize().toString();
-    } catch (IOException e) {
-      sc.sitePath = site.site_path.toAbsolutePath().normalize().toString();
-    }
-    db.systemConfig().update(Collections.singleton(sc));
   }
 }

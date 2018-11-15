@@ -3798,6 +3798,20 @@ link:https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.ht
 If no keys are specified, web-of-trust checks are disabled. This is the
 default behavior.
 
+[[receive.enableProtocolV2]]receive.enableProtocolV2::
++
+Enable support for git protocol version 2.
++
+When this option is enabled, clients may send upload pack using git
+protocol version 2.
++
+The repository must also be configured on the server side to use protocol
+version 2 by setting `protocol.version = 2` either in the gerrit user's
+`~/.gitconfig` file (which will enable it for all repositories) or on
+a per repository basis by setting the option in the `.git/config` file
+of the repository.
++
+Defaults to false, git protocol version 2 is not enabled.
 
 [[repository]]
 === Section repository
@@ -5081,16 +5095,9 @@ command.
 
 The format is one Base-64 encoded public key per line.
 
+== Configuring the Polygerrit UI
 
-== Database system_config
-
-Several columns in the `system_config` table within the metadata
-database may be set to control how Gerrit behaves.
-
-[NOTE]
-The contents of the `system_config` table are cached at startup
-by Gerrit.  If you modify any columns in this table, Gerrit needs
-to be restarted before it will use the new values.
+Please see link:dev-polygerrit.html[UI] on configuring the Polygerrit UI.
 
 === Configurable Parameters
 

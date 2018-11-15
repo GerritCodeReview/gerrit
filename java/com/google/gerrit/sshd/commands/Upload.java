@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -52,7 +53,6 @@ final class Upload extends AbstractGitCommand {
     PermissionBackend.ForProject perm =
         permissionBackend.user(user).project(projectState.getNameKey());
     try {
-
       perm.check(ProjectPermission.RUN_UPLOAD_PACK);
     } catch (AuthException e) {
       throw new Failure(1, "fatal: upload-pack not permitted on this server");
@@ -65,6 +65,9 @@ final class Upload extends AbstractGitCommand {
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
     up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
+    if (config.enableProtocolV2() && extraParameters != null) {
+      up.setExtraParameters(ImmutableList.copyOf(extraParameters));
+    }
 
     List<PreUploadHook> allPreUploadHooks = Lists.newArrayList(preUploadHooks);
     allPreUploadHooks.add(

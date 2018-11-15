@@ -102,7 +102,7 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
         String oldName = patch.getOldName();
         Patch.ChangeType changeType = patch.getChangeType();
 
-        if (newName.equals("/COMMIT_MSG")) {
+        if (Patch.isMagic(newName)) {
           continue;
         }
 

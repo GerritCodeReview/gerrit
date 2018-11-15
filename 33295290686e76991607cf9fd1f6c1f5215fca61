@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76f85f29_0721312d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 5097,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-15T02:11:32Z",
+      "side": 1,
+      "message": "Should this section be a subsection of \"Configuring the Polygerrit UI\"?",
+      "range": {
+        "startLine": 5097,
+        "startChar": 0,
+        "endLine": 5097,
+        "endChar": 4
+      },
+      "revId": "33295290686e76991607cf9fd1f6c1f5215fca61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

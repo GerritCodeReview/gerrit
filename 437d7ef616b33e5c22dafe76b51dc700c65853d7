@@ -22,6 +22,30 @@
       "revId": "437d7ef616b33e5c22dafe76b51dc700c65853d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89430387_10b3aa92",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-15T00:31:20Z",
+      "side": 1,
+      "message": "This was based on the same implementation in JGit\u0027s default upload pack factory:\n\nhttps://github.com/eclipse/jgit/blob/master/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java#L80",
+      "parentUuid": "74c492da_7f9a1d6d",
+      "range": {
+        "startLine": 266,
+        "startChar": 32,
+        "endLine": 266,
+        "endChar": 53
+      },
+      "revId": "437d7ef616b33e5c22dafe76b51dc700c65853d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

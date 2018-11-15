@@ -16,6 +16,24 @@
       "revId": "48827f691680b52064b050754096afc49443e734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ec55744_66789aed",
+        "filename": "java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-15T00:31:20Z",
+      "side": 0,
+      "message": "I did this intentionally.",
+      "parentUuid": "c4543911_e197e0e9",
+      "revId": "48827f691680b52064b050754096afc49443e734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

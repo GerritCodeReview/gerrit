@@ -16,15 +16,34 @@ package com.google.gerrit.server.schema;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.notedb.Sequences;
 import java.util.Optional;
 
 @AutoValue
 public abstract class AllProjectsInput {
+
+  /** Default boolean configs set when initializing All-Projects. */
+  public static final ImmutableMap<BooleanProjectConfig, InheritableBoolean>
+      DEFAULT_BOOLEAN_PROJECT_CONFIGS =
+          ImmutableMap.of(
+              BooleanProjectConfig.REQUIRE_CHANGE_ID,
+              InheritableBoolean.TRUE,
+              BooleanProjectConfig.USE_CONTENT_MERGE,
+              InheritableBoolean.TRUE,
+              BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS,
+              InheritableBoolean.FALSE,
+              BooleanProjectConfig.USE_SIGNED_OFF_BY,
+              InheritableBoolean.FALSE,
+              BooleanProjectConfig.ENABLE_SIGNED_PUSH,
+              InheritableBoolean.FALSE);
+
   @UsedAt(UsedAt.Project.GOOGLE)
   public static LabelType getDefaultCodeReviewLabel() {
     LabelType type =
@@ -58,12 +77,26 @@ public abstract class AllProjectsInput {
   @UsedAt(UsedAt.Project.GOOGLE)
   public abstract LabelType codeReviewLabel();
 
+  /** Description for the All-Projects. */
+  public abstract Optional<String> projectDescription();
+
+  /** Boolean project configs to be set in All-Projects. */
+  public abstract ImmutableMap<BooleanProjectConfig, InheritableBoolean> booleanProjectConfigs();
+
   public abstract Builder toBuilder();
 
   public static Builder builder() {
-    return new AutoValue_AllProjectsInput.Builder()
-        .codeReviewLabel(getDefaultCodeReviewLabel())
-        .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID);
+    Builder builder =
+        new AutoValue_AllProjectsInput.Builder()
+            .codeReviewLabel(getDefaultCodeReviewLabel())
+            .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID);
+    DEFAULT_BOOLEAN_PROJECT_CONFIGS.forEach(builder::addBooleanProjectConfig);
+
+    return builder;
+  }
+
+  public static Builder builderWithNoDefault() {
+    return new AutoValue_AllProjectsInput.Builder();
   }
 
   @AutoValue.Builder
@@ -78,6 +111,18 @@ public abstract class AllProjectsInput {
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder codeReviewLabel(LabelType codeReviewLabel);
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public abstract Builder projectDescription(String projectDescription);
+
+    public abstract ImmutableMap.Builder<BooleanProjectConfig, InheritableBoolean>
+        booleanProjectConfigsBuilder();
+
+    public Builder addBooleanProjectConfig(
+        BooleanProjectConfig booleanProjectConfig, InheritableBoolean inheritableBoolean) {
+      booleanProjectConfigsBuilder().put(booleanProjectConfig, inheritableBoolean);
+      return this;
+    }
 
     public abstract AllProjectsInput build();
   }

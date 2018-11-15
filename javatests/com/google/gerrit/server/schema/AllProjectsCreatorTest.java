@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabel;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -22,12 +23,15 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Inject;
@@ -202,6 +206,32 @@ public class AllProjectsCreatorTest extends GerritBaseTests {
 
     Config config = readAllProjectsConfig();
     assertSectionEquivalent(config, expectedLabelConfig, "label");
+  }
+
+  @Test
+  public void createAllProjectsWithProjectDescription() throws Exception {
+    String testDescription = "test description";
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builder().projectDescription(testDescription).build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config config = readAllProjectsConfig();
+    assertThat(config.getString("project", null, "description")).isEqualTo(testDescription);
+  }
+
+  @Test
+  public void createAllProjectsWithBooleanConfigs() throws Exception {
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builderWithNoDefault()
+            .codeReviewLabel(getDefaultCodeReviewLabel())
+            .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
+            .addBooleanProjectConfig(
+                BooleanProjectConfig.REJECT_EMPTY_COMMIT, InheritableBoolean.TRUE)
+            .build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config config = readAllProjectsConfig();
+    assertThat(config.getBoolean("submit", null, "rejectEmptyCommit", false)).isTrue();
   }
 
   // Loads the "project.config" from the All-Projects repo.

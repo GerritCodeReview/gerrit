@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3bbda5_b261e64d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-11-15T20:35:34Z",
+      "side": 1,
+      "message": "repeated wording?",
+      "range": {
+        "startLine": 806,
+        "startChar": 61,
+        "endLine": 808,
+        "endChar": 67
+      },
+      "revId": "c74d8ff80eb362d67816f960bda588f83af01461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "906c973a_a4470298",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-11-15T20:35:34Z",
+      "side": 1,
+      "message": "remove?",
+      "range": {
+        "startLine": 812,
+        "startChar": 4,
+        "endLine": 812,
+        "endChar": 9
+      },
+      "revId": "c74d8ff80eb362d67816f960bda588f83af01461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

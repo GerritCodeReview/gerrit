@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "181e8369_18723062",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-11-15T22:53:14Z",
+      "side": 0,
+      "message": "Unintended line deletion?",
+      "revId": "09e013939f589a8150d4777e525725c472f6e3e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

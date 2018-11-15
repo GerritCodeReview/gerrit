@@ -329,6 +329,11 @@
       this.$.header.unfloat();
     },
 
+    _computeShowGwtUiLink(config) {
+      return !window.DEPRECATE_GWT_UI &&
+          config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
+    },
+
     _handlePageError(e) {
       const props = [
         '_showChangeListView',

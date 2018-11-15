@@ -20,6 +20,8 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.httpd.raw.CatServlet;
+import com.google.gerrit.httpd.raw.HostPageServlet;
+import com.google.gerrit.httpd.raw.LegacyGerritServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
 import com.google.gerrit.httpd.restapi.AccessRestApiServlet;
@@ -31,6 +33,7 @@ import com.google.gerrit.httpd.restapi.ProjectsRestApiServlet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.GerritOptions;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.internal.UniqueAnnotations;
@@ -42,14 +45,27 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Constants;
 
 class UrlModule extends ServletModule {
+  private GerritOptions options;
   private AuthConfig authConfig;
 
-  UrlModule(AuthConfig authConfig) {
+  UrlModule(GerritOptions options, AuthConfig authConfig) {
+    this.options = options;
     this.authConfig = authConfig;
   }
 
   @Override
   protected void configureServlets() {
+    filter("/*").through(GwtCacheControlFilter.class);
+
+    if (options.enableGwtUi()) {
+      filter("/").through(XsrfCookieFilter.class);
+      filter("/accounts/self/detail").through(XsrfCookieFilter.class);
+      serve("/").with(HostPageServlet.class);
+      serve("/Gerrit").with(LegacyGerritServlet.class);
+      serve("/Gerrit/*").with(legacyGerritScreen());
+      // Forward PolyGerrit URLs to their respective GWT equivalents.
+      serveRegex("^/(c|q|x|admin|dashboard|settings)/(.*)").with(gerritUrl());
+    }
     serve("/cat/*").with(CatServlet.class);
 
     if (authConfig.getAuthType() != AuthType.OAUTH && authConfig.getAuthType() != AuthType.OPENID) {
@@ -111,6 +127,18 @@ class UrlModule extends ServletModule {
         });
   }
 
+  private Key<HttpServlet> gerritUrl() {
+    return key(
+        new HttpServlet() {
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+            toGerrit(req.getRequestURI().substring(req.getContextPath().length()), req, rsp);
+          }
+        });
+  }
+
   private Key<HttpServlet> screen(String target) {
     return key(
         new HttpServlet() {
@@ -119,6 +147,19 @@ class UrlModule extends ServletModule {
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             toGerrit(target, req, rsp);
+          }
+        });
+  }
+
+  private Key<HttpServlet> legacyGerritScreen() {
+    return key(
+        new HttpServlet() {
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+            final String token = req.getPathInfo().substring(1);
+            toGerrit(token, req, rsp);
           }
         });
   }

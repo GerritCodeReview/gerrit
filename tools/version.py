@@ -46,7 +46,8 @@ def replace_in_file(filename, src_pattern):
 src_pattern = re.compile(r'^(\s*<version>)([-.\w]+)(</version>\s*)$',
                          re.MULTILINE)
 for project in ['gerrit-acceptance-framework', 'gerrit-extension-api',
-                'gerrit-plugin-api', 'gerrit-war']:
+                'gerrit-plugin-api', 'gerrit-plugin-gwtui',
+                'gerrit-war']:
     pom = os.path.join('tools', 'maven', '%s_pom.xml' % project)
     replace_in_file(pom, src_pattern)
 

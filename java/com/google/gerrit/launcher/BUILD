@@ -8,7 +8,7 @@ java_library(
 )
 
 # The root of the workspace is non-hermetic, but we need it for
-# on-the-flyPolyGerrit updates.
+# on-the-fly GWT recompiles and PolyGerrit updates.
 genrule(
     name = "gen_root",
     outs = ["workspace-root.txt"],

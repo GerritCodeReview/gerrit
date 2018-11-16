@@ -373,7 +373,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
         List<T> results = Collections.emptyList();
         String uri = getURI(index, SEARCH);
         Response response =
-            performRequest(HttpPost.METHOD_NAME, search, uri, Collections.emptyMap());
+            performRequest(HttpPost.METHOD_NAME, uri, search, Collections.emptyMap());
         StatusLine statusLine = response.getStatusLine();
         if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
           String content = getContent(response);

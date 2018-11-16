@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.server.DisallowReadFromChangesReviewDbWrapper;
+import static com.google.common.base.Preconditions.checkState;
+
+import com.google.gerrit.reviewdb.server.DisallowedReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
@@ -24,13 +26,10 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
-  private final SchemaFactory<ReviewDb> delegate;
   private final NotesMigration migration;
 
   @Inject
-  NotesMigrationSchemaFactory(
-      @ReviewDbFactory SchemaFactory<ReviewDb> delegate, NotesMigration migration) {
-    this.delegate = delegate;
+  NotesMigrationSchemaFactory(NotesMigration migration) {
     this.migration = migration;
   }
 
@@ -43,7 +42,7 @@ public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
     //    in ReviewDb, it is generally programmer error to read changes from ReviewDb. However,
     //    since ReviewDb is still the primary storage for most or all changes, we still need to
     //    support writing to ReviewDb. This behavior is accomplished by wrapping in a
-    //    DisallowReadFromChangesReviewDbWrapper.
+    //    DisallowedReviewDb.
     //
     //    Some codepaths might need to be able to read from ReviewDb if they really need to,
     //    because they need to operate on the underlying source of truth, for example when reading
@@ -56,22 +55,20 @@ public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
     //    continue to function.
     //
     //    This is accomplished by setting the delegate ReviewDb *underneath*
-    //    DisallowReadFromChanges to be a complete no-op, with NoChangesReviewDbWrapper. With this
+    //    DisallowReadFromChanges to be a complete no-op, with NoChangesReviewDb. With this
     //    wrapper, all read operations return no results, and write operations silently do nothing.
     //    This wrapper is not a public class and nobody should ever attempt to unwrap it.
 
     // First create the wrappers which can not be removed by ReviewDbUtil#unwrapDb(ReviewDb).
-    ReviewDb db = delegate.open();
-    if (migration.readChanges() && migration.disableChangeReviewDb()) {
-      // Disable writes to change tables in ReviewDb (ReviewDb access for changes are No-Ops).
-      db = new NoChangesReviewDbWrapper(db);
-    }
+    checkState(migration.readChanges() && migration.disableChangeReviewDb());
+    // Disable writes to change tables in ReviewDb (ReviewDb access for changes are No-Ops).
+    ReviewDb db = new NoChangesReviewDb();
 
     // Second create the wrappers which can be removed by ReviewDbUtil#unwrapDb(ReviewDb).
     if (migration.readChanges()) {
       // If reading changes from NoteDb is configured, changes should not be read from ReviewDb.
       // Make sure that any attempt to read a change from ReviewDb anyway fails with an exception.
-      db = new DisallowReadFromChangesReviewDbWrapper(db);
+      db = new DisallowedReviewDb(db);
     }
     return db;
   }

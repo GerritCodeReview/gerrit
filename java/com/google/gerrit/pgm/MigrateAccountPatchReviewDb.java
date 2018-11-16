@@ -21,7 +21,6 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
-import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -49,7 +48,7 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
 
   @Override
   public int run() throws Exception {
-    Injector dbInjector = createDbInjector(DataSourceProvider.Context.SINGLE_USER);
+    Injector dbInjector = createDbInjector();
     SitePaths sitePaths = new SitePaths(getSitePath());
     ThreadSettingsConfig threadSettingsConfig = dbInjector.getInstance(ThreadSettingsConfig.class);
     Config fakeCfg = new Config();

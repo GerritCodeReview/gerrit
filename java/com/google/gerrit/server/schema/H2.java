@@ -20,19 +20,17 @@ import com.google.inject.Inject;
 import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
 
-class H2 extends BaseDataSourceType {
+class H2 {
 
   protected final Config cfg;
   private final SitePaths site;
 
   @Inject
   H2(SitePaths site, @GerritServerConfig Config cfg) {
-    super("org.h2.Driver");
     this.cfg = cfg;
     this.site = site;
   }
 
-  @Override
   public String getUrl() {
     String database = cfg.getString("database", null, "database");
     if (database == null || database.isEmpty()) {

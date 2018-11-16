@@ -14,35 +14,12 @@
 
 package com.google.gerrit.pgm.util;
 
-import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.ThreadSettingsConfig;
-import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Injector;
-import com.google.inject.Key;
-import org.eclipse.jgit.lib.Config;
 
 // TODO(dborowitz): Not necessary once we switch to NoteDb.
 /** Utility to limit threads used by a batch program. */
 public class ThreadLimiter {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public static int limitThreads(Injector dbInjector, int threads) {
-    return limitThreads(
-        dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class)),
-        dbInjector.getInstance(DataSourceType.class),
-        dbInjector.getInstance(ThreadSettingsConfig.class),
-        threads);
-  }
-
-  private static int limitThreads(
-      Config cfg, DataSourceType dst, ThreadSettingsConfig threadSettingsConfig, int threads) {
-    boolean usePool = cfg.getBoolean("database", "connectionpool", dst.usePool());
-    int poolLimit = threadSettingsConfig.getDatabasePoolLimit();
-    if (usePool && threads > poolLimit) {
-      logger.atWarning().log("Limiting program to %d threads due to database.poolLimit", poolLimit);
-      return poolLimit;
-    }
     return threads;
   }
 

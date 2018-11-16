@@ -197,22 +197,57 @@ limitations under the License.
         element._cachedDiffBuilder = builder;
       });
 
-      test('comment-mouse-over from line comments is ignored', () => {
+      test('comment-thread-mouseenter from line comments is ignored', () => {
+        const threadEl = document.createElement('div');
+        threadEl.setAttribute('comment-side', 'right');
+        threadEl.setAttribute('line-num', 3);
+        element.appendChild(threadEl);
+        element.commentRanges = [{side: 'right'}];
+
         sandbox.stub(element, 'set');
-        element.fire('comment-mouse-over', {comment: {}});
+        threadEl.dispatchEvent(
+            new CustomEvent('comment-thread-mouseenter', {bubbles: true}));
         assert.isFalse(element.set.called);
       });
 
-      test('comment-mouse-over from ranged comment causes set', () => {
+      test('comment-thread-mouseenter from ranged comment causes set', () => {
+        const threadEl = document.createElement('div');
+        threadEl.setAttribute('comment-side', 'right');
+        threadEl.setAttribute('line-num', 3);
+        threadEl.setAttribute('range', JSON.stringify({
+          start_line: 3,
+          start_character: 4,
+          end_line: 5,
+          end_character: 6,
+        }));
+        element.appendChild(threadEl);
+        element.commentRanges = [{side: 'right', range: {
+          start_line: 3,
+          start_character: 4,
+          end_line: 5,
+          end_character: 6,
+        }}];
+
         sandbox.stub(element, 'set');
-        sandbox.stub(element, '_indexForThreadEl').returns(0);
-        element.fire('comment-mouse-over', {comment: {range: {}}});
+        threadEl.dispatchEvent(
+            new CustomEvent('comment-thread-mouseenter', {bubbles: true}));
         assert.isTrue(element.set.called);
+        const args = element.set.lastCall.args;
+        assert.deepEqual(args[0], ['commentRanges', 0, 'hovering']);
+        assert.deepEqual(args[1], true);
       });
 
-      test('comment-mouse-out from line comments is ignored', () => {
-        element.fire('comment-mouse-over', {comment: {}});
-        assert.isFalse(builder.getContentsByLineRange.called);
+      test('comment-thread-mouseleave from line comments is ignored', () => {
+        const threadEl = document.createElement('div');
+        threadEl.setAttribute('comment-side', 'right');
+        threadEl.setAttribute('line-num', 3);
+        element.appendChild(threadEl);
+        element.commentRanges = [{side: 'right'}];
+
+        sandbox.stub(element, 'set');
+        threadEl.dispatchEvent(
+            new CustomEvent('comment-thread-mouseleave', {bubbles: true}));
+        assert.isFalse(element.set.called);
       });
 
       test('on create-range-comment action box is removed', () => {

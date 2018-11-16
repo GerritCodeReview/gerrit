@@ -1,0 +1,607 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99e59754_039360dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "need",
+      "range": {
+        "startLine": 23,
+        "startChar": 23,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4daa66ec_87d4799a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2963,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Here and below: Missing negation?",
+      "range": {
+        "startLine": 2963,
+        "startChar": 8,
+        "endLine": 2963,
+        "endChar": 42
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc75f42a_bb421e81",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Was this intended to be part of the \"Plugin Development\" block? It seems to be a bit out of place down here.",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 46
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c07003b5_48c66fd7",
+        "filename": "Documentation/quota.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Don\u0027t we use a limit of 80 characters in documentation files?",
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a7e4882_f360b0bc",
+        "filename": "Documentation/quota.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "This format is lost when the documentation is compiled.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 78
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b716464_f73338ef",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Would it make sense to use PluginSetContext instead to benefit from all the additional features (like plugin trace context)?",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdd8d720_2a78d71c",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "The location of this class as well as WithResource inside the outer class doesn\u0027t conform with our style guide or the rest of Gerrit. We typically either place an inner class at the beginning or end of the outer file, not in the middle.",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 16
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a892408_bb0c8016",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Non-static inner classes always represent a risk (due to the implicit reference to their surrounding class) and should always be used with care. I typically try to avoid them. Can you think of an alternative?",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 7
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ab50689_974b9509",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "These Optional parameters might not be the best choice for constructor arguments. Two different suggestions:\n1) Create the request context outside of this class and pass it as constructor parameter.\n2) Create the builder for a request context in this constructor and offer methods to specify the project/change/account, which simply delegate to the request context.\nI would prefer 1).",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 36
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a7e267d_01955285",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "I would push this check down into DefaultQuotaBackend#request to avoid having it twice.",
+      "range": {
+        "startLine": 101,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 79
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d92a699_af424dc3",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "A comment which explains why we need the copied list (e.g. DynamicSet is changing and we need to refill the correct ones) might be helpful.",
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66ab4602_ba1166d1",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "If an exception happens when calling QuotaEnforcer#request for one of the enforcers, shouldn\u0027t we treat that exactly like an ERROR and do the refilling, too?",
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9c1108f_323c0fef",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Is it intended that we also call refill for NO_OP? The contract is not completely clear regarding this.",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 44
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a686c53_8a8f6e20",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Info level seems to be a bit noisy to me.",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 17
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d3a6853_3a49cd06",
+        "filename": "java/com/google/gerrit/server/quota/QuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "This doesn\u0027t generate nice Javadoc. In addition, it\u0027s recommended to always include a summary line. My suggestion:\n\n  See {@link #currentUser()}. Use this method only ...",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 25
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e9b6af4_9d8addcb",
+        "filename": "java/com/google/gerrit/server/quota/QuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "What will be a use case for the non-throwing methods?",
+      "range": {
+        "startLine": 71,
+        "startChar": 37,
+        "endLine": 71,
+        "endChar": 44
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7844b8cc_f1a942ce",
+        "filename": "java/com/google/gerrit/server/quota/QuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "As mentioned previously, I would like to reconsider the names before we submit this change. Adding this unresolved comment as a reminder so that we don\u0027t forget about it.",
+      "range": {
+        "startLine": 79,
+        "startChar": 17,
+        "endLine": 79,
+        "endChar": 32
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9ae6ab4_09f84a61",
+        "filename": "java/com/google/gerrit/server/quota/QuotaEnforcer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "This includes NO_OP as well but the refill only happens on an ERROR.",
+      "range": {
+        "startLine": 35,
+        "startChar": 3,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "619a0c74_217591ba",
+        "filename": "java/com/google/gerrit/server/quota/QuotaEnforcer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "implementations",
+      "range": {
+        "startLine": 52,
+        "startChar": 5,
+        "endLine": 52,
+        "endChar": 19
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c7746ec_06b653f5",
+        "filename": "java/com/google/gerrit/server/quota/QuotaRequestContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "See my other comment about Optional and AutoValue.",
+      "range": {
+        "startLine": 30,
+        "startChar": 10,
+        "endLine": 32,
+        "endChar": 36
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d87cbcd_9bf08e5c",
+        "filename": "java/com/google/gerrit/server/quota/QuotaRequestContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Is it necessary to have this field? Can\u0027t we directly specify the defaults here and avoid the build().toBuilder() step?",
+      "range": {
+        "startLine": 36,
+        "startChar": 11,
+        "endLine": 36,
+        "endChar": 19
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75d3f7e2_c67d6639",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "It\u0027s a bit confusing that the method is called isOk() but we check more than just the OK enum. What about naming the enum value to SUCCESS?",
+      "range": {
+        "startLine": 41,
+        "startChar": 21,
+        "endLine": 41,
+        "endChar": 23
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3af000f4_55184bd2",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "We could directly use String here (and still leave the Optional above). With this, we could additionally remove the message(Optional.empty()) lines in the factory methods.",
+      "range": {
+        "startLine": 74,
+        "startChar": 50,
+        "endLine": 74,
+        "endChar": 66
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "222bae49_99fde3a9",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Couldn\u0027t we implement this as an AutoValue, too?",
+      "range": {
+        "startLine": 79,
+        "startChar": 22,
+        "endLine": 79,
+        "endChar": 32
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5466dd4_e4511a76",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Same logic but maybe easier to read:\n\n  allMatch(r -\u003e r.status().isOk())",
+      "range": {
+        "startLine": 87,
+        "startChar": 32,
+        "endLine": 87,
+        "endChar": 66
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39fdd3fa_96a1334c",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Here and below: We could consider to return a Stream to avoid potentially unnecessary materialization of a list.",
+      "range": {
+        "startLine": 94,
+        "startChar": 11,
+        "endLine": 94,
+        "endChar": 24
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c8a21e4_34194226",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-16T15:20:54Z",
+      "side": 1,
+      "message": "Calling Optional#get without Optional#isPresent is discouraged. We should at least add a comment here, explaining that an error message can\u0027t be constructed without a message.\n\nWhen encountering such a situation in general, it\u0027s recommended to reconsider the design or at least the reaction in code. For instance, would it be harmful to simply filter out empty messages?\n\n  error().stream()\n      .map(QuotaResponse::message)\n      .flatMap(Streams::stream)\n      .collect(Collectors.joining(\", \"));",
+      "range": {
+        "startLine": 103,
+        "startChar": 39,
+        "endLine": 103,
+        "endChar": 56
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

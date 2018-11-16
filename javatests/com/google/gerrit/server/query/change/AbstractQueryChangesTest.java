@@ -109,7 +109,7 @@ import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -177,7 +177,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected PatchSetUtil psUtil;
   @Inject protected ChangeNotes.Factory changeNotesFactory;
   @Inject protected Provider<ChangeQueryProcessor> queryProcessorProvider;
-  @Inject protected ReviewDbSchemaCreator schemaCreator;
+  @Inject protected SchemaCreator schemaCreator;
   @Inject protected SchemaFactory<ReviewDb> schemaFactory;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
@@ -234,9 +234,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   protected void initAfterLifecycleStart() throws Exception {}
 
   protected void setUpDatabase() throws Exception {
-    try (ReviewDb underlyingDb = inMemoryDatabase.getDatabase().open()) {
-      schemaCreator.create(underlyingDb);
-    }
+    schemaCreator.create();
     db = schemaFactory.open();
 
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();

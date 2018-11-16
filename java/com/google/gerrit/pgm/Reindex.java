@@ -14,7 +14,6 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
@@ -81,7 +80,7 @@ public class Reindex extends SiteProgram {
   @Override
   public int run() throws Exception {
     mustHaveValidSite();
-    dbInjector = createDbInjector(MULTI_USER);
+    dbInjector = createDbInjector();
     cfgInjector = dbInjector.createChildInjector();
     globalConfig = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     threads = ThreadLimiter.limitThreads(dbInjector, threads);

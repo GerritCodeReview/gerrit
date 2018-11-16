@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,11 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import com.google.gwtorm.server.OrmException;
+import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
-/** Add isPrivate field to change. */
-public class Schema_143 extends ReviewDbSchemaVersion {
-  @Inject
-  Schema_143(Provider<Schema_142> prior) {
-    super(prior);
-  }
+/** Populates initial repository data. */
+public interface SchemaCreator {
+  void create() throws OrmException, IOException, ConfigInvalidException;
 }

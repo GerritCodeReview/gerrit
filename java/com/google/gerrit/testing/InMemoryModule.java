@@ -70,6 +70,7 @@ import com.google.gerrit.server.index.account.AllAccountsIndexer;
 import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.group.AllGroupsIndexer;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
@@ -81,16 +82,15 @@ import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
 import com.google.gerrit.server.schema.ReviewDbFactory;
-import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
+import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.schema.SchemaCreatorImpl;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.submit.LocalMergeSuperSetComputation;
-import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -189,15 +189,7 @@ public class InMemoryModule extends FactoryModule {
     bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(GerritOptions.class).toInstance(new GerritOptions(false, false, false));
-    bind(PersonIdent.class)
-        .annotatedWith(GerritPersonIdent.class)
-        .toProvider(GerritPersonIdentProvider.class);
-    bind(String.class)
-        .annotatedWith(AnonymousCowardName.class)
-        .toProvider(AnonymousCowardNameProvider.class);
 
-    bind(AllProjectsName.class).toProvider(AllProjectsNameProvider.class);
-    bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
     bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
     bind(InMemoryRepositoryManager.class).in(SINGLETON);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
@@ -206,7 +198,6 @@ public class InMemoryModule extends FactoryModule {
     bind(ListeningExecutorService.class)
         .annotatedWith(ChangeUpdateExecutor.class)
         .toInstance(MoreExecutors.newDirectExecutorService());
-    bind(DataSourceType.class).to(InMemoryH2Type.class);
     bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
     bind(SecureStore.class).to(DefaultSecureStore.class);
 
@@ -215,6 +206,7 @@ public class InMemoryModule extends FactoryModule {
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
     bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(InMemoryDatabase.class);
 
+    install(new InMemorySchemaModule());
     install(NoSshKeyCache.module());
     install(new GerritInstanceNameModule());
     install(
@@ -274,6 +266,41 @@ public class InMemoryModule extends FactoryModule {
     install(new DefaultProjectNameLockManager.Module());
   }
 
+  /** Copy of ReviewDbSchemaModule with a slightly different server ID provider. */
+  // TODO(dborowitz): Better code sharing.
+  private class InMemorySchemaModule extends FactoryModule {
+    @Override
+    public void configure() {
+      bind(PersonIdent.class)
+          .annotatedWith(GerritPersonIdent.class)
+          .toProvider(GerritPersonIdentProvider.class);
+
+      bind(AllProjectsName.class).toProvider(AllProjectsNameProvider.class).in(SINGLETON);
+
+      bind(AllUsersName.class).toProvider(AllUsersNameProvider.class).in(SINGLETON);
+
+      bind(String.class)
+          .annotatedWith(AnonymousCowardName.class)
+          .toProvider(AnonymousCowardNameProvider.class);
+
+      bind(GroupIndexCollection.class);
+      bind(SchemaCreator.class).to(SchemaCreatorImpl.class);
+    }
+
+    @Provides
+    @Singleton
+    @GerritServerId
+    public String createServerId() {
+      String serverId =
+          cfg.getString(GerritServerIdProvider.SECTION, null, GerritServerIdProvider.KEY);
+      if (!Strings.isNullOrEmpty(serverId)) {
+        return serverId;
+      }
+
+      return "gerrit";
+    }
+  }
+
   @Provides
   @Singleton
   @SendEmailExecutor
@@ -290,21 +317,12 @@ public class InMemoryModule extends FactoryModule {
 
   @Provides
   @Singleton
-  @GerritServerId
-  public String createServerId() {
-    String serverId =
-        cfg.getString(GerritServerIdProvider.SECTION, null, GerritServerIdProvider.KEY);
-    if (!Strings.isNullOrEmpty(serverId)) {
-      return serverId;
-    }
-
-    return "gerrit";
-  }
-
-  @Provides
-  @Singleton
-  InMemoryDatabase getInMemoryDatabase(ReviewDbSchemaCreator schemaCreator) throws OrmException {
-    return new InMemoryDatabase(schemaCreator);
+  InMemoryDatabase getInMemoryDatabase(
+      GitRepositoryManager repoManager,
+      AllProjectsName allProjectsName,
+      SchemaCreator schemaCreator,
+      SchemaFactory<ReviewDb> schemaFactory) {
+    return new InMemoryDatabase(repoManager, allProjectsName, schemaCreator, schemaFactory);
   }
 
   private Module luceneIndexModule() {

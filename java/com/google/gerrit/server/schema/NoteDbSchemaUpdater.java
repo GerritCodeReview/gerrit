@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -38,13 +39,17 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.stream.IntStream;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 public class NoteDbSchemaUpdater {
   private final Config cfg;
+  private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final GitRepositoryManager repoManager;
+  private final SchemaCreator schemaCreator;
   private final NotesMigration notesMigration;
   private final NoteDbSchemaVersionManager versionManager;
   private final NoteDbSchemaVersion.Arguments args;
@@ -53,15 +58,19 @@ public class NoteDbSchemaUpdater {
   @Inject
   NoteDbSchemaUpdater(
       @GerritServerConfig Config cfg,
+      AllUsersName allUsersName,
+      AllProjectsName allProjectsName,
+      GitRepositoryManager repoManager,
+      SchemaCreator schemaCreator,
       NotesMigration notesMigration,
       NoteDbSchemaVersionManager versionManager,
-      NoteDbSchemaVersion.Arguments args,
-      GitRepositoryManager repoManager,
-      AllUsersName allUsersName) {
+      NoteDbSchemaVersion.Arguments args) {
     this(
         cfg,
+        allProjectsName,
         allUsersName,
         repoManager,
+        schemaCreator,
         notesMigration,
         versionManager,
         args,
@@ -70,15 +79,19 @@ public class NoteDbSchemaUpdater {
 
   NoteDbSchemaUpdater(
       Config cfg,
+      AllProjectsName allProjectsName,
       AllUsersName allUsersName,
       GitRepositoryManager repoManager,
+      SchemaCreator schemaCreator,
       NotesMigration notesMigration,
       NoteDbSchemaVersionManager versionManager,
       NoteDbSchemaVersion.Arguments args,
       ImmutableSortedMap<Integer, Class<? extends NoteDbSchemaVersion>> schemaVersions) {
     this.cfg = cfg;
+    this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.repoManager = repoManager;
+    this.schemaCreator = schemaCreator;
     this.notesMigration = notesMigration;
     this.versionManager = versionManager;
     this.args = args;
@@ -91,6 +104,18 @@ public class NoteDbSchemaUpdater {
       // only option.
       return;
     }
+
+    // Create site if it doesn't exist yet.
+    try {
+      try {
+        repoManager.openRepository(allProjectsName).close();
+      } catch (RepositoryNotFoundException e) {
+        schemaCreator.create();
+      }
+    } catch (IOException | ConfigInvalidException e) {
+      throw new OrmException("Cannot initialize Gerrit site");
+    }
+
     int currentVersion = versionManager.read();
     if (currentVersion == 0) {
       // The only valid case where there is no refs/meta/version is when running 3.x init for the

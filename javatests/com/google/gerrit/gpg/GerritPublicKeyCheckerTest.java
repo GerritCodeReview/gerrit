@@ -41,7 +41,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -81,7 +81,7 @@ public class GerritPublicKeyCheckerTest extends GerritBaseTests {
 
   @Inject private InMemoryDatabase schemaFactory;
 
-  @Inject private ReviewDbSchemaCreator schemaCreator;
+  @Inject private SchemaCreator schemaCreator;
 
   @Inject private ThreadLocalRequestContext requestContext;
 
@@ -112,7 +112,7 @@ public class GerritPublicKeyCheckerTest extends GerritBaseTests {
     lifecycle.start();
 
     db = schemaFactory.open();
-    schemaCreator.create(db);
+    schemaCreator.create();
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     // Note: does not match any key in TestKeys.
     accountsUpdateProvider

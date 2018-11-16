@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.PatchSetAccess;
 import com.google.gerrit.reviewdb.server.PatchSetApprovalAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.SchemaVersionAccess;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.StatementExecutor;
 
@@ -61,11 +60,6 @@ public class DisabledReviewDb implements ReviewDb {
 
   @Override
   public Access<?, ?>[] allRelations() {
-    throw new Disabled();
-  }
-
-  @Override
-  public SchemaVersionAccess schemaVersion() {
     throw new Disabled();
   }
 

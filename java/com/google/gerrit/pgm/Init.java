@@ -245,7 +245,7 @@ public class Init extends BaseInit {
   }
 
   private void verifyInstallPluginList(ConsoleUI ui, List<PluginData> plugins) {
-    if (nullOrEmpty(installPlugins) || nullOrEmpty(plugins)) {
+    if (nullOrEmpty(installPlugins)) {
       return;
     }
     Set<String> missing = Sets.newHashSet(installPlugins);

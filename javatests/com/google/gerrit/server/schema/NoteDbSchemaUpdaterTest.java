@@ -94,20 +94,25 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
     protected final NoteDbSchemaVersion.Arguments args;
     private final List<String> messages;
 
-    TestUpdate(Optional<Integer> initialVersion) throws Exception {
+    TestUpdate(Optional<Integer> initialVersion) {
       cfg = new Config();
       allProjectsName = new AllProjectsName("The-Projects");
       allUsersName = new AllUsersName("The-Users");
       repoManager = new InMemoryRepositoryManager();
-      try (Repository repo = repoManager.createRepository(allProjectsName)) {
-        if (initialVersion.isPresent()) {
-          TestRepository<?> tr = new TestRepository<>(repo);
-          tr.update(RefNames.REFS_VERSION, tr.blob(initialVersion.get().toString()));
-        }
-      }
-      repoManager.createRepository(allUsersName).close();
 
-      setUp();
+      SchemaCreator schemaCreator =
+          () -> {
+            try (Repository repo = repoManager.createRepository(allProjectsName)) {
+              if (initialVersion.isPresent()) {
+                TestRepository<?> tr = new TestRepository<>(repo);
+                tr.update(RefNames.REFS_VERSION, tr.blob(initialVersion.get().toString()));
+              }
+            } catch (Exception e) {
+              throw new OrmException(e);
+            }
+            repoManager.createRepository(allUsersName).close();
+            setUp();
+          };
 
       args = new NoteDbSchemaVersion.Arguments(repoManager, allProjectsName);
       NoteDbSchemaVersionManager versionManager =
@@ -117,8 +122,10 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       updater =
           new NoteDbSchemaUpdater(
               cfg,
+              allProjectsName,
               allUsersName,
               repoManager,
+              schemaCreator,
               notesMigration,
               versionManager,
               args,
@@ -133,7 +140,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       cfg.setString("noteDb", "changes", "disableReviewDb", "true");
     }
 
-    protected void seedGroupSequenceRef() throws Exception {
+    protected void seedGroupSequenceRef() throws OrmException {
       new RepoSequence(
               repoManager,
               GitReferenceUpdated.DISABLED,
@@ -144,7 +151,12 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
           .next();
     }
 
-    protected void setUp() throws Exception {}
+    /**
+     * Test-specific setup.
+     *
+     * @throws OrmException if an error occurs.
+     */
+    protected void setUp() throws OrmException {}
 
     ImmutableList<String> update() throws Exception {
       updater.update(
@@ -197,7 +209,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
     TestUpdate u =
         new TestUpdate(Optional.empty()) {
           @Override
-          public void setUp() throws Exception {
+          public void setUp() throws OrmException {
             setNotesMigrationConfig();
             seedGroupSequenceRef();
           }
@@ -217,7 +229,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
     TestUpdate u =
         new TestUpdate(Optional.empty()) {
           @Override
-          public void setUp() throws Exception {
+          public void setUp() throws OrmException {
             seedGroupSequenceRef();
           }
         };
@@ -236,7 +248,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
     TestUpdate u =
         new TestUpdate(Optional.empty()) {
           @Override
-          public void setUp() throws Exception {
+          public void setUp() {
             setNotesMigrationConfig();
           }
         };

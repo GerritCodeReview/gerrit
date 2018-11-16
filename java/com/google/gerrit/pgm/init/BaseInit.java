@@ -14,8 +14,6 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
-import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
@@ -44,13 +42,10 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.NoteDbSchemaUpdater;
 import com.google.gerrit.server.schema.ReviewDbFactory;
-import com.google.gerrit.server.schema.ReviewDbSchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
-import com.google.gwtorm.jdbc.JdbcExecutor;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
@@ -60,7 +55,6 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.Message;
 import com.google.inject.util.Providers;
@@ -76,14 +70,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import javax.sql.DataSource;
 
 /** Initialize a new Gerrit installation. */
 public class BaseInit extends SiteProgram {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final boolean standalone;
-  private final boolean initDb;
   protected final PluginsDistribution pluginsDistribution;
   private final List<String> pluginsToInstall;
 
@@ -91,7 +83,6 @@ public class BaseInit extends SiteProgram {
 
   protected BaseInit(PluginsDistribution pluginsDistribution, List<String> pluginsToInstall) {
     this.standalone = true;
-    this.initDb = true;
     this.pluginsDistribution = pluginsDistribution;
     this.pluginsToInstall = pluginsToInstall;
   }
@@ -99,22 +90,10 @@ public class BaseInit extends SiteProgram {
   public BaseInit(
       Path sitePath,
       boolean standalone,
-      boolean initDb,
       PluginsDistribution pluginsDistribution,
       List<String> pluginsToInstall) {
-    this(sitePath, null, standalone, initDb, pluginsDistribution, pluginsToInstall);
-  }
-
-  public BaseInit(
-      Path sitePath,
-      final Provider<DataSource> dsProvider,
-      boolean standalone,
-      boolean initDb,
-      PluginsDistribution pluginsDistribution,
-      List<String> pluginsToInstall) {
-    super(sitePath, dsProvider);
+    super(sitePath);
     this.standalone = standalone;
-    this.initDb = initDb;
     this.pluginsDistribution = pluginsDistribution;
     this.pluginsToInstall = pluginsToInstall;
   }
@@ -257,7 +236,7 @@ public class BaseInit extends SiteProgram {
     }
 
     m.add(new GerritServerConfigModule());
-    m.add(new InitModule(standalone, initDb));
+    m.add(new InitModule(standalone));
     m.add(
         new AbstractModule() {
           @Override
@@ -359,7 +338,6 @@ public class BaseInit extends SiteProgram {
     public final ConsoleUI ui;
     public final SitePaths site;
     public final InitFlags flags;
-    final ReviewDbSchemaUpdater reviewDbSchemaUpdater;
     final NoteDbSchemaUpdater noteDbSchemaUpdater;
     final SchemaFactory<ReviewDb> schema;
     final GitRepositoryManager repositoryManager;
@@ -369,58 +347,26 @@ public class BaseInit extends SiteProgram {
         ConsoleUI ui,
         SitePaths site,
         InitFlags flags,
-        ReviewDbSchemaUpdater reviewDbSchemaUpdater,
         NoteDbSchemaUpdater noteDbSchemaUpdater,
         @ReviewDbFactory SchemaFactory<ReviewDb> schema,
         GitRepositoryManager repositoryManager) {
       this.ui = ui;
       this.site = site;
       this.flags = flags;
-      this.reviewDbSchemaUpdater = reviewDbSchemaUpdater;
       this.noteDbSchemaUpdater = noteDbSchemaUpdater;
       this.schema = schema;
       this.repositoryManager = repositoryManager;
     }
 
     void upgradeSchema() throws OrmException {
-      final List<String> pruneList = new ArrayList<>();
-      UpdateUI uiImpl = new UpdateUIImpl(ui, pruneList);
-      reviewDbSchemaUpdater.update(uiImpl);
-
-      if (!pruneList.isEmpty()) {
-        StringBuilder msg = new StringBuilder();
-        msg.append("Execute the following SQL to drop unused objects:\n");
-        msg.append("\n");
-        for (String sql : pruneList) {
-          msg.append("  ");
-          msg.append(sql);
-          msg.append(";\n");
-        }
-
-        if (ui.isBatch()) {
-          System.err.print(msg);
-          System.err.flush();
-
-        } else if (ui.yesno(true, "%s\nExecute now", msg)) {
-          try (JdbcSchema db = (JdbcSchema) unwrapDb(schema.open());
-              JdbcExecutor e = new JdbcExecutor(db)) {
-            for (String sql : pruneList) {
-              e.execute(sql);
-            }
-          }
-        }
-      }
-
-      noteDbSchemaUpdater.update(uiImpl);
+      noteDbSchemaUpdater.update(new UpdateUIImpl(ui));
     }
 
     private static class UpdateUIImpl implements UpdateUI {
       private final ConsoleUI consoleUi;
-      private final List<String> pruneList;
 
-      UpdateUIImpl(ConsoleUI consoleUi, List<String> pruneList) {
+      UpdateUIImpl(ConsoleUI consoleUi) {
         this.consoleUi = consoleUi;
-        this.pruneList = pruneList;
       }
 
       @Override
@@ -451,11 +397,8 @@ public class BaseInit extends SiteProgram {
 
       @Override
       public void pruneSchema(StatementExecutor e, List<String> prune) {
-        for (String p : prune) {
-          if (!pruneList.contains(p)) {
-            pruneList.add(p);
-          }
-        }
+        // Do nothing in NoteDb.
+        // TODO(dborowitz): Remove this method in the base class.
       }
     }
   }
@@ -475,7 +418,7 @@ public class BaseInit extends SiteProgram {
               bind(InitFlags.class).toInstance(init.flags);
             }
           });
-      Injector dbInjector = createDbInjector(SINGLE_USER);
+      Injector dbInjector = createDbInjector();
       switch (IndexModule.getIndexType(dbInjector)) {
         case LUCENE:
           modules.add(new LuceneIndexModuleOnInit());

@@ -125,7 +125,7 @@ public class IndexModule extends LifecycleModule {
     factory(ChangeIndexer.Factory.class);
 
     bind(GroupIndexRewriter.class);
-    bind(GroupIndexCollection.class);
+    // GroupIndexCollection is already bound very high up in ReviewDbSchemaModule.
     listener().to(GroupIndexCollection.class);
     factory(GroupIndexerImpl.Factory.class);
 

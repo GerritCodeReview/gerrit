@@ -105,11 +105,6 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
-  public SchemaVersionAccess schemaVersion() {
-    return delegate.schemaVersion();
-  }
-
-  @Override
   public ChangeAccess changes() {
     return delegate.changes();
   }

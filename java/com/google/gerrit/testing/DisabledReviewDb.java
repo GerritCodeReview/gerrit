@@ -65,11 +65,6 @@ public class DisabledReviewDb implements ReviewDb {
   }
 
   @Override
-  public SchemaVersionAccess schemaVersion() {
-    throw new Disabled();
-  }
-
-  @Override
   public ChangeAccess changes() {
     throw new Disabled();
   }

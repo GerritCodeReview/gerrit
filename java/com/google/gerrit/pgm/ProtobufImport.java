@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
@@ -63,6 +62,7 @@ import org.kohsuke.args4j.Option;
  * <p><strong>Warning</strong>: This method blindly upserts data into the database. It should only
  * be used to restore a protobuf-formatted backup into a new, empty site.
  */
+// TODO(dborowitz): Delete this program.
 public class ProtobufImport extends SiteProgram {
   @Option(
       name = "--file",
@@ -81,7 +81,7 @@ public class ProtobufImport extends SiteProgram {
   public int run() throws Exception {
     mustHaveValidSite();
 
-    Injector dbInjector = createDbInjector(SINGLE_USER);
+    Injector dbInjector = createDbInjector();
     manager.add(dbInjector);
     manager.start();
     RuntimeShutdown.add(manager::stop);

@@ -112,7 +112,7 @@ public class GerritPublicKeyCheckerTest extends GerritBaseTests {
     lifecycle.start();
 
     db = schemaFactory.open();
-    schemaCreator.create(db);
+    schemaCreator.create();
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     // Note: does not match any key in TestKeys.
     accountsUpdateProvider

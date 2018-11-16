@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -36,7 +35,6 @@ import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.notedb.rebuild.GcAllUsers;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
-import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -47,12 +45,11 @@ import java.util.List;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 
+// TODO(dborowitz): Delete this program.
 public class MigrateToNoteDb extends SiteProgram {
   static final String TRIAL_USAGE =
       "Trial mode: migrate changes and turn on reading from NoteDb, but leave ReviewDb as the"
           + " source of truth";
-
-  private static final int ISSUE_8022_THREAD_LIMIT = 4;
 
   @Option(name = "--threads", usage = "Number of threads to use for rebuilding NoteDb")
   private Integer threads;
@@ -109,7 +106,7 @@ public class MigrateToNoteDb extends SiteProgram {
     RuntimeShutdown.add(this::stop);
     try {
       mustHaveValidSite();
-      dbInjector = createDbInjector(MULTI_USER);
+      dbInjector = createDbInjector();
 
       dbManager = new LifecycleManager();
       dbManager.add(dbInjector);
@@ -176,18 +173,7 @@ public class MigrateToNoteDb extends SiteProgram {
     }
     int actualThreads;
     int procs = Runtime.getRuntime().availableProcessors();
-    DataSourceType dsType = dbInjector.getInstance(DataSourceType.class);
-    if (dsType.getDriver().equals("org.h2.Driver") && procs > ISSUE_8022_THREAD_LIMIT) {
-      System.out.println(
-          "Not using more than "
-              + ISSUE_8022_THREAD_LIMIT
-              + " threads due to http://crbug.com/gerrit/8022");
-      System.out.println("Can be increased by passing --threads, but may cause errors");
-      actualThreads = ISSUE_8022_THREAD_LIMIT;
-    } else {
-      actualThreads = procs;
-    }
-    actualThreads = ThreadLimiter.limitThreads(dbInjector, actualThreads);
+    actualThreads = ThreadLimiter.limitThreads(dbInjector, procs);
     return actualThreads;
   }
 

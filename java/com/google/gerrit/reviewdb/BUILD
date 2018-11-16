@@ -8,6 +8,7 @@ java_library(
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/reviewdb"],
     deps = [
+        "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
         "//lib:gwtorm",

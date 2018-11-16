@@ -45,9 +45,7 @@ public class NoteDbSchemaVersionsTest extends GerritBaseTests {
 
   @Test
   public void exceedsReviewDbVersion() {
-    assertThat(NoteDbSchemaVersions.ALL.firstKey())
-        // TODO(dborowitz): Replace with hard-coded max number once ReviewDb code is deleted.
-        .isGreaterThan(ReviewDbSchemaVersion.guessVersion(ReviewDbSchemaVersion.C));
+    assertThat(NoteDbSchemaVersions.ALL.firstKey()).isGreaterThan(170);
   }
 
   @Test

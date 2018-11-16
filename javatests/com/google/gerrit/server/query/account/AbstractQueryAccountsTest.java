@@ -165,7 +165,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   protected void setUpDatabase() throws Exception {
     db = schemaFactory.open();
-    schemaCreator.create(db);
+    schemaCreator.create();
 
     Account.Id adminId = createAccount("admin", "Administrator", "admin@example.com", true);
     admin = userFactory.create(adminId);

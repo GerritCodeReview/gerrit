@@ -178,7 +178,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ChangeNotes.Factory changeNotesFactory;
   @Inject protected Provider<ChangeQueryProcessor> queryProcessorProvider;
   @Inject protected ReviewDbSchemaCreator schemaCreator;
-  @Inject protected SchemaFactory<ReviewDb> schemaFactory;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
   @Inject protected ProjectCache projectCache;
@@ -234,10 +233,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   protected void initAfterLifecycleStart() throws Exception {}
 
   protected void setUpDatabase() throws Exception {
-    try (ReviewDb underlyingDb = inMemoryDatabase.getDatabase().open()) {
-      schemaCreator.create(underlyingDb);
-    }
-    db = schemaFactory.open();
+    schemaCreator.create();
+    db = new DisabledReviewDb();
 
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     String email = "user@example.com";
@@ -1623,7 +1620,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     notesMigration.setWriteChanges(true);
     notesMigration.setReadChanges(true);
     db.close();
-    db = schemaFactory.open();
     List<Change> changes;
     try {
       changes = setUpHashtagChanges();
@@ -1632,7 +1628,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     } finally {
       db.close();
     }
-    db = schemaFactory.open();
     for (Change c : changes) {
       indexer.index(db, c); // Reindex without hashtag field.
     }

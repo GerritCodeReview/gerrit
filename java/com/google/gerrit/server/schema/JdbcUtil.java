@@ -28,6 +28,7 @@ public class JdbcUtil {
     return hostname;
   }
 
+  // TODO(dborowitz): Still used by plugins post-ReviewDb?
   @UsedAt(UsedAt.Project.PLUGINS_ALL)
   public static String port(String port) {
     if (port != null && !port.isEmpty()) {

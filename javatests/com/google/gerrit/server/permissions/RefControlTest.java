@@ -289,7 +289,7 @@ public class RefControlTest extends GerritBaseTests {
     db = schemaFactory.open();
     singleVersionListener.start();
     try {
-      schemaCreator.create(db);
+      schemaCreator.create();
     } finally {
       singleVersionListener.stop();
     }

@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
 import com.google.gwtorm.jdbc.Database;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
@@ -31,11 +32,12 @@ public class DatabaseModule extends FactoryModule {
   protected void configure() {
     TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
         new TypeLiteral<SchemaFactory<ReviewDb>>() {};
-    TypeLiteral<Database<ReviewDb>> database = new TypeLiteral<Database<ReviewDb>>() {};
-
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
-    bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(database).in(SINGLETON);
-    bind(database).toProvider(ReviewDbDatabaseProvider.class);
+    bind(Key.get(schemaFactory, ReviewDbFactory.class))
+        .toInstance(
+            () -> {
+              throw new OrmException("ReviewDb no longer exists");
+            });
     bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
   }
 }

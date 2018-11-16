@@ -57,8 +57,8 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.testing.DisabledReviewDb;
 import com.google.gerrit.testing.GerritServerTests;
-import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -88,8 +88,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Inject protected IdentifiedUser.GenericFactory userFactory;
 
   @Inject private Provider<AnonymousUser> anonymousUser;
-
-  @Inject protected InMemoryDatabase schemaFactory;
 
   @Inject protected ReviewDbSchemaCreator schemaCreator;
 
@@ -133,8 +131,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   protected void setUpDatabase() throws Exception {
-    db = schemaFactory.open();
-    schemaCreator.create(db);
+    db = new DisabledReviewDb();
 
     Account.Id userId =
         createAccountOutsideRequestContext("user", "User", "user@example.com", true);
@@ -186,7 +183,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(schemaFactory);
   }
 
   @Test

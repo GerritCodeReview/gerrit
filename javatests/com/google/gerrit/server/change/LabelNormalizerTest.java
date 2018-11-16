@@ -94,7 +94,7 @@ public class LabelNormalizerTest extends GerritBaseTests {
     lifecycle.start();
 
     db = schemaFactory.open();
-    schemaCreator.create(db);
+    schemaCreator.create();
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     user = userFactory.create(userId);
 

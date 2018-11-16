@@ -29,6 +29,7 @@ import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
 import org.eclipse.jgit.lib.PersonIdent;
 
+// TODO(dborowitz): Rename, since this no longer has anything to do with ReviewDb.
 /** Validate the schema and connect to Git. */
 public class ReviewDbSchemaModule extends FactoryModule {
   @Override

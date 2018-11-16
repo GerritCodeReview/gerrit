@@ -21,6 +21,7 @@ import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithExpiration;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpiration;
+import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpirationWithSubkeyWithExpiration;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -98,6 +99,25 @@ public class PublicKeyStoreTest extends GerritBaseTests {
 
     assertKeys(key1.getKeyId(), key1);
     assertKeys(key2.getKeyId(), key2);
+  }
+
+  @Test
+  public void getSubkeyReturnsMasterKey() throws Exception {
+    TestKey key1 = validKeyWithoutExpirationWithSubkeyWithExpiration();
+    PGPPublicKeyRing keyRing = key1.getPublicKeyRing();
+    store.add(keyRing);
+
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
+
+    long masterKeyId = key1.getKeyId();
+    long subKeyId = 0;
+    for (PGPPublicKey key : keyRing) {
+      if (masterKeyId != subKeyId) {
+        subKeyId = key.getKeyID();
+      }
+    }
+
+    assertKeys(subKeyId, key1);
   }
 
   @Test
@@ -199,6 +219,29 @@ public class PublicKeyStoreTest extends GerritBaseTests {
     store.remove(key1.getPublicKey().getFingerprint());
     assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
     assertKeys(key1.getKeyId());
+  }
+
+  @Test
+  public void removeMasterKeyRemovesSubkey() throws Exception {
+    TestKey key1 = validKeyWithoutExpirationWithSubkeyWithExpiration();
+    PGPPublicKeyRing keyRing = key1.getPublicKeyRing();
+    store.add(keyRing);
+
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
+
+    long masterKeyId = key1.getKeyId();
+    long subKeyId = 0;
+    for (PGPPublicKey key : keyRing) {
+      if (masterKeyId != subKeyId) {
+        subKeyId = key.getKeyID();
+      }
+    }
+
+    store.remove(key1.getPublicKey().getFingerprint());
+    assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
+
+    assertKeys(masterKeyId);
+    assertKeys(subKeyId);
   }
 
   @Test

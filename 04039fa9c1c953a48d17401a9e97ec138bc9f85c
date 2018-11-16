@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cb791e2_7dcea557",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-16T22:04:45Z",
+      "side": 1,
+      "message": "It might be better to make these assertions less exact, to avoid having to modify the tests if the exception messages are tweaked later per the TODO [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/204968/1/java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java#123",
+      "range": {
+        "startLine": 227,
+        "startChar": 10,
+        "endLine": 229,
+        "endChar": 34
+      },
+      "revId": "04039fa9c1c953a48d17401a9e97ec138bc9f85c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

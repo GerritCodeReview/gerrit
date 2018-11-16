@@ -26,9 +26,10 @@ import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import java.util.Map;
-import java.util.function.Function;
 
 abstract class AbstractDisabledAccess<T, K extends Key<?>> implements Access<T, K> {
+  private static final String GONE = "ReviewDb is gone";
+
   private static <T> ResultSet<T> empty() {
     return new ListResultSet<>(ImmutableList.of());
   }
@@ -39,40 +40,30 @@ abstract class AbstractDisabledAccess<T, K extends Key<?>> implements Access<T, 
     return Futures.immediateCheckedFuture(null);
   }
 
-  // Don't even hold a reference to delegate, so it's not possible to use it
-  // accidentally.
-  private final ReviewDbWrapper wrapper;
-  private final String relationName;
-  private final int relationId;
-  private final Function<T, K> primaryKey;
-  private final Function<Iterable<T>, Map<K, T>> toMap;
+  private final NoChangesReviewDb wrapper;
 
-  AbstractDisabledAccess(ReviewDbWrapper wrapper, Access<T, K> delegate) {
+  AbstractDisabledAccess(NoChangesReviewDb wrapper) {
     this.wrapper = wrapper;
-    this.relationName = delegate.getRelationName();
-    this.relationId = delegate.getRelationID();
-    this.primaryKey = delegate::primaryKey;
-    this.toMap = delegate::toMap;
   }
 
   @Override
   public final int getRelationID() {
-    return relationId;
+    throw new UnsupportedOperationException(GONE);
   }
 
   @Override
   public final String getRelationName() {
-    return relationName;
+    throw new UnsupportedOperationException(GONE);
   }
 
   @Override
   public final K primaryKey(T entity) {
-    return primaryKey.apply(entity);
+    throw new UnsupportedOperationException(GONE);
   }
 
   @Override
   public final Map<K, T> toMap(Iterable<T> iterable) {
-    return toMap.apply(iterable);
+    throw new UnsupportedOperationException(GONE);
   }
 
   @Override
@@ -118,15 +109,7 @@ abstract class AbstractDisabledAccess<T, K extends Key<?>> implements Access<T, 
 
   @Override
   public final void beginTransaction(K key) {
-    // Keep track of when we've started a transaction so that we can avoid calling commit/rollback
-    // on the underlying ReviewDb. This is just a simple arm's-length approach, and may produce
-    // slightly different results from a native ReviewDb in corner cases like:
-    // * beginning transactions on different tables simultaneously
-    // * doing work between commit and rollback
-    // These kinds of things are already misuses of ReviewDb, and shouldn't be happening in current
-    // code anyway.
-    checkState(!wrapper.inTransaction(), "already in transaction");
-    wrapper.beginTransaction();
+    // Do nothing.
   }
 
   @Override

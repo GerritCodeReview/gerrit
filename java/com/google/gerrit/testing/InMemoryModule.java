@@ -81,7 +81,6 @@ import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
 import com.google.gerrit.server.schema.ReviewDbFactory;
@@ -90,7 +89,6 @@ import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.submit.LocalMergeSuperSetComputation;
-import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -206,7 +204,6 @@ public class InMemoryModule extends FactoryModule {
     bind(ListeningExecutorService.class)
         .annotatedWith(ChangeUpdateExecutor.class)
         .toInstance(MoreExecutors.newDirectExecutorService());
-    bind(DataSourceType.class).to(InMemoryH2Type.class);
     bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
     bind(SecureStore.class).to(DefaultSecureStore.class);
 
@@ -303,8 +300,9 @@ public class InMemoryModule extends FactoryModule {
 
   @Provides
   @Singleton
-  InMemoryDatabase getInMemoryDatabase(ReviewDbSchemaCreator schemaCreator) throws OrmException {
-    return new InMemoryDatabase(schemaCreator);
+  InMemoryDatabase getInMemoryDatabase(
+      ReviewDbSchemaCreator schemaCreator, SchemaFactory<ReviewDb> schemaFactory) {
+    return new InMemoryDatabase(schemaCreator, schemaFactory);
   }
 
   private Module luceneIndexModule() {

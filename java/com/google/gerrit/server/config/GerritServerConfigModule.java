@@ -19,6 +19,8 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
+import com.google.gwtorm.client.KeyUtil;
+import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -32,6 +34,10 @@ import org.eclipse.jgit.util.FS;
 
 /** Creates {@link GerritServerConfig}. */
 public class GerritServerConfigModule extends AbstractModule {
+  static {
+    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
+  }
+
   public static String getSecureStoreClassName(Path sitePath) {
     if (sitePath != null) {
       return getSecureStoreFromGerritConfig(sitePath);

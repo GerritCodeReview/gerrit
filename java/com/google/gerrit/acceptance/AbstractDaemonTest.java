@@ -190,6 +190,10 @@ import org.junit.runners.model.Statement;
 
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
+  static {
+    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
+  }
+
   private static GerritServer commonServer;
   private static Description firstTest;
 

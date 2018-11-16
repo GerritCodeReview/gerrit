@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "acb3ce31_c138ac41",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-16T17:31:14Z",
+      "side": 1,
+      "message": "thank you for your extensive reply. I must have appeared brusque and annoyed in my comment, so sorry for that.\n\nOn a practical level: I\u0027m still struggling in making the API actually work so we can drop createGroup() (see follow up change), so I think it is too early for polishing something if we\u0027re not sure what it will look like (eg. I backed out createEmptyCommit(bool) but had to put it back in again).\n\nOn a philosophical level: I am not concerned about execution time: these are fast to run anyway. I\u0027m more concerned about the code cost: the tests have to be written, and then maintained. Also, if our tests can pass while our test infrastructure is not doing what we\u0027re thinking, then we have a much more serious problem with our tests.\n\nFinally, personally, I find testing trivial glue code tedious, pointless and demotivating. Given that cleaning up the test infrastructure is tedious as it is already (cf. https://gerrit-review.googlesource.com/c/gerrit/+/204331 which took probably a day), I don\u0027t want to make myself suffer more through it than strictly necessary.",
+      "parentUuid": "19e9f988_51a1a054",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 38
+      },
+      "revId": "d53993122368ddb51fb8194a9b967ff5dd0136bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62c001e6_51d382c8",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
         "patchSetId": 7

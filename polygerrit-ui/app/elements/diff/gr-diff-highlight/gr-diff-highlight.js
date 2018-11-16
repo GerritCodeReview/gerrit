@@ -37,8 +37,8 @@
     },
 
     listeners: {
-      'comment-mouse-out': '_handleCommentMouseOut',
-      'comment-mouse-over': '_handleCommentMouseOver',
+      'comment-thread-mouseleave': '_handleCommentThreadMouseleave',
+      'comment-thread-mouseenter': '_handleCommentThreadMouseenter',
       'create-range-comment': '_createRangeComment',
     },
 
@@ -74,7 +74,7 @@
       this.debounce('selectionChange', this._handleSelection, 200);
     },
 
-    _handleCommentMouseOver(e) {
+    _handleCommentThreadMouseenter(e) {
       const threadEl = Polymer.dom(e).localTarget;
       const index = this._indexForThreadEl(threadEl);
 
@@ -83,7 +83,7 @@
       }
     },
 
-    _handleCommentMouseOut(e) {
+    _handleCommentThreadMouseleave(e) {
       const threadEl = Polymer.dom(e).localTarget;
       const index = this._indexForThreadEl(threadEl);
 

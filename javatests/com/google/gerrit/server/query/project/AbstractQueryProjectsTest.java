@@ -50,7 +50,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
@@ -88,7 +88,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
   @Inject protected InMemoryDatabase schemaFactory;
 
-  @Inject protected ReviewDbSchemaCreator schemaCreator;
+  @Inject protected SchemaCreator schemaCreator;
 
   @Inject protected ThreadLocalRequestContext requestContext;
 
@@ -125,7 +125,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
   protected void setUpDatabase() throws Exception {
     db = schemaFactory.open();
-    schemaCreator.create(db);
+    schemaCreator.create();
 
     Account.Id userId = createAccount("user", "User", "user@example.com", true);
     user = userFactory.create(userId);

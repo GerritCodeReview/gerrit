@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.PatchSetAccess;
 import com.google.gerrit.reviewdb.server.PatchSetApprovalAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.SchemaVersionAccess;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.ResultSet;
@@ -57,11 +56,6 @@ class NoChangesReviewDb implements ReviewDb {
     changeMessages = new ChangeMessages();
     patchSets = new PatchSets();
     patchComments = new PatchLineComments();
-  }
-
-  @Override
-  public SchemaVersionAccess schemaVersion() {
-    throw new UnsupportedOperationException(GONE);
   }
 
   @Override

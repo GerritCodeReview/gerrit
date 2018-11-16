@@ -14,8 +14,6 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -86,7 +84,7 @@ public class SwitchSecureStore extends SiteProgram {
     logger.atInfo().log(
         "Current secureStoreClass property (%s) will be replaced with %s",
         currentSecureStoreName, newSecureStore);
-    Injector dbInjector = createDbInjector(SINGLE_USER);
+    Injector dbInjector = createDbInjector();
     SecureStore currentStore = getSecureStore(currentSecureStoreName, dbInjector);
     SecureStore newStore = getSecureStore(newSecureStore, dbInjector);
 

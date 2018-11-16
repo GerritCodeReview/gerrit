@@ -23,18 +23,25 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.IntBlob;
 import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
 import com.google.gerrit.server.notedb.NotesMigrationState;
+import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gwtorm.server.OrmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
@@ -62,7 +69,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
     } catch (OrmException e) {
       assertThat(e)
           .hasMessageThat()
-          .isEqualTo("Cannot downgrade NoteDb schema from version 14 to 13");
+          .contains("Cannot downgrade NoteDb schema from version 14 to 13");
     }
   }
 
@@ -74,18 +81,23 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       requiredUpgrades(8, versions);
       assert_().fail("expected OrmException");
     } catch (OrmException e) {
-      assertThat(e).hasMessageThat().isEqualTo("Cannot skip NoteDb schema from version 8 to 10");
+      assertThat(e).hasMessageThat().contains("Cannot skip NoteDb schema from version 8 to 10");
     }
   }
 
   private static class TestUpdate {
-    private final AllProjectsName allProjectsName;
-    private final NoteDbSchemaUpdater updater;
-    private final GitRepositoryManager repoManager;
-    private final NoteDbSchemaVersion.Arguments args;
+    protected final Config cfg;
+    protected final AllProjectsName allProjectsName;
+    protected final AllUsersName allUsersName;
+    protected final NoteDbSchemaUpdater updater;
+    protected final GitRepositoryManager repoManager;
+    protected final NoteDbSchemaVersion.Arguments args;
+    private final List<String> messages;
 
     TestUpdate(Optional<Integer> initialVersion) throws Exception {
+      cfg = new Config();
       allProjectsName = new AllProjectsName("The-Projects");
+      allUsersName = new AllUsersName("The-Users");
       repoManager = new InMemoryRepositoryManager();
       try (Repository repo = repoManager.createRepository(allProjectsName)) {
         if (initialVersion.isPresent()) {
@@ -93,6 +105,9 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
           tr.update(RefNames.REFS_VERSION, tr.blob(initialVersion.get().toString()));
         }
       }
+      repoManager.createRepository(allUsersName).close();
+
+      setUp();
 
       args = new NoteDbSchemaVersion.Arguments(repoManager, allProjectsName);
       NoteDbSchemaVersionManager versionManager =
@@ -101,14 +116,37 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       notesMigration.setFrom(NotesMigrationState.NOTE_DB);
       updater =
           new NoteDbSchemaUpdater(
+              cfg,
+              allUsersName,
+              repoManager,
               notesMigration,
               versionManager,
               args,
               ImmutableSortedMap.of(10, TestSchema_10.class, 11, TestSchema_11.class));
+      messages = new ArrayList<>();
     }
 
+    protected void setNotesMigrationConfig() {
+      cfg.setString("noteDb", "changes", "write", "true");
+      cfg.setString("noteDb", "changes", "read", "true");
+      cfg.setString("noteDb", "changes", "primaryStorage", "NOTE_DB");
+      cfg.setString("noteDb", "changes", "disableReviewDb", "true");
+    }
+
+    protected void seedGroupSequenceRef() throws Exception {
+      new RepoSequence(
+              repoManager,
+              GitReferenceUpdated.DISABLED,
+              allUsersName,
+              Sequences.NAME_GROUPS,
+              () -> 1,
+              1)
+          .next();
+    }
+
+    protected void setUp() throws Exception {}
+
     ImmutableList<String> update() throws Exception {
-      ImmutableList.Builder<String> messages = ImmutableList.builder();
       updater.update(
           new TestUpdateUI() {
             @Override
@@ -116,7 +154,11 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
               messages.add(m);
             }
           });
-      return messages.build();
+      return getMessages();
+    }
+
+    ImmutableList<String> getMessages() {
+      return ImmutableList.copyOf(messages);
     }
 
     Optional<Integer> readVersion() throws Exception {
@@ -151,8 +193,15 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
   }
 
   @Test
-  public void bootstrapUpdate() throws Exception {
-    TestUpdate u = new TestUpdate(Optional.empty());
+  public void bootstrapUpdateWith216Prerequisites() throws Exception {
+    TestUpdate u =
+        new TestUpdate(Optional.empty()) {
+          @Override
+          public void setUp() throws Exception {
+            setNotesMigrationConfig();
+            seedGroupSequenceRef();
+          }
+        };
     assertThat(u.update())
         .containsExactly(
             "Migrating data to schema 10 ...",
@@ -161,6 +210,44 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
             "BODY OF 11")
         .inOrder();
     assertThat(u.readVersion()).hasValue(11);
+  }
+
+  @Test
+  public void bootstrapUpdateFailsWithoutNotesMigrationConfig() throws Exception {
+    TestUpdate u =
+        new TestUpdate(Optional.empty()) {
+          @Override
+          public void setUp() throws Exception {
+            seedGroupSequenceRef();
+          }
+        };
+    try {
+      u.update();
+      assert_().fail("expected OrmException");
+    } catch (OrmException e) {
+      assertThat(e).hasMessageThat().contains("NoteDb change migration was not completed");
+    }
+    assertThat(u.getMessages()).isEmpty();
+    assertThat(u.readVersion()).isEmpty();
+  }
+
+  @Test
+  public void bootstrapUpdateFailsWithoutGroupSequenceRef() throws Exception {
+    TestUpdate u =
+        new TestUpdate(Optional.empty()) {
+          @Override
+          public void setUp() throws Exception {
+            setNotesMigrationConfig();
+          }
+        };
+    try {
+      u.update();
+      assert_().fail("expected OrmException");
+    } catch (OrmException e) {
+      assertThat(e).hasMessageThat().contains("upgrade to 2.16.x first");
+    }
+    assertThat(u.getMessages()).isEmpty();
+    assertThat(u.readVersion()).isEmpty();
   }
 
   @Test
@@ -187,6 +274,8 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
 
   @Test
   public void updateNoOp() throws Exception {
+    // This test covers the state when running the updater after initializing a new 3.x site, which
+    // seeds the schema version ref with the latest version.
     TestUpdate u = new TestUpdate(Optional.of(11));
     assertThat(u.update()).isEmpty();
     assertThat(u.readVersion()).hasValue(11);

@@ -27,17 +27,20 @@ import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.PatchSetAccess;
 import com.google.gerrit.reviewdb.server.PatchSetApprovalAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
+import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.gwtorm.server.StatementExecutor;
 
 /**
  * Wrapper for ReviewDb that never calls the underlying change tables.
  *
  * <p>See {@link NotesMigrationSchemaFactory} for discussion.
  */
-class NoChangesReviewDbWrapper extends ReviewDbWrapper {
+class NoChangesReviewDb implements ReviewDb {
+  private static final String GONE = "ReviewDb is gone";
+
   private static <T> ResultSet<T> empty() {
     return new ListResultSet<>(ImmutableList.of());
   }
@@ -48,13 +51,12 @@ class NoChangesReviewDbWrapper extends ReviewDbWrapper {
   private final PatchSetAccess patchSets;
   private final PatchLineCommentAccess patchComments;
 
-  NoChangesReviewDbWrapper(ReviewDb db) {
-    super(db);
-    changes = new Changes(this, delegate);
-    patchSetApprovals = new PatchSetApprovals(this, delegate);
-    changeMessages = new ChangeMessages(this, delegate);
-    patchSets = new PatchSets(this, delegate);
-    patchComments = new PatchLineComments(this, delegate);
+  NoChangesReviewDb() {
+    changes = new Changes(this);
+    patchSetApprovals = new PatchSetApprovals(this);
+    changeMessages = new ChangeMessages(this);
+    patchSets = new PatchSets(this);
+    patchComments = new PatchLineComments(this);
   }
 
   @Override
@@ -82,10 +84,50 @@ class NoChangesReviewDbWrapper extends ReviewDbWrapper {
     return patchComments;
   }
 
+  @Override
+  public int nextAccountId() {
+    throw new UnsupportedOperationException(GONE);
+  }
+
+  @Override
+  public int nextAccountGroupId() {
+    throw new UnsupportedOperationException(GONE);
+  }
+
+  @Override
+  public int nextChangeId() {
+    throw new UnsupportedOperationException(GONE);
+  }
+
+  @Override
+  public void commit() {}
+
+  @Override
+  public void rollback() {}
+
+  @Override
+  public void updateSchema(StatementExecutor e) {
+
+    throw new UnsupportedOperationException(GONE);
+  }
+
+  @Override
+  public void pruneSchema(StatementExecutor e) {
+    throw new UnsupportedOperationException(GONE);
+  }
+
+  @Override
+  public Access<?, ?>[] allRelations() {
+    throw new UnsupportedOperationException(GONE);
+  }
+
+  @Override
+  public void close() {}
+
   private static class Changes extends AbstractDisabledAccess<Change, Change.Id>
       implements ChangeAccess {
-    private Changes(NoChangesReviewDbWrapper wrapper, ReviewDb db) {
-      super(wrapper, db.changes());
+    private Changes(NoChangesReviewDb wrapper) {
+      super(wrapper);
     }
 
     @Override
@@ -97,8 +139,8 @@ class NoChangesReviewDbWrapper extends ReviewDbWrapper {
   private static class ChangeMessages
       extends AbstractDisabledAccess<ChangeMessage, ChangeMessage.Key>
       implements ChangeMessageAccess {
-    private ChangeMessages(NoChangesReviewDbWrapper wrapper, ReviewDb db) {
-      super(wrapper, db.changeMessages());
+    private ChangeMessages(NoChangesReviewDb wrapper) {
+      super(wrapper);
     }
 
     @Override
@@ -119,8 +161,8 @@ class NoChangesReviewDbWrapper extends ReviewDbWrapper {
 
   private static class PatchSets extends AbstractDisabledAccess<PatchSet, PatchSet.Id>
       implements PatchSetAccess {
-    private PatchSets(NoChangesReviewDbWrapper wrapper, ReviewDb db) {
-      super(wrapper, db.patchSets());
+    private PatchSets(NoChangesReviewDb wrapper) {
+      super(wrapper);
     }
 
     @Override
@@ -137,8 +179,8 @@ class NoChangesReviewDbWrapper extends ReviewDbWrapper {
   private static class PatchSetApprovals
       extends AbstractDisabledAccess<PatchSetApproval, PatchSetApproval.Key>
       implements PatchSetApprovalAccess {
-    private PatchSetApprovals(NoChangesReviewDbWrapper wrapper, ReviewDb db) {
-      super(wrapper, db.patchSetApprovals());
+    private PatchSetApprovals(NoChangesReviewDb wrapper) {
+      super(wrapper);
     }
 
     @Override
@@ -165,8 +207,8 @@ class NoChangesReviewDbWrapper extends ReviewDbWrapper {
   private static class PatchLineComments
       extends AbstractDisabledAccess<PatchLineComment, PatchLineComment.Key>
       implements PatchLineCommentAccess {
-    private PatchLineComments(NoChangesReviewDbWrapper wrapper, ReviewDb db) {
-      super(wrapper, db.patchComments());
+    private PatchLineComments(NoChangesReviewDb wrapper) {
+      super(wrapper);
     }
 
     @Override

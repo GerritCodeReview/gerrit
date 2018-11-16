@@ -141,6 +141,30 @@
       "revId": "58660612a407595e0ac6e2cb0a141496b8b61fb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9f07ef4_33690dfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-16T21:47:17Z",
+      "side": 1,
+      "message": "Sorry, overlooked this one.  Done.",
+      "parentUuid": "ee723934_8080caa1",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "58660612a407595e0ac6e2cb0a141496b8b61fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

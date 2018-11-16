@@ -801,6 +801,53 @@ public class SshModule extends AbstractModule {
   }
 ----
 
+=== Calling Command Options ===
+
+Within an OptionHandler, during the processing of an option, plugins can
+provide and call extra parameters on the current command during parsing
+simulating as if they had been passed from the command line originally.
+
+To call additional parameters from within an option handler, instantiate
+the com.google.gerrit.util.cli.CmdLineParser.Parameters class with the
+existing parameters, and then call callParameters() with the additional
+parameters to be parsed. OptionHandlers may optionally pass this class to
+other methods which may then both parse/consume more parameters and call
+additional parameters.
+
+The example below shows a plugin that adds a "--special" option (perhaps
+for use with the Query command) that calls the "--format json" option.
+
+[source, java]
+----
+public class JsonOutputOptionHandler<T> extends OptionHandler<T> {
+  protected com.google.gerrit.util.cli.CmdLineParser.MyParser myParser;
+
+  public JsonOutputOptionHandler(CmdLineParser parser, OptionDef option, Setter<? super T> setter) {
+    super(parser, option, setter);
+    myParser = (com.google.gerrit.util.cli.CmdLineParser.MyParser) owner;
+  }
+
+  @Override
+  public int parseArguments(org.kohsuke.args4j.spi.Parameters params) throws CmdLineException {
+    new Parameters(params, myParser).callParameters("--format", "json");
+    setter.addValue(true);
+    return 0; // we didn't consume any additional args
+  }
+
+  @Override
+  public String getDefaultMetaVariable() {
+   ...
+  }
+}
+
+@Option(
+  name = "--special",
+  usage = "ouptut results using json",
+  handler = JsonOutputOptionHandler.class
+)
+boolean json;
+----
+
 [[query_attributes]]
 === Query Attributes ===
 

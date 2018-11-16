@@ -57,9 +57,8 @@ public abstract class NotesMigration {
   public static final String READ = "read";
   public static final String WRITE = "write";
   public static final String DISABLE_REVIEW_DB = "disableReviewDb";
-
-  private static final String PRIMARY_STORAGE = "primaryStorage";
-  private static final String SEQUENCE = "sequence";
+  public static final String PRIMARY_STORAGE = "primaryStorage";
+  public static final String SEQUENCE = "sequence";
 
   public static class Module extends AbstractModule {
     @Override

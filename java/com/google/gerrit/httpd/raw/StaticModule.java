@@ -142,10 +142,8 @@ public class StaticModule extends ServletModule {
         });
     if (!options.headless()) {
       install(new CoreStaticModule());
+      install(new PolyGerritModule());
     }
-
-    install(new PolyGerritModule());
-
     if (options.enableGwtUi()) {
       install(new GwtUiModule());
     }

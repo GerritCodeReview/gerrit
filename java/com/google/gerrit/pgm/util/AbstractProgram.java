@@ -17,12 +17,18 @@ package com.google.gerrit.pgm.util;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlers;
+import com.google.gwtorm.client.KeyUtil;
+import com.google.gwtorm.server.StandardKeyEncoder;
 import java.io.StringWriter;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 
 /** Base class for command line invocations of Gerrit Code Review. */
 public abstract class AbstractProgram {
+  static {
+    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
+  }
+
   private final Object sleepLock = new Object();
   private boolean running = true;
 

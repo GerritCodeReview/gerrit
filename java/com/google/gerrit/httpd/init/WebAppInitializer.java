@@ -103,6 +103,8 @@ import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
+import com.google.gwtorm.client.KeyUtil;
+import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -137,6 +139,10 @@ import org.eclipse.jgit.lib.Config;
 /** Configures the web application environment for Gerrit Code Review. */
 public class WebAppInitializer extends GuiceServletContextListener implements Filter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  static {
+    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
+  }
 
   private static final String GERRIT_SITE_PATH = "gerrit.site_path";
 

@@ -25,6 +25,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.server.logging.LoggingContext;
+import com.google.gwtorm.client.KeyUtil;
+import com.google.gwtorm.server.StandardKeyEncoder;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -113,6 +115,7 @@ public class ConfigSuite extends Suite {
         FLOGGER_BACKEND_PROPERTY,
         "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance");
     System.setProperty(FLOGGER_LOGGING_CONTEXT, LoggingContext.class.getName() + "#getInstance");
+    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
   }
 
   public static final String DEFAULT = "default";

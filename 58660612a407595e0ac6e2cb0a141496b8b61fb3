@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4db93db5_1fb49fd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-11-16T20:18:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2b519d10_31e77032",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "58660612a407595e0ac6e2cb0a141496b8b61fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fd4074_e686f521",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "44fd4074_e686f521",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "58660612a407595e0ac6e2cb0a141496b8b61fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee723934_8080caa1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-11-16T20:18:39Z",
+      "side": 1,
+      "message": "In an upcoming patch set?",
+      "parentUuid": "6aa21a1a_e8d9b4dd",
       "range": {
         "startLine": 9,
         "startChar": 35,

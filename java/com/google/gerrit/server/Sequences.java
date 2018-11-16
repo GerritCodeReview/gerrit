@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.metrics.Description;
@@ -29,14 +27,10 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -55,8 +49,6 @@ public class Sequences {
     GROUPS;
   }
 
-  private final Provider<ReviewDb> db;
-  private final NotesMigration migration;
   private final RepoSequence accountSeq;
   private final RepoSequence changeSeq;
   private final RepoSequence groupSeq;
@@ -65,15 +57,11 @@ public class Sequences {
   @Inject
   public Sequences(
       @GerritServerConfig Config cfg,
-      Provider<ReviewDb> db,
-      NotesMigration migration,
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
       AllProjectsName allProjects,
       AllUsersName allUsers,
       MetricMaker metrics) {
-    this.db = db;
-    this.migration = migration;
 
     int accountBatchSize = cfg.getInt("noteDb", "accounts", "sequenceBatchSize", 1);
     accountSeq =
@@ -85,19 +73,25 @@ public class Sequences {
             () -> ReviewDb.FIRST_ACCOUNT_ID,
             accountBatchSize);
 
-    int gap = getChangeSequenceGap(cfg);
-    @SuppressWarnings("deprecation")
-    RepoSequence.Seed changeSeed = () -> db.get().nextChangeId() + gap;
     int changeBatchSize = cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20);
     changeSeq =
         new RepoSequence(
-            repoManager, gitRefUpdated, allProjects, NAME_CHANGES, changeSeed, changeBatchSize);
+            repoManager,
+            gitRefUpdated,
+            allProjects,
+            NAME_CHANGES,
+            () -> ReviewDb.FIRST_CHANGE_ID,
+            changeBatchSize);
 
-    RepoSequence.Seed groupSeed = () -> nextGroupId(db.get());
     int groupBatchSize = 1;
     groupSeq =
         new RepoSequence(
-            repoManager, gitRefUpdated, allUsers, NAME_GROUPS, groupSeed, groupBatchSize);
+            repoManager,
+            gitRefUpdated,
+            allUsers,
+            NAME_GROUPS,
+            () -> ReviewDb.FIRST_GROUP_ID,
+            groupBatchSize);
 
     nextIdLatency =
         metrics.newTimer(
@@ -116,31 +110,15 @@ public class Sequences {
   }
 
   public int nextChangeId() throws OrmException {
-    if (!migration.readChangeSequence()) {
-      return nextChangeId(db.get());
-    }
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, false)) {
       return changeSeq.next();
     }
   }
 
   public ImmutableList<Integer> nextChangeIds(int count) throws OrmException {
-    if (migration.readChangeSequence()) {
-      try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, count > 1)) {
-        return changeSeq.next(count);
-      }
+    try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, count > 1)) {
+      return changeSeq.next(count);
     }
-
-    if (count == 0) {
-      return ImmutableList.of();
-    }
-    checkArgument(count > 0, "count is negative: %s", count);
-    List<Integer> ids = new ArrayList<>(count);
-    ReviewDb db = this.db.get();
-    for (int i = 0; i < count; i++) {
-      ids.add(nextChangeId(db));
-    }
-    return ImmutableList.copyOf(ids);
   }
 
   public int nextGroupId() throws OrmException {
@@ -152,15 +130,5 @@ public class Sequences {
   @VisibleForTesting
   public RepoSequence getChangeIdRepoSequence() {
     return changeSeq;
-  }
-
-  @SuppressWarnings("deprecation")
-  private static int nextChangeId(ReviewDb db) throws OrmException {
-    return db.nextChangeId();
-  }
-
-  @SuppressWarnings("deprecation")
-  static int nextGroupId(ReviewDb db) throws OrmException {
-    return db.nextAccountGroupId();
   }
 }

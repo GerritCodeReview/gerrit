@@ -42,7 +42,6 @@ import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -72,7 +71,6 @@ public class ReviewDbSchemaCreator {
 
   private final Config config;
   private final MetricMaker metricMaker;
-  private final NotesMigration migration;
   private final AllProjectsName allProjectsName;
 
   @Inject
@@ -88,7 +86,6 @@ public class ReviewDbSchemaCreator {
       @GerritServerId String serverId,
       @GerritServerConfig Config config,
       MetricMaker metricMaker,
-      NotesMigration migration,
       AllProjectsName apName) {
     this(
         site.site_path,
@@ -102,7 +99,6 @@ public class ReviewDbSchemaCreator {
         serverId,
         config,
         metricMaker,
-        migration,
         apName);
   }
 
@@ -118,7 +114,6 @@ public class ReviewDbSchemaCreator {
       String serverId,
       Config config,
       MetricMaker metricMaker,
-      NotesMigration migration,
       AllProjectsName apName) {
     site_path = site;
     this.repoManager = repoManager;
@@ -132,7 +127,6 @@ public class ReviewDbSchemaCreator {
 
     this.config = config;
     this.allProjectsName = apName;
-    this.migration = migration;
     this.metricMaker = metricMaker;
   }
 
@@ -157,8 +151,6 @@ public class ReviewDbSchemaCreator {
     Sequences seqs =
         new Sequences(
             config,
-            () -> db,
-            migration,
             repoManager,
             GitReferenceUpdated.DISABLED,
             allProjectsName,

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
-
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.rules.PrologCompiler;
@@ -60,7 +58,7 @@ public class Rulec extends SiteProgram {
 
   @Override
   public int run() throws Exception {
-    dbInjector = createDbInjector(SINGLE_USER);
+    dbInjector = createDbInjector();
     manager.add(dbInjector);
     manager.start();
     dbInjector

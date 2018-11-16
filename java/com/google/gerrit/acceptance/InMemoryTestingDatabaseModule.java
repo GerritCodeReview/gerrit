@@ -31,13 +31,10 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
 import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.schema.ReviewDbSchemaModule;
-import com.google.gerrit.server.schema.ReviewDbSchemaVersion;
 import com.google.gerrit.testing.InMemoryDatabase;
-import com.google.gerrit.testing.InMemoryH2Type;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
@@ -46,7 +43,6 @@ import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
-import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -56,17 +52,14 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
   private final Config cfg;
   private final Path sitePath;
   @Nullable private final InMemoryRepositoryManager repoManager;
-  @Nullable private final InMemoryDatabase.Instance inMemoryDatabaseInstance;
 
   InMemoryTestingDatabaseModule(
       Config cfg,
       Path sitePath,
-      @Nullable InMemoryRepositoryManager repoManager,
-      @Nullable InMemoryDatabase.Instance inMemoryDatabaseInstance) {
+      @Nullable InMemoryRepositoryManager repoManager) {
     this.cfg = cfg;
     this.sitePath = sitePath;
     this.repoManager = repoManager;
-    this.inMemoryDatabaseInstance = inMemoryDatabaseInstance;
     makeSiteDirs(sitePath);
   }
 
@@ -85,13 +78,11 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     }
 
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
-    bind(DataSourceType.class).to(InMemoryH2Type.class);
 
     install(new NotesMigration.Module());
     TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
         new TypeLiteral<SchemaFactory<ReviewDb>>() {};
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
-    bind(InMemoryDatabase.Instance.class).toProvider(Providers.of(inMemoryDatabaseInstance));
     bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(InMemoryDatabase.class);
     bind(InMemoryDatabase.class).in(SINGLETON);
     bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
@@ -102,7 +93,6 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
 
     install(new ReviewDbSchemaModule());
-    bind(ReviewDbSchemaVersion.class).to(ReviewDbSchemaVersion.C);
 
     install(new SshdModule());
   }
@@ -126,7 +116,6 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
     @Override
     public void stop() {
-      mem.getDbInstance().drop();
     }
   }
 

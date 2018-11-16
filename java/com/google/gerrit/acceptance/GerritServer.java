@@ -44,7 +44,6 @@ import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeGroupAuditService;
-import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.NoteDbChecker;
 import com.google.gerrit.testing.NoteDbMode;
@@ -306,7 +305,7 @@ public class GerritServer implements AutoCloseable {
       if (!desc.memory()) {
         init(desc, baseConfig, site);
       }
-      return start(desc, baseConfig, site, testSysModule, null, null);
+      return start(desc, baseConfig, site, testSysModule, null);
     } catch (Exception e) {
       TempFileUtil.recursivelyDelete(site.toFile());
       throw e;
@@ -325,8 +324,6 @@ public class GerritServer implements AutoCloseable {
    * @param testSysModule optional additional module to add to the system injector.
    * @param inMemoryRepoManager {@link InMemoryRepositoryManager} that should be used if the site is
    *     started in memory
-   * @param inMemoryDatabaseInstance {@link com.google.gerrit.testing.InMemoryDatabase.Instance}
-   *     that should be used if the site is started in memory
    * @param additionalArgs additional command-line arguments for the daemon program; only allowed if
    *     the test is not in-memory.
    * @return started server.
@@ -338,7 +335,6 @@ public class GerritServer implements AutoCloseable {
       Path site,
       @Nullable Module testSysModule,
       @Nullable InMemoryRepositoryManager inMemoryRepoManager,
-      @Nullable InMemoryDatabase.Instance inMemoryDatabaseInstance,
       String... additionalArgs)
       throws Exception {
     checkArgument(site != null, "site is required (even for in-memory server");
@@ -364,7 +360,7 @@ public class GerritServer implements AutoCloseable {
     if (desc.memory()) {
       checkArgument(additionalArgs.length == 0, "cannot pass args to in-memory server");
       return startInMemory(
-          desc, site, baseConfig, daemon, inMemoryRepoManager, inMemoryDatabaseInstance);
+          desc, site, baseConfig, daemon, inMemoryRepoManager);
     }
     return startOnDisk(desc, site, daemon, serverStarted, additionalArgs);
   }
@@ -374,8 +370,7 @@ public class GerritServer implements AutoCloseable {
       Path site,
       Config baseConfig,
       Daemon daemon,
-      @Nullable InMemoryRepositoryManager inMemoryRepoManager,
-      @Nullable InMemoryDatabase.Instance inMemoryDatabaseInstance)
+      @Nullable InMemoryRepositoryManager inMemoryRepoManager)
       throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
     mergeTestConfig(cfg);
@@ -391,7 +386,7 @@ public class GerritServer implements AutoCloseable {
     daemon.setDatabaseForTesting(
         ImmutableList.<Module>of(
             new InMemoryTestingDatabaseModule(
-                cfg, site, inMemoryRepoManager, inMemoryDatabaseInstance),
+                cfg, site, inMemoryRepoManager),
             new AbstractModule() {
               @Override
               protected void configure() {
@@ -588,21 +583,9 @@ public class GerritServer implements AutoCloseable {
       inMemoryRepoManager = server.testInjector.getInstance(InMemoryRepositoryManager.class);
     }
 
-    InMemoryDatabase.Instance dbInstance = null;
-    if (hasBinding(server.testInjector, InMemoryDatabase.class)) {
-      InMemoryDatabase inMemoryDatabase = server.testInjector.getInstance(InMemoryDatabase.class);
-      dbInstance = inMemoryDatabase.getDbInstance();
-      dbInstance.setKeepOpen(true);
-    }
-    try {
-      server.close();
-      server.daemon.stop();
-      return start(server.desc, cfg, site, null, inMemoryRepoManager, dbInstance);
-    } finally {
-      if (dbInstance != null) {
-        dbInstance.setKeepOpen(false);
-      }
-    }
+    server.close();
+    server.daemon.stop();
+    return start(server.desc, cfg, site, null, inMemoryRepoManager);
   }
 
   private static boolean hasBinding(Injector injector, Class<?> clazz) {

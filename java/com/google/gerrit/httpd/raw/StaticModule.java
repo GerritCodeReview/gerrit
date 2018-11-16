@@ -139,7 +139,9 @@ public class StaticModule extends ServletModule {
       install(new CoreStaticModule());
     }
 
-    install(new PolyGerritModule());
+    if (!options.headless() && options.enableMasterFeatures()) {
+      install(new PolyGerritModule());
+    }
   }
 
   @Provides

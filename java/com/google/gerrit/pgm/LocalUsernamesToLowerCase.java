@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
-import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -54,7 +53,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
 
   @Override
   public int run() throws Exception {
-    Injector dbInjector = createDbInjector(MULTI_USER);
+    Injector dbInjector = createDbInjector();
     manager.add(dbInjector, dbInjector.createChildInjector(NoteDbSchemaVersionCheck.module()));
     manager.start();
     dbInjector

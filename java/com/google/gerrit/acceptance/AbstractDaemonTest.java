@@ -131,8 +131,10 @@ import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.SshMode;
 import com.google.gerrit.testing.TempFileUtil;
 import com.google.gson.Gson;
+import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -190,6 +192,10 @@ import org.junit.runners.model.Statement;
 
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
+  static {
+    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
+  }
+
   private static GerritServer commonServer;
   private static Description firstTest;
 

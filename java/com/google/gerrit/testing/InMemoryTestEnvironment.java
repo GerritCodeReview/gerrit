@@ -117,9 +117,7 @@ public final class InMemoryTestEnvironment implements MethodRule {
     lifecycle.add(injector);
     lifecycle.start();
 
-    try (ReviewDb underlyingDb = inMemoryDatabase.getDatabase().open()) {
-      schemaCreator.create(underlyingDb);
-    }
+    schemaCreator.create();
     db = schemaFactory.open();
 
     // The first user is added to the "Administrators" group. See AccountManager#create().

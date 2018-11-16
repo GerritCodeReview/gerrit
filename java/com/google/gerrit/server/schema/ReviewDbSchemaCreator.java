@@ -20,8 +20,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupUUID;
@@ -42,21 +40,19 @@ import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gwtorm.jdbc.JdbcExecutor;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collections;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-/** Creates the current database schema and populates initial code rows. */
+// TODO(dborowitz): Rename and/or merge with NoteDb schema code.
+/** Populates initial repository data. */
 public class ReviewDbSchemaCreator {
   @SitePath private final Path site_path;
 
@@ -65,7 +61,6 @@ public class ReviewDbSchemaCreator {
   private final AllUsersCreator allUsersCreator;
   private final AllUsersName allUsersName;
   private final PersonIdent serverUser;
-  private final DataSourceType dataSourceType;
   private final GroupIndexCollection indexCollection;
   private final String serverId;
 
@@ -81,7 +76,6 @@ public class ReviewDbSchemaCreator {
       AllUsersCreator auc,
       AllUsersName allUsersName,
       @GerritPersonIdent PersonIdent au,
-      DataSourceType dst,
       GroupIndexCollection ic,
       @GerritServerId String serverId,
       @GerritServerConfig Config config,
@@ -94,7 +88,6 @@ public class ReviewDbSchemaCreator {
         auc,
         allUsersName,
         au,
-        dst,
         ic,
         serverId,
         config,
@@ -109,7 +102,6 @@ public class ReviewDbSchemaCreator {
       AllUsersCreator auc,
       AllUsersName allUsersName,
       @GerritPersonIdent PersonIdent au,
-      DataSourceType dst,
       GroupIndexCollection ic,
       String serverId,
       Config config,
@@ -121,7 +113,6 @@ public class ReviewDbSchemaCreator {
     allUsersCreator = auc;
     this.allUsersName = allUsersName;
     serverUser = au;
-    dataSourceType = dst;
     indexCollection = ic;
     this.serverId = serverId;
 
@@ -130,16 +121,7 @@ public class ReviewDbSchemaCreator {
     this.metricMaker = metricMaker;
   }
 
-  public void create(ReviewDb db) throws OrmException, IOException, ConfigInvalidException {
-    final JdbcSchema jdbc = (JdbcSchema) db;
-    try (JdbcExecutor e = new JdbcExecutor(jdbc)) {
-      jdbc.updateSchema(e);
-    }
-
-    final CurrentSchemaVersion sVer = CurrentSchemaVersion.create();
-    sVer.versionNbr = ReviewDbSchemaVersion.getBinaryVersion();
-    db.schemaVersion().insert(Collections.singleton(sVer));
-
+  public void create() throws OrmException, IOException, ConfigInvalidException {
     GroupReference admins = createGroupReference("Administrators");
     GroupReference batchUsers = createGroupReference("Non-Interactive Users");
 
@@ -160,8 +142,6 @@ public class ReviewDbSchemaCreator {
       createAdminsGroup(seqs, allUsersRepo, admins);
       createBatchUsersGroup(seqs, allUsersRepo, batchUsers, admins.getUUID());
     }
-
-    dataSourceType.getIndexScript().run(db);
   }
 
   private void createAdminsGroup(

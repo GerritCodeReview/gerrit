@@ -85,9 +85,6 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.DataSourceModule;
-import com.google.gerrit.server.schema.DataSourceProvider;
-import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
@@ -266,28 +263,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
       Module configModule = new GerritServerConfigModule();
       modules.add(configModule);
-
-      Injector cfgInjector = Guice.createInjector(sitePathModule, configModule, secureStore);
-      Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-      String dbType = cfg.getString("database", null, "type");
-
-      final DataSourceType dst =
-          Guice.createInjector(new DataSourceModule(), configModule, sitePathModule, secureStore)
-              .getInstance(Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
-      modules.add(
-          new LifecycleModule() {
-            @Override
-            protected void configure() {
-              bind(DataSourceType.class).toInstance(dst);
-              bind(DataSourceProvider.Context.class)
-                  .toInstance(DataSourceProvider.Context.MULTI_USER);
-              bind(Key.get(DataSource.class, Names.named("ReviewDb")))
-                  .toProvider(DataSourceProvider.class)
-                  .in(SINGLETON);
-              listener().to(DataSourceProvider.class);
-            }
-          });
-
     } else {
       modules.add(
           new LifecycleModule() {

@@ -503,10 +503,16 @@ public class CmdLineParser {
 
     private class QueuedOption {
       public final Option option;
+
+      @SuppressWarnings("rawtypes")
       public final Setter setter;
+
       public final String[] requiredOptions;
 
-      private QueuedOption(Option option, Setter setter, RequiresOptions requiresOptions) {
+      private QueuedOption(
+          Option option,
+          @SuppressWarnings("rawtypes") Setter setter,
+          RequiresOptions requiresOptions) {
         this.option = option;
         this.setter = setter;
         this.requiredOptions = requiresOptions != null ? requiresOptions.value() : new String[0];
@@ -624,6 +630,7 @@ public class CmdLineParser {
      *     <p>Note: this is cut & pasted from the parent class in arg4j, it was private and it
      *     needed to be exposed.
      */
+    @SuppressWarnings("rawtypes")
     public OptionHandler findOptionByName(String name) {
       for (OptionHandler h : optionsList) {
         NamedOptionDef option = (NamedOptionDef) h.option;
@@ -639,7 +646,10 @@ public class CmdLineParser {
       return null;
     }
 
-    private void queueOption(Option option, Setter setter, RequiresOptions requiresOptions) {
+    private void queueOption(
+        Option option,
+        @SuppressWarnings("rawtypes") Setter setter,
+        RequiresOptions requiresOptions) {
       if (queuedOptionsByName.put(option.name(), new QueuedOption(option, setter, requiresOptions))
           != null) {
         throw new IllegalAnnotationError(

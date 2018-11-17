@@ -124,7 +124,6 @@ public class CmdLineParser {
     /**
      * get and consume (consider parsed) a parameter
      *
-     * @param name name
      * @return the consumed parameter
      */
     public String consumeParameter() throws CmdLineException {
@@ -158,7 +157,7 @@ public class CmdLineParser {
      * Use during parsing to call additional parameters simulating as if they had been passed from
      * the command line originally.
      *
-     * @param String... args A variable amount of parameters to call immediately
+     * @param args A variable amount of parameters to call immediately
      *     <p>The parameters will be parsed immediately, before the remaining parameter will be
      *     parsed.
      *     <p>Note: Since this is done outside of the arg4j parsing loop, it will not match exactly

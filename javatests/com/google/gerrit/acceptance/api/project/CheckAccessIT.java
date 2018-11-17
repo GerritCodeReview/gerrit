@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
@@ -40,7 +41,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CheckAccessIT extends AbstractDaemonTest {
-
+  @Inject private ProjectOperations projectOperations;
   @Inject private GroupOperations groupOperations;
 
   private Project.NameKey normalProject;
@@ -50,9 +51,9 @@ public class CheckAccessIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    normalProject = createProject("normal");
-    secretProject = createProject("secret");
-    secretRefProject = createProject("secretRef");
+    normalProject = projectOperations.newProject().create();
+    secretProject = projectOperations.newProject().create();
+    secretRefProject = projectOperations.newProject().create();
     AccountGroup.UUID privilegedGroupUuid =
         groupOperations.newGroup().name(name("privilegedGroup")).create();
 

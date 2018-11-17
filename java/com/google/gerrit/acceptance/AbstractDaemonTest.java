@@ -550,19 +550,18 @@ public abstract class AbstractDaemonTest {
     return resourcePrefix + name;
   }
 
-  protected Project.NameKey createProject(String nameSuffix) throws RestApiException {
+  protected Project.NameKey createProject(String nameSuffix) throws Exception {
     return createProject(nameSuffix, null);
   }
 
   protected Project.NameKey createProject(String nameSuffix, Project.NameKey parent)
-      throws RestApiException {
+      throws Exception {
     // Default for createEmptyCommit should match TestProjectConfig.
     return createProject(nameSuffix, parent, true, null);
   }
 
   protected Project.NameKey createProject(
-      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit)
-      throws RestApiException {
+      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit) throws Exception {
     // Default for createEmptyCommit should match TestProjectConfig.
     return createProject(nameSuffix, parent, createEmptyCommit, null);
   }

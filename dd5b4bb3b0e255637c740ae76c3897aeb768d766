@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ee66df0_19ec086a",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-17T01:02:24Z",
+      "side": 1,
+      "message": "This should be moved after the removing of the subkeys, associated with the master GPG key, after line 437.",
+      "range": {
+        "startLine": 424,
+        "startChar": 6,
+        "endLine": 424,
+        "endChar": 32
+      },
+      "revId": "dd5b4bb3b0e255637c740ae76c3897aeb768d766",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

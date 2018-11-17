@@ -41,6 +41,7 @@ EXPORTS = [
     "//java/com/google/gerrit/server/logging",
     "//java/com/google/gerrit/server/schema",
     "//java/com/google/gerrit/server/util/time",
+    "//java/com/google/gerrit/util/cli",
     "//java/com/google/gerrit/util/http",
     "//lib/commons:compress",
     "//lib/commons:dbcp",

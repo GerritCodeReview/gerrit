@@ -45,8 +45,8 @@ public class ListProjectsIT extends AbstractDaemonTest {
   public void listProjects() throws Exception {
     Project.NameKey someProject = createProject("some-project");
     assertThatNameList(filter(gApi.projects().list().get()))
-        .containsExactly(allProjects, allUsers, project, someProject)
-        .inOrder();
+        .containsExactly(allProjects, allUsers, project, someProject);
+    assertThatNameList(filter(gApi.projects().list().get())).isOrdered();
   }
 
   @Test
@@ -87,40 +87,42 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listProjectsWithLimit() throws Exception {
-    for (int i = 0; i < 5; i++) {
-      createProject("someProject" + i);
+    String pre = "lpwl-someProject";
+    for (int i = 0; i < 6; i++) {
+      projectOperations.newProject().name(pre + i).create();
     }
 
-    String p = name("");
     // 5, plus p which was automatically created.
     int n = 6;
     for (int i = 1; i <= n + 2; i++) {
-      assertThatNameList(gApi.projects().list().withPrefix(p).withLimit(i).get())
+      assertThatNameList(gApi.projects().list().withPrefix(pre).withLimit(i).get())
           .hasSize(Math.min(i, n));
     }
   }
 
   @Test
   public void listProjectsWithPrefix() throws Exception {
-    Project.NameKey someProject = createProject("some-project");
-    Project.NameKey someOtherProject = createProject("some-other-project");
-    createProject("project-awesome");
+    // Default for createEmptyCommit should match TestProjectConfig.
+    Project.NameKey someProject = projectOperations.newProject().name("listtest-p1").create();
+    Project.NameKey someOtherProject = projectOperations.newProject().name("listtest-p2").create();
+    projectOperations.newProject().name("other-prefix-project").create();
 
-    String p = name("some");
+    String p = "listtest";
     assertBadRequest(gApi.projects().list().withPrefix(p).withRegex(".*"));
     assertBadRequest(gApi.projects().list().withPrefix(p).withSubstring(p));
     assertThatNameList(filter(gApi.projects().list().withPrefix(p).get()))
-        .containsExactly(someOtherProject, someProject)
-        .inOrder();
-    p = name("SOME");
+        .containsExactly(someOtherProject, someProject);
+    p = "notlisttest";
     assertThatNameList(filter(gApi.projects().list().withPrefix(p).get())).isEmpty();
   }
 
   @Test
   public void listProjectsWithRegex() throws Exception {
-    Project.NameKey someProject = createProject("some-project");
-    Project.NameKey someOtherProject = createProject("some-other-project");
-    Project.NameKey projectAwesome = createProject("project-awesome");
+    Project.NameKey someProject = projectOperations.newProject().name("lpwr-some-project").create();
+    Project.NameKey someOtherProject =
+        projectOperations.newProject().name("lpwr-some-other-project").create();
+    Project.NameKey projectAwesome =
+        projectOperations.newProject().name("lpwr-project-awesome").create();
 
     assertBadRequest(gApi.projects().list().withRegex("[.*"));
     assertBadRequest(gApi.projects().list().withRegex(".*").withPrefix("p"));
@@ -128,50 +130,56 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
     assertThatNameList(filter(gApi.projects().list().withRegex(".*some").get()))
         .containsExactly(projectAwesome);
-    String r = name("some-project$").replace(".", "\\.");
+    String r = ("lpwr-some-project$").replace(".", "\\.");
     assertThatNameList(filter(gApi.projects().list().withRegex(r).get()))
         .containsExactly(someProject);
     assertThatNameList(filter(gApi.projects().list().withRegex(".*").get()))
         .containsExactly(
-            allProjects, allUsers, project, projectAwesome, someOtherProject, someProject)
-        .inOrder();
+            allProjects, allUsers, project, projectAwesome, someOtherProject, someProject);
   }
 
   @Test
   public void listProjectsWithStart() throws Exception {
+    String pre = "lpws-";
     for (int i = 0; i < 5; i++) {
-      createProject(new Project.NameKey("someProject" + i).get());
+      projectOperations.newProject().name(pre + i).create();
     }
 
-    String p = name("");
-    List<ProjectInfo> all = gApi.projects().list().withPrefix(p).get();
-    // 5, plus p which was automatically created.
-    int n = 6;
+    List<ProjectInfo> all = gApi.projects().list().withPrefix(pre).get();
+    int n = 5;
     assertThat(all).hasSize(n);
-    assertThatNameList(gApi.projects().list().withPrefix(p).withStart(n - 1).get())
+    assertThatNameList(gApi.projects().list().withPrefix(pre).withStart(n - 1).get())
         .containsExactly(new Project.NameKey(Iterables.getLast(all).name));
   }
 
   @Test
   public void listProjectsWithSubstring() throws Exception {
-    Project.NameKey someProject = createProject("some-project");
-    Project.NameKey someOtherProject = createProject("some-other-project");
-    Project.NameKey projectAwesome = createProject("project-awesome");
+    Project.NameKey someProject = projectOperations.newProject().name("some-project").create();
+    Project.NameKey someOtherProject =
+        projectOperations.newProject().name("some-other-project").create();
+    Project.NameKey projectAwesome =
+        projectOperations.newProject().name("project-awesome").create();
 
     assertBadRequest(gApi.projects().list().withSubstring("some").withRegex(".*"));
     assertBadRequest(gApi.projects().list().withSubstring("some").withPrefix("some"));
     assertThatNameList(filter(gApi.projects().list().withSubstring("some").get()))
-        .containsExactly(projectAwesome, someOtherProject, someProject)
-        .inOrder();
+        .containsExactly(projectAwesome, someOtherProject, someProject);
     assertThatNameList(filter(gApi.projects().list().withSubstring("SOME").get()))
-        .containsExactly(projectAwesome, someOtherProject, someProject)
-        .inOrder();
+        .containsExactly(projectAwesome, someOtherProject, someProject);
   }
 
   @Test
   public void listProjectsWithTree() throws Exception {
-    Project.NameKey someParentProject = createProject("some-parent-project");
-    Project.NameKey someChildProject = createProject("some-child-project", someParentProject);
+    // Default for createEmptyCommit should match TestProjectConfig.
+    Project.NameKey someParentProject =
+        projectOperations.newProject().name("some-parent-project").create();
+    // Default for createEmptyCommit should match TestProjectConfig.
+    Project.NameKey someChildProject =
+        projectOperations
+            .newProject()
+            .name("some-child-project")
+            .parent(someParentProject)
+            .create();
 
     Map<String, ProjectInfo> result = gApi.projects().list().withTree(true).getAsMap();
     assertThat(result).containsKey(someChildProject.get());
@@ -185,8 +193,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertThat(result.keySet()).containsExactly(allProjects.get(), allUsers.get());
 
     assertThatNameList(filter(gApi.projects().list().withType(FilterType.ALL).get()))
-        .containsExactly(allProjects, allUsers, project)
-        .inOrder();
+        .containsExactly(allProjects, allUsers, project);
   }
 
   @Test
@@ -203,8 +210,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
     // The hidden project is included because it was not hidden yet.
     // The read-only project is included.
     assertThatNameList(gApi.projects().list().get())
-        .containsExactly(allProjects, allUsers, project, hidden, readonly)
-        .inOrder();
+        .containsExactly(allProjects, allUsers, project, hidden, readonly);
 
     // Hide the project
     input.state = ProjectState.HIDDEN;
@@ -216,18 +222,15 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
     // Hidden project is not included in the list
     assertThatNameList(gApi.projects().list().get())
-        .containsExactly(allProjects, allUsers, project, readonly)
-        .inOrder();
+        .containsExactly(allProjects, allUsers, project, readonly);
 
     // ALL filter applies to type, and doesn't include hidden state
     assertThatNameList(gApi.projects().list().withType(FilterType.ALL).get())
-        .containsExactly(allProjects, allUsers, project, readonly)
-        .inOrder();
+        .containsExactly(allProjects, allUsers, project, readonly);
 
     // "All" boolean option causes hidden projects to be included
     assertThatNameList(gApi.projects().list().withAll(true).get())
-        .containsExactly(allProjects, allUsers, project, hidden, readonly)
-        .inOrder();
+        .containsExactly(allProjects, allUsers, project, hidden, readonly);
 
     // "State" option causes only the projects in that state to be included
     assertThatNameList(gApi.projects().list().withState(ProjectState.HIDDEN).get())
@@ -235,8 +238,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertThatNameList(gApi.projects().list().withState(ProjectState.READ_ONLY).get())
         .containsExactly(readonly);
     assertThatNameList(gApi.projects().list().withState(ProjectState.ACTIVE).get())
-        .containsExactly(allProjects, allUsers, project)
-        .inOrder();
+        .containsExactly(allProjects, allUsers, project);
 
     // Cannot use "all" and "state" together
     assertBadRequest(gApi.projects().list().withAll(true).withState(ProjectState.ACTIVE));
@@ -252,14 +254,10 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   private Iterable<ProjectInfo> filter(Iterable<ProjectInfo> infos) {
-    String prefix = name("");
     return Iterables.filter(
         infos,
         p -> {
-          return p.name != null
-              && (p.name.equals(allProjects.get())
-                  || p.name.equals(allUsers.get())
-                  || p.name.startsWith(prefix));
+          return p.name != null;
         });
   }
 }

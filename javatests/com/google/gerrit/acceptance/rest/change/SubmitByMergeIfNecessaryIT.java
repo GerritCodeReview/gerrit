@@ -789,6 +789,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         untarredFiles.add(entry.getName());
       }
     }
-    assertThat(untarredFiles).containsExactly(name("project-name") + ".git");
+    assertThat(untarredFiles).containsExactly(p1.get() + ".git");
   }
 }

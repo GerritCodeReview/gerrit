@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
@@ -32,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.inject.Inject;
 import java.util.EnumSet;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -40,6 +42,8 @@ import org.junit.Test;
 
 @NoHttpd
 public class ProjectWatchIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
+
   @Test
   public void newPatchSetsNotifyConfig() throws Exception {
     Address addr = new Address("Watcher", "watcher@example.com");
@@ -210,7 +214,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void watchProject() throws Exception {
     // watch project
-    String watchedProject = createProject("watchedProject").get();
+    String watchedProject = projectOperations.newProject().create().get();
     setApiUser(user);
     watch(watchedProject);
 
@@ -226,7 +230,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // push a change to non-watched project -> should not trigger email
     // notification
-    String notWatchedProject = createProject("otherProject").get();
+    String notWatchedProject = projectOperations.newProject().create().get();
     TestRepository<InMemoryRepository> notWatchedRepo =
         cloneProject(new Project.NameKey(notWatchedProject), admin);
     r =
@@ -246,8 +250,8 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void watchFile() throws Exception {
-    String watchedProject = createProject("watchedProject").get();
-    String otherWatchedProject = createProject("otherWatchedProject").get();
+    String watchedProject = projectOperations.newProject().create().get();
+    String otherWatchedProject = projectOperations.newProject().create().get();
     setApiUser(user);
 
     // watch file in project as user
@@ -300,7 +304,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void watchKeyword() throws Exception {
-    String watchedProject = createProject("watchedProject").get();
+    String watchedProject = projectOperations.newProject().create().get();
     setApiUser(user);
 
     // watch keyword in project as user
@@ -339,7 +343,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void watchAllProjects() throws Exception {
-    String anyProject = createProject("anyProject").get();
+    String anyProject = projectOperations.newProject().create().get();
     setApiUser(user);
 
     // watch the All-Projects project to watch all projects
@@ -366,7 +370,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void watchFileAllProjects() throws Exception {
-    String anyProject = createProject("anyProject").get();
+    String anyProject = projectOperations.newProject().create().get();
     setApiUser(user);
 
     // watch file in All-Projects project as user to watch the file in all
@@ -417,7 +421,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void watchKeywordAllProjects() throws Exception {
-    String anyProject = createProject("anyProject").get();
+    String anyProject = projectOperations.newProject().create().get();
     setApiUser(user);
 
     // watch keyword in project as user
@@ -458,7 +462,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void watchProjectNoNotificationForIgnoredChange() throws Exception {
     // watch project
-    String watchedProject = createProject("watchedProject").get();
+    String watchedProject = projectOperations.newProject().create().get();
     setApiUser(user);
     watch(watchedProject);
 
@@ -491,7 +495,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void watchProjectNoNotificationForPrivateChange() throws Exception {
     // watch project
-    String watchedProject = createProject("watchedProject").get();
+    String watchedProject = projectOperations.newProject().create().get();
     setApiUser(user);
     watch(watchedProject);
 
@@ -511,7 +515,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void watchProjectNotifyOnPrivateChange() throws Exception {
-    String watchedProject = createProject("watchedProject").get();
+    String watchedProject = projectOperations.newProject().create().get();
 
     // create group that can view all private changes
     GroupInfo groupThatCanViewPrivateChanges =

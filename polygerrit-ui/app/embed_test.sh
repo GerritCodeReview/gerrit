@@ -16,8 +16,7 @@ cp $tests $t/test/
 
 if [ "${WCT_HEADLESS_MODE:-0}" != "0" ]; then
     CHROME_OPTIONS=[\'start-maximized\',\'headless\',\'disable-gpu\',\'no-sandbox\']
-    # TODO(paladox): Fix Firefox support for headless mode
-    FIREFOX_OPTIONS=[\'\']
+    FIREFOX_OPTIONS=[\'-headless\']
 else
     CHROME_OPTIONS=[\'start-maximized\']
     FIREFOX_OPTIONS=[\'\']

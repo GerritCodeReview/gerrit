@@ -37,6 +37,8 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -65,6 +67,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -120,6 +123,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject private Submit submitHandler;
 
   @Inject private IdentifiedUser.GenericFactory userFactory;
+  @Inject private ProjectOperations projectOperations;
 
   @Inject private DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
   private RegistrationHandle onSubmitValidatorHandle;
@@ -315,7 +319,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   public void submitNoPermission() throws Exception {
     // create project where submit is blocked
-    Project.NameKey p = createProject("p");
+    Project.NameKey p = projectOperations.newProject().create();
     block(p, "refs/*", Permission.SUBMIT, REGISTERED_USERS);
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
@@ -329,7 +333,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   public void noSelfSubmit() throws Exception {
     // create project where submit is blocked for the change owner
-    Project.NameKey p = createProject("p");
+    Project.NameKey p = projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(p)) {
       Util.block(u.getConfig(), Permission.SUBMIT, CHANGE_OWNER, "refs/*");
       Util.allow(u.getConfig(), Permission.SUBMIT, REGISTERED_USERS, "refs/heads/*");
@@ -355,7 +359,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   public void onlySelfSubmit() throws Exception {
     // create project where only the change owner can submit
-    Project.NameKey p = createProject("p");
+    Project.NameKey p = projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(p)) {
       Util.block(u.getConfig(), Permission.SUBMIT, REGISTERED_USERS, "refs/*");
       Util.allow(u.getConfig(), Permission.SUBMIT, CHANGE_OWNER, "refs/*");
@@ -385,8 +389,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     String topic = "test-topic";
 
     // Create test projects
-    TestRepository<?> repoA = createProjectWithPush("project-a", null, getSubmitType());
-    TestRepository<?> repoB = createProjectWithPush("project-b", null, getSubmitType());
+    Project.NameKey keyA = createProjectForPush(null, getSubmitType());
+    TestRepository<?> repoA = cloneProject(keyA);
+    Project.NameKey keyB = createProjectForPush(null, getSubmitType());
+    TestRepository<?> repoB = cloneProject(keyB);
 
     // Create changes on project-a
     PushOneCommit.Result change1 =
@@ -419,15 +425,15 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     String topic = "test-topic";
 
     // Create test project
-    String projectName = "project-a";
-    TestRepository<?> repoA = createProjectWithPush(projectName, null, getSubmitType());
+    Project.NameKey keyA = createProjectForPush(null, getSubmitType());
+    TestRepository<?> repoA = cloneProject(keyA);
 
-    RevCommit initialHead = getRemoteHead(new Project.NameKey(name(projectName)), "master");
+    RevCommit initialHead = getRemoteHead(keyA, "master");
 
     // Create the dev branch on the test project
     BranchInput in = new BranchInput();
     in.revision = initialHead.name();
-    gApi.projects().name(name(projectName)).branch("dev").create(in);
+    gApi.projects().name(keyA.get()).branch("dev").create(in);
 
     // Create changes on master
     PushOneCommit.Result change1 =
@@ -769,8 +775,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     String topic = "test-topic";
 
     // Create test projects
-    TestRepository<?> repoA = createProjectWithPush("project-a", null, getSubmitType());
-    TestRepository<?> repoB = createProjectWithPush("project-b", null, getSubmitType());
+    Project.NameKey keyA = createProjectForPush(null, getSubmitType());
+    TestRepository<?> repoA = cloneProject(keyA);
+    Project.NameKey keyB = createProjectForPush(null, getSubmitType());
+    TestRepository<?> repoB = cloneProject(keyB);
 
     // Create changes on project-a
     PushOneCommit.Result change1 =
@@ -815,15 +823,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           }
         });
     submitWithConflict(change4.getChangeId(), "time to fail");
-    assertThat(projectsCalled).containsExactly(name("project-a"), name("project-b"));
+    assertThat(projectsCalled).containsExactly(keyA.get(), keyB.get());
     for (PushOneCommit.Result change : changes) {
       change.assertChange(Change.Status.NEW, name(topic), admin);
     }
 
     submit(change4.getChangeId());
-    assertThat(projectsCalled)
-        .containsExactly(
-            name("project-a"), name("project-b"), name("project-a"), name("project-b"));
+    assertThat(projectsCalled).containsExactly(keyA.get(), keyB.get(), keyA.get(), keyB.get());
     for (PushOneCommit.Result change : changes) {
       change.assertChange(Change.Status.MERGED, name(topic), admin);
     }
@@ -934,8 +940,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     String topic = "test-topic";
 
-    TestRepository<?> repoA = createProjectWithPush("project-a", null, getSubmitType());
-    TestRepository<?> repoB = createProjectWithPush("project-b", null, getSubmitType());
+    Project.NameKey keyA = createProjectForPush(null, getSubmitType());
+    Project.NameKey keyB = createProjectForPush(null, getSubmitType());
+    TestRepository<?> repoA = cloneProject(keyA);
+    TestRepository<?> repoB = cloneProject(keyB);
 
     PushOneCommit.Result change1 =
         createChange(repoA, "master", "Change 1", "a.txt", "content", topic);
@@ -962,13 +970,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     repoA.git().fetch().call();
     RevWalk rwA = repoA.getRevWalk();
-    RevCommit masterA = rwA.parseCommit(getRemoteHead(name("project-a"), "master"));
+    RevCommit masterA = rwA.parseCommit(getRemoteHead(keyA, "master"));
     RevCommit change1Ps = parseCurrentRevision(rwA, change1.getChangeId());
     assertThat(rwA.isMergedInto(change1Ps, masterA)).isTrue();
 
     repoB.git().fetch().call();
     RevWalk rwB = repoB.getRevWalk();
-    RevCommit masterB = rwB.parseCommit(getRemoteHead(name("project-b"), "master"));
+    RevCommit masterB = rwB.parseCommit(getRemoteHead(keyB, "master"));
     RevCommit change2Ps = parseCurrentRevision(rwB, change2.getChangeId());
     assertThat(rwB.isMergedInto(change2Ps, masterB)).isTrue();
 
@@ -1353,12 +1361,18 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  private TestRepository<?> createProjectWithPush(
-      String name, @Nullable Project.NameKey parent, SubmitType submitType) throws Exception {
-    Project.NameKey project = createProject(name, parent, true, submitType);
+  // TODO(hanwen): the submodule tests have a similar method; maybe we could share code?
+  protected Project.NameKey createProjectForPush(@Nullable NameKey parent, SubmitType submitType)
+      throws Exception {
+    TestProjectCreation.Builder b =
+        projectOperations.newProject().withEmptyCommit().submitType(submitType);
+    if (parent != null) {
+      b.parent(parent);
+    }
+    Project.NameKey project = b.create();
     grant(project, "refs/heads/*", Permission.PUSH);
     grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
-    return cloneProject(project);
+    return project;
   }
 
   protected PushOneCommit.Result createChange(

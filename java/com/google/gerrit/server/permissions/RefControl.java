@@ -197,7 +197,6 @@ class RefControl {
       case GIT:
         return false;
 
-      case JSON_RPC:
       case REST_API:
       case SSH_COMMAND:
       case UNKNOWN:
@@ -229,7 +228,6 @@ class RefControl {
       case GIT:
         return canPushWithForce() || canPerform(Permission.DELETE);
 
-      case JSON_RPC:
       case REST_API:
       case SSH_COMMAND:
       case UNKNOWN:

@@ -20,7 +20,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.extensions.common.AccountsInfo;
 import com.google.gerrit.extensions.common.AuthInfo;
 import com.google.gerrit.extensions.common.ChangeConfigInfo;
@@ -66,7 +65,6 @@ import com.google.inject.Inject;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -304,7 +302,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.docSearch = docSearcher.isAvailable();
     info.editGpgKeys =
         toBoolean(enableSignedPush && config.getBoolean("gerrit", null, "editGpgKeys", true));
-    info.webUis = EnumSet.noneOf(UiType.class);
     return info;
   }
 

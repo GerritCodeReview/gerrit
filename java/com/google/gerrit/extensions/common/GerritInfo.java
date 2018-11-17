@@ -14,9 +14,6 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.client.UiType;
-import java.util.Set;
-
 public class GerritInfo {
   public String allProjects;
   public String allUsers;
@@ -25,5 +22,4 @@ public class GerritInfo {
   public Boolean editGpgKeys;
   public String reportBugUrl;
   public String reportBugText;
-  public Set<UiType> webUis;
 }

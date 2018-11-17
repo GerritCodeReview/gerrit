@@ -468,9 +468,9 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
   @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "SUBJECT_ONLY")
-  // The value 195 must tuned to the test environment, and is sensitive to the
+  // The value 110 must tuned to the test environment, and is sensitive to the
   // length of the uniquified repository name.
-  @GerritConfig(name = "submodule.maxCombinedCommitMessageSize", value = "200")
+  @GerritConfig(name = "submodule.maxCombinedCommitMessageSize", value = "110")
   public void submoduleSubjectCommitMessageSizeLimit() throws Exception {
     assume().that(isSubmitWholeTopicEnabled()).isFalse();
     testSubmoduleSubjectCommitMessageAndExpectTruncation();
@@ -481,7 +481,6 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     // Make sure that the commit is created at an earlier timestamp than the submit timestamp.
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     try {
-
       allowMatchingSubmoduleSubscription(
           subKey, "refs/heads/master", superKey, "refs/heads/master");
       createSubmoduleSubscription(superRepo, "master", subKey, "master");

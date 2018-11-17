@@ -35,8 +35,8 @@ import java.util.List;
 @Singleton
 public class FakeGroupAuditService implements GroupAuditService {
 
-  private final PluginSetContext<GroupAuditListener> groupAuditListeners;
-  private final PluginSetContext<AuditListener> auditListeners;
+  protected final PluginSetContext<GroupAuditListener> groupAuditListeners;
+  protected final PluginSetContext<AuditListener> auditListeners;
 
   public static class Module extends AbstractModule {
     @Override

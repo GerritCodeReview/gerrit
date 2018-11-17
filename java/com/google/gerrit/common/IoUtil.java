@@ -37,7 +37,7 @@ public final class IoUtil {
       @Override
       public void run() {
         try {
-          final byte[] buf = new byte[256];
+              final byte[] buf = new byte[256];
           int n;
           while (0 < (n = src.read(buf))) {
             dst.write(buf, 0, n);

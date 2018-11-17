@@ -31,7 +31,7 @@ public class MailHeaderParser {
     // Find author
     metadata.author = m.from().getEmail();
 
-    // Check email headers for X-Gerrit-<Name>
+         // Check email headers for X-Gerrit-<Name>
     for (String header : m.additionalHeaders()) {
       if (header.startsWith(MailHeader.CHANGE_NUMBER.fieldWithDelimiter())) {
         String num = header.substring(MailHeader.CHANGE_NUMBER.fieldWithDelimiter().length());

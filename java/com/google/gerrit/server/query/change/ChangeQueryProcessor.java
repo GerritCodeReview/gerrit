@@ -17,6 +17,8 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.IndexConfig;
@@ -68,6 +70,8 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final Provider<CurrentUser> userProvider;
   private final ChangeNotes.Factory notesFactory;
   private final DynamicMap<ChangeAttributeFactory> attributeFactories;
+  private final Multimap<String, ChangeAttributeFactory> attributeFactoriesByPlugin =
+      HashMultimap.create();
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Provider<AnonymousUser> anonymousUserProvider;
@@ -109,6 +113,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.anonymousUserProvider = anonymousUserProvider;
+    setupAttributeFactories();
   }
 
   @Override
@@ -132,22 +137,29 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     return dynamicBeans.get(plugin);
   }
 
-  @Override
-  public List<PluginDefinedInfo> create(ChangeData cd) {
-    List<PluginDefinedInfo> plugins = new ArrayList<>(attributeFactories.plugins().size());
+  public void setupAttributeFactories() {
     for (String plugin : attributeFactories.plugins()) {
       for (Provider<ChangeAttributeFactory> provider :
           attributeFactories.byPlugin(plugin).values()) {
-        PluginDefinedInfo pda = null;
-        try {
-          pda = provider.get().create(cd, this, plugin);
-        } catch (RuntimeException e) {
-          /* Eat runtime exceptions so that queries don't fail. */
-        }
-        if (pda != null) {
-          pda.name = plugin;
-          plugins.add(pda);
-        }
+        attributeFactoriesByPlugin.put(plugin, provider.get());
+      }
+    }
+  }
+
+  @Override
+  public List<PluginDefinedInfo> create(ChangeData cd) {
+    List<PluginDefinedInfo> plugins = new ArrayList<>(attributeFactories.plugins().size());
+    for (Map.Entry<String, ChangeAttributeFactory> e : attributeFactoriesByPlugin.entries()) {
+      String plugin = e.getKey();
+      PluginDefinedInfo pda = null;
+      try {
+        pda = e.getValue().create(cd, this, plugin);
+      } catch (RuntimeException ex) {
+        /* Eat runtime exceptions so that queries don't fail. */
+      }
+      if (pda != null) {
+        pda.name = plugin;
+        plugins.add(pda);
       }
     }
     if (plugins.isEmpty()) {

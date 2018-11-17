@@ -550,24 +550,49 @@ public abstract class AbstractDaemonTest {
     return resourcePrefix + name;
   }
 
-  protected Project.NameKey createProject(String nameSuffix) throws RestApiException {
-    return createProject(nameSuffix, null);
+  protected Project.NameKey createProject(String nameSuffix) throws Exception {
+    return projectOperations.newProject().withEmptyCommit().create();
   }
 
   protected Project.NameKey createProject(String nameSuffix, Project.NameKey parent)
-      throws RestApiException {
+      throws Exception {
     // Default for createEmptyCommit should match TestProjectConfig.
-    return createProject(nameSuffix, parent, true, null);
+    return projectOperations.newProject().withEmptyCommit().parent(parent).create();
   }
 
   protected Project.NameKey createProject(
-      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit)
-      throws RestApiException {
+      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit) throws Exception {
     // Default for createEmptyCommit should match TestProjectConfig.
-    return createProject(nameSuffix, parent, createEmptyCommit, null);
+    if (parent == null) {
+      return projectOperations.newProject().createEmptyCommit(createEmptyCommit).create();
+    }
+    return projectOperations
+        .newProject()
+        .parent(parent)
+        .createEmptyCommit(createEmptyCommit)
+        .create();
   }
 
   protected Project.NameKey createProject(
+      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
+      throws Exception {
+    if (parent == null) {
+      return projectOperations
+          .newProject()
+          .createEmptyCommit(createEmptyCommit)
+          .submitType(submitType)
+          .create();
+    }
+    return projectOperations
+        .newProject()
+        .submitType(submitType)
+        .parent(parent)
+        .createEmptyCommit(createEmptyCommit)
+        .parent(parent)
+        .create();
+  }
+
+  protected Project.NameKey createProjectOverAPI(
       String nameSuffix, Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
       throws RestApiException {
     ProjectInput in = new ProjectInput();

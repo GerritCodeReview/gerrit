@@ -124,7 +124,6 @@ public class CmdLineParser {
     /**
      * get and consume (consider parsed) a parameter
      *
-     * @param name name
      * @return the consumed parameter
      */
     public String consumeParameter() throws CmdLineException {
@@ -158,7 +157,7 @@ public class CmdLineParser {
      * Use during parsing to call additional parameters simulating as if they had been passed from
      * the command line originally.
      *
-     * @param String... args A variable amount of parameters to call immediately
+     * @param args A variable amount of parameters to call immediately
      *     <p>The parameters will be parsed immediately, before the remaining parameter will be
      *     parsed.
      *     <p>Note: Since this is done outside of the arg4j parsing loop, it will not match exactly
@@ -504,10 +503,16 @@ public class CmdLineParser {
 
     private class QueuedOption {
       public final Option option;
+
+      @SuppressWarnings("rawtypes")
       public final Setter setter;
+
       public final String[] requiredOptions;
 
-      private QueuedOption(Option option, Setter setter, RequiresOptions requiresOptions) {
+      private QueuedOption(
+          Option option,
+          @SuppressWarnings("rawtypes") Setter setter,
+          RequiresOptions requiresOptions) {
         this.option = option;
         this.setter = setter;
         this.requiredOptions = requiresOptions != null ? requiresOptions.value() : new String[0];
@@ -625,6 +630,7 @@ public class CmdLineParser {
      *     <p>Note: this is cut & pasted from the parent class in arg4j, it was private and it
      *     needed to be exposed.
      */
+    @SuppressWarnings("rawtypes")
     public OptionHandler findOptionByName(String name) {
       for (OptionHandler h : optionsList) {
         NamedOptionDef option = (NamedOptionDef) h.option;
@@ -640,7 +646,10 @@ public class CmdLineParser {
       return null;
     }
 
-    private void queueOption(Option option, Setter setter, RequiresOptions requiresOptions) {
+    private void queueOption(
+        Option option,
+        @SuppressWarnings("rawtypes") Setter setter,
+        RequiresOptions requiresOptions) {
       if (queuedOptionsByName.put(option.name(), new QueuedOption(option, setter, requiresOptions))
           != null) {
         throw new IllegalAnnotationError(

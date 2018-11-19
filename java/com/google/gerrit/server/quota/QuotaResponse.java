@@ -20,6 +20,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -74,6 +75,10 @@ public abstract class QuotaResponse {
 
   @AutoValue
   public abstract static class Aggregated {
+    public static Aggregated create(Collection<QuotaResponse> responses) {
+      return new AutoValue_QuotaResponse_Aggregated(ImmutableList.copyOf(responses));
+    }
+
     protected abstract ImmutableList<QuotaResponse> responses();
 
     public boolean isOk() {

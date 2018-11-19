@@ -59,14 +59,6 @@
      */
 
     /**
-     * @event comment-mouse-over
-     */
-
-    /**
-     * @event comment-mouse-out
-     */
-
-    /**
      * Fired when the comment's timestamp is tapped.
      *
      * @event comment-anchor-tap
@@ -608,14 +600,6 @@
       if (draft) {
         this.set('comment.message', draft.message);
       }
-    },
-
-    _handleMouseEnter(e) {
-      this.fire('comment-mouse-over', this._getEventPayload());
-    },
-
-    _handleMouseLeave(e) {
-      this.fire('comment-mouse-out', this._getEventPayload());
     },
 
     _handleToggleResolved() {

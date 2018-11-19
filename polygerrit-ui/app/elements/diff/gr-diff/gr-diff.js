@@ -250,6 +250,7 @@
         // this situation until it occurs.
         this._updateRanges(addedThreadEls);
         this._updateKeyLocations(addedThreadEls);
+        this._redispatchHoverEvents(addedThreadEls);
       });
     },
 
@@ -271,6 +272,20 @@
         const commentSide = threadEl.getAttribute('comment-side');
         const lineNum = threadEl.getAttribute('line-num') || GrDiffLine.FILE;
         this._keyLocations[commentSide][lineNum] = true;
+      }
+    },
+
+    // Dispatch events that are handled by the gr-diff-highlight.
+    _redispatchHoverEvents(addedThreadEls) {
+      for (const threadEl of addedThreadEls) {
+        threadEl.addEventListener('mouseenter', () => {
+          threadEl.dispatchEvent(
+              new CustomEvent('comment-thread-mouseenter', {bubbles: true}));
+        });
+        threadEl.addEventListener('mouseleave', () => {
+          threadEl.dispatchEvent(
+              new CustomEvent('comment-thread-mouseleave', {bubbles: true}));
+        });
       }
     },
 

@@ -22,9 +22,9 @@ limitations under the License.
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
-<link rel="import" href="../gr-diff-comment/gr-diff-comment.html">
+<link rel="import" href="../gr-comment/gr-comment.html">
 
-<dom-module id="gr-diff-comment-thread">
+<dom-module id="gr-comment-thread">
   <template>
     <style include="shared-styles">
       gr-button {
@@ -72,7 +72,7 @@ limitations under the License.
     <div id="container" class$="[[_computeHostClass(unresolved)]]">
       <template id="commentList" is="dom-repeat" items="[[_orderedComments]]"
           as="comment">
-        <gr-diff-comment
+        <gr-comment
             comment="{{comment}}"
             robot-button-disabled="[[_hideActions(_showActions, _lastComment)]]"
             change-num="[[changeNum]]"
@@ -85,7 +85,7 @@ limitations under the License.
             project-config="[[_projectConfig]]"
             on-create-fix-comment="_handleCommentFix"
             on-comment-discard="_handleCommentDiscard"
-            on-comment-save="_handleCommentSavedOrDiscarded"></gr-diff-comment>
+            on-comment-save="_handleCommentSavedOrDiscarded"></gr-comment>
       </template>
       <div id="commentInfoContainer"
           hidden$="[[_hideActions(_showActions, _lastComment)]]">
@@ -122,5 +122,5 @@ limitations under the License.
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
   </template>
-  <script src="gr-diff-comment-thread.js"></script>
+  <script src="gr-comment-thread.js"></script>
 </dom-module>

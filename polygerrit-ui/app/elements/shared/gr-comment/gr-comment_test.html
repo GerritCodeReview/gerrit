@@ -17,7 +17,7 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-diff-comment</title>
+<title>gr-comment</title>
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
@@ -25,19 +25,19 @@ limitations under the License.
 <script src="../../../bower_components/page/page.js"></script>
 <script src="../../../scripts/util.js"></script>
 
-<link rel="import" href="gr-diff-comment.html">
+<link rel="import" href="gr-comment.html">
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
-    <gr-diff-comment></gr-diff-comment>
+    <gr-comment></gr-comment>
   </template>
 </test-fixture>
 
 <test-fixture id="draft">
   <template>
-    <gr-diff-comment draft="true"></gr-diff-comment>
+    <gr-comment draft="true"></gr-comment>
   </template>
 </test-fixture>
 
@@ -48,7 +48,7 @@ limitations under the License.
     return getComputedStyle(el).getPropertyValue('display') !== 'none';
   }
 
-  suite('gr-diff-comment tests', () => {
+  suite('gr-comment tests', () => {
     let element;
     let sandbox;
     setup(() => {
@@ -343,7 +343,7 @@ limitations under the License.
     });
   });
 
-  suite('gr-diff-comment draft tests', () => {
+  suite('gr-comment draft tests', () => {
     let element;
     let sandbox;
 

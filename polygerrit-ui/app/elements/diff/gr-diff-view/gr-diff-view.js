@@ -221,7 +221,7 @@
         [this.Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_handleExpandAllDiffContext',
         [this.Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
 
-        // Final two are actually handled by gr-diff-comment-thread.
+        // Final two are actually handled by gr-comment-thread.
         [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
         [this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
       };

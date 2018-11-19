@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5572f05d_5435ee30",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-19T22:51:27Z",
+      "side": 1,
+      "message": "Optional: I don\u0027t especially like reopening the object here. What if physically reopens a loose file? I would almost rather just immediately slurp the data to a byte array once, then parse it twice (as ObjectId and key).\n\nOTOH even if it incurs some more syscalls, this is probably still premature optimization.",
+      "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6a0593b_7ec0aea8",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-19T22:51:27Z",
+      "side": 1,
+      "message": "Consider adding some exception handling here so the error is less opaque in case the note map is corrupted.",
+      "range": {
+        "startLine": 260,
+        "startChar": 17,
+        "endLine": 260,
+        "endChar": 64
+      },
+      "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc790873_ec5a5b73",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-19T22:51:27Z",
+      "side": 1,
+      "message": "I\u0027d prefer to insert this object only once. IIRC some ObjectInserter implementations have slow (linear) duplicate object checking. To avoid inserting it in the case when there are no subkeys, you can set it to null outside the loop and initialize lazily.",
+      "range": {
+        "startLine": 407,
+        "startChar": 38,
+        "endLine": 407,
+        "endChar": 75
+      },
+      "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "264360b2_293b6c35",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-19T22:51:27Z",
+      "side": 1,
+      "message": "Maybe add a sanity check that this subkey is not already linked to some different master key?",
+      "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccf97244_182149d8",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-19T22:51:27Z",
+      "side": 1,
+      "message": "Don\u0027t we still want to do this in the case when toWrite is not empty? IIRC having multiple PGPPublicKeyRings in the Collection means the keys share the same fingerprint, so you might have 2 master keys A and B in the same note. If we delete B, then toWrite will still contain A; but in that case we still want to delete all of B\u0027s subkeys.",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 7
+      },
+      "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

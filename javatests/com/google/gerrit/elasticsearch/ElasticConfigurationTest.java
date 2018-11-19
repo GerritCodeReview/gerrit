@@ -27,6 +27,7 @@ import static com.google.gerrit.elasticsearch.ElasticConfiguration.SECTION_ELAST
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.ProvisionException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -35,7 +36,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class ElasticConfigurationTest {
+public class ElasticConfigurationTest extends GerritBaseTests {
   @Rule public ExpectedException exception = ExpectedException.none();
 
   @Test

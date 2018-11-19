@@ -18,12 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PermissionTest {
+public class PermissionTest extends GerritBaseTests {
   private static final String PERMISSION_NAME = "foo";
 
   private Permission permission;

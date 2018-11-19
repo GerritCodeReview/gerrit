@@ -16,9 +16,10 @@ package com.google.gerrit.server.mail.send;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class NotificationEmailTest {
+public class NotificationEmailTest extends GerritBaseTests {
 
   @Test
   public void getInstanceAndProjectName_returnsTheRightValue() {

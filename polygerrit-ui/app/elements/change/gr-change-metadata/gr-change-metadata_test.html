@@ -258,6 +258,20 @@ limitations under the License.
               element._CHANGE_ROLE.COMMITTER));
         });
 
+        test('_getNonOwnerRole, committer account ID match', () => {
+          // Set the committer email to be the same as the owner.
+          change.revisions.rev1.commit.committer._account_id = 1019328;
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.COMMITTER));
+        });
+
+        test('_getNonOwnerRole, committer account ID mismatch', () => {
+          // Set the committer email to be the same as the owner.
+          change.revisions.rev1.commit.committer._account_id = 101932;
+          assert.isNotNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.COMMITTER));
+        });
+
         test('_getNonOwnerRole null for committer with no current rev', () => {
           delete change.current_revision;
           assert.isNull(element._getNonOwnerRole(change,
@@ -288,6 +302,20 @@ limitations under the License.
           // Set the author email to be the same as the owner.
           change.revisions.rev1.commit.author.email = 'abc@def';
           assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.AUTHOR));
+        });
+
+        test('_getNonOwnerRole, author account ID match', () => {
+          // Set the author email to be the same as the owner.
+          change.revisions.rev1.commit.author._account_id = 1019328;
+          assert.isNull(element._getNonOwnerRole(change,
+              element._CHANGE_ROLE.AUTHOR));
+        });
+
+        test('_getNonOwnerRole, author account ID mismatch', () => {
+          // Set the author email to be the same as the owner.
+          change.revisions.rev1.commit.author._account_id = 101932;
+          assert.isNotNull(element._getNonOwnerRole(change,
               element._CHANGE_ROLE.AUTHOR));
         });
 

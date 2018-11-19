@@ -256,7 +256,7 @@ limitations under the License.
       threadEls[0].dispatchEvent(
           new CustomEvent('thread-discard', {detail: {rootId: 4711}}));
       const attachedThreads = element.queryAllEffectiveChildren(
-          'gr-diff-comment-thread');
+          'gr-comment-thread');
       assert.equal(attachedThreads.length, 1);
       assert.equal(attachedThreads[0].rootId, 42);
     });
@@ -1130,7 +1130,7 @@ limitations under the License.
           commentSide, undefined, false));
 
       let threads = Polymer.dom(element.$.diff)
-          .queryDistributedElements('gr-diff-comment-thread');
+          .queryDistributedElements('gr-comment-thread');
 
       assert.equal(threads.length, 1);
       assert.equal(threads[0].commentSide, commentSide);
@@ -1151,7 +1151,7 @@ limitations under the License.
           '3', 1, commentSide, range, true));
 
       threads = Polymer.dom(element.$.diff)
-          .queryDistributedElements('gr-diff-comment-thread');
+          .queryDistributedElements('gr-comment-thread');
 
       assert.equal(threads.length, 2);
       assert.equal(threads[1].commentSide, commentSide);

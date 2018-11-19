@@ -18,7 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../diff/gr-diff-comment-thread/gr-diff-comment-thread.html">
+<link rel="import" href="../../shared/gr-comment-thread/gr-comment-thread.html">
 
 <dom-module id="gr-thread-list">
   <template>
@@ -28,7 +28,7 @@ limitations under the License.
         min-height: 20rem;
         padding: 1rem;
       }
-      gr-diff-comment-thread {
+      gr-comment-thread {
         display: block;
         margin-bottom: .5rem;
         max-width: 80ch;
@@ -54,9 +54,9 @@ limitations under the License.
         display: flex;
         margin-right: 1rem;
       }
-      .draftsOnly:not(.unresolvedOnly) gr-diff-comment-thread[has-draft],
-      .unresolvedOnly:not(.draftsOnly) gr-diff-comment-thread[unresolved],
-      .draftsOnly.unresolvedOnly gr-diff-comment-thread[has-draft][unresolved] {
+      .draftsOnly:not(.unresolvedOnly) gr-comment-thread[has-draft],
+      .unresolvedOnly:not(.draftsOnly) gr-comment-thread[unresolved],
+      .draftsOnly.unresolvedOnly gr-comment-thread[has-draft][unresolved] {
         display: block
       }
     </style>
@@ -82,7 +82,7 @@ limitations under the License.
           as="thread"
           initial-count="5"
           target-framerate="60">
-        <gr-diff-comment-thread
+        <gr-comment-thread
             show-file-path
             change-num="[[changeNum]]"
             comments="[[thread.comments]]"
@@ -94,7 +94,7 @@ limitations under the License.
             path="[[thread.path]]"
             root-id="{{thread.rootId}}"
             on-thread-changed="_handleCommentsChanged"
-            on-thread-discard="_handleThreadDiscard"></gr-diff-comment-thread>
+            on-thread-discard="_handleThreadDiscard"></gr-comment-thread>
       </template>
     </div>
   </template>

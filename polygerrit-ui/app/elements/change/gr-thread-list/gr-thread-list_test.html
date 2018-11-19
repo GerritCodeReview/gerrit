@@ -171,7 +171,7 @@ limitations under the License.
       ];
       flushAsynchronousOperations();
       threadElements = Polymer.dom(element.root)
-          .querySelectorAll('gr-diff-comment-thread');
+          .querySelectorAll('gr-comment-thread');
     });
 
     teardown(() => {
@@ -188,7 +188,7 @@ limitations under the License.
 
     test('there are five threads by default', () => {
       assert.equal(Polymer.dom(element.root)
-          .querySelectorAll('gr-diff-comment-thread').length, 5);
+          .querySelectorAll('gr-comment-thread').length, 5);
     });
 
     test('_computeSortedThreads', () => {
@@ -231,14 +231,14 @@ limitations under the License.
       MockInteractions.tap(element.$.unresolvedToggle);
       flushAsynchronousOperations();
       assert.equal(Polymer.dom(element.root)
-          .querySelectorAll('gr-diff-comment-thread').length, 3);
+          .querySelectorAll('gr-comment-thread').length, 3);
     });
 
     test('toggle drafts only shows threads with draft comments', () => {
       MockInteractions.tap(element.$.draftToggle);
       flushAsynchronousOperations();
       assert.equal(Polymer.dom(element.root)
-          .querySelectorAll('gr-diff-comment-thread').length, 2);
+          .querySelectorAll('gr-comment-thread').length, 2);
     });
 
     test('toggle drafts and unresolved only shows threads with drafts and ' +
@@ -247,7 +247,7 @@ limitations under the License.
       MockInteractions.tap(element.$.unresolvedToggle);
       flushAsynchronousOperations();
       assert.equal(Polymer.dom(element.root)
-          .querySelectorAll('gr-diff-comment-thread').length, 2);
+          .querySelectorAll('gr-comment-thread').length, 2);
     });
 
     test('modification events are consumed and displatched', () => {

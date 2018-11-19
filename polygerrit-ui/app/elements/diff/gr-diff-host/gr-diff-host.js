@@ -601,7 +601,7 @@
     },
 
     _createThreadElement(thread) {
-      const threadEl = document.createElement('gr-diff-comment-thread');
+      const threadEl = document.createElement('gr-comment-thread');
       threadEl.className = 'comment-thread';
       threadEl.slot = `${thread.commentSide}-${thread.lineNum}`;
       threadEl.comments = thread.comments;

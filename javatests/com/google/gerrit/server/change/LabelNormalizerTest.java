@@ -24,14 +24,14 @@ import static org.junit.Assert.assertEquals;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -76,6 +76,7 @@ public class LabelNormalizerTest extends GerritBaseTests {
   @Inject protected ThreadLocalRequestContext requestContext;
   @Inject private ChangeNotes.Factory changeNotesFactory;
   @Inject private ProjectConfig.Factory projectConfigFactory;
+  @Inject private GerritApi gApi;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
@@ -128,18 +129,14 @@ public class LabelNormalizerTest extends GerritBaseTests {
   }
 
   private void setUpChange() throws Exception {
-    change =
-        new Change(
-            new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
-            new Change.Id(1),
-            userId,
-            new Branch.NameKey(allProjects, "refs/heads/master"),
-            TimeUtil.nowTs());
-    PatchSetInfo ps = new PatchSetInfo(new PatchSet.Id(change.getId(), 1));
-    ps.setSubject("Test change");
-    change.setCurrentPatchSet(ps);
-    db.changes().insert(ImmutableList.of(change));
-    notes = changeNotesFactory.createChecked(db, change);
+    ChangeInput input = new ChangeInput();
+    input.project = allProjects.get();
+    input.branch = "master";
+    input.newBranch = true;
+    input.subject = "Test change";
+    ChangeInfo info = gApi.changes().create(input).get();
+    notes = changeNotesFactory.createChecked(db, allProjects, new Change.Id(info._number));
+    change = notes.getChange();
   }
 
   @After

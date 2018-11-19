@@ -32,7 +32,7 @@
   const FILE = 'FILE';
 
   Polymer({
-    is: 'gr-diff-comment',
+    is: 'gr-comment',
 
     /**
      * Fired when the create fix comment action is triggered.

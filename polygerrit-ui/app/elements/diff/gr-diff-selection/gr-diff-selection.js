@@ -83,7 +83,7 @@
         targetClasses.push(SelectionClass.BLAME);
       } else {
         const commentSelected =
-            this._elementDescendedFromClass(e.target, 'gr-diff-comment');
+            this._elementDescendedFromClass(e.target, 'gr-comment');
         const side = this.diffBuilder.getSideByLineEl(lineEl);
 
         targetClasses.push(side === 'left' ?

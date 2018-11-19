@@ -21,7 +21,7 @@
   const NEWLINE_PATTERN = /\n/g;
 
   Polymer({
-    is: 'gr-diff-comment-thread',
+    is: 'gr-comment-thread',
 
     /**
      * Fired when the thread should be discarded.
@@ -36,7 +36,7 @@
      */
 
      /**
-      * gr-diff-comment-thread exposes the following attributes that allow a
+      * gr-comment-thread exposes the following attributes that allow a
       * diff widget like gr-diff to show the thread in the right location:
       *
       * line-num:
@@ -219,7 +219,7 @@
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       // Don’t preventDefault in this case because it will render the event
-      // useless for other handlers (other gr-diff-comment-thread elements).
+      // useless for other handlers (other gr-comment-thread elements).
       if (e.detail.keyboardEvent.shiftKey) {
         this._expandCollapseComments(true);
       } else {
@@ -230,7 +230,7 @@
 
     _expandCollapseComments(actionIsCollapse) {
       const comments =
-          Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
+          Polymer.dom(this.root).querySelectorAll('gr-comment');
       for (const comment of comments) {
         comment.collapsed = actionIsCollapse;
       }
@@ -283,7 +283,7 @@
           parent.range);
 
       // If there is currently a comment in an editing state, add an attribute
-      // so that the gr-diff-comment knows not to populate the draft text.
+      // so that the gr-comment knows not to populate the draft text.
       for (let i = 0; i < this.comments.length; i++) {
         if (this.comments[i].__editing) {
           reply.__otherEditing = true;
@@ -350,7 +350,7 @@
     },
 
     _commentElWithDraftID(id) {
-      const els = Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
+      const els = Polymer.dom(this.root).querySelectorAll('gr-comment');
       for (const el of els) {
         if (el.comment.id === id || el.comment.__draftID === id) {
           return el;

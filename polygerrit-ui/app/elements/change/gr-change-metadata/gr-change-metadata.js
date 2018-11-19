@@ -427,15 +427,19 @@
       }
 
       if (role === this._CHANGE_ROLE.AUTHOR &&
-          rev.commit && rev.commit.author &&
-          change.owner.email !== rev.commit.author.email) {
-        return rev.commit.author;
+          rev.commit && rev.commit.author) {
+        const emailMatch = change.owner.email === rev.commit.author.email;
+        const idMatch =
+            change.owner._account_id === rev.commit.author._account_id;
+        return idMatch || emailMatch ? null : rev.commit.author;
       }
 
       if (role === this._CHANGE_ROLE.COMMITTER &&
-          rev.commit && rev.commit.committer &&
-          change.owner.email !== rev.commit.committer.email) {
-        return rev.commit.committer;
+          rev.commit && rev.commit.committer) {
+        const emailMatch = change.owner.email === rev.commit.committer.email;
+        const idMatch =
+            change.owner._account_id === rev.commit.committer._account_id;
+        return idMatch || emailMatch ? null : rev.commit.committer;
       }
 
       return null;

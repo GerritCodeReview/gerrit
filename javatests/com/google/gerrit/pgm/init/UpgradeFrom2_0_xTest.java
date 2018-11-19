@@ -31,15 +31,13 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.securestore.SecureStore;
+import com.google.gerrit.server.securestore.testing.InMemorySecureStore;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
-import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
@@ -109,45 +107,5 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     assertEquals("ldap.s3kr3t", secureStore.get("ldap", null, "password"));
 
     u.run();
-  }
-
-  private static class InMemorySecureStore extends SecureStore {
-    private final Config cfg = new Config();
-
-    @Override
-    public String[] getList(String section, String subsection, String name) {
-      return cfg.getStringList(section, subsection, name);
-    }
-
-    @Override
-    public String[] getListForPlugin(
-        String pluginName, String section, String subsection, String name) {
-      throw new UnsupportedOperationException("not used by tests");
-    }
-
-    @Override
-    public void setList(String section, String subsection, String name, List<String> values) {
-      cfg.setStringList(section, subsection, name, values);
-    }
-
-    @Override
-    public void unset(String section, String subsection, String name) {
-      cfg.unset(section, subsection, name);
-    }
-
-    @Override
-    public Iterable<EntryKey> list() {
-      throw new UnsupportedOperationException("not used by tests");
-    }
-
-    @Override
-    public boolean isOutdated() {
-      throw new UnsupportedOperationException("not used by tests");
-    }
-
-    @Override
-    public void reload() {
-      throw new UnsupportedOperationException("not used by tests");
-    }
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c9cda64_de99e64b",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-19T08:26:18Z",
+      "side": 1,
+      "message": "Remove commented out code.",
+      "range": {
+        "startLine": 475,
+        "startChar": 4,
+        "endLine": 475,
+        "endChar": 56
+      },
+      "revId": "cedb50295fc89e3860448e96ce1c61a4ccea5139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

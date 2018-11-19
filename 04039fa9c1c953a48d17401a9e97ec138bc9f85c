@@ -46,6 +46,30 @@
       "revId": "04039fa9c1c953a48d17401a9e97ec138bc9f85c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ccb8500_ff1820ef",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-19T23:36:08Z",
+      "side": 1,
+      "message": "Asserting on \".contains\" would work as long as the messages are still unique enough that we can be sure that we got the correct one.\n\nIntroducing subclasses of OrmException, which would mean we only need to assert on the exception type, seems a nicer solution to me.\n\nThat said, if you\u0027re OK with leaving this as-is and fixing it as needed later, that\u0027s also OK for me.",
+      "parentUuid": "6a58afc4_09c72a2a",
+      "range": {
+        "startLine": 227,
+        "startChar": 10,
+        "endLine": 229,
+        "endChar": 34
+      },
+      "revId": "04039fa9c1c953a48d17401a9e97ec138bc9f85c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

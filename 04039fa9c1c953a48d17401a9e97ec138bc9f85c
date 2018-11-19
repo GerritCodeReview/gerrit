@@ -22,6 +22,30 @@
       "revId": "04039fa9c1c953a48d17401a9e97ec138bc9f85c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a58afc4_09c72a2a",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-19T20:59:55Z",
+      "side": 1,
+      "message": "Undecided. The \"right\" way would be to depend on some property of the exception (e.g. an enum field, a subclass) that is not the message. The whole exception signature of the various schema update classes is a bit of a mess at the moment. I\u0027m somewhat inclined to leave this as-is and revisit it once we\u0027ve gotten rid of some of the ReviewDb code, even if it means a couple rounds of short-term pain in updating these brittle tests.\n\nDo you have a better concrete suggestion for the short term? Would .contains(\"NoteDb change migration was not completed\") be good enough, do you think?",
+      "parentUuid": "0cb791e2_7dcea557",
+      "range": {
+        "startLine": 227,
+        "startChar": 10,
+        "endLine": 229,
+        "endChar": 34
+      },
+      "revId": "04039fa9c1c953a48d17401a9e97ec138bc9f85c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -75,7 +75,7 @@ public class DefaultQuotaBackend implements QuotaBackend {
         }
       } catch (RuntimeException e) {
         logger.atSevere().withCause(e).log("exception while enforcing quota");
-        responses.add(QuotaResponse.error(e.getMessage()));
+        responses.add(QuotaResponse.error("failed to request quota tokens"));
       }
     }
 
@@ -97,7 +97,7 @@ public class DefaultQuotaBackend implements QuotaBackend {
         deduct ? "(deduction=yes)" : "(deduction=no)",
         numTokens,
         responses);
-    return new AutoValue_QuotaResponse_Aggregated(ImmutableList.copyOf(responses));
+    return QuotaResponse.Aggregated.create(ImmutableList.copyOf(responses));
   }
 
   static class WithUser extends WithResource implements QuotaBackend.WithUser {

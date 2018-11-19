@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9368fb4e_8dd32407",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-19T18:52:05Z",
+      "side": 1,
+      "message": "The old UI doesn\u0027t do this, and I\u0027d rather not broaden the scope of this change. I\u0027ve filed a bug as follow-up work, though.\n\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d10064",
+      "parentUuid": "d8093ff9_b85016bf",
+      "revId": "09e013939f589a8150d4777e525725c472f6e3e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a49a5cc1_7d2c29ed",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "09e013939f589a8150d4777e525725c472f6e3e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "723d3757_4d10a0e7",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-19T18:52:05Z",
+      "side": 1,
+      "message": "Yup! It\u0027s needed because of the change in gr-form-styles that sets sections to `display: flex`.",
+      "parentUuid": "a49a5cc1_7d2c29ed",
+      "revId": "09e013939f589a8150d4777e525725c472f6e3e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -20,9 +20,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class ChangeEditTest {
+public class ChangeEditTest extends GerritBaseTests {
   @Test
   public void changeEditRef() throws Exception {
     Account.Id accountId = new Account.Id(1000042);

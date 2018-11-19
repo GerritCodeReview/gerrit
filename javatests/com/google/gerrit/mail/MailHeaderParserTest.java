@@ -16,13 +16,14 @@ package com.google.gerrit.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
 import org.junit.Test;
 
-public class MailHeaderParserTest {
+public class MailHeaderParserTest extends GerritBaseTests {
   @Test
   public void parseMetadataFromHeader() {
     // This tests if the metadata parser is able to parse metadata from the

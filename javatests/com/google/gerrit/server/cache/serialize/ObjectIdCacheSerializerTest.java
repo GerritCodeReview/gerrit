@@ -18,10 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteArray;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class ObjectIdCacheSerializerTest {
+public class ObjectIdCacheSerializerTest extends GerritBaseTests {
   @Test
   public void serialize() {
     ObjectId id = ObjectId.fromString("aabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");

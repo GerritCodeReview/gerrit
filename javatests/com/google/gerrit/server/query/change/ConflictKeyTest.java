@@ -24,10 +24,11 @@ import static com.google.gerrit.server.cache.testing.SerializedClassSubject.asse
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.cache.proto.Cache.ConflictKeyProto;
+import com.google.gerrit.testing.GerritBaseTests;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class ConflictKeyTest {
+public class ConflictKeyTest extends GerritBaseTests {
   @Test
   public void ffOnlyPreservesInputOrder() {
     ObjectId id1 = ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee");

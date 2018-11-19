@@ -28,6 +28,7 @@ import com.google.common.io.ByteStreams;
 import com.google.common.jimfs.Configuration;
 import com.google.common.jimfs.Jimfs;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
 import java.io.ByteArrayInputStream;
@@ -44,7 +45,7 @@ import java.util.zip.GZIPInputStream;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ResourceServletTest {
+public class ResourceServletTest extends GerritBaseTests {
   private static Cache<Path, Resource> newCache(int size) {
     return CacheBuilder.newBuilder().maximumSize(size).recordStats().build();
   }

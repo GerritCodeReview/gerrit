@@ -16,9 +16,10 @@ package com.google.gerrit.server.rules;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class PrologRuleEvaluatorTest {
+public class PrologRuleEvaluatorTest extends GerritBaseTests {
 
   @Test
   public void validLabelNamesAreKept() {

@@ -16,9 +16,10 @@ package com.google.gerrit.server.ioutil;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class StringUtilTest {
+public class StringUtilTest extends GerritBaseTests {
   /** Test the boundary condition that the first character of a string should be escaped. */
   @Test
   public void escapeFirstChar() {

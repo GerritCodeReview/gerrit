@@ -18,11 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class GroupReferenceTest {
+public class GroupReferenceTest extends GerritBaseTests {
   @Rule public ExpectedException exception = ExpectedException.none();
 
   @Test

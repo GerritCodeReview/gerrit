@@ -17,11 +17,12 @@ package com.google.gerrit.httpd.raw;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.template.soy.data.SoyMapData;
 import java.net.URISyntaxException;
 import org.junit.Test;
 
-public class IndexServletTest {
+public class IndexServletTest extends GerritBaseTests {
   static class TestIndexServlet extends IndexServlet {
     private static final long serialVersionUID = 1L;
 

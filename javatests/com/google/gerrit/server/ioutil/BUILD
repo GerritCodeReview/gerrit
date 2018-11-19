@@ -10,6 +10,7 @@ junit_tests(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/server/ioutil",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",

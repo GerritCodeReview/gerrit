@@ -16,9 +16,10 @@ package com.google.gerrit.server.util;
 
 import static org.junit.Assert.assertTrue;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class MostSpecificComparatorTest {
+public class MostSpecificComparatorTest extends GerritBaseTests {
 
   private MostSpecificComparator cmp;
 

@@ -7,6 +7,7 @@ junit_tests(
     deps = [
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/extensions/common/testing:common-test-util",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib/guice",
         "//lib/truth",
     ],

@@ -32,6 +32,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.testing.InternalGroupSubject;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.truth.OptionalSubject;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
@@ -57,7 +58,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class GroupConfigTest {
+public class GroupConfigTest extends GerritBaseTests {
   static {
     // Necessary so that toString() methods of ReviewDb entities work correctly.
     KeyUtil.setEncoderImpl(new StandardKeyEncoder());

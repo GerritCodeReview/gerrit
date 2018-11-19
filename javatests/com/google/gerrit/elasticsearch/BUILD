@@ -86,6 +86,7 @@ junit_tests(
     tags = ["elastic"],
     deps = [
         "//java/com/google/gerrit/elasticsearch",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",

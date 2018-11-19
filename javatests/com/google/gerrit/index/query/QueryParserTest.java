@@ -16,10 +16,11 @@ package com.google.gerrit.index.query;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import org.antlr.runtime.tree.Tree;
 import org.junit.Test;
 
-public class QueryParserTest {
+public class QueryParserTest extends GerritBaseTests {
   @Test
   public void projectBare() throws QueryParseException {
     Tree r;

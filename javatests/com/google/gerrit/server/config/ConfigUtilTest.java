@@ -22,13 +22,14 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.extensions.client.Theme;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
-public class ConfigUtilTest {
+public class ConfigUtilTest extends GerritBaseTests {
   private static final String SECT = "foo";
   private static final String SUB = "bar";
 

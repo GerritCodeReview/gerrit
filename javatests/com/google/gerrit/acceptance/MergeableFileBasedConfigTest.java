@@ -18,13 +18,14 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.io.File;
 import java.nio.file.Files;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
-public class MergeableFileBasedConfigTest {
+public class MergeableFileBasedConfigTest extends GerritBaseTests {
   @Test
   public void mergeNull() throws Exception {
     MergeableFileBasedConfig cfg = newConfig();

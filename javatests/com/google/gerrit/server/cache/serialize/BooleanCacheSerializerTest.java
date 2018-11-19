@@ -18,10 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.protobuf.TextFormat;
 import org.junit.Test;
 
-public class BooleanCacheSerializerTest {
+public class BooleanCacheSerializerTest extends GerritBaseTests {
   @Test
   public void serialize() throws Exception {
     assertThat(BooleanCacheSerializer.INSTANCE.serialize(true))

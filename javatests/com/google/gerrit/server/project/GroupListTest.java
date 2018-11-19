@@ -29,6 +29,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,7 +37,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GroupListTest {
+public class GroupListTest extends GerritBaseTests {
   private static final Project.NameKey PROJECT = new Project.NameKey("project");
   private static final String TEXT =
       "# UUID                                  \tGroup Name\n"

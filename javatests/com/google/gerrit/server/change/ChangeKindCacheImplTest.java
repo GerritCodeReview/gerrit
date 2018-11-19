@@ -23,10 +23,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.change.ChangeKindCacheImpl.Key;
+import com.google.gerrit.testing.GerritBaseTests;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class ChangeKindCacheImplTest {
+public class ChangeKindCacheImplTest extends GerritBaseTests {
   @Test
   public void keySerializer() throws Exception {
     ChangeKindCacheImpl.Key key =

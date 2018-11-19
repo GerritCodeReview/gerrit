@@ -31,6 +31,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeAccountCache;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -44,7 +45,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(ConfigSuite.class)
-public class IdentifiedUserTest {
+public class IdentifiedUserTest extends GerritBaseTests {
   @ConfigSuite.Parameter public Config config;
 
   private IdentifiedUser identifiedUser;

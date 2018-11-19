@@ -17,11 +17,12 @@ package com.google.gerrit.server.cache.serialize;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.Key;
 import org.junit.Test;
 
-public class IntKeyCacheSerializerTest {
+public class IntKeyCacheSerializerTest extends GerritBaseTests {
 
   private static class MyIntKey extends IntKey<Key<?>> {
     private static final long serialVersionUID = 1L;

@@ -21,10 +21,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestChanges;
 import org.junit.Test;
 
-public class ChangeDataTest {
+public class ChangeDataTest extends GerritBaseTests {
   @Test
   public void setPatchSetsClearsCurrentPatchSet() throws Exception {
     Project.NameKey project = new Project.NameKey("project");

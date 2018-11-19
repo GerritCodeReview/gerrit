@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.GitTestUtil;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gerrit.truth.ListSubject;
@@ -70,7 +71,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class GroupNameNotesTest {
+public class GroupNameNotesTest extends GerritBaseTests {
   static {
     KeyUtil.setEncoderImpl(new StandardKeyEncoder());
   }

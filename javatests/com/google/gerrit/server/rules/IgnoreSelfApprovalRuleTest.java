@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +32,7 @@ import java.util.Date;
 import java.util.List;
 import org.junit.Test;
 
-public class IgnoreSelfApprovalRuleTest {
+public class IgnoreSelfApprovalRuleTest extends GerritBaseTests {
   private static final Change.Id CHANGE_ID = new Change.Id(100);
   private static final PatchSet.Id PS_ID = new PatchSet.Id(CHANGE_ID, 1);
   private static final LabelType VERIFIED = makeLabel("Verified");

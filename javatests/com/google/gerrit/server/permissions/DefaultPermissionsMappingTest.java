@@ -18,9 +18,10 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.refPermission;
 
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class DefaultPermissionsMappingTest {
+public class DefaultPermissionsMappingTest extends GerritBaseTests {
   @Test
   public void stringToRefPermission() {
     assertThat(refPermission("doesnotexist")).isEmpty();

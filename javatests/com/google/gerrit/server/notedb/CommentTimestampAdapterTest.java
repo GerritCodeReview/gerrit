@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.sql.Timestamp;
@@ -28,7 +29,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CommentTimestampAdapterTest {
+public class CommentTimestampAdapterTest extends GerritBaseTests {
   /** Arbitrary time outside of a DST transition, as an ISO instant. */
   private static final String NON_DST_STR = "2017-02-07T10:20:30.123Z";
 

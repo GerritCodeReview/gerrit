@@ -20,9 +20,10 @@ import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.valueOf;
 import static org.junit.Assert.assertEquals;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class BooleanConditionTest {
+public class BooleanConditionTest extends GerritBaseTests {
 
   private static final BooleanCondition NO_TRIVIAL_EVALUATION =
       new BooleanCondition() {

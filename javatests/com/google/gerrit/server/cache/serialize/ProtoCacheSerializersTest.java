@@ -22,11 +22,12 @@ import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byt
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
 import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.ObjectIdConverter;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.protobuf.ByteString;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class ProtoCacheSerializersTest {
+public class ProtoCacheSerializersTest extends GerritBaseTests {
   @Test
   public void objectIdFromByteString() {
     ObjectIdConverter idConverter = ObjectIdConverter.create();

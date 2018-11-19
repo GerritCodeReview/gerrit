@@ -16,11 +16,12 @@ package com.google.gerrit.httpd.plugins;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import org.junit.Test;
 
-public class ContextMapperTest {
+public class ContextMapperTest extends GerritBaseTests {
 
   private static final String CONTEXT = "/context";
   private static final String PLUGIN_NAME = "my-plugin";

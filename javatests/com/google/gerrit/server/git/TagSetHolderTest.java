@@ -21,9 +21,10 @@ import static com.google.gerrit.server.cache.testing.SerializedClassSubject.asse
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto;
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class TagSetHolderTest {
+public class TagSetHolderTest extends GerritBaseTests {
   @Test
   public void serializerWithTagSet() throws Exception {
     TagSetHolder holder = new TagSetHolder(new Project.NameKey("project"));

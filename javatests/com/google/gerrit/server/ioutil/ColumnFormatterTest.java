@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.ioutil;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ColumnFormatterTest {
+public class ColumnFormatterTest extends GerritBaseTests {
   /**
    * Holds an in-memory {@link java.io.PrintWriter} object and allows comparisons of its contents to
    * a supplied string via an assert statement.

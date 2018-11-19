@@ -24,10 +24,11 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Streams;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.util.stream.IntStream;
 import org.junit.Test;
 
-public class NoteDbSchemaVersionsTest {
+public class NoteDbSchemaVersionsTest extends GerritBaseTests {
   @Test
   public void testGuessVersion() {
     assertThat(guessVersion(getClass())).isEmpty();

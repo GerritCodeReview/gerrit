@@ -16,9 +16,10 @@ package com.google.gerrit.common.data;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class FilenameComparatorTest {
+public class FilenameComparatorTest extends GerritBaseTests {
   private FilenameComparator comparator = FilenameComparator.INSTANCE;
 
   @Test

@@ -20,11 +20,12 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.Test;
 
-public class EventDeserializerTest {
+public class EventDeserializerTest extends GerritBaseTests {
 
   @Test
   public void refUpdatedEvent() {

@@ -16,11 +16,12 @@ package com.google.gerrit.extensions.api.lfs;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.Test;
 
-public class LfsDefinitionsTest {
+public class LfsDefinitionsTest extends GerritBaseTests {
   private static final String[] URL_PREFIXES = new String[] {"/", "/a/", "/p/", "/a/p/"};
 
   @Test

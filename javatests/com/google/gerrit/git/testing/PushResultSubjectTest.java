@@ -18,9 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.git.testing.PushResultSubject.parseProcessed;
 import static com.google.gerrit.git.testing.PushResultSubject.trimMessages;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class PushResultSubjectTest {
+public class PushResultSubjectTest extends GerritBaseTests {
   @Test
   public void testTrimMessages() {
     assertThat(trimMessages(null)).isNull();

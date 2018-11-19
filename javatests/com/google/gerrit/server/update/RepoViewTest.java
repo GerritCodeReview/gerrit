@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -30,7 +31,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RepoViewTest {
+public class RepoViewTest extends GerritBaseTests {
   private static final String MASTER = "refs/heads/master";
   private static final String BRANCH = "refs/heads/branch";
 

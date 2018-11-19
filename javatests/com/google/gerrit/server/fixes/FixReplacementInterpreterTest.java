@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.FixReplacement;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -37,7 +38,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class FixReplacementInterpreterTest {
+public class FixReplacementInterpreterTest extends GerritBaseTests {
 
   @Rule public ExpectedException expectedException = ExpectedException.none();
 

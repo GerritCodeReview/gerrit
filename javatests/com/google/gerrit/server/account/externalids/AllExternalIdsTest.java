@@ -25,12 +25,13 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.externalids.AllExternalIds.Serializer;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto.ExternalIdProto;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.TypeLiteral;
 import java.util.Arrays;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class AllExternalIdsTest {
+public class AllExternalIdsTest extends GerritBaseTests {
   @Test
   public void serializeEmptyExternalIds() throws Exception {
     assertRoundTrip(allExternalIds(), AllExternalIdsProto.getDefaultInstance());

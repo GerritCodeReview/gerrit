@@ -16,10 +16,11 @@ package com.google.gerrit.util.http;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import org.junit.Test;
 
-public class RequestUtilTest {
+public class RequestUtilTest extends GerritBaseTests {
   @Test
   public void emptyContextPath() {
     assertThat(RequestUtil.getEncodedPathInfo(fakeRequest("", "/s", "/foo/bar")))

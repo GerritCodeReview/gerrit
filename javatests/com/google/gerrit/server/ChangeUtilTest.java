@@ -16,10 +16,11 @@ package com.google.gerrit.server;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import java.util.regex.Pattern;
 import org.junit.Test;
 
-public class ChangeUtilTest {
+public class ChangeUtilTest extends GerritBaseTests {
   @Test
   public void changeMessageUuid() throws Exception {
     Pattern pat = Pattern.compile("^[0-9a-f]{8}_[0-9a-f]{8}$");

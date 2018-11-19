@@ -22,13 +22,14 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import org.junit.Test;
 
-public class ParameterParserTest {
+public class ParameterParserTest extends GerritBaseTests {
   @Test
   public void convertFormToJson() throws BadRequestException {
     JsonObject obj =

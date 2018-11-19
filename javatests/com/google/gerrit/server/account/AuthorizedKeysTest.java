@@ -17,12 +17,13 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Test;
 
-public class AuthorizedKeysTest {
+public class AuthorizedKeysTest extends GerritBaseTests {
   private static final String KEY1 =
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCgug5VyMXQGnem2H1KVC4/HcRcD4zzBqS"
           + "uJBRWVonSSoz3RoAZ7bWXCVVGwchtXwUURD689wFYdiPecOrWOUgeeyRq754YWRhU+W28"

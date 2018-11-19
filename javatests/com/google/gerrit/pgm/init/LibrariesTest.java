@@ -21,12 +21,13 @@ import static org.junit.Assert.assertNotNull;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.Provider;
 import java.nio.file.Paths;
 import java.util.Collections;
 import org.junit.Test;
 
-public class LibrariesTest {
+public class LibrariesTest extends GerritBaseTests {
   @Test
   public void create() throws Exception {
     final SitePaths site = new SitePaths(Paths.get("."));

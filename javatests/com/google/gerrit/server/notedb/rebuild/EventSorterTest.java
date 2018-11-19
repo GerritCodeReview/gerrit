@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
 
-public class EventSorterTest {
+public class EventSorterTest extends GerritBaseTests {
   private class TestEvent extends Event {
     protected TestEvent(Timestamp when) {
       super(

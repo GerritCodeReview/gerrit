@@ -16,11 +16,12 @@ package com.google.gerrit.common.data;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.junit.Test;
 
-public class SubmitRecordTest {
+public class SubmitRecordTest extends GerritBaseTests {
   private static final SubmitRecord OK_RECORD;
   private static final SubmitRecord FORCED_RECORD;
   private static final SubmitRecord NOT_READY_RECORD;

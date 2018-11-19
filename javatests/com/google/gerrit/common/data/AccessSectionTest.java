@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -25,7 +26,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class AccessSectionTest {
+public class AccessSectionTest extends GerritBaseTests {
   @Rule public ExpectedException exception = ExpectedException.none();
 
   private static final String REF_PATTERN = "refs/heads/master";

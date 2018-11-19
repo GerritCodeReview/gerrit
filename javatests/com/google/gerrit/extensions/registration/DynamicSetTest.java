@@ -17,13 +17,14 @@ package com.google.gerrit.extensions.registration;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 import java.util.Iterator;
 import org.junit.Test;
 
-public class DynamicSetTest {
+public class DynamicSetTest extends GerritBaseTests {
   // In tests for {@link DynamicSet#contains(Object)}, be sure to avoid
   // {@code assertThat(ds).contains(...) @} and
   // {@code assertThat(ds).DoesNotContains(...) @} as (since

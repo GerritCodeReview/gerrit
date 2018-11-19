@@ -18,9 +18,10 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 
 import com.google.gerrit.proto.reviewdb.Reviewdb.Change;
 import com.google.gerrit.proto.reviewdb.Reviewdb.Change_Id;
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class ReviewDbProtoTest {
+public class ReviewDbProtoTest extends GerritBaseTests {
   @Test
   public void generatedProtoApi() {
     Change c1 = Change.newBuilder().setChangeId(Change_Id.newBuilder().setId(1234).build()).build();

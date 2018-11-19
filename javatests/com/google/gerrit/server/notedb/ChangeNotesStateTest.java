@@ -50,6 +50,7 @@ import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.Reviewer
 import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.ObjectIdConverter;
 import com.google.gerrit.server.notedb.ChangeNotesState.ChangeColumns;
 import com.google.gerrit.server.notedb.ChangeNotesState.Serializer;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.TypeLiteral;
@@ -62,7 +63,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChangeNotesStateTest {
+public class ChangeNotesStateTest extends GerritBaseTests {
   static {
     KeyUtil.setEncoderImpl(new StandardKeyEncoder());
   }

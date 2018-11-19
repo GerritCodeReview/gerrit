@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryH2Type;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -55,7 +56,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ReviewDbSchemaUpdaterTest {
+public class ReviewDbSchemaUpdaterTest extends GerritBaseTests {
   private LifecycleManager lifecycle;
   private InMemoryDatabase db;
 

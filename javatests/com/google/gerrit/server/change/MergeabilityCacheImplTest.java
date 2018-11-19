@@ -22,10 +22,11 @@ import static com.google.gerrit.server.cache.testing.SerializedClassSubject.asse
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;
+import com.google.gerrit.testing.GerritBaseTests;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class MergeabilityCacheImplTest {
+public class MergeabilityCacheImplTest extends GerritBaseTests {
   @Test
   public void keySerializer() throws Exception {
     MergeabilityCacheImpl.EntryKey key =

@@ -17,10 +17,11 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.testing.GerritBaseTests;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
 
-public class HashedPasswordTest {
+public class HashedPasswordTest extends GerritBaseTests {
 
   @Test
   public void encodeOneLine() throws Exception {

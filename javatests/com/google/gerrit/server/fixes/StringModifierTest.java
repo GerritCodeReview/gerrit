@@ -16,12 +16,13 @@ package com.google.gerrit.server.fixes;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class StringModifierTest {
+public class StringModifierTest extends GerritBaseTests {
 
   @Rule public ExpectedException expectedException = ExpectedException.none();
 

@@ -4,6 +4,7 @@ junit_tests(
     name = "proto_tests",
     srcs = glob(["*.java"]),
     deps = [
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib/truth:truth-proto-extension",
         "//proto:reviewdb_java_proto",
 

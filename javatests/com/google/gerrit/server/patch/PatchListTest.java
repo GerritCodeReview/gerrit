@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -25,7 +26,7 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import org.junit.Test;
 
-public class PatchListTest {
+public class PatchListTest extends GerritBaseTests {
   @Test
   public void fileOrder() {
     String[] names = {

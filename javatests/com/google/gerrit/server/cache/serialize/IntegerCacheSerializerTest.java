@@ -19,10 +19,11 @@ import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Bytes;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.protobuf.TextFormat;
 import org.junit.Test;
 
-public class IntegerCacheSerializerTest {
+public class IntegerCacheSerializerTest extends GerritBaseTests {
   @Test
   public void serialize() throws Exception {
     for (int i :

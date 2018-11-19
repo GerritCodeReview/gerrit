@@ -16,9 +16,10 @@ package com.google.gerrit.common.data;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class EncodePathSeparatorTest {
+public class EncodePathSeparatorTest extends GerritBaseTests {
   @Test
   public void defaultBehaviour() {
     assertThat(new GitwebType().replacePathSeparator("a/b")).isEqualTo("a/b");

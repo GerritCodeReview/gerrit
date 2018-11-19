@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af5384c_ed7e1ef1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-19T13:27:49Z",
+      "side": 1,
+      "message": "Do you have an idea what this group is for? If so, do we still need it here as it was moved along with the bindings tests to their own BUILD file?",
+      "revId": "426c25e010151178f8251ed5ea8920f53f9d422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40d2db0d_e8c3c9b1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/util/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-19T13:27:49Z",
+      "side": 1,
+      "message": "Any reason not to simply use glob([\"*.java\"])?",
+      "range": {
+        "startLine": 5,
+        "startChar": 8,
+        "endLine": 6,
+        "endChar": 24
+      },
+      "revId": "426c25e010151178f8251ed5ea8920f53f9d422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e7f94ca_302a564d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/util/RestCall.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-19T13:27:49Z",
+      "side": 1,
+      "message": "Omit.",
+      "range": {
+        "startLine": 24,
+        "startChar": 23,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "426c25e010151178f8251ed5ea8920f53f9d422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

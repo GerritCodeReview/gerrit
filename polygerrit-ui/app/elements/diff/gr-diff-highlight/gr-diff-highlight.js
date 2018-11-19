@@ -256,7 +256,7 @@
         node = contentText;
         column = 0;
       } else {
-        const thread = contentTd.querySelector('gr-diff-comment-thread');
+        const thread = contentTd.querySelector('.comment-thread');
         if (thread && thread.contains(node)) {
           column = this._getLength(contentText);
           node = contentText;

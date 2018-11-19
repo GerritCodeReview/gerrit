@@ -293,7 +293,7 @@
     },
 
     _rowHasThread(row) {
-      return row.querySelector('gr-diff-comment-thread');
+      return row.querySelector('.comment-thread');
     },
 
     /**

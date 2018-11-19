@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "044e8307_d8b58bac",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-19T12:07:36Z",
+      "side": 1,
+      "message": "Good point... but thinking more about it shouldn\u0027t we actually disable this whole module (StaticModule) when running in slave mode? The check for enableMasterFeatures() would then go\nin the Daemon (where the StaticModule is added) and here we would only care about the headless()\noption. What do you think?",
+      "parentUuid": "a43e5bc9_04bb8a8a",
+      "revId": "ac722fd43c14b3d4f3116987575594bff93e6b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c1432fb_3df49f10",
         "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-16T15:47:10Z",
       "side": 1,
       "message": "Move this to the condition on line 138 above?",
+      "revId": "ac722fd43c14b3d4f3116987575594bff93e6b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f44ab4b_b49943cb",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-19T12:07:36Z",
+      "side": 1,
+      "message": "I will merge it into one check",
+      "parentUuid": "4c1432fb_3df49f10",
       "revId": "ac722fd43c14b3d4f3116987575594bff93e6b70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

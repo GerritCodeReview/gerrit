@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19d31663_a46c4ea3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-19T19:24:46Z",
+      "side": 1,
+      "message": "Remove this link -- not visible externally.",
+      "revId": "6917d225e7cebeb219697fbed2313237be00709b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f96e8f8_738c6b30",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-11-19T19:24:46Z",
+      "side": 1,
+      "message": "Remove this block completely?",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 320,
+        "endChar": 10
+      },
+      "revId": "6917d225e7cebeb219697fbed2313237be00709b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

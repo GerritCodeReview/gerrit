@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "739f53e9_ad0cc84e",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2018-11-19T11:16:56Z",
+      "side": 1,
+      "message": "how about just sticking to the book and doing a regular topological sort based on a recursive depth-first post-order traversal? that would also preserve the sorting of the parents, if that\u0027s the concern.\n\nbut then, i\u0027d expect the data coming out of the RevWalk to be already sorted exactly like that, and consequently nothing needing to be done in that regard to start with. so what am i missing?",
+      "parentUuid": "eee1e7ce_0d39e117",
+      "range": {
+        "startLine": 714,
+        "startChar": 20,
+        "endLine": 714,
+        "endChar": 26
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed40063c_47040c4a",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 3

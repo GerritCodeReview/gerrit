@@ -22,6 +22,7 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -31,16 +32,18 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 
 public class DeleteBranchIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
 
   private Branch.NameKey testBranch;
 
   @Before
   public void setUp() throws Exception {
-    project = createProject(name("p"));
+    project = projectOperations.newProject().create();
     testBranch = new Branch.NameKey(project, "test");
     branch(testBranch).create(new BranchInput());
   }

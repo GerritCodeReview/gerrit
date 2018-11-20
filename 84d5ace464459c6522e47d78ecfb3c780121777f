@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a486e6e_70c45681",
+        "filename": "javatests/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-20T23:38:26Z",
+      "side": 0,
+      "message": "Was this meant to be part of the previous change (https://gerrit-review.googlesource.com/c/gerrit/+/205251/3) ?",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "84d5ace464459c6522e47d78ecfb3c780121777f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

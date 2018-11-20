@@ -77,6 +77,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -175,6 +176,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final Pattern EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN = Pattern.compile("[, \t]{1,}");
 
+  private static final String CHANGE_QUERY_OPERATOR_ALIASES = "change-query-operator-alias";
+
   // Don't use an assisted factory, since instances created by an assisted factory retain references
   // to their enclosing injector. Instances of ProjectConfig are cached for a long time in the
   // ProjectCache, so this would retain lots more memory.
@@ -240,6 +243,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean hasLegacyPermissions;
   private Map<String, List<String>> extensionPanelSections;
   private Map<String, GroupReference> groupsByName;
+  private Map<String, String> changeQueryOperatorAliases;
 
   public static CommentLinkInfoImpl buildCommentLink(Config cfg, String name, boolean allowRaw)
       throws IllegalArgumentException {
@@ -433,6 +437,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return sort(contributorAgreements.values());
   }
 
+  public Map<String, String> getChangeQueryOperatorAliases() {
+    return changeQueryOperatorAliases;
+  }
+
   public void remove(ContributorAgreement section) {
     if (section != null) {
       accessSections.remove(section.getName());
@@ -607,6 +615,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadPluginSections(rc);
     loadReceiveSection(rc);
     loadExtensionPanelSections(rc);
+    loadChangeQueryAliasSection(rc);
   }
 
   private void loadAccountsSection(Config rc) {
@@ -1083,6 +1092,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
+  private void loadChangeQueryAliasSection(Config rc) throws IOException {
+    changeQueryOperatorAliases = Maps.newHashMap();
+    for (String name : rc.getNames(CHANGE_QUERY_OPERATOR_ALIASES)) {
+      changeQueryOperatorAliases.put(name, rc.getString(CHANGE_QUERY_OPERATOR_ALIASES, null, name));
+    }
+  }
+
   public PluginConfig getPluginConfig(String pluginName) {
     Config pluginConfig = pluginConfigs.get(pluginName);
     if (pluginConfig == null) {
@@ -1156,6 +1172,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     saveLabelSections(rc);
     saveCommentLinkSections(rc);
     saveSubscribeSections(rc);
+    saveChangeQueryAliasSection(rc);
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();
@@ -1527,6 +1544,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         multimatchs.add(r.toString());
       }
       rc.setStringList(SUBSCRIBE_SECTION, p.get(), SUBSCRIBE_MULTI_MATCH_REFS, multimatchs);
+    }
+  }
+
+  private void saveChangeQueryAliasSection(Config rc) {
+    if (changeQueryOperatorAliases != null) {
+      for (Entry<String, String> entry : changeQueryOperatorAliases.entrySet()) {
+        rc.setString(CHANGE_QUERY_OPERATOR_ALIASES, null, entry.getKey(), entry.getValue());
+      }
     }
   }
 

@@ -111,12 +111,10 @@ import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
-import com.google.inject.Stage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -290,8 +288,8 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
-  public void setDatabaseForTesting(List<Module> modules) {
-    dbInjector = Guice.createInjector(Stage.PRODUCTION, modules);
+  public void setDatabaseForTesting(Injector dbInjector) {
+    this.dbInjector = dbInjector;
     inMemoryTest = true;
     headless = true;
   }

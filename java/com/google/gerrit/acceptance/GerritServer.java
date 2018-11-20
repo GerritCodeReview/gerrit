@@ -43,6 +43,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
@@ -51,11 +52,13 @@ import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.SshMode;
 import com.google.inject.AbstractModule;
 import com.google.inject.BindingAnnotation;
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.Stage;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.reflect.Field;
@@ -424,15 +427,19 @@ public class GerritServer implements AutoCloseable {
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
     daemon.setEnableHttpd(desc.httpd());
     daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0, isSlave(baseConfig)));
-    daemon.setDatabaseForTesting(
-        ImmutableList.of(
-            new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),
-            new AbstractModule() {
-              @Override
-              protected void configure() {
-                bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
-              }
-            }));
+    Injector dbInjector =
+        Guice.createInjector(
+            Stage.PRODUCTION,
+            ImmutableList.of(
+                new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),
+                new AbstractModule() {
+                  @Override
+                  protected void configure() {
+                    bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
+                  }
+                }));
+    dbInjector.getInstance(SchemaCreator.class).ensureCreated();
+    daemon.setDatabaseForTesting(dbInjector);
     daemon.addAdditionalSysModuleForTesting(
         new ReindexProjectsAtStartup.Module(), new ReindexGroupsAtStartup.Module());
     daemon.start();

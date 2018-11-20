@@ -452,12 +452,11 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     allowMatchingSubmoduleSubscription(nest, "refs/heads/master", superKey, null);
 
     pushChangeTo(subRepo, "master");
-    createRelativeSubmoduleSubscription(
-        superRepo, "master", "../", "nested/subscribed-to-project", "master");
+    createRelativeSubmoduleSubscription(superRepo, "master", "../", nest, "master");
 
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
 
-    expectToHaveSubmoduleState(superRepo, "master", "nested/subscribed-to-project", subHEAD);
+    expectToHaveSubmoduleState(superRepo, "master", nest, subHEAD);
   }
 
   @Test
@@ -617,22 +616,22 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     allowMatchingSubmoduleSubscription(subkey2, "refs/heads/master", superKey, "refs/heads/master");
 
     Config config = new Config();
-    prepareSubmoduleConfigEntry(config, "subscribed-to-project-1", "master");
-    prepareSubmoduleConfigEntry(config, "subscribed-to-project-2", "master");
+    prepareSubmoduleConfigEntry(config, subkey1, "master");
+    prepareSubmoduleConfigEntry(config, subkey2, "master");
     pushSubmoduleConfig(superRepo, "master", config);
 
     // Push once to initialize submodules.
     ObjectId subTip2 = pushChangeTo(subRepo2, "master");
     ObjectId subTip1 = pushChangeTo(subRepo1, "master");
 
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project-1", subTip1);
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project-2", subTip2);
+    expectToHaveSubmoduleState(superRepo, "master", subkey1, subTip1);
+    expectToHaveSubmoduleState(superRepo, "master", subkey2, subTip2);
 
-    directUpdateRef("subscribed-to-project-2", "refs/heads/master");
+    directUpdateRef(subkey2, "refs/heads/master");
     subTip1 = pushChangeTo(subRepo1, "master");
 
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project-1", subTip1);
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project-2", subTip2);
+    expectToHaveSubmoduleState(superRepo, "master", subkey1, subTip1);
+    expectToHaveSubmoduleState(superRepo, "master", subkey2, subTip2);
   }
 
   @Test
@@ -655,8 +654,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     expectToHaveSubmoduleState(superRepo, "master", subKey, badId);
   }
 
-  private ObjectId directUpdateRef(String project, String ref) throws Exception {
-    try (Repository serverRepo = repoManager.openRepository(nameKey(project))) {
+  private ObjectId directUpdateRef(Project.NameKey project, String ref) throws Exception {
+    try (Repository serverRepo = repoManager.openRepository(project)) {
       return new TestRepository<>(serverRepo).branch(ref).commit().create().copy();
     }
   }

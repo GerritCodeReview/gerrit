@@ -34,6 +34,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -93,6 +94,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private static final byte[] CONTENT_NEW2 = CONTENT_NEW2_STR.getBytes(UTF_8);
 
   @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
+  @Inject private ProjectOperations projectOperations;
 
   private String changeId;
   private String changeId2;
@@ -679,7 +681,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void createEditWithoutPushPatchSetPermission() throws Exception {
     // Create new project with clean permissions
-    Project.NameKey p = createProject("addPatchSetEdit");
+    Project.NameKey p = projectOperations.newProject().create();
     // Clone repository as user
     TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
 

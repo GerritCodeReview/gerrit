@@ -18,12 +18,14 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 
 public class GarbageCollectionIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
 
   @Inject private GcAssert gcAssert;
 
@@ -31,7 +33,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    project2 = createProject("p2");
+    project2 = projectOperations.newProject().create();
   }
 
   @Test

@@ -611,7 +611,10 @@ public class Daemon extends SiteProgram {
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
 
     // StaticModule contains a "/*" wildcard, place it last.
-    modules.add(sysInjector.getInstance(StaticModule.class));
+    GerritOptions opts = sysInjector.getInstance(GerritOptions.class);
+    if (opts.enableMasterFeatures()) {
+      modules.add(sysInjector.getInstance(StaticModule.class));
+    }
 
     return sysInjector.createChildInjector(modules);
   }

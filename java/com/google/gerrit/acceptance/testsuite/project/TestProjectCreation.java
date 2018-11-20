@@ -48,13 +48,7 @@ public abstract class TestProjectCreation {
 
     public abstract TestProjectCreation.Builder createEmptyCommit(boolean value);
 
-    /**
-     * Creates empty commit on creation. This is necessary for the project's branches to be born.
-     */
-    public TestProjectCreation.Builder withEmptyCommit() {
-      return createEmptyCommit(true);
-    }
-
+    /** Skips the empty commit on creation. This means that project's branches will not exist. */
     public TestProjectCreation.Builder noEmptyCommit() {
       return createEmptyCommit(false);
     }

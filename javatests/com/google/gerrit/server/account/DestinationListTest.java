@@ -15,14 +15,14 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.replay;
 
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ValidationError;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -128,11 +128,12 @@ public class DestinationListTest extends TestCase {
     assertThat(branches).contains(B_COMPLEX);
   }
 
-  @Test(expected = IOException.class)
+  @Test
   public void testParseBad() throws IOException {
-    ValidationError.Sink sink = createNiceMock(ValidationError.Sink.class);
-    replay(sink);
-    new DestinationList().parseLabel(LABEL, L_BAD, sink);
+    List<ValidationError> errors = new ArrayList<>();
+    new DestinationList().parseLabel(LABEL, L_BAD, errors::add);
+    assertThat(errors)
+        .containsExactly(new ValidationError("destinationslabel", 1, "missing tab delimiter"));
   }
 
   @Test

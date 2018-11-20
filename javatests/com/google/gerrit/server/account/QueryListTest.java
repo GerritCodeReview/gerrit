@@ -15,11 +15,10 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.replay;
 
 import com.google.gerrit.server.git.ValidationError;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -99,11 +98,11 @@ public class QueryListTest extends TestCase {
     assertThat(ql.getQuery(N_FOO)).isEqualTo(Q_COMPLEX);
   }
 
-  @Test(expected = IOException.class)
+  @Test
   public void testParseBad() throws Exception {
-    ValidationError.Sink sink = createNiceMock(ValidationError.Sink.class);
-    replay(sink);
-    QueryList.parse(L_BAD, sink);
+    List<ValidationError> errors = new ArrayList<>();
+    assertThat(QueryList.parse(L_BAD, errors::add).asText()).isNull();
+    assertThat(errors).containsExactly(new ValidationError("queries", 1, "missing tab delimiter"));
   }
 
   @Test

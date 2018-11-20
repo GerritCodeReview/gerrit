@@ -19,12 +19,14 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -34,10 +36,11 @@ import org.junit.Test;
 public class PrivateByDefaultIT extends AbstractDaemonTest {
   private Project.NameKey project1;
   private Project.NameKey project2;
+  @Inject private ProjectOperations projectOperations;
 
   @Before
   public void setUp() throws Exception {
-    project1 = createProject("project-1");
+    project1 = projectOperations.newProject().create();
     project2 = createProject("project-2", project1);
     setPrivateByDefault(project1, InheritableBoolean.FALSE);
   }

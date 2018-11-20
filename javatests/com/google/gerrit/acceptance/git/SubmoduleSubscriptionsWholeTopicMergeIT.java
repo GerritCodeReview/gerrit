@@ -616,9 +616,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
     approve(changeId);
     exception.expectMessage("Branch level circular subscriptions detected");
-    exception.expectMessage("top-project,refs/heads/master");
-    exception.expectMessage("mid-project,refs/heads/master");
-    exception.expectMessage("bottom-project,refs/heads/master");
+    exception.expectMessage(topKey.get() + ",refs/heads/master");
+    exception.expectMessage(midKey.get() +",refs/heads/master");
+    exception.expectMessage(botKey.get() +",refs/heads/master");
     return changeId;
   }
 
@@ -661,8 +661,11 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void projectNoSubscriptionWholeTopic() throws Exception {
-    TestRepository<?> repoA = createProjectWithPush("project-a", null, true, getSubmitType());
-    TestRepository<?> repoB = createProjectWithPush("project-b", null, true, getSubmitType());
+    Project.NameKey keyA = createProjectForPush("project-a", null, true, getSubmitType());
+    Project.NameKey keyB = createProjectForPush("project-b", null, true, getSubmitType());
+
+    TestRepository<?> repoA = cloneProject(keyA);
+    TestRepository<?> repoB = cloneProject(keyB);
     // bootstrap the dev branch
     ObjectId a0 = pushChangeTo(repoA, "dev");
 
@@ -717,33 +720,34 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     approve(getChangeId(repoB, bDevHead).get());
 
     gApi.changes().id(getChangeId(repoA, aDevHead).get()).current().submit();
-    assertThat(getRemoteHead(name("project-a"), "refs/heads/master").getShortMessage())
+    assertThat(getRemoteHead(keyA, "refs/heads/master").getShortMessage())
         .contains("some message in a master.txt");
-    assertThat(getRemoteHead(name("project-a"), "refs/heads/dev").getShortMessage())
+    assertThat(getRemoteHead(keyA, "refs/heads/dev").getShortMessage())
         .contains("some message in a dev.txt");
-    assertThat(getRemoteHead(name("project-b"), "refs/heads/master").getShortMessage())
+    assertThat(getRemoteHead(keyB, "refs/heads/master").getShortMessage())
         .contains("some message in b master.txt");
-    assertThat(getRemoteHead(name("project-b"), "refs/heads/dev").getShortMessage())
+    assertThat(getRemoteHead(keyB, "refs/heads/dev").getShortMessage())
         .contains("some message in b dev.txt");
   }
 
   @Test
   public void twoProjectsMultipleBranchesWholeTopic() throws Exception {
-    TestRepository<?> repoA = createProjectWithPush("project-a", null, true, getSubmitType());
-    TestRepository<?> repoB = createProjectWithPush("project-b", null, true, getSubmitType());
+    Project.NameKey keyA = createProjectForPush("project-a", null, true, getSubmitType());
+    Project.NameKey keyB = createProjectForPush("project-b", null, true, getSubmitType());
+    TestRepository<?> repoA = cloneProject(keyA);
+    TestRepository<?> repoB = cloneProject(keyB);
     // bootstrap the dev branch
     pushChangeTo(repoA, "dev");
 
     // bootstrap the dev branch
     ObjectId b0 = pushChangeTo(repoB, "dev");
 
+    allowMatchingSubmoduleSubscription(keyB, "refs/heads/master", keyA, "refs/heads/master");
     allowMatchingSubmoduleSubscription(
-        "project-b", "refs/heads/master", "project-a", "refs/heads/master");
-    allowMatchingSubmoduleSubscription(
-        "project-b", "refs/heads/dev", "project-a", "refs/heads/dev");
+        keyB, "refs/heads/dev", keyA, "refs/heads/dev");
 
-    createSubmoduleSubscription(repoA, "master", "project-b", "master");
-    createSubmoduleSubscription(repoA, "dev", "project-b", "dev");
+    createSubmoduleSubscription(repoA, "master", keyB, "master");
+    createSubmoduleSubscription(repoA, "dev", keyB, "dev");
 
     // create a change for master branch in repo b
     ObjectId bHead =
@@ -770,8 +774,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     approve(getChangeId(repoB, bDevHead).get());
     gApi.changes().id(getChangeId(repoB, bHead).get()).current().submit();
 
-    expectToHaveSubmoduleState(repoA, "master", "project-b", repoB, "master");
-    expectToHaveSubmoduleState(repoA, "dev", "project-b", repoB, "dev");
+    expectToHaveSubmoduleState(repoA, "master", keyB, repoB, "master");
+    expectToHaveSubmoduleState(repoA, "dev", keyB, repoB, "dev");
   }
 
   @Test
@@ -875,5 +879,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     // sub1 was skipped but sub2 succeeded.
     expectToHaveSubmoduleState(superRepo, "master", subKey1, badId);
     expectToHaveSubmoduleState(superRepo, "master", subKey2, sub2, "master");
+  }
+
+  private Project.NameKey nameKey(String s) {
+    return new Project.NameKey(name(s));
   }
 }

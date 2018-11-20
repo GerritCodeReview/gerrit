@@ -47,7 +47,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void emptyCommit() throws Exception {
-    Project.NameKey key = projectOperations.newProject().withEmptyCommit().create();
+    Project.NameKey key = projectOperations.newProject().create();
     List<BranchInfo> branches = gApi.projects().name(key.get()).branches().get();
     assertThat(branches).isNotEmpty();
     assertThat(branches.stream().map(x -> x.ref).collect(toList()))

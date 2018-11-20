@@ -76,7 +76,7 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    newProjectName = projectOperations.newProject().withEmptyCommit().create();
+    newProjectName = projectOperations.newProject().create();
   }
 
   @Test

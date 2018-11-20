@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gerrit.testing.TempFileUtil;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,16 +32,20 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class LocalDiskRepositoryManagerTest extends GerritBaseTests {
+  @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
   private Config cfg;
   private SitePaths site;
   private LocalDiskRepositoryManager repoManager;
 
   @Before
   public void setUp() throws Exception {
-    site = new SitePaths(TempFileUtil.createTempDirectory().toPath());
+    site = new SitePaths(temporaryFolder.newFolder().toPath());
     site.resolve("git").toFile().mkdir();
     cfg = new Config();
     cfg.setString("gerrit", null, "basePath", "git");

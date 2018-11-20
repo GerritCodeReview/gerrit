@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gerrit.testing.TempFileUtil;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,11 +36,14 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
+  @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
   private Config cfg;
   private SitePaths site;
   private MultiBaseLocalDiskRepositoryManager repoManager;
@@ -49,7 +51,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
 
   @Before
   public void setUp() throws IOException {
-    site = new SitePaths(TempFileUtil.createTempDirectory().toPath());
+    site = new SitePaths(temporaryFolder.newFolder().toPath());
     site.resolve("git").toFile().mkdir();
     cfg = new Config();
     cfg.setString("gerrit", null, "basePath", "git");
@@ -57,11 +59,6 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
     expect(configMock.getAllBasePaths()).andReturn(ImmutableList.of()).anyTimes();
     replay(configMock);
     repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
-  }
-
-  @After
-  public void tearDown() throws IOException {
-    TempFileUtil.cleanup();
   }
 
   @Test
@@ -91,7 +88,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
 
   @Test
   public void alternateRepositoryLocation() throws IOException {
-    Path alternateBasePath = TempFileUtil.createTempDirectory().toPath();
+    Path alternateBasePath = temporaryFolder.newFolder().toPath();
     Project.NameKey someProjectKey = new Project.NameKey("someProject");
     reset(configMock);
     expect(configMock.getBasePath(someProjectKey)).andReturn(alternateBasePath).anyTimes();
@@ -124,7 +121,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
     Project.NameKey misplacedProject1 = new Project.NameKey("misplacedProject1");
     Project.NameKey misplacedProject2 = new Project.NameKey("misplacedProject2");
 
-    Path alternateBasePath = TempFileUtil.createTempDirectory().toPath();
+    Path alternateBasePath = temporaryFolder.newFolder().toPath();
 
     reset(configMock);
     expect(configMock.getBasePath(altPathProject)).andReturn(alternateBasePath).anyTimes();

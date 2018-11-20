@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "49f105c5_0a92f1dc",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-20T14:54:19Z",
+      "side": 1,
+      "message": "Done, removed as no longer needed. Use null instead as it is not a key anymore but a value instead.\ncommit \u003d\u003e parent(nullable).",
+      "parentUuid": "43b62a82_1028a74f",
+      "range": {
+        "startLine": 703,
+        "startChar": 17,
+        "endLine": 703,
+        "endChar": 22
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "245dbe15_078ab5f3",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0ff9708d_17a65b65",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-20T14:54:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "245dbe15_078ab5f3",
+      "range": {
+        "startLine": 704,
+        "startChar": 24,
+        "endLine": 704,
+        "endChar": 31
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab777e2e_e2f40851",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f897769_0136a440",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-20T14:54:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab777e2e_e2f40851",
+      "range": {
+        "startLine": 707,
+        "startChar": 49,
+        "endLine": 707,
+        "endChar": 50
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "545ca956_a6e57099",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-20T14:54:19Z",
+      "side": 1,
+      "message": "@Han-Wen: Done, previously the code needs to cater multiple parents which adds complexity. With this reversed relation the code can be much simpler. Thanks for that.\n@Oswald: This is true that RevWalk already has the sorted result. But there are necessary processing to separate between new and updated changes. Changing the code during that processing seems more complex to me.",
+      "parentUuid": "739f53e9_ad0cc84e",
+      "range": {
+        "startLine": 714,
+        "startChar": 20,
+        "endLine": 714,
+        "endChar": 26
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed40063c_47040c4a",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 3
@@ -138,6 +234,30 @@
       "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88ef1cb5_a31ddf78",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-20T14:54:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed40063c_47040c4a",
+      "range": {
+        "startLine": 800,
+        "startChar": 12,
+        "endLine": 800,
+        "endChar": 24
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -96,6 +96,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -136,6 +137,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.SystemReader;
@@ -151,6 +153,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject @ServerInitiated protected Provider<AccountsUpdate> accountsUpdate;
   @Inject protected AccountManager accountManager;
   @Inject protected AllUsersName allUsersName;
+  @Inject protected AllProjectsName allProjectsName;
   @Inject protected BatchUpdate.Factory updateFactory;
   @Inject protected ChangeInserter.Factory changeFactory;
   @Inject protected ChangeQueryBuilder queryBuilder;
@@ -168,11 +171,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected PatchSetUtil psUtil;
   @Inject protected ChangeNotes.Factory changeNotesFactory;
   @Inject protected Provider<ChangeQueryProcessor> queryProcessorProvider;
-  @Inject protected SchemaCreator schemaCreator;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
   @Inject protected ProjectCache projectCache;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
+  @Inject protected MetaDataUpdate.User metaDataUpdateUserFactory;
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
 
   @Inject private ProjectConfig.Factory projectConfigFactory;
@@ -208,6 +211,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     lifecycle = new LifecycleManager();
     injector = createInjector();
     lifecycle.add(injector);
+    injector.getInstance(SchemaCreator.class).create();
     injector.injectMembers(this);
     lifecycle.start();
     initAfterLifecycleStart();
@@ -222,8 +226,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   protected void initAfterLifecycleStart() throws Exception {}
 
   protected void setUpDatabase() throws Exception {
-    schemaCreator.create();
-
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     String email = "user@example.com";
     accountsUpdate
@@ -3079,6 +3081,28 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("query:query2", change2);
     assertQuery("query:query3", change2);
     assertQuery("query:query4");
+  }
+
+  @Test
+  public void aliasQuery() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+
+    try (Repository allProjects = repoManager.openRepository(allProjectsName)) {
+      ProjectConfig pc = projectConfigFactory.create(allProjectsName);
+      pc.load(allProjects);
+      pc.getChangeQueryOperatorAliases().put("number", "change");
+      try (MetaDataUpdate md =
+          metaDataUpdateUserFactory.create(pc.getProject().getNameKey(), user.asIdentifiedUser())) {
+        pc.commit(md);
+      }
+      projectCache.evict(pc.getProject().getNameKey());
+    }
+
+    assertQuery("number:12345");
+    assertQuery("number:" + change1.getId().get(), change1);
+    assertQuery("number:" + change2.getId().get(), change2);
   }
 
   @Test

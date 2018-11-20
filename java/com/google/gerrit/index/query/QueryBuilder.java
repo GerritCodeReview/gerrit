@@ -29,6 +29,7 @@ import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
 
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
@@ -42,7 +43,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import org.antlr.runtime.tree.Tree;
 
 /**
@@ -184,6 +187,7 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
 
   protected final Definition<T, Q> builderDef;
   private final ImmutableMap<String, OperatorFactory<T, Q>> opFactories;
+  protected Map<String, String> opAliases = Collections.emptyMap();
 
   protected QueryBuilder(
       Definition<T, Q> def,
@@ -218,6 +222,10 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
       throw new QueryParseException("query is empty");
     }
     return toPredicate(QueryParser.parse(query));
+  }
+
+  public void setOperatorAliases(Map<String, String> opAliases) {
+    this.opAliases = opAliases;
   }
 
   /**
@@ -290,8 +298,12 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
 
   @SuppressWarnings("unchecked")
   private Predicate<T> operator(String name, String value) throws QueryParseException {
+    String opName = MoreObjects.firstNonNull(opAliases.get(name), name);
     @SuppressWarnings("rawtypes")
-    OperatorFactory f = opFactories.get(name);
+    OperatorFactory f = opFactories.get(opName);
+    if (f == null && !opName.equals(name)) {
+      f = opFactories.get(name);
+    }
     if (f == null) {
       throw error("Unsupported operator " + name + ":" + value);
     }

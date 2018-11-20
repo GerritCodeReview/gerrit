@@ -418,6 +418,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     super(mydef);
     this.args = args;
     setupDynamicOperators();
+    setupAliases();
   }
 
   @VisibleForTesting
@@ -432,6 +433,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       String name = e.getExportName() + "_" + e.getPluginName();
       opFactories.put(name, e.getProvider().get());
     }
+  }
+
+  private void setupAliases() {
+    Map<String, String> operatorAliases = Collections.emptyMap();
+    if (args.projectCache != null) {
+      operatorAliases =
+          args.projectCache.getAllProjects().getConfig().getChangeQueryOperatorAliases();
+    }
+    setOperatorAliases(operatorAliases);
   }
 
   public Arguments getArgs() {

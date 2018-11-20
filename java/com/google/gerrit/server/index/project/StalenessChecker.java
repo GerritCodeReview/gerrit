@@ -28,9 +28,9 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
-import javax.inject.Inject;
 
 public class StalenessChecker {
   private static final ImmutableSet<String> FIELDS =

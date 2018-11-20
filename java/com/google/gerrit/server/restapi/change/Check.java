@@ -31,8 +31,8 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.IOException;
-import javax.inject.Singleton;
 
 @Singleton
 public class Check

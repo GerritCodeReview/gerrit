@@ -26,6 +26,8 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,8 +37,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 

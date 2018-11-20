@@ -32,6 +32,7 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.securestore.testing.InMemorySecureStore;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -40,13 +41,16 @@ import java.util.Collections;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
-public class UpgradeFrom2_0_xTest extends InitTestCase {
+public class UpgradeFrom2_0_xTest extends GerritBaseTests {
+  @Rule public TemporaryFolder folder = new TemporaryFolder();
 
   @Test
   public void upgrade() throws IOException, ConfigInvalidException {
-    final Path p = newSitePath();
+    final Path p = folder.newFolder().toPath();
     final SitePaths site = new SitePaths(p);
     assertTrue(site.isNew);
     FileUtil.mkdirsOrDie(site.etc_dir, "Failed to create");

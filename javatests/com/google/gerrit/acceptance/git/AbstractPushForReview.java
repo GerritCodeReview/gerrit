@@ -131,6 +131,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     HTTP
   }
 
+  protected static String NEW_CHANGE_INDICATOR = " [NEW]";
+
   private LabelType patchSetLock;
 
   @BeforeClass
@@ -317,7 +319,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r1.assertOkStatus();
     r1.assertChange(Change.Status.NEW, null);
     r1.assertMessage(
-        "New changes:\n  " + url + id1 + " " + r1.getCommit().getShortMessage() + "\n");
+        url + id1 + " " + r1.getCommit().getShortMessage() + NEW_CHANGE_INDICATOR + "\n");
 
     testRepo.reset(initialHead);
     String newMsg = r1.getCommit().getShortMessage() + " v2";
@@ -337,18 +339,17 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r2.assertMessage(
         "success\n"
             + "\n"
-            + "New changes:\n"
-            + "  "
-            + url
-            + id2
-            + " another commit\n"
-            + "\n"
-            + "Updated changes:\n"
             + "  "
             + url
             + id1
             + " "
             + newMsg
+            + "\n"
+            + "  "
+            + url
+            + id2
+            + " another commit"
+            + NEW_CHANGE_INDICATOR
             + "\n");
   }
 
@@ -852,8 +853,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(edit).isPresent();
     EditInfo editInfo = edit.get();
     r.assertMessage(
-        "Updated Changes:\n  "
-            + canonicalWebUrl.get()
+        canonicalWebUrl.get()
             + "c/"
             + project.get()
             + "/+/"

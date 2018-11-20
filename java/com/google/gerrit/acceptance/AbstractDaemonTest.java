@@ -130,7 +130,6 @@ import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.FakeGroupAuditService;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.SshMode;
-import com.google.gerrit.testing.TempFileUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -182,8 +181,10 @@ import org.eclipse.jgit.transport.URIish;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
@@ -193,6 +194,8 @@ import org.junit.runners.model.Statement;
 public abstract class AbstractDaemonTest {
   private static GerritServer commonServer;
   private static Description firstTest;
+
+  @ClassRule public static TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   @ConfigSuite.Parameter public Config baseConfig;
   @ConfigSuite.Name private String configName;
@@ -336,7 +339,6 @@ public abstract class AbstractDaemonTest {
         commonServer = null;
       }
     }
-    TempFileUtil.cleanup();
   }
 
   /** Controls which project and branches should be reset after each test case. */
@@ -415,11 +417,11 @@ public abstract class AbstractDaemonTest {
     Module module = createModule();
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {
-        commonServer = GerritServer.initAndStart(classDesc, baseConfig, module);
+        commonServer = GerritServer.initAndStart(temporaryFolder, classDesc, baseConfig, module);
       }
       server = commonServer;
     } else {
-      server = GerritServer.initAndStart(methodDesc, baseConfig, module);
+      server = GerritServer.initAndStart(temporaryFolder, methodDesc, baseConfig, module);
     }
 
     server.getTestInjector().injectMembers(this);

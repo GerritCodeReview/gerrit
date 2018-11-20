@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "208fd5e9_17430c8c",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-20T16:52:27Z",
+      "side": 1,
+      "message": "OK. Thanks!",
+      "parentUuid": "542234a8_0ca10986",
+      "range": {
+        "startLine": 295,
+        "startChar": 2,
+        "endLine": 295,
+        "endChar": 54
+      },
+      "revId": "a1fcb2644e03b48a90d8e1ea128515890a705eb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8363e70b_c4e3ced9",
         "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectCreation.java",
         "patchSetId": 21
@@ -36,6 +60,30 @@
       "writtenOn": "2018-11-20T16:33:56Z",
       "side": 1,
       "message": "Since the code which required this to be public was reverted, we wouldn\u0027t need to adjust the visibility within this change. We\u0027ll need it for a follow-up one, though, and hence I\u0027m ignoring this for now. We should strive for a limited visibility in the future again.",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 10
+      },
+      "revId": "a1fcb2644e03b48a90d8e1ea128515890a705eb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91ab806e_6ca59f20",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectCreation.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-20T16:52:27Z",
+      "side": 1,
+      "message": "I\u0027m not confident we won\u0027t need it in the near futre again, so let\u0027s keep it for now.",
+      "parentUuid": "8363e70b_c4e3ced9",
       "range": {
         "startLine": 49,
         "startChar": 4,

@@ -49,7 +49,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
     args.branch = Collections.singletonList(Constants.R_HEADS + Constants.MASTER);
     args.createEmptyCommit = projectCreation.createEmptyCommit().orElse(true);
     projectCreation.parent().ifPresent(p -> args.newParent = p);
-    args.ownerIds = new ArrayList<>(projectOwnerGroups.create(args.getProject()).get());
+    args.ownerIds = new ArrayList<>();
     projectCreation.submitType().ifPresent(st -> args.submitType = st);
     projectCreator.createProject(args);
     return new Project.NameKey(name);

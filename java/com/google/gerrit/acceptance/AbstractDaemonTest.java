@@ -550,10 +550,6 @@ public abstract class AbstractDaemonTest {
     return resourcePrefix + name;
   }
 
-  protected Project.NameKey createProject(String nameSuffix) throws Exception {
-    return projectOperations.newProject().create();
-  }
-
   protected Project.NameKey createProject(String nameSuffix, Project.NameKey parent)
       throws Exception {
     // Default for createEmptyCommit should match TestProjectConfig.

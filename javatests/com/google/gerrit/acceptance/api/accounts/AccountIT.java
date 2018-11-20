@@ -57,6 +57,7 @@ import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -223,6 +224,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
 
   @Inject private VersionedAuthorizedKeys.Accessor authorizedKeys;
+  @Inject private ProjectOperations projectOperations;
 
   @Inject
   @Named("accounts")
@@ -2602,7 +2604,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void deleteAllDraftComments() throws Exception {
     try {
       TestTimeUtil.resetWithClockStep(1, SECONDS);
-      Project.NameKey project2 = createProject("project2");
+      Project.NameKey project2 = projectOperations.newProject().create();
       PushOneCommit.Result r1 = createChange();
 
       TestRepository<?> tr2 = cloneProject(project2);

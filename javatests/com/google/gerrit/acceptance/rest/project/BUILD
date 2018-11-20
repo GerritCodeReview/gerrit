@@ -8,6 +8,7 @@ acceptance_tests(
         ":project",
         ":push_tag_util",
         ":refassert",
+        "//lib/commons:lang",
     ],
 )
 

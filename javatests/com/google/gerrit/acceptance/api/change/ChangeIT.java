@@ -1541,7 +1541,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void pushCommitOfOtherUserThatCannotSeeChange() throws Exception {
     // create hidden project that is only visible to administrators
-    Project.NameKey p = createProject("p");
+    Project.NameKey p = this.projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(p)) {
       Util.allow(u.getConfig(), Permission.READ, adminGroupUuid(), "refs/*");
       Util.block(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
@@ -2976,7 +2976,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void createNewPatchSetWithoutPermission() throws Exception {
     // Create new project with clean permissions
-    Project.NameKey p = createProject("addPatchSet1");
+    Project.NameKey p = this.projectOperations.newProject().create();
 
     // Clone separate repositories of the same project as admin and as user
     TestRepository<InMemoryRepository> adminTestRepo = cloneProject(p, admin);
@@ -3022,7 +3022,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void createNewPatchSetAsOwnerWithoutPermission() throws Exception {
     // Create new project with clean permissions
-    Project.NameKey p = createProject("addPatchSet2");
+    Project.NameKey p = this.projectOperations.newProject().create();
     // Clone separate repositories of the same project as admin and as user
     TestRepository<?> adminTestRepo = cloneProject(project, admin);
 
@@ -3660,7 +3660,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void changeCommitMessageWithoutPermissionFails() throws Exception {
     // Create new project with clean permissions
-    Project.NameKey p = createProject("addPatchSetEdit");
+    Project.NameKey p = this.projectOperations.newProject().create();
     TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
     // Block default permission
     block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);

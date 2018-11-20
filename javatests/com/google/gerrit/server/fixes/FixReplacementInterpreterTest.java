@@ -34,14 +34,9 @@ import org.easymock.EasyMock;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class FixReplacementInterpreterTest extends GerritBaseTests {
-
-  @Rule public ExpectedException expectedException = ExpectedException.none();
-
   private final FileContentUtil fileContentUtil = createMock(FileContentUtil.class);
   private final Repository repository = createMock(Repository.class);
   private final ProjectState projectState = createMock(ProjectState.class);
@@ -262,7 +257,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
 
     replay(fileContentUtil);
 
-    expectedException.expect(ResourceConflictException.class);
+    exception.expect(ResourceConflictException.class);
     toTreeModifications(fixReplacement);
   }
 
@@ -274,7 +269,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
 
     replay(fileContentUtil);
 
-    expectedException.expect(ResourceConflictException.class);
+    exception.expect(ResourceConflictException.class);
     toTreeModifications(fixReplacement);
   }
 
@@ -286,7 +281,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
 
     replay(fileContentUtil);
 
-    expectedException.expect(ResourceConflictException.class);
+    exception.expect(ResourceConflictException.class);
     toTreeModifications(fixReplacement);
   }
 
@@ -298,7 +293,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
 
     replay(fileContentUtil);
 
-    expectedException.expect(ResourceConflictException.class);
+    exception.expect(ResourceConflictException.class);
     toTreeModifications(fixReplacement);
   }
 
@@ -310,7 +305,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
 
     replay(fileContentUtil);
 
-    expectedException.expect(ResourceConflictException.class);
+    exception.expect(ResourceConflictException.class);
     toTreeModifications(fixReplacement);
   }
 

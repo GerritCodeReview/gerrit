@@ -41,16 +41,12 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class RepoSequenceTest extends GerritBaseTests {
   // Don't sleep in tests.
   private static final Retryer<RefUpdate> RETRYER =
       RepoSequence.retryerBuilder().withBlockStrategy(t -> {}).build();
-
-  @Rule public ExpectedException exception = ExpectedException.none();
 
   private InMemoryRepositoryManager repoManager;
   private Project.NameKey project;

@@ -58,13 +58,9 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class PublicKeyCheckerTest extends GerritBaseTests {
-  @Rule public ExpectedException thrown = ExpectedException.none();
-
   private InMemoryRepository repo;
   private PublicKeyStore store;
 

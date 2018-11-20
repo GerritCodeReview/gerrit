@@ -32,13 +32,9 @@ import com.google.inject.ProvisionException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class ElasticConfigurationTest extends GerritBaseTests {
-  @Rule public ExpectedException exception = ExpectedException.none();
-
   @Test
   public void singleServerNoOtherConfig() throws Exception {
     Config cfg = newConfig();

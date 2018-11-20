@@ -22,13 +22,9 @@ import static com.google.gerrit.index.SchemaUtil.schema;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Map;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class SchemaUtilTest extends GerritBaseTests {
-  @Rule public ExpectedException exception = ExpectedException.none();
-
   static class TestSchemas {
     static final Schema<String> V1 = schema();
     static final Schema<String> V2 = schema();

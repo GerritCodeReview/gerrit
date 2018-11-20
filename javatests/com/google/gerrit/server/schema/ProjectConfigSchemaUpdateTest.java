@@ -22,7 +22,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.testing.TempFileUtil;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,12 +32,15 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class ProjectConfigSchemaUpdateTest {
   private static final String ALL_PROJECTS = "All-The-Projects";
+
+  @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private SitePaths sitePaths;
   private ProjectConfigSchemaUpdate.Factory factory;
@@ -46,7 +48,7 @@ public class ProjectConfigSchemaUpdateTest {
 
   @Before
   public void setUp() throws Exception {
-    sitePaths = new SitePaths(TempFileUtil.createTempDirectory().toPath());
+    sitePaths = new SitePaths(temporaryFolder.newFolder().toPath());
     Files.createDirectories(sitePaths.etc_dir);
 
     Path gitPath = sitePaths.resolve("git");
@@ -64,11 +66,6 @@ public class ProjectConfigSchemaUpdateTest {
     }
 
     factory = new ProjectConfigSchemaUpdate.Factory(sitePaths, new AllProjectsName(ALL_PROJECTS));
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    TempFileUtil.cleanup();
   }
 
   @Test

@@ -38,7 +38,6 @@ import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gerrit.testing.TempFileUtil;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,9 +57,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class ProjectConfigTest extends GerritBaseTests {
   private static final String LABEL_SCORES_CONFIG =
@@ -85,6 +85,8 @@ public class ProjectConfigTest extends GerritBaseTests {
 
   private static final AllProjectsName ALL_PROJECTS = new AllProjectsName("All-The-Projects");
 
+  @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
   private final GroupReference developers =
       new GroupReference(new AccountGroup.UUID("X"), "Developers");
   private final GroupReference staff = new GroupReference(new AccountGroup.UUID("Y"), "Staff");
@@ -96,16 +98,11 @@ public class ProjectConfigTest extends GerritBaseTests {
 
   @Before
   public void setUp() throws Exception {
-    sitePaths = new SitePaths(TempFileUtil.createTempDirectory().toPath());
+    sitePaths = new SitePaths(temporaryFolder.newFolder().toPath());
     Files.createDirectories(sitePaths.etc_dir);
     factory = new ProjectConfig.Factory(sitePaths, ALL_PROJECTS);
     db = new InMemoryRepository(new DfsRepositoryDescription("repo"));
     tr = new TestRepository<>(db);
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    TempFileUtil.cleanup();
   }
 
   @Test

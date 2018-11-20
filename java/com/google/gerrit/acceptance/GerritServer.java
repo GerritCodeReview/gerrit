@@ -51,7 +51,6 @@ import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.NoteDbChecker;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.SshMode;
-import com.google.gerrit.testing.TempFileUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -81,6 +80,7 @@ import org.apache.log4j.PatternLayout;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
+import org.junit.rules.TemporaryFolder;
 
 public class GerritServer implements AutoCloseable {
   public static class StartupException extends Exception {
@@ -290,11 +290,11 @@ public class GerritServer implements AutoCloseable {
   /**
    * Initializes new Gerrit site and returns started server.
    *
-   * <p>A new temporary directory for the site will be created with {@link TempFileUtil}, even in
+   * <p>A new temporary directory for the site will be created with {@code temporaryFolder}, even in
    * the server is otherwise configured in-memory. Closing the server stops the daemon but does not
-   * delete the temporary directory. Callers may either get the directory with {@link
-   * #getSitePath()} and delete it manually, or call {@link TempFileUtil#cleanup()}.
+   * delete the temporary directory..
    *
+   * @param temporaryFolder helper rule for creating site directories.
    * @param desc server description.
    * @param baseConfig default config values; merged with config from {@code desc}.
    * @param testSysModule additional Guice module to use.
@@ -302,15 +302,18 @@ public class GerritServer implements AutoCloseable {
    * @throws Exception
    */
   public static GerritServer initAndStart(
-      Description desc, Config baseConfig, @Nullable Module testSysModule) throws Exception {
-    Path site = TempFileUtil.createTempDirectory().toPath();
+      TemporaryFolder temporaryFolder,
+      Description desc,
+      Config baseConfig,
+      @Nullable Module testSysModule)
+      throws Exception {
+    Path site = temporaryFolder.newFolder().toPath();
     try {
       if (!desc.memory()) {
         init(desc, baseConfig, site);
       }
       return start(desc, baseConfig, site, testSysModule, null, null);
     } catch (Exception e) {
-      TempFileUtil.recursivelyDelete(site.toFile());
       throw e;
     }
   }

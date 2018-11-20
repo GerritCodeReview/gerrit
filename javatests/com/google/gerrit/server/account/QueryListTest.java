@@ -19,11 +19,11 @@ import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.replay;
 
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
-import junit.framework.TestCase;
 import org.junit.Test;
 
-public class QueryListTest extends TestCase {
+public class QueryListTest extends GerritBaseTests {
   public static final String Q_P = "project:foo";
   public static final String Q_B = "branch:bar";
   public static final String Q_COMPLEX = "branch:bar AND peers:'is:open\t'";

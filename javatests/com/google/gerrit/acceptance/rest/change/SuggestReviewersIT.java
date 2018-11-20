@@ -23,6 +23,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -44,6 +45,7 @@ import org.junit.Test;
 
 public class SuggestReviewersIT extends AbstractDaemonTest {
   @Inject private CreateGroup createGroup;
+  @Inject private ProjectOperations projectOperations;
 
   private InternalGroup group1;
   private InternalGroup group2;
@@ -372,7 +374,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @Test
   public void reviewerRankingProjectIsolation() throws Exception {
     // Create new project
-    Project.NameKey newProject = createProject("test");
+    Project.NameKey newProject = projectOperations.newProject().create();
 
     // Create users who review changes in both the default and the new project
     String fullName = "Primum Finalis";

@@ -19,18 +19,21 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.DeprecatedIdentifierException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class ChangeIdIT extends AbstractDaemonTest {
   private ChangeInfo changeInfo;
+  @Inject private ProjectOperations projectOperations;
 
   @Before
   public void setup() throws Exception {
@@ -45,7 +48,7 @@ public class ChangeIdIT extends AbstractDaemonTest {
 
   @Test
   public void projectChangeNumberReturnsChangeWhenProjectContainsSlashes() throws Exception {
-    Project.NameKey p = createProject("foo/bar");
+    Project.NameKey p = projectOperations.newProject().create();
     ChangeInfo ci = gApi.changes().create(new ChangeInput(p.get(), "master", "msg")).get();
     ChangeApi cApi = gApi.changes().id(p.get(), ci._number);
     assertThat(cApi.get().changeId).isEqualTo(ci.changeId);

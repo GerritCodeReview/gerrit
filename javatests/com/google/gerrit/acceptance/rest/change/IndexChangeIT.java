@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -35,6 +36,7 @@ import org.junit.Test;
 public class IndexChangeIT extends AbstractDaemonTest {
 
   @Inject protected GroupOperations groupOperations;
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void indexChange() throws Exception {
@@ -58,7 +60,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
     gApi.groups().id(group).addMembers("admin", "user", user2.username);
 
     // Create a project and restrict its visibility to the group
-    Project.NameKey p = createProject("p");
+    Project.NameKey p = projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(p)) {
       Util.allow(
           u.getConfig(),

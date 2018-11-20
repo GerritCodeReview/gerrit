@@ -61,8 +61,8 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void setAndDeleteWatchedProjects() throws Exception {
-    String projectName1 = createProject(NEW_PROJECT_NAME).get();
-    String projectName2 = createProject(NEW_PROJECT_NAME + "2").get();
+    String projectName1 = this.projectOperations.newProject().create().get();
+    String projectName2 = this.projectOperations.newProject().create().get();
 
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
@@ -95,7 +95,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void setConflictingWatches() throws Exception {
-    String projectName = createProject(NEW_PROJECT_NAME).get();
+    String projectName = this.projectOperations.newProject().create().get();
 
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
@@ -119,7 +119,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void setAndGetEmptyWatch() throws Exception {
-    String projectName = createProject(NEW_PROJECT_NAME).get();
+    String projectName = this.projectOperations.newProject().create().get();
 
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 

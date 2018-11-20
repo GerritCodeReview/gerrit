@@ -18,13 +18,16 @@ import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProj
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.inject.Inject;
 import org.junit.Test;
 
 @NoHttpd
 public class GetChildProjectIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void getNonExistingChildProject_NotFound() throws Exception {
@@ -33,15 +36,15 @@ public class GetChildProjectIT extends AbstractDaemonTest {
 
   @Test
   public void getNonChildProject_NotFound() throws Exception {
-    Project.NameKey p1 = createProject("p1");
-    Project.NameKey p2 = createProject("p2");
+    Project.NameKey p1 = projectOperations.newProject().create();
+    Project.NameKey p2 = projectOperations.newProject().create();
 
     assertChildNotFound(p1, p2.get());
   }
 
   @Test
   public void getChildProject() throws Exception {
-    Project.NameKey child = createProject("p1");
+    Project.NameKey child = projectOperations.newProject().create();
     ProjectInfo childInfo = gApi.projects().name(allProjects.get()).child(child.get()).get();
 
     assertProjectInfo(projectCache.get(child).getProject(), childInfo);
@@ -49,7 +52,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
 
   @Test
   public void getGrandChildProject_NotFound() throws Exception {
-    Project.NameKey child = createProject("p1");
+    Project.NameKey child = projectOperations.newProject().create();
     Project.NameKey grandChild = createProject("p1.1", child);
 
     assertChildNotFound(allProjects, grandChild.get());
@@ -57,7 +60,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
 
   @Test
   public void getGrandChildProjectWithRecursiveFlag() throws Exception {
-    Project.NameKey child = createProject("p1");
+    Project.NameKey child = projectOperations.newProject().create();
     Project.NameKey grandChild = createProject("p1.1", child);
 
     ProjectInfo grandChildInfo =

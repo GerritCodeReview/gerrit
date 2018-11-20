@@ -57,6 +57,7 @@ import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -195,34 +196,22 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Inject private Provider<PublicKeyStore> publicKeyStoreProvider;
-
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
-
   @Inject private ExternalIds externalIds;
-
   @Inject private DynamicSet<AccountIndexedListener> accountIndexedListeners;
-
   @Inject private DynamicSet<GitReferenceUpdatedListener> refUpdateListeners;
-
   @Inject private Sequences seq;
-
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
+  @Inject private StalenessChecker stalenessChecker;
+  @Inject private AccountIndexer accountIndexer;
+  @Inject private GitReferenceUpdated gitReferenceUpdated;
+  @Inject private RetryHelper.Metrics retryMetrics;
+  @Inject private Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
+  @Inject private ExternalIdNotes.Factory extIdNotesFactory;
+  @Inject private VersionedAuthorizedKeys.Accessor authorizedKeys;
+  @Inject private ProjectOperations projectOperations;
 
   @Inject protected Emails emails;
-
-  @Inject private StalenessChecker stalenessChecker;
-
-  @Inject private AccountIndexer accountIndexer;
-
-  @Inject private GitReferenceUpdated gitReferenceUpdated;
-
-  @Inject private RetryHelper.Metrics retryMetrics;
-
-  @Inject private Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
-
-  @Inject private ExternalIdNotes.Factory extIdNotesFactory;
-
-  @Inject private VersionedAuthorizedKeys.Accessor authorizedKeys;
 
   @Inject
   @Named("accounts")
@@ -2602,7 +2591,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void deleteAllDraftComments() throws Exception {
     try {
       TestTimeUtil.resetWithClockStep(1, SECONDS);
-      Project.NameKey project2 = createProject("project2");
+      Project.NameKey project2 = projectOperations.newProject().create();
       PushOneCommit.Result r1 = createChange();
 
       TestRepository<?> tr2 = cloneProject(project2);

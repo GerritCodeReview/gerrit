@@ -18,12 +18,16 @@ import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThat
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.inject.Inject;
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 
 @NoHttpd
 public class ListChildProjectsIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void listChildrenOfNonExistingProject_NotFound() throws Exception {
@@ -39,7 +43,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listChildren() throws Exception {
-    Project.NameKey child1 = createProject("p1");
+    Project.NameKey child1 = projectOperations.newProject().create();
     Project.NameKey child1_1 = createProject("p1.1", child1);
     Project.NameKey child1_2 = createProject("p1.2", child1);
 
@@ -50,12 +54,16 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listChildrenRecursively() throws Exception {
-    Project.NameKey child1 = createProject("p1");
-    createProject("p2");
-    Project.NameKey child1_1 = createProject("p1.1", child1);
-    Project.NameKey child1_2 = createProject("p1.2", child1);
-    Project.NameKey child1_1_1 = createProject("p1.1.1", child1_1);
-    Project.NameKey child1_1_1_1 = createProject("p1.1.1.1", child1_1_1);
+    String prefix = RandomStringUtils.randomAlphabetic(8);
+    Project.NameKey child1 = projectOperations.newProject().name(prefix + "p1").create();
+    Project.NameKey child1_1 =
+        projectOperations.newProject().parent(child1).name(prefix + "p1.1").create();
+    Project.NameKey child1_2 =
+        projectOperations.newProject().parent(child1).name(prefix + "p1.2").create();
+    Project.NameKey child1_1_1 =
+        projectOperations.newProject().parent(child1_1).name(prefix + "p1.1.1").create();
+    Project.NameKey child1_1_1_1 =
+        projectOperations.newProject().parent(child1_1_1).name(prefix + "p1.1.1.1").create();
 
     assertThatNameList(gApi.projects().name(child1.get()).children(true))
         .containsExactly(child1_1, child1_1_1, child1_1_1_1, child1_2)

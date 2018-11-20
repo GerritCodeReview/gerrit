@@ -34,8 +34,6 @@ import com.google.gerrit.server.group.testing.InternalGroupSubject;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.truth.OptionalSubject;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -57,11 +55,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GroupConfigTest extends GerritBaseTests {
-  static {
-    // Necessary so that toString() methods of ReviewDb entities work correctly.
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
   private Project.NameKey projectName;
   private Repository repository;
   private TestRepository<?> testRepository;

@@ -21,15 +21,18 @@ import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.testing.ConfigSuite;
 import java.util.ArrayDeque;
 import java.util.Map;
+import org.apache.commons.lang.RandomStringUtils;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -270,66 +273,60 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void updateManySubmodules() throws Exception {
-    Project.NameKey subKey1 = createProjectForPush("sub1", null, true, getSubmitType());
-    Project.NameKey subKey2 = createProjectForPush("sub2", null, true, getSubmitType());
-    Project.NameKey subKey3 = createProjectForPush("sub3", null, true, getSubmitType());
+    Project.NameKey subKey[] = new NameKey[3];
+    TestRepository<?> sub[] = new TestRepository[3];
+    String prefix = RandomStringUtils.randomAlphabetic(8);
+    for (int i = 0; i < subKey.length; i++) {
+      subKey[i] =
+          projectOperations
+              .newProject()
+              .name(prefix + "sub" + i)
+              .withEmptyCommit()
+              .submitType(getSubmitType())
+              .create();
+      grant(subKey[i], "refs/heads/*", Permission.PUSH);
+      grant(subKey[i], "refs/for/refs/heads/*", Permission.SUBMIT);
+      sub[i] = cloneProject(subKey[i]);
+    }
 
-    TestRepository<?> sub1 = cloneProject(subKey1);
-    TestRepository<?> sub2 = cloneProject(subKey2);
-    TestRepository<?> sub3 = cloneProject(subKey3);
-
-    allowMatchingSubmoduleSubscription(subKey1, "refs/heads/master", superKey, "refs/heads/master");
-    allowMatchingSubmoduleSubscription(subKey2, "refs/heads/master", superKey, "refs/heads/master");
-    allowMatchingSubmoduleSubscription(subKey3, "refs/heads/master", superKey, "refs/heads/master");
+    for (int i = 0; i < subKey.length; i++) {
+      allowMatchingSubmoduleSubscription(
+          subKey[i], "refs/heads/master", superKey, "refs/heads/master");
+    }
 
     Config config = new Config();
-    prepareSubmoduleConfigEntry(config, subKey1, "master");
-    prepareSubmoduleConfigEntry(config, subKey2, "master");
-    prepareSubmoduleConfigEntry(config, subKey3, "master");
+    for (int i = 0; i < subKey.length; i++) {
+      prepareSubmoduleConfigEntry(config, subKey[i], "master");
+    }
     pushSubmoduleConfig(superRepo, "master", config);
 
     ObjectId superPreviousId = pushChangeTo(superRepo, "master");
 
-    ObjectId sub1Id = pushChangeTo(sub1, "refs/for/master", "some message", "same-topic");
-    ObjectId sub2Id = pushChangeTo(sub2, "refs/for/master", "some message", "same-topic");
-    ObjectId sub3Id = pushChangeTo(sub3, "refs/for/master", "some message", "same-topic");
+    ObjectId subId[] = new ObjectId[3];
 
-    approve(getChangeId(sub1, sub1Id).get());
-    approve(getChangeId(sub2, sub2Id).get());
-    approve(getChangeId(sub3, sub3Id).get());
+    for (int i = 0; i < sub.length; i++) {
+      subId[i] = pushChangeTo(sub[i], "refs/for/master", "some message", "same-topic");
+      approve(getChangeId(sub[i], subId[i]).get());
+    }
 
-    gApi.changes().id(getChangeId(sub1, sub1Id).get()).current().submit();
+    gApi.changes().id(getChangeId(sub[0], subId[0]).get()).current().submit();
 
-    expectToHaveSubmoduleState(superRepo, "master", subKey1, sub1, "master");
-    expectToHaveSubmoduleState(superRepo, "master", subKey2, sub2, "master");
-    expectToHaveSubmoduleState(superRepo, "master", subKey3, sub3, "master");
+    for (int i = 0; i < sub.length; i++) {
+      expectToHaveSubmoduleState(superRepo, "master", subKey[i], sub[i], "master");
+    }
 
-    String sub1HEAD =
-        sub1.git()
-            .fetch()
-            .setRemote("origin")
-            .call()
-            .getAdvertisedRef("refs/heads/master")
-            .getObjectId()
-            .name();
-
-    String sub2HEAD =
-        sub2.git()
-            .fetch()
-            .setRemote("origin")
-            .call()
-            .getAdvertisedRef("refs/heads/master")
-            .getObjectId()
-            .name();
-
-    String sub3HEAD =
-        sub3.git()
-            .fetch()
-            .setRemote("origin")
-            .call()
-            .getAdvertisedRef("refs/heads/master")
-            .getObjectId()
-            .name();
+    String heads[] = new String[3];
+    for (int i = 0; i < heads.length; i++) {
+      heads[i] =
+          sub[i]
+              .git()
+              .fetch()
+              .setRemote("origin")
+              .call()
+              .getAdvertisedRef("refs/heads/master")
+              .getObjectId()
+              .name();
+    }
 
     if (getSubmitType() == SubmitType.MERGE_IF_NECESSARY) {
       expectToHaveCommitMessage(
@@ -337,17 +334,17 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
           "master",
           "Update git submodules\n\n"
               + "* Update "
-              + subKey1.get()
+              + subKey[0].get()
               + " from branch 'master'\n  to "
-              + sub1HEAD
+              + heads[0]
               + "\n\n* Update "
-              + subKey2.get()
+              + subKey[1].get()
               + " from branch 'master'\n  to "
-              + sub2HEAD
+              + heads[1]
               + "\n\n* Update "
-              + subKey3.get()
+              + subKey[2].get()
               + " from branch 'master'\n  to "
-              + sub3HEAD);
+              + heads[2]);
     }
 
     superRepo

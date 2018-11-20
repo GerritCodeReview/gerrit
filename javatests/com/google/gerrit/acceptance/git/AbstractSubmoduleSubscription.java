@@ -108,19 +108,6 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     return project;
   }
 
-  protected TestRepository<?> createProjectWithPush(String name) throws Exception {
-    return createProjectWithPush(name, null, true, getSubmitType());
-  }
-
-  protected TestRepository<?> createProjectWithPush(
-      String name,
-      @Nullable Project.NameKey parent,
-      boolean createEmptyCommit,
-      SubmitType submitType)
-      throws Exception {
-    return cloneProject(createProjectForPush(name, parent, createEmptyCommit, submitType));
-  }
-
   private static AtomicInteger contentCounter = new AtomicInteger(0);
   protected TestRepository<?> superRepo;
   protected Project.NameKey superKey;

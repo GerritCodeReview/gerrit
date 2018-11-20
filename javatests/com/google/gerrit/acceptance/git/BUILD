@@ -7,6 +7,7 @@ acceptance_tests(
     deps = [
         ":push_for_review",
         ":submodule_util",
+        "//lib/commons:lang",
     ],
 )
 

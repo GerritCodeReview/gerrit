@@ -281,7 +281,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
           projectOperations
               .newProject()
               .name(prefix + "sub" + i)
-              .withEmptyCommit()
               .submitType(getSubmitType())
               .create();
       grant(subKey[i], "refs/heads/*", Permission.PUSH);

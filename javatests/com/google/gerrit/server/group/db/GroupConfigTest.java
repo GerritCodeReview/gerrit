@@ -57,11 +57,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GroupConfigTest extends GerritBaseTests {
-  static {
-    // Necessary so that toString() methods of ReviewDb entities work correctly.
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
   private Project.NameKey projectName;
   private Repository repository;
   private TestRepository<?> testRepository;

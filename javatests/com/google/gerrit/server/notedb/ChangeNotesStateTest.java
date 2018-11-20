@@ -64,10 +64,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeNotesStateTest extends GerritBaseTests {
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
   private static final Change.Id ID = new Change.Id(123);
   private static final ObjectId SHA =
       ObjectId.fromString("1234567812345678123456781234567812345678");

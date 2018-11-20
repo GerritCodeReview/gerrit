@@ -174,6 +174,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final Pattern EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN = Pattern.compile("[, \t]{1,}");
 
+  private static final String CHANGE_QUERY_OPERATOR_ALIASES = "change-query-operator-alias";
+
   // Don't use an assisted factory, since instances created by an assisted factory retain references
   // to their enclosing injector. Instances of ProjectConfig are cached for a long time in the
   // ProjectCache, so this would retain lots more memory.
@@ -239,6 +241,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean hasLegacyPermissions;
   private Map<String, List<String>> extensionPanelSections;
   private Map<String, GroupReference> groupsByName;
+  private Map<String, String> changeQueryOperatorAliases;
 
   public static CommentLinkInfoImpl buildCommentLink(Config cfg, String name, boolean allowRaw)
       throws IllegalArgumentException {
@@ -428,6 +431,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return sort(contributorAgreements.values());
   }
 
+  public Map<String, String> getChangeQueryOperatorAliases() {
+    return changeQueryOperatorAliases;
+  }
+
   public void remove(ContributorAgreement section) {
     if (section != null) {
       accessSections.remove(section.getName());
@@ -602,6 +609,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadPluginSections(rc);
     loadReceiveSection(rc);
     loadExtensionPanelSections(rc);
+    loadChangeQueryAliasSection(rc);
   }
 
   private void loadAccountsSection(Config rc) {
@@ -1069,6 +1077,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         pluginConfig.setStringList(
             PLUGIN, plugin, name, Arrays.asList(rc.getStringList(PLUGIN, plugin, name)));
       }
+    }
+  }
+
+  private void loadChangeQueryAliasSection(Config rc) throws IOException {
+    changeQueryOperatorAliases = Maps.newHashMap();
+    for (String name : rc.getNames(CHANGE_QUERY_OPERATOR_ALIASES)) {
+      changeQueryOperatorAliases.put(name, rc.getString(CHANGE_QUERY_OPERATOR_ALIASES, null, name));
     }
   }
 

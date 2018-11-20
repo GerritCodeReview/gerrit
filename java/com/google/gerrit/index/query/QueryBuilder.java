@@ -25,6 +25,7 @@ import static com.google.gerrit.index.query.QueryParser.NOT;
 import static com.google.gerrit.index.query.QueryParser.OR;
 import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -34,6 +35,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,6 +166,7 @@ public abstract class QueryBuilder<T> {
   protected final Definition<T, ? extends QueryBuilder<T>> builderDef;
 
   protected final Map<String, OperatorFactory<?, ?>> opFactories;
+  protected final Map<String, String> opAliases = Collections.emptyMap();
 
   @SuppressWarnings({"unchecked", "rawtypes"})
   protected QueryBuilder(Definition<T, ? extends QueryBuilder<T>> def) {
@@ -185,6 +188,10 @@ public abstract class QueryBuilder<T> {
       throw new QueryParseException("query is empty");
     }
     return toPredicate(QueryParser.parse(query));
+  }
+
+  public void setOperatorAliases(Map<String, String> opAliases) {
+    this.opAliases = opAliases;
   }
 
   /**
@@ -257,10 +264,14 @@ public abstract class QueryBuilder<T> {
 
   @SuppressWarnings("unchecked")
   private Predicate<T> operator(String name, String value) throws QueryParseException {
+    String opName = MoreObjects.firstNonNull(opAliases.get(name), name);
     @SuppressWarnings("rawtypes")
-    OperatorFactory f = opFactories.get(name);
-    if (f == null) {
-      throw error("Unsupported operator " + name + ":" + value);
+    OperatorFactory f = opFactories.get(opName);
+    if (f == null && !opName.equals(name)) {
+      f = opFactories.get(name);
+      if (f == null) {
+        throw error("Unsupported operator " + name + ":" + value);
+      }
     }
     return f.create(this, value);
   }

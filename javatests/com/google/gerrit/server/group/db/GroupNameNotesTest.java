@@ -41,9 +41,7 @@ import com.google.gerrit.testing.GitTestUtil;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gerrit.truth.ListSubject;
 import com.google.gerrit.truth.OptionalSubject;
-import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.StandardKeyEncoder;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -70,10 +68,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GroupNameNotesTest extends GerritBaseTests {
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
   private static final String SERVER_NAME = "Gerrit Server";
   private static final String SERVER_EMAIL = "noreply@gerritcodereview.com";
   private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");

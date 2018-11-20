@@ -51,8 +51,6 @@ import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.ObjectIdCo
 import com.google.gerrit.server.notedb.ChangeNotesState.ChangeColumns;
 import com.google.gerrit.server.notedb.ChangeNotesState.Serializer;
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.TypeLiteral;
 import com.google.protobuf.ByteString;
 import java.lang.reflect.Type;
@@ -64,10 +62,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeNotesStateTest extends GerritBaseTests {
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
   private static final Change.Id ID = new Change.Id(123);
   private static final ObjectId SHA =
       ObjectId.fromString("1234567812345678123456781234567812345678");

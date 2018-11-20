@@ -553,13 +553,13 @@ public abstract class AbstractDaemonTest {
   }
 
   protected Project.NameKey createProject(String nameSuffix) throws Exception {
-    return projectOperations.newProject().withEmptyCommit().create();
+    return projectOperations.newProject().create();
   }
 
   protected Project.NameKey createProject(String nameSuffix, Project.NameKey parent)
       throws Exception {
     // Default for createEmptyCommit should match TestProjectConfig.
-    return projectOperations.newProject().withEmptyCommit().parent(parent).create();
+    return projectOperations.newProject().parent(parent).create();
   }
 
   protected Project.NameKey createProject(

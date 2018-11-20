@@ -20,13 +20,9 @@ import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class PermissionRuleTest extends GerritBaseTests {
-  @Rule public ExpectedException exception = ExpectedException.none();
-
   private GroupReference groupReference;
   private PermissionRule permissionRule;
 

@@ -22,13 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class AccessSectionTest extends GerritBaseTests {
-  @Rule public ExpectedException exception = ExpectedException.none();
-
   private static final String REF_PATTERN = "refs/heads/master";
 
   private AccessSection accessSection;

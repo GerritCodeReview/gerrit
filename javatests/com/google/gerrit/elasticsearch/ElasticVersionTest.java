@@ -17,13 +17,9 @@ package com.google.gerrit.elasticsearch;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.testing.GerritBaseTests;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class ElasticVersionTest extends GerritBaseTests {
-  @Rule public ExpectedException exception = ExpectedException.none();
-
   @Test
   public void supportedVersion() throws Exception {
     assertThat(ElasticVersion.forVersion("2.4.0")).isEqualTo(ElasticVersion.V2_4);

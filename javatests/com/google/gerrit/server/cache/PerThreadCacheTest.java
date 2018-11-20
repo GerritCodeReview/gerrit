@@ -18,13 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.testing.GerritBaseTests;
 import java.util.function.Supplier;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class PerThreadCacheTest extends GerritBaseTests {
-  @Rule public ExpectedException exception = ExpectedException.none();
-
   @Test
   public void key_respectsClass() {
     assertThat(PerThreadCache.Key.create(String.class))

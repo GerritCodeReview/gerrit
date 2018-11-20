@@ -37,13 +37,9 @@ import com.google.inject.Injector;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class ProcMetricModuleTest extends GerritBaseTests {
-  @Rule public ExpectedException exception = ExpectedException.none();
-
   @Inject MetricMaker metrics;
 
   @Inject MetricRegistry registry;

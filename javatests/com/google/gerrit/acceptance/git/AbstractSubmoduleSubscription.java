@@ -281,6 +281,19 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
         config, subscribeToRepoPrefix, subscribeToRepo, subscribeToBranch);
     pushSubmoduleConfig(repo, branch, config);
   }
+  protected void createRelativeSubmoduleSubscription(
+      TestRepository<?> repo,
+      String branch,
+      String subscribeToRepoPrefix,
+      Project.NameKey subscribeToRepo,
+      String subscribeToBranch)
+      throws Exception {
+    Config config = new Config();
+    prepareRelativeSubmoduleConfigEntry(
+        config, subscribeToRepoPrefix, subscribeToRepo, subscribeToBranch);
+    pushSubmoduleConfig(repo, branch, config);
+  }
+
 
   protected void prepareRelativeSubmoduleConfigEntry(
       Config config,

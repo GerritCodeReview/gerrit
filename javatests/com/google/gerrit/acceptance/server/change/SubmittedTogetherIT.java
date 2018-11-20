@@ -21,6 +21,7 @@ import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.N
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -29,6 +30,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.inject.Inject;
 import java.util.EnumSet;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -40,6 +42,8 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
   }
+
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void doesNotIncludeCurrentFiles() throws Exception {
@@ -226,7 +230,8 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   @Test
   public void newBranchTwoChangesTogether() throws Exception {
-    Project.NameKey p1 = createProject("a-new-project", null, false);
+    Project.NameKey p1 = projectOperations.newProject().noEmptyCommit().create();
+
     TestRepository<?> repo1 = cloneProject(p1);
 
     RevCommit c1 =

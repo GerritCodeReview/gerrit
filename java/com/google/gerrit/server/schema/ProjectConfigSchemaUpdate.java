@@ -17,12 +17,17 @@ package com.google.gerrit.server.schema;
 import static com.google.gerrit.server.project.ProjectConfig.ACCESS;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -31,22 +36,38 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.StoredConfig;
 
 public class ProjectConfigSchemaUpdate extends VersionedMetaData {
+  public static class Factory {
+    private final SitePaths sitePaths;
+    private final AllProjectsName allProjectsName;
+
+    @Inject
+    Factory(SitePaths sitePaths, AllProjectsName allProjectsName) {
+      this.sitePaths = sitePaths;
+      this.allProjectsName = allProjectsName;
+    }
+
+    ProjectConfigSchemaUpdate read(MetaDataUpdate update)
+        throws IOException, ConfigInvalidException {
+      ProjectConfigSchemaUpdate r =
+          new ProjectConfigSchemaUpdate(
+              update,
+              ProjectConfig.Factory.getBaseConfig(sitePaths, allProjectsName, allProjectsName));
+      r.load(update);
+      return r;
+    }
+  }
 
   private final MetaDataUpdate update;
+  @Nullable private final StoredConfig baseConfig;
   private Config config;
   private boolean updated;
 
-  public static ProjectConfigSchemaUpdate read(MetaDataUpdate update)
-      throws IOException, ConfigInvalidException {
-    ProjectConfigSchemaUpdate r = new ProjectConfigSchemaUpdate(update);
-    r.load(update);
-    return r;
-  }
-
-  private ProjectConfigSchemaUpdate(MetaDataUpdate update) {
+  private ProjectConfigSchemaUpdate(MetaDataUpdate update, @Nullable StoredConfig baseConfig) {
     this.update = update;
+    this.baseConfig = baseConfig;
   }
 
   @Override
@@ -56,7 +77,15 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    config = readConfig(ProjectConfig.PROJECT_CONFIG);
+    if (baseConfig != null) {
+      baseConfig.load();
+    }
+    config = readConfig(ProjectConfig.PROJECT_CONFIG, baseConfig);
+  }
+
+  @VisibleForTesting
+  Config getConfig() {
+    return config;
   }
 
   public void removeForceFromPermission(String name) {

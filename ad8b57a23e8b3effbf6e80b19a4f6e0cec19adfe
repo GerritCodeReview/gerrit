@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70397b07_4a7ab7ba",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-20T14:42:05Z",
+      "side": 1,
+      "message": "can you add it as commit without parent into adjList ?",
+      "revId": "ad8b57a23e8b3effbf6e80b19a4f6e0cec19adfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ba700f2_da76f8be",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-20T14:42:05Z",
+      "side": 1,
+      "message": "can you use TreeSet for reproducible ordering here?",
+      "range": {
+        "startLine": 724,
+        "startChar": 28,
+        "endLine": 724,
+        "endChar": 35
+      },
+      "revId": "ad8b57a23e8b3effbf6e80b19a4f6e0cec19adfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

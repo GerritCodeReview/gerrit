@@ -22,6 +22,30 @@
       "revId": "84d5ace464459c6522e47d78ecfb3c780121777f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e1c1598_038d61dc",
+        "filename": "javatests/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-11-20T23:40:51Z",
+      "side": 0,
+      "message": "It only became redundant when this class started inheriting GerritBaseTests. So at that point in the series, it was not redundant and would be incorrect to remove.\n\nI could have ordered this change first, just changing the base class, then rolled the static block deletion into that change afterwards. But I didn\u0027t feel like splitting it up again.",
+      "parentUuid": "0a486e6e_70c45681",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "84d5ace464459c6522e47d78ecfb3c780121777f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

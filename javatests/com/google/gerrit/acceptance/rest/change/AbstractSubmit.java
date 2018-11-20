@@ -1365,7 +1365,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   protected Project.NameKey createProjectForPush(@Nullable NameKey parent, SubmitType submitType)
       throws Exception {
     TestProjectCreation.Builder b =
-        projectOperations.newProject().withEmptyCommit().submitType(submitType);
+        projectOperations.newProject().submitType(submitType);
     if (parent != null) {
       b.parent(parent);
     }

@@ -20,13 +20,11 @@ import static com.google.common.truth.TruthJUnit.assume;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.ioutil.HostPlatform;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TempFileUtil;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import org.easymock.EasyMockSupport;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -37,12 +35,7 @@ import org.eclipse.jgit.util.FS;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
-
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
+public class LocalDiskRepositoryManagerTest extends GerritBaseTests {
   private Config cfg;
   private SitePaths site;
   private LocalDiskRepositoryManager repoManager;

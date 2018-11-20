@@ -63,6 +63,7 @@ import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.OperatorAliasConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -219,6 +220,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final SubmitDryRun submitDryRun;
     final GroupMembers groupMembers;
     final Provider<AnonymousUser> anonymousUserProvider;
+    final OperatorAliasConfig operatorAliasConfig;
 
     private final Provider<CurrentUser> self;
 
@@ -250,7 +252,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         GroupMembers groupMembers,
-        Provider<AnonymousUser> anonymousUserProvider) {
+        Provider<AnonymousUser> anonymousUserProvider,
+        OperatorAliasConfig operatorAliasConfig) {
       this(
           queryProvider,
           rewriter,
@@ -277,7 +280,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           starredChangesUtil,
           accountCache,
           groupMembers,
-          anonymousUserProvider);
+          anonymousUserProvider,
+          operatorAliasConfig);
     }
 
     private Arguments(
@@ -306,7 +310,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         GroupMembers groupMembers,
-        Provider<AnonymousUser> anonymousUserProvider) {
+        Provider<AnonymousUser> anonymousUserProvider,
+        OperatorAliasConfig operatorAliasConfig) {
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -333,6 +338,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.hasOperands = hasOperands;
       this.groupMembers = groupMembers;
       this.anonymousUserProvider = anonymousUserProvider;
+      this.operatorAliasConfig = operatorAliasConfig;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -362,7 +368,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           starredChangesUtil,
           accountCache,
           groupMembers,
-          anonymousUserProvider);
+          anonymousUserProvider,
+          operatorAliasConfig);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -407,12 +414,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Inject
   ChangeQueryBuilder(Arguments args) {
     this(mydef, args);
+    setupAliases();
   }
 
   @VisibleForTesting
   protected ChangeQueryBuilder(Definition<ChangeData, ChangeQueryBuilder> def, Arguments args) {
     super(def, args.opFactories);
     this.args = args;
+  }
+
+  private void setupAliases() {
+    setOperatorAliases(args.operatorAliasConfig.getChangeQueryOperatorAliases());
   }
 
   public Arguments getArgs() {

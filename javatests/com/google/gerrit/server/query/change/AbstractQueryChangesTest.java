@@ -41,6 +41,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.common.truth.ThrowableSubject;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
@@ -2978,6 +2979,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("query:query2", change2);
     assertQuery("query:query3", change2);
     assertQuery("query:query4");
+  }
+
+  @Test
+  @GerritConfig(name = "operator-alias.change.number", value = "change")
+  public void aliasQuery() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+
+    assertQuery("number:12345");
+    assertQuery("number:" + change1.getId().get(), change1);
+    assertQuery("number:" + change2.getId().get(), change2);
   }
 
   @Test

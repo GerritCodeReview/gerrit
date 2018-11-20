@@ -3594,6 +3594,39 @@ information.
 +
 Default is false.
 
+[[operator-alias]]
+=== Section operator alias
+
+Operator aliasing allows global aliases to be defined for query operators.
+Currently only change queries are supported. The alias name is the git
+config key name, and the operator being aliased is the git config value.
+
+For example:
+
+----
+[operator-alias "change"]
+  oldage = age
+  number = change
+----
+
+This section is particularly useful to alias operator names which may be
+long and clunky because they include a plugin name in them to a shorter
+name without the plugin name.
+
+Aliases are resolved dynamically at invocation time to any currently
+loaded versions of plugins. If the alias points to an operator provided
+by a plugin which is not currently loaded, or the plugin does not define
+the operator, then "unsupported operator" is returned to the user.
+
+Aliases will override existing operators. In the case of multiple aliases
+with the same name, the last one defined will be used.
+
+When the target of an alias doesn't exist, the operator with the name
+of the alias will be used (if present). This enables an admin to config
+the system to override a core operator with an operator provided by a
+plugin when present and otherwise fall back to the operator provided by
+core.
+
 [[pack]]
 === Section pack
 

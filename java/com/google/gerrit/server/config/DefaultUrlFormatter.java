@@ -15,10 +15,10 @@
 package com.google.gerrit.server.config;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.util.Optional;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Singleton;
 
 @Singleton
 public class DefaultUrlFormatter implements UrlFormatter {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83ad59cb_5735ffcd",
+        "filename": "a.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-21T21:34:56Z",
+      "side": 1,
+      "message": "sss",
+      "revId": "90743f463c6239fe7341e112ed1e216f7f2ba288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

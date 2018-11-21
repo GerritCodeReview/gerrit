@@ -124,26 +124,13 @@ limitations under the License.
           '_groupsChanged(_groups.splices)',
         ],
 
-        attached() {
-          // Setup annotation layers.
-          const layers = [
-            this._createTrailingWhitespaceLayer(),
-            this.$.syntaxLayer,
-            this._createIntralineLayer(),
-            this._createTabIndicatorLayer(),
-            this.$.rangeLayer,
-          ];
-
-          // Get layers from plugins (if any).
-          for (const pluginLayer of this.$.jsAPI.getDiffLayers(
-              this.diffPath, this.changeNum, this.patchNum)) {
-            layers.push(pluginLayer);
-          }
-
-          this._layers = layers;
-        },
-
         render(keyLocations, prefs) {
+          // Setting up annotation layers must happen after plugins are
+          // installed, and |render| satisfies the requirement, however,
+          // |attached| doesn't because in the diff view page, the element is
+          // attached before plugins are installed.
+          this._setupAnnotationLayers();
+
           this.$.syntaxLayer.enabled = prefs.syntax_highlighting;
           this._showTabs = !!prefs.show_tabs;
           this._showTrailingWhitespace = !!prefs.show_whitespace_errors;
@@ -186,6 +173,24 @@ limitations under the License.
                       new CustomEvent('render', {bubbles: true}));
                 });
               });
+        },
+
+        _setupAnnotationLayers() {
+          const layers = [
+            this._createTrailingWhitespaceLayer(),
+            this.$.syntaxLayer,
+            this._createIntralineLayer(),
+            this._createTabIndicatorLayer(),
+            this.$.rangeLayer,
+          ];
+
+          // Get layers from plugins (if any).
+          for (const pluginLayer of this.$.jsAPI.getDiffLayers(
+              this.diffPath, this.changeNum, this.patchNum)) {
+            layers.push(pluginLayer);
+          }
+
+          this._layers = layers;
         },
 
         getLineElByChild(node) {

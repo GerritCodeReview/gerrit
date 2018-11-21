@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3d6c59e_d1c1f079",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-11-21T08:05:33Z",
+      "side": 0,
+      "message": "Please see my other comment as this is the same situation.",
+      "range": {
+        "startLine": 326,
+        "startChar": 16,
+        "endLine": 326,
+        "endChar": 41
+      },
+      "revId": "e6c4d376117f0d9c19c7d0577b9fd283b566a033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08ad2818_5043d988",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-11-21T08:05:33Z",
+      "side": 0,
+      "message": "The only place before this code where we can potentially set a status code is l.416 GitSmartHttpTools.sendError as throwing a RT exception will not set a status code and the rest of the code before this won\u0027t either.\n\nTherefore I would work with a local variable instead of reflection.\n\nFilters in the chain that got executed before this one should IIRC only call chain.doFilter if they did not terminate the request early (\u003d set a response code). This filter\u0027s next.doFilter happens after this code so we can neglect the status code that is returned there for this processing.",
+      "range": {
+        "startLine": 436,
+        "startChar": 15,
+        "endLine": 436,
+        "endChar": 41
+      },
+      "revId": "e6c4d376117f0d9c19c7d0577b9fd283b566a033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

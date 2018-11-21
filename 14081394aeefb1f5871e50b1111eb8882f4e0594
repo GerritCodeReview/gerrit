@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ca76305b_d4523165",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T17:08:21Z",
+      "side": 1,
+      "message": "I agree that for inlining, the current variant is better.",
+      "parentUuid": "4d4be19c_7299fc07",
+      "range": {
+        "startLine": 566,
+        "startChar": 4,
+        "endLine": 566,
+        "endChar": 25
+      },
+      "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18124718_5bfdd153",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 22

@@ -19,11 +19,13 @@ import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Before;
@@ -32,6 +34,7 @@ import org.junit.Test;
 public class ChangeOwnerIT extends AbstractDaemonTest {
 
   private TestAccount user2;
+  @Inject private ProjectOperations projectOperations;
 
   @Before
   public void setUp() throws Exception {
@@ -63,7 +66,8 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   public void testChangeOwner_OwnerACLGrantedOnParentProject() throws Exception {
     setApiUser(admin);
     grantApproveToChangeOwner(project);
-    Project.NameKey child = createProject("child", project);
+    // Default for createEmptyCommit should match TestProjectConfig.
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
 
     setApiUser(user);
     TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
@@ -74,7 +78,8 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   public void testChangeOwner_BlockedOnParentProject() throws Exception {
     setApiUser(admin);
     blockApproveForChangeOwner(project);
-    Project.NameKey child = createProject("child", project);
+    // Default for createEmptyCommit should match TestProjectConfig.
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
 
     setApiUser(user);
     grantApproveToAll(child);
@@ -92,7 +97,8 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   public void testChangeOwner_BlockedOnParentProjectAndExclusiveAllowOnChild() throws Exception {
     setApiUser(admin);
     blockApproveForChangeOwner(project);
-    Project.NameKey child = createProject("child", project);
+    // Default for createEmptyCommit should match TestProjectConfig.
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
 
     setApiUser(user);
     grantExclusiveApproveToAll(child);

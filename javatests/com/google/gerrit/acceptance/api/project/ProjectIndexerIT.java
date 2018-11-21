@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.GitUtil.fetch;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.RefState;
@@ -45,6 +46,7 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
   @Inject private ProjectIndexCollection indexes;
   @Inject private IndexConfig indexConfig;
   @Inject private StalenessChecker stalenessChecker;
+  @Inject private ProjectOperations projectOperations;
 
   private static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(ProjectField.NAME.getName(), ProjectField.REF_STATE.getName());
@@ -96,8 +98,10 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
 
   @Test
   public void stalenessChecker_hierarchyChange_isStale() throws Exception {
-    Project.NameKey p1 = createProject("p1", allProjects);
-    Project.NameKey p2 = createProject("p2", allProjects);
+    // Default for createEmptyCommit should match TestProjectConfig.
+    Project.NameKey p1 = projectOperations.newProject().parent(allProjects).create();
+    // Default for createEmptyCommit should match TestProjectConfig.
+    Project.NameKey p2 = projectOperations.newProject().parent(allProjects).create();
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getProject().setParentName(p1);
       u.save();

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1871b633_97a3253d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-21T00:30:33Z",
+      "side": 1,
+      "message": "Expand the commit message a bit with reasoning for this change?",
+      "revId": "1b6c74cb0613ff13c3e7adfede73803ada945698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0f05e00_be0e848f",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-21T00:30:33Z",
+      "side": 1,
+      "message": "Isn\u0027t an empty list effectively the same as leaving the value uninitialized?",
+      "revId": "1b6c74cb0613ff13c3e7adfede73803ada945698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

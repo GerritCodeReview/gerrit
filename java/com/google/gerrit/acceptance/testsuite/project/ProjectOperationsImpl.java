@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.testsuite.project;
 
 import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectCreator;
 import com.google.inject.Inject;
@@ -27,13 +26,10 @@ import org.eclipse.jgit.lib.Constants;
 
 public class ProjectOperationsImpl implements ProjectOperations {
   private final ProjectCreator projectCreator;
-  private final ProjectOwnerGroupsProvider.Factory projectOwnerGroups;
 
   @Inject
-  ProjectOperationsImpl(
-      ProjectOwnerGroupsProvider.Factory projectOwnerGroups, ProjectCreator projectCreator) {
+  ProjectOperationsImpl(ProjectCreator projectCreator) {
     this.projectCreator = projectCreator;
-    this.projectOwnerGroups = projectOwnerGroups;
   }
 
   @Override
@@ -49,7 +45,8 @@ public class ProjectOperationsImpl implements ProjectOperations {
     args.branch = Collections.singletonList(Constants.R_HEADS + Constants.MASTER);
     args.createEmptyCommit = projectCreation.createEmptyCommit().orElse(true);
     projectCreation.parent().ifPresent(p -> args.newParent = p);
-    args.ownerIds = new ArrayList<>(projectOwnerGroups.create(args.getProject()).get());
+    // ProjectCreator wants non-null owner IDs.
+    args.ownerIds = new ArrayList<>();
     projectCreation.submitType().ifPresent(st -> args.submitType = st);
     projectCreator.createProject(args);
     return new Project.NameKey(name);

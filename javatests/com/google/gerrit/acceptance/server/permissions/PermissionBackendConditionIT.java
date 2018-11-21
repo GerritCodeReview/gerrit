@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -34,6 +35,7 @@ import org.junit.Test;
 public class PermissionBackendConditionIT extends AbstractDaemonTest {
 
   @Inject PermissionBackend pb;
+  @Inject ProjectOperations projectOperations;
 
   @Test
   public void globalPermissions_sameUserAndPermissionEquals() throws Exception {
@@ -110,7 +112,7 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
 
   @Test
   public void projectPermissions_differentResourceSameUserDoesNotEqual() throws Exception {
-    Project.NameKey project2 = createProject("p2");
+    Project.NameKey project2 = projectOperations.newProject().create();
     BooleanCondition cond1 = pb.user(user()).project(project).testCond(ProjectPermission.READ);
     BooleanCondition cond2 = pb.user(user()).project(project2).testCond(ProjectPermission.READ);
 
@@ -152,7 +154,8 @@ public class PermissionBackendConditionIT extends AbstractDaemonTest {
   @Test
   public void refPermissions_differentResourceAndSameUserDoesNotEqual2() throws Exception {
     Branch.NameKey branch1 = new Branch.NameKey(project, "branch");
-    Branch.NameKey branch2 = new Branch.NameKey(createProject("p2"), "branch");
+    Branch.NameKey branch2 =
+        new Branch.NameKey(this.projectOperations.newProject().create(), "branch");
     BooleanCondition cond1 = pb.user(user()).ref(branch1).testCond(RefPermission.READ);
     BooleanCondition cond2 = pb.user(user()).ref(branch2).testCond(RefPermission.READ);
 

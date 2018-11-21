@@ -18,21 +18,25 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
 public class WatchedProjectsIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
 
   private static final String NEW_PROJECT_NAME = "newProjectAccess";
 
   @Test
   public void setAndGetWatchedProjects() throws Exception {
-    String projectName1 = createProject(NEW_PROJECT_NAME).get();
-    String projectName2 = createProject(NEW_PROJECT_NAME + "2").get();
+    String projectName1 = projectOperations.newProject().name(NEW_PROJECT_NAME).create().get();
+    String projectName2 =
+        projectOperations.newProject().name(NEW_PROJECT_NAME + "2").create().get();
 
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>(2);
 
@@ -57,8 +61,8 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void setAndDeleteWatchedProjects() throws Exception {
-    String projectName1 = createProject(NEW_PROJECT_NAME).get();
-    String projectName2 = createProject(NEW_PROJECT_NAME + "2").get();
+    String projectName1 = this.projectOperations.newProject().create().get();
+    String projectName2 = this.projectOperations.newProject().create().get();
 
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
@@ -91,7 +95,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void setConflictingWatches() throws Exception {
-    String projectName = createProject(NEW_PROJECT_NAME).get();
+    String projectName = this.projectOperations.newProject().create().get();
 
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
@@ -115,7 +119,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void setAndGetEmptyWatch() throws Exception {
-    String projectName = createProject(NEW_PROJECT_NAME).get();
+    String projectName = this.projectOperations.newProject().create().get();
 
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 

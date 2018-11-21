@@ -21,6 +21,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -34,6 +35,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.inject.Inject;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -51,6 +53,7 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
+  @Inject private ProjectOperations projectOperations;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -132,9 +135,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitChangesAcrossRepos() throws Exception {
-    Project.NameKey p1 = createProject("project-where-we-submit");
-    Project.NameKey p2 = createProject("project-impacted-via-topic");
-    Project.NameKey p3 = createProject("project-impacted-indirectly-via-topic");
+    Project.NameKey p1 = this.projectOperations.newProject().create();
+    Project.NameKey p2 = this.projectOperations.newProject().create();
+    Project.NameKey p3 = this.projectOperations.newProject().create();
 
     RevCommit initialHead2 = getRemoteHead(p2, "master");
     RevCommit initialHead3 = getRemoteHead(p3, "master");
@@ -209,9 +212,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitChangesAcrossReposBlocked() throws Exception {
-    Project.NameKey p1 = createProject("project-where-we-submit");
-    Project.NameKey p2 = createProject("project-impacted-via-topic");
-    Project.NameKey p3 = createProject("project-impacted-indirectly-via-topic");
+    Project.NameKey p1 = this.projectOperations.newProject().create();
+    Project.NameKey p2 = this.projectOperations.newProject().create();
+    Project.NameKey p3 = this.projectOperations.newProject().create();
 
     TestRepository<?> repo1 = cloneProject(p1);
     TestRepository<?> repo2 = cloneProject(p2);
@@ -388,7 +391,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             "3",
             "a-topic-here");
 
-    Project.NameKey p3 = createProject("project-related-to-change3");
+    Project.NameKey p3 = this.projectOperations.newProject().create();
     TestRepository<?> repo3 = cloneProject(p3);
     RevCommit repo3Head = getRemoteHead(p3, "master");
     PushOneCommit.Result change3b =
@@ -710,8 +713,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     //                    (c2a) <= private
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
-    Project.NameKey p1 = createProject("project-where-we-submit");
-    Project.NameKey p2 = createProject("project-impacted-via-topic");
+    Project.NameKey p1 = this.projectOperations.newProject().create();
+    Project.NameKey p2 = this.projectOperations.newProject().create();
 
     grantLabel("Code-Review", -2, 2, p1, "refs/heads/*", false, REGISTERED_USERS, false);
     grant(p1, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
@@ -764,7 +767,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void testPreviewSubmitTgz() throws Exception {
-    Project.NameKey p1 = createProject("project-name");
+    Project.NameKey p1 = this.projectOperations.newProject().create();
 
     TestRepository<?> repo1 = cloneProject(p1);
     PushOneCommit.Result change1 = createChange(repo1, "master", "test", "a.txt", "1", "topic");
@@ -789,6 +792,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         untarredFiles.add(entry.getName());
       }
     }
-    assertThat(untarredFiles).containsExactly(name("project-name") + ".git");
+    assertThat(untarredFiles).containsExactly(p1.get() + ".git");
   }
 }

@@ -41,6 +41,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
@@ -94,6 +95,7 @@ import org.junit.Test;
 @NoHttpd
 public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   private static final String INVALID_STATE = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+  @Inject private ProjectOperations projectOperations;
 
   @ConfigSuite.Default
   public static Config defaultConfig() {
@@ -303,7 +305,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   public void rebuildSubsetOfProjects() throws Exception {
     setNotesMigrationState(WRITE);
 
-    Project.NameKey p2 = createProject("project2");
+    Project.NameKey p2 = projectOperations.newProject().create();
     TestRepository<?> tr2 = cloneProject(p2, admin);
 
     PushOneCommit.Result r1 = createChange();

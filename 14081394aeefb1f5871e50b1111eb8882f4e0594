@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90b94cb3_c855d5c3",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T16:57:08Z",
+      "side": 1,
+      "message": "Optional, here and below: Could be solved similary as AbstractSubmit#createProjectForPush does meaning that we can use the same builder for all cases but only append parent() if parent is not null.",
+      "range": {
+        "startLine": 566,
+        "startChar": 4,
+        "endLine": 566,
+        "endChar": 25
+      },
+      "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18124718_5bfdd153",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1364,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T16:57:08Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 1364,
+        "startChar": 2,
+        "endLine": 1364,
+        "endChar": 20
+      },
+      "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d5b9ec8_b9c28a1f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T16:57:08Z",
+      "side": 1,
+      "message": "Do we still need this? It doesn\u0027t seem to be used anywhere.",
+      "range": {
+        "startLine": 1378,
+        "startChar": 28,
+        "endLine": 1378,
+        "endChar": 49
+      },
+      "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "288ab8c6_7b80c3a2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T16:57:08Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t make sense anymore.",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 49
+      },
+      "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c76d5594_d28b3814",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T16:57:08Z",
+      "side": 1,
+      "message": "Do we still need this filter? (All tests in this class still pass even if I change the expression to true.)",
+      "range": {
+        "startLine": 259,
+        "startChar": 2,
+        "endLine": 265,
+        "endChar": 3
+      },
+      "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

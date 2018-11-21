@@ -44,8 +44,8 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
   @Test
   public void listChildren() throws Exception {
     Project.NameKey child1 = projectOperations.newProject().create();
-    Project.NameKey child1_1 = createProject("p1.1", child1);
-    Project.NameKey child1_2 = createProject("p1.2", child1);
+    Project.NameKey child1_1 = this.projectOperations.newProject().parent(child1).create();
+    Project.NameKey child1_2 = this.projectOperations.newProject().parent(child1).create();
 
     assertThatNameList(gApi.projects().name(child1.get()).children()).isOrdered();
     assertThatNameList(gApi.projects().name(child1.get()).children())

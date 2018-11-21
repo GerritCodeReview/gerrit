@@ -403,12 +403,16 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
   public void subscriptionInheritACL() throws Exception {
-    Project.NameKey configKey = createProjectForPush("config-repo", null, true, getSubmitType());
+    Project.NameKey configKey =
+        this.projectOperations.newProject().submitType(getSubmitType()).create();
+    grantPush(configKey);
     Project.NameKey config2Key =
-        createProjectForPush("config-repo2", configKey, true, getSubmitType());
+        projectOperations.newProject().parent(configKey).submitType(getSubmitType()).create();
+    grantPush(config2Key);
     cloneProject(config2Key);
 
-    subKey = createProjectForPush("subrepo", config2Key, true, getSubmitType());
+    subKey = projectOperations.newProject().parent(config2Key).submitType(getSubmitType()).create();
+    grantPush(subKey);
     subRepo = cloneProject(subKey);
 
     allowMatchingSubmoduleSubscription(configKey, "refs/heads/*", superKey, "refs/heads/*");
@@ -445,8 +449,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
   public void subscriptionDeepRelative() throws Exception {
-    Project.NameKey nest =
-        createProjectForPush("nested/subscribed-to-project", null, true, getSubmitType());
+    Project.NameKey nest = createProjectForPush(getSubmitType());
     TestRepository<?> subRepo = cloneProject(nest);
     // master is allowed to be subscribed to any superprojects branch:
     allowMatchingSubmoduleSubscription(nest, "refs/heads/master", superKey, null);
@@ -511,8 +514,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     try {
 
-      Project.NameKey proj2 =
-          createProjectForPush("subscribed-to-project-2", null, true, getSubmitType());
+      Project.NameKey proj2 = createProjectForPush(getSubmitType());
 
       TestRepository<?> subRepo2 = cloneProject(proj2);
       allowMatchingSubmoduleSubscription(
@@ -559,8 +561,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     // is afterwards.
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     try {
-      Project.NameKey proj2 =
-          createProjectForPush("subscribed-to-project-2", null, true, getSubmitType());
+      Project.NameKey proj2 = createProjectForPush(getSubmitType());
       TestRepository<InMemoryRepository> repo2 = cloneProject(proj2, user);
 
       allowMatchingSubmoduleSubscription(
@@ -604,10 +605,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
   public void updateOnlyRelevantSubmodules() throws Exception {
-    Project.NameKey subkey1 =
-        createProjectForPush("subscribed-to-project-1", null, true, getSubmitType());
-    Project.NameKey subkey2 =
-        createProjectForPush("subscribed-to-project-2", null, true, getSubmitType());
+    Project.NameKey subkey1 = createProjectForPush(getSubmitType());
+    Project.NameKey subkey2 = createProjectForPush(getSubmitType());
     TestRepository<?> subRepo1 = cloneProject(subkey1);
     TestRepository<?> subRepo2 = cloneProject(subkey2);
 

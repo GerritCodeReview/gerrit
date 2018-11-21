@@ -45,6 +45,30 @@
       "revId": "e6c4d376117f0d9c19c7d0577b9fd283b566a033",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7204033d_7bc1957d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-21T16:11:21Z",
+      "side": 0,
+      "message": "\u003e The only place before this code where we can potentially set a status code is l.416 GitSmartHttpTools.sendError as throwing a RT exception will not set a status code and the rest of the code before this won\u0027t either.\n\u003e \n\u003e Therefore I would work with a local variable instead of reflection.\n\u003e \n\u003e Filters in the chain that got executed before this one should IIRC only call chain.doFilter if they did not terminate the request early (\u003d set a response code). This filter\u0027s next.doFilter happens after this code so we can neglect the status code that is returned there for this processing.\n\ngood point.",
+      "parentUuid": "08ad2818_5043d988",
+      "range": {
+        "startLine": 436,
+        "startChar": 15,
+        "endLine": 436,
+        "endChar": 41
+      },
+      "revId": "e6c4d376117f0d9c19c7d0577b9fd283b566a033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

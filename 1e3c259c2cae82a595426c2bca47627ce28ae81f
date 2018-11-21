@@ -853,6 +853,30 @@
     },
     {
       "key": {
+        "uuid": "1a6d6596_8f46bbe5",
+        "filename": "java/com/google/gerrit/server/quota/QuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T11:55:27Z",
+      "side": 1,
+      "message": "Discussed the names offline. Patch set 3 contains the result.",
+      "parentUuid": "7844b8cc_f1a942ce",
+      "range": {
+        "startLine": 79,
+        "startChar": 17,
+        "endLine": 79,
+        "endChar": 32
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9ae6ab4_09f84a61",
         "filename": "java/com/google/gerrit/server/quota/QuotaEnforcer.java",
         "patchSetId": 2
@@ -969,6 +993,30 @@
       "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "713e33d9_058211c6",
+        "filename": "java/com/google/gerrit/server/quota/QuotaRequestContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T11:55:27Z",
+      "side": 1,
+      "message": "Addressed in patch set 3.",
+      "parentUuid": "8c7746ec_06b653f5",
+      "range": {
+        "startLine": 30,
+        "startChar": 10,
+        "endLine": 32,
+        "endChar": 36
+      },
+      "revId": "1e3c259c2cae82a595426c2bca47627ce28ae81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b65a0e5b_5d4b71c4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2975,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T11:55:27Z",
+      "side": 1,
+      "message": "Needs the negation as well.",
+      "range": {
+        "startLine": 2975,
+        "startChar": 8,
+        "endLine": 2975,
+        "endChar": 42
+      },
+      "revId": "7a8e256e2350eec787869cb3158a216b510f2eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9262bfb_437203ba",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T11:55:27Z",
+      "side": 1,
+      "message": "Here and below: I had an idea how we could make this a bit more elegant. If we made requestContext protected in WithResource, we could simply write requestContext.toBuilder().account(account).build() here. Thus, we wouldn\u0027t even need to remember the CurrentUser in this class.",
+      "range": {
+        "startLine": 113,
+        "startChar": 32,
+        "endLine": 113,
+        "endChar": 98
+      },
+      "revId": "7a8e256e2350eec787869cb3158a216b510f2eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a18dbbfc_7b987355",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T11:55:27Z",
+      "side": 1,
+      "message": "Since QuotaResponse#isOk now only returns true for OK, we should reconsider this method as otherwise a single NO_OP would make this method return false. Should we maybe reverse the logic and rather check if there is at least one error (e.g. an hasError() method)?",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 5
+      },
+      "revId": "7a8e256e2350eec787869cb3158a216b510f2eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f63aebe7_6c4bd02f",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T11:55:27Z",
+      "side": 1,
+      "message": "Optional: It\u0027s a bit strange to have the plural as name but only get one string back. What about combinedErrorMessage()",
+      "range": {
+        "startLine": 95,
+        "startChar": 18,
+        "endLine": 95,
+        "endChar": 31
+      },
+      "revId": "7a8e256e2350eec787869cb3158a216b510f2eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

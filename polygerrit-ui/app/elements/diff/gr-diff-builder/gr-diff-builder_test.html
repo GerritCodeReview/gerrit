@@ -582,13 +582,14 @@ limitations under the License.
       setup(() => {
         element = fixture('basic');
         element._showTrailingWhitespace = true;
+        element._setupAnnotationLayers();
         initialLayersCount = element._layers.length;
       });
 
       test('no plugin layers', () => {
         const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
                                        .returns([]);
-        element.attached();
+        element._setupAnnotationLayers();
         assert.isTrue(getDiffLayersStub.called);
         assert.equal(element._layers.length, initialLayersCount);
       });
@@ -596,9 +597,9 @@ limitations under the License.
       test('with plugin layers', () => {
         const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
                                        .returns([{}, {}]);
-        element.attached();
+        element._setupAnnotationLayers();
         assert.isTrue(getDiffLayersStub.called);
-        assert.equal(element._layers.length, initialLayersCount+2);
+        assert.equal(element._layers.length, initialLayersCount + 2);
       });
     });
 

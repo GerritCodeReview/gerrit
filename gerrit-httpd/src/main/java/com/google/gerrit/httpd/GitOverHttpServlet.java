@@ -50,6 +50,7 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.Filter;
@@ -155,17 +156,15 @@ public class GitOverHttpServlet extends GitServlet {
   }
 
   private static ListMultimap<String, String> extractParameters(HttpServletRequest request) {
-
     ListMultimap<String, String> multiMap = ArrayListMultimap.create();
     if (request.getQueryString() != null) {
-      request
-          .getParameterMap()
-          .forEach(
-              (k, v) -> {
-                for (int i = 0; i < v.length; i++) {
-                  multiMap.put(k, v[i]);
-                }
-              });
+      Map<String, String[]> parameterMap = (Map<String, String[]>) request.getParameterMap();
+      parameterMap.forEach(
+          (k, v) -> {
+            for (String aV : v) {
+              multiMap.put(k, aV);
+            }
+          });
     }
     return multiMap;
   }
@@ -297,6 +296,7 @@ public class GitOverHttpServlet extends GitServlet {
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       UploadPack up = (UploadPack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
 
+      int errorStatusCode = HttpServletResponse.SC_FORBIDDEN;
       try {
         permissionBackend
             .user(pc.getUser())
@@ -306,7 +306,7 @@ public class GitOverHttpServlet extends GitServlet {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
             (HttpServletResponse) response,
-            HttpServletResponse.SC_FORBIDDEN,
+            errorStatusCode,
             "upload-pack not permitted on this server");
         return;
       } catch (PermissionBackendException e) {
@@ -323,7 +323,7 @@ public class GitOverHttpServlet extends GitServlet {
                 extractParameters(httpRequest),
                 httpRequest.getMethod(),
                 httpRequest,
-                httpResponse.getStatus(),
+                errorStatusCode,
                 httpResponse));
       }
 
@@ -407,6 +407,7 @@ public class GitOverHttpServlet extends GitServlet {
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       Project.NameKey projectName = pc.getProject().getNameKey();
 
+      int errorStatusCode = HttpServletResponse.SC_FORBIDDEN;
       try {
         permissionBackend
             .user(pc.getUser())
@@ -416,7 +417,7 @@ public class GitOverHttpServlet extends GitServlet {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
             (HttpServletResponse) response,
-            HttpServletResponse.SC_FORBIDDEN,
+            errorStatusCode,
             "receive-pack not permitted on this server");
         return;
       } catch (PermissionBackendException e) {
@@ -433,7 +434,7 @@ public class GitOverHttpServlet extends GitServlet {
                 extractParameters(httpRequest),
                 httpRequest.getMethod(),
                 httpRequest,
-                httpResponse.getStatus(),
+                errorStatusCode,
                 httpResponse));
       }
 

@@ -277,8 +277,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void updateManySubmodules() throws Exception {
-    Project.NameKey subKey[] = new NameKey[3];
-    TestRepository<?> sub[] = new TestRepository[3];
+    final int NUM = 3;
+    Project.NameKey subKey[] = new NameKey[NUM];
+    TestRepository<?> sub[] = new TestRepository[NUM];
     String prefix = RandomStringUtils.randomAlphabetic(8);
     for (int i = 0; i < subKey.length; i++) {
       subKey[i] =
@@ -305,7 +306,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
     ObjectId superPreviousId = pushChangeTo(superRepo, "master");
 
-    ObjectId subId[] = new ObjectId[3];
+    ObjectId subId[] = new ObjectId[NUM];
 
     for (int i = 0; i < sub.length; i++) {
       subId[i] = pushChangeTo(sub[i], "refs/for/master", "some message", "same-topic");
@@ -318,7 +319,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
       expectToHaveSubmoduleState(superRepo, "master", subKey[i], sub[i], "master");
     }
 
-    String heads[] = new String[3];
+    String heads[] = new String[NUM];
     for (int i = 0; i < heads.length; i++) {
       heads[i] =
           sub[i]

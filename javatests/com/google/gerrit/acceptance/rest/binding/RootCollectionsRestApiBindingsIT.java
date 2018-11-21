@@ -12,23 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest;
+package com.google.gerrit.acceptance.rest.binding;
 
-import static com.google.gerrit.acceptance.rest.AbstractRestApiBindingsTest.Method.GET;
+import static com.google.gerrit.acceptance.rest.util.RestApiCallHelper.execute;
+import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.acceptance.rest.util.RestCall;
 import org.junit.Test;
 
 /**
  * Tests for checking the bindings of the root REST API.
  *
  * <p>These tests only verify that the root REST endpoints are correctly bound, they do no test the
- * functionality of the root REST endpoints (for details see JavaDoc on {@link
- * AbstractRestApiBindingsTest}).
+ * functionality of the root REST endpoints.
  */
-public class RootCollectionsRestApiBindingsIT extends AbstractRestApiBindingsTest {
+public class RootCollectionsRestApiBindingsIT extends AbstractDaemonTest {
   /** Root REST endpoints to be tested, the URLs contain no placeholders. */
   private static final ImmutableList<RestCall> ROOT_ENDPOINTS =
       ImmutableList.of(
@@ -51,6 +53,6 @@ public class RootCollectionsRestApiBindingsIT extends AbstractRestApiBindingsTes
   @Test
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
   public void rootEndpoints() throws Exception {
-    execute(ROOT_ENDPOINTS);
+    execute(adminRestSession, ROOT_ENDPOINTS);
   }
 }

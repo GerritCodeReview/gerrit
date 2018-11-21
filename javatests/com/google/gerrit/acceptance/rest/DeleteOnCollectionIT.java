@@ -36,13 +36,8 @@ public class DeleteOnCollectionIT extends AbstractDaemonTest {
       public void configure() {
         deleteOnCollection(BRANCH_KIND)
             .toInstance(
-                new RestCollectionModifyView<ProjectResource, BranchResource, Object>() {
-                  @Override
-                  public Object apply(ProjectResource parentResource, Object input)
-                      throws Exception {
-                    return Response.none();
-                  }
-                });
+                (RestCollectionModifyView<ProjectResource, BranchResource, Object>)
+                    (parentResource, input) -> Response.none());
       }
     };
   }

@@ -12,18 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest;
+package com.google.gerrit.acceptance.rest.binding;
 
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static com.google.gerrit.acceptance.rest.AbstractRestApiBindingsTest.Method.GET;
+import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 import static com.google.gerrit.server.restapi.project.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
 import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
+import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -39,10 +42,9 @@ import org.junit.Test;
  * Tests for checking the bindings of the projects REST API.
  *
  * <p>These tests only verify that the project REST endpoints are correctly bound, they do no test
- * the functionality of the project REST endpoints (for details see JavaDoc on {@link
- * AbstractRestApiBindingsTest}).
+ * the functionality of the project REST endpoints.
  */
-public class ProjectsRestApiBindingsIT extends AbstractRestApiBindingsTest {
+public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> PROJECT_ENDPOINTS =
       ImmutableList.of(
           RestCall.get("/projects/%s"),
@@ -157,49 +159,53 @@ public class ProjectsRestApiBindingsIT extends AbstractRestApiBindingsTest {
 
   @Test
   public void projectEndpoints() throws Exception {
-    execute(PROJECT_ENDPOINTS, project.get());
+    RestApiCallHelper.execute(adminRestSession, PROJECT_ENDPOINTS, project.get());
   }
 
   @Test
   public void childProjectEndpoints() throws Exception {
     Project.NameKey childProject = createProject("test-child-repo", project);
-    execute(CHILD_PROJECT_ENDPOINTS, project.get(), childProject.get());
+    RestApiCallHelper.execute(
+        adminRestSession, CHILD_PROJECT_ENDPOINTS, project.get(), childProject.get());
   }
 
   @Test
   public void branchEndpoints() throws Exception {
-    execute(BRANCH_ENDPOINTS, project.get(), "master");
+    RestApiCallHelper.execute(adminRestSession, BRANCH_ENDPOINTS, project.get(), "master");
   }
 
   @Test
   public void branchFileEndpoints() throws Exception {
     createAndSubmitChange(FILENAME);
-    execute(BRANCH_FILE_ENDPOINTS, project.get(), "master", FILENAME);
+    RestApiCallHelper.execute(
+        adminRestSession, BRANCH_FILE_ENDPOINTS, project.get(), "master", FILENAME);
   }
 
   @Test
   public void dashboardEndpoints() throws Exception {
     createDefaultDashboard();
-    execute(DASHBOARD_ENDPOINTS, project.get(), DEFAULT_DASHBOARD_NAME);
+    RestApiCallHelper.execute(
+        adminRestSession, DASHBOARD_ENDPOINTS, project.get(), DEFAULT_DASHBOARD_NAME);
   }
 
   @Test
   public void tagEndpoints() throws Exception {
     String tag = "test-tag";
     gApi.projects().name(project.get()).tag(tag).create(new TagInput());
-    execute(TAG_ENDPOINTS, project.get(), tag);
+    RestApiCallHelper.execute(adminRestSession, TAG_ENDPOINTS, project.get(), tag);
   }
 
   @Test
   public void commitEndpoints() throws Exception {
     String commit = createAndSubmitChange(FILENAME);
-    execute(COMMIT_ENDPOINTS, project.get(), commit);
+    RestApiCallHelper.execute(adminRestSession, COMMIT_ENDPOINTS, project.get(), commit);
   }
 
   @Test
   public void commitFileEndpoints() throws Exception {
     String commit = createAndSubmitChange(FILENAME);
-    execute(COMMIT_FILE_ENDPOINTS, project.get(), commit, FILENAME);
+    RestApiCallHelper.execute(
+        adminRestSession, COMMIT_FILE_ENDPOINTS, project.get(), commit, FILENAME);
   }
 
   private String createAndSubmitChange(String filename) throws Exception {

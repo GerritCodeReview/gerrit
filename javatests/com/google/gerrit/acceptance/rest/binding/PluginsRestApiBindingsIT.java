@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest;
+package com.google.gerrit.acceptance.rest.binding;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
+import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -27,10 +30,9 @@ import org.junit.Test;
  * Tests for checking the bindings of the plugins REST API.
  *
  * <p>These tests only verify that the plugin REST endpoints are correctly bound, they do no test
- * the functionality of the plugin REST endpoints (for details see JavaDoc on {@link
- * AbstractRestApiBindingsTest}).
+ * the functionality of the plugin REST endpoints.
  */
-public class PluginsRestApiBindingsIT extends AbstractRestApiBindingsTest {
+public class PluginsRestApiBindingsIT extends AbstractDaemonTest {
   /**
    * Plugin REST endpoints to be tested, each URL contains a placeholder for the plugin identifier.
    */
@@ -57,7 +59,7 @@ public class PluginsRestApiBindingsIT extends AbstractRestApiBindingsTest {
   public void pluginEndpoints() throws Exception {
     String pluginName = "my-plugin";
     installPlugin(pluginName);
-    execute(PLUGIN_ENDPOINTS, pluginName);
+    RestApiCallHelper.execute(adminRestSession, PLUGIN_ENDPOINTS, pluginName);
   }
 
   private void installPlugin(String pluginName) throws Exception {

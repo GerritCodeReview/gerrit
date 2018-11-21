@@ -12,13 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest;
+package com.google.gerrit.acceptance.rest.binding;
 
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
+import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.restapi.config.ListTasks.TaskInfo;
@@ -31,10 +34,9 @@ import org.junit.Test;
  * Tests for checking the bindings of the config REST API.
  *
  * <p>These tests only verify that the config REST endpoints are correctly bound, they do no test
- * the functionality of the config REST endpoints (for details see JavaDoc on {@link
- * AbstractRestApiBindingsTest}).
+ * the functionality of the config REST endpoints.
  */
-public class ConfigRestApiBindingsIT extends AbstractRestApiBindingsTest {
+public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
   /**
    * Config REST endpoints to be tested, the URLs contain no placeholders since the only supported
    * config identifier ('server') can be hard-coded.
@@ -83,12 +85,12 @@ public class ConfigRestApiBindingsIT extends AbstractRestApiBindingsTest {
     // 'Access Database' is needed for the '/config/server/check.consistency' REST endpoint
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
 
-    execute(CONFIG_ENDPOINTS);
+    RestApiCallHelper.execute(adminRestSession, CONFIG_ENDPOINTS);
   }
 
   @Test
   public void cacheEndpoints() throws Exception {
-    execute(CACHE_ENDPOINTS, ProjectCacheImpl.CACHE_NAME);
+    RestApiCallHelper.execute(adminRestSession, CACHE_ENDPOINTS, ProjectCacheImpl.CACHE_NAME);
   }
 
   @Test
@@ -106,6 +108,6 @@ public class ConfigRestApiBindingsIT extends AbstractRestApiBindingsTest {
             .findFirst();
     assertThat(id).isPresent();
 
-    execute(TASK_ENDPOINTS, id.get());
+    RestApiCallHelper.execute(adminRestSession, TASK_ENDPOINTS, id.get());
   }
 }

@@ -12,15 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest;
+package com.google.gerrit.acceptance.rest.binding;
 
-import static com.google.gerrit.acceptance.rest.AbstractRestApiBindingsTest.Method.PUT;
+import static com.google.gerrit.acceptance.rest.util.RestApiCallHelper.execute;
+import static com.google.gerrit.acceptance.rest.util.RestCall.Method.PUT;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpiration;
 import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.server.ServerInitiated;
@@ -34,10 +37,9 @@ import org.junit.Test;
  * Tests for checking the bindings of the accounts REST API.
  *
  * <p>These tests only verify that the account REST endpoints are correctly bound, they do no test
- * the functionality of the account REST endpoints (for details see JavaDoc on {@link
- * AbstractRestApiBindingsTest}).
+ * the functionality of the account REST endpoints.
  */
-public class AccountsRestApiBindingsIT extends AbstractRestApiBindingsTest {
+public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
 
   /**
@@ -143,12 +145,12 @@ public class AccountsRestApiBindingsIT extends AbstractRestApiBindingsTest {
 
   @Test
   public void accountEndpoints() throws Exception {
-    execute(ACCOUNT_ENDPOINTS, "self");
+    execute(adminRestSession, ACCOUNT_ENDPOINTS, "self");
   }
 
   @Test
   public void emailEndpoints() throws Exception {
-    execute(EMAIL_ENDPOINTS, "self", admin.email);
+    execute(adminRestSession, EMAIL_ENDPOINTS, "self", admin.email);
   }
 
   @Test
@@ -172,20 +174,20 @@ public class AccountsRestApiBindingsIT extends AbstractRestApiBindingsTest {
         .self()
         .putGpgKeys(ImmutableList.of(key.getPublicKeyArmored()), ImmutableList.of());
 
-    execute(GPG_KEY_ENDPOINTS, "self", id);
+    execute(adminRestSession, GPG_KEY_ENDPOINTS, "self", id);
   }
 
   @Test
   @UseSsh
   public void sshKeyEndpoints() throws Exception {
     String sshKeySeq = Integer.toString(gApi.accounts().self().listSshKeys().size());
-    execute(SSH_KEY_ENDPOINTS, "self", sshKeySeq);
+    execute(adminRestSession, SSH_KEY_ENDPOINTS, "self", sshKeySeq);
   }
 
   @Test
   public void starEndpoints() throws Exception {
     ChangeInput ci = new ChangeInput(project.get(), "master", "Test change");
     String changeId = gApi.changes().create(ci).get().id;
-    execute(STAR_ENDPOINTS, "self", changeId);
+    execute(adminRestSession, STAR_ENDPOINTS, "self", changeId);
   }
 }

@@ -38,7 +38,6 @@ import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
-import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -295,7 +294,6 @@ public abstract class AbstractDaemonTest {
   @Inject private AccountIndexer accountIndexer;
   @Inject private Groups groups;
   @Inject private GroupIndexer groupIndexer;
-  @Inject private ProjectOperations projectOperations;
 
   private ProjectResetter resetter;
   private List<Repository> toClose;
@@ -550,44 +548,6 @@ public abstract class AbstractDaemonTest {
    */
   protected String name(String name) {
     return resourcePrefix + name;
-  }
-
-  protected Project.NameKey createProject(String nameSuffix, Project.NameKey parent)
-      throws Exception {
-    // Default for createEmptyCommit should match TestProjectConfig.
-    return projectOperations.newProject().parent(parent).create();
-  }
-
-  protected Project.NameKey createProject(
-      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit) throws Exception {
-    // Default for createEmptyCommit should match TestProjectConfig.
-    if (parent == null) {
-      return projectOperations.newProject().createEmptyCommit(createEmptyCommit).create();
-    }
-    return projectOperations
-        .newProject()
-        .parent(parent)
-        .createEmptyCommit(createEmptyCommit)
-        .create();
-  }
-
-  protected Project.NameKey createProject(
-      String nameSuffix, Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
-      throws Exception {
-    if (parent == null) {
-      return projectOperations
-          .newProject()
-          .createEmptyCommit(createEmptyCommit)
-          .submitType(submitType)
-          .create();
-    }
-    return projectOperations
-        .newProject()
-        .submitType(submitType)
-        .parent(parent)
-        .createEmptyCommit(createEmptyCommit)
-        .parent(parent)
-        .create();
   }
 
   protected Project.NameKey createProjectOverAPI(

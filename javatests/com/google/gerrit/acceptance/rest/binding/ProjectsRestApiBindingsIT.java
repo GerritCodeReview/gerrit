@@ -27,11 +27,13 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -156,6 +158,7 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
       ImmutableList.of(RestCall.get("/projects/%s/commits/%s/files/%s/content"));
 
   private static final String FILENAME = "test.txt";
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void projectEndpoints() throws Exception {
@@ -164,7 +167,8 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
 
   @Test
   public void childProjectEndpoints() throws Exception {
-    Project.NameKey childProject = createProject("test-child-repo", project);
+    // Default for createEmptyCommit should match TestProjectConfig.
+    Project.NameKey childProject = projectOperations.newProject().parent(project).create();
     RestApiCallHelper.execute(
         adminRestSession, CHILD_PROJECT_ENDPOINTS, project.get(), childProject.get());
   }

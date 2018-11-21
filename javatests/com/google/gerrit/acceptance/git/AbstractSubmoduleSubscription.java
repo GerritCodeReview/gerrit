@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -104,15 +103,14 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     return cfg;
   }
 
-  protected Project.NameKey createProjectForPush(
-      String name,
-      @Nullable Project.NameKey parent,
-      boolean createEmptyCommit,
-      SubmitType submitType)
-      throws Exception {
-    Project.NameKey project = createProject(name, parent, createEmptyCommit, submitType);
+  protected void grantPush(Project.NameKey project) throws Exception {
     grant(project, "refs/heads/*", Permission.PUSH);
     grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
+  }
+
+  protected Project.NameKey createProjectForPush(SubmitType submitType) throws Exception {
+    Project.NameKey project = this.projectOperations.newProject().submitType(submitType).create();
+    grantPush(project);
     return project;
   }
 
@@ -120,8 +118,8 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    superKey = createProjectForPush("super", null, true, getSubmitType());
-    subKey = createProjectForPush("sub", null, true, getSubmitType());
+    superKey = createProjectForPush(getSubmitType());
+    subKey = createProjectForPush(getSubmitType());
     superRepo = cloneProject(superKey);
     subRepo = cloneProject(subKey);
   }

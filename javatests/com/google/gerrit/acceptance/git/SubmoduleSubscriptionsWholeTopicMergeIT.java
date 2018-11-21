@@ -367,8 +367,20 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   @Test
   public void doNotUseFastForward() throws Exception {
     // like setup, but without empty commit
-    superKey = createProjectForPush("super-nc", null, false, getSubmitType());
-    subKey = createProjectForPush("sub-nc", null, false, getSubmitType());
+    superKey =
+        this.projectOperations
+            .newProject()
+            .submitType(getSubmitType())
+            .createEmptyCommit(false)
+            .create();
+    grantPush(superKey);
+    subKey =
+        this.projectOperations
+            .newProject()
+            .submitType(getSubmitType())
+            .createEmptyCommit(false)
+            .create();
+    grantPush(subKey);
     superRepo = cloneProject(superKey);
     subRepo = cloneProject(subKey);
 
@@ -395,8 +407,20 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   @Test
   public void useFastForwardWhenNoSubmodule() throws Exception {
     // like setup, but without empty commit
-    superKey = createProjectForPush("super-nc", null, false, getSubmitType());
-    subKey = createProjectForPush("sub-nc", null, false, getSubmitType());
+    superKey =
+        this.projectOperations
+            .newProject()
+            .submitType(getSubmitType())
+            .createEmptyCommit(false)
+            .create();
+    grantPush(superKey);
+    subKey =
+        this.projectOperations
+            .newProject()
+            .submitType(getSubmitType())
+            .createEmptyCommit(false)
+            .create();
+    grantPush(subKey);
     superRepo = cloneProject(superKey);
     subRepo = cloneProject(subKey);
 
@@ -493,7 +517,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void nonSubmoduleInSameTopic() throws Exception {
-    Project.NameKey standaloneKey = createProjectForPush("standalone", null, true, getSubmitType());
+    Project.NameKey standaloneKey = createProjectForPush(getSubmitType());
     TestRepository<?> standAlone = cloneProject(standaloneKey);
 
     allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
@@ -533,9 +557,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void recursiveSubmodules() throws Exception {
-    Project.NameKey topKey = createProjectForPush("top-project", null, true, getSubmitType());
-    Project.NameKey midKey = createProjectForPush("mid-project", null, true, getSubmitType());
-    Project.NameKey botKey = createProjectForPush("bottom-project", null, true, getSubmitType());
+    Project.NameKey topKey = createProjectForPush(getSubmitType());
+    Project.NameKey midKey = createProjectForPush(getSubmitType());
+    Project.NameKey botKey = createProjectForPush(getSubmitType());
     TestRepository<?> topRepo = cloneProject(topKey);
     TestRepository<?> midRepo = cloneProject(midKey);
     TestRepository<?> bottomRepo = cloneProject(botKey);
@@ -563,9 +587,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void triangleSubmodules() throws Exception {
-    Project.NameKey topKey = createProjectForPush("top-project", null, true, getSubmitType());
-    Project.NameKey midKey = createProjectForPush("mid-project", null, true, getSubmitType());
-    Project.NameKey botKey = createProjectForPush("bottom-project", null, true, getSubmitType());
+    Project.NameKey topKey = createProjectForPush(getSubmitType());
+    Project.NameKey midKey = createProjectForPush(getSubmitType());
+    Project.NameKey botKey = createProjectForPush(getSubmitType());
     TestRepository<?> topRepo = cloneProject(topKey);
     TestRepository<?> midRepo = cloneProject(midKey);
     TestRepository<?> bottomRepo = cloneProject(botKey);
@@ -597,9 +621,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   }
 
   private String prepareBranchCircularSubscription() throws Exception {
-    Project.NameKey topKey = createProjectForPush("top-project", null, true, getSubmitType());
-    Project.NameKey midKey = createProjectForPush("mid-project", null, true, getSubmitType());
-    Project.NameKey botKey = createProjectForPush("bottom-project", null, true, getSubmitType());
+    Project.NameKey topKey = createProjectForPush(getSubmitType());
+    Project.NameKey midKey = createProjectForPush(getSubmitType());
+    Project.NameKey botKey = createProjectForPush(getSubmitType());
     TestRepository<?> topRepo = cloneProject(topKey);
     TestRepository<?> midRepo = cloneProject(midKey);
     TestRepository<?> bottomRepo = cloneProject(botKey);
@@ -662,8 +686,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void projectNoSubscriptionWholeTopic() throws Exception {
-    Project.NameKey keyA = createProjectForPush("project-a", null, true, getSubmitType());
-    Project.NameKey keyB = createProjectForPush("project-b", null, true, getSubmitType());
+    Project.NameKey keyA = createProjectForPush(getSubmitType());
+    Project.NameKey keyB = createProjectForPush(getSubmitType());
 
     TestRepository<?> repoA = cloneProject(keyA);
     TestRepository<?> repoB = cloneProject(keyB);
@@ -733,8 +757,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void twoProjectsMultipleBranchesWholeTopic() throws Exception {
-    Project.NameKey keyA = createProjectForPush("project-a", null, true, getSubmitType());
-    Project.NameKey keyB = createProjectForPush("project-b", null, true, getSubmitType());
+    Project.NameKey keyA = createProjectForPush(getSubmitType());
+    Project.NameKey keyB = createProjectForPush(getSubmitType());
     TestRepository<?> repoA = cloneProject(keyA);
     TestRepository<?> repoB = cloneProject(keyB);
     // bootstrap the dev branch
@@ -782,9 +806,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   public void retrySubmitAfterTornTopicOnLockFailure() throws Exception {
     assume().that(notesMigration.disableChangeReviewDb()).isTrue();
 
-    Project.NameKey subKey1 = createProjectForPush("sub1", null, true, getSubmitType());
+    Project.NameKey subKey1 = createProjectForPush(getSubmitType());
     TestRepository<?> sub1 = cloneProject(subKey1);
-    Project.NameKey subKey2 = createProjectForPush("sub2", null, true, getSubmitType());
+    Project.NameKey subKey2 = createProjectForPush(getSubmitType());
     TestRepository<?> sub2 = cloneProject(subKey2);
 
     allowMatchingSubmoduleSubscription(subKey1, "refs/heads/master", superKey, "refs/heads/master");
@@ -844,9 +868,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void skipUpdatingBrokenGitlinkPointer() throws Exception {
-    Project.NameKey subKey1 = createProjectForPush("sub1", null, true, getSubmitType());
+    Project.NameKey subKey1 = createProjectForPush(getSubmitType());
     TestRepository<?> sub1 = cloneProject(subKey1);
-    Project.NameKey subKey2 = createProjectForPush("sub2", null, true, getSubmitType());
+    Project.NameKey subKey2 = createProjectForPush(getSubmitType());
     TestRepository<?> sub2 = cloneProject(subKey2);
 
     allowMatchingSubmoduleSubscription(subKey1, "refs/heads/master", superKey, "refs/heads/master");

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e964136_5b934608",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-21T17:53:25Z",
+      "side": 1,
+      "message": "can you add TODO in my name to check if we can add the parsed commit to ReplaceRequest? I bet some other part of this code also parses it.",
+      "range": {
+        "startLine": 713,
+        "startChar": 55,
+        "endLine": 713,
+        "endChar": 66
+      },
+      "revId": "9ec66bfb1dfc0a710ab0355dff5728acf794f129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed4e977a_fd213478",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-21T17:53:25Z",
+      "side": 1,
+      "message": "oh, here you parse it again. Can you consolidate the parsed commit in ReplaceRequest?",
+      "range": {
+        "startLine": 802,
+        "startChar": 43,
+        "endLine": 802,
+        "endChar": 54
+      },
+      "revId": "9ec66bfb1dfc0a710ab0355dff5728acf794f129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

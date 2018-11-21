@@ -229,6 +229,30 @@
     },
     {
       "key": {
+        "uuid": "1ac654dc_19eebaa5",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-21T12:19:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "173fb678_02d8a93c",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 5
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce7dc237_0087a72e",
         "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
         "patchSetId": 1
@@ -396,6 +420,30 @@
     },
     {
       "key": {
+        "uuid": "17db8564_fcd05da5",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectCreation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-21T12:19:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "942dda57_3356bfaa",
+      "range": {
+        "startLine": 28,
+        "startChar": 27,
+        "endLine": 28,
+        "endChar": 33
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02b79c04_3021f5d6",
         "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectCreation.java",
         "patchSetId": 1
@@ -537,6 +585,30 @@
       "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b9f477e_8a955be3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-21T12:19:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b2a34f7_f3523697",
+      "range": {
+        "startLine": 82,
+        "startChar": 58,
+        "endLine": 82,
+        "endChar": 81
+      },
+      "revId": "7ce9e9068a05857e922fa5a567cae5e36308b9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -104,7 +104,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listProjectsWithPrefix() throws Exception {
-    // Default for createEmptyCommit should match TestProjectConfig.
     Project.NameKey someProject = projectOperations.newProject().name("listtest-p1").create();
     Project.NameKey someOtherProject = projectOperations.newProject().name("listtest-p2").create();
     projectOperations.newProject().name("other-prefix-project").create();
@@ -171,10 +170,8 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listProjectsWithTree() throws Exception {
-    // Default for createEmptyCommit should match TestProjectConfig.
     Project.NameKey someParentProject =
         projectOperations.newProject().name("some-parent-project").create();
-    // Default for createEmptyCommit should match TestProjectConfig.
     Project.NameKey someChildProject =
         projectOperations
             .newProject()

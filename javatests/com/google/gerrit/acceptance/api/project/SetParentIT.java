@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -27,14 +28,17 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.inject.Inject;
 import org.junit.Test;
 
 @NoHttpd
 public class SetParentIT extends AbstractDaemonTest {
 
+  @Inject private ProjectOperations projectOperations;
+
   @Test
   public void setParentNotAllowed() throws Exception {
-    String parent = createProject("parent", null, true).get();
+    String parent = this.projectOperations.newProject().create().get();
     setApiUser(user);
     exception.expect(AuthException.class);
     gApi.projects().name(project.get()).parent(parent);
@@ -43,7 +47,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
   public void setParentNotAllowedForNonOwners() throws Exception {
-    String parent = createProject("parent", null, true).get();
+    String parent = this.projectOperations.newProject().create().get();
     setApiUser(user);
     exception.expect(AuthException.class);
     gApi.projects().name(project.get()).parent(parent);
@@ -52,7 +56,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
   public void setParentAllowedByAdminWhenAllowProjectOwnersEnabled() throws Exception {
-    String parent = createProject("parent", null, true).get();
+    String parent = this.projectOperations.newProject().create().get();
 
     gApi.projects().name(project.get()).parent(parent);
     assertThat(gApi.projects().name(project.get()).parent()).isEqualTo(parent);
@@ -67,7 +71,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
   public void setParentAllowedForOwners() throws Exception {
-    String parent = createProject("parent", null, true).get();
+    String parent = this.projectOperations.newProject().create().get();
     setApiUser(user);
     grant(project, "refs/*", Permission.OWNER, false, SystemGroupBackend.REGISTERED_USERS);
     gApi.projects().name(project.get()).parent(parent);
@@ -76,7 +80,7 @@ public class SetParentIT extends AbstractDaemonTest {
 
   @Test
   public void setParent() throws Exception {
-    String parent = createProject("parent", null, true).get();
+    String parent = this.projectOperations.newProject().create().get();
 
     gApi.projects().name(project.get()).parent(parent);
     assertThat(gApi.projects().name(project.get()).parent()).isEqualTo(parent);
@@ -104,7 +108,7 @@ public class SetParentIT extends AbstractDaemonTest {
 
   @Test
   public void setParentToOwnChildNotAllowed() throws Exception {
-    String child = createProject("child", project, true).get();
+    String child = projectOperations.newProject().parent(project).create().get();
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("cycle exists between");
     gApi.projects().name(project.get()).parent(child);
@@ -112,8 +116,8 @@ public class SetParentIT extends AbstractDaemonTest {
 
   @Test
   public void setParentToGrandchildNotAllowed() throws Exception {
-    Project.NameKey child = createProject("child", project, true);
-    String grandchild = createProject("grandchild", child, true).get();
+    Project.NameKey child = this.projectOperations.newProject().parent(project).create();
+    String grandchild = this.projectOperations.newProject().parent(child).create().get();
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("cycle exists between");
     gApi.projects().name(project.get()).parent(grandchild);
@@ -137,7 +141,7 @@ public class SetParentIT extends AbstractDaemonTest {
   public void setParentForAllUsersMustBeAllProjects() throws Exception {
     gApi.projects().name(allUsers.get()).parent(allProjects.get());
 
-    String parent = createProject("parent", null, true).get();
+    String parent = this.projectOperations.newProject().create().get();
 
     exception.expect(BadRequestException.class);
     exception.expectMessage("All-Users must inherit from All-Projects");

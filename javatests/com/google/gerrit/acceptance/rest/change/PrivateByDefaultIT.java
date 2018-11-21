@@ -41,7 +41,7 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     project1 = projectOperations.newProject().create();
-    project2 = createProject("project-2", project1);
+    project2 = this.projectOperations.newProject().parent(project1).create();
     setPrivateByDefault(project1, InheritableBoolean.FALSE);
   }
 

@@ -38,8 +38,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -67,7 +65,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -389,9 +386,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     String topic = "test-topic";
 
     // Create test projects
-    Project.NameKey keyA = createProjectForPush(null, getSubmitType());
+    Project.NameKey keyA = createProjectForPush(getSubmitType());
     TestRepository<?> repoA = cloneProject(keyA);
-    Project.NameKey keyB = createProjectForPush(null, getSubmitType());
+    Project.NameKey keyB = createProjectForPush(getSubmitType());
     TestRepository<?> repoB = cloneProject(keyB);
 
     // Create changes on project-a
@@ -425,7 +422,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     String topic = "test-topic";
 
     // Create test project
-    Project.NameKey keyA = createProjectForPush(null, getSubmitType());
+    Project.NameKey keyA = createProjectForPush(getSubmitType());
     TestRepository<?> repoA = cloneProject(keyA);
 
     RevCommit initialHead = getRemoteHead(keyA, "master");
@@ -775,9 +772,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     String topic = "test-topic";
 
     // Create test projects
-    Project.NameKey keyA = createProjectForPush(null, getSubmitType());
+    Project.NameKey keyA = createProjectForPush(getSubmitType());
     TestRepository<?> repoA = cloneProject(keyA);
-    Project.NameKey keyB = createProjectForPush(null, getSubmitType());
+    Project.NameKey keyB = createProjectForPush(getSubmitType());
     TestRepository<?> repoB = cloneProject(keyB);
 
     // Create changes on project-a
@@ -940,8 +937,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     String topic = "test-topic";
 
-    Project.NameKey keyA = createProjectForPush(null, getSubmitType());
-    Project.NameKey keyB = createProjectForPush(null, getSubmitType());
+    Project.NameKey keyA = createProjectForPush(getSubmitType());
+    Project.NameKey keyB = createProjectForPush(getSubmitType());
     TestRepository<?> repoA = cloneProject(keyA);
     TestRepository<?> repoB = cloneProject(keyB);
 
@@ -1362,13 +1359,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   // TODO(hanwen): the submodule tests have a similar method; maybe we could share code?
-  protected Project.NameKey createProjectForPush(@Nullable NameKey parent, SubmitType submitType)
-      throws Exception {
-    TestProjectCreation.Builder b = projectOperations.newProject().submitType(submitType);
-    if (parent != null) {
-      b.parent(parent);
-    }
-    Project.NameKey project = b.create();
+  protected Project.NameKey createProjectForPush(SubmitType submitType) throws Exception {
+    Project.NameKey project = projectOperations.newProject().submitType(submitType).create();
     grant(project, "refs/heads/*", Permission.PUSH);
     grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
     return project;

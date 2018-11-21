@@ -19,9 +19,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectCreator;
+import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
-import javax.inject.Inject;
 import org.apache.commons.lang.RandomStringUtils;
 import org.eclipse.jgit.lib.Constants;
 

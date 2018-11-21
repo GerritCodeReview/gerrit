@@ -22,6 +22,30 @@
       "revId": "dc6ce926740a34b3c3e47fb42ea5933450662fa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e0ad177_9eef46a7",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-21T12:13:50Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/205350",
+      "parentUuid": "e61f0d6a_e182d018",
+      "range": {
+        "startLine": 280,
+        "startChar": 43,
+        "endLine": 280,
+        "endChar": 44
+      },
+      "revId": "dc6ce926740a34b3c3e47fb42ea5933450662fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

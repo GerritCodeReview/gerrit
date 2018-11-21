@@ -19,6 +19,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.HttpAuditEvent;
 import com.google.gerrit.common.TimeUtil;
@@ -48,8 +49,11 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.Filter;
@@ -83,7 +87,9 @@ import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 /** Serves Git repositories over HTTP. */
 @Singleton
 public class GitOverHttpServlet extends GitServlet {
-  private static final long serialVersionUID = 1L;
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+    private static final long serialVersionUID = 1L;
 
   private static final String ATT_CONTROL = ProjectControl.class.getName();
   private static final String ATT_ARC = AsyncReceiveCommits.class.getName();
@@ -155,17 +161,15 @@ public class GitOverHttpServlet extends GitServlet {
   }
 
   private static ListMultimap<String, String> extractParameters(HttpServletRequest request) {
-
     ListMultimap<String, String> multiMap = ArrayListMultimap.create();
     if (request.getQueryString() != null) {
-      request
-          .getParameterMap()
-          .forEach(
-              (k, v) -> {
-                for (int i = 0; i < v.length; i++) {
-                  multiMap.put(k, v[i]);
-                }
-              });
+      Map<String, String[]> parameterMap = (Map<String, String[]>) request.getParameterMap();
+      parameterMap.forEach(
+          (k, v) -> {
+            for (String aV : v) {
+              multiMap.put(k, aV);
+            }
+          });
     }
     return multiMap;
   }
@@ -314,17 +318,23 @@ public class GitOverHttpServlet extends GitServlet {
       } finally {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        auditService.dispatch(
-            new HttpAuditEvent(
-                httpRequest.getSession().getId(),
-                userProvider.get(),
-                extractWhat(httpRequest),
-                TimeUtil.nowMs(),
-                extractParameters(httpRequest),
-                httpRequest.getMethod(),
-                httpRequest,
-                httpResponse.getStatus(),
-                httpResponse));
+
+        try {
+          Method getStatus = httpResponse.getClass().getMethod("getStatus");
+          auditService.dispatch(
+              new HttpAuditEvent(
+                  httpRequest.getSession().getId(),
+                  userProvider.get(),
+                  extractWhat(httpRequest),
+                  TimeUtil.nowMs(),
+                  extractParameters(httpRequest),
+                  httpRequest.getMethod(),
+                  httpRequest,
+                  (int) getStatus.invoke(httpResponse),
+                  httpResponse));
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+          logger.atSevere().withCause(e).log("failed to dispatch HttpAuditEvent");
+        }
       }
 
       // We use getRemoteHost() here instead of getRemoteAddr() because REMOTE_ADDR
@@ -424,17 +434,23 @@ public class GitOverHttpServlet extends GitServlet {
       } finally {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        auditService.dispatch(
-            new HttpAuditEvent(
-                httpRequest.getSession().getId(),
-                userProvider.get(),
-                extractWhat(httpRequest),
-                TimeUtil.nowMs(),
-                extractParameters(httpRequest),
-                httpRequest.getMethod(),
-                httpRequest,
-                httpResponse.getStatus(),
-                httpResponse));
+
+        try {
+          Method getStatus = httpResponse.getClass().getMethod("getStatus");
+          auditService.dispatch(
+              new HttpAuditEvent(
+                  httpRequest.getSession().getId(),
+                  userProvider.get(),
+                  extractWhat(httpRequest),
+                  TimeUtil.nowMs(),
+                  extractParameters(httpRequest),
+                  httpRequest.getMethod(),
+                  httpRequest,
+                  (int) getStatus.invoke(httpResponse),
+                  httpResponse));
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+          logger.atSevere().withCause(e).log("failed to dispatch HttpAuditEvent");
+        }
       }
 
       Capable s = arc.canUpload();

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d4be19c_7299fc07",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-21T17:05:37Z",
+      "side": 1,
+      "message": "neither of them works well for inlining (which is the real intention here). You cannot inline functions with multiple returns, but at the call site, you usually also don\u0027t want to create a builder. So, shrug.",
+      "parentUuid": "90b94cb3_c855d5c3",
+      "range": {
+        "startLine": 566,
+        "startChar": 4,
+        "endLine": 566,
+        "endChar": 25
+      },
+      "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18124718_5bfdd153",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 22
@@ -45,6 +69,30 @@
       "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daf9eb46_ea99c7a9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1364,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-21T17:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18124718_5bfdd153",
+      "range": {
+        "startLine": 1364,
+        "startChar": 2,
+        "endLine": 1364,
+        "endChar": 20
+      },
+      "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "af7a11a6_75db9f61",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-21T17:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d5b9ec8_b9c28a1f",
+      "range": {
+        "startLine": 1378,
+        "startChar": 28,
+        "endLine": 1378,
+        "endChar": 49
+      },
+      "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "288ab8c6_7b80c3a2",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
         "patchSetId": 22
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "24d6ec3c_b61b1a23",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-21T17:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "288ab8c6_7b80c3a2",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 49
+      },
+      "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c76d5594_d28b3814",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
         "patchSetId": 22
@@ -105,6 +201,30 @@
       "writtenOn": "2018-11-21T16:57:08Z",
       "side": 1,
       "message": "Do we still need this filter? (All tests in this class still pass even if I change the expression to true.)",
+      "range": {
+        "startLine": 259,
+        "startChar": 2,
+        "endLine": 265,
+        "endChar": 3
+      },
+      "revId": "14081394aeefb1f5871e50b1111eb8882f4e0594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de703fe7_6d2b9248",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-11-21T17:05:37Z",
+      "side": 1,
+      "message": "ah, of course. thanks!",
+      "parentUuid": "c76d5594_d28b3814",
       "range": {
         "startLine": 259,
         "startChar": 2,

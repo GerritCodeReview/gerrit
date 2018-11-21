@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "eedcbe31_eb0627a0",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T09:41:05Z",
+      "side": 1,
+      "message": "This is now unused and can be removed.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 70
+      },
+      "revId": "1b6c74cb0613ff13c3e7adfede73803ada945698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c0f05e00_be0e848f",
         "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
         "patchSetId": 4
@@ -30,6 +53,24 @@
       "writtenOn": "2018-11-21T00:30:33Z",
       "side": 1,
       "message": "Isn\u0027t an empty list effectively the same as leaving the value uninitialized?",
+      "revId": "1b6c74cb0613ff13c3e7adfede73803ada945698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c153086_359b0048",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-11-21T09:41:05Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/gerrit/+/203797/1/java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java#66",
+      "parentUuid": "c0f05e00_be0e848f",
       "revId": "1b6c74cb0613ff13c3e7adfede73803ada945698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

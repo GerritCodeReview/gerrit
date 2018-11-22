@@ -82,6 +82,24 @@
     },
     {
       "key": {
+        "uuid": "b245e283_22c74d31",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-11-22T10:12:32Z",
+      "side": 1,
+      "message": "Yes, we have to call auditService.dispatch twice for the different cases, once for SUCCESS and once for FORBIDDEN.\n\nWe can do that easily without using the Servlet 3 getStatusCode by just passing the respective code directly.",
+      "parentUuid": "d1b72f3d_025e6431",
+      "revId": "44a54836a4028acfbb3402408e9a8bf32330312e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e65038fb_ed5f7bcc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 3

@@ -22,6 +22,30 @@
       "revId": "43e793eba70a71d73794743195800e5189fd214e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66a5d822_47695760",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2018-11-22T14:33:50Z",
+      "side": 1,
+      "message": "The \u0027merge\u0027 issue should be fixed with this patch: https://gerrit-review.googlesource.com/c/gerrit/+/205469",
+      "parentUuid": "da12a18e_c8b4bed4",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 7
+      },
+      "revId": "43e793eba70a71d73794743195800e5189fd214e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

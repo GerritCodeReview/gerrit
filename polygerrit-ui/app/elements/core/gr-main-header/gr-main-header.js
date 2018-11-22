@@ -198,11 +198,18 @@
         title: 'Browse',
         links: adminLinks,
       });
+      const menuBars = []
+      links.forEach(function(link) { menuBars[link.title] = link })
       for (const m of topMenus) {
-        links.push({
-          title: m.name,
-          links: m.items.map(this._fixCustomMenuItem),
-        });
+        const items = m.items.map(this._fixCustomMenuItem)
+        if (m.name in menuBars) {
+          Array.prototype.push.apply(menuBars[m.name].links, items)
+        } else {
+          links.push(menuBars[m.name] = {
+            title: m.name,
+            links: items,
+          })
+        }
       }
       return links;
     },

@@ -100,6 +100,24 @@
     },
     {
       "key": {
+        "uuid": "0466ec9c_c03ae28d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2018-11-22T10:51:03Z",
+      "side": 1,
+      "message": "yep exactly,\nPerhaps we can still call the dispatch only once (in the finally), but set statusCode to SC_FORBIDDEN in the catch block accordingly.",
+      "parentUuid": "b245e283_22c74d31",
+      "revId": "44a54836a4028acfbb3402408e9a8bf32330312e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e65038fb_ed5f7bcc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 3

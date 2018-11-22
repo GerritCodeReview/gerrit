@@ -69,7 +69,7 @@ public class DeletePrivate
       throw new ResourceConflictException("change is not private");
     }
 
-    SetPrivateOp op = setPrivateOpFactory.create(cmUtil, false, input);
+    SetPrivateOp op = setPrivateOpFactory.create(cmUtil, false, rsrc.getId(), input);
     try (BatchUpdate u =
         updateFactory.create(
             dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {

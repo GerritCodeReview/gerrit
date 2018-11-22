@@ -82,7 +82,7 @@ public class PostPrivate
       return Response.ok("");
     }
 
-    SetPrivateOp op = setPrivateOpFactory.create(cmUtil, true, input);
+    SetPrivateOp op = setPrivateOpFactory.create(cmUtil, true, rsrc.getId(), input);
     try (BatchUpdate u =
         updateFactory.create(
             dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {

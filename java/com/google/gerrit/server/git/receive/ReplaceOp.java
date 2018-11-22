@@ -53,6 +53,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.EmailReviewComments;
+import com.google.gerrit.server.change.PrivateChangeUtil;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
@@ -242,6 +243,8 @@ public class ReplaceOp implements BatchUpdateOp {
 
     cmd = new ReceiveCommand(ObjectId.zeroId(), commitId, patchSetId.toRefName());
     ctx.addRefUpdate(cmd);
+    // TODO(hiesel): This needs to respect
+    PrivateChangeUtil.updateSymlinkRef(patchSetId.changeId, ctx, false);
   }
 
   @Override

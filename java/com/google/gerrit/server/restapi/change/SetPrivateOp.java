@@ -14,19 +14,22 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.change.PrivateChangeUtil;
 import com.google.gerrit.server.extensions.events.PrivateStateChanged;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -43,7 +46,8 @@ public class SetPrivateOp implements BatchUpdateOp {
   }
 
   public interface Factory {
-    SetPrivateOp create(ChangeMessagesUtil cmUtil, boolean isPrivate, Input input);
+    SetPrivateOp create(
+        ChangeMessagesUtil cmUtil, boolean isPrivate, Change.Id changeId, Input input);
   }
 
   private final ChangeMessagesUtil cmUtil;
@@ -51,6 +55,7 @@ public class SetPrivateOp implements BatchUpdateOp {
   private final boolean isPrivate;
   private final Input input;
   private final PrivateStateChanged privateStateChanged;
+  private final Change.Id changeId;
 
   private Change change;
   private PatchSet ps;
@@ -61,17 +66,26 @@ public class SetPrivateOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       @Assisted ChangeMessagesUtil cmUtil,
       @Assisted boolean isPrivate,
+      @Assisted Change.Id changeId,
       @Assisted Input input) {
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
     this.isPrivate = isPrivate;
+    this.changeId = changeId;
     this.input = input;
     this.privateStateChanged = privateStateChanged;
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws ResourceConflictException, OrmException {
+  public void updateRepo(RepoContext ctx) throws Exception {
+    PrivateChangeUtil.updateSymlinkRef(changeId, ctx, isPrivate);
+  }
+
+  @Override
+  public boolean updateChange(ChangeContext ctx) throws OrmException {
     change = ctx.getChange();
+    checkState(change.getId().equals(changeId), "change Ids must be consistent");
+
     ChangeNotes notes = ctx.getNotes();
     ps = psUtil.get(ctx.getDb(), notes, change.currentPatchSetId());
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());

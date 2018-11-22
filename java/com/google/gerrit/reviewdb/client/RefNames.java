@@ -26,6 +26,8 @@ public class RefNames {
 
   public static final String REFS_CHANGES = "refs/changes/";
 
+  public static final String REFS_PRIVATE_CHANGES = "refs/private-changes/";
+
   public static final String REFS_META = "refs/meta/";
 
   /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
@@ -115,6 +117,11 @@ public class RefNames {
 
   public static String changeMetaRef(Change.Id id) {
     StringBuilder r = newStringBuilder().append(REFS_CHANGES);
+    return shard(id.get(), r).append(META_SUFFIX).toString();
+  }
+
+  public static String privateChangeMetaRef(Change.Id id) {
+    StringBuilder r = newStringBuilder().append(REFS_PRIVATE_CHANGES);
     return shard(id.get(), r).append(META_SUFFIX).toString();
   }
 

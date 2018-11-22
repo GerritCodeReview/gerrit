@@ -63,7 +63,7 @@ public class ChainedReceiveCommands implements RefCache {
    *     SHA-1 of the most recent previous command must match the old SHA-1 of this command.
    */
   public void add(ReceiveCommand cmd) {
-    checkArgument(!cmd.getOldId().equals(cmd.getNewId()), "ref update is a no-op: %s", cmd);
+    //    checkArgument(!cmd.getOldId().equals(cmd.getNewId()), "ref update is a no-op: %s", cmd);
     ReceiveCommand old = commands.get(cmd.getRefName());
     if (old == null) {
       commands.put(cmd.getRefName(), cmd);

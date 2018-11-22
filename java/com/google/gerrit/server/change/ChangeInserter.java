@@ -378,10 +378,10 @@ public class ChangeInserter implements InsertChangeOp {
     cmd = new ReceiveCommand(ObjectId.zeroId(), commitId, psId.toRefName());
     projectState = projectCache.checkedGet(ctx.getProject());
     validate(ctx);
-    if (!updateRef) {
-      return;
+    if (updateRef) {
+      ctx.addRefUpdate(cmd);
     }
-    ctx.addRefUpdate(cmd);
+    PrivateChangeUtil.updateSymlinkRef(psId.changeId, ctx, isPrivate);
   }
 
   @Override

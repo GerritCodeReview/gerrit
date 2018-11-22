@@ -136,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "c73eb8cd_4e7fc746",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2018-11-22T18:10:48Z",
+      "side": 1,
+      "message": "yep, the dispatch is in the \"finally\" block exactly for this reason, we want to audit the fact the action occurred regardless of its result, so we always want to execute the dispatch.\n\nIf different filters in the chain intend to audit a specific action, then yes, there will be different audit events for one request, even though this is not the case at the moment, I think it would be perfectly fine.\n\nThe ServletException thrown at line#313 will not prevent the \"finally\" block from running. We can just decide what http status code is most representative for this case (perhaps an 500 is a good representation of ServletException?).\n\nSo for what I can tell the spectrum of http response codes could be:\n200 OK\n403 FORBIDDEN (when AuthException)\n500 INTERNAL SERVER ERROR (when PermissionBackendException)",
+      "parentUuid": "23e0b8fd_13567771",
+      "revId": "44a54836a4028acfbb3402408e9a8bf32330312e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e65038fb_ed5f7bcc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 3

@@ -118,6 +118,24 @@
     },
     {
       "key": {
+        "uuid": "23e0b8fd_13567771",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-22T16:41:31Z",
+      "side": 1,
+      "message": "I start thinking whether this \"dispatch\" is WAI.\n\nThis \"dispatch\" is contained in the \"finally\" block which will always be executed for both SUCCESS and ERROR. However, this is just one filter in the FilerChain. In the SUCCESS case, the request will be forwarded to the next filter which means we may send multiple audit events for one request. Also the \"status\" code is not set for the \"ServerException\" case line#313. Is this WAI?\n\nThe commit is wrong because the \"errorStatusCode\" is only set in one catch block, we don\u0027t set it for other execute path.\n\nHow do you think?",
+      "parentUuid": "0466ec9c_c03ae28d",
+      "revId": "44a54836a4028acfbb3402408e9a8bf32330312e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e65038fb_ed5f7bcc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 3

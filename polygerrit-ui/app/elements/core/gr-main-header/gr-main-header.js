@@ -179,11 +179,16 @@
     },
 
     _computeLinks(defaultLinks, userLinks, adminLinks, topMenus, docBaseUrl) {
-      const links = defaultLinks.slice();
+      const links = defaultLinks.map(menu => {
+        return {
+          title: menu.title,
+          links: menu.links.slice(),
+        };
+      });
       if (userLinks && userLinks.length > 0) {
         links.push({
           title: 'Your',
-          links: userLinks,
+          links: userLinks.slice(),
         });
       }
       const docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
@@ -196,13 +201,20 @@
       }
       links.push({
         title: 'Browse',
-        links: adminLinks,
+        links: adminLinks.slice(),
       });
+      const topMenuLinks = [];
+      links.forEach(link => { topMenuLinks[link.title] = link.links; });
       for (const m of topMenus) {
-        links.push({
-          title: m.name,
-          links: m.items.map(this._fixCustomMenuItem),
-        });
+        const items = m.items.map(this._fixCustomMenuItem);
+        if (m.name in topMenuLinks) {
+          items.forEach(link => { topMenuLinks[m.name].push(link); });
+        } else {
+          links.push({
+            title: m.name,
+            links: topMenuLinks[m.name] = items
+          });
+        }
       }
       return links;
     },

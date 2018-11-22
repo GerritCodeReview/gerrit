@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "dc9099b6_ff79530d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-11-22T08:49:27Z",
+      "side": 1,
+      "message": "selectNewAndReplacedChangesFromMagicBranch as of now is returning one value while it kind of should have return two. So there needs to be some discussion about how to proceed anyway.",
+      "parentUuid": "e6f60a34_2f4554c6",
+      "range": {
+        "startLine": 714,
+        "startChar": 20,
+        "endLine": 714,
+        "endChar": 26
+      },
+      "revId": "6b3d8124749c24645965af25811fc49d86d17ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed40063c_47040c4a",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 3

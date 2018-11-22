@@ -191,6 +191,121 @@ limitations under the License.
       }]);
     });
 
+    test('merge top menus', () => {
+      const adminLinks = [{
+        name: 'Repos',
+        url: '/repos',
+      }];
+      const topMenus = [{
+        name: 'Plugins',
+        items: [{
+          name: 'Manage',
+          target: '_blank',
+          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+        }],
+      }, {
+        name: 'Plugins',
+        items: [{
+          name: 'Create',
+          target: '_blank',
+          url: 'https://gerrit/plugins/plugin-manager/static/create.html',
+        }],
+      }];
+      assert.deepEqual(element._computeLinks([], [], adminLinks, topMenus), [{
+        title: 'Browse',
+        links: adminLinks,
+      }, {
+        title: 'Plugins',
+        links: [{
+          name: 'Manage',
+          external: true,
+          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+        }, {
+          name: 'Create',
+          external: true,
+          url: 'https://gerrit/plugins/plugin-manager/static/create.html',
+        }],
+      }]);
+    });
+
+    test('merge top menus in default links', () => {
+      const defaultLinks = [{
+        title: 'Faves',
+        links: [{
+          name: 'Pinterest',
+          url: 'https://pinterest.com',
+        }],
+      }];
+      const topMenus = [{
+        name: 'Faves',
+        items: [{
+          name: 'Manage',
+          target: '_blank',
+          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+        }],
+      }];
+      assert.deepEqual(element._computeLinks(defaultLinks, [], [], topMenus), [{
+        title: 'Faves',
+        links: defaultLinks[0].links.concat([{
+          name: 'Manage',
+          external: true,
+          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+        }]),
+      }, {
+        title: 'Browse',
+        links: [],
+      }]);
+    });
+
+    test('merge top menus in user links', () => {
+      const userLinks = [{
+        name: 'Facebook',
+        url: 'https://facebook.com',
+      }];
+      const topMenus = [{
+        name: 'Your',
+        items: [{
+          name: 'Manage',
+          target: '_blank',
+          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+        }],
+      }];
+      assert.deepEqual(element._computeLinks([], userLinks, [], topMenus), [{
+        title: 'Your',
+        links: userLinks.concat([{
+          name: 'Manage',
+          external: true,
+          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+        }]),
+      }, {
+        title: 'Browse',
+        links: [],
+      }]);
+    });
+
+    test('merge top menus in admin links', () => {
+      const adminLinks = [{
+        name: 'Repos',
+        url: '/repos',
+      }];
+      const topMenus = [{
+        name: 'Browse',
+        items: [{
+          name: 'Manage',
+          target: '_blank',
+          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+        }],
+      }];
+      assert.deepEqual(element._computeLinks([], [], adminLinks, topMenus), [{
+        title: 'Browse',
+        links: adminLinks.concat([{
+          name: 'Manage',
+          external: true,
+          url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+        }]),
+      }]);
+    });
+
     test('register URL', () => {
       const config = {
         auth: {

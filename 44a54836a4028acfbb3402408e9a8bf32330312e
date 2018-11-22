@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "840dbf8f_e1f353fc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-22T18:32:42Z",
+      "side": 1,
+      "message": "\u003e yep, the dispatch is in the \"finally\" block exactly for this reason, we want to audit the fact the action occurred regardless of its result, so we always want to execute the dispatch.\n\u003e \n\u003e If different filters in the chain intend to audit a specific action, then yes, there will be different audit events for one request, even though this is not the case at the moment, I think it would be perfectly fine.\n\u003e \n\u003e The ServletException thrown at line#313 will not prevent the \"finally\" block from running. We can just decide what http status code is most representative for this case (perhaps an 500 is a good representation of ServletException?).\n\u003e \n\u003e So for what I can tell the spectrum of http response codes could be:\n\u003e 200 OK\n\nI\u0027m a little bit concerned for this case because here we only successfully execute one permission check, it doesn\u0027t mean the response code should be \"200 OK\". If we do like this, the audit will like \"200 OK\" here but then later become something else, e.g. 404. \n\nIs \"200 OK\" what you would like to see in your audits in this case?\n\n\u003e 403 FORBIDDEN (when AuthException)\n\u003e 500 INTERNAL SERVER ERROR (when PermissionBackendException)",
+      "parentUuid": "c73eb8cd_4e7fc746",
+      "revId": "44a54836a4028acfbb3402408e9a8bf32330312e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e65038fb_ed5f7bcc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 3

@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -50,6 +51,7 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.Filter;
@@ -60,6 +62,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.GitSmartHttpTools;
@@ -129,6 +132,55 @@ public class GitOverHttpServlet extends GitServlet {
     }
   }
 
+  static class HttpServletResponseWithStatusWrapper extends HttpServletResponseWrapper {
+    private int responseStatus;
+
+    HttpServletResponseWithStatusWrapper(HttpServletResponse response) {
+      super(response);
+      /* Even if we could read the status from response, we assume that it is all
+       * fine because we entered the filter without any prior issues.
+       * When Google will have upgraded to Servlet 3.0, we could actually
+       * call response.getStatus() and the code will be clearer.
+       */
+      responseStatus = HttpServletResponse.SC_OK;
+    }
+
+    @Override
+    public void setStatus(int sc) {
+      responseStatus = sc;
+      super.setStatus(sc);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void setStatus(int sc, String sm) {
+      responseStatus = sc;
+      super.setStatus(sc, sm);
+    }
+
+    @Override
+    public void sendError(int sc) throws IOException {
+      this.responseStatus = sc;
+      super.sendError(sc);
+    }
+
+    @Override
+    public void sendError(int sc, String msg) throws IOException {
+      this.responseStatus = sc;
+      super.sendError(sc, msg);
+    }
+
+    @Override
+    public void sendRedirect(String location) throws IOException {
+      this.responseStatus = HttpServletResponse.SC_MOVED_TEMPORARILY;
+      super.sendRedirect(location);
+    }
+
+    public int getReponseStatus() {
+      return responseStatus;
+    }
+  }
+
   @Inject
   GitOverHttpServlet(
       Resolver resolver,
@@ -158,14 +210,15 @@ public class GitOverHttpServlet extends GitServlet {
 
     ListMultimap<String, String> multiMap = ArrayListMultimap.create();
     if (request.getQueryString() != null) {
-      request
-          .getParameterMap()
-          .forEach(
-              (k, v) -> {
-                for (int i = 0; i < v.length; i++) {
-                  multiMap.put(k, v[i]);
-                }
-              });
+      @SuppressWarnings("cast")
+      Map<String, String[]> parameterMap = (Map<String, String[]>) request.getParameterMap();
+
+      parameterMap.forEach(
+          (k, v) -> {
+            for (String aV : v) {
+              multiMap.put(k, aV);
+            }
+          });
     }
     return multiMap;
   }
@@ -296,46 +349,52 @@ public class GitOverHttpServlet extends GitServlet {
       Repository repo = ServletUtils.getRepository(request);
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       UploadPack up = (UploadPack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
+      HttpServletResponseWithStatusWrapper responseWrapper =
+          new HttpServletResponseWithStatusWrapper((HttpServletResponse) response);
+      HttpServletRequest httpRequest = (HttpServletRequest) request;
+      String sessionId = httpRequest.getSession().getId();
 
       try {
-        permissionBackend
-            .user(pc.getUser())
-            .project(pc.getProject().getNameKey())
-            .check(ProjectPermission.RUN_UPLOAD_PACK);
-      } catch (AuthException e) {
-        GitSmartHttpTools.sendError(
-            (HttpServletRequest) request,
-            (HttpServletResponse) response,
-            HttpServletResponse.SC_FORBIDDEN,
-            "upload-pack not permitted on this server");
-        return;
-      } catch (PermissionBackendException e) {
-        throw new ServletException(e);
+
+        try {
+          permissionBackend
+              .user(pc.getUser())
+              .project(pc.getProject().getNameKey())
+              .check(ProjectPermission.RUN_UPLOAD_PACK);
+        } catch (AuthException e) {
+          GitSmartHttpTools.sendError(
+              (HttpServletRequest) request,
+              (HttpServletResponse) responseWrapper,
+              HttpServletResponse.SC_FORBIDDEN,
+              "upload-pack not permitted on this server");
+          return;
+        } catch (PermissionBackendException e) {
+          responseWrapper.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+          throw new ServletException(e);
+        }
+
+        // We use getRemoteHost() here instead of getRemoteAddr() because REMOTE_ADDR
+        // may have been overridden by a proxy server -- we'll try to avoid this.
+        UploadValidators uploadValidators =
+            uploadValidatorsFactory.create(pc.getProject(), repo, request.getRemoteHost());
+        up.setPreUploadHook(
+            PreUploadHookChain.newChain(ImmutableList.of(up.getPreUploadHook(), uploadValidators)));
+        up.setAdvertiseRefsHook(refFilterFactory.create(pc.getProjectState(), repo));
+
+        next.doFilter(request, responseWrapper);
       } finally {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
         auditService.dispatch(
             new HttpAuditEvent(
-                httpRequest.getSession().getId(),
+                sessionId,
                 userProvider.get(),
                 extractWhat(httpRequest),
                 TimeUtil.nowMs(),
                 extractParameters(httpRequest),
                 httpRequest.getMethod(),
                 httpRequest,
-                httpResponse.getStatus(),
-                httpResponse));
+                responseWrapper.getReponseStatus(),
+                responseWrapper));
       }
-
-      // We use getRemoteHost() here instead of getRemoteAddr() because REMOTE_ADDR
-      // may have been overridden by a proxy server -- we'll try to avoid this.
-      UploadValidators uploadValidators =
-          uploadValidatorsFactory.create(pc.getProject(), repo, request.getRemoteHost());
-      up.setPreUploadHook(
-          PreUploadHookChain.newChain(Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-      up.setAdvertiseRefsHook(refFilterFactory.create(pc.getProjectState(), repo));
-
-      next.doFilter(request, response);
     }
 
     @Override
@@ -406,74 +465,80 @@ public class GitOverHttpServlet extends GitServlet {
       rp.getAdvertiseRefsHook().advertiseRefs(rp);
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       Project.NameKey projectName = pc.getProject().getNameKey();
+      HttpServletResponseWithStatusWrapper responseWrapper =
+          new HttpServletResponseWithStatusWrapper((HttpServletResponse) response);
+      HttpServletRequest httpRequest = (HttpServletRequest) request;
+      String sessionId = httpRequest.getSession().getId();
 
       try {
-        permissionBackend
-            .user(pc.getUser())
-            .project(pc.getProject().getNameKey())
-            .check(ProjectPermission.RUN_RECEIVE_PACK);
-      } catch (AuthException e) {
-        GitSmartHttpTools.sendError(
-            (HttpServletRequest) request,
-            (HttpServletResponse) response,
-            HttpServletResponse.SC_FORBIDDEN,
-            "receive-pack not permitted on this server");
-        return;
-      } catch (PermissionBackendException e) {
-        throw new RuntimeException(e);
+        try {
+          permissionBackend
+              .user(pc.getUser())
+              .project(pc.getProject().getNameKey())
+              .check(ProjectPermission.RUN_RECEIVE_PACK);
+        } catch (AuthException e) {
+          GitSmartHttpTools.sendError(
+              (HttpServletRequest) request,
+              (HttpServletResponse) responseWrapper,
+              HttpServletResponse.SC_FORBIDDEN,
+              "receive-pack not permitted on this server");
+          return;
+        } catch (PermissionBackendException e) {
+          responseWrapper.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+          throw new RuntimeException(e);
+        }
+
+        Capable s = arc.canUpload();
+        if (s != Capable.OK) {
+          GitSmartHttpTools.sendError(
+              (HttpServletRequest) request,
+              (HttpServletResponse) responseWrapper,
+              HttpServletResponse.SC_FORBIDDEN,
+              "\n" + s.getMessage());
+          return;
+        }
+
+        if (!rp.isCheckReferencedObjectsAreReachable()) {
+          chain.doFilter(request, responseWrapper);
+          return;
+        }
+
+        if (!(pc.getUser().isIdentifiedUser())) {
+          chain.doFilter(request, responseWrapper);
+          return;
+        }
+
+        AdvertisedObjectsCacheKey cacheKey =
+            AdvertisedObjectsCacheKey.create(pc.getUser().getAccountId(), projectName);
+
+        if (isGet) {
+          cache.invalidate(cacheKey);
+        } else {
+          Set<ObjectId> ids = cache.getIfPresent(cacheKey);
+          if (ids != null) {
+            rp.getAdvertisedObjects().addAll(ids);
+            cache.invalidate(cacheKey);
+          }
+        }
+
+        chain.doFilter(request, responseWrapper);
+
+        if (isGet) {
+          cache.put(
+              cacheKey, Collections.unmodifiableSet(new HashSet<>(rp.getAdvertisedObjects())));
+        }
       } finally {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
         auditService.dispatch(
             new HttpAuditEvent(
-                httpRequest.getSession().getId(),
+                sessionId,
                 userProvider.get(),
                 extractWhat(httpRequest),
                 TimeUtil.nowMs(),
                 extractParameters(httpRequest),
                 httpRequest.getMethod(),
                 httpRequest,
-                httpResponse.getStatus(),
-                httpResponse));
-      }
-
-      Capable s = arc.canUpload();
-      if (s != Capable.OK) {
-        GitSmartHttpTools.sendError(
-            (HttpServletRequest) request,
-            (HttpServletResponse) response,
-            HttpServletResponse.SC_FORBIDDEN,
-            "\n" + s.getMessage());
-        return;
-      }
-
-      if (!rp.isCheckReferencedObjectsAreReachable()) {
-        chain.doFilter(request, response);
-        return;
-      }
-
-      if (!(pc.getUser().isIdentifiedUser())) {
-        chain.doFilter(request, response);
-        return;
-      }
-
-      AdvertisedObjectsCacheKey cacheKey =
-          AdvertisedObjectsCacheKey.create(pc.getUser().getAccountId(), projectName);
-
-      if (isGet) {
-        cache.invalidate(cacheKey);
-      } else {
-        Set<ObjectId> ids = cache.getIfPresent(cacheKey);
-        if (ids != null) {
-          rp.getAdvertisedObjects().addAll(ids);
-          cache.invalidate(cacheKey);
-        }
-      }
-
-      chain.doFilter(request, response);
-
-      if (isGet) {
-        cache.put(cacheKey, Collections.unmodifiableSet(new HashSet<>(rp.getAdvertisedObjects())));
+                responseWrapper.getReponseStatus(),
+                responseWrapper));
       }
     }
 

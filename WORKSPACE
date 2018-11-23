@@ -211,6 +211,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "guava-failureaccess",
+    artifact = "com.google.guava:failureaccess:1.0.1",
+    sha1 = "1dcf1de382a0bf95a3d8b0849546c88bac1292c9",
+)
+
+maven_jar(
     name = "j2objc",
     artifact = "com.google.j2objc:j2objc-annotations:1.1",
     sha1 = "ed28ded51a8b1c6b112568def5f4b455e6809019",

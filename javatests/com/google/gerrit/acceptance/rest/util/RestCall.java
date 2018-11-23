@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
 import java.util.Optional;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.apache.commons.lang.StringUtils;
+import org.junit.Ignore;
 
 /** Data container for test REST requests. */
 @Ignore

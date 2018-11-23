@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43dac025_5c8ee089",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/util/RestCall.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-23T04:54:15Z",
+      "side": 1,
+      "message": "I guess this was supposed to be imported from junit.\n\nFixed in https://gerrit-review.googlesource.com/c/gerrit/+/205551",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 50
+      },
+      "revId": "268dd626ee8e72a5adc2b4dcbb5410d2c2d136d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,7 +17,9 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.server.AuditEvent;
+import com.google.gerrit.server.audit.HttpAuditEvent;
 import java.util.Collections;
+import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -25,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GitOverHttpServletIT extends AbstractPushForReview {
+  private static final long AUDIT_EVENT_TIMEOUT = 500L;
 
   @Before
   public void beforeEach() throws Exception {
@@ -42,6 +45,7 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
         .setRemote("origin")
         .setRefSpecs(new RefSpec("HEAD:refs/for/master"))
         .call();
+    waitForAudit();
 
     // Git smart protocol makes two requests:
     // https://github.com/git/git/blob/master/Documentation/technical/http-protocol.txt
@@ -51,11 +55,13 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
     assertThat(e.who.getAccountId()).isEqualTo(admin.id);
     assertThat(e.what).endsWith("/git-receive-pack");
     assertThat(e.params).isEmpty();
+    assertThat(((HttpAuditEvent) e).httpStatus).isEqualTo(HttpServletResponse.SC_OK);
   }
 
   @Test
   public void uploadPackAuditEventLog() throws Exception {
     testRepo.git().fetch().call();
+    waitForAudit();
 
     assertThat(auditService.auditEvents.size()).isEqualTo(1);
 
@@ -64,5 +70,12 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
     assertThat(e.params.get("service"))
         .containsExactlyElementsIn(Collections.singletonList("git-upload-pack"));
     assertThat(e.what).endsWith("service=git-upload-pack");
+    assertThat(((HttpAuditEvent) e).httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  private void waitForAudit() throws InterruptedException {
+    synchronized (auditService.auditEvents) {
+      auditService.auditEvents.wait(AUDIT_EVENT_TIMEOUT);
+    }
   }
 }

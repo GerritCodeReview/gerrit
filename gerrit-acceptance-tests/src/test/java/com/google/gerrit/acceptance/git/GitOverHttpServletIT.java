@@ -17,7 +17,9 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.audit.AuditEvent;
+import com.google.gerrit.audit.HttpAuditEvent;
 import java.util.Collections;
+import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -51,6 +53,7 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
     assertThat(e.who.getAccountId()).isEqualTo(admin.id);
     assertThat(e.what).endsWith("/git-receive-pack");
     assertThat(e.params).isEmpty();
+    assertThat(((HttpAuditEvent) e).httpStatus).isEqualTo(HttpServletResponse.SC_OK);
   }
 
   @Test
@@ -64,5 +67,6 @@ public class GitOverHttpServletIT extends AbstractPushForReview {
     assertThat(e.params.get("service"))
         .containsExactlyElementsIn(Collections.singletonList("git-upload-pack"));
     assertThat(e.what).endsWith("service=git-upload-pack");
+    assertThat(((HttpAuditEvent) e).httpStatus).isEqualTo(HttpServletResponse.SC_OK);
   }
 }

@@ -65,6 +65,29 @@
     },
     {
       "key": {
+        "uuid": "3bef1496_c7ee1b68",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-23T09:08:42Z",
+      "side": 1,
+      "message": "BTW, this audit is actually at wrong place: we should put the finally after the next.doFilter() and give a HttpServletResponseWrapper to capture the status code without relying on Servlet 3.0.\n\nLet me propose an alternative fix to this :-)",
+      "range": {
+        "startLine": 317,
+        "startChar": 8,
+        "endLine": 317,
+        "endChar": 29
+      },
+      "revId": "44a54836a4028acfbb3402408e9a8bf32330312e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1b72f3d_025e6431",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 3

@@ -54,7 +54,10 @@ public class FakeAuditService implements AuditService {
 
   @Override
   public void dispatch(AuditEvent action) {
-    auditEvents.add(action);
+    synchronized (auditEvents) {
+      auditEvents.add(action);
+      auditEvents.notifyAll();
+    }
   }
 
   @Override

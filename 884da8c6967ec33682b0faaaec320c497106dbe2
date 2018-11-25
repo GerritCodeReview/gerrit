@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36a47d12_ab573987",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-25T23:14:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5572f05d_5435ee30",
+      "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6a0593b_7ec0aea8",
         "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 6
@@ -39,6 +57,30 @@
       "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f381ae5_671f7106",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-25T23:14:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6a0593b_7ec0aea8",
+      "range": {
+        "startLine": 260,
+        "startChar": 17,
+        "endLine": 260,
+        "endChar": 64
+      },
+      "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +124,48 @@
     },
     {
       "key": {
+        "uuid": "d97be2cb_009a2cf8",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-25T23:14:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "264360b2_293b6c35",
+      "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f83adf5_7debe58e",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-25T23:14:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc790873_ec5a5b73",
+      "range": {
+        "startLine": 407,
+        "startChar": 38,
+        "endLine": 407,
+        "endChar": 75
+      },
+      "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ccf97244_182149d8",
         "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 6
@@ -93,6 +177,30 @@
       "writtenOn": "2018-11-19T22:51:27Z",
       "side": 1,
       "message": "Don\u0027t we still want to do this in the case when toWrite is not empty? IIRC having multiple PGPPublicKeyRings in the Collection means the keys share the same fingerprint, so you might have 2 master keys A and B in the same note. If we delete B, then toWrite will still contain A; but in that case we still want to delete all of B\u0027s subkeys.",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 7
+      },
+      "revId": "884da8c6967ec33682b0faaaec320c497106dbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "744252fc_1dd5d22d",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-25T23:14:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand. If I have two different public keys, and try to add them concatenated to the NoteMap using PG UI on master, only the first key is added:\n\n  -----BEGIN PGP PUBLIC KEY BLOCK-----\n  mI0EW+98GgEEALLn87xX++daic3AzKwM7nY50Mx2eTaEZPlnaDAVvFlhbZuPG+n5\n  [...]\n  -----END PGP PUBLIC KEY BLOCK-----\n  -----BEGIN PGP PUBLIC KEY BLOCK-----\n  mQGNBFudc+sBDACmOFnqS2d/+XIJieWlqt2lRyixBjjqsmZKUmJ4rCbKg3ZM26A9\n  [...]\n  -----END PGP PUBLIC KEY BLOCK-----\n\nThere is also no way on the UI to update it, only to remove it and add another one.",
+      "parentUuid": "ccf97244_182149d8",
       "range": {
         "startLine": 431,
         "startChar": 0,

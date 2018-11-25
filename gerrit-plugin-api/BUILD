@@ -1,11 +1,5 @@
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
-SRCS = [
-    "gerrit-server/src/main/java/",
-    "gerrit-httpd/src/main/java/",
-    "gerrit-sshd/src/main/java/",
-]
-
 PLUGIN_API = [
     "//gerrit-httpd:httpd",
     "//gerrit-pgm:init-api",

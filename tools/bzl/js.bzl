@@ -307,10 +307,8 @@ Outputs:
 
 def _vulcanize_impl(ctx):
     # intermediate artifact.
-    vulcanized = ctx.new_file(
-        ctx.configuration.genfiles_dir,
-        ctx.outputs.html,
-        ".vulcanized.html",
+    vulcanized = ctx.actions.declare_file(
+        ctx.outputs.html.path + ".vulcanized.html",
     )
     destdir = ctx.outputs.html.path + ".dir"
     zips = [z for d in ctx.attr.deps for z in d.transitive_zipfiles]

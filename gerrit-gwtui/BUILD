@@ -9,7 +9,7 @@ load("//tools/bzl:license.bzl", "license_test")
 
 gwt_genrule()
 
-gwt_genrule("_r")
+gwt_genrule(suffix = "_r")
 
 gen_ui_module(name = "ui_module")
 

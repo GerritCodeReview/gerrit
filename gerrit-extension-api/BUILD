@@ -6,8 +6,6 @@ load("//tools/bzl:junit.bzl", "junit_tests")
 
 SRC = "src/main/java/com/google/gerrit/extensions/"
 
-SRCS = glob([SRC + "**/*.java"])
-
 EXT_API_SRCS = glob([SRC + "client/*.java"])
 
 gwt_module(

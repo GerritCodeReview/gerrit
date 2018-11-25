@@ -113,8 +113,9 @@ TESTUTIL_DEPS = [
 
 TESTUTIL = glob([
     "src/test/java/com/google/gerrit/testutil/**/*.java",
+]) + [
     "src/test/java/com/google/gerrit/server/project/Util.java",
-])
+]
 
 java_library(
     name = "testutil",

@@ -1,6 +1,7 @@
-package(default_visibility = ["//visibility:public"])
-
 load("//tools/bzl:java.bzl", "java_library2")
+load("//tools/bzl:javadoc.bzl", "java_doc")
+
+package(default_visibility = ["//visibility:public"])
 
 SRCS = glob(["src/main/java/com/google/gerrit/**/*.java"])
 
@@ -55,8 +56,6 @@ java_binary(
         "//gerrit-gwtui-common:libclient-lib-src.jar",
     ],
 )
-
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
     name = "gwtui-api-javadoc",

@@ -1,8 +1,8 @@
+load("//tools/bzl:junit.bzl", "junit_tests")
+
 package(
     default_visibility = ["//visibility:public"],
 )
-
-load("//tools/bzl:junit.bzl", "junit_tests")
 
 SRCS = glob(
     ["src/main/java/**/*.java"],

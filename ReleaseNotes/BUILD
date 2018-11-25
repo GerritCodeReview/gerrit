@@ -1,6 +1,4 @@
-load("//tools/bzl:asciidoc.bzl", "release_notes_attributes")
-load("//tools/bzl:asciidoc.bzl", "genasciidoc")
-load("//tools/bzl:asciidoc.bzl", "genasciidoc_zip")
+load("//tools/bzl:asciidoc.bzl", "genasciidoc", "genasciidoc_zip", "release_notes_attributes")
 
 SRCS = glob(["*.txt"])
 

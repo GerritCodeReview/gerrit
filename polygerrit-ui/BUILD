@@ -1,9 +1,9 @@
+load("//tools/bzl:genrule2.bzl", "genrule2")
+load("//tools/bzl:js.bzl", "bower_component_bundle")
+
 package(
     default_visibility = ["//visibility:public"],
 )
-
-load("//tools/bzl:js.bzl", "bower_component_bundle")
-load("//tools/bzl:genrule2.bzl", "genrule2")
 
 bower_component_bundle(
     name = "polygerrit_components.bower_components",

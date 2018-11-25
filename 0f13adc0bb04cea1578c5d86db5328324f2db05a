@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adb68ee3_cdcd09d0",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-25T10:29:52Z",
+      "side": 0,
+      "message": "GERRIT and MAVEN_LOCAL are unused as of now, but they were left in the file to reduce the modifications needed when building with a JGit snapshot.",
+      "revId": "0f13adc0bb04cea1578c5d86db5328324f2db05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

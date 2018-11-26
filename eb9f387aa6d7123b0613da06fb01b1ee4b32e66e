@@ -175,6 +175,30 @@
       "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ec92b0a_6e4b5d33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T21:12:37Z",
+      "side": 1,
+      "message": "I think it will be very hard if at all possible to fix cache invalidation for ReviewDb backend. ReviewDb can be mutated behind the Gerrit\u0027s back, (even in plugin). How Gerrit would know to invalidate the change cache. NoteDb cache access works fine, because SHA1 key is immutable. I like the idea to don\u0027t even try to implement cache invalidation, and just cache the data for 60 seconds during change screen load. The fact, that the ReviewDb is removed and NoteDb cache just works is another heavy argument to prefer KISS solution here.",
+      "parentUuid": "5e9af80e_ab1f28cf",
+      "range": {
+        "startLine": 79,
+        "startChar": 30,
+        "endLine": 79,
+        "endChar": 49
+      },
+      "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,120 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1542666199 -0800\nnonce ADWBXRCsi/bl9Z5fYa1ZuocUGZU1jJAcrXlZkPke2KqaTM9H1DLWLzBryIwnof7UI97YfllstAKY\n\n0000000000000000000000000000000000000000 61ebe2787d3e3a26300d058c1876700f43ed27d8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlvzN9cVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMGjMQAMK2xJJ8iH1O/Dekn6uGMt5IxXlv\n7TNfdRjp3b1Thw4FGb4kpFJEPwlyWVtYY2nSxInN5UaIwyZ7k32fhaePo1qRGEML\nvrwcwnZbigpUiu32xPjkxdtCn1OIlz5jGf5Z+W/LBLftERxaWwX5mu1JI5SctHsc\nldm76SbzrS0WuJvqhJB9cwJT/4ZaTDuL8F2TiLBD1RmN78pm8HHAcxBvsDFsKFB+\nhNjeF9Y2khwo771AlU8OZid7quK4Q5HmCvW6Zhwd0aSP9M1LRVa5WO1lq1RmaHTY\nuWFFfbTn2dFD6bd+3//HTj1l8AfG5V6EvXhOhmBTVpEk8C+kvzrjV50DOWrlTJUq\niaz4YB8kdCLLKcFGiwbkkSXwttONzOiSbH4mZVmYTze/u3accBXjzRB9Ut0TZ9RP\nKrHdSUF/lGvDiQMTKf0jT4RO/rHz4o9M799GLdb6ikeznzWvCs3gqUZqZIQsgjtu\nvj7fbshl7BvcxCQwUAWQ5pPTnVNpoufna3a7r4i0TXe7K7Gq6YlXr0/wwrNYWEgF\nakqtGl1P3vN4QZR/tBnNp0Bg8l6J/IDJYRvtzS06BXYzKy22D1w81XGqw4Xhy5EJ\nxCVU1sufHRIFrOspphcdtFgjGe9Gp2sPN1Ca0jH7nyjTBMaQQvDGu7T+n+71h1p5\ne/oMbp/kuO+8bSSt\n\u003djPeQ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "50b92b4c_549466ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T22:04:33Z",
+      "side": 1,
+      "message": "Running the site init still asking for Database type:\n\n  Database server type           [h2]:\n\nAnd still asking whether or not use NoteDb:\n\n  Use NoteDb for change metadata?\n\nand then failing with similar exception that also the tests are failing: [1].\n\n* [1] http://paste.openstack.org/show/736048/",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 64
+      },
+      "revId": "61ebe2787d3e3a26300d058c1876700f43ed27d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bd63bd6_a9b4c5bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T22:04:33Z",
+      "side": 1,
+      "message": "Update/clarify the requirements and supported modes in NotesDb migration documentation about 2.16 and 3.0 releases: [1]?\n\n* [1] https://gerrit-review.googlesource.com/Documentation/note-db.html",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 0
+      },
+      "revId": "61ebe2787d3e3a26300d058c1876700f43ed27d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01bf882c_fc8659a3",
+        "filename": "java/com/google/gerrit/pgm/util/ThreadLimiter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T22:04:33Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 22,
+        "startChar": 33,
+        "endLine": 22,
+        "endChar": 52
+      },
+      "revId": "61ebe2787d3e3a26300d058c1876700f43ed27d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18789fe3_63d5887b",
+        "filename": "java/com/google/gerrit/testing/InMemoryDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T22:04:33Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 36,
+        "startChar": 26,
+        "endLine": 36,
+        "endChar": 45
+      },
+      "revId": "61ebe2787d3e3a26300d058c1876700f43ed27d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ab199f9_9cb13e59",
+        "filename": "java/com/google/gerrit/testing/InMemoryDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T22:04:33Z",
+      "side": 1,
+      "message": "The declared exception OrmException is not actually thrown by the constructor.",
+      "range": {
+        "startLine": 44,
+        "startChar": 38,
+        "endLine": 44,
+        "endChar": 57
+      },
+      "revId": "61ebe2787d3e3a26300d058c1876700f43ed27d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

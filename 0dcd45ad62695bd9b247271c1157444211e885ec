@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1542666199 -0800\nnonce ADWBXRCsi/bl9Z5fYa1ZuocUGZU1jJAcrXlZkPke2KqaTM9H1DLWLzBryIwnof7UI97YfllstAKY\n\n0000000000000000000000000000000000000000 61ebe2787d3e3a26300d058c1876700f43ed27d8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlvzN9cVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMGjMQAMK2xJJ8iH1O/Dekn6uGMt5IxXlv\n7TNfdRjp3b1Thw4FGb4kpFJEPwlyWVtYY2nSxInN5UaIwyZ7k32fhaePo1qRGEML\nvrwcwnZbigpUiu32xPjkxdtCn1OIlz5jGf5Z+W/LBLftERxaWwX5mu1JI5SctHsc\nldm76SbzrS0WuJvqhJB9cwJT/4ZaTDuL8F2TiLBD1RmN78pm8HHAcxBvsDFsKFB+\nhNjeF9Y2khwo771AlU8OZid7quK4Q5HmCvW6Zhwd0aSP9M1LRVa5WO1lq1RmaHTY\nuWFFfbTn2dFD6bd+3//HTj1l8AfG5V6EvXhOhmBTVpEk8C+kvzrjV50DOWrlTJUq\niaz4YB8kdCLLKcFGiwbkkSXwttONzOiSbH4mZVmYTze/u3accBXjzRB9Ut0TZ9RP\nKrHdSUF/lGvDiQMTKf0jT4RO/rHz4o9M799GLdb6ikeznzWvCs3gqUZqZIQsgjtu\nvj7fbshl7BvcxCQwUAWQ5pPTnVNpoufna3a7r4i0TXe7K7Gq6YlXr0/wwrNYWEgF\nakqtGl1P3vN4QZR/tBnNp0Bg8l6J/IDJYRvtzS06BXYzKy22D1w81XGqw4Xhy5EJ\nxCVU1sufHRIFrOspphcdtFgjGe9Gp2sPN1Ca0jH7nyjTBMaQQvDGu7T+n+71h1p5\ne/oMbp/kuO+8bSSt\n\u003djPeQ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "10c7ae2a_2eaccc0a",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:55:04Z",
+      "side": 1,
+      "message": "or if init was run from 2.16 but a schema migration \u003e 163 failed and hence was not executed\n\nCould we instead maybe have a last migration in 2.16 that populates the refs/meta/version ref?",
+      "range": {
+        "startLine": 137,
+        "startChar": 7,
+        "endLine": 138,
+        "endChar": 95
+      },
+      "revId": "0dcd45ad62695bd9b247271c1157444211e885ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

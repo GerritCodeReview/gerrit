@@ -166,7 +166,7 @@ limitations under the License.
       <template is="dom-if" if="[[change.assignee]]">
         <gr-account-link
             account="[[change.assignee]]"
-            additional-text="[[_computeAccountStatusString(change.owner)]]"></gr-account-link>
+            additional-text="[[_computeAccountStatusString(change.assignee)]]"></gr-account-link>
       </template>
       <template is="dom-if" if="[[!change.assignee]]">
         <span class="placeholder">--</span>

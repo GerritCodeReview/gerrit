@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "af5f88f0_e41c0baa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T16:03:18Z",
+      "side": 1,
+      "message": "\u003e The follow-up change in this series guarantees that stable-2.16 migration\n\u003e as always done 3.0 NoteDb schema migration.\n\nThis check doesn\u0027t help for migrations that will be newly added in stable 2.16.\n\nIf I install 2.16 now this check will pass and the 3.0 NoteDb schema migrations will be executed, and all schema migrations that are added in stable-2.16 later will be missed, even if init is executed again.",
+      "parentUuid": "13d0595f_525eda71",
+      "range": {
+        "startLine": 12,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72679a5a_4de4737b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

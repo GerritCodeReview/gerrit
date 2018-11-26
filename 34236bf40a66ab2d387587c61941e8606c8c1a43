@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "74d47b17_e38ba398",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T16:14:56Z",
+      "side": 1,
+      "message": "\u003e \u003e The follow-up change in this series guarantees that stable-2.16 migration\n\u003e \u003e as always done 3.0 NoteDb schema migration.\n\u003e \n\u003e This check doesn\u0027t help for migrations that will be newly added in stable 2.16.\n\u003e \n\u003e If I install 2.16 now this check will pass and the 3.0 NoteDb schema migrations will be executed, and all schema migrations that are added in stable-2.16 later will be missed, even if init is executed again.\n\nGood point. Three things:\n\n* 1. Schema migration 170 was included already in 2.16, so you can not miss it.\n* 2. newly added ReviewDb schema migrations on stable-2.16 could be repeated on master (3.0) as well. That way it will be applied at least once, or in worst case twice. I have in mind re-scan of GPG keys, that shouldn\u0027t be widely used anyway and wouldn\u0027t take long time to execute.\n* 3. Alternative approach would be to provide site program(s) for potential changes in stable-2.16 and avoid additional ReviewDb schema migrations on stable-2.16 branch for the reason you\u0027ve mentioned.",
+      "parentUuid": "af5f88f0_e41c0baa",
+      "range": {
+        "startLine": 12,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72679a5a_4de4737b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

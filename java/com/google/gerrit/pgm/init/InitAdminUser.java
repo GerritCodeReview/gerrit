@@ -125,14 +125,14 @@ public class InitAdminUser implements InitStep {
         // is cheap.
         Optional<GroupReference> adminGroupReference =
             groupsOnInit
-                .getAllGroupReferences()
+                .getAllGroupReferences(db)
                 .filter(group -> group.getName().equals("Administrators"))
                 .findAny();
         if (!adminGroupReference.isPresent()) {
           throw new NoSuchGroupException("Administrators");
         }
         GroupReference adminGroup = adminGroupReference.get();
-        groupsOnInit.addGroupMember(adminGroup.getUUID(), a);
+        groupsOnInit.addGroupMember(db, adminGroup.getUUID(), a);
 
         if (sshKey != null) {
           VersionedAuthorizedKeysOnInit authorizedKeys = authorizedKeysFactory.create(id).load();
@@ -145,7 +145,7 @@ public class InitAdminUser implements InitStep {
           accountIndex.replace(as);
         }
 
-        InternalGroup adminInternalGroup = groupsOnInit.getExistingGroup(adminGroup);
+        InternalGroup adminInternalGroup = groupsOnInit.getExistingGroup(db, adminGroup);
         for (GroupIndex groupIndex : groupIndexCollection.getWriteIndexes()) {
           groupIndex.replace(adminInternalGroup);
         }

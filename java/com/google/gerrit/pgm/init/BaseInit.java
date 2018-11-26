@@ -43,6 +43,7 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.NoteDbSchemaUpdater;
 import com.google.gerrit.server.schema.ReviewDbFactory;
+import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
@@ -73,13 +74,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Initialize a new Gerrit installation. */
 public class BaseInit extends SiteProgram {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final boolean standalone;
-  private final boolean initDb;
   protected final PluginsDistribution pluginsDistribution;
   private final List<String> pluginsToInstall;
 
@@ -87,7 +88,6 @@ public class BaseInit extends SiteProgram {
 
   protected BaseInit(PluginsDistribution pluginsDistribution, List<String> pluginsToInstall) {
     this.standalone = true;
-    this.initDb = true;
     this.pluginsDistribution = pluginsDistribution;
     this.pluginsToInstall = pluginsToInstall;
   }
@@ -95,12 +95,10 @@ public class BaseInit extends SiteProgram {
   public BaseInit(
       Path sitePath,
       boolean standalone,
-      boolean initDb,
       PluginsDistribution pluginsDistribution,
       List<String> pluginsToInstall) {
     super(sitePath);
     this.standalone = standalone;
-    this.initDb = initDb;
     this.pluginsDistribution = pluginsDistribution;
     this.pluginsToInstall = pluginsToInstall;
   }
@@ -243,7 +241,7 @@ public class BaseInit extends SiteProgram {
     }
 
     m.add(new GerritServerConfigModule());
-    m.add(new InitModule(standalone, initDb));
+    m.add(new InitModule(standalone));
     m.add(
         new AbstractModule() {
           @Override
@@ -345,6 +343,7 @@ public class BaseInit extends SiteProgram {
     public final ConsoleUI ui;
     public final SitePaths site;
     public final InitFlags flags;
+    final ReviewDbSchemaCreator schemaCreator;
     final NoteDbSchemaUpdater noteDbSchemaUpdater;
     final SchemaFactory<ReviewDb> schema;
     final GitRepositoryManager repositoryManager;
@@ -354,12 +353,14 @@ public class BaseInit extends SiteProgram {
         ConsoleUI ui,
         SitePaths site,
         InitFlags flags,
+        ReviewDbSchemaCreator schemaCreator,
         NoteDbSchemaUpdater noteDbSchemaUpdater,
         @ReviewDbFactory SchemaFactory<ReviewDb> schema,
         GitRepositoryManager repositoryManager) {
       this.ui = ui;
       this.site = site;
       this.flags = flags;
+      this.schemaCreator = schemaCreator;
       this.noteDbSchemaUpdater = noteDbSchemaUpdater;
       this.schema = schema;
       this.repositoryManager = repositoryManager;
@@ -368,6 +369,12 @@ public class BaseInit extends SiteProgram {
     void upgradeSchema() throws OrmException {
       final List<String> pruneList = new ArrayList<>();
       UpdateUI uiImpl = new UpdateUIImpl(ui, pruneList);
+
+      try {
+        schemaCreator.create();
+      } catch (IOException | ConfigInvalidException e) {
+        throw new OrmException("Cannot init gerrit site", e);
+      }
 
       if (!pruneList.isEmpty()) {
         StringBuilder msg = new StringBuilder();

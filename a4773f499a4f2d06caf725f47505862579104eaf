@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f5082af_4f130dc8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T21:39:55Z",
+      "side": 1,
+      "message": "nit: typo s/Reponse/Response",
+      "range": {
+        "startLine": 179,
+        "startChar": 18,
+        "endLine": 179,
+        "endChar": 25
+      },
+      "revId": "a4773f499a4f2d06caf725f47505862579104eaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6da9d706_ba686549",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T21:39:55Z",
+      "side": 1,
+      "message": "nit: can be removed now.",
+      "range": {
+        "startLine": 367,
+        "startChar": 14,
+        "endLine": 367,
+        "endChar": 35
+      },
+      "revId": "a4773f499a4f2d06caf725f47505862579104eaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e797b8cf_e7c59c6f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T21:39:55Z",
+      "side": 1,
+      "message": "nit: remove",
+      "range": {
+        "startLine": 482,
+        "startChar": 13,
+        "endLine": 482,
+        "endChar": 35
+      },
+      "revId": "a4773f499a4f2d06caf725f47505862579104eaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b125830_b88755e1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T21:39:55Z",
+      "side": 1,
+      "message": "nit: this cast becomes redundant now.",
+      "range": {
+        "startLine": 495,
+        "startChar": 13,
+        "endLine": 495,
+        "endChar": 35
+      },
+      "revId": "a4773f499a4f2d06caf725f47505862579104eaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

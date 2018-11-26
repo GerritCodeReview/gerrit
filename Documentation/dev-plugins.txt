@@ -2355,6 +2355,16 @@ By implementing the
 `com.google.gerrit.server.git.ChangeReportFormatter` interface, a plugin
 may change the formatting of the report.
 
+[[url-formatting]]
+== URL Formatting
+
+URLs to various parts of Gerrit are usually formed by adding suffixes to
+the canonical web URL.
+
+By implementing the
+`com.google.gerrit.server.config.UrlFormatter` interface, a plugin may
+change the format of the URL.
+
 [[links-to-external-tools]]
 == Links To External Tools
 

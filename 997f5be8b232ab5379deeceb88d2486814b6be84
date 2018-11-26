@@ -49,6 +49,92 @@
     },
     {
       "key": {
+        "uuid": "62931fa5_fb081e2e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T14:57:48Z",
+      "side": 1,
+      "message": "This is not compatible with v2.5 because in v2.5 this method returns a generic \"Map\" without specific key-value types. One possible fix:\n\nMap\u003cString, String[]\u003e parameterMap \u003d (Map\u003cString, String[]\u003e) request.getParameterMap();\n      parameterMap.forEach(\n          (k, v) -\u003e {\n            for (String aV : v) {\n              multiMap.put(k, aV);\n            }\n          });",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 218,
+        "endChar": 17
+      },
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d6bda04_f74569c5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T14:57:48Z",
+      "side": 1,
+      "message": "Remove this unnecessary empty line?",
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b07c70f8_8ffe38dc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T14:57:48Z",
+      "side": 1,
+      "message": "Should \"responseWrapper\" be used here instead of \"response\"?",
+      "range": {
+        "startLine": 364,
+        "startChar": 14,
+        "endLine": 364,
+        "endChar": 44
+      },
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca0f8966_21170175",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T14:57:48Z",
+      "side": 1,
+      "message": "This is the same with the old code, but we should also an error status code in this case, right?",
+      "range": {
+        "startLine": 369,
+        "startChar": 10,
+        "endLine": 369,
+        "endChar": 40
+      },
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4504e3df_5c3c613d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 4
@@ -128,6 +214,98 @@
       "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "253102b2_083e709c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T14:57:48Z",
+      "side": 1,
+      "message": "same above.",
+      "range": {
+        "startLine": 479,
+        "startChar": 14,
+        "endLine": 479,
+        "endChar": 45
+      },
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf9fa788_aa54dabb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T14:57:48Z",
+      "side": 1,
+      "message": "Consider setting an error status here, but it\u0027s something out the scope of this change though.",
+      "range": {
+        "startLine": 484,
+        "startChar": 10,
+        "endLine": 484,
+        "endChar": 40
+      },
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c362f506_58b76563",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T14:57:48Z",
+      "side": 1,
+      "message": "shoud this be the wrapper class instance?",
+      "range": {
+        "startLine": 491,
+        "startChar": 14,
+        "endLine": 491,
+        "endChar": 44
+      },
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17993f28_f0eb2f12",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/FakeAuditService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-26T14:57:48Z",
+      "side": 1,
+      "message": "The commit message doesn\u0027t say about this code change. Could you add a short description here or in the commit message?",
+      "range": {
+        "startLine": 57,
+        "startChar": 3,
+        "endLine": 60,
+        "endChar": 5
+      },
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

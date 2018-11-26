@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -27,7 +28,8 @@ public class DefaultUrlFormatter implements UrlFormatter {
   public static class Module extends AbstractModule {
     @Override
     protected void configure() {
-      bind(UrlFormatter.class).to(DefaultUrlFormatter.class);
+      DynamicItem.itemOf(binder(), UrlFormatter.class);
+      DynamicItem.bind(binder(), UrlFormatter.class).to(DefaultUrlFormatter.class);
     }
   }
 

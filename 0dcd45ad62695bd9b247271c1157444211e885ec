@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "457e1bd0_9713336d",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T20:44:52Z",
+      "side": 1,
+      "message": "In init phase we provide link to the notedb documentation:\n\n  Use NoteDb for change metadata?\n  See documentation:\n  https://gerrit-review.googlesource.com/Documentation/note-db.html\n\nHere we could extend the exception and link to the online or offline migration sections:\n\n* https://gerrit-review.googlesource.com/Documentation/note-db.html#offline-migration\n* https://gerrit-review.googlesource.com/Documentation/note-db.html#online-migration\n\nAnother option would be to add new section: migration to 3.0, explain the requirements and link to this section here.\n\nUnrelated to this change, but I\u0027m seeing this statement in note-db.html:\n\n* Offline migration: [...] Available in both Gerrit 2.x and 3.0.\n\nBut for migrate-to-note-db to access the database in 3.0, the ReviewDb binding code should be preserved in 3.0. OTOH the plan was/is (?) to remove ReviewDb binding entirely in 3.0, so either the documentation or the plan is wrong?",
+      "range": {
+        "startLine": 123,
+        "startChar": 6,
+        "endLine": 123,
+        "endChar": 47
+      },
+      "revId": "0dcd45ad62695bd9b247271c1157444211e885ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "10c7ae2a_2eaccc0a",
         "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java",
         "patchSetId": 2
@@ -43,6 +66,52 @@
         "startChar": 7,
         "endLine": 138,
         "endChar": 95
+      },
+      "revId": "0dcd45ad62695bd9b247271c1157444211e885ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce64fc56_0a201478",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T20:44:52Z",
+      "side": 1,
+      "message": "@SuppressWarnings(\"unused\") to suppress warning in Eclipse.\n\nI mean I\u0027m fine to drop the requirement for the code base to be Eclipse warning free, if more and more core developers are switching to IntelliJ IDEA or GNU Emacs. But, before doing this, we should remove/adjust this section in contribution documentation: dev-contributing.txt:\n\n  This project has a policy of Eclipse\u0027s warning free code. Eclipse\n  configuration is added to git and we expect the changes to be\n  warnings free.",
+      "range": {
+        "startLine": 171,
+        "startChar": 6,
+        "endLine": 171,
+        "endChar": 37
+      },
+      "revId": "0dcd45ad62695bd9b247271c1157444211e885ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "750807f2_91286353",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T20:44:52Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 182,
+        "startChar": 6,
+        "endLine": 182,
+        "endChar": 37
       },
       "revId": "0dcd45ad62695bd9b247271c1157444211e885ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

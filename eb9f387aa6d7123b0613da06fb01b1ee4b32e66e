@@ -199,6 +199,30 @@
       "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "302df952_faf143d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-26T21:16:03Z",
+      "side": 1,
+      "message": "I know, however, without cache invalidation the acceptance tests would fail :-(\nHooking on the change reindexed and deleted should be more than enough. Even if that isn\u0027t perfect (as you mentioned) the system will self-recover within a couple of minutes. Keeping in mind how many people are on Stable 2.14, that should be good enough IMHO.\n\nP.S. Please let\u0027s NOT make a v2.14.18, just keep this change merged if anyone wants to get the fix through the CI :-)",
+      "parentUuid": "4ec92b0a_6e4b5d33",
+      "range": {
+        "startLine": 79,
+        "startChar": 30,
+        "endLine": 79,
+        "endChar": 49
+      },
+      "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

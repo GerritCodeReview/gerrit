@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5445802c_c930b785",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T23:36:18Z",
+      "side": 0,
+      "message": "How the code currently organized ReviewDbSchemaUpdater is calling ReviewDbSchemaCreator where the whole site initialized: All-Projects and All-Users are created, sequence initilaized, etc. It cannot just be removed here. You added already TODO on ReviewDbSchemaCreator class. Just inject it here and jst call create() method:\n\n  try {\n    schemaCreator.create();\n  } catch (IOException | ConfigInvalidException e) {\n    throw new OrmException(\"Cannot init gerrit site\", e);\n  }",
+      "range": {
+        "startLine": 388,
+        "startChar": 6,
+        "endLine": 388,
+        "endChar": 43
+      },
+      "revId": "03390268bba4fe1c01db12c54a757669c8ae44ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

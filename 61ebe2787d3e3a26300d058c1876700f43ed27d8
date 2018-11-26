@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "43498d00_54fa337d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T23:36:18Z",
+      "side": 1,
+      "message": "I addressed most issues, and fixed them in this change on top of that change: [1]. With this change site initialization works.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/205733",
+      "parentUuid": "50b92b4c_549466ef",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 64
+      },
+      "revId": "61ebe2787d3e3a26300d058c1876700f43ed27d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9bd63bd6_a9b4c5bd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -42,6 +66,75 @@
         "startChar": 2,
         "endLine": 31,
         "endChar": 0
+      },
+      "revId": "61ebe2787d3e3a26300d058c1876700f43ed27d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f23500fe_ce8bcefa",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T23:36:18Z",
+      "side": 1,
+      "message": "This should be removed in this change.",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 31
+      },
+      "revId": "61ebe2787d3e3a26300d058c1876700f43ed27d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1f2a503_afa3b1aa",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T23:36:18Z",
+      "side": 1,
+      "message": "Remove this.",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 21
+      },
+      "revId": "61ebe2787d3e3a26300d058c1876700f43ed27d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91972480_33b3cab5",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T23:36:18Z",
+      "side": 1,
+      "message": "Could be removed as we don\u0027t want to initialize the database starting from this change. However, NoteDb is initialized there as well, that we would want to do hard coded anyway. Until another place is found, dirty way would be rename it to InitNoteDb and call it here. Dirty because there is no interaction with user now NoteDb section are always initialized, so that this code should be  better moved in another place.",
+      "range": {
+        "startLine": 246,
+        "startChar": 4,
+        "endLine": 246,
+        "endChar": 46
       },
       "revId": "61ebe2787d3e3a26300d058c1876700f43ed27d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

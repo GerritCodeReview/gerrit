@@ -307,9 +307,9 @@
         commands.push({
           title,
           command: commandObj[title]
-              .replace('${project}', repo)
+              .replace('${project}', encodeURI(repo))
               .replace('${project-base-name}',
-              repo.substring(repo.lastIndexOf('/') + 1)),
+              encodeURI(repo.substring(repo.lastIndexOf('/') + 1))),
         });
       }
       return commands;

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "13d0595f_525eda71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-26T15:50:08Z",
+      "side": 1,
+      "message": "Well, there is always first time ;-)\n\nNote that these schema migrations strategy-wised and code-wised are complteley de-coupled: ReviewDb based and NoteDb based schema migrations. In fact, on master there cannot be any ReviewDb based migration any more. While on stable-2.16 we can have as many ReviewDb migrations as we may need. We would just raise the gap, done.\n\nWe discussed this during the hackathon and decided that we can do it now, that we are going to remove the ReviewDb schema migration anyway. So that on stable-2.16 we performed Schema migration 170 to remove last remaining ReviewDb table system_config.\n\nMoreover, currently we probably need yet another schema migration to re-scan NoteMap for GPG changes to add subkey to master-key mapping to support push verification for commit that were signed with GPG subkeys, We can still do it on stable-2.16 with schema migration 171. See pending change for review.\n\nThe follow-up change in this series guarantees that stable-2.16 migration was always done \n3.0 NoteDb schema migration.",
+      "parentUuid": "bbdb9d2b_bde6ed32",
+      "range": {
+        "startLine": 12,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72679a5a_4de4737b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

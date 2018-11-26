@@ -16,6 +16,75 @@
       "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f877e6a_ee0d5f5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-26T18:38:53Z",
+      "side": 1,
+      "message": "Needs to be documented",
+      "range": {
+        "startLine": 54,
+        "startChar": 41,
+        "endLine": 54,
+        "endChar": 54
+      },
+      "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e44e04ed_8722fd8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-26T18:38:53Z",
+      "side": 1,
+      "message": "To be disabled by default, for backward compatiblity.",
+      "range": {
+        "startLine": 78,
+        "startChar": 27,
+        "endLine": 78,
+        "endChar": 31
+      },
+      "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f653a8_9f11ab50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-26T18:38:53Z",
+      "side": 1,
+      "message": "Possibly even a shorter one would suffice: we just need it \"long enough\" to serve one page. 1-2 Minutes at most?",
+      "range": {
+        "startLine": 79,
+        "startChar": 30,
+        "endLine": 79,
+        "endChar": 49
+      },
+      "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

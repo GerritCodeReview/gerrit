@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "83464026_587e7aaf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-26T13:50:15Z",
+      "side": 1,
+      "message": "The integration test runs a Git/HTTP client against a Gerrit Git/HTTP server code. The audit gets fired when the request completes on the server. Without a waitForAudit() if may statistically happen that the test is faster than the server and thus the audit events are not published yet.\n\nThis is the reason why it was flaky before. It is a wait on the test code, not on Gerrit :-)",
+      "parentUuid": "76648d70_6cc580e3",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4504e3df_5c3c613d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0f3ba521_e598d575",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-26T13:50:15Z",
+      "side": 1,
+      "message": "Good point, it was possibly missed in the previous review.",
+      "parentUuid": "4504e3df_5c3c613d",
+      "range": {
+        "startLine": 378,
+        "startChar": 16,
+        "endLine": 378,
+        "endChar": 34
+      },
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "07ed4624_930376a4",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 4
@@ -62,6 +110,24 @@
       "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "734b2430_9bb0bc0b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-26T13:50:15Z",
+      "side": 1,
+      "message": "Yes, it will be more readable indeed. However, we are in a stable-2.15 (2 releases back from master). Would that create conflicts when merged upstream?",
+      "parentUuid": "07ed4624_930376a4",
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

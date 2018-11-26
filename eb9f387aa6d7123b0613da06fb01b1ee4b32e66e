@@ -127,6 +127,30 @@
       "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e591325_cde1eb91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-26T20:39:38Z",
+      "side": 1,
+      "message": "Yes, however it would be weird because the user that is updating the change won\u0027t see the result of it for around 1 min, which may break the user journey. Best to get it fixed.",
+      "parentUuid": "ca7ca72c_32123a5c",
+      "range": {
+        "startLine": 79,
+        "startChar": 30,
+        "endLine": 79,
+        "endChar": 49
+      },
+      "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

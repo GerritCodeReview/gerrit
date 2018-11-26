@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "968d7b88_1df0b329",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbSchemaVersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:43:31Z",
+      "side": 1,
+      "message": "Uhm, nevermind. The replication plugin is missing all ref updates that happen during init. I hope it has some logic to replicate all refs on Gerrit startup?",
+      "parentUuid": "06333965_2c48776d",
+      "range": {
+        "startLine": 40,
+        "startChar": 73,
+        "endLine": 41,
+        "endChar": 60
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b6e7a4a_10c291f8",
         "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
         "patchSetId": 5

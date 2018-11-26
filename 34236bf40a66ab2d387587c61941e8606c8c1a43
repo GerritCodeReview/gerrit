@@ -3,6 +3,264 @@
   "comments": [
     {
       "key": {
+        "uuid": "b9793f30_134fab78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "in All-Projects?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbdb9d2b_bde6ed32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "I\u0027m not sure that this is a good idea. \nWhat if I\u0027m on master with schema version 185 and now a schema migration is added on stable-2.16, how will it be executed for my master installation? And what if it touches data which is also touch by a NoteDb schema migration?\nSo far we never allowed schema migrations on stable branches. Why is it needed now?",
+      "range": {
+        "startLine": 12,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72679a5a_4de4737b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "ReviewDb?",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "676de91e_60dccfec",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "Should this new ref be documented somewhere, e.g. in note-db.txt?",
+      "range": {
+        "startLine": 53,
+        "startChar": 44,
+        "endLine": 53,
+        "endChar": 63
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06333965_2c48776d",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbSchemaVersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "Does this mean that this ref cannot be replicated by the replication plugin? This may be bad :/",
+      "range": {
+        "startLine": 40,
+        "startChar": 73,
+        "endLine": 41,
+        "endChar": 60
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b6e7a4a_10c291f8",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "nit: unused parameters",
+      "range": {
+        "startLine": 278,
+        "startChar": 33,
+        "endLine": 278,
+        "endChar": 67
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c86c749c_cfd2b6b7",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "nit: for consistency within this class use String.format here too",
+      "range": {
+        "startLine": 66,
+        "startChar": 31,
+        "endLine": 66,
+        "endChar": 83
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dea6d3a2_b71fc31e",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "[optional] here and at the other places where this method is used, would it be more readable to have a dedicated method in NotesMigration whether NoteDb migrations should be done (this method can delegate to commitChangeWrites())?",
+      "range": {
+        "startLine": 53,
+        "startChar": 24,
+        "endLine": 53,
+        "endChar": 44
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d48e8c4f_7443ed24",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "This will never be invoked since for this condition it will always take the first if branch.",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 7
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6031a3ce_e3029f1d",
+        "filename": "java/com/google/gerrit/server/schema/ReviewDbSchemaVersion.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "Mention that this cannot be \u003e\u003d 180?",
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3435cebd_4ff90895",
+        "filename": "java/com/google/gerrit/server/schema/Schema_180.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "Add\n  @SuppressWarnings(\"unused\")\nto avoid warning in Eclipse.",
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58a95378_ef0c55b2",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-26T15:35:17Z",
+      "side": 1,
+      "message": "Add\n  @SuppressWarnings(\"unused\")\nto avoid warning in Eclipse.\n\nSame for the TestSchema_11 constructor below.",
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d0d30a80_686668aa",
         "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaVersionsTest.java",
         "patchSetId": 5

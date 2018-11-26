@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76648d70_6cc580e3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-11-26T13:06:57Z",
+      "side": 1,
+      "message": "I wonder why this is necessary? Which part of the filter chain runs asynchronous? Or is it a part of the audit events code?\n\nAny chance we can make this synchronous instead?",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4504e3df_5c3c613d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-11-26T13:06:57Z",
+      "side": 1,
+      "message": "nit: ImmutableList",
+      "range": {
+        "startLine": 378,
+        "startChar": 16,
+        "endLine": 378,
+        "endChar": 34
+      },
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ed4624_930376a4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-11-26T13:06:57Z",
+      "side": 1,
+      "message": "I think this code would benefit from putting it into an doFilterImpl and then have\n\ndoFilter(...) {\ntry {\nfoFilterImpl(...)\n} finally {\naudit event code\n}",
+      "revId": "997f5be8b232ab5379deeceb88d2486814b6be84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "438a2aff_f6ec473d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-26T18:45:41Z",
+      "side": 1,
+      "message": "Good point, lost in rebase :-(",
+      "parentUuid": "86b8947d_ccb30e78",
+      "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f877e6a_ee0d5f5e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
         "patchSetId": 13

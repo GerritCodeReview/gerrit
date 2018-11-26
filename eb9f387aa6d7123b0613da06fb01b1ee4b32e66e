@@ -103,6 +103,30 @@
       "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca7ca72c_32123a5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-26T18:47:58Z",
+      "side": 1,
+      "message": "With proper cache invalidation any time should be OK?\nAs a workaround (without proper cache invalidation) we could set it to 1 minute\nin order to mitigate the issue.",
+      "parentUuid": "27f653a8_9f11ab50",
+      "range": {
+        "startLine": 79,
+        "startChar": 30,
+        "endLine": 79,
+        "endChar": 49
+      },
+      "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

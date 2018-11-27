@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "327ea3a5_d8dcd22c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-27T08:51:04Z",
+      "side": 1,
+      "message": "The code was originally written in 2015, and that\u0027s the year in the AuthorDate field of the commit message, so arguably it\u0027s correct here.\n\nUnless Luca does a commit --amend --reset-author to update the author date...",
+      "parentUuid": "4648e0c9_13402b6a",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6138f9fa_af69e5d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
         "patchSetId": 17

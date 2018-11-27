@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4648e0c9_13402b6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-27T08:44:37Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6138f9fa_af69e5d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-27T08:44:37Z",
+      "side": 1,
+      "message": "This remark is unnecessary on the interface level, it is an implementation detail",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e48129b_cccefda2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SingleChangeLoader.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-27T08:44:37Z",
+      "side": 1,
+      "message": "2018",
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f9c0c76_e2935c7c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/FakeChangeCache.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-27T08:44:37Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

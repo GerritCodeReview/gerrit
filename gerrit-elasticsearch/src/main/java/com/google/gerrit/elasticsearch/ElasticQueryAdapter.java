@@ -30,7 +30,7 @@ public class ElasticQueryAdapter {
   private final String versionDiscoveryUrl;
 
   ElasticQueryAdapter(ElasticVersion version) {
-    this.ignoreUnmapped = version == ElasticVersion.V2_4;
+    this.ignoreUnmapped = false;
     this.usePostV5Type = version.isV6();
     this.versionDiscoveryUrl = version.isV6() ? "/%s*" : "/%s*/_aliases";
 
@@ -46,7 +46,6 @@ public class ElasticQueryAdapter {
         this.stringFieldType = "text";
         this.indexProperty = "true";
         break;
-      case V2_4:
       default:
         this.searchFilteringName = "fields";
         this.indicesExistParam = "";

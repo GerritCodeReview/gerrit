@@ -36,14 +36,8 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
     }
   }
 
-  public static ElasticContainer<?> createAndStart() {
-    return createAndStart(ElasticVersion.V2_4);
-  }
-
   private static String getImageName(ElasticVersion version) {
     switch (version) {
-      case V2_4:
-        return "elasticsearch:2.4.6-alpine";
       case V5_6:
         return "docker.elastic.co/elasticsearch/elasticsearch:5.6.13";
       case V6_2:

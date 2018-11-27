@@ -26,11 +26,6 @@ import org.junit.Before;
 public class ElasticReindexIT extends AbstractReindexTests {
 
   @ConfigSuite.Default
-  public static Config elasticsearchV2() {
-    return getConfig(ElasticVersion.V2_4);
-  }
-
-  @ConfigSuite.Config
   public static Config elasticsearchV5() {
     return getConfig(ElasticVersion.V5_6);
   }

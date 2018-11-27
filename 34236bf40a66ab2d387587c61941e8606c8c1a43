@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "94332438_e520f23f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-27T07:50:56Z",
+      "side": 1,
+      "message": "Nice, then we basically don\u0027t need to add further migrations to 2.16 :)\n\n\u003e This check is implemented in follow-up change based on groups sequence ref.\n\nYes, but as commented on this change there are corner cases where the check fails (e.g. the migration that creates the groups sequence ref succeeded, but one of the follow-up migrations has failed). But we may be ok with this risk. We can discuss this further on the follow-up change.",
+      "parentUuid": "1a86aaaf_2ea44f23",
+      "range": {
+        "startLine": 12,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72679a5a_4de4737b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

@@ -155,6 +155,24 @@
     },
     {
       "key": {
+        "uuid": "db125eb3_f61cbf70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SingleChangeLoader.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-27T09:45:58Z",
+      "side": 1,
+      "message": "I see :-)",
+      "parentUuid": "7d8e417d_e2a91949",
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f9c0c76_e2935c7c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/FakeChangeCache.java",
         "patchSetId": 17

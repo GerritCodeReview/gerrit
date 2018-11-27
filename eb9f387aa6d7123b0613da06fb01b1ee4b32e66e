@@ -223,6 +223,30 @@
       "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a385f93_32e1d70c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-27T08:37:28Z",
+      "side": 1,
+      "message": "\u003e I think it will be very hard if at all possible to fix cache invalidation for ReviewDb backend. ReviewDb can be mutated behind the Gerrit\u0027s back, (even in plugin). How Gerrit would know to invalidate the change cache.\n\nDidn\u0027t we for years cache data from the review DB? Yes, it can be changed behind Gerrit\u0027s\nback, but if someone has ability to modify review DB then the same person also flushed\nthe affected cache(s). RewviewDB is by definition owned by Gerrit. If anyone changes it\n(even in plugin) then care should be taken to invalidate the cache (also from the plugin\ncode).",
+      "parentUuid": "302df952_faf143d3",
+      "range": {
+        "startLine": 79,
+        "startChar": 30,
+        "endLine": 79,
+        "endChar": 49
+      },
+      "revId": "eb9f387aa6d7123b0613da06fb01b1ee4b32e66e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

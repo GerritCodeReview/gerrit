@@ -93,11 +93,15 @@ public class Sequences {
         new RepoSequence(
             repoManager, gitRefUpdated, allProjects, NAME_CHANGES, changeSeed, changeBatchSize);
 
-    RepoSequence.Seed groupSeed = () -> nextGroupId(db.get());
     int groupBatchSize = 1;
     groupSeq =
         new RepoSequence(
-            repoManager, gitRefUpdated, allUsers, NAME_GROUPS, groupSeed, groupBatchSize);
+            repoManager,
+            gitRefUpdated,
+            allUsers,
+            NAME_GROUPS,
+            () -> ReviewDb.FIRST_GROUP_ID,
+            groupBatchSize);
 
     nextIdLatency =
         metrics.newTimer(
@@ -157,10 +161,5 @@ public class Sequences {
   @SuppressWarnings("deprecation")
   private static int nextChangeId(ReviewDb db) throws OrmException {
     return db.nextChangeId();
-  }
-
-  @SuppressWarnings("deprecation")
-  static int nextGroupId(ReviewDb db) throws OrmException {
-    return db.nextAccountGroupId();
   }
 }

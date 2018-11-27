@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.server;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.Relation;
@@ -90,11 +89,6 @@ public interface ReviewDb extends Schema {
   int FIRST_ACCOUNT_ID = 1000000;
 
   int FIRST_GROUP_ID = 1;
-
-  /** Next unique id for a {@link AccountGroup}. */
-  @Sequence(startWith = FIRST_GROUP_ID)
-  @Deprecated
-  int nextAccountGroupId() throws OrmException;
 
   int FIRST_CHANGE_ID = 1;
 

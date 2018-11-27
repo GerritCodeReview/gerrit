@@ -40,15 +40,13 @@ public class Schema_163 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
-    @SuppressWarnings("deprecation")
-    RepoSequence.Seed groupSeed = db::nextAccountGroupId;
     RepoSequence groupSeq =
         new RepoSequence(
             repoManager,
             GitReferenceUpdated.DISABLED,
             allUsersName,
             Sequences.NAME_GROUPS,
-            groupSeed,
+            () -> ReviewDb.FIRST_GROUP_ID,
             1);
 
     // consume one account ID to ensure that the group sequence is initialized in NoteDb

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a8a0bee_8cff540e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-27T02:21:01Z",
+      "side": 1,
+      "message": "It looks like this is mostly the same as the previous test (L177-189).  Can the additional assertion on the status be added to that test instead?",
+      "revId": "32539c20c51d31dfe582fb2960c3c310ca8f66a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

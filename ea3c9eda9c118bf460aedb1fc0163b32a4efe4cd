@@ -173,6 +173,24 @@
     },
     {
       "key": {
+        "uuid": "6fec9eef_c3299fff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SingleChangeLoader.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-27T09:52:00Z",
+      "side": 1,
+      "message": "Glad to see that somehow, someone found it useful :-) Let me know how it goes ;-)",
+      "parentUuid": "db125eb3_f61cbf70",
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f9c0c76_e2935c7c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/FakeChangeCache.java",
         "patchSetId": 17

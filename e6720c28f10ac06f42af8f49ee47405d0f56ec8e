@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05739a4e_787f843d",
+        "filename": "java/com/google/gerrit/pgm/init/api/SequencesOnInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-27T06:43:43Z",
+      "side": 1,
+      "message": "Arguably, this could be done out of this series.",
+      "revId": "e6720c28f10ac06f42af8f49ee47405d0f56ec8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

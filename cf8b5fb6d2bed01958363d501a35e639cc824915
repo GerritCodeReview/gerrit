@@ -47,6 +47,52 @@
       "revId": "cf8b5fb6d2bed01958363d501a35e639cc824915",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1724c52f_971e5cb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-27T07:39:29Z",
+      "side": 1,
+      "message": "AbstractDaemonTest",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "cf8b5fb6d2bed01958363d501a35e639cc824915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a243fa5_7d970b16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-27T07:39:29Z",
+      "side": 1,
+      "message": "For Flogger we have a similar problem, as we need to set system properties before any code with logging is invoked. We do this in:\n\n* ConfigSuite (better than AbstractDaemonTest since it works for all tests not just those that extend AbstractDaemonTest)\n* Main\n\nWould it make sense to set the StandardKeyEncoder rather at those places?",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "cf8b5fb6d2bed01958363d501a35e639cc824915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -25,7 +25,6 @@ import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerIdProvider;
@@ -37,7 +36,6 @@ import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
@@ -54,9 +52,8 @@ import org.eclipse.jgit.util.FS;
 /**
  * A database accessor for calls related to groups.
  *
- * <p>All calls which read or write group related details to the database <strong>during
- * init</strong> (either ReviewDb or NoteDb) are gathered here. For non-init cases, use {@code
- * Groups} or {@code GroupsUpdate} instead.
+ * <p>All calls which read or write group related details to the NoteDb <strong>during init</strong>
+ * are gathered here. For non-init cases, use {@code Groups} or {@code GroupsUpdate} instead.
  *
  * <p>All methods of this class refer to <em>internal</em> groups.
  */
@@ -76,16 +73,14 @@ public class GroupsOnInit {
   /**
    * Returns the {@code AccountGroup} for the specified {@code GroupReference}.
    *
-   * @param db the {@code ReviewDb} instance to use for lookups
    * @param groupReference the {@code GroupReference} of the group
    * @return the {@code InternalGroup} represented by the {@code GroupReference}
-   * @throws OrmException if the group couldn't be retrieved from ReviewDb
    * @throws IOException if an error occurs while reading from NoteDb
    * @throws ConfigInvalidException if the data in NoteDb is in an incorrect format
    * @throws NoSuchGroupException if a group with such a name doesn't exist
    */
-  public InternalGroup getExistingGroup(ReviewDb db, GroupReference groupReference)
-      throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
+  public InternalGroup getExistingGroup(GroupReference groupReference)
+      throws NoSuchGroupException, IOException, ConfigInvalidException {
     File allUsersRepoPath = getPathToAllUsersRepository();
     if (allUsersRepoPath != null) {
       try (Repository allUsersRepo = new FileRepository(allUsersRepoPath)) {
@@ -102,14 +97,11 @@ public class GroupsOnInit {
   /**
    * Returns {@code GroupReference}s for all internal groups.
    *
-   * @param db the {@code ReviewDb} instance to use for lookups
    * @return a stream of the {@code GroupReference}s of all internal groups
-   * @throws OrmException if an error occurs while reading from ReviewDb
    * @throws IOException if an error occurs while reading from NoteDb
    * @throws ConfigInvalidException if the data in NoteDb is in an incorrect format
    */
-  public Stream<GroupReference> getAllGroupReferences(ReviewDb db)
-      throws OrmException, IOException, ConfigInvalidException {
+  public Stream<GroupReference> getAllGroupReferences() throws IOException, ConfigInvalidException {
     File allUsersRepoPath = getPathToAllUsersRepository();
     if (allUsersRepoPath != null) {
       try (Repository allUsersRepo = new FileRepository(allUsersRepoPath)) {
@@ -126,14 +118,12 @@ public class GroupsOnInit {
    * <p><strong>Note</strong>: This method doesn't check whether the account exists! It also doesn't
    * update the account index!
    *
-   * @param db the {@code ReviewDb} instance to update
    * @param groupUuid the UUID of the group
    * @param account the account to add
-   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
    * @throws NoSuchGroupException if the specified group doesn't exist
    */
-  public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account account)
-      throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
+  public void addGroupMember(AccountGroup.UUID groupUuid, Account account)
+      throws NoSuchGroupException, IOException, ConfigInvalidException {
     File allUsersRepoPath = getPathToAllUsersRepository();
     if (allUsersRepoPath != null) {
       try (Repository repository = new FileRepository(allUsersRepoPath)) {

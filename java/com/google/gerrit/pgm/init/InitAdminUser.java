@@ -26,7 +26,6 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.SequencesOnInit;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -38,7 +37,6 @@ import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -58,7 +56,6 @@ public class InitAdminUser implements InitStep {
   private final ExternalIdsOnInit externalIds;
   private final SequencesOnInit sequencesOnInit;
   private final GroupsOnInit groupsOnInit;
-  private SchemaFactory<ReviewDb> dbFactory;
   private AccountIndexCollection accountIndexCollection;
   private GroupIndexCollection groupIndexCollection;
 
@@ -85,11 +82,6 @@ public class InitAdminUser implements InitStep {
   @Override
   public void run() {}
 
-  @Inject(optional = true)
-  void set(@ReviewDbFactory SchemaFactory<ReviewDb> dbProvider) {
-    this.dbFactory = dbProvider;
-  }
-
   @Inject
   void set(AccountIndexCollection accountIndexCollection) {
     this.accountIndexCollection = accountIndexCollection;
@@ -107,58 +99,56 @@ public class InitAdminUser implements InitStep {
       return;
     }
 
-    try (ReviewDb db = dbFactory.open()) {
-      if (!accounts.hasAnyAccount()) {
-        ui.header("Gerrit Administrator");
-        if (ui.yesno(true, "Create administrator user")) {
-          Account.Id id = new Account.Id(sequencesOnInit.nextAccountId());
-          String username = ui.readString("admin", "username");
-          String name = ui.readString("Administrator", "name");
-          String httpPassword = ui.readString("secret", "HTTP password");
-          AccountSshKey sshKey = readSshKey(id);
-          String email = readEmail(sshKey);
+    if (!accounts.hasAnyAccount()) {
+      ui.header("Gerrit Administrator");
+      if (ui.yesno(true, "Create administrator user")) {
+        Account.Id id = new Account.Id(sequencesOnInit.nextAccountId());
+        String username = ui.readString("admin", "username");
+        String name = ui.readString("Administrator", "name");
+        String httpPassword = ui.readString("secret", "HTTP password");
+        AccountSshKey sshKey = readSshKey(id);
+        String email = readEmail(sshKey);
 
-          List<ExternalId> extIds = new ArrayList<>(2);
-          extIds.add(ExternalId.createUsername(username, id, httpPassword));
+        List<ExternalId> extIds = new ArrayList<>(2);
+        extIds.add(ExternalId.createUsername(username, id, httpPassword));
 
-          if (email != null) {
-            extIds.add(ExternalId.createEmail(id, email));
-          }
-          externalIds.insert("Add external IDs for initial admin user", extIds);
+        if (email != null) {
+          extIds.add(ExternalId.createEmail(id, email));
+        }
+        externalIds.insert("Add external IDs for initial admin user", extIds);
 
-          Account a = new Account(id, TimeUtil.nowTs());
-          a.setFullName(name);
-          a.setPreferredEmail(email);
-          accounts.insert(a);
+        Account a = new Account(id, TimeUtil.nowTs());
+        a.setFullName(name);
+        a.setPreferredEmail(email);
+        accounts.insert(a);
 
-          // Only two groups should exist at this point in time and hence iterating over all of them
-          // is cheap.
-          Optional<GroupReference> adminGroupReference =
-              groupsOnInit
-                  .getAllGroupReferences(db)
-                  .filter(group -> group.getName().equals("Administrators"))
-                  .findAny();
-          if (!adminGroupReference.isPresent()) {
-            throw new NoSuchGroupException("Administrators");
-          }
-          GroupReference adminGroup = adminGroupReference.get();
-          groupsOnInit.addGroupMember(db, adminGroup.getUUID(), a);
+        // Only two groups should exist at this point in time and hence iterating over all of them
+        // is cheap.
+        Optional<GroupReference> adminGroupReference =
+            groupsOnInit
+                .getAllGroupReferences()
+                .filter(group -> group.getName().equals("Administrators"))
+                .findAny();
+        if (!adminGroupReference.isPresent()) {
+          throw new NoSuchGroupException("Administrators");
+        }
+        GroupReference adminGroup = adminGroupReference.get();
+        groupsOnInit.addGroupMember(adminGroup.getUUID(), a);
 
-          if (sshKey != null) {
-            VersionedAuthorizedKeysOnInit authorizedKeys = authorizedKeysFactory.create(id).load();
-            authorizedKeys.addKey(sshKey.sshPublicKey());
-            authorizedKeys.save("Add SSH key for initial admin user\n");
-          }
+        if (sshKey != null) {
+          VersionedAuthorizedKeysOnInit authorizedKeys = authorizedKeysFactory.create(id).load();
+          authorizedKeys.addKey(sshKey.sshPublicKey());
+          authorizedKeys.save("Add SSH key for initial admin user\n");
+        }
 
-          AccountState as = AccountState.forAccount(new AllUsersName(allUsers.get()), a, extIds);
-          for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
-            accountIndex.replace(as);
-          }
+        AccountState as = AccountState.forAccount(new AllUsersName(allUsers.get()), a, extIds);
+        for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
+          accountIndex.replace(as);
+        }
 
-          InternalGroup adminInternalGroup = groupsOnInit.getExistingGroup(db, adminGroup);
-          for (GroupIndex groupIndex : groupIndexCollection.getWriteIndexes()) {
-            groupIndex.replace(adminInternalGroup);
-          }
+        InternalGroup adminInternalGroup = groupsOnInit.getExistingGroup(adminGroup);
+        for (GroupIndex groupIndex : groupIndexCollection.getWriteIndexes()) {
+          groupIndex.replace(adminInternalGroup);
         }
       }
     }

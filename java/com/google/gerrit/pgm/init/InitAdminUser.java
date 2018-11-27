@@ -111,7 +111,7 @@ public class InitAdminUser implements InitStep {
       if (!accounts.hasAnyAccount()) {
         ui.header("Gerrit Administrator");
         if (ui.yesno(true, "Create administrator user")) {
-          Account.Id id = new Account.Id(sequencesOnInit.nextAccountId(db));
+          Account.Id id = new Account.Id(sequencesOnInit.nextAccountId());
           String username = ui.readString("admin", "username");
           String name = ui.readString("Administrator", "name");
           String httpPassword = ui.readString("secret", "HTTP password");

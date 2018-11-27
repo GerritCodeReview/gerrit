@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.server;
 
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
@@ -28,7 +27,6 @@ import com.google.gwtorm.server.Sequence;
  * <p>Root entities that are at the top level of some important data graph:
  *
  * <ul>
- *   <li>{@link Account}: Per-user account registration, preferences, identity.
  *   <li>{@link Change}: All review information about a single proposed change.
  * </ul>
  */
@@ -90,15 +88,6 @@ public interface ReviewDb extends Schema {
   // Deleted @Relation(id = 30)
 
   int FIRST_ACCOUNT_ID = 1000000;
-
-  /**
-   * Next unique id for a {@link Account}.
-   *
-   * @deprecated use {@link com.google.gerrit.server.Sequences#nextAccountId()}.
-   */
-  @Sequence(startWith = FIRST_ACCOUNT_ID)
-  @Deprecated
-  int nextAccountId() throws OrmException;
 
   int FIRST_GROUP_ID = 1;
 

@@ -703,11 +703,6 @@ public class NoOpReviewDb implements ReviewDb {
   }
 
   @Override
-  public int nextAccountId() {
-    throw new ReviewDbDisabledException();
-  }
-
-  @Override
   public int nextAccountGroupId() {
     throw new ReviewDbDisabledException();
   }

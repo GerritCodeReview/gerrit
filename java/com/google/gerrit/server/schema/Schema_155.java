@@ -40,15 +40,13 @@ public class Schema_155 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
-    @SuppressWarnings("deprecation")
-    RepoSequence.Seed accountSeed = db::nextAccountId;
     RepoSequence accountSeq =
         new RepoSequence(
             repoManager,
             GitReferenceUpdated.DISABLED,
             allUsersName,
             Sequences.NAME_ACCOUNTS,
-            accountSeed,
+            () -> ReviewDb.FIRST_ACCOUNT_ID,
             1);
 
     // consume one account ID to ensure that the account sequence is initialized in NoteDb

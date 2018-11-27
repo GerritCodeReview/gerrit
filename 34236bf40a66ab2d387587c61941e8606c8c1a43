@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "1a86aaaf_2ea44f23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-27T07:39:52Z",
+      "side": 1,
+      "message": "\u003e \u003e * 1. Schema migration 170 was included already in 2.16, so you can not miss it.\n\u003e \n\u003e Yes, assuming we have a working check that verifies that you have already upgraded to 2.16.\n\nThis check is implemented in follow-up change based on groups sequence ref.\n\n\u003e \u003e * 2. newly added ReviewDb schema migrations on stable-2.16 could be repeated on master (3.0) as well. That way it will be applied at least once, or in worst case twice. I have in mind re-scan of GPG keys, that shouldn\u0027t be widely used anyway and wouldn\u0027t take long time to execute.\n\u003e \u003e * 3. Alternative approach would be to provide site program(s) for potential changes in stable-2.16 and avoid additional ReviewDb schema migrations on stable-2.16 branch for the reason you\u0027ve mentioned.\n\u003e \n\u003e I prefer having a site program in stable-2.16 and a NoteDb migration in 3.0.\n\u003e So if you need the migration in 2.16 you can run the site program, otherwise it\u0027s gets done when you upgrade to 3.0. That should be fine for re-scanning GPG keys which are only used by few people.\n\nThis suggestion could work.\n\n\u003e Do we need any other migrations in 2.16 besides re-scanning GPG keys?\n\nNot that I\u0027m aware of.",
+      "parentUuid": "829381d2_4aa061ab",
+      "range": {
+        "startLine": 12,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72679a5a_4de4737b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

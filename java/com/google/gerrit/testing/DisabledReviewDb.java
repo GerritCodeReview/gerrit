@@ -95,11 +95,6 @@ public class DisabledReviewDb implements ReviewDb {
   }
 
   @Override
-  public int nextAccountId() {
-    throw new Disabled();
-  }
-
-  @Override
   public int nextAccountGroupId() {
     throw new Disabled();
   }

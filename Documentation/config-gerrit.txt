@@ -2895,7 +2895,7 @@ WARNING: Support for Elasticsearch is still experimental and is not recommended
 for production use. For compatibility information, please refer to the
 link:https://www.gerritcodereview.com/elasticsearch.html[project homepage].
 
-When using Elasticsearch versions 2.4 and 5.6, the open and closed changes are
+When using Elasticsearch version 5.6, the open and closed changes are
 indexed in a single index, separated into types `open_changes` and `closed_changes`
 respectively. When using version 6.2 or later, the open and closed changes are
 merged into the default `_doc` type. The latter is also used for the accounts and
@@ -2939,7 +2939,6 @@ Note that the same username and password are used for all servers.
 
 For further information about Elasticsearch security, please refer to the documentation:
 
-* link:https://www.elastic.co/guide/en/elasticsearch/plugins/2.4/security.html[Elasticsearch 2.4]
 * link:https://www.elastic.co/guide/en/x-pack/5.6/security-getting-started.html[Elasticsearch 5.6]
 * link:https://www.elastic.co/guide/en/x-pack/6.2/security-getting-started.html[Elasticsearch 6.2]
 * link:https://www.elastic.co/guide/en/elastic-stack-overview/6.3/security-getting-started.html[Elasticsearch 6.3]

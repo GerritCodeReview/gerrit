@@ -136,12 +136,6 @@ public class ReviewDbWrapper implements ReviewDb {
 
   @Override
   @SuppressWarnings("deprecation")
-  public int nextAccountGroupId() throws OrmException {
-    return delegate.nextAccountGroupId();
-  }
-
-  @Override
-  @SuppressWarnings("deprecation")
   public int nextChangeId() throws OrmException {
     return delegate.nextChangeId();
   }

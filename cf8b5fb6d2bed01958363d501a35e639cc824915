@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "77a22c9c_20c51bc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-28T06:55:54Z",
+      "side": 1,
+      "message": "Sounds good to me.",
+      "parentUuid": "2debf053_a562c613",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "cf8b5fb6d2bed01958363d501a35e639cc824915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1724c52f_971e5cb5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

@@ -22,6 +22,30 @@
       "revId": "ce4dd2da1e26a29cb1e3f9310f8041a2fd0dabd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8252de11_f5a72704",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-28T07:08:01Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/205743",
+      "parentUuid": "a51db3bc_2351a3cb",
+      "range": {
+        "startLine": 591,
+        "startChar": 8,
+        "endLine": 591,
+        "endChar": 23
+      },
+      "revId": "ce4dd2da1e26a29cb1e3f9310f8041a2fd0dabd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

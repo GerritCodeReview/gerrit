@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "2debf053_a562c613",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-28T04:02:47Z",
+      "side": 1,
+      "message": "Now that we know that this approach works even for GWT based application we should probably prefer that way compared to spreading the initialization code across different places in production and test code paths.",
+      "parentUuid": "950c4a15_8d60f6e4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "cf8b5fb6d2bed01958363d501a35e639cc824915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1724c52f_971e5cb5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -84,6 +108,30 @@
       "writtenOn": "2018-11-27T07:39:29Z",
       "side": 1,
       "message": "For Flogger we have a similar problem, as we need to set system properties before any code with logging is invoked. We do this in:\n\n* ConfigSuite (better than AbstractDaemonTest since it works for all tests not just those that extend AbstractDaemonTest)\n* Main\n\nWould it make sense to set the StandardKeyEncoder rather at those places?",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "cf8b5fb6d2bed01958363d501a35e639cc824915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8008a997_73d7382d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-28T04:02:47Z",
+      "side": 1,
+      "message": "\u003e For Flogger we have a similar problem, as we need to set system properties before any code with logging is invoked.\n\nIn Flogger case we don\u0027t have other choice because the initialization code lives in Gerrit. In gwtorm use case StandardKeyEncoder is standard key encoder algorithm that already located in gwtorm library itself and can and should be initialized there. In fact it already happens there, in Database and NoSqlDatabase classes, but theses places are wrong and forcing gwtorm consumer to initialize the ENCODER_IMPL in KeyUtil on their own, when neither Database nor NoSqlDatabase are used.",
+      "parentUuid": "5a243fa5_7d970b16",
       "range": {
         "startLine": 12,
         "startChar": 2,

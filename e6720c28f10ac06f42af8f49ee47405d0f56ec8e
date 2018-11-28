@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "bafe7b98_1e84741f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-28T16:01:12Z",
+      "side": 1,
+      "message": "If it\u0027s getting squashed into predecessor change, I think it\u0027s fine like this :)",
+      "parentUuid": "1fe01557_f5e85d56",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "e6720c28f10ac06f42af8f49ee47405d0f56ec8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05739a4e_787f843d",
         "filename": "java/com/google/gerrit/pgm/init/api/SequencesOnInit.java",
         "patchSetId": 1

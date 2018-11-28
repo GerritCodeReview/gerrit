@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "f8fa62a8_4bebe326",
+        "filename": "java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-28T02:58:21Z",
+      "side": 0,
+      "message": "Or, better yet, the whole section should be removed from Documentation/config-gerrit.txt.\n\n  [[database]]\n  \u003d\u003d\u003d Section database",
+      "revId": "03390268bba4fe1c01db12c54a757669c8ae44ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b2d840e_a67fe691",
         "filename": "java/com/google/gerrit/server/schema/DataSourceProvider.java",
         "patchSetId": 4

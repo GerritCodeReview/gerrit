@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.index.project;
+package com.google.gerrit.server.index.project;
 
 import static com.google.gerrit.index.SchemaUtil.schema;
 

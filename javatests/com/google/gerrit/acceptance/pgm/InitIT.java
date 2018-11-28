@@ -21,11 +21,11 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.project.ProjectData;
-import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.index.project.ProjectData;
+import com.google.gerrit.server.index.project.ProjectIndexCollection;
 import java.util.Optional;
 import org.junit.Test;
 

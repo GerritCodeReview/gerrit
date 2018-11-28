@@ -12,20 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.index.project;
+package com.google.gerrit.server.index.project;
 
-import com.google.gerrit.index.Index;
-import com.google.gerrit.index.IndexDefinition;
-import com.google.gerrit.index.query.Predicate;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.inject.Singleton;
 
-public interface ProjectIndex extends Index<Project.NameKey, ProjectData> {
+@Singleton
+public class ProjectIndexCollection
+    extends IndexCollection<Project.NameKey, ProjectData, ProjectIndex> {
 
-  public interface Factory
-      extends IndexDefinition.IndexFactory<Project.NameKey, ProjectData, ProjectIndex> {}
-
-  @Override
-  default Predicate<ProjectData> keyPredicate(Project.NameKey nameKey) {
-    return new ProjectPredicate(ProjectField.NAME, nameKey.get());
-  }
+  @VisibleForTesting
+  public ProjectIndexCollection() {}
 }

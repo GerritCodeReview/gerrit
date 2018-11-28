@@ -16,10 +16,6 @@ package com.google.gerrit.server.index.project;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.IndexDefinition;
-import com.google.gerrit.index.project.ProjectData;
-import com.google.gerrit.index.project.ProjectIndex;
-import com.google.gerrit.index.project.ProjectIndexCollection;
-import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 

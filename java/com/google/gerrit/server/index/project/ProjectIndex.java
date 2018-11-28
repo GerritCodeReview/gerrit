@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.index.project;
+package com.google.gerrit.server.index.project;
 
+import com.google.gerrit.index.Index;
+import com.google.gerrit.index.IndexDefinition;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
-import java.io.IOException;
 
-public interface ProjectIndexer {
+public interface ProjectIndex extends Index<Project.NameKey, ProjectData> {
 
-  /**
-   * Synchronously index a project.
-   *
-   * @param nameKey name key of project to index.
-   */
-  void index(Project.NameKey nameKey) throws IOException;
+  public interface Factory
+      extends IndexDefinition.IndexFactory<Project.NameKey, ProjectData, ProjectIndex> {}
+
+  @Override
+  default Predicate<ProjectData> keyPredicate(Project.NameKey nameKey) {
+    return new ProjectPredicate(ProjectField.NAME, nameKey.get());
+  }
 }

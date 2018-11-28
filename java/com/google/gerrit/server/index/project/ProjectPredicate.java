@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.index.project;
+package com.google.gerrit.server.index.project;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.index.IndexCollection;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.inject.Singleton;
+import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.query.IndexPredicate;
 
-@Singleton
-public class ProjectIndexCollection
-    extends IndexCollection<Project.NameKey, ProjectData, ProjectIndex> {
-
-  @VisibleForTesting
-  public ProjectIndexCollection() {}
+public class ProjectPredicate extends IndexPredicate<ProjectData> {
+  public ProjectPredicate(FieldDef<ProjectData, ?> def, String value) {
+    super(def, value);
+  }
 }

@@ -18,12 +18,12 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.client.ProjectState;
-import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.index.project.ProjectData;
 import com.google.inject.Inject;
 import java.util.List;
 

@@ -14,12 +14,12 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.project.ProjectIndex;
 import java.util.Map;
 
 public class ElasticIndexModule extends AbstractIndexModule {

@@ -586,7 +586,6 @@ public abstract class AbstractDaemonTest {
         .submitType(submitType)
         .parent(parent)
         .createEmptyCommit(createEmptyCommit)
-        .parent(parent)
         .create();
   }
 

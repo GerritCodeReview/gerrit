@@ -45,24 +45,6 @@
     return !!(diff.binary && (isA || isB));
   }
 
-  /**
-   * Compare two ranges. Either argument may be falsy, but will only return
-   * true if both are falsy or if neither are falsy and have the same position
-   * values.
-   *
-   * @param {Gerrit.Range=} a range 1
-   * @param {Gerrit.Range=} b range 2
-   * @return {boolean}
-   */
-  function rangesEqual(a, b) {
-    if (!a && !b) { return true; }
-    if (!a || !b) { return false; }
-    return a.start_line === b.start_line &&
-        a.start_character === b.start_character &&
-        a.end_line === b.end_line &&
-        a.end_character === b.end_character;
-  }
-
   /** @enum {string} */
   Gerrit.DiffSide = {
     LEFT: 'left',
@@ -652,7 +634,7 @@
       function matchesRange(threadEl) {
         const threadRange = /** @type {!Gerrit.Range} */(
             JSON.parse(threadEl.getAttribute('range')));
-        return rangesEqual(threadRange, range);
+        return Gerrit.rangesEqual(threadRange, range);
       }
 
       const filteredThreadEls = this._filterThreadElsForLocation(

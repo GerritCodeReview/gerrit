@@ -55,6 +55,24 @@
    *             end_line: number, end_character: number}} */
   Gerrit.Range;
 
+  /**
+   * Compare two ranges. Either argument may be falsy, but will only return
+   * true if both are falsy or if neither are falsy and have the same position
+   * values.
+   *
+   * @param {Gerrit.Range=} a range 1
+   * @param {Gerrit.Range=} b range 2
+   * @return {boolean}
+   */
+  Gerrit.rangesEqual = function(a, b) {
+    if (!a && !b) { return true; }
+    if (!a || !b) { return false; }
+    return a.start_line === b.start_line &&
+        a.start_character === b.start_character &&
+        a.end_line === b.end_line &&
+        a.end_character === b.end_character;
+  };
+
   function isThreadEl(node) {
     return node.nodeType === Node.ELEMENT_NODE &&
         node.classList.contains('comment-thread');
@@ -257,18 +275,14 @@
     _observeNodes() {
       this._nodeObserver = Polymer.dom(this).observeNodes(info => {
         const addedThreadEls = info.addedNodes.filter(isThreadEl);
-        // In principle we should also handle removed nodes, but I have not
-        // figured out how to do that yet without also catching all the removals
-        // caused by further redistribution. Right now, comments are never
-        // removed by no longer slotting them in, so I decided to not handle
-        // this situation until it occurs.
-        this._updateRanges(addedThreadEls);
-        this._updateKeyLocations(addedThreadEls);
+        const removedThreadEls = info.removedNodes.filter(isThreadEl);
+        this._updateRanges(addedThreadEls, removedThreadEls);
+        this._updateKeyLocations(addedThreadEls, removedThreadEls);
         this._redispatchHoverEvents(addedThreadEls);
       });
     },
 
-    _updateRanges(addedThreadEls) {
+    _updateRanges(addedThreadEls, removedThreadEls) {
       function commentRangeFromThreadEl(threadEl) {
         const side = threadEl.getAttribute('comment-side');
         const range = JSON.parse(threadEl.getAttribute('range'));
@@ -278,14 +292,29 @@
       const addedCommentRanges = addedThreadEls
           .map(commentRangeFromThreadEl)
           .filter(({range}) => range);
+      const removedCommentRanges = removedThreadEls
+          .map(commentRangeFromThreadEl)
+          .filter(({range}) => range);
+      for (const removedCommentRange of removedCommentRanges) {
+        const i = this._commentRanges.findIndex(commentRange => {
+          return commentRange.side === removedCommentRange.side &&
+              Gerrit.rangesEqual(commentRange.range, removedCommentRange.range);
+        });
+        this.splice('_commentRanges', i, 1);
+      }
       this.push('_commentRanges', ...addedCommentRanges);
     },
 
-    _updateKeyLocations(addedThreadEls) {
+    _updateKeyLocations(addedThreadEls, removedThreadEls) {
       for (const threadEl of addedThreadEls) {
         const commentSide = threadEl.getAttribute('comment-side');
         const lineNum = threadEl.getAttribute('line-num') || GrDiffLine.FILE;
         this._keyLocations[commentSide][lineNum] = true;
+      }
+      for (const threadEl of removedThreadEls) {
+        const commentSide = threadEl.getAttribute('comment-side');
+        const lineNum = threadEl.getAttribute('line-num') || GrDiffLine.FILE;
+        this._keyLocations[commentSide][lineNum] = false;
       }
     },
 
@@ -628,11 +657,11 @@
     _handleRenderContent() {
       this._incrementalNodeObserver = Polymer.dom(this).observeNodes(info => {
         const addedThreadEls = info.addedNodes.filter(isThreadEl);
-        // In principle we should also handle removed nodes, but I have not
-        // figured out how to do that yet without also catching all the removals
-        // caused by further redistribution. Right now, comments are never
-        // removed by no longer slotting them in, so I decided to not handle
-        // this situation until it occurs.
+        // Removed nodes do not need to be handled because all this code does is
+        // adding a slot for the added thread elements, and the extra slots do
+        // not hurt. It's probably a bigger performance cost to remove them than
+        // to keep them around. Medium term we can even consider to add one slot
+        // for each line from the start.
         for (const threadEl of addedThreadEls) {
           const lineNumString = threadEl.getAttribute('line-num') || 'FILE';
           const commentSide = threadEl.getAttribute('comment-side');

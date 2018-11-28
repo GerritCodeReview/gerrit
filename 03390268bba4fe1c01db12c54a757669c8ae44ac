@@ -22,6 +22,29 @@
       "revId": "03390268bba4fe1c01db12c54a757669c8ae44ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b2d840e_a67fe691",
+        "filename": "java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-28T02:56:36Z",
+      "side": 0,
+      "message": "The documentation should be adapted accordingly:\n\n  Documentation/config-gerrit.txt:[[database.dataSourceInterceptorClass]]database.dataSourceInterceptorClass::\n\nI already removed this piece of code from gerrit-javameldoy plugin in [1].\n\n* [1] https://gerrit-review.googlesource.com/c/plugins/javamelody/+/205741",
+      "range": {
+        "startLine": 111,
+        "startChar": 38,
+        "endLine": 111,
+        "endChar": 66
+      },
+      "revId": "03390268bba4fe1c01db12c54a757669c8ae44ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

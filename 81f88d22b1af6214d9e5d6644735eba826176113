@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "b311b86d_21846346",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-28T18:09:16Z",
+      "side": 1,
+      "message": "\u003e No, we still have our custom-made 2.5 servlet engine.\n\n:-(\n\n\u003e So far we didn\u0027t have a problem with it. My question was, what has changed so that we have a problem now and need this change now?\n\nThe fix of Git/HTTP audit introduced a change not compatible with Servlet 3.0 (I believe back in stable-2.14) and that\u0027s why this fix is needed.\n\nIt could be done on stable-2.14 as well (with pain) but I believe this isn\u0027t impacting any Gerrit v2.14 users, apart Google of course.",
+      "parentUuid": "c0623d4e_1610a300",
+      "revId": "81f88d22b1af6214d9e5d6644735eba826176113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9cb695a_97e4b561",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
         "patchSetId": 6

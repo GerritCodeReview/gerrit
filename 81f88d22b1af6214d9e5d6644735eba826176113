@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aefd391_3132239c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-28T14:46:20Z",
+      "side": 1,
+      "message": "Can you mention why this change is necessary now?\nE.g. what was changed so that we have a problem with this now?\nIs this related to https://gerrit-review.googlesource.com/c/gerrit/+/203611?",
+      "revId": "81f88d22b1af6214d9e5d6644735eba826176113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9cb695a_97e4b561",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-28T14:46:20Z",
+      "side": 1,
+      "message": "Waiting for a timeout in tests is bad, can we avoid this somehow?",
+      "revId": "81f88d22b1af6214d9e5d6644735eba826176113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04348e6b_7572410a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-28T14:46:20Z",
+      "side": 1,
+      "message": "What\u0027s the advantage of having a local variable for the parameter map?\nWhy not just inline this to avoid the @SuppressWarning?",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 216,
+        "endChar": 18
+      },
+      "revId": "81f88d22b1af6214d9e5d6644735eba826176113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f9106be_46f3b6fa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-28T14:46:20Z",
+      "side": 1,
+      "message": "Should this be sendError?",
+      "range": {
+        "startLine": 372,
+        "startChar": 26,
+        "endLine": 372,
+        "endChar": 35
+      },
+      "revId": "81f88d22b1af6214d9e5d6644735eba826176113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9ce7f948_994177f2",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-28T10:16:40Z",
+      "side": 1,
+      "message": "Is it intended that nameSuffix is no longer used?",
+      "range": {
+        "startLine": 579,
+        "startChar": 13,
+        "endLine": 579,
+        "endChar": 23
+      },
+      "revId": "ce4dd2da1e26a29cb1e3f9310f8041a2fd0dabd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a51db3bc_2351a3cb",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 24

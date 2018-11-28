@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d1e7a368_83ae194f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-28T16:06:07Z",
+      "side": 1,
+      "message": "Note, though, that I extracted some changes from this commit in its own changes, out of this series (and added you to reviewers ;-)\n\n* https://gerrit-review.googlesource.com/c/gerrit/+/205734\n* https://gerrit-review.googlesource.com/c/gerrit/+/205735\n* https://gerrit-review.googlesource.com/c/gerrit/+/205736\n\nThe idea was to merged those changes first and then rebase this series on top of master.",
+      "parentUuid": "bafe7b98_1e84741f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "e6720c28f10ac06f42af8f49ee47405d0f56ec8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05739a4e_787f843d",
         "filename": "java/com/google/gerrit/pgm/init/api/SequencesOnInit.java",
         "patchSetId": 1

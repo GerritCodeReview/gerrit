@@ -23,6 +23,30 @@
       "revId": "b7a24723c121fc159962780b2f1ce0e176fe8e90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11df4ad1_2738c1af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T10:54:47Z",
+      "side": 1,
+      "message": "It\u0027s not really needed in the extension API since reviewers are available from ChangeInfo which can be retrieved from the extension API.\nI wouldn\u0027t add methods to the extension API which are only needed by tests.",
+      "parentUuid": "3863a5c5_78c530db",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 73
+      },
+      "revId": "b7a24723c121fc159962780b2f1ce0e176fe8e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

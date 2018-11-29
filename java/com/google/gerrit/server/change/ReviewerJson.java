@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -77,12 +78,15 @@ public class ReviewerJson {
       if (cd == null || !cd.getId().equals(rsrc.getChangeId())) {
         cd = changeDataFactory.create(db.get(), rsrc.getChangeResource().getNotes());
       }
-      ReviewerInfo info =
-          format(
-              new ReviewerInfo(rsrc.getReviewerUser().getAccountId().get()),
-              rsrc.getReviewerUser().getAccountId(),
-              cd);
-      loader.put(info);
+      ReviewerInfo info;
+      if (rsrc.isByEmail()) {
+        Address address = rsrc.getReviewerByEmail();
+        info = ReviewerInfo.byEmail(address.getName(), address.getEmail());
+      } else {
+        Account.Id reviewerAccountId = rsrc.getReviewerUser().getAccountId();
+        info = format(new ReviewerInfo(reviewerAccountId.get()), reviewerAccountId, cd);
+        loader.put(info);
+      }
       infos.add(info);
     }
     loader.fill();
@@ -94,19 +98,21 @@ public class ReviewerJson {
     return format(ImmutableList.<ReviewerResource>of(rsrc));
   }
 
-  public ReviewerInfo format(ReviewerInfo out, Account.Id reviewer, ChangeData cd)
+  public ReviewerInfo format(ReviewerInfo out, Account.Id reviewerAccountId, ChangeData cd)
       throws OrmException, PermissionBackendException {
     PatchSet.Id psId = cd.change().currentPatchSetId();
     return format(
         out,
-        reviewer,
+        reviewerAccountId,
         cd,
-        approvalsUtil.byPatchSetUser(
-            db.get(), cd.notes(), psId, new Account.Id(out._accountId), null, null));
+        approvalsUtil.byPatchSetUser(db.get(), cd.notes(), psId, reviewerAccountId, null, null));
   }
 
   public ReviewerInfo format(
-      ReviewerInfo out, Account.Id reviewer, ChangeData cd, Iterable<PatchSetApproval> approvals)
+      ReviewerInfo out,
+      Account.Id reviewerAccountId,
+      ChangeData cd,
+      Iterable<PatchSetApproval> approvals)
       throws OrmException, PermissionBackendException {
     LabelTypes labelTypes = cd.getLabelTypes();
 
@@ -123,7 +129,7 @@ public class ReviewerJson {
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
       PermissionBackend.ForChange perm =
-          permissionBackend.absentUser(reviewer).database(db).change(cd);
+          permissionBackend.absentUser(reviewerAccountId).database(db).change(cd);
 
       for (SubmitRecord rec : submitRuleEvaluator.evaluate(cd)) {
         if (rec.labels == null) {

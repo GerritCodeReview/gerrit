@@ -22,8 +22,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -35,11 +35,12 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-@NoHttpd
 public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Before
@@ -92,6 +93,34 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(byId, byEmail)));
       // All reviewers (both by id and by email) should be removable
       assertThat(info.removableReviewers).isEqualTo(ImmutableList.of(byId, byEmail));
+    }
+  }
+
+  @Test
+  public void listReviewersByEmail() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+
+    for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
+      PushOneCommit.Result r = createChange();
+
+      AddReviewerInput input = new AddReviewerInput();
+      input.reviewer = toRfcAddressString(acc);
+      input.state = state;
+      gApi.changes().id(r.getChangeId()).addReviewer(input);
+
+      RestResponse restResponse =
+          adminRestSession.get("/changes/" + r.getChangeId() + "/reviewers/");
+      restResponse.assertOK();
+      Type type = new TypeToken<List<ReviewerInfo>>() {}.getType();
+      List<ReviewerInfo> reviewers = newGson().fromJson(restResponse.getReader(), type);
+      restResponse.consume();
+
+      assertThat(reviewers).hasSize(1);
+      ReviewerInfo reviewerInfo = Iterables.getOnlyElement(reviewers);
+      assertThat(reviewerInfo._accountId).isNull();
+      assertThat(reviewerInfo.name).isEqualTo(acc.name);
+      assertThat(reviewerInfo.email).isEqualTo(acc.email);
     }
   }
 

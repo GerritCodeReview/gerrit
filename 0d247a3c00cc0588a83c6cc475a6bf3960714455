@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b14de067_edc084b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-29T07:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "514d3bba_0099f7bc",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f24a4a2_58eacf43",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-11-29T02:50:54Z",
       "side": 1,
       "message": "I thought that had been solved by [1] which is included in 2.16.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/178633",
+      "range": {
+        "startLine": 28,
+        "startChar": 30,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4f0623f_aca897ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-29T07:00:10Z",
+      "side": 1,
+      "message": "Kind of, it only supports new BatchModule, that is not widely used for now: [1]. But yes, I will remove this. Done.\n\n* [1] https://cs.bazel.build/search?q\u003dBatchModule",
+      "parentUuid": "2f24a4a2_58eacf43",
       "range": {
         "startLine": 28,
         "startChar": 30,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1d6581bf_6e52850d",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-29T07:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "608113e4_52e09ac1",
+      "range": {
+        "startLine": 189,
+        "startChar": 29,
+        "endLine": 189,
+        "endChar": 38
+      },
+      "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07309708_8653bb8d",
         "filename": "java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "d6e31b90_94777b2d",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-29T07:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07309708_8653bb8d",
+      "range": {
+        "startLine": 193,
+        "startChar": 33,
+        "endLine": 193,
+        "endChar": 43
+      },
+      "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f878451b_72edbec8",
         "filename": "java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1771891_3263795f",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-29T07:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f878451b_72edbec8",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 199,
+        "endChar": 95
+      },
+      "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

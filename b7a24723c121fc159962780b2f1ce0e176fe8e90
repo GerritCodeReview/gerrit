@@ -119,6 +119,30 @@
       "revId": "b7a24723c121fc159962780b2f1ce0e176fe8e90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c860921f_96ed9565",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T11:13:59Z",
+      "side": 1,
+      "message": "Actually this is how the other tests (e.g. ChangeReviewersByEmailIT.addByEmail()) check that adding reviewers by email was successful.",
+      "parentUuid": "9de87744_6af65002",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 73
+      },
+      "revId": "b7a24723c121fc159962780b2f1ce0e176fe8e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

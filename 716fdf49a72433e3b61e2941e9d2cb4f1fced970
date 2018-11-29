@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78d1fd04_2f5a4170",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-11-29T07:26:49Z",
+      "side": 1,
+      "message": "I can\u0027t see it working in any reasonable way for automated envs :/\nHow about dividing plugins for those that needs to be loaded\nprior indexing gets started and those to be loaded after?\nApart from that IMHO 2.15+ is broken and it requires fix - not some\nimaginary next major release ;)",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 66
+      },
+      "revId": "716fdf49a72433e3b61e2941e9d2cb4f1fced970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

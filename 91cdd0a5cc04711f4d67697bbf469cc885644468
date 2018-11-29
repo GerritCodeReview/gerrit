@@ -16,6 +16,24 @@
       "revId": "91cdd0a5cc04711f4d67697bbf469cc885644468",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3293d881_51c4d4c1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2188,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-29T14:09:40Z",
+      "side": 1,
+      "message": "Yes. I didn\u0027t do that initially because it was on the stable branch and didn\u0027t want to make too big a change. Now it\u0027s on master it would make more sense to rename it.",
+      "parentUuid": "16ce2771_0a266367",
+      "revId": "91cdd0a5cc04711f4d67697bbf469cc885644468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1543488230 +0100\nnonce AGLkUnCAYmNhtnbC/VgCjaYW+TfbIZ82ZeJPsLeG/2CGPi6ux/Xo0/23xOqE5VU42iDsUXP6X20u\n\n0000000000000000000000000000000000000000 b7a24723c121fc159962780b2f1ce0e176fe8e90 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJb/8LmAAoJEHFVO370GiZWJiAH/AoovfwoZrQY8In+h3npTM0+\nlz+yil9jDzgF26hQNfoa74Dgz++BhWCwHnx1snKJxormvTORrqMmXQeDWPsq59+j\n8TkIcPb4LRHHX00/UylLAvfgutjh+jjBIyZUpEuJ613IRk/fCgIWRipnzy1DhuMh\nyRRYgNEQau9wDdrIkY5zGMJaKHE6UzMCOC/EHlLoE1pzh2md+7kWYdl7cyzI6+bT\nYCA4SgYeT63rr91JQwmMTBn9ct+QIGy5PzcVls1hxEn6NWNLuitXMSHV5YGJUtEv\n76LR4mciUBW4r01kBWhERdKaOq2WcgwVoAZIyJ3m7UGg1/+UvedNcICVp1JSI20\u003d\n\u003d1zU5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3863a5c5_78c530db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-29T10:51:18Z",
+      "side": 1,
+      "message": "We could add that functionality, to avoid having to enable httpd for all the reviewer tests.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 73
+      },
+      "revId": "b7a24723c121fc159962780b2f1ce0e176fe8e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

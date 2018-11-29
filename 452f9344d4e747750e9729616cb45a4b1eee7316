@@ -16,6 +16,24 @@
       "revId": "452f9344d4e747750e9729616cb45a4b1eee7316",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f78dbb8c_5a2f83df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-29T07:08:19Z",
+      "side": 1,
+      "message": "I used the link that I found in the guava release notes.",
+      "parentUuid": "f3240ea8_0356052b",
+      "revId": "452f9344d4e747750e9729616cb45a4b1eee7316",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

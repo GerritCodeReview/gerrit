@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87423e66_dbd0446e",
+        "filename": "Documentation/quota.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T15:12:56Z",
+      "side": 1,
+      "message": "empty section?\nAt least add a TODO",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 17
+      },
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e21fcce9_f1e5b60d",
+        "filename": "Documentation/quota.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T15:12:56Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 41
+      },
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f9a84c4_52f504d2",
+        "filename": "Documentation/quota.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T15:12:56Z",
+      "side": 1,
+      "message": "Either: CurrentUser, Change.Id, Project.NameKey\nOr: User, Change, Project",
+      "range": {
+        "startLine": 45,
+        "startChar": 76,
+        "endLine": 45,
+        "endChar": 100
+      },
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93493cb7_2ff985cc",
+        "filename": "Documentation/quota.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T15:12:56Z",
+      "side": 1,
+      "message": "Even if the action is executed on behalf of another user (e.g. submit on behalf of [1])?\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#category_submit_on_behalf_of",
+      "range": {
+        "startLine": 50,
+        "startChar": 42,
+        "endLine": 50,
+        "endChar": 68
+      },
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eda527a3_5e10c758",
+        "filename": "Documentation/quota.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T15:12:56Z",
+      "side": 1,
+      "message": "nit: missing blank line",
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5d5ccce_c882186b",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiQuotaEnforcer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T15:12:56Z",
+      "side": 1,
+      "message": "Remove this line.",
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09071c83_b0f148ba",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiQuotaEnforcer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T15:12:56Z",
+      "side": 1,
+      "message": "Should this be \u0027PUT /changes/\u0027?\nIs PUT on changes actually supported, I think not. Maybe better find an example that is actually supported.",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 18
+      },
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a6c58dc_9616d152",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiQuotaEnforcer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T15:12:56Z",
+      "side": 1,
+      "message": "we",
+      "range": {
+        "startLine": 65,
+        "startChar": 32,
+        "endLine": 65,
+        "endChar": 37
+      },
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5d34b05_7431ba0d",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T15:12:56Z",
+      "side": 1,
+      "message": "document response code 429 in rest-api.txt",
+      "range": {
+        "startLine": 614,
+        "startChar": 33,
+        "endLine": 614,
+        "endChar": 45
+      },
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48533534_d331568a",
+        "filename": "java/com/google/gerrit/util/http/RequestUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T15:12:56Z",
+      "side": 1,
+      "message": "Is this correct? For every second part, we call append twice.",
+      "range": {
+        "startLine": 84,
+        "startChar": 45,
+        "endLine": 84,
+        "endChar": 65
+      },
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c7768e3_ea446cd0",
+        "filename": "javatests/com/google/gerrit/util/http/RequestUtilTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T15:12:56Z",
+      "side": 1,
+      "message": "getRestPathWithoutIds",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 32
+      },
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

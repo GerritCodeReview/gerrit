@@ -250,6 +250,10 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     return new SshAddressesModule().getListenAddresses(config).isEmpty();
   }
 
+  private boolean onlineReindexMode() {
+    return config.getBoolean("gerrit", null, "onlineReindexMode", false);
+  }
+
   private Injector createDbInjector() {
     final List<Module> modules = new ArrayList<>();
     AbstractModule secureStore = createSecureStoreModule();
@@ -316,7 +320,8 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   }
 
   private Injector createSysInjector() {
-    final List<Module> modules = new ArrayList<>();
+    List<Module> modules = new ArrayList<>();
+    boolean onlineReindexMode = onlineReindexMode();
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
     modules.add(new EventBroker.Module());
@@ -351,7 +356,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     // Guice modules installed so that the on-line reindexing will happen
     // with the proper classes (e.g. group backends, custom Prolog
     // predicates) and the associated rules ready to be evaluated.
-    modules.add(new PluginModule());
+    if (onlineReindexMode) {
+      modules.add(new PluginModule());
+    }
 
     modules.add(new RestApiModule());
     modules.add(new GpgModule(config));
@@ -361,6 +368,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     // work queue can get stuck waiting on index futures that will never return.
     modules.add(createIndexModule());
 
+    if (!onlineReindexMode) {
+      modules.add(new PluginModule());
+    }
     modules.add(new WorkQueue.Module());
     modules.add(new GerritInstanceNameModule());
     modules.add(

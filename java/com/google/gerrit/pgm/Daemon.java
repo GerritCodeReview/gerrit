@@ -186,6 +186,18 @@ public class Daemon extends SiteProgram {
   @Option(name = "--trial", usage = "(With --migrate-to-note-db) " + MigrateToNoteDb.TRIAL_USAGE)
   private boolean trial;
 
+  // TODO(davido): This is a workaround for non working plugin loading
+  // for plugins that depend on groups index. If such plugins are used on
+  // gerrit site, major release upgrade should use this option, and remove
+  // the plugins from `gerrit_site`/plugins directory and load them manually.
+  // After online reindexing was completed, gerrit can be restarted again without
+  // this option provided and plugins loading should just work. Having said that,
+  // this workaround is only needed in very rare circumstances: only when plugins
+  // are used that have impact on reindex operation, e.g. owners plugin that exposes
+  // custom prolog rules.
+  @Option(name = "--online-reindex-mode", usage = "Swap plugins and index modules loading order")
+  private boolean onlineReindexMode;
+
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
   private Injector cfgInjector;
@@ -412,7 +424,9 @@ public class Daemon extends SiteProgram {
     // Guice modules installed so that the on-line reindexing will happen
     // with the proper classes (e.g. group backends, custom Prolog
     // predicates) and the associated rules ready to be evaluated.
-    modules.add(new PluginModule());
+    if (onlineReindexMode) {
+      modules.add(new PluginModule());
+    }
 
     // Index module shutdown must happen before work queue shutdown, otherwise
     // work queue can get stuck waiting on index futures that will never return.
@@ -431,6 +445,10 @@ public class Daemon extends SiteProgram {
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
     modules.add(new PluginApiModule());
+
+    if (!onlineReindexMode) {
+      modules.add(new PluginModule());
+    }
 
     modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());

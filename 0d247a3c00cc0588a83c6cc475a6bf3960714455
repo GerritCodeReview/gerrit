@@ -45,6 +45,75 @@
       "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "608113e4_52e09ac1",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-29T02:54:10Z",
+      "side": 1,
+      "message": "workaround",
+      "range": {
+        "startLine": 189,
+        "startChar": 29,
+        "endLine": 189,
+        "endChar": 38
+      },
+      "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07309708_8653bb8d",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-29T02:54:10Z",
+      "side": 1,
+      "message": "completed",
+      "range": {
+        "startLine": 193,
+        "startChar": 33,
+        "endLine": 193,
+        "endChar": 43
+      },
+      "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f878451b_72edbec8",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-29T02:54:10Z",
+      "side": 1,
+      "message": "See my comment on the commit message.  I\u0027m not sure that this is true any more.",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 199,
+        "endChar": 95
+      },
+      "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

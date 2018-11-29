@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "514d3bba_0099f7bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-29T02:50:54Z",
+      "side": 1,
+      "message": "The problem exists also in 2.15, for example the GroupCache relies on the index.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f24a4a2_58eacf43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-29T02:50:54Z",
+      "side": 1,
+      "message": "I thought that had been solved by [1] which is included in 2.16.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/178633",
+      "range": {
+        "startLine": 28,
+        "startChar": 30,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "0d247a3c00cc0588a83c6cc475a6bf3960714455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

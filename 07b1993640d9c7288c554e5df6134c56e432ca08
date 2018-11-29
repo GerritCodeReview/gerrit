@@ -1,0 +1,452 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61f97f96_1e36c290",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "extension",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "411d7d90_0df9ee19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "Aren\u0027t these methods defined on the aggregated quota response?",
+      "range": {
+        "startLine": 23,
+        "startChar": 29,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8126f1a9_b24303ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "This sounds like the QuotaEnforcer failed to check the quota, but I think you mean that the QuotaEnforcer rejected the quota request because there was no sufficient quota, or both?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 5
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a08b420f_814f5e5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "request",
+      "range": {
+        "startLine": 60,
+        "startChar": 23,
+        "endLine": 60,
+        "endChar": 29
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e61e184_5631cdc7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2682,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "this class must also implement the dryRun method",
+      "range": {
+        "startLine": 2682,
+        "startChar": 6,
+        "endLine": 2682,
+        "endChar": 20
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44a181f4_5c6888d2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2706,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "this class must also implement the dryRun method",
+      "range": {
+        "startLine": 2706,
+        "startChar": 6,
+        "endLine": 2706,
+        "endChar": 20
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c23c822_853406a3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2707,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "What is this class? It\u0027s not part of this change.\n\nMaybe add a comment about what this class is doing?",
+      "range": {
+        "startLine": 2707,
+        "startChar": 16,
+        "endLine": 2707,
+        "endChar": 43
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a01f066_070fd61b",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "Maybe better: \"Quota Enforcement\"\n\nSince it\u0027s in the \"Plugin Development\" section it should already be clear that this is for plugin developers.",
+      "range": {
+        "startLine": 88,
+        "startChar": 19,
+        "endLine": 88,
+        "endChar": 46
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98198521_f9a171a6",
+        "filename": "Documentation/quota.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "Should these todos be addressed before submit?\n\nMaybe just remove unused sections for now?",
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8e3f0de_66f9ec23",
+        "filename": "Documentation/quota.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "If a template is needed, maybe put it in an template section?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 0
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1eaab39_40f58e20",
+        "filename": "Documentation/quota.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "Add:\n\nGERRIT\n------\nPart of link:index.html[Gerrit Code Review]\n\nSEARCHBOX\n---------",
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4a6788e_cb1d03d0",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "enforcers",
+      "range": {
+        "startLine": 83,
+        "startChar": 45,
+        "endLine": 83,
+        "endChar": 53
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d0b62b5_529ae369",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "can be: \"(deduction\u003d%s)\"",
+      "range": {
+        "startLine": 94,
+        "startChar": 38,
+        "endLine": 94,
+        "endChar": 40
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88be93dc_806daff4",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "Maybe for logging it would be better if this was a map of enforcer class name to response so that one can know which enforcer produced which response.",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 17
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9df262ac_4330ddf0",
+        "filename": "java/com/google/gerrit/server/quota/QuotaBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "This sounds like plugins would be able to provide an alternative implementation, but I think they can\u0027t?\nI assume this interface should only allow to have different implementations for tests and standalone programs?\nCan you clarify this and say how one would overwrite the @ImplementedBy annotation to use a different implementation?",
+      "range": {
+        "startLine": 24,
+        "startChar": 51,
+        "endLine": 25,
+        "endChar": 85
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cc80cf3_6218a0d3",
+        "filename": "java/com/google/gerrit/server/quota/QuotaBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "Should this rather be named \"quota ID\"? Why would it be a \"group\"?",
+      "range": {
+        "startLine": 27,
+        "startChar": 35,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89d629b1_f5510593",
+        "filename": "java/com/google/gerrit/server/quota/QuotaBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "Are these examples outdated?\n\nShouldn\u0027t it be:\n  quotaBackend.currentUser().project(projectName).requestToken(\"/projects/create\").throwOnError();\n  ...",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 101
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec079980_0bfcf089",
+        "filename": "java/com/google/gerrit/server/quota/QuotaException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "\"fulfil\"? At least this is the spelling that you use in QuotaEnforcer. Spelling should be consistent.",
+      "range": {
+        "startLine": 20,
+        "startChar": 81,
+        "endLine": 20,
+        "endChar": 88
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb786e94_0465030d",
+        "filename": "java/com/google/gerrit/server/quota/QuotaException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "Should this exception be handled in RestApiServlet so that it\u0027s not resulting into 500 Internal Server Error?",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 55
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4a578f9_bd251f2d",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-29T14:02:58Z",
+      "side": 1,
+      "message": "Should there be a differentiation between\n1. the request was rejected due to insufficient remaining quota\n2. the QuotaEnforcer had an error and failed to check the quota\n?",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 10
+      },
+      "revId": "07b1993640d9c7288c554e5df6134c56e432ca08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

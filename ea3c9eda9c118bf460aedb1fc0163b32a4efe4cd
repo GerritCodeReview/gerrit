@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3c619a3d_acbc7fc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-29T17:04:48Z",
+      "side": 1,
+      "message": "I only see a call to evict from onGitRefernceUpdated, means when a new patch-set is created.\nAm I missing something?",
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4648e0c9_13402b6a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
         "patchSetId": 17
@@ -117,6 +134,23 @@
       "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9778d6c_448d3ae2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-29T17:04:48Z",
+      "side": 1,
+      "message": "OK, so we evict from cache if a new patch set is uploaded.\n\nHowever, if someone just updates the current patch-set by posting a comment, the change\nis not evicted from the cache, right?\n\nIt is reindexed but the UI may still show stale data if we find it and open before its\nexpireAfterWrite period is over.",
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

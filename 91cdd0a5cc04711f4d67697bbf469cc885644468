@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16ce2771_0a266367",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2188,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-29T13:47:38Z",
+      "side": 1,
+      "message": "Would it be nicer to rename the option to \"enableReverseDnsLookup\" and have the default set to false?",
+      "revId": "91cdd0a5cc04711f4d67697bbf469cc885644468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

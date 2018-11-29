@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "8932e8bd_d79386c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-11-29T02:30:08Z",
+      "side": 1,
+      "message": "\u003e So far we didn\u0027t have a problem with it. My question was, what has changed so that we have a problem now and need this change now?\n\nI think we didn\u0027t have this problem before because we were very careful to make our code compatible with v2.5. However, [1] broke that by using some methods, e.g. HttpResponse#getStatus, which doesn\u0027t exist in v2.5.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/203611",
+      "parentUuid": "b311b86d_21846346",
+      "revId": "81f88d22b1af6214d9e5d6644735eba826176113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9cb695a_97e4b561",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
         "patchSetId": 6

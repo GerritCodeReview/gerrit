@@ -2157,7 +2157,7 @@ Defaults to "Report Bug".
 +
 Disables reverse DNS lookup during computing ref log entry for identified user.
 +
-Defaults to false.
+Defaults to true.
 
 [[gerrit.secureStoreClass]]gerrit.secureStoreClass::
 +

@@ -22,6 +22,30 @@
       "revId": "45f81f5a686e36709599aafc64fcf69dd35f40ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f959e29_25d1e62c",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-11-30T21:06:12Z",
+      "side": 1,
+      "message": "Oops, selected this extra/trailing curly brace by mistake.",
+      "parentUuid": "5bc5b68b_d46b1d9a",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 0
+      },
+      "revId": "45f81f5a686e36709599aafc64fcf69dd35f40ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

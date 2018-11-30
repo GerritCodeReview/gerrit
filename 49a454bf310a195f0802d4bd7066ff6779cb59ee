@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8c55034a_5a10b7dd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-30T11:10:11Z",
+      "side": 1,
+      "message": "I\u0027m not sure if there are other instances of this in the code base.  Shall we clean them up in a follow-up commit?",
+      "parentUuid": "e99c14a1_9fab1302",
+      "range": {
+        "startLine": 41,
+        "startChar": 55,
+        "endLine": 41,
+        "endChar": 79
+      },
+      "revId": "49a454bf310a195f0802d4bd7066ff6779cb59ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b005d199_d335e593",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 3

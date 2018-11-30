@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48b53ef8_0753f4b5",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-11-30T16:10:43Z",
+      "side": 1,
+      "message": "config",
+      "range": {
+        "startLine": 97,
+        "startChar": 27,
+        "endLine": 97,
+        "endChar": 30
+      },
+      "revId": "c1b2956c006851feefbe3b052d9eaa65fe412e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc509671_2eb00aad",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticConfiguration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-11-30T16:10:43Z",
+      "side": 1,
+      "message": "Would move these 2 new lines one line up, to group int\u0027s together in this list.",
+      "range": {
+        "startLine": 50,
+        "startChar": 15,
+        "endLine": 51,
+        "endChar": 18
+      },
+      "revId": "c1b2956c006851feefbe3b052d9eaa65fe412e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5e057a9_2da013e9",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticConfiguration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-11-30T16:10:43Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 11
+      },
+      "revId": "c1b2956c006851feefbe3b052d9eaa65fe412e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

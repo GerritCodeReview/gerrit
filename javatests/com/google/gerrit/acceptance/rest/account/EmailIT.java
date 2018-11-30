@@ -43,7 +43,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.DisableReverseDnsLookup;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -51,16 +51,17 @@ import com.google.inject.Provider;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class EmailIT extends AbstractDaemonTest {
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private ExternalIds externalIds;
   @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
+  @Inject private @GerritServerConfig Config config;
   @Inject private AuthConfig authConfig;
   @Inject private @AnonymousCowardName String anonymousCowardName;
   @Inject private @CanonicalWebUrl Provider<String> canonicalUrl;
-  @Inject private @DisableReverseDnsLookup Boolean disableReverseDnsLookup;
   @Inject private EmailExpander emailExpander;
   @Inject private Provider<Emails> emails;
 
@@ -273,10 +274,10 @@ public class EmailIT extends AbstractDaemonTest {
     IdentifiedUser.GenericFactory userFactory =
         new IdentifiedUser.GenericFactory(
             authConfig,
+            config,
             realm,
             anonymousCowardName,
             canonicalUrl,
-            disableReverseDnsLookup,
             accountCache,
             groupBackend);
     return atrScope.set(atrScope.newContext(reviewDbProvider, null, userFactory.create(admin.id)));

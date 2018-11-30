@@ -48,8 +48,6 @@ import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
-import com.google.gerrit.server.config.DisableReverseDnsLookup;
-import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
@@ -140,10 +138,6 @@ public class BatchProgramModule extends FactoryModule {
     bind(String.class)
         .annotatedWith(CanonicalWebUrl.class)
         .toProvider(CanonicalWebUrlProvider.class);
-    bind(Boolean.class)
-        .annotatedWith(DisableReverseDnsLookup.class)
-        .toProvider(DisableReverseDnsLookupProvider.class)
-        .in(SINGLETON);
     bind(Realm.class).to(FakeRealm.class);
     bind(IdentifiedUser.class).toProvider(Providers.<IdentifiedUser>of(null));
     bind(ReplacePatchSetSender.Factory.class)

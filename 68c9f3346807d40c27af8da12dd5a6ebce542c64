@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e28aa5b_0b68d5ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-30T05:34:34Z",
+      "side": 1,
+      "message": "Now that the logic is swapped, would it make sense to extract this functionality from gerrit core as a plugin?",
+      "revId": "68c9f3346807d40c27af8da12dd5a6ebce542c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

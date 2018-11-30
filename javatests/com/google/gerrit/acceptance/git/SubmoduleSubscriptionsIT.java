@@ -404,11 +404,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   @Test
   public void subscriptionInheritACL() throws Exception {
     Project.NameKey configKey =
-        this.projectOperations
-            .newProject()
-            .submitType(getSubmitType())
-            .createEmptyCommit(true)
-            .create();
+        projectOperations.newProject().submitType(getSubmitType()).createEmptyCommit(true).create();
     grantPush(configKey);
     Project.NameKey config2Key =
         projectOperations.newProject().parent(configKey).submitType(getSubmitType()).create();

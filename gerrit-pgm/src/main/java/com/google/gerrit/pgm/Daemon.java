@@ -76,6 +76,7 @@ import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
@@ -422,6 +423,11 @@ public class Daemon extends SiteProgram {
     }
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
+    if (VersionManager.getOnlineUpgrade(config)
+        // Schema upgrade is handled by OnlineNoteDbMigrator in this case.
+        && !migrateToNoteDb()) {
+      modules.add(new OnlineUpgrader.Module());
+    }
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
@@ -489,19 +495,11 @@ public class Daemon extends SiteProgram {
     if (luceneModule != null) {
       return luceneModule;
     }
-    boolean onlineUpgrade =
-        VersionManager.getOnlineUpgrade(config)
-            // Schema upgrade is handled by OnlineNoteDbMigrator in this case.
-            && !migrateToNoteDb();
     switch (indexType) {
       case LUCENE:
-        return onlineUpgrade
-            ? LuceneIndexModule.latestVersionWithOnlineUpgrade()
-            : LuceneIndexModule.latestVersionWithoutOnlineUpgrade();
+        return LuceneIndexModule.latestVersion();
       case ELASTICSEARCH:
-        return onlineUpgrade
-            ? ElasticIndexModule.latestVersionWithOnlineUpgrade()
-            : ElasticIndexModule.latestVersionWithoutOnlineUpgrade();
+        return ElasticIndexModule.latestVersion();
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b60758c8_a89dd05b",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-30T10:24:27Z",
+      "side": 1,
+      "message": "The failing acceptance tests seems to be related to this condition:\n\n  1) No implementation for com.google.gerrit.server.index.VersionManager was bound.\n  while locating com.google.gerrit.server.index.VersionManager\n    for the 1st parameter of com.google.gerrit.server.index.OnlineUpgrader.\u003cinit\u003e(OnlineUpgrader.java:25)\n  at com.google.gerrit.lifecycle.LifecycleModule.listener(LifecycleModule.java:23)\n\nIt seems that OnlineUpgraderModule is registered, even though it shouldn\u0027t, because not a MultiVersion but a SingleVersion index module was activated (in tests).",
+      "revId": "790894f239c9a9fba0afe89400b0b09775d90bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9938311_e89c0919",
+        "filename": "java/com/google/gerrit/server/index/OnlineUpgraderModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-30T10:24:27Z",
+      "side": 1,
+      "message": "Can be moved to OnlineUpgrader as inner class.",
+      "revId": "790894f239c9a9fba0afe89400b0b09775d90bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

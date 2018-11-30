@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.server.UsedAt;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.eclipse.jgit.lib.Config;
 
+@UsedAt(UsedAt.Project.GOOGLE)
 public class DisableReverseDnsLookupProvider implements Provider<Boolean> {
   private final boolean disableReverseDnsLookup;
 

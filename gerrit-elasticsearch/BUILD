@@ -71,6 +71,8 @@ ELASTICSEARCH_TESTS_V5 = {i: "src/test/java/com/google/gerrit/elasticsearch/Elas
 
 ELASTICSEARCH_TESTS_V6 = {i: "src/test/java/com/google/gerrit/elasticsearch/ElasticV6Query" + i.capitalize() + SUFFIX for i in TYPES}
 
+ELASTICSEARCH_TESTS_V7 = {i: "src/test/java/com/google/gerrit/elasticsearch/ElasticV7Query" + i.capitalize() + SUFFIX for i in TYPES}
+
 ELASTICSEARCH_TAGS = [
     "docker",
     "elastic",
@@ -92,6 +94,14 @@ ELASTICSEARCH_TAGS = [
     tags = ELASTICSEARCH_TAGS,
     deps = ELASTICSEARCH_DEPS,
 ) for name, src in ELASTICSEARCH_TESTS_V6.items()]
+
+[junit_tests(
+    name = "elasticsearch_query_%ss_test_v7" % name,
+    size = "large",
+    srcs = [src],
+    tags = ELASTICSEARCH_TAGS,
+    deps = ELASTICSEARCH_DEPS,
+) for name, src in ELASTICSEARCH_TESTS_V7.items()]
 
 junit_tests(
     name = "elasticsearch_tests",

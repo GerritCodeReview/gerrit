@@ -226,9 +226,12 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   protected String getURI(String type, String request) throws UnsupportedEncodingException {
-    String encodedType = URLEncoder.encode(type, UTF_8.toString());
     String encodedIndexName = URLEncoder.encode(indexName, UTF_8.toString());
-    return encodedIndexName + "/" + encodedType + "/" + request;
+    if (SEARCH.equals(request) && !client.adapter().omitTypeFromSearch()) {
+      String encodedType = URLEncoder.encode(type, UTF_8.toString());
+      return encodedIndexName + "/" + encodedType + "/" + request;
+    }
+    return encodedIndexName + "/" + request;
   }
 
   protected Response postRequest(String uri, Object payload) throws IOException {

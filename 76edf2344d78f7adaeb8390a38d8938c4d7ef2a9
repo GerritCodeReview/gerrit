@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75176551_c96df7b4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIndexerIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-30T08:47:07Z",
+      "side": 1,
+      "message": "This comment is unclear to me. What is TestProjectConfig (cannot find any class with that name)?\nDo we need this comment everywhere where a project is created?",
+      "revId": "76edf2344d78f7adaeb8390a38d8938c4d7ef2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3957823d_263a53ab",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIndexerIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-30T08:47:07Z",
+      "side": 1,
+      "message": "Here and below. Can this be dropped? By default projects are created under All-Projects so it shouldn\u0027t be needed to specify that explicitly.",
+      "range": {
+        "startLine": 102,
+        "startChar": 55,
+        "endLine": 102,
+        "endChar": 75
+      },
+      "revId": "76edf2344d78f7adaeb8390a38d8938c4d7ef2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

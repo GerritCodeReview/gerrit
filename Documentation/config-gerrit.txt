@@ -1998,11 +1998,11 @@ Only used when `gerrit.reportBugUrl` is set.
 +
 Defaults to "Report Bug".
 
-[[gerrit.disableReverseDnsLookup]]gerrit.disableReverseDnsLookup::
+[[gerrit.enableReverseDnsLookup]]gerrit.enableReverseDnsLookup::
 +
-Disables reverse DNS lookup during computing ref log entry for identified user.
+Enable reverse DNS lookup during computing ref log entry for identified user.
 +
-Defaults to false.
+Defaults to true.
 
 [[gerrit.secureStoreClass]]gerrit.secureStoreClass::
 +

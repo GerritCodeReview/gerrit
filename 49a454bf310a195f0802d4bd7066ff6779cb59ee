@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e99c14a1_9fab1302",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-30T10:43:51Z",
+      "side": 1,
+      "message": "Here and below.\n\nNot needed since this is the default?",
+      "range": {
+        "startLine": 41,
+        "startChar": 55,
+        "endLine": 41,
+        "endChar": 79
+      },
+      "revId": "49a454bf310a195f0802d4bd7066ff6779cb59ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b005d199_d335e593",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-30T10:43:51Z",
+      "side": 1,
+      "message": "not needed since this is the default?",
+      "range": {
+        "startLine": 410,
+        "startChar": 12,
+        "endLine": 410,
+        "endChar": 36
+      },
+      "revId": "49a454bf310a195f0802d4bd7066ff6779cb59ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

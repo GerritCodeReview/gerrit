@@ -52,6 +52,24 @@
       "revId": "68c9f3346807d40c27af8da12dd5a6ebce542c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f13d9d2_0f659a76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-30T07:01:39Z",
+      "side": 1,
+      "message": "OK, but is it worth a whole plugin just to do this?",
+      "parentUuid": "ef24291b_2e771dbb",
+      "revId": "68c9f3346807d40c27af8da12dd5a6ebce542c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

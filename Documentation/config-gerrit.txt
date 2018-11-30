@@ -2000,9 +2000,14 @@ Defaults to "Report Bug".
 
 [[gerrit.enableReverseDnsLookup]]gerrit.enableReverseDnsLookup::
 +
-Enable reverse DNS lookup during computing ref log entry for identified user.
+Enable reverse DNS lookup during computing ref log entry for identified user,
+to record the actual hostname of the user's host in the ref log.
 +
-Defaults to true.
+Enabling reverse DNS lookup can cause performance issues on git push when
+the reverse DNS lookup is slow.
++
+Defaults to false, reverse DNS lookup is disabled. The user's IP address
+will be recorded in the ref log rather than their hostname.
 
 [[gerrit.secureStoreClass]]gerrit.secureStoreClass::
 +

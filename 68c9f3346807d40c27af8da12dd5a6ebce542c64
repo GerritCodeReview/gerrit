@@ -16,6 +16,24 @@
       "revId": "68c9f3346807d40c27af8da12dd5a6ebce542c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e354ed8a_f10468b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-30T06:14:32Z",
+      "side": 1,
+      "message": "What would be the benefit of doing that?",
+      "parentUuid": "1e28aa5b_0b68d5ef",
+      "revId": "68c9f3346807d40c27af8da12dd5a6ebce542c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

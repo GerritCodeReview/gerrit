@@ -23,7 +23,7 @@ public class EnableReverseDnsLookupProvider implements Provider<Boolean> {
 
   @Inject
   EnableReverseDnsLookupProvider(@GerritServerConfig Config config) {
-    enableReverseDnsLookup = config.getBoolean("gerrit", null, "enableReverseDnsLookup", true);
+    enableReverseDnsLookup = config.getBoolean("gerrit", null, "enableReverseDnsLookup", false);
   }
 
   @Override

@@ -82,6 +82,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return content;
   }
 
+  private final ElasticConfiguration config;
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final String indexNameRaw;
@@ -93,17 +94,18 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected final ElasticQueryBuilder queryBuilder;
 
   AbstractElasticIndex(
-      ElasticConfiguration cfg,
+      ElasticConfiguration config,
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientProvider client,
       String indexName,
       String indexType) {
+    this.config = config;
     this.sitePaths = sitePaths;
     this.schema = schema;
     this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     this.queryBuilder = new ElasticQueryBuilder();
-    this.indexName = cfg.getIndexName(indexName, schema.getVersion());
+    this.indexName = config.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
     this.type = client.adapter().getType(indexType);
@@ -174,7 +176,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected abstract String getMappings();
 
   private String getSettings() {
-    return gson.toJson(ImmutableMap.of(SETTINGS, ElasticSetting.createSetting()));
+    return gson.toJson(ImmutableMap.of(SETTINGS, ElasticSetting.createSetting(config)));
   }
 
   protected abstract String getId(V v);

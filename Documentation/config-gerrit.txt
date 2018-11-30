@@ -2932,6 +2932,22 @@ The value is in the usual time-unit format like `1 m`, `5 m`.
 +
 Defaults to `30000 ms`.
 
+[[elasticsearch.numberOfShards]]elasticsearch.numberOfShards::
++
+Sets the number of shards to use per index. Refer to the
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#getting-started-shards-and-replicas[
+Elasticsearch documentation] for details.
++
+Defaults to 5.
+
+[[elasticsearch.numberOfReplicas]]elasticsearch.numberOfReplicas::
++
+Sets the number of replicas to use per index. Refer to the
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#getting-started-shards-and-replicas[
+Elasticsearch documentation] for details.
++
+Defaults to 1.
+
 ==== Elasticsearch Security
 
 When security is enabled in Elasticsearch, the username and password must be provided.

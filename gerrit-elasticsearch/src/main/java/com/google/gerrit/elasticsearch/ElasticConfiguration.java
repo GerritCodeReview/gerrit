@@ -41,9 +41,13 @@ class ElasticConfiguration {
   static final String KEY_MAX_RETRY_TIMEOUT = "maxRetryTimeout";
   static final String KEY_PREFIX = "prefix";
   static final String KEY_SERVER = "server";
+  static final String KEY_NUMBER_OF_SHARDS = "numberOfShards";
+  static final String KEY_NUMBER_OF_REPLICAS = "numberOfReplicas";
   static final String DEFAULT_PORT = "9200";
   static final String DEFAULT_USERNAME = "elastic";
   static final int DEFAULT_MAX_RETRY_TIMEOUT_MS = 30000;
+  static final int DEFAULT_NUMBER_OF_SHARDS = 5;
+  static final int DEFAULT_NUMBER_OF_REPLICAS = 1;
   static final TimeUnit MAX_RETRY_TIMEOUT_UNIT = TimeUnit.MILLISECONDS;
 
   private final Config cfg;
@@ -52,6 +56,8 @@ class ElasticConfiguration {
   final String username;
   final String password;
   final int maxRetryTimeout;
+  final int numberOfShards;
+  final int numberOfReplicas;
   final String prefix;
 
   @Inject
@@ -72,6 +78,10 @@ class ElasticConfiguration {
                 DEFAULT_MAX_RETRY_TIMEOUT_MS,
                 MAX_RETRY_TIMEOUT_UNIT);
     this.prefix = Strings.nullToEmpty(cfg.getString(SECTION_ELASTICSEARCH, null, KEY_PREFIX));
+    this.numberOfShards =
+        cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_NUMBER_OF_SHARDS, DEFAULT_NUMBER_OF_SHARDS);
+    this.numberOfReplicas =
+        cfg.getInt(SECTION_ELASTICSEARCH, null, KEY_NUMBER_OF_REPLICAS, DEFAULT_NUMBER_OF_REPLICAS);
     this.hosts = new ArrayList<>();
     for (String server : cfg.getStringList(SECTION_ELASTICSEARCH, null, KEY_SERVER)) {
       try {

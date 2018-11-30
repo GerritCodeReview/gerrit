@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d59e4741_0c5af38b",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-30T11:54:15Z",
+      "side": 1,
+      "message": "Nit: Sort the tests in order: 5,6,7. Currently it is: 6,7,5. Here and below.",
+      "revId": "387ae94df5c715e078d2d1abfb5ddc50ecb137f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

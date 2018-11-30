@@ -135,9 +135,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitChangesAcrossRepos() throws Exception {
-    Project.NameKey p1 = this.projectOperations.newProject().create();
-    Project.NameKey p2 = this.projectOperations.newProject().create();
-    Project.NameKey p3 = this.projectOperations.newProject().create();
+    Project.NameKey p1 = projectOperations.newProject().create();
+    Project.NameKey p2 = projectOperations.newProject().create();
+    Project.NameKey p3 = projectOperations.newProject().create();
 
     RevCommit initialHead2 = getRemoteHead(p2, "master");
     RevCommit initialHead3 = getRemoteHead(p3, "master");
@@ -212,9 +212,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitChangesAcrossReposBlocked() throws Exception {
-    Project.NameKey p1 = this.projectOperations.newProject().create();
-    Project.NameKey p2 = this.projectOperations.newProject().create();
-    Project.NameKey p3 = this.projectOperations.newProject().create();
+    Project.NameKey p1 = projectOperations.newProject().create();
+    Project.NameKey p2 = projectOperations.newProject().create();
+    Project.NameKey p3 = projectOperations.newProject().create();
 
     TestRepository<?> repo1 = cloneProject(p1);
     TestRepository<?> repo2 = cloneProject(p2);
@@ -391,7 +391,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             "3",
             "a-topic-here");
 
-    Project.NameKey p3 = this.projectOperations.newProject().create();
+    Project.NameKey p3 = projectOperations.newProject().create();
     TestRepository<?> repo3 = cloneProject(p3);
     RevCommit repo3Head = getRemoteHead(p3, "master");
     PushOneCommit.Result change3b =
@@ -713,8 +713,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     //                    (c2a) <= private
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
-    Project.NameKey p1 = this.projectOperations.newProject().create();
-    Project.NameKey p2 = this.projectOperations.newProject().create();
+    Project.NameKey p1 = projectOperations.newProject().create();
+    Project.NameKey p2 = projectOperations.newProject().create();
 
     grantLabel("Code-Review", -2, 2, p1, "refs/heads/*", false, REGISTERED_USERS, false);
     grant(p1, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
@@ -767,7 +767,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void testPreviewSubmitTgz() throws Exception {
-    Project.NameKey p1 = this.projectOperations.newProject().create();
+    Project.NameKey p1 = projectOperations.newProject().create();
 
     TestRepository<?> repo1 = cloneProject(p1);
     PushOneCommit.Result change1 = createChange(repo1, "master", "test", "a.txt", "1", "topic");

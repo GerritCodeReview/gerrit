@@ -16,9 +16,11 @@ package com.google.gerrit.server.config;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import com.google.gerrit.server.UsedAt;
 import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 
 @Retention(RUNTIME)
 @BindingAnnotation
+@UsedAt(UsedAt.Project.GOOGLE)
 public @interface DisableReverseDnsLookup {}

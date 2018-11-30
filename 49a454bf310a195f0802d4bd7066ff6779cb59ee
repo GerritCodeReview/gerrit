@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "93fd8eeb_3c1ddd89",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-11-30T11:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f57a3ca_e9692581",
+      "range": {
+        "startLine": 41,
+        "startChar": 55,
+        "endLine": 41,
+        "endChar": 79
+      },
+      "revId": "49a454bf310a195f0802d4bd7066ff6779cb59ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b005d199_d335e593",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 3

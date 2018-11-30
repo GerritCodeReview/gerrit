@@ -1362,6 +1362,12 @@ This limit applies not only to the link:cmd-query.html[`gerrit query`]
 command, but also to the web UI results pagination size.
 
 
+[[capability_readAs]]
+=== Read As
+
+Allow users to impersonate any user to see which refs they can read.
+
+
 [[capability_runAs]]
 === Run As
 

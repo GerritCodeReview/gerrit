@@ -323,6 +323,7 @@ public class GerritServer implements AutoCloseable {
     cfg.setBoolean("httpd", null, "requestLog", false);
     cfg.setBoolean("sshd", null, "requestLog", false);
     cfg.setBoolean("index", "lucene", "testInmemory", true);
+    cfg.setBoolean("index", null, "onlineUpgrade", false);
     cfg.setString("gitweb", null, "cgi", "");
     daemon.setEnableHttpd(desc.httpd());
     daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0));

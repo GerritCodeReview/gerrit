@@ -22,7 +22,8 @@ public enum ElasticVersion {
   V6_2("6.2.*"),
   V6_3("6.3.*"),
   V6_4("6.4.*"),
-  V6_5("6.5.*");
+  V6_5("6.5.*"),
+  V7_0("7.0.*");
 
   private final String version;
   private final Pattern pattern;
@@ -55,8 +56,16 @@ public enum ElasticVersion {
     return Joiner.on(", ").join(ElasticVersion.values());
   }
 
-  public boolean isV6() {
-    return version.startsWith("6.");
+  public boolean isV6OrLater() {
+    return isAtLeastVersion(6);
+  }
+
+  public boolean isV7OrLater() {
+    return isAtLeastVersion(7);
+  }
+
+  private boolean isAtLeastVersion(int v) {
+    return Integer.valueOf(version.split("\\.")[0]) >= v;
   }
 
   @Override

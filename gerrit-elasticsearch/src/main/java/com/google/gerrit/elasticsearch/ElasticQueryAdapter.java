@@ -21,6 +21,7 @@ public class ElasticQueryAdapter {
 
   private final boolean ignoreUnmapped;
   private final boolean usePostV5Type;
+  private final boolean omitTypeFromSearch;
 
   private final String searchFilteringName;
   private final String indicesExistParam;
@@ -31,8 +32,9 @@ public class ElasticQueryAdapter {
 
   ElasticQueryAdapter(ElasticVersion version) {
     this.ignoreUnmapped = false;
-    this.usePostV5Type = version.isV6();
-    this.versionDiscoveryUrl = version.isV6() ? "/%s*" : "/%s*/_aliases";
+    this.usePostV5Type = version.isV6OrLater();
+    this.omitTypeFromSearch = version.isV7OrLater();
+    this.versionDiscoveryUrl = version.isV6OrLater() ? "/%s*" : "/%s*/_aliases";
     this.searchFilteringName = "_source";
     this.indicesExistParam = "?allow_no_indices=false";
     this.exactFieldType = "keyword";
@@ -76,8 +78,12 @@ public class ElasticQueryAdapter {
     return usePostV5Type;
   }
 
-  String getType(String preV6Type) {
-    return usePostV5Type() ? POST_V5_TYPE : preV6Type;
+  boolean omitTypeFromSearch() {
+    return omitTypeFromSearch;
+  }
+
+  String getType(String type) {
+    return usePostV5Type() ? POST_V5_TYPE : type;
   }
 
   String getVersionDiscoveryUrl(String name) {

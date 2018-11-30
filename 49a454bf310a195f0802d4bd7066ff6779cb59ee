@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5f57a3ca_e9692581",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-11-30T11:16:52Z",
+      "side": 1,
+      "message": "I would prefer to fix this within this change for all instances that are touched in this change. Otherwise what this change does is inconsistent, in same places it calls .createEmptyCommit(true) and in other places it omits it although the old code was setting it.",
+      "parentUuid": "8c55034a_5a10b7dd",
+      "range": {
+        "startLine": 41,
+        "startChar": 55,
+        "endLine": 41,
+        "endChar": 79
+      },
+      "revId": "49a454bf310a195f0802d4bd7066ff6779cb59ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b005d199_d335e593",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 3

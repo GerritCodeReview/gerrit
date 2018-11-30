@@ -25,20 +25,15 @@ import java.util.Map;
 public class ElasticIndexModule extends AbstractIndexModule {
   public static ElasticIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads, boolean slave) {
-    return new ElasticIndexModule(versions, threads, false, slave);
+    return new ElasticIndexModule(versions, threads, slave);
   }
 
-  public static ElasticIndexModule latestVersionWithOnlineUpgrade(boolean slave) {
-    return new ElasticIndexModule(null, 0, true, slave);
+  public static ElasticIndexModule latestVersion(boolean slave) {
+    return new ElasticIndexModule(null, 0, slave);
   }
 
-  public static ElasticIndexModule latestVersionWithoutOnlineUpgrade(boolean slave) {
-    return new ElasticIndexModule(null, 0, false, slave);
-  }
-
-  private ElasticIndexModule(
-      Map<String, Integer> singleVersions, int threads, boolean onlineUpgrade, boolean slave) {
-    super(singleVersions, threads, onlineUpgrade, slave);
+  private ElasticIndexModule(Map<String, Integer> singleVersions, int threads, boolean slave) {
+    super(singleVersions, threads, slave);
   }
 
   @Override

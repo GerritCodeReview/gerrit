@@ -22,17 +22,19 @@ class ElasticSetting {
   private static final ImmutableMap<String, String> CUSTOM_CHAR_MAPPING =
       ImmutableMap.of("\\u002E", "\\u0020", "\\u005F", "\\u0020");
 
-  static SettingProperties createSetting() {
-    return new ElasticSetting.Builder().addCharFilter().addAnalyzer().build();
+  static SettingProperties createSetting(ElasticConfiguration config) {
+    return new ElasticSetting.Builder().addCharFilter().addAnalyzer().build(config);
   }
 
   static class Builder {
     private final ImmutableMap.Builder<String, FieldProperties> fields =
         new ImmutableMap.Builder<>();
 
-    SettingProperties build() {
+    SettingProperties build(ElasticConfiguration config) {
       SettingProperties properties = new SettingProperties();
       properties.analysis = fields.build();
+      properties.numberOfShards = config.numberOfShards;
+      properties.numberOfReplicas = config.numberOfReplicas;
       return properties;
     }
 
@@ -71,6 +73,8 @@ class ElasticSetting {
 
   static class SettingProperties {
     Map<String, FieldProperties> analysis;
+    Integer numberOfShards;
+    Integer numberOfReplicas;
   }
 
   static class FieldProperties {

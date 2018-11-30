@@ -51,9 +51,19 @@ public class ElasticVersionTest {
 
   @Test
   public void version6() throws Exception {
-    assertThat(ElasticVersion.V6_2.isV6()).isTrue();
-    assertThat(ElasticVersion.V6_3.isV6()).isTrue();
-    assertThat(ElasticVersion.V6_4.isV6()).isTrue();
-    assertThat(ElasticVersion.V5_6.isV6()).isFalse();
+    assertThat(ElasticVersion.V5_6.isV6OrLater()).isFalse();
+    assertThat(ElasticVersion.V6_2.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V6_3.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V6_4.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V7_0.isV6OrLater()).isTrue();
+  }
+
+  @Test
+  public void version7() throws Exception {
+    assertThat(ElasticVersion.V5_6.isV7OrLater()).isFalse();
+    assertThat(ElasticVersion.V6_2.isV7OrLater()).isFalse();
+    assertThat(ElasticVersion.V6_3.isV7OrLater()).isFalse();
+    assertThat(ElasticVersion.V6_4.isV7OrLater()).isFalse();
+    assertThat(ElasticVersion.V7_0.isV7OrLater()).isTrue();
   }
 }

@@ -264,7 +264,7 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   private static boolean getEnableReverseDnsLookup(Config config) {
-    return config.getBoolean("gerrit", null, "enableReverseDnsLookup", true);
+    return config.getBoolean("gerrit", null, "enableReverseDnsLookup", false);
   }
 
   @Override

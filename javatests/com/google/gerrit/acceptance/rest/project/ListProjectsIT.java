@@ -46,7 +46,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listProjects() throws Exception {
-    Project.NameKey someProject = this.projectOperations.newProject().create();
+    Project.NameKey someProject = projectOperations.newProject().create();
     assertThatNameList(gApi.projects().list().get())
         .containsExactly(allProjects, allUsers, project, someProject);
     assertThatNameList(gApi.projects().list().get()).isOrdered();
@@ -196,8 +196,8 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listWithHiddenAndReadonlyProjects() throws Exception {
-    Project.NameKey hidden = this.projectOperations.newProject().create();
-    Project.NameKey readonly = this.projectOperations.newProject().create();
+    Project.NameKey hidden = projectOperations.newProject().create();
+    Project.NameKey readonly = projectOperations.newProject().create();
 
     // Set project read-only
     ConfigInput input = new ConfigInput();

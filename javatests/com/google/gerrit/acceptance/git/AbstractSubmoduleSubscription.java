@@ -109,7 +109,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
   }
 
   protected Project.NameKey createProjectForPush(SubmitType submitType) throws Exception {
-    Project.NameKey project = this.projectOperations.newProject().submitType(submitType).create();
+    Project.NameKey project = projectOperations.newProject().submitType(submitType).create();
     grantPush(project);
     return project;
   }

@@ -15,10 +15,18 @@
 package com.google.gerrit.server.index;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.inject.Inject;
 
 /** Listener to handle upgrading index schema versions at startup. */
 public class OnlineUpgrader implements LifecycleListener {
+  public static class Module extends LifecycleModule {
+    @Override
+    protected void configure() {
+      listener().to(OnlineUpgrader.class);
+    }
+  }
+
   private final VersionManager versionManager;
 
   @Inject

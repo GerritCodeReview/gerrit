@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bc5b68b_d46b1d9a",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-11-30T21:04:37Z",
+      "side": 1,
+      "message": "if (SEARCH.equals(request) \u0026\u0026 client.adapter().omitTypeFromSearch()) {\n  return encodedIndexName + \"/\" + request;\n}\nString encodedType \u003d URLEncoder.encode(type, UTF_8.toString());\nreturn encodedIndexName + \"/\" + encodedType + \"/\" + request;",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 0
+      },
+      "revId": "45f81f5a686e36709599aafc64fcf69dd35f40ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

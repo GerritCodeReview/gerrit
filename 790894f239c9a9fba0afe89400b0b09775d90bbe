@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "89a24d53_8577a399",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-30T14:51:02Z",
+      "side": 1,
+      "message": "null.",
+      "range": {
+        "startLine": 393,
+        "startChar": 28,
+        "endLine": 393,
+        "endChar": 30
+      },
+      "revId": "790894f239c9a9fba0afe89400b0b09775d90bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78cd9cb2_14210737",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-11-30T14:51:02Z",
+      "side": 1,
+      "message": "This is test code. In this code path SingleVersion module is assigned, on line 396:\n\n  daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0, isSlave(baseConfig)));\n\nThis module doesn\u0027t support online reindexing, only MultiVersion module does.",
+      "parentUuid": "db100230_3ba983e8",
+      "range": {
+        "startLine": 393,
+        "startChar": 49,
+        "endLine": 393,
+        "endChar": 54
+      },
+      "revId": "790894f239c9a9fba0afe89400b0b09775d90bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "354bd43d_a5d80488",
         "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
         "patchSetId": 2

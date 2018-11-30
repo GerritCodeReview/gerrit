@@ -57,6 +57,8 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.index.OnlineUpgrader;
+import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.server.mail.send.SmtpEmailSender;
@@ -364,9 +366,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   private Module createIndexModule() {
     switch (indexType) {
       case LUCENE:
-        return LuceneIndexModule.latestVersionWithOnlineUpgrade();
+        return LuceneIndexModule.latestVersion();
       case ELASTICSEARCH:
-        return ElasticIndexModule.latestVersionWithOnlineUpgrade();
+        return ElasticIndexModule.latestVersion();
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }
@@ -405,6 +407,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     }
     modules.add(H2CacheBasedWebSession.module());
     modules.add(new HttpPluginModule());
+    if (VersionManager.getOnlineUpgrade(config)) {
+      modules.add(new OnlineUpgrader.Module());
+    }
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     if (authConfig.getAuthType() == AuthType.OPENID) {

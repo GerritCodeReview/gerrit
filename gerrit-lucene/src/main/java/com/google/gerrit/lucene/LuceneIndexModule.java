@@ -28,29 +28,24 @@ import org.eclipse.jgit.lib.Config;
 
 public class LuceneIndexModule extends AbstractIndexModule {
   public static LuceneIndexModule singleVersionAllLatest(int threads) {
-    return new LuceneIndexModule(ImmutableMap.<String, Integer>of(), threads, false);
+    return new LuceneIndexModule(ImmutableMap.<String, Integer>of(), threads);
   }
 
   public static LuceneIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads) {
-    return new LuceneIndexModule(versions, threads, false);
+    return new LuceneIndexModule(versions, threads);
   }
 
-  public static LuceneIndexModule latestVersionWithOnlineUpgrade() {
-    return new LuceneIndexModule(null, 0, true);
-  }
-
-  public static LuceneIndexModule latestVersionWithoutOnlineUpgrade() {
-    return new LuceneIndexModule(null, 0, false);
+  public static LuceneIndexModule latestVersion() {
+    return new LuceneIndexModule(null, 0);
   }
 
   static boolean isInMemoryTest(Config cfg) {
     return cfg.getBoolean("index", "lucene", "testInmemory", false);
   }
 
-  private LuceneIndexModule(
-      Map<String, Integer> singleVersions, int threads, boolean onlineUpgrade) {
-    super(singleVersions, threads, onlineUpgrade);
+  private LuceneIndexModule(Map<String, Integer> singleVersions, int threads) {
+    super(singleVersions, threads);
   }
 
   @Override

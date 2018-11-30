@@ -25,20 +25,15 @@ public class ElasticIndexModule extends AbstractIndexModule {
 
   public static ElasticIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads) {
-    return new ElasticIndexModule(versions, threads, false);
+    return new ElasticIndexModule(versions, threads);
   }
 
-  public static ElasticIndexModule latestVersionWithOnlineUpgrade() {
-    return new ElasticIndexModule(null, 0, true);
+  public static ElasticIndexModule latestVersion() {
+    return new ElasticIndexModule(null, 0);
   }
 
-  public static ElasticIndexModule latestVersionWithoutOnlineUpgrade() {
-    return new ElasticIndexModule(null, 0, false);
-  }
-
-  private ElasticIndexModule(
-      Map<String, Integer> singleVersions, int threads, boolean onlineUpgrade) {
-    super(singleVersions, threads, onlineUpgrade);
+  private ElasticIndexModule(Map<String, Integer> singleVersions, int threads) {
+    super(singleVersions, threads);
   }
 
   @Override

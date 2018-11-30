@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "db100230_3ba983e8",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-30T10:41:39Z",
+      "side": 1,
+      "message": "We should keep the current behaviour IMHO: onlineUpgrade \u003d true",
+      "range": {
+        "startLine": 393,
+        "startChar": 49,
+        "endLine": 393,
+        "endChar": 54
+      },
+      "revId": "790894f239c9a9fba0afe89400b0b09775d90bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "354bd43d_a5d80488",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-11-30T10:41:39Z",
+      "side": 1,
+      "message": "Sweet :-)",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 5
+      },
+      "revId": "790894f239c9a9fba0afe89400b0b09775d90bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b60758c8_a89dd05b",
         "filename": "java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 2

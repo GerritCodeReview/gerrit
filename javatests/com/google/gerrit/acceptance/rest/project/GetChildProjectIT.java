@@ -54,7 +54,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   public void getGrandChildProject_NotFound() throws Exception {
     Project.NameKey child = projectOperations.newProject().create();
     // Default for createEmptyCommit should match TestProjectConfig.
-    Project.NameKey grandChild = this.projectOperations.newProject().parent(child).create();
+    Project.NameKey grandChild = projectOperations.newProject().parent(child).create();
 
     assertChildNotFound(allProjects, grandChild.get());
   }
@@ -63,7 +63,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   public void getGrandChildProjectWithRecursiveFlag() throws Exception {
     Project.NameKey child = projectOperations.newProject().create();
     // Default for createEmptyCommit should match TestProjectConfig.
-    Project.NameKey grandChild = this.projectOperations.newProject().parent(child).create();
+    Project.NameKey grandChild = projectOperations.newProject().parent(child).create();
 
     ProjectInfo grandChildInfo =
         gApi.projects().name(allProjects.get()).child(grandChild.get()).get(true);

@@ -45,9 +45,9 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
   public void listChildren() throws Exception {
     Project.NameKey child1 = projectOperations.newProject().create();
     // Default for createEmptyCommit should match TestProjectConfig.
-    Project.NameKey child1_1 = this.projectOperations.newProject().parent(child1).create();
+    Project.NameKey child1_1 = projectOperations.newProject().parent(child1).create();
     // Default for createEmptyCommit should match TestProjectConfig.
-    Project.NameKey child1_2 = this.projectOperations.newProject().parent(child1).create();
+    Project.NameKey child1_2 = projectOperations.newProject().parent(child1).create();
 
     assertThatNameList(gApi.projects().name(child1.get()).children()).isOrdered();
     assertThatNameList(gApi.projects().name(child1.get()).children())

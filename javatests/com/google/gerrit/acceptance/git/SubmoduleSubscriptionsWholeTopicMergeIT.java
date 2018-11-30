@@ -364,14 +364,14 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   public void doNotUseFastForward() throws Exception {
     // like setup, but without empty commit
     superKey =
-        this.projectOperations
+        projectOperations
             .newProject()
             .submitType(getSubmitType())
             .createEmptyCommit(false)
             .create();
     grantPush(superKey);
     subKey =
-        this.projectOperations
+        projectOperations
             .newProject()
             .submitType(getSubmitType())
             .createEmptyCommit(false)
@@ -404,14 +404,14 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   public void useFastForwardWhenNoSubmodule() throws Exception {
     // like setup, but without empty commit
     superKey =
-        this.projectOperations
+        projectOperations
             .newProject()
             .submitType(getSubmitType())
             .createEmptyCommit(false)
             .create();
     grantPush(superKey);
     subKey =
-        this.projectOperations
+        projectOperations
             .newProject()
             .submitType(getSubmitType())
             .createEmptyCommit(false)

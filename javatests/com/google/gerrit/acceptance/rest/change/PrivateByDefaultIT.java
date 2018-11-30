@@ -42,7 +42,7 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     project1 = projectOperations.newProject().create();
     // Default for createEmptyCommit should match TestProjectConfig.
-    project2 = this.projectOperations.newProject().parent(project1).create();
+    project2 = projectOperations.newProject().parent(project1).create();
     setPrivateByDefault(project1, InheritableBoolean.FALSE);
   }
 

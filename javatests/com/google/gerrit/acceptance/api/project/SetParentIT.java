@@ -38,7 +38,7 @@ public class SetParentIT extends AbstractDaemonTest {
 
   @Test
   public void setParentNotAllowed() throws Exception {
-    String parent = this.projectOperations.newProject().createEmptyCommit(true).create().get();
+    String parent = projectOperations.newProject().createEmptyCommit(true).create().get();
     setApiUser(user);
     exception.expect(AuthException.class);
     gApi.projects().name(project.get()).parent(parent);
@@ -47,7 +47,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
   public void setParentNotAllowedForNonOwners() throws Exception {
-    String parent = this.projectOperations.newProject().createEmptyCommit(true).create().get();
+    String parent = projectOperations.newProject().createEmptyCommit(true).create().get();
     setApiUser(user);
     exception.expect(AuthException.class);
     gApi.projects().name(project.get()).parent(parent);
@@ -56,7 +56,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
   public void setParentAllowedByAdminWhenAllowProjectOwnersEnabled() throws Exception {
-    String parent = this.projectOperations.newProject().createEmptyCommit(true).create().get();
+    String parent = projectOperations.newProject().createEmptyCommit(true).create().get();
 
     gApi.projects().name(project.get()).parent(parent);
     assertThat(gApi.projects().name(project.get()).parent()).isEqualTo(parent);
@@ -71,7 +71,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
   public void setParentAllowedForOwners() throws Exception {
-    String parent = this.projectOperations.newProject().createEmptyCommit(true).create().get();
+    String parent = projectOperations.newProject().createEmptyCommit(true).create().get();
     setApiUser(user);
     grant(project, "refs/*", Permission.OWNER, false, SystemGroupBackend.REGISTERED_USERS);
     gApi.projects().name(project.get()).parent(parent);
@@ -80,7 +80,7 @@ public class SetParentIT extends AbstractDaemonTest {
 
   @Test
   public void setParent() throws Exception {
-    String parent = this.projectOperations.newProject().createEmptyCommit(true).create().get();
+    String parent = projectOperations.newProject().createEmptyCommit(true).create().get();
 
     gApi.projects().name(project.get()).parent(parent);
     assertThat(gApi.projects().name(project.get()).parent()).isEqualTo(parent);
@@ -118,9 +118,9 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   public void setParentToGrandchildNotAllowed() throws Exception {
     Project.NameKey child =
-        this.projectOperations.newProject().parent(project).createEmptyCommit(true).create();
+        projectOperations.newProject().parent(project).createEmptyCommit(true).create();
     String grandchild =
-        this.projectOperations.newProject().parent(child).createEmptyCommit(true).create().get();
+        projectOperations.newProject().parent(child).createEmptyCommit(true).create().get();
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("cycle exists between");
     gApi.projects().name(project.get()).parent(grandchild);
@@ -144,7 +144,7 @@ public class SetParentIT extends AbstractDaemonTest {
   public void setParentForAllUsersMustBeAllProjects() throws Exception {
     gApi.projects().name(allUsers.get()).parent(allProjects.get());
 
-    String parent = this.projectOperations.newProject().createEmptyCommit(true).create().get();
+    String parent = projectOperations.newProject().createEmptyCommit(true).create().get();
 
     exception.expect(BadRequestException.class);
     exception.expectMessage("All-Users must inherit from All-Projects");

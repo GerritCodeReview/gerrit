@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f20d6557_b07661d6",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-01T06:41:59Z",
+      "side": 1,
+      "message": "In the original change, I preserved the place of PluginModule registration, like it was in base version: [1], after revert of order swap in [2]. Preserve the same order here as well?\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/205990/6/gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java#426\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/205893",
+      "revId": "d29f5f45133310292690bcd410312ef3f8569b87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

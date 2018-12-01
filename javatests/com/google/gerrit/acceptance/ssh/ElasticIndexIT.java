@@ -25,11 +25,6 @@ import org.eclipse.jgit.lib.Config;
 public class ElasticIndexIT extends AbstractIndexTests {
 
   @ConfigSuite.Default
-  public static Config elasticsearchV2() {
-    return getConfig(ElasticVersion.V2_4);
-  }
-
-  @ConfigSuite.Config
   public static Config elasticsearchV5() {
     return getConfig(ElasticVersion.V5_6);
   }
@@ -37,6 +32,11 @@ public class ElasticIndexIT extends AbstractIndexTests {
   @ConfigSuite.Config
   public static Config elasticsearchV6() {
     return getConfig(ElasticVersion.V6_5);
+  }
+
+  @ConfigSuite.Config
+  public static Config elasticsearchV7() {
+    return getConfig(ElasticVersion.V7_0);
   }
 
   @Override

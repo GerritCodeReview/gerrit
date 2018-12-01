@@ -16,6 +16,24 @@
       "revId": "d29f5f45133310292690bcd410312ef3f8569b87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ff70b2f_b3d28f13",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-01T08:30:26Z",
+      "side": 1,
+      "message": "I based this on how it was done with the patch set that was on master.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/205990/3/java/com/google/gerrit/pgm/Daemon.java",
+      "parentUuid": "f20d6557_b07661d6",
+      "revId": "d29f5f45133310292690bcd410312ef3f8569b87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

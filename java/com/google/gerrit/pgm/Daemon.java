@@ -81,6 +81,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
@@ -401,22 +402,17 @@ public class Daemon extends SiteProgram {
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
 
-    // Plugin module needs to be inserted *before* the index module.
-    // There is the concept of LifecycleModule, in Gerrit's own extension
-    // to Guice, which has these:
-    //  listener().to(SomeClassImplementingLifecycleListener.class);
-    // and the start() methods of each such listener are executed in the
-    // order they are declared.
-    // Makes sure that PluginLoader.start() is executed before the
-    // LuceneIndexModule.start() so that plugins get loaded and the respective
-    // Guice modules installed so that the on-line reindexing will happen
-    // with the proper classes (e.g. group backends, custom Prolog
-    // predicates) and the associated rules ready to be evaluated.
-    modules.add(new PluginModule());
-
     // Index module shutdown must happen before work queue shutdown, otherwise
     // work queue can get stuck waiting on index futures that will never return.
     modules.add(createIndexModule());
+
+    modules.add(new PluginModule());
+
+    if (VersionManager.getOnlineUpgrade(config)
+        // Schema upgrade is handled by OnlineNoteDbMigrator in this case.
+        && !migrateToNoteDb()) {
+      modules.add(new OnlineUpgrader.Module());
+    }
 
     modules.add(new WorkQueue.Module());
     modules.add(new StreamEventsApiListener.Module());
@@ -517,19 +513,11 @@ public class Daemon extends SiteProgram {
     if (luceneModule != null) {
       return luceneModule;
     }
-    boolean onlineUpgrade =
-        VersionManager.getOnlineUpgrade(config)
-            // Schema upgrade is handled by OnlineNoteDbMigrator in this case.
-            && !migrateToNoteDb();
     switch (indexType) {
       case LUCENE:
-        return onlineUpgrade
-            ? LuceneIndexModule.latestVersionWithOnlineUpgrade(slave)
-            : LuceneIndexModule.latestVersionWithoutOnlineUpgrade(slave);
+        return LuceneIndexModule.latestVersion(slave);
       case ELASTICSEARCH:
-        return onlineUpgrade
-            ? ElasticIndexModule.latestVersionWithOnlineUpgrade(slave)
-            : ElasticIndexModule.latestVersionWithoutOnlineUpgrade(slave);
+        return ElasticIndexModule.latestVersion(slave);
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

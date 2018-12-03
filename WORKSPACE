@@ -12,11 +12,13 @@ http_archive(
     urls = ["https://github.com/bazelbuild/bazel-skylib/archive/0.6.0.tar.gz"],
 )
 
+# TODO(davido): Swicth to upstream version again, when this PR (or equivalent) is merged:
+# https://github.com/bazelbuild/rules_closure/pull/313
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "5b4b610ea4892116b6126fa689218535629305590c43fbd68034d831953a9989",
-    strip_prefix = "rules_closure-409a86250c457ca15cafde35eb169e4c2601570e",
-    urls = ["https://github.com/bazelbuild/rules_closure/archive/409a86250c457ca15cafde35eb169e4c2601570e.zip"],
+    sha256 = "043502be0ded87cf2aa9af3be220732e098ede9838045a0b77516bde12addf42",
+    strip_prefix = "rules_closure-0.20",
+    urls = ["https://github.com/davido/rules_closure/archive/0.20.tar.gz"],
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be

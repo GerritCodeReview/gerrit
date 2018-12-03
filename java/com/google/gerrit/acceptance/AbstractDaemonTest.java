@@ -46,6 +46,7 @@ import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -950,6 +951,17 @@ public abstract class AbstractDaemonTest {
       throws Exception {
     try (ProjectConfigUpdate u = updateProject(p)) {
       Util.allow(u.getConfig(), permission, id, ref);
+      u.save();
+    }
+  }
+
+  protected void allowGlobalCapabilities(
+      AccountGroup.UUID id, int min, int max, String... capabilityNames) throws Exception {
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      for (String capabilityName : capabilityNames) {
+        Util.allow(
+            u.getConfig(), capabilityName, id, new PermissionRange(capabilityName, min, max));
+      }
       u.save();
     }
   }

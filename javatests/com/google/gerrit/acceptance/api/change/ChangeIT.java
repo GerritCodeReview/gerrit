@@ -71,6 +71,7 @@ import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -2554,6 +2555,19 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void queryChangesNoLimit() throws Exception {
+    allowGlobalCapabilities(
+        SystemGroupBackend.REGISTERED_USERS, 0, 2, GlobalCapability.QUERY_LIMIT);
+    for (int i = 0; i < 3; i++) {
+      createChange();
+    }
+    List<ChangeInfo> resultsWithDefaultLimit = gApi.changes().query().get();
+    List<ChangeInfo> resultsWithNoLimit = gApi.changes().query().withNoLimit().get();
+    assertThat(resultsWithDefaultLimit).hasSize(2);
+    assertThat(resultsWithNoLimit.size()).isAtLeast(3);
+  }
+
+  @Test
   public void queryChangesStart() throws Exception {
     PushOneCommit.Result r1 = createChange();
     createChange();
@@ -3934,9 +3948,7 @@ public class ChangeIT extends AbstractDaemonTest {
       throws Exception {
     ChangeInfo c = gApi.changes().id(changeId).get(DETAILED_LABELS);
     Set<ReviewerState> states =
-        c.reviewers
-            .entrySet()
-            .stream()
+        c.reviewers.entrySet().stream()
             .filter(e -> e.getValue().stream().anyMatch(a -> a._accountId == accountId.get()))
             .map(Map.Entry::getKey)
             .collect(toSet());

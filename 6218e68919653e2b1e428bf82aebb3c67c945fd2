@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1db2fe71_aab34a4f",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-12-03T16:57:50Z",
+      "side": 0,
+      "message": "This then means no more default version (always explicit now); fine with me.",
+      "revId": "6218e68919653e2b1e428bf82aebb3c67c945fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

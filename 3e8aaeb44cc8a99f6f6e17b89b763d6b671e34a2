@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38f01d61_98c35baa",
+        "filename": "javatests/com/google/gerrit/elasticsearch/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-12-03T16:57:50Z",
+      "side": 1,
+      "message": "ElasticV7Query; likely mistyped this way in the original commit.",
+      "range": {
+        "startLine": 47,
+        "startChar": 30,
+        "endLine": 47,
+        "endChar": 44
+      },
+      "revId": "3e8aaeb44cc8a99f6f6e17b89b763d6b671e34a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f137b279_50c7f14b",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-12-03T16:57:50Z",
+      "side": 1,
+      "message": "Missing asserts for 7.x I believe.",
+      "revId": "3e8aaeb44cc8a99f6f6e17b89b763d6b671e34a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -91,6 +91,11 @@ public class Query extends SshCommand implements DynamicOptions.BeanReceiver {
     processor.setStart(start);
   }
 
+  @Option(name = "--no-limit", usage = "Return all results, overriding the default limit")
+  void setNoLimit(boolean on) {
+    processor.setNoLimit(on);
+  }
+
   @Argument(
       index = 0,
       required = true,

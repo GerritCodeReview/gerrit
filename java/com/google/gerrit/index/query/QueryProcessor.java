@@ -91,6 +91,7 @@ public abstract class QueryProcessor<T> {
 
   private boolean enforceVisibility = true;
   private int userProvidedLimit;
+  private boolean isNoLimit;
   private Set<String> requestedFields;
 
   protected QueryProcessor(
@@ -154,6 +155,11 @@ public abstract class QueryProcessor<T> {
    */
   public QueryProcessor<T> setUserProvidedLimit(int n) {
     userProvidedLimit = n;
+    return this;
+  }
+
+  public QueryProcessor<T> setNoLimit(boolean isNoLimit) {
+    this.isNoLimit = isNoLimit;
     return this;
   }
 
@@ -354,6 +360,9 @@ public abstract class QueryProcessor<T> {
   }
 
   private int getEffectiveLimit(Predicate<T> p) {
+    if (isNoLimit == true) {
+      return Integer.MAX_VALUE;
+    }
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
     possibleLimits.add(getPermittedLimit());

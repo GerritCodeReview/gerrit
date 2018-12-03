@@ -116,6 +116,7 @@ class ChangesImpl implements Changes {
     }
     qc.setLimit(q.getLimit());
     qc.setStart(q.getStart());
+    qc.setNoLimit(q.getNoLimit());
     for (ListChangesOption option : q.getOptions()) {
       qc.addOption(option);
     }

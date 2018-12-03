@@ -17,6 +17,7 @@ _ssh_ -p <port> <host> _gerrit query_
   [--submit-records]
   [--all-reviewers]
   [--start <n> | -S <n>]
+  [--no-limit]
   [--]
   <query>
   [limit:<n>]
@@ -100,6 +101,9 @@ command line parser in the server).
 --start::
 -S::
 	Number of changes to skip.
+
+--no-limit::
+	Return all results, overriding the default limit.
 
 limit:<n>::
 	Maximum number of results to return.  This is actually a

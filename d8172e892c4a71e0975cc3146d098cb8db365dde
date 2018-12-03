@@ -16,6 +16,24 @@
       "revId": "d8172e892c4a71e0975cc3146d098cb8db365dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4a8c2e8_44d1d3df",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-03T13:28:48Z",
+      "side": 1,
+      "message": "No, because it would then also be called for the Lucene tests, and it\u0027s not needed (and won\u0027t work) there.\n\nAlso, we don\u0027t really need to do this for Elasticsearch 5 and 6.",
+      "parentUuid": "1e83c50b_8b4889dd",
+      "revId": "d8172e892c4a71e0975cc3146d098cb8db365dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

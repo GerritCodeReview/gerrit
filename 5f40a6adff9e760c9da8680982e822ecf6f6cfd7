@@ -22,6 +22,30 @@
       "revId": "5f40a6adff9e760c9da8680982e822ecf6f6cfd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "189bf90c_a7338f3a",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-03T09:40:21Z",
+      "side": 1,
+      "message": "It\u0027s not the docker option, but ElasticSearch option, see: [1].\n\n* [1] https://github.com/elastic/elasticsearch-perl/issues/111",
+      "parentUuid": "0d2fa31a_31abee38",
+      "range": {
+        "startLine": 41,
+        "startChar": 11,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "5f40a6adff9e760c9da8680982e822ecf6f6cfd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

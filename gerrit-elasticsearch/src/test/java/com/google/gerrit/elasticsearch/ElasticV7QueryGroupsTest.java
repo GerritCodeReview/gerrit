@@ -45,10 +45,6 @@ public class ElasticV7QueryGroupsTest extends AbstractQueryGroupsTest {
     }
   }
 
-  private String testName() {
-    return testName.getMethodName().toLowerCase() + "_";
-  }
-
   @Override
   protected void initAfterLifecycleStart() throws Exception {
     super.initAfterLifecycleStart();
@@ -59,7 +55,7 @@ public class ElasticV7QueryGroupsTest extends AbstractQueryGroupsTest {
   protected Injector createInjector() {
     Config elasticsearchConfig = new Config(config);
     InMemoryModule.setDefaults(elasticsearchConfig);
-    String indicesPrefix = testName();
+    String indicesPrefix = getSanitizedMethodName();
     ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port, indicesPrefix);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));
   }

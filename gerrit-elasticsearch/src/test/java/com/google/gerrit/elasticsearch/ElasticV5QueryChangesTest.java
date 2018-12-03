@@ -45,10 +45,6 @@ public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
     }
   }
 
-  private String testName() {
-    return testName.getMethodName().toLowerCase() + "_";
-  }
-
   @Override
   protected void initAfterLifecycleStart() throws Exception {
     super.initAfterLifecycleStart();
@@ -59,7 +55,7 @@ public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
   protected Injector createInjector() {
     Config elasticsearchConfig = new Config(config);
     InMemoryModule.setDefaults(elasticsearchConfig);
-    String indicesPrefix = testName();
+    String indicesPrefix = getSanitizedMethodName();
     ElasticTestUtils.configure(
         elasticsearchConfig, nodeInfo.port, indicesPrefix, ElasticVersion.V5_6);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));

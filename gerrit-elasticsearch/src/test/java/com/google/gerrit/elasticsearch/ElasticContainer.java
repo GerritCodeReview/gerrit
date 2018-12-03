@@ -61,9 +61,6 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
   @Override
   protected void configure() {
     addExposedPort(ELASTICSEARCH_DEFAULT_PORT);
-
-    // https://github.com/docker-library/elasticsearch/issues/58
-    addEnv("-Ees.network.host", "0.0.0.0");
   }
 
   @Override

@@ -209,6 +209,30 @@
     },
     {
       "key": {
+        "uuid": "efdd9d94_929ff86b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-03T20:59:46Z",
+      "side": 1,
+      "message": "My guess is if you inline it then you still get the warning but you don\u0027t have an assignment statement to attach the @SuppressWarnings to.",
+      "parentUuid": "d62b9240_c033413e",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 216,
+        "endChar": 18
+      },
+      "revId": "81f88d22b1af6214d9e5d6644735eba826176113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f9106be_46f3b6fa",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 6

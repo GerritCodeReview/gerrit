@@ -52,6 +52,24 @@
       "revId": "d8172e892c4a71e0975cc3146d098cb8db365dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9b0e3d7_da7826d7",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-12-03T21:03:08Z",
+      "side": 1,
+      "message": "How about eventually inserting a new base class, say, ElasticV7AndUpQueryChangesTest, between this very class and AbstractQueryChangesTest? This way, we would expect a potential ElasticV8QueryChangesTest class to also extend ElasticV7AndUpQueryChangesTest, reusing such tear-down code consistently.\n\nThis pattern could be generalised to other elastic index test classes, beside changes here, if need (ever) be. Now, I would not apply the above today, as it would look odd I think, but that could be a plan for once V8 pops up.\n\n-Persist the plan (this or any other one) in the commit message?",
+      "parentUuid": "54d98367_8a37fb48",
+      "revId": "d8172e892c4a71e0975cc3146d098cb8db365dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

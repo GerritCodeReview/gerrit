@@ -22,7 +22,6 @@ import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class PermissionTest extends GerritBaseTests {
@@ -185,23 +184,6 @@ public class PermissionTest extends GerritBaseTests {
     PermissionRule permissionRule3 = new PermissionRule(groupReference3);
     rules.add(permissionRule3);
     assertThat(permission.getRule(groupReference3)).isNull();
-  }
-
-  @Ignore
-  @Test
-  public void cannotAddPermissionByModifyingListThatWasRetrievedFromAccessSection() {
-    GroupReference groupReference1 = new GroupReference(new AccountGroup.UUID("uuid-1"), "group1");
-    PermissionRule permissionRule1 = new PermissionRule(groupReference1);
-    permission.getRules().add(permissionRule1);
-    assertThat(permission.getRule(groupReference1)).isNull();
-
-    List<PermissionRule> rules = new ArrayList<>();
-    rules.add(new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-2"), "group2")));
-    rules.add(new PermissionRule(new GroupReference(new AccountGroup.UUID("uuid-3"), "group3")));
-    permission.setRules(rules);
-    assertThat(permission.getRule(groupReference1)).isNull();
-    permission.getRules().add(permissionRule1);
-    assertThat(permission.getRule(groupReference1)).isNull();
   }
 
   @Test

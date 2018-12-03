@@ -37,7 +37,7 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
     super(refPattern);
   }
 
-  public List<Permission> getPermissions() {
+  public ImmutableList<Permission> getPermissions() {
     return permissions == null ? ImmutableList.of() : ImmutableList.copyOf(permissions);
   }
 

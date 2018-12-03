@@ -158,7 +158,7 @@ public class Permission implements Comparable<Permission> {
     exclusiveGroup = newExclusiveGroup;
   }
 
-  public List<PermissionRule> getRules() {
+  public ImmutableList<PermissionRule> getRules() {
     return rules == null ? ImmutableList.of() : ImmutableList.copyOf(rules);
   }
 

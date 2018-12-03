@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class AccessSectionTest extends GerritBaseTests {
@@ -149,22 +148,6 @@ public class AccessSectionTest extends GerritBaseTests {
 
     Permission submitPermission = new Permission(Permission.SUBMIT);
     permissions.add(submitPermission);
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
-  }
-
-  @Ignore
-  @Test
-  public void cannotAddPermissionByModifyingListThatWasRetrievedFromAccessSection() {
-    Permission submitPermission = new Permission(Permission.SUBMIT);
-    accessSection.getPermissions().add(submitPermission);
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
-
-    List<Permission> permissions = new ArrayList<>();
-    permissions.add(new Permission(Permission.ABANDON));
-    permissions.add(new Permission(Permission.REBASE));
-    accessSection.setPermissions(permissions);
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
-    accessSection.getPermissions().add(submitPermission);
     assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
   }
 

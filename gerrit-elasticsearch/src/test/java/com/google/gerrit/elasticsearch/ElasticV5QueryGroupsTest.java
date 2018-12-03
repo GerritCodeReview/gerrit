@@ -25,7 +25,7 @@ import org.junit.BeforeClass;
 
 public class ElasticV5QueryGroupsTest extends AbstractQueryGroupsTest {
   private static ElasticNodeInfo nodeInfo;
-  private static ElasticContainer<?> container;
+  private static ElasticContainer container;
 
   @BeforeClass
   public static void startIndexService() {

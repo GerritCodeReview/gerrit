@@ -70,6 +70,24 @@
       "revId": "d8172e892c4a71e0975cc3146d098cb8db365dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df4c300c_35e3caa4",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-03T23:13:16Z",
+      "side": 1,
+      "message": "I\u0027ve previously tried to introduce a common base class, to reduce the amount of duplicated code in the elasticsearch tests, but it was not successful due to the usage of a static method to start the container.\n\nWe could introduce a base class that only has the @After method, but I wonder if it\u0027s really worth it since we still have to duplicate a fair amount of code.",
+      "parentUuid": "e9b0e3d7_da7826d7",
+      "revId": "d8172e892c4a71e0975cc3146d098cb8db365dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "d8172e892c4a71e0975cc3146d098cb8db365dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54d98367_8a37fb48",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-03T14:52:18Z",
+      "side": 1,
+      "message": "OK, but what will happen if we add tests for Elasticsearch 8 and 9? Would we duplicate that code or add another base class? Of course, we can address it at that time, but I would like to have a plan already now.",
+      "parentUuid": "b4a8c2e8_44d1d3df",
+      "revId": "d8172e892c4a71e0975cc3146d098cb8db365dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

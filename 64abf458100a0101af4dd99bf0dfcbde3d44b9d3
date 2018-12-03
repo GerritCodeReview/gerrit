@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fbf01ff1_a3e8ea80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-03T05:12:39Z",
+      "side": 1,
+      "message": "If you look at this commit: [1], you would see, that that feature is included since 0.17.0. We are currently using 0.19.\n\n* [1] https://github.com/bazelbuild/bazel/commit/33afd3cfc718d222e8b23584652ba0628538a4e5",
+      "parentUuid": "b9395643_ae709aa6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "64abf458100a0101af4dd99bf0dfcbde3d44b9d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "79a822a1_3fe877e9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

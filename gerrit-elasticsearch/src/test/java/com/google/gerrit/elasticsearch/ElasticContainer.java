@@ -54,7 +54,6 @@ public class ElasticContainer extends ElasticsearchContainer {
 
   private ElasticContainer(ElasticVersion version) {
     super(getImageName(version));
-    withEnv("-Ees.network.host", "0.0.0.0");
   }
 
   public HttpHost getHttpHost() {

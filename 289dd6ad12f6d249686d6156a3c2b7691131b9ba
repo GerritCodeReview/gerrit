@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8e8765e_0b08ff7c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2186,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-12-03T15:34:07Z",
+      "side": 1,
+      "message": "Can this say a little more about the ramifications? E.g. when is it useful to do the reverse DNS lookup at reflog-write time? In other words, if I am a Gerrit admin, how would I decide whether to enable this?",
+      "revId": "289dd6ad12f6d249686d6156a3c2b7691131b9ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

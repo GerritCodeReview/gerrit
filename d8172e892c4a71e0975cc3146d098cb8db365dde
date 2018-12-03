@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e83c50b_8b4889dd",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-03T13:17:43Z",
+      "side": 1,
+      "message": "Can this method with @After annotation be added in AbstractQueryChangesTest  lcass and thus would apply for all test for all versions?",
+      "revId": "d8172e892c4a71e0975cc3146d098cb8db365dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

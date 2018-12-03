@@ -71,6 +71,7 @@ import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -2551,6 +2552,19 @@ public class ChangeIT extends AbstractDaemonTest {
     List<ChangeInfo> results = gApi.changes().query().withLimit(1).get();
     assertThat(results).hasSize(1);
     assertThat(Iterables.getOnlyElement(results).changeId).isEqualTo(r2.getChangeId());
+  }
+
+  @Test
+  public void queryChangesNoLimit() throws Exception {
+    allowGlobalCapabilities(
+        SystemGroupBackend.REGISTERED_USERS, 0, 2, GlobalCapability.QUERY_LIMIT);
+    for (int i = 0; i < 3; i++) {
+      createChange();
+    }
+    List<ChangeInfo> resultsWithDefaultLimit = gApi.changes().query().get();
+    List<ChangeInfo> resultsWithNoLimit = gApi.changes().query().withNoLimit().get();
+    assertThat(resultsWithDefaultLimit).hasSize(2);
+    assertThat(resultsWithNoLimit.size()).isAtLeast(3);
   }
 
   @Test

@@ -82,6 +82,11 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     imp.setStart(start);
   }
 
+  @Option(name = "--no-limit", usage = "Return all results, overriding the default limit")
+  public void setNoLimit(boolean on) {
+    imp.setNoLimit(on);
+  }
+
   @Override
   public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
     imp.setDynamicBean(plugin, dynamicBean);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d2fa31a_31abee38",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-03T08:47:03Z",
+      "side": 1,
+      "message": "Why was this prefixed with \"-E\"?\n\nThe call to `docker run` in the linked issue uses -D to define the environment variable.  In this case we\u0027re adding to the environment using a key:value map, so shouldn\u0027t this just be \"es.network.host\"?\n\nContext for this question is I\u0027m trying to make the container set the cluster.max_shards_per_node value (see issue 10120) but haven\u0027t been successful so far.",
+      "range": {
+        "startLine": 41,
+        "startChar": 11,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "5f40a6adff9e760c9da8680982e822ecf6f6cfd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

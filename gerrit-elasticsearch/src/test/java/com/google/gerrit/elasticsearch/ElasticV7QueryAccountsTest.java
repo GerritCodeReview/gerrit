@@ -25,7 +25,7 @@ import org.junit.BeforeClass;
 
 public class ElasticV7QueryAccountsTest extends AbstractQueryAccountsTest {
   private static ElasticNodeInfo nodeInfo;
-  private static ElasticContainer<?> container;
+  private static ElasticContainer container;
 
   @BeforeClass
   public static void startIndexService() {

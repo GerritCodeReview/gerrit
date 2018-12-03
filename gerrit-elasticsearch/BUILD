@@ -46,6 +46,7 @@ java_library(
         "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/testcontainers",
+        "//lib/testcontainers:testcontainers-elasticsearch",
     ],
 )
 

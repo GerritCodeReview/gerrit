@@ -58,7 +58,7 @@ public final class ElasticTestUtils {
 
   public static Config getConfig(ElasticVersion version) {
     ElasticNodeInfo elasticNodeInfo;
-    ElasticContainer<?> container = ElasticContainer.createAndStart(version);
+    ElasticContainer container = ElasticContainer.createAndStart(version);
     elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     String indicesPrefix = UUID.randomUUID().toString();
     Config cfg = new Config();

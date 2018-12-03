@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "997dcc8d_106beae5",
+        "filename": "javatests/com/google/gerrit/elasticsearch/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-12-03T21:35:14Z",
+      "side": 1,
+      "message": "Brought by this change in fact; done.",
+      "parentUuid": "38f01d61_98c35baa",
+      "range": {
+        "startLine": 47,
+        "startChar": 30,
+        "endLine": 47,
+        "endChar": 44
+      },
+      "revId": "3e8aaeb44cc8a99f6f6e17b89b763d6b671e34a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f137b279_50c7f14b",
         "filename": "javatests/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "3e8aaeb44cc8a99f6f6e17b89b763d6b671e34a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c428c867_421de988",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-12-03T21:35:14Z",
+      "side": 1,
+      "message": "Done, proposed through I63e1493b.",
+      "parentUuid": "f137b279_50c7f14b",
+      "revId": "3e8aaeb44cc8a99f6f6e17b89b763d6b671e34a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

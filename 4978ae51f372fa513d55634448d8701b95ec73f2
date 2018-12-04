@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2765250_4e88495d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-04T11:18:31Z",
+      "side": 1,
+      "message": "Right: [1].\n\n* [1] https://gerrit.googlesource.com/gerrit/+/ad0ae83b576a740e2f228cda4d6557342452939b/java/com/google/gerrit/extensions/api/access/ProjectAccessInput.java#19",
+      "revId": "4978ae51f372fa513d55634448d8701b95ec73f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

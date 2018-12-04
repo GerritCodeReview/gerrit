@@ -8,7 +8,6 @@ ALTER TABLE change_messages CLUSTER ON change_messages_pkey;
 ALTER TABLE patch_comments CLUSTER ON patch_comments_pkey;
 ALTER TABLE patch_set_approvals CLUSTER ON patch_set_approvals_pkey;
 
-ALTER TABLE account_group_members CLUSTER ON account_group_members_pkey;
 CLUSTER;
 
 

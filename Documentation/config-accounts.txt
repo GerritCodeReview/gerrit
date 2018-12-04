@@ -185,8 +185,6 @@ link:intro-user.html#preferences[general],
 link:user-review-ui.html#diff-preferences[diff] and edit preferences:
 
 ----
-[general]
-  showSiteHeader = false
 [diff]
   hideTopMenu = true
 [edit]

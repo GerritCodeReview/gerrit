@@ -94,8 +94,7 @@ public class LabelType {
 
   protected String name;
 
-  // String rather than LabelFunction for backwards compatibility with GWT JSON interface.
-  protected String functionName;
+  protected LabelFunction function;
 
   protected boolean copyMinScore;
   protected boolean copyMaxScore;
@@ -123,7 +122,7 @@ public class LabelType {
     values = sortValues(valueList);
     defaultValue = 0;
 
-    functionName = LabelFunction.MAX_WITH_BLOCK.getFunctionName();
+    function = LabelFunction.MAX_WITH_BLOCK;
 
     maxNegative = Short.MIN_VALUE;
     maxPositive = Short.MAX_VALUE;
@@ -160,15 +159,11 @@ public class LabelType {
   }
 
   public LabelFunction getFunction() {
-    if (functionName == null) {
-      return null;
-    }
-    return LabelFunction.parse(functionName)
-        .orElseThrow(() -> new IllegalStateException("Unsupported functionName: " + functionName));
+    return function;
   }
 
   public void setFunction(@Nullable LabelFunction function) {
-    this.functionName = function != null ? function.getFunctionName() : null;
+    this.function = function;
   }
 
   public boolean canOverride() {

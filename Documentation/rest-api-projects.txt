@@ -1085,21 +1085,19 @@ entity is returned.
   Content-Type: application/json; charset=UTF-8
 
   {
-    "remove": [
-      {
-        "refs/*": {
-          "permissions": {
-            "read": {
-              "rules": {
-                "c2ce4749a32ceb82cd6adcce65b8216e12afb41c": {
-                  "action": "ALLOW"
-                }
+    "remove": {
+      "refs/*": {
+        "permissions": {
+          "read": {
+            "rules": {
+              "c2ce4749a32ceb82cd6adcce65b8216e12afb41c": {
+                "action": "ALLOW"
               }
             }
           }
         }
       }
-    ]
+    }
   }
 ----
 

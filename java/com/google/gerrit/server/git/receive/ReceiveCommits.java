@@ -18,6 +18,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
@@ -611,6 +612,10 @@ class ReceiveCommits {
       replaceProgress.end();
       queueSuccessMessages(newChanges);
       refsPublishDeprecationWarning();
+
+      logger.atFine().log(
+          "Command results: %s",
+          lazy(() -> commands.stream().map(ReceiveCommits::commandToString).collect(joining(","))));
     }
   }
 
@@ -3276,5 +3281,16 @@ class ReceiveCommits {
 
   private static boolean isConfig(ReceiveCommand cmd) {
     return cmd.getRefName().equals(RefNames.REFS_CONFIG);
+  }
+
+  private static String commandToString(ReceiveCommand cmd) {
+    StringBuilder b = new StringBuilder();
+    b.append(cmd);
+    b.append("  (").append(cmd.getResult());
+    if (cmd.getMessage() != null) {
+      b.append(": ").append(cmd.getMessage());
+    }
+    b.append(")\n");
+    return b.toString();
   }
 }

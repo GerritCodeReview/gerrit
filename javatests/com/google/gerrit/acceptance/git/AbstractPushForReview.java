@@ -221,6 +221,18 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void pushInitialCommitSeriesForMasterBranch() throws Exception {
+    testPushInitialCommitSeriesForMasterBranch();
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void pushInitialCommitSeriesForMasterBranchWithCreateNewChangeForAllNotInTarget()
+      throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+    testPushInitialCommitSeriesForMasterBranch();
+  }
+
+  private void testPushInitialCommitSeriesForMasterBranch() throws Exception {
     RevCommit c = testRepo.commit().message("Initial commit").insertChangeId().create();
     String id = GitUtil.getChangeId(testRepo, c).get();
     testRepo.reset(c);

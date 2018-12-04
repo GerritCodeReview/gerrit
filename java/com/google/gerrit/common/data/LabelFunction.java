@@ -14,12 +14,10 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Functions for determining submittability based on label votes.
@@ -46,10 +44,6 @@ public enum LabelFunction {
       all.put(f.getFunctionName(), f);
     }
     ALL = Collections.unmodifiableMap(all);
-  }
-
-  public static Optional<LabelFunction> parse(@Nullable String str) {
-    return Optional.ofNullable(ALL.get(str));
   }
 
   private final String name;

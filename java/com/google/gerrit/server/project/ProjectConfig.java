@@ -21,7 +21,6 @@ import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -77,7 +76,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -918,20 +916,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         continue;
       }
 
-      String functionName = rc.getString(LABEL, name, KEY_FUNCTION);
-      Optional<LabelFunction> function =
-          functionName != null
-              ? LabelFunction.parse(functionName)
-              : Optional.of(LabelFunction.MAX_WITH_BLOCK);
-      if (!function.isPresent()) {
-        error(
-            new ValidationError(
-                PROJECT_CONFIG,
-                String.format(
-                    "Invalid %s for label \"%s\". Valid names are: %s",
-                    KEY_FUNCTION, name, Joiner.on(", ").join(LabelFunction.ALL.keySet()))));
-      }
-      label.setFunction(function.orElse(null));
+      LabelFunction function = rc.getEnum(LABEL, name, KEY_FUNCTION, LabelFunction.MAX_WITH_BLOCK);
+      label.setFunction(function);
 
       if (!values.isEmpty()) {
         short dv = (short) rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);

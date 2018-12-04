@@ -18,6 +18,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
@@ -34,6 +35,7 @@ import static java.util.Comparator.comparingInt;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
@@ -611,6 +613,23 @@ class ReceiveCommits {
       replaceProgress.end();
       queueSuccessMessages(newChanges);
       refsPublishDeprecationWarning();
+
+      logger.atFine().log(
+          "Command results: %s",
+          lazy(
+              () ->
+                  commands
+                      .stream()
+                      .collect(
+                          toMap(
+                              cmd -> cmd,
+                              cmd -> {
+                                String msg = cmd.getMessage();
+                                if (msg != null) {
+                                  return cmd.getResult() + " (" + msg + ")";
+                                }
+                                return cmd.getResult();
+                              }))));
     }
   }
 

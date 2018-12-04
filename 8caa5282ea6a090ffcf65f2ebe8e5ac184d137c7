@@ -247,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "267b2e2b_e9aaacbf",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiQuotaEnforcer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-04T13:42:04Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "b5d5ccce_c882186b",
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09071c83_b0f148ba",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiQuotaEnforcer.java",
         "patchSetId": 4
@@ -270,6 +288,30 @@
     },
     {
       "key": {
+        "uuid": "8eef3d14_5dd68fb1",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiQuotaEnforcer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-04T13:42:04Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "09071c83_b0f148ba",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 18
+      },
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a6c58dc_9616d152",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiQuotaEnforcer.java",
         "patchSetId": 4
@@ -281,6 +323,30 @@
       "writtenOn": "2018-11-29T15:12:56Z",
       "side": 1,
       "message": "we",
+      "range": {
+        "startLine": 65,
+        "startChar": 32,
+        "endLine": 65,
+        "endChar": 37
+      },
+      "revId": "8caa5282ea6a090ffcf65f2ebe8e5ac184d137c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dc3ac7b_59c1096b",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiQuotaEnforcer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-04T13:42:04Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "4a6c58dc_9616d152",
       "range": {
         "startLine": 65,
         "startChar": 32,

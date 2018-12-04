@@ -48,7 +48,6 @@ public class ConfigInfo {
   public Map<String, ActionInfo> actions;
 
   public Map<String, CommentLinkInfo> commentlinks;
-  public ThemeInfo theme;
 
   public Map<String, List<String>> extensionPanelNames;
 

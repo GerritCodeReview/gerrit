@@ -30,16 +30,12 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInput;
-import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
-import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.restapi.group.CreateGroup;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -49,14 +45,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SuggestReviewersIT extends AbstractDaemonTest {
-  @Inject private CreateGroup createGroup;
   @Inject private ProjectOperations projectOperations;
   @Inject private AccountOperations accountOperations;
   @Inject private GroupOperations groupOperations;
 
-  private InternalGroup group1;
-  private InternalGroup group2;
-  private InternalGroup group3;
+  private AccountGroup.UUID group1;
+  private AccountGroup.UUID group2;
+  private AccountGroup.UUID group3;
 
   private TestAccount user1;
   private TestAccount user2;
@@ -65,14 +60,14 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    group1 = newGroup("users1");
-    group2 = newGroup("users2");
-    group3 = newGroup("users3");
-
-    user1 = user("user1", "First1 Last1", group1);
-    user2 = user("user2", "First2 Last2", group2);
-    user3 = user("user3", "First3 Last3", group1, group2);
+    user1 = user("user1", "First1 Last1");
+    user2 = user("user2", "First2 Last2");
+    user3 = user("user3", "First3 Last3");
     user4 = user("jdoe", "John Doe", "JDOE");
+
+    group1 = groupOperations.newGroup().name(name("users1")).members(user1.id, user3.id).create();
+    group2 = groupOperations.newGroup().name(name("users2")).members(user2.id, user3.id).create();
+    group3 = groupOperations.newGroup().name(name("users3")).members(user1.id).create();
   }
 
   @Test
@@ -114,7 +109,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertReviewers(
         reviewers, ImmutableList.of(user1, user2, user3), ImmutableList.of(group1, group2));
 
-    reviewers = suggestReviewers(changeId, group3.getName(), 10);
+    String group3Name = groupOperations.group(group3).get().name();
+    reviewers = suggestReviewers(changeId, group3Name, 10);
     assertReviewers(reviewers, ImmutableList.of(), ImmutableList.of(group3));
 
     // Suggested accounts are ordered by activity. All users have no activity,
@@ -160,7 +156,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     setApiUser(user3);
     block("refs/*", "read", ANONYMOUS_USERS);
-    allow("refs/*", "read", group1.getGroupUUID());
+    allow("refs/*", "read", group1);
     reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).isEmpty();
   }
@@ -176,7 +172,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewers).isEmpty();
 
     setApiUser(user1); // Clear cached group info.
-    allowGlobalCapabilities(group1.getGroupUUID(), GlobalCapability.VIEW_ALL_ACCOUNTS);
+    allowGlobalCapabilities(group1, GlobalCapability.VIEW_ALL_ACCOUNTS);
     reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).hasSize(1);
     assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(user2.fullName);
@@ -252,17 +248,11 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "addreviewer.maxAllowed", value = "2")
+  @GerritConfig(name = "addreviewer.maxAllowed", value = "1")
   @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value = "1")
-  public void suggestReviewersGroupSizeConsiderations() throws Exception {
-    InternalGroup largeGroup = newGroup("large");
-    InternalGroup mediumGroup = newGroup("medium");
-
-    // Both groups have Administrator as a member. Add two users to large
-    // group to push it past maxAllowed, and one to medium group to push it
-    // past maxWithoutConfirmation.
-    user("individual 0", "Test0 Last0", largeGroup, mediumGroup);
-    user("individual 1", "Test1 Last1", largeGroup);
+  public void confirmationIsNeverRequestedForAccounts() throws Exception {
+    user("individual 0", "Test0 Last0");
+    user("individual 1", "Test1 Last1");
 
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers;
@@ -274,16 +264,30 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     reviewer = reviewers.get(0);
     assertThat(reviewer.count).isEqualTo(1);
     assertThat(reviewer.confirm).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "addreviewer.maxAllowed", value = "2")
+  @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value = "1")
+  public void suggestReviewersGroupSizeConsiderations() throws Exception {
+    AccountGroup.UUID largeGroup = createGroupWithArbitraryMembers(3);
+    String largeGroupName = groupOperations.group(largeGroup).get().name();
+    AccountGroup.UUID mediumGroup = createGroupWithArbitraryMembers(2);
+    String mediumGroupName = groupOperations.group(mediumGroup).get().name();
+
+    String changeId = createChange().getChangeId();
+    List<SuggestedReviewerInfo> reviewers;
+    SuggestedReviewerInfo reviewer;
 
     // Large group should never be suggested.
-    reviewers = suggestReviewers(changeId, largeGroup.getName(), 10);
+    reviewers = suggestReviewers(changeId, largeGroupName, 10);
     assertThat(reviewers).isEmpty();
 
     // Medium group should be suggested with appropriate count and confirm.
-    reviewers = suggestReviewers(changeId, mediumGroup.getName(), 10);
+    reviewers = suggestReviewers(changeId, mediumGroupName, 10);
     assertThat(reviewers).hasSize(1);
     reviewer = reviewers.get(0);
-    assertThat(reviewer.group.name).isEqualTo(mediumGroup.getName());
+    assertThat(reviewer.group.id).isEqualTo(mediumGroup.get());
     assertThat(reviewer.count).isEqualTo(2);
     assertThat(reviewer.confirm).isTrue();
   }
@@ -541,12 +545,6 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     return groupOperations.newGroup().members(members).create();
   }
 
-  private InternalGroup newGroup(String name) throws Exception {
-    GroupInfo group =
-        createGroup.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(name(name)), null);
-    return group(new AccountGroup.UUID(group.id));
-  }
-
   private TestAccount user(String name, String fullName, String emailName, InternalGroup... groups)
       throws Exception {
     String[] groupNames = Arrays.stream(groups).map(InternalGroup::getName).toArray(String[]::new);
@@ -576,10 +574,10 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     return gApi.changes().create(ci).get().changeId;
   }
 
-  private void assertReviewers(
+  private static void assertReviewers(
       List<SuggestedReviewerInfo> actual,
       List<TestAccount> expectedUsers,
-      List<InternalGroup> expectedGroups) {
+      List<AccountGroup.UUID> expectedGroups) {
     List<Integer> actualAccountIds =
         actual
             .stream()
@@ -593,7 +591,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
         actual.stream().filter(i -> i.group != null).map(i -> i.group.id).collect(toList());
     assertThat(actualGroupIds)
         .containsExactlyElementsIn(
-            expectedGroups.stream().map(g -> g.getGroupUUID().get()).collect(toList()))
+            expectedGroups.stream().map(AccountGroup.UUID::get).collect(toList()))
         .inOrder();
   }
 }

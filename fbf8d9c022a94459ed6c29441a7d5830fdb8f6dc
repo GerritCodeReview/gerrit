@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90450974_461843b5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-04T23:57:03Z",
+      "side": 1,
+      "message": "This could be inlined in the call to members.add() on the next line.\n\nAlso, optionally, it might be possible to write this whole thing as a lamba expression using IntStream.rangeClosed",
+      "range": {
+        "startLine": 538,
+        "startChar": 6,
+        "endLine": 538,
+        "endChar": 64
+      },
+      "revId": "fbf8d9c022a94459ed6c29441a7d5830fdb8f6dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "ad0ae83b576a740e2f228cda4d6557342452939b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13563e66_a5df571a",
+        "filename": "Documentation/config-themes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-04T06:56:16Z",
+      "side": 0,
+      "message": "I guess this was the only place that the GerritSiteFooter file was documented.\n\nNote: there are still references in the code to the custom site header and footer; I considered removing them in this change but decided against it.",
+      "parentUuid": "d72ea5d1_38fa1f63",
+      "revId": "ad0ae83b576a740e2f228cda4d6557342452939b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

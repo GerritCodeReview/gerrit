@@ -2712,10 +2712,13 @@ class ReceiveCommits {
 
     /** prints a warning if the new PS has the same tree as the previous commit. */
     private void sameTreeWarning() throws IOException {
-      RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
+      RevWalk rw = receivePack.getRevWalk();
+      RevCommit newCommit = rw.parseCommit(newCommitId);
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
 
       if (newCommit.getTree().equals(priorCommit.getTree())) {
+        rw.parseBody(newCommit);
+        rw.parseBody(priorCommit);
         boolean messageEq =
             Objects.equals(newCommit.getFullMessage(), priorCommit.getFullMessage());
         boolean parentsEq = parentsEqual(newCommit, priorCommit);

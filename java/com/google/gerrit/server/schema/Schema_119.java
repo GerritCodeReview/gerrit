@@ -119,7 +119,7 @@ public class Schema_119 extends ReviewDbSchemaVersion {
         Account.Id accountId = new Account.Id(rs.getInt(1));
         p.changesPerPage = (int) rs.getShort(2);
         p.showSiteHeader = toBoolean(rs.getString(3));
-        p.useFlashClipboard = toBoolean(rs.getString(4));
+        // REMOVED: p.useFlashClipboard = toBoolean(rs.getString(4));
         p.downloadScheme = convertToModernNames(rs.getString(5));
         p.downloadCommand = toDownloadCommand(rs.getString(6));
         p.emailStrategy = toEmailStrategy(rs.getString(7), columns.contains(emailStrategy));

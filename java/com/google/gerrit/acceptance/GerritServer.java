@@ -226,6 +226,9 @@ public class GerritServer implements AutoCloseable {
 
           // Silence non-critical messages from apache.http.
           .put("org.apache.http", Level.WARN)
+
+          // Silence non-critical messages from Jetty.
+          .put("org.eclipse.jetty", Level.WARN)
           .build();
 
   private static boolean forceLocalDisk() {

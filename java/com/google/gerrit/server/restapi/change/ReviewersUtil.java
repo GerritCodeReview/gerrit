@@ -402,7 +402,8 @@ public class ReviewersUtil {
         return result;
       }
 
-      boolean needsConfirmation = result.size > maxAllowedWithoutConfirmation;
+      boolean needsConfirmation =
+          maxAllowedWithoutConfirmation > 0 && result.size > maxAllowedWithoutConfirmation;
       if (needsConfirmation) {
         logger.atFine().log(
             "group %s needs confirmation to be added as reviewer, it has %d members",

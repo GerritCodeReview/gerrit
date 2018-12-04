@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1525dc5a_1cef6ebd",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ThemeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-04T09:09:48Z",
+      "side": 0,
+      "message": "The removal of this class from the extension API is breaking clients that use this class.\nShould this be mentioned in the commit message?",
+      "revId": "a3bf9bb91d960648963865138fc2d8c5301340c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

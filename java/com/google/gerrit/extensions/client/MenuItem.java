@@ -22,11 +22,6 @@ public class MenuItem {
   public final String target;
   public final String id;
 
-  // Needed for GWT
-  public MenuItem() {
-    this(null, null, null, null);
-  }
-
   public MenuItem(String name, String url) {
     this(name, url, "_blank");
   }

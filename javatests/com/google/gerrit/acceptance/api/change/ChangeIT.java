@@ -2010,36 +2010,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void implicitlyCcOnNonVotingReviewGwtStyle() throws Exception {
-    testImplicitlyCcOnNonVotingReviewGwtStyle(user);
-  }
-
-  @Test
-  public void implicitlyCcOnNonVotingReviewForUserWithoutUserNameGwtStyle() throws Exception {
-    com.google.gerrit.acceptance.TestAccount accountWithoutUsername = accountCreator.create();
-    assertThat(accountWithoutUsername.username).isNull();
-    testImplicitlyCcOnNonVotingReviewGwtStyle(accountWithoutUsername);
-  }
-
-  private void testImplicitlyCcOnNonVotingReviewGwtStyle(
-      com.google.gerrit.acceptance.TestAccount testAccount) throws Exception {
-    PushOneCommit.Result r = createChange();
-    setApiUser(testAccount);
-    assertThat(getReviewerState(r.getChangeId(), testAccount.id)).isEmpty();
-
-    // Exact request format made by GWT UI at ddc6b7160fe416fed9e7e3180489d44c82fd64f8.
-    ReviewInput in = new ReviewInput();
-    in.labels = ImmutableMap.of("Code-Review", (short) 0);
-    in.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
-    in.message = "comment";
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
-
-    // If we're not reading from NoteDb, then the CCed user will be returned in the REVIEWER state.
-    assertThat(getReviewerState(r.getChangeId(), testAccount.id))
-        .hasValue(notesMigration.readChanges() ? CC : REVIEWER);
-  }
-
-  @Test
   public void implicitlyAddReviewerOnVotingReview() throws Exception {
     PushOneCommit.Result r = createChange();
     setApiUser(user);

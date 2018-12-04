@@ -30,13 +30,11 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.RefConfigSection;
-import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
-import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -149,13 +147,9 @@ public class GetAccess implements RestReadView<ProjectResource> {
 
       // config may have a null revision if the repo doesn't have its own refs/meta/config.
       if (config.getRevision() != null) {
-        // WebLinks operates in terms of the data types used in the GWT UI. Once the GWT UI is
-        // gone, WebLinks should be fixed to use the extension data types.
-        for (WebLinkInfoCommon wl :
+        info.configWebLinks.addAll(
             webLinks.getFileHistoryLinks(
-                projectName.get(), config.getRevision().getName(), ProjectConfig.PROJECT_CONFIG)) {
-          info.configWebLinks.add(new WebLinkInfo(wl.name, wl.imageUrl, wl.url, wl.target));
-        }
+                projectName.get(), config.getRevision().getName(), ProjectConfig.PROJECT_CONFIG));
       }
 
       if (config.updateGroupNames(groupBackend)) {

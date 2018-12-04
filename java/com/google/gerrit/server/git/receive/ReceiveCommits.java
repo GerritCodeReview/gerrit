@@ -1882,7 +1882,9 @@ class ReceiveCommits {
 
   private static String readHEAD(Repository repo) {
     try {
-      return repo.getFullBranch();
+      String head = repo.getFullBranch();
+      logger.atFine().log("HEAD = %s", head);
+      return head;
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Cannot read HEAD symref");
       return null;

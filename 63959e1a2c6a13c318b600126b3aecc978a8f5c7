@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "164a8b8a_974a654e",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-04T13:58:03Z",
+      "side": 1,
+      "message": "According to its documentation the ERROR status should only be used if the requested quota couldn\u0027t be allocated. It explicitly states that it shouldn\u0027t be used for processing failures.",
+      "range": {
+        "startLine": 78,
+        "startChar": 36,
+        "endLine": 78,
+        "endChar": 41
+      },
+      "revId": "63959e1a2c6a13c318b600126b3aecc978a8f5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f549118_bf04b60f",
+        "filename": "java/com/google/gerrit/server/config/DefaultUrlFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-04T10:01:04Z",
+      "side": 1,
+      "message": "This has broken a few core plugins :-(\nBinding the UrlFormatter through DynamicItem breaks all the existing direct injections. Going to fix them now.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 83
+      },
+      "revId": "b3f84b2e693ea34309a15e9034483f94032168e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

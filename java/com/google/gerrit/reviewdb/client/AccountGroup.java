@@ -18,6 +18,7 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 /** Named group of one or more accounts, typically used for access controls. */
@@ -26,12 +27,10 @@ public final class AccountGroup {
    * Time when the audit subsystem was implemented, used as the default value for {@link #createdOn}
    * when one couldn't be determined from the audit log.
    */
-  // Can't use Instant here because GWT. This is verified against a readable time in the tests,
-  // which don't need to compile under GWT.
-  private static final long AUDIT_CREATION_INSTANT_MS = 1244489460000L;
+  private static final Instant AUDIT_CREATION_INSTANT_MS = Instant.ofEpochMilli(1244489460000L);
 
   public static Timestamp auditCreationInstantTs() {
-    return new Timestamp(AUDIT_CREATION_INSTANT_MS);
+    return Timestamp.from(AUDIT_CREATION_INSTANT_MS);
   }
 
   /** Group name key */

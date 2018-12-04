@@ -14,21 +14,19 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.collect.ImmutableSet;
-import java.util.Set;
 import org.apache.http.HttpHost;
 import org.junit.AssumptionViolatedException;
-import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.elasticsearch.ElasticsearchContainer;
 
 /* Helper class for running ES integration tests in docker container */
-public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends GenericContainer<SELF> {
+public class ElasticContainer extends ElasticsearchContainer {
   private static final int ELASTICSEARCH_DEFAULT_PORT = 9200;
 
-  public static ElasticContainer<?> createAndStart(ElasticVersion version) {
+  public static ElasticContainer createAndStart(ElasticVersion version) {
     // Assumption violation is not natively supported by Testcontainers.
     // See https://github.com/testcontainers/testcontainers-java/issues/343
     try {
-      ElasticContainer<?> container = new ElasticContainer<>(version);
+      ElasticContainer container = new ElasticContainer(version);
       container.start();
       return container;
     } catch (Throwable t) {
@@ -56,16 +54,6 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
 
   private ElasticContainer(ElasticVersion version) {
     super(getImageName(version));
-  }
-
-  @Override
-  protected void configure() {
-    addExposedPort(ELASTICSEARCH_DEFAULT_PORT);
-  }
-
-  @Override
-  public Set<Integer> getLivenessCheckPortNumbers() {
-    return ImmutableSet.of(getMappedPort(ELASTICSEARCH_DEFAULT_PORT));
   }
 
   public HttpHost getHttpHost() {

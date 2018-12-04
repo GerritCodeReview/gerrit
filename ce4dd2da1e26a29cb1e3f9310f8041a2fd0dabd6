@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d39e6338_9b009dea",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-04T13:36:42Z",
+      "side": 1,
+      "message": "OK, in the meantime this method was anyway removed by https://gerrit-review.googlesource.com/c/gerrit/+/205450",
+      "parentUuid": "57267b2a_9fac54a5",
+      "range": {
+        "startLine": 579,
+        "startChar": 13,
+        "endLine": 579,
+        "endChar": 23
+      },
+      "revId": "ce4dd2da1e26a29cb1e3f9310f8041a2fd0dabd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a51db3bc_2351a3cb",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 24

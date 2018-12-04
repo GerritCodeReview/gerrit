@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b9b2a8f_89f07f6f",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-04T13:32:21Z",
+      "side": 1,
+      "message": "Should this be renamed to \u0027function\u0027 now?",
+      "range": {
+        "startLine": 97,
+        "startChar": 26,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "17910c61987f9fead75fece528dc7721d4828da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -65,8 +65,6 @@ import org.eclipse.jgit.lib.Repository;
  * <p>The config file has separate sections for general, diff and edit preferences:
  *
  * <pre>
- *   [general]
- *     showSiteHeader = false
  *   [diff]
  *     hideTopMenu = true
  *   [edit]

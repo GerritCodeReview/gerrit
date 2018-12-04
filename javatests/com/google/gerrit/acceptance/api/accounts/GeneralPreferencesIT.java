@@ -73,7 +73,6 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
     // change all default values
     i.changesPerPage *= -1;
-    i.showSiteHeader ^= true;
     i.downloadCommand = DownloadCommand.REPO_DOWNLOAD;
     i.dateFormat = DateFormat.US;
     i.timeFormat = TimeFormat.HHMM_24;

@@ -1250,7 +1250,6 @@ any account.
   )]}'
   {
     "changes_per_page": 25,
-    "show_site_header": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
@@ -1305,7 +1304,6 @@ link:#preferences-input[PreferencesInput] entity.
 
   {
     "changes_per_page": 50,
-    "show_site_header": true,
     "expand_inline_diffs": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
@@ -1355,7 +1353,6 @@ link:#preferences-info[PreferencesInfo] entity.
   )]}'
   {
     "changes_per_page": 50,
-    "show_site_header": true,
     "expand_inline_diffs": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
@@ -2719,8 +2716,6 @@ The `PreferencesInfo` entity contains information about a user's preferences.
 |`changes_per_page`             ||
 The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
-|`show_site_header`             |not set if `false`|
-Whether the site header should be shown.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
 (PolyGerrit only).
@@ -2791,8 +2786,6 @@ user preferences. Fields which are not set will not be updated.
 |`changes_per_page`             |optional|
 The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
-|`show_site_header`             |optional|
-Whether the site header should be shown.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
 (PolyGerrit only).

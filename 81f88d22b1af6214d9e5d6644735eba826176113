@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "88b41a4a_aad11672",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-04T08:38:19Z",
+      "side": 1,
+      "message": "Make sense, I\u0027ll incorporate this into the commit messsage.",
+      "parentUuid": "85b231c4_90e6fdea",
+      "revId": "81f88d22b1af6214d9e5d6644735eba826176113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9cb695a_97e4b561",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
         "patchSetId": 6
@@ -156,6 +174,24 @@
       "side": 1,
       "message": "But if the event that we are waiting for is not happening, then this blocks the test for 5min?\nI would rather prefer to avoid this.",
       "parentUuid": "9440f7f2_bfd1ea3c",
+      "revId": "81f88d22b1af6214d9e5d6644735eba826176113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a60e33db_7891186a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitOverHttpServletIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-04T08:38:19Z",
+      "side": 1,
+      "message": "It will block the test for 500 msec (1/2 second) in case of failure. This is the price to pay to avoid flakyiness. The problem with integration tests is that they involve an \"almost real\" Gerrit server that is serving HTTP connections. They are asynchronous by definition because they in a different thread.\n\nDo you have any other proposals to avoid flakyiness?",
+      "parentUuid": "278acf31_1c118c15",
       "revId": "81f88d22b1af6214d9e5d6644735eba826176113",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

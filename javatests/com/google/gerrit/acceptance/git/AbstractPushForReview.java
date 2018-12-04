@@ -220,6 +220,48 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(createEmptyCommit = false)
+  public void pushInitialCommitSeriesForMasterBranch() throws Exception {
+    RevCommit c = testRepo.commit().message("Initial commit").insertChangeId().create();
+    String id = GitUtil.getChangeId(testRepo, c).get();
+    testRepo.reset(c);
+
+    RevCommit c2 = testRepo.commit().parent(c).message("Second commit").insertChangeId().create();
+    String id2 = GitUtil.getChangeId(testRepo, c2).get();
+    testRepo.reset(c2);
+
+    String r = "refs/for/master";
+    PushResult pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+
+    ChangeInfo change = gApi.changes().id(id).info();
+    assertThat(change.branch).isEqualTo("master");
+    assertThat(change.status).isEqualTo(ChangeStatus.NEW);
+
+    ChangeInfo change2 = gApi.changes().id(id2).info();
+    assertThat(change2.branch).isEqualTo("master");
+    assertThat(change2.status).isEqualTo(ChangeStatus.NEW);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      assertThat(repo.resolve("master")).isNull();
+    }
+
+    gApi.changes().id(change.id).current().review(ReviewInput.approve());
+    gApi.changes().id(change.id).current().submit();
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      assertThat(repo.resolve("master")).isEqualTo(c);
+    }
+
+    gApi.changes().id(change2.id).current().review(ReviewInput.approve());
+    gApi.changes().id(change2.id).current().submit();
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      assertThat(repo.resolve("master")).isEqualTo(c2);
+    }
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
   public void validateConnected() throws Exception {
     RevCommit c = testRepo.commit().message("Initial commit").insertChangeId().create();
     testRepo.reset(c);

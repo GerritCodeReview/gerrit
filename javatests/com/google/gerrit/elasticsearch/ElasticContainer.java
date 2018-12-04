@@ -36,14 +36,8 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
     }
   }
 
-  public static ElasticContainer<?> createAndStart() {
-    return createAndStart(ElasticVersion.V2_4);
-  }
-
   private static String getImageName(ElasticVersion version) {
     switch (version) {
-      case V2_4:
-        return "elasticsearch:2.4.6-alpine";
       case V5_6:
         return "docker.elastic.co/elasticsearch/elasticsearch:5.6.13";
       case V6_2:
@@ -54,6 +48,8 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
         return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.4.3";
       case V6_5:
         return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.5.1";
+      case V7_0:
+        return "docker.elastic.co/elasticsearch/elasticsearch-oss:7.0.0-alpha1";
     }
     throw new IllegalStateException("No tests for version: " + version.name());
   }
@@ -65,9 +61,6 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
   @Override
   protected void configure() {
     addExposedPort(ELASTICSEARCH_DEFAULT_PORT);
-
-    // https://github.com/docker-library/elasticsearch/issues/58
-    addEnv("-Ees.network.host", "0.0.0.0");
   }
 
   @Override

@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
-import com.google.gerrit.server.query.group.AbstractQueryGroupsTest;
+import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.IndexConfig;
@@ -25,7 +25,7 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-public class ElasticQueryGroupsTest extends AbstractQueryGroupsTest {
+public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
   @ConfigSuite.Default
   public static Config defaultConfig() {
     return IndexConfig.createForElasticsearch();
@@ -41,7 +41,7 @@ public class ElasticQueryGroupsTest extends AbstractQueryGroupsTest {
       return;
     }
 
-    container = ElasticContainer.createAndStart();
+    container = ElasticContainer.createAndStart(ElasticVersion.V7_0);
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
   }
 
@@ -50,10 +50,6 @@ public class ElasticQueryGroupsTest extends AbstractQueryGroupsTest {
     if (container != null) {
       container.stop();
     }
-  }
-
-  private String testName() {
-    return testName.getMethodName().toLowerCase() + "_";
   }
 
   @Override
@@ -66,7 +62,7 @@ public class ElasticQueryGroupsTest extends AbstractQueryGroupsTest {
   protected Injector createInjector() {
     Config elasticsearchConfig = new Config(config);
     InMemoryModule.setDefaults(elasticsearchConfig);
-    String indicesPrefix = testName();
+    String indicesPrefix = getSanitizedMethodName();
     ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port, indicesPrefix);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));
   }

@@ -50,7 +50,6 @@
 . link:user-dashboards.html[Dashboards]
 . link:rest-api.html[REST API]
 . link:config-gitweb.html[Gitweb Integration]
-. link:config-themes.html[Themes]
 . link:config-sso.html[Single Sign-On Systems]
 . link:config-hooks.html[Hooks]
 . link:config-mail.html[Mail Templates]

@@ -43,7 +43,6 @@ public final class SitePaths {
   public final Path mail_dir;
   public final Path hooks_dir;
   public final Path static_dir;
-  public final Path themes_dir;
   public final Path index_dir;
 
   public final Path gerrit_sh;
@@ -90,7 +89,6 @@ public final class SitePaths {
     mail_dir = etc_dir.resolve("mail");
     hooks_dir = p.resolve("hooks");
     static_dir = p.resolve("static");
-    themes_dir = p.resolve("themes");
     index_dir = p.resolve("index");
 
     gerrit_sh = bin_dir.resolve("gerrit.sh");

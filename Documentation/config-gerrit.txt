@@ -5041,8 +5041,6 @@ good idea.
 Files in this directory provide additional configuration.
 +
 Other files support site customization.
-+
-* link:config-themes.html[Themes]
 
 GERRIT
 ------

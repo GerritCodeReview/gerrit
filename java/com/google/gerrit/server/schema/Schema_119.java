@@ -118,7 +118,7 @@ public class Schema_119 extends ReviewDbSchemaVersion {
         GeneralPreferencesInfo p = new GeneralPreferencesInfo();
         Account.Id accountId = new Account.Id(rs.getInt(1));
         p.changesPerPage = (int) rs.getShort(2);
-        p.showSiteHeader = toBoolean(rs.getString(3));
+        // REMOVED: p.showSiteHeader = toBoolean(rs.getString(3));
         // REMOVED: p.useFlashClipboard = toBoolean(rs.getString(4));
         p.downloadScheme = convertToModernNames(rs.getString(5));
         p.downloadCommand = toDownloadCommand(rs.getString(6));

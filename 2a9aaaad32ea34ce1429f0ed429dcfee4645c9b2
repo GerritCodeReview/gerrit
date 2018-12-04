@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d7253f4_d99d20dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-04T10:41:47Z",
+      "side": 1,
+      "message": "Add a link to the issue:\n\n Bug: Issue 10106",
+      "revId": "2a9aaaad32ea34ce1429f0ed429dcfee4645c9b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

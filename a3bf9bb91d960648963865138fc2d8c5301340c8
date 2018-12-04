@@ -16,6 +16,24 @@
       "revId": "a3bf9bb91d960648963865138fc2d8c5301340c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afd1cc0b_926b24af",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ThemeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-04T14:08:34Z",
+      "side": 0,
+      "message": "I don\u0027t think it\u0027s likely that any client other than GWT uses this, but done.",
+      "parentUuid": "1525dc5a_1cef6ebd",
+      "revId": "a3bf9bb91d960648963865138fc2d8c5301340c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

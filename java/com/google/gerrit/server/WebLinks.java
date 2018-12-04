@@ -19,7 +19,6 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -44,17 +43,6 @@ public class WebLinks {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final Predicate<WebLinkInfo> INVALID_WEBLINK =
-      link -> {
-        if (link == null) {
-          return false;
-        } else if (Strings.isNullOrEmpty(link.name) || Strings.isNullOrEmpty(link.url)) {
-          logger.atWarning().log("%s is missing name and/or url", link.getClass().getName());
-          return false;
-        }
-        return true;
-      };
-
-  private static final Predicate<WebLinkInfoCommon> INVALID_WEBLINK_COMMON =
       link -> {
         if (link == null) {
           return false;
@@ -130,25 +118,13 @@ public class WebLinks {
    * @param file File name.
    * @return Links for file history
    */
-  public List<WebLinkInfoCommon> getFileHistoryLinks(String project, String revision, String file) {
+  public List<WebLinkInfo> getFileHistoryLinks(String project, String revision, String file) {
     if (Patch.isMagic(file)) {
       return Collections.emptyList();
     }
     return FluentIterable.from(fileHistoryLinks)
-        .transform(
-            webLink -> {
-              WebLinkInfo info = webLink.getFileHistoryWebLink(project, revision, file);
-              if (info == null) {
-                return null;
-              }
-              WebLinkInfoCommon commonInfo = new WebLinkInfoCommon();
-              commonInfo.name = info.name;
-              commonInfo.imageUrl = info.imageUrl;
-              commonInfo.url = info.url;
-              commonInfo.target = info.target;
-              return commonInfo;
-            })
-        .filter(INVALID_WEBLINK_COMMON)
+        .transform(webLink -> webLink.getFileHistoryWebLink(project, revision, file))
+        .filter(INVALID_WEBLINK)
         .toList();
   }
 

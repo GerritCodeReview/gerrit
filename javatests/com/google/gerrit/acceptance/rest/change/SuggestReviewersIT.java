@@ -35,9 +35,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -545,15 +543,12 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     return groupOperations.newGroup().members(members).create();
   }
 
-  private TestAccount user(String name, String fullName, String emailName, InternalGroup... groups)
-      throws Exception {
-    String[] groupNames = Arrays.stream(groups).map(InternalGroup::getName).toArray(String[]::new);
-    return accountCreator.create(
-        name(name), name(emailName) + "@example.com", fullName, groupNames);
+  private TestAccount user(String name, String fullName, String emailName) throws Exception {
+    return accountCreator.create(name(name), name(emailName) + "@example.com", fullName);
   }
 
-  private TestAccount user(String name, String fullName, InternalGroup... groups) throws Exception {
-    return user(name, fullName, name, groups);
+  private TestAccount user(String name, String fullName) throws Exception {
+    return user(name, fullName, name);
   }
 
   private void reviewChange(String changeId) throws RestApiException {

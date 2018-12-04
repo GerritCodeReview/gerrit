@@ -2987,7 +2987,7 @@ WARNING: Support for Elasticsearch is still experimental and is not recommended
 for production use. For compatibility information, please refer to the
 link:https://www.gerritcodereview.com/elasticsearch.html[project homepage].
 
-When using Elasticsearch versions 2.4 and 5.6, the open and closed changes are
+When using Elasticsearch version 5.6, the open and closed changes are
 indexed in a single index, separated into types `open_changes` and `closed_changes`
 respectively. When using version 6.2 or later, the open and closed changes are
 merged into the default `_doc` type. The latter is also used for the accounts and
@@ -3024,6 +3024,22 @@ The value is in the usual time-unit format like `1 m`, `5 m`.
 +
 Defaults to `30000 ms`.
 
+[[elasticsearch.numberOfShards]]elasticsearch.numberOfShards::
++
+Sets the number of shards to use per index. Refer to the
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#getting-started-shards-and-replicas[
+Elasticsearch documentation] for details.
++
+Defaults to 5.
+
+[[elasticsearch.numberOfReplicas]]elasticsearch.numberOfReplicas::
++
+Sets the number of replicas to use per index. Refer to the
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#getting-started-shards-and-replicas[
+Elasticsearch documentation] for details.
++
+Defaults to 1.
+
 ==== Elasticsearch Security
 
 When security is enabled in Elasticsearch, the username and password must be provided.
@@ -3031,11 +3047,11 @@ Note that the same username and password are used for all servers.
 
 For further information about Elasticsearch security, please refer to the documentation:
 
-* link:https://www.elastic.co/guide/en/elasticsearch/plugins/2.4/security.html[Elasticsearch 2.4]
 * link:https://www.elastic.co/guide/en/x-pack/5.6/security-getting-started.html[Elasticsearch 5.6]
 * link:https://www.elastic.co/guide/en/x-pack/6.2/security-getting-started.html[Elasticsearch 6.2]
 * link:https://www.elastic.co/guide/en/elastic-stack-overview/6.3/security-getting-started.html[Elasticsearch 6.3]
 * link:https://www.elastic.co/guide/en/elastic-stack-overview/6.4/security-getting-started.html[Elasticsearch 6.4]
+* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.5/security-getting-started.html[Elasticsearch 6.5]
 
 [[elasticsearch.username]]elasticsearch.username::
 +

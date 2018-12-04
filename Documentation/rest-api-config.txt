@@ -1054,7 +1054,6 @@ PreferencesInfo] is returned.
   )]}'
   {
     "changes_per_page": 25,
-    "show_site_header": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
@@ -1132,7 +1131,6 @@ PreferencesInfo] is returned.
   )]}'
   {
     "changes_per_page": 50,
-    "show_site_header": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",

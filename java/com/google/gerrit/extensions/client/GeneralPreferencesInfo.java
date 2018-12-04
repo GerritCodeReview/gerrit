@@ -131,8 +131,6 @@ public class GeneralPreferencesInfo {
 
   /** Number of changes to show in a screen. */
   public Integer changesPerPage;
-  /** Should the site header be displayed when logged in ? */
-  public Boolean showSiteHeader;
   /** Type of download URL the user prefers to use. */
   public String downloadScheme;
   /** Type of download command the user prefers to use. */
@@ -207,7 +205,6 @@ public class GeneralPreferencesInfo {
   public static GeneralPreferencesInfo defaults() {
     GeneralPreferencesInfo p = new GeneralPreferencesInfo();
     p.changesPerPage = DEFAULT_PAGESIZE;
-    p.showSiteHeader = true;
     p.emailStrategy = EmailStrategy.ENABLED;
     p.emailFormat = EmailFormat.HTML_PLAINTEXT;
     p.reviewCategoryStrategy = ReviewCategoryStrategy.NONE;

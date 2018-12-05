@@ -139,17 +139,13 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void requestTokenPluginThrowsResultsInError() throws Exception {
+  public void requestTokenPluginThrowsAndRethrows() {
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
     expect(quotaEnforcer.requestTokens("testGroup", ctx, 1)).andThrow(new NullPointerException());
     replay(quotaEnforcer);
 
-    QuotaResponse.Aggregated result = quotaBackend.user(identifiedAdmin).requestToken("testGroup");
-    assertThat(result)
-        .isEqualTo(singletonAggregation(QuotaResponse.error("failed to request quota tokens")));
-    exception.expect(QuotaException.class);
-    exception.expectMessage("failed to request quota tokens");
-    result.throwOnError();
+    exception.expect(NullPointerException.class);
+    quotaBackend.user(identifiedAdmin).requestToken("testGroup");
   }
 
   private static QuotaResponse.Aggregated singletonAggregation(QuotaResponse response) {

@@ -19,6 +19,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.resetToStrict;
+import static org.easymock.EasyMock.verify;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -87,20 +88,24 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
 
   @Test
   public void refillsOnException() {
+    NullPointerException exception = new NullPointerException();
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
-    expect(quotaEnforcerA.requestTokens("testGroup", ctx, 1)).andReturn(QuotaResponse.ok());
-    expect(quotaEnforcerB.requestTokens("testGroup", ctx, 1)).andThrow(new NullPointerException());
-    quotaEnforcerA.refill("testGroup", ctx, 1);
+    expect(quotaEnforcerA.requestTokens("testGroup", ctx, 1)).andThrow(exception);
+    expect(quotaEnforcerB.requestTokens("testGroup", ctx, 1)).andReturn(QuotaResponse.ok());
+    quotaEnforcerB.refill("testGroup", ctx, 1);
     expectLastCall();
 
     replay(quotaEnforcerA);
     replay(quotaEnforcerB);
 
-    assertThat(quotaBackend.user(identifiedAdmin).requestToken("testGroup"))
-        .isEqualTo(
-            QuotaResponse.Aggregated.create(
-                ImmutableList.of(
-                    QuotaResponse.ok(), QuotaResponse.error("failed to request quota tokens"))));
+    try {
+      quotaBackend.user(identifiedAdmin).requestToken("testGroup");
+      fail("expected a NullPointerException");
+    } catch (NullPointerException e) {
+      assertThat(exception).isEqualTo(e);
+    }
+
+    verify(quotaEnforcerA);
   }
 
   @Test

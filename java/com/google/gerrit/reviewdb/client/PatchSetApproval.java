@@ -201,9 +201,12 @@ public final class PatchSetApproval {
             .append(": ")
             .append(value)
             .append(",tag:")
-            .append(tag)
-            .append(",realAccountId:")
-            .append(realAccountId);
+            .append(tag);
+    if(realAccountId != null) {
+      sb.append(",realAccountId:")
+          .append(realAccountId);
+    }
+
     if (postSubmit) {
       sb.append(",postSubmit");
     }

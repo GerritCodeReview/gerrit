@@ -1464,14 +1464,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushSameCommitTwice() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .getProject()
-          .setBooleanConfig(
-              BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
-              InheritableBoolean.TRUE);
-      u.save();
-    }
+    enableCreateNewChangeForAllNotInTarget();
 
     PushOneCommit push =
         pushFactory.create(
@@ -1493,14 +1486,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushSameCommitTwiceWhenIndexFailed() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .getProject()
-          .setBooleanConfig(
-              BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
-              InheritableBoolean.TRUE);
-      u.save();
-    }
+    enableCreateNewChangeForAllNotInTarget();
 
     PushOneCommit push =
         pushFactory.create(
@@ -2354,6 +2340,113 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertPushRejected(pr, ref, "NoteDb update requires -o notedb=allow");
     assertPushOk(pr, "refs/heads/permitted");
+  }
+
+  @Test
+  public void pushCommitsWithSameTreeNoChanges() throws Exception {
+    RevCommit c =
+        testRepo
+            .commit()
+            .message("Foo")
+            .parent(getHead(testRepo.getRepository()))
+            .insertChangeId()
+            .create();
+    testRepo.reset(c);
+
+    String r = "refs/for/master";
+    PushResult pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+
+    RevCommit amended = testRepo.amend(c).create();
+    testRepo.reset(amended);
+
+    pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+    assertThat(pr.getMessages())
+        .contains(
+            "warning: no changes between prior commit "
+                + c.abbreviate(7).name()
+                + " and new commit "
+                + amended.abbreviate(7).name());
+  }
+
+  @Test
+  public void pushCommitsWithSameTreeNoFilesChangedMessageUpdated() throws Exception {
+    RevCommit c =
+        testRepo
+            .commit()
+            .message("Foo")
+            .parent(getHead(testRepo.getRepository()))
+            .insertChangeId()
+            .create();
+    String id = GitUtil.getChangeId(testRepo, c).get();
+    testRepo.reset(c);
+
+    String r = "refs/for/master";
+    PushResult pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+
+    RevCommit amended =
+        testRepo.amend(c).message("Foo Bar").insertChangeId(id.substring(1)).create();
+    testRepo.reset(amended);
+
+    pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+    assertThat(pr.getMessages())
+        .contains(
+            "warning: " + amended.abbreviate(7).name() + ": no files changed, message updated");
+  }
+
+  @Test
+  public void pushCommitsWithSameTreeNoFilesChangedAuthorChanged() throws Exception {
+    RevCommit c =
+        testRepo
+            .commit()
+            .message("Foo")
+            .parent(getHead(testRepo.getRepository()))
+            .insertChangeId()
+            .create();
+    testRepo.reset(c);
+
+    String r = "refs/for/master";
+    PushResult pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+
+    RevCommit amended = testRepo.amend(c).author(user.getIdent()).create();
+    testRepo.reset(amended);
+
+    pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+    assertThat(pr.getMessages())
+        .contains(
+            "warning: " + amended.abbreviate(7).name() + ": no files changed, author changed");
+  }
+
+  @Test
+  public void pushCommitsWithSameTreeNoFilesChangedWasRebased() throws Exception {
+    RevCommit head = getHead(testRepo.getRepository());
+    RevCommit c = testRepo.commit().message("Foo").parent(head).insertChangeId().create();
+    testRepo.reset(c);
+
+    String r = "refs/for/master";
+    PushResult pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+
+    testRepo.reset(head);
+    RevCommit newBase = testRepo.commit().message("Base").parent(head).insertChangeId().create();
+    testRepo.reset(newBase);
+
+    pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+
+    testRepo.reset(c);
+    RevCommit amended = testRepo.amend(c).parent(newBase).create();
+    testRepo.reset(amended);
+
+    pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+    assertThat(pr.getMessages())
+        .contains("warning: " + amended.abbreviate(7).name() + ": no files changed, was rebased");
   }
 
   private DraftInput newDraft(String path, int line, String message) {

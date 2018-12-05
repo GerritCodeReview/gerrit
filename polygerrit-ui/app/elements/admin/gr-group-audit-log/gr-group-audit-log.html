@@ -25,7 +25,11 @@ limitations under the License.
 
 <dom-module id="gr-group-audit-log">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      .lastColumn {
+        display: none;
+      }
+    </style>
     <style include="gr-table-styles"></style>
     <table id="list" class="genericList">
       <tr class="headerRow">
@@ -33,6 +37,7 @@ limitations under the License.
         <th class="type topHeader">Type</th>
         <th class="member topHeader">Member</th>
         <th class="by-user topHeader">By User</th>
+        <th class="lastColumn topHeader"></th>
       </tr>
       <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
         <td>Loading...</td>
@@ -62,6 +67,7 @@ limitations under the License.
             <gr-account-link account="[[item.user]]"></gr-account-link>
             [[_getIdForUser(item.user)]]
           </td>
+          <td class="lastColumn"></td>
         </tr>
       </template>
     </table>

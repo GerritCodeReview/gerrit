@@ -70,6 +70,30 @@
       "revId": "008a2580bd6e2410bdffa838489a3df8a729e39c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c81f3bbf_09741367",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-05T19:01:57Z",
+      "side": 1,
+      "message": "Alas, this was not a no-op and actually broke compilation on 2.5.\n\nThe return type of getParameterMap changed from bare Map to Map\u003cString, String[]\u003e. That means on 2.5, the type of \"v\" in the lambda is Object, which can\u0027t be iterated over in a foreach loop.\n\nSo to make this work while inlined, you would need to do ((Map\u003cString, String[]\u003e) request).getParameterMap(). I think *that* might result in a cast warning which needs to be suppressed.\n\nEither way I will take care of this, and double-check the warning suppression in Eclipse.",
+      "parentUuid": "0eddc7d6_ac150719",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 215,
+        "endChar": 0
+      },
+      "revId": "008a2580bd6e2410bdffa838489a3df8a729e39c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

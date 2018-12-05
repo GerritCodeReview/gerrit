@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18316af8_5317a3fd",
+        "filename": "proto/reviewdb.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-05T16:57:49Z",
+      "side": 1,
+      "message": "Is this correct or should this rather be 24?",
+      "range": {
+        "startLine": 113,
+        "startChar": 12,
+        "endLine": 113,
+        "endChar": 15
+      },
+      "revId": "ad183e10e03a19c2908356c77920c1cc6f7a1790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf037e14_75ca1fb6",
+        "filename": "proto/reviewdb.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-05T16:57:49Z",
+      "side": 1,
+      "message": "Any ideas what to write here?",
+      "range": {
+        "startLine": 198,
+        "startChar": 22,
+        "endLine": 198,
+        "endChar": 23
+      },
+      "revId": "ad183e10e03a19c2908356c77920c1cc6f7a1790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5d62605_8d7e6dd7",
+        "filename": "proto/reviewdb.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-05T16:57:49Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 209,
+        "startChar": 22,
+        "endLine": 209,
+        "endChar": 23
+      },
+      "revId": "ad183e10e03a19c2908356c77920c1cc6f7a1790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

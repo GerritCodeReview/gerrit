@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1543918493 +0100\nnonce AGLkUnCxvUu2CDRsagYbpqRGEh+uo2Cu8J7yiUSQVPfJ0EGjv0tM60kIrDvoVm5JSS6Yx71+Hxfv\n\n0000000000000000000000000000000000000000 d53bee9479f379fff6b3b25025b3bcf2ee2c6cf8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlwGU50ACgkQUbX9l6DQ\n71GWlwgAmV2w56znwA0aQQjV0M+XRYt//gEYjSYU093vJpI3OIaSaSmorONyW6Gi\nC1LlZhce+Mias6pS51VaVKiuVC11JaqIXPv+gMKPNQLWagBNDBCz8qtLmKWBoOEv\nqj6DpeFm8eoQSKssz2SwI1OM5LB9Pa6P6vi0h/vdpGec7YP9XXXyEcIK1qaKmiIS\n3uSUbthvSOUh2QhgtEZ3wuQB3zQORWoCX7bgZTwA8+ZRmh37LlR9W4ZO97bxGiZE\n5iNHs2ygoI3F94NFkQHNYCfmbYcCLmSP8ZO0Qy6SFu4368+t1OR2jhEgwo4sU5/t\njpEvNBVUmqc+o1UcAfHTTmlsRbJMOg\u003d\u003d\n\u003dKFKU\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c321f66_e2f46ffb",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-05T16:51:59Z",
+      "side": 1,
+      "message": "I don\u0027t think toMap is buying us anything here:\n\n* It scrambles the order.\n* ReceiveCommand doesn\u0027t implement #equals\n* We\u0027re already munging the command to produce a value for the string; why not just map each ReceiveCommand to a single string instead of a key/value?\n\nI think this would be overall easier to read, both code and log output, if you write a static method relatively equivalent to what BatchRefUpdate#toString does, then just commands.stream().map(c -\u003e commandToString(c)).collect(joining(\", \")) or whatever.",
+      "range": {
+        "startLine": 624,
+        "startChar": 26,
+        "endLine": 624,
+        "endChar": 31
+      },
+      "revId": "d53bee9479f379fff6b3b25025b3bcf2ee2c6cf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

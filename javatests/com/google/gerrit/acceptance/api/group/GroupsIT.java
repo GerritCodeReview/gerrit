@@ -91,11 +91,11 @@ import java.lang.annotation.Target;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -997,8 +997,7 @@ public class GroupsIT extends AbstractDaemonTest {
     TestAccount groupOwner = accountCreator.user2();
     GroupInput in = new GroupInput();
     in.name = name("group");
-    in.members =
-        Collections.singleton(groupOwner).stream().map(u -> u.id.toString()).collect(toList());
+    in.members = Stream.of(groupOwner).map(u -> u.id.toString()).collect(toList());
     in.visibleToAll = true;
     GroupInfo group = gApi.groups().create(in).get();
 
@@ -1491,7 +1490,7 @@ public class GroupsIT extends AbstractDaemonTest {
   private void assertMembers(String group, TestAccount... expectedMembers) throws Exception {
     assertMembers(
         gApi.groups().id(group).members(),
-        TestAccount.names(expectedMembers).stream().toArray(String[]::new));
+        TestAccount.names(expectedMembers).toArray(new String[0]));
     assertAccountInfos(Arrays.asList(expectedMembers), gApi.groups().id(group).members());
   }
 

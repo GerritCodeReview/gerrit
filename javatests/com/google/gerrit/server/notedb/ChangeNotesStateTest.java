@@ -58,6 +58,7 @@ import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -589,12 +590,12 @@ public class ChangeNotesStateTest {
                 ImmutableList.of(
                     ReviewerStatusUpdate.create(
                         new Timestamp(1212L),
-                        new Account.Id(1000),
+                        Optional.of(new Account.Id(1000)),
                         new Account.Id(2002),
                         ReviewerStateInternal.CC),
                     ReviewerStatusUpdate.create(
                         new Timestamp(3434L),
-                        new Account.Id(1000),
+                        Optional.of(new Account.Id(1000)),
                         new Account.Id(2001),
                         ReviewerStateInternal.REVIEWER)))
             .build(),

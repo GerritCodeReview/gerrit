@@ -68,6 +68,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -190,6 +191,7 @@ public abstract class ChangeNotesState {
 
     abstract Timestamp lastUpdatedOn();
 
+    @Nullable
     abstract Account.Id owner();
 
     // Project not included, as it's not stored anywhere in the meta ref.
@@ -276,31 +278,31 @@ public abstract class ChangeNotesState {
   abstract ChangeColumns columns();
 
   // Other related to this Change.
-  abstract ImmutableSet<Account.Id> pastAssignees();
+  public abstract ImmutableSet<Account.Id> pastAssignees();
 
-  abstract ImmutableSet<String> hashtags();
+  public abstract ImmutableSet<String> hashtags();
 
-  abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSet>> patchSets();
+  public abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSet>> patchSets();
 
-  abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSetApproval>> approvals();
+  public abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSetApproval>> approvals();
 
-  abstract ReviewerSet reviewers();
+  public abstract ReviewerSet reviewers();
 
   abstract ReviewerByEmailSet reviewersByEmail();
 
-  abstract ReviewerSet pendingReviewers();
+  public abstract ReviewerSet pendingReviewers();
 
   abstract ReviewerByEmailSet pendingReviewersByEmail();
 
-  abstract ImmutableList<Account.Id> allPastReviewers();
+  public abstract ImmutableList<Account.Id> allPastReviewers();
 
-  abstract ImmutableList<ReviewerStatusUpdate> reviewerUpdates();
+  public abstract ImmutableList<ReviewerStatusUpdate> reviewerUpdates();
 
   abstract ImmutableList<SubmitRecord> submitRecords();
 
-  abstract ImmutableList<ChangeMessage> changeMessages();
+  public abstract ImmutableList<ChangeMessage> changeMessages();
 
-  abstract ImmutableListMultimap<RevId, Comment> publishedComments();
+  public abstract ImmutableListMultimap<RevId, Comment> publishedComments();
 
   @Nullable
   abstract Timestamp readOnlyUntil();
@@ -674,7 +676,7 @@ public abstract class ChangeNotesState {
         b.add(
             ReviewerStatusUpdate.create(
                 new Timestamp(proto.getDate()),
-                new Account.Id(proto.getUpdatedBy()),
+                Optional.of(new Account.Id(proto.getUpdatedBy())),
                 new Account.Id(proto.getReviewer()),
                 REVIEWER_STATE_CONVERTER.convert(proto.getState())));
       }

@@ -15,20 +15,26 @@
 package com.google.gerrit.server;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 /** Change to a reviewer's status. */
 @AutoValue
 public abstract class ReviewerStatusUpdate {
   public static ReviewerStatusUpdate create(
-      Timestamp ts, Account.Id updatedBy, Account.Id reviewer, ReviewerStateInternal state) {
-    return new AutoValue_ReviewerStatusUpdate(ts, updatedBy, reviewer, state);
+      Timestamp ts,
+      Optional<Account.Id> updatedBy,
+      Account.Id reviewer,
+      ReviewerStateInternal state) {
+    return new AutoValue_ReviewerStatusUpdate(ts, updatedBy.orElse(null), reviewer, state);
   }
 
   public abstract Timestamp date();
 
+  @Nullable
   public abstract Account.Id updatedBy();
 
   public abstract Account.Id reviewer();

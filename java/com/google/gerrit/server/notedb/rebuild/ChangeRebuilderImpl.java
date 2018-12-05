@@ -565,7 +565,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         authorId =
             changeNoteUtil
                 .getLegacyChangeNoteRead()
-                .parseIdent(commit.getAuthorIdent(), change.getId());
+                .parseIdent(commit.getAuthorIdent(), change.getId(), false);
       } catch (ConfigInvalidException e) {
         continue; // Corrupt data, no valid hashtags in this commit.
       }

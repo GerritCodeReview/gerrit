@@ -23,6 +23,30 @@
       "revId": "b7eca6952f09d5472588c504bc7a42a4c90e8466",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5967fb86_1d3eb2d0",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-05T20:15:38Z",
+      "side": 1,
+      "message": "Hmm, I\u0027ve never thought about it. Maybe we could do something with Bazel Platforms to swap out the servlet API dependency, and then come up with a list of targets that we expect to compile.\n\nTBH though this comes up like once a year so it\u0027s not high on my list of things to fix. And believe it or not we\u0027re not *that* far at Google from being able to upgrade.",
+      "parentUuid": "851164c9_3c2e932c",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 100
+      },
+      "revId": "b7eca6952f09d5472588c504bc7a42a4c90e8466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -216,6 +216,7 @@ legacy_submit_rule('MaxNoBlock', Label, Min, Max, T) :- !, max_no_block(Label, M
 legacy_submit_rule('NoBlock', Label, Min, Max, T) :- !, T = may(_).
 legacy_submit_rule('NoOp', Label, Min, Max, T) :- !, T = may(_).
 legacy_submit_rule('PatchSetLock', Label, Min, Max, T) :- !, T = may(_).
+legacy_submit_rule('LabelLock', Label, Min, Max, T) :- !, T = may(_).
 legacy_submit_rule(Fun, Label, Min, Max, T) :- T = impossible(unsupported(Fun)).
 
 %% max_with_block:

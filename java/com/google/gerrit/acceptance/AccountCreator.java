@@ -142,6 +142,10 @@ public class AccountCreator {
     return create("user2", "user2@example.com", "User2");
   }
 
+  public TestAccount user3() throws Exception {
+    return create("user3", "user3@example.com", "User3");
+  }
+
   public TestAccount get(String username) {
     return requireNonNull(
         accounts.get(username), () -> String.format("No TestAccount created for %s ", username));

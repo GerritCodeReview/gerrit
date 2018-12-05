@@ -15,18 +15,24 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.util.stream.Collectors.toList;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -35,9 +41,11 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -48,12 +56,16 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.mail.Address;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ReviewerAdder;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
@@ -376,6 +388,186 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     }
     assertThat(approvals).containsEntry(admin.id().get(), 0);
     assertThat(approvals).containsEntry(user.id().get(), 0);
+  }
+
+  private void setupLabelLock(AccountGroup.UUID group) throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType labelLock = TestLabels.labelLock();
+      u.getConfig().getLabelSections().put(labelLock.getName(), labelLock);
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Label-Lock").ref("refs/heads/*").group(group).range(0, 1))
+        .update();
+  }
+
+  private PushOneCommit.Result createTestChangeAsUser(TestAccount owner) throws Exception {
+    PushOneCommit push = pushFactory.create(owner.newIdent(), testRepo);
+    return push.to("refs/for/master");
+  }
+
+  private AccountGroup.UUID createGroupWithLabelLockPerms(String groupName) throws Exception {
+    AccountGroup.UUID accountGroup = groupOperations.newGroup().name(groupName).create();
+    setupLabelLock(accountGroup);
+    return accountGroup;
+  }
+
+  private void addMembersToGroup(AccountGroup.UUID accountGroup, TestAccount user)
+      throws RestApiException {
+    String group = groupOperations.group(accountGroup).get().name();
+    gApi.groups().id(group).addMembers(user.username());
+  }
+
+  private void labelLockChangeAsUser(PushOneCommit.Result r, TestAccount user) throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput reviewInput = new ReviewInput().reviewer(user.email()).label("Label-Lock", 1);
+    ReviewResult labelLockResult =
+        gApi.changes().id(r.getChangeId()).revision("current").review(reviewInput);
+    assertThat(Iterables.getOnlyElement(labelLockResult.labels.keySet())).isEqualTo("Label-Lock");
+    assertThat(Iterables.getOnlyElement(labelLockResult.labels.values())).isEqualTo(1);
+    assertThat(Iterables.getOnlyElement(labelLockResult.reviewers.keySet()))
+        .isEqualTo(user.email());
+  }
+
+  private PushOneCommit.Result createLabelLockedChange(TestAccount botUser) throws Exception {
+    PushOneCommit.Result change = createTestChangeAsUser(user);
+    AccountGroup.UUID botGroup = createGroupWithLabelLockPerms("Bots");
+    addMembersToGroup(botGroup, botUser);
+    labelLockChangeAsUser(change, botUser);
+    return change;
+  }
+
+  @Test
+  public void reviewerVoteOnLabelLockedChanges() throws Exception {
+    TestAccount botUser = accountCreator.user3();
+    PushOneCommit.Result change = createLabelLockedChange(botUser);
+
+    requestScopeOperations.setApiUser(user.id());
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.changes()
+                    .id(change.getChangeId())
+                    .revision("current")
+                    .review(new ReviewInput().reviewer(user.email()).label("Code-Review", 1)));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Applying label \"Code-Review\": 1 is restricted since change is label locked");
+  }
+
+  @Test
+  public void reviewerCommentOnLabelLockedChanges() throws Exception {
+    TestAccount botUser = accountCreator.user3();
+    PushOneCommit.Result change = createLabelLockedChange(botUser);
+
+    TestAccount reviewer = accountCreator.user();
+    requestScopeOperations.setApiUser(reviewer.id());
+    ReviewInput.CommentInput c = new ReviewInput.CommentInput();
+    c.line = 1;
+    c.message = "comment after label lock";
+    c.path = FILE_NAME;
+    ReviewInput in = new ReviewInput();
+    in.comments = new HashMap<>();
+    in.comments.put(c.path, Lists.newArrayList(c));
+    gApi.changes().id(change.getChangeId()).revision(change.getCommit().name()).review(in);
+    Collection<CommentInfo> comments =
+        gApi.changes().id(change.getChangeId()).comments().values().stream()
+            .flatMap(Collection::stream)
+            .collect(toList());
+    assertThat(comments.stream().map(x -> x.message)).containsExactly("comment after label lock");
+  }
+
+  @Test
+  public void adminUserRemoveLabelLock() throws Exception {
+    TestAccount botUser = accountCreator.user3();
+    PushOneCommit.Result change = createLabelLockedChange(botUser);
+
+    requestScopeOperations.setApiUser(admin.id());
+    DeleteReviewerInput input = new DeleteReviewerInput();
+    gApi.changes().id(change.getChangeId()).reviewer(botUser.id().toString()).remove(input);
+    Collection<AccountInfo> reviewers =
+        gApi.changes().id(change.getChangeId()).get().reviewers.get(REVIEWER);
+    assertThat(reviewers).hasSize(1);
+  }
+
+  @Test
+  public void regularUserRemoveLabelLock() throws Exception {
+    TestAccount botUser = accountCreator.user3();
+    PushOneCommit.Result change = createLabelLockedChange(botUser);
+
+    TestAccount regularUser = accountCreator.user();
+    requestScopeOperations.setApiUser(regularUser.id());
+    DeleteReviewerInput input = new DeleteReviewerInput();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.changes()
+                    .id(change.getChangeId())
+                    .reviewer(botUser.id().toString())
+                    .remove(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("not allowed to remove reviewer since label lock is set");
+  }
+
+  @Test
+  public void resetOfLockedLabel() throws Exception {
+    TestAccount botUser = accountCreator.user3();
+    PushOneCommit.Result change = createLabelLockedChange(botUser);
+
+    requestScopeOperations.setApiUser(botUser.id());
+    ReviewResult resultLabelUnlock =
+        gApi.changes()
+            .id(change.getChangeId())
+            .revision("current")
+            .review(new ReviewInput().reviewer(botUser.email()).label("Label-Lock", 0));
+    assertThat(Iterables.getOnlyElement(resultLabelUnlock.labels.keySet())).isEqualTo("Label-Lock");
+    assertThat(Iterables.getOnlyElement(resultLabelUnlock.reviewers.keySet()))
+        .isEqualTo(botUser.email());
+  }
+
+  @Test
+  public void resetOfLockedLabelsFromMultipleUsers() throws Exception {
+    TestAccount labelLockUser1 = accountCreator.user2();
+    TestAccount labelLockUser2 = accountCreator.user3();
+    TestAccount uploader = accountCreator.user();
+    AccountGroup.UUID botGroup = createGroupWithLabelLockPerms("Bots");
+    addMembersToGroup(botGroup, labelLockUser1);
+    addMembersToGroup(botGroup, labelLockUser2);
+    PushOneCommit.Result change = createTestChangeAsUser(uploader);
+
+    labelLockChangeAsUser(change, labelLockUser1);
+    labelLockChangeAsUser(change, labelLockUser2);
+
+    // Check if labelLockUser1 can unlock its label lock while
+    // another label lock is set by labelLockUser2
+    requestScopeOperations.setApiUser(labelLockUser1.id());
+    ReviewResult resultLabelUnlock1 =
+        gApi.changes()
+            .id(change.getChangeId())
+            .revision("current")
+            .review(new ReviewInput().reviewer(labelLockUser1.email()).label("Label-Lock", 0));
+    assertThat(Iterables.getOnlyElement(resultLabelUnlock1.labels.keySet()))
+        .isEqualTo("Label-Lock");
+    assertThat(Iterables.getOnlyElement(resultLabelUnlock1.reviewers.keySet()))
+        .isEqualTo(labelLockUser1.email());
+    assertThat(Iterables.getOnlyElement(resultLabelUnlock1.labels.values())).isEqualTo(0);
+
+    requestScopeOperations.setApiUser(labelLockUser2.id());
+    ReviewResult resultLabelUnlock2 =
+        gApi.changes()
+            .id(change.getChangeId())
+            .revision("current")
+            .review(new ReviewInput().reviewer(labelLockUser2.email()).label("Label-Lock", 0));
+    assertThat(Iterables.getOnlyElement(resultLabelUnlock2.labels.keySet()))
+        .isEqualTo("Label-Lock");
+    assertThat(Iterables.getOnlyElement(resultLabelUnlock2.reviewers.keySet()))
+        .isEqualTo(labelLockUser2.email());
+    assertThat(Iterables.getOnlyElement(resultLabelUnlock2.labels.values())).isEqualTo(0);
   }
 
   @Test

@@ -47,6 +47,30 @@
       "revId": "b7eca6952f09d5472588c504bc7a42a4c90e8466",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "462be900_0246b847",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-05T20:29:08Z",
+      "side": 1,
+      "message": "Oh yes, it would be nice if Google could upgrade their specs, then we will have less of these problems.",
+      "parentUuid": "5967fb86_1d3eb2d0",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 100
+      },
+      "revId": "b7eca6952f09d5472588c504bc7a42a4c90e8466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -578,6 +578,27 @@ public class ChangeNotesParser {
     }
   }
 
+  public static List<String> getHashtags(ChangeNotesCommit commit) throws ConfigInvalidException {
+    // Commits are parsed in reverse order and only the last set of hashtags
+    // should be used.
+
+    List<String> hashtagsLines = commit.getFooterLineValues(FOOTER_HASHTAGS);
+    if (hashtagsLines.isEmpty()) {
+      return Collections.emptyList();
+    } else if (hashtagsLines.size() > 1) {
+      logger.atSevere().log(
+          "Expected one footer for %s", hashtagsLines);
+      return Collections.emptyList();
+    } else if (hashtagsLines.get(0).isEmpty()) {
+      return Collections.emptyList();
+    } else {
+      List<String> target = new ArrayList<>();
+      Iterable<String> iterable = Splitter.on(',').split(hashtagsLines.get(0));
+      iterable.forEach(target::add);
+      return target;
+    }
+  }
+
   private void parseAssignee(ChangeNotesCommit commit) throws ConfigInvalidException {
     if (pastAssignees == null) {
       pastAssignees = Lists.newArrayList();

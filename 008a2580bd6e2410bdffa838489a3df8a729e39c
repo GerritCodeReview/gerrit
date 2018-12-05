@@ -46,6 +46,30 @@
       "revId": "008a2580bd6e2410bdffa838489a3df8a729e39c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eddc7d6_ac150719",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-05T16:34:14Z",
+      "side": 1,
+      "message": "Worked, good catch.",
+      "parentUuid": "d1a935d7_57435c59",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 215,
+        "endChar": 0
+      },
+      "revId": "008a2580bd6e2410bdffa838489a3df8a729e39c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

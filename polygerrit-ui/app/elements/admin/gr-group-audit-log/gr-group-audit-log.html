@@ -26,7 +26,13 @@ limitations under the License.
 <dom-module id="gr-group-audit-log">
   <template>
     <style include="shared-styles"></style>
-    <style include="gr-table-styles"></style>
+    <style include="gr-table-styles">
+      .genericList tr th:last-of-type,
+      .genericList tr td:last-of-type {
+        border-left: 0px;
+        text-align: left;
+      }
+    </style>
     <table id="list" class="genericList">
       <tr class="headerRow">
         <th class="date topHeader">Date</th>

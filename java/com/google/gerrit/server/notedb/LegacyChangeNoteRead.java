@@ -49,16 +49,18 @@ public class LegacyChangeNoteRead {
     this.serverId = serverId;
   }
 
-  public Account.Id parseIdent(PersonIdent ident, Change.Id changeId)
+  public Account.Id parseIdent(PersonIdent ident, Change.Id changeId, Boolean allowAnyServerId)
       throws ConfigInvalidException {
-    return NoteDbUtil.parseIdent(ident, serverId)
-        .orElseThrow(
-            () ->
-                parseException(
-                    changeId,
-                    "invalid identity, expected <id>@%s: %s",
-                    serverId,
-                    ident.getEmailAddress()));
+    return allowAnyServerId
+        ? null
+        : NoteDbUtil.parseIdent(ident, serverId)
+            .orElseThrow(
+                () ->
+                    parseException(
+                        changeId,
+                        "invalid identity, expected <id>@%s: %s",
+                        serverId,
+                        ident.getEmailAddress()));
   }
 
   private static boolean match(byte[] note, MutableInteger p, byte[] expected) {
@@ -336,7 +338,7 @@ public class LegacyChangeNoteRead {
     checkHeaderLineFormat(note, curr, fieldName, changeId);
     int startOfAccountId = RawParseUtils.endOfFooterLineKey(note, curr.value) + 2;
     PersonIdent ident = RawParseUtils.parsePersonIdent(note, startOfAccountId);
-    Account.Id aId = parseIdent(ident, changeId);
+    Account.Id aId = parseIdent(ident, changeId, false);
     curr.value = RawParseUtils.nextLF(note, curr.value);
     return checkResult(aId, fieldName, changeId);
   }

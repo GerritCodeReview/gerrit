@@ -567,7 +567,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         authorId =
             changeNoteUtil
                 .getLegacyChangeNoteRead()
-                .parseIdent(commit.getAuthorIdent(), change.getId());
+                .parseIdent(commit.getAuthorIdent(), change.getId(), false);
       } catch (ConfigInvalidException e) {
         continue; // Corrupt data, no valid hashtags in this commit.
       }
@@ -583,7 +583,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     return events;
   }
 
-  private Set<String> parseHashtags(RevCommit commit) {
+  public Set<String> parseHashtags(RevCommit commit) {
     List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
     if (hashtagsLines.isEmpty() || hashtagsLines.size() > 1) {
       return null;

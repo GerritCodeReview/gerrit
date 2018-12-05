@@ -31,6 +31,7 @@ public class NoteDbUtil {
    */
   public static Optional<Account.Id> parseIdent(PersonIdent ident, String serverId) {
     String email = ident.getEmailAddress();
+
     int at = email.indexOf('@');
     if (at >= 0) {
       String host = email.substring(at + 1, email.length());

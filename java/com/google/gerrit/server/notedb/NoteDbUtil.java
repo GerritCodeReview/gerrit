@@ -39,6 +39,14 @@ public class NoteDbUtil {
         if (id != null) {
           return Optional.of(new Account.Id(id));
         }
+      } else {
+        // Change is coming from a different cluster of servers,
+        // not the one we are trying to get the ChangeNotes from.
+        Integer id = Ints.tryParse(email.substring(0, at));
+        if (id != null) {
+          id *= -1;
+          return Optional.of(new Account.Id(id));
+        }
       }
     }
     return Optional.empty();

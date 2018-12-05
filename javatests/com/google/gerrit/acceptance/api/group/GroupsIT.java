@@ -89,7 +89,6 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -334,9 +333,6 @@ public class GroupsIT extends AbstractDaemonTest {
     String p = createUniqueGroup();
     String g1 = createUniqueGroup();
     String g2 = createUniqueGroup();
-    List<String> groups = new ArrayList<>();
-    groups.add(g1);
-    groups.add(g2);
     gApi.groups().id(p).addGroups(g1, g2);
     assertIncludes(p, g1, g2);
   }

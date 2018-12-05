@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fee8a334_c9aaa0ce",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-05T16:14:45Z",
+      "side": 1,
+      "message": "Could be inline so that @SuppressWarnings(\"cast\") is not needed.",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 215,
+        "endChar": 0
+      },
+      "revId": "008a2580bd6e2410bdffa838489a3df8a729e39c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -17,4 +17,12 @@ package com.google.gerrit.acceptance.testsuite;
 @FunctionalInterface
 public interface ThrowingConsumer<T> {
   void accept(T t) throws Exception;
+
+  default void acceptAndThrowSilently(T t) {
+    try {
+      accept(t);
+    } catch (Exception e) {
+      throw new IllegalStateException(e);
+    }
+  }
 }

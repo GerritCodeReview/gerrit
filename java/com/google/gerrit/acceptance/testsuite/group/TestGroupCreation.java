@@ -104,9 +104,9 @@ public abstract class TestGroupCreation {
      *
      * @return the UUID of the created group
      */
-    public AccountGroup.UUID create() throws Exception {
+    public AccountGroup.UUID create() {
       TestGroupCreation groupCreation = autoBuild();
-      return groupCreation.groupCreator().apply(groupCreation);
+      return groupCreation.groupCreator().applyAndThrowSilently(groupCreation);
     }
   }
 }

@@ -108,18 +108,25 @@ public class AccountOperationsImpl implements AccountOperations {
     }
 
     @Override
-    public boolean exists() throws Exception {
-      return accounts.get(accountId).isPresent();
+    public boolean exists() {
+      return getAccountState(accountId).isPresent();
     }
 
     @Override
-    public TestAccount get() throws Exception {
+    public TestAccount get() {
       AccountState account =
-          accounts
-              .get(accountId)
+          getAccountState(accountId)
               .orElseThrow(
                   () -> new IllegalStateException("Tried to get non-existing test account"));
       return toTestAccount(account);
+    }
+
+    private Optional<AccountState> getAccountState(Account.Id accountId) {
+      try {
+        return accounts.get(accountId);
+      } catch (IOException | ConfigInvalidException e) {
+        throw new IllegalStateException(e);
+      }
     }
 
     private TestAccount toTestAccount(AccountState accountState) {

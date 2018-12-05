@@ -88,9 +88,9 @@ public abstract class TestAccountCreation {
 
     abstract TestAccountCreation autoBuild();
 
-    public Account.Id create() throws Exception {
+    public Account.Id create() {
       TestAccountCreation accountUpdate = autoBuild();
-      return accountUpdate.accountCreator().apply(accountUpdate);
+      return accountUpdate.accountCreator().applyAndThrowSilently(accountUpdate);
     }
   }
 }

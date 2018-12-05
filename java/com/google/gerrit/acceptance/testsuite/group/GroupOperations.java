@@ -63,7 +63,7 @@ public interface GroupOperations {
      *
      * @return {@code true} if the group exists
      */
-    boolean exists() throws Exception;
+    boolean exists();
 
     /**
      * Retrieves the group.
@@ -74,7 +74,7 @@ public interface GroupOperations {
      *
      * @return the corresponding {@code TestGroup}
      */
-    TestGroup get() throws Exception;
+    TestGroup get();
 
     /**
      * Starts the fluent chain to update a group. The returned builder can be used to specify how

@@ -86,9 +86,9 @@ public abstract class TestAccountUpdate {
 
     abstract TestAccountUpdate autoBuild();
 
-    public void update() throws Exception {
+    public void update() {
       TestAccountUpdate accountUpdate = autoBuild();
-      accountUpdate.accountUpdater().accept(accountUpdate);
+      accountUpdate.accountUpdater().acceptAndThrowSilently(accountUpdate);
     }
   }
 }

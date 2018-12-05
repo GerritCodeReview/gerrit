@@ -32,6 +32,7 @@ import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
@@ -54,6 +55,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -100,7 +102,7 @@ public class LabelsJson {
    */
   Map<String, LabelInfo> labelsFor(
       AccountLoader accountLoader, ChangeData cd, boolean standard, boolean detailed)
-      throws OrmException, PermissionBackendException {
+      throws OrmException, PermissionBackendException, IOException {
     if (!standard && !detailed) {
       return null;
     }
@@ -115,10 +117,13 @@ public class LabelsJson {
 
   /** Returns all labels that the provided user has permission to vote on. */
   Map<String, Collection<String>> permittedLabels(Account.Id filterApprovalsBy, ChangeData cd)
-      throws OrmException, PermissionBackendException {
+      throws OrmException, PermissionBackendException, IOException {
     boolean isMerged = cd.change().getStatus() == Change.Status.MERGED;
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelType> toCheck = new HashMap<>();
+    boolean isLabelLocked =
+        approvalsUtil.isLabelLocked(
+            lazyLoad ? cd.notes() : notesFactory.createFromIndexedChange(cd.change()));
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels != null) {
         for (SubmitRecord.Label r : rec.labels) {
@@ -153,7 +158,7 @@ public class LabelsJson {
             short prev = labels.getOrDefault(type.getName(), (short) 0);
             ok &= v.getValue() >= prev;
           }
-          if (ok) {
+          if (ok && (!isLabelLocked || type.getFunction() == LabelFunction.LABEL_LOCK)) {
             permitted.put(r.label, v.formatValue());
           }
         }
@@ -194,7 +199,7 @@ public class LabelsJson {
       LabelTypes labelTypes,
       boolean standard,
       boolean detailed)
-      throws OrmException, PermissionBackendException {
+      throws OrmException, PermissionBackendException, IOException {
     Map<String, LabelWithStatus> labels = initLabels(accountLoader, cd, labelTypes, standard);
     if (detailed) {
       setAllApprovals(accountLoader, cd, labels);
@@ -273,7 +278,7 @@ public class LabelsJson {
       LabelTypes labelTypes,
       boolean standard,
       boolean detailed)
-      throws OrmException, PermissionBackendException {
+      throws OrmException, PermissionBackendException, IOException {
     Set<Account.Id> allUsers = new HashSet<>();
     if (detailed) {
       // Users expect to see all reviewers on closed changes, even if they
@@ -433,7 +438,7 @@ public class LabelsJson {
 
   private void setAllApprovals(
       AccountLoader accountLoader, ChangeData cd, Map<String, LabelWithStatus> labels)
-      throws OrmException, PermissionBackendException {
+      throws OrmException, PermissionBackendException, IOException {
     Change.Status status = cd.change().getStatus();
     checkState(
         status != Change.Status.MERGED, "should not call setAllApprovals on %s change", status);

@@ -39,6 +39,7 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -357,7 +358,7 @@ public class ChangeNotesCache {
               rw,
               args.changeNoteJson,
               args.legacyChangeNoteRead,
-              args.metrics);
+              Optional.of(args.metrics));
       ChangeNotesState result = parser.parseAll();
       // This assignment only happens if call() was actually called, which only
       // happens when Cache#get(K, Callable<V>) incurs a cache miss.

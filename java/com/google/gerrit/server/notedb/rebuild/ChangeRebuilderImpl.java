@@ -583,7 +583,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     return events;
   }
 
-  private Set<String> parseHashtags(RevCommit commit) {
+  public Set<String> parseHashtags(RevCommit commit) {
     List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
     if (hashtagsLines.isEmpty() || hashtagsLines.size() > 1) {
       return null;

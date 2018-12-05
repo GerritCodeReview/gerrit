@@ -102,7 +102,7 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.RawParseUtils;
 
-class ChangeNotesParser {
+public class ChangeNotesParser {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   // Sentinel RevId indicating a mutable field on a patch set was parsed, but
@@ -126,7 +126,7 @@ class ChangeNotesParser {
   private final ChangeNoteJson changeNoteJson;
   private final LegacyChangeNoteRead legacyChangeNoteRead;
 
-  private final NoteDbMetrics metrics;
+  private final Optional<NoteDbMetrics> metrics;
   private final Change.Id id;
   private final ObjectId tip;
   private final ChangeNotesRevWalk walk;
@@ -172,13 +172,13 @@ class ChangeNotesParser {
   private ReviewerByEmailSet pendingReviewersByEmail;
   private Change.Id revertOf;
 
-  ChangeNotesParser(
+  public ChangeNotesParser(
       Change.Id changeId,
       ObjectId tip,
       ChangeNotesRevWalk walk,
       ChangeNoteJson changeNoteJson,
       LegacyChangeNoteRead legacyChangeNoteRead,
-      NoteDbMetrics metrics) {
+      Optional<NoteDbMetrics> metrics) {
     this.id = changeId;
     this.tip = tip;
     this.walk = walk;
@@ -202,35 +202,43 @@ class ChangeNotesParser {
     currentPatchSets = new ArrayList<>();
   }
 
-  ChangeNotesState parseAll() throws ConfigInvalidException, IOException {
+  public ChangeNotesState parseAll() throws ConfigInvalidException, IOException {
     // Don't include initial parse in timer, as this might do more I/O to page
     // in the block containing most commits. Later reads are not guaranteed to
     // avoid I/O, but often should.
     walk.reset();
     walk.markStart(walk.parseCommit(tip));
 
-    try (Timer1.Context timer = metrics.parseLatency.start(CHANGES)) {
-      ChangeNotesCommit commit;
-      while ((commit = walk.next()) != null) {
-        parse(commit);
+    if( metrics.isPresent() ) {
+      try (Timer1.Context timer = metrics.get().parseLatency.start(CHANGES)) {
+        parseCommit();
       }
-      if (hasReviewStarted == null) {
-        if (previousWorkInProgressFooter == null) {
-          hasReviewStarted = true;
-        } else {
-          hasReviewStarted = !previousWorkInProgressFooter;
-        }
-      }
-      parseNotes();
-      allPastReviewers.addAll(reviewers.rowKeySet());
-      pruneReviewers();
-      pruneReviewersByEmail();
-
-      updatePatchSetStates();
-      checkMandatoryFooters();
+    } else {
+      parseCommit();
     }
 
     return buildState();
+  }
+
+  private void parseCommit() throws IOException, ConfigInvalidException {
+    ChangeNotesCommit commit;
+    while ((commit = walk.next()) != null) {
+      parse(commit);
+    }
+    if (hasReviewStarted == null) {
+      if (previousWorkInProgressFooter == null) {
+        hasReviewStarted = true;
+      } else {
+        hasReviewStarted = !previousWorkInProgressFooter;
+      }
+    }
+    parseNotes();
+    allPastReviewers.addAll(reviewers.rowKeySet());
+    pruneReviewers();
+    pruneReviewersByEmail();
+
+    updatePatchSetStates();
+    checkMandatoryFooters();
   }
 
   RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap() {
@@ -316,7 +324,7 @@ class ChangeNotesParser {
     return Lists.reverse(allChangeMessages);
   }
 
-  private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
+  void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
     Timestamp ts = new Timestamp(commit.getCommitterIdent().getWhen().getTime());
 
     createdOn = ts;
@@ -552,7 +560,7 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseHashtags(ChangeNotesCommit commit) throws ConfigInvalidException {
+  public void parseHashtags(ChangeNotesCommit commit) throws ConfigInvalidException {
     // Commits are parsed in reverse order and only the last set of hashtags
     // should be used.
     if (hashtags != null) {

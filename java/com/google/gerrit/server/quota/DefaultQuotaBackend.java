@@ -66,7 +66,8 @@ public class DefaultQuotaBackend implements QuotaBackend {
     // plugins so that we can iterate twice on a stable list.
     List<PluginSetEntryContext<QuotaEnforcer>> enforcers = ImmutableList.copyOf(quotaEnforcers);
     List<QuotaResponse> responses = new ArrayList<>(enforcers.size());
-    for (PluginSetEntryContext<QuotaEnforcer> enforcer : enforcers) {
+    for (int i = 0; i < enforcers.size(); i++) {
+      PluginSetEntryContext<QuotaEnforcer> enforcer = enforcers.get(i);
       try {
         if (deduct) {
           responses.add(enforcer.call(p -> p.requestTokens(quotaGroup, requestContext, numTokens)));
@@ -74,8 +75,12 @@ public class DefaultQuotaBackend implements QuotaBackend {
           responses.add(enforcer.call(p -> p.dryRun(quotaGroup, requestContext, numTokens)));
         }
       } catch (RuntimeException e) {
-        logger.atSevere().withCause(e).log("exception while enforcing quota");
-        responses.add(QuotaResponse.error("failed to request quota tokens"));
+        // Roll back the quota request for all enforcers that deducted the quota. Rethrow the
+        // exception to adhere to the API contract.
+        if (deduct) {
+          refillAfterErrorOrException(enforcers, responses, quotaGroup, requestContext, numTokens);
+        }
+        throw e;
       }
     }
 
@@ -83,11 +88,7 @@ public class DefaultQuotaBackend implements QuotaBackend {
       // Roll back the quota request for all enforcers that deducted the quota (= the request
       // succeeded). Don't touch failed enforcers as the interface contract said that failed
       // requests should not be deducted.
-      for (int i = 0; i < responses.size(); i++) {
-        if (responses.get(i).status().isOk()) {
-          enforcers.get(i).run(p -> p.refill(quotaGroup, requestContext, numTokens));
-        }
-      }
+      refillAfterErrorOrException(enforcers, responses, quotaGroup, requestContext, numTokens);
     }
 
     logger.atFine().log(
@@ -98,6 +99,19 @@ public class DefaultQuotaBackend implements QuotaBackend {
         numTokens,
         responses);
     return QuotaResponse.Aggregated.create(ImmutableList.copyOf(responses));
+  }
+
+  private static void refillAfterErrorOrException(
+      List<PluginSetEntryContext<QuotaEnforcer>> enforcers,
+      List<QuotaResponse> collectedResponses,
+      String quotaGroup,
+      QuotaRequestContext requestContext,
+      long numTokens) {
+    for (int i = 0; i < collectedResponses.size(); i++) {
+      if (collectedResponses.get(i).status().isOk()) {
+        enforcers.get(i).run(p -> p.refill(quotaGroup, requestContext, numTokens));
+      }
+    }
   }
 
   static class WithUser extends WithResource implements QuotaBackend.WithUser {

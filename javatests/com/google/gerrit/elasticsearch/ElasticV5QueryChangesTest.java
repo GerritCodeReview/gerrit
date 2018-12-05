@@ -32,7 +32,7 @@ public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
   }
 
   private static ElasticNodeInfo nodeInfo;
-  private static ElasticContainer<?> container;
+  private static ElasticContainer container;
 
   @BeforeClass
   public static void startIndexService() {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5264700a_023fb2fc",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-05T19:29:40Z",
+      "side": 1,
+      "message": "Go for it :)",
+      "parentUuid": "9aee0679_6be56189",
+      "range": {
+        "startLine": 1063,
+        "startChar": 41,
+        "endLine": 1063,
+        "endChar": 47
+      },
+      "revId": "bc4d0981f236c4509de60ccc863a3a1fe4f8d279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aacde9c8_51a1384f",
         "filename": "WORKSPACE",
         "patchSetId": 6
@@ -41,6 +65,46 @@
         "startChar": 22,
         "endLine": 1067,
         "endChar": 27
+      },
+      "revId": "bc4d0981f236c4509de60ccc863a3a1fe4f8d279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41203fb6_9ea1ea8d",
+        "filename": "lib/mockito/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-05T19:29:40Z",
+      "side": 1,
+      "message": "I would feel better if we restrict visibility of this library to just the acceptance framework targets. What I don\u0027t want is for this to open the floodgates so core starts mixing Mockito and EasyMock; there should just be one mocking framework.\n\nIt might be worth it to move all of core from EasyMock to Mockito (possibly replacing most mocks with fakes along the way), but I\u0027d prefer to be intentional about that decision, and try to do it relatively quickly so as not to leave the codebase in a mixed state. But I don\u0027t want to tackle that today, and if we restrict the visibility, then we don\u0027t have to.\n\n(Restricting the visibility just to the acceptance framework also means we shouldn\u0027t have to worry about skew with the version in Google, which is a nice side benefit.)",
+      "revId": "bc4d0981f236c4509de60ccc863a3a1fe4f8d279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8afe1dd9_af06211e",
+        "filename": "lib/mockito/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-05T19:29:40Z",
+      "side": 1,
+      "message": "Restrict visibility of these to mockito?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 1
       },
       "revId": "bc4d0981f236c4509de60ccc863a3a1fe4f8d279",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

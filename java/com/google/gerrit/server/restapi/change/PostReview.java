@@ -893,7 +893,7 @@ public class PostReview
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, ResourceConflictException, UnprocessableEntityException, IOException,
-            PatchListNotAvailableException {
+        PatchListNotAvailableException, AuthException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getNotes(), psId);
@@ -1162,8 +1162,19 @@ public class PostReview
       return false;
     }
 
+    private void checkLabelLocked(Map.Entry<String, Short> ent, PatchSetApproval psa)
+        throws AuthException,
+        OrmException, IOException {
+      if (!approvalsUtil.canUpdateLabel(notes, psa.getLabelId(),
+          firstNonNull(in.labels, Collections.emptyMap()))) {
+        throw new AuthException(String.format(
+            "Applying label \"%s\": %d is restricted since change is label locked",
+            ent.getKey(), ent.getValue()));
+      }
+    }
+
     private boolean updateLabels(ProjectState projectState, ChangeContext ctx)
-        throws OrmException, ResourceConflictException, IOException {
+        throws OrmException, ResourceConflictException, IOException, AuthException {
       Map<String, Short> inLabels = firstNonNull(in.labels, Collections.emptyMap());
 
       // If no labels were modified and change is closed, abort early.
@@ -1194,6 +1205,7 @@ public class PostReview
           // User requested delete of this label.
           oldApprovals.put(normName, null);
           if (c != null) {
+            checkLabelLocked(ent, c);
             if (c.getValue() != 0) {
               addLabelDelta(normName, (short) 0);
               oldApprovals.put(normName, previous.get(normName));
@@ -1206,6 +1218,7 @@ public class PostReview
           c.setGranted(ctx.getWhen());
           c.setTag(in.tag);
           ctx.getUser().updateRealAccountId(c::setRealAccountId);
+          checkLabelLocked(ent, c);
           ups.add(c);
           addLabelDelta(normName, c.getValue());
           oldApprovals.put(normName, previous.get(normName));
@@ -1219,6 +1232,7 @@ public class PostReview
           c = ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
+          checkLabelLocked(ent, c);
           ups.add(c);
           addLabelDelta(normName, c.getValue());
           oldApprovals.put(normName, previous.get(normName));

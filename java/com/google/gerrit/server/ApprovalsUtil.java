@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
@@ -29,6 +30,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -49,9 +51,11 @@ import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -107,14 +111,19 @@ public class ApprovalsUtil {
   private final ApprovalCopier copier;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
+  private final Provider<ReviewDb> dbProvider;
 
   @VisibleForTesting
   @Inject
   public ApprovalsUtil(
-      ApprovalCopier copier, PermissionBackend permissionBackend, ProjectCache projectCache) {
+      ApprovalCopier copier,
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache,
+      Provider<ReviewDb> dbProvider) {
     this.copier = copier;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.dbProvider = dbProvider;
   }
 
   /**
@@ -351,6 +360,48 @@ public class ApprovalsUtil {
             String.format("applying label \"%s\": %d is restricted", name, value));
       }
     }
+  }
+
+  public boolean isLabelLocked(ChangeNotes notes) throws OrmException, IOException {
+    Change change = notes.getChange();
+    if (change.getStatus() == Change.Status.MERGED) {
+      return false;
+    }
+
+    ProjectState projectState = projectCache.checkedGet(notes.getProjectName());
+    requireNonNull(
+        projectState, () -> String.format("Failed to load project %s", notes.getProjectName()));
+
+    for (PatchSetApproval ap :
+        byPatchSet(dbProvider.get(), notes, change.currentPatchSetId(), null, null)) {
+      LabelType type = projectState.getLabelTypes(notes).byLabel(ap.getLabel());
+      if (type != null
+          && ap.getValue() == 1
+          && type.getFunction() == LabelFunction.LABEL_LOCK) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean canUpdateLabel(final ChangeNotes notes,
+      LabelId label, Map<String, Short> inLabel) throws OrmException, IOException {
+    boolean lblLocked = isLabelLocked(notes);
+    if (inLabel.get(label.toString()) == null) {
+      return true;
+    }
+    ProjectState projectState = projectCache.checkedGet(notes.getProjectName());
+    LabelType type = projectState.getLabelTypes(notes).byLabel(label);
+
+    if (lblLocked) {
+      if (type != null
+          && (type.getFunction() == LabelFunction.LABEL_LOCK
+          || type.getFunction() == LabelFunction.PATCH_SET_LOCK)
+      ) {
+        lblLocked = false;
+      }
+    }
+    return !lblLocked;
   }
 
   public ListMultimap<PatchSet.Id, PatchSetApproval> byChange(ChangeNotes notes)

@@ -680,7 +680,7 @@ public class ChangeJson {
   }
 
   private Collection<AccountInfo> removableReviewers(ChangeData cd, ChangeInfo out)
-      throws PermissionBackendException, OrmException {
+      throws PermissionBackendException, OrmException, IOException {
     // Although this is called removableReviewers, this method also determines
     // which CCs are removable.
     //

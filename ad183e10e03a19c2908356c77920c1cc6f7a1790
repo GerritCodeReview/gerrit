@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "8425c979_d1d0869f",
+        "filename": "proto/reviewdb.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-05T22:42:08Z",
+      "side": 1,
+      "message": "I thought at the time that it would make sense to put ReviewDb-related columns all together and NoteDb migration-related columns all together. But then there was only one, so it sticks out.\n\nSo I guess 24 is probably better.",
+      "parentUuid": "18316af8_5317a3fd",
+      "range": {
+        "startLine": 113,
+        "startChar": 12,
+        "endLine": 113,
+        "endChar": 15
+      },
+      "revId": "ad183e10e03a19c2908356c77920c1cc6f7a1790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d14331ae_d16210d5",
+        "filename": "proto/reviewdb.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-05T22:42:08Z",
+      "side": 1,
+      "message": "Not sure whether it makes sense to do it here or in another change, but I would probably add reserved field numbers for all the deleted fields. For the most part they are documented in comments in the corresponding java files.",
+      "range": {
+        "startLine": 134,
+        "startChar": 1,
+        "endLine": 135,
+        "endChar": 0
+      },
+      "revId": "ad183e10e03a19c2908356c77920c1cc6f7a1790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf037e14_75ca1fb6",
         "filename": "proto/reviewdb.proto",
         "patchSetId": 1
@@ -48,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "4e178d88_10667010",
+        "filename": "proto/reviewdb.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-05T22:42:08Z",
+      "side": 1,
+      "message": "IMO you can just delete these messages. They were used for exporting dump files from Megastore that could then be imported into another googlesource.com host or even into an open-source site for debugging purposes. That code no longer exists so I don\u0027t think these need to stick around.",
+      "parentUuid": "cf037e14_75ca1fb6",
+      "range": {
+        "startLine": 198,
+        "startChar": 22,
+        "endLine": 198,
+        "endChar": 23
+      },
+      "revId": "ad183e10e03a19c2908356c77920c1cc6f7a1790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b5d62605_8d7e6dd7",
         "filename": "proto/reviewdb.proto",
         "patchSetId": 1
@@ -59,6 +130,30 @@
       "writtenOn": "2018-12-05T16:57:49Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 209,
+        "startChar": 22,
+        "endLine": 209,
+        "endChar": 23
+      },
+      "revId": "ad183e10e03a19c2908356c77920c1cc6f7a1790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be33f50e_826ec923",
+        "filename": "proto/reviewdb.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-05T22:42:08Z",
+      "side": 1,
+      "message": "Same.",
+      "parentUuid": "b5d62605_8d7e6dd7",
       "range": {
         "startLine": 209,
         "startChar": 22,

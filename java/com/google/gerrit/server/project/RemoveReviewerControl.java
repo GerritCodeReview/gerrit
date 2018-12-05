@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -28,14 +29,17 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 
 @Singleton
 public class RemoveReviewerControl {
+  private final ApprovalsUtil approvalsUtil;
   private final PermissionBackend permissionBackend;
 
   @Inject
-  RemoveReviewerControl(PermissionBackend permissionBackend) {
+  RemoveReviewerControl(PermissionBackend permissionBackend, ApprovalsUtil approvalsUtil) {
     this.permissionBackend = permissionBackend;
+    this.approvalsUtil = approvalsUtil;
   }
 
   /**
@@ -46,7 +50,7 @@ public class RemoveReviewerControl {
    */
   public void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
-      throws PermissionBackendException, AuthException {
+      throws PermissionBackendException, AuthException, IOException {
     checkRemoveReviewer(notes, currentUser, approval.accountId(), approval.value());
   }
 
@@ -58,27 +62,36 @@ public class RemoveReviewerControl {
    * @throws PermissionBackendException on failure of permission checks.
    */
   public void checkRemoveReviewer(ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer)
-      throws PermissionBackendException, AuthException {
+      throws PermissionBackendException, AuthException, IOException {
     checkRemoveReviewer(notes, currentUser, reviewer, 0);
   }
 
   /** @return true if the user is allowed to remove this reviewer. */
   public boolean testRemoveReviewer(
       ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
-      throws PermissionBackendException {
+      throws PermissionBackendException, IOException {
+    cd.setLazyLoad(true);
+    boolean isLabelLocked = approvalsUtil.isLabelLocked(cd.notes());
     if (canRemoveReviewerWithoutPermissionCheck(
-        permissionBackend, cd.change(), currentUser, reviewer, value)) {
+        permissionBackend, cd.change(), currentUser, reviewer, value, isLabelLocked)) {
       return true;
+    }
+    if (isLabelLocked) {
+      return false;
     }
     return permissionBackend.user(currentUser).change(cd).test(ChangePermission.REMOVE_REVIEWER);
   }
 
   private void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int val)
-      throws PermissionBackendException, AuthException {
+      throws PermissionBackendException, AuthException, IOException {
+    boolean isLabelLocked = approvalsUtil.isLabelLocked(notes);
     if (canRemoveReviewerWithoutPermissionCheck(
-        permissionBackend, notes.getChange(), currentUser, reviewer, val)) {
+        permissionBackend, notes.getChange(), currentUser, reviewer, val, isLabelLocked)) {
       return;
+    }
+    if (isLabelLocked) {
+      throw new AuthException("not allowed to remove reviewer since label lock is set");
     }
 
     permissionBackend.user(currentUser).change(notes).check(ChangePermission.REMOVE_REVIEWER);
@@ -89,13 +102,16 @@ public class RemoveReviewerControl {
       Change change,
       CurrentUser currentUser,
       Account.Id reviewer,
-      int value)
+      int value,
+      boolean isLabelLocked)
       throws PermissionBackendException {
     if (change.isMerged()) {
       return false;
     }
-
-    if (currentUser.isIdentifiedUser()) {
+    // If label locked, users shouldn't be able to remove labels
+    // regardless of whether they own the change or whether they are
+    // removing their own labels
+    if (!isLabelLocked && currentUser.isIdentifiedUser()) {
       Account.Id aId = currentUser.getAccountId();
       if (aId.equals(reviewer)) {
         return true; // A user can always remove themselves.

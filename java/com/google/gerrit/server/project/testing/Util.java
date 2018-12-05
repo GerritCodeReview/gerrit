@@ -52,6 +52,13 @@ public class Util {
     return label;
   }
 
+  public static final LabelType labelLock() {
+    LabelType label =
+        category("Label-Lock", value(1, "Labels Locked"), value(0, "Labels Unlocked"));
+    label.setFunction(LabelFunction.LABEL_LOCK);
+    return label;
+  }
+
   public static LabelValue value(int value, String text) {
     return new LabelValue((short) value, text);
   }

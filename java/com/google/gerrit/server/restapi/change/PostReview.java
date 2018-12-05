@@ -854,7 +854,7 @@ public class PostReview
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws ResourceConflictException, UnprocessableEntityException, IOException,
-            PatchListNotAvailableException {
+            PatchListNotAvailableException, AuthException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getNotes(), psId);
@@ -1110,8 +1110,19 @@ public class PostReview
       return false;
     }
 
+    private void checkLabelLocked(Map.Entry<String, Short> ent, PatchSetApproval psa)
+        throws AuthException, IOException {
+      if (!approvalsUtil.canUpdateLabel(
+          notes, psa.labelId(), firstNonNull(in.labels, Collections.emptyMap()))) {
+        throw new AuthException(
+            String.format(
+                "Applying label \"%s\": %d is restricted since change is label locked",
+                ent.getKey(), ent.getValue()));
+      }
+    }
+
     private boolean updateLabels(ProjectState projectState, ChangeContext ctx)
-        throws ResourceConflictException, IOException {
+        throws ResourceConflictException, IOException, AuthException {
       Map<String, Short> inLabels = firstNonNull(in.labels, Collections.emptyMap());
 
       // If no labels were modified and change is closed, abort early.
@@ -1142,6 +1153,7 @@ public class PostReview
           // User requested delete of this label.
           oldApprovals.put(normName, null);
           if (c != null) {
+            checkLabelLocked(ent, c);
             if (c.value() != 0) {
               addLabelDelta(normName, (short) 0);
               oldApprovals.put(normName, previous.get(normName));
@@ -1157,6 +1169,7 @@ public class PostReview
                   .tag(Optional.ofNullable(in.tag));
           ctx.getUser().updateRealAccountId(b::realAccountId);
           c = b.build();
+          checkLabelLocked(ent, c);
           ups.add(c);
           addLabelDelta(normName, c.value());
           oldApprovals.put(normName, previous.get(normName));
@@ -1172,6 +1185,7 @@ public class PostReview
                   .tag(Optional.ofNullable(in.tag))
                   .granted(ctx.getWhen())
                   .build();
+          checkLabelLocked(ent, c);
           ups.add(c);
           addLabelDelta(normName, c.value());
           oldApprovals.put(normName, previous.get(normName));

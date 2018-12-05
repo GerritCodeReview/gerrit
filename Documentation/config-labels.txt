@@ -248,6 +248,20 @@ accounts could lock the same change.
 Allowed range of values are 0 (Patch Set Unlocked) to 1 (Patch Set
 Locked).
 
+* `LabelLock`
++
+The `LabelLock` function provides a locking mechanism for label changes.
+This function's values are not considered when determining whether a
+change is submittable. With the exception of patchset and label locks,
+votes cannot be modified when the label lock is set. This is useful to
+prevent label updates to a change while a CI validation is running.
++
+Locks are designed to allow overlapping locks, so several lock accounts
+could lock the same change.
++
+Allowed range of values are 0 (Label Unlocked) to 1 (Label Locked).
+
+
 [[label_allowPostSubmit]]
 === `label.Label-Name.allowPostSubmit`
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3f7e74c_d1586942",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-12-05T10:06:15Z",
+      "side": 1,
+      "message": "In general it is important that plugins are loaded prior to any operation\nwhich uses an extension point or emits an event, right?\n\nFor example, it is important that the replication plugin is loaded before the\nhttp/ssh daemon(s) are enabled.\n\nThe opposite is also true: it is important that core services which expos extension\npoints and emit events are stopped before stopping plugins.\n\nMaybe it already works like I described it, but I am not aware if we make any explicit\nguarantee about the order to starting/stopping of Gerrit core services and plugins.",
+      "revId": "8a6abf1203a7a032ae7101f9a24c845862694b78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

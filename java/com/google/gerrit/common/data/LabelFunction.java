@@ -32,6 +32,7 @@ import java.util.Optional;
  */
 public enum LabelFunction {
   ANY_WITH_BLOCK("AnyWithBlock", true, false, false),
+  LABEL_LOCK("LabelLock"),
   MAX_WITH_BLOCK("MaxWithBlock", true, true, true),
   MAX_NO_BLOCK("MaxNoBlock", false, true, true),
   NO_BLOCK("NoBlock"),

@@ -324,12 +324,10 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       input.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(input);
 
-      try (AutoCloseable ignored = disableNoteDb()) {
-        ChangeInfo info =
-            Iterables.getOnlyElement(
-                gApi.changes().query(r.getChangeId()).withOption(DETAILED_LABELS).get());
-        assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(acc)));
-      }
+      ChangeInfo info =
+          Iterables.getOnlyElement(
+              gApi.changes().query(r.getChangeId()).withOption(DETAILED_LABELS).get());
+      assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(acc)));
     }
   }
 

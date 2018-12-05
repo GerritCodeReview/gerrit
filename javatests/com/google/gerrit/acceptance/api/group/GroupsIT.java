@@ -1040,7 +1040,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushToGroupsBranchForNonAllUsersRepo() throws Exception {
-    assertCreateGroupBranch(project, null);
+    assertCreateGroupBranch(project);
     String groupRef =
         RefNames.refsGroups(new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
     createBranch(project, groupRef);
@@ -1049,7 +1049,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushToDeletedGroupsBranchForNonAllUsersRepo() throws Exception {
-    assertCreateGroupBranch(project, null);
+    assertCreateGroupBranch(project);
     String groupRef =
         RefNames.refsDeletedGroups(
             new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
@@ -1087,8 +1087,7 @@ public class GroupsIT extends AbstractDaemonTest {
     }
   }
 
-  private void assertCreateGroupBranch(Project.NameKey project, String expectedErrorOnCreate)
-      throws Exception {
+  private void assertCreateGroupBranch(Project.NameKey project) throws Exception {
     grant(project, RefNames.REFS_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
     grant(project, RefNames.REFS_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
     TestRepository<InMemoryRepository> repo = cloneProject(project);
@@ -1097,11 +1096,7 @@ public class GroupsIT extends AbstractDaemonTest {
             .create(db, admin.getIdent(), repo, "Update group", "arbitraryFile.txt", "some content")
             .setParents(ImmutableList.of())
             .to(RefNames.REFS_GROUPS + name("bar"));
-    if (expectedErrorOnCreate != null) {
-      r.assertErrorStatus(expectedErrorOnCreate);
-    } else {
-      r.assertOkStatus();
-    }
+    r.assertOkStatus();
   }
 
   @Test

@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class NoteDbMetrics {
+public class NoteDbMetrics {
   /** End-to-end latency for writing a collection of updates. */
   final Timer1<NoteDbTable> updateLatency;
 
@@ -55,7 +55,7 @@ class NoteDbMetrics {
   final Counter1<NoteDbTable> autoRebuildFailureCount;
 
   @Inject
-  NoteDbMetrics(MetricMaker metrics) {
+  public NoteDbMetrics(MetricMaker metrics) {
     Field<NoteDbTable> view = Field.ofEnum(NoteDbTable.class, "table");
 
     updateLatency =

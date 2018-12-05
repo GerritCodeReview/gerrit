@@ -196,14 +196,11 @@ public final class PatchSetApproval {
   @Override
   public String toString() {
     StringBuilder sb =
-        new StringBuilder("[")
-            .append(key)
-            .append(": ")
-            .append(value)
-            .append(",tag:")
-            .append(tag)
-            .append(",realAccountId:")
-            .append(realAccountId);
+        new StringBuilder("[").append(key).append(": ").append(value).append(",tag:").append(tag);
+    if (realAccountId != null) {
+      sb.append(",realAccountId:").append(realAccountId);
+    }
+
     if (postSubmit) {
       sb.append(",postSubmit");
     }

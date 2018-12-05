@@ -248,6 +248,22 @@ accounts could lock the same change.
 Allowed range of values are 0 (Patch Set Unlocked) to 1 (Patch Set
 Locked).
 
+* `LabelLock`
++
+The `LabelLock` function provides a locking mechanism label changes.
+This doesn't require any value to submit and it will never block the
+change.  With the exception of patchset and label locks, approvals
+cannot be set when the label lock is set.
++
+Gerrit administrators can use this new level in their own category.
++
+Locks are designed to allow overlapping locks, so several lock accounts
+could lock the same change.
++
+Allowed range of values are 0 (Label Unlocked) to 1 (Label Locked).
+
+
+
 [[label_allowPostSubmit]]
 === `label.Label-Name.allowPostSubmit`
 

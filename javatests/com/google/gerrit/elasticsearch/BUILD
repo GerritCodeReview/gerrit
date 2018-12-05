@@ -40,25 +40,17 @@ TYPES = [
 
 SUFFIX = "sTest.java"
 
-ELASTICSEARCH_TESTS = {i: "ElasticQuery" + i.capitalize() + SUFFIX for i in TYPES}
-
 ELASTICSEARCH_TESTS_V5 = {i: "ElasticV5Query" + i.capitalize() + SUFFIX for i in TYPES}
 
 ELASTICSEARCH_TESTS_V6 = {i: "ElasticV6Query" + i.capitalize() + SUFFIX for i in TYPES}
+
+ELASTICSEARCH_TESTS_V7 = {i: "ElasticV7Query" + i.capitalize() + SUFFIX for i in TYPES}
 
 ELASTICSEARCH_TAGS = [
     "docker",
     "elastic",
     "exclusive",
 ]
-
-[junit_tests(
-    name = "elasticsearch_query_%ss_test" % name,
-    size = "large",
-    srcs = [src],
-    tags = ELASTICSEARCH_TAGS,
-    deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name],
-) for name, src in ELASTICSEARCH_TESTS.items()]
 
 [junit_tests(
     name = "elasticsearch_query_%ss_test_V5" % name,
@@ -75,6 +67,14 @@ ELASTICSEARCH_TAGS = [
     tags = ELASTICSEARCH_TAGS + ["flaky"],
     deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name],
 ) for name, src in ELASTICSEARCH_TESTS_V6.items()]
+
+[junit_tests(
+    name = "elasticsearch_query_%ss_test_V7" % name,
+    size = "large",
+    srcs = [src],
+    tags = ELASTICSEARCH_TAGS + ["flaky"],
+    deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name],
+) for name, src in ELASTICSEARCH_TESTS_V7.items()]
 
 junit_tests(
     name = "elasticsearch_tests",

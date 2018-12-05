@@ -35,16 +35,14 @@ public class SequencesOnInit {
     this.allUsersName = allUsersName;
   }
 
-  public int nextAccountId(ReviewDb db) throws OrmException {
-    @SuppressWarnings("deprecation")
-    RepoSequence.Seed accountSeed = db::nextAccountId;
+  public int nextAccountId() throws OrmException {
     RepoSequence accountSeq =
         new RepoSequence(
             repoManager,
             GitReferenceUpdated.DISABLED,
             new Project.NameKey(allUsersName.get()),
             Sequences.NAME_ACCOUNTS,
-            accountSeed,
+            () -> ReviewDb.FIRST_ACCOUNT_ID,
             1);
     return accountSeq.next();
   }

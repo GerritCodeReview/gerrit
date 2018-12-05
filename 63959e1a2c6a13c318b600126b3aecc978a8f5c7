@@ -22,6 +22,30 @@
       "revId": "63959e1a2c6a13c318b600126b3aecc978a8f5c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e22f938d_c182c2c8",
+        "filename": "java/com/google/gerrit/server/quota/DefaultQuotaBackend.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-12-05T14:48:41Z",
+      "side": 1,
+      "message": "Nice catch. Done in https://gerrit-review.googlesource.com/c/gerrit/+/206475",
+      "parentUuid": "164a8b8a_974a654e",
+      "range": {
+        "startLine": 78,
+        "startChar": 36,
+        "endLine": 78,
+        "endChar": 41
+      },
+      "revId": "63959e1a2c6a13c318b600126b3aecc978a8f5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

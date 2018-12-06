@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1544132880 -0800\nnonce AGLkUnC4biMDe5Zb9w6b0wJfuaOUgN4QLUEwls1HjERYVMORxEvb6Iw6I28zvn7nHXYd4tCBMe4V\n\n0000000000000000000000000000000000000000 b6fc77c054db104fe964f0ca597ca6a4f83d8780 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlwJmRAVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMHPEP+wV0USK2/LtI3KHgk8vBJyK4ulot\nAPgl7R4dS7sHgPxuxH2oy0xvTYSR7npm8iMnLqC9Kg5vVGfAUNfiPYwvW7eh5u53\nesxkjs/gVmlDYxfdXTQqrHsRIXOJP6Oi8MSJboE5EtVau5dpnqCevXJCURGPdZV4\nofxqzdq/Tbndceb9r3doBjlWfqT3uBlgopIlsoQmlrmp/a1eOYafW0uIJVjsYdpD\nbW5RzG5YTdTSy6By0htdX3209MpB0wPPiSs/ileAw4wR6hSX5NRf9F1oGXLUdYrN\nk7NS+gAFaQq8wsxTUirfvvvzwlKhdrITuwVMT3M1guqlQYCU/fQUiSKaNtBGvMsO\nvc811dedzdWbzjl7Kq5nZ7IyFJVST6N3tauEmL8drUj6303mzH7kwMppzD4G/gmw\nmoW30HNbJOMgTlRVLp8CzCE+KID/X1slPa5B1ncr6T1dklSqIV6PGrO9x88eBUtq\nH5RuhiYme4OaX0pF6xmQh/840P737FvizKgmTSdaHMsrP/MMdf7+pXenBb5Ekigj\nvUEIZUEARWF9ITzyjWZNstiFqcLlvBcK5/ep1eQDyHes3Ga6LA2o/aRK+g3wyxA/\nvHNBB/SQ7m07baO343SH2nz3WhGjjSdCjojN3CjOpWKAO5/9uCxcGf01sbUHq0vL\nxuiN/PLLuUBbThNu\n\u003dtBVV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b67deca_43082294",
+        "filename": "java/com/google/gerrit/server/schema/NoChangesReviewDb.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-06T22:04:50Z",
+      "side": 1,
+      "message": "nextChangeId() was removed already out of this series: [1] in the ReviewDb class and should be removed here as well.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/205734/2/java/com/google/gerrit/reviewdb/server/ReviewDb.java#b101",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 11
+      },
+      "revId": "b6fc77c054db104fe964f0ca597ca6a4f83d8780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

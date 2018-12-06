@@ -147,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "f3051cfe_de50aa83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-06T22:50:29Z",
+      "side": 1,
+      "message": "I\u0027m not going to spend any more time fighting with Maven. If someone else wants to volunteer to deploy the new gwtorm version before this series is ready to submit, I\u0027ll abandon this change. I not, then yeah, merge now revert later. Or just do one cleanup pass of all KeyUtil calls, since there are a few more beyond just the ones in this change.",
+      "parentUuid": "ab65f33d_1f725501",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "cf8b5fb6d2bed01958363d501a35e639cc824915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1724c52f_971e5cb5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

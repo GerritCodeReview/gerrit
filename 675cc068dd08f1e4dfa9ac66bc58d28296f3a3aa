@@ -52,6 +52,24 @@
       "revId": "675cc068dd08f1e4dfa9ac66bc58d28296f3a3aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd2db5b1_55d6a75f",
+        "filename": "java/com/google/gerrit/sshd/commands/KillCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-06T06:43:50Z",
+      "side": 1,
+      "message": "Can we fix that?",
+      "parentUuid": "f9c06184_b0de7815",
+      "revId": "675cc068dd08f1e4dfa9ac66bc58d28296f3a3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -9,13 +9,6 @@ java_proto_library(
     deps = [":cache_proto"],
 )
 
-genrule(
-    name = "gen_reviewdb_proto",
-    outs = ["reviewdb.proto"],
-    cmd = "$(location //java/com/google/gerrit/proto:ProtoGen) -o $@",
-    tools = ["//java/com/google/gerrit/proto:ProtoGen"],
-)
-
 proto_library(
     name = "reviewdb_proto",
     srcs = [":reviewdb.proto"],

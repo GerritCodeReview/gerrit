@@ -12,7 +12,7 @@ backend so no set up or configuration is necessary.
 Using the embedded H2 database is the easiest way to get a Gerrit
 site up and running, making it ideal for proof of concepts or small team
 servers.  On the flip side, H2 is not the recommended option for large
-corporate installations. This is because there is no easy way to interact
+corporate installations when using ReviewDb. This is because there is no easy way to interact
 with the database while Gerrit is offline, it's not easy to backup the data,
 and it's not possible to set up H2 in a load balanced/hotswap configuration.
 

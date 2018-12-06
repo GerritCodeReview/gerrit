@@ -1670,6 +1670,11 @@ class ReceiveCommits {
       logger.atFine().log("Handling %s", RefNames.REFS_USERS_SELF);
       ref = RefNames.refsUsers(user.getAccountId());
     }
+    // Pushing changes for review usually requires that the target branch exists, but there is an
+    // exception for the branch to which HEAD points to and for refs/meta/config. Pushing for
+    // review to these branches is allowed even if the branch does not exist yet. This allows to
+    // push initial code for review to an empty repository and to review an initial project
+    // configuration.
     if (!receivePack.getAdvertisedRefs().containsKey(ref)
         && !ref.equals(readHEAD(repo))
         && !ref.equals(RefNames.REFS_CONFIG)) {

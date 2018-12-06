@@ -22,6 +22,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -33,21 +34,22 @@ import org.eclipse.jgit.lib.Repository;
 
 /** Helps with the updating of a {@link VersionedMetaData}. */
 public class MetaDataUpdate implements AutoCloseable {
+  @Singleton
   public static class User {
     private final InternalFactory factory;
     private final GitRepositoryManager mgr;
-    private final PersonIdent serverIdent;
+    private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<IdentifiedUser> identifiedUser;
 
     @Inject
     User(
         InternalFactory factory,
         GitRepositoryManager mgr,
-        @GerritPersonIdent PersonIdent serverIdent,
+        @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<IdentifiedUser> identifiedUser) {
       this.factory = factory;
       this.mgr = mgr;
-      this.serverIdent = serverIdent;
+      this.serverIdentProvider = serverIdentProvider;
       this.identifiedUser = identifiedUser;
     }
 
@@ -126,29 +128,31 @@ public class MetaDataUpdate implements AutoCloseable {
     public MetaDataUpdate create(
         Project.NameKey name, Repository repository, IdentifiedUser user, BatchRefUpdate batch) {
       MetaDataUpdate md = factory.create(name, repository, batch);
-      md.getCommitBuilder().setCommitter(serverIdent);
+      md.getCommitBuilder().setCommitter(serverIdentProvider.get());
       md.setAuthor(user);
       return md;
     }
 
     private PersonIdent createPersonIdent(IdentifiedUser user) {
+      PersonIdent serverIdent = serverIdentProvider.get();
       return user.newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone());
     }
   }
 
+  @Singleton
   public static class Server {
     private final InternalFactory factory;
     private final GitRepositoryManager mgr;
-    private final PersonIdent serverIdent;
+    private final Provider<PersonIdent> serverIdentProvider;
 
     @Inject
     Server(
         InternalFactory factory,
         GitRepositoryManager mgr,
-        @GerritPersonIdent PersonIdent serverIdent) {
+        @GerritPersonIdent Provider<PersonIdent> serverIdentProvider) {
       this.factory = factory;
       this.mgr = mgr;
-      this.serverIdent = serverIdent;
+      this.serverIdentProvider = serverIdentProvider;
     }
 
     public MetaDataUpdate create(Project.NameKey name)
@@ -162,6 +166,7 @@ public class MetaDataUpdate implements AutoCloseable {
       Repository repo = mgr.openRepository(name);
       MetaDataUpdate md = factory.create(name, repo, batch);
       md.setCloseRepository(true);
+      PersonIdent serverIdent = serverIdentProvider.get();
       md.getCommitBuilder().setAuthor(serverIdent);
       md.getCommitBuilder().setCommitter(serverIdent);
       return md;

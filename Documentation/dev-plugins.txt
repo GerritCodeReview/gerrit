@@ -2670,6 +2670,94 @@ to change in order to be compliant. These requirements should be kept once they
 are met, but marked as `OK`. If the requirements were not displayed, reviewers
 would need to use their precious time to manually check that they were met.
 
+[[quota-enforcer]]
+== Quota Enforcer
+
+Gerrit provides an extension point that allows a plugin to enforce quota.
+link:quota.html[This documentation page] has a list of all quota requests that
+Gerrit core issues. Plugins can choose to respond to all or just a subset of
+requests. Some implementations might want to keep track of user quota in buckets,
+others might just check against instance or project state to enforce limits on how
+many projects can be created or how large a repository can become.
+
+Checking against instance state can be racy for concurrent requests as the server does not
+refill tokens if the action fails in a later stage (e.g. database failure). If
+plugins want to guarantee an absolute maximum on a resource, they have to do their own
+book-keeping.
+
+[source, java]
+----
+import com.google.server.quota.QuotaEnforcer;
+
+class ProjectLimiter implements QuotaEnforcer {
+  private final long maxNumberOfProjects = 100;
+  @Override
+  QuotaResponse requestTokens(String quotaGroup, QuotaRequestContext ctx, long numTokens) {
+    if (!"/projects/create".equals(quotaGroup)) {
+      return QuotaResponse.noOp();
+    }
+    // No deduction because we always check against the instance state (racy but fine for
+    // this plugin)
+    if (currentNumberOfProjects() + numTokens > maxNumberOfProjects) {
+      return QuotaResponse.error("too many projects");
+    }
+    return QuotaResponse.ok();
+  }
+
+  @Override
+  QuotaResponse dryRun(String quotaGroup, QuotaRequestContext ctx, long numTokens) {
+    // Since we are not keeping any state in this enforcer, we can simply call requestTokens().
+    return requestTokens(quotaGroup, ctx, numTokens);
+  }
+
+  void refill(String quotaGroup, QuotaRequestContext ctx, long numTokens) {
+    // No-op
+  }
+}
+----
+
+[source, java]
+----
+import com.google.server.quota.QuotaEnforcer;
+
+class ApiQpsEnforcer implements QuotaEnforcer {
+  // AutoRefillingPerUserBuckets is a imaginary bucket implementation that could be based on
+  // a loading cache or a commonly used bucketing algorithm.
+  private final AutoRefillingPerUserBuckets<CurrentUser, Long> buckets;
+  @Override
+  QuotaResponse requestTokens(String quotaGroup, QuotaRequestContext ctx, long numTokens) {
+    if (!quotaGroup.startsWith("/restapi/")) {
+      return QuotaResponse.noOp();
+    }
+    boolean success = buckets.deduct(ctx.user(), numTokens);
+    if (!success) {
+      return QuotaResponse.error("user sent too many qps, please wait for 5 minutes");
+    }
+    return QuotaResponse.ok();
+  }
+
+  @Override
+  QuotaResponse dryRun(String quotaGroup, QuotaRequestContext ctx, long numTokens) {
+    if (!quotaGroup.startsWith("/restapi/")) {
+      return QuotaResponse.noOp();
+    }
+    boolean success = buckets.checkOnly(ctx.user(), numTokens);
+    if (!success) {
+      return QuotaResponse.error("user sent too many qps, please wait for 5 minutes");
+    }
+    return QuotaResponse.ok();
+  }
+
+  @Override
+  void refill(String quotaGroup, QuotaRequestContext ctx, long numTokens) {
+    if (!quotaGroup.startsWith("/restapi/")) {
+      return;
+    }
+    buckets.add(ctx.user(), numTokens);
+  }
+}
+----
+
 
 == SEE ALSO
 

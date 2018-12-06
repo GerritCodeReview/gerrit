@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "f2dcb45d_0302707c",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-06T15:54:19Z",
+      "side": 1,
+      "message": "Maybe just add the failed schema migration case to the comment above which talks about corner-cases. I agree that this is rather unlikely to happen and probably doesn\u0027t justify a higher implementation effort.\n\n\u003e 168: No-op; deletes some ReviewDb tables\n\u003e 169: Migrate NoteDb comments to JSON. Could be easily duplicated as a ReviewDb schema upgrade.\n\u003e 170: No-op; deletes ReviewDb tables.\n\nI guess for 169 you meant duplication as NoteDb schema upgrade?\n\nI\u0027m fine with this, but if we allow further migrations in 2.16 we should document the requirements / limitations for adding such migrations somewhere (e.g. must be idempotent and re-implemented as NoteDb schema upgrade).\n\n\u003e To detect whether 167 was done, we can just look for the group name ref in NoteDb. \n\nSG, but I\u0027m not sure if it\u0027s any better than the approach that is currently implemented by this change (checking if the ref with the group sequence exists).",
+      "parentUuid": "11481740_2b5b91a7",
+      "range": {
+        "startLine": 137,
+        "startChar": 7,
+        "endLine": 138,
+        "endChar": 95
+      },
+      "revId": "0dcd45ad62695bd9b247271c1157444211e885ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce64fc56_0a201478",
         "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
         "patchSetId": 2

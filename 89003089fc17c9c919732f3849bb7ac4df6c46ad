@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7445d216_a8073baa",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/SshCommandsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-06T08:08:45Z",
+      "side": 1,
+      "message": "Optional: \"TODO(dpursehouse):\".",
+      "range": {
+        "startLine": 87,
+        "startChar": 13,
+        "endLine": 87,
+        "endChar": 17
+      },
+      "revId": "89003089fc17c9c919732f3849bb7ac4df6c46ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

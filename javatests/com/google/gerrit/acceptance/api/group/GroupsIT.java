@@ -89,14 +89,13 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -334,9 +333,6 @@ public class GroupsIT extends AbstractDaemonTest {
     String p = createUniqueGroup();
     String g1 = createUniqueGroup();
     String g2 = createUniqueGroup();
-    List<String> groups = new ArrayList<>();
-    groups.add(g1);
-    groups.add(g2);
     gApi.groups().id(p).addGroups(g1, g2);
     assertIncludes(p, g1, g2);
   }
@@ -952,8 +948,8 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   /**
-   * @Sandboxed is used by this test because it deletes a group reference which introduces an
-   * inconsistency for the group storage. Once group deletion is supported, this test should be
+   * {@code @Sandboxed} is used by this test because it deletes a group reference which introduces
+   * an inconsistency for the group storage. Once group deletion is supported, this test should be
    * updated to use the API instead.
    */
   @Test
@@ -1001,8 +997,7 @@ public class GroupsIT extends AbstractDaemonTest {
     TestAccount groupOwner = accountCreator.user2();
     GroupInput in = new GroupInput();
     in.name = name("group");
-    in.members =
-        Collections.singleton(groupOwner).stream().map(u -> u.id.toString()).collect(toList());
+    in.members = Stream.of(groupOwner).map(u -> u.id.toString()).collect(toList());
     in.visibleToAll = true;
     GroupInfo group = gApi.groups().create(in).get();
 
@@ -1045,7 +1040,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushToGroupsBranchForNonAllUsersRepo() throws Exception {
-    assertCreateGroupBranch(project, null);
+    assertCreateGroupBranch(project);
     String groupRef =
         RefNames.refsGroups(new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
     createBranch(project, groupRef);
@@ -1054,7 +1049,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushToDeletedGroupsBranchForNonAllUsersRepo() throws Exception {
-    assertCreateGroupBranch(project, null);
+    assertCreateGroupBranch(project);
     String groupRef =
         RefNames.refsDeletedGroups(
             new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
@@ -1092,8 +1087,7 @@ public class GroupsIT extends AbstractDaemonTest {
     }
   }
 
-  private void assertCreateGroupBranch(Project.NameKey project, String expectedErrorOnCreate)
-      throws Exception {
+  private void assertCreateGroupBranch(Project.NameKey project) throws Exception {
     grant(project, RefNames.REFS_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
     grant(project, RefNames.REFS_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
     TestRepository<InMemoryRepository> repo = cloneProject(project);
@@ -1102,11 +1096,7 @@ public class GroupsIT extends AbstractDaemonTest {
             .create(db, admin.getIdent(), repo, "Update group", "arbitraryFile.txt", "some content")
             .setParents(ImmutableList.of())
             .to(RefNames.REFS_GROUPS + name("bar"));
-    if (expectedErrorOnCreate != null) {
-      r.assertErrorStatus(expectedErrorOnCreate);
-    } else {
-      r.assertOkStatus();
-    }
+    r.assertOkStatus();
   }
 
   @Test
@@ -1495,7 +1485,7 @@ public class GroupsIT extends AbstractDaemonTest {
   private void assertMembers(String group, TestAccount... expectedMembers) throws Exception {
     assertMembers(
         gApi.groups().id(group).members(),
-        TestAccount.names(expectedMembers).stream().toArray(String[]::new));
+        TestAccount.names(expectedMembers).toArray(new String[0]));
     assertAccountInfos(Arrays.asList(expectedMembers), gApi.groups().id(group).members());
   }
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb90ff24_0e74e2c1",
+        "filename": "lib/mockito/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-06T23:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b896bcdc_38c23ae4",
+      "revId": "5db4fac9c3cf98b3a74b36b3a2f2884f5673686d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b348c23_2e227dad",
         "filename": "lib/mockito/BUILD",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "5db4fac9c3cf98b3a74b36b3a2f2884f5673686d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5175d315_9c21a4ea",
+        "filename": "lib/mockito/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-06T23:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b348c23_2e227dad",
+      "revId": "5db4fac9c3cf98b3a74b36b3a2f2884f5673686d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

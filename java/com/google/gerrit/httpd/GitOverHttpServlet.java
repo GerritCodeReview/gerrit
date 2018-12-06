@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
-import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
@@ -52,6 +52,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -206,19 +207,15 @@ public class GitOverHttpServlet extends GitServlet {
   }
 
   private static ListMultimap<String, String> extractParameters(HttpServletRequest request) {
-
-    ListMultimap<String, String> multiMap = ArrayListMultimap.create();
-    if (request.getQueryString() != null) {
-      request
-          .getParameterMap()
-          .forEach(
-              (k, v) -> {
-                for (String aV : v) {
-                  multiMap.put(k, aV);
-                }
-              });
+    if (request.getQueryString() == null) {
+      return ImmutableListMultimap.of();
     }
-    return multiMap;
+    // Explicit cast is required to compile under Servlet API 2.5, where the return type is raw Map.
+    @SuppressWarnings("cast")
+    Map<String, String[]> parameterMap = (Map<String, String[]>) request.getParameterMap();
+    ImmutableListMultimap.Builder<String, String> b = ImmutableListMultimap.builder();
+    parameterMap.forEach(b::putAll);
+    return b.build();
   }
 
   static class Resolver implements RepositoryResolver<HttpServletRequest> {

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "86dbc08a_f0011b2b",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-06T14:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5264700a_023fb2fc",
+      "range": {
+        "startLine": 1063,
+        "startChar": 41,
+        "endLine": 1063,
+        "endChar": 47
+      },
+      "revId": "bc4d0981f236c4509de60ccc863a3a1fe4f8d279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aacde9c8_51a1384f",
         "filename": "WORKSPACE",
         "patchSetId": 6
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "18e98be4_38097c1e",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-06T14:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aacde9c8_51a1384f",
+      "range": {
+        "startLine": 1067,
+        "startChar": 22,
+        "endLine": 1067,
+        "endChar": 27
+      },
+      "revId": "bc4d0981f236c4509de60ccc863a3a1fe4f8d279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41203fb6_9ea1ea8d",
         "filename": "lib/mockito/BUILD",
         "patchSetId": 6
@@ -86,6 +134,24 @@
       "revId": "bc4d0981f236c4509de60ccc863a3a1fe4f8d279",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98e98020_e945262b",
+        "filename": "lib/mockito/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-06T14:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41203fb6_9ea1ea8d",
+      "revId": "bc4d0981f236c4509de60ccc863a3a1fe4f8d279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -109,6 +175,30 @@
       "revId": "bc4d0981f236c4509de60ccc863a3a1fe4f8d279",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb32e4dc_16dbf341",
+        "filename": "lib/mockito/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-06T14:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8afe1dd9_af06211e",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 1
+      },
+      "revId": "bc4d0981f236c4509de60ccc863a3a1fe4f8d279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

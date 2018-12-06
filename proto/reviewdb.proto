@@ -153,21 +153,3 @@ message CurrentSchemaVersion {
 	required CurrentSchemaVersion_Key singleton = 1;
 	optional int32 version_nbr = 2;
 }
-
-message AnyReviewDbPrimaryKey {
-	optional CurrentSchemaVersion_Key schema_version = 1;
-	optional Change_Id changes = 21;
-	optional PatchSetApproval_Key patch_set_approvals = 22;
-	optional ChangeMessage_Key change_messages = 23;
-	optional PatchSet_Id patch_sets = 24;
-	optional PatchLineComment_Key patch_comments = 26;
-}
-
-message AnyReviewDb {
-	optional CurrentSchemaVersion schema_version = 1;
-	optional Change changes = 21;
-	optional PatchSetApproval patch_set_approvals = 22;
-	optional ChangeMessage change_messages = 23;
-	optional PatchSet patch_sets = 24;
-	optional PatchLineComment patch_comments = 26;
-}

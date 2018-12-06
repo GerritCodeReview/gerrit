@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
@@ -49,13 +49,12 @@ public class DefaultAdvertiseRefsHook extends AbstractAdvertiseRefsHook {
       if (prefixes.isEmpty() || prefixes.get(0).isEmpty()) {
         refs = repo.getAllRefs();
       } else {
-        ImmutableMap.Builder<String, Ref> b = new ImmutableMap.Builder<>();
+        refs = new HashMap<>();
         for (String prefix : prefixes) {
           for (Ref ref : repo.getRefDatabase().getRefsByPrefix(prefix)) {
-            b.put(ref.getName(), ref);
+            refs.put(ref.getName(), ref);
           }
         }
-        refs = b.build();
       }
       return perm.filter(refs, repo, opts);
     } catch (IOException | PermissionBackendException e) {

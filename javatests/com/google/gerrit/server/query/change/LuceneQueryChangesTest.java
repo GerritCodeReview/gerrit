@@ -46,6 +46,11 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   }
 
   @Override
+  public void visible() throws Exception {
+    super.visible();
+  }
+
+  @Override
   protected Injector createInjector() {
     Config luceneConfig = new Config(config);
     InMemoryModule.setDefaults(luceneConfig);

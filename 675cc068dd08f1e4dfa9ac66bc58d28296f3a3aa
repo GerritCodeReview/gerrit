@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "423125b7_3bd08c8e",
+        "filename": "java/com/google/gerrit/sshd/commands/KillCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-06T05:39:01Z",
+      "side": 1,
+      "message": "Why it wasn\u0027t detected by integration tests?",
+      "revId": "675cc068dd08f1e4dfa9ac66bc58d28296f3a3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

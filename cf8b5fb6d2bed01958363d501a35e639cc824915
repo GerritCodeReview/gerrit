@@ -171,6 +171,30 @@
     },
     {
       "key": {
+        "uuid": "439746e0_fd54a7e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-06T23:24:03Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not going to spend any more time fighting with Maven. If someone else wants to volunteer to deploy the new gwtorm version before this series is ready to submit, I\u0027ll abandon this change.\n\nDone. I\u0027ve created gwtorm release and uploaded it to Central and released staging repository. In this change I bumped the version in gerrit: [1]. Feel free to rebase this change in the right position in this series.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/206691/1/WORKSPACE",
+      "parentUuid": "f3051cfe_de50aa83",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "cf8b5fb6d2bed01958363d501a35e639cc824915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1724c52f_971e5cb5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

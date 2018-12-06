@@ -43,7 +43,7 @@ final class KillCommand extends SshCommand {
   @Inject private DeleteTask deleteTask;
 
   @Argument(index = 0, multiValued = true, required = true, metaVar = "ID")
-  private final List<String> taskIds = new ArrayList<>();
+  private List<String> taskIds = new ArrayList<>();
 
   @Override
   protected void run() {

@@ -16,6 +16,24 @@
       "revId": "9288ff153b80cd17b41f2f196fa08976879e5333",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d14ea111_f2524d9f",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-12-06T16:37:29Z",
+      "side": 0,
+      "message": "Thanks, done.",
+      "parentUuid": "2ca89d16_ae18530e",
+      "revId": "9288ff153b80cd17b41f2f196fa08976879e5333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

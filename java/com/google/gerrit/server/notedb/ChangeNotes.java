@@ -17,12 +17,14 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -103,6 +105,27 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @Nullable
   public static Change readOneReviewDbChange(ReviewDb db, Change.Id id) throws OrmException {
     return ReviewDbUtil.unwrapDb(db).changes().get(id);
+  }
+
+  public static List<String> getHashtags(ObjectId treeTip, ChangeNotesCommit.ChangeNotesRevWalk walk) throws IOException {
+    // Commits are parsed in reverse order and only the last set of hashtags
+    // should be used.
+    walk.reset();
+    walk.markStart(walk.parseCommit(treeTip));
+
+    ChangeNotesCommit commit;
+    List<String> hashtags = new ArrayList<>();
+    while ((commit = walk.next()) != null) {
+      List<String> hashtagsLines = commit.getFooterLineValues(FOOTER_HASHTAGS);
+      if (!hashtagsLines.isEmpty() && !hashtagsLines.get(0).isEmpty() && !(hashtagsLines.size() > 1)) {
+        Iterable<String> iterable = Splitter.on(',').split(hashtagsLines.get(0));
+        iterable.forEach(hashtags::add);
+      } else if (hashtagsLines.size() > 1) {
+        logger.atSevere().log(
+            "Expected one footer for %s", hashtagsLines);
+      }
+    }
+    return hashtags;
   }
 
   @Singleton

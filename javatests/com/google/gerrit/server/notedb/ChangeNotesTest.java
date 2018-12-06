@@ -22,6 +22,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REMOVED;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static junit.framework.TestCase.assertEquals;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
 
@@ -58,6 +59,7 @@ import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -750,6 +752,22 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       RevCommit commit = walk.parseCommit(update.getResult());
       walk.parseBody(commit);
       assertThat(commit.getFullMessage()).contains("Hashtags: tag1,tag2\n");
+    }
+  }
+
+  @Test
+  public void getHashTags() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    LinkedHashSet<String> hashtags = new LinkedHashSet<>();
+    hashtags.add("tag1");
+    hashtags.add("tag2");
+    update.setHashtags(hashtags);
+    update.commit();
+    try (RevWalk walk = new RevWalk(repo)) {
+      RevCommit commit = walk.parseCommit(update.getResult());
+      walk.parseBody(commit);
+      assertEquals(Arrays.asList("tag1","tag2"), ChangeNotes.getHashtags(commit, ChangeNotesCommit.newRevWalk(repo)));
     }
   }
 

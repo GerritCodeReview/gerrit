@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b896bcdc_38c23ae4",
+        "filename": "lib/mockito/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-06T14:50:55Z",
+      "side": 1,
+      "message": "All rules specify their own visibility so this isn\u0027t buying you anything. I think the default default_visibility of private is fine: given the current package structure, the intent is to only expose a whitelist of targets.\n\nAlso, consider setting default_testonly here as well.",
+      "revId": "5db4fac9c3cf98b3a74b36b3a2f2884f5673686d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b348c23_2e227dad",
+        "filename": "lib/mockito/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-06T14:50:55Z",
+      "side": 1,
+      "message": "Add a comment about why this has limited visibility? Something like: \"Only exposed for plugin tests; core code should currnetly use EasyMock.\"",
+      "revId": "5db4fac9c3cf98b3a74b36b3a2f2884f5673686d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

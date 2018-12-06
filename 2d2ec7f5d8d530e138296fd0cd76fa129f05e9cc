@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "baf582dc_1fbae85c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-06T08:05:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5214b2e_b8a68dcb",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 66
+      },
+      "revId": "2d2ec7f5d8d530e138296fd0cd76fa129f05e9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "acd0a798_7d5d1685",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/SshCommandsIT.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "2d2ec7f5d8d530e138296fd0cd76fa129f05e9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f93dd27_58ab4563",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/SshCommandsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-06T08:05:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acd0a798_7d5d1685",
+      "range": {
+        "startLine": 82,
+        "startChar": 70,
+        "endLine": 82,
+        "endChar": 76
+      },
+      "revId": "2d2ec7f5d8d530e138296fd0cd76fa129f05e9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

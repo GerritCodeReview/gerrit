@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1544040782 -0800\nnonce AGLkUnAtuMc8xsZ5q+2DC2PQ649oS/QpkcF1HQeDCFwtnFtY7qhupCh2QmOkJTdpGGiwTgugvEB4\n\n0000000000000000000000000000000000000000 45db4616c2e2ac6a417e91c813567d2d24a25a9d refs/for/master%r\u003dxchangcheng,r\u003dhiesel@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlwIMU4VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMYFMP/R1bUS7iIUlGbWDaqPL/8Lwmhp0b\n8tcPVW4HOM0gihNJGW/4M29vbj/gi7MpjSYjaz6eQYc6fQyi9cD7Xy62oF97vO3r\nwjU/f7haiF8hALGu/UPEIt09nwig9fgNE4uRQU9BKZ4AcPkWcXNumrdj9QmGnyRr\n+GzAOMbW7OfT0Ey5c9FY0U5Q2Akot8Y4Jk2psc78RBOjq+e9FVEGPA4P28euJK0I\n+30hzinj/VHfULFCObcEkGBMjfV4wleXa4N/CJPHs8olSpyRl02Jg7tVpD+b9vnA\ndpSCvlJ0W1GTYL2BQgEwo3WvSuU3rZm+AxASqZyZkulHKB/qIHgvP8kc3JBhIJ8z\nm3EcnDbHXcf1odJIRjtj5G/8CGUqPQqtmgI5TWxk/drd5dAqFG8A31UTpG8chp0A\na2O3oVi9mCeZKdUGM8R0mye+iSP0naMHNxyiZMNPJihh+hW1oTwhUEdrr8MesFxJ\nOXn0hA9I8SqzDQBy9mWS5/FWVoZud3N3dFqkEthqwAUpUfN4zG7pwwvURjTfONKi\nm/ZaaRPLH0KeOu8XHigtnUFGmdcFyzpUOkVNSCLm3rkUJF16NhdWd4GVTO3IhdHZ\nsz0YyEXLZwQb7VcE8fgfmJ/ex3HB2uo7vOPHGeaPtdM69JkrSaq18rmDGazOsCta\nmvaZFkvKcz1KK36Z\n\u003da3Ng\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9f76c55_b10c6c1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-06T00:37:30Z",
+      "side": 1,
+      "message": "Looking at the Javadoc of @GerritPersonIdent it explicitly says that a provider should be used so that a fresh time stamp is created.\n\nIt looks like there are quite a few other places in the code where we don\u0027t use a provider, but instead directly inject GerritPersonIdent.  We should look at those and fix them if necessary.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "45db4616c2e2ac6a417e91c813567d2d24a25a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

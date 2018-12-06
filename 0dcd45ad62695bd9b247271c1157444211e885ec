@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "38530a70_d0bff2ab",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-06T16:01:52Z",
+      "side": 1,
+      "message": "I\u0027m fine with how it\u0027s solved right now. If it helps, we can prohibit further reviewdb migrations on 2.16.",
+      "parentUuid": "f2dcb45d_0302707c",
+      "range": {
+        "startLine": 137,
+        "startChar": 7,
+        "endLine": 138,
+        "endChar": 95
+      },
+      "revId": "0dcd45ad62695bd9b247271c1157444211e885ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce64fc56_0a201478",
         "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
         "patchSetId": 2

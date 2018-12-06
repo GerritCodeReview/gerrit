@@ -23,6 +23,30 @@
       "revId": "45db4616c2e2ac6a417e91c813567d2d24a25a9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3345201_bb19957e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-12-06T07:30:44Z",
+      "side": 1,
+      "message": "You are right. We are sitting on this for a while now and never found the time to get all of these resolved :/.",
+      "parentUuid": "e9f76c55_b10c6c1f",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "45db4616c2e2ac6a417e91c813567d2d24a25a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ca89d16_ae18530e",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-06T16:30:00Z",
+      "side": 0,
+      "message": "I believe we should keep this section but adding “if not using NoteDb”.\n\n2.16 still support ReviewDb for changes and, in that case, you shouldn’t use H2",
+      "revId": "9288ff153b80cd17b41f2f196fa08976879e5333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

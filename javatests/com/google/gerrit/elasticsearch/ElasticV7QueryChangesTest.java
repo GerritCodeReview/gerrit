@@ -21,7 +21,12 @@ import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.IndexConfig;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.eclipse.jgit.lib.Config;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -32,7 +37,8 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
   }
 
   private static ElasticNodeInfo nodeInfo;
-  private static ElasticContainer<?> container;
+  private static ElasticContainer container;
+  private static CloseableHttpAsyncClient client;
 
   @BeforeClass
   public static void startIndexService() {
@@ -43,6 +49,8 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
 
     container = ElasticContainer.createAndStart(ElasticVersion.V7_0);
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
+    client = HttpAsyncClients.createDefault();
+    client.start();
   }
 
   @AfterClass
@@ -50,6 +58,16 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
     if (container != null) {
       container.stop();
     }
+  }
+
+  @After
+  public void closeIndex() {
+    client.execute(
+        new HttpPost(
+            String.format(
+                "http://localhost:%d/%s*/_close", nodeInfo.port, getSanitizedMethodName())),
+        HttpClientContext.create(),
+        null);
   }
 
   @Override

@@ -191,9 +191,9 @@ maven_jar(
 
 maven_jar(
     name = "gwtorm-client",
-    artifact = "com.google.gerrit:gwtorm:1.18",
-    sha1 = "f326dec463439a92ccb32f05b38345e21d0b5ecf",
-    src_sha1 = "e0b973d5cafef3d145fa80cdf032fcead1186d29",
+    artifact = "com.google.gerrit:gwtorm:1.20",
+    sha1 = "a4809769b710bc8ce3f203125630b8419f0e58b0",
+    src_sha1 = "cb63296276ce3228b2d83a37017a99e38ad8ed42",
 )
 
 maven_jar(

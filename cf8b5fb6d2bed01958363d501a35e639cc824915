@@ -123,6 +123,30 @@
     },
     {
       "key": {
+        "uuid": "ab65f33d_1f725501",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-06T22:48:39Z",
+      "side": 1,
+      "message": "Are we going to merged that and revert later?",
+      "parentUuid": "af83b53b_1fdd82d7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "cf8b5fb6d2bed01958363d501a35e639cc824915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1724c52f_971e5cb5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

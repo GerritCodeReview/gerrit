@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "11481740_2b5b91a7",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-06T15:41:33Z",
+      "side": 1,
+      "message": "I agree that the corner case pointed out by Edwin exists but I personally don\u0027t think it\u0027s that serious. To hit it you have to observe init failing on 2.16, which means you literally won\u0027t be able to launch a 2.16 daemon. Then you decide that instead of ever running a successful init/daemon on 2.16, you would rather upgrade to 3.0. Do you think that\u0027s realistic enough to change our whole approach?\n\nAnother possibility: we might be able to make this change detect schema 167, which migrates groups to NoteDb. That just leaves:\n\n* 168: No-op; deletes some ReviewDb tables\n* 169: Migrate NoteDb comments to JSON. Could be easily duplicated as a ReviewDb schema upgrade.\n* 170: No-op; deletes ReviewDb tables.\n\nTo detect whether 167 was done, we can just look for the group name ref in NoteDb. The only assumption we\u0027re making is that there exists at least one internal group. I think this is a safe assumption, because init always creates the Administrators group and IIRC groups can\u0027t be deleted.\n\nWDYT?",
+      "parentUuid": "a3b10a74_048b2b80",
+      "range": {
+        "startLine": 137,
+        "startChar": 7,
+        "endLine": 138,
+        "endChar": 95
+      },
+      "revId": "0dcd45ad62695bd9b247271c1157444211e885ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce64fc56_0a201478",
         "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
         "patchSetId": 2

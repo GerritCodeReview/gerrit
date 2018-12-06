@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acd0a798_7d5d1685",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/SshCommandsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-06T08:00:06Z",
+      "side": 1,
+      "message": "remove these",
+      "range": {
+        "startLine": 82,
+        "startChar": 70,
+        "endLine": 82,
+        "endChar": 76
+      },
+      "revId": "2d2ec7f5d8d530e138296fd0cd76fa129f05e9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

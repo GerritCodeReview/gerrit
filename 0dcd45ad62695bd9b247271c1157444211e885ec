@@ -315,6 +315,30 @@
     },
     {
       "key": {
+        "uuid": "47fa6b06_e5122eed",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-06T21:37:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "56b65d6c_ab8b38bb",
+      "range": {
+        "startLine": 171,
+        "startChar": 6,
+        "endLine": 171,
+        "endChar": 37
+      },
+      "revId": "0dcd45ad62695bd9b247271c1157444211e885ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "750807f2_91286353",
         "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
         "patchSetId": 2

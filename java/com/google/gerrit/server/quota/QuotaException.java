@@ -21,6 +21,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
  * Can be propagated directly to the REST API.
  */
 public class QuotaException extends RestApiException {
+  private static final long serialVersionUID = 1L;
+
   public QuotaException(String reason) {
     super(reason);
   }

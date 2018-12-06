@@ -28,7 +28,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.sshd.Commands;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -80,27 +79,35 @@ public class SshCommandsIT extends AbstractDaemonTest {
           "stream-events",
           "test-submit");
 
+  private static final ImmutableList<String> EMPTY = ImmutableList.of();
   private static final ImmutableMap<String, List<String>> MASTER_COMMANDS =
-      ImmutableMap.of(
-          Commands.ROOT,
-          Streams.concat(COMMON_ROOT_COMMANDS.stream(), MASTER_ONLY_ROOT_COMMANDS.stream())
-              .sorted()
-              .collect(toImmutableList()),
-          "index",
-          ImmutableList.of(
-              "changes", "changes-in-project"), // "activate" and "start" are not included
-          "logging",
-          ImmutableList.of("ls", "set"),
-          "plugin",
-          ImmutableList.of("add", "enable", "install", "ls", "reload", "remove", "rm"),
-          "test-submit",
-          ImmutableList.of("rule", "type"));
+      ImmutableMap.<String, List<String>>builder()
+          .put("kill", EMPTY)
+          .put("ps", EMPTY)
+          // TODO(dpursehouse): Add "scp" and "suexec"
+          .put(
+              "gerrit",
+              Streams.concat(COMMON_ROOT_COMMANDS.stream(), MASTER_ONLY_ROOT_COMMANDS.stream())
+                  .sorted()
+                  .collect(toImmutableList()))
+          .put(
+              "gerrit index",
+              ImmutableList.of(
+                  "changes", "changes-in-project")) // "activate" and "start" are not included
+          .put("gerrit logging", ImmutableList.of("ls", "set"))
+          .put(
+              "gerrit plugin",
+              ImmutableList.of("add", "enable", "install", "ls", "reload", "remove", "rm"))
+          .put("gerrit test-submit", ImmutableList.of("rule", "type"))
+          .build();
 
   private static final ImmutableMap<String, List<String>> SLAVE_COMMANDS =
       ImmutableMap.of(
-          Commands.ROOT,
+          "kill",
+          EMPTY,
+          "gerrit",
           COMMON_ROOT_COMMANDS,
-          "plugin",
+          "gerrit plugin",
           ImmutableList.of("add", "enable", "install", "ls", "reload", "remove", "rm"));
 
   @Test
@@ -117,20 +124,28 @@ public class SshCommandsIT extends AbstractDaemonTest {
 
   private void testCommandExecution(Map<String, List<String>> commands) throws Exception {
     for (String root : commands.keySet()) {
-      for (String command : commands.get(root)) {
-        // We can't assert that adminSshSession.hasError() is false, because using the --help
-        // option causes the usage info to be written to stderr. Instead, we assert on the
-        // content of the stderr, which will always start with "gerrit command" when the --help
-        // option is used.
-        String cmd = String.format("gerrit%s%s %s", root.isEmpty() ? "" : " ", root, command);
-        logger.atFine().log(cmd);
-        adminSshSession.exec(String.format("%s --help", cmd));
-        String response = adminSshSession.getError();
-        assertWithMessage(String.format("command %s failed: %s", command, response))
-            .that(response)
-            .startsWith(cmd);
+      List<String> cmds = commands.get(root);
+      if (cmds.isEmpty()) {
+        testCommandExecution(root);
+      } else {
+        for (String cmd : cmds) {
+          testCommandExecution(String.format("%s %s", root, cmd));
+        }
       }
     }
+  }
+
+  private void testCommandExecution(String cmd) throws Exception {
+    // We can't assert that adminSshSession.hasError() is false, because using the --help
+    // option causes the usage info to be written to stderr. Instead, we assert on the
+    // content of the stderr, which will always start with "gerrit command" when the --help
+    // option is used.
+    logger.atFine().log(cmd);
+    adminSshSession.exec(String.format("%s --help", cmd));
+    String response = adminSshSession.getError();
+    assertWithMessage(String.format("command %s failed: %s", cmd, response))
+        .that(response)
+        .startsWith(cmd);
   }
 
   @Test
@@ -145,12 +160,12 @@ public class SshCommandsIT extends AbstractDaemonTest {
   public void listCommands() throws Exception {
     adminSshSession.exec("gerrit --help");
     List<String> commands = parseCommandsFromGerritHelpText(adminSshSession.getError());
-    assertThat(commands).containsExactlyElementsIn(MASTER_COMMANDS.get(Commands.ROOT)).inOrder();
+    assertThat(commands).containsExactlyElementsIn(MASTER_COMMANDS.get("gerrit")).inOrder();
 
     restartAsSlave();
     adminSshSession.exec("gerrit --help");
     commands = parseCommandsFromGerritHelpText(adminSshSession.getError());
-    assertThat(commands).containsExactlyElementsIn(SLAVE_COMMANDS.get(Commands.ROOT)).inOrder();
+    assertThat(commands).containsExactlyElementsIn(SLAVE_COMMANDS.get("gerrit")).inOrder();
   }
 
   private List<String> parseCommandsFromGerritHelpText(String helpText) {

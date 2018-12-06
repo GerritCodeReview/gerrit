@@ -18,6 +18,7 @@ java_library(
         "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/testcontainers",
+        "//lib/testcontainers:testcontainers-elasticsearch",
     ],
 )
 
@@ -73,7 +74,10 @@ ELASTICSEARCH_TAGS = [
     size = "large",
     srcs = [src],
     tags = ELASTICSEARCH_TAGS + ["flaky"],
-    deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name],
+    deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name] + [
+        "//lib/httpcomponents:httpasyncclient",
+        "//lib/httpcomponents:httpclient",
+    ],
 ) for name, src in ELASTICSEARCH_TESTS_V7.items()]
 
 junit_tests(

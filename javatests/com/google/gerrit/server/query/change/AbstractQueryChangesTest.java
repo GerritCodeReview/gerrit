@@ -1709,6 +1709,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
     assertQuery(q + " visibleto:" + user2.get(), change1);
 
+    String g1 = createGroup("group1", "Administrators");
+    gApi.groups().id(g1).addMembers("anotheruser");
+    assertQuery(q + " visibleto:" + g1, change1);
+
     requestContext.setContext(
         newRequestContext(
             accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId()));

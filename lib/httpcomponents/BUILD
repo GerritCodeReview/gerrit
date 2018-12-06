@@ -30,7 +30,10 @@ java_library(
 java_library(
     name = "httpasyncclient",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//java/com/google/gerrit/elasticsearch:__pkg__"],
+    visibility = [
+        "//java/com/google/gerrit/elasticsearch:__pkg__",
+        "//javatests/com/google/gerrit/elasticsearch:__pkg__",
+    ],
     exports = ["@httpasyncclient//jar"],
 )
 

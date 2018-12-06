@@ -193,6 +193,30 @@
     },
     {
       "key": {
+        "uuid": "90c3040d_c4444b8e",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-06T17:42:12Z",
+      "side": 1,
+      "message": "I\u0027m fine with both options.",
+      "parentUuid": "7746bec6_af061cf8",
+      "range": {
+        "startLine": 137,
+        "startChar": 7,
+        "endLine": 138,
+        "endChar": 95
+      },
+      "revId": "0dcd45ad62695bd9b247271c1157444211e885ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce64fc56_0a201478",
         "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
         "patchSetId": 2

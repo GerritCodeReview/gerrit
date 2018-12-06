@@ -47,6 +47,30 @@
       "revId": "45db4616c2e2ac6a417e91c813567d2d24a25a9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01114f29_a8b4d8d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-06T14:45:08Z",
+      "side": 1,
+      "message": "That\u0027s what the series at https://gerrit-review.googlesource.com/c/gerrit/+/175412 is intended to address, but I never got tests passing so I gave up.",
+      "parentUuid": "c3345201_bb19957e",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "45db4616c2e2ac6a417e91c813567d2d24a25a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

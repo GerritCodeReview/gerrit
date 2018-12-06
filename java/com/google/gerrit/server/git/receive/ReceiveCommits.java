@@ -1753,9 +1753,10 @@ class ReceiveCommits {
           reject(cmd, "cannot use merged with base");
           return;
         }
-        RevCommit branchTip = readBranchTip(cmd, magicBranch.dest);
+        RevCommit branchTip = readBranchTip(magicBranch.dest);
         if (branchTip == null) {
-          return; // readBranchTip already rejected cmd.
+          reject(cmd, magicBranch.dest.get() + " not found");
+          return;
         }
         if (!walk.isMergedInto(tip, branchTip)) {
           reject(cmd, "not merged into branch");
@@ -1793,12 +1794,21 @@ class ReceiveCommits {
           }
         }
       } else if (newChangeForAllNotInTarget) {
-        RevCommit branchTip = readBranchTip(cmd, magicBranch.dest);
-        if (branchTip == null) {
-          return; // readBranchTip already rejected cmd.
+        RevCommit branchTip = readBranchTip(magicBranch.dest);
+        if (branchTip != null) {
+          magicBranch.baseCommit = Collections.singletonList(branchTip);
+          logger.atFine().log("Set baseCommit = %s", magicBranch.baseCommit.get(0).name());
+        } else {
+          // The target branch does not exist. Usually pushing changes for review requires that the
+          // target branch exists, but there is an exception for the branch to which HEAD points to
+          // and for refs/meta/config. Pushing for review to these branches is allowed even if the
+          // branch does not exist yet. This allows to push initial code for review to an empty
+          // repository and to review an initial project configuration.
+          if (!ref.equals(readHEAD(repo)) && !ref.equals(RefNames.REFS_CONFIG)) {
+            reject(cmd, magicBranch.dest.get() + " not found");
+            return;
+          }
         }
-        magicBranch.baseCommit = Collections.singletonList(branchTip);
-        logger.atFine().log("Set baseCommit = %s", magicBranch.baseCommit.get(0).name());
       }
     } catch (IOException ex) {
       logger.atWarning().withCause(ex).log(
@@ -1872,10 +1882,9 @@ class ReceiveCommits {
     }
   }
 
-  private RevCommit readBranchTip(ReceiveCommand cmd, Branch.NameKey branch) throws IOException {
+  private RevCommit readBranchTip(Branch.NameKey branch) throws IOException {
     Ref r = allRefs().get(branch.get());
     if (r == null) {
-      reject(cmd, branch.get() + " not found");
       return null;
     }
     return receivePack.getRevWalk().parseCommit(r.getObjectId());

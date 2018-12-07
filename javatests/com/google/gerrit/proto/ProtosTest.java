@@ -25,7 +25,7 @@ import org.junit.Test;
 
 public class ProtosTest extends GerritBaseTests {
   @Test
-  public void parseUncheckedWrongProtoType() {
+  public void parseUncheckedByteArrayWrongProtoType() {
     ChangeNotesKeyProto proto =
         ChangeNotesKeyProto.newBuilder()
             .setProject("project")
@@ -42,7 +42,7 @@ public class ProtosTest extends GerritBaseTests {
   }
 
   @Test
-  public void parseUncheckedInvalidData() {
+  public void parseUncheckedByteArrayInvalidData() {
     byte[] bytes = new byte[] {0x00};
     try {
       Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes);
@@ -53,7 +53,7 @@ public class ProtosTest extends GerritBaseTests {
   }
 
   @Test
-  public void parseUnchecked() {
+  public void parseUncheckedByteArray() {
     ChangeNotesKeyProto proto =
         ChangeNotesKeyProto.newBuilder()
             .setProject("project")
@@ -62,5 +62,86 @@ public class ProtosTest extends GerritBaseTests {
             .build();
     byte[] bytes = Protos.toByteArray(proto);
     assertThat(Protos.parseUnchecked(ChangeNotesKeyProto.parser(), bytes)).isEqualTo(proto);
+  }
+
+  @Test
+  public void parseUncheckedSegmentOfByteArrayWrongProtoType() {
+    ChangeNotesKeyProto proto =
+        ChangeNotesKeyProto.newBuilder()
+            .setProject("project")
+            .setChangeId(1234)
+            .setId(ByteString.copyFromUtf8("foo"))
+            .build();
+    byte[] bytes = Protos.toByteArray(proto);
+    try {
+      Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes, 0, bytes.length);
+      assert_().fail("expected IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      // Expected.
+    }
+  }
+
+  @Test
+  public void parseUncheckedSegmentOfByteArrayInvalidData() {
+    byte[] bytes = new byte[] {0x00};
+    try {
+      Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes, 0, bytes.length);
+      assert_().fail("expected IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      // Expected.
+    }
+  }
+
+  @Test
+  public void parseUncheckedSegmentOfByteArray() {
+    ChangeNotesKeyProto proto =
+        ChangeNotesKeyProto.newBuilder()
+            .setProject("project")
+            .setChangeId(1234)
+            .setId(ByteString.copyFromUtf8("foo"))
+            .build();
+    byte[] bytes = Protos.toByteArray(proto);
+    assertThat(Protos.parseUnchecked(ChangeNotesKeyProto.parser(), bytes, 0, bytes.length))
+        .isEqualTo(proto);
+  }
+
+  @Test
+  public void parseUncheckedByteStringWrongProtoType() {
+    ChangeNotesKeyProto proto =
+        ChangeNotesKeyProto.newBuilder()
+            .setProject("project")
+            .setChangeId(1234)
+            .setId(ByteString.copyFromUtf8("foo"))
+            .build();
+    ByteString byteString = Protos.toByteString(proto);
+    try {
+      Protos.parseUnchecked(ChangeNotesStateProto.parser(), byteString);
+      assert_().fail("expected IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      // Expected.
+    }
+  }
+
+  @Test
+  public void parseUncheckedByteStringInvalidData() {
+    ByteString byteString = ByteString.copyFrom(new byte[] {0x00});
+    try {
+      Protos.parseUnchecked(ChangeNotesStateProto.parser(), byteString);
+      assert_().fail("expected IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      // Expected.
+    }
+  }
+
+  @Test
+  public void parseUncheckedByteString() {
+    ChangeNotesKeyProto proto =
+        ChangeNotesKeyProto.newBuilder()
+            .setProject("project")
+            .setChangeId(1234)
+            .setId(ByteString.copyFromUtf8("foo"))
+            .build();
+    ByteString byteString = Protos.toByteString(proto);
+    assertThat(Protos.parseUnchecked(ChangeNotesKeyProto.parser(), byteString)).isEqualTo(proto);
   }
 }

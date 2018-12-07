@@ -47,6 +47,28 @@ public class Protos {
   }
 
   /**
+   * Serializes a proto to a {@code ByteString}.
+   *
+   * <p>Guarantees deterministic serialization and thus is suitable for use in persistent caches.
+   * Should be used in preference to {@link MessageLite#toByteString()}, which is not guaranteed
+   * deterministic.
+   *
+   * @param message the proto message to serialize
+   * @return a {@code ByteString} with the message contents
+   */
+  public static ByteString toByteString(MessageLite message) {
+    try (ByteString.Output bout = ByteString.newOutput()) {
+      CodedOutputStream outputStream = CodedOutputStream.newInstance(bout);
+      outputStream.useDeterministicSerialization();
+      message.writeTo(outputStream);
+      outputStream.flush();
+      return bout.toByteString();
+    } catch (IOException e) {
+      throw new IllegalStateException("exception writing to ByteString", e);
+    }
+  }
+
+  /**
    * Serializes an object to a {@link ByteString} using a protobuf codec.
    *
    * <p>Guarantees deterministic serialization and thus is suitable for use in persistent caches.
@@ -81,6 +103,39 @@ public class Protos {
       return parser.parseFrom(in);
     } catch (IOException e) {
       throw new IllegalArgumentException("exception parsing byte array to proto", e);
+    }
+  }
+
+  /**
+   * Parses a specific segment of a byte array to a protobuf message.
+   *
+   * @param parser parser for the proto type
+   * @param in byte array with the message contents
+   * @param offset offset in the byte array to start reading from
+   * @param length amount of read bytes
+   * @return parsed proto
+   */
+  public static <M extends MessageLite> M parseUnchecked(
+      Parser<M> parser, byte[] in, int offset, int length) {
+    try {
+      return parser.parseFrom(in, offset, length);
+    } catch (IOException e) {
+      throw new IllegalArgumentException("exception parsing byte array to proto", e);
+    }
+  }
+
+  /**
+   * Parses a {@code ByteString} to a protobuf message.
+   *
+   * @param parser parser for the proto type
+   * @param byteString {@code ByteString} with the message contents
+   * @return parsed proto
+   */
+  public static <M extends MessageLite> M parseUnchecked(Parser<M> parser, ByteString byteString) {
+    try {
+      return parser.parseFrom(byteString);
+    } catch (IOException e) {
+      throw new IllegalArgumentException("exception parsing ByteString to proto", e);
     }
   }
 

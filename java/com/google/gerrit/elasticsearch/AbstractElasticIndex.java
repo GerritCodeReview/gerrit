@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
@@ -24,6 +25,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.common.Nullable;
@@ -40,6 +42,8 @@ import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.reviewdb.converter.ProtoConverter;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gson.Gson;
@@ -51,6 +55,7 @@ import com.google.gson.JsonParser;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.protobuf.MessageLite;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -93,6 +98,25 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return FluentIterable.from(field)
         .transform(i -> codec.decode(decodeBase64(i.toString())))
         .toList();
+  }
+
+  protected static <T> List<T> decodeProtos(
+      JsonObject doc, String fieldName, ProtoConverter<?, T> converter) {
+    JsonArray field = doc.getAsJsonArray(fieldName);
+    if (field == null) {
+      return null;
+    }
+    return Streams.stream(field)
+        .map(JsonElement::toString)
+        .map(Base64::decodeBase64)
+        .map(bytes -> parseProtoFrom(bytes, converter))
+        .collect(toImmutableList());
+  }
+
+  private static <P extends MessageLite, T> T parseProtoFrom(
+      byte[] bytes, ProtoConverter<P, T> converter) {
+    P message = Protos.parseUnchecked(converter.getParser(), bytes);
+    return converter.fromProto(message);
   }
 
   static String getContent(Response response) throws IOException {

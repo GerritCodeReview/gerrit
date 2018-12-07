@@ -19,8 +19,8 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.Protos.toByteString;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.MESSAGE_CODEC;
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.PATCH_SET_CODEC;
 import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
+import static com.google.gerrit.server.notedb.ChangeNotesState.Serializer.toByteString;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -31,6 +31,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.mail.Address;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -39,6 +40,7 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -340,14 +342,14 @@ public class ChangeNotesStateTest extends GerritBaseTests {
     ps1.setUploader(new Account.Id(2000));
     ps1.setRevision(new RevId("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     ps1.setCreatedOn(cols.createdOn());
-    ByteString ps1Bytes = toByteString(ps1, PATCH_SET_CODEC);
+    ByteString ps1Bytes = toByteString(ps1, PatchSetProtoConverter.INSTANCE);
     assertThat(ps1Bytes.size()).isEqualTo(66);
 
     PatchSet ps2 = new PatchSet(new PatchSet.Id(ID, 2));
     ps2.setUploader(new Account.Id(3000));
     ps2.setRevision(new RevId("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     ps2.setCreatedOn(cols.lastUpdatedOn());
-    ByteString ps2Bytes = toByteString(ps2, PATCH_SET_CODEC);
+    ByteString ps2Bytes = toByteString(ps2, PatchSetProtoConverter.INSTANCE);
     assertThat(ps2Bytes.size()).isEqualTo(66);
     assertThat(ps2Bytes).isNotEqualTo(ps1Bytes);
 
@@ -372,7 +374,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
                 new PatchSet.Id(ID, 1), new Account.Id(2001), new LabelId("Code-Review")),
             (short) 1,
             new Timestamp(1212L));
-    ByteString a1Bytes = toByteString(a1, APPROVAL_CODEC);
+    ByteString a1Bytes = Protos.toByteString(a1, APPROVAL_CODEC);
     assertThat(a1Bytes.size()).isEqualTo(43);
 
     PatchSetApproval a2 =

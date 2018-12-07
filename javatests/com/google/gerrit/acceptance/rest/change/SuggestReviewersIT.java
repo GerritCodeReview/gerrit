@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static java.util.stream.Collectors.toList;
@@ -23,6 +24,8 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
@@ -33,6 +36,7 @@ import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.group.InternalGroup;
@@ -40,12 +44,16 @@ import com.google.gerrit.server.restapi.group.CreateGroup;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.IntStream;
 import org.junit.Before;
 import org.junit.Test;
 
 public class SuggestReviewersIT extends AbstractDaemonTest {
   @Inject private CreateGroup createGroup;
   @Inject private ProjectOperations projectOperations;
+  @Inject private AccountOperations accountOperations;
+  @Inject private GroupOperations groupOperations;
 
   private InternalGroup group1;
   private InternalGroup group2;
@@ -282,6 +290,39 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "addreviewer.maxAllowed", value = "20")
+  @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value = "0")
+  public void confirmationIsNotNecessaryForLargeGroupWhenLimitIsRemoved() throws Exception {
+    String changeId = createChange().getChangeId();
+    int numMembers = 15;
+    AccountGroup.UUID largeGroup = createGroupWithArbitraryMembers(numMembers);
+    String groupName = groupOperations.group(largeGroup).get().name();
+
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, groupName, 10);
+
+    assertThat(reviewers).hasSize(1);
+    SuggestedReviewerInfo reviewer = Iterables.getOnlyElement(reviewers);
+    assertThat(reviewer.group.id).isEqualTo(largeGroup.get());
+    // Confirmation should not be necessary.
+    assertThat(reviewer.confirm).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "addreviewer.maxAllowed", value = "0")
+  public void largeGroupIsSuggestedWhenLimitIsRemoved() throws Exception {
+    String changeId = createChange().getChangeId();
+    int numMembers = 30;
+    AccountGroup.UUID largeGroup = createGroupWithArbitraryMembers(numMembers);
+    String groupName = groupOperations.group(largeGroup).get().name();
+
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, groupName, 10);
+
+    assertThat(reviewers).hasSize(1);
+    SuggestedReviewerInfo reviewer = Iterables.getOnlyElement(reviewers);
+    assertThat(reviewer.group.id).isEqualTo(largeGroup.get());
+  }
+
+  @Test
   public void defaultReviewerSuggestion() throws Exception {
     TestAccount user1 = user("customuser1", "User1");
     TestAccount reviewer1 = user("customuser2", "User2");
@@ -490,6 +531,14 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   private List<SuggestedReviewerInfo> suggestReviewers(String changeId, String query, int n)
       throws Exception {
     return gApi.changes().id(changeId).suggestReviewers(query).withLimit(n).get();
+  }
+
+  private AccountGroup.UUID createGroupWithArbitraryMembers(int numMembers) {
+    Set<Account.Id> members =
+        IntStream.rangeClosed(1, numMembers)
+            .mapToObj(i -> accountOperations.newAccount().create())
+            .collect(toImmutableSet());
+    return groupOperations.newGroup().members(members).create();
   }
 
   private InternalGroup newGroup(String name) throws Exception {

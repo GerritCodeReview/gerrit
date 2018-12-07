@@ -15,8 +15,6 @@
 package com.google.gerrit.testing;
 
 import com.google.common.base.CharMatcher;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.client.StandardKeyEncoder;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -24,10 +22,6 @@ import org.junit.rules.TestName;
 
 @Ignore
 public abstract class GerritBaseTests {
-  static {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
-
   @Rule public ExpectedException exception = ExpectedException.none();
   @Rule public final TestName testName = new TestName();
 

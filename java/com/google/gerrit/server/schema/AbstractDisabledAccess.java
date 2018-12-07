@@ -37,12 +37,6 @@ abstract class AbstractDisabledAccess<T, K extends Key<?>> implements Access<T, 
     return Futures.immediateCheckedFuture(null);
   }
 
-  private final NoChangesReviewDb wrapper;
-
-  AbstractDisabledAccess(NoChangesReviewDb wrapper) {
-    this.wrapper = wrapper;
-  }
-
   @Override
   public final int getRelationID() {
     throw new UnsupportedOperationException(GONE);

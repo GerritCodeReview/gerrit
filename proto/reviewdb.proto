@@ -14,160 +14,198 @@
 
 syntax = "proto2";
 
+package devtools.gerritcodereview;
+
 option java_package = "com.google.gerrit.proto.reviewdb";
 
-package devtools.gerritcodereview;
+// Serialized form of com.google.gerrit.reviewdb.client.Change.Id.
+// Next ID: 2
 message Change_Id {
-	required int32 id = 1;
+  required int32 id = 1;
 }
 
-message ChangeMessage_Key {
-	required Change_Id change_id = 1;
-	required string uuid = 2;
-}
-
-message PatchSet_Id {
-	required Change_Id change_id = 1;
-	required int32 patch_set_id = 2;
-}
-
-message Patch_Key {
-	required PatchSet_Id patch_set_id = 1;
-	required string file_name = 2;
-}
-
-message PatchLineComment_Key {
-	required Patch_Key patch_key = 1;
-	required string uuid = 2;
-}
-
-message Account_Id {
-	required int32 id = 1;
-}
-
-message LabelId {
-	required string id = 1;
-}
-
-message PatchSetApproval_Key {
-	required PatchSet_Id patch_set_id = 1;
-	required Account_Id account_id = 2;
-	required LabelId category_id = 3;
-}
-
-message CurrentSchemaVersion_Key {
-	required string one = 1;
-}
-
-message ChangeMessage {
-	required ChangeMessage_Key key = 1;
-	optional Account_Id author_id = 2;
-	optional fixed64 written_on = 3;
-	optional string message = 4;
-	optional PatchSet_Id patchset = 5;
-	optional string tag = 6;
-	optional Account_Id real_author = 7;
-}
-
+// Serialized form of com.google.gerrit.reviewdb.client.Change.Key.
+// Next ID: 2
 message Change_Key {
-	optional string id = 1;
+  optional string id = 1;
 }
 
-message Project_NameKey {
-	optional string name = 1;
-}
-
-message Branch_NameKey {
-	optional Project_NameKey project_name = 1;
-	optional string branch_name = 2;
-}
-
+// Serialized form of com.google.gerrit.reviewdb.client.Change.
+// Next ID: 24
 message Change {
-	required Change_Id change_id = 1;
-	optional Change_Key change_key = 2;
-	optional int32 row_version = 3;
-	optional fixed64 created_on = 4;
-	optional fixed64 last_updated_on = 5;
-	optional Account_Id owner_account_id = 7;
-	optional Branch_NameKey dest = 8;
-	optional uint32 status = 10;
-	optional int32 current_patch_set_id = 12;
-	optional string subject = 13;
-	optional string topic = 14;
-	optional string original_subject = 17;
-	optional string submission_id = 18;
-	optional Account_Id assignee = 19;
-	optional bool is_private = 20;
-	optional bool work_in_progress = 21;
-	optional bool review_started = 22;
-	optional Change_Id revert_of = 23;
-	optional string note_db_state = 101;
+  required Change_Id change_id = 1;
+  optional Change_Key change_key = 2;
+  optional int32 row_version = 3;
+  optional fixed64 created_on = 4;
+  optional fixed64 last_updated_on = 5;
+  optional Account_Id owner_account_id = 7;
+  optional Branch_NameKey dest = 8;
+  optional uint32 status = 10;
+  optional int32 current_patch_set_id = 12;
+  optional string subject = 13;
+  optional string topic = 14;
+  optional string original_subject = 17;
+  optional string submission_id = 18;
+  optional Account_Id assignee = 19;
+  optional bool is_private = 20;
+  optional bool work_in_progress = 21;
+  optional bool review_started = 22;
+  optional Change_Id revert_of = 23;
+  optional string note_db_state = 101;
+
+  // Deleted fields, should not be reused:
+  reserved 6;  // sortkey
+  reserved 9;  // open
+  reserved 11; // nbrPatchSets
+  reserved 15; // lastSha1MergeTested
+  reserved 16; // mergeable
 }
 
-message CommentRange {
-	optional int32 start_line = 1;
-	optional int32 start_character = 2;
-	optional int32 end_line = 3;
-	optional int32 end_character = 4;
+// Serialized form of com.google.gerrit.reviewdb.client.ChangeMessage.
+// Next ID: 3
+message ChangeMessage_Key {
+  required Change_Id change_id = 1;
+  required string uuid = 2;
 }
 
-message PatchLineComment {
-	required PatchLineComment_Key key = 1;
-	optional int32 line_nbr = 2;
-	optional Account_Id author_id = 3;
-	optional fixed64 written_on = 4;
-	optional uint32 status = 5;
-	optional int32 side = 6;
-	optional string message = 7;
-	optional string parent_uuid = 8;
-	optional CommentRange range = 9;
-	optional string tag = 10;
-	optional Account_Id real_author = 11;
-	optional bool unresolved = 12;
+// Serialized form of com.google.gerrit.reviewdb.client.ChangeMessage.
+// Next ID: 8
+message ChangeMessage {
+  required ChangeMessage_Key key = 1;
+  optional Account_Id author_id = 2;
+  optional fixed64 written_on = 3;
+  optional string message = 4;
+  optional PatchSet_Id patchset = 5;
+  optional string tag = 6;
+  optional Account_Id real_author = 7;
 }
 
-message PatchSetApproval {
-	required PatchSetApproval_Key key = 1;
-	optional int32 value = 2;
-	optional fixed64 granted = 3;
-	optional string tag = 6;
-	optional Account_Id real_account_id = 7;
-	optional bool post_submit = 8;
+// Serialized form of com.google.gerrit.reviewdb.client.Patch.Key.
+// Next ID: 3
+message Patch_Key {
+  required PatchSet_Id patch_set_id = 1;
+  required string file_name = 2;
 }
 
-message RevId {
-	optional string id = 1;
+// Serialized form of com.google.gerrit.reviewdb.client.PatchSet.Id.
+// Next ID: 3
+message PatchSet_Id {
+  required Change_Id change_id = 1;
+  required int32 patch_set_id = 2;
 }
 
+// Serialized form of com.google.gerrit.reviewdb.client.PatchSet.
+// Next ID: 10
 message PatchSet {
-	required PatchSet_Id id = 1;
-	optional RevId revision = 2;
-	optional Account_Id uploader_account_id = 3;
-	optional fixed64 created_on = 4;
-	optional string groups = 6;
-	optional string push_certificate = 8;
-	optional string description = 9;
+  required PatchSet_Id id = 1;
+  optional RevId revision = 2;
+  optional Account_Id uploader_account_id = 3;
+  optional fixed64 created_on = 4;
+  optional string groups = 6;
+  optional string push_certificate = 8;
+  optional string description = 9;
+
+  // Deleted fields, should not be reused:
+  reserved 5;  // draft
+  reserved 7;  // pushCertficate
 }
 
+// Serialized form of com.google.gerrit.reviewdb.client.PatchLineComment.Key.
+// Next ID: 3
+message PatchLineComment_Key {
+  required Patch_Key patch_key = 1;
+  required string uuid = 2;
+}
+
+// Serialized form of com.google.gerrit.reviewdb.client.PatchLineComment.
+// Next ID: 13
+message PatchLineComment {
+  required PatchLineComment_Key key = 1;
+  optional int32 line_nbr = 2;
+  optional Account_Id author_id = 3;
+  optional fixed64 written_on = 4;
+  optional uint32 status = 5;
+  optional int32 side = 6;
+  optional string message = 7;
+  optional string parent_uuid = 8;
+  optional CommentRange range = 9;
+  optional string tag = 10;
+  optional Account_Id real_author = 11;
+  optional bool unresolved = 12;
+}
+
+// Serialized form of com.google.gerrit.reviewdb.client.Account.Id.
+// Next ID: 2
+message Account_Id {
+  required int32 id = 1;
+}
+
+// Serialized form of com.google.gerrit.reviewdb.client.LabelId.
+// Next ID: 2
+message LabelId {
+  required string id = 1;
+}
+
+// Serialized form of com.google.gerrit.reviewdb.client.PatchSetApproval.Key.
+// Next ID: 4
+message PatchSetApproval_Key {
+  required PatchSet_Id patch_set_id = 1;
+  required Account_Id account_id = 2;
+  required LabelId category_id = 3;
+}
+
+// Serialized form of com.google.gerrit.reviewdb.client.PatchSetApproval.
+// Next ID: 9
+message PatchSetApproval {
+  required PatchSetApproval_Key key = 1;
+  optional int32 value = 2;
+  optional fixed64 granted = 3;
+  optional string tag = 6;
+  optional Account_Id real_account_id = 7;
+  optional bool post_submit = 8;
+
+  // Deleted fields, should not be reused:
+  reserved 4;  // changeOpen
+  reserved 5;  // changeSortKey
+}
+
+// Serialized form of com.google.gerrit.reviewdb.client.CurrentSchemaVersion.Key.
+// Next ID: 2
+message CurrentSchemaVersion_Key {
+  required string one = 1;
+}
+
+// Serialized form of com.google.gerrit.reviewdb.client.CurrentSchemaVersion.
+// Next ID: 3
 message CurrentSchemaVersion {
-	required CurrentSchemaVersion_Key singleton = 1;
-	optional int32 version_nbr = 2;
+  required CurrentSchemaVersion_Key singleton = 1;
+  optional int32 version_nbr = 2;
 }
 
-message AnyReviewDbPrimaryKey {
-	optional CurrentSchemaVersion_Key schema_version = 1;
-	optional Change_Id changes = 21;
-	optional PatchSetApproval_Key patch_set_approvals = 22;
-	optional ChangeMessage_Key change_messages = 23;
-	optional PatchSet_Id patch_sets = 24;
-	optional PatchLineComment_Key patch_comments = 26;
+// Serialized form of com.google.gerrit.reviewdb.client.Project.NameKey.
+// Next ID: 2
+message Project_NameKey {
+  optional string name = 1;
 }
 
-message AnyReviewDb {
-	optional CurrentSchemaVersion schema_version = 1;
-	optional Change changes = 21;
-	optional PatchSetApproval patch_set_approvals = 22;
-	optional ChangeMessage change_messages = 23;
-	optional PatchSet patch_sets = 24;
-	optional PatchLineComment patch_comments = 26;
+// Serialized form of com.google.gerrit.reviewdb.client.Branch.NameKey.
+// Next ID: 3
+message Branch_NameKey {
+  optional Project_NameKey project_name = 1;
+  optional string branch_name = 2;
+}
+
+// Serialized form of com.google.gerrit.reviewdb.client.CommentRange.
+// Next ID: 5
+message CommentRange {
+  optional int32 start_line = 1;
+  optional int32 start_character = 2;
+  optional int32 end_line = 3;
+  optional int32 end_character = 4;
+}
+
+// Serialized form of com.google.gerrit.reviewdb.client.RevId.
+// Next ID: 2
+message RevId {
+  optional string id = 1;
 }

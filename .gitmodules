@@ -37,3 +37,8 @@
 	path = plugins/singleusergroup
 	url = ../plugins/singleusergroup
 	branch = .
+
+[submodule "plugins/webhooks"]
+	path = plugins/webhooks
+	url = ../plugins/webhooks
+	branch = .

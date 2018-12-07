@@ -7,6 +7,7 @@ CORE_PLUGINS = [
     "replication",
     "reviewnotes",
     "singleusergroup",
+    "webhooks",
 ]
 
 CUSTOM_PLUGINS = [

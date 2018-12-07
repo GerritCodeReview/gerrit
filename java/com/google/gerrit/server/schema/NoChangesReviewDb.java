@@ -53,11 +53,11 @@ class NoChangesReviewDb implements ReviewDb {
   private final PatchLineCommentAccess patchComments;
 
   NoChangesReviewDb() {
-    changes = new Changes(this);
-    patchSetApprovals = new PatchSetApprovals(this);
-    changeMessages = new ChangeMessages(this);
-    patchSets = new PatchSets(this);
-    patchComments = new PatchLineComments(this);
+    changes = new Changes();
+    patchSetApprovals = new PatchSetApprovals();
+    changeMessages = new ChangeMessages();
+    patchSets = new PatchSets();
+    patchComments = new PatchLineComments();
   }
 
   @Override
@@ -121,8 +121,8 @@ class NoChangesReviewDb implements ReviewDb {
 
   private static class Changes extends AbstractDisabledAccess<Change, Change.Id>
       implements ChangeAccess {
-    private Changes(NoChangesReviewDb wrapper) {
-      super(wrapper);
+    private Changes() {
+      super();
     }
 
     @Override
@@ -134,8 +134,8 @@ class NoChangesReviewDb implements ReviewDb {
   private static class ChangeMessages
       extends AbstractDisabledAccess<ChangeMessage, ChangeMessage.Key>
       implements ChangeMessageAccess {
-    private ChangeMessages(NoChangesReviewDb wrapper) {
-      super(wrapper);
+    private ChangeMessages() {
+      super();
     }
 
     @Override
@@ -156,8 +156,8 @@ class NoChangesReviewDb implements ReviewDb {
 
   private static class PatchSets extends AbstractDisabledAccess<PatchSet, PatchSet.Id>
       implements PatchSetAccess {
-    private PatchSets(NoChangesReviewDb wrapper) {
-      super(wrapper);
+    private PatchSets() {
+      super();
     }
 
     @Override
@@ -174,8 +174,8 @@ class NoChangesReviewDb implements ReviewDb {
   private static class PatchSetApprovals
       extends AbstractDisabledAccess<PatchSetApproval, PatchSetApproval.Key>
       implements PatchSetApprovalAccess {
-    private PatchSetApprovals(NoChangesReviewDb wrapper) {
-      super(wrapper);
+    private PatchSetApprovals() {
+      super();
     }
 
     @Override
@@ -202,8 +202,8 @@ class NoChangesReviewDb implements ReviewDb {
   private static class PatchLineComments
       extends AbstractDisabledAccess<PatchLineComment, PatchLineComment.Key>
       implements PatchLineCommentAccess {
-    private PatchLineComments(NoChangesReviewDb wrapper) {
-      super(wrapper);
+    private PatchLineComments() {
+      super();
     }
 
     @Override

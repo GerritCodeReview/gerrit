@@ -50,6 +50,7 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/mina:sshd",
+        "//lib/mockito",
         "//prolog:gerrit-prolog-common",
     ],
 )

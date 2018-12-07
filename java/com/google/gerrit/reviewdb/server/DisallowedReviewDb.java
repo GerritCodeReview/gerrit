@@ -23,7 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
-public class DisallowReadFromChangesReviewDbWrapper extends ReviewDbWrapper {
+public class DisallowedReviewDb extends ReviewDbWrapper {
   private static final String MSG = "This table has been migrated to NoteDb";
 
   private final Changes changes;
@@ -32,7 +32,7 @@ public class DisallowReadFromChangesReviewDbWrapper extends ReviewDbWrapper {
   private final PatchSets patchSets;
   private final PatchLineComments patchComments;
 
-  public DisallowReadFromChangesReviewDbWrapper(ReviewDb db) {
+  public DisallowedReviewDb(ReviewDb db) {
     super(db);
     changes = new Changes(delegate.changes());
     patchSetApprovals = new PatchSetApprovals(delegate.patchSetApprovals());

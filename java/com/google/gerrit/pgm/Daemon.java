@@ -97,7 +97,7 @@ import com.google.gerrit.server.restapi.RestApiModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
-import com.google.gerrit.server.schema.ReviewDbSchemaVersionCheck;
+import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
@@ -290,7 +290,6 @@ public class Daemon extends SiteProgram {
         JythonShell shell = new JythonShell();
         shell.set("m", manager);
         shell.set("ds", dbInjector.getInstance(DataSourceProvider.class));
-        shell.set("schk", dbInjector.getInstance(ReviewDbSchemaVersionCheck.class));
         shell.set("d", this);
         shell.run();
       } else {
@@ -397,7 +396,7 @@ public class Daemon extends SiteProgram {
 
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
-    modules.add(ReviewDbSchemaVersionCheck.module());
+    modules.add(NoteDbSchemaVersionCheck.module());
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
 

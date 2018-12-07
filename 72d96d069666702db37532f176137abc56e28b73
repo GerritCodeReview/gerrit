@@ -23,6 +23,30 @@
       "revId": "72d96d069666702db37532f176137abc56e28b73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e435ec08_49378a35",
+        "filename": "java/com/google/gerrit/httpd/UniversalWebLoginFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-07T11:45:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aebcd8e0_01d35252",
+      "range": {
+        "startLine": 80,
+        "startChar": 10,
+        "endLine": 80,
+        "endChar": 23
+      },
+      "revId": "72d96d069666702db37532f176137abc56e28b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

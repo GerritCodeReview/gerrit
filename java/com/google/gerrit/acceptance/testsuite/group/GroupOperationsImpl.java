@@ -109,15 +109,23 @@ public class GroupOperationsImpl implements GroupOperations {
     }
 
     @Override
-    public boolean exists() throws Exception {
-      return groups.getGroup(groupUuid).isPresent();
+    public boolean exists() {
+      return getGroup(groupUuid).isPresent();
     }
 
     @Override
-    public TestGroup get() throws Exception {
-      Optional<InternalGroup> group = groups.getGroup(groupUuid);
+    public TestGroup get() {
+      Optional<InternalGroup> group = getGroup(groupUuid);
       checkState(group.isPresent(), "Tried to get non-existing test group");
       return toTestGroup(group.get());
+    }
+
+    private Optional<InternalGroup> getGroup(AccountGroup.UUID groupUuid) {
+      try {
+        return groups.getGroup(groupUuid);
+      } catch (IOException | ConfigInvalidException e) {
+        throw new IllegalStateException(e);
+      }
     }
 
     private TestGroup toTestGroup(InternalGroup internalGroup) {

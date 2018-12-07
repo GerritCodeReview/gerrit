@@ -126,9 +126,9 @@ public abstract class TestGroupUpdate {
     abstract TestGroupUpdate autoBuild();
 
     /** Executes the group update as specified. */
-    public void update() throws Exception {
+    public void update() {
       TestGroupUpdate groupUpdater = autoBuild();
-      groupUpdater.groupUpdater().accept(groupUpdater);
+      groupUpdater.groupUpdater().acceptAndThrowSilently(groupUpdater);
     }
   }
 }

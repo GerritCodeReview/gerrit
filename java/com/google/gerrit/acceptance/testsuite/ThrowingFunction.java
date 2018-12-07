@@ -18,4 +18,12 @@ package com.google.gerrit.acceptance.testsuite;
 public interface ThrowingFunction<T, R> {
 
   R apply(T value) throws Exception;
+
+  default R applyAndThrowSilently(T t) {
+    try {
+      return apply(t);
+    } catch (Exception e) {
+      throw new IllegalStateException(e);
+    }
+  }
 }

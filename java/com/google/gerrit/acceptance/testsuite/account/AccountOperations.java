@@ -65,7 +65,7 @@ public interface AccountOperations {
      *
      * @return {@code true} if the account exists
      */
-    boolean exists() throws Exception;
+    boolean exists();
 
     /**
      * Retrieves the account.
@@ -76,7 +76,7 @@ public interface AccountOperations {
      *
      * @return the corresponding {@code TestAccount}
      */
-    TestAccount get() throws Exception;
+    TestAccount get();
 
     /**
      * Starts the fluent chain to update an account. The returned builder can be used to specify how

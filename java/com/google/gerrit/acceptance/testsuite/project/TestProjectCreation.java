@@ -63,9 +63,9 @@ public abstract class TestProjectCreation {
      *
      * @return the name of the created project
      */
-    public Project.NameKey create() throws Exception {
+    public Project.NameKey create() {
       TestProjectCreation creation = autoBuild();
-      return creation.projectCreator().apply(creation);
+      return creation.projectCreator().applyAndThrowSilently(creation);
     }
   }
 }

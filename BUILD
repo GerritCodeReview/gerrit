@@ -9,7 +9,6 @@ genrule(
     cmd = ("cat bazel-out/volatile-status.txt bazel-out/stable-status.txt | " +
            "grep STABLE_BUILD_GERRIT_LABEL | cut -d ' ' -f 2 > $@"),
     stamp = 1,
-    visibility = ["//visibility:public"],
 )
 
 genrule(
@@ -17,7 +16,6 @@ genrule(
     srcs = ["//Documentation:licenses.txt"],
     outs = ["LICENSES.txt"],
     cmd = "cp $< $@",
-    visibility = ["//visibility:public"],
 )
 
 pkg_war(name = "gerrit")

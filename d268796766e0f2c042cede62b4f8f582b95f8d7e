@@ -23,6 +23,30 @@
       "revId": "d268796766e0f2c042cede62b4f8f582b95f8d7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "926da118_2d6a2d33",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-07T23:08:15Z",
+      "side": 1,
+      "message": "Yep, this is the cause of most of the remaining test failures. This change is still WIP but I\u0027m almost ready :)",
+      "parentUuid": "3bae3dc5_38c65c4c",
+      "range": {
+        "startLine": 373,
+        "startChar": 6,
+        "endLine": 377,
+        "endChar": 7
+      },
+      "revId": "d268796766e0f2c042cede62b4f8f582b95f8d7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

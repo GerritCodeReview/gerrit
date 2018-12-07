@@ -73,7 +73,7 @@ link:dev-release-deploy-config.html#deploy-configuration-subprojects[subprojects
 * Deploy the new release:
 +
 ----
-  mvn deploy
+  mvn deploy -DperformRelease=true
 ----
 
 * Push the pom change(s) to the project's repository

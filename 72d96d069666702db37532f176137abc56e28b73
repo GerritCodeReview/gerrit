@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1544173595 +0100\nnonce AGLkUnCQ2juCPE4gug0bk34cNs0GiYWyHp8Ydg++mI5TUAYmzXvGZ+asSVE3CdZ2nqKran1c3oR2\n\n0000000000000000000000000000000000000000 72d96d069666702db37532f176137abc56e28b73 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlwKOBsACgkQUbX9l6DQ\n71FYsggAg7weyyKVfvp0xGTeAcZE+S4kGH40yZxALRh3M3gSPti4GJ7OYVKRFCrI\n+tX74ZvLtDEA2+7aL9srP+6264UjEQgwEArTBHQhUvarMmUzYX4RnYeO/5XRSkiW\nAKswHow98aF7c3xujNNGX3zq/EBxQ1jidj7jHpdJ/ix2WjlPhmK3ZoiOxUYNOKNx\nzClQKPaAQHHif9hJjYbs16WZKw/WCuEDp7N3xZ8wrvyfMTwGCb/B6eyZANrGW77S\nmWjyHPXGMeYELTTMnjJWceKJYzIOargkuoT9fNkWJ02G3oMmaHpRRmYnn+Lmkf1i\n6SD4urjs8Ui5NHUkeGQ6FudDgtiZTQ\u003d\u003d\n\u003drYwJ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "aebcd8e0_01d35252",
+        "filename": "java/com/google/gerrit/httpd/UniversalWebLoginFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-07T11:13:17Z",
+      "side": 1,
+      "message": "Can this be renamed to something shorter so that the lambda expression doesn\u0027t wrap across two lines?\n\nFor example in other places in this change, it\u0027s just \"l\".",
+      "range": {
+        "startLine": 80,
+        "startChar": 10,
+        "endLine": 80,
+        "endChar": 23
+      },
+      "revId": "72d96d069666702db37532f176137abc56e28b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

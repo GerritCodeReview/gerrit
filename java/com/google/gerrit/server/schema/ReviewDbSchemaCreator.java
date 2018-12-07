@@ -27,10 +27,6 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.GerritServerId;
-import com.google.gerrit.server.config.SitePath;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -48,7 +44,6 @@ import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Collections;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -58,8 +53,6 @@ import org.eclipse.jgit.lib.Repository;
 
 /** Creates the current database schema and populates initial code rows. */
 public class ReviewDbSchemaCreator {
-  @SitePath private final Path site_path;
-
   private final GitRepositoryManager repoManager;
   private final AllProjectsCreator allProjectsCreator;
   private final AllUsersCreator allUsersCreator;
@@ -75,35 +68,6 @@ public class ReviewDbSchemaCreator {
 
   @Inject
   public ReviewDbSchemaCreator(
-      SitePaths site,
-      GitRepositoryManager repoManager,
-      AllProjectsCreator ap,
-      AllUsersCreator auc,
-      AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent au,
-      DataSourceType dst,
-      GroupIndexCollection ic,
-      @GerritServerId String serverId,
-      @GerritServerConfig Config config,
-      MetricMaker metricMaker,
-      AllProjectsName apName) {
-    this(
-        site.site_path,
-        repoManager,
-        ap,
-        auc,
-        allUsersName,
-        au,
-        dst,
-        ic,
-        serverId,
-        config,
-        metricMaker,
-        apName);
-  }
-
-  public ReviewDbSchemaCreator(
-      @SitePath Path site,
       GitRepositoryManager repoManager,
       AllProjectsCreator ap,
       AllUsersCreator auc,
@@ -115,7 +79,6 @@ public class ReviewDbSchemaCreator {
       Config config,
       MetricMaker metricMaker,
       AllProjectsName apName) {
-    site_path = site;
     this.repoManager = repoManager;
     allProjectsCreator = ap;
     allUsersCreator = auc;

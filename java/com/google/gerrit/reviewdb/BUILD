@@ -10,5 +10,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
         "//lib:gwtorm",
+        "//lib:protobuf",
+        "//proto:reviewdb_java_proto",
     ],
 )

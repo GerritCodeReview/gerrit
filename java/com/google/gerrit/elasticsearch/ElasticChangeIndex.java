@@ -16,7 +16,6 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.PATCH_SET_CODEC;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -45,6 +44,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -230,7 +230,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     // Any decoding that is done here must also be done in {@link LuceneChangeIndex}.
 
     // Patch sets.
-    cd.setPatchSets(decodeProtos(source, ChangeField.PATCH_SET.getName(), PATCH_SET_CODEC));
+    cd.setPatchSets(
+        decodeProtos(source, ChangeField.PATCH_SET.getName(), PatchSetProtoConverter.INSTANCE));
 
     // Approvals.
     if (source.get(ChangeField.APPROVAL.getName()) != null) {

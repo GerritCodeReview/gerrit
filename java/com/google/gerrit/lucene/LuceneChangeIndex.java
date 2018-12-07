@@ -14,10 +14,10 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.PATCH_SET_CODEC;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
@@ -42,10 +42,13 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
+import com.google.gerrit.reviewdb.converter.ProtoConverter;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -65,6 +68,7 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.protobuf.MessageLite;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -511,7 +515,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private void decodePatchSets(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    List<PatchSet> patchSets = decodeProtos(doc, PATCH_SET_FIELD, PATCH_SET_CODEC);
+    List<PatchSet> patchSets = decodeProtos(doc, PATCH_SET_FIELD, PatchSetProtoConverter.INSTANCE);
     if (!patchSets.isEmpty()) {
       // Will be an empty list for schemas prior to when this field was stored;
       // this cannot be valid since a change needs at least one patch set.
@@ -664,6 +668,23 @@ public class LuceneChangeIndex implements ChangeIndex {
       result.add(codec.decode(r.bytes, r.offset, r.length));
     }
     return result;
+  }
+
+  private static <T> List<T> decodeProtos(
+      ListMultimap<String, IndexableField> doc, String fieldName, ProtoConverter<?, T> converter) {
+    return doc.get(fieldName)
+        .stream()
+        .map(IndexableField::binaryValue)
+        .map(bytesRef -> parseProtoFrom(bytesRef, converter))
+        .collect(toImmutableList());
+  }
+
+  private static <P extends MessageLite, T> T parseProtoFrom(
+      BytesRef bytesRef, ProtoConverter<P, T> converter) {
+    P message =
+        Protos.parseUnchecked(
+            converter.getParser(), bytesRef.bytes, bytesRef.offset, bytesRef.length);
+    return converter.fromProto(message);
   }
 
   private static List<byte[]> copyAsBytes(Collection<IndexableField> fields) {

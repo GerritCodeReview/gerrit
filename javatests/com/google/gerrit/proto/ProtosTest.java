@@ -21,11 +21,12 @@ import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.protobuf.ByteString;
+import java.util.Arrays;
 import org.junit.Test;
 
 public class ProtosTest extends GerritBaseTests {
   @Test
-  public void parseUncheckedWrongProtoType() {
+  public void parseUncheckedByteArrayWrongProtoType() {
     ChangeNotesKeyProto proto =
         ChangeNotesKeyProto.newBuilder()
             .setProject("project")
@@ -42,7 +43,7 @@ public class ProtosTest extends GerritBaseTests {
   }
 
   @Test
-  public void parseUncheckedInvalidData() {
+  public void parseUncheckedByteArrayInvalidData() {
     byte[] bytes = new byte[] {0x00};
     try {
       Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes);
@@ -53,7 +54,7 @@ public class ProtosTest extends GerritBaseTests {
   }
 
   @Test
-  public void parseUnchecked() {
+  public void parseUncheckedByteArray() {
     ChangeNotesKeyProto proto =
         ChangeNotesKeyProto.newBuilder()
             .setProject("project")
@@ -62,5 +63,94 @@ public class ProtosTest extends GerritBaseTests {
             .build();
     byte[] bytes = Protos.toByteArray(proto);
     assertThat(Protos.parseUnchecked(ChangeNotesKeyProto.parser(), bytes)).isEqualTo(proto);
+  }
+
+  @Test
+  public void parseUncheckedSegmentOfByteArrayWrongProtoType() {
+    ChangeNotesKeyProto proto =
+        ChangeNotesKeyProto.newBuilder()
+            .setProject("project")
+            .setChangeId(1234)
+            .setId(ByteString.copyFromUtf8("foo"))
+            .build();
+    byte[] bytes = Protos.toByteArray(proto);
+    try {
+      Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes, 0, bytes.length);
+      assert_().fail("expected IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      // Expected.
+    }
+  }
+
+  @Test
+  public void parseUncheckedSegmentOfByteArrayInvalidData() {
+    byte[] bytes = new byte[] {0x00};
+    try {
+      Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes, 0, bytes.length);
+      assert_().fail("expected IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      // Expected.
+    }
+  }
+
+  @Test
+  public void parseUncheckedSegmentOfByteArray() {
+    ChangeNotesKeyProto proto =
+        ChangeNotesKeyProto.newBuilder()
+            .setProject("project")
+            .setChangeId(1234)
+            .setId(ByteString.copyFromUtf8("foo"))
+            .build();
+    byte[] protoBytes = Protos.toByteArray(proto);
+    int offset = 3;
+    int length = protoBytes.length;
+    byte[] bytes = new byte[length + 20];
+    Arrays.fill(bytes, (byte) 1);
+    System.arraycopy(protoBytes, 0, bytes, offset, length);
+
+    ChangeNotesKeyProto parsedProto =
+        Protos.parseUnchecked(ChangeNotesKeyProto.parser(), bytes, offset, length);
+
+    assertThat(parsedProto).isEqualTo(proto);
+  }
+
+  @Test
+  public void parseUncheckedByteStringWrongProtoType() {
+    ChangeNotesKeyProto proto =
+        ChangeNotesKeyProto.newBuilder()
+            .setProject("project")
+            .setChangeId(1234)
+            .setId(ByteString.copyFromUtf8("foo"))
+            .build();
+    ByteString byteString = Protos.toByteString(proto);
+    try {
+      Protos.parseUnchecked(ChangeNotesStateProto.parser(), byteString);
+      assert_().fail("expected IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      // Expected.
+    }
+  }
+
+  @Test
+  public void parseUncheckedByteStringInvalidData() {
+    ByteString byteString = ByteString.copyFrom(new byte[] {0x00});
+    try {
+      Protos.parseUnchecked(ChangeNotesStateProto.parser(), byteString);
+      assert_().fail("expected IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      // Expected.
+    }
+  }
+
+  @Test
+  public void parseUncheckedByteString() {
+    ChangeNotesKeyProto proto =
+        ChangeNotesKeyProto.newBuilder()
+            .setProject("project")
+            .setChangeId(1234)
+            .setId(ByteString.copyFromUtf8("foo"))
+            .build();
+    ByteString byteString = Protos.toByteString(proto);
+    assertThat(Protos.parseUnchecked(ChangeNotesKeyProto.parser(), byteString)).isEqualTo(proto);
   }
 }

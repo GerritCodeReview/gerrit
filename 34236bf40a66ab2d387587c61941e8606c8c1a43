@@ -555,6 +555,30 @@
     },
     {
       "key": {
+        "uuid": "eec42a83_8a51c360",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-07T14:27:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d6509293_14e5c870",
+      "range": {
+        "startLine": 53,
+        "startChar": 24,
+        "endLine": 53,
+        "endChar": 44
+      },
+      "revId": "34236bf40a66ab2d387587c61941e8606c8c1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d48e8c4f_7443ed24",
         "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
         "patchSetId": 5

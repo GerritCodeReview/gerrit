@@ -19,10 +19,8 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.proto.Protos.toByteString;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.MESSAGE_CODEC;
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.PATCH_SET_CODEC;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
@@ -50,6 +48,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
+import com.google.gerrit.reviewdb.converter.ProtoConverter;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -64,6 +64,8 @@ import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gson.Gson;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageLite;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
@@ -455,8 +457,12 @@ public abstract class ChangeNotesState {
 
       object.pastAssignees().forEach(a -> b.addPastAssignee(a.get()));
       object.hashtags().forEach(b::addHashtag);
-      object.patchSets().forEach(e -> b.addPatchSet(toByteString(e.getValue(), PATCH_SET_CODEC)));
-      object.approvals().forEach(e -> b.addApproval(toByteString(e.getValue(), APPROVAL_CODEC)));
+      object
+          .patchSets()
+          .forEach(e -> b.addPatchSet(toByteString(e.getValue(), PatchSetProtoConverter.INSTANCE)));
+      object
+          .approvals()
+          .forEach(e -> b.addApproval(Protos.toByteString(e.getValue(), APPROVAL_CODEC)));
 
       object.reviewers().asTable().cellSet().forEach(c -> b.addReviewer(toReviewerSetEntry(c)));
       object
@@ -480,7 +486,9 @@ public abstract class ChangeNotesState {
       object
           .submitRecords()
           .forEach(r -> b.addSubmitRecord(GSON.toJson(new StoredSubmitRecord(r))));
-      object.changeMessages().forEach(m -> b.addChangeMessage(toByteString(m, MESSAGE_CODEC)));
+      object
+          .changeMessages()
+          .forEach(m -> b.addChangeMessage(Protos.toByteString(m, MESSAGE_CODEC)));
       object.publishedComments().values().forEach(c -> b.addPublishedComment(GSON.toJson(c)));
 
       if (object.readOnlyUntil() != null) {
@@ -488,6 +496,12 @@ public abstract class ChangeNotesState {
       }
 
       return Protos.toByteArray(b.build());
+    }
+
+    @VisibleForTesting
+    static <T> ByteString toByteString(T object, ProtoConverter<?, T> converter) {
+      MessageLite message = converter.toProto(object);
+      return Protos.toByteString(message);
     }
 
     private static ChangeColumnsProto toChangeColumnsProto(ChangeColumns cols) {
@@ -574,7 +588,7 @@ public abstract class ChangeNotesState {
                   proto
                       .getPatchSetList()
                       .stream()
-                      .map(PATCH_SET_CODEC::decode)
+                      .map(bytes -> parseProtoFrom(PatchSetProtoConverter.INSTANCE, bytes))
                       .map(ps -> Maps.immutableEntry(ps.getId(), ps))
                       .collect(toImmutableList()))
               .approvals(
@@ -617,6 +631,12 @@ public abstract class ChangeNotesState {
         b.readOnlyUntil(new Timestamp(proto.getReadOnlyUntil()));
       }
       return b.build();
+    }
+
+    private static <P extends MessageLite, T> T parseProtoFrom(
+        ProtoConverter<P, T> converter, ByteString byteString) {
+      P message = Protos.parseUnchecked(converter.getParser(), byteString);
+      return converter.fromProto(message);
     }
 
     private static ChangeColumns toChangeColumns(Change.Id changeId, ChangeColumnsProto proto) {

@@ -30,6 +30,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -89,6 +90,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 public class ReviewerAdder {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
 
@@ -357,6 +360,8 @@ public class ReviewerAdder {
     // reviewers
     int maxAllowed = cfg.getInt("addreviewer", "maxAllowed", DEFAULT_MAX_REVIEWERS);
     if (maxAllowed > 0 && members.size() > maxAllowed) {
+      logger.atFine().log(
+          "Adding %d group members is not allowed (maxAllowed = %d)", members.size(), maxAllowed);
       return fail(
           input,
           FailureType.OTHER,
@@ -367,6 +372,9 @@ public class ReviewerAdder {
     int maxWithoutConfirmation =
         cfg.getInt("addreviewer", "maxWithoutConfirmation", DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
     if (!confirmed && maxWithoutConfirmation > 0 && members.size() > maxWithoutConfirmation) {
+      logger.atFine().log(
+          "Adding %d group members as reviewer requires confirmation (maxWithoutConfirmation = %d)",
+          members.size(), maxWithoutConfirmation);
       return fail(
           input,
           FailureType.OTHER,

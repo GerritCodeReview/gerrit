@@ -25,13 +25,13 @@ import com.google.common.cache.Weigher;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;
 import com.google.gerrit.server.cache.serialize.BooleanCacheSerializer;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.submit.SubmitDryRun;
@@ -143,7 +143,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
       @Override
       public byte[] serialize(EntryKey object) {
         ObjectIdConverter idConverter = ObjectIdConverter.create();
-        return ProtoCacheSerializers.toByteArray(
+        return Protos.toByteArray(
             MergeabilityKeyProto.newBuilder()
                 .setCommit(idConverter.toByteString(object.getCommit()))
                 .setInto(idConverter.toByteString(object.getInto()))
@@ -154,8 +154,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
 
       @Override
       public EntryKey deserialize(byte[] in) {
-        MergeabilityKeyProto proto =
-            ProtoCacheSerializers.parseUnchecked(MergeabilityKeyProto.parser(), in);
+        MergeabilityKeyProto proto = Protos.parseUnchecked(MergeabilityKeyProto.parser(), in);
         ObjectIdConverter idConverter = ObjectIdConverter.create();
         return new EntryKey(
             idConverter.fromByteString(proto.getCommit()),

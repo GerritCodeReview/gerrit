@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache.serialize;
+package com.google.gerrit.proto;
 
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.protobuf.ByteString;
@@ -21,14 +21,14 @@ import com.google.protobuf.MessageLite;
 import com.google.protobuf.Parser;
 import java.io.IOException;
 
-/** Static utilities for writing protobuf-based {@link CacheSerializer} implementations. */
-public class ProtoCacheSerializers {
+/** Static utilities for dealing with protobuf-based objects. */
+public class Protos {
   /**
    * Serializes a proto to a byte array.
    *
-   * <p>Guarantees deterministic serialization and thus is suitable for use in persistent caches.
-   * Should be used in preference to {@link MessageLite#toByteArray()}, which is not guaranteed
-   * deterministic.
+   * <p>Guarantees deterministic serialization. No matter whether the use case cares about
+   * determinism or not, always use this method in preference to {@link MessageLite#toByteArray()},
+   * which is not guaranteed deterministic.
    *
    * @param message the proto message to serialize.
    * @return a byte array with the message contents.
@@ -49,9 +49,9 @@ public class ProtoCacheSerializers {
   /**
    * Serializes an object to a {@link ByteString} using a protobuf codec.
    *
-   * <p>Guarantees deterministic serialization and thus is suitable for use in persistent caches.
-   * Should be used in preference to {@link ProtobufCodec#encodeToByteString(Object)}, which is not
-   * guaranteed deterministic.
+   * <p>Guarantees deterministic serialization. No matter whether the use case cares about
+   * determinism or not, always use this method in preference to {@link
+   * ProtobufCodec#encodeToByteString(Object)}, which is not guaranteed deterministic.
    *
    * @param object the object to serialize.
    * @param codec codec for serializing.
@@ -84,5 +84,5 @@ public class ProtoCacheSerializers {
     }
   }
 
-  private ProtoCacheSerializers() {}
+  private Protos() {}
 }

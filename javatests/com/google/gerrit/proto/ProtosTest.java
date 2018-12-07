@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache.serialize;
+package com.google.gerrit.proto;
 
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
@@ -23,7 +23,7 @@ import com.google.gerrit.testing.GerritBaseTests;
 import com.google.protobuf.ByteString;
 import org.junit.Test;
 
-public class ProtoCacheSerializersTest extends GerritBaseTests {
+public class ProtosTest extends GerritBaseTests {
   @Test
   public void parseUncheckedWrongProtoType() {
     ChangeNotesKeyProto proto =
@@ -32,9 +32,9 @@ public class ProtoCacheSerializersTest extends GerritBaseTests {
             .setChangeId(1234)
             .setId(ByteString.copyFromUtf8("foo"))
             .build();
-    byte[] bytes = ProtoCacheSerializers.toByteArray(proto);
+    byte[] bytes = Protos.toByteArray(proto);
     try {
-      ProtoCacheSerializers.parseUnchecked(ChangeNotesStateProto.parser(), bytes);
+      Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes);
       assert_().fail("expected IllegalArgumentException");
     } catch (IllegalArgumentException e) {
       // Expected.
@@ -45,7 +45,7 @@ public class ProtoCacheSerializersTest extends GerritBaseTests {
   public void parseUncheckedInvalidData() {
     byte[] bytes = new byte[] {0x00};
     try {
-      ProtoCacheSerializers.parseUnchecked(ChangeNotesStateProto.parser(), bytes);
+      Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes);
       assert_().fail("expected IllegalArgumentException");
     } catch (IllegalArgumentException e) {
       // Expected.
@@ -60,8 +60,7 @@ public class ProtoCacheSerializersTest extends GerritBaseTests {
             .setChangeId(1234)
             .setId(ByteString.copyFromUtf8("foo"))
             .build();
-    byte[] bytes = ProtoCacheSerializers.toByteArray(proto);
-    assertThat(ProtoCacheSerializers.parseUnchecked(ChangeNotesKeyProto.parser(), bytes))
-        .isEqualTo(proto);
+    byte[] bytes = Protos.toByteArray(proto);
+    assertThat(Protos.parseUnchecked(ChangeNotesKeyProto.parser(), bytes)).isEqualTo(proto);
   }
 }

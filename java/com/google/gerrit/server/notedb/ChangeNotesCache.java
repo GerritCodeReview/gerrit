@@ -20,6 +20,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers;
 import com.google.gerrit.server.notedb.AbstractChangeNotes.Args;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.inject.Inject;
@@ -85,7 +85,7 @@ public class ChangeNotesCache {
 
       @Override
       public byte[] serialize(Key object) {
-        return ProtoCacheSerializers.toByteArray(
+        return Protos.toByteArray(
             ChangeNotesKeyProto.newBuilder()
                 .setProject(object.project().get())
                 .setChangeId(object.changeId().get())
@@ -95,8 +95,7 @@ public class ChangeNotesCache {
 
       @Override
       public Key deserialize(byte[] in) {
-        ChangeNotesKeyProto proto =
-            ProtoCacheSerializers.parseUnchecked(ChangeNotesKeyProto.parser(), in);
+        ChangeNotesKeyProto proto = Protos.parseUnchecked(ChangeNotesKeyProto.parser(), in);
         return Key.create(
             new Project.NameKey(proto.getProject()),
             new Change.Id(proto.getChangeId()),

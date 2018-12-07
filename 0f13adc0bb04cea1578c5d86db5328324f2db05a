@@ -16,6 +16,24 @@
       "revId": "0f13adc0bb04cea1578c5d86db5328324f2db05a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05fdcf06_4784c3a4",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-07T07:37:36Z",
+      "side": 0,
+      "message": "With the latest version though, right?  I am still using 0.17.2 due to the problem with building it for OSX on homebrew.\n\nI\u0027m considering switching from homebrew to a manual build and install.",
+      "parentUuid": "32961c91_eaa19558",
+      "revId": "0f13adc0bb04cea1578c5d86db5328324f2db05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

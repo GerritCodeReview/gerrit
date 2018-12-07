@@ -21,12 +21,12 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.SetMultimap;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto.ExternalIdProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers;
 import java.util.Collection;
 
 /** Cache value containing all external IDs. */
@@ -68,7 +68,7 @@ public abstract class AllExternalIds {
           .stream()
           .map(extId -> toProto(idConverter, extId))
           .forEach(allBuilder::addExternalId);
-      return ProtoCacheSerializers.toByteArray(allBuilder.build());
+      return Protos.toByteArray(allBuilder.build());
     }
 
     private static ExternalIdProto toProto(ObjectIdConverter idConverter, ExternalId externalId) {
@@ -92,7 +92,7 @@ public abstract class AllExternalIds {
     public AllExternalIds deserialize(byte[] in) {
       ObjectIdConverter idConverter = ObjectIdConverter.create();
       return create(
-          ProtoCacheSerializers.parseUnchecked(AllExternalIdsProto.parser(), in)
+          Protos.parseUnchecked(AllExternalIdsProto.parser(), in)
               .getExternalIdList()
               .stream()
               .map(proto -> toExternalId(idConverter, proto))

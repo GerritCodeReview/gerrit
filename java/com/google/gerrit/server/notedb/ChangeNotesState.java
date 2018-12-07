@@ -19,10 +19,10 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.proto.Protos.toByteString;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.MESSAGE_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.PATCH_SET_CODEC;
-import static com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.toByteString;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
@@ -40,6 +40,7 @@ import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.mail.Address;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -60,7 +61,6 @@ import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.Reviewer
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerStatusUpdateProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers;
 import com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gson.Gson;
@@ -487,7 +487,7 @@ public abstract class ChangeNotesState {
         b.setReadOnlyUntil(object.readOnlyUntil().getTime()).setHasReadOnlyUntil(true);
       }
 
-      return ProtoCacheSerializers.toByteArray(b.build());
+      return Protos.toByteArray(b.build());
     }
 
     private static ChangeColumnsProto toChangeColumnsProto(ChangeColumns cols) {
@@ -555,8 +555,7 @@ public abstract class ChangeNotesState {
 
     @Override
     public ChangeNotesState deserialize(byte[] in) {
-      ChangeNotesStateProto proto =
-          ProtoCacheSerializers.parseUnchecked(ChangeNotesStateProto.parser(), in);
+      ChangeNotesStateProto proto = Protos.parseUnchecked(ChangeNotesStateProto.parser(), in);
       Change.Id changeId = new Change.Id(proto.getChangeId());
 
       ChangeNotesState.Builder b =

@@ -12,3 +12,15 @@ java_binary(
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )
+
+java_library(
+    name = "proto",
+    srcs = ["Protos.java"],
+    visibility = ["//visibility:public"],
+    deps = [
+        #        "//java/com/google/gerrit/common:annotations",
+        #        "//lib:guava",
+        "//lib:gwtorm",
+        "//lib:protobuf",
+    ],
+)

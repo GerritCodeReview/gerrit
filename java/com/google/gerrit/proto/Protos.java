@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache.serialize;
+package com.google.gerrit.proto;
 
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.protobuf.ByteString;
@@ -21,8 +21,8 @@ import com.google.protobuf.MessageLite;
 import com.google.protobuf.Parser;
 import java.io.IOException;
 
-/** Static utilities for writing protobuf-based {@link CacheSerializer} implementations. */
-public class ProtoCacheSerializers {
+/** Static utilities for dealing with protobuf-based objects. */
+public class Protos {
   /**
    * Serializes a proto to a byte array.
    *
@@ -84,5 +84,5 @@ public class ProtoCacheSerializers {
     }
   }
 
-  private ProtoCacheSerializers() {}
+  private Protos() {}
 }

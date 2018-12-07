@@ -17,10 +17,10 @@ package com.google.gerrit.server.git;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers;
 import java.util.Collection;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -111,13 +111,12 @@ public class TagSetHolder {
       if (tags != null) {
         b.setTags(tags.toProto());
       }
-      return ProtoCacheSerializers.toByteArray(b.build());
+      return Protos.toByteArray(b.build());
     }
 
     @Override
     public TagSetHolder deserialize(byte[] in) {
-      TagSetHolderProto proto =
-          ProtoCacheSerializers.parseUnchecked(TagSetHolderProto.parser(), in);
+      TagSetHolderProto proto = Protos.parseUnchecked(TagSetHolderProto.parser(), in);
       TagSetHolder holder = new TagSetHolder(new Project.NameKey(proto.getProjectName()));
       if (proto.hasTags()) {
         holder.tags = TagSet.fromProto(proto.getTags());

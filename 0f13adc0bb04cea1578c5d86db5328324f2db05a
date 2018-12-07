@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32961c91_eaa19558",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-07T07:28:24Z",
+      "side": 0,
+      "message": "buildifier could also clean this up. I have not checked that.",
+      "revId": "0f13adc0bb04cea1578c5d86db5328324f2db05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,8 +70,8 @@ public class RestApiQuotaEnforcer {
       AccountResource accountResource = (AccountResource) rsrc;
       report = quotaBackend.currentUser().account(accountResource.getUser().getAccountId());
     } else if (rsrc instanceof ProjectResource) {
-      ProjectResource accountResource = (ProjectResource) rsrc;
-      report = quotaBackend.currentUser().account(accountResource.getUser().getAccountId());
+      ProjectResource projectResource = (ProjectResource) rsrc;
+      report = quotaBackend.currentUser().project(projectResource.getNameKey());
     }
 
     report.requestToken(quotaGroup(pathForQuotaReporting, req.getMethod())).throwOnError();

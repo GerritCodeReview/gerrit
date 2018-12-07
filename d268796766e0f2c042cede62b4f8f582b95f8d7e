@@ -47,6 +47,53 @@
       "revId": "d268796766e0f2c042cede62b4f8f582b95f8d7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5929089_0f1efc6d",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-07T23:22:52Z",
+      "side": 1,
+      "message": "I have an idea, how to address that, see my comment below. I guess you have a similar idea? ;-)",
+      "parentUuid": "926da118_2d6a2d33",
+      "range": {
+        "startLine": 373,
+        "startChar": 6,
+        "endLine": 377,
+        "endChar": 7
+      },
+      "revId": "d268796766e0f2c042cede62b4f8f582b95f8d7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96adc9f0_6867718d",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-07T23:22:52Z",
+      "side": 1,
+      "message": "One idea is to guess whether or not a site already exist and run updater.update() and if not run creator.create().\n\nThere is one complication: If refs/meta/version doesn\u0027t exist, there are two possibilities:\n\n* 1. We have a new site\n* 2. We are migrating from 2.16 to 3.0\n\nLuckily, we can differentiate whether or not All-Projects exists or not. So remove the unconditional cal to schemaCreator.create(); on line 374 above, and do here something like this instead:\n\n  try {\n        versionManager.read();\n        noteDbSchemaUpdater.update(uiImpl);\n      } catch (OrmException ignore) {\n        // No All-Projects: we are on new site, run schema creator\n        try {\n          schemaCreator.create();\n        } catch (IOException | ConfigInvalidException e) {\n          throw new OrmException(\"Cannot init gerrit site\", e);\n        }\n      }",
+      "range": {
+        "startLine": 403,
+        "startChar": 6,
+        "endLine": 403,
+        "endChar": 41
+      },
+      "revId": "d268796766e0f2c042cede62b4f8f582b95f8d7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

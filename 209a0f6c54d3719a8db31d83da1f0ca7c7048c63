@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa5272cf_5007b6c3",
+        "filename": "java/com/google/gerrit/testing/GerritBaseTests.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-07T08:38:06Z",
+      "side": 1,
+      "message": "Good catch! I\u0027ve built it yesterday with gwtorm 1.19 and it worked, but I havn\u0027t run the tests ;-(",
+      "revId": "209a0f6c54d3719a8db31d83da1f0ca7c7048c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

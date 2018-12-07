@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0089cc2b_24036124",
+        "filename": "java/com/google/gerrit/server/schema/NoChangesReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-07T21:56:22Z",
+      "side": 1,
+      "message": "These are now entirely superfluous.",
+      "revId": "803714dceec964a803cda2783dbcb425e1a16cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

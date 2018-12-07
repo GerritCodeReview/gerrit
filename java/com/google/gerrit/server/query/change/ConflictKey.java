@@ -22,8 +22,8 @@ import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.cache.proto.Cache.ConflictKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.ObjectIdConverter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 

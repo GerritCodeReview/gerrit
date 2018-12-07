@@ -47,7 +47,7 @@ import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeCo
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerStatusUpdateProto;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.ObjectIdConverter;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.notedb.ChangeNotesState.ChangeColumns;
 import com.google.gerrit.server.notedb.ChangeNotesState.Serializer;
 import com.google.gerrit.testing.GerritBaseTests;

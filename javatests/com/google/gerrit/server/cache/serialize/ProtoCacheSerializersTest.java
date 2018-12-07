@@ -14,66 +14,16 @@
 
 package com.google.gerrit.server.cache.serialize;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
-import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
 
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.ObjectIdConverter;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.protobuf.ByteString;
-import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public class ProtoCacheSerializersTest extends GerritBaseTests {
-  @Test
-  public void objectIdFromByteString() {
-    ObjectIdConverter idConverter = ObjectIdConverter.create();
-    assertThat(
-            idConverter.fromByteString(
-                byteString(
-                    0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
-                    0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa)))
-        .isEqualTo(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
-    assertThat(
-            idConverter.fromByteString(
-                byteString(
-                    0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb,
-                    0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb)))
-        .isEqualTo(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
-  }
-
-  @Test
-  public void objectIdFromByteStringWrongSize() {
-    try {
-      ObjectIdConverter.create().fromByteString(ByteString.copyFromUtf8("foo"));
-      assert_().fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
-  }
-
-  @Test
-  public void objectIdToByteString() {
-    ObjectIdConverter idConverter = ObjectIdConverter.create();
-    assertThat(
-            idConverter.toByteString(
-                ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")))
-        .isEqualTo(
-            byteString(
-                0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
-                0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa));
-    assertThat(
-            idConverter.toByteString(
-                ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")))
-        .isEqualTo(
-            byteString(
-                0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb,
-                0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb));
-  }
-
   @Test
   public void parseUncheckedWrongProtoType() {
     ChangeNotesKeyProto proto =

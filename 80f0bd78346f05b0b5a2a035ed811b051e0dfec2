@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "10c739c1_2a284592",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-08T05:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f8f7bab_b759c79b",
+      "range": {
+        "startLine": 342,
+        "startChar": 4,
+        "endLine": 342,
+        "endChar": 38
+      },
+      "revId": "80f0bd78346f05b0b5a2a035ed811b051e0dfec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54753b74_50157307",
         "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java",
         "patchSetId": 10

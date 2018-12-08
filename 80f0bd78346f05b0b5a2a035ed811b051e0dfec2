@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1544226928 -0800\nnonce AGLkUnD+nRyj2NKHO63Mx+wQPJSHdJWzyRRN/TXF75E5nTn4jyiM8ayhyq60GyHUANovWVwjB15T\n\n0000000000000000000000000000000000000000 80f0bd78346f05b0b5a2a035ed811b051e0dfec2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlwLCHAVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM19sQALyl5OiRJJ0wuj0eczo/aPUK/lci\nmkJM4UNQO2XRB4lcYvulL/kwV3WGZYY3FxT6ldSPFUG0BnkpfURulpkCO4KCpTo4\ncriE6dLk+ZhTEqs6lNBHhi2+YzDogMkxBuJ66w4CUleHUGUEnMyRhdIvQgUHo4xk\nJ02TJ2jjwsK45JVr9lN1Z6RtDgdL+z4ziyCqcZt8V6FaldwDv+iL/aaTggmjAo+d\nz93XY/irjhDe6sDtubil7AOEy/RnhJtKWIQwm0gtxrk64TIHvEw/B4Gt79CUqaUX\ngGLf2LME2SAh5dxpJvEcFTjeoJWoyCMSc2wYMI0a8o3OpGi7XkiZx61uhSss98br\noyI1dmsSB7fw/YVEBDcVjV1Y5lPlWdmQGIppMuVZJU/xLdMCdW28uCIQ9R2AyBs2\nk4Ev8yoMGQ+u33ZCwQGF2plKl5ZZ1fNbf7wC/Q3R/fR8TdrWsSNDJHj3n1Pd7GwH\n3VcCP9kme6f8sgHJmITDl7eBUmBaKd/Ic9HlrQj2lHt8OCsebHqh9YBTCKiKn9ZE\ndLBjvERSQ5m6XNpjlubrNjy1AZfWa+Tt3YkF2aT1PeG8BkDTo9HjqWr5xrDbfbOF\ngOX+s2pcTuceBlrknKxd523GEkyqhrcDoRdFs0WlHyy/fB4W58Pz+Su27xkz/UMF\nRC5qYRxUuMPwopNZ\n\u003d2+iz\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f8f7bab_b759c79b",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-08T04:32:49Z",
+      "side": 1,
+      "message": "This is unused now, because the logic with conditional call was moved down to NoteDbSchemaUpdater instance, and must not be introduced here.",
+      "range": {
+        "startLine": 342,
+        "startChar": 4,
+        "endLine": 342,
+        "endChar": 38
+      },
+      "revId": "80f0bd78346f05b0b5a2a035ed811b051e0dfec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54753b74_50157307",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-08T04:32:49Z",
+      "side": 1,
+      "message": "Nice solution for the site existence test.",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 5
+      },
+      "revId": "80f0bd78346f05b0b5a2a035ed811b051e0dfec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47870c9b_b86c8322",
+        "filename": "java/com/google/gerrit/testing/InMemoryDatabase.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-08T04:32:49Z",
+      "side": 1,
+      "message": "Nit: Unused now. Can be suppressed or removed.",
+      "range": {
+        "startLine": 39,
+        "startChar": 26,
+        "endLine": 39,
+        "endChar": 45
+      },
+      "revId": "80f0bd78346f05b0b5a2a035ed811b051e0dfec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64a0fd33_5dc9fb51",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-08T04:32:49Z",
+      "side": 1,
+      "message": "Eclipse warning: Not thrown here, but used in other instances of anonymous TestUpdate re-definitions.",
+      "range": {
+        "startLine": 154,
+        "startChar": 34,
+        "endLine": 154,
+        "endChar": 46
+      },
+      "revId": "80f0bd78346f05b0b5a2a035ed811b051e0dfec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

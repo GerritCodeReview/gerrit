@@ -1,6 +1,4 @@
-package(
-    default_visibility = ["//visibility:public"],
-)
+package(default_visibility = ["//visibility:public"])
 
 load("//tools/bzl:js.bzl", "bower_component_bundle")
 load("//tools/bzl:genrule2.bzl", "genrule2")
@@ -46,5 +44,4 @@ genrule2(
         "zip -qr $$ROOT/$@ fonts",
     ]),
     output_to_bindir = 1,
-    visibility = ["//visibility:public"],
 )

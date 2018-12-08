@@ -3,7 +3,6 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "fluent-hc",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
     exports = ["@fluent-hc//jar"],
     runtime_deps = [":httpclient"],
 )
@@ -11,7 +10,6 @@ java_library(
 java_library(
     name = "httpclient",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
     exports = ["@httpclient//jar"],
     runtime_deps = [
         ":httpcore",
@@ -23,7 +21,6 @@ java_library(
 java_library(
     name = "httpcore",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
     exports = ["@httpcore//jar"],
 )
 

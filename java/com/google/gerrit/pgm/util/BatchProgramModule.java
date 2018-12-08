@@ -89,12 +89,7 @@ import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
-/**
- * Module for programs that perform batch operations on a site.
- *
- * <p>Any program that requires this module likely also requires using {@link ThreadLimiter} to
- * limit the number of threads accessing the database concurrently.
- */
+/** Module for programs that perform batch operations on a site. */
 public class BatchProgramModule extends FactoryModule {
   private final Config cfg;
   private final Module reviewDbModule;

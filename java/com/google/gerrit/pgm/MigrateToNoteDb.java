@@ -25,7 +25,6 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeResource;
@@ -52,7 +51,7 @@ public class MigrateToNoteDb extends SiteProgram {
           + " source of truth";
 
   @Option(name = "--threads", usage = "Number of threads to use for rebuilding NoteDb")
-  private Integer threads;
+  private int threads = Runtime.getRuntime().availableProcessors();
 
   @Option(
       name = "--project",
@@ -112,8 +111,6 @@ public class MigrateToNoteDb extends SiteProgram {
       dbManager.add(dbInjector);
       dbManager.start();
 
-      threads = limitThreads();
-
       sysInjector = createSysInjector();
       sysInjector.injectMembers(this);
       sysManager = new LifecycleManager();
@@ -165,16 +162,6 @@ public class MigrateToNoteDb extends SiteProgram {
     System.out.println("  reindex " + reindexArgs.stream().collect(joining(" ")));
     Reindex reindexPgm = new Reindex();
     return reindexPgm.main(reindexArgs.stream().toArray(String[]::new));
-  }
-
-  private int limitThreads() {
-    if (threads != null) {
-      return threads;
-    }
-    int actualThreads;
-    int procs = Runtime.getRuntime().availableProcessors();
-    actualThreads = ThreadLimiter.limitThreads(dbInjector, procs);
-    return actualThreads;
   }
 
   private Injector createSysInjector() {

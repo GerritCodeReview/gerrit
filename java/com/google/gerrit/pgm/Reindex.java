@@ -28,7 +28,6 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
@@ -83,7 +82,6 @@ public class Reindex extends SiteProgram {
     dbInjector = createDbInjector();
     cfgInjector = dbInjector.createChildInjector();
     globalConfig = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    threads = ThreadLimiter.limitThreads(dbInjector, threads);
     overrideConfig();
     LifecycleManager dbManager = new LifecycleManager();
     dbManager.add(dbInjector);

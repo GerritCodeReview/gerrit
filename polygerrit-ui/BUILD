@@ -1,6 +1,4 @@
-package(
-    default_visibility = ["//visibility:public"],
-)
+package(default_visibility = ["//visibility:public"])
 
 load("@io_bazel_rules_go//go:def.bzl", "go_binary")
 load("//tools/bzl:js.bzl", "bower_component_bundle")
@@ -51,7 +49,6 @@ genrule2(
         "zip -qr $$ROOT/$@ fonts",
     ]),
     output_to_bindir = 1,
-    visibility = ["//visibility:public"],
 )
 
 go_binary(

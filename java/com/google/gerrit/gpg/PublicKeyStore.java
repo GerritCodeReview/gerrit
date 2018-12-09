@@ -52,6 +52,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -269,6 +270,26 @@ public class PublicKeyStore implements AutoCloseable {
       String id = new String(bytes, UTF_8);
       Preconditions.checkArgument(ObjectId.isId(id), "Not valid SHA1: " + id);
       return get(ObjectId.fromString(id), fp);
+    }
+  }
+
+  public void rebuildSubkeyMasterKeyMap(TextProgressMonitor monitor)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException, PGPException {
+    if (reader == null) {
+      load();
+    }
+    if (notes != null) {
+      try (ObjectInserter ins = repo.newObjectInserter()) {
+        for (Note note : notes) {
+          for (PGPPublicKeyRing keyRing :
+              new PGPPublicKeyRingCollection(readKeysFromNote(note, null))) {
+            long masterKeyId = keyRing.getPublicKey().getKeyID();
+            ObjectId masterKeyObjectId = keyObjectId(masterKeyId);
+            saveSubkeyMaping(ins, keyRing, masterKeyId, masterKeyObjectId);
+          }
+          monitor.update(1);
+        }
+      }
     }
   }
 

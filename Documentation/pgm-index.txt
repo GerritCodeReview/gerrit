@@ -21,6 +21,9 @@ link:pgm-prolog-shell.html[prolog-shell]::
 link:pgm-reindex.html[reindex]::
 	Rebuild the secondary index.
 
+link:pgm-GpgBuildSubkeyMasterKeyMap.html[GpgBuildSubkeyMasterKeyMap]::
+	Build map from subkey id to master key id.
+
 link:pgm-SwitchSecureStore.html[SwitchSecureStore]::
 	Change used SecureStore implementation.
 

@@ -1,0 +1,46 @@
+= GpgBuildSubkeyMasterKeyMap
+
+== NAME
+GpgBuildSubkeyMasterKeyMap - Build map from subkey id to master key id.
+This is needed for fast access to the key ring when subkeys are used for
+signing.
+
+== SYNOPSIS
+[verse]
+--
+_java_ -jar gerrit.war _GpgBuildSubkeyMasterKeyMap_
+  -d <SITE_PATH>
+--
+
+== DESCRIPTION
+Add subkeys -> master keys map to the NoteMap to lookup for master
+GPG key ring with subkey.
+
+== OPTIONS
+
+-d::
+--site-path::
+Location of the gerrit.config file, and all other per-site
+configuration data, supporting libraries and log files.
+
+== CONTEXT
+This command can only be run on a server which has direct
+access to `All-Users` git repository.
+
+== EXAMPLES
+To build GPG subkey map:
+
+----
+$ java -jar gerrit.war GpgBuildSubkeyMasterKeyMap -d site_path
+----
+
+== SEE ALSO
+
+* Configuration parameter link:config-gerrit.html#receive.enableSignedPush[receive.enableSignedPush]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -42,8 +42,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.Input;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -77,7 +75,6 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.PostReview;
-import com.google.gerrit.server.restapi.change.Rebuild;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -133,8 +130,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Inject private NoteDbChecker checker;
-
-  @Inject private Rebuild rebuildHandler;
 
   @Inject private Provider<ReviewDb> dbProvider;
 
@@ -322,24 +317,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // NoteDb stays up to date without explicit rebuilding.
     gApi.changes().id(id.get()).topic(name("new-topic"));
     assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isNotNull();
-    checker.checkChanges(id);
-  }
-
-  @Test
-  public void restApiNotFoundWhenNoteDbDisabled() throws Exception {
-    PushOneCommit.Result r = createChange();
-    exception.expect(ResourceNotFoundException.class);
-    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Input());
-  }
-
-  @Test
-  public void rebuildViaRestApi() throws Exception {
-    PushOneCommit.Result r = createChange();
-    Change.Id id = r.getPatchSetId().getParentKey();
-    setNotesMigration(true, false);
-
-    checker.assertNoChangeRef(project, id);
-    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Input());
     checker.checkChanges(id);
   }
 

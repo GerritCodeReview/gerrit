@@ -22,6 +22,30 @@
       "revId": "118906484d44901b3febd8552f72a0058a0e6aa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "138c0cd4_96db2283",
+        "filename": "webapp/WEB-INF/extra/jetty7/gerrit.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-10T11:58:55Z",
+      "side": 0,
+      "message": "Maybe, I want to try this later. It might be that they are still needed for the AccountPatchReviewStore implementations.",
+      "parentUuid": "d8b3435f_6d14667b",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "118906484d44901b3febd8552f72a0058a0e6aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

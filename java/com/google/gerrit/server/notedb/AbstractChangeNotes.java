@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Objects.requireNonNull;
 
@@ -27,8 +28,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -55,9 +54,6 @@ public abstract class AbstractChangeNotes<T> {
 
     // Providers required to avoid dependency cycles.
 
-    // ChangeRebuilder -> ChangeNotes.Factory -> Args
-    final Provider<ChangeRebuilder> rebuilder;
-
     // ChangeNoteCache -> Args
     final Provider<ChangeNotesCache> cache;
 
@@ -70,7 +66,6 @@ public abstract class AbstractChangeNotes<T> {
         LegacyChangeNoteRead legacyChangeNoteRead,
         NoteDbMetrics metrics,
         Provider<ReviewDb> db,
-        Provider<ChangeRebuilder> rebuilder,
         Provider<ChangeNotesCache> cache) {
       this.repoManager = repoManager;
       this.migration = migration;
@@ -79,7 +74,6 @@ public abstract class AbstractChangeNotes<T> {
       this.changeNoteJson = changeNoteJson;
       this.metrics = metrics;
       this.db = db;
-      this.rebuilder = rebuilder;
       this.cache = cache;
     }
   }
@@ -114,22 +108,14 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   protected final Args args;
-  protected final PrimaryStorage primaryStorage;
-  protected final boolean autoRebuild;
   private final Change.Id changeId;
 
   private ObjectId revision;
   private boolean loaded;
 
-  AbstractChangeNotes(
-      Args args, Change.Id changeId, @Nullable PrimaryStorage primaryStorage, boolean autoRebuild) {
+  AbstractChangeNotes(Args args, Change.Id changeId) {
     this.args = requireNonNull(args);
     this.changeId = requireNonNull(changeId);
-    this.primaryStorage = primaryStorage;
-    this.autoRebuild =
-        primaryStorage == PrimaryStorage.REVIEW_DB
-            && !args.migration.disableChangeReviewDb()
-            && autoRebuild;
   }
 
   public Change.Id getChangeId() {
@@ -146,18 +132,7 @@ public abstract class AbstractChangeNotes<T> {
       return self();
     }
 
-    boolean read = args.migration.readChanges();
-    if (!read && primaryStorage == PrimaryStorage.NOTE_DB) {
-      throw new OrmException("NoteDb is required to read change " + changeId);
-    }
-    boolean readOrWrite = read || args.migration.rawWriteChangesSetting();
-    if (!readOrWrite) {
-      // Don't even open the repo if we neither write to nor read from NoteDb. It's possible that
-      // there is some garbage in the noteDbState field and/or the repo, but at this point NoteDb is
-      // completely off so it's none of our business.
-      loadDefaults();
-      return self();
-    }
+    checkState(args.migration.readChanges(), "NoteDb is required to read changes");
     if (args.migration.failOnLoadForTest()) {
       throw new OrmException("Reading from NoteDb is disabled");
     }
@@ -166,12 +141,8 @@ public abstract class AbstractChangeNotes<T> {
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.
         LoadHandle handle = openHandle(repo)) {
-      if (read) {
-        revision = handle.id();
-        onLoad(handle);
-      } else {
-        loadDefaults();
-      }
+      revision = handle.id();
+      onLoad(handle);
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {
       throw new OrmException(e);
@@ -202,7 +173,7 @@ public abstract class AbstractChangeNotes<T> {
     return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), id);
   }
 
-  public T reload() throws NoSuchChangeException, OrmException {
+  public T reload() throws OrmException {
     loaded = false;
     return load();
   }

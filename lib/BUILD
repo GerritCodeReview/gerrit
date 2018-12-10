@@ -505,10 +505,3 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@icu4j//jar"],
 )
-
-java_library(
-    name = "postgresql",
-    data = ["//lib:LICENSE-postgresql"],
-    visibility = ["//visibility:public"],
-    exports = ["@postgresql//jar"],
-)

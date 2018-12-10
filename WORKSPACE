@@ -995,12 +995,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "postgresql",
-    artifact = "org.postgresql:postgresql:42.2.5",
-    sha1 = "951b7eda125f3137538a94e2cbdcf744088ad4c2",
-)
-
-maven_jar(
     name = "commons-io",
     artifact = "commons-io:commons-io:2.2",
     sha1 = "83b5b8a7ba1c08f9e8c8ff2373724e33d3c1e22a",

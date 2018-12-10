@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "815fc714_04b8fbc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-10T23:38:47Z",
+      "side": 1,
+      "message": "Mention why?\n\nIIRC the reason it was added in the first place was to avoid all the repeated calls with \"HEAD\", which are now added back with this commit.",
+      "revId": "ac367f06069d12a78eefd8b667633e023aa4d3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac6fc356_fcc0e764",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2913,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-10T23:38:47Z",
+      "side": 1,
+      "message": "I know it wasn\u0027t used before, but we should probably use RefNames.HEAD instead of a literal string.",
+      "range": {
+        "startLine": 2913,
+        "startChar": 51,
+        "endLine": 2913,
+        "endChar": 56
+      },
+      "revId": "ac367f06069d12a78eefd8b667633e023aa4d3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

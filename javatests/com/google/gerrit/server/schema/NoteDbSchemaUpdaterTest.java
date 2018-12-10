@@ -151,6 +151,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
           .next();
     }
 
+    @SuppressWarnings("unused")
     protected void setUp() throws OrmException {}
 
     ImmutableList<String> update() throws Exception {

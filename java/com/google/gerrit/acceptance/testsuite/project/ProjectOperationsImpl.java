@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.testsuite.project;
 
 import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectCreator;
 import com.google.inject.Inject;
@@ -23,12 +25,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import org.apache.commons.lang.RandomStringUtils;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ProjectOperationsImpl implements ProjectOperations {
   private final ProjectCreator projectCreator;
+  private final GitRepositoryManager repoManager;
 
   @Inject
-  ProjectOperationsImpl(ProjectCreator projectCreator) {
+  ProjectOperationsImpl(GitRepositoryManager repoManager, ProjectCreator projectCreator) {
+    this.repoManager = repoManager;
     this.projectCreator = projectCreator;
   }
 
@@ -50,5 +58,34 @@ public class ProjectOperationsImpl implements ProjectOperations {
     projectCreation.submitType().ifPresent(st -> args.submitType = st);
     projectCreator.createProject(args);
     return new Project.NameKey(name);
+  }
+
+  @Override
+  public MoreProjectOperations project(NameKey key) {
+    return new MoreProjectOperationsImpl(key);
+  }
+
+  private class MoreProjectOperationsImpl implements MoreProjectOperations {
+    Project.NameKey nameKey;
+
+    MoreProjectOperationsImpl(Project.NameKey nameKey) {
+      this.nameKey = nameKey;
+    }
+
+    @Override
+    public RevCommit getHead(String branch) {
+      if (!branch.startsWith(Constants.R_REFS)) {
+        branch = "refs/heads/" + branch;
+      }
+
+      try (Repository repo = repoManager.openRepository(nameKey);
+          RevWalk rw = new RevWalk(repo)) {
+
+        Ref r = repo.exactRef(branch);
+        return rw.parseCommit(r.getObjectId());
+      } catch (Exception e) {
+        throw new IllegalStateException(e);
+      }
+    }
   }
 }

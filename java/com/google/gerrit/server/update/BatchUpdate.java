@@ -39,7 +39,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.logging.RequestId;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -93,7 +92,6 @@ public abstract class BatchUpdate implements AutoCloseable {
     return new FactoryModule() {
       @Override
       public void configure() {
-        factory(ReviewDbBatchUpdate.AssistedFactory.class);
         factory(NoteDbBatchUpdate.AssistedFactory.class);
       }
     };
@@ -101,27 +99,17 @@ public abstract class BatchUpdate implements AutoCloseable {
 
   @Singleton
   public static class Factory {
-    private final NotesMigration migration;
-    private final ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory;
     private final NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory;
 
     // TODO(dborowitz): Make this non-injectable to force all callers to use RetryHelper.
     @Inject
-    Factory(
-        NotesMigration migration,
-        ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
-        NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory) {
-      this.migration = migration;
-      this.reviewDbBatchUpdateFactory = reviewDbBatchUpdateFactory;
+    Factory(NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory) {
       this.noteDbBatchUpdateFactory = noteDbBatchUpdateFactory;
     }
 
     public BatchUpdate create(
         ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when) {
-      if (migration.disableChangeReviewDb()) {
-        return noteDbBatchUpdateFactory.create(db, project, user, when);
-      }
-      return reviewDbBatchUpdateFactory.create(db, project, user, when);
+      return noteDbBatchUpdateFactory.create(db, project, user, when);
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -135,15 +123,9 @@ public abstract class BatchUpdate implements AutoCloseable {
       // method above, which always returns instances of the type we expect. Just to be safe,
       // copy them into an ImmutableList so there is no chance the callee can pollute the input
       // collection.
-      if (migration.disableChangeReviewDb()) {
-        ImmutableList<NoteDbBatchUpdate> noteDbUpdates =
-            (ImmutableList) ImmutableList.copyOf(updates);
-        NoteDbBatchUpdate.execute(noteDbUpdates, listener, dryRun);
-      } else {
-        ImmutableList<ReviewDbBatchUpdate> reviewDbUpdates =
-            (ImmutableList) ImmutableList.copyOf(updates);
-        ReviewDbBatchUpdate.execute(reviewDbUpdates, listener, dryRun);
-      }
+      ImmutableList<NoteDbBatchUpdate> noteDbUpdates =
+          (ImmutableList) ImmutableList.copyOf(updates);
+      NoteDbBatchUpdate.execute(noteDbUpdates, listener, dryRun);
     }
 
     private static void checkDifferentProject(Collection<BatchUpdate> updates) {

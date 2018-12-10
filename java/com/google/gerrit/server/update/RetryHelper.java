@@ -153,9 +153,8 @@ public class RetryHelper {
       @GerritServerConfig Config cfg,
       Metrics metrics,
       NotesMigration migration,
-      ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
       NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory) {
-    this(cfg, metrics, migration, reviewDbBatchUpdateFactory, noteDbBatchUpdateFactory, null);
+    this(cfg, metrics, migration, noteDbBatchUpdateFactory, null);
   }
 
   @VisibleForTesting
@@ -163,13 +162,11 @@ public class RetryHelper {
       @GerritServerConfig Config cfg,
       Metrics metrics,
       NotesMigration migration,
-      ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
       NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory,
       @Nullable Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup) {
     this.metrics = metrics;
     this.migration = migration;
-    this.updateFactory =
-        new BatchUpdate.Factory(migration, reviewDbBatchUpdateFactory, noteDbBatchUpdateFactory);
+    this.updateFactory = new BatchUpdate.Factory(noteDbBatchUpdateFactory);
 
     Duration defaultTimeout =
         Duration.ofMillis(

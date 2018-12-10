@@ -17,8 +17,8 @@ package com.google.gerrit.server.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
+import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
-import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;

@@ -2,10 +2,11 @@ package com.google.gerrit.server.auth.oauth;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
-import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
+import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
+import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.server.cache.proto.Cache.OAuthTokenProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.lang.reflect.Type;
@@ -56,10 +57,7 @@ public final class OAuthTokenCacheTest {
     assertThat(s.deserialize(serializedWithEmptyString)).isEqualTo(tokenWithNull);
   }
 
-  /**
-   * See {@link com.google.gerrit.server.cache.testing.SerializedClassSubject} for background and
-   * what to do if this test fails.
-   */
+  /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
   public void oAuthTokenFields() throws Exception {
     assertThatSerializedClass(OAuthToken.class)

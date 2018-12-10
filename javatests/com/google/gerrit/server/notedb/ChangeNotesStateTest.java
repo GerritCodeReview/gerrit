@@ -17,9 +17,9 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.Protos.toByteString;
+import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.MESSAGE_CODEC;
-import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 import static com.google.gerrit.server.notedb.ChangeNotesState.Serializer.toByteString;
 
 import com.google.common.collect.ImmutableList;

@@ -40,14 +40,11 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.ssh.NoSshModule;
-import com.google.gerrit.server.util.ManualRequestContext;
-import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeGroupAuditService;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
-import com.google.gerrit.testing.NoteDbChecker;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.SshMode;
 import com.google.inject.AbstractModule;
@@ -601,38 +598,17 @@ public class GerritServer implements AutoCloseable {
 
   @Override
   public void close() throws Exception {
-    try {
-      checkNoteDbState();
-    } finally {
-      daemon.getLifecycleManager().stop();
-      if (daemonService != null) {
-        System.out.println("Gerrit Server Shutdown");
-        daemonService.shutdownNow();
-        daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
-      }
-      RepositoryCache.clear();
+    daemon.getLifecycleManager().stop();
+    if (daemonService != null) {
+      System.out.println("Gerrit Server Shutdown");
+      daemonService.shutdownNow();
+      daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
     }
+    RepositoryCache.clear();
   }
 
   public Path getSitePath() {
     return sitePath;
-  }
-
-  private void checkNoteDbState() throws Exception {
-    NoteDbMode mode = NoteDbMode.get();
-    if (mode != NoteDbMode.CHECK && mode != NoteDbMode.PRIMARY) {
-      return;
-    }
-    NoteDbChecker checker = testInjector.getInstance(NoteDbChecker.class);
-    OneOffRequestContext oneOffRequestContext =
-        testInjector.getInstance(OneOffRequestContext.class);
-    try (ManualRequestContext ctx = oneOffRequestContext.open()) {
-      if (mode == NoteDbMode.CHECK) {
-        checker.rebuildAndCheckAllChanges();
-      } else if (mode == NoteDbMode.PRIMARY) {
-        checker.assertNoReviewDbChanges(desc.testDescription());
-      }
-    }
   }
 
   @Override

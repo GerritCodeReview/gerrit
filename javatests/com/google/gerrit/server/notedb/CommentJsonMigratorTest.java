@@ -38,6 +38,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.junit.TestRepository;
@@ -185,7 +186,6 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
 
     // Comments at each commit all have JSON format.
     ImmutableList<RevCommit> newLog = log(project, RefNames.changeMetaRef(c.getId()));
-    assertLogEqualExceptTrees(newLog, oldLog);
     assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(0))).isEmpty();
     assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(1))).isEmpty();
     assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(2)))
@@ -297,7 +297,6 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
     // Comments at each commit all have JSON format.
     ImmutableList<RevCommit> newOwnerLog =
         log(allUsers, RefNames.refsDraftComments(c.getId(), changeOwner.getAccountId()));
-    assertLogEqualExceptTrees(newOwnerLog, oldOwnerLog);
     assertThat(getLegacyFormatMapForDraftComments(notes, newOwnerLog.get(0)))
         .containsExactly(ownerCommentPs1.key, false);
     assertThat(getLegacyFormatMapForDraftComments(notes, newOwnerLog.get(1)))
@@ -305,7 +304,6 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
 
     ImmutableList<RevCommit> newOtherLog =
         log(allUsers, RefNames.refsDraftComments(c.getId(), otherUser.getAccountId()));
-    assertLogEqualExceptTrees(newOtherLog, oldOtherLog);
     assertThat(getLegacyFormatMapForDraftComments(notes, newOtherLog.get(0)))
         .containsExactly(otherCommentPs1.key, false);
   }
@@ -392,7 +390,6 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
 
     // Comments at each commit all have JSON format.
     ImmutableList<RevCommit> newLog = log(project, RefNames.changeMetaRef(c.getId()));
-    assertLogEqualExceptTrees(newLog, oldLog);
     assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(0))).isEmpty();
     assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(1))).isEmpty();
     assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(2))).isEmpty();
@@ -491,15 +488,33 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
   }
 
   private ImmutableList<RevCommit> log(Project.NameKey project, String refName) throws Exception {
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo)) {
+    try (Repository repo = repoManager.openRepository(project)) {
+      return log(repo, refName);
+    }
+  }
+
+  private ImmutableList<RevCommit> log(Repository repo, String refName) throws Exception {
+    try (RevWalk rw = new RevWalk(repo)) {
       rw.sort(RevSort.TOPO);
       rw.sort(RevSort.REVERSE);
       Ref ref = repo.exactRef(refName);
-      checkArgument(ref != null, "missing ref: %s", refName);
+      if (ref == null) {
+        return ImmutableList.of();
+      }
       rw.markStart(rw.parseCommit(ref.getObjectId()));
       return ImmutableList.copyOf(rw);
     }
+  }
+
+  private ImmutableListMultimap<String, RevCommit> logAll(
+      Project.NameKey project, Collection<Ref> refs) throws Exception {
+    ImmutableListMultimap.Builder<String, RevCommit> logs = ImmutableListMultimap.builder();
+    try (Repository repo = repoManager.openRepository(project)) {
+      for (Ref r : refs) {
+        logs.putAll(r.getName(), log(repo, r.getName()));
+      }
+    }
+    return logs.build();
   }
 
   private static void assertLogEqualExceptTrees(
@@ -522,9 +537,34 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
   }
 
   private void assertNoDifferences(ChangeNotes actual, ChangeNotes expected) throws Exception {
-    assertThat(
-            ChangeBundle.fromNotes(commentsUtil, actual)
-                .differencesFrom(ChangeBundle.fromNotes(commentsUtil, expected)))
-        .isEmpty();
+    checkArgument(
+        actual.getChangeId().equals(expected.getChangeId()),
+        "must be same change: %s != %s",
+        actual.getChangeId(),
+        expected.getChangeId());
+
+    // Parsed comment representations are equal.
+    assertThat(commentsUtil.draftByChange(null, actual))
+        .named("draft comments")
+        .containsExactlyElementsIn(commentsUtil.draftByChange(null, expected));
+    assertThat(commentsUtil.publishedByChange(null, actual))
+        .named("published comments")
+        .containsExactlyElementsIn(commentsUtil.publishedByChange(null, expected));
+
+    // Change metadata is equal.
+    assertLogEqualExceptTrees(
+        log(project, actual.getRefName()), log(project, expected.getRefName()));
+
+    // Logs of all draft refs are equal.
+    ImmutableListMultimap<String, RevCommit> actualDraftLogs =
+        logAll(allUsersName, commentsUtil.getDraftRefs(actual.getChangeId()));
+    ImmutableListMultimap<String, RevCommit> expectedDraftLogs =
+        logAll(allUsersName, commentsUtil.getDraftRefs(expected.getChangeId()));
+    assertThat(actualDraftLogs.keySet())
+        .named("draft ref names")
+        .containsExactlyElementsIn(expectedDraftLogs.keySet());
+    for (String refName : actualDraftLogs.keySet()) {
+      assertLogEqualExceptTrees(actualDraftLogs.get(refName), actualDraftLogs.get(refName));
+    }
   }
 }

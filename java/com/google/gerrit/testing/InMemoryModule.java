@@ -73,8 +73,6 @@ import com.google.gerrit.server.index.group.AllGroupsIndexer;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
-import com.google.gerrit.server.notedb.ChangeBundleReader;
-import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
 import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutor;
@@ -198,7 +196,6 @@ public class InMemoryModule extends FactoryModule {
     bind(ListeningExecutorService.class)
         .annotatedWith(ChangeUpdateExecutor.class)
         .toInstance(MoreExecutors.newDirectExecutorService());
-    bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
     bind(SecureStore.class).to(DefaultSecureStore.class);
 
     TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =

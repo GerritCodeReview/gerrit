@@ -28,8 +28,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.notedb.ChangeBundleReader;
-import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
 import com.google.gerrit.server.schema.ReviewDbFactory;
@@ -83,7 +81,6 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
     bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(InMemoryDatabase.class);
     bind(InMemoryDatabase.class).in(SINGLETON);
-    bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
 
     listener().to(CreateDatabase.class);
 

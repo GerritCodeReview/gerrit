@@ -5,8 +5,6 @@ package(
 java_library(
     name = "server",
     srcs = glob(["**/*.java"]),
-    resource_strip_prefix = "resources",
-    resources = ["//resources/com/google/gerrit/reviewdb"],
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",

@@ -241,9 +241,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   public void onlyPatchSetObjectMissingWithFix() throws Exception {
     Change c = TestChanges.newChange(project, admin.getId(), sequences.nextChangeId());
 
-    // Set review started, mimicking Schema_153, so tests pass with NoteDbMode.CHECK.
-    c.setReviewStarted(true);
-
     PatchSet.Id psId = c.currentPatchSetId();
     String rev = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     PatchSet ps = newPatchSet(psId, rev, adminId);

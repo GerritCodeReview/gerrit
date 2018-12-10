@@ -35,13 +35,7 @@ public enum NoteDbMode {
   PRIMARY(NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY),
 
   /** All change tables are entirely disabled, and code/meta ref updates are fused. */
-  ON(NotesMigrationState.NOTE_DB),
-
-  /**
-   * Run tests with NoteDb disabled, then convert ReviewDb to NoteDb and check that the results
-   * match.
-   */
-  CHECK(NotesMigrationState.REVIEW_DB);
+  ON(NotesMigrationState.NOTE_DB);
 
   private static final String ENV_VAR = "GERRIT_NOTEDB";
   private static final String SYS_PROP = "gerrit.notedb";

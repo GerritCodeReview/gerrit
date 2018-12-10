@@ -35,9 +35,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 /** Husk of an in-memory ReviewDb implementation. */
 // TODO(dborowitz): Inline callers to get their own darn schemaCreator.
 public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
-  /** Drop the database from memory; does nothing if the instance was null. */
-  public static void drop(InMemoryDatabase db) {}
-
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
   private final SchemaCreator schemaCreator;

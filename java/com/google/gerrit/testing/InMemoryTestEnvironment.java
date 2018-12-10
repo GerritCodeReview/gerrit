@@ -137,6 +137,5 @@ public final class InMemoryTestEnvironment implements MethodRule {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(inMemoryDatabase);
   }
 }

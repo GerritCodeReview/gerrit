@@ -174,7 +174,6 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(schemaFactory);
   }
 
   @Test

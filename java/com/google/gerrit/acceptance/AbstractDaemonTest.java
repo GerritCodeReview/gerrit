@@ -49,7 +49,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
@@ -1649,14 +1648,5 @@ public abstract class AbstractDaemonTest {
     }
     comments.sort(Comparator.comparing(c -> c.id));
     return comments;
-  }
-
-  protected List<RelatedChangeAndCommitInfo> getRelated(PatchSet.Id ps) throws Exception {
-    return getRelated(ps.getParentKey(), ps.get());
-  }
-
-  protected List<RelatedChangeAndCommitInfo> getRelated(Change.Id changeId, int ps)
-      throws Exception {
-    return gApi.changes().id(changeId.get()).revision(ps).related().changes;
   }
 }

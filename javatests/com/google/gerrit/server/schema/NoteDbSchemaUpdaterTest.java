@@ -151,6 +151,11 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
           .next();
     }
 
+    /**
+     * Do set up for the test update.
+     *
+     * @throws OrmException thrown if set up fails
+     */
     protected void setUp() throws OrmException {}
 
     ImmutableList<String> update() throws Exception {

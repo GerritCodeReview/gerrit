@@ -9,8 +9,8 @@ junit_tests(
         exclude = COMPATIBLITY_TEST_SRCS,
     ),
     deps = [
+        "//java/com/google/gerrit/proto/testing",
         "//java/com/google/gerrit/reviewdb:server",
-        "//java/com/google/gerrit/server/cache/testing",
         "//lib:guava",
         "//lib:protobuf",
         "//lib/truth",

@@ -15,12 +15,13 @@
 package com.google.gerrit.reviewdb.converter;
 
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
-import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
+import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.Truth;
 import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -118,10 +119,7 @@ public class PatchSetProtoConverterTest {
     assertThat(parsedProto).isEqualTo(proto);
   }
 
-  /**
-   * See {@link com.google.gerrit.server.cache.testing.SerializedClassSubject} for background and
-   * what to do if this test fails.
-   */
+  /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
   public void fieldsExistAsExpected() {
     assertThatSerializedClass(PatchSet.class)

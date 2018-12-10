@@ -5,6 +5,9 @@ java_library(
     srcs = glob(["*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//lib:protobuf",
+        "//java/com/google/gerrit/server/cache/serialize",
+        "//lib:guava",
+        "//lib/commons:lang3",
+        "//lib/truth",
     ],
 )

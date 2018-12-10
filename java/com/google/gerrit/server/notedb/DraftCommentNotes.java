@@ -16,8 +16,6 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
-import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
-import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableListMultimap;
@@ -25,24 +23,16 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.notedb.NoteDbUpdateManager.StagedResult;
-import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
-import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -50,7 +40,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** View of the draft comments for a single {@link Change} based on the log of its drafts branch. */
 public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
@@ -58,13 +47,9 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   public interface Factory {
     DraftCommentNotes create(Change change, Account.Id accountId);
-
-    DraftCommentNotes createWithAutoRebuildingDisabled(Change.Id changeId, Account.Id accountId);
   }
 
-  private final Change change;
   private final Account.Id author;
-  private final NoteDbUpdateManager.Result rebuildResult;
   private final Ref ref;
 
   private ImmutableListMultimap<RevId, Comment> comments;
@@ -72,31 +57,21 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   @AssistedInject
   DraftCommentNotes(Args args, @Assisted Change change, @Assisted Account.Id author) {
-    this(args, change, author, true, null, null);
+    this(args, change, author, null);
   }
 
   @AssistedInject
   DraftCommentNotes(Args args, @Assisted Change.Id changeId, @Assisted Account.Id author) {
     // PrimaryStorage is unknown; this should only called by
     // PatchLineCommentsUtil#draftByAuthor, which can live with this.
-    super(args, changeId, null, false);
-    this.change = null;
+    super(args, changeId, null);
     this.author = author;
-    this.rebuildResult = null;
     this.ref = null;
   }
 
-  DraftCommentNotes(
-      Args args,
-      Change change,
-      Account.Id author,
-      boolean autoRebuild,
-      @Nullable NoteDbUpdateManager.Result rebuildResult,
-      @Nullable Ref ref) {
-    super(args, change.getId(), PrimaryStorage.of(change), autoRebuild);
-    this.change = change;
+  DraftCommentNotes(Args args, Change change, Account.Id author, @Nullable Ref ref) {
+    super(args, change.getId(), PrimaryStorage.of(change));
     this.author = author;
-    this.rebuildResult = rebuildResult;
     this.ref = ref;
     if (ref != null) {
       checkArgument(
@@ -179,79 +154,6 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   @Override
   public Project.NameKey getProjectName() {
     return args.allUsers;
-  }
-
-  @Override
-  protected LoadHandle openHandle(Repository repo) throws NoSuchChangeException, IOException {
-    if (rebuildResult != null) {
-      StagedResult sr = requireNonNull(rebuildResult.staged());
-      return LoadHandle.create(
-          ChangeNotesCommit.newStagedRevWalk(repo, sr.allUsersObjects()),
-          findNewId(sr.allUsersCommands(), getRefName()));
-    } else if (change != null && autoRebuild) {
-      NoteDbChangeState state = NoteDbChangeState.parse(change);
-      // Only check if this particular user's drafts are up to date, to avoid
-      // reading unnecessary refs.
-      if (!NoteDbChangeState.areDraftsUpToDate(
-          state, new RepoRefCache(repo), getChangeId(), author)) {
-        return rebuildAndOpen(repo);
-      }
-    }
-    return super.openHandle(repo);
-  }
-
-  private static ObjectId findNewId(Iterable<ReceiveCommand> cmds, String refName) {
-    for (ReceiveCommand cmd : cmds) {
-      if (cmd.getRefName().equals(refName)) {
-        return cmd.getNewId();
-      }
-    }
-    return null;
-  }
-
-  private LoadHandle rebuildAndOpen(Repository repo) throws NoSuchChangeException, IOException {
-    Timer1.Context timer = args.metrics.autoRebuildLatency.start(CHANGES);
-    try {
-      Change.Id cid = getChangeId();
-      ReviewDb db = args.db.get();
-      ChangeRebuilder rebuilder = args.rebuilder.get();
-      NoteDbUpdateManager.Result r;
-      try (NoteDbUpdateManager manager = rebuilder.stage(db, cid)) {
-        if (manager == null) {
-          return super.openHandle(repo); // May be null in tests.
-        }
-        r = manager.stageAndApplyDelta(change);
-        try {
-          rebuilder.execute(db, cid, manager);
-          repo.scanForRepoChanges();
-        } catch (OrmException | IOException e) {
-          // See ChangeNotes#rebuildAndOpen.
-          logger.atFine().log(
-              "Rebuilding change %s via drafts failed: %s", getChangeId(), e.getMessage());
-          args.metrics.autoRebuildFailureCount.increment(CHANGES);
-          requireNonNull(r.staged());
-          return LoadHandle.create(
-              ChangeNotesCommit.newStagedRevWalk(repo, r.staged().allUsersObjects()), draftsId(r));
-        }
-      }
-      return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), draftsId(r));
-    } catch (NoSuchChangeException e) {
-      return super.openHandle(repo);
-    } catch (OrmException e) {
-      throw new IOException(e);
-    } finally {
-      logger.atFine().log(
-          "Rebuilt change %s in %s in %s ms via drafts",
-          getChangeId(),
-          change != null ? "project " + change.getProject() : "unknown project",
-          TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));
-    }
-  }
-
-  private ObjectId draftsId(NoteDbUpdateManager.Result r) {
-    requireNonNull(r);
-    requireNonNull(r.newState());
-    return r.newState().getDraftIds().get(author);
   }
 
   @VisibleForTesting

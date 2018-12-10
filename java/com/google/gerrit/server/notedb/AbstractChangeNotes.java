@@ -28,7 +28,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -55,9 +54,6 @@ public abstract class AbstractChangeNotes<T> {
 
     // Providers required to avoid dependency cycles.
 
-    // ChangeRebuilder -> ChangeNotes.Factory -> Args
-    final Provider<ChangeRebuilder> rebuilder;
-
     // ChangeNoteCache -> Args
     final Provider<ChangeNotesCache> cache;
 
@@ -70,7 +66,6 @@ public abstract class AbstractChangeNotes<T> {
         LegacyChangeNoteRead legacyChangeNoteRead,
         NoteDbMetrics metrics,
         Provider<ReviewDb> db,
-        Provider<ChangeRebuilder> rebuilder,
         Provider<ChangeNotesCache> cache) {
       this.repoManager = repoManager;
       this.migration = migration;
@@ -79,7 +74,6 @@ public abstract class AbstractChangeNotes<T> {
       this.changeNoteJson = changeNoteJson;
       this.metrics = metrics;
       this.db = db;
-      this.rebuilder = rebuilder;
       this.cache = cache;
     }
   }
@@ -115,21 +109,15 @@ public abstract class AbstractChangeNotes<T> {
 
   protected final Args args;
   protected final PrimaryStorage primaryStorage;
-  protected final boolean autoRebuild;
   private final Change.Id changeId;
 
   private ObjectId revision;
   private boolean loaded;
 
-  AbstractChangeNotes(
-      Args args, Change.Id changeId, @Nullable PrimaryStorage primaryStorage, boolean autoRebuild) {
+  AbstractChangeNotes(Args args, Change.Id changeId, @Nullable PrimaryStorage primaryStorage) {
     this.args = requireNonNull(args);
     this.changeId = requireNonNull(changeId);
     this.primaryStorage = primaryStorage;
-    this.autoRebuild =
-        primaryStorage == PrimaryStorage.REVIEW_DB
-            && !args.migration.disableChangeReviewDb()
-            && autoRebuild;
   }
 
   public Change.Id getChangeId() {

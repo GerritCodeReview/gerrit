@@ -926,7 +926,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     oldDb.changes().update(Collections.singleton(c));
 
     c = oldDb.changes().get(c.getId());
-    ChangeNotes newNotes = notesFactory.createWithAutoRebuildingDisabled(c, null);
+    ChangeNotes newNotes = notesFactory.create(c, null);
     assertThat(newNotes.getChange().getTopic()).isNotEqualTo(topic);
     assertThat(newNotes.getChange().getTopic()).isEqualTo(oldNotes.getChange().getTopic());
   }

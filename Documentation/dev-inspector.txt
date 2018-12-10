@@ -54,8 +54,6 @@ the following on the console:
 ----
 "Shell" is "com.google.gerrit.pgm.shell.JythonShell@61644f2d"
 "m" is "com.google.gerrit.lifecycle.LifecycleManager@6f03b248"
-"ds" is "com.google.gerrit.server.schema.DataSourceProvider@6b3592c"
-"schk" is "com.google.gerrit.server.schema.SchemaVersionCheck@5e8cb9bd"
 
 Welcome to the Gerrit Inspector
 Enter help() to see the above again, EOF to quit and stop Gerrit
@@ -109,71 +107,11 @@ Java packages, classes and live instances.
 'registerNatives', 'toString', 'wait']
 ----
 
-Startup script provides some convenient variables to access some global Gerrit components,
-for example a connection to the review database is kept open:
-
-----
->>> ds
-org.apache.commons.dbcp.BasicDataSource@61db2215
->>> ds.driverClassName
-u'org.postgresql.Driver'
->>> ds.dataSource
-org.apache.commons.dbcp.PoolingDataSource@23226fe1
->>> ds.dataSource.connection
-jdbc:postgresql://localhost/reviewdb, UserName=rv, PostgreSQL Native Driver
-----
-
-It is also possible to interact with the ORM layer:
-
-----
->>> db = schk.schema.open()
->>> db
-com.google.gerrit.reviewdb.server.ReviewDb_Schema_GwtOrm$$28@24cbbdf3
->>> db.getDialect()
-com.google.gwtorm.schema.sql.DialectPostgreSQL@4de07d3e
->>> for x in db.patchSets().iterateAllEntities():
-...     print x
-...
-[PatchSet 1,1]
-[PatchSet 2,1]
-[PatchSet 3,1]
-[PatchSet 4,1]
-[PatchSet 5,1]
-[PatchSet 6,1]
-[PatchSet 7,1]
-[PatchSet 8,1]
-[PatchSet 6,2]
->>> for x in db.patchComments().iterateAllEntities():
-...     print x
-com.google.gerrit.reviewdb.client.PatchLineComment@5381298a
-com.google.gerrit.reviewdb.client.PatchLineComment@44ce4dda
-com.google.gerrit.reviewdb.client.PatchLineComment@44594680
->>> dir(com.google.gerrit.reviewdb.client.PatchLineComment)
-['Key', 'STATUS_DRAFT', 'STATUS_PUBLISHED', 'Status', '__class__',
-'__copy__', '__deepcopy__', '__delattr__', '__doc__', '__eq__',
-'__getattribute__', '__hash__', '__init__', '__ne__', '__new__',
-'__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__str__',
-'__unicode__', 'author', 'class', 'clone', 'equals', 'finalize',
-'getAuthor', 'getClass', 'getKey', 'getLine', 'getMessage',
-'getParentUuid', 'getSide', 'getStatus', 'getWrittenOn', 'hashCode',
-'key', 'line', 'lineNbr', 'message', 'notify', 'notifyAll',
-'parentUuid', 'registerNatives', 'setMessage', 'setSide', 'setStatus',
-'side', 'status', 'toString', 'updated', 'wait', 'writtenOn']
->>> for x in db.patchComments().iterateAllEntities():
-...     print x.status, x.line, x.message
-...
-P 2 I like it!
-P 2 more
-P 1 better
-----
-
 A built-in *help()* function provides values of global variables
 defined in the interpreter:
 
 ----
 >>> help()
-"schk" is "com.google.gerrit.server.schema.SchemaVersionCheck@5e8cb9bd"
-"ds" is "com.google.gerrit.server.schema.DataSourceProvider@6b3592c"
 "m" is "com.google.gerrit.lifecycle.LifecycleManager@6f03b248"
 "Shell" is "com.google.gerrit.pgm.shell.JythonShell@61644f2d"
 "d" is "com.google.gerrit.pgm.Daemon@28a3f689"

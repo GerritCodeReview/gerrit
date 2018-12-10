@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.registration.PluginName;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -76,7 +77,11 @@ public class UiActions {
 
   public <R extends RestResource> Iterable<UiAction.Description> from(
       RestCollection<?, R> collection, R resource) {
-    return from(collection.views(), resource);
+    try {
+      return from(collection.views(), resource);
+    } catch (RestApiException e) {
+      return from(DynamicMap.emptyMap(), resource);
+    }
   }
 
   public <R extends RestResource> Iterable<UiAction.Description> from(

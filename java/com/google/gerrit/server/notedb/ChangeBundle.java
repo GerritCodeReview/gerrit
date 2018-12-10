@@ -27,6 +27,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsFirst;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
@@ -59,7 +60,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.ReviewerSet;
-import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.server.OrmException;
 import java.lang.reflect.Field;
@@ -84,6 +84,22 @@ import java.util.Set;
  * between ReviewDb and NoteDb.
  */
 public class ChangeBundle {
+  /**
+   * The maximum amount of time between the ReviewDb timestamp of the first and last events batched
+   * together into a single NoteDb update.
+   *
+   * <p>Used to account for the fact that different records with their own timestamps (e.g. {@link
+   * PatchSetApproval} and {@link ChangeMessage}) historically didn't necessarily use the same
+   * timestamp, and tended to call {@code System.currentTimeMillis()} independently.
+   */
+  public static final long MAX_WINDOW_MS = SECONDS.toMillis(3);
+
+  /**
+   * The maximum amount of time between two consecutive events to consider them to be in the same
+   * batch.
+   */
+  public static final long MAX_DELTA_MS = SECONDS.toMillis(1);
+
   public enum Source {
     REVIEW_DB,
     NOTE_DB;
@@ -916,7 +932,7 @@ public class ChangeBundle {
     }
 
     long delta = tsFromReviewDb.getTime() - tsFromNoteDb.getTime();
-    long max = ChangeRebuilderImpl.MAX_WINDOW_MS;
+    long max = MAX_WINDOW_MS;
     if (delta < 0 || delta > max) {
       diffs.add(
           field

@@ -96,7 +96,6 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "submitted_together").to(SubmittedTogether.class);
     post(CHANGE_KIND, "rebase").to(Rebase.CurrentRevision.class);
     post(CHANGE_KIND, "index").to(Index.class);
-    post(CHANGE_KIND, "rebuild.notedb").to(Rebuild.class);
     post(CHANGE_KIND, "move").to(Move.class);
     post(CHANGE_KIND, "private").to(PostPrivate.class);
     post(CHANGE_KIND, "private.delete").to(DeletePrivateByPost.class);

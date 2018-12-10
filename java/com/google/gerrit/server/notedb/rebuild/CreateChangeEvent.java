@@ -54,6 +54,6 @@ class CreateChangeEvent extends Event {
   @Override
   void apply(ChangeUpdate update) throws IOException, OrmException {
     checkUpdate(update);
-    ChangeRebuilderImpl.createChange(update, change);
+    update.createChange(change);
   }
 }

@@ -17,31 +17,21 @@ package com.google.gerrit.server.notedb;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Id;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
-import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
-import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
-import org.eclipse.jgit.lib.Config;
 
 public class NoteDbModule extends FactoryModule {
-  private final Config cfg;
   private final boolean useTestBindings;
 
-  static NoteDbModule forTest(Config cfg) {
-    return new NoteDbModule(cfg, true);
+  static NoteDbModule forTest() {
+    return new NoteDbModule(true);
   }
 
-  public NoteDbModule(Config cfg) {
-    this(cfg, false);
+  public NoteDbModule() {
+    this(false);
   }
 
-  private NoteDbModule(Config cfg, boolean useTestBindings) {
-    this.cfg = cfg;
+  private NoteDbModule(boolean useTestBindings) {
     this.useTestBindings = useTestBindings;
   }
 
@@ -57,53 +47,7 @@ public class NoteDbModule extends FactoryModule {
 
     if (!useTestBindings) {
       install(ChangeNotesCache.module());
-      if (cfg.getBoolean("noteDb", null, "testRebuilderWrapper", false)) {
-        // Yes, another variety of test bindings with a different way of
-        // configuring it.
-        bind(ChangeRebuilder.class).to(TestChangeRebuilderWrapper.class);
-      } else {
-        bind(ChangeRebuilder.class).to(ChangeRebuilderImpl.class);
-      }
     } else {
-      bind(ChangeRebuilder.class)
-          .toInstance(
-              new ChangeRebuilder(null) {
-                @Override
-                public Result rebuild(ReviewDb db, Change.Id changeId) {
-                  return null;
-                }
-
-                @Override
-                public Result rebuildEvenIfReadOnly(ReviewDb db, Id changeId) {
-                  return null;
-                }
-
-                @Override
-                public Result rebuild(NoteDbUpdateManager manager, ChangeBundle bundle) {
-                  return null;
-                }
-
-                @Override
-                public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId) {
-                  return null;
-                }
-
-                @Override
-                public Result execute(
-                    ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager) {
-                  return null;
-                }
-
-                @Override
-                public void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle) {
-                  // Do nothing.
-                }
-
-                @Override
-                public void rebuildReviewDb(ReviewDb db, Project.NameKey project, Id changeId) {
-                  // Do nothing.
-                }
-              });
       bind(new TypeLiteral<Cache<ChangeNotesCache.Key, ChangeNotesState>>() {})
           .annotatedWith(Names.named(ChangeNotesCache.CACHE_NAME))
           .toInstance(CacheBuilder.newBuilder().<ChangeNotesCache.Key, ChangeNotesState>build());

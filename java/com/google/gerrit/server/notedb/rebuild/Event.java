@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl.MAX_WINDOW_MS;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
@@ -24,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.notedb.AbstractChangeUpdate;
+import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
@@ -71,7 +71,7 @@ abstract class Event implements Comparable<Event> {
         update.getPatchSetId(),
         psId);
     checkState(
-        when.getTime() - update.getWhen().getTime() <= MAX_WINDOW_MS,
+        when.getTime() - update.getWhen().getTime() <= ChangeBundle.MAX_WINDOW_MS,
         "event at %s outside update window starting at %s",
         when,
         update.getWhen());

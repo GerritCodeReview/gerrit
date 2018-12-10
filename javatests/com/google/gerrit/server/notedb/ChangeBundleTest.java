@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ReviewerSet;
-import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestChanges;
@@ -81,7 +80,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     systemTimeZoneProperty = System.setProperty("user.timezone", TIMEZONE_ID);
     systemTimeZone = TimeZone.getDefault();
     TimeZone.setDefault(TimeZone.getTimeZone(TIMEZONE_ID));
-    long maxMs = ChangeRebuilderImpl.MAX_WINDOW_MS;
+    long maxMs = ChangeBundle.MAX_WINDOW_MS;
     assertThat(maxMs).isGreaterThan(1000L);
     TestTimeUtil.resetWithClockStep(maxMs * 2, MILLISECONDS);
     project = new Project.NameKey("project");
@@ -96,7 +95,7 @@ public class ChangeBundleTest extends GerritBaseTests {
   }
 
   private void superWindowResolution() {
-    TestTimeUtil.setClockStep(ChangeRebuilderImpl.MAX_WINDOW_MS * 2, MILLISECONDS);
+    TestTimeUtil.setClockStep(ChangeBundle.MAX_WINDOW_MS * 2, MILLISECONDS);
     TimeUtil.nowTs();
   }
 

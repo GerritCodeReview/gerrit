@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.notedb.ChangeBundle;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -78,8 +79,7 @@ class EventList<E extends Event> implements Iterable<E> {
     long tFirst = getFirstTime();
     long tLast = getLastTime();
     checkArgument(t >= tLast, "event %s is before previous event in list %s", e, last);
-    if (t - tLast > ChangeRebuilderImpl.MAX_DELTA_MS
-        || t - tFirst > ChangeRebuilderImpl.MAX_WINDOW_MS) {
+    if (t - tLast > ChangeBundle.MAX_DELTA_MS || t - tFirst > ChangeBundle.MAX_WINDOW_MS) {
       return false; // Too much time elapsed.
     }
 

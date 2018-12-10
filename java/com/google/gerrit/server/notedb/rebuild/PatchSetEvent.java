@@ -53,7 +53,7 @@ class PatchSetEvent extends Event {
   void apply(ChangeUpdate update) throws IOException, OrmException {
     checkUpdate(update);
     if (createChange) {
-      ChangeRebuilderImpl.createChange(update, change);
+      update.createChange(change);
     } else {
       update.setSubject(change.getSubject());
       update.setSubjectForCommit("Create patch set " + ps.getPatchSetId());

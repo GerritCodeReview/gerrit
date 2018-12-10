@@ -137,7 +137,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 install(new GitModule());
 
                 install(new DefaultUrlFormatter.Module());
-                install(NoteDbModule.forTest(testConfig));
+                install(NoteDbModule.forTest());
                 bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
                 bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
                 bind(GitRepositoryManager.class).toInstance(repoManager);

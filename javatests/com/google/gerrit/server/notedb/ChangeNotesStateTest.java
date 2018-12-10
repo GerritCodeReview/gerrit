@@ -16,9 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
-import static com.google.gerrit.proto.Protos.toByteString;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.server.notedb.ChangeNotesState.Serializer.toByteString;
 
 import com.google.common.collect.ImmutableList;
@@ -30,7 +28,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.mail.Address;
-import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -40,6 +37,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.converter.ChangeMessageProtoConverter;
+import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -374,7 +372,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
                 new PatchSet.Id(ID, 1), new Account.Id(2001), new LabelId("Code-Review")),
             (short) 1,
             new Timestamp(1212L));
-    ByteString a1Bytes = Protos.toByteString(a1, APPROVAL_CODEC);
+    ByteString a1Bytes = toByteString(a1, PatchSetApprovalProtoConverter.INSTANCE);
     assertThat(a1Bytes.size()).isEqualTo(43);
 
     PatchSetApproval a2 =
@@ -383,7 +381,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
                 new PatchSet.Id(ID, 1), new Account.Id(2002), new LabelId("Verified")),
             (short) -1,
             new Timestamp(3434L));
-    ByteString a2Bytes = toByteString(a2, APPROVAL_CODEC);
+    ByteString a2Bytes = toByteString(a2, PatchSetApprovalProtoConverter.INSTANCE);
     assertThat(a2Bytes.size()).isEqualTo(49);
     assertThat(a2Bytes).isNotEqualTo(a1Bytes);
 

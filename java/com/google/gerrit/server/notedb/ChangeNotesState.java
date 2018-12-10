@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
@@ -48,6 +47,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.converter.ChangeMessageProtoConverter;
+import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.reviewdb.converter.ProtoConverter;
 import com.google.gerrit.server.OutputFormat;
@@ -462,7 +462,10 @@ public abstract class ChangeNotesState {
           .forEach(e -> b.addPatchSet(toByteString(e.getValue(), PatchSetProtoConverter.INSTANCE)));
       object
           .approvals()
-          .forEach(e -> b.addApproval(Protos.toByteString(e.getValue(), APPROVAL_CODEC)));
+          .forEach(
+              e ->
+                  b.addApproval(
+                      toByteString(e.getValue(), PatchSetApprovalProtoConverter.INSTANCE)));
 
       object.reviewers().asTable().cellSet().forEach(c -> b.addReviewer(toReviewerSetEntry(c)));
       object
@@ -595,7 +598,7 @@ public abstract class ChangeNotesState {
                   proto
                       .getApprovalList()
                       .stream()
-                      .map(APPROVAL_CODEC::decode)
+                      .map(bytes -> parseProtoFrom(PatchSetApprovalProtoConverter.INSTANCE, bytes))
                       .map(a -> Maps.immutableEntry(a.getPatchSetId(), a))
                       .collect(toImmutableList()))
               .reviewers(toReviewerSet(proto.getReviewerList()))

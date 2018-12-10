@@ -18,10 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -52,7 +50,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.protobuf.MessageLite;
@@ -88,17 +85,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
   protected static final String SETTINGS = "settings";
-
-  protected static <T> List<T> decodeProtos(
-      JsonObject doc, String fieldName, ProtobufCodec<T> codec) {
-    JsonArray field = doc.getAsJsonArray(fieldName);
-    if (field == null) {
-      return null;
-    }
-    return FluentIterable.from(field)
-        .transform(i -> codec.decode(decodeBase64(i.toString())))
-        .toList();
-  }
 
   protected static <T> List<T> decodeProtos(
       JsonObject doc, String fieldName, ProtoConverter<?, T> converter) {

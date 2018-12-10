@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.inject.Inject;
@@ -50,6 +51,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.MutableInteger;
 
+@UsedAt(UsedAt.Project.GOOGLE)
 @Singleton
 public class CommentJsonMigrator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

@@ -842,13 +842,13 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
     sub1.git().fetch().call();
     RevWalk rw1 = sub1.getRevWalk();
-    RevCommit master1 = rw1.parseCommit(getRemoteHead(subKey1.get(), "master"));
+    RevCommit master1 = rw1.parseCommit(getRemoteHead(subKey1, "master"));
     RevCommit change1Ps = parseCurrentRevision(rw1, changeId1);
     assertThat(rw1.isMergedInto(change1Ps, master1)).isTrue();
 
     sub2.git().fetch().call();
     RevWalk rw2 = sub2.getRevWalk();
-    RevCommit master2 = rw2.parseCommit(getRemoteHead(subKey2.get(), "master"));
+    RevCommit master2 = rw2.parseCommit(getRemoteHead(subKey2, "master"));
     RevCommit change2Ps = parseCurrentRevision(rw2, changeId2);
     assertThat(rw2.isMergedInto(change2Ps, master2)).isTrue();
 

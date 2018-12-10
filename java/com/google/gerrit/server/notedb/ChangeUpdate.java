@@ -512,6 +512,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     rootOnly = true;
   }
 
+  public void createChange(Change change) {
+    setSubjectForCommit("Create change");
+    setChangeId(change.getKey().get());
+    setBranch(change.getDest().get());
+    setSubject(change.getOriginalSubject());
+    if (change.getRevertOf() != null) {
+      setRevertOf(change.getRevertOf().get());
+    }
+  }
+
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, OrmException, IOException {

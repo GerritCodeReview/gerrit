@@ -14,22 +14,14 @@ any commercial server which supports the J2EE servlet specification.
 
 == Installation
 
-* Complete the link:install.html#createdb[database setup] and
-  link:install.html#init[site initialization] tasks described
-  in the standard installation documentation.
+* Complete the link:install.html#init[site initialization] task
+  described in the standard installation documentation.
 
 * Stop the embedded daemon that was automatically started by 'init':
 +
 ----
   review_site/bin/gerrit.sh stop
 ----
-
-* Configure JNDI DataSource 'jdbc/ReviewDb'.
-+
-This DataSource must point to the database you created above.
-Don't forget to ensure your JNDI configuration can load the
-necessary JDBC drivers.  You may wish to ensure connection pooling
-is configured and enabled within the DataSource.
 
 * Deploy the 'gerrit.war' file to your application server.
 +
@@ -70,20 +62,8 @@ Copy Gerrit Code Review into the deployment:
   java -jar webapps/gerrit.war cat extra/jetty7/gerrit.xml >contexts/gerrit.xml
 ----
 
-Install the required additional libraries by copying them into the
-`'$JETTY_HOME'/lib/ext` directory:
-
-----
-  cp ../review_db/lib/* lib/ext/
-  java -jar webapps/gerrit.war cat lib/commons-dbcp-1.2.2.jar >lib/ext/commons-dbcp-1.2.2.jar
-  java -jar webapps/gerrit.war cat lib/commons-pool-1.5.4.jar >lib/ext/commons-pool-1.5.4.jar
-  java -jar webapps/gerrit.war cat lib/h2-1.2.128.jar >lib/ext/h2-1.2.128.jar
-  java -jar webapps/gerrit.war cat lib/postgresql-8.4-701.jdbc4.jar >lib/ext/postgresql-8.4-701.jdbc4.jar
-----
-
 Edit `'$JETTY_HOME'/contexts/gerrit.xml` to correctly configure
-the database and outgoing SMTP connections, especially the user
-and password fields.
+outgoing SMTP connections.
 
 If OpenID authentication (or certain enterprise single-sign-on
 solutions) is being used, you may need to increase the

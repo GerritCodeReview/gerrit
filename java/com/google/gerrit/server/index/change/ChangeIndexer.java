@@ -33,7 +33,6 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -87,8 +86,6 @@ public class ChangeIndexer {
   @Nullable private final ChangeIndexCollection indexes;
   @Nullable private final ChangeIndex index;
   private final SchemaFactory<ReviewDb> schemaFactory;
-  private final NotesMigration notesMigration;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
   private final ListeningExecutorService batchExecutor;
@@ -102,7 +99,6 @@ public class ChangeIndexer {
       @GerritServerConfig Config cfg,
       SchemaFactory<ReviewDb> schemaFactory,
       NotesMigration notesMigration,
-      ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
       PluginSetContext<ChangeIndexedListener> indexedListeners,
@@ -112,8 +108,6 @@ public class ChangeIndexer {
       @Assisted ChangeIndex index) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
-    this.notesMigration = notesMigration;
-    this.changeNotesFactory = changeNotesFactory;
     this.changeDataFactory = changeDataFactory;
     this.context = context;
     this.indexedListeners = indexedListeners;
@@ -129,7 +123,6 @@ public class ChangeIndexer {
       SchemaFactory<ReviewDb> schemaFactory,
       @GerritServerConfig Config cfg,
       NotesMigration notesMigration,
-      ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
       PluginSetContext<ChangeIndexedListener> indexedListeners,
@@ -139,8 +132,6 @@ public class ChangeIndexer {
       @Assisted ChangeIndexCollection indexes) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
-    this.notesMigration = notesMigration;
-    this.changeNotesFactory = changeNotesFactory;
     this.changeDataFactory = changeDataFactory;
     this.context = context;
     this.indexedListeners = indexedListeners;
@@ -239,8 +230,9 @@ public class ChangeIndexer {
    * @param db review database.
    * @param change change to index.
    */
+  // TODO(dborowitz): Remove OrmException
   public void index(ReviewDb db, Change change) throws IOException, OrmException {
-    index(newChangeData(db, change));
+    index(changeDataFactory.create(db, change));
   }
 
   /**
@@ -250,9 +242,10 @@ public class ChangeIndexer {
    * @param project the project to which the change belongs.
    * @param changeId ID of the change to index.
    */
+  // TODO(dborowitz): Remove OrmException
   public void index(ReviewDb db, Project.NameKey project, Change.Id changeId)
       throws IOException, OrmException {
-    index(newChangeData(db, project, changeId));
+    index(changeDataFactory.create(db, project, changeId));
   }
 
   /**
@@ -383,7 +376,7 @@ public class ChangeIndexer {
 
     @Override
     public Void callImpl(Provider<ReviewDb> db) throws Exception {
-      ChangeData cd = newChangeData(db.get(), project, id);
+      ChangeData cd = changeDataFactory.create(db.get(), project, id);
       index(cd);
       return null;
     }
@@ -429,7 +422,7 @@ public class ChangeIndexer {
     public Boolean callImpl(Provider<ReviewDb> db) throws Exception {
       try {
         if (stalenessChecker.isStale(id)) {
-          indexImpl(newChangeData(db.get(), project, id));
+          indexImpl(changeDataFactory.create(db.get(), project, id));
           return true;
         }
       } catch (NoSuchChangeException nsce) {
@@ -459,27 +452,5 @@ public class ChangeIndexer {
       throwable = throwable.getCause();
     }
     return false;
-  }
-
-  // Avoid auto-rebuilding when reindexing if reading is disabled. This just
-  // increases contention on the meta ref from a background indexing thread
-  // with little benefit. The next actual write to the entity may still incur a
-  // less-contentious rebuild.
-  private ChangeData newChangeData(ReviewDb db, Change change) throws OrmException {
-    if (!notesMigration.readChanges()) {
-      ChangeNotes notes = changeNotesFactory.createWithAutoRebuildingDisabled(change, null);
-      return changeDataFactory.create(db, notes);
-    }
-    return changeDataFactory.create(db, change);
-  }
-
-  private ChangeData newChangeData(ReviewDb db, Project.NameKey project, Change.Id changeId)
-      throws OrmException {
-    if (!notesMigration.readChanges()) {
-      ChangeNotes notes =
-          changeNotesFactory.createWithAutoRebuildingDisabled(db, project, changeId);
-      return changeDataFactory.create(db, notes);
-    }
-    return changeDataFactory.create(db, project, changeId);
   }
 }

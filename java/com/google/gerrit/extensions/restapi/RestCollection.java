@@ -91,6 +91,7 @@ public interface RestCollection<P extends RestResource, R extends RestResource> 
    * <p>Within a resource the views are accessed as {@code RESOURCE/plugin~view}.
    *
    * @return map of views.
+   * @throws RestApiException if the implementation had any errors.
    */
-  DynamicMap<RestView<R>> views();
+  DynamicMap<RestView<R>> views() throws RestApiException;
 }

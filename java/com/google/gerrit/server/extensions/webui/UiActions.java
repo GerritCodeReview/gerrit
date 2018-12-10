@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -28,6 +29,7 @@ import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.registration.PluginName;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -76,7 +78,11 @@ public class UiActions {
 
   public <R extends RestResource> Iterable<UiAction.Description> from(
       RestCollection<?, R> collection, R resource) {
-    return from(collection.views(), resource);
+    try {
+      return from(collection.views(), resource);
+    } catch (RestApiException e) {
+      return ImmutableList.of();
+    }
   }
 
   public <R extends RestResource> Iterable<UiAction.Description> from(

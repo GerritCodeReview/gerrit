@@ -32,6 +32,7 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
@@ -714,5 +715,10 @@ public class ProjectIT extends AbstractDaemonTest {
       assertThat(countsByProject.asMap()).containsExactlyEntriesIn(expected);
       clear();
     }
+  }
+
+  @Nullable
+  protected RevCommit getRemoteHead(String project, String branch) throws Exception {
+    return getRemoteHead(new Project.NameKey(project), branch);
   }
 }

@@ -1204,8 +1204,7 @@ Below you find a list of capabilities available:
 [[capability_accessDatabase]]
 === Access Database
 
-Allow users to access the database using the `gsql` command, and view code
-review metadata refs in repositories.
+Allow users to view code review metadata refs in repositories.
 
 
 [[capability_administrateServer]]

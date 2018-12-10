@@ -22,7 +22,7 @@ import java.util.List;
 
 /** Server wide capabilities. Represented as {@link Permission} objects. */
 public class GlobalCapability {
-  /** Ability to access the database (with gsql). */
+  /** Ability to view code review metadata refs in repositories. */
   public static final String ACCESS_DATABASE = "accessDatabase";
 
   /**

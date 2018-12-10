@@ -90,7 +90,6 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, CreateGroupCommand.class);
     command(gerrit, CreateProjectCommand.class);
     command(gerrit, SetHeadCommand.class);
-    command(gerrit, AdminQueryShell.class);
 
     if (slaveMode) {
       command("git-receive-pack").to(ReceiveSlaveMode.class);

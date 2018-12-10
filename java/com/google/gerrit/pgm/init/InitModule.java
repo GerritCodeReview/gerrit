@@ -41,8 +41,6 @@ public class InitModule extends FactoryModule {
 
     // Steps are executed in the order listed here.
     //
-    step().to(UpgradeFrom2_0_x.class);
-
     step().to(InitGitManager.class);
     step().to(InitNoteDb.class);
     step().to(InitLogging.class);

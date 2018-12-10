@@ -60,8 +60,6 @@ rename the downloaded file.
 If you would prefer to build Gerrit directly from source, review
 the notes under link:dev-readme.html[developer setup].
 
-include::database-setup.txt[]
-
 [[init]]
 == Initialize the Site
 

@@ -17,6 +17,24 @@
       "revId": "398718b7a01e7296145e853ae807a7c6c261b3b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be779f44_b8b15a70",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-10T12:08:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc2e1d70_4eca3f2f",
+      "revId": "398718b7a01e7296145e853ae807a7c6c261b3b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

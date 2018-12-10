@@ -220,14 +220,14 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createAndDeleteBranch() throws Exception {
-    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+    assertThat(hasHead(project, "foo")).isFalse();
 
     gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
     assertThat(getRemoteHead(project.get(), "foo")).isNotNull();
     projectIndexedCounter.assertNoReindex();
 
     gApi.projects().name(project.get()).branch("foo").delete();
-    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+    assertThat(hasHead(project, "foo")).isFalse();
     projectIndexedCounter.assertNoReindex();
   }
 
@@ -236,7 +236,7 @@ public class ProjectIT extends AbstractDaemonTest {
     grant(project, "refs/*", Permission.PUSH, true);
     projectIndexedCounter.clear();
 
-    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+    assertThat(hasHead(project, "foo")).isFalse();
 
     PushOneCommit.Result r = pushTo("refs/heads/foo");
     r.assertOkStatus();
@@ -245,7 +245,7 @@ public class ProjectIT extends AbstractDaemonTest {
 
     PushResult r2 = GitUtil.pushOne(testRepo, null, "refs/heads/foo", false, true, null);
     assertThat(r2.getRemoteUpdate("refs/heads/foo").getStatus()).isEqualTo(Status.OK);
-    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+    assertThat(hasHead(project, "foo")).isFalse();
     projectIndexedCounter.assertNoReindex();
   }
 
@@ -720,5 +720,9 @@ public class ProjectIT extends AbstractDaemonTest {
   @Nullable
   protected RevCommit getRemoteHead(String project, String branch) throws Exception {
     return getRemoteHead(new Project.NameKey(project), branch);
+  }
+
+  boolean hasHead(Project.NameKey k, String b) {
+    return projectOperations.project(k).hasHead(b);
   }
 }

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.acceptance.testsuite.project;
 
+import com.google.gerrit.reviewdb.client.Project;
+import org.eclipse.jgit.revwalk.RevCommit;
+
 /**
  * Operations for constructing projects in tests. This does not necessarily use the project REST
  * API, so don't use it for testing that.
@@ -22,4 +25,20 @@ public interface ProjectOperations {
 
   /** Starts a fluent chain for creating a new project. */
   TestProjectCreation.Builder newProject();
+
+  PerProjectOperations project(Project.NameKey key);
+
+  interface PerProjectOperations {
+    /**
+     * Returns the commit for this project. branchName can either be shortened ("HEAD", "master") or
+     * a fully qualified refname ("refs/heads/master"). The branch must exist.
+     */
+    RevCommit getHead(String branchName);
+
+    /**
+     * Returns if a branch exists. branchName can either be shortened ("HEAD", "master") or a fully
+     * qualified refname ("refs/heads/master"). The branch must exist.
+     */
+    boolean hasHead(String branchName);
+  }
 }

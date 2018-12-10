@@ -2360,7 +2360,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         testRepo
             .commit()
             .message("Foo")
-            .parent(getHead(testRepo.getRepository()))
+            .parent(getHead(testRepo.getRepository(), "HEAD"))
             .insertChangeId()
             .create();
     testRepo.reset(c);
@@ -2388,7 +2388,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         testRepo
             .commit()
             .message("Foo")
-            .parent(getHead(testRepo.getRepository()))
+            .parent(getHead(testRepo.getRepository(), "HEAD"))
             .insertChangeId()
             .create();
     String id = GitUtil.getChangeId(testRepo, c).get();
@@ -2415,7 +2415,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         testRepo
             .commit()
             .message("Foo")
-            .parent(getHead(testRepo.getRepository()))
+            .parent(getHead(testRepo.getRepository(), "HEAD"))
             .insertChangeId()
             .create();
     testRepo.reset(c);
@@ -2436,7 +2436,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushCommitsWithSameTreeNoFilesChangedWasRebased() throws Exception {
-    RevCommit head = getHead(testRepo.getRepository());
+    RevCommit head = getHead(testRepo.getRepository(), "HEAD");
     RevCommit c = testRepo.commit().message("Foo").parent(head).insertChangeId().create();
     testRepo.reset(c);
 

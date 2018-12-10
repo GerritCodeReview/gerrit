@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
-import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
@@ -39,7 +38,6 @@ import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -57,9 +55,7 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
-import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -77,7 +73,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -186,12 +181,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, loadChangeFromDb(db, project, changeId)).load();
     }
 
-    public ChangeNotes createWithAutoRebuildingDisabled(
-        ReviewDb db, Project.NameKey project, Change.Id changeId) throws OrmException {
-      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId), true, false, null)
-          .load();
-    }
-
     /**
      * Create change notes for a change that was loaded from index. This method should only be used
      * when database access is harmful and potentially stale data from the index is acceptable.
@@ -205,12 +194,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes createForBatchUpdate(Change change, boolean shouldExist)
         throws OrmException {
-      return new ChangeNotes(args, change, shouldExist, false, null).load();
+      return new ChangeNotes(args, change, shouldExist, null).load();
     }
 
-    public ChangeNotes createWithAutoRebuildingDisabled(Change change, RefCache refs)
-        throws OrmException {
-      return new ChangeNotes(args, change, true, false, refs).load();
+    public ChangeNotes create(Change change, RefCache refs) throws OrmException {
+      return new ChangeNotes(args, change, true, refs).load();
     }
 
     // TODO(ekempin): Remove when database backend is deleted
@@ -459,7 +447,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   // notes easier.
   RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
-  private NoteDbUpdateManager.Result rebuildResult;
   private DraftCommentNotes draftCommentNotes;
   private RobotCommentNotes robotCommentNotes;
 
@@ -471,12 +458,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @VisibleForTesting
   public ChangeNotes(Args args, Change change) {
-    this(args, change, true, true, null);
+    this(args, change, true, null);
   }
 
-  private ChangeNotes(
-      Args args, Change change, boolean shouldExist, boolean autoRebuild, @Nullable RefCache refs) {
-    super(args, change.getId(), PrimaryStorage.of(change), autoRebuild);
+  private ChangeNotes(Args args, Change change, boolean shouldExist, @Nullable RefCache refs) {
+    super(args, change.getId());
     this.change = new Change(change);
     this.shouldExist = shouldExist;
     this.refs = refs;
@@ -609,8 +595,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
    */
   private void loadDraftComments(Account.Id author, @Nullable Ref ref) throws OrmException {
     if (draftCommentNotes == null || !author.equals(draftCommentNotes.getAuthor()) || ref != null) {
-      draftCommentNotes =
-          new DraftCommentNotes(args, change, author, autoRebuild, rebuildResult, ref);
+      draftCommentNotes = new DraftCommentNotes(args, getChangeId(), author, ref);
       draftCommentNotes.load();
     }
   }
@@ -665,8 +650,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   @Override
-  protected void onLoad(LoadHandle handle)
-      throws NoSuchChangeException, IOException, ConfigInvalidException {
+  protected void onLoad(LoadHandle handle) throws NoSuchChangeException, IOException {
     ObjectId rev = handle.id();
     if (rev == null) {
       if (args.migration.readChanges()
@@ -698,90 +682,5 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @Override
   protected ObjectId readRef(Repository repo) throws IOException {
     return refs != null ? refs.get(getRefName()).orElse(null) : super.readRef(repo);
-  }
-
-  @Override
-  protected LoadHandle openHandle(Repository repo) throws NoSuchChangeException, IOException {
-    if (autoRebuild) {
-      NoteDbChangeState state = NoteDbChangeState.parse(change);
-      if (args.migration.disableChangeReviewDb()) {
-        checkState(
-            state != null,
-            "shouldn't have null NoteDbChangeState when ReviewDb disabled: %s",
-            change);
-      }
-      ObjectId id = readRef(repo);
-      if (id == null) {
-        // Meta ref doesn't exist in NoteDb.
-
-        if (state == null) {
-          // Either ReviewDb change is being newly created, or it exists in ReviewDb but has not yet
-          // been rebuilt for the first time, e.g. because we just turned on write-only mode. In
-          // both cases, we don't want to auto-rebuild, just proceed with an empty ChangeNotes.
-          return super.openHandle(repo, id);
-        } else if (shouldExist && state.getPrimaryStorage() == PrimaryStorage.NOTE_DB) {
-          throw new NoSuchChangeException(getChangeId());
-        }
-
-        // ReviewDb claims NoteDb state exists, but meta ref isn't present: fall through and
-        // auto-rebuild if necessary.
-      }
-      RefCache refs = this.refs != null ? this.refs : new RepoRefCache(repo);
-      if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {
-        return rebuildAndOpen(repo, id);
-      }
-    }
-    return super.openHandle(repo);
-  }
-
-  private LoadHandle rebuildAndOpen(Repository repo, ObjectId oldId) throws IOException {
-    Timer1.Context timer = args.metrics.autoRebuildLatency.start(CHANGES);
-    try {
-      Change.Id cid = getChangeId();
-      ReviewDb db = args.db.get();
-      ChangeRebuilder rebuilder = args.rebuilder.get();
-      NoteDbUpdateManager.Result r;
-      try (NoteDbUpdateManager manager = rebuilder.stage(db, cid)) {
-        if (manager == null) {
-          return super.openHandle(repo, oldId); // May be null in tests.
-        }
-        manager.setRefLogMessage("Auto-rebuilding change");
-        r = manager.stageAndApplyDelta(change);
-        try {
-          rebuilder.execute(db, cid, manager);
-          repo.scanForRepoChanges();
-        } catch (OrmException | IOException e) {
-          // Rebuilding failed. Most likely cause is contention on one or more
-          // change refs; there are other types of errors that can happen during
-          // rebuilding, but generally speaking they should happen during stage(),
-          // not execute(). Assume that some other worker is going to successfully
-          // store the rebuilt state, which is deterministic given an input
-          // ChangeBundle.
-          //
-          // Parse notes from the staged result so we can return something useful
-          // to the caller instead of throwing.
-          logger.atFine().log("Rebuilding change %s failed: %s", getChangeId(), e.getMessage());
-          args.metrics.autoRebuildFailureCount.increment(CHANGES);
-          rebuildResult = requireNonNull(r);
-          requireNonNull(r.newState());
-          requireNonNull(r.staged());
-          requireNonNull(r.staged().changeObjects());
-          return LoadHandle.create(
-              ChangeNotesCommit.newStagedRevWalk(repo, r.staged().changeObjects()),
-              r.newState().getChangeMetaId());
-        }
-      }
-      return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), r.newState().getChangeMetaId());
-    } catch (NoSuchChangeException e) {
-      return super.openHandle(repo, oldId);
-    } catch (OrmException e) {
-      throw new IOException(e);
-    } finally {
-      logger.atFine().log(
-          "Rebuilt change %s in project %s in %s ms",
-          getChangeId(),
-          getProjectName(),
-          TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));
-    }
   }
 }

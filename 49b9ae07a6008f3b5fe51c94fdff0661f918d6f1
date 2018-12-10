@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f6f2a42_791a0846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-10T01:14:58Z",
+      "side": 1,
+      "message": "FYI I\u0027m getting build failures on the delete-project plugin while using bazel 0.20.0\n\nhttp://paste.openstack.org/show/736872/",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "49b9ae07a6008f3b5fe51c94fdff0661f918d6f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

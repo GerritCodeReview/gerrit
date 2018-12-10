@@ -19,7 +19,6 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.Protos.toByteString;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.MESSAGE_CODEC;
 import static com.google.gerrit.server.notedb.ChangeNotesState.Serializer.toByteString;
 
 import com.google.common.collect.ImmutableList;
@@ -40,6 +39,7 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.converter.ChangeMessageProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -641,7 +641,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             new Account.Id(1000),
             new Timestamp(1212L),
             new PatchSet.Id(ID, 1));
-    ByteString m1Bytes = toByteString(m1, MESSAGE_CODEC);
+    ByteString m1Bytes = toByteString(m1, ChangeMessageProtoConverter.INSTANCE);
     assertThat(m1Bytes.size()).isEqualTo(35);
 
     ChangeMessage m2 =
@@ -650,7 +650,7 @@ public class ChangeNotesStateTest extends GerritBaseTests {
             new Account.Id(2000),
             new Timestamp(3434L),
             new PatchSet.Id(ID, 2));
-    ByteString m2Bytes = toByteString(m2, MESSAGE_CODEC);
+    ByteString m2Bytes = toByteString(m2, ChangeMessageProtoConverter.INSTANCE);
     assertThat(m2Bytes.size()).isEqualTo(35);
     assertThat(m2Bytes).isNotEqualTo(m1Bytes);
 

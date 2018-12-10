@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06fb7488_89dea8f7",
+        "filename": "java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-10T09:28:55Z",
+      "side": 1,
+      "message": "nit: outdated comment",
+      "revId": "d791f104ae53c9b3bcc138dfc142e12f1c3a15ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4583645_52a5388b",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaUpdater.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-10T09:28:55Z",
+      "side": 1,
+      "message": "[optional] extract this into a method for better readability",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 5
+      },
+      "revId": "d791f104ae53c9b3bcc138dfc142e12f1c3a15ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edd7394b_23cccc02",
+        "filename": "java/com/google/gerrit/server/schema/ReviewDbSchemaModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-10T09:28:55Z",
+      "side": 1,
+      "message": "+1 but not sure how to avoid it",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 41
+      },
+      "revId": "d791f104ae53c9b3bcc138dfc142e12f1c3a15ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

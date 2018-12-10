@@ -113,14 +113,6 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.delete("/changes/%s"));
 
   /**
-   * Change REST endpoints to be tested with NoteDb, each URL contains a placeholder for the change
-   * identifier.
-   */
-  private static final ImmutableList<RestCall> CHANGE_ENDPOINTS_NOTEDB =
-      ImmutableList.of(
-          RestCall.post("/changes/%s/hashtags"), RestCall.post("/changes/%s/rebuild.notedb"));
-
-  /**
    * Reviewer REST endpoints to be tested, each URL contains placeholders for the change identifier
    * and the reviewer identifier.
    */
@@ -282,14 +274,6 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     gApi.changes().id(changeId).edit().create();
     RestApiCallHelper.execute(adminRestSession, CHANGE_ENDPOINTS, changeId);
-  }
-
-  @Test
-  public void changeEndpointsNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
-    String changeId = createChange().getChangeId();
-    RestApiCallHelper.execute(adminRestSession, CHANGE_ENDPOINTS_NOTEDB, changeId);
   }
 
   @Test

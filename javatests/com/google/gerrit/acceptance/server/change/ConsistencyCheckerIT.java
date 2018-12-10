@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.common.ProblemInfo.Status.FIXED;
 import static com.google.gerrit.extensions.common.ProblemInfo.Status.FIX_FAILED;
 import static com.google.gerrit.testing.TestChanges.newPatchSet;
@@ -35,7 +34,6 @@ import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -52,8 +50,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.InMemoryRepositoryManager;
-import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.TestChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -97,11 +93,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   private ConsistencyChecker checker;
   private TestRepository<InMemoryRepository> serverSideTestRepo;
 
-  private void assumeNoteDbDisabled() {
-    assume().that(notesMigration.readChanges()).isFalse();
-    assume().that(NoteDbMode.get()).isNotEqualTo(NoteDbMode.CHECK);
-  }
-
   @Before
   public void setUp() throws Exception {
     serverSideTestRepo =
@@ -132,38 +123,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     deleteUserBranch(owner.getId());
 
     assertProblems(notes, null, problem("Missing change owner: " + owner.getId()));
-  }
-
-  @Test
-  public void missingRepo() throws Exception {
-    // NoteDb can't have a change without a repo.
-    assumeNoteDbDisabled();
-
-    ChangeNotes notes = insertChange();
-    Project.NameKey name = notes.getProjectName();
-    ((InMemoryRepositoryManager) repoManager).deleteRepository(name);
-    assertThat(checker.check(notes, null).problems())
-        .containsExactly(problem("Destination repository not found: " + name));
-  }
-
-  @Test
-  public void invalidRevision() throws Exception {
-    // NoteDb always parses the revision when inserting a patch set, so we can't
-    // create an invalid patch set.
-    assumeNoteDbDisabled();
-
-    ChangeNotes notes = insertChange();
-    PatchSet ps =
-        newPatchSet(
-            notes.getChange().currentPatchSetId(),
-            "fooooooooooooooooooooooooooooooooooooooo",
-            adminId);
-    db.patchSets().update(singleton(ps));
-
-    assertProblems(
-        notes,
-        null,
-        problem("Invalid revision on patch set 1: fooooooooooooooooooooooooooooooooooooooo"));
   }
 
   // No test for ref existing but object missing; InMemoryRepository won't let
@@ -328,16 +287,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     notes = reload(notes);
     assertThat(notes.getChange().currentPatchSetId().get()).isEqualTo(1);
     assertThat(psUtil.current(db, notes)).isNotNull();
-  }
-
-  @Test
-  public void currentPatchSetMissing() throws Exception {
-    // NoteDb can't create a change without a patch set.
-    assumeNoteDbDisabled();
-
-    ChangeNotes notes = insertChange();
-    db.patchSets().deleteKeys(singleton(notes.getChange().currentPatchSetId()));
-    assertProblems(notes, null, problem("Current patch set 1 not found"));
   }
 
   @Test

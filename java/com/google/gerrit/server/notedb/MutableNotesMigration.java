@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.Inject;
@@ -79,21 +80,15 @@ public class MutableNotesMigration extends NotesMigration {
   /**
    * Set the in-memory values returned by this instance to match the given state.
    *
-   * <p>This method is only intended for use by {@link
-   * com.google.gerrit.server.notedb.rebuild.NoteDbMigrator}.
+   * <p>This method is only intended for use by tests.
    *
    * <p>This <em>only</em> modifies the in-memory state; if this instance was initialized from a
    * file-based config, the underlying storage is not updated. Callers are responsible for managing
    * the underlying storage on their own.
    */
+  @VisibleForTesting
   public MutableNotesMigration setFrom(NotesMigrationState state) {
     snapshot.set(state.snapshot());
-    return this;
-  }
-
-  /** @see #setFrom(NotesMigrationState) */
-  public MutableNotesMigration setFrom(NotesMigration other) {
-    snapshot.set(other.snapshot.get());
     return this;
   }
 

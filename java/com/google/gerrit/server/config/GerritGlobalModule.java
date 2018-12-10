@@ -246,7 +246,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new GitModule());
     install(new GroupDbModule());
     install(new GroupModule());
-    install(new NoteDbModule(cfg));
+    install(new NoteDbModule());
     install(new PrologModule());
     install(new DefaultSubmitRule.Module());
     install(new IgnoreSelfApprovalRule.Module());

@@ -14,6 +14,10 @@
 
 package com.google.gerrit.acceptance.testsuite.project;
 
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.Project;
+import org.eclipse.jgit.revwalk.RevCommit;
+
 /**
  * Operations for constructing projects in tests. This does not necessarily use the project REST
  * API, so don't use it for testing that.
@@ -22,4 +26,16 @@ public interface ProjectOperations {
 
   /** Starts a fluent chain for creating a new project. */
   TestProjectCreation.Builder newProject();
+
+  MoreProjectOperations project(Project.NameKey key);
+
+  interface MoreProjectOperations {
+    /**
+     * Returns the commit for this project. branchName can either be shortened ("HEAD", "master") or
+     * a fully qualified refname ("refs/heads/master").
+     */
+    // NOSUBMIT - should we avoid Nullable here?
+    @Nullable
+    RevCommit getHead(String branchName);
+  }
 }

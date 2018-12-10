@@ -9,10 +9,6 @@ To run the Gerrit service, the following requirement must be met on the host:
 +
 Gerrit is not yet compatible with Java 9 or newer at this time.
 
-By default, Gerrit uses link:note-db.html[NoteDB] as the storage backend. (If
-desired, you can _optionally_ use an external database such as MySQL or
-PostgreSQL.)
-
 [[cryptography]]
 == Configure Java for Strong Cryptography
 
@@ -215,8 +211,7 @@ Sample install command:
         --StartPath=C:\MY\GERRIT\SITE ^
         --StartMode=jvm --StopMode=jvm ^
         --StartClass=com.google.gerrit.launcher.GerritLauncher --StartMethod=daemonStart ^
-        --StopClass=com.google.gerrit.launcher.GerritLauncher --StopMethod=daemonStop ^
-        ++DependsOn=postgresql-x64-9.4
+        --StopClass=com.google.gerrit.launcher.GerritLauncher --StopMethod=daemonStop
 ====
 
 [[customize]]
@@ -253,8 +248,6 @@ Place Gerrit plugins in the review_site/plugins directory to have them loaded on
 
 == External Documentation Links
 
-* http://www.postgresql.org/docs/[PostgreSQL Documentation]
-* http://dev.mysql.com/doc/[MySQL Documentation]
 * http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[git-daemon]
 
 

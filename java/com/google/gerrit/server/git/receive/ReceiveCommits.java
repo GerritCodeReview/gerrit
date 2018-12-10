@@ -649,7 +649,7 @@ class ReceiveCommits {
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
-      bu.setRepository(repo, rw, ins).updateChangesInParallel();
+      bu.setRepository(repo, rw, ins);
       bu.setRefLogMessage("push");
 
       int added = 0;
@@ -802,7 +802,7 @@ class ReceiveCommits {
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
-      bu.setRepository(repo, rw, ins).updateChangesInParallel();
+      bu.setRepository(repo, rw, ins);
       bu.setRefLogMessage("push");
 
       logger.atFine().log("Adding %d replace requests", newChanges.size());
@@ -3125,7 +3125,7 @@ class ReceiveCommits {
                 ObjectInserter ins = repo.newObjectInserter();
                 ObjectReader reader = ins.newReader();
                 RevWalk rw = new RevWalk(reader)) {
-              bu.setRepository(repo, rw, ins).updateChangesInParallel();
+              bu.setRepository(repo, rw, ins);
               // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
 
               RevCommit newTip = rw.parseCommit(cmd.getNewId());

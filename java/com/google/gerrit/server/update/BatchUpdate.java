@@ -156,25 +156,6 @@ public abstract class BatchUpdate implements AutoCloseable {
     return o;
   }
 
-  static boolean getUpdateChangesInParallel(Collection<? extends BatchUpdate> updates) {
-    checkArgument(!updates.isEmpty());
-    Boolean p = null;
-    for (BatchUpdate u : updates) {
-      if (p == null) {
-        p = u.updateChangesInParallel;
-      } else if (u.updateChangesInParallel != p) {
-        throw new IllegalArgumentException("cannot mix parallel and non-parallel operations");
-      }
-    }
-    // Properly implementing this would involve hoisting the parallel loop up
-    // even further. As of this writing, the only user is ReceiveCommits,
-    // which only executes a single BatchUpdate at a time. So bail for now.
-    checkArgument(
-        !p || updates.size() <= 1,
-        "cannot execute ChangeOps in parallel with more than 1 BatchUpdate");
-    return p;
-  }
-
   static void wrapAndThrowException(Exception e) throws UpdateException, RestApiException {
     Throwables.throwIfUnchecked(e);
 
@@ -215,8 +196,6 @@ public abstract class BatchUpdate implements AutoCloseable {
   protected OnSubmitValidators onSubmitValidators;
   protected PushCertificate pushCert;
   protected String refLogMessage;
-
-  private boolean updateChangesInParallel;
 
   protected BatchUpdate(
       GitRepositoryManager repoManager,
@@ -275,18 +254,6 @@ public abstract class BatchUpdate implements AutoCloseable {
    */
   public BatchUpdate setOnSubmitValidators(OnSubmitValidators onSubmitValidators) {
     this.onSubmitValidators = onSubmitValidators;
-    return this;
-  }
-
-  /**
-   * Execute {@link BatchUpdateOp#updateChange(ChangeContext)} in parallel for each change.
-   *
-   * <p>This improves performance of writing to multiple changes in separate ReviewDb transactions.
-   * When only NoteDb is used, updates to all changes are written in a single batch ref update, so
-   * parallelization is not used and this option is ignored.
-   */
-  public BatchUpdate updateChangesInParallel() {
-    this.updateChangesInParallel = true;
     return this;
   }
 

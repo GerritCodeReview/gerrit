@@ -1229,7 +1229,7 @@ public class RestApiServlet extends HttpServlet {
 
   private ViewData view(
       RestCollection<RestResource, RestResource> rc, String method, List<IdString> path)
-      throws AmbiguousViewException, RestApiException {
+      throws Exception {
     DynamicMap<RestView<RestResource>> views = rc.views();
     final IdString projection = path.isEmpty() ? IdString.fromUrl("/") : path.remove(0);
     if (!path.isEmpty()) {

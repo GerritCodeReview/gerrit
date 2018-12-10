@@ -76,7 +76,11 @@ public class UiActions {
 
   public <R extends RestResource> Iterable<UiAction.Description> from(
       RestCollection<?, R> collection, R resource) {
-    return from(collection.views(), resource);
+    try {
+      return from(collection.views(), resource);
+    } catch (Exception e) {
+      return from(DynamicMap.emptyMap(), resource);
+    }
   }
 
   public <R extends RestResource> Iterable<UiAction.Description> from(

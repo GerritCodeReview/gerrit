@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1544467622 -0800\nnonce AGLkUnCYvNBSnNEeCLtvG0oTOdHNkI+70fEWrGllTok5eQcArR2uN83jDuZMqI4TWw+jdDNDj8cn\n\n0000000000000000000000000000000000000000 4ad51f9cc9f94e160aa64620667bef7b1c63e7a9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlwOtKYVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM3FMQAJFPqUR1mGxcJadUXFfPjRcElcdG\nbRLBrNxSrpW1mSO7dcmHqy+Bl57/GN6hI7fyGHv/pRtT+lPNLN4Gxw1euHi4FvJG\n97qT34figHJW09xt9GSHkNYbF01Ca5wFlQzHgfQdrKAcRFdbecxhO6i+eC99qPka\nlTVAds3Qnz8Jf1MbhXo9dIWRg9JIv50NxhQ2yClURArwjAqXYf9ScuvBsTW7EPBz\new6+EBBgrsF67/Ybj4tpKh0WLLxDH2z0VbA773AQtmrEzyTWJqnnlu4LzHqZ8JIR\nd4e6QOOupbgBm1E7QswfP0SGzQIMDPTC1sAVy8LroXTqm7Pr1nrwDujOuf+cx6vq\n5qD/R9ywvLMnDEAj9xxgO0tj1dQ4JUYWXSZqtJdczZddgltiwlcYNfQ8WJWYNDu4\nGJQ/myUhlfV4L3BrpckQ+xI47oK1EGtwy+a3iQDrnnGueTT1lgs9gDjNG4omMeSO\nQnGzwLzrhkNsUCFn+b/x53Sa0HBxY6Gd6fil2xLamP/+kzKivUG2KvA6VrRMiwxN\nSTt+dOBlhgJdXUHwW10tLAwM9C6atJO+0E4s8fUxXZXAmRvNAlmLDVIS2+UM/PYx\npnd04jnSbpDwD1vFFbQaS7iUQ0e50zUBokzlzWPe8Kl2O72czTfvD8m0ZFq6Loii\nxuI2aj36PBOs4plJ\n\u003dei4P\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f742a6b0_cd69f75d",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-10T18:54:14Z",
+      "side": 1,
+      "message": "I think this was a bad rebase.",
+      "revId": "e99a103b3d0b3a1124a926cacb85817022c2af2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

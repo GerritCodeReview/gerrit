@@ -22,6 +22,30 @@
       "revId": "49b9ae07a6008f3b5fe51c94fdff0661f918d6f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2db6bf0c_206892af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-10T05:44:15Z",
+      "side": 1,
+      "message": "Should be fixed in: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/bazlets/+/206950",
+      "parentUuid": "7f6f2a42_791a0846",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "49b9ae07a6008f3b5fe51c94fdff0661f918d6f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

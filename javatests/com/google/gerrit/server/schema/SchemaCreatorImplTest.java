@@ -34,7 +34,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,11 +49,6 @@ public class SchemaCreatorImplTest extends GerritBaseTests {
   @Before
   public void setUp() throws Exception {
     new InMemoryModule().inject(this);
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    InMemoryDatabase.drop(inMemoryDatabase);
   }
 
   private LabelTypes getLabelTypes() throws Exception {

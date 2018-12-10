@@ -148,7 +148,6 @@ public class LabelNormalizerTest extends GerritBaseTests {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(schemaFactory);
   }
 
   @Test

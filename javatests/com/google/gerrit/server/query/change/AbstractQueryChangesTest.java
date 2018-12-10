@@ -185,7 +185,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
 
-  // Only for use in setting up/tearing down injector; other users should use schemaFactory.
   @Inject private InMemoryDatabase inMemoryDatabase;
 
   protected Injector injector;
@@ -277,7 +276,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(inMemoryDatabase);
   }
 
   @Before

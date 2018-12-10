@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd574a75_59dce3a7",
+        "filename": "java/com/google/gerrit/reviewdb/converter/ChangeMessageProtoConverter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-10T15:41:55Z",
+      "side": 1,
+      "message": "Kudos to ChangeNotesStateTest#serializeChangeMessages. It was worth writing all those tests for serializing cache values. ;-)",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 85
+      },
+      "revId": "a369cea0e8a463a0e8d733b1702099b7e3e2336c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

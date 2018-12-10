@@ -112,7 +112,7 @@ limitations under the License.
       {
         // Changes that are assigned to the viewed user.
         name: 'Assigned reviews',
-        query: 'assignee:${user} (-is:wip OR owner:self OR assignee:self) ' +
+        query: 'assignee:${user} (-is:wip OR owner:self) ' +
             'is:open -is:ignored',
         hideIfEmpty: true,
       },
@@ -143,7 +143,7 @@ limitations under the License.
         // Open changes the viewed user is CCed on. Changes ignored by the viewing
         // user are filtered out.
         name: 'CCed on',
-        query: 'is:open -is:ignored cc:${user}',
+        query: 'is:open -is:ignored cc:${user} -is:wip',
       },
       {
         name: 'Recently closed',

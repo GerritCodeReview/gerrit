@@ -1491,7 +1491,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result createCherryPickableMerge(
       String parent1FileName, String parent2FileName) throws Exception {
-    RevCommit initialCommit = getHead(repo());
+    RevCommit initialCommit = getHead(repo(), "HEAD");
 
     String branchAName = "branchA";
     createBranch(new Branch.NameKey(project, branchAName));

@@ -17,6 +17,24 @@
       "revId": "e99a103b3d0b3a1124a926cacb85817022c2af2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0aec0e3_a601f931",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-10T18:57:14Z",
+      "side": 1,
+      "message": "Oops, this comment is wrong and confusing. I was referring to the PS1..PS2 diff, which re-adds all the old code in this file. This was actually an intended diff: I rebased this change earlier in the series. The TestChangeRebuilderWrapper stuff still gets removed in  Ic577d69f, the difference is that is now a descendant change.",
+      "parentUuid": "f742a6b0_cd69f75d",
+      "revId": "e99a103b3d0b3a1124a926cacb85817022c2af2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

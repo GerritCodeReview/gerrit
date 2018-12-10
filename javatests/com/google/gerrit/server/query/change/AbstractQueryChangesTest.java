@@ -118,7 +118,6 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.DisabledReviewDb;
 import com.google.gerrit.testing.GerritServerTests;
-import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -184,8 +183,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ProjectCache projectCache;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
-
-  @Inject private InMemoryDatabase inMemoryDatabase;
 
   protected Injector injector;
   protected LifecycleManager lifecycle;

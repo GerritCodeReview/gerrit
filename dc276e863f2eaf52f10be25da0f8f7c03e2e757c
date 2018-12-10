@@ -17,6 +17,24 @@
       "revId": "dc276e863f2eaf52f10be25da0f8f7c03e2e757c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0447db48_86b92102",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/Event.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-10T18:52:29Z",
+      "side": 1,
+      "message": "Done later in the series.",
+      "parentUuid": "c3535047_681add6f",
+      "revId": "dc276e863f2eaf52f10be25da0f8f7c03e2e757c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

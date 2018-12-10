@@ -15,15 +15,11 @@
 package com.google.gerrit.reviewdb.server;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 
 /** {@link ProtobufCodec} instances for ReviewDb types. */
 public class ReviewDbCodecs {
-  public static final ProtobufCodec<PatchSetApproval> APPROVAL_CODEC =
-      CodecFactory.encoder(PatchSetApproval.class);
-
   public static final ProtobufCodec<Change> CHANGE_CODEC = CodecFactory.encoder(Change.class);
 
   private ReviewDbCodecs() {}

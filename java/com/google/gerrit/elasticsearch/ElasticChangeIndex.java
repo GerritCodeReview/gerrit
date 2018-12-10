@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
@@ -44,6 +43,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerByEmailSet;
@@ -235,7 +235,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     // Approvals.
     if (source.get(ChangeField.APPROVAL.getName()) != null) {
-      cd.setCurrentApprovals(decodeProtos(source, ChangeField.APPROVAL.getName(), APPROVAL_CODEC));
+      cd.setCurrentApprovals(
+          decodeProtos(
+              source, ChangeField.APPROVAL.getName(), PatchSetApprovalProtoConverter.INSTANCE));
     } else if (fields.contains(ChangeField.APPROVAL.getName())) {
       cd.setCurrentApprovals(Collections.emptyList());
     }

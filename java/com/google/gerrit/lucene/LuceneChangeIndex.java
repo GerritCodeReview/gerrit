@@ -16,7 +16,6 @@ package com.google.gerrit.lucene;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
@@ -47,6 +46,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.reviewdb.converter.ProtoConverter;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -61,7 +61,6 @@ import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
@@ -73,7 +72,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -524,7 +522,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private void decodeApprovals(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setCurrentApprovals(decodeProtos(doc, APPROVAL_FIELD, APPROVAL_CODEC));
+    cd.setCurrentApprovals(
+        decodeProtos(doc, APPROVAL_FIELD, PatchSetApprovalProtoConverter.INSTANCE));
   }
 
   private void decodeChangedLines(ListMultimap<String, IndexableField> doc, ChangeData cd) {
@@ -653,21 +652,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (f != null && f.numericValue() != null) {
       consumer.accept(f.numericValue().intValue());
     }
-  }
-
-  private static <T> List<T> decodeProtos(
-      ListMultimap<String, IndexableField> doc, String fieldName, ProtobufCodec<T> codec) {
-    Collection<IndexableField> fields = doc.get(fieldName);
-    if (fields.isEmpty()) {
-      return Collections.emptyList();
-    }
-
-    List<T> result = new ArrayList<>(fields.size());
-    for (IndexableField f : fields) {
-      BytesRef r = f.binaryValue();
-      result.add(codec.decode(r.bytes, r.offset, r.length));
-    }
-    return result;
   }
 
   private static <T> List<T> decodeProtos(

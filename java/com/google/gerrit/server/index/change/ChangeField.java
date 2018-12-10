@@ -23,7 +23,6 @@ import static com.google.gerrit.index.FieldDef.integer;
 import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
-import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
 import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
@@ -54,6 +53,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.reviewdb.converter.ProtoConverter;
 import com.google.gerrit.server.OutputFormat;
@@ -71,10 +71,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gson.Gson;
-import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
-import com.google.protobuf.CodedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -477,7 +474,8 @@ public class ChangeField {
   /** Serialized approvals for the current patch set, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> APPROVAL =
       storedOnly("_approval")
-          .buildRepeatable(cd -> toProtos(APPROVAL_CODEC, cd.currentApprovals()));
+          .buildRepeatable(
+              cd -> toProtos(PatchSetApprovalProtoConverter.INSTANCE, cd.currentApprovals()));
 
   public static String formatLabel(String label, int value) {
     return formatLabel(label, value, null);
@@ -858,24 +856,6 @@ public class ChangeField {
       return null;
     }
     return firstNonNull(c.getTopic(), "");
-  }
-
-  private static <T> List<byte[]> toProtos(ProtobufCodec<T> codec, Collection<T> objs)
-      throws OrmException {
-    List<byte[]> result = Lists.newArrayListWithCapacity(objs.size());
-    ByteArrayOutputStream out = new ByteArrayOutputStream(256);
-    try {
-      for (T obj : objs) {
-        out.reset();
-        CodedOutputStream cos = CodedOutputStream.newInstance(out);
-        codec.encode(obj, cos);
-        cos.flush();
-        result.add(out.toByteArray());
-      }
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
-    return result;
   }
 
   private static <T> List<byte[]> toProtos(ProtoConverter<?, T> converter, Collection<T> objects) {

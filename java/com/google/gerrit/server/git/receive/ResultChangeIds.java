@@ -33,6 +33,7 @@ public class ResultChangeIds {
     AUTOCLOSED,
   }
 
+  private boolean isMagicPush;
   private final Map<Key, List<Change.Id>> ids;
 
   ResultChangeIds() {
@@ -43,16 +44,24 @@ public class ResultChangeIds {
   }
 
   /** Record a change ID update as having completed. Thread-safe. */
-  public void add(Key key, Change.Id id) {
-    synchronized (this) {
-      ids.get(key).add(id);
-    }
+  public synchronized void add(Key key, Change.Id id) {
+    ids.get(key).add(id);
   }
 
-  /** Returns change IDs of the given type for which the BatchUpdate succeeded. Thread-safe. */
-  public List<Change.Id> get(Key key) {
-    synchronized (this) {
-      return ImmutableList.copyOf(ids.get(key));
-    }
+  /** Indicate that the ReceiveCommits call involved a magic branch. */
+  public synchronized void setMagicPush(boolean magic) {
+    isMagicPush = magic;
+  }
+
+  public synchronized boolean isMagicPush() {
+    return isMagicPush;
+  }
+
+  /**
+   * Returns change IDs of the given type for which the BatchUpdate succeeded, or empty list if
+   * there are none. Thread-safe.
+   */
+  public synchronized List<Change.Id> get(Key key) {
+    return ImmutableList.copyOf(ids.get(key));
   }
 }

@@ -130,7 +130,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
       update.setStatus(change.getStatus());
 
       message = newMessage(ctx);
-      cmUtil.addChangeMessage(ctx.getDb(), update, message);
+      cmUtil.addChangeMessage(update, message);
       return true;
     }
 

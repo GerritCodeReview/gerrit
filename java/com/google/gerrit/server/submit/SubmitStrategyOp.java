@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -483,9 +482,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         psId, ctx.getUser(), ctx.getWhen(), body, ChangeMessagesUtil.TAG_MERGED);
   }
 
-  private void setMerged(ChangeContext ctx, ChangeMessage msg) throws OrmException {
+  private void setMerged(ChangeContext ctx, ChangeMessage msg) {
     Change c = ctx.getChange();
-    ReviewDb db = ctx.getDb();
     logger.atFine().log("Setting change %s merged", c.getId());
     c.setStatus(Change.Status.MERGED);
     c.setSubmissionId(args.submissionId.toStringForStorage());
@@ -494,7 +492,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // which is not the user from the update context. addMergedMessage was able
     // to do this in the past.
     if (msg != null) {
-      args.cmUtil.addChangeMessage(db, ctx.getUpdate(msg.getPatchSetId()), msg);
+      args.cmUtil.addChangeMessage(ctx.getUpdate(msg.getPatchSetId()), msg);
     }
   }
 

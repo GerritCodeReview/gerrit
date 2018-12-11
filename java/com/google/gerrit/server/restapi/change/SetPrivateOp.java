@@ -87,7 +87,7 @@ public class SetPrivateOp implements BatchUpdateOp {
     privateStateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
   }
 
-  private void addMessage(ChangeContext ctx, ChangeUpdate update) throws OrmException {
+  private void addMessage(ChangeContext ctx, ChangeUpdate update) {
     Change c = ctx.getChange();
     StringBuilder buf = new StringBuilder(c.isPrivate() ? "Set private" : "Unset private");
 
@@ -104,6 +104,6 @@ public class SetPrivateOp implements BatchUpdateOp {
             c.isPrivate()
                 ? ChangeMessagesUtil.TAG_SET_PRIVATE
                 : ChangeMessagesUtil.TAG_UNSET_PRIVATE);
-    cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+    cmUtil.addChangeMessage(update, cmsg);
   }
 }

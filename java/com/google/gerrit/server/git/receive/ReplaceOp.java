@@ -353,7 +353,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
 
     msg = createChangeMessage(ctx, reviewMessage);
-    cmUtil.addChangeMessage(ctx.getDb(), update, msg);
+    cmUtil.addChangeMessage(update, msg);
 
     if (mergedByPushOp == null) {
       resetChange(ctx);

@@ -117,7 +117,7 @@ public class PutDescription
       ChangeMessage cmsg =
           ChangeMessagesUtil.newMessage(
               psId, ctx.getUser(), ctx.getWhen(), summary, ChangeMessagesUtil.TAG_SET_DESCRIPTION);
-      cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+      cmUtil.addChangeMessage(update, cmsg);
       return true;
     }
   }

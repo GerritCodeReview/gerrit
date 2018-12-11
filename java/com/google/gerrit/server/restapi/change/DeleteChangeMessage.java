@@ -109,8 +109,7 @@ public class DeleteChangeMessage
 
   private ChangeMessageInfo createUpdatedChangeMessageInfo(Change.Id id, int targetIdx)
       throws OrmException, PermissionBackendException {
-    List<ChangeMessage> messages =
-        changeMessagesUtil.byChange(dbProvider.get(), notesFactory.createChecked(id));
+    List<ChangeMessage> messages = changeMessagesUtil.byChange(notesFactory.createChecked(id));
     ChangeMessage updatedChangeMessage = messages.get(targetIdx);
     AccountLoader accountLoader = accountLoaderFactory.create(true);
     ChangeMessageInfo info = createChangeMessageInfo(updatedChangeMessage, accountLoader);
@@ -145,10 +144,9 @@ public class DeleteChangeMessage
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException {
+    public boolean updateChange(ChangeContext ctx) {
       PatchSet.Id psId = ctx.getChange().currentPatchSetId();
-      changeMessagesUtil.replaceChangeMessage(
-          ctx.getDb(), ctx.getUpdate(psId), targetMessageIdx, newMessage);
+      changeMessagesUtil.replaceChangeMessage(ctx.getUpdate(psId), targetMessageIdx, newMessage);
       return true;
     }
   }

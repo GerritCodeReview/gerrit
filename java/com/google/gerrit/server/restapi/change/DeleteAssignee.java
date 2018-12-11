@@ -114,14 +114,14 @@ public class DeleteAssignee
       return deletedAssignee != null ? deletedAssignee.getAccount().getId() : null;
     }
 
-    private void addMessage(ChangeContext ctx, ChangeUpdate update, IdentifiedUser deletedAssignee)
-        throws OrmException {
+    private void addMessage(
+        ChangeContext ctx, ChangeUpdate update, IdentifiedUser deletedAssignee) {
       ChangeMessage cmsg =
           ChangeMessagesUtil.newMessage(
               ctx,
               "Assignee deleted: " + deletedAssignee.getNameEmail(),
               ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
-      cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+      cmUtil.addChangeMessage(update, cmsg);
     }
 
     @Override

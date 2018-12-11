@@ -218,7 +218,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       msg.append(" by ").append(userFactory.create(accountId).getNameEmail()).append("\n");
       changeMessage =
           ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_VOTE);
-      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
+      cmUtil.addChangeMessage(ctx.getUpdate(psId), changeMessage);
 
       return true;
     }

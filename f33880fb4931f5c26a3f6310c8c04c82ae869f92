@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1544485898 -0800\nnonce AGLkUnDrxW3v8GVyeh0xIluc4ORWLZANRjt9JvK9JVeF8OhPp0Nx6PrfW2DU8RB0ECq/FPPK1EzL\n\n0000000000000000000000000000000000000000 f33880fb4931f5c26a3f6310c8c04c82ae869f92 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlwO/AoVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM0WUP/AifOTscIEtOdVY86rRZbqOoq8Ql\ns0zZxy8WfEgzw2rYtQeaXaDB6phqd30pROKY/DTT7Vh2DYueeghkoj2Kwmvz7m0v\nNxlaJ9z6pwajO24tAeofp4nnl8au+OI5rNzVn0GoztW6PYS/vGV36Gqg9+Aj350Q\nlOlDeQlakXbF5PRgSI9dnkoWblHhZb18dAMPffjOea3Bhp4XOwU+aJa58WDRqREM\nDcri5pX/dabdgKg7823xy8XWdvwZ9W9a21/rUQZk8s52FIcTssXruyxZDLc1t/AG\nlYvHlxDUoCKKHqAOuWiDIXrQh8Zkv8gFuEd+j0ijSaFOciOMa+fwcUEruK7kRzV2\nLb23OnCfcj56QTJaDM5PmfGuQLDG88vwahH+uj73FKjJwQano/LJcLuwpj3iqjyC\nlwRdHmJH2vmD4knieR+jaM39SSMMNiHxDNcSrhk2g0yr1PJ22whGmUNgWSmHIQ3f\nPSBn5D/Gzno56NQqV7rriHZ5sYGEXqIB4BV2d6LGB++rGtUxqMewUdg435RpEpZ/\ntwdv5TQe6AY0dozXeFq416StpiSqXbkpH0+ITgXXZkifxMx0XgVgi2KHfh4RCZrX\n0aQgEr9o1j2+QVomtaXwnbyzF3lxk/pENoSF/GqIrhu2QJkNISUJI1QelaaI0Jb6\n+dOmCdehzpIfQRRf\n\u003dLDP8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ba7c5cc_8f0655ef",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-11T09:20:28Z",
+      "side": 1,
+      "message": "Not sure if this is an issue, but can it happen now that we store 2 comments with the same key which just differ by any of the other fields?",
+      "range": {
+        "startLine": 285,
+        "startChar": 2,
+        "endLine": 303,
+        "endChar": 3
+      },
+      "revId": "f33880fb4931f5c26a3f6310c8c04c82ae869f92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d5ad301_12967a82",
+        "filename": "java/com/google/gerrit/reviewdb/converter/PatchSetApprovalKeyProtoConverter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T20:36:35Z",
+      "side": 1,
+      "message": "final?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 9
+      },
+      "revId": "7eca98d607b1c89e8337cca74832d81bf94c8895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -52,6 +52,6 @@ class DirectChangeByCommit extends HttpServlet {
       // Otherwise, link to the query page.
       token = PageLinks.toChangeQuery(query);
     }
-    UrlModule.toGerrit(token, req, rsp);
+    UrlModule.toGerrit(false, token, req, rsp);
   }
 }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1544486636 -0800\nnonce AGLkUnA9ThiX0IKs2bpCq4znxSGgSmvJarw0YFHGMwuO9rt8AcGFFvwQD6nqW6oVdjPZT0cSM+2P\n\n0000000000000000000000000000000000000000 f3ed1a9ea8128818fbd7f4c28ea5cb238a74f4d1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlwO/uwVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMQXYQAKArxaRO6qkH5lG4d2jafadloomE\ngb2ICgXt9fLupCl235S4Dxy66AtRJTSt+nN8OtEB7BqN4fipeZQmXZPNtJZ7hZu1\n7fvRZbMpe1wYkGs77tLPlKy2+XByq4xvAGTHzGt4EaOZtjqVekHLGjofWxDTI70V\ngyHeqiG7LgDPkf8U3eDJlvEkl7TLW6FgOdpuZZ/qBLy81/AvSucVlofNAFWHfnVz\n8i+6Krvk4HTLD1LABNME59hZMKj5EQxOyDYJZM12tcWGkD4pOU6dP8Jv56fQDb7N\ncfy/qsTi4Yq0/cRWpRhiOejPPp1UfkeUYdm5zXhoD3b/qwameyqI2G7ZEa1RKFhq\nqdPDj5Ou4iblq5PvKPNz21Sh52bRq5oH0nYyDOW1TD1RUfU8mzI8TnQ89mI+esBA\nKkXuaGV5Brmt4V74hin4KL+MAIS7vdyO3vyT56MQOBGqkjlbGlz5PhpZq1rlCvEj\nAXTFuIdMwHShPAyMK9huD1pwEpx0Mm+Gb+J6W0dM7zKjIgQd4nV8RBZUDmugs0l0\nZR5yVXeYF78N505dqWVHU8NqMp8aPKZ9ap0ptxeIF29Xz/J3WV5NeQppy/6KQA35\njXU62jAbSZSObi1V4bhWqFz/NoNxepw0ZtdhOJXqE/6Ub8Ad2UIzkwlUfHbTWB/L\n14OB64WThH8Q+Jwm\n\u003dIgo0\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5922b809_1451fdb8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-11T08:47:19Z",
+      "side": 1,
+      "message": "This method only had callers within the rebuild package. Since those classes are all deleted now, this method is no longer needed.",
+      "range": {
+        "startLine": 515,
+        "startChar": 2,
+        "endLine": 523,
+        "endChar": 3
+      },
+      "revId": "6dca75d58892cc3e4826c348551fd3ddd4ae98ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

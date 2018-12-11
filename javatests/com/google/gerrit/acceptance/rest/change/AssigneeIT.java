@@ -92,14 +92,7 @@ public class AssigneeIT extends AbstractDaemonTest {
 
   @Test
   public void assigneeAddedAsReviewer() throws Exception {
-    ReviewerState state;
-    // Assignee is added as CC, if back-end is reviewDb (that does not support
-    // CC) CC is stored as REVIEWER
-    if (notesMigration.readChanges()) {
-      state = ReviewerState.CC;
-    } else {
-      state = ReviewerState.REVIEWER;
-    }
+    ReviewerState state = ReviewerState.CC;
     PushOneCommit.Result r = createChange();
     Iterable<AccountInfo> reviewers = getReviewers(r, state);
     assertThat(reviewers).isNull();

@@ -30,7 +30,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Injector;
 import java.util.TimeZone;
@@ -98,8 +97,7 @@ public class TestChanges {
 
     ChangeNotes notes = update.getNotes();
     boolean hasPatchSets = notes.getPatchSets() != null && !notes.getPatchSets().isEmpty();
-    NotesMigration migration = injector.getInstance(NotesMigration.class);
-    if (hasPatchSets || !migration.readChanges()) {
+    if (hasPatchSets) {
       return update;
     }
 

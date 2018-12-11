@@ -74,7 +74,7 @@ import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
-import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
@@ -120,7 +120,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Inject protected InMemoryDatabase schemaFactory;
 
-  @Inject protected ReviewDbSchemaCreator schemaCreator;
+  @Inject protected SchemaCreator schemaCreator;
 
   @Inject protected ThreadLocalRequestContext requestContext;
 
@@ -165,7 +165,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   protected void setUpDatabase() throws Exception {
     db = schemaFactory.open();
-    schemaCreator.create(db);
+    schemaCreator.create();
 
     Account.Id adminId = createAccount("admin", "Administrator", "admin@example.com", true);
     admin = userFactory.create(adminId);
@@ -214,7 +214,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(schemaFactory);
   }
 
   @Test

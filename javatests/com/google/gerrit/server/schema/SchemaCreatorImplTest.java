@@ -28,27 +28,21 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryModule;
-import com.google.gwtorm.jdbc.JdbcSchema;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import java.io.File;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ReviewDbSchemaCreatorTest extends GerritBaseTests {
+public class SchemaCreatorImplTest extends GerritBaseTests {
   @Inject private AllProjectsName allProjects;
 
   @Inject private GitRepositoryManager repoManager;
 
-  @Inject private InMemoryDatabase db;
+  @Inject private InMemoryDatabase inMemoryDatabase;
 
   @Inject private ProjectConfig.Factory projectConfigFactory;
 
@@ -57,35 +51,8 @@ public class ReviewDbSchemaCreatorTest extends GerritBaseTests {
     new InMemoryModule().inject(this);
   }
 
-  @After
-  public void tearDown() throws Exception {
-    InMemoryDatabase.drop(db);
-  }
-
-  @Test
-  public void getCauses_CreateSchema() throws OrmException, SQLException {
-    // Initially the schema should be empty.
-    String[] types = {"TABLE", "VIEW"};
-    try (JdbcSchema d = (JdbcSchema) db.open();
-        ResultSet rs = d.getConnection().getMetaData().getTables(null, null, null, types)) {
-      assertThat(rs.next()).isFalse();
-    }
-
-    // Create the schema using the current schema version.
-    //
-    db.create();
-    db.assertSchemaVersion();
-
-    // By default sitePath is set to the current working directory.
-    //
-    File sitePath = new File(".").getAbsoluteFile();
-    if (sitePath.getName().equals(".")) {
-      sitePath = sitePath.getParentFile();
-    }
-  }
-
   private LabelTypes getLabelTypes() throws Exception {
-    db.create();
+    inMemoryDatabase.create();
     ProjectConfig c = projectConfigFactory.create(allProjects);
     try (Repository repo = repoManager.openRepository(allProjects)) {
       c.load(repo);

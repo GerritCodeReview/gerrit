@@ -44,7 +44,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -72,7 +72,7 @@ public class LabelNormalizerTest extends GerritBaseTests {
   @Inject private LabelNormalizer norm;
   @Inject private MetaDataUpdate.User metaDataUpdateFactory;
   @Inject private ProjectCache projectCache;
-  @Inject private ReviewDbSchemaCreator schemaCreator;
+  @Inject private SchemaCreator schemaCreator;
   @Inject protected ThreadLocalRequestContext requestContext;
   @Inject private ChangeNotes.Factory changeNotesFactory;
   @Inject private ProjectConfig.Factory projectConfigFactory;
@@ -94,7 +94,7 @@ public class LabelNormalizerTest extends GerritBaseTests {
     lifecycle.start();
 
     db = schemaFactory.open();
-    schemaCreator.create(db);
+    schemaCreator.create();
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     user = userFactory.create(userId);
 
@@ -148,7 +148,6 @@ public class LabelNormalizerTest extends GerritBaseTests {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(schemaFactory);
   }
 
   @Test

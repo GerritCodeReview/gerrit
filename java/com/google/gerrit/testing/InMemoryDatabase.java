@@ -14,60 +14,34 @@
 
 package com.google.gerrit.testing;
 
-import static com.google.common.truth.Truth.assertThat;
-
-import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
 import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
-import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
-import com.google.gerrit.server.schema.ReviewDbSchemaVersion;
-import com.google.gwtorm.jdbc.Database;
-import com.google.gwtorm.jdbc.SimpleDataSource;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Properties;
-import javax.sql.DataSource;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
-/**
- * An in-memory test instance of {@link ReviewDb} database.
- *
- * <p>Test classes should create one instance of this class for each unique test database they want
- * to use. When the tests needing this instance are complete, ensure that {@link
- * #drop(InMemoryDatabase)} is called to free the resources so the JVM running the unit tests
- * doesn't run out of heap space.
- */
+/** Husk of an in-memory ReviewDb implementation. */
+// TODO(dborowitz): Inline callers to get their own darn schemaCreator.
 public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
-  public static InMemoryDatabase newDatabase(LifecycleManager lifecycle) {
-    Injector injector = Guice.createInjector(new InMemoryModule());
-    lifecycle.add(injector);
-    return injector.getInstance(InMemoryDatabase.class);
-  }
-
-  /** Drop the database from memory; does nothing if the instance was null. */
-  public static void drop(InMemoryDatabase db) {
-    if (db != null) {
-      db.dbInstance.drop();
-    }
-  }
-
-  private final ReviewDbSchemaCreator schemaCreator;
-  private final Instance dbInstance;
-
-  private boolean created;
+  private final GitRepositoryManager repoManager;
+  private final AllProjectsName allProjectsName;
+  private final SchemaCreator schemaCreator;
+  private final SchemaFactory<ReviewDb> schemaFactory;
 
   @Inject
-  InMemoryDatabase(Injector injector) throws OrmException {
+  InMemoryDatabase(Injector injector) {
     Injector childInjector =
         injector.createChildInjector(
             new AbstractModule() {
@@ -85,110 +59,40 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
                 }
               }
             });
-    this.schemaCreator = childInjector.getInstance(ReviewDbSchemaCreator.class);
-    Instance dbInstanceFromInjector = childInjector.getInstance(Instance.class);
-    if (dbInstanceFromInjector != null) {
-      this.dbInstance = dbInstanceFromInjector;
-      this.created = true;
-    } else {
-      this.dbInstance = new Instance();
-    }
+    this.repoManager = childInjector.getInstance(GitRepositoryManager.class);
+    this.allProjectsName = childInjector.getInstance(AllProjectsName.class);
+    this.schemaCreator = childInjector.getInstance(SchemaCreator.class);
+    this.schemaFactory =
+        childInjector.getInstance(Key.get(new TypeLiteral<SchemaFactory<ReviewDb>>() {}));
   }
 
-  InMemoryDatabase(ReviewDbSchemaCreator schemaCreator) throws OrmException {
+  InMemoryDatabase(
+      GitRepositoryManager repoManager,
+      AllProjectsName allProjectsName,
+      SchemaCreator schemaCreator,
+      SchemaFactory<ReviewDb> schemaFactory) {
+    this.repoManager = repoManager;
+    this.allProjectsName = allProjectsName;
     this.schemaCreator = schemaCreator;
-    this.dbInstance = new Instance();
-  }
-
-  public Instance getDbInstance() {
-    return dbInstance;
-  }
-
-  public Database<ReviewDb> getDatabase() {
-    return dbInstance.database;
+    this.schemaFactory = schemaFactory;
   }
 
   @Override
   public ReviewDb open() throws OrmException {
-    return getDatabase().open();
+    return schemaFactory.open();
   }
 
   /** Ensure the database schema has been created and initialized. */
   public InMemoryDatabase create() throws OrmException {
-    if (!created) {
-      created = true;
-      try (ReviewDb c = open()) {
-        schemaCreator.create(c);
-      } catch (IOException | ConfigInvalidException e) {
-        throw new OrmException("Cannot create in-memory database", e);
+    try {
+      try {
+        repoManager.openRepository(allProjectsName).close();
+      } catch (RepositoryNotFoundException e) {
+        schemaCreator.create();
       }
+    } catch (IOException | ConfigInvalidException e) {
+      throw new OrmException("Cannot create in-memory database", e);
     }
     return this;
-  }
-
-  public CurrentSchemaVersion getSchemaVersion() throws OrmException {
-    try (ReviewDb c = open()) {
-      return c.schemaVersion().get(new CurrentSchemaVersion.Key());
-    }
-  }
-
-  public void assertSchemaVersion() throws OrmException {
-    assertThat(getSchemaVersion().versionNbr).isEqualTo(ReviewDbSchemaVersion.getBinaryVersion());
-  }
-
-  public static class Instance {
-    private static int dbCnt;
-
-    private Connection openHandle;
-    private Database<ReviewDb> database;
-    private boolean keepOpen;
-
-    private static synchronized DataSource newDataSource() throws SQLException {
-      final Properties p = new Properties();
-      p.setProperty("driver", org.h2.Driver.class.getName());
-      p.setProperty("url", "jdbc:h2:mem:Test_" + (++dbCnt));
-      return new SimpleDataSource(p);
-    }
-
-    private Instance() throws OrmException {
-      try {
-        DataSource dataSource = newDataSource();
-
-        // Open one connection. This will peg the database into memory
-        // until someone calls drop on us, allowing subsequent connections
-        // opened against the same URL to go to the same set of tables.
-        //
-        openHandle = dataSource.getConnection();
-
-        // Build the access layer around the connection factory.
-        //
-        database = new Database<>(dataSource, ReviewDb.class);
-
-      } catch (SQLException e) {
-        throw new OrmException(e);
-      }
-    }
-
-    public void setKeepOpen(boolean keepOpen) {
-      this.keepOpen = keepOpen;
-    }
-
-    /** Drop this database from memory so it no longer exists. */
-    public void drop() {
-      if (keepOpen) {
-        return;
-      }
-
-      if (openHandle != null) {
-        try {
-          openHandle.close();
-        } catch (SQLException e) {
-          System.err.println("WARNING: Cannot close database connection");
-          e.printStackTrace(System.err);
-        }
-        openHandle = null;
-        database = null;
-      }
-    }
   }
 }

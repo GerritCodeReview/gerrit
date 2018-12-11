@@ -48,9 +48,7 @@ public class GerritServerIdProvider implements Provider<String> {
 
     // We're not generally supposed to do work in provider constructors, but this is a bit of a
     // special case because we really need to have the ID available by the time the dbInjector
-    // is created. This even applies during MigrateToNoteDb, which otherwise would have been a
-    // reasonable place to do the ID generation. Fortunately, it's not much work, and it happens
-    // once.
+    // is created. Fortunately, it's not much work, and it happens once.
     id = generate();
     Config newCfg = readGerritConfig(sitePaths);
     newCfg.setString(SECTION, null, KEY, id);

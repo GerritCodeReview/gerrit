@@ -95,7 +95,7 @@ public class Init extends BaseInit {
   }
 
   public Init(Path sitePath) {
-    super(sitePath, true, true, new WarDistribution(), null);
+    super(sitePath, true, new WarDistribution(), null);
     batchMode = true;
     noAutoStart = true;
   }

@@ -39,7 +39,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.logging.RequestId;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -93,7 +92,6 @@ public abstract class BatchUpdate implements AutoCloseable {
     return new FactoryModule() {
       @Override
       public void configure() {
-        factory(ReviewDbBatchUpdate.AssistedFactory.class);
         factory(NoteDbBatchUpdate.AssistedFactory.class);
       }
     };
@@ -101,27 +99,17 @@ public abstract class BatchUpdate implements AutoCloseable {
 
   @Singleton
   public static class Factory {
-    private final NotesMigration migration;
-    private final ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory;
     private final NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory;
 
     // TODO(dborowitz): Make this non-injectable to force all callers to use RetryHelper.
     @Inject
-    Factory(
-        NotesMigration migration,
-        ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
-        NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory) {
-      this.migration = migration;
-      this.reviewDbBatchUpdateFactory = reviewDbBatchUpdateFactory;
+    Factory(NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory) {
       this.noteDbBatchUpdateFactory = noteDbBatchUpdateFactory;
     }
 
     public BatchUpdate create(
         ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when) {
-      if (migration.disableChangeReviewDb()) {
-        return noteDbBatchUpdateFactory.create(db, project, user, when);
-      }
-      return reviewDbBatchUpdateFactory.create(db, project, user, when);
+      return noteDbBatchUpdateFactory.create(db, project, user, when);
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -135,15 +123,9 @@ public abstract class BatchUpdate implements AutoCloseable {
       // method above, which always returns instances of the type we expect. Just to be safe,
       // copy them into an ImmutableList so there is no chance the callee can pollute the input
       // collection.
-      if (migration.disableChangeReviewDb()) {
-        ImmutableList<NoteDbBatchUpdate> noteDbUpdates =
-            (ImmutableList) ImmutableList.copyOf(updates);
-        NoteDbBatchUpdate.execute(noteDbUpdates, listener, dryRun);
-      } else {
-        ImmutableList<ReviewDbBatchUpdate> reviewDbUpdates =
-            (ImmutableList) ImmutableList.copyOf(updates);
-        ReviewDbBatchUpdate.execute(reviewDbUpdates, listener, dryRun);
-      }
+      ImmutableList<NoteDbBatchUpdate> noteDbUpdates =
+          (ImmutableList) ImmutableList.copyOf(updates);
+      NoteDbBatchUpdate.execute(noteDbUpdates, listener, dryRun);
     }
 
     private static void checkDifferentProject(Collection<BatchUpdate> updates) {
@@ -172,25 +154,6 @@ public abstract class BatchUpdate implements AutoCloseable {
           o);
     }
     return o;
-  }
-
-  static boolean getUpdateChangesInParallel(Collection<? extends BatchUpdate> updates) {
-    checkArgument(!updates.isEmpty());
-    Boolean p = null;
-    for (BatchUpdate u : updates) {
-      if (p == null) {
-        p = u.updateChangesInParallel;
-      } else if (u.updateChangesInParallel != p) {
-        throw new IllegalArgumentException("cannot mix parallel and non-parallel operations");
-      }
-    }
-    // Properly implementing this would involve hoisting the parallel loop up
-    // even further. As of this writing, the only user is ReceiveCommits,
-    // which only executes a single BatchUpdate at a time. So bail for now.
-    checkArgument(
-        !p || updates.size() <= 1,
-        "cannot execute ChangeOps in parallel with more than 1 BatchUpdate");
-    return p;
   }
 
   static void wrapAndThrowException(Exception e) throws UpdateException, RestApiException {
@@ -233,8 +196,6 @@ public abstract class BatchUpdate implements AutoCloseable {
   protected OnSubmitValidators onSubmitValidators;
   protected PushCertificate pushCert;
   protected String refLogMessage;
-
-  private boolean updateChangesInParallel;
 
   protected BatchUpdate(
       GitRepositoryManager repoManager,
@@ -293,18 +254,6 @@ public abstract class BatchUpdate implements AutoCloseable {
    */
   public BatchUpdate setOnSubmitValidators(OnSubmitValidators onSubmitValidators) {
     this.onSubmitValidators = onSubmitValidators;
-    return this;
-  }
-
-  /**
-   * Execute {@link BatchUpdateOp#updateChange(ChangeContext)} in parallel for each change.
-   *
-   * <p>This improves performance of writing to multiple changes in separate ReviewDb transactions.
-   * When only NoteDb is used, updates to all changes are written in a single batch ref update, so
-   * parallelization is not used and this option is ignored.
-   */
-  public BatchUpdate updateChangesInParallel() {
-    this.updateChangesInParallel = true;
     return this;
   }
 

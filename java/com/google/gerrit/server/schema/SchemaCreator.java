@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.notedb.rebuild;
+package com.google.gerrit.server.schema;
 
+import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
-/** Exception thrown by {@link NoteDbMigrator} when migration fails. */
-public class MigrationException extends IOException {
-  private static final long serialVersionUID = 1L;
-
-  MigrationException(String message) {
-    super(message);
-  }
-
-  MigrationException(String message, Throwable why) {
-    super(message, why);
-  }
+/** Populates initial repository data. */
+public interface SchemaCreator {
+  void create() throws OrmException, IOException, ConfigInvalidException;
 }

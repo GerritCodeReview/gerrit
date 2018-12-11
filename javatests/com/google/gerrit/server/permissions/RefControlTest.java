@@ -63,7 +63,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.testing.Util;
-import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -200,7 +200,7 @@ public class RefControlTest extends GerritBaseTests {
 
   @Inject private PermissionBackend permissionBackend;
   @Inject private CapabilityCollection.Factory capabilityCollectionFactory;
-  @Inject private ReviewDbSchemaCreator schemaCreator;
+  @Inject private SchemaCreator schemaCreator;
   @Inject private SingleVersionListener singleVersionListener;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
@@ -289,7 +289,7 @@ public class RefControlTest extends GerritBaseTests {
     db = schemaFactory.open();
     singleVersionListener.start();
     try {
-      schemaCreator.create(db);
+      schemaCreator.create();
     } finally {
       singleVersionListener.stop();
     }
@@ -329,7 +329,6 @@ public class RefControlTest extends GerritBaseTests {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(schemaFactory);
   }
 
   @Test

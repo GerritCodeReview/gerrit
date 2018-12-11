@@ -15,9 +15,6 @@ link:pgm-init.html[init]::
 link:pgm-daemon.html[daemon]::
 	Gerrit HTTP, SSH network server.
 
-link:pgm-gsql.html[gsql]::
-	Administrative interface to idle database.
-
 link:pgm-prolog-shell.html[prolog-shell]::
 	Simple interactive Prolog interpreter.
 

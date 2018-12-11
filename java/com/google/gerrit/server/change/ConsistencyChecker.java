@@ -52,7 +52,6 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
-import com.google.gerrit.server.update.BatchUpdateReviewDb;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RetryHelper;
@@ -667,15 +666,9 @@ public class ConsistencyChecker {
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, PatchSetInfoNotAvailableException {
       // Delete dangling key references.
-      ReviewDb db = BatchUpdateReviewDb.unwrap(ctx.getDb());
       accountPatchReviewStore.run(s -> s.clearReviewed(psId), OrmException.class);
-      db.changeMessages().delete(db.changeMessages().byChange(psId.getParentKey()));
-      db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
-      db.patchComments().delete(db.patchComments().byPatchSet(psId));
-      db.patchSets().deleteKeys(Collections.singleton(psId));
 
-      // NoteDb requires no additional fiddling; setting the state to deleted is
-      // sufficient to filter everything else out.
+      // For NoteDb setting the state to deleted is sufficient to filter everything out.
       ctx.getUpdate(psId).setPatchSetState(PatchSetState.DELETED);
 
       p.status = Status.FIXED;

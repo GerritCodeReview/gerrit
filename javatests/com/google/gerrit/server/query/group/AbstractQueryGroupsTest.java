@@ -52,7 +52,7 @@ import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gerrit.server.schema.ReviewDbSchemaCreator;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
@@ -91,7 +91,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Inject protected InMemoryDatabase schemaFactory;
 
-  @Inject protected ReviewDbSchemaCreator schemaCreator;
+  @Inject protected SchemaCreator schemaCreator;
 
   @Inject protected ThreadLocalRequestContext requestContext;
 
@@ -134,7 +134,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   protected void setUpDatabase() throws Exception {
     db = schemaFactory.open();
-    schemaCreator.create(db);
+    schemaCreator.create();
 
     Account.Id userId =
         createAccountOutsideRequestContext("user", "User", "user@example.com", true);
@@ -186,7 +186,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(schemaFactory);
   }
 
   @Test

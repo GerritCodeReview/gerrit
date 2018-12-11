@@ -50,7 +50,6 @@ import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.SysExecutorModule;
@@ -87,21 +86,13 @@ import com.google.inject.util.Providers;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import org.eclipse.jgit.lib.Config;
 
-/**
- * Module for programs that perform batch operations on a site.
- *
- * <p>Any program that requires this module likely also requires using {@link ThreadLimiter} to
- * limit the number of threads accessing the database concurrently.
- */
+/** Module for programs that perform batch operations on a site. */
 public class BatchProgramModule extends FactoryModule {
-  private final Config cfg;
   private final Module reviewDbModule;
 
   @Inject
-  BatchProgramModule(@GerritServerConfig Config cfg, PerThreadReviewDbModule reviewDbModule) {
-    this.cfg = cfg;
+  BatchProgramModule(PerThreadReviewDbModule reviewDbModule) {
     this.reviewDbModule = reviewDbModule;
   }
 
@@ -173,7 +164,7 @@ public class BatchProgramModule extends FactoryModule {
     install(new H2CacheModule());
     install(new ExternalIdModule());
     install(new GroupModule());
-    install(new NoteDbModule(cfg));
+    install(new NoteDbModule());
     install(AccountCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());

@@ -14,9 +14,7 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
@@ -86,15 +84,12 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.server.mail.send.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
-import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
-import com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
@@ -128,7 +123,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 
 /** Run SSH daemon portions of Gerrit. */
 public class Daemon extends SiteProgram {
@@ -176,15 +170,6 @@ public class Daemon extends SiteProgram {
 
   @Option(name = "--stop-only", usage = "Stop the daemon", hidden = true)
   private boolean stopOnly;
-
-  @Option(
-      name = "--migrate-to-note-db",
-      usage = "Automatically migrate changes to NoteDb",
-      handler = ExplicitBooleanOptionHandler.class)
-  private boolean migrateToNoteDb;
-
-  @Option(name = "--trial", usage = "(With --migrate-to-note-db) " + MigrateToNoteDb.TRIAL_USAGE)
-  private boolean trial;
 
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
@@ -289,7 +274,6 @@ public class Daemon extends SiteProgram {
       if (inspector) {
         JythonShell shell = new JythonShell();
         shell.set("m", manager);
-        shell.set("ds", dbInjector.getInstance(DataSourceProvider.class));
         shell.set("d", this);
         shell.run();
       } else {
@@ -338,7 +322,7 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void start() throws IOException {
     if (dbInjector == null) {
-      dbInjector = createDbInjector(true /* enableMetrics */, MULTI_USER);
+      dbInjector = createDbInjector(true /* enableMetrics */);
     }
     cfgInjector = createCfgInjector();
     config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
@@ -495,9 +479,6 @@ public class Daemon extends SiteProgram {
       modules.add(new AccountDeactivator.Module());
       modules.add(new ChangeCleanupRunner.Module());
     }
-    if (migrateToNoteDb()) {
-      modules.add(new OnlineNoteDbMigrator.Module(trial));
-    }
     if (testSysModule != null) {
       modules.add(testSysModule);
     }
@@ -507,18 +488,11 @@ public class Daemon extends SiteProgram {
         ModuleOverloader.override(modules, LibModuleLoader.loadModules(cfgInjector)));
   }
 
-  private boolean migrateToNoteDb() {
-    return migrateToNoteDb || NoteDbMigrator.getAutoMigrate(requireNonNull(config));
-  }
-
   private Module createIndexModule() {
     if (luceneModule != null) {
       return luceneModule;
     }
-    boolean onlineUpgrade =
-        VersionManager.getOnlineUpgrade(config)
-            // Schema upgrade is handled by OnlineNoteDbMigrator in this case.
-            && !migrateToNoteDb();
+    boolean onlineUpgrade = VersionManager.getOnlineUpgrade(config);
     switch (indexType) {
       case LUCENE:
         return onlineUpgrade

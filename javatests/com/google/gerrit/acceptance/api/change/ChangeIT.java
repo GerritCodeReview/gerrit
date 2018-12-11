@@ -943,7 +943,8 @@ public class ChangeIT extends AbstractDaemonTest {
     ri2 = ci2.revisions.get(ci2.currentRevision);
     assertThat(ri2.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
 
-    List<RelatedChangeAndCommitInfo> related = getRelated(id2, ri2._number);
+    List<RelatedChangeAndCommitInfo> related =
+        gApi.changes().id(id2.get()).revision(ri2._number).related().changes;
     assertThat(related).hasSize(2);
     assertThat(related.get(0)._changeNumber).isEqualTo(id2.get());
     assertThat(related.get(0)._revisionNumber).isEqualTo(2);
@@ -977,7 +978,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ri2 = ci2.revisions.get(ci2.currentRevision);
     assertThat(ri2.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
 
-    assertThat(getRelated(id2, ri2._number)).isEmpty();
+    assertThat(gApi.changes().id(id2.get()).revision(ri2._number).related().changes).isEmpty();
   }
 
   @Test
@@ -1003,7 +1004,7 @@ public class ChangeIT extends AbstractDaemonTest {
     RevisionInfo ri3 = ci3.revisions.get(ci3.currentRevision);
     assertThat(ri3.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
 
-    assertThat(getRelated(id3, ri3._number)).isEmpty();
+    assertThat(gApi.changes().id(id3.get()).revision(ri3._number).related().changes).isEmpty();
   }
 
   @Test

@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d73aa0_3adfbc97",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T20:28:59Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary, an empty collection stream collected with toImmutableList() will eventually return ImmutableList.of(). You\u0027d just save a few intermediate allocations, which smells like premature optimization.",
+      "range": {
+        "startLine": 675,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 0
+      },
+      "revId": "da9ff4503f471533e6217b02ef3f5e097a52e15f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2a85cb6_907bcf4a",
+        "filename": "java/com/google/gerrit/proto/Protos.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T20:28:59Z",
+      "side": 1,
+      "message": "See my comment in the parent change, this wording may need to be adjusted.",
+      "range": {
+        "startLine": 52,
+        "startChar": 79,
+        "endLine": 52,
+        "endChar": 96
+      },
+      "revId": "da9ff4503f471533e6217b02ef3f5e097a52e15f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05d3d5bd_729ae4df",
+        "filename": "java/com/google/gerrit/proto/Protos.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T20:28:59Z",
+      "side": 1,
+      "message": "ByteString.newOutput(message.getSerializedSize())?\n\nMy general thought is if we have it, we should just use it. I guess I could see the argument that it\u0027s premature optimization (especially since getSerializedSize() is not O(1)), but then it reads oddly that we do preallocate in toByteArray above.",
+      "range": {
+        "startLine": 60,
+        "startChar": 34,
+        "endLine": 60,
+        "endChar": 56
+      },
+      "revId": "da9ff4503f471533e6217b02ef3f5e097a52e15f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85cc0665_664a9e9e",
+        "filename": "java/com/google/gerrit/reviewdb/converter/PatchSetIdProtoConverter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T20:28:59Z",
+      "side": 1,
+      "message": "static final or at least final?",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 9
+      },
+      "revId": "da9ff4503f471533e6217b02ef3f5e097a52e15f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "037a5d09_9eb3300c",
+        "filename": "java/com/google/gerrit/reviewdb/converter/PatchSetIdProtoConverter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T20:28:59Z",
+      "side": 1,
+      "message": "In theory you could avoid this particular boilerplate with a default/abstract method, if you have the proto type available in some other way:\n\n T getDefaultInstance();\n\n default Parser\u003cT\u003e getParser() {\n   return getDefaultInstance().getParserForType();\n }\n\nThen:\n\n @Override\n public PatchSet_Id getDefaultInstance() {\n   return PatchSet_Id.getDefaultInstance();\n }\n\nOr something similar with Internal.getDefaultInstance(PatchSet_Id.class) (yes, Internal says not to use it, but Everyone Else Is Doing It(TM)).\n\nAnyway, I think probably none of these approaches are worth it given the minor savings in boilerplate, just thought I\u0027d mention it.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "da9ff4503f471533e6217b02ef3f5e097a52e15f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4098bfc6_cde26d12",
+        "filename": "java/com/google/gerrit/reviewdb/converter/PatchSetProtoConverter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T20:28:59Z",
+      "side": 1,
+      "message": "final?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 9
+      },
+      "revId": "da9ff4503f471533e6217b02ef3f5e097a52e15f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a275af1_1263a422",
+        "filename": "javatests/com/google/gerrit/proto/ProtosTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T20:28:59Z",
+      "side": 1,
+      "message": "Would it be worth changing this test to parse from something other than the whole array?\n\nThis test would pass improperly if parseUnchecked were implemented incorrectly as:\n\n parseUnchecked(Parser parser, byte[] bytes, int off, int len) { \n   return parseUnchecked(parser, bytes);\n }",
+      "revId": "da9ff4503f471533e6217b02ef3f5e097a52e15f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "839483d1_4f585a69",
+        "filename": "javatests/com/google/gerrit/reviewdb/converter/AccountIdProtoConverterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T20:28:59Z",
+      "side": 1,
+      "message": "Does ImmutableMap.of(\"id\", int.class) not work?",
+      "range": {
+        "startLine": 69,
+        "startChar": 19,
+        "endLine": 69,
+        "endChar": 84
+      },
+      "revId": "da9ff4503f471533e6217b02ef3f5e097a52e15f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a307128_1c5774d0",
+        "filename": "javatests/com/google/gerrit/reviewdb/converter/ChangeIdProtoConverterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T20:28:59Z",
+      "side": 1,
+      "message": "ImmutableMap.of(...)?",
+      "range": {
+        "startLine": 69,
+        "startChar": 19,
+        "endLine": 69,
+        "endChar": 84
+      },
+      "revId": "da9ff4503f471533e6217b02ef3f5e097a52e15f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cc1913a_593a8fed",
+        "filename": "javatests/com/google/gerrit/reviewdb/converter/PatchSetConverterCompatibilityTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T20:28:59Z",
+      "side": 1,
+      "message": "I don\u0027t see a reason to interrupt the flow of @Test methods. Move these down to the bottom?",
+      "range": {
+        "startLine": 77,
+        "startChar": 2,
+        "endLine": 104,
+        "endChar": 3
+      },
+      "revId": "da9ff4503f471533e6217b02ef3f5e097a52e15f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

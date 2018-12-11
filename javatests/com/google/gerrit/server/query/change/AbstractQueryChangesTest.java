@@ -52,7 +52,6 @@ import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
-import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -69,7 +68,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
@@ -81,7 +79,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -102,11 +99,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
-import com.google.gerrit.server.index.change.IndexedChangeQuery;
-import com.google.gerrit.server.index.change.StalenessChecker;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NoteDbChangeState;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -131,7 +124,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -2430,93 +2422,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("has:edit", change);
     assertThat(indexer.reindexIfStale(project, change.getId()).get()).isTrue();
     assertQuery("has:edit");
-  }
-
-  @Test
-  public void refStateFields() throws Exception {
-    // This test method manages primary storage manually.
-    assume().that(notesMigration.changePrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
-    Account.Id user = createAccount("user");
-    Project.NameKey project = new Project.NameKey("repo");
-    TestRepository<Repo> repo = createProject(project.get());
-    String path = "file";
-    RevCommit commit = repo.parseBody(repo.commit().message("one").add(path, "contents").create());
-    Change change = insert(repo, newChangeForCommit(repo, commit));
-    Change.Id id = change.getId();
-    int c = id.get();
-    String changeId = change.getKey().get();
-    requestContext.setContext(newRequestContext(user));
-
-    // Ensure one of each type of supported ref is present for the change. If
-    // any more refs are added, update this test to reflect them.
-
-    // Edit
-    gApi.changes().id(changeId).edit().create();
-
-    // Star
-    gApi.accounts().self().starChange(change.getId().toString());
-
-    if (notesMigration.readChanges()) {
-      // Robot comment.
-      ReviewInput rin = new ReviewInput();
-      RobotCommentInput rcin = new RobotCommentInput();
-      rcin.robotId = "happyRobot";
-      rcin.robotRunId = "1";
-      rcin.line = 1;
-      rcin.message = "nit: trailing whitespace";
-      rcin.path = path;
-      rin.robotComments = ImmutableMap.of(path, ImmutableList.of(rcin));
-      gApi.changes().id(c).current().review(rin);
-    }
-
-    // Draft.
-    DraftInput din = new DraftInput();
-    din.path = path;
-    din.line = 1;
-    din.message = "draft";
-    gApi.changes().id(c).current().createDraft(din);
-
-    if (notesMigration.readChanges()) {
-      // Force NoteDb primary.
-      change = ReviewDbUtil.unwrapDb(db).changes().get(id);
-      change.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
-      ReviewDbUtil.unwrapDb(db).changes().update(Collections.singleton(change));
-      indexer.index(db, change);
-    }
-
-    QueryOptions opts =
-        IndexedChangeQuery.createOptions(indexConfig, 0, 1, StalenessChecker.FIELDS);
-    ChangeData cd = indexes.getSearchIndex().get(id, opts).get();
-
-    String cs = RefNames.shard(c);
-    int u = user.get();
-    String us = RefNames.shard(u);
-
-    List<String> expectedStates =
-        Lists.newArrayList(
-            "repo:refs/users/" + us + "/edit-" + c + "/1",
-            "All-Users:refs/starred-changes/" + cs + "/" + u);
-    if (notesMigration.readChanges()) {
-      expectedStates.add("repo:refs/changes/" + cs + "/meta");
-      expectedStates.add("repo:refs/changes/" + cs + "/robot-comments");
-      expectedStates.add("All-Users:refs/draft-comments/" + cs + "/" + u);
-    }
-    assertThat(
-            cd.getRefStates()
-                .stream()
-                .map(String::new)
-                // Omit SHA-1, we're just concerned with the project/ref names.
-                .map(s -> s.substring(0, s.lastIndexOf(':')))
-                .collect(toList()))
-        .containsExactlyElementsIn(expectedStates);
-
-    List<String> expectedPatterns = Lists.newArrayList("repo:refs/users/*/edit-" + c + "/*");
-    expectedPatterns.add("All-Users:refs/starred-changes/" + cs + "/*");
-    if (notesMigration.readChanges()) {
-      expectedPatterns.add("All-Users:refs/draft-comments/" + cs + "/*");
-    }
-    assertThat(cd.getRefStatePatterns().stream().map(String::new).collect(toList()))
-        .containsExactlyElementsIn(expectedPatterns);
   }
 
   @Test

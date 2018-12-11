@@ -37,22 +37,47 @@ public class ResultChangeIds {
 
   ResultChangeIds() {
     ids = new EnumMap<>(Key.class);
-    for (Key k : Key.values()) {
-      ids.put(k, new ArrayList<>());
-    }
   }
 
   /** Record a change ID update as having completed. Thread-safe. */
-  public void add(Key key, Change.Id id) {
-    synchronized (this) {
-      ids.get(key).add(id);
+  public synchronized void add(Key key, Change.Id id) {
+    if (!ids.containsKey(key)) {
+      ids.put(key, new ArrayList<>());
+    }
+
+    ids.get(key).add(id);
+  }
+
+  /** Indicate that the ReceiveCommits call involved a magic branch. */
+  public synchronized void setMagicPush() {
+    if (!ids.containsKey(Key.REPLACED)) {
+      ids.put(Key.REPLACED, new ArrayList<>());
+    }
+    if (!ids.containsKey(Key.CREATED)) {
+      ids.put(Key.CREATED, new ArrayList<>());
     }
   }
 
-  /** Returns change IDs of the given type for which the BatchUpdate succeeded. Thread-safe. */
-  public List<Change.Id> get(Key key) {
-    synchronized (this) {
+  /** Indicate that the ReceiveCommits call involved a regular branch. */
+  public synchronized void setRegularPush() {
+    if (!ids.containsKey(Key.AUTOCLOSED)) {
+      ids.put(Key.AUTOCLOSED, new ArrayList<>());
+    }
+  }
+
+  /** Returns the keys for which values were set. */
+  public synchronized Iterable<Key> keys() {
+    return ids.keySet();
+  }
+
+  /**
+   * Returns change IDs of the given type for which the BatchUpdate succeeded, or empty list if
+   * there are none. Thread-safe.
+   */
+  public synchronized List<Change.Id> get(Key key) {
+    if (ids.containsKey(key)) {
       return ImmutableList.copyOf(ids.get(key));
     }
+    return ImmutableList.of();
   }
 }

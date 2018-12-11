@@ -639,6 +639,7 @@ class ReceiveCommits {
 
   private void handleRegularCommands(List<ReceiveCommand> cmds, MultiProgressMonitor progress)
       throws PermissionBackendException, IOException, NoSuchProjectException {
+    resultChangeIds.setRegularPush();
     for (ReceiveCommand cmd : cmds) {
       parseRegularCommand(cmd);
     }
@@ -1836,6 +1837,7 @@ class ReceiveCommits {
 
     if (validateConnected(magicBranch.cmd, magicBranch.dest, tip)) {
       this.magicBranch = magicBranch;
+      this.resultChangeIds.setMagicPush();
     }
   }
 

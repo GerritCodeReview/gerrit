@@ -905,8 +905,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void retrySubmitSingleChangeOnLockFailure() throws Exception {
-    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
-
     PushOneCommit.Result change = createChange();
     String id = change.getChangeId();
     approve(id);
@@ -932,7 +930,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void retrySubmitAfterTornTopicOnLockFailure() throws Exception {
-    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
     String topic = "test-topic";

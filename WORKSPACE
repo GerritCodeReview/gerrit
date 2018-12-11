@@ -1091,8 +1091,8 @@ maven_jar(
 # and httpasyncclient as necessary.
 maven_jar(
     name = "elasticsearch-rest-client",
-    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.5.1",
-    sha1 = "d87892e24ef361b9fff5435246b0f0b8f4561fe8",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.5.2",
+    sha1 = "6ad0dd15affe56be7dfe638fe317bc5f7456b730",
 )
 
 JACKSON_VERSION = "2.9.7"

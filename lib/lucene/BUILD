@@ -11,13 +11,11 @@ merge_maven_jars(
         "@lucene-core//jar",
     ],
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
 )
 
 java_library(
     name = "lucene-analyzers-common",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
     exports = ["@lucene-analyzers-common//jar"],
     runtime_deps = [":lucene-core-and-backward-codecs"],
 )
@@ -25,14 +23,12 @@ java_library(
 java_library(
     name = "lucene-core",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
     exports = ["@lucene-core//jar"],
 )
 
 java_library(
     name = "lucene-misc",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
     exports = ["@lucene-misc//jar"],
     runtime_deps = [":lucene-core-and-backward-codecs"],
 )
@@ -40,7 +36,6 @@ java_library(
 java_library(
     name = "lucene-queryparser",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
     exports = ["@lucene-queryparser//jar"],
     runtime_deps = [":lucene-core-and-backward-codecs"],
 )

@@ -40,7 +40,6 @@ filegroup(
         ":prettify_files",
         "//:LICENSES.txt",
     ],
-    visibility = ["//visibility:public"],
 )
 
 license_map(
@@ -50,7 +49,6 @@ license_map(
         "//polygerrit-ui/app:polygerrit_ui",
         "//java/com/google/gerrit/pgm",
     ],
-    visibility = ["//visibility:public"],
 )
 
 license_map(
@@ -58,7 +56,6 @@ license_map(
     targets = [
         "//polygerrit-ui/app:polygerrit_ui",
     ],
-    visibility = ["//visibility:public"],
 )
 
 DOC_DIR = "Documentation"
@@ -86,7 +83,6 @@ genasciidoc(
     srcs = SRCS,
     attributes = documentation_attributes(),
     backend = "html5",
-    visibility = ["//visibility:public"],
 )
 
 genasciidoc_zip(
@@ -95,7 +91,6 @@ genasciidoc_zip(
     attributes = documentation_attributes(),
     backend = "html5",
     directory = DOC_DIR,
-    visibility = ["//visibility:public"],
 )
 
 genasciidoc_zip(
@@ -105,5 +100,4 @@ genasciidoc_zip(
     backend = "html5",
     directory = DOC_DIR,
     searchbox = False,
-    visibility = ["//visibility:public"],
 )

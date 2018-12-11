@@ -1,5 +1,3 @@
-package(default_visibility = ["//visibility:public"])
-
 java_library(
     name = "jackson-core",
     data = ["//lib:LICENSE-Apache2.0"],

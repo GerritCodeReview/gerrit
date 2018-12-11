@@ -15,26 +15,16 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
-import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.change.TestSubmitInput;
 import java.util.Map;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.junit.Test;
 
@@ -143,52 +133,6 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
     assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name());
-  }
-
-  @Test
-  public void repairChangeStateAfterFailure() throws Exception {
-    // In NoteDb-only mode, repo and meta updates are atomic (at least in InMemoryRepository).
-    assume().that(notesMigration.disableChangeReviewDb()).isFalse();
-
-    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
-    Change.Id id = change.getChange().getId();
-    TestSubmitInput failInput = new TestSubmitInput();
-    failInput.failAfterRefUpdates = true;
-    submit(
-        change.getChangeId(),
-        failInput,
-        ResourceConflictException.class,
-        "Failing after ref updates");
-
-    // Bad: ref advanced but change wasn't updated.
-    PatchSet.Id psId = new PatchSet.Id(id, 1);
-    ChangeInfo info = gApi.changes().id(id.get()).get();
-    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(1);
-
-    ObjectId rev;
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo)) {
-      rev = repo.exactRef(psId.toRefName()).getObjectId();
-      assertThat(rev).isNotNull();
-      assertThat(repo.exactRef("refs/heads/master").getObjectId()).isEqualTo(rev);
-    }
-
-    submit(change.getChangeId());
-
-    // Change status was updated, and branch tip stayed the same.
-    info = gApi.changes().id(id.get()).get();
-    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
-    assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(1);
-    assertThat(Iterables.getLast(info.messages).message)
-        .isEqualTo("Change has been successfully merged by Administrator");
-
-    try (Repository repo = repoManager.openRepository(project)) {
-      assertThat(repo.exactRef("refs/heads/master").getObjectId()).isEqualTo(rev);
-    }
-
-    assertRefUpdatedEvents();
-    assertChangeMergedEvents(change.getChangeId(), getRemoteHead().name());
   }
 
   @Test

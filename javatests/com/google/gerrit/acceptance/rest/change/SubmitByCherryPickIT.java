@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 
@@ -31,19 +30,13 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.submit.CommitMergeStatus;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class SubmitByCherryPickIT extends AbstractSubmit {
@@ -388,77 +381,5 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         headAfterFirstSubmit.name(),
         change2.getChangeId(),
         headAfterFirstSubmit.name());
-  }
-
-  @Test
-  public void repairChangeStateAfterFailure() throws Exception {
-    // In NoteDb-only mode, repo and meta updates are atomic (at least in InMemoryRepository).
-    assume().that(notesMigration.disableChangeReviewDb()).isFalse();
-
-    RevCommit initialHead = getRemoteHead();
-    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
-    submit(change.getChangeId());
-
-    RevCommit headAfterFirstSubmit = getRemoteHead();
-    testRepo.reset(initialHead);
-    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
-    Change.Id id2 = change2.getChange().getId();
-    TestSubmitInput failInput = new TestSubmitInput();
-    failInput.failAfterRefUpdates = true;
-    submit(
-        change2.getChangeId(),
-        failInput,
-        ResourceConflictException.class,
-        "Failing after ref updates");
-    RevCommit headAfterFailedSubmit = getRemoteHead();
-
-    // Bad: ref advanced but change wasn't updated.
-    PatchSet.Id psId1 = new PatchSet.Id(id2, 1);
-    PatchSet.Id psId2 = new PatchSet.Id(id2, 2);
-    ChangeInfo info = gApi.changes().id(id2.get()).get();
-    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(1);
-    assertThat(getPatchSet(psId2)).isNull();
-
-    ObjectId rev2;
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo)) {
-      ObjectId rev1 = repo.exactRef(psId1.toRefName()).getObjectId();
-      assertThat(rev1).isNotNull();
-
-      rev2 = repo.exactRef(psId2.toRefName()).getObjectId();
-      assertThat(rev2).isNotNull();
-      assertThat(rev2).isNotEqualTo(rev1);
-      assertThat(rw.parseCommit(rev2).getParent(0)).isEqualTo(headAfterFirstSubmit);
-
-      assertThat(repo.exactRef("refs/heads/master").getObjectId()).isEqualTo(rev2);
-    }
-
-    submit(change2.getChangeId());
-
-    // Change status and patch set entities were updated, and branch tip stayed
-    // the same.
-    RevCommit headAfterSecondSubmit = getRemoteHead();
-    assertThat(headAfterSecondSubmit).isEqualTo(headAfterFailedSubmit);
-    info = gApi.changes().id(id2.get()).get();
-    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
-    assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(2);
-    PatchSet ps2 = getPatchSet(psId2);
-    assertThat(ps2).isNotNull();
-    assertThat(ps2.getRevision().get()).isEqualTo(rev2.name());
-    assertThat(Iterables.getLast(info.messages).message)
-        .isEqualTo(
-            "Change has been successfully cherry-picked as " + rev2.name() + " by Administrator");
-
-    try (Repository repo = repoManager.openRepository(project)) {
-      assertThat(repo.exactRef("refs/heads/master").getObjectId()).isEqualTo(rev2);
-    }
-
-    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
-    assertChangeMergedEvents(
-        change.getChangeId(),
-        headAfterFirstSubmit.name(),
-        change2.getChangeId(),
-        headAfterSecondSubmit.name());
   }
 }

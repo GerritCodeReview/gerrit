@@ -39,6 +39,7 @@ import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.receive.ResultChangeIds.Key;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -341,17 +342,21 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     long deltaNanos = System.nanoTime() - startNanos;
     int totalChanges = 0;
-    for (ResultChangeIds.Key key : ResultChangeIds.Key.values()) {
-      List<Change.Id> ids = resultChangeIds.get(key);
-      metrics.changes.record(key, ids.size());
-      totalChanges += ids.size();
+
+    if (resultChangeIds.isMagicPush()) {
+      List<Change.Id> created = resultChangeIds.get(Key.CREATED);
+      metrics.changes.record(Key.CREATED, created.size());
+      List<Change.Id> replaced = resultChangeIds.get(Key.REPLACED);
+      metrics.changes.record(Key.REPLACED, replaced.size());
+      totalChanges += replaced.size() + created.size();
+    } else {
+      List<Change.Id> autoclosed = resultChangeIds.get(Key.AUTOCLOSED);
+      metrics.changes.record(Key.AUTOCLOSED, autoclosed.size());
     }
 
     if (totalChanges > 0) {
       metrics.latencyPerChange.record(
-          resultChangeIds.get(ResultChangeIds.Key.AUTOCLOSED).isEmpty()
-              ? "CREATE_REPLACE"
-              : ResultChangeIds.Key.AUTOCLOSED.name(),
+          resultChangeIds.isMagicPush() ? "CREATE_REPLACE" : ResultChangeIds.Key.AUTOCLOSED.name(),
           deltaNanos / totalChanges,
           NANOSECONDS);
     }

@@ -65,6 +65,9 @@ Gerrit 2.x is a complete rewrite of the Gerrit fork, completely
 changing the implementation from Python on Google App Engine, to Java
 on a J2EE servlet container and an SQL database.
 
+Since Gerrit 3.x link:note-db.html[NoteDb] replaced the SQL database
+and all metadata is now stored in Git.
+
 * link:http://video.google.com/videoplay?docid=-8502904076440714866[Mondrian Code Review On The Web]
 * link:https://github.com/rietveld-codereview/rietveld[Rietveld - Code Review for Subversion]
 * link:http://eagain.net/gitweb/?p=gitosis.git;a=blob;f=README.rst;hb=HEAD[Gitosis README]
@@ -83,9 +86,7 @@ and Git's own data integrity checks.
 
 Each Git commit created on the client desktop system is converted
 into a unique change record which can be reviewed independently.
-Change records are stored in a database: PostgreSQL, MySQL, or the
-built-in H2, where they can be queried to present customized user
-dashboards, enumerating any pending changes.
+Change records are stored in NoteDb.
 
 A summary of each newly uploaded change is automatically emailed
 to reviewers, so they receive a direct hyperlink to review the
@@ -167,7 +168,6 @@ requires that the OpenID provider selected by a user must be
 online and operating in order to authenticate that user.
 
 * link:http://www.kernel.org/pub/software/scm/git/docs/gitrepository-layout.html[Git Repository Format]
-* link:http://www.postgresql.org/about/[About PostgreSQL]
 * link:http://openid.net/developers/specs/[OpenID Specifications]
 
 *1  Although an effort is underway to eliminate the use of the
@@ -363,7 +363,7 @@ cases these same addresses would be more easily obtained from the
 project's mailing list archives.
 
 The user's name and email address is stored unencrypted in the
-Gerrit metadata store, typically a PostgreSQL database.
+link:config-accounts.html#all-users[All-Users] repository.
 
 The snail-mail mailing address, country, and phone and fax numbers
 are gathered to help project leads contact the user should there
@@ -632,12 +632,6 @@ parties around the world have had a chance to comment.  This expected
 lag largely allows for some downtime in a disaster scenario.
 
 === Backups
-
-PostgreSQL and MySQL can be configured to replicate their data to
-other systems, where they are applied to a warm-standby backup in
-real time.  Gerrit instances which care about redundancy will setup
-this feature of PostgreSQL or MySQL to ensure the warm-standby is
-reasonably current should the master go offline.
 
 Using the standard replication plugin, Gerrit can be configured
 to replicate changes made to the local Git repositories over any

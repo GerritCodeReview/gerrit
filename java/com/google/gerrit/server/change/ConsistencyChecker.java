@@ -503,7 +503,7 @@ public class ConsistencyChecker {
     List<ProblemInfo> currProblems = new ArrayList<>(3);
     currProblems.add(notFound);
     if (deleteOldPatchSetProblem != null) {
-      currProblems.add(insertPatchSetProblem);
+      currProblems.add(deleteOldPatchSetProblem);
     }
     currProblems.add(insertPatchSetProblem);
 

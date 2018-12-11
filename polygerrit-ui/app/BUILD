@@ -1,6 +1,4 @@
-package(
-    default_visibility = ["//visibility:public"],
-)
+package(default_visibility = ["//visibility:public"])
 
 load(":rules.bzl", "polygerrit_bundle")
 load("//tools/bzl:genrule2.bzl", "genrule2")

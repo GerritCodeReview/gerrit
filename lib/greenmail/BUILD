@@ -13,7 +13,6 @@ java_library(
     name = "greenmail",
     testonly = 1,
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
     exports = ["@greenmail//jar"],
     runtime_deps = select({
         "//:java9": POST_JDK8_DEPS,

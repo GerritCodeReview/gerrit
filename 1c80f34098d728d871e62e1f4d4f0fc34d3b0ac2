@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1544539632 +0100\nnonce AGLkUnC9pnlp0mnOq2otUY4RPlKGXQl4fzEC9U9FY8M1oUkdd6mnKXaDV0+jl76oM5J90WLQdJc5\n\n0000000000000000000000000000000000000000 30d63089c0d2ec40d6f545a6b01b239edaef6087 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlwPzfAACgkQUbX9l6DQ\n71FhKQf/ZFQzWaE63TPBj5tEbdC7Di7YvdmjzkS3q33b5CYruWOxuNkYG/yMdfSI\nLZNPM6St0qavsPbjZwaDeOMzsrTqB4vVWLKeaQEI7oPIhwJVHQ26ypqrBXxIMP/G\nURLUSqpVxyGeJmCFGB20cUUg/MpJhYYcfu/F3P5Bikrh0Cp4TWzlESixlpqNw3L0\nK3XXq5EBwja4BH831HEuY9jItV/Kx/ua9fwO3d0s3Cfx7C9XD7bUj+xM5Qwl9Yzl\nigzWG14Qn8sm2A/uF5TBWUOd9wOhYEX9ABDU1c4Y99mau/AysoA63p18+nPOVe0w\nWB/Em1LEO98BduVXGky/jlB5tpoPbQ\u003d\u003d\n\u003dyHIq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "00d217fe_bee9fd4c",
+        "filename": "java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T15:08:29Z",
+      "side": 1,
+      "message": "I wonder if some methods like this could just be inlined. Some of the methods in this class couldn\u0027t easily be, but maybe some could (in the future).",
+      "revId": "1c80f34098d728d871e62e1f4d4f0fc34d3b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

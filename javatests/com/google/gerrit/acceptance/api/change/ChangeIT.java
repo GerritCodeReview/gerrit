@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
@@ -508,8 +507,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void pendingReviewersInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
@@ -1689,8 +1686,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewerThatIsInactiveEmailFallback() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
@@ -2841,8 +2836,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void noteDbCommitsOnPatchSetCreation() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     PushOneCommit.Result r = createChange();
     pushFactory
         .create(

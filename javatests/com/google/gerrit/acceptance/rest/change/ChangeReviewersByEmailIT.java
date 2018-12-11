@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 
 import com.google.common.collect.ImmutableList;
@@ -52,7 +51,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void addByEmail() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
@@ -72,7 +70,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void addByEmailAndById() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     AccountInfo byEmail = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
     AccountInfo byId = new AccountInfo(user.id.get());
 
@@ -98,7 +95,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void listReviewersByEmail() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
@@ -126,7 +122,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void removeByEmail() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
@@ -146,7 +141,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void convertFromCCToReviewer() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
 
     PushOneCommit.Result r = createChange();
@@ -168,7 +162,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void addedReviewersGetNotified() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
@@ -188,7 +181,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void removingReviewerTriggersNotification() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
@@ -221,7 +213,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void reviewerAndCCReceiveRegularNotification() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
@@ -244,8 +235,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void reviewerAndCCReceiveSameEmail() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     PushOneCommit.Result r = createChange();
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       for (int i = 0; i < 10; i++) {
@@ -270,8 +259,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void addingMultipleReviewersAndCCsAtOnceSendsOnlyOneEmail() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     PushOneCommit.Result r = createChange();
     ReviewInput reviewInput = new ReviewInput();
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
@@ -288,7 +275,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void rejectMissingEmail() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createChange();
 
     AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("");
@@ -298,7 +284,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void rejectMalformedEmail() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createChange();
 
     AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@");
@@ -308,8 +293,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void rejectWhenFeatureIsDisabled() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.FALSE;
     gApi.projects().name(project.get()).config(conf);
@@ -326,7 +309,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void reviewersByEmailAreServedFromIndex() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
@@ -351,7 +333,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void addExistingReviewerByEmailShortCircuits() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createChange();
 
     AddReviewerInput input = new AddReviewerInput();
@@ -369,7 +350,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void addExistingCcByEmailShortCircuits() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createChange();
 
     AddReviewerInput input = new AddReviewerInput();

@@ -17,6 +17,24 @@
       "revId": "1c80f34098d728d871e62e1f4d4f0fc34d3b0ac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6df71a90_5cc82b6d",
+        "filename": "java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-11T15:51:46Z",
+      "side": 1,
+      "message": "Yes, I was thinking the same. Let\u0027s see later what can be inlined.",
+      "parentUuid": "00d217fe_bee9fd4c",
+      "revId": "1c80f34098d728d871e62e1f4d4f0fc34d3b0ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -276,8 +275,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void noteDbCommit() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     ChangeInfo c = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {

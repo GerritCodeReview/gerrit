@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.rest.binding;
 
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
 import static com.google.gerrit.extensions.common.testing.RobotCommentInfoSubject.assertThatList;
 import static java.util.stream.Collectors.toList;
@@ -378,8 +377,6 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
 
   @Test
   public void robotCommentEndpoints() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     String changeId = createChange().getChangeId();
 
     RobotCommentInput robotCommentInput = new RobotCommentInput();
@@ -405,8 +402,6 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
 
   @Test
   public void fixEndpoints() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     String changeId = createChange("Subject", FILENAME, "content").getChangeId();
 
     RobotCommentInput robotCommentInput = new RobotCommentInput();

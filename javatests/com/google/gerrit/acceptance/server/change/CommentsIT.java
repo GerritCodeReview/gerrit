@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static java.util.stream.Collectors.groupingBy;
@@ -946,7 +945,6 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void jsonCommentHasLegacyFormatFalse() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result result = createChange();
     Change.Id changeId = result.getChange().getId();
     addComment(result.getChangeId(), "comment");

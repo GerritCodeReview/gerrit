@@ -38,7 +38,6 @@ import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -1005,22 +1004,6 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     EditInfo editInfo = gApi.changes().id(changeId).current().applyFix(fixId);
 
     assertThat(editInfo).baseRevision().isEqualTo(currentRevision);
-  }
-
-  @Test
-  public void robotCommentsNotSupportedWithoutNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-
-    RobotCommentInput in = createRobotCommentInput();
-    ReviewInput reviewInput = new ReviewInput();
-    Map<String, List<RobotCommentInput>> robotComments = new HashMap<>();
-    robotComments.put(in.path, ImmutableList.of(in));
-    reviewInput.robotComments = robotComments;
-    reviewInput.message = "comment test";
-
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("robot comments not supported");
-    gApi.changes().id(changeId).current().review(reviewInput);
   }
 
   @Test

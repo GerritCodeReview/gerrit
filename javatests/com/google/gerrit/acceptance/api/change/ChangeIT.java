@@ -132,9 +132,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -145,7 +143,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.PostReview;
@@ -161,7 +158,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1912,26 +1908,6 @@ public class ChangeIT extends AbstractDaemonTest {
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
-  }
-
-  @Test
-  public void addReviewerWithNoteDbWhenDummyApprovalInReviewDbExists() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-    assume().that(notesMigration.changePrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
-
-    PushOneCommit.Result r = createChange();
-
-    // insert dummy approval in ReviewDb
-    PatchSetApproval psa =
-        new PatchSetApproval(
-            new PatchSetApproval.Key(r.getPatchSetId(), user.id, new LabelId("Code-Review")),
-            (short) 0,
-            TimeUtil.nowTs());
-    db.patchSetApprovals().insert(Collections.singleton(psa));
-
-    AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
-    gApi.changes().id(r.getChangeId()).addReviewer(in);
   }
 
   @Test

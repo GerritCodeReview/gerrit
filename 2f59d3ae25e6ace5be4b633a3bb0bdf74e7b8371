@@ -22,6 +22,30 @@
       "revId": "2f59d3ae25e6ace5be4b633a3bb0bdf74e7b8371",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0aba0fcf_d5d6d0df",
+        "filename": "Documentation/install-j2ee.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-11T08:59:26Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "e73845b4_dea58453",
+      "range": {
+        "startLine": 85,
+        "startChar": 13,
+        "endLine": 85,
+        "endChar": 42
+      },
+      "revId": "2f59d3ae25e6ace5be4b633a3bb0bdf74e7b8371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

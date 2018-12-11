@@ -339,7 +339,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     ChangeData cd = r.getChange();
     assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
     PatchSetApproval submitter =
-        approvalsUtil.getSubmitter(db, cd.notes(), cd.change().currentPatchSetId());
+        approvalsUtil.getSubmitter(cd.notes(), cd.change().currentPatchSetId());
     assertThat(submitter.getAccountId()).isEqualTo(admin2.id);
     assertThat(submitter.getRealAccountId()).isEqualTo(admin.id);
   }

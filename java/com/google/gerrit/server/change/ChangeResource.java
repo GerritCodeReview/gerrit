@@ -167,7 +167,7 @@ public class ChangeResource implements RestResource, HasETag {
       // set of accounts that posted a message is too expensive. However everyone who posts a
       // message is automatically added as reviewer. Hence if we include removed reviewers we can
       // be sure that we have all accounts that posted messages on the change.
-      accounts.addAll(approvalUtil.getReviewers(db.get(), notes).all());
+      accounts.addAll(approvalUtil.getReviewers(notes).all());
     } catch (OrmException e) {
       // This ETag will be invalidated if it loads next time.
     }

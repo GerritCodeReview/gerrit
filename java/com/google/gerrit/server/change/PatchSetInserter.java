@@ -250,7 +250,7 @@ public class PatchSetInserter implements BatchUpdateOp {
             description);
 
     if (notify != NotifyHandling.NONE) {
-      oldReviewers = approvalsUtil.getReviewers(db, ctx.getNotes());
+      oldReviewers = approvalsUtil.getReviewers(ctx.getNotes());
     }
 
     if (message != null) {

@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerJson;
 import com.google.gerrit.server.change.ReviewerResource;
@@ -27,7 +26,6 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,18 +33,13 @@ import java.util.Map;
 
 @Singleton
 class ListRevisionReviewers implements RestReadView<RevisionResource> {
-  private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
   private final ReviewerJson json;
   private final ReviewerResource.Factory resourceFactory;
 
   @Inject
   ListRevisionReviewers(
-      Provider<ReviewDb> dbProvider,
-      ApprovalsUtil approvalsUtil,
-      ReviewerResource.Factory resourceFactory,
-      ReviewerJson json) {
-    this.dbProvider = dbProvider;
+      ApprovalsUtil approvalsUtil, ReviewerResource.Factory resourceFactory, ReviewerJson json) {
     this.approvalsUtil = approvalsUtil;
     this.resourceFactory = resourceFactory;
     this.json = json;
@@ -60,8 +53,7 @@ class ListRevisionReviewers implements RestReadView<RevisionResource> {
     }
 
     Map<String, ReviewerResource> reviewers = new LinkedHashMap<>();
-    ReviewDb db = dbProvider.get();
-    for (Account.Id accountId : approvalsUtil.getReviewers(db, rsrc.getNotes()).all()) {
+    for (Account.Id accountId : approvalsUtil.getReviewers(rsrc.getNotes()).all()) {
       if (!reviewers.containsKey(accountId.toString())) {
         reviewers.put(accountId.toString(), resourceFactory.create(rsrc, accountId));
       }

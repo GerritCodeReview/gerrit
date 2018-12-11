@@ -222,9 +222,8 @@ public class EventFactory {
    * @param a
    * @param notes
    */
-  public void addAllReviewers(ReviewDb db, ChangeAttribute a, ChangeNotes notes)
-      throws OrmException {
-    Collection<Account.Id> reviewers = approvalsUtil.getReviewers(db, notes).all();
+  public void addAllReviewers(ChangeAttribute a, ChangeNotes notes) throws OrmException {
+    Collection<Account.Id> reviewers = approvalsUtil.getReviewers(notes).all();
     if (!reviewers.isEmpty()) {
       a.allReviewers = Lists.newArrayListWithCapacity(reviewers.size());
       for (Account.Id id : reviewers) {

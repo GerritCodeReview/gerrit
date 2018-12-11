@@ -27,7 +27,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.change.ReviewerSuggestion;
@@ -80,7 +79,6 @@ public class ReviewerRecommender {
   private final PluginMapContext<ReviewerSuggestion> reviewerSuggestionPluginMap;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ExecutorService executor;
-  private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
 
   @Inject
@@ -89,7 +87,6 @@ public class ReviewerRecommender {
       PluginMapContext<ReviewerSuggestion> reviewerSuggestionPluginMap,
       Provider<InternalChangeQuery> queryProvider,
       @FanOutExecutor ExecutorService executor,
-      Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
       @GerritServerConfig Config config) {
     this.changeQueryBuilder = changeQueryBuilder;
@@ -97,7 +94,6 @@ public class ReviewerRecommender {
     this.queryProvider = queryProvider;
     this.reviewerSuggestionPluginMap = reviewerSuggestionPluginMap;
     this.executor = executor;
-    this.dbProvider = dbProvider;
     this.approvalsUtil = approvalsUtil;
   }
 
@@ -183,7 +179,7 @@ public class ReviewerRecommender {
 
       // Remove existing reviewers
       approvalsUtil
-          .getReviewers(dbProvider.get(), changeNotes)
+          .getReviewers(changeNotes)
           .byState(REVIEWER)
           .forEach(
               r -> {

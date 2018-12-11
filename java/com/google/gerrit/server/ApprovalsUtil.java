@@ -21,7 +21,6 @@ import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -44,7 +43,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
@@ -106,7 +104,6 @@ public class ApprovalsUtil {
     return Iterables.filter(psas, a -> Objects.equals(a.getAccountId(), accountId));
   }
 
-  private final NotesMigration migration;
   private final ApprovalCopier copier;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
@@ -114,11 +111,7 @@ public class ApprovalsUtil {
   @VisibleForTesting
   @Inject
   public ApprovalsUtil(
-      NotesMigration migration,
-      ApprovalCopier copier,
-      PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
-    this.migration = migration;
+      ApprovalCopier copier, PermissionBackend permissionBackend, ProjectCache projectCache) {
     this.copier = copier;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
@@ -127,15 +120,11 @@ public class ApprovalsUtil {
   /**
    * Get all reviewers for a change.
    *
-   * @param db review database.
    * @param notes change notes.
    * @return reviewers for the change.
    * @throws OrmException if reviewers for the change could not be read.
    */
-  public ReviewerSet getReviewers(ReviewDb db, ChangeNotes notes) throws OrmException {
-    if (!migration.readChanges()) {
-      return ReviewerSet.fromApprovals(db.patchSetApprovals().byChange(notes.getChangeId()));
-    }
+  public ReviewerSet getReviewers(ChangeNotes notes) throws OrmException {
     return notes.load().getReviewers();
   }
 
@@ -148,23 +137,17 @@ public class ApprovalsUtil {
    */
   public ReviewerSet getReviewers(ChangeNotes notes, Iterable<PatchSetApproval> allApprovals)
       throws OrmException {
-    if (!migration.readChanges()) {
-      return ReviewerSet.fromApprovals(allApprovals);
-    }
     return notes.load().getReviewers();
   }
 
   /**
-   * Get updates to reviewer set. Always returns empty list for ReviewDb.
+   * Get updates to reviewer set.
    *
    * @param notes change notes.
    * @return reviewer updates for the change.
    * @throws OrmException if reviewer updates for the change could not be read.
    */
   public List<ReviewerStatusUpdate> getReviewerUpdates(ChangeNotes notes) throws OrmException {
-    if (!migration.readChanges()) {
-      return ImmutableList.of();
-    }
     return notes.load().getReviewerUpdates();
   }
 
@@ -200,13 +183,7 @@ public class ApprovalsUtil {
       throws OrmException {
     PatchSet.Id psId = change.currentPatchSetId();
     Collection<Account.Id> existingReviewers;
-    if (migration.readChanges()) {
-      // If using NoteDB, we only want reviewers in the REVIEWER state.
-      existingReviewers = notes.load().getReviewers().byState(REVIEWER);
-    } else {
-      // Prior to NoteDB, we gather all reviewers regardless of state.
-      existingReviewers = getReviewers(db, notes).all();
-    }
+    existingReviewers = notes.load().getReviewers().byState(REVIEWER);
     // Existing reviewers should include pending additions in the REVIEWER
     // state, taken from ChangeUpdate.
     existingReviewers = Lists.newArrayList(existingReviewers);
@@ -308,7 +285,7 @@ public class ApprovalsUtil {
   }
 
   /**
-   * Adds approvals to ChangeUpdate for a new patch set, and writes to ReviewDb.
+   * Adds approvals to ChangeUpdate for a new patch set, and writes to NoteDb.
    *
    * @param db review database.
    * @param update change update.
@@ -346,7 +323,6 @@ public class ApprovalsUtil {
     for (PatchSetApproval psa : cells) {
       update.putApproval(psa.getLabel(), psa.getValue());
     }
-    db.patchSetApprovals().insert(cells);
     return cells;
   }
 
@@ -377,16 +353,8 @@ public class ApprovalsUtil {
     }
   }
 
-  public ListMultimap<PatchSet.Id, PatchSetApproval> byChange(ReviewDb db, ChangeNotes notes)
+  public ListMultimap<PatchSet.Id, PatchSetApproval> byChange(ChangeNotes notes)
       throws OrmException {
-    if (!migration.readChanges()) {
-      ImmutableListMultimap.Builder<PatchSet.Id, PatchSetApproval> result =
-          ImmutableListMultimap.builder();
-      for (PatchSetApproval psa : db.patchSetApprovals().byChange(notes.getChangeId())) {
-        result.put(psa.getPatchSetId(), psa);
-      }
-      return result.build();
-    }
     return notes.load().getApprovals();
   }
 
@@ -397,9 +365,6 @@ public class ApprovalsUtil {
       @Nullable RevWalk rw,
       @Nullable Config repoConfig)
       throws OrmException {
-    if (!migration.readChanges()) {
-      return sortApprovals(db.patchSetApprovals().byPatchSet(psId));
-    }
     return copier.getForPatchSet(db, notes, psId, rw, repoConfig);
   }
 
@@ -411,19 +376,16 @@ public class ApprovalsUtil {
       @Nullable RevWalk rw,
       @Nullable Config repoConfig)
       throws OrmException {
-    if (!migration.readChanges()) {
-      return sortApprovals(db.patchSetApprovals().byPatchSetUser(psId, accountId));
-    }
     return filterApprovals(byPatchSet(db, notes, psId, rw, repoConfig), accountId);
   }
 
-  public PatchSetApproval getSubmitter(ReviewDb db, ChangeNotes notes, PatchSet.Id c) {
+  public PatchSetApproval getSubmitter(ChangeNotes notes, PatchSet.Id c) {
     if (c == null) {
       return null;
     }
     try {
       // Submit approval is never copied, so bypass expensive byPatchSet call.
-      return getSubmitter(c, byChange(db, notes).get(c));
+      return getSubmitter(c, byChange(notes).get(c));
     } catch (OrmException e) {
       return null;
     }

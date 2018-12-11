@@ -858,7 +858,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      publishedComments = commentsUtil.publishedByChange(db, notes());
+      publishedComments = commentsUtil.publishedByChange(notes());
     }
     return publishedComments;
   }
@@ -1097,7 +1097,7 @@ public class ChangeData {
           }
         }
       } else {
-        for (Comment sc : commentsUtil.draftByChange(db, notes())) {
+        for (Comment sc : commentsUtil.draftByChange(notes())) {
           draftsByUser.put(sc.author.getId(), null);
         }
       }

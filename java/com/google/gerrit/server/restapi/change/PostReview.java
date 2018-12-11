@@ -990,7 +990,7 @@ public class PostReview
           break;
       }
       ChangeUpdate u = ctx.getUpdate(psId);
-      commentsUtil.putComments(ctx.getDb(), u, Status.PUBLISHED, toPublish);
+      commentsUtil.putComments(u, Status.PUBLISHED, toPublish);
       comments.addAll(toPublish);
       return !toPublish.isEmpty();
     }
@@ -1079,7 +1079,7 @@ public class PostReview
 
     private Set<CommentSetEntry> readExistingComments(ChangeContext ctx) throws OrmException {
       return commentsUtil
-          .publishedByChange(ctx.getDb(), ctx.getNotes())
+          .publishedByChange(ctx.getNotes())
           .stream()
           .map(CommentSetEntry::create)
           .collect(toSet());
@@ -1095,8 +1095,7 @@ public class PostReview
 
     private Map<String, Comment> changeDrafts(ChangeContext ctx) throws OrmException {
       Map<String, Comment> drafts = new HashMap<>();
-      for (Comment c :
-          commentsUtil.draftByChangeAuthor(ctx.getDb(), ctx.getNotes(), user.getAccountId())) {
+      for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), user.getAccountId())) {
         c.tag = in.tag;
         drafts.put(c.key.uuid, c);
       }
@@ -1106,8 +1105,7 @@ public class PostReview
     private Map<String, Comment> patchSetDrafts(ChangeContext ctx) throws OrmException {
       Map<String, Comment> drafts = new HashMap<>();
       for (Comment c :
-          commentsUtil.draftByPatchSetAuthor(
-              ctx.getDb(), psId, user.getAccountId(), ctx.getNotes())) {
+          commentsUtil.draftByPatchSetAuthor(psId, user.getAccountId(), ctx.getNotes())) {
         drafts.put(c.key.uuid, c);
       }
       return drafts;

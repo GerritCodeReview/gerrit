@@ -316,7 +316,7 @@ public class CommentSender extends ReplyToChangeSender {
 
     Comment.Key key = new Comment.Key(child.parentUuid, child.key.filename, child.key.patchSetId);
     try {
-      return commentsUtil.getPublished(args.db.get(), changeData.notes(), key);
+      return commentsUtil.getPublished(changeData.notes(), key);
     } catch (OrmException e) {
       logger.atWarning().log("Could not find the parent of this comment: %s", child);
       return Optional.empty();

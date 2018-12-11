@@ -391,7 +391,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private void loadPublished(Map<Patch.Key, Patch> byKey, String file) throws OrmException {
-    for (Comment c : commentsUtil.publishedByChangeFile(db, notes, changeId, file)) {
+    for (Comment c : commentsUtil.publishedByChangeFile(notes, file)) {
       comments.include(notes.getChangeId(), c);
       PatchSet.Id psId = new PatchSet.Id(notes.getChangeId(), c.key.patchSetId);
       Patch.Key pKey = new Patch.Key(psId, c.key.filename);
@@ -404,7 +404,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private void loadDrafts(Map<Patch.Key, Patch> byKey, Account.Id me, String file)
       throws OrmException {
-    for (Comment c : commentsUtil.draftByChangeFileAuthor(db, notes, file, me)) {
+    for (Comment c : commentsUtil.draftByChangeFileAuthor(notes, file, me)) {
       comments.include(notes.getChangeId(), c);
       PatchSet.Id psId = new PatchSet.Id(notes.getChangeId(), c.key.patchSetId);
       Patch.Key pKey = new Patch.Key(psId, c.key.filename);

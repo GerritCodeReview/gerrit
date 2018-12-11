@@ -74,7 +74,7 @@ public class PublishCommentUtil {
         throw new OrmException(e);
       }
     }
-    commentsUtil.putComments(ctx.getDb(), ctx.getUpdate(psId), PUBLISHED, drafts);
+    commentsUtil.putComments(ctx.getUpdate(psId), PUBLISHED, drafts);
   }
 
   private static PatchSet.Id psId(ChangeNotes notes, Comment c) {

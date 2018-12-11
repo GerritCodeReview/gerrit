@@ -57,7 +57,7 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     }
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
     List<Comment> drafts =
-        commentsUtil.draftByChangeAuthor(db.get(), cd.notes(), rsrc.getUser().getAccountId());
+        commentsUtil.draftByChangeAuthor(cd.notes(), rsrc.getUser().getAccountId());
     return commentJson
         .get()
         .setFillAccounts(false)

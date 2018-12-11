@@ -118,7 +118,7 @@ public class PutDraftComment
     public boolean updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException, PatchListNotAvailableException {
       Optional<Comment> maybeComment =
-          commentsUtil.getDraft(ctx.getDb(), ctx.getNotes(), ctx.getIdentifiedUser(), key);
+          commentsUtil.getDraft(ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {
         // Disappeared out from under us. Can't easily fall back to insert,
         // because the input might be missing required fields. Just give up.
@@ -141,15 +141,12 @@ public class PutDraftComment
         // Updating the path alters the primary key, which isn't possible.
         // Delete then recreate the comment instead of an update.
 
-        commentsUtil.deleteComments(ctx.getDb(), update, Collections.singleton(origComment));
+        commentsUtil.deleteComments(update, Collections.singleton(origComment));
         comment.key.filename = in.path;
       }
       setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
       commentsUtil.putComments(
-          ctx.getDb(),
-          update,
-          Status.DRAFT,
-          Collections.singleton(update(comment, in, ctx.getWhen())));
+          update, Status.DRAFT, Collections.singleton(update(comment, in, ctx.getWhen())));
       ctx.dontBumpLastUpdatedOn();
       return true;
     }

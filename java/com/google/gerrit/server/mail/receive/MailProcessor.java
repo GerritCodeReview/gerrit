@@ -301,10 +301,7 @@ public class MailProcessor {
             persistentCommentFromMailComment(ctx, c, targetPatchSetForComment(ctx, c, patchSet)));
       }
       commentsUtil.putComments(
-          ctx.getDb(),
-          ctx.getUpdate(ctx.getChange().currentPatchSetId()),
-          Status.PUBLISHED,
-          comments);
+          ctx.getUpdate(ctx.getChange().currentPatchSetId()), Status.PUBLISHED, comments);
 
       return true;
     }

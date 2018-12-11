@@ -184,12 +184,12 @@ public class DeleteDraftComments
         throws OrmException, PatchListNotAvailableException, PermissionBackendException {
       ImmutableList.Builder<CommentInfo> comments = ImmutableList.builder();
       boolean dirty = false;
-      for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getDb(), ctx.getNotes(), accountId)) {
+      for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {
         dirty = true;
         PatchSet.Id psId = new PatchSet.Id(ctx.getChange().getId(), c.key.patchSetId);
         setCommentRevId(
             c, patchListCache, ctx.getChange(), psUtil.get(ctx.getDb(), ctx.getNotes(), psId));
-        commentsUtil.deleteComments(ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(c));
+        commentsUtil.deleteComments(ctx.getUpdate(psId), Collections.singleton(c));
         comments.add(commentFormatter.format(c));
       }
       if (dirty) {

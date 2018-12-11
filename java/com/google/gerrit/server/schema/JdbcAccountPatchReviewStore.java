@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -115,7 +116,7 @@ public abstract class JdbcAccountPatchReviewStore
   private static String getUrl(@GerritServerConfig Config cfg, SitePaths sitePaths) {
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null) {
-      return H2.createUrl(sitePaths.db_dir.resolve("account_patch_reviews"));
+      return createH2Url(sitePaths.db_dir.resolve("account_patch_reviews"));
     }
     return url;
   }
@@ -351,5 +352,9 @@ public abstract class JdbcAccountPatchReviewStore
       return i != null ? i : -1;
     }
     return 0;
+  }
+
+  private static String createH2Url(Path path) {
+    return new StringBuilder().append("jdbc:h2:").append(path.toUri().toString()).toString();
   }
 }

@@ -2892,7 +2892,7 @@ class ReceiveCommits {
           new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {
-              PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+              PatchSet ps = psUtil.get(ctx.getNotes(), psId);
               List<String> oldGroups = ps.getGroups();
               if (oldGroups == null) {
                 if (groups == null) {
@@ -2901,7 +2901,7 @@ class ReceiveCommits {
               } else if (sameGroups(oldGroups, groups)) {
                 return false;
               }
-              psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps, groups);
+              psUtil.setGroups(ctx.getUpdate(psId), ps, groups);
               return true;
             }
           });

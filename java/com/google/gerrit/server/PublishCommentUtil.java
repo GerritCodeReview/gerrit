@@ -56,8 +56,7 @@ public class PublishCommentUtil {
     }
 
     Map<Id, PatchSet> patchSets =
-        psUtil.getAsMap(
-            ctx.getDb(), notes, drafts.stream().map(d -> psId(notes, d)).collect(toSet()));
+        psUtil.getAsMap(notes, drafts.stream().map(d -> psId(notes, d)).collect(toSet()));
     for (Comment d : drafts) {
       PatchSet ps = patchSets.get(psId(notes, d));
       if (ps == null) {

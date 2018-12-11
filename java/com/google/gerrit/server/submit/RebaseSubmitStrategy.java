@@ -170,7 +170,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         ctx.addRefUpdate(ObjectId.zeroId(), newCommit, newPatchSetId.toRefName());
       } else {
         // Stale read of patch set is ok; see comments in RebaseChangeOp.
-        PatchSet origPs = args.psUtil.get(ctx.getDb(), toMerge.getNotes(), toMerge.getPatchsetId());
+        PatchSet origPs = args.psUtil.get(toMerge.getNotes(), toMerge.getPatchsetId());
         rebaseOp =
             args.rebaseFactory
                 .create(toMerge.notes(), origPs, args.mergeTip.getCurrentTip())
@@ -227,10 +227,9 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         newPs = rebaseOp.getPatchSet();
       } else {
         // CherryPick
-        PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());
+        PatchSet prevPs = args.psUtil.current(ctx.getNotes());
         newPs =
             args.psUtil.insert(
-                ctx.getDb(),
                 ctx.getRevWalk(),
                 ctx.getUpdate(newPatchSetId),
                 newPatchSetId,

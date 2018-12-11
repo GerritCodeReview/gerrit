@@ -120,7 +120,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     } else {
       patchSet =
           requireNonNull(
-              psUtil.get(ctx.getDb(), ctx.getNotes(), psId),
+              psUtil.get(ctx.getNotes(), psId),
               () -> String.format("patch set %s not found", psId));
     }
     info = getPatchSetInfo(ctx);

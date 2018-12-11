@@ -213,7 +213,7 @@ public class AddReviewersOp implements BatchUpdateOp {
     checkAdded();
 
     if (patchSet == null) {
-      patchSet = requireNonNull(psUtil.current(ctx.getDb(), ctx.getNotes()));
+      patchSet = requireNonNull(psUtil.current(ctx.getNotes()));
     }
     return true;
   }

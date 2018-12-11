@@ -117,7 +117,7 @@ public class GroupCollector {
           public List<String> lookup(PatchSet.Id psId) throws OrmException {
             // TODO(dborowitz): Reuse open repository from caller.
             ChangeNotes notes = notesFactory.createChecked(db, project, psId.getParentKey());
-            PatchSet ps = psUtil.get(db, notes, psId);
+            PatchSet ps = psUtil.get(notes, psId);
             return ps != null ? ps.getGroups() : null;
           }
         });

@@ -89,8 +89,6 @@ public class RebaseUtil {
   }
 
   public Base parseBase(RevisionResource rsrc, String base) throws OrmException {
-    ReviewDb db = dbProvider.get();
-
     // Try parsing the base as a ref string.
     PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
     if (basePatchSetId != null) {
@@ -98,8 +96,7 @@ public class RebaseUtil {
       ChangeNotes baseNotes = notesFor(rsrc, baseChangeId);
       if (baseNotes != null) {
         return Base.create(
-            notesFor(rsrc, basePatchSetId.getParentKey()),
-            psUtil.get(db, baseNotes, basePatchSetId));
+            notesFor(rsrc, basePatchSetId.getParentKey()), psUtil.get(baseNotes, basePatchSetId));
       }
     }
 
@@ -108,7 +105,7 @@ public class RebaseUtil {
     if (baseChangeId != null) {
       ChangeNotes baseNotes = notesFor(rsrc, new Change.Id(baseChangeId));
       if (baseNotes != null) {
-        return Base.create(baseNotes, psUtil.current(db, baseNotes));
+        return Base.create(baseNotes, psUtil.current(baseNotes));
       }
     }
 

@@ -457,7 +457,7 @@ public class ChangeEditModifier {
   }
 
   private PatchSet lookupCurrentPatchSet(ChangeNotes notes) throws OrmException {
-    return patchSetUtil.current(reviewDb.get(), notes);
+    return patchSetUtil.current(notes);
   }
 
   private static boolean isBasedOn(ChangeEdit changeEdit, PatchSet patchSet) {

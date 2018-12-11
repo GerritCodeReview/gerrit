@@ -85,7 +85,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       throws ResourceNotFoundException, AuthException, OrmException, IOException,
           PermissionBackendException {
     if (id.get().equals("current")) {
-      PatchSet ps = psUtil.current(dbProvider.get(), change.getNotes());
+      PatchSet ps = psUtil.current(change.getNotes());
       if (ps != null && visible(change)) {
         return RevisionResource.createNonCachable(change, ps);
       }
@@ -135,7 +135,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       return Collections.emptyList();
     } else {
       List<RevisionResource> out = new ArrayList<>();
-      for (PatchSet ps : psUtil.byChange(dbProvider.get(), change.getNotes())) {
+      for (PatchSet ps : psUtil.byChange(change.getNotes())) {
         if (ps.getRevision() != null && ps.getRevision().get().startsWith(id)) {
           out.add(new RevisionResource(change, ps));
         }
@@ -151,10 +151,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   private List<RevisionResource> byLegacyPatchSetId(ChangeResource change, String id)
       throws OrmException {
     PatchSet ps =
-        psUtil.get(
-            dbProvider.get(),
-            change.getNotes(),
-            new PatchSet.Id(change.getId(), Integer.parseInt(id)));
+        psUtil.get(change.getNotes(), new PatchSet.Id(change.getId(), Integer.parseInt(id)));
     if (ps != null) {
       return Collections.singletonList(new RevisionResource(change, ps));
     }

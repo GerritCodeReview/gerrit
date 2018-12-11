@@ -124,7 +124,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
       }
       PatchSet.Id psId = change.currentPatchSetId();
       ChangeUpdate update = ctx.getUpdate(psId);
-      patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+      patchSet = psUtil.get(ctx.getNotes(), psId);
       change.setStatus(Status.NEW);
       change.setLastUpdatedOn(ctx.getWhen());
       update.setStatus(change.getStatus());

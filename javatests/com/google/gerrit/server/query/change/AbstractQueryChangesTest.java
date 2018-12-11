@@ -2280,7 +2280,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change = insert(repo, newChange(repo));
     String changeId = change.getKey().get();
     ChangeNotes notes = notesFactory.create(db, change.getProject(), change.getId());
-    PatchSet ps = psUtil.get(db, notes, change.currentPatchSetId());
+    PatchSet ps = psUtil.get(notes, change.currentPatchSetId());
 
     requestContext.setContext(newRequestContext(user));
     gApi.changes().id(changeId).edit().create();

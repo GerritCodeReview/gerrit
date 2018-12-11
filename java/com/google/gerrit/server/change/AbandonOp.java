@@ -99,7 +99,7 @@ public class AbandonOp implements BatchUpdateOp {
     if (!change.getStatus().isOpen()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }
-    patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+    patchSet = psUtil.get(ctx.getNotes(), psId);
     change.setStatus(Change.Status.ABANDONED);
     change.setLastUpdatedOn(ctx.getWhen());
 

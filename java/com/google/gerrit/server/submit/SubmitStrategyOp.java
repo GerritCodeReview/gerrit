@@ -250,7 +250,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         // during the submit strategy.
         mergedPatchSet =
             requireNonNull(
-                args.psUtil.get(ctx.getDb(), ctx.getNotes(), oldPsId),
+                args.psUtil.get(ctx.getNotes(), oldPsId),
                 () -> String.format("missing old patch set %s", oldPsId));
       } else {
         PatchSet.Id n = newPatchSet.getId();
@@ -300,12 +300,12 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       throws IOException, OrmException {
     PatchSet.Id psId = alreadyMergedCommit.getPatchsetId();
     logger.atFine().log("Fixing up already-merged patch set %s", psId);
-    PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());
+    PatchSet prevPs = args.psUtil.current(ctx.getNotes());
     ctx.getRevWalk().parseBody(alreadyMergedCommit);
     ctx.getChange()
         .setCurrentPatchSet(
             psId, alreadyMergedCommit.getShortMessage(), ctx.getChange().getOriginalSubject());
-    PatchSet existing = args.psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+    PatchSet existing = args.psUtil.get(ctx.getNotes(), psId);
     if (existing != null) {
       logger.atFine().log("Patch set row exists, only updating change");
       return existing;
@@ -316,14 +316,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     List<String> groups =
         prevPs != null ? prevPs.getGroups() : GroupCollector.getDefaultGroups(alreadyMergedCommit);
     return args.psUtil.insert(
-        ctx.getDb(),
-        ctx.getRevWalk(),
-        ctx.getUpdate(psId),
-        psId,
-        alreadyMergedCommit,
-        groups,
-        null,
-        null);
+        ctx.getRevWalk(), ctx.getUpdate(psId), psId, alreadyMergedCommit, groups, null, null);
   }
 
   private void setApproval(ChangeContext ctx, IdentifiedUser user)

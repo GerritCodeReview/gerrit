@@ -168,7 +168,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     String message = Strings.emptyToNull(input.message);
     Change.Id changeIdToRevert = notes.getChangeId();
     PatchSet.Id patchSetId = notes.getChange().currentPatchSetId();
-    PatchSet patch = psUtil.get(db.get(), notes, patchSetId);
+    PatchSet patch = psUtil.get(notes, patchSetId);
     if (patch == null) {
       throw new ResourceNotFoundException(changeIdToRevert.toString());
     }

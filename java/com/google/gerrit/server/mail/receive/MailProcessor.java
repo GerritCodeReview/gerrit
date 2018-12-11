@@ -283,7 +283,7 @@ public class MailProcessor {
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, UnprocessableEntityException, PatchListNotAvailableException {
-      patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+      patchSet = psUtil.get(ctx.getNotes(), psId);
       notes = ctx.getNotes();
       if (patchSet == null) {
         throw new OrmException("patch set not found: " + psId);
@@ -366,7 +366,6 @@ public class MailProcessor {
         ChangeContext ctx, MailComment mailComment, PatchSet current) throws OrmException {
       if (mailComment.getInReplyTo() != null) {
         return psUtil.get(
-            ctx.getDb(),
             ctx.getNotes(),
             new PatchSet.Id(ctx.getChange().getId(), mailComment.getInReplyTo().key.patchSetId));
       }

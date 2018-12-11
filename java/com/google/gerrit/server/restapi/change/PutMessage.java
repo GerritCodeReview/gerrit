@@ -105,7 +105,7 @@ public class PutMessage
       BatchUpdate.Factory updateFactory, ChangeResource resource, CommitMessageInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
           OrmException, ConfigInvalidException {
-    PatchSet ps = psUtil.current(db.get(), resource.getNotes());
+    PatchSet ps = psUtil.current(resource.getNotes());
     if (ps == null) {
       throw new ResourceConflictException("current revision is missing");
     }

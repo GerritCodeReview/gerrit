@@ -143,7 +143,7 @@ public class CatServlet extends HttpServlet {
           return;
         }
       } else {
-        PatchSet patchSet = psUtil.get(requestDb.get(), notes, patchKey.getParentKey());
+        PatchSet patchSet = psUtil.get(notes, patchKey.getParentKey());
         if (patchSet == null) {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;

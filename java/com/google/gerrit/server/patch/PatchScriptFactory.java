@@ -200,8 +200,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
     validatePatchSetId(psb);
 
-    PatchSet psEntityA = psa != null ? psUtil.get(db, notes, psa) : null;
-    PatchSet psEntityB = psb.get() == 0 ? new PatchSet(psb) : psUtil.get(db, notes, psb);
+    PatchSet psEntityA = psa != null ? psUtil.get(notes, psa) : null;
+    PatchSet psEntityB = psb.get() == 0 ? new PatchSet(psb) : psUtil.get(notes, psb);
     if (psEntityA != null || psEntityB != null) {
       try {
         permissionBackend.currentUser().change(notes).database(db).check(ChangePermission.READ);
@@ -308,7 +308,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       // proper rename detection between the patch sets.
       //
       history = new ArrayList<>();
-      for (PatchSet ps : psUtil.byChange(db, notes)) {
+      for (PatchSet ps : psUtil.byChange(notes)) {
         String name = fileName;
         if (psa != null) {
           switch (changeType) {

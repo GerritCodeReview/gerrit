@@ -70,7 +70,7 @@ public class PureRevert {
 
   public PureRevertInfo get(ChangeNotes notes, @Nullable String claimedOriginal)
       throws OrmException, IOException, BadRequestException, ResourceConflictException {
-    PatchSet currentPatchSet = psUtil.current(dbProvider.get(), notes);
+    PatchSet currentPatchSet = psUtil.current(notes);
     if (currentPatchSet == null) {
       throw new ResourceConflictException("current revision is missing");
     }
@@ -81,7 +81,6 @@ public class PureRevert {
       }
       PatchSet ps =
           psUtil.current(
-              dbProvider.get(),
               notesFactory.createChecked(
                   dbProvider.get(), notes.getProjectName(), notes.getChange().getRevertOf()));
       claimedOriginal = ps.getRevision().get();

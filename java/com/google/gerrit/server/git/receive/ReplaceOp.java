@@ -255,7 +255,7 @@ public class ReplaceOp implements BatchUpdateOp {
       return false;
     }
     if (groups.isEmpty()) {
-      PatchSet prevPs = psUtil.current(ctx.getDb(), notes);
+      PatchSet prevPs = psUtil.current(notes);
       groups = prevPs != null ? prevPs.getGroups() : ImmutableList.<String>of();
     }
 
@@ -305,7 +305,6 @@ public class ReplaceOp implements BatchUpdateOp {
 
     newPatchSet =
         psUtil.insert(
-            ctx.getDb(),
             ctx.getRevWalk(),
             update,
             patchSetId,

@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -66,10 +65,10 @@ public class PatchSetInfoFactory {
     return info;
   }
 
-  public PatchSetInfo get(ReviewDb db, ChangeNotes notes, PatchSet.Id psId)
+  public PatchSetInfo get(ChangeNotes notes, PatchSet.Id psId)
       throws PatchSetInfoNotAvailableException {
     try {
-      PatchSet patchSet = psUtil.get(db, notes, psId);
+      PatchSet patchSet = psUtil.get(notes, psId);
       return get(notes.getProjectName(), patchSet);
     } catch (OrmException e) {
       throw new PatchSetInfoNotAvailableException(e);

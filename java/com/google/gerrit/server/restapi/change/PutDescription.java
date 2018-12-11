@@ -93,7 +93,7 @@ public class PutDescription
 
     @Override
     public boolean updateChange(ChangeContext ctx) throws OrmException {
-      PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+      PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       ChangeUpdate update = ctx.getUpdate(psId);
       newDescription = Strings.nullToEmpty(input.description);
       oldDescription = Strings.nullToEmpty(ps.getDescription());

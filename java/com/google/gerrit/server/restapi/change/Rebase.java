@@ -273,7 +273,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, RebaseInput input)
         throws OrmException, UpdateException, RestApiException, IOException,
             PermissionBackendException {
-      PatchSet ps = psUtil.current(rebase.dbProvider.get(), rsrc.getNotes());
+      PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
       }

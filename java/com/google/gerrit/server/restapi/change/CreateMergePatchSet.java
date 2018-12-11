@@ -141,7 +141,7 @@ public class CreateMergePatchSet
     }
     in.baseChange = Strings.nullToEmpty(in.baseChange).trim();
 
-    PatchSet ps = psUtil.current(db.get(), rsrc.getNotes());
+    PatchSet ps = psUtil.current(rsrc.getNotes());
     Change change = rsrc.getChange();
     Project.NameKey project = change.getProject();
     Branch.NameKey dest = change.getDest();
@@ -216,7 +216,7 @@ public class CreateMergePatchSet
     } catch (AuthException e) {
       throw new UnprocessableEntityException("Read not permitted for " + baseChange);
     }
-    return psUtil.current(db.get(), change);
+    return psUtil.current(change);
   }
 
   private RevCommit createMergeCommit(

@@ -45,7 +45,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
@@ -60,7 +59,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
@@ -117,7 +115,6 @@ public class StreamEventsApiListener
   }
 
   private final PluginItemContext<EventDispatcher> dispatcher;
-  private final Provider<ReviewDb> db;
   private final EventFactory eventFactory;
   private final ProjectCache projectCache;
   private final GitRepositoryManager repoManager;
@@ -127,14 +124,12 @@ public class StreamEventsApiListener
   @Inject
   StreamEventsApiListener(
       PluginItemContext<EventDispatcher> dispatcher,
-      Provider<ReviewDb> db,
       EventFactory eventFactory,
       ProjectCache projectCache,
       GitRepositoryManager repoManager,
       PatchSetUtil psUtil,
       ChangeNotes.Factory changeNotesFactory) {
     this.dispatcher = dispatcher;
-    this.db = db;
     this.eventFactory = eventFactory;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
@@ -151,7 +146,7 @@ public class StreamEventsApiListener
   }
 
   private PatchSet getPatchSet(ChangeNotes notes, RevisionInfo info) throws OrmException {
-    return psUtil.get(db.get(), notes, PatchSet.Id.fromRef(info.ref));
+    return psUtil.get(notes, PatchSet.Id.fromRef(info.ref));
   }
 
   private Supplier<ChangeAttribute> changeAttributeSupplier(Change change, ChangeNotes notes) {
@@ -311,7 +306,7 @@ public class StreamEventsApiListener
       Change change = notes.getChange();
       ReviewerDeletedEvent event = new ReviewerDeletedEvent(change);
       event.change = changeAttributeSupplier(change, notes);
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
       event.reviewer = accountAttributeSupplier(ev.getReviewer());
       event.remover = accountAttributeSupplier(ev.getWho());
       event.comment = ev.getComment();
@@ -332,7 +327,7 @@ public class StreamEventsApiListener
       ReviewerAddedEvent event = new ReviewerAddedEvent(change);
 
       event.change = changeAttributeSupplier(change, notes);
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
       for (AccountInfo reviewer : ev.getReviewers()) {
         event.reviewer = accountAttributeSupplier(reviewer);
         dispatcher.run(d -> d.postEvent(event));
@@ -420,7 +415,7 @@ public class StreamEventsApiListener
 
       event.change = changeAttributeSupplier(change, notes);
       event.restorer = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
       event.reason = ev.getReason();
 
       dispatcher.run(d -> d.postEvent(change, event));
@@ -438,7 +433,7 @@ public class StreamEventsApiListener
 
       event.change = changeAttributeSupplier(change, notes);
       event.submitter = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
       event.newRev = ev.getNewRevisionId();
 
       dispatcher.run(d -> d.postEvent(change, event));
@@ -456,7 +451,7 @@ public class StreamEventsApiListener
 
       event.change = changeAttributeSupplier(change, notes);
       event.abandoner = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
       event.reason = ev.getReason();
 
       dispatcher.run(d -> d.postEvent(change, event));
@@ -509,7 +504,7 @@ public class StreamEventsApiListener
       VoteDeletedEvent event = new VoteDeletedEvent(change);
 
       event.change = changeAttributeSupplier(change, notes);
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
       event.comment = ev.getMessage();
       event.reviewer = accountAttributeSupplier(ev.getReviewer());
       event.remover = accountAttributeSupplier(ev.getWho());

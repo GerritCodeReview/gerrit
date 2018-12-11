@@ -225,7 +225,7 @@ public class CreateChange
         } catch (AuthException e) {
           throw new UnprocessableEntityException("Read not permitted for " + input.baseChange);
         }
-        PatchSet ps = psUtil.current(db.get(), change);
+        PatchSet ps = psUtil.current(change);
         parentCommit = ObjectId.fromString(ps.getRevision().get());
         groups = ps.getGroups();
       } else if (input.baseCommit != null) {

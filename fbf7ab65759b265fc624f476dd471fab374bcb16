@@ -22,6 +22,52 @@
       "revId": "fbf7ab65759b265fc624f476dd471fab374bcb16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67a5b84e_f334c3b3",
+        "filename": "java/com/google/gerrit/proto/Protos.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T19:24:07Z",
+      "side": 1,
+      "message": "Hmm. My first inclination was to change this to some more general language, since this class is no longer just about caches.\n\nOn the other hand, many applications of serialization don\u0027t really care about determinism, so in that sense it is really mostly about cache keys (or other types of keys).\n\nOn the other other hand, it\u0027s probably easiest to have a single recommendation throughout the codebase to always use this method so you don\u0027t have to think. Can we update the javadoc along those lines?",
+      "range": {
+        "startLine": 29,
+        "startChar": 79,
+        "endLine": 29,
+        "endChar": 96
+      },
+      "revId": "fbf7ab65759b265fc624f476dd471fab374bcb16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef9ee83e_434a33a8",
+        "filename": "java/com/google/gerrit/proto/Protos.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-11T19:24:07Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "range": {
+        "startLine": 52,
+        "startChar": 79,
+        "endLine": 52,
+        "endChar": 96
+      },
+      "revId": "fbf7ab65759b265fc624f476dd471fab374bcb16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -112,7 +112,7 @@ public class CreateDraftComment
     public boolean updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException, UnprocessableEntityException,
             PatchListNotAvailableException {
-      PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+      PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }

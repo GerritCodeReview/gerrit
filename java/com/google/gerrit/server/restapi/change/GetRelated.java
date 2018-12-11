@@ -27,7 +27,6 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -50,7 +49,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 public class GetRelated implements RestReadView<RevisionResource> {
-  private final Provider<ReviewDb> db;
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
   private final RelatedChangesSorter sorter;
@@ -58,12 +56,10 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   @Inject
   GetRelated(
-      Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
       RelatedChangesSorter sorter,
       IndexConfig indexConfig) {
-    this.db = db;
     this.queryProvider = queryProvider;
     this.psUtil = psUtil;
     this.sorter = sorter;
@@ -81,7 +77,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   private List<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)
       throws OrmException, IOException, PermissionBackendException {
-    Set<String> groups = getAllGroups(rsrc.getNotes(), db.get(), psUtil);
+    Set<String> groups = getAllGroups(rsrc.getNotes(), psUtil);
     if (groups.isEmpty()) {
       return Collections.emptyList();
     }
@@ -125,13 +121,9 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   @VisibleForTesting
-  public static Set<String> getAllGroups(ChangeNotes notes, ReviewDb db, PatchSetUtil psUtil)
+  public static Set<String> getAllGroups(ChangeNotes notes, PatchSetUtil psUtil)
       throws OrmException {
-    return psUtil
-        .byChange(db, notes)
-        .stream()
-        .flatMap(ps -> ps.getGroups().stream())
-        .collect(toSet());
+    return psUtil.byChange(notes).stream().flatMap(ps -> ps.getGroups().stream()).collect(toSet());
   }
 
   private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs) throws OrmException {

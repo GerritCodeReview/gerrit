@@ -238,8 +238,7 @@ public class ChangeEditUtil {
       int pos = ref.getName().lastIndexOf('/');
       checkArgument(pos > 0, "invalid edit ref: %s", ref.getName());
       String psId = ref.getName().substring(pos + 1);
-      return psUtil.get(
-          db.get(), notes, new PatchSet.Id(notes.getChange().getId(), Integer.parseInt(psId)));
+      return psUtil.get(notes, new PatchSet.Id(notes.getChange().getId(), Integer.parseInt(psId)));
     } catch (OrmException | NumberFormatException e) {
       throw new IOException(e);
     }

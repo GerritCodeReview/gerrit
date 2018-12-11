@@ -412,14 +412,7 @@ public class ChangeInserter implements InsertChangeOp {
     }
     patchSet =
         psUtil.insert(
-            ctx.getDb(),
-            ctx.getRevWalk(),
-            update,
-            psId,
-            commitId,
-            newGroups,
-            pushCert,
-            patchSetDescription);
+            ctx.getRevWalk(), update, psId, commitId, newGroups, pushCert, patchSetDescription);
 
     /* TODO: fixStatus is used here because the tests
      * (byStatusClosed() in AbstractQueryChangesTest)

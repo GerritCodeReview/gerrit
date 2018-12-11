@@ -133,7 +133,7 @@ public class PutDraftComment
       PatchSet.Id psId = new PatchSet.Id(ctx.getChange().getId(), origComment.key.patchSetId);
       ChangeUpdate update = ctx.getUpdate(psId);
 
-      PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+      PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }

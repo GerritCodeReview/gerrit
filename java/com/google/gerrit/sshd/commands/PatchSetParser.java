@@ -107,7 +107,7 @@ public class PatchSetParser {
         throw error("\"" + token + "\" is not a valid patch set");
       }
       ChangeNotes notes = getNotes(projectState, patchSetId.getParentKey());
-      PatchSet patchSet = psUtil.get(db.get(), notes, patchSetId);
+      PatchSet patchSet = psUtil.get(notes, patchSetId);
       if (patchSet == null) {
         throw error("\"" + token + "\" no such patch set");
       }

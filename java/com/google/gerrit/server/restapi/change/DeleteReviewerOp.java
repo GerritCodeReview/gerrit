@@ -129,7 +129,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       throw new ResourceNotFoundException();
     }
     currChange = ctx.getChange();
-    currPs = psUtil.current(ctx.getDb(), ctx.getNotes());
+    currPs = psUtil.current(ctx.getNotes());
 
     LabelTypes labelTypes = projectCache.checkedGet(ctx.getProject()).getLabelTypes(ctx.getNotes());
     // removing a reviewer will remove all her votes

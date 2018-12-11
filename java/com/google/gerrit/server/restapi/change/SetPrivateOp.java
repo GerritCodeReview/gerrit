@@ -73,7 +73,7 @@ public class SetPrivateOp implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx) throws ResourceConflictException, OrmException {
     change = ctx.getChange();
     ChangeNotes notes = ctx.getNotes();
-    ps = psUtil.get(ctx.getDb(), notes, change.currentPatchSetId());
+    ps = psUtil.get(notes, change.currentPatchSetId());
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     change.setPrivate(isPrivate);
     change.setLastUpdatedOn(ctx.getWhen());

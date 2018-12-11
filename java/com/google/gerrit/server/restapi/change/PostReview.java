@@ -896,7 +896,7 @@ public class PostReview
             PatchListNotAvailableException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
-      ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+      ps = psUtil.get(ctx.getNotes(), psId);
       boolean dirty = false;
       dirty |= insertComments(ctx);
       dirty |= insertRobotComments(ctx);

@@ -137,7 +137,7 @@ public class ApprovalCopier {
       @Nullable Config repoConfig,
       Iterable<PatchSetApproval> dontCopy)
       throws OrmException {
-    PatchSet ps = psUtil.get(db, notes, psId);
+    PatchSet ps = psUtil.get(notes, psId);
     if (ps == null) {
       return Collections.emptyList();
     }

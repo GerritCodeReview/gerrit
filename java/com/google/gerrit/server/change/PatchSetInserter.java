@@ -233,21 +233,14 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     List<String> newGroups = groups;
     if (newGroups.isEmpty()) {
-      PatchSet prevPs = psUtil.current(db, ctx.getNotes());
+      PatchSet prevPs = psUtil.current(ctx.getNotes());
       if (prevPs != null) {
         newGroups = prevPs.getGroups();
       }
     }
     patchSet =
         psUtil.insert(
-            db,
-            ctx.getRevWalk(),
-            ctx.getUpdate(psId),
-            psId,
-            commitId,
-            newGroups,
-            null,
-            description);
+            ctx.getRevWalk(), ctx.getUpdate(psId), psId, commitId, newGroups, null, description);
 
     if (notify != NotifyHandling.NONE) {
       oldReviewers = approvalsUtil.getReviewers(ctx.getNotes());

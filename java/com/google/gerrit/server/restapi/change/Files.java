@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
@@ -114,7 +113,6 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     @Option(name = "-q")
     String query;
 
-    private final Provider<ReviewDb> db;
     private final Provider<CurrentUser> self;
     private final FileInfoJson fileInfoJson;
     private final Revisions revisions;
@@ -125,7 +123,6 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
     @Inject
     ListFiles(
-        Provider<ReviewDb> db,
         Provider<CurrentUser> self,
         FileInfoJson fileInfoJson,
         Revisions revisions,
@@ -133,7 +130,6 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         PatchListCache patchListCache,
         PatchSetUtil psUtil,
         PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore) {
-      this.db = db;
       this.self = self;
       this.fileInfoJson = fileInfoJson;
       this.revisions = revisions;
@@ -268,7 +264,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           RevWalk rw = new RevWalk(reader);
           TreeWalk tw = new TreeWalk(reader)) {
         Change change = resource.getChange();
-        PatchSet patchSet = psUtil.get(db.get(), resource.getNotes(), old);
+        PatchSet patchSet = psUtil.get(resource.getNotes(), old);
         if (patchSet == null) {
           throw new PatchListNotAvailableException(
               String.format(

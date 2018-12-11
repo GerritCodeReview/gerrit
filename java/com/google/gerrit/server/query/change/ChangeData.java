@@ -714,7 +714,7 @@ public class ChangeData {
    */
   public Collection<PatchSet> patchSets() throws OrmException {
     if (patchSets == null) {
-      patchSets = psUtil.byChange(db, notes());
+      patchSets = psUtil.byChange(notes());
     }
     return patchSets;
   }

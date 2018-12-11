@@ -157,10 +157,9 @@ public class CherryPick extends SubmitStrategy {
               String.format(
                   "no new commit produced by CherryPick of %s, expected to fail fast",
                   toMerge.change().getId()));
-      PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());
+      PatchSet prevPs = args.psUtil.current(ctx.getNotes());
       PatchSet newPs =
           args.psUtil.insert(
-              ctx.getDb(),
               ctx.getRevWalk(),
               ctx.getUpdate(psId),
               psId,

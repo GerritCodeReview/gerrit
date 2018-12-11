@@ -187,8 +187,7 @@ public class DeleteDraftComments
       for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {
         dirty = true;
         PatchSet.Id psId = new PatchSet.Id(ctx.getChange().getId(), c.key.patchSetId);
-        setCommentRevId(
-            c, patchListCache, ctx.getChange(), psUtil.get(ctx.getDb(), ctx.getNotes(), psId));
+        setCommentRevId(c, patchListCache, ctx.getChange(), psUtil.get(ctx.getNotes(), psId));
         commentsUtil.deleteComments(ctx.getUpdate(psId), Collections.singleton(c));
         comments.add(commentFormatter.format(c));
       }

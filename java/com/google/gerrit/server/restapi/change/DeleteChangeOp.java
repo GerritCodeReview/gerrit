@@ -70,7 +70,7 @@ class DeleteChangeOp implements BatchUpdateOp {
     checkState(id == null, "cannot reuse DeleteChangeOp");
 
     id = ctx.getChange().getId();
-    Collection<PatchSet> patchSets = psUtil.byChange(ctx.getDb(), ctx.getNotes());
+    Collection<PatchSet> patchSets = psUtil.byChange(ctx.getNotes());
 
     ensureDeletable(ctx, id, patchSets);
     // Cleaning up is only possible as long as the change and its elements are

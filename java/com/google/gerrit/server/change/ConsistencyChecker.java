@@ -230,7 +230,7 @@ public class ConsistencyChecker {
 
   private void checkCurrentPatchSetEntity() {
     try {
-      currPs = psUtil.current(db.get(), notes);
+      currPs = psUtil.current(notes);
       if (currPs == null) {
         problem(
             String.format("Current patch set %d not found", change().currentPatchSetId().get()));
@@ -258,7 +258,7 @@ public class ConsistencyChecker {
     List<PatchSet> all;
     try {
       // Iterate in descending order.
-      all = PS_ID_ORDER.sortedCopy(psUtil.byChange(db.get(), notes));
+      all = PS_ID_ORDER.sortedCopy(psUtil.byChange(notes));
     } catch (OrmException e) {
       return error("Failed to look up patch sets", e);
     }
@@ -705,7 +705,7 @@ public class ConsistencyChecker {
       // Doesn't make any assumptions about the order in which deletes happen
       // and whether they are seen by this op; we are already given the full set
       // of patch sets that will eventually be deleted in this update.
-      for (PatchSet ps : psUtil.byChange(ctx.getDb(), ctx.getNotes())) {
+      for (PatchSet ps : psUtil.byChange(ctx.getNotes())) {
         if (!toDelete.contains(ps.getId())) {
           all.add(ps.getId());
         }
@@ -714,8 +714,7 @@ public class ConsistencyChecker {
         throw new NoPatchSetsWouldRemainException();
       }
       PatchSet.Id latest = ReviewDbUtil.intKeyOrdering().max(all);
-      ctx.getChange()
-          .setCurrentPatchSet(patchSetInfoFactory.get(ctx.getDb(), ctx.getNotes(), latest));
+      ctx.getChange().setCurrentPatchSet(patchSetInfoFactory.get(ctx.getNotes(), latest));
       return true;
     }
   }

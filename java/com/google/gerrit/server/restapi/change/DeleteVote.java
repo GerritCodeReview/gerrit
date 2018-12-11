@@ -169,7 +169,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
             PermissionBackendException {
       change = ctx.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
-      ps = psUtil.current(db.get(), ctx.getNotes());
+      ps = psUtil.current(ctx.getNotes());
 
       boolean found = false;
       LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes());

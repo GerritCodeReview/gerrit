@@ -123,7 +123,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx) throws OrmException {
     change = ctx.getChange();
     notes = ctx.getNotes();
-    ps = psUtil.get(ctx.getDb(), ctx.getNotes(), change.currentPatchSetId());
+    ps = psUtil.get(ctx.getNotes(), change.currentPatchSetId());
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     change.setWorkInProgress(workInProgress);
     if (!change.hasReviewStarted() && !workInProgress) {

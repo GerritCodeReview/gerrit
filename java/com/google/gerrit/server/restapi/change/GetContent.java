@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.FileResource;
@@ -33,7 +32,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -43,7 +41,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 
 public class GetContent implements RestReadView<FileResource> {
-  private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final PatchSetUtil psUtil;
   private final FileContentUtil fileContentUtil;
@@ -54,12 +51,10 @@ public class GetContent implements RestReadView<FileResource> {
 
   @Inject
   GetContent(
-      Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       PatchSetUtil psUtil,
       FileContentUtil fileContentUtil,
       ProjectCache projectCache) {
-    this.db = db;
     this.gitManager = gitManager;
     this.psUtil = psUtil;
     this.fileContentUtil = fileContentUtil;
@@ -90,7 +85,7 @@ public class GetContent implements RestReadView<FileResource> {
 
   private String getMessage(ChangeNotes notes) throws OrmException, IOException {
     Change.Id changeId = notes.getChangeId();
-    PatchSet ps = psUtil.current(db.get(), notes);
+    PatchSet ps = psUtil.current(notes);
     if (ps == null) {
       throw new NoSuchChangeException(changeId);
     }
@@ -106,7 +101,7 @@ public class GetContent implements RestReadView<FileResource> {
 
   private byte[] getMergeList(ChangeNotes notes) throws OrmException, IOException {
     Change.Id changeId = notes.getChangeId();
-    PatchSet ps = psUtil.current(db.get(), notes);
+    PatchSet ps = psUtil.current(notes);
     if (ps == null) {
       throw new NoSuchChangeException(changeId);
     }

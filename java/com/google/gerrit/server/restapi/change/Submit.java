@@ -456,8 +456,7 @@ public class Submit
       for (ChangeData change : changes) {
         RevCommit commit =
             walk.parseCommit(
-                ObjectId.fromString(
-                    psUtil.current(dbProvider.get(), change.notes()).getRevision().get()));
+                ObjectId.fromString(psUtil.current(change.notes()).getRevision().get()));
         commits.put(change.getId(), commit);
       }
     }
@@ -495,18 +494,12 @@ public class Submit
   }
 
   public static class CurrentRevision implements RestModifyView<ChangeResource, SubmitInput> {
-    private final Provider<ReviewDb> dbProvider;
     private final Submit submit;
     private final ChangeJson.Factory json;
     private final PatchSetUtil psUtil;
 
     @Inject
-    CurrentRevision(
-        Provider<ReviewDb> dbProvider,
-        Submit submit,
-        ChangeJson.Factory json,
-        PatchSetUtil psUtil) {
-      this.dbProvider = dbProvider;
+    CurrentRevision(Submit submit, ChangeJson.Factory json, PatchSetUtil psUtil) {
       this.submit = submit;
       this.json = json;
       this.psUtil = psUtil;
@@ -516,7 +509,7 @@ public class Submit
     public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
         throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
             PermissionBackendException, UpdateException, ConfigInvalidException {
-      PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
+      PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
       }

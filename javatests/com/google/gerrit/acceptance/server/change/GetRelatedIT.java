@@ -572,7 +572,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     ChangeData cd = getChange(last);
     assertThat(cd.patchSets()).hasSize(n);
-    assertThat(GetRelated.getAllGroups(cd.notes(), db, psUtil)).hasSize(n);
+    assertThat(GetRelated.getAllGroups(cd.notes(), psUtil)).hasSize(n);
 
     assertRelated(cd.change().currentPatchSetId());
   }
@@ -610,8 +610,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
           new BatchUpdateOp() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {
-              PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
-              psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps, ImmutableList.<String>of());
+              PatchSet ps = psUtil.get(ctx.getNotes(), psId);
+              psUtil.setGroups(ctx.getUpdate(psId), ps, ImmutableList.<String>of());
               ctx.dontBumpLastUpdatedOn();
               return true;
             }

@@ -17,7 +17,6 @@ package com.google.gerrit.server;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
-import static com.google.gerrit.server.notedb.PatchSetState.PUBLISHED;
 import static java.util.Objects.requireNonNull;
 import static java.util.function.Function.identity;
 
@@ -147,12 +146,6 @@ public class PatchSetUtil {
     update.setGroups(groups);
 
     return ps;
-  }
-
-  public void publish(ReviewDb db, ChangeUpdate update, PatchSet ps) throws OrmException {
-    ensurePatchSetMatches(ps.getId(), update);
-    update.setPatchSetState(PUBLISHED);
-    db.patchSets().update(Collections.singleton(ps));
   }
 
   private static void ensurePatchSetMatches(PatchSet.Id psId, ChangeUpdate update) {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e1356fc_c906d3b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-11T23:09:09Z",
+      "side": 1,
+      "message": "This is already in the version currently being used.  We added support for it in gerrit 2.16.",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "c76736aff2130d0cc6005d6ea48ca740ca93b477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e48be905_649f9497",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-11T23:09:09Z",
+      "side": 1,
+      "message": "Is this relevant to Gerrit which only uses JGit on server side?",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "c76736aff2130d0cc6005d6ea48ca740ca93b477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

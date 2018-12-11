@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Strings;
@@ -43,7 +42,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -436,15 +434,8 @@ public class PushOneCommit {
       assertThat(c.getSubject()).isEqualTo(resSubj);
       assertThat(c.getStatus()).isEqualTo(expectedStatus);
       assertThat(Strings.emptyToNull(c.getTopic())).isEqualTo(expectedTopic);
-      if (notesMigration.readChanges()) {
-        assertReviewers(c, ReviewerStateInternal.REVIEWER, expectedReviewers);
-        assertReviewers(c, ReviewerStateInternal.CC, expectedCcs);
-      } else {
-        assertReviewers(
-            c,
-            ReviewerStateInternal.REVIEWER,
-            Stream.concat(expectedReviewers.stream(), expectedCcs.stream()).collect(toList()));
-      }
+      assertReviewers(c, ReviewerStateInternal.REVIEWER, expectedReviewers);
+      assertReviewers(c, ReviewerStateInternal.CC, expectedCcs);
     }
 
     private void assertReviewers(

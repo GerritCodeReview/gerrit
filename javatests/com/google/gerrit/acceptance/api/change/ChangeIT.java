@@ -849,16 +849,11 @@ public class ChangeIT extends AbstractDaemonTest {
 
     List<Integer> reviewers =
         result.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
-    if (notesMigration.readChanges()) {
-      assertThat(result).containsKey(ReviewerState.CC);
-      List<Integer> ccs =
-          result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
-      assertThat(ccs).containsExactly(accountCreator.user2().id.get());
-      assertThat(reviewers).containsExactly(user.id.get(), admin.id.get());
-    } else {
-      assertThat(reviewers)
-          .containsExactly(user.id.get(), admin.id.get(), accountCreator.user2().id.get());
-    }
+    assertThat(result).containsKey(ReviewerState.CC);
+    List<Integer> ccs =
+        result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
+    assertThat(ccs).containsExactly(accountCreator.user2().id.get());
+    assertThat(reviewers).containsExactly(user.id.get(), admin.id.get());
   }
 
   @Test
@@ -1968,9 +1963,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.reviewers = ImmutableList.of();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
 
-    // If we're not reading from NoteDb, then the CCed user will be returned in the REVIEWER state.
-    assertThat(getReviewerState(r.getChangeId(), testAccount.id))
-        .hasValue(notesMigration.readChanges() ? CC : REVIEWER);
+    assertThat(getReviewerState(r.getChangeId(), testAccount.id)).hasValue(CC);
   }
 
   @Test
@@ -1999,8 +1992,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .review(new ReviewInput().message("hi"));
     c = gApi.changes().id(r.getChangeId()).get();
-    ReviewerState state = notesMigration.readChanges() ? CC : REVIEWER;
-    assertThat(c.reviewers.get(state).stream().map(ai -> ai._accountId).collect(toList()))
+    assertThat(c.reviewers.get(CC).stream().map(ai -> ai._accountId).collect(toList()))
         .containsExactly(user.id.get());
   }
 
@@ -3402,12 +3394,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().review(input);
 
     Map<String, Short> votes = gApi.changes().id(changeId).current().reviewer(admin.email).votes();
-    if (!notesMigration.readChanges()) {
-      assertThat(votes.keySet()).containsExactly("Code-Review");
-      assertThat(votes.values()).containsExactly((short) 0);
-    } else {
-      assertThat(votes).isEmpty();
-    }
+    assertThat(votes).isEmpty();
   }
 
   @Test

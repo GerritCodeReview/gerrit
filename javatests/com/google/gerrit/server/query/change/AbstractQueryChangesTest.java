@@ -137,7 +137,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1804,18 +1803,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // Re-add drafts ref and ensure it gets filtered out during indexing.
     allUsers.update(draftsRef.getName(), draftsRef.getObjectId());
     assertThat(allUsers.getRepository().exactRef(draftsRef.getName())).isNotNull();
-
-    if (PrimaryStorage.of(change) == PrimaryStorage.REVIEW_DB
-        && !notesMigration.disableChangeReviewDb()) {
-      // Record draft ref in noteDbState as well.
-      ReviewDb db = ReviewDbUtil.unwrapDb(this.db);
-      change = db.changes().get(id);
-      NoteDbChangeState.applyDelta(
-          change,
-          NoteDbChangeState.Delta.create(
-              id, Optional.empty(), ImmutableMap.of(userId, draftsRef.getObjectId())));
-      db.changes().update(Collections.singleton(change));
-    }
 
     indexer.index(db, project, id);
     assertQuery("draftby:" + userId);

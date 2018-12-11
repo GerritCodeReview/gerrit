@@ -49,18 +49,15 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.receive.ReceiveCommitsAdvertiseRefsHook;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.NoteDbMode;
-import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -423,12 +420,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       Change c = new Change(c3.change());
       PatchSet.Id psId = new PatchSet.Id(c3.getId(), 2);
       c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
-
-      if (notesMigration.changePrimaryStorage() == PrimaryStorage.REVIEW_DB) {
-        PatchSet ps = TestChanges.newPatchSet(psId, rev, admin.getId());
-        db.patchSets().insert(Collections.singleton(ps));
-        db.changes().update(Collections.singleton(c));
-      }
 
       if (notesMigration.commitChangeWrites()) {
         PersonIdent committer = serverIdent.get();

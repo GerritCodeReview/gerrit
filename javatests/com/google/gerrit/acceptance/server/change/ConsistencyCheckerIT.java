@@ -245,10 +245,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     String rev = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     PatchSet ps = newPatchSet(psId, rev, adminId);
 
-    if (notesMigration.changePrimaryStorage() == PrimaryStorage.REVIEW_DB) {
-      db.changes().insert(singleton(c));
-      db.patchSets().insert(singleton(ps));
-    }
     addNoteDbCommit(
         c.getId(),
         "Create change\n"

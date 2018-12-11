@@ -27,14 +27,12 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
-import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -72,7 +70,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -273,7 +270,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (args.migration.readChanges()) {
         for (Project.NameKey project : projectCache.all()) {
           try (Repository repo = args.repoManager.openRepository(project)) {
-            scanNoteDb(repo, db, project)
+            scan(repo, project)
                 .filter(r -> !r.error().isPresent())
                 .map(ChangeNotesResult::notes)
                 .filter(predicate)
@@ -291,79 +288,23 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return ImmutableListMultimap.copyOf(m);
     }
 
-    public Stream<ChangeNotesResult> scan(Repository repo, ReviewDb db, Project.NameKey project)
+    public Stream<ChangeNotesResult> scan(Repository repo, Project.NameKey project)
         throws IOException {
-      return args.migration.readChanges() ? scanNoteDb(repo, db, project) : scanReviewDb(repo, db);
-    }
-
-    private Stream<ChangeNotesResult> scanReviewDb(Repository repo, ReviewDb db)
-        throws IOException {
-      // Scan IDs that might exist in ReviewDb, assuming that each change has at least one patch set
-      // ref. Not all changes might exist: some patch set refs might have been written where the
-      // corresponding ReviewDb write failed. These will be silently filtered out by the batch get
-      // call below, which is intended.
-      Set<Change.Id> ids = scanChangeIds(repo).fromPatchSetRefs();
-
-      // A batch size of N may overload get(Iterable), so use something smaller, but still >1.
-      return Streams.stream(Iterators.partition(ids.iterator(), 30))
-          .flatMap(
-              batch -> {
-                try {
-                  return Streams.stream(ReviewDbUtil.unwrapDb(db).changes().get(batch))
-                      .map(this::toResult)
-                      .filter(Objects::nonNull);
-                } catch (OrmException e) {
-                  // Return this error for each Id in the input batch.
-                  return batch.stream().map(id -> ChangeNotesResult.error(id, e));
-                }
-              });
-    }
-
-    private Stream<ChangeNotesResult> scanNoteDb(
-        Repository repo, ReviewDb db, Project.NameKey project) throws IOException {
       ScanResult sr = scanChangeIds(repo);
-      PrimaryStorage defaultStorage = args.migration.changePrimaryStorage();
 
-      return sr.all()
-          .stream()
-          .map(id -> scanOneNoteDbChange(db, project, sr, defaultStorage, id))
-          .filter(Objects::nonNull);
+      return sr.all().stream().map(id -> scanOneChange(project, sr, id)).filter(Objects::nonNull);
     }
 
-    private ChangeNotesResult scanOneNoteDbChange(
-        ReviewDb db,
-        Project.NameKey project,
-        ScanResult sr,
-        PrimaryStorage defaultStorage,
-        Change.Id id) {
-      Change change;
-      try {
-        change = readOneReviewDbChange(db, id);
-      } catch (OrmException e) {
-        return ChangeNotesResult.error(id, e);
-      }
-
-      if (change == null) {
-        if (!sr.fromMetaRefs().contains(id)) {
-          // Stray patch set refs can happen due to normal error conditions, e.g. failed
-          // push processing, so aren't worth even a warning.
-          return null;
-        }
-        if (defaultStorage == PrimaryStorage.REVIEW_DB) {
-          // If changes should exist in ReviewDb, it's worth warning about a meta ref with
-          // no corresponding ReviewDb data.
-          logger.atWarning().log(
-              "skipping change %s found in project %s but not in ReviewDb", id, project);
-          return null;
-        }
-        // TODO(dborowitz): See discussion in NoteDbBatchUpdate#newChangeContext.
-        change = ChangeNotes.Factory.newNoteDbOnlyChange(project, id);
-      } else if (!change.getProject().equals(project)) {
-        logger.atSevere().log(
-            "skipping change %s found in project %s because ReviewDb change has project %s",
-            id, project, change.getProject());
+    private ChangeNotesResult scanOneChange(Project.NameKey project, ScanResult sr, Change.Id id) {
+      if (!sr.fromMetaRefs().contains(id)) {
+        // Stray patch set refs can happen due to normal error conditions, e.g. failed
+        // push processing, so aren't worth even a warning.
         return null;
       }
+
+      // TODO(dborowitz): See discussion in NoteDbBatchUpdate#newChangeContext.
+      Change change = ChangeNotes.Factory.newNoteDbOnlyChange(project, id);
+
       logger.atFine().log("adding change %s found in project %s", id, project);
       return toResult(change);
     }
@@ -379,7 +320,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return ChangeNotesResult.notes(n);
     }
 
-    /** Result of {@link #scan(Repository, ReviewDb, Project.NameKey)}. */
+    /** Result of {@link #scan(Repository,Project.NameKey)}. */
     @AutoValue
     public abstract static class ChangeNotesResult {
       static ChangeNotesResult error(Change.Id id, OrmException e) {

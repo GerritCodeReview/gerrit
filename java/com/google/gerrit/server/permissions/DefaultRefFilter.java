@@ -345,7 +345,7 @@ class DefaultRefFilter {
     Project.NameKey p = projectState.getNameKey();
     Stream<ChangeNotesResult> s;
     try {
-      s = changeNotesFactory.scan(repo, db.get(), p);
+      s = changeNotesFactory.scan(repo, p);
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(
           "Cannot load changes for project %s, assuming no changes are visible", p);

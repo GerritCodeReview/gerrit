@@ -750,7 +750,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return ImmutableListMultimap.of();
       }
-      allApprovals = approvalsUtil.byChange(db, notes());
+      allApprovals = approvalsUtil.byChange(notes());
     }
     return allApprovals;
   }

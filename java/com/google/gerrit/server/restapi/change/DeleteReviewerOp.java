@@ -217,7 +217,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       db = ReviewDbUtil.unwrapDb(db);
       approvals = db.patchSetApprovals().byChange(changeId);
     } else {
-      approvals = approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).values();
+      approvals = approvalsUtil.byChange(ctx.getNotes()).values();
     }
 
     return Iterables.filter(approvals, psa -> accountId.equals(psa.getAccountId()));

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.server.mail;
 
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.ALL;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.NONE;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER;
@@ -255,31 +254,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
    * AddReviewerSender tests.
    */
 
-  private void addReviewerToReviewableChangeInReviewDb(Adder adder) throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email);
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(reviewer)
-        .cc(sc.reviewer, sc.ccer)
-        .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .noOneElse();
-  }
-
-  @Test
-  public void addReviewerToReviewableChangeInReviewDbSingly() throws Exception {
-    addReviewerToReviewableChangeInReviewDb(singly());
-  }
-
-  @Test
-  public void addReviewerToReviewableChangeInReviewDbBatch() throws Exception {
-    addReviewerToReviewableChangeInReviewDb(batch());
-  }
-
-  private void addReviewerToReviewableChangeInNoteDb(Adder adder) throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  private void addReviewerToReviewableChange(Adder adder) throws Exception {
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email);
@@ -293,17 +268,16 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addReviewerToReviewableChangeInNoteDbSingly() throws Exception {
-    addReviewerToReviewableChangeInNoteDb(singly());
+  public void addReviewerToReviewableChangeSingly() throws Exception {
+    addReviewerToReviewableChange(singly());
   }
 
   @Test
-  public void addReviewerToReviewableChangeInNoteDbBatch() throws Exception {
-    addReviewerToReviewableChangeInNoteDb(batch());
+  public void addReviewerToReviewableChangeBatch() throws Exception {
+    addReviewerToReviewableChange(batch());
   }
 
-  private void addReviewerToReviewableChangeByOwnerCcingSelfInNoteDb(Adder adder) throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  private void addReviewerToReviewableChangeByOwnerCcingSelf(Adder adder) throws Exception {
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email, CC_ON_OWN_COMMENTS, null);
@@ -317,17 +291,16 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addReviewerToReviewableChangeByOwnerCcingSelfInNoteDbSingly() throws Exception {
-    addReviewerToReviewableChangeByOwnerCcingSelfInNoteDb(singly());
+  public void addReviewerToReviewableChangeByOwnerCcingSelfSingly() throws Exception {
+    addReviewerToReviewableChangeByOwnerCcingSelf(singly());
   }
 
   @Test
-  public void addReviewerToReviewableChangeByOwnerCcingSelfInNoteDbBatch() throws Exception {
-    addReviewerToReviewableChangeByOwnerCcingSelfInNoteDb(batch());
+  public void addReviewerToReviewableChangeByOwnerCcingSelfBatch() throws Exception {
+    addReviewerToReviewableChangeByOwnerCcingSelf(batch());
   }
 
-  private void addReviewerToReviewableChangeByOtherInNoteDb(Adder adder) throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  private void addReviewerToReviewableChangeByOther(Adder adder) throws Exception {
     TestAccount other = accountCreator.create("other", "other@example.com", "other");
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
@@ -342,17 +315,16 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addReviewerToReviewableChangeByOtherInNoteDbSingly() throws Exception {
-    addReviewerToReviewableChangeByOtherInNoteDb(singly());
+  public void addReviewerToReviewableChangeByOtherSingly() throws Exception {
+    addReviewerToReviewableChangeByOther(singly());
   }
 
   @Test
-  public void addReviewerToReviewableChangeByOtherInNoteDbBatch() throws Exception {
-    addReviewerToReviewableChangeByOtherInNoteDb(batch());
+  public void addReviewerToReviewableChangeByOtherBatch() throws Exception {
+    addReviewerToReviewableChangeByOther(batch());
   }
 
-  private void addReviewerToReviewableChangeByOtherCcingSelfInNoteDb(Adder adder) throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  private void addReviewerToReviewableChangeByOtherCcingSelf(Adder adder) throws Exception {
     TestAccount other = accountCreator.create("other", "other@example.com", "other");
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
@@ -367,35 +339,16 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addReviewerToReviewableChangeByOtherCcingSelfInNoteDbSingly() throws Exception {
-    addReviewerToReviewableChangeByOtherCcingSelfInNoteDb(singly());
+  public void addReviewerToReviewableChangeByOtherCcingSelfSingly() throws Exception {
+    addReviewerToReviewableChangeByOtherCcingSelf(singly());
   }
 
   @Test
-  public void addReviewerToReviewableChangeByOtherCcingSelfInNoteDbBatch() throws Exception {
-    addReviewerToReviewableChangeByOtherCcingSelfInNoteDb(batch());
+  public void addReviewerToReviewableChangeByOtherCcingSelfBatch() throws Exception {
+    addReviewerToReviewableChangeByOtherCcingSelf(batch());
   }
 
-  private void addReviewerByEmailToReviewableChangeInReviewDb(Adder adder) throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    String email = "addedbyemail@example.com";
-    StagedChange sc = stageReviewableChange();
-    addReviewer(adder, sc.changeId, sc.owner, email);
-    assertThat(sender).notSent();
-  }
-
-  @Test
-  public void addReviewerByEmailToReviewableChangeInReviewDbSingly() throws Exception {
-    addReviewerByEmailToReviewableChangeInReviewDb(singly());
-  }
-
-  @Test
-  public void addReviewerByEmailToReviewableChangeInReviewDbBatch() throws Exception {
-    addReviewerByEmailToReviewableChangeInReviewDb(batch());
-  }
-
-  private void addReviewerByEmailToReviewableChangeInNoteDb(Adder adder) throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  private void addReviewerByEmailToReviewableChange(Adder adder) throws Exception {
     String email = "addedbyemail@example.com";
     StagedChange sc = stageReviewableChange();
     addReviewer(adder, sc.changeId, sc.owner, email);
@@ -409,13 +362,13 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addReviewerByEmailToReviewableChangeInNoteDbSingly() throws Exception {
-    addReviewerByEmailToReviewableChangeInNoteDb(singly());
+  public void addReviewerByEmailToReviewableChangeSingly() throws Exception {
+    addReviewerByEmailToReviewableChange(singly());
   }
 
   @Test
-  public void addReviewerByEmailToReviewableChangeInNoteDbBatch() throws Exception {
-    addReviewerByEmailToReviewableChangeInNoteDb(batch());
+  public void addReviewerByEmailToReviewableChangeBatch() throws Exception {
+    addReviewerByEmailToReviewableChange(batch());
   }
 
   private void addReviewerToWipChange(Adder adder) throws Exception {
@@ -452,8 +405,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     addReviewerToReviewableWipChange(batch());
   }
 
-  private void addReviewerToWipChangeInNoteDbNotifyAll(Adder adder) throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  private void addReviewerToWipChangeNotifyAll(Adder adder) throws Exception {
     StagedChange sc = stageWipChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email, NotifyHandling.ALL);
@@ -467,41 +419,16 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addReviewerToWipChangeInNoteDbNotifyAllSingly() throws Exception {
-    addReviewerToWipChangeInNoteDbNotifyAll(singly());
+  public void addReviewerToWipChangeNotifyAllSingly() throws Exception {
+    addReviewerToWipChangeNotifyAll(singly());
   }
 
   @Test
-  public void addReviewerToWipChangeInNoteDbNotifyAllBatch() throws Exception {
-    addReviewerToWipChangeInNoteDbNotifyAll(batch());
+  public void addReviewerToWipChangeNotifyAllBatch() throws Exception {
+    addReviewerToWipChangeNotifyAll(batch());
   }
 
-  private void addReviewerToWipChangeInReviewDbNotifyAll(Adder adder) throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageWipChange();
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
-    addReviewer(adder, sc.changeId, sc.owner, reviewer.email, NotifyHandling.ALL);
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(reviewer)
-        .cc(sc.reviewer, sc.ccer)
-        .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .noOneElse();
-  }
-
-  @Test
-  public void addReviewerToWipChangeInReviewDbNotifyAllSingly() throws Exception {
-    addReviewerToWipChangeInReviewDbNotifyAll(singly());
-  }
-
-  @Test
-  public void addReviewerToWipChangeInReviewDbNotifyAllBatch() throws Exception {
-    addReviewerToWipChangeInReviewDbNotifyAll(batch());
-  }
-
-  private void addReviewerToReviewableChangeInNoteDbNotifyOwnerReviewers(Adder adder)
-      throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  private void addReviewerToReviewableChangeNotifyOwnerReviewers(Adder adder) throws Exception {
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email, OWNER_REVIEWERS);
@@ -515,18 +442,17 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addReviewerToReviewableChangeInNoteDbNotifyOwnerReviewersSingly() throws Exception {
-    addReviewerToReviewableChangeInNoteDbNotifyOwnerReviewers(singly());
+  public void addReviewerToReviewableChangeNotifyOwnerReviewersSingly() throws Exception {
+    addReviewerToReviewableChangeNotifyOwnerReviewers(singly());
   }
 
   @Test
-  public void addReviewerToReviewableChangeInNoteDbNotifyOwnerReviewersBatch() throws Exception {
-    addReviewerToReviewableChangeInNoteDbNotifyOwnerReviewers(batch());
+  public void addReviewerToReviewableChangeNotifyOwnerReviewersBatch() throws Exception {
+    addReviewerToReviewableChangeNotifyOwnerReviewers(batch());
   }
 
-  private void addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyOwner(Adder adder)
+  private void addReviewerToReviewableChangeByOwnerCcingSelfNotifyOwner(Adder adder)
       throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email, CC_ON_OWN_COMMENTS, OWNER);
@@ -534,20 +460,17 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyOwnerSingly()
-      throws Exception {
-    addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyOwner(singly());
+  public void addReviewerToReviewableChangeByOwnerCcingSelfNotifyOwnerSingly() throws Exception {
+    addReviewerToReviewableChangeByOwnerCcingSelfNotifyOwner(singly());
   }
 
   @Test
-  public void addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyOwnerBatch()
-      throws Exception {
-    addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyOwner(batch());
+  public void addReviewerToReviewableChangeByOwnerCcingSelfNotifyOwnerBatch() throws Exception {
+    addReviewerToReviewableChangeByOwnerCcingSelfNotifyOwner(batch());
   }
 
-  private void addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyNone(Adder adder)
+  private void addReviewerToReviewableChangeByOwnerCcingSelfNotifyNone(Adder adder)
       throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email, CC_ON_OWN_COMMENTS, NONE);
@@ -555,19 +478,16 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyNoneSingly()
-      throws Exception {
-    addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyNone(singly());
+  public void addReviewerToReviewableChangeByOwnerCcingSelfNotifyNoneSingly() throws Exception {
+    addReviewerToReviewableChangeByOwnerCcingSelfNotifyNone(singly());
   }
 
   @Test
-  public void addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyNoneBatch()
-      throws Exception {
-    addReviewerToReviewableChangeInNoteDbByOwnerCcingSelfNotifyNone(batch());
+  public void addReviewerToReviewableChangeByOwnerCcingSelfNotifyNoneBatch() throws Exception {
+    addReviewerToReviewableChangeByOwnerCcingSelfNotifyNone(batch());
   }
 
-  private void addNonUserReviewerByEmailInNoteDb(Adder adder) throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  private void addNonUserReviewerByEmail(Adder adder) throws Exception {
     StagedChange sc = stageReviewableChange();
     addReviewer(adder, sc.changeId, sc.owner, "nonexistent@example.com");
     assertThat(sender)
@@ -579,17 +499,16 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addNonUserReviewerByEmailInNoteDbSingly() throws Exception {
-    addNonUserReviewerByEmailInNoteDb(singly(ReviewerState.REVIEWER));
+  public void addNonUserReviewerByEmailSingly() throws Exception {
+    addNonUserReviewerByEmail(singly(ReviewerState.REVIEWER));
   }
 
   @Test
-  public void addNonUserReviewerByEmailInNoteDbBatch() throws Exception {
-    addNonUserReviewerByEmailInNoteDb(batch(ReviewerState.REVIEWER));
+  public void addNonUserReviewerByEmailBatch() throws Exception {
+    addNonUserReviewerByEmail(batch(ReviewerState.REVIEWER));
   }
 
-  private void addNonUserCcByEmailInNoteDb(Adder adder) throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  private void addNonUserCcByEmail(Adder adder) throws Exception {
     StagedChange sc = stageReviewableChange();
     addReviewer(adder, sc.changeId, sc.owner, "nonexistent@example.com");
     assertThat(sender)
@@ -601,13 +520,13 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addNonUserCcByEmailInNoteDbSingly() throws Exception {
-    addNonUserCcByEmailInNoteDb(singly(ReviewerState.CC));
+  public void addNonUserCcByEmailSingly() throws Exception {
+    addNonUserCcByEmail(singly(ReviewerState.CC));
   }
 
   @Test
-  public void addNonUserCcByEmailInNoteDbBatch() throws Exception {
-    addNonUserCcByEmailInNoteDb(batch(ReviewerState.CC));
+  public void addNonUserCcByEmailBatch() throws Exception {
+    addNonUserCcByEmail(batch(ReviewerState.CC));
   }
 
   private interface Adder {
@@ -923,8 +842,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addReviewerOnWipChangeAndStartReviewInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void addReviewerOnWipChangeAndStartReview() throws Exception {
     StagedChange sc = stageWipChange();
     ReviewInput in = ReviewInput.noScore().reviewer(other.email).setWorkInProgress(false);
     gApi.changes().id(sc.changeId).revision("current").review(in);
@@ -940,28 +858,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newchange", sc)
         .to(other)
         .cc(sc.reviewer)
-        .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .noOneElse();
-    assertThat(sender).notSent();
-  }
-
-  @Test
-  public void addReviewerOnWipChangeAndStartReviewInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageWipChange();
-    ReviewInput in = ReviewInput.noScore().reviewer(other.email).setWorkInProgress(false);
-    gApi.changes().id(sc.changeId).revision("current").review(in);
-    assertThat(sender)
-        .sent("comment", sc)
-        .cc(sc.reviewer, sc.ccer, other)
-        .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
-        .noOneElse();
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(other)
-        .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .noOneElse();
     assertThat(sender).notSent();
@@ -1094,18 +990,12 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
             users -> ImmutableList.of("r=" + users.reviewer.username, "cc=" + users.ccer.username));
     FakeEmailSenderSubject subject =
         assertThat(sender).sent("newchange", spc).to(spc.reviewer, spc.watchingProjectOwner);
-    if (notesMigration.readChanges()) {
-      subject.cc(spc.ccer);
-    } else {
-      // CCs are considered reviewers in the storage layer.
-      subject.to(spc.ccer);
-    }
+    subject.cc(spc.ccer);
     subject.bcc(NEW_CHANGES, NEW_PATCHSETS).noOneElse();
   }
 
   @Test
-  public void createReviewableChangeWithReviewersAndCcsByEmailInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void createReviewableChangeWithReviewersAndCcsByEmail() throws Exception {
     StagedPreChange spc =
         stagePreChange(
             "refs/for/master",
@@ -1290,8 +1180,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void deleteReviewerByEmailFromWipChangeInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void deleteReviewerByEmailFromWipChange() throws Exception {
     StagedChange sc = stageWipChangeWithExtraReviewer();
     gApi.changes().id(sc.changeId).reviewer(sc.reviewerByEmail).remove();
     assertThat(sender).notSent();
@@ -1650,8 +1539,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
    */
 
   @Test
-  public void newPatchSetByOwnerOnReviewableChangeInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetByOwnerOnReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChange();
     pushTo(sc, "refs/for/master", sc.owner);
     assertThat(sender)
@@ -1665,21 +1553,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetByOwnerOnReviewableChangeInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    pushTo(sc, "refs/for/master", sc.owner);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.reviewer, sc.ccer)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-  }
-
-  @Test
-  public void newPatchSetByOtherOnReviewableChangeInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetByOtherOnReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChange();
     pushTo(sc, "refs/for/master", other);
     assertThat(sender)
@@ -1694,22 +1568,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetByOtherOnReviewableChangeInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    pushTo(sc, "refs/for/master", other);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .notTo(sc.owner) // TODO(logan): This email shouldn't come from the owner.
-        .to(sc.reviewer, sc.ccer, other)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-  }
-
-  @Test
-  public void newPatchSetByOtherOnReviewableChangeOwnerSelfCcInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetByOtherOnReviewableChangeOwnerSelfCc() throws Exception {
     StagedChange sc = stageReviewableChange();
     pushTo(sc, "refs/for/master", other, EmailStrategy.CC_ON_OWN_COMMENTS);
     assertThat(sender)
@@ -1724,22 +1583,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetByOtherOnReviewableChangeOwnerSelfCcInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    pushTo(sc, "refs/for/master", other, EmailStrategy.CC_ON_OWN_COMMENTS);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
-        .to(sc.reviewer, sc.ccer, other)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-  }
-
-  @Test
-  public void newPatchSetByOtherOnReviewableChangeNotifyOwnerReviewersInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetByOtherOnReviewableChangeNotifyOwnerReviewers() throws Exception {
     StagedChange sc = stageReviewableChange();
     pushTo(sc, "refs/for/master%notify=OWNER_REVIEWERS", other);
     assertThat(sender)
@@ -1753,23 +1597,8 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetByOtherOnReviewableChangeNotifyOwnerReviewersInReviewDb()
+  public void newPatchSetByOtherOnReviewableChangeOwnerSelfCcNotifyOwnerReviewers()
       throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    pushTo(sc, "refs/for/master%notify=OWNER_REVIEWERS", other);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
-        .to(sc.reviewer, sc.ccer)
-        .to(other)
-        .noOneElse();
-  }
-
-  @Test
-  public void newPatchSetByOtherOnReviewableChangeOwnerSelfCcNotifyOwnerReviewersInNoteDb()
-      throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     pushTo(sc, "refs/for/master%notify=OWNER_REVIEWERS", other, EmailStrategy.CC_ON_OWN_COMMENTS);
     assertThat(sender)
@@ -1779,20 +1608,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .to(other)
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .noOneElse();
-  }
-
-  @Test
-  public void newPatchSetByOtherOnReviewableChangeOwnerSelfCcNotifyOwnerReviewersInReviewDb()
-      throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    pushTo(sc, "refs/for/master%notify=OWNER_REVIEWERS", other, EmailStrategy.CC_ON_OWN_COMMENTS);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.reviewer, sc.ccer)
-        .to(other)
-        .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
         .noOneElse();
   }
 
@@ -1843,8 +1658,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetOnWipChangeNotifyAllInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetOnWipChangeNotifyAll() throws Exception {
     StagedChange sc = stageWipChange();
     pushTo(sc, "refs/for/master%wip,notify=ALL", sc.owner);
     assertThat(sender)
@@ -1858,21 +1672,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetOnWipChangeNotifyAllInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageWipChange();
-    pushTo(sc, "refs/for/master%wip,notify=ALL", sc.owner);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.reviewer, sc.ccer)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-  }
-
-  @Test
-  public void newPatchSetOnWipChangeToReadyInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetOnWipChangeToReady() throws Exception {
     StagedChange sc = stageWipChange();
     pushTo(sc, "refs/for/master%ready", sc.owner);
     assertThat(sender)
@@ -1880,19 +1680,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .to(sc.reviewer)
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-  }
-
-  @Test
-  public void newPatchSetOnWipChangeToReadyInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageWipChange();
-    pushTo(sc, "refs/for/master%ready", sc.owner);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.reviewer, sc.ccer)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -1906,8 +1693,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetOnReviewableChangeAddingReviewerInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetOnReviewableChangeAddingReviewer() throws Exception {
     StagedChange sc = stageReviewableChange();
     TestAccount newReviewer = sc.testAccount("newReviewer");
     pushTo(sc, "refs/for/master%r=" + newReviewer.username, sc.owner);
@@ -1915,22 +1701,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.reviewer, newReviewer)
         .cc(sc.ccer)
-        .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-    assertThat(sender).notSent();
-  }
-
-  @Test
-  public void newPatchSetOnReviewableChangeAddingReviewerInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    TestAccount newReviewer = sc.testAccount("newReviewer");
-    pushTo(sc, "refs/for/master%r=" + newReviewer.username, sc.owner);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.reviewer, sc.ccer, newReviewer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
@@ -1947,8 +1717,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetOnWipChangeAddingReviewerNotifyAllInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetOnWipChangeAddingReviewerNotifyAll() throws Exception {
     StagedChange sc = stageWipChange();
     TestAccount newReviewer = sc.testAccount("newReviewer");
     pushTo(sc, "refs/for/master%notify=ALL,r=" + newReviewer.username, sc.owner);
@@ -1964,45 +1733,13 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void newPatchSetOnWipChangeAddingReviewerNotifyAllInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageWipChange();
-    TestAccount newReviewer = sc.testAccount("newReviewer");
-    pushTo(sc, "refs/for/master%notify=ALL,r=" + newReviewer.username, sc.owner);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.reviewer, sc.ccer, newReviewer)
-        .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-    assertThat(sender).notSent();
-  }
-
-  @Test
-  public void newPatchSetOnWipChangeSettingReadyInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void newPatchSetOnWipChangeSettingReady() throws Exception {
     StagedChange sc = stageWipChange();
     pushTo(sc, "refs/for/master%ready", sc.owner);
     assertThat(sender)
         .sent("newpatchset", sc)
         .to(sc.reviewer)
         .cc(sc.ccer)
-        .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-    assertThat(sender).notSent();
-  }
-
-  @Test
-  public void newPatchSetOnWipChangeSettingReadyInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageWipChange();
-    pushTo(sc, "refs/for/master%ready", sc.owner);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
@@ -2021,8 +1758,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void editCommitMessageEditByOwnerOnReviewableChangeInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void editCommitMessageEditByOwnerOnReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChange();
     editCommitMessage(sc, sc.owner);
     assertThat(sender)
@@ -2036,21 +1772,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void editCommitMessageEditByOwnerOnReviewableChangeInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    editCommitMessage(sc, sc.owner);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.reviewer, sc.ccer)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-  }
-
-  @Test
-  public void editCommitMessageEditByOtherOnReviewableChangeInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void editCommitMessageEditByOtherOnReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChange();
     editCommitMessage(sc, other);
     assertThat(sender)
@@ -2064,21 +1786,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void editCommitMessageEditByOtherOnReviewableChangeInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    editCommitMessage(sc, other);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.owner, sc.reviewer, sc.ccer)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-  }
-
-  @Test
-  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCcInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCc() throws Exception {
     StagedChange sc = stageReviewableChange();
     editCommitMessage(sc, other, CC_ON_OWN_COMMENTS);
     assertThat(sender)
@@ -2092,22 +1800,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCcInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    editCommitMessage(sc, other, CC_ON_OWN_COMMENTS);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.owner, sc.reviewer, sc.ccer, other)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-  }
-
-  @Test
-  public void editCommitMessageByOtherOnReviewableChangeNotifyOwnerReviewersInNoteDb()
-      throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void editCommitMessageByOtherOnReviewableChangeNotifyOwnerReviewers() throws Exception {
     StagedChange sc = stageReviewableChange();
     editCommitMessage(sc, other, OWNER_REVIEWERS);
     assertThat(sender)
@@ -2119,18 +1812,8 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void editCommitMessageByOtherOnReviewableChangeNotifyOwnerReviewersInReviewDb()
+  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCcNotifyOwnerReviewers()
       throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    editCommitMessage(sc, other, OWNER_REVIEWERS);
-    assertThat(sender).sent("newpatchset", sc).to(sc.owner, sc.reviewer, sc.ccer).noOneElse();
-  }
-
-  @Test
-  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCcNotifyOwnerReviewersInNoteDb()
-      throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     editCommitMessage(sc, other, OWNER_REVIEWERS, CC_ON_OWN_COMMENTS);
     assertThat(sender)
@@ -2138,19 +1821,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .to(sc.owner, sc.reviewer)
         .cc(sc.ccer, other)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .noOneElse();
-  }
-
-  @Test
-  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCcNotifyOwnerReviewersInReviewDb()
-      throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    editCommitMessage(sc, other, OWNER_REVIEWERS, CC_ON_OWN_COMMENTS);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.owner, sc.reviewer, sc.ccer)
-        .cc(other)
         .noOneElse();
   }
 
@@ -2204,8 +1874,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void editCommitMessageOnWipChangeNotifyAllInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void editCommitMessageOnWipChangeNotifyAll() throws Exception {
     StagedChange sc = stageWipChange();
     editCommitMessage(sc, sc.owner, ALL);
     assertThat(sender)
@@ -2213,19 +1882,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .to(sc.reviewer)
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
-        .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
-        .noOneElse();
-  }
-
-  @Test
-  public void editCommitMessageOnWipChangeNotifyAllInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageWipChange();
-    editCommitMessage(sc, sc.owner, ALL);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.reviewer, sc.ccer)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -2357,31 +2013,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
    */
 
   @Test
-  public void revertChangeByOwnerInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageChange();
-    revert(sc, sc.owner);
-
-    // email for the newly created revert change
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse();
-
-    // email for the change that is reverted
-    assertThat(sender)
-        .sent("revert", sc)
-        .cc(sc.reviewer, sc.ccer, admin)
-        .cc(sc.reviewerByEmail)
-        .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
-        .noOneElse();
-  }
-
-  @Test
-  public void revertChangeByOwnerInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void revertChangeByOwner() throws Exception {
     StagedChange sc = stageChange();
     revert(sc, sc.owner);
 
@@ -2404,33 +2036,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void revertChangeByOwnerCcingSelfInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageChange();
-    revert(sc, sc.owner, CC_ON_OWN_COMMENTS);
-
-    // email for the newly created revert change
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
-        .cc(sc.owner)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse();
-
-    // email for the change that is reverted
-    assertThat(sender)
-        .sent("revert", sc)
-        .to(sc.owner)
-        .cc(sc.reviewer, sc.ccer, admin)
-        .cc(sc.reviewerByEmail)
-        .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
-        .noOneElse();
-  }
-
-  @Test
-  public void revertChangeByOwnerCcingSelfInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void revertChangeByOwnerCcingSelf() throws Exception {
     StagedChange sc = stageChange();
     revert(sc, sc.owner, CC_ON_OWN_COMMENTS);
 
@@ -2454,32 +2060,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void revertChangeByOtherInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageChange();
-    revert(sc, other);
-
-    // email for the newly created revert change
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(sc.owner, sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse();
-
-    // email for the change that is reverted
-    assertThat(sender)
-        .sent("revert", sc)
-        .to(sc.owner)
-        .cc(sc.reviewer, sc.ccer, admin)
-        .cc(sc.reviewerByEmail)
-        .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
-        .noOneElse();
-  }
-
-  @Test
-  public void revertChangeByOtherInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void revertChangeByOther() throws Exception {
     StagedChange sc = stageChange();
     revert(sc, other);
 
@@ -2503,33 +2084,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void revertChangeByOtherCcingSelfInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageChange();
-    revert(sc, other, CC_ON_OWN_COMMENTS);
-
-    // email for the newly created revert change
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(sc.owner, sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
-        .cc(other)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse();
-
-    // email for the change that is reverted
-    assertThat(sender)
-        .sent("revert", sc)
-        .to(sc.owner)
-        .cc(other, sc.reviewer, sc.ccer, admin)
-        .cc(sc.reviewerByEmail)
-        .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
-        .noOneElse();
-  }
-
-  @Test
-  public void revertChangeByOtherCcingSelfInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void revertChangeByOtherCcingSelf() throws Exception {
     StagedChange sc = stageChange();
     revert(sc, other, CC_ON_OWN_COMMENTS);
 
@@ -2623,22 +2178,13 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void setAssigneeToSelfOnReviewableChangeInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void setAssigneeToSelfOnReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChange();
     assign(sc, sc.owner, sc.owner);
     assertThat(sender)
         .sent("setassignee", sc)
         .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
         .noOneElse();
-  }
-
-  @Test
-  public void setAssigneeToSelfOnReviewableChangeInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    assign(sc, sc.owner, sc.owner);
-    assertThat(sender).notSent();
   }
 
   @Test
@@ -2656,8 +2202,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void changeAssigneeToSelfOnReviewableChangeInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void changeAssigneeToSelfOnReviewableChange() throws Exception {
     StagedChange sc = stageReviewableChange();
     assign(sc, sc.owner, sc.assignee);
     sender.clear();
@@ -2666,16 +2211,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("setassignee", sc)
         .cc(sc.reviewerByEmail, sc.ccerByEmail) // TODO(logan): This is probably not intended!
         .noOneElse();
-  }
-
-  @Test
-  public void changeAssigneeToSelfOnReviewableChangeInReviewDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    StagedChange sc = stageReviewableChange();
-    assign(sc, sc.owner, sc.assignee);
-    sender.clear();
-    assign(sc, sc.owner, sc.owner);
-    assertThat(sender).notSent();
   }
 
   @Test

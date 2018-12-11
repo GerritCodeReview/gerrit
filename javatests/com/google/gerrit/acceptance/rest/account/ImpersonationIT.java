@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -116,7 +115,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.getRealAccountId()).isEqualTo(admin.id);
 
     ChangeData cd = r.getChange();
-    ChangeMessage m = Iterables.getLast(cmUtil.byChange(db, cd.notes()));
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
     assertThat(m.getMessage()).endsWith(in.message);
     assertThat(m.getAuthor()).isEqualTo(user.id);
     assertThat(m.getRealAuthor()).isEqualTo(admin.id);
@@ -191,7 +190,6 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @Test
   public void voteOnBehalfOfWithCommentWritingJson() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     testVoteOnBehalfOfWithComment();
   }
 
@@ -218,7 +216,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.getRealAccountId()).isEqualTo(admin.id);
 
     ChangeData cd = r.getChange();
-    Comment c = Iterables.getOnlyElement(commentsUtil.publishedByChange(db, cd.notes()));
+    Comment c = Iterables.getOnlyElement(commentsUtil.publishedByChange(cd.notes()));
     assertThat(c.message).isEqualTo(ci.message);
     assertThat(c.author.getId()).isEqualTo(user.id);
     assertThat(c.getRealAuthor().getId()).isEqualTo(admin.id);
@@ -226,7 +224,6 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @Test
   public void voteOnBehalfOfWithRobotComment() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
 
@@ -342,7 +339,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     ChangeData cd = r.getChange();
     assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
     PatchSetApproval submitter =
-        approvalsUtil.getSubmitter(db, cd.notes(), cd.change().currentPatchSetId());
+        approvalsUtil.getSubmitter(cd.notes(), cd.change().currentPatchSetId());
     assertThat(submitter.getAccountId()).isEqualTo(admin2.id);
     assertThat(submitter.getRealAccountId()).isEqualTo(admin.id);
   }
@@ -520,7 +517,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.getRealAccountId()).isEqualTo(admin.id); // not user2
 
     ChangeData cd = r.getChange();
-    ChangeMessage m = Iterables.getLast(cmUtil.byChange(db, cd.notes()));
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
     assertThat(m.getMessage()).endsWith(in.message);
     assertThat(m.getAuthor()).isEqualTo(user.id);
     assertThat(m.getRealAuthor()).isEqualTo(admin.id); // not user2

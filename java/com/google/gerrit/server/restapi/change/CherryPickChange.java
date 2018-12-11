@@ -361,7 +361,7 @@ public class CherryPickChange {
     if (input.keepReviewers && sourceChange != null) {
       ReviewerSet reviewerSet =
           approvalsUtil.getReviewers(
-              dbProvider.get(), changeNotesFactory.createChecked(dbProvider.get(), sourceChange));
+              changeNotesFactory.createChecked(dbProvider.get(), sourceChange));
       Set<Account.Id> reviewers =
           new HashSet<>(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
       reviewers.add(sourceChange.getOwner());

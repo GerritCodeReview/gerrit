@@ -91,7 +91,7 @@ public class DeleteDraftComment
     public boolean updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException, PatchListNotAvailableException {
       Optional<Comment> maybeComment =
-          commentsUtil.getDraft(ctx.getDb(), ctx.getNotes(), ctx.getIdentifiedUser(), key);
+          commentsUtil.getDraft(ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {
         return false; // Nothing to do.
       }
@@ -102,7 +102,7 @@ public class DeleteDraftComment
       }
       Comment c = maybeComment.get();
       setCommentRevId(c, patchListCache, ctx.getChange(), ps);
-      commentsUtil.deleteComments(ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(c));
+      commentsUtil.deleteComments(ctx.getUpdate(psId), Collections.singleton(c));
       ctx.dontBumpLastUpdatedOn();
       return true;
     }

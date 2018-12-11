@@ -18,7 +18,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
@@ -543,12 +542,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    if (notesMigration.readChanges()) {
-      assertThat(m.rcpt()).containsExactly(user.emailAddress);
-    } else {
-      // CCs are considered reviewers in the storage layer and so get notified.
-      assertThat(m.rcpt()).containsExactly(user.emailAddress, user2.emailAddress);
-    }
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
 
     sender.clear();
     r = pushTo(pushSpec + ",notify=" + NotifyHandling.ALL);
@@ -639,23 +633,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     PushOneCommit.Result r =
         pushTo("refs/for/master%cc=non.existing.1@example.com,cc=non.existing.2@example.com");
-    if (notesMigration.readChanges()) {
-      r.assertOkStatus();
+    r.assertOkStatus();
 
-      ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS);
-      ImmutableList<AccountInfo> ccs =
-          firstNonNull(ci.reviewers.get(ReviewerState.CC), ImmutableList.<AccountInfo>of())
-              .stream()
-              .sorted(comparing((AccountInfo a) -> a.email))
-              .collect(toImmutableList());
-      assertThat(ccs).hasSize(2);
-      assertThat(ccs.get(0).email).isEqualTo("non.existing.1@example.com");
-      assertThat(ccs.get(0)._accountId).isNull();
-      assertThat(ccs.get(1).email).isEqualTo("non.existing.2@example.com");
-      assertThat(ccs.get(1)._accountId).isNull();
-    } else {
-      r.assertErrorStatus("non.existing.1@example.com does not identify a registered user");
-    }
+    ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS);
+    ImmutableList<AccountInfo> ccs =
+        firstNonNull(ci.reviewers.get(ReviewerState.CC), ImmutableList.<AccountInfo>of())
+            .stream()
+            .sorted(comparing((AccountInfo a) -> a.email))
+            .collect(toImmutableList());
+    assertThat(ccs).hasSize(2);
+    assertThat(ccs.get(0).email).isEqualTo("non.existing.1@example.com");
+    assertThat(ccs.get(0)._accountId).isNull();
+    assertThat(ccs.get(1).email).isEqualTo("non.existing.2@example.com");
+    assertThat(ccs.get(1)._accountId).isNull();
   }
 
   @Test
@@ -721,23 +711,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     PushOneCommit.Result r =
         pushTo("refs/for/master%r=non.existing.1@example.com,r=non.existing.2@example.com");
-    if (notesMigration.readChanges()) {
-      r.assertOkStatus();
+    r.assertOkStatus();
 
-      ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS);
-      ImmutableList<AccountInfo> reviewers =
-          firstNonNull(ci.reviewers.get(ReviewerState.REVIEWER), ImmutableList.<AccountInfo>of())
-              .stream()
-              .sorted(comparing((AccountInfo a) -> a.email))
-              .collect(toImmutableList());
-      assertThat(reviewers).hasSize(2);
-      assertThat(reviewers.get(0).email).isEqualTo("non.existing.1@example.com");
-      assertThat(reviewers.get(0)._accountId).isNull();
-      assertThat(reviewers.get(1).email).isEqualTo("non.existing.2@example.com");
-      assertThat(reviewers.get(1)._accountId).isNull();
-    } else {
-      r.assertErrorStatus("non.existing.1@example.com does not identify a registered user");
-    }
+    ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS);
+    ImmutableList<AccountInfo> reviewers =
+        firstNonNull(ci.reviewers.get(ReviewerState.REVIEWER), ImmutableList.<AccountInfo>of())
+            .stream()
+            .sorted(comparing((AccountInfo a) -> a.email))
+            .collect(toImmutableList());
+    assertThat(reviewers).hasSize(2);
+    assertThat(reviewers.get(0).email).isEqualTo("non.existing.1@example.com");
+    assertThat(reviewers.get(0)._accountId).isNull();
+    assertThat(reviewers.get(1).email).isEqualTo("non.existing.2@example.com");
+    assertThat(reviewers.get(1)._accountId).isNull();
   }
 
   @Test
@@ -1295,9 +1281,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterWithHashtags() throws Exception {
-    // Hashtags only work when reading from NoteDB is enabled
-    assume().that(notesMigration.readChanges()).isTrue();
-
     // specify a single hashtag as option
     String hashtag1 = "tag1";
     Set<String> expected = ImmutableSet.of(hashtag1);
@@ -1328,9 +1311,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterWithMultipleHashtags() throws Exception {
-    // Hashtags only work when reading from NoteDB is enabled
-    assume().that(notesMigration.readChanges()).isTrue();
-
     // specify multiple hashtags as options
     String hashtag1 = "tag1";
     String hashtag2 = "tag2";
@@ -1360,14 +1340,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     expected = ImmutableSet.of(hashtag1, hashtag2, hashtag3, hashtag4);
     hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
     assertThat(hashtags).containsExactlyElementsIn(expected);
-  }
-
-  @Test
-  public void pushForMasterWithHashtagsNoteDbDisabled() throws Exception {
-    // Push with hashtags should fail when reading from NoteDb is disabled.
-    assume().that(notesMigration.readChanges()).isFalse();
-    PushOneCommit.Result r = pushTo("refs/for/master%hashtag=tag1");
-    r.assertErrorStatus("cannot add hashtags; noteDb is disabled");
   }
 
   @Test

@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Strings;
@@ -31,7 +30,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -43,7 +41,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -144,7 +141,6 @@ public class PushOneCommit {
   private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final NotesMigration notesMigration;
   private final ReviewDb db;
   private final TestRepository<?> testRepo;
 
@@ -162,7 +158,6 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo)
@@ -171,7 +166,6 @@ public class PushOneCommit {
         notesFactory,
         approvalsUtil,
         queryProvider,
-        notesMigration,
         db,
         i,
         testRepo,
@@ -185,7 +179,6 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -195,7 +188,6 @@ public class PushOneCommit {
         notesFactory,
         approvalsUtil,
         queryProvider,
-        notesMigration,
         db,
         i,
         testRepo,
@@ -210,7 +202,6 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -222,7 +213,6 @@ public class PushOneCommit {
         notesFactory,
         approvalsUtil,
         queryProvider,
-        notesMigration,
         db,
         i,
         testRepo,
@@ -237,24 +227,13 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
       @Assisted String subject,
       @Assisted Map<String, String> files)
       throws Exception {
-    this(
-        notesFactory,
-        approvalsUtil,
-        queryProvider,
-        notesMigration,
-        db,
-        i,
-        testRepo,
-        subject,
-        files,
-        null);
+    this(notesFactory, approvalsUtil, queryProvider, db, i, testRepo, subject, files, null);
   }
 
   @AssistedInject
@@ -262,7 +241,6 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -275,7 +253,6 @@ public class PushOneCommit {
         notesFactory,
         approvalsUtil,
         queryProvider,
-        notesMigration,
         db,
         i,
         testRepo,
@@ -288,7 +265,6 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      NotesMigration notesMigration,
       ReviewDb db,
       PersonIdent i,
       TestRepository<?> testRepo,
@@ -301,7 +277,6 @@ public class PushOneCommit {
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.queryProvider = queryProvider;
-    this.notesMigration = notesMigration;
     this.subject = subject;
     this.files = files;
     this.changeId = changeId;
@@ -436,22 +411,15 @@ public class PushOneCommit {
       assertThat(c.getSubject()).isEqualTo(resSubj);
       assertThat(c.getStatus()).isEqualTo(expectedStatus);
       assertThat(Strings.emptyToNull(c.getTopic())).isEqualTo(expectedTopic);
-      if (notesMigration.readChanges()) {
-        assertReviewers(c, ReviewerStateInternal.REVIEWER, expectedReviewers);
-        assertReviewers(c, ReviewerStateInternal.CC, expectedCcs);
-      } else {
-        assertReviewers(
-            c,
-            ReviewerStateInternal.REVIEWER,
-            Stream.concat(expectedReviewers.stream(), expectedCcs.stream()).collect(toList()));
-      }
+      assertReviewers(c, ReviewerStateInternal.REVIEWER, expectedReviewers);
+      assertReviewers(c, ReviewerStateInternal.CC, expectedCcs);
     }
 
     private void assertReviewers(
         Change c, ReviewerStateInternal state, List<TestAccount> expectedReviewers)
         throws OrmException {
       Iterable<Account.Id> actualIds =
-          approvalsUtil.getReviewers(db, notesFactory.createChecked(db, c)).byState(state);
+          approvalsUtil.getReviewers(notesFactory.createChecked(db, c)).byState(state);
       assertThat(actualIds)
           .containsExactlyElementsIn(Sets.newHashSet(TestAccount.ids(expectedReviewers)));
     }

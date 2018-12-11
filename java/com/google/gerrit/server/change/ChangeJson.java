@@ -667,7 +667,7 @@ public class ChangeJson {
   }
 
   private Collection<ChangeMessageInfo> messages(ChangeData cd) throws OrmException {
-    List<ChangeMessage> messages = cmUtil.byChange(db.get(), cd.notes());
+    List<ChangeMessage> messages = cmUtil.byChange(cd.notes());
     if (messages.isEmpty()) {
       return Collections.emptyList();
     }

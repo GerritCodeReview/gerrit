@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
@@ -40,7 +39,6 @@ import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
-import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
@@ -133,9 +131,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -146,7 +142,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.PostReview;
@@ -162,7 +157,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -513,8 +507,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void pendingReviewersInNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
@@ -854,16 +846,11 @@ public class ChangeIT extends AbstractDaemonTest {
 
     List<Integer> reviewers =
         result.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
-    if (notesMigration.readChanges()) {
-      assertThat(result).containsKey(ReviewerState.CC);
-      List<Integer> ccs =
-          result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
-      assertThat(ccs).containsExactly(accountCreator.user2().id.get());
-      assertThat(reviewers).containsExactly(user.id.get(), admin.id.get());
-    } else {
-      assertThat(reviewers)
-          .containsExactly(user.id.get(), admin.id.get(), accountCreator.user2().id.get());
-    }
+    assertThat(result).containsKey(ReviewerState.CC);
+    List<Integer> ccs =
+        result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
+    assertThat(ccs).containsExactly(accountCreator.user2().id.get());
+    assertThat(reviewers).containsExactly(user.id.get(), admin.id.get());
   }
 
   @Test
@@ -928,17 +915,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(cr).isNotNull();
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(1);
-
-    if (notesMigration.changePrimaryStorage() == PrimaryStorage.REVIEW_DB) {
-      // Ensure record was actually copied under ReviewDb
-      List<PatchSetApproval> psas =
-          unwrapDb(db)
-              .patchSetApprovals()
-              .byPatchSet(new PatchSet.Id(new Change.Id(c2._number), 2))
-              .toList();
-      assertThat(psas).hasSize(1);
-      assertThat(psas.get(0).getValue()).isEqualTo((short) 1);
-    }
 
     // Rebasing the second change again should fail
     exception.expect(ResourceConflictException.class);
@@ -1710,8 +1686,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewerThatIsInactiveEmailFallback() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
@@ -1927,26 +1901,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addReviewerWithNoteDbWhenDummyApprovalInReviewDbExists() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-    assume().that(notesMigration.changePrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
-
-    PushOneCommit.Result r = createChange();
-
-    // insert dummy approval in ReviewDb
-    PatchSetApproval psa =
-        new PatchSetApproval(
-            new PatchSetApproval.Key(r.getPatchSetId(), user.id, new LabelId("Code-Review")),
-            (short) 0,
-            TimeUtil.nowTs());
-    db.patchSetApprovals().insert(Collections.singleton(psa));
-
-    AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
-    gApi.changes().id(r.getChangeId()).addReviewer(in);
-  }
-
-  @Test
   public void addSelfAsReviewer() throws Exception {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     PushOneCommit.Result r = createChange();
@@ -2004,9 +1958,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.reviewers = ImmutableList.of();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
 
-    // If we're not reading from NoteDb, then the CCed user will be returned in the REVIEWER state.
-    assertThat(getReviewerState(r.getChangeId(), testAccount.id))
-        .hasValue(notesMigration.readChanges() ? CC : REVIEWER);
+    assertThat(getReviewerState(r.getChangeId(), testAccount.id)).hasValue(CC);
   }
 
   @Test
@@ -2035,8 +1987,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .review(new ReviewInput().message("hi"));
     c = gApi.changes().id(r.getChangeId()).get();
-    ReviewerState state = notesMigration.readChanges() ? CC : REVIEWER;
-    assertThat(c.reviewers.get(state).stream().map(ai -> ai._accountId).collect(toList()))
+    assertThat(c.reviewers.get(CC).stream().map(ai -> ai._accountId).collect(toList()))
         .containsExactly(user.id.get());
   }
 
@@ -2885,8 +2836,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void noteDbCommitsOnPatchSetCreation() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     PushOneCommit.Result r = createChange();
     pushFactory
         .create(
@@ -3438,12 +3387,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().review(input);
 
     Map<String, Short> votes = gApi.changes().id(changeId).current().reviewer(admin.email).votes();
-    if (!notesMigration.readChanges()) {
-      assertThat(votes.keySet()).containsExactly("Code-Review");
-      assertThat(votes.values()).containsExactly((short) 0);
-    } else {
-      assertThat(votes).isEmpty();
-    }
+    assertThat(votes).isEmpty();
   }
 
   @Test

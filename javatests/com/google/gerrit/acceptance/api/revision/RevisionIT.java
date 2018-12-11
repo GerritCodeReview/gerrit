@@ -795,16 +795,11 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(result).containsKey(ReviewerState.REVIEWER);
     List<Integer> reviewers =
         result.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
-    if (notesMigration.readChanges()) {
-      assertThat(result).containsKey(ReviewerState.CC);
-      List<Integer> ccs =
-          result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
-      assertThat(ccs).containsExactly(user.id.get());
-      assertThat(reviewers).containsExactly(admin.id.get(), accountCreator.admin2().id.get());
-    } else {
-      assertThat(reviewers)
-          .containsExactly(user.id.get(), admin.id.get(), accountCreator.admin2().id.get());
-    }
+    assertThat(result).containsKey(ReviewerState.CC);
+    List<Integer> ccs =
+        result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
+    assertThat(ccs).containsExactly(user.id.get());
+    assertThat(reviewers).containsExactly(admin.id.get(), accountCreator.admin2().id.get());
   }
 
   @Test

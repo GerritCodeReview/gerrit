@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -40,7 +39,6 @@ import org.junit.Test;
 public class ReflogIT extends AbstractDaemonTest {
   @Test
   public void guessRestApiInReflog() throws Exception {
-    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getChange().getId();
 

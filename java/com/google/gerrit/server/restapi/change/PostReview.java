@@ -322,7 +322,7 @@ public class PostReview
       if (!ccOrReviewer) {
         // Check if user was already CCed or reviewing prior to this review.
         ReviewerSet currentReviewers =
-            approvalsUtil.getReviewers(db.get(), revision.getChangeResource().getNotes());
+            approvalsUtil.getReviewers(revision.getChangeResource().getNotes());
         ccOrReviewer = currentReviewers.all().contains(id);
       }
 
@@ -990,7 +990,7 @@ public class PostReview
           break;
       }
       ChangeUpdate u = ctx.getUpdate(psId);
-      commentsUtil.putComments(ctx.getDb(), u, Status.PUBLISHED, toPublish);
+      commentsUtil.putComments(u, Status.PUBLISHED, toPublish);
       comments.addAll(toPublish);
       return !toPublish.isEmpty();
     }
@@ -1079,7 +1079,7 @@ public class PostReview
 
     private Set<CommentSetEntry> readExistingComments(ChangeContext ctx) throws OrmException {
       return commentsUtil
-          .publishedByChange(ctx.getDb(), ctx.getNotes())
+          .publishedByChange(ctx.getNotes())
           .stream()
           .map(CommentSetEntry::create)
           .collect(toSet());
@@ -1095,8 +1095,7 @@ public class PostReview
 
     private Map<String, Comment> changeDrafts(ChangeContext ctx) throws OrmException {
       Map<String, Comment> drafts = new HashMap<>();
-      for (Comment c :
-          commentsUtil.draftByChangeAuthor(ctx.getDb(), ctx.getNotes(), user.getAccountId())) {
+      for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), user.getAccountId())) {
         c.tag = in.tag;
         drafts.put(c.key.uuid, c);
       }
@@ -1106,8 +1105,7 @@ public class PostReview
     private Map<String, Comment> patchSetDrafts(ChangeContext ctx) throws OrmException {
       Map<String, Comment> drafts = new HashMap<>();
       for (Comment c :
-          commentsUtil.draftByPatchSetAuthor(
-              ctx.getDb(), psId, user.getAccountId(), ctx.getNotes())) {
+          commentsUtil.draftByPatchSetAuthor(psId, user.getAccountId(), ctx.getNotes())) {
         drafts.put(c.key.uuid, c);
       }
       return drafts;
@@ -1387,7 +1385,7 @@ public class PostReview
       return current;
     }
 
-    private boolean insertMessage(ChangeContext ctx) throws OrmException {
+    private boolean insertMessage(ChangeContext ctx) {
       String msg = Strings.nullToEmpty(in.message).trim();
 
       StringBuilder buf = new StringBuilder();
@@ -1411,7 +1409,7 @@ public class PostReview
       message =
           ChangeMessagesUtil.newMessage(
               psId, user, ctx.getWhen(), "Patch Set " + psId.get() + ":" + buf, in.tag);
-      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), message);
+      cmUtil.addChangeMessage(ctx.getUpdate(psId), message);
       return true;
     }
 

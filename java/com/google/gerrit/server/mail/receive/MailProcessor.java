@@ -290,7 +290,7 @@ public class MailProcessor {
       }
 
       changeMessage = generateChangeMessage(ctx);
-      changeMessagesUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
+      changeMessagesUtil.addChangeMessage(ctx.getUpdate(psId), changeMessage);
 
       comments = new ArrayList<>();
       for (MailComment c : parsedComments) {
@@ -301,10 +301,7 @@ public class MailProcessor {
             persistentCommentFromMailComment(ctx, c, targetPatchSetForComment(ctx, c, patchSet)));
       }
       commentsUtil.putComments(
-          ctx.getDb(),
-          ctx.getUpdate(ctx.getChange().currentPatchSetId()),
-          Status.PUBLISHED,
-          comments);
+          ctx.getUpdate(ctx.getChange().currentPatchSetId()), Status.PUBLISHED, comments);
 
       return true;
     }

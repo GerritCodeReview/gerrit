@@ -125,7 +125,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     // Check of removing this reviewer (even if there is no vote processed by the loop below) is OK
     removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), reviewerId);
 
-    if (!approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all().contains(reviewerId)) {
+    if (!approvalsUtil.getReviewers(ctx.getNotes()).all().contains(reviewerId)) {
       throw new ResourceNotFoundException();
     }
     currChange = ctx.getChange();
@@ -171,7 +171,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
 
     changeMessage =
         ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_REVIEWER);
-    cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
+    cmUtil.addChangeMessage(update, changeMessage);
 
     return true;
   }
@@ -217,7 +217,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       db = ReviewDbUtil.unwrapDb(db);
       approvals = db.patchSetApprovals().byChange(changeId);
     } else {
-      approvals = approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).values();
+      approvals = approvalsUtil.byChange(ctx.getNotes()).values();
     }
 
     return Iterables.filter(approvals, psa -> accountId.equals(psa.getAccountId()));

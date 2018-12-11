@@ -135,7 +135,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
     return true;
   }
 
-  private void addMessage(ChangeContext ctx, ChangeUpdate update) throws OrmException {
+  private void addMessage(ChangeContext ctx, ChangeUpdate update) {
     Change c = ctx.getChange();
     StringBuilder buf =
         new StringBuilder(c.isWorkInProgress() ? "Set Work In Progress" : "Set Ready For Review");
@@ -154,7 +154,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
                 ? ChangeMessagesUtil.TAG_SET_WIP
                 : ChangeMessagesUtil.TAG_SET_READY);
 
-    cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+    cmUtil.addChangeMessage(update, cmsg);
   }
 
   @Override

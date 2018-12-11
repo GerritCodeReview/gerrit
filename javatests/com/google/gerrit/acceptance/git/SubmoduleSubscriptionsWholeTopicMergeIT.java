@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
 import com.google.common.collect.ImmutableList;
@@ -800,8 +799,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void retrySubmitAfterTornTopicOnLockFailure() throws Exception {
-    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
-
     Project.NameKey subKey1 = createProjectForPush(getSubmitType());
     TestRepository<?> sub1 = cloneProject(subKey1);
     Project.NameKey subKey2 = createProjectForPush(getSubmitType());

@@ -353,7 +353,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
 
     msg = createChangeMessage(ctx, reviewMessage);
-    cmUtil.addChangeMessage(ctx.getDb(), update, msg);
+    cmUtil.addChangeMessage(update, msg);
 
     if (mergedByPushOp == null) {
       resetChange(ctx);
@@ -512,7 +512,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private List<Comment> publishComments(ChangeContext ctx, boolean workInProgress)
       throws OrmException {
     List<Comment> comments =
-        commentsUtil.draftByChangeAuthor(ctx.getDb(), ctx.getNotes(), ctx.getUser().getAccountId());
+        commentsUtil.draftByChangeAuthor(ctx.getNotes(), ctx.getUser().getAccountId());
     publishCommentUtil.publish(
         ctx, patchSetId, comments, ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
     return comments;

@@ -251,10 +251,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     List<ChangeMessageInfo> messagesBeforeDeletion = gApi.changes().id(changeNum).messages();
 
     List<CommentInfo> commentsBefore = getChangeSortedComments(changeNum);
-    List<RevCommit> commitsBefore = new ArrayList<>();
-    if (notesMigration.readChanges()) {
-      commitsBefore = getChangeMetaCommitsInReverseOrder(new Change.Id(changeNum));
-    }
+    List<RevCommit> commitsBefore = getChangeMetaCommitsInReverseOrder(new Change.Id(changeNum));
 
     String id = messagesBeforeDeletion.get(deletedMessageIndex).id;
     DeleteChangeMessageInput input = new DeleteChangeMessageInput(reason);
@@ -271,11 +268,9 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     List<ChangeInfo> changes = gApi.changes().query("message removed").get();
     assertThat(changes.stream().map(c -> c._number).collect(toSet())).contains(changeNum);
 
-    // Verifies states of commits if NoteDb is on.
-    if (notesMigration.readChanges()) {
-      assertMetaCommitsAfterDeletion(
-          commitsBefore, changeNum, deletedMessageIndex, deletedBy, reason);
-    }
+    // Verifies states of commits.
+    assertMetaCommitsAfterDeletion(
+        commitsBefore, changeNum, deletedMessageIndex, deletedBy, reason);
   }
 
   private void assertMessagesAfterDeletion(

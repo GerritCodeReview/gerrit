@@ -905,8 +905,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void retrySubmitSingleChangeOnLockFailure() throws Exception {
-    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
-
     PushOneCommit.Result change = createChange();
     String id = change.getChangeId();
     approve(id);
@@ -932,7 +930,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void retrySubmitAfterTornTopicOnLockFailure() throws Exception {
-    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
     String topic = "test-topic";
@@ -1281,7 +1278,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(db, c);
     PatchSetApproval submitter =
-        approvalsUtil.getSubmitter(db, cn, new PatchSet.Id(cn.getChangeId(), psId));
+        approvalsUtil.getSubmitter(cn, new PatchSet.Id(cn.getChangeId(), psId));
     assertThat(submitter).isNotNull();
     assertThat(submitter.isLegacySubmit()).isTrue();
     assertThat(submitter.getAccountId()).isEqualTo(user.getId());
@@ -1291,7 +1288,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(db, c);
     PatchSetApproval submitter =
-        approvalsUtil.getSubmitter(db, cn, new PatchSet.Id(cn.getChangeId(), psId));
+        approvalsUtil.getSubmitter(cn, new PatchSet.Id(cn.getChangeId(), psId));
     assertThat(submitter).isNull();
   }
 

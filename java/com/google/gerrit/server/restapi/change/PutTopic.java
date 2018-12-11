@@ -123,7 +123,7 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput,
 
       ChangeMessage cmsg =
           ChangeMessagesUtil.newMessage(ctx, summary, ChangeMessagesUtil.TAG_SET_TOPIC);
-      cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+      cmUtil.addChangeMessage(update, cmsg);
       return true;
     }
 

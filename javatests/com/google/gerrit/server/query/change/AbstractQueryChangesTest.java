@@ -52,7 +52,6 @@ import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
-import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -69,7 +68,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
@@ -81,7 +79,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -102,11 +99,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
-import com.google.gerrit.server.index.change.IndexedChangeQuery;
-import com.google.gerrit.server.index.change.StalenessChecker;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NoteDbChangeState;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -116,7 +109,6 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.DisabledReviewDb;
 import com.google.gerrit.testing.GerritServerTests;
 import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -131,13 +123,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -573,7 +563,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void restorePendingReviewers() throws Exception {
     assume().that(getSchemaVersion()).isAtLeast(44);
-    assume().that(notesMigration.readChanges()).isTrue();
 
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
@@ -1600,8 +1589,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byHashtagWithNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
+  public void byHashtag() throws Exception {
     List<Change> changes = setUpHashtagChanges();
     assertQuery("hashtag:foo", changes.get(1), changes.get(0));
     assertQuery("hashtag:bar", changes.get(1));
@@ -1610,35 +1598,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("hashtag:\" a tag \"", changes.get(1));
     assertQuery("hashtag:\"#a tag\"", changes.get(1));
     assertQuery("hashtag:\"# #a tag\"", changes.get(1));
-  }
-
-  @Test
-  public void byHashtagWithoutNoteDb() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-
-    notesMigration.setWriteChanges(true);
-    notesMigration.setReadChanges(true);
-    db.close();
-    db = schemaFactory.open();
-    List<Change> changes;
-    try {
-      changes = setUpHashtagChanges();
-      notesMigration.setWriteChanges(false);
-      notesMigration.setReadChanges(false);
-    } finally {
-      db.close();
-    }
-    db = schemaFactory.open();
-    for (Change c : changes) {
-      indexer.index(db, c); // Reindex without hashtag field.
-    }
-    assertQuery("hashtag:foo");
-    assertQuery("hashtag:bar");
-    assertQuery("hashtag:\" bar \"");
-    assertQuery("hashtag:\"a tag\"");
-    assertQuery("hashtag:\" a tag \"");
-    assertQuery("hashtag:#foo");
-    assertQuery("hashtag:\"# #foo\"");
   }
 
   @Test
@@ -1772,8 +1731,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byDraftByExcludesZombieDrafts() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     Change change = insert(repo, newChange(repo));
@@ -1804,18 +1761,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // Re-add drafts ref and ensure it gets filtered out during indexing.
     allUsers.update(draftsRef.getName(), draftsRef.getObjectId());
     assertThat(allUsers.getRepository().exactRef(draftsRef.getName())).isNotNull();
-
-    if (PrimaryStorage.of(change) == PrimaryStorage.REVIEW_DB
-        && !notesMigration.disableChangeReviewDb()) {
-      // Record draft ref in noteDbState as well.
-      ReviewDb db = ReviewDbUtil.unwrapDb(this.db);
-      change = db.changes().get(id);
-      NoteDbChangeState.applyDelta(
-          change,
-          NoteDbChangeState.Delta.create(
-              id, Optional.empty(), ImmutableMap.of(userId, draftsRef.getObjectId())));
-      db.changes().update(Collections.singleton(change));
-    }
 
     indexer.index(db, project, id);
     assertQuery("draftby:" + userId);
@@ -2031,17 +1976,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("reviewer:self", change3);
 
     requestContext.setContext(newRequestContext(user1));
-    if (notesMigration.readChanges()) {
-      assertQuery("reviewer:" + user1, change1);
-      assertQuery("cc:" + user1, change2);
-      assertQuery("is:cc", change2);
-      assertQuery("cc:self", change2);
-    } else {
-      assertQuery("reviewer:" + user1, change2, change1);
-      assertQuery("cc:" + user1);
-      assertQuery("is:cc");
-      assertQuery("cc:self");
-    }
+    assertQuery("reviewer:" + user1, change1);
+    assertQuery("cc:" + user1, change2);
+    assertQuery("is:cc", change2);
+    assertQuery("cc:self", change2);
   }
 
   @Test
@@ -2104,36 +2042,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .collect(toList());
     assertThat(members).contains(user2.toString());
 
-    if (notesMigration.readChanges()) {
-      // CC and REVIEWER are separate in NoteDB
-      assertQuery("reviewerin:\"Registered Users\"", change2, change1);
-      assertQuery("reviewerin:" + group, change2);
-    } else {
-      // CC and REVIEWER are the same in ReviewDb
-      assertQuery("reviewerin:\"Registered Users\"", change3, change2, change1);
-      assertQuery("reviewerin:" + group, change3, change2);
-    }
+    assertQuery("reviewerin:\"Registered Users\"", change2, change1);
+    assertQuery("reviewerin:" + group, change2);
 
     gApi.changes().id(change2.getId().get()).current().review(ReviewInput.approve());
     gApi.changes().id(change2.getId().get()).current().submit();
 
-    if (notesMigration.readChanges()) {
-      // CC and REVIEWER are separate in NoteDB
-      assertQuery("reviewerin:" + group, change2);
-      assertQuery("project:repo reviewerin:" + group, change2);
-      assertQuery("status:merged reviewerin:" + group, change2);
-    } else {
-      // CC and REVIEWER are the same in ReviewDb
-      assertQuery("reviewerin:" + group, change2, change3);
-      assertQuery("project:repo reviewerin:" + group, change2, change3);
-      assertQuery("status:merged reviewerin:" + group, change2);
-    }
+    assertQuery("reviewerin:" + group, change2);
+    assertQuery("project:repo reviewerin:" + group, change2);
+    assertQuery("status:merged reviewerin:" + group, change2);
   }
 
   @Test
   public void reviewerAndCcByEmail() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     ConfigInput conf = new ConfigInput();
@@ -2180,8 +2101,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void reviewerAndCcByEmailWithQueryForDifferentUser() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     ConfigInput conf = new ConfigInput();
@@ -2354,71 +2273,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void prepopulatedFields() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    TestRepository<Repo> repo = createProject("repo");
-    Change change = insert(repo, newChange(repo));
-
-    db = new DisabledReviewDb();
-    requestContext.setContext(newRequestContext(userId));
-    // Use QueryProcessor directly instead of API so we get ChangeDatas back.
-    List<ChangeData> cds =
-        queryProcessorProvider
-            .get()
-            .query(queryBuilder.parse(change.getId().toString()))
-            .entities();
-    assertThat(cds).hasSize(1);
-
-    ChangeData cd = cds.get(0);
-    cd.change();
-    cd.patchSets();
-    cd.currentApprovals();
-    cd.changedLines();
-    cd.reviewedBy();
-    cd.reviewers();
-    cd.unresolvedCommentCount();
-
-    if (getSchemaVersion() < 51) {
-      assertMissingField(ChangeField.TOTAL_COMMENT_COUNT);
-    } else {
-      cd.totalCommentCount();
-    }
-
-    // TODO(dborowitz): Swap out GitRepositoryManager somehow? Will probably be
-    // necessary for NoteDb anyway.
-    cd.isMergeable();
-
-    exception.expect(DisabledReviewDb.Disabled.class);
-    cd.messages();
-  }
-
-  @Test
-  public void prepopulateOnlyRequestedFields() throws Exception {
-    assume().that(notesMigration.readChanges()).isFalse();
-    TestRepository<Repo> repo = createProject("repo");
-    Change change = insert(repo, newChange(repo));
-
-    db = new DisabledReviewDb();
-    requestContext.setContext(newRequestContext(userId));
-    // Use QueryProcessor directly instead of API so we get ChangeDatas back.
-    List<ChangeData> cds =
-        queryProcessorProvider
-            .get()
-            .setRequestedFields(
-                ImmutableSet.of(ChangeField.PATCH_SET.getName(), ChangeField.CHANGE.getName()))
-            .query(queryBuilder.parse(change.getId().toString()))
-            .entities();
-    assertThat(cds).hasSize(1);
-
-    ChangeData cd = cds.get(0);
-    cd.change();
-    cd.patchSets();
-
-    exception.expect(DisabledReviewDb.Disabled.class);
-    cd.currentApprovals();
-  }
-
-  @Test
   public void reindexIfStale() throws Exception {
     Account.Id user = createAccount("user");
     Project.NameKey project = new Project.NameKey("repo");
@@ -2443,93 +2297,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("has:edit", change);
     assertThat(indexer.reindexIfStale(project, change.getId()).get()).isTrue();
     assertQuery("has:edit");
-  }
-
-  @Test
-  public void refStateFields() throws Exception {
-    // This test method manages primary storage manually.
-    assume().that(notesMigration.changePrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
-    Account.Id user = createAccount("user");
-    Project.NameKey project = new Project.NameKey("repo");
-    TestRepository<Repo> repo = createProject(project.get());
-    String path = "file";
-    RevCommit commit = repo.parseBody(repo.commit().message("one").add(path, "contents").create());
-    Change change = insert(repo, newChangeForCommit(repo, commit));
-    Change.Id id = change.getId();
-    int c = id.get();
-    String changeId = change.getKey().get();
-    requestContext.setContext(newRequestContext(user));
-
-    // Ensure one of each type of supported ref is present for the change. If
-    // any more refs are added, update this test to reflect them.
-
-    // Edit
-    gApi.changes().id(changeId).edit().create();
-
-    // Star
-    gApi.accounts().self().starChange(change.getId().toString());
-
-    if (notesMigration.readChanges()) {
-      // Robot comment.
-      ReviewInput rin = new ReviewInput();
-      RobotCommentInput rcin = new RobotCommentInput();
-      rcin.robotId = "happyRobot";
-      rcin.robotRunId = "1";
-      rcin.line = 1;
-      rcin.message = "nit: trailing whitespace";
-      rcin.path = path;
-      rin.robotComments = ImmutableMap.of(path, ImmutableList.of(rcin));
-      gApi.changes().id(c).current().review(rin);
-    }
-
-    // Draft.
-    DraftInput din = new DraftInput();
-    din.path = path;
-    din.line = 1;
-    din.message = "draft";
-    gApi.changes().id(c).current().createDraft(din);
-
-    if (notesMigration.readChanges()) {
-      // Force NoteDb primary.
-      change = ReviewDbUtil.unwrapDb(db).changes().get(id);
-      change.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
-      ReviewDbUtil.unwrapDb(db).changes().update(Collections.singleton(change));
-      indexer.index(db, change);
-    }
-
-    QueryOptions opts =
-        IndexedChangeQuery.createOptions(indexConfig, 0, 1, StalenessChecker.FIELDS);
-    ChangeData cd = indexes.getSearchIndex().get(id, opts).get();
-
-    String cs = RefNames.shard(c);
-    int u = user.get();
-    String us = RefNames.shard(u);
-
-    List<String> expectedStates =
-        Lists.newArrayList(
-            "repo:refs/users/" + us + "/edit-" + c + "/1",
-            "All-Users:refs/starred-changes/" + cs + "/" + u);
-    if (notesMigration.readChanges()) {
-      expectedStates.add("repo:refs/changes/" + cs + "/meta");
-      expectedStates.add("repo:refs/changes/" + cs + "/robot-comments");
-      expectedStates.add("All-Users:refs/draft-comments/" + cs + "/" + u);
-    }
-    assertThat(
-            cd.getRefStates()
-                .stream()
-                .map(String::new)
-                // Omit SHA-1, we're just concerned with the project/ref names.
-                .map(s -> s.substring(0, s.lastIndexOf(':')))
-                .collect(toList()))
-        .containsExactlyElementsIn(expectedStates);
-
-    List<String> expectedPatterns = Lists.newArrayList("repo:refs/users/*/edit-" + c + "/*");
-    expectedPatterns.add("All-Users:refs/starred-changes/" + cs + "/*");
-    if (notesMigration.readChanges()) {
-      expectedPatterns.add("All-Users:refs/draft-comments/" + cs + "/*");
-    }
-    assertThat(cd.getRefStatePatterns().stream().map(String::new).collect(toList()))
-        .containsExactlyElementsIn(expectedPatterns);
   }
 
   @Test

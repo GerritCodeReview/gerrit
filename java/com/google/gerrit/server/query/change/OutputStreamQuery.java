@@ -250,7 +250,7 @@ public class OutputStreamQuery {
     }
 
     if (includeAllReviewers) {
-      eventFactory.addAllReviewers(db, c, d.notes());
+      eventFactory.addAllReviewers(c, d.notes());
     }
 
     if (includeSubmitRecords) {

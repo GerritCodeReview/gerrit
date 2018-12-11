@@ -24,14 +24,12 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
@@ -40,7 +38,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class RevisionReviewers implements ChildCollection<RevisionResource, ReviewerResource> {
   private final DynamicMap<RestView<ReviewerResource>> views;
-  private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
   private final AccountsCollection accounts;
   private final ReviewerResource.Factory resourceFactory;
@@ -48,13 +45,11 @@ public class RevisionReviewers implements ChildCollection<RevisionResource, Revi
 
   @Inject
   RevisionReviewers(
-      Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
       AccountsCollection accounts,
       ReviewerResource.Factory resourceFactory,
       DynamicMap<RestView<ReviewerResource>> views,
       ListRevisionReviewers list) {
-    this.dbProvider = dbProvider;
     this.approvalsUtil = approvalsUtil;
     this.accounts = accounts;
     this.resourceFactory = resourceFactory;
@@ -89,8 +84,7 @@ public class RevisionReviewers implements ChildCollection<RevisionResource, Revi
         throw e;
       }
     }
-    Collection<Account.Id> reviewers =
-        approvalsUtil.getReviewers(dbProvider.get(), rsrc.getNotes()).all();
+    Collection<Account.Id> reviewers = approvalsUtil.getReviewers(rsrc.getNotes()).all();
     // See if the id exists as a reviewer for this change
     if (reviewers.contains(accountId)) {
       return resourceFactory.create(rsrc, accountId);

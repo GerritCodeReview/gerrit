@@ -2892,7 +2892,7 @@ public class AccountIT extends AbstractDaemonTest {
         TreeWalk.forPath(
             allUsersRepo.getRepository(),
             AccountProperties.ACCOUNT_CONFIG,
-            getHead(allUsersRepo.getRepository()).getTree())) {
+            getHead(allUsersRepo.getRepository(), "HEAD").getTree())) {
       assertThat(tw).isNotNull();
       ac.fromText(
           new String(

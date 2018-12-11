@@ -1176,10 +1176,6 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected RevCommit getHead(Repository repo) throws Exception {
-    return getHead(repo, "HEAD");
-  }
-
   @Nullable
   protected RevCommit getRemoteHead(Project.NameKey project, String branch) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {

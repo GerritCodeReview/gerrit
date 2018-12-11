@@ -1302,7 +1302,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected void assertRebase(TestRepository<?> testRepo, boolean contentMerge) throws Exception {
     Repository repo = testRepo.getRepository();
-    RevCommit localHead = getHead(repo);
+    RevCommit localHead = getHead(repo, "HEAD");
     RevCommit remoteHead = getRemoteHead();
     assertThat(localHead.getId()).isNotEqualTo(remoteHead.getId());
     assertThat(remoteHead.getParentCount()).isEqualTo(1);

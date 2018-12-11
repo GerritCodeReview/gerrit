@@ -322,7 +322,7 @@ public class PostReview
       if (!ccOrReviewer) {
         // Check if user was already CCed or reviewing prior to this review.
         ReviewerSet currentReviewers =
-            approvalsUtil.getReviewers(db.get(), revision.getChangeResource().getNotes());
+            approvalsUtil.getReviewers(revision.getChangeResource().getNotes());
         ccOrReviewer = currentReviewers.all().contains(id);
       }
 

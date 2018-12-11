@@ -231,7 +231,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ins.setNotify(input.notify);
       ins.setAccountsToNotify(accountsToNotify);
 
-      ReviewerSet reviewerSet = approvalsUtil.getReviewers(db.get(), notes);
+      ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);
 
       Set<Account.Id> reviewers = new HashSet<>();
       reviewers.add(changeToRevert.getOwner());

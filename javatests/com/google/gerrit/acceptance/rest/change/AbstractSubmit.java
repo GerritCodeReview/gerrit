@@ -1278,7 +1278,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(db, c);
     PatchSetApproval submitter =
-        approvalsUtil.getSubmitter(db, cn, new PatchSet.Id(cn.getChangeId(), psId));
+        approvalsUtil.getSubmitter(cn, new PatchSet.Id(cn.getChangeId(), psId));
     assertThat(submitter).isNotNull();
     assertThat(submitter.isLegacySubmit()).isTrue();
     assertThat(submitter.getAccountId()).isEqualTo(user.getId());
@@ -1288,7 +1288,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(db, c);
     PatchSetApproval submitter =
-        approvalsUtil.getSubmitter(db, cn, new PatchSet.Id(cn.getChangeId(), psId));
+        approvalsUtil.getSubmitter(cn, new PatchSet.Id(cn.getChangeId(), psId));
     assertThat(submitter).isNull();
   }
 

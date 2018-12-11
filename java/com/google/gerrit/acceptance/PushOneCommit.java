@@ -419,7 +419,7 @@ public class PushOneCommit {
         Change c, ReviewerStateInternal state, List<TestAccount> expectedReviewers)
         throws OrmException {
       Iterable<Account.Id> actualIds =
-          approvalsUtil.getReviewers(db, notesFactory.createChecked(db, c)).byState(state);
+          approvalsUtil.getReviewers(notesFactory.createChecked(db, c)).byState(state);
       assertThat(actualIds)
           .containsExactlyElementsIn(Sets.newHashSet(TestAccount.ids(expectedReviewers)));
     }

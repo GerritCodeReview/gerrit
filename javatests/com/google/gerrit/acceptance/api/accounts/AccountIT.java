@@ -2251,7 +2251,7 @@ public class AccountIT extends AbstractDaemonTest {
             externalIds,
             metaDataUpdateInternalFactory,
             new RetryHelper(
-                cfg, retryMetrics, null, null, r -> r.withBlockStrategy(noSleepBlockStrategy)),
+                cfg, retryMetrics, null, r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
             ident,
             ident,
@@ -2303,7 +2303,6 @@ public class AccountIT extends AbstractDaemonTest {
             new RetryHelper(
                 cfg,
                 retryMetrics,
-                null,
                 null,
                 r ->
                     r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
@@ -2362,7 +2361,7 @@ public class AccountIT extends AbstractDaemonTest {
             externalIds,
             metaDataUpdateInternalFactory,
             new RetryHelper(
-                cfg, retryMetrics, null, null, r -> r.withBlockStrategy(noSleepBlockStrategy)),
+                cfg, retryMetrics, null, r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
             ident,
             ident,
@@ -2428,7 +2427,7 @@ public class AccountIT extends AbstractDaemonTest {
             externalIds,
             metaDataUpdateInternalFactory,
             new RetryHelper(
-                cfg, retryMetrics, null, null, r -> r.withBlockStrategy(noSleepBlockStrategy)),
+                cfg, retryMetrics, null, r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
             ident,
             ident,

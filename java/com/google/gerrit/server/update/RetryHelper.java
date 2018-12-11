@@ -41,7 +41,6 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.time.Duration;
@@ -141,7 +140,6 @@ public class RetryHelper {
     return options().build();
   }
 
-  private final NotesMigration migration;
   private final Metrics metrics;
   private final BatchUpdate.Factory updateFactory;
   private final Map<ActionType, Duration> defaultTimeouts;
@@ -152,20 +150,17 @@ public class RetryHelper {
   RetryHelper(
       @GerritServerConfig Config cfg,
       Metrics metrics,
-      NotesMigration migration,
       NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory) {
-    this(cfg, metrics, migration, noteDbBatchUpdateFactory, null);
+    this(cfg, metrics, noteDbBatchUpdateFactory, null);
   }
 
   @VisibleForTesting
   public RetryHelper(
       @GerritServerConfig Config cfg,
       Metrics metrics,
-      NotesMigration migration,
       NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory,
       @Nullable Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup) {
     this.metrics = metrics;
-    this.migration = migration;
     this.updateFactory = new BatchUpdate.Factory(noteDbBatchUpdateFactory);
 
     Duration defaultTimeout =
@@ -226,16 +221,6 @@ public class RetryHelper {
   public <T> T execute(ChangeAction<T> changeAction, Options opts)
       throws RestApiException, UpdateException {
     try {
-      if (!migration.disableChangeReviewDb()) {
-        // Either we aren't full-NoteDb, or the underlying ref storage doesn't support atomic
-        // transactions. Either way, retrying a partially-failed operation is not idempotent, so
-        // don't do it automatically. Let the end user decide whether they want to retry.
-        return executeWithTimeoutCount(
-            ActionType.CHANGE_UPDATE,
-            () -> changeAction.call(updateFactory),
-            RetryerBuilder.<T>newBuilder().build());
-      }
-
       return execute(
           ActionType.CHANGE_UPDATE,
           () -> changeAction.call(updateFactory),

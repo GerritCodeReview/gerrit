@@ -134,7 +134,7 @@ class UrlModule extends ServletModule {
 
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-            toGerrit(req.getRequestURI().substring(req.getContextPath().length()), req, rsp);
+            toGerrit(true, req.getRequestURI().substring(req.getContextPath().length()), req, rsp);
           }
         });
   }
@@ -146,7 +146,7 @@ class UrlModule extends ServletModule {
 
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-            toGerrit(target, req, rsp);
+            toGerrit(false, target, req, rsp);
           }
         });
   }
@@ -159,7 +159,7 @@ class UrlModule extends ServletModule {
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             final String token = req.getPathInfo().substring(1);
-            toGerrit(token, req, rsp);
+            toGerrit(false, token, req, rsp);
           }
         });
   }
@@ -180,7 +180,7 @@ class UrlModule extends ServletModule {
               // User accessed Gerrit with /1234, so we have no project yet.
               // TODO(hiesel) Replace with a preflight request to obtain project before we deprecate
               // the numeric change id.
-              toGerrit(PageLinks.toChange(null, id), req, rsp);
+              toGerrit(false, PageLinks.toChange(null, id), req, rsp);
             } catch (IllegalArgumentException err) {
               rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
@@ -197,7 +197,7 @@ class UrlModule extends ServletModule {
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             String name = req.getPathInfo();
             if (Strings.isNullOrEmpty(name)) {
-              toGerrit(PageLinks.ADMIN_PROJECTS, req, rsp);
+              toGerrit(false, PageLinks.ADMIN_PROJECTS, req, rsp);
               return;
             }
 
@@ -215,6 +215,7 @@ class UrlModule extends ServletModule {
             }
             Project.NameKey project = new Project.NameKey(name);
             toGerrit(
+                false,
                 PageLinks.toChangeQuery(PageLinks.projectQuery(project, Change.Status.NEW)),
                 req,
                 rsp);
@@ -229,7 +230,7 @@ class UrlModule extends ServletModule {
 
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-            toGerrit(PageLinks.toChangeQuery(query), req, rsp);
+            toGerrit(false, PageLinks.toChangeQuery(query), req, rsp);
           }
         });
   }
@@ -256,7 +257,7 @@ class UrlModule extends ServletModule {
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             String path = String.format("/register%s", slash ? req.getPathInfo() : "");
-            toGerrit(path, req, rsp);
+            toGerrit(false, path, req, rsp);
           }
         });
   }
@@ -269,15 +270,19 @@ class UrlModule extends ServletModule {
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             String path = "/Documentation/index.html";
-            toGerrit(path, req, rsp);
+            toGerrit(false, path, req, rsp);
           }
         });
   }
 
-  static void toGerrit(String target, HttpServletRequest req, HttpServletResponse rsp)
+  static void toGerrit(boolean gwt, String target, HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
     final StringBuilder url = new StringBuilder();
     url.append(req.getContextPath());
+    if (gwt) {
+      url.append('/');
+      url.append('#');
+    }
     url.append(target);
     rsp.sendRedirect(url.toString());
   }

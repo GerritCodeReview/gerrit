@@ -115,7 +115,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.getRealAccountId()).isEqualTo(admin.id);
 
     ChangeData cd = r.getChange();
-    ChangeMessage m = Iterables.getLast(cmUtil.byChange(db, cd.notes()));
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
     assertThat(m.getMessage()).endsWith(in.message);
     assertThat(m.getAuthor()).isEqualTo(user.id);
     assertThat(m.getRealAuthor()).isEqualTo(admin.id);
@@ -517,7 +517,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.getRealAccountId()).isEqualTo(admin.id); // not user2
 
     ChangeData cd = r.getChange();
-    ChangeMessage m = Iterables.getLast(cmUtil.byChange(db, cd.notes()));
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
     assertThat(m.getMessage()).endsWith(in.message);
     assertThat(m.getAuthor()).isEqualTo(user.id);
     assertThat(m.getRealAuthor()).isEqualTo(admin.id); // not user2

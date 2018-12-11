@@ -290,7 +290,7 @@ public class MailProcessor {
       }
 
       changeMessage = generateChangeMessage(ctx);
-      changeMessagesUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
+      changeMessagesUtil.addChangeMessage(ctx.getUpdate(psId), changeMessage);
 
       comments = new ArrayList<>();
       for (MailComment c : parsedComments) {

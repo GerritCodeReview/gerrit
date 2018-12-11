@@ -151,7 +151,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     ChangeMessage msg =
         ChangeMessagesUtil.newMessage(
             psId, ctx.getUser(), ctx.getWhen(), msgBuf.toString(), ChangeMessagesUtil.TAG_MERGED);
-    cmUtil.addChangeMessage(ctx.getDb(), update, msg);
+    cmUtil.addChangeMessage(update, msg);
 
     PatchSetApproval submitter =
         ApprovalsUtil.newApproval(

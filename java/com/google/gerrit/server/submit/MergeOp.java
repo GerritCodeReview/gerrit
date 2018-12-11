@@ -911,7 +911,7 @@ public class MergeOp implements AutoCloseable {
               cd.getId(),
               new BatchUpdateOp() {
                 @Override
-                public boolean updateChange(ChangeContext ctx) throws OrmException {
+                public boolean updateChange(ChangeContext ctx) {
                   Change change = ctx.getChange();
                   if (!change.getStatus().isOpen()) {
                     return false;
@@ -926,8 +926,7 @@ public class MergeOp implements AutoCloseable {
                           change.getLastUpdatedOn(),
                           ChangeMessagesUtil.TAG_MERGED,
                           "Project was deleted.");
-                  cmUtil.addChangeMessage(
-                      ctx.getDb(), ctx.getUpdate(change.currentPatchSetId()), msg);
+                  cmUtil.addChangeMessage(ctx.getUpdate(change.currentPatchSetId()), msg);
 
                   return true;
                 }

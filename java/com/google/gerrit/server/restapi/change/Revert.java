@@ -318,7 +318,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws Exception {
+    public boolean updateChange(ChangeContext ctx) {
       Change change = ctx.getChange();
       PatchSet.Id patchSetId = change.currentPatchSetId();
       ChangeMessage changeMessage =
@@ -326,7 +326,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
               ctx,
               "Created a revert of this change as I" + computedChangeId.name(),
               ChangeMessagesUtil.TAG_REVERT);
-      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(patchSetId), changeMessage);
+      cmUtil.addChangeMessage(ctx.getUpdate(patchSetId), changeMessage);
       return true;
     }
   }

@@ -99,7 +99,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
     return true;
   }
 
-  private void addMessage(ChangeContext ctx, ChangeUpdate update) throws OrmException {
+  private void addMessage(ChangeContext ctx, ChangeUpdate update) {
     StringBuilder msg = new StringBuilder();
     msg.append("Assignee ");
     if (oldAssignee == null) {
@@ -113,7 +113,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
     }
     ChangeMessage cmsg =
         ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_ASSIGNEE);
-    cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+    cmUtil.addChangeMessage(update, cmsg);
   }
 
   @Override

@@ -19,30 +19,24 @@ import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInf
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Singleton
 public class ListChangeMessages implements RestReadView<ChangeResource> {
-  private final Provider<ReviewDb> dbProvider;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final AccountLoader accountLoader;
 
   @Inject
   public ListChangeMessages(
-      Provider<ReviewDb> dbProvider,
-      ChangeMessagesUtil changeMessagesUtil,
-      AccountLoader.Factory accountLoaderFactory) {
-    this.dbProvider = dbProvider;
+      ChangeMessagesUtil changeMessagesUtil, AccountLoader.Factory accountLoaderFactory) {
     this.changeMessagesUtil = changeMessagesUtil;
     this.accountLoader = accountLoaderFactory.create(true);
   }
@@ -50,8 +44,7 @@ public class ListChangeMessages implements RestReadView<ChangeResource> {
   @Override
   public List<ChangeMessageInfo> apply(ChangeResource resource)
       throws OrmException, PermissionBackendException {
-    List<ChangeMessage> messages =
-        changeMessagesUtil.byChange(dbProvider.get(), resource.getNotes());
+    List<ChangeMessage> messages = changeMessagesUtil.byChange(resource.getNotes());
     List<ChangeMessageInfo> messageInfos =
         messages
             .stream()

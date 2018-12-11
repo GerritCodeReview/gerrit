@@ -275,7 +275,7 @@ public class PatchSetInserter implements BatchUpdateOp {
           db, ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig());
     }
     if (changeMessage != null) {
-      cmUtil.addChangeMessage(db, update, changeMessage);
+      cmUtil.addChangeMessage(update, changeMessage);
     }
     return true;
   }

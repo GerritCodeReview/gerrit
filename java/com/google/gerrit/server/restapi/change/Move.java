@@ -252,7 +252,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       }
       ChangeMessage cmsg =
           ChangeMessagesUtil.newMessage(ctx, msgBuf.toString(), ChangeMessagesUtil.TAG_MOVE);
-      cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+      cmUtil.addChangeMessage(update, cmsg);
 
       return true;
     }

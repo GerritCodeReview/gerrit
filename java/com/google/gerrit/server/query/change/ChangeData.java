@@ -949,7 +949,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      messages = cmUtil.byChange(db, notes());
+      messages = cmUtil.byChange(notes());
     }
     return messages;
   }

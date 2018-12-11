@@ -171,7 +171,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
 
     changeMessage =
         ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_REVIEWER);
-    cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
+    cmUtil.addChangeMessage(update, changeMessage);
 
     return true;
   }

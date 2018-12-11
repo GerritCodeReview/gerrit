@@ -341,13 +341,14 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     long deltaNanos = System.nanoTime() - startNanos;
     int totalChanges = 0;
-    for (ResultChangeIds.Key key : ResultChangeIds.Key.values()) {
+    for (ResultChangeIds.Key key : resultChangeIds.keys()) {
       List<Change.Id> ids = resultChangeIds.get(key);
       metrics.changes.record(key, ids.size());
       totalChanges += ids.size();
     }
 
     if (totalChanges > 0) {
+
       metrics.latencyPerChange.record(
           resultChangeIds.get(ResultChangeIds.Key.AUTOCLOSED).isEmpty()
               ? "CREATE_REPLACE"

@@ -134,31 +134,18 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.confirm).isNull();
     assertThat(result.error).isNull();
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    if (notesMigration.readChanges()) {
-      assertThat(result.reviewers).isNull();
-      assertThat(result.ccs).hasSize(1);
-      AccountInfo ai = result.ccs.get(0);
-      assertThat(ai._accountId).isEqualTo(user.id.get());
-      assertReviewers(c, CC, user);
-    } else {
-      assertThat(result.ccs).isNull();
-      assertThat(result.reviewers).hasSize(1);
-      AccountInfo ai = result.reviewers.get(0);
-      assertThat(ai._accountId).isEqualTo(user.id.get());
-      assertReviewers(c, REVIEWER, user);
-    }
+    assertThat(result.reviewers).isNull();
+    assertThat(result.ccs).hasSize(1);
+    AccountInfo ai = result.ccs.get(0);
+    assertThat(ai._accountId).isEqualTo(user.id.get());
+    assertReviewers(c, CC, user);
 
     // Verify email was sent to CCed account.
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.emailAddress);
-    if (notesMigration.readChanges()) {
-      assertThat(m.body()).contains(admin.fullName + " has uploaded this change for review.");
-    } else {
-      assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
-      assertThat(m.body()).contains("I'd like you to do a code review.");
-    }
+    assertThat(m.body()).contains(admin.fullName + " has uploaded this change for review.");
   }
 
   @Test
@@ -185,18 +172,9 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.input).isEqualTo(in.reviewer);
     assertThat(result.confirm).isNull();
     assertThat(result.error).isNull();
-    if (notesMigration.readChanges()) {
-      assertThat(result.reviewers).isNull();
-    } else {
-      assertThat(result.ccs).isNull();
-    }
+    assertThat(result.reviewers).isNull();
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    if (notesMigration.readChanges()) {
-      assertReviewers(c, CC, firstUsers);
-    } else {
-      assertReviewers(c, REVIEWER, firstUsers);
-      assertReviewers(c, CC);
-    }
+    assertReviewers(c, CC, firstUsers);
 
     // Verify emails were sent to each of the group's accounts.
     List<Message> messages = sender.getMessages();
@@ -222,19 +200,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.confirm).isNull();
     assertThat(result.error).isNull();
     c = gApi.changes().id(r.getChangeId()).get();
-    if (notesMigration.readChanges()) {
-      assertThat(result.ccs).hasSize(3);
-      assertThat(result.reviewers).isNull();
-      assertReviewers(c, REVIEWER, reviewer);
-      assertReviewers(c, CC, users);
-    } else {
-      assertThat(result.ccs).isNull();
-      assertThat(result.reviewers).hasSize(3);
-      List<TestAccount> expectedUsers = new ArrayList<>(users.size() + 2);
-      expectedUsers.addAll(users);
-      expectedUsers.add(reviewer);
-      assertReviewers(c, REVIEWER, expectedUsers);
-    }
+    assertThat(result.ccs).hasSize(3);
+    assertThat(result.reviewers).isNull();
+    assertReviewers(c, REVIEWER, reviewer);
+    assertReviewers(c, CC, users);
 
     messages = sender.getMessages();
     assertThat(messages).hasSize(1);
@@ -242,11 +211,6 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     expectedAddresses = new ArrayList<>(4);
     for (int i = 0; i < 3; i++) {
       expectedAddresses.add(users.get(users.size() - i - 1).emailAddress);
-    }
-    if (!notesMigration.readChanges()) {
-      for (int i = 0; i < 3; i++) {
-        expectedAddresses.add(users.get(i).emailAddress);
-      }
     }
     expectedAddresses.add(reviewer.emailAddress);
     assertThat(m.rcpt()).containsExactlyElementsIn(expectedAddresses);
@@ -261,13 +225,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     in.state = CC;
     addReviewer(changeId, in);
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    if (notesMigration.readChanges()) {
-      assertReviewers(c, REVIEWER);
-      assertReviewers(c, CC, user);
-    } else {
-      assertReviewers(c, REVIEWER, user);
-      assertReviewers(c, CC);
-    }
+    assertReviewers(c, REVIEWER);
+    assertReviewers(c, CC, user);
 
     in.state = REVIEWER;
     addReviewer(changeId, in);
@@ -293,15 +252,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // Verify user is added to CC list.
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    if (notesMigration.readChanges()) {
-      assertReviewers(c, REVIEWER);
-      assertReviewers(c, CC, user);
-    } else {
-      // If we aren't reading from NoteDb, the user will appear as a
-      // reviewer.
-      assertReviewers(c, REVIEWER, user);
-      assertReviewers(c, CC);
-    }
+    assertReviewers(c, REVIEWER);
+    assertReviewers(c, CC, user);
   }
 
   @Test
@@ -350,26 +302,13 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // Verify reviewer state.
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    if (notesMigration.readChanges()) {
-      assertReviewers(c, REVIEWER);
-      assertReviewers(c, CC, user);
-      // Verify no approvals were added.
-      assertThat(c.labels).isNotNull();
-      LabelInfo label = c.labels.get("Code-Review");
-      assertThat(label).isNotNull();
-      assertThat(label.all).isNull();
-    } else {
-      // When approvals are stored in ReviewDb, we still create a label for
-      // the reviewing user, and force them into the REVIEWER state.
-      assertReviewers(c, REVIEWER, user);
-      assertReviewers(c, CC);
-      LabelInfo label = c.labels.get("Code-Review");
-      assertThat(label).isNotNull();
-      assertThat(label.all).isNotNull();
-      assertThat(label.all).hasSize(1);
-      ApprovalInfo approval = label.all.get(0);
-      assertThat(approval._accountId).isEqualTo(user.getId().get());
-    }
+    assertReviewers(c, REVIEWER);
+    assertReviewers(c, CC, user);
+    // Verify no approvals were added.
+    assertThat(c.labels).isNotNull();
+    LabelInfo label = c.labels.get("Code-Review");
+    assertThat(label).isNotNull();
+    assertThat(label.all).isNull();
   }
 
   @Test
@@ -449,14 +388,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     // Verify reviewer and CC were added. If not in NoteDb read mode, both
     // parties will be returned as CCed.
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    if (notesMigration.readChanges()) {
-      assertReviewers(c, REVIEWER, admin, user);
-      assertReviewers(c, CC, observer);
-    } else {
-      // In legacy mode, everyone should be a reviewer.
-      assertReviewers(c, REVIEWER, admin, user, observer);
-      assertReviewers(c, CC);
-    }
+    assertReviewers(c, REVIEWER, admin, user);
+    assertReviewers(c, CC, observer);
 
     // Verify emails were sent to added reviewers.
     List<Message> messages = sender.getMessages();
@@ -549,17 +482,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     c = gApi.changes().id(r.getChangeId()).get();
     assertThat(c.messages).hasSize(2);
 
-    if (notesMigration.readChanges()) {
-      assertReviewers(c, REVIEWER, admin, user);
-      assertReviewers(c, CC, users.subList(0, mediumGroupSize));
-    } else {
-      // If not in NoteDb mode, then everyone is a REVIEWER.
-      List<TestAccount> expected = users.subList(0, mediumGroupSize);
-      expected.add(admin);
-      expected.add(user);
-      assertReviewers(c, REVIEWER, expected);
-      assertReviewers(c, CC);
-    }
+    assertReviewers(c, REVIEWER, admin, user);
+    assertReviewers(c, CC, users.subList(0, mediumGroupSize));
   }
 
   @Test
@@ -645,9 +569,6 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(reviewerResult.reviewers).hasSize(1);
 
     // Repeat the above for CCs
-    if (!notesMigration.readChanges()) {
-      return;
-    }
     r = createChange();
     input = ReviewInput.approve().reviewer(group1, CC, false).reviewer(group2, CC, false);
     result = review(r.getChangeId(), r.getCommit().name(), input);

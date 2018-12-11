@@ -1980,17 +1980,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("reviewer:self", change3);
 
     requestContext.setContext(newRequestContext(user1));
-    if (notesMigration.readChanges()) {
-      assertQuery("reviewer:" + user1, change1);
-      assertQuery("cc:" + user1, change2);
-      assertQuery("is:cc", change2);
-      assertQuery("cc:self", change2);
-    } else {
-      assertQuery("reviewer:" + user1, change2, change1);
-      assertQuery("cc:" + user1);
-      assertQuery("is:cc");
-      assertQuery("cc:self");
-    }
+    assertQuery("reviewer:" + user1, change1);
+    assertQuery("cc:" + user1, change2);
+    assertQuery("is:cc", change2);
+    assertQuery("cc:self", change2);
   }
 
   @Test
@@ -2053,30 +2046,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .collect(toList());
     assertThat(members).contains(user2.toString());
 
-    if (notesMigration.readChanges()) {
-      // CC and REVIEWER are separate in NoteDB
-      assertQuery("reviewerin:\"Registered Users\"", change2, change1);
-      assertQuery("reviewerin:" + group, change2);
-    } else {
-      // CC and REVIEWER are the same in ReviewDb
-      assertQuery("reviewerin:\"Registered Users\"", change3, change2, change1);
-      assertQuery("reviewerin:" + group, change3, change2);
-    }
+    assertQuery("reviewerin:\"Registered Users\"", change2, change1);
+    assertQuery("reviewerin:" + group, change2);
 
     gApi.changes().id(change2.getId().get()).current().review(ReviewInput.approve());
     gApi.changes().id(change2.getId().get()).current().submit();
 
-    if (notesMigration.readChanges()) {
-      // CC and REVIEWER are separate in NoteDB
-      assertQuery("reviewerin:" + group, change2);
-      assertQuery("project:repo reviewerin:" + group, change2);
-      assertQuery("status:merged reviewerin:" + group, change2);
-    } else {
-      // CC and REVIEWER are the same in ReviewDb
-      assertQuery("reviewerin:" + group, change2, change3);
-      assertQuery("project:repo reviewerin:" + group, change2, change3);
-      assertQuery("status:merged reviewerin:" + group, change2);
-    }
+    assertQuery("reviewerin:" + group, change2);
+    assertQuery("project:repo reviewerin:" + group, change2);
+    assertQuery("status:merged reviewerin:" + group, change2);
   }
 
   @Test

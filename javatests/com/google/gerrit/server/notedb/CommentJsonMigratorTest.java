@@ -547,11 +547,9 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
     // TODO(dborowitz): Comparing collections directly would be much easier, but Comment doesn't
     // have a proper equals; switch to that when the issues with
     // https://gerrit-review.googlesource.com/c/gerrit/+/207013 are resolved.
+    assertCommentsEqual(commentsUtil.draftByChange(actual), commentsUtil.draftByChange(expected));
     assertCommentsEqual(
-        commentsUtil.draftByChange(null, actual), commentsUtil.draftByChange(null, expected));
-    assertCommentsEqual(
-        commentsUtil.publishedByChange(null, actual),
-        commentsUtil.publishedByChange(null, expected));
+        commentsUtil.publishedByChange(actual), commentsUtil.publishedByChange(expected));
 
     // Change metadata is equal.
     assertLogEqualExceptTrees(

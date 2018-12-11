@@ -97,7 +97,7 @@ public class DeleteComment
 
     ChangeNotes updatedNotes =
         notesFactory.createChecked(rsrc.getRevisionResource().getChange().getId());
-    List<Comment> changeComments = commentsUtil.publishedByChange(dbProvider.get(), updatedNotes);
+    List<Comment> changeComments = commentsUtil.publishedByChange(updatedNotes);
     Optional<Comment> updatedComment =
         changeComments.stream().filter(c -> c.key.equals(rsrc.getComment().key)).findFirst();
     if (!updatedComment.isPresent()) {
@@ -127,14 +127,10 @@ public class DeleteComment
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws ResourceConflictException, OrmException, ResourceNotFoundException {
+        throws ResourceConflictException, ResourceNotFoundException {
       PatchSet.Id psId = ctx.getChange().currentPatchSetId();
       commentsUtil.deleteCommentByRewritingHistory(
-          ctx.getDb(),
-          ctx.getUpdate(psId),
-          rsrc.getComment().key,
-          rsrc.getPatchSet().getId(),
-          newMessage);
+          ctx.getUpdate(psId), rsrc.getComment().key, newMessage);
       return true;
     }
   }

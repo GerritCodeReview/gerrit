@@ -57,6 +57,6 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
         .setFillAccounts(true)
         .setFillPatchSet(true)
         .newCommentFormatter()
-        .format(commentsUtil.publishedByChange(db.get(), cd.notes()));
+        .format(commentsUtil.publishedByChange(cd.notes()));
   }
 }

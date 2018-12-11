@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -31,21 +30,18 @@ import java.util.Map;
 
 @Singleton
 public class ListRevisionDrafts implements RestReadView<RevisionResource> {
-  protected final Provider<ReviewDb> db;
   protected final Provider<CommentJson> commentJson;
   protected final CommentsUtil commentsUtil;
 
   @Inject
-  ListRevisionDrafts(
-      Provider<ReviewDb> db, Provider<CommentJson> commentJson, CommentsUtil commentsUtil) {
-    this.db = db;
+  ListRevisionDrafts(Provider<CommentJson> commentJson, CommentsUtil commentsUtil) {
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
   }
 
   protected Iterable<Comment> listComments(RevisionResource rsrc) throws OrmException {
     return commentsUtil.draftByPatchSetAuthor(
-        db.get(), rsrc.getPatchSet().getId(), rsrc.getAccountId(), rsrc.getNotes());
+        rsrc.getPatchSet().getId(), rsrc.getAccountId(), rsrc.getNotes());
   }
 
   protected boolean includeAuthorInfo() {

@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
@@ -488,8 +487,6 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
   @Test
   public void noteDbAddReviewerToReviewerChangeInfo() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     AddReviewerInput in = new AddReviewerInput();
@@ -713,7 +710,6 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
   @Test
   public void addExistingReviewerShortCircuits() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createChange();
 
     AddReviewerInput input = new AddReviewerInput();
@@ -730,7 +726,6 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
   @Test
   public void addExistingCcShortCircuits() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createChange();
 
     AddReviewerInput input = new AddReviewerInput();

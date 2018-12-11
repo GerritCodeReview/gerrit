@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -191,7 +190,6 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @Test
   public void voteOnBehalfOfWithCommentWritingJson() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     testVoteOnBehalfOfWithComment();
   }
 
@@ -226,7 +224,6 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @Test
   public void voteOnBehalfOfWithRobotComment() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
 

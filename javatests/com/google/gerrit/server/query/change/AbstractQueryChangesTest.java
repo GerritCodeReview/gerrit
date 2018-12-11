@@ -563,7 +563,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void restorePendingReviewers() throws Exception {
     assume().that(getSchemaVersion()).isAtLeast(44);
-    assume().that(notesMigration.readChanges()).isTrue();
 
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
@@ -1591,7 +1590,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byHashtag() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
     List<Change> changes = setUpHashtagChanges();
     assertQuery("hashtag:foo", changes.get(1), changes.get(0));
     assertQuery("hashtag:bar", changes.get(1));
@@ -1733,8 +1731,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byDraftByExcludesZombieDrafts() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     Change change = insert(repo, newChange(repo));
@@ -2059,8 +2055,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void reviewerAndCcByEmail() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     ConfigInput conf = new ConfigInput();
@@ -2107,8 +2101,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void reviewerAndCcByEmailWithQueryForDifferentUser() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     ConfigInput conf = new ConfigInput();

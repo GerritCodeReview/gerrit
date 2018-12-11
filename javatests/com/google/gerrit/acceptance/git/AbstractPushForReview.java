@@ -18,7 +18,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
@@ -1282,9 +1281,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterWithHashtags() throws Exception {
-    // Hashtags only work when reading from NoteDB is enabled
-    assume().that(notesMigration.readChanges()).isTrue();
-
     // specify a single hashtag as option
     String hashtag1 = "tag1";
     Set<String> expected = ImmutableSet.of(hashtag1);
@@ -1315,9 +1311,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterWithMultipleHashtags() throws Exception {
-    // Hashtags only work when reading from NoteDB is enabled
-    assume().that(notesMigration.readChanges()).isTrue();
-
     // specify multiple hashtags as options
     String hashtag1 = "tag1";
     String hashtag2 = "tag2";

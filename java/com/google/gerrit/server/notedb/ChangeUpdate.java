@@ -545,16 +545,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
-    if (migration.readChanges()) {
-      // If reading from changes is enabled, then the old ChangeNotes may have
-      // already parsed the revision notes. We can reuse them as long as the ref
-      // hasn't advanced.
-      ChangeNotes notes = getNotes();
-      if (notes != null && notes.revisionNoteMap != null) {
-        ObjectId idFromNotes = firstNonNull(notes.load().getRevision(), ObjectId.zeroId());
-        if (idFromNotes.equals(curr)) {
-          return notes.revisionNoteMap;
-        }
+    // The old ChangeNotes may have already parsed the revision notes. We can reuse them as long as
+    // the ref hasn't advanced.
+    ChangeNotes notes = getNotes();
+    if (notes != null && notes.revisionNoteMap != null) {
+      ObjectId idFromNotes = firstNonNull(notes.load().getRevision(), ObjectId.zeroId());
+      if (idFromNotes.equals(curr)) {
+        return notes.revisionNoteMap;
       }
     }
     NoteMap noteMap = NoteMap.read(rw.getObjectReader(), rw.parseCommit(curr));

@@ -565,9 +565,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       if (args.getSchema().hasField(ChangeField.WIP)) {
         return Predicate.and(
             Predicate.not(new BooleanPredicate(ChangeField.WIP)),
-            ReviewerPredicate.reviewer(args, self()));
+            ReviewerPredicate.reviewer(self()));
       }
-      return ReviewerPredicate.reviewer(args, self());
+      return ReviewerPredicate.reviewer(self());
     }
 
     if ("cc".equalsIgnoreCase(value)) {

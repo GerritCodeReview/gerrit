@@ -58,7 +58,6 @@ import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -101,7 +100,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -174,7 +172,6 @@ public class PostReview
   private final CommentAdded commentAdded;
   private final ReviewerAdder reviewerAdder;
   private final AddReviewersEmail addReviewersEmail;
-  private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
   private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
@@ -199,7 +196,6 @@ public class PostReview
       CommentAdded commentAdded,
       ReviewerAdder reviewerAdder,
       AddReviewersEmail addReviewersEmail,
-      NotesMigration migration,
       NotifyUtil notifyUtil,
       @GerritServerConfig Config gerritConfig,
       WorkInProgressOp.Factory workInProgressOpFactory,
@@ -220,7 +216,6 @@ public class PostReview
     this.commentAdded = commentAdded;
     this.reviewerAdder = reviewerAdder;
     this.addReviewersEmail = addReviewersEmail;
-    this.migration = migration;
     this.notifyUtil = notifyUtil;
     this.gerritConfig = gerritConfig;
     this.workInProgressOpFactory = workInProgressOpFactory;
@@ -260,9 +255,6 @@ public class PostReview
       checkComments(revision, input.comments);
     }
     if (input.robotComments != null) {
-      if (!migration.readChanges()) {
-        throw new MethodNotAllowedException("robot comments not supported");
-      }
       checkRobotComments(revision, input.robotComments);
     }
 

@@ -248,7 +248,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   private final Provider<PersonIdent> serverIdent;
   private final GitRepositoryManager repoManager;
-  private final NotesMigration migration;
   private final AllUsersName allUsersName;
   private final NoteDbMetrics metrics;
   private final Project.NameKey projectName;
@@ -272,13 +271,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
   NoteDbUpdateManager(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       GitRepositoryManager repoManager,
-      NotesMigration migration,
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
       @Assisted Project.NameKey projectName) {
     this.serverIdent = serverIdent;
     this.repoManager = repoManager;
-    this.migration = migration;
     this.allUsersName = allUsersName;
     this.metrics = metrics;
     this.projectName = projectName;
@@ -423,9 +420,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   private boolean isEmpty() {
-    if (!migration.commitChangeWrites()) {
-      return true;
-    }
     return changeUpdates.isEmpty()
         && draftUpdates.isEmpty()
         && robotCommentUpdates.isEmpty()

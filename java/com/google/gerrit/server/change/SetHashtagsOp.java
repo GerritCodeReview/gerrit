@@ -32,7 +32,6 @@ import com.google.gerrit.server.change.HashtagsUtil.InvalidHashtagException;
 import com.google.gerrit.server.extensions.events.HashtagsEdited;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -52,7 +51,6 @@ public class SetHashtagsOp implements BatchUpdateOp {
     SetHashtagsOp create(HashtagsInput input);
   }
 
-  private final NotesMigration notesMigration;
   private final ChangeMessagesUtil cmUtil;
   private final PluginSetContext<HashtagValidationListener> validationListeners;
   private final HashtagsEdited hashtagsEdited;
@@ -67,12 +65,10 @@ public class SetHashtagsOp implements BatchUpdateOp {
 
   @Inject
   SetHashtagsOp(
-      NotesMigration notesMigration,
       ChangeMessagesUtil cmUtil,
       PluginSetContext<HashtagValidationListener> validationListeners,
       HashtagsEdited hashtagsEdited,
       @Assisted @Nullable HashtagsInput input) {
-    this.notesMigration = notesMigration;
     this.cmUtil = cmUtil;
     this.validationListeners = validationListeners;
     this.hashtagsEdited = hashtagsEdited;
@@ -88,9 +84,6 @@ public class SetHashtagsOp implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx)
       throws AuthException, BadRequestException, MethodNotAllowedException, OrmException,
           IOException {
-    if (!notesMigration.readChanges()) {
-      throw new MethodNotAllowedException("Cannot add hashtags; NoteDb is disabled");
-    }
     if (input == null || (input.add == null && input.remove == null)) {
       updatedHashtags = ImmutableSortedSet.of();
       return false;

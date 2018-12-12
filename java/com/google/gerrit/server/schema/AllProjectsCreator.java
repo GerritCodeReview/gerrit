@@ -49,7 +49,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gwtorm.server.OrmException;
@@ -74,7 +73,6 @@ public class AllProjectsCreator {
   private final GitRepositoryManager repositoryManager;
   private final AllProjectsName allProjectsName;
   private final PersonIdent serverUser;
-  private final NotesMigration notesMigration;
   private final NoteDbSchemaVersionManager versionManager;
   private final ProjectConfig.Factory projectConfigFactory;
   private final GroupReference anonymous;
@@ -93,14 +91,12 @@ public class AllProjectsCreator {
       GitRepositoryManager repositoryManager,
       AllProjectsName allProjectsName,
       @GerritPersonIdent PersonIdent serverUser,
-      NotesMigration notesMigration,
       NoteDbSchemaVersionManager versionManager,
       SystemGroupBackend systemGroupBackend,
       ProjectConfig.Factory projectConfigFactory) {
     this.repositoryManager = repositoryManager;
     this.allProjectsName = allProjectsName;
     this.serverUser = serverUser;
-    this.notesMigration = notesMigration;
     this.versionManager = versionManager;
     this.projectConfigFactory = projectConfigFactory;
 
@@ -237,7 +233,10 @@ public class AllProjectsCreator {
 
       config.commitToNewRef(md, RefNames.REFS_CONFIG);
       initSequences(git, bru);
-      initSchemaVersion();
+
+      // init schema
+      versionManager.init();
+
       execute(git, bru);
     }
   }
@@ -271,12 +270,6 @@ public class AllProjectsCreator {
         bru.addCommand(RepoSequence.storeNew(ins, Sequences.NAME_CHANGES, firstChangeId));
         ins.flush();
       }
-    }
-  }
-
-  private void initSchemaVersion() throws IOException, OrmException {
-    if (notesMigration.commitChangeWrites()) {
-      versionManager.init();
     }
   }
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f19047da_4b578cf0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-12T15:01:10Z",
+      "side": 1,
+      "message": "You are right, it still missing :-(",
+      "parentUuid": "3c619a3d_acbc7fc4",
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4648e0c9_13402b6a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
         "patchSetId": 17
@@ -172,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "ae358c09_7b782c8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-12T15:01:10Z",
+      "side": 1,
+      "message": "Oh yes, good catch.",
+      "parentUuid": "81660bbd_20d07f09",
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9778d6c_448d3ae2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
         "patchSetId": 17
@@ -186,6 +222,24 @@
       "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edf20d0c_fe1226b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-12T15:01:10Z",
+      "side": 1,
+      "message": "The eviction on reindex event should cover the change edits on the ReviewDb-based meta-data.",
+      "parentUuid": "d9778d6c_448d3ae2",
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -271,6 +325,30 @@
       "writtenOn": "2018-11-27T08:44:37Z",
       "side": 1,
       "message": "2018",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c563935_fa9b7228",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/FakeChangeCache.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-12T15:01:10Z",
+      "side": 1,
+      "message": "Oh yes, that needs updating :-)",
+      "parentUuid": "4f9c0c76_e2935c7c",
       "range": {
         "startLine": 1,
         "startChar": 17,

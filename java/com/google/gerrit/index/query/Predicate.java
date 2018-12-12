@@ -46,6 +46,11 @@ public abstract class Predicate<T> {
     return (Predicate<T>) Any.INSTANCE;
   }
 
+  public static <T> Predicate<T> none() {
+    Predicate<T> any = any();
+    return not(any);
+  }
+
   /** Combine the passed predicates into a single AND node. */
   @SafeVarargs
   public static <T> Predicate<T> and(Predicate<T>... that) {

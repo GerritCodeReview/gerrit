@@ -69,6 +69,32 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
     assertQuery("message:one two", change2);
   }
 
+  // TODO - how to set config for just this test?
+  @Test
+  public void disableConflicts() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 =
+        repo.parseBody(
+            repo.commit()
+                .add("file1", "contents1")
+                .add("dir/file2", "contents2")
+                .add("dir/file3", "contents3")
+                .create());
+    RevCommit commit2 = repo.parseBody(repo.commit().add("file1", "contents1").create());
+    RevCommit commit3 =
+        repo.parseBody(repo.commit().add("dir/file2", "contents2 different").create());
+    RevCommit commit4 = repo.parseBody(repo.commit().add("file4", "contents4").create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
+    Change change4 = insert(repo, newChangeForCommit(repo, commit4));
+
+    assertQuery("conflicts:" + change1.getId().get());
+    assertQuery("conflicts:" + change2.getId().get());
+    assertQuery("conflicts:" + change3.getId().get());
+    assertQuery("conflicts:" + change4.getId().get());
+  }
+
   @Test
   @Override
   public void byOwnerInvalidQuery() throws Exception {

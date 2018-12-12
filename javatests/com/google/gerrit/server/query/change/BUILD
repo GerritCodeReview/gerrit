@@ -9,6 +9,7 @@ java_library(
     visibility = ["//visibility:public"],
     runtime_deps = ["//prolog:gerrit-prolog-common"],
     deps = [
+        "//java/com/google/gerrit/acceptance:framework-lib",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
@@ -38,6 +39,7 @@ junit_tests(
     visibility = ["//visibility:public"],
     deps = [
         ":abstract_query_tests",
+        "//java/com/google/gerrit/acceptance:framework-lib",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",

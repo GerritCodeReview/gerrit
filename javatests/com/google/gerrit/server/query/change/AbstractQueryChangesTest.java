@@ -39,6 +39,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.common.truth.ThrowableSubject;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -1883,6 +1884,32 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("conflicts:" + change1.getId().get(), change3);
     assertQuery("conflicts:" + change2.getId().get());
     assertQuery("conflicts:" + change3.getId().get(), change1);
+    assertQuery("conflicts:" + change4.getId().get());
+  }
+
+  @GerritConfig(name = "changeIndex.disableConflictsQuery", value = "true")
+  @Test
+  public void disableConflicts() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 =
+        repo.parseBody(
+            repo.commit()
+                .add("file1", "contents1")
+                .add("dir/file2", "contents2")
+                .add("dir/file3", "contents3")
+                .create());
+    RevCommit commit2 = repo.parseBody(repo.commit().add("file1", "contents1").create());
+    RevCommit commit3 =
+        repo.parseBody(repo.commit().add("dir/file2", "contents2 different").create());
+    RevCommit commit4 = repo.parseBody(repo.commit().add("file4", "contents4").create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
+    Change change4 = insert(repo, newChangeForCommit(repo, commit4));
+
+    assertQuery("conflicts:" + change1.getId().get());
+    assertQuery("conflicts:" + change2.getId().get());
+    assertQuery("conflicts:" + change3.getId().get());
     assertQuery("conflicts:" + change4.getId().get());
   }
 

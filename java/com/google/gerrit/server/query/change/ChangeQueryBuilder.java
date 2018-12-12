@@ -62,6 +62,7 @@ import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -94,6 +95,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
@@ -191,6 +193,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @VisibleForTesting
   public static class Arguments {
+    final Config config;
     final AccountCache accountCache;
     final AccountResolver accountResolver;
     final AllProjectsName allProjectsName;
@@ -224,6 +227,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     @Inject
     @VisibleForTesting
     public Arguments(
+        @GerritServerConfig Config config,
         Provider<ReviewDb> db,
         Provider<InternalChangeQuery> queryProvider,
         ChangeIndexRewriter rewriter,
@@ -253,6 +257,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         GroupMembers groupMembers,
         Provider<AnonymousUser> anonymousUserProvider) {
       this(
+          config,
           db,
           queryProvider,
           rewriter,
@@ -284,6 +289,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     private Arguments(
+        @GerritServerConfig Config config,
         Provider<ReviewDb> db,
         Provider<InternalChangeQuery> queryProvider,
         ChangeIndexRewriter rewriter,
@@ -312,6 +318,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         NotesMigration notesMigration,
         GroupMembers groupMembers,
         Provider<AnonymousUser> anonymousUserProvider) {
+      this.config = config;
       this.db = db;
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
@@ -344,6 +351,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     Arguments asUser(CurrentUser otherUser) {
       return new Arguments(
+          config,
           db,
           queryProvider,
           rewriter,

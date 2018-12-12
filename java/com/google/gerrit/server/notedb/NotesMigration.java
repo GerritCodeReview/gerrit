@@ -84,7 +84,6 @@ public abstract class NotesMigration {
                   SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB))
           .setDisableChangeReviewDb(
               cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, false))
-          .setFailOnLoadForTest(false) // Only set in tests, can't be set via config.
           .build();
     }
 
@@ -97,8 +96,6 @@ public abstract class NotesMigration {
     abstract PrimaryStorage changePrimaryStorage();
 
     abstract boolean disableChangeReviewDb();
-
-    abstract boolean failOnLoadForTest();
 
     abstract Builder toBuilder();
 
@@ -121,8 +118,6 @@ public abstract class NotesMigration {
       abstract Builder setChangePrimaryStorage(PrimaryStorage changePrimaryStorage);
 
       abstract Builder setDisableChangeReviewDb(boolean disableChangeReviewDb);
-
-      abstract Builder setFailOnLoadForTest(boolean failOnLoadForTest);
 
       abstract Snapshot autoBuild();
 
@@ -194,15 +189,6 @@ public abstract class NotesMigration {
    */
   public final boolean disableChangeReviewDb() {
     return snapshot.get().disableChangeReviewDb();
-  }
-
-  /**
-   * Whether to fail when reading any data from NoteDb.
-   *
-   * <p>Used in conjunction with {@link #readChanges()} for tests.
-   */
-  public boolean failOnLoadForTest() {
-    return snapshot.get().failOnLoadForTest();
   }
 
   public final boolean commitChangeWrites() {

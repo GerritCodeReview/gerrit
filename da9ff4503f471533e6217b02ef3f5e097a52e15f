@@ -242,6 +242,30 @@
     },
     {
       "key": {
+        "uuid": "2329d917_7eedb1de",
+        "filename": "java/com/google/gerrit/reviewdb/converter/PatchSetIdProtoConverter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-12-12T15:49:11Z",
+      "side": 1,
+      "message": "\u003e I started with that variant but then realized that this would only have more boilerplate code without any benefit.\n\nSounds like we came to the same conclusion :)",
+      "parentUuid": "2689f970_2ad93c10",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "da9ff4503f471533e6217b02ef3f5e097a52e15f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4098bfc6_cde26d12",
         "filename": "java/com/google/gerrit/reviewdb/converter/PatchSetProtoConverter.java",
         "patchSetId": 2

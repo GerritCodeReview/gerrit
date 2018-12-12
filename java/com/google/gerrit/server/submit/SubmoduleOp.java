@@ -420,7 +420,7 @@ public class SubmoduleOp {
           }
         }
       }
-      batchUpdateFactory.execute(orm.batchUpdates(superProjects), BatchUpdateListener.NONE, false);
+      BatchUpdate.execute(orm.batchUpdates(superProjects), BatchUpdateListener.NONE, false);
     } catch (RestApiException | UpdateException | IOException | NoSuchProjectException e) {
       throw new SubmoduleException("Cannot update gitlinks", e);
     }

@@ -56,7 +56,6 @@ import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -104,55 +103,25 @@ public abstract class BatchUpdate implements AutoCloseable {
     return new FactoryModule() {
       @Override
       public void configure() {
-        factory(BatchUpdate.AssistedFactory.class);
+        factory(BatchUpdate.Factory.class);
       }
     };
   }
 
-  interface AssistedFactory {
+  // TODO(dborowitz): Make this package-private to force all callers to use RetryHelper.
+  public interface Factory {
     BatchUpdate create(ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when);
   }
 
-  @Singleton
-  public static class Factory {
-    private final AssistedFactory assistedFactory;
-
-    // TODO(dborowitz): Make this non-injectable to force all callers to use RetryHelper.
-    @Inject
-    Factory(AssistedFactory assistedFactory) {
-      this.assistedFactory = assistedFactory;
-    }
-
-    public BatchUpdate create(
-        ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when) {
-      return assistedFactory.create(db, project, user, when);
-    }
-
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public void execute(
-        Collection<BatchUpdate> updates, BatchUpdateListener listener, boolean dryRun)
-        throws UpdateException, RestApiException {
-      requireNonNull(listener);
-      checkDifferentProject(updates);
-      BatchUpdate.execute(ImmutableList.copyOf(updates), listener, dryRun);
-    }
-
-    private static void checkDifferentProject(Collection<BatchUpdate> updates) {
-      Multiset<Project.NameKey> projectCounts =
-          updates.stream().map(u -> u.project).collect(toImmutableMultiset());
-      checkArgument(
-          projectCounts.entrySet().size() == updates.size(),
-          "updates must all be for different projects, got: %s",
-          projectCounts);
-    }
-  }
-
-  private static void execute(
-      ImmutableList<BatchUpdate> updates, BatchUpdateListener listener, boolean dryrun)
+  public static void execute(
+      Collection<BatchUpdate> updates, BatchUpdateListener listener, boolean dryrun)
       throws UpdateException, RestApiException {
+    requireNonNull(listener);
     if (updates.isEmpty()) {
       return;
     }
+
+    checkDifferentProject(updates);
 
     try {
       @SuppressWarnings("deprecation")
@@ -233,6 +202,15 @@ public abstract class BatchUpdate implements AutoCloseable {
     } catch (Exception e) {
       wrapAndThrowException(e);
     }
+  }
+
+  private static void checkDifferentProject(Collection<BatchUpdate> updates) {
+    Multiset<Project.NameKey> projectCounts =
+        updates.stream().map(u -> u.project).collect(toImmutableMultiset());
+    checkArgument(
+        projectCounts.entrySet().size() == updates.size(),
+        "updates must all be for different projects, got: %s",
+        projectCounts);
   }
 
   private static Order getOrder(

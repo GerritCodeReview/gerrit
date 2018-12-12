@@ -27,11 +27,11 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 public interface GroupOperations {
   /**
    * Starts the fluent chain for querying or modifying a group. Please see the methods of {@link
-   * MoreGroupOperations} for details on possible operations.
+   * PerGroupOperations} for details on possible operations.
    *
    * @return an aggregation of operations on a specific group
    */
-  MoreGroupOperations group(AccountGroup.UUID groupUuid);
+  PerGroupOperations group(AccountGroup.UUID groupUuid);
 
   /**
    * Starts the fluent chain to create a group. The returned builder can be used to specify the
@@ -56,7 +56,7 @@ public interface GroupOperations {
   TestGroupCreation.Builder newGroup();
 
   /** An aggregation of methods on a specific group. */
-  interface MoreGroupOperations {
+  interface PerGroupOperations {
 
     /**
      * Checks whether the group exists.

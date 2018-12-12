@@ -60,8 +60,8 @@ public class GroupOperationsImpl implements GroupOperations {
   }
 
   @Override
-  public MoreGroupOperations group(AccountGroup.UUID groupUuid) {
-    return new MoreGroupOperationsImpl(groupUuid);
+  public PerGroupOperations group(AccountGroup.UUID groupUuid) {
+    return new PerGroupOperationsImpl(groupUuid);
   }
 
   @Override
@@ -101,10 +101,10 @@ public class GroupOperationsImpl implements GroupOperations {
     return builder.build();
   }
 
-  private class MoreGroupOperationsImpl implements MoreGroupOperations {
+  private class PerGroupOperationsImpl implements PerGroupOperations {
     private final AccountGroup.UUID groupUuid;
 
-    MoreGroupOperationsImpl(AccountGroup.UUID groupUuid) {
+    PerGroupOperationsImpl(AccountGroup.UUID groupUuid) {
       this.groupUuid = groupUuid;
     }
 

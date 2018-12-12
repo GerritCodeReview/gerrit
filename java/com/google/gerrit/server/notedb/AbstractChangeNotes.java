@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Objects.requireNonNull;
 
@@ -34,6 +33,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -44,8 +44,10 @@ public abstract class AbstractChangeNotes<T> {
   @VisibleForTesting
   @Singleton
   public static class Args {
+    // TODO(dborowitz): Some less smelly way of disabling NoteDb in tests.
+    public final AtomicBoolean failOnLoadForTest;
+
     final GitRepositoryManager repoManager;
-    final NotesMigration migration;
     final AllUsersName allUsers;
     final ChangeNoteJson changeNoteJson;
     final LegacyChangeNoteRead legacyChangeNoteRead;
@@ -60,15 +62,14 @@ public abstract class AbstractChangeNotes<T> {
     @Inject
     Args(
         GitRepositoryManager repoManager,
-        NotesMigration migration,
         AllUsersName allUsers,
         ChangeNoteJson changeNoteJson,
         LegacyChangeNoteRead legacyChangeNoteRead,
         NoteDbMetrics metrics,
         Provider<ReviewDb> db,
         Provider<ChangeNotesCache> cache) {
+      this.failOnLoadForTest = new AtomicBoolean();
       this.repoManager = repoManager;
-      this.migration = migration;
       this.allUsers = allUsers;
       this.legacyChangeNoteRead = legacyChangeNoteRead;
       this.changeNoteJson = changeNoteJson;
@@ -132,8 +133,7 @@ public abstract class AbstractChangeNotes<T> {
       return self();
     }
 
-    checkState(args.migration.readChanges(), "NoteDb is required to read changes");
-    if (args.migration.failOnLoadForTest()) {
+    if (args.failOnLoadForTest.get()) {
       throw new OrmException("Reading from NoteDb is disabled");
     }
     try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
@@ -181,8 +181,6 @@ public abstract class AbstractChangeNotes<T> {
   public ObjectId loadRevision() throws OrmException {
     if (loaded) {
       return getRevision();
-    } else if (!args.migration.readChanges()) {
-      return null;
     }
     try (Repository repo = args.repoManager.openRepository(getProjectName())) {
       Ref ref = repo.getRefDatabase().exactRef(getRefName());

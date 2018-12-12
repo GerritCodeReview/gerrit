@@ -444,7 +444,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   private void rework(String changeId) throws Exception {
     PushOneCommit push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
@@ -460,7 +459,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     testRepo.reset(getRemoteHead());
     PushOneCommit push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             "Other Change",
@@ -487,7 +485,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     testRepo.reset(parent1.getCommit());
 
-    PushOneCommit merge = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit merge = pushFactory.create(admin.getIdent(), testRepo);
     merge.setParents(ImmutableList.of(parent1.getCommit(), parent2.getCommit()));
     PushOneCommit.Result result = merge.to("refs/for/master");
     result.assertOkStatus();
@@ -504,7 +502,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     testRepo.reset(parent1);
     PushOneCommit.Result newParent1 = createChange("new parent 1", "p1-1.txt", "content 1-1");
 
-    PushOneCommit merge = pushFactory.create(db, admin.getIdent(), testRepo, changeId);
+    PushOneCommit merge = pushFactory.create(admin.getIdent(), testRepo, changeId);
     merge.setParents(ImmutableList.of(newParent1.getCommit(), commitParent2));
     PushOneCommit.Result result = merge.to("refs/for/master");
     result.assertOkStatus();
@@ -528,7 +526,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db,
                 admin.getIdent(),
                 testRepo,
                 PushOneCommit.SUBJECT,

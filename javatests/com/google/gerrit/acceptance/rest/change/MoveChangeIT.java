@@ -360,7 +360,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   private PushOneCommit.Result createChange(String branch, String changeId) throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo, changeId);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo, changeId);
     PushOneCommit.Result result = push.to("refs/for/" + branch);
     result.assertOkStatus();
     return result;

@@ -153,7 +153,7 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result createChange(Project.NameKey p, String r) throws Exception {
     TestRepository<InMemoryRepository> testRepo = cloneProject(p);
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
     PushOneCommit.Result result = push.to(r);
     result.assertOkStatus();
     return result;

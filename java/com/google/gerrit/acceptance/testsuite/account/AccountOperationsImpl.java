@@ -50,8 +50,8 @@ public class AccountOperationsImpl implements AccountOperations {
   }
 
   @Override
-  public MoreAccountOperations account(Account.Id accountId) {
-    return new MoreAccountOperationsImpl(accountId);
+  public PerAccountOperations account(Account.Id accountId) {
+    return new PerAccountOperationsImpl(accountId);
   }
 
   @Override
@@ -100,10 +100,10 @@ public class AccountOperationsImpl implements AccountOperations {
     return builder.addExternalId(ExternalId.createUsername(username, accountId, httpPassword));
   }
 
-  private class MoreAccountOperationsImpl implements MoreAccountOperations {
+  private class PerAccountOperationsImpl implements PerAccountOperations {
     private final Account.Id accountId;
 
-    MoreAccountOperationsImpl(Account.Id accountId) {
+    PerAccountOperationsImpl(Account.Id accountId) {
       this.accountId = accountId;
     }
 

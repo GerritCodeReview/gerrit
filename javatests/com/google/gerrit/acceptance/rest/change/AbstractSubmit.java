@@ -156,12 +156,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void submitToEmptyRepo() throws Exception {
-    assertThat(getRemoteHead()).isNull();
+    assertThat(headExists("master")).isFalse();
     PushOneCommit.Result change = createChange();
     assertThat(change.getCommit().getParents()).isEmpty();
     Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
-    RevCommit headAfterSubmitPreview = getRemoteHead();
-    assertThat(headAfterSubmitPreview).isNull();
+    assertThat(headExists("master")).isFalse();
     assertThat(actual).hasSize(1);
 
     submit(change.getChangeId());
@@ -1077,12 +1076,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false, rejectEmptyCommit = InheritableBoolean.TRUE)
   public void submitNonemptyCommitToEmptyRepoWithRejectEmptyCommit_allowed() throws Exception {
-    assertThat(getRemoteHead()).isNull();
+    assertThat(headExists("master")).isFalse();
     PushOneCommit.Result change = createChange();
     assertThat(change.getCommit().getParents()).isEmpty();
     Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
-    RevCommit headAfterSubmitPreview = getRemoteHead();
-    assertThat(headAfterSubmitPreview).isNull();
+    assertThat(headExists("master")).isFalse();
     assertThat(actual).hasSize(1);
 
     submit(change.getChangeId());
@@ -1093,7 +1091,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false, rejectEmptyCommit = InheritableBoolean.TRUE)
   public void submitEmptyCommitToEmptyRepoWithRejectEmptyCommit_allowed() throws Exception {
-    assertThat(getRemoteHead()).isNull();
+    assertThat(headExists("master")).isFalse();
     PushOneCommit.Result change =
         pushFactory
             .create(db, admin.getIdent(), testRepo, "Change 1", ImmutableMap.of())
@@ -1104,8 +1102,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         .isEqualTo(ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904"));
 
     Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
-    RevCommit headAfterSubmitPreview = getRemoteHead();
-    assertThat(headAfterSubmitPreview).isNull();
+    assertThat(headExists("master")).isFalse();
     assertThat(actual).hasSize(1);
 
     submit(change.getChangeId());
@@ -1368,5 +1365,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master/" + name(topic));
+  }
+
+  protected boolean headExists(String branch) throws Exception {
+    try (Repository repo = repoManager.openRepository(project)) {
+      return repo.exactRef(branch) != null;
+    }
   }
 }

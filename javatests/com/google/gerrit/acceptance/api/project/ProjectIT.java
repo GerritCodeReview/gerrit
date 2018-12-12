@@ -58,7 +58,11 @@ import com.google.gerrit.server.project.CommentLinkInfoImpl;
 import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.After;
@@ -102,7 +106,7 @@ public class ProjectIT extends AbstractDaemonTest {
     String name = name("foo");
     assertThat(gApi.projects().create(name).get().name).isEqualTo(name);
 
-    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+    RevCommit head = remoteHeadOrNull(name, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
     eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
@@ -121,13 +125,13 @@ public class ProjectIT extends AbstractDaemonTest {
             gApi.projects().name(name).branches().get().stream().map(b -> b.ref).collect(toSet()))
         .containsExactly("refs/heads/foo", "refs/heads/master", "HEAD", RefNames.REFS_CONFIG);
 
-    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+    RevCommit head = remoteHeadOrNull(name, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
-    head = getRemoteHead(name, "refs/heads/foo");
+    head = remoteHeadOrNull(name, "refs/heads/foo");
     eventRecorder.assertRefUpdatedEvents(name, "refs/heads/foo", null, head);
 
-    head = getRemoteHead(name, "refs/heads/master");
+    head = remoteHeadOrNull(name, "refs/heads/master");
     eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", null, head);
 
     projectIndexedCounter.assertReindexOf(name);
@@ -138,7 +142,7 @@ public class ProjectIT extends AbstractDaemonTest {
     String name = name("foo");
     assertThat(gApi.projects().create(name + ".git").get().name).isEqualTo(name);
 
-    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+    RevCommit head = remoteHeadOrNull(name, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
     eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
@@ -152,10 +156,10 @@ public class ProjectIT extends AbstractDaemonTest {
     input.createEmptyCommit = true;
     assertThat(gApi.projects().create(input).get().name).isEqualTo(name);
 
-    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+    RevCommit head = remoteHeadOrNull(name, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
-    head = getRemoteHead(name, "refs/heads/master");
+    head = remoteHeadOrNull(name, "refs/heads/master");
     eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", null, head);
   }
 
@@ -220,14 +224,14 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createAndDeleteBranch() throws Exception {
-    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+    assertThat(remoteHeadOrNull(project.get(), "foo")).isNull();
 
     gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
-    assertThat(getRemoteHead(project.get(), "foo")).isNotNull();
+    assertThat(remoteHeadOrNull(project.get(), "foo")).isNotNull();
     projectIndexedCounter.assertNoReindex();
 
     gApi.projects().name(project.get()).branch("foo").delete();
-    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+    assertThat(remoteHeadOrNull(project.get(), "foo")).isNull();
     projectIndexedCounter.assertNoReindex();
   }
 
@@ -236,16 +240,16 @@ public class ProjectIT extends AbstractDaemonTest {
     grant(project, "refs/*", Permission.PUSH, true);
     projectIndexedCounter.clear();
 
-    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+    assertThat(remoteHeadOrNull(project.get(), "foo")).isNull();
 
     PushOneCommit.Result r = pushTo("refs/heads/foo");
     r.assertOkStatus();
-    assertThat(getRemoteHead(project.get(), "foo")).isEqualTo(r.getCommit());
+    assertThat(remoteHeadOrNull(project.get(), "foo")).isEqualTo(r.getCommit());
     projectIndexedCounter.assertNoReindex();
 
     PushResult r2 = GitUtil.pushOne(testRepo, null, "refs/heads/foo", false, true, null);
     assertThat(r2.getRemoteUpdate("refs/heads/foo").getStatus()).isEqualTo(Status.OK);
-    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+    assertThat(remoteHeadOrNull(project.get(), "foo")).isNull();
     projectIndexedCounter.assertNoReindex();
   }
 
@@ -718,7 +722,13 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Nullable
-  protected RevCommit getRemoteHead(String project, String branch) throws Exception {
-    return getRemoteHead(new Project.NameKey(project), branch);
+  protected RevCommit remoteHeadOrNull(String project, String branch) throws Exception {
+    try (Repository repo = repoManager.openRepository(new Project.NameKey(project))) {
+      String name = branch.startsWith(Constants.R_REFS) ? branch : "refs/heads/" + branch;
+      try (RevWalk rw = new RevWalk(repo)) {
+        Ref r = repo.exactRef(name);
+        return r != null ? rw.parseCommit(r.getObjectId()) : null;
+      }
+    }
   }
 }

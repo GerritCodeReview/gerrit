@@ -285,7 +285,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(edit).value().baseRevision().isEqualTo(currentPatchSet.getRevision().get());
     PushOneCommit push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             PushOneCommit.SUBJECT,
@@ -689,7 +688,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
 
     // Create change as user
-    PushOneCommit push = pushFactory.create(db, user.getIdent(), userTestRepo);
+    PushOneCommit push = pushFactory.create(user.getIdent(), userTestRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
     r1.assertOkStatus();
 
@@ -744,14 +743,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private String newChange(PersonIdent ident) throws Exception {
     PushOneCommit push =
         pushFactory.create(
-            db, ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME, new String(CONTENT_OLD, UTF_8));
+            ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME, new String(CONTENT_OLD, UTF_8));
     return push.to("refs/for/master").getChangeId();
   }
 
   private String amendChange(PersonIdent ident, String changeId) throws Exception {
     PushOneCommit push =
         pushFactory.create(
-            db,
             ident,
             testRepo,
             PushOneCommit.SUBJECT,
@@ -764,7 +762,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private String newChange2(PersonIdent ident) throws Exception {
     PushOneCommit push =
         pushFactory.create(
-            db, ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME, new String(CONTENT_OLD, UTF_8));
+            ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME, new String(CONTENT_OLD, UTF_8));
     return push.rm("refs/for/master").getChangeId();
   }
 

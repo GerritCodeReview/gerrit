@@ -164,7 +164,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     GitUtil.fetch(childRepo, RefNames.REFS_CONFIG + ":cfg");
     childRepo.reset("cfg");
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), childRepo, "Subject", "project.config", config);
+        pushFactory.create(admin.getIdent(), childRepo, "Subject", "project.config", config);
     PushOneCommit.Result res = push.to(RefNames.REFS_CONFIG);
     res.assertErrorStatus();
     res.assertMessage("cannot inherit from multiple projects");
@@ -190,12 +190,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db,
-                user.getIdent(),
-                testRepo,
-                "Update project config",
-                "project.config",
-                cfg.toText())
+                user.getIdent(), testRepo, "Update project config", "project.config", cfg.toText())
             .to("refs/for/refs/meta/config");
     r.assertOkStatus();
     return r;

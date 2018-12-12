@@ -138,22 +138,22 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     // visible.
     allow("refs/for/refs/heads/*", Permission.SUBMIT, admins);
     PushOneCommit.Result mr =
-        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%submit");
+        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
     c1 = mr.getChange();
     r1 = changeRefPrefix(c1.getId());
     PushOneCommit.Result br =
-        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/branch%submit");
+        pushFactory.create(admin.getIdent(), testRepo).to("refs/for/branch%submit");
     br.assertOkStatus();
     c2 = br.getChange();
     r2 = changeRefPrefix(c2.getId());
 
     // Second 2 changes are unmerged.
-    mr = pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master");
+    mr = pushFactory.create(admin.getIdent(), testRepo).to("refs/for/master");
     mr.assertOkStatus();
     c3 = mr.getChange();
     r3 = changeRefPrefix(c3.getId());
-    br = pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/branch");
+    br = pushFactory.create(admin.getIdent(), testRepo).to("refs/for/branch");
     br.assertOkStatus();
     c4 = br.getChange();
     r4 = changeRefPrefix(c4.getId());
@@ -675,7 +675,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allUsersRepo.reset("userRef");
     PushOneCommit.Result mr =
         pushFactory
-            .create(db, admin.getIdent(), allUsersRepo)
+            .create(admin.getIdent(), allUsersRepo)
             .to("refs/for/" + RefNames.REFS_USERS_SELF);
     mr.assertOkStatus();
 

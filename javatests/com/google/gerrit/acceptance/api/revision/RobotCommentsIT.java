@@ -68,7 +68,6 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     PushOneCommit push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             "Provide files which can be used for fixes",
@@ -107,7 +106,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     RobotCommentInput in = createRobotCommentInput();
     addRobotComment(changeId, in);
 
-    pushFactory.create(db, admin.getIdent(), testRepo, changeId).to("refs/for/master");
+    pushFactory.create(admin.getIdent(), testRepo, changeId).to("refs/for/master");
 
     RobotCommentInput in2 = createRobotCommentInput();
     addRobotComment(changeId, in2);
@@ -919,8 +918,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 =
         pushFactory
-            .create(
-                db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
+            .create(admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
             .to("refs/for/master");
 
     addRobotComment(r2.getChangeId(), createRobotCommentInputWithMandatoryFields());

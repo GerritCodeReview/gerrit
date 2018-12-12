@@ -189,8 +189,8 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
   @Test
   public void missingChange() throws Exception {
     Change.Id changeId = new Change.Id(1234567);
-    assertNoSuchChangeException(() -> notesFactory.create(db, project, changeId));
-    assertNoSuchChangeException(() -> notesFactory.createChecked(db, project, changeId));
+    assertNoSuchChangeException(() -> notesFactory.create(project, changeId));
+    assertNoSuchChangeException(() -> notesFactory.createChecked(project, changeId));
   }
 
   private void assertNoSuchChangeException(Callable<?> callable) throws Exception {

@@ -139,7 +139,7 @@ public class ChangeData {
     if (missing.isEmpty()) {
       return;
     }
-    for (ChangeNotes notes : first.notesFactory.create(first.db, missing.keySet())) {
+    for (ChangeNotes notes : first.notesFactory.create(missing.keySet())) {
       missing.get(notes.getChangeId()).change = notes.getChange();
     }
   }
@@ -571,7 +571,7 @@ public class ChangeData {
 
   public Change reloadChange() throws OrmException {
     try {
-      notes = notesFactory.createChecked(db, project, legacyId);
+      notes = notesFactory.createChecked(project, legacyId);
     } catch (NoSuchChangeException e) {
       throw new OrmException("Unable to load change " + legacyId, e);
     }
@@ -598,7 +598,7 @@ public class ChangeData {
       if (!lazyLoad) {
         throw new OrmException("ChangeNotes not available, lazyLoad = false");
       }
-      notes = notesFactory.create(db, project(), legacyId);
+      notes = notesFactory.create(project(), legacyId);
     }
     return notes;
   }

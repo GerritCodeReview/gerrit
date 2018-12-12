@@ -141,7 +141,6 @@ public class PushOneCommit {
   private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final ReviewDb db;
   private final TestRepository<?> testRepo;
 
   private final String subject;
@@ -265,14 +264,14 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      ReviewDb db,
+      // TODO(ekempin): Remove unused ReviewDb
+      @SuppressWarnings("unused") ReviewDb db,
       PersonIdent i,
       TestRepository<?> testRepo,
       String subject,
       Map<String, String> files,
       String changeId)
       throws Exception {
-    this.db = db;
     this.testRepo = testRepo;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
@@ -419,7 +418,7 @@ public class PushOneCommit {
         Change c, ReviewerStateInternal state, List<TestAccount> expectedReviewers)
         throws OrmException {
       Iterable<Account.Id> actualIds =
-          approvalsUtil.getReviewers(notesFactory.createChecked(db, c)).byState(state);
+          approvalsUtil.getReviewers(notesFactory.createChecked(c)).byState(state);
       assertThat(actualIds)
           .containsExactlyElementsIn(Sets.newHashSet(TestAccount.ids(expectedReviewers)));
     }

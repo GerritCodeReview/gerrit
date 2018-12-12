@@ -185,9 +185,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
       ReviewDb db = ctx.getReviewDbProvider().get();
       try {
         Change c =
-            notesFactory
-                .createChecked(db, new Project.NameKey(event.getProjectName()), id)
-                .getChange();
+            notesFactory.createChecked(new Project.NameKey(event.getProjectName()), id).getChange();
         indexerFactory.create(executor, indexes).index(db, c);
       } catch (NoSuchChangeException e) {
         indexerFactory.create(executor, indexes).delete(id);

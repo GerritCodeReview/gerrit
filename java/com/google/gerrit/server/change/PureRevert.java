@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -27,7 +26,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -49,7 +47,6 @@ public class PureRevert {
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final ChangeNotes.Factory notesFactory;
-  private final Provider<ReviewDb> dbProvider;
   private final PatchSetUtil psUtil;
 
   @Inject
@@ -58,13 +55,11 @@ public class PureRevert {
       GitRepositoryManager repoManager,
       ProjectCache projectCache,
       ChangeNotes.Factory notesFactory,
-      Provider<ReviewDb> dbProvider,
       PatchSetUtil psUtil) {
     this.mergeUtilFactory = mergeUtilFactory;
     this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.notesFactory = notesFactory;
-    this.dbProvider = dbProvider;
     this.psUtil = psUtil;
   }
 
@@ -81,8 +76,7 @@ public class PureRevert {
       }
       PatchSet ps =
           psUtil.current(
-              notesFactory.createChecked(
-                  dbProvider.get(), notes.getProjectName(), notes.getChange().getRevertOf()));
+              notesFactory.createChecked(notes.getProjectName(), notes.getChange().getRevertOf()));
       claimedOriginal = ps.getRevision().get();
     }
 

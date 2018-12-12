@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
@@ -369,7 +368,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSequencesWithAccessDatabase() throws Exception {
-    assume().that(notesMigration.readChangeSequence()).isTrue();
     try (Repository repo = repoManager.openRepository(allProjects)) {
       assertRefs(repo, newFilter(allProjects, user), true);
 
@@ -421,30 +419,28 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       PatchSet.Id psId = new PatchSet.Id(c3.getId(), 2);
       c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
 
-      if (notesMigration.commitChangeWrites()) {
-        PersonIdent committer = serverIdent.get();
-        PersonIdent author =
-            noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
-        tr.branch(RefNames.changeMetaRef(c3.getId()))
-            .commit()
-            .author(author)
-            .committer(committer)
-            .message(
-                "Update patch set "
-                    + psId.get()
-                    + "\n"
-                    + "\n"
-                    + "Patch-set: "
-                    + psId.get()
-                    + "\n"
-                    + "Commit: "
-                    + rev
-                    + "\n"
-                    + "Subject: "
-                    + subject
-                    + "\n")
-            .create();
-      }
+      PersonIdent committer = serverIdent.get();
+      PersonIdent author =
+          noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
+      tr.branch(RefNames.changeMetaRef(c3.getId()))
+          .commit()
+          .author(author)
+          .committer(committer)
+          .message(
+              "Update patch set "
+                  + psId.get()
+                  + "\n"
+                  + "\n"
+                  + "Patch-set: "
+                  + psId.get()
+                  + "\n"
+                  + "Commit: "
+                  + rev
+                  + "\n"
+                  + "Subject: "
+                  + subject
+                  + "\n")
+          .create();
       indexer.index(db, c.getProject(), c.getId());
     }
 
@@ -597,8 +593,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesOmitDraftCommentRefsOfOtherUsers() throws Exception {
-    assume().that(notesMigration.commitChangeWrites()).isTrue();
-
     allow(project, "refs/*", Permission.READ, REGISTERED_USERS);
     allow(allUsersName, "refs/*", Permission.READ, REGISTERED_USERS);
 
@@ -619,8 +613,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesOmitStarredChangesRefsOfOtherUsers() throws Exception {
-    assume().that(notesMigration.commitChangeWrites()).isTrue();
-
     allow(project, "refs/*", Permission.READ, REGISTERED_USERS);
     allow(allUsersName, "refs/*", Permission.READ, REGISTERED_USERS);
 
@@ -731,7 +723,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       throws Exception {
     List<String> expected = new ArrayList<>(expectedWithMeta.length);
     for (String r : expectedWithMeta) {
-      if (notesMigration.commitChangeWrites() || !r.endsWith(RefNames.META_SUFFIX)) {
+      if (!r.endsWith(RefNames.META_SUFFIX)) {
         expected.add(r);
       }
     }

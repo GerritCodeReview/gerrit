@@ -44,7 +44,6 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.junit.TestRepository;
@@ -558,7 +557,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   @Test
   public void getRelatedManyGroups() throws Exception {
-    List<RevCommit> commits = new ArrayList<>();
     RevCommit last = null;
     int n = 2 * MAX_TERMS;
     assertThat(n).isGreaterThan(indexConfig.maxTerms());
@@ -567,7 +565,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
       last = cb.add("a.txt", Integer.toString(i)).message("subject: " + i).create();
       testRepo.reset(last);
       assertPushOk(pushHead(testRepo, "refs/for/master", false), "refs/for/master");
-      commits.add(last);
     }
 
     ChangeData cd = getChange(last);

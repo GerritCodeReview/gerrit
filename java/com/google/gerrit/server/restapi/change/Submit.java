@@ -215,8 +215,7 @@ public class Submit
       ReviewDb db = dbProvider.get();
       op.merge(db, change, submitter, true, input, false);
       try {
-        change =
-            changeNotesFactory.createChecked(db, change.getProject(), change.getId()).getChange();
+        change = changeNotesFactory.createChecked(change.getProject(), change.getId()).getChange();
       } catch (NoSuchChangeException e) {
         throw new ResourceConflictException("change is deleted");
       }

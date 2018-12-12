@@ -1276,7 +1276,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected void assertSubmitter(String changeId, int psId, TestAccount user) throws Exception {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
-    ChangeNotes cn = notesFactory.createChecked(db, c);
+    ChangeNotes cn = notesFactory.createChecked(c);
     PatchSetApproval submitter =
         approvalsUtil.getSubmitter(cn, new PatchSet.Id(cn.getChangeId(), psId));
     assertThat(submitter).isNotNull();
@@ -1286,7 +1286,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected void assertNoSubmitter(String changeId, int psId) throws Exception {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
-    ChangeNotes cn = notesFactory.createChecked(db, c);
+    ChangeNotes cn = notesFactory.createChecked(c);
     PatchSetApproval submitter =
         approvalsUtil.getSubmitter(cn, new PatchSet.Id(cn.getChangeId(), psId));
     assertThat(submitter).isNull();

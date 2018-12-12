@@ -317,7 +317,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId) throws Exception {
-    ChangeNotes notes = notesFactory.createChecked(db, project, patchSetId.getParentKey()).load();
+    ChangeNotes notes = notesFactory.createChecked(project, patchSetId.getParentKey()).load();
     return approvalsUtil.getSubmitter(notes, patchSetId);
   }
 

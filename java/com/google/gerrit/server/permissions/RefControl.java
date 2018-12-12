@@ -442,9 +442,7 @@ class RefControl {
     public ForChange change(ChangeData cd) {
       try {
         // TODO(hiesel) Force callers to call database() and use db instead of cd.db()
-        return getProjectControl()
-            .controlFor(cd.db(), cd.change())
-            .asForChange(cd, Providers.of(cd.db()));
+        return getProjectControl().controlFor(cd.change()).asForChange(cd, Providers.of(cd.db()));
       } catch (OrmException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }

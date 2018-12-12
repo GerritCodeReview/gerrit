@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.config.GitReceivePackGroups;
@@ -98,9 +97,9 @@ class ProjectControl {
     return new ForProjectImpl();
   }
 
-  ChangeControl controlFor(ReviewDb db, Change change) throws OrmException {
+  ChangeControl controlFor(Change change) throws OrmException {
     return changeControlFactory.create(
-        controlForRef(change.getDest()), db, change.getProject(), change.getId());
+        controlForRef(change.getDest()), change.getProject(), change.getId());
   }
 
   ChangeControl controlFor(ChangeNotes notes) {

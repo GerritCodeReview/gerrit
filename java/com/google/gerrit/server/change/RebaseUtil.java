@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -46,18 +45,15 @@ public class RebaseUtil {
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
-  private final Provider<ReviewDb> dbProvider;
   private final PatchSetUtil psUtil;
 
   @Inject
   RebaseUtil(
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
-      Provider<ReviewDb> dbProvider,
       PatchSetUtil psUtil) {
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
-    this.dbProvider = dbProvider;
     this.psUtil = psUtil;
   }
 
@@ -128,7 +124,7 @@ public class RebaseUtil {
     if (rsrc.getChange().getId().equals(id)) {
       return rsrc.getNotes();
     }
-    return notesFactory.createChecked(dbProvider.get(), rsrc.getProject(), id);
+    return notesFactory.createChecked(rsrc.getProject(), id);
   }
 
   /**

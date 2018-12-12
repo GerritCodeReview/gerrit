@@ -638,7 +638,7 @@ public class BatchUpdate implements AutoCloseable {
       // Pass a synthetic change into ChangeNotes.Factory, which will take care of checking for
       // existence and populating columns from the parsed notes state.
       // TODO(dborowitz): This dance made more sense when using Reviewdb; consider a nicer way.
-      c = ChangeNotes.Factory.newNoteDbOnlyChange(project, id);
+      c = ChangeNotes.Factory.newChange(project, id);
     } else {
       logDebug("Change %s is new", id);
     }

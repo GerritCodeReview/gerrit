@@ -53,6 +53,7 @@ public class TestChanges {
 
   public static Change newChange(Project.NameKey project, Account.Id userId, int id) {
     Change.Id changeId = new Change.Id(id);
+    // TODO(ekempin): Create NoteDb change.
     Change c =
         new Change(
             new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),

@@ -261,7 +261,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             + rev
             + "\n");
     indexer.index(db, c.getProject(), c.getId());
-    ChangeNotes notes = changeNotesFactory.create(db, c.getProject(), c.getId());
+    ChangeNotes notes = changeNotesFactory.create(c.getProject(), c.getId());
 
     FixInput fix = new FixInput();
     fix.deletePatchSetIfCommitMissing = true;
@@ -760,7 +760,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
               .setSendMail(false);
       bu.insertChange(ins).execute();
     }
-    return changeNotesFactory.create(db, project, ins.getChange().getId());
+    return changeNotesFactory.create(project, ins.getChange().getId());
   }
 
   private PatchSet.Id nextPatchSetId(ChangeNotes notes) throws Exception {
@@ -787,7 +787,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   }
 
   private ChangeNotes reload(ChangeNotes notes) throws Exception {
-    return changeNotesFactory.create(db, notes.getChange().getProject(), notes.getChangeId());
+    return changeNotesFactory.create(notes.getChange().getProject(), notes.getChangeId());
   }
 
   private RevCommit patchSetCommit(PatchSet.Id psId) throws Exception {

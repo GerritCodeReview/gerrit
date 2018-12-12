@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "81660bbd_20d07f09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-12-12T14:54:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6aaf9995_f37a0a50",
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9778d6c_448d3ae2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
         "patchSetId": 17

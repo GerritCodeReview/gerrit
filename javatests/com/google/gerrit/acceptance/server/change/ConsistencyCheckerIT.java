@@ -836,9 +836,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   }
 
   private void addNoteDbCommit(Change.Id id, String commitMessage) throws Exception {
-    if (!notesMigration.commitChangeWrites()) {
-      return;
-    }
     PersonIdent committer = serverIdent.get();
     PersonIdent author =
         noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);

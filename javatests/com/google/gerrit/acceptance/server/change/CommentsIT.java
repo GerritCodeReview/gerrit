@@ -839,10 +839,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     setApiUser(admin);
     for (int i = 0; i < commentsBeforeDelete.size(); i++) {
-      List<RevCommit> commitsBeforeDelete = new ArrayList<>();
-      if (notesMigration.commitChangeWrites()) {
-        commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
-      }
+      List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
 
       CommentInfo comment = commentsBeforeDelete.get(i);
       String uuid = comment.id;
@@ -861,9 +858,7 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(updatedComment).isEqualTo(oldComment);
 
       // Check the NoteDb state after the deletion.
-      if (notesMigration.commitChangeWrites()) {
-        assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
-      }
+      assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
 
       comment.message = expectedMsg;
       commentsBeforeDelete.set(i, comment);
@@ -910,10 +905,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String uuid = targetComment.get().id;
     CommentInfo oldComment = gApi.changes().id(changeId).revision(ps1).comment(uuid).get();
 
-    List<RevCommit> commitsBeforeDelete = new ArrayList<>();
-    if (notesMigration.commitChangeWrites()) {
-      commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
-    }
+    List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
 
     setApiUser(admin);
     for (int i = 0; i < 3; i++) {
@@ -929,9 +921,7 @@ public class CommentsIT extends AbstractDaemonTest {
     oldComment.message = expectedMsg;
     assertThat(updatedComment).isEqualTo(oldComment);
 
-    if (notesMigration.commitChangeWrites()) {
-      assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
-    }
+    assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
     assertThat(getChangeSortedComments(id.get())).hasSize(3);
   }
 

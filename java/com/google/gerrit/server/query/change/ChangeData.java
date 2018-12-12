@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -65,7 +64,6 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -77,7 +75,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -105,8 +102,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ChangeData {
-  private static final int BATCH_SIZE = 50;
-
   public static List<Change> asChanges(List<ChangeData> changeDatas) throws OrmException {
     List<Change> result = new ArrayList<>(changeDatas.size());
     for (ChangeData cd : changeDatas) {
@@ -123,24 +118,10 @@ public class ChangeData {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
-    } else if (first.notesMigration.readChanges()) {
-      for (ChangeData cd : changes) {
-        cd.change();
-      }
-      return;
     }
 
-    Map<Change.Id, ChangeData> missing = new HashMap<>();
     for (ChangeData cd : changes) {
-      if (cd.change == null) {
-        missing.put(cd.getId(), cd);
-      }
-    }
-    if (missing.isEmpty()) {
-      return;
-    }
-    for (ChangeNotes notes : first.notesFactory.create(missing.keySet())) {
-      missing.get(notes.getChangeId()).change = notes.getChange();
+      cd.change();
     }
   }
 
@@ -148,29 +129,10 @@ public class ChangeData {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
-    } else if (first.notesMigration.readChanges()) {
-      for (ChangeData cd : changes) {
-        cd.patchSets();
-      }
-      return;
     }
 
-    List<ResultSet<PatchSet>> results = new ArrayList<>(BATCH_SIZE);
-    for (List<ChangeData> batch : Iterables.partition(changes, BATCH_SIZE)) {
-      results.clear();
-      for (ChangeData cd : batch) {
-        if (cd.patchSets == null) {
-          results.add(cd.db.patchSets().byChange(cd.getId()));
-        } else {
-          results.add(null);
-        }
-      }
-      for (int i = 0; i < batch.size(); i++) {
-        ResultSet<PatchSet> result = results.get(i);
-        if (result != null) {
-          batch.get(i).patchSets = result.toList();
-        }
-      }
+    for (ChangeData cd : changes) {
+      cd.patchSets();
     }
   }
 
@@ -178,24 +140,10 @@ public class ChangeData {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
-    } else if (first.notesMigration.readChanges()) {
-      for (ChangeData cd : changes) {
-        cd.currentPatchSet();
-      }
-      return;
     }
 
-    Map<PatchSet.Id, ChangeData> missing = new HashMap<>();
     for (ChangeData cd : changes) {
-      if (cd.currentPatchSet == null && cd.patchSets == null) {
-        missing.put(cd.change().currentPatchSetId(), cd);
-      }
-    }
-    if (missing.isEmpty()) {
-      return;
-    }
-    for (PatchSet ps : first.db.patchSets().get(missing.keySet())) {
-      missing.get(ps.getId()).currentPatchSet = ps;
+      cd.currentPatchSet();
     }
   }
 
@@ -204,30 +152,10 @@ public class ChangeData {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
-    } else if (first.notesMigration.readChanges()) {
-      for (ChangeData cd : changes) {
-        cd.currentApprovals();
-      }
-      return;
     }
 
-    List<ResultSet<PatchSetApproval>> results = new ArrayList<>(BATCH_SIZE);
-    for (List<ChangeData> batch : Iterables.partition(changes, BATCH_SIZE)) {
-      results.clear();
-      for (ChangeData cd : batch) {
-        if (cd.currentApprovals == null) {
-          PatchSet.Id psId = cd.change().currentPatchSetId();
-          results.add(cd.db.patchSetApprovals().byPatchSet(psId));
-        } else {
-          results.add(null);
-        }
-      }
-      for (int i = 0; i < batch.size(); i++) {
-        ResultSet<PatchSetApproval> result = results.get(i);
-        if (result != null) {
-          batch.get(i).currentApprovals = sortApprovals(result);
-        }
-      }
+    for (ChangeData cd : changes) {
+      cd.currentApprovals();
     }
   }
 
@@ -235,30 +163,10 @@ public class ChangeData {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
-    } else if (first.notesMigration.readChanges()) {
-      for (ChangeData cd : changes) {
-        cd.messages();
-      }
-      return;
     }
 
-    List<ResultSet<ChangeMessage>> results = new ArrayList<>(BATCH_SIZE);
-    for (List<ChangeData> batch : Iterables.partition(changes, BATCH_SIZE)) {
-      results.clear();
-      for (ChangeData cd : batch) {
-        if (cd.messages == null) {
-          PatchSet.Id psId = cd.change().currentPatchSetId();
-          results.add(cd.db.changeMessages().byPatchSet(psId));
-        } else {
-          results.add(null);
-        }
-      }
-      for (int i = 0; i < batch.size(); i++) {
-        ResultSet<ChangeMessage> result = results.get(i);
-        if (result != null) {
-          batch.get(i).messages = result.toList();
-        }
-      }
+    for (ChangeData cd : changes) {
+      cd.messages();
     }
   }
 
@@ -325,7 +233,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, project, id, null, null);
+            null, null, project, id, null, null);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -340,7 +248,6 @@ public class ChangeData {
   private final GitRepositoryManager repoManager;
   private final MergeUtil.Factory mergeUtilFactory;
   private final MergeabilityCache mergeabilityCache;
-  private final NotesMigration notesMigration;
   private final PatchListCache patchListCache;
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
@@ -409,7 +316,6 @@ public class ChangeData {
       GitRepositoryManager repoManager,
       MergeUtil.Factory mergeUtilFactory,
       MergeabilityCache mergeabilityCache,
-      NotesMigration notesMigration,
       PatchListCache patchListCache,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
@@ -429,7 +335,6 @@ public class ChangeData {
     this.repoManager = repoManager;
     this.mergeUtilFactory = mergeUtilFactory;
     this.mergeabilityCache = mergeabilityCache;
-    this.notesMigration = notesMigration;
     this.patchListCache = patchListCache;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
@@ -1082,23 +987,17 @@ public class ChangeData {
       }
 
       draftsByUser = new HashMap<>();
-      if (notesMigration.readChanges()) {
-        for (Ref ref : commentsUtil.getDraftRefs(notes.getChangeId())) {
-          Account.Id account = Account.Id.fromRefSuffix(ref.getName());
-          if (account != null
-              // Double-check that any drafts exist for this user after
-              // filtering out zombies. If some but not all drafts in the ref
-              // were zombies, the returned Ref still includes those zombies;
-              // this is suboptimal, but is ok for the purposes of
-              // draftsByUser(), and easier than trying to rebuild the change at
-              // this point.
-              && !notes().getDraftComments(account, ref).isEmpty()) {
-            draftsByUser.put(account, ref);
-          }
-        }
-      } else {
-        for (Comment sc : commentsUtil.draftByChange(notes())) {
-          draftsByUser.put(sc.author.getId(), null);
+      for (Ref ref : commentsUtil.getDraftRefs(notes.getChangeId())) {
+        Account.Id account = Account.Id.fromRefSuffix(ref.getName());
+        if (account != null
+            // Double-check that any drafts exist for this user after
+            // filtering out zombies. If some but not all drafts in the ref
+            // were zombies, the returned Ref still includes those zombies;
+            // this is suboptimal, but is ok for the purposes of
+            // draftsByUser(), and easier than trying to rebuild the change at
+            // this point.
+            && !notes().getDraftComments(account, ref).isEmpty()) {
+          draftsByUser.put(account, ref);
         }
       }
     }

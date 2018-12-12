@@ -51,6 +51,7 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -514,7 +515,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   protected void onLoad(LoadHandle handle) throws NoSuchChangeException, IOException {
     ObjectId rev = handle.id();
     if (rev == null) {
-      if (shouldExist) {
+      // The primary storage check here is still needed for ChangeNotesParserTest which still runs
+      // with ReviewDb changes (see todo in TestUpdate#newChange).
+      if (PrimaryStorage.of(change) == PrimaryStorage.NOTE_DB && shouldExist) {
         throw new NoSuchChangeException(getChangeId());
       }
       loadDefaults();

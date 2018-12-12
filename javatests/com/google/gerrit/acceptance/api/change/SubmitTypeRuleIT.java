@@ -137,7 +137,6 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   private PushOneCommit.Result createChange(String dest, String subject) throws Exception {
     PushOneCommit push =
         pushFactory.create(
-            db,
             admin.getIdent(),
             testRepo,
             subject,

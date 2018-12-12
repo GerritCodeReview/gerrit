@@ -61,20 +61,19 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "original subject", "a", "a1")
+            .create(admin.getIdent(), testRepo, "original subject", "a", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
     r =
         pushFactory
-            .create(
-                db, admin.getIdent(), testRepo, "super sekret subject", "a", "a2", r.getChangeId())
+            .create(admin.getIdent(), testRepo, "super sekret subject", "a", "a2", r.getChangeId())
             .to("refs/for/master");
     r.assertOkStatus();
 
     r =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "back to original subject", "a", "a3")
+            .create(admin.getIdent(), testRepo, "back to original subject", "a", "a3")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -103,7 +102,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     sender.clear();
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "private change", "a", "a1")
+            .create(admin.getIdent(), testRepo, "private change", "a", "a1")
             .to("refs/for/master%private");
     r.assertOkStatus();
 
@@ -133,16 +132,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     }
 
     PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, "subject", "a", "a1")
-            .to("refs/for/master");
+        pushFactory.create(admin.getIdent(), testRepo, "subject", "a", "a1").to("refs/for/master");
     r.assertOkStatus();
 
     sender.clear();
 
     r =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
+            .create(admin.getIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
             .to("refs/for/master%private");
     r.assertOkStatus();
 
@@ -166,7 +163,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     sender.clear();
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "wip change", "a", "a1")
+            .create(admin.getIdent(), testRepo, "wip change", "a", "a1")
             .to("refs/for/master%wip");
     r.assertOkStatus();
 
@@ -195,16 +192,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     }
 
     PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, "subject", "a", "a1")
-            .to("refs/for/master");
+        pushFactory.create(admin.getIdent(), testRepo, "subject", "a", "a1").to("refs/for/master");
     r.assertOkStatus();
 
     sender.clear();
 
     r =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
+            .create(admin.getIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
             .to("refs/for/master%wip");
     r.assertOkStatus();
 
@@ -224,7 +219,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
+            .create(admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -235,7 +230,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         cloneProject(new Project.NameKey(notWatchedProject), admin);
     r =
         pushFactory
-            .create(db, admin.getIdent(), notWatchedRepo, "DONT_TRIGGER", "a", "a1")
+            .create(admin.getIdent(), notWatchedRepo, "DONT_TRIGGER", "a", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -267,7 +262,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a.txt", "a1")
+            .create(admin.getIdent(), watchedRepo, "TRIGGER", "a.txt", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -289,7 +284,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // notification for user, only for user2
     r =
         pushFactory
-            .create(db, admin.getIdent(), watchedRepo, "TRIGGER_USER2", "b.txt", "b1")
+            .create(admin.getIdent(), watchedRepo, "TRIGGER_USER2", "b.txt", "b1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -316,7 +311,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), watchedRepo, "Document multimaster setup", "a.txt", "a1")
+            .create(admin.getIdent(), watchedRepo, "Document multimaster setup", "a.txt", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -332,8 +327,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // push a change without keyword -> should not trigger email notification
     r =
         pushFactory
-            .create(
-                db, admin.getIdent(), watchedRepo, "Cleanup cache implementation", "b.txt", "b1")
+            .create(admin.getIdent(), watchedRepo, "Cleanup cache implementation", "b.txt", "b1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -354,9 +348,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> anyRepo =
         cloneProject(new Project.NameKey(anyProject), admin);
     PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), anyRepo, "TRIGGER", "a", "a1")
-            .to("refs/for/master");
+        pushFactory.create(admin.getIdent(), anyRepo, "TRIGGER", "a", "a1").to("refs/for/master");
     r.assertOkStatus();
 
     // assert email notification
@@ -384,7 +376,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         cloneProject(new Project.NameKey(anyProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), anyRepo, "TRIGGER", "a.txt", "a1")
+            .create(admin.getIdent(), anyRepo, "TRIGGER", "a.txt", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -406,7 +398,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // email notification for user, only for user2
     r =
         pushFactory
-            .create(db, admin.getIdent(), anyRepo, "TRIGGER_USER2", "b.txt", "b1")
+            .create(admin.getIdent(), anyRepo, "TRIGGER_USER2", "b.txt", "b1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -434,7 +426,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         cloneProject(new Project.NameKey(anyProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), anyRepo, "Document multimaster setup", "a.txt", "a1")
+            .create(admin.getIdent(), anyRepo, "Document multimaster setup", "a.txt", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -451,7 +443,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // notification
     r =
         pushFactory
-            .create(db, admin.getIdent(), anyRepo, "Cleanup cache implementation", "b.txt", "b1")
+            .create(admin.getIdent(), anyRepo, "Cleanup cache implementation", "b.txt", "b1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -472,7 +464,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), watchedRepo, "ignored change", "a", "a1")
+            .create(admin.getIdent(), watchedRepo, "ignored change", "a", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -505,7 +497,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), watchedRepo, "private change", "a", "a1")
+            .create(admin.getIdent(), watchedRepo, "private change", "a", "a1")
             .to("refs/for/master%private");
     r.assertOkStatus();
 
@@ -545,7 +537,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         cloneProject(new Project.NameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
+            .create(admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
             .to("refs/for/master%private");
     r.assertOkStatus();
 

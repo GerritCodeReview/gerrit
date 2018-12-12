@@ -536,7 +536,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     // create a initial commit in master
     Result initialCommit =
         pushFactory
-            .create(db, user.getIdent(), testRepo, "initial commit", "readme.txt", "initial commit")
+            .create(user.getIdent(), testRepo, "initial commit", "readme.txt", "initial commit")
             .to("refs/heads/master");
     initialCommit.assertOkStatus();
 
@@ -547,13 +547,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
     // create a commit in branchA
     Result changeA =
         pushFactory
-            .create(db, user.getIdent(), testRepo, "change A", fileA, "A content")
+            .create(user.getIdent(), testRepo, "change A", fileA, "A content")
             .to("refs/heads/" + branchA);
     changeA.assertOkStatus();
 
     // create a commit in branchB
     PushOneCommit commitB =
-        pushFactory.create(db, user.getIdent(), testRepo, "change B", fileB, "B content");
+        pushFactory.create(user.getIdent(), testRepo, "change B", fileB, "B content");
     commitB.setParent(initialCommit.getCommit());
     Result changeB = commitB.to("refs/heads/" + branchB);
     changeB.assertOkStatus();

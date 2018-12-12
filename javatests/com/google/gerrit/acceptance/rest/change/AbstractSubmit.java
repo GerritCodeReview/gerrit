@@ -320,7 +320,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     block(p, "refs/*", Permission.SUBMIT, REGISTERED_USERS);
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), repo);
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
 
@@ -340,7 +340,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), repo);
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
 
@@ -366,7 +366,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), repo);
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
 
@@ -587,13 +587,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
 
     PushOneCommit push1 =
-        pushFactory.create(
-            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "a.txt", "content");
+        pushFactory.create(admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "a.txt", "content");
     PushOneCommit.Result c1 = push1.to("refs/heads/topic");
     c1.assertOkStatus();
     PushOneCommit push2 =
         pushFactory.create(
-            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "anotherContent");
+            admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "anotherContent");
     PushOneCommit.Result c2 = push2.to("refs/heads/topic");
     c2.assertOkStatus();
 
@@ -617,11 +616,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     //
     RevCommit master = getRemoteHead(project, "master");
     PushOneCommit stableTip =
-        pushFactory.create(
-            db, admin.getIdent(), testRepo, "Tip of branch stable", "stable.txt", "");
+        pushFactory.create(admin.getIdent(), testRepo, "Tip of branch stable", "stable.txt", "");
     PushOneCommit.Result stable = stableTip.to("refs/heads/stable");
     PushOneCommit mergeCommit =
-        pushFactory.create(db, admin.getIdent(), testRepo, "The merge commit", "merge.txt", "");
+        pushFactory.create(admin.getIdent(), testRepo, "The merge commit", "merge.txt", "");
     mergeCommit.setParents(ImmutableList.of(master, stable.getCommit()));
     PushOneCommit.Result mergeReview = mergeCommit.to("refs/for/master");
     approve(mergeReview.getChangeId());
@@ -648,11 +646,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // push directly to stable to S1
     PushOneCommit.Result s1 =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "new commit into stable", "stable1.txt", "")
+            .create(admin.getIdent(), testRepo, "new commit into stable", "stable1.txt", "")
             .to("refs/heads/stable");
     // move the stable tip ahead to S2
     pushFactory
-        .create(db, admin.getIdent(), testRepo, "Tip of branch stable", "stable2.txt", "")
+        .create(admin.getIdent(), testRepo, "Tip of branch stable", "stable2.txt", "")
         .to("refs/heads/stable");
 
     testRepo.reset(initial);
@@ -660,12 +658,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // move the master ahead
     PushOneCommit.Result m =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "Move master ahead", "master.txt", "")
+            .create(admin.getIdent(), testRepo, "Move master ahead", "master.txt", "")
             .to("refs/heads/master");
 
     // create merge change
     PushOneCommit mc =
-        pushFactory.create(db, admin.getIdent(), testRepo, "The merge commit", "merge.txt", "");
+        pushFactory.create(admin.getIdent(), testRepo, "The merge commit", "merge.txt", "");
     mc.setParents(ImmutableList.of(m.getCommit(), s1.getCommit()));
     PushOneCommit.Result mergeReview = mc.to("refs/for/master");
     approve(mergeReview.getChangeId());
@@ -841,7 +839,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // Create a stable branch and bootstrap it.
     gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
     PushOneCommit push =
-        pushFactory.create(db, user.getIdent(), testRepo, "initial commit", "a.txt", "a");
+        pushFactory.create(user.getIdent(), testRepo, "initial commit", "a.txt", "a");
     PushOneCommit.Result change = push.to("refs/heads/stable");
 
     RevCommit stable = getRemoteHead(project, "stable");
@@ -1096,7 +1094,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(getRemoteHead()).isNull();
     PushOneCommit.Result change =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "Change 1", ImmutableMap.of())
+            .create(admin.getIdent(), testRepo, "Change 1", ImmutableMap.of())
             .to("refs/for/master");
     change.assertOkStatus();
     // TODO(dborowitz): Use EMPTY_TREE_ID after upgrading to https://git.eclipse.org/r/127473
@@ -1365,8 +1363,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected PushOneCommit.Result createChange(
       String subject, String fileName, String content, String topic) throws Exception {
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master/" + name(topic));
   }
 }

@@ -19,7 +19,9 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.reviewdb.client.Change;
@@ -33,6 +35,12 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   @Override
   protected SubmitType getSubmitType() {
     return SubmitType.FAST_FORWARD_ONLY;
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false, rejectEmptyCommit = InheritableBoolean.TRUE)
+  public void submitNonemptyCommitToEmptyRepoWithRejectEmptyCommit_allowed() throws Exception {
+    super.submitNonemptyCommitToEmptyRepoWithRejectEmptyCommit_allowed();
   }
 
   @Test

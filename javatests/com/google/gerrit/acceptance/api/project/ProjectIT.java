@@ -58,7 +58,10 @@ import com.google.gerrit.server.project.CommentLinkInfoImpl;
 import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.After;
@@ -719,6 +722,10 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Nullable
   protected RevCommit getRemoteHead(String project, String branch) throws Exception {
-    return getRemoteHead(new Project.NameKey(project), branch);
+    try (Repository repo = repoManager.openRepository(new Project.NameKey(project));
+        RevWalk rw = new RevWalk(repo)) {
+      Ref r = repo.exactRef(RefNames.REFS_HEADS + branch);
+      return r == null ? null : rw.parseCommit(r.getObjectId());
+    }
   }
 }

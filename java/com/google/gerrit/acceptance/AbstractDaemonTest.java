@@ -1172,18 +1172,17 @@ public abstract class AbstractDaemonTest {
   protected RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
       Ref r = repo.exactRef(name);
-      return r != null ? rw.parseCommit(r.getObjectId()) : null;
+      return rw.parseCommit(r.getObjectId());
     }
   }
 
-  @Nullable
+  // TODO(hanwen): push this down.
   protected RevCommit getRemoteHead(Project.NameKey project, String branch) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       return getHead(repo, branch.startsWith(Constants.R_REFS) ? branch : "refs/heads/" + branch);
     }
   }
 
-  @Nullable
   protected RevCommit getRemoteHead() throws Exception {
     return getRemoteHead(project, "master");
   }

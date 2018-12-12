@@ -112,6 +112,7 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.group.GroupIndexer;
+import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.MutableNotesMigration;
@@ -293,6 +294,7 @@ public abstract class AbstractDaemonTest {
   @Inject private AccountIndexer accountIndexer;
   @Inject private Groups groups;
   @Inject private GroupIndexer groupIndexer;
+  @Inject private AbstractChangeNotes.Args changeNotesArgs;
 
   private ProjectResetter resetter;
   private List<Repository> toClose;
@@ -837,12 +839,12 @@ public abstract class AbstractDaemonTest {
   }
 
   protected Context disableDb() {
-    notesMigration.setFailOnLoadForTest(true);
+    changeNotesArgs.failOnLoadForTest.set(true);
     return atrScope.disableDb();
   }
 
   protected void enableDb(Context preDisableContext) {
-    notesMigration.setFailOnLoadForTest(false);
+    changeNotesArgs.failOnLoadForTest.set(false);
     atrScope.set(preDisableContext);
   }
 

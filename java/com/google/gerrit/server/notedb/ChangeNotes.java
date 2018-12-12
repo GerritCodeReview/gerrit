@@ -302,7 +302,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         return null;
       }
 
-      // TODO(dborowitz): See discussion in NoteDbBatchUpdate#newChangeContext.
+      // TODO(dborowitz): See discussion in BatchUpdate#newChangeContext.
       Change change = ChangeNotes.Factory.newNoteDbOnlyChange(project, id);
 
       logger.atFine().log("adding change %s found in project %s", id, project);

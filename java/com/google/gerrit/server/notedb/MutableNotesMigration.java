@@ -73,10 +73,6 @@ public class MutableNotesMigration extends NotesMigration {
     return set(b -> b.setDisableChangeReviewDb(disableChangeReviewDb));
   }
 
-  public MutableNotesMigration setFailOnLoadForTest(boolean failOnLoadForTest) {
-    return set(b -> b.setFailOnLoadForTest(failOnLoadForTest));
-  }
-
   /**
    * Set the in-memory values returned by this instance to match the given state.
    *

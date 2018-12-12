@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad391008_def43032",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-12-12T14:58:54Z",
+      "side": 1,
+      "message": "Ah, now I see that your intention was to set max size to 1024\nbut this was (accidentally?) changed in a newer patch-set.\nAnyway, this explains why I initially tested this successfully and then\nit stopped working after the change was updated :-)\n\nAnyway, why do we set this hard limit by default? Admins can always do it by configuration.",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "10394c14050c57a8abd533264e76148a5ff602d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

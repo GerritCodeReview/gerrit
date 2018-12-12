@@ -227,8 +227,7 @@ public class ChangeIndexer {
    * @param db review database.
    * @param change change to index.
    */
-  // TODO(dborowitz): Remove OrmException
-  public void index(ReviewDb db, Change change) throws IOException, OrmException {
+  public void index(ReviewDb db, Change change) throws IOException {
     index(changeDataFactory.create(db, change));
   }
 
@@ -239,9 +238,7 @@ public class ChangeIndexer {
    * @param project the project to which the change belongs.
    * @param changeId ID of the change to index.
    */
-  // TODO(dborowitz): Remove OrmException
-  public void index(ReviewDb db, Project.NameKey project, Change.Id changeId)
-      throws IOException, OrmException {
+  public void index(ReviewDb db, Project.NameKey project, Change.Id changeId) throws IOException {
     index(changeDataFactory.create(db, project, changeId));
   }
 

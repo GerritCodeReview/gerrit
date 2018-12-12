@@ -443,8 +443,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
 
     // Push a change to master
-    PushOneCommit push =
-        pushFactory.create(db, user.getIdent(), testRepo, "small fix", "a.txt", "2");
+    PushOneCommit push = pushFactory.create(user.getIdent(), testRepo, "small fix", "a.txt", "2");
     PushOneCommit.Result change = push.to("refs/for/master");
     submit(change.getChangeId());
     RevCommit headAfterFirstSubmit = getRemoteLog(project, "master").get(0);
@@ -496,8 +495,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
 
     // Propose a change for master, but leave it open for master!
-    PushOneCommit change =
-        pushFactory.create(db, user.getIdent(), testRepo, "small fix", "a.txt", "2");
+    PushOneCommit change = pushFactory.create(user.getIdent(), testRepo, "small fix", "a.txt", "2");
     PushOneCommit.Result change2result = change.to("refs/for/master");
 
     // Now cherry pick to stable
@@ -534,13 +532,13 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   @Test
   public void dependencyOnOutdatedPatchSetPreventsMerge() throws Exception {
     // Create a change
-    PushOneCommit change = pushFactory.create(db, user.getIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit change = pushFactory.create(user.getIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
     PatchSet.Id patchSetId = changeResult.getPatchSetId();
 
     // Create a successor change.
     PushOneCommit change2 =
-        pushFactory.create(db, user.getIdent(), testRepo, "feature", "b.txt", "bar");
+        pushFactory.create(user.getIdent(), testRepo, "feature", "b.txt", "bar");
     PushOneCommit.Result change2Result = change2.to("refs/for/master");
 
     // Create new patch set for first change.
@@ -576,12 +574,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   @Test
   public void dependencyOnDeletedChangePreventsMerge() throws Exception {
     // Create a change
-    PushOneCommit change = pushFactory.create(db, user.getIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit change = pushFactory.create(user.getIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
 
     // Create a successor change.
     PushOneCommit change2 =
-        pushFactory.create(db, user.getIdent(), testRepo, "feature", "b.txt", "bar");
+        pushFactory.create(user.getIdent(), testRepo, "feature", "b.txt", "bar");
     PushOneCommit.Result change2Result = change2.to("refs/for/master");
 
     // Delete first change.
@@ -611,14 +609,13 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
     // Create a change
-    PushOneCommit change =
-        pushFactory.create(db, admin.getIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit change = pushFactory.create(admin.getIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
     approve(changeResult.getChangeId());
 
     // Create a successor change.
     PushOneCommit change2 =
-        pushFactory.create(db, admin.getIdent(), testRepo, "feature", "b.txt", "bar");
+        pushFactory.create(admin.getIdent(), testRepo, "feature", "b.txt", "bar");
     PushOneCommit.Result change2Result = change2.to("refs/for/master");
 
     // Move the first change to a destination branch that is non-visible to user so that user cannot
@@ -665,14 +662,13 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
     // Create a change
-    PushOneCommit change =
-        pushFactory.create(db, admin.getIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit change = pushFactory.create(admin.getIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
     approve(changeResult.getChangeId());
 
     // Create a successor change.
     PushOneCommit change2 =
-        pushFactory.create(db, admin.getIdent(), testRepo, "feature", "b.txt", "bar");
+        pushFactory.create(admin.getIdent(), testRepo, "feature", "b.txt", "bar");
     PushOneCommit.Result change2Result = change2.to("refs/for/master");
     approve(change2Result.getChangeId());
 
@@ -728,8 +724,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         createChange(repo1, "master", "A fresh change in repo1", "a.txt", "1", "topic-to-submit");
     approve(change1.getChangeId());
     PushOneCommit push =
-        pushFactory.create(
-            db, admin.getIdent(), repo2, "An ancestor change in repo2", "a.txt", "2");
+        pushFactory.create(admin.getIdent(), repo2, "An ancestor change in repo2", "a.txt", "2");
     PushOneCommit.Result change2a = push.to("refs/for/master");
     approve(change2a.getChangeId());
     PushOneCommit.Result change2b =

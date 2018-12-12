@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b69d7239_338521de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-12T23:31:18Z",
+      "side": 1,
+      "message": "Still missing the additional context here as requested by Alice.",
+      "revId": "412db3b9a84c3153b9dedd9bddb9fbef0a5640cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29f310ce_b7751d6f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1370,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-12T23:31:18Z",
+      "side": 1,
+      "message": "name this \"head\", or \"name\"?\n\ncould also (optionally) rename the method to assertHeadExists and include the assertThat call in its implementation.",
+      "range": {
+        "startLine": 1370,
+        "startChar": 38,
+        "endLine": 1370,
+        "endChar": 44
+      },
+      "revId": "412db3b9a84c3153b9dedd9bddb9fbef0a5640cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

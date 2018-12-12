@@ -25,11 +25,11 @@ import java.util.Objects;
 @Singleton
 public class NotesMigration {
   public static final String SECTION_NOTE_DB = "noteDb";
-  public static final String READ = "read";
-  public static final String WRITE = "write";
-  public static final String DISABLE_REVIEW_DB = "disableReviewDb";
-  public static final String PRIMARY_STORAGE = "primaryStorage";
-  public static final String SEQUENCE = "sequence";
+  private static final String READ = "read";
+  private static final String WRITE = "write";
+  private static final String DISABLE_REVIEW_DB = "disableReviewDb";
+  private static final String PRIMARY_STORAGE = "primaryStorage";
+  private static final String SEQUENCE = "sequence";
 
   /**
    * Read changes from NoteDb.

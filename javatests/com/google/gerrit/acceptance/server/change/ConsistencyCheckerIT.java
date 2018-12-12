@@ -41,7 +41,6 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ConsistencyChecker;
 import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
@@ -83,8 +82,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Inject private PatchSetInserter.Factory patchSetInserterFactory;
 
   @Inject private ChangeNoteUtil noteUtil;
-
-  @Inject @AnonymousCowardName private String anonymousCowardName;
 
   @Inject private Sequences sequences;
 

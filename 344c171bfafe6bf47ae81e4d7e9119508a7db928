@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cce51fa_f29615a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-12T15:20:21Z",
+      "side": 1,
+      "message": "A short explanation in the commit message for why this is okay would be helpful (e.g. none of the usages of this method ever request a branch which doesn\u0027t point to a commit).",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "344c171bfafe6bf47ae81e4d7e9119508a7db928",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdb88571_a4aaafc5",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-12T15:20:21Z",
+      "side": 1,
+      "message": "Can this be removed too?",
+      "range": {
+        "startLine": 1171,
+        "startChar": 2,
+        "endLine": 1171,
+        "endChar": 11
+      },
+      "revId": "344c171bfafe6bf47ae81e4d7e9119508a7db928",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

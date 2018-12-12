@@ -65,6 +65,6 @@ public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
     String indicesPrefix = getSanitizedMethodName();
     ElasticTestUtils.configure(
         elasticsearchConfig, nodeInfo.port, indicesPrefix, ElasticVersion.V5_6);
-    return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));
+    return Guice.createInjector(new InMemoryModule(elasticsearchConfig));
   }
 }

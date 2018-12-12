@@ -358,7 +358,7 @@ public class AgreementsIT extends AbstractDaemonTest {
   public void publishEditRestWithoutCLA() throws Exception {
     String filename = "foo";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, "subject1", filename, "contentold");
+        pushFactory.create(admin.getIdent(), testRepo, "subject1", filename, "contentold");
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
     String changeId = result.getChangeId();

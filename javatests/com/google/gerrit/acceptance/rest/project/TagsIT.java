@@ -126,7 +126,7 @@ public class TagsIT extends AbstractDaemonTest {
   public void listTagsOfNonVisibleBranch() throws Exception {
     grantTagPermissions();
 
-    PushOneCommit push1 = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit push1 = pushFactory.create(admin.getIdent(), testRepo);
     PushOneCommit.Result r1 = push1.to("refs/heads/master");
     r1.assertOkStatus();
     TagInput tag1 = new TagInput();
@@ -137,7 +137,7 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.revision).isEqualTo(tag1.revision);
 
     pushTo("refs/heads/hidden");
-    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit push2 = pushFactory.create(admin.getIdent(), testRepo);
     PushOneCommit.Result r2 = push2.to("refs/heads/hidden");
     r2.assertOkStatus();
 
@@ -166,7 +166,7 @@ public class TagsIT extends AbstractDaemonTest {
   public void lightweightTag() throws Exception {
     grantTagPermissions();
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
 
@@ -198,7 +198,7 @@ public class TagsIT extends AbstractDaemonTest {
   public void annotatedTag() throws Exception {
     grantTagPermissions();
 
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(admin.getIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
 

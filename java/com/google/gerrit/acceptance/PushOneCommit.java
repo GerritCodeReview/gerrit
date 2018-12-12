@@ -27,7 +27,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -74,16 +73,12 @@ public class PushOneCommit {
           + PATCH_FILE_ONLY;
 
   public interface Factory {
-    PushOneCommit create(ReviewDb db, PersonIdent i, TestRepository<?> testRepo);
+    PushOneCommit create(PersonIdent i, TestRepository<?> testRepo);
 
     PushOneCommit create(
-        ReviewDb db,
-        PersonIdent i,
-        TestRepository<?> testRepo,
-        @Assisted("changeId") String changeId);
+        PersonIdent i, TestRepository<?> testRepo, @Assisted("changeId") String changeId);
 
     PushOneCommit create(
-        ReviewDb db,
         PersonIdent i,
         TestRepository<?> testRepo,
         @Assisted("subject") String subject,
@@ -91,14 +86,12 @@ public class PushOneCommit {
         @Assisted("content") String content);
 
     PushOneCommit create(
-        ReviewDb db,
         PersonIdent i,
         TestRepository<?> testRepo,
         @Assisted String subject,
         @Assisted Map<String, String> files);
 
     PushOneCommit create(
-        ReviewDb db,
         PersonIdent i,
         TestRepository<?> testRepo,
         @Assisted("subject") String subject,
@@ -157,20 +150,10 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo)
       throws Exception {
-    this(
-        notesFactory,
-        approvalsUtil,
-        queryProvider,
-        db,
-        i,
-        testRepo,
-        SUBJECT,
-        FILE_NAME,
-        FILE_CONTENT);
+    this(notesFactory, approvalsUtil, queryProvider, i, testRepo, SUBJECT, FILE_NAME, FILE_CONTENT);
   }
 
   @AssistedInject
@@ -178,7 +161,6 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
       @Assisted("changeId") String changeId)
@@ -187,7 +169,6 @@ public class PushOneCommit {
         notesFactory,
         approvalsUtil,
         queryProvider,
-        db,
         i,
         testRepo,
         SUBJECT,
@@ -201,24 +182,13 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content)
       throws Exception {
-    this(
-        notesFactory,
-        approvalsUtil,
-        queryProvider,
-        db,
-        i,
-        testRepo,
-        subject,
-        fileName,
-        content,
-        null);
+    this(notesFactory, approvalsUtil, queryProvider, i, testRepo, subject, fileName, content, null);
   }
 
   @AssistedInject
@@ -226,13 +196,12 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
       @Assisted String subject,
       @Assisted Map<String, String> files)
       throws Exception {
-    this(notesFactory, approvalsUtil, queryProvider, db, i, testRepo, subject, files, null);
+    this(notesFactory, approvalsUtil, queryProvider, i, testRepo, subject, files, null);
   }
 
   @AssistedInject
@@ -240,7 +209,6 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
       @Assisted("subject") String subject,
@@ -252,7 +220,6 @@ public class PushOneCommit {
         notesFactory,
         approvalsUtil,
         queryProvider,
-        db,
         i,
         testRepo,
         subject,
@@ -264,8 +231,6 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      // TODO(ekempin): Remove unused ReviewDb
-      @SuppressWarnings("unused") ReviewDb db,
       PersonIdent i,
       TestRepository<?> testRepo,
       String subject,

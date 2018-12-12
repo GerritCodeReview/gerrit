@@ -447,10 +447,6 @@ public class BatchUpdate implements AutoCloseable {
     execute(BatchUpdateListener.NONE);
   }
 
-  private Context newContext() {
-    return new ContextImpl();
-  }
-
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
     checkState(this.repoView == null, "repo already set");
     repoView = new RepoView(repo, revWalk, inserter);
@@ -516,7 +512,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public BatchUpdate insertChange(InsertChangeOp op) throws IOException {
-    Context ctx = newContext();
+    Context ctx = new ContextImpl();
     Change c = op.createChange(ctx);
     checkArgument(
         !newChanges.containsKey(c.getId()), "only one op allowed to create change %s", c.getId());

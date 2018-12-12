@@ -950,7 +950,7 @@ public class CommentsIT extends AbstractDaemonTest {
     addComment(result.getChangeId(), "comment");
 
     Collection<com.google.gerrit.reviewdb.client.Comment> comments =
-        notesFactory.createChecked(db, project, changeId).getComments().values();
+        notesFactory.createChecked(project, changeId).getComments().values();
     assertThat(comments).hasSize(1);
     com.google.gerrit.reviewdb.client.Comment comment = comments.iterator().next();
     assertThat(comment.message).isEqualTo("comment");

@@ -121,7 +121,7 @@ public class ChangeArgumentParser {
   }
 
   private List<ChangeNotes> changeFromNotesFactory(String id) throws OrmException, UnloggedFailure {
-    return changeNotesFactory.create(db, parseId(id));
+    return changeNotesFactory.create(parseId(id));
   }
 
   private List<Change.Id> parseId(String id) throws UnloggedFailure {

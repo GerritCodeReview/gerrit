@@ -1303,7 +1303,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("status:new", change2, change1);
 
     gApi.changes().id(change1.getId().get()).topic("new-topic");
-    change1 = notesFactory.create(db, change1.getProject(), change1.getId()).getChange();
+    change1 = notesFactory.create(change1.getProject(), change1.getId()).getChange();
 
     assertThat(lastUpdatedMs(change1)).isGreaterThan(lastUpdatedMs(change2));
     assertThat(lastUpdatedMs(change1) - lastUpdatedMs(change2))
@@ -2276,7 +2276,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject(project.get());
     Change change = insert(repo, newChange(repo));
     String changeId = change.getKey().get();
-    ChangeNotes notes = notesFactory.create(db, change.getProject(), change.getId());
+    ChangeNotes notes = notesFactory.create(change.getProject(), change.getId());
     PatchSet ps = psUtil.get(notes, change.currentPatchSetId());
 
     requestContext.setContext(newRequestContext(user));
@@ -2985,7 +2985,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     PatchSetInserter inserter =
         patchSetFactory
-            .create(changeNotesFactory.createChecked(db, c), new PatchSet.Id(c.getId(), n), commit)
+            .create(changeNotesFactory.createChecked(c), new PatchSet.Id(c.getId(), n), commit)
             .setNotify(NotifyHandling.NONE)
             .setFireRevisionCreated(false)
             .setValidate(false);

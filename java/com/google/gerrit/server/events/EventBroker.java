@@ -177,7 +177,7 @@ public class EventBroker implements EventDispatcher {
     try {
       permissionBackend
           .user(user)
-          .change(notesFactory.createChecked(db, change))
+          .change(notesFactory.createChecked(change))
           .database(db)
           .check(ChangePermission.READ);
       return true;
@@ -209,10 +209,7 @@ public class EventBroker implements EventDispatcher {
       if (PatchSet.isChangeRef(ref)) {
         Change.Id cid = PatchSet.Id.fromRef(ref).getParentKey();
         try {
-          Change change =
-              notesFactory
-                  .createChecked(dbProvider.get(), refEvent.getProjectNameKey(), cid)
-                  .getChange();
+          Change change = notesFactory.createChecked(refEvent.getProjectNameKey(), cid).getChange();
           return isVisibleTo(change, user);
         } catch (NoSuchChangeException e) {
           logger.atFine().log(

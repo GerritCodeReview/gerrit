@@ -47,13 +47,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -92,11 +89,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return new ConfigInvalidException("Change " + changeId + ": " + String.format(fmt, args));
   }
 
-  @Nullable
-  public static Change readOneReviewDbChange(ReviewDb db, Change.Id id) throws OrmException {
-    return ReviewDbUtil.unwrapDb(db).changes().get(id);
-  }
-
   @Singleton
   public static class Factory {
     private final Args args;
@@ -112,23 +104,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.projectCache = projectCache;
     }
 
-    public ChangeNotes createChecked(ReviewDb db, Change c) throws OrmException {
-      return createChecked(db, c.getProject(), c.getId());
+    public ChangeNotes createChecked(Change c) throws OrmException {
+      return createChecked(c.getProject(), c.getId());
     }
 
-    public ChangeNotes createChecked(ReviewDb db, Project.NameKey project, Change.Id changeId)
+    public ChangeNotes createChecked(Project.NameKey project, Change.Id changeId)
         throws OrmException {
-      Change change = readOneReviewDbChange(db, changeId);
-      if (change == null) {
-        if (!args.migration.readChanges()) {
-          throw new NoSuchChangeException(changeId);
-        }
-        // Change isn't in ReviewDb, but its primary storage might be in NoteDb.
-        // Prepopulate the change exists with proper noteDbState field.
-        change = newNoteDbOnlyChange(project, changeId);
-      } else if (!change.getProject().equals(project)) {
-        throw new NoSuchChangeException(changeId);
-      }
+      // Prepopulate the change exists with proper noteDbState field.
+      Change change = newChange(project, changeId);
       return new ChangeNotes(args, change).load();
     }
 
@@ -145,7 +128,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return changes.get(0).notes();
     }
 
-    public static Change newNoteDbOnlyChange(Project.NameKey project, Change.Id changeId) {
+    public static Change newChange(Project.NameKey project, Change.Id changeId) {
       Change change =
           new Change(
               null, changeId, null, new Branch.NameKey(project, "INVALID_NOTE_DB_ONLY"), null);
@@ -153,29 +136,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return change;
     }
 
-    private Change loadChangeFromDb(ReviewDb db, Project.NameKey project, Change.Id changeId)
-        throws OrmException {
+    public ChangeNotes create(Project.NameKey project, Change.Id changeId) throws OrmException {
       checkArgument(project != null, "project is required");
-      Change change = readOneReviewDbChange(db, changeId);
-
-      if (change == null) {
-        if (args.migration.readChanges()) {
-          return newNoteDbOnlyChange(project, changeId);
-        }
-        throw new NoSuchChangeException(changeId);
-      }
-      checkArgument(
-          change.getProject().equals(project),
-          "passed project %s when creating ChangeNotes for %s, but actual project is %s",
-          project,
-          changeId,
-          change.getProject());
-      return change;
-    }
-
-    public ChangeNotes create(ReviewDb db, Project.NameKey project, Change.Id changeId)
-        throws OrmException {
-      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId)).load();
+      return new ChangeNotes(args, newChange(project, changeId)).load();
     }
 
     /**
@@ -198,91 +161,48 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, change, true, refs).load();
     }
 
-    // TODO(ekempin): Remove when database backend is deleted
-    /**
-     * Instantiate ChangeNotes for a change that has been loaded by a batch read from the database.
-     */
-    private ChangeNotes createFromChangeOnlyWhenNoteDbDisabled(Change change) throws OrmException {
-      checkState(
-          !args.migration.readChanges(),
-          "do not call createFromChangeWhenNoteDbDisabled when NoteDb is enabled");
-      return new ChangeNotes(args, change).load();
-    }
-
-    public List<ChangeNotes> create(ReviewDb db, Collection<Change.Id> changeIds)
-        throws OrmException {
+    public List<ChangeNotes> create(Collection<Change.Id> changeIds) throws OrmException {
       List<ChangeNotes> notes = new ArrayList<>();
-      if (args.migration.readChanges()) {
-        for (Change.Id changeId : changeIds) {
-          try {
-            notes.add(createChecked(changeId));
-          } catch (NoSuchChangeException e) {
-            // Ignore missing changes to match Access#get(Iterable) behavior.
-          }
+      for (Change.Id changeId : changeIds) {
+        try {
+          notes.add(createChecked(changeId));
+        } catch (NoSuchChangeException e) {
+          // Ignore missing changes to match Access#get(Iterable) behavior.
         }
-        return notes;
-      }
-
-      for (Change c : ReviewDbUtil.unwrapDb(db).changes().get(changeIds)) {
-        notes.add(createFromChangeOnlyWhenNoteDbDisabled(c));
       }
       return notes;
     }
 
     public List<ChangeNotes> create(
-        ReviewDb db,
-        Project.NameKey project,
-        Collection<Change.Id> changeIds,
-        Predicate<ChangeNotes> predicate)
+        Project.NameKey project, Collection<Change.Id> changeIds, Predicate<ChangeNotes> predicate)
         throws OrmException {
       List<ChangeNotes> notes = new ArrayList<>();
-      if (args.migration.readChanges()) {
-        for (Change.Id cid : changeIds) {
-          try {
-            ChangeNotes cn = create(db, project, cid);
-            if (cn.getChange() != null && predicate.test(cn)) {
-              notes.add(cn);
-            }
-          } catch (NoSuchChangeException e) {
-            // Match ReviewDb behavior, returning not found; maybe the caller learned about it from
-            // a dangling patch set ref or something.
-            continue;
-          }
-        }
-        return notes;
-      }
-
-      for (Change c : ReviewDbUtil.unwrapDb(db).changes().get(changeIds)) {
-        if (c != null && project.equals(c.getDest().getParentKey())) {
-          ChangeNotes cn = createFromChangeOnlyWhenNoteDbDisabled(c);
-          if (predicate.test(cn)) {
+      for (Change.Id cid : changeIds) {
+        try {
+          ChangeNotes cn = create(project, cid);
+          if (cn.getChange() != null && predicate.test(cn)) {
             notes.add(cn);
           }
+        } catch (NoSuchChangeException e) {
+          // Match ReviewDb behavior, returning not found; maybe the caller learned about it from
+          // a dangling patch set ref or something.
+          continue;
         }
       }
       return notes;
     }
 
-    public ListMultimap<Project.NameKey, ChangeNotes> create(
-        ReviewDb db, Predicate<ChangeNotes> predicate) throws IOException, OrmException {
+    public ListMultimap<Project.NameKey, ChangeNotes> create(Predicate<ChangeNotes> predicate)
+        throws IOException {
       ListMultimap<Project.NameKey, ChangeNotes> m =
           MultimapBuilder.hashKeys().arrayListValues().build();
-      if (args.migration.readChanges()) {
-        for (Project.NameKey project : projectCache.all()) {
-          try (Repository repo = args.repoManager.openRepository(project)) {
-            scan(repo, project)
-                .filter(r -> !r.error().isPresent())
-                .map(ChangeNotesResult::notes)
-                .filter(predicate)
-                .forEach(n -> m.put(n.getProjectName(), n));
-          }
-        }
-      } else {
-        for (Change change : ReviewDbUtil.unwrapDb(db).changes().all()) {
-          ChangeNotes notes = createFromChangeOnlyWhenNoteDbDisabled(change);
-          if (predicate.test(notes)) {
-            m.put(change.getProject(), notes);
-          }
+      for (Project.NameKey project : projectCache.all()) {
+        try (Repository repo = args.repoManager.openRepository(project)) {
+          scan(repo, project)
+              .filter(r -> !r.error().isPresent())
+              .map(ChangeNotesResult::notes)
+              .filter(predicate)
+              .forEach(n -> m.put(n.getProjectName(), n));
         }
       }
       return ImmutableListMultimap.copyOf(m);
@@ -303,15 +223,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       }
 
       // TODO(dborowitz): See discussion in NoteDbBatchUpdate#newChangeContext.
-      Change change = ChangeNotes.Factory.newNoteDbOnlyChange(project, id);
+      Change change = ChangeNotes.Factory.newChange(project, id);
 
       logger.atFine().log("adding change %s found in project %s", id, project);
       return toResult(change);
     }
 
     @Nullable
-    private ChangeNotesResult toResult(Change rawChangeFromReviewDbOrNoteDb) {
-      ChangeNotes n = new ChangeNotes(args, rawChangeFromReviewDbOrNoteDb);
+    private ChangeNotesResult toResult(Change rawChangeFromNoteDb) {
+      ChangeNotes n = new ChangeNotes(args, rawChangeFromNoteDb);
       try {
         n.load();
       } catch (OrmException e) {
@@ -594,9 +514,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   protected void onLoad(LoadHandle handle) throws NoSuchChangeException, IOException {
     ObjectId rev = handle.id();
     if (rev == null) {
-      if (args.migration.readChanges()
-          && PrimaryStorage.of(change) == PrimaryStorage.NOTE_DB
-          && shouldExist) {
+      if (shouldExist) {
         throw new NoSuchChangeException(getChangeId());
       }
       loadDefaults();

@@ -413,9 +413,7 @@ public class ConsistencyChecker {
         }
         try {
           Change c =
-              notesFactory
-                  .createChecked(db.get(), change().getProject(), psId.getParentKey())
-                  .getChange();
+              notesFactory.createChecked(change().getProject(), psId.getParentKey()).getChange();
           if (!c.getDest().equals(change().getDest())) {
             continue;
           }
@@ -544,7 +542,7 @@ public class ConsistencyChecker {
         bu.addOp(notes.getChangeId(), new FixMergedOp(notFound));
         bu.execute();
       }
-      notes = notesFactory.createChecked(db.get(), inserter.getChange());
+      notes = notesFactory.createChecked(inserter.getChange());
       insertPatchSetProblem.status = Status.FIXED;
       insertPatchSetProblem.outcome = "Inserted as patch set " + psId.get();
     } catch (OrmException | IOException | UpdateException | RestApiException e) {

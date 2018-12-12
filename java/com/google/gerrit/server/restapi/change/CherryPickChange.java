@@ -360,8 +360,7 @@ public class CherryPickChange {
         .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
     if (input.keepReviewers && sourceChange != null) {
       ReviewerSet reviewerSet =
-          approvalsUtil.getReviewers(
-              changeNotesFactory.createChecked(dbProvider.get(), sourceChange));
+          approvalsUtil.getReviewers(changeNotesFactory.createChecked(sourceChange));
       Set<Account.Id> reviewers =
           new HashSet<>(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
       reviewers.add(sourceChange.getOwner());

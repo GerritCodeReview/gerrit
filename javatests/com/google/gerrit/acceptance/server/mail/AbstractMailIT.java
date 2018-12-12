@@ -49,7 +49,7 @@ public class AbstractMailIT extends AbstractDaemonTest {
     String file = "gerrit-server/test.txt";
     String contents = "contents \nlorem \nipsum \nlorem";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, "first subject", file, contents);
+        pushFactory.create(admin.getIdent(), testRepo, "first subject", file, contents);
     PushOneCommit.Result r = push.to("refs/for/master");
     String changeId = r.getChangeId();
 

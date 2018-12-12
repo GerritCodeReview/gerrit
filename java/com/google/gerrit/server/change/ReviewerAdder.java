@@ -64,7 +64,6 @@ import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -153,7 +152,6 @@ public class ReviewerAdder {
   private final AccountLoader.Factory accountLoaderFactory;
   private final Config cfg;
   private final ReviewerJson json;
-  private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
   private final ProjectCache projectCache;
   private final Provider<AnonymousUser> anonymousProvider;
@@ -169,7 +167,6 @@ public class ReviewerAdder {
       AccountLoader.Factory accountLoaderFactory,
       @GerritServerConfig Config cfg,
       ReviewerJson json,
-      NotesMigration migration,
       NotifyUtil notifyUtil,
       ProjectCache projectCache,
       Provider<AnonymousUser> anonymousProvider,
@@ -182,7 +179,6 @@ public class ReviewerAdder {
     this.accountLoaderFactory = accountLoaderFactory;
     this.cfg = cfg;
     this.json = json;
-    this.migration = migration;
     this.notifyUtil = notifyUtil;
     this.projectCache = projectCache;
     this.anonymousProvider = anonymousProvider;
@@ -413,13 +409,6 @@ public class ReviewerAdder {
           MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, input.reviewer));
     }
 
-    if (!migration.readChanges()) {
-      // addByEmail depends on NoteDb.
-      return fail(
-          input,
-          FailureType.NOT_FOUND,
-          MessageFormat.format(ChangeMessages.get().reviewerNotFoundUser, input.reviewer));
-    }
     Address adr = Address.tryParse(input.reviewer);
     if (adr == null || !validator.isValid(adr.getEmail())) {
       return fail(
@@ -527,7 +516,7 @@ public class ReviewerAdder {
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.
       AddReviewersOp.Result opResult = op.getResult();
-      if (migration.readChanges() && state() == CC) {
+      if (state() == CC) {
         result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
         for (Account.Id accountId : opResult.addedCCs()) {
           result.ccs.add(json.format(new ReviewerInfo(accountId.get()), accountId, cd));

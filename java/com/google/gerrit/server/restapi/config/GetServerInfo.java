@@ -53,7 +53,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.plugincontext.PluginMapContext;
@@ -91,7 +90,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final PluginItemContext<AvatarProvider> avatar;
   private final boolean enableSignedPush;
   private final QueryDocumentationExecutor docSearcher;
-  private final NotesMigration migration;
   private final ProjectCache projectCache;
   private final AgreementJson agreementJson;
   private final ChangeIndexCollection indexes;
@@ -114,7 +112,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       PluginItemContext<AvatarProvider> avatar,
       @EnableSignedPush boolean enableSignedPush,
       QueryDocumentationExecutor docSearcher,
-      NotesMigration migration,
       ProjectCache projectCache,
       AgreementJson agreementJson,
       ChangeIndexCollection indexes,
@@ -134,7 +131,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.avatar = avatar;
     this.enableSignedPush = enableSignedPush;
     this.docSearcher = docSearcher;
-    this.migration = migration;
     this.projectCache = projectCache;
     this.agreementJson = agreementJson;
     this.indexes = indexes;
@@ -149,7 +145,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.change = getChangeInfo();
     info.download = getDownloadInfo();
     info.gerrit = getGerritInfo();
-    info.noteDbEnabled = toBoolean(isNoteDbEnabled());
+    info.noteDbEnabled = true;
     info.plugin = getPluginInfo();
     info.defaultTheme = getDefaultTheme();
     info.sshd = getSshdInfo();
@@ -311,10 +307,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       return null;
     }
     return CharMatcher.is('/').trimTrailingFrom(docUrl) + '/';
-  }
-
-  private boolean isNoteDbEnabled() {
-    return migration.readChanges();
   }
 
   private PluginConfigInfo getPluginInfo() {

@@ -178,19 +178,16 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
-    if (migration.readChanges()) {
-      // If reading from changes is enabled, then the old RobotCommentNotes
-      // already parsed the revision notes. We can reuse them as long as the ref
-      // hasn't advanced.
-      ChangeNotes changeNotes = getNotes();
-      if (changeNotes != null) {
-        RobotCommentNotes robotCommentNotes = changeNotes.load().getRobotCommentNotes();
-        if (robotCommentNotes != null) {
-          ObjectId idFromNotes = firstNonNull(robotCommentNotes.getRevision(), ObjectId.zeroId());
-          RevisionNoteMap<RobotCommentsRevisionNote> rnm = robotCommentNotes.getRevisionNoteMap();
-          if (idFromNotes.equals(curr) && rnm != null) {
-            return rnm;
-          }
+    // The old RobotCommentNotes already parsed the revision notes. We can reuse them as long as
+    // the ref hasn't advanced.
+    ChangeNotes changeNotes = getNotes();
+    if (changeNotes != null) {
+      RobotCommentNotes robotCommentNotes = changeNotes.load().getRobotCommentNotes();
+      if (robotCommentNotes != null) {
+        ObjectId idFromNotes = firstNonNull(robotCommentNotes.getRevision(), ObjectId.zeroId());
+        RevisionNoteMap<RobotCommentsRevisionNote> rnm = robotCommentNotes.getRevisionNoteMap();
+        if (idFromNotes.equals(curr) && rnm != null) {
+          return rnm;
         }
       }
     }

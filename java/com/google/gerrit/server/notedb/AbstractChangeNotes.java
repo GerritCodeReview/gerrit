@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Objects.requireNonNull;
 
@@ -132,7 +131,6 @@ public abstract class AbstractChangeNotes<T> {
       return self();
     }
 
-    checkState(args.migration.readChanges(), "NoteDb is required to read changes");
     if (args.migration.failOnLoadForTest()) {
       throw new OrmException("Reading from NoteDb is disabled");
     }
@@ -181,8 +179,6 @@ public abstract class AbstractChangeNotes<T> {
   public ObjectId loadRevision() throws OrmException {
     if (loaded) {
       return getRevision();
-    } else if (!args.migration.readChanges()) {
-      return null;
     }
     try (Repository repo = args.repoManager.openRepository(getProjectName())) {
       Ref ref = repo.getRefDatabase().exactRef(getRefName());

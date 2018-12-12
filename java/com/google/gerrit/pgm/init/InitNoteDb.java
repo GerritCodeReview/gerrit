@@ -19,10 +19,8 @@ import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.eclipse.jgit.lib.Config;
 
 /** Initialize the NoteDb in gerrit site. */
 @Singleton
@@ -41,10 +39,10 @@ class InitNoteDb implements InitStep {
   }
 
   private void initNoteDb() {
-    Config defaultConfig = new Config();
-    NotesMigrationState.FINAL.setConfigValues(defaultConfig);
-    for (String name : defaultConfig.getNames(SECTION_NOTE_DB, CHANGES.key())) {
-      noteDbChanges.set(name, defaultConfig.getString(SECTION_NOTE_DB, CHANGES.key(), name));
-    }
+    noteDbChanges.set("write", "false");
+    noteDbChanges.set("read", "false");
+    noteDbChanges.set("primaryStorage", "note db");
+    noteDbChanges.set("disableReviewDb", "true");
+    noteDbChanges.set("sequence", "true");
   }
 }

@@ -115,7 +115,7 @@ import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.MutableNotesMigration;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
@@ -127,7 +127,6 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.FakeGroupAuditService;
-import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.SshMode;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
@@ -262,7 +261,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected PluginConfigFactory pluginConfig;
   @Inject protected Revisions revisions;
   @Inject protected SystemGroupBackend systemGroupBackend;
-  @Inject protected MutableNotesMigration notesMigration;
+  @Inject protected NotesMigration notesMigration;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;
@@ -598,7 +597,6 @@ public abstract class AbstractDaemonTest {
       server.close();
       server = null;
     }
-    NoteDbMode.resetFromEnv(notesMigration);
   }
 
   protected void closeSsh() {

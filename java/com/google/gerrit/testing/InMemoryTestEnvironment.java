@@ -108,8 +108,7 @@ public final class InMemoryTestEnvironment implements MethodRule {
     Config cfg = configProvider.get();
     InMemoryModule.setDefaults(cfg);
 
-    Injector injector =
-        Guice.createInjector(new InMemoryModule(cfg, NoteDbMode.newNotesMigrationFromEnv()));
+    Injector injector = Guice.createInjector(new InMemoryModule(cfg));
     injector.injectMembers(this);
     lifecycle = new LifecycleManager();
     lifecycle.add(injector);

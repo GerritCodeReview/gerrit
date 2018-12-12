@@ -45,6 +45,6 @@ public class LuceneQueryProjectsTest extends AbstractQueryProjectsTest {
   protected Injector createInjector() {
     Config luceneConfig = new Config(config);
     InMemoryModule.setDefaults(luceneConfig);
-    return Guice.createInjector(new InMemoryModule(luceneConfig, notesMigration));
+    return Guice.createInjector(new InMemoryModule(luceneConfig));
   }
 }

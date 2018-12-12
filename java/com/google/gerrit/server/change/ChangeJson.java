@@ -323,7 +323,7 @@ public class ChangeJson {
       Project.NameKey project, Change.Id id, Supplier<I> changeInfoSupplier) throws OrmException {
     ChangeNotes notes;
     try {
-      notes = notesFactory.createChecked(db.get(), project, id);
+      notes = notesFactory.createChecked(project, id);
     } catch (OrmException e) {
       if (!has(CHECK)) {
         throw e;

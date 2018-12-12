@@ -1911,7 +1911,7 @@ class ReceiveCommits {
 
     Change changeEnt;
     try {
-      changeEnt = notesFactory.createChecked(db, project.getNameKey(), changeId).getChange();
+      changeEnt = notesFactory.createChecked(project.getNameKey(), changeId).getChange();
     } catch (NoSuchChangeException e) {
       logger.atSevere().withCause(e).log("Change not found %s", changeId);
       reject(cmd, "change " + changeId + " not found");
@@ -1991,7 +1991,7 @@ class ReceiveCommits {
 
     ListMultimap<ObjectId, Ref> existing = changeRefsById();
     GroupCollector groupCollector =
-        GroupCollector.create(changeRefsById(), db, psUtil, notesFactory, project.getNameKey());
+        GroupCollector.create(changeRefsById(), psUtil, notesFactory, project.getNameKey());
 
     BranchCommitValidator validator =
         commitValidatorFactory.create(projectState, magicBranch.dest, user);
@@ -2255,7 +2255,7 @@ class ReceiveCommits {
   private boolean foundInExistingRef(Collection<Ref> existingRefs) throws OrmException {
     for (Ref ref : existingRefs) {
       ChangeNotes notes =
-          notesFactory.create(db, project.getNameKey(), Change.Id.fromRef(ref.getName()));
+          notesFactory.create(project.getNameKey(), Change.Id.fromRef(ref.getName()));
       Change change = notes.getChange();
       if (change.getDest().equals(magicBranch.dest)) {
         logger.atFine().log("Found change %s from existing refs.", change.getKey());
@@ -2564,7 +2564,7 @@ class ReceiveCommits {
   private void readChangesForReplace() throws OrmException {
     Collection<ChangeNotes> allNotes =
         notesFactory.create(
-            db, replaceByChange.values().stream().map(r -> r.ontoChange).collect(toList()));
+            replaceByChange.values().stream().map(r -> r.ontoChange).collect(toList()));
     for (ChangeNotes notes : allNotes) {
       replaceByChange.get(notes.getChangeId()).notes = notes;
     }
@@ -3214,7 +3214,7 @@ class ReceiveCommits {
 
   private Optional<ChangeNotes> getChangeNotes(Change.Id changeId) throws OrmException {
     try {
-      return Optional.of(notesFactory.createChecked(db, project.getNameKey(), changeId));
+      return Optional.of(notesFactory.createChecked(project.getNameKey(), changeId));
     } catch (NoSuchChangeException e) {
       return Optional.empty();
     }

@@ -253,7 +253,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackSubsetOfBranchesVisibleWithEdit() throws Exception {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
 
-    Change c = notesFactory.createChecked(db, project, c3.getId()).getChange();
+    Change c = notesFactory.createChecked(project, c3.getId()).getChange();
     String changeId = c.getKey().get();
 
     // Admin's edit is not visible.
@@ -281,9 +281,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
     allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
 
-    Change change3 = notesFactory.createChecked(db, project, c3.getId()).getChange();
+    Change change3 = notesFactory.createChecked(project, c3.getId()).getChange();
     String changeId3 = change3.getKey().get();
-    Change change4 = notesFactory.createChecked(db, project, c4.getId()).getChange();
+    Change change4 = notesFactory.createChecked(project, c4.getId()).getChange();
     String changeId4 = change4.getKey().get();
 
     // Admin's edit on change3 is visible.

@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -37,7 +36,6 @@ import java.util.List;
 
 @Singleton
 public class PatchSetParser {
-  private final Provider<ReviewDb> db;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
   private final PatchSetUtil psUtil;
@@ -45,12 +43,10 @@ public class PatchSetParser {
 
   @Inject
   PatchSetParser(
-      Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
       PatchSetUtil psUtil,
       ChangeFinder changeFinder) {
-    this.db = db;
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
     this.psUtil = psUtil;
@@ -129,11 +125,11 @@ public class PatchSetParser {
   private ChangeNotes getNotes(@Nullable ProjectState projectState, Change.Id changeId)
       throws OrmException, UnloggedFailure {
     if (projectState != null) {
-      return notesFactory.create(db.get(), projectState.getNameKey(), changeId);
+      return notesFactory.create(projectState.getNameKey(), changeId);
     }
     try {
       ChangeNotes notes = changeFinder.findOne(changeId);
-      return notesFactory.create(db.get(), notes.getProjectName(), changeId);
+      return notesFactory.create(notes.getProjectName(), changeId);
     } catch (NoSuchChangeException e) {
       throw error("\"" + changeId + "\" no such change");
     }

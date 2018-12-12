@@ -30,7 +30,6 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -77,7 +76,6 @@ public class ChangeFinder {
   private final IndexConfig indexConfig;
   private final Cache<Change.Id, String> changeIdProjectCache;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final Provider<ReviewDb> reviewDb;
   private final ChangeNotes.Factory changeNotesFactory;
   private final Counter1<ChangeIdType> changeIdCounter;
   private final ImmutableSet<ChangeIdType> allowedIdTypes;
@@ -87,14 +85,12 @@ public class ChangeFinder {
       IndexConfig indexConfig,
       @Named(CACHE_NAME) Cache<Change.Id, String> changeIdProjectCache,
       Provider<InternalChangeQuery> queryProvider,
-      Provider<ReviewDb> reviewDb,
       ChangeNotes.Factory changeNotesFactory,
       MetricMaker metricMaker,
       @GerritServerConfig Config config) {
     this.indexConfig = indexConfig;
     this.changeIdProjectCache = changeIdProjectCache;
     this.queryProvider = queryProvider;
-    this.reviewDb = reviewDb;
     this.changeNotesFactory = changeNotesFactory;
     this.changeIdCounter =
         metricMaker.newCounter(
@@ -203,7 +199,7 @@ public class ChangeFinder {
     Change.Id cId = new Change.Id(changeNumber);
     try {
       return ImmutableList.of(
-          changeNotesFactory.createChecked(reviewDb.get(), Project.NameKey.parse(project), cId));
+          changeNotesFactory.createChecked(Project.NameKey.parse(project), cId));
     } catch (NoSuchChangeException e) {
       return Collections.emptyList();
     } catch (OrmException e) {

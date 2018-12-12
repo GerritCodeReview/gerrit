@@ -55,10 +55,9 @@ class ChangeControl {
       this.notesFactory = notesFactory;
     }
 
-    ChangeControl create(
-        RefControl refControl, ReviewDb db, Project.NameKey project, Change.Id changeId)
+    ChangeControl create(RefControl refControl, Project.NameKey project, Change.Id changeId)
         throws OrmException {
-      return create(refControl, notesFactory.create(db, project, changeId));
+      return create(refControl, notesFactory.create(project, changeId));
     }
 
     ChangeControl create(RefControl refControl, ChangeNotes notes) {

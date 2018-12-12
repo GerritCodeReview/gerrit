@@ -215,7 +215,6 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
 
     List<ChangeNotes> notes =
         notesFactory.create(
-            db,
             branch.getParentKey(),
             changeIds,
             cn -> {

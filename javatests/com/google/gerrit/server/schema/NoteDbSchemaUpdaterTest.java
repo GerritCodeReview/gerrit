@@ -29,9 +29,8 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.IntBlob;
-import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
-import com.google.gerrit.server.notedb.NotesMigrationState;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -117,8 +116,6 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
       args = new NoteDbSchemaVersion.Arguments(repoManager, allProjectsName);
       NoteDbSchemaVersionManager versionManager =
           new NoteDbSchemaVersionManager(allProjectsName, repoManager);
-      MutableNotesMigration notesMigration = MutableNotesMigration.newDisabled();
-      notesMigration.setFrom(NotesMigrationState.NOTE_DB);
       updater =
           new NoteDbSchemaUpdater(
               cfg,
@@ -126,7 +123,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
               allUsersName,
               repoManager,
               schemaCreator,
-              notesMigration,
+              new NotesMigration(),
               versionManager,
               args,
               ImmutableSortedMap.of(10, TestSchema_10.class, 11, TestSchema_11.class));

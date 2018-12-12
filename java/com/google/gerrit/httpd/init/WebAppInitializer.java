@@ -78,7 +78,6 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.server.mail.send.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
@@ -277,7 +276,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       modules.add(new GerritServerConfigModule());
     }
     modules.add(new DatabaseModule());
-    modules.add(new NotesMigration.Module());
     modules.add(new DropWizardMetricMaker.ApiModule());
     return Guice.createInjector(PRODUCTION, modules);
   }

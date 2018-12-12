@@ -211,19 +211,16 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
       throws ConfigInvalidException, OrmException, IOException {
-    if (migration.readChanges()) {
-      // If reading from changes is enabled, then the old DraftCommentNotes
-      // already parsed the revision notes. We can reuse them as long as the ref
-      // hasn't advanced.
-      ChangeNotes changeNotes = getNotes();
-      if (changeNotes != null) {
-        DraftCommentNotes draftNotes = changeNotes.load().getDraftCommentNotes();
-        if (draftNotes != null) {
-          ObjectId idFromNotes = firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
-          RevisionNoteMap<ChangeRevisionNote> rnm = draftNotes.getRevisionNoteMap();
-          if (idFromNotes.equals(curr) && rnm != null) {
-            return rnm;
-          }
+    // The old DraftCommentNotes already parsed the revision notes. We can reuse them as long as
+    // the ref hasn't advanced.
+    ChangeNotes changeNotes = getNotes();
+    if (changeNotes != null) {
+      DraftCommentNotes draftNotes = changeNotes.load().getDraftCommentNotes();
+      if (draftNotes != null) {
+        ObjectId idFromNotes = firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
+        RevisionNoteMap<ChangeRevisionNote> rnm = draftNotes.getRevisionNoteMap();
+        if (idFromNotes.equals(curr) && rnm != null) {
+          return rnm;
         }
       }
     }

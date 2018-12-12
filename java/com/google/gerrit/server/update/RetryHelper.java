@@ -147,21 +147,18 @@ public class RetryHelper {
   @Nullable private final Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup;
 
   @Inject
-  RetryHelper(
-      @GerritServerConfig Config cfg,
-      Metrics metrics,
-      BatchUpdate.AssistedFactory batchUpdateFactory) {
-    this(cfg, metrics, batchUpdateFactory, null);
+  RetryHelper(@GerritServerConfig Config cfg, Metrics metrics, BatchUpdate.Factory updateFactory) {
+    this(cfg, metrics, updateFactory, null);
   }
 
   @VisibleForTesting
   public RetryHelper(
       @GerritServerConfig Config cfg,
       Metrics metrics,
-      BatchUpdate.AssistedFactory batchUpdateFactory,
+      BatchUpdate.Factory updateFactory,
       @Nullable Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup) {
     this.metrics = metrics;
-    this.updateFactory = new BatchUpdate.Factory(batchUpdateFactory);
+    this.updateFactory = updateFactory;
 
     Duration defaultTimeout =
         Duration.ofMillis(

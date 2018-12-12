@@ -151,7 +151,7 @@ public class DeleteDraftComments
     // Currently there's no way to let some updates succeed even if others fail. Even if there were,
     // all updates from this operation only happen in All-Users and thus are fully atomic, so
     // allowing partial failure would have little value.
-    batchUpdateFactory.execute(updates.values(), BatchUpdateListener.NONE, false);
+    BatchUpdate.execute(updates.values(), BatchUpdateListener.NONE, false);
 
     return ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList());
   }

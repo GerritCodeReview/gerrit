@@ -607,7 +607,7 @@ public class MergeOp implements AutoCloseable {
       SubmoduleOp submoduleOp = subOpFactory.create(branches, orm);
       List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp, dryrun);
       this.allProjects = submoduleOp.getProjectsInOrder();
-      batchUpdateFactory.execute(
+      BatchUpdate.execute(
           orm.batchUpdates(allProjects),
           new SubmitStrategyListener(submitInput, strategies, commitStatus),
           dryrun);

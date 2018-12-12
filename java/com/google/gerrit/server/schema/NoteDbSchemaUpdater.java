@@ -15,12 +15,6 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
-import static com.google.gerrit.server.notedb.NotesMigration.DISABLE_REVIEW_DB;
-import static com.google.gerrit.server.notedb.NotesMigration.PRIMARY_STORAGE;
-import static com.google.gerrit.server.notedb.NotesMigration.READ;
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
-import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
@@ -144,11 +138,11 @@ public class NoteDbSchemaUpdater {
     // * Completed the change migration to NoteDB.
     // * Ran schema upgrades from a 2.16 final release.
 
-    if (!cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), WRITE, false)
-        || !cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), READ, false)
-        || cfg.getEnum(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB)
+    if (!cfg.getBoolean("noteDb", "changes", "write", false)
+        || !cfg.getBoolean("noteDb", "changes", "read", false)
+        || cfg.getEnum("noteDb", "changes", "primaryStorage", PrimaryStorage.REVIEW_DB)
             != PrimaryStorage.NOTE_DB
-        || !cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, false)) {
+        || !cfg.getBoolean("noteDb", "changes", "disableReviewDb", false)) {
       throw new OrmException(
           "You appear to be upgrading from a 2.x site, but the NoteDb change migration was"
               + " not completed. See documentation:\n"

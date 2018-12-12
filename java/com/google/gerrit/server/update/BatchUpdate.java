@@ -487,24 +487,15 @@ public abstract class BatchUpdate implements AutoCloseable {
     }
   }
 
-  protected RepoView getRepoView() throws IOException {
+  private RepoView getRepoView() throws IOException {
     initRepository();
     return repoView;
   }
 
-  protected CurrentUser getUser() {
-    return user;
-  }
-
-  protected Optional<AccountState> getAccount() {
+  private Optional<AccountState> getAccount() {
     return user.isIdentifiedUser()
         ? Optional.of(user.asIdentifiedUser().state())
         : Optional.empty();
-  }
-
-  protected RevWalk getRevWalk() throws IOException {
-    initRepository();
-    return repoView.getRevWalk();
   }
 
   public Map<String, ReceiveCommand> getRefUpdates() {
@@ -692,16 +683,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     }
   }
 
-  protected static void logDebug(String msg, Throwable t) {
-    // Only log if there is a requestId assigned, since those are the
-    // expensive/complicated requests like MergeOp. Doing it every time would be
-    // noisy.
-    if (RequestId.isSet()) {
-      logger.atFine().withCause(t).log("%s", msg);
-    }
-  }
-
-  protected static void logDebug(String msg) {
+  private static void logDebug(String msg) {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
@@ -710,7 +692,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     }
   }
 
-  protected static void logDebug(String msg, @Nullable Object arg) {
+  private static void logDebug(String msg, @Nullable Object arg) {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
@@ -719,16 +701,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     }
   }
 
-  protected static void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
-    // Only log if there is a requestId assigned, since those are the
-    // expensive/complicated requests like MergeOp. Doing it every time would be
-    // noisy.
-    if (RequestId.isSet()) {
-      logger.atFine().log(msg, arg1, arg2);
-    }
-  }
-
-  protected static void logDebug(
+  private static void logDebug(
       String msg, @Nullable Object arg1, @Nullable Object arg2, @Nullable Object arg3) {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be

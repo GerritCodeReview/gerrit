@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
@@ -43,16 +42,6 @@ class NoteDbMetrics {
    * effort).
    */
   final Timer1<NoteDbTable> parseLatency;
-
-  /**
-   * Latency due to auto-rebuilding entities when out of date.
-   *
-   * <p>Excludes latency from reading ref to check whether the entity is up to date.
-   */
-  final Timer1<NoteDbTable> autoRebuildLatency;
-
-  /** Count of auto-rebuild attempts that failed. */
-  final Counter1<NoteDbTable> autoRebuildFailureCount;
 
   @Inject
   NoteDbMetrics(MetricMaker metrics) {
@@ -88,20 +77,6 @@ class NoteDbMetrics {
             new Description("NoteDb parse latency by table")
                 .setCumulative()
                 .setUnit(Units.MICROSECONDS),
-            view);
-
-    autoRebuildLatency =
-        metrics.newTimer(
-            "notedb/auto_rebuild_latency",
-            new Description("NoteDb auto-rebuilding latency by table")
-                .setCumulative()
-                .setUnit(Units.MILLISECONDS),
-            view);
-
-    autoRebuildFailureCount =
-        metrics.newCounter(
-            "notedb/auto_rebuild_failure_count",
-            new Description("NoteDb auto-rebuilding attempts that failed by table").setCumulative(),
             view);
   }
 }

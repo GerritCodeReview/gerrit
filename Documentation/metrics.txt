@@ -140,9 +140,6 @@ excluding reindexing
 * `notedb/stage_update_latency`: Latency for staging updates to NoteDb by table.
 * `notedb/read_latency`: NoteDb read latency by table.
 * `notedb/parse_latency`: NoteDb parse latency by table.
-* `notedb/auto_rebuild_latency`: NoteDb auto-rebuilding latency by table.
-* `notedb/auto_rebuild_failure_count`: NoteDb auto-rebuilding attempts that
-failed by table.
 * `notedb/external_id_update_count`: Total number of external ID updates.
 * `notedb/read_all_external_ids_latency`: Latency for reading all
 external ID's from NoteDb.

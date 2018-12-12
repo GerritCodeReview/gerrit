@@ -33,7 +33,6 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -98,7 +97,6 @@ public class ChangeIndexer {
   ChangeIndexer(
       @GerritServerConfig Config cfg,
       SchemaFactory<ReviewDb> schemaFactory,
-      NotesMigration notesMigration,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
       PluginSetContext<ChangeIndexedListener> indexedListeners,
@@ -122,7 +120,6 @@ public class ChangeIndexer {
   ChangeIndexer(
       SchemaFactory<ReviewDb> schemaFactory,
       @GerritServerConfig Config cfg,
-      NotesMigration notesMigration,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
       PluginSetContext<ChangeIndexedListener> indexedListeners,

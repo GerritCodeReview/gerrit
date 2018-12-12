@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -34,27 +33,17 @@ public class NoteDbSchemaVersionCheck implements LifecycleListener {
     };
   }
 
-  private final NotesMigration notesMigration;
   private final NoteDbSchemaVersionManager versionManager;
   private final SitePaths sitePaths;
 
   @Inject
-  NoteDbSchemaVersionCheck(
-      NotesMigration notesMigration,
-      NoteDbSchemaVersionManager versionManager,
-      SitePaths sitePaths) {
-    this.notesMigration = notesMigration;
+  NoteDbSchemaVersionCheck(NoteDbSchemaVersionManager versionManager, SitePaths sitePaths) {
     this.versionManager = versionManager;
     this.sitePaths = sitePaths;
   }
 
   @Override
   public void start() {
-    if (!notesMigration.commitChangeWrites()) {
-      // TODO(dborowitz): Only necessary to make migration tests pass; remove when NoteDb is the
-      // only option.
-      return;
-    }
     try {
       int current = versionManager.read();
       if (current == 0) {

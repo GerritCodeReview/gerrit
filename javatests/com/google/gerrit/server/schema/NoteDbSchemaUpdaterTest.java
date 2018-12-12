@@ -126,7 +126,6 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
               allUsersName,
               repoManager,
               schemaCreator,
-              notesMigration,
               versionManager,
               args,
               ImmutableSortedMap.of(10, TestSchema_10.class, 11, TestSchema_11.class));

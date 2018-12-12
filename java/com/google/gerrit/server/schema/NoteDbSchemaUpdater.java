@@ -34,7 +34,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -50,7 +49,6 @@ public class NoteDbSchemaUpdater {
   private final AllUsersName allUsersName;
   private final GitRepositoryManager repoManager;
   private final SchemaCreator schemaCreator;
-  private final NotesMigration notesMigration;
   private final NoteDbSchemaVersionManager versionManager;
   private final NoteDbSchemaVersion.Arguments args;
   private final ImmutableSortedMap<Integer, Class<? extends NoteDbSchemaVersion>> schemaVersions;
@@ -62,7 +60,6 @@ public class NoteDbSchemaUpdater {
       AllProjectsName allProjectsName,
       GitRepositoryManager repoManager,
       SchemaCreator schemaCreator,
-      NotesMigration notesMigration,
       NoteDbSchemaVersionManager versionManager,
       NoteDbSchemaVersion.Arguments args) {
     this(
@@ -71,7 +68,6 @@ public class NoteDbSchemaUpdater {
         allUsersName,
         repoManager,
         schemaCreator,
-        notesMigration,
         versionManager,
         args,
         NoteDbSchemaVersions.ALL);
@@ -83,7 +79,6 @@ public class NoteDbSchemaUpdater {
       AllUsersName allUsersName,
       GitRepositoryManager repoManager,
       SchemaCreator schemaCreator,
-      NotesMigration notesMigration,
       NoteDbSchemaVersionManager versionManager,
       NoteDbSchemaVersion.Arguments args,
       ImmutableSortedMap<Integer, Class<? extends NoteDbSchemaVersion>> schemaVersions) {
@@ -92,19 +87,12 @@ public class NoteDbSchemaUpdater {
     this.allUsersName = allUsersName;
     this.repoManager = repoManager;
     this.schemaCreator = schemaCreator;
-    this.notesMigration = notesMigration;
     this.versionManager = versionManager;
     this.args = args;
     this.schemaVersions = schemaVersions;
   }
 
   public void update(UpdateUI ui) throws OrmException {
-    if (!notesMigration.commitChangeWrites()) {
-      // TODO(dborowitz): Only necessary to make migration tests pass; remove when NoteDb is the
-      // only option.
-      return;
-    }
-
     ensureSchemaCreated();
 
     int currentVersion = versionManager.read();

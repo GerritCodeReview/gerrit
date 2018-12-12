@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e5c11576_06632b8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-12T01:00:21Z",
+      "side": 1,
+      "message": "this JGit version enhances UploadPack Version 2 support, see release notes",
+      "parentUuid": "2e1356fc_c906d3b2",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "c76736aff2130d0cc6005d6ea48ca740ca93b477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e48be905_649f9497",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-12-11T23:09:09Z",
       "side": 1,
       "message": "Is this relevant to Gerrit which only uses JGit on server side?",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "c76736aff2130d0cc6005d6ea48ca740ca93b477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb1e205b_dbc00cae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-12T01:00:21Z",
+      "side": 1,
+      "message": "I think it\u0027s potentially relevant for replication plugin when using ssh protocol\nsee this discussion about problems we see with jsch\nhttps://www.eclipse.org/lists/cross-project-issues-dev/msg16230.html",
+      "parentUuid": "e48be905_649f9497",
       "range": {
         "startLine": 11,
         "startChar": 2,

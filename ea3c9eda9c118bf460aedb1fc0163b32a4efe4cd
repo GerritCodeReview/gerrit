@@ -137,6 +137,23 @@
     },
     {
       "key": {
+        "uuid": "6aaf9995_f37a0a50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-12-12T14:45:00Z",
+      "side": 1,
+      "message": "This effectively switches caching off. Is this just a copy/paste error (line 74)?",
+      "revId": "ea3c9eda9c118bf460aedb1fc0163b32a4efe4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d9778d6c_448d3ae2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
         "patchSetId": 17

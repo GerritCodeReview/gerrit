@@ -52,8 +52,6 @@ public final class InMemoryTestEnvironment implements MethodRule {
   @Inject private SchemaFactory<ReviewDb> schemaFactory;
   @Inject private SchemaCreator schemaCreator;
   @Inject private ThreadLocalRequestContext requestContext;
-  // Only for use in setting up/tearing down injector.
-  @Inject private InMemoryDatabase inMemoryDatabase;
 
   private ReviewDb db;
   private LifecycleManager lifecycle;

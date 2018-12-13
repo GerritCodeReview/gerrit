@@ -73,8 +73,6 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * {@link #stage()}.
  */
 public class NoteDbUpdateManager implements AutoCloseable {
-  public static final String CHANGES_READ_ONLY = "NoteDb changes are read-only";
-
   private static final ImmutableList<String> PACKAGE_PREFIXES =
       ImmutableList.of("com.google.gerrit.server.", "com.google.gerrit.");
   private static final ImmutableSet<String> SERVLET_NAMES =
@@ -95,15 +93,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
     @Nullable private final ObjectInserter finalIns;
 
     private final boolean close;
-    private final boolean saveObjects;
 
     private OpenRepo(
         Repository repo,
         RevWalk rw,
         @Nullable ObjectInserter ins,
         ChainedReceiveCommands cmds,
-        boolean close,
-        boolean saveObjects) {
+        boolean close) {
       ObjectReader reader = rw.getObjectReader();
       checkArgument(
           ins == null || reader.getCreatedFromInserter() == ins,
@@ -112,29 +108,17 @@ public class NoteDbUpdateManager implements AutoCloseable {
           reader.getCreatedFromInserter());
       this.repo = requireNonNull(repo);
 
-      if (saveObjects) {
-        this.inMemIns = new InMemoryInserter(rw.getObjectReader());
-        this.tempIns = inMemIns;
-      } else {
-        checkArgument(ins != null);
-        this.inMemIns = null;
-        this.tempIns = ins;
-      }
+      this.inMemIns = new InMemoryInserter(rw.getObjectReader());
+      this.tempIns = inMemIns;
 
       this.rw = new RevWalk(tempIns.newReader());
       this.finalIns = ins;
       this.cmds = requireNonNull(cmds);
       this.close = close;
-      this.saveObjects = saveObjects;
     }
 
     public Optional<ObjectId> getObjectId(String refName) throws IOException {
       return cmds.get(refName);
-    }
-
-    @Nullable
-    ImmutableList<InsertedObject> getInsertedObjects() {
-      return saveObjects ? inMemIns.getInsertedObjects() : null;
     }
 
     void flush() throws IOException {
@@ -143,9 +127,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
 
     void flushToFinalInserter() throws IOException {
-      if (!saveObjects) {
-        return;
-      }
       checkState(finalIns != null);
       for (InsertedObject obj : inMemIns.getInsertedObjects()) {
         finalIns.insert(obj.type(), obj.data().toByteArray());
@@ -180,9 +161,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
   private boolean executed;
-  private boolean checkExpectedState = true;
-  private boolean saveObjects = true;
-  private boolean atomicRefUpdates = true;
   private String refLogMessage;
   private PersonIdent refLogIdent;
   private PushCertificate pushCert;
@@ -226,33 +204,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   public NoteDbUpdateManager setChangeRepo(
       Repository repo, RevWalk rw, @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
     checkState(changeRepo == null, "change repo already initialized");
-    changeRepo = new OpenRepo(repo, rw, ins, cmds, false, saveObjects);
-    return this;
-  }
-
-  public NoteDbUpdateManager setAllUsersRepo(
-      Repository repo, RevWalk rw, @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
-    checkState(allUsersRepo == null, "All-Users repo already initialized");
-    allUsersRepo = new OpenRepo(repo, rw, ins, cmds, false, saveObjects);
-    return this;
-  }
-
-  public NoteDbUpdateManager setCheckExpectedState(boolean checkExpectedState) {
-    this.checkExpectedState = checkExpectedState;
-    return this;
-  }
-
-  /**
-   * Set whether to use atomic ref updates.
-   *
-   * <p>Can be set to false when the change updates represented by this manager aren't logically
-   * related, e.g. when the updater is only used to group objects together with a single inserter.
-   *
-   * @param atomicRefUpdates whether to use atomic ref updates; defaults to true.
-   * @return this
-   */
-  public NoteDbUpdateManager setAtomicRefUpdates(boolean atomicRefUpdates) {
-    this.atomicRefUpdates = atomicRefUpdates;
+    changeRepo = new OpenRepo(repo, rw, ins, cmds, false);
     return this;
   }
 
@@ -285,16 +237,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return this;
   }
 
-  public OpenRepo getChangeRepo() throws IOException {
-    initChangeRepo();
-    return changeRepo;
-  }
-
-  public OpenRepo getAllUsersRepo() throws IOException {
-    initAllUsersRepo();
-    return allUsersRepo;
-  }
-
   private void initChangeRepo() throws IOException {
     if (changeRepo == null) {
       changeRepo = openRepo(projectName);
@@ -312,7 +254,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     ObjectInserter ins = repo.newObjectInserter(); // Closed by OpenRepo#close.
     ObjectReader reader = ins.newReader(); // Not closed by OpenRepo#close.
     try (RevWalk rw = new RevWalk(reader)) { // Doesn't escape OpenRepo constructor.
-      return new OpenRepo(repo, rw, ins, new ChainedReceiveCommands(repo), true, saveObjects) {
+      return new OpenRepo(repo, rw, ins, new ChainedReceiveCommands(repo), true) {
         @Override
         public void close() {
           reader.close();
@@ -489,7 +431,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       bru.setRefLogMessage(firstNonNull(guessRestApiHandler(), "Update NoteDb refs"), false);
     }
     bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
-    bru.setAtomic(atomicRefUpdates);
+    bru.setAtomic(true);
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
 
@@ -596,10 +538,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   private void checkExpectedState() throws OrmException, IOException {
-    if (!checkExpectedState) {
-      return;
-    }
-
     // Refuse to apply an update unless the state in NoteDb matches the state
     // claimed in the ref. This means we may have failed a NoteDb ref update,
     // and it would be incorrect to claim that the ref is up to date after this

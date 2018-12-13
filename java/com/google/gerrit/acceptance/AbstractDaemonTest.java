@@ -1184,11 +1184,6 @@ public abstract class AbstractDaemonTest {
   }
 
   @Nullable
-  protected RevCommit getRemoteHead(String project, String branch) throws Exception {
-    return getRemoteHead(new Project.NameKey(project), branch);
-  }
-
-  @Nullable
   protected RevCommit getRemoteHead() throws Exception {
     return getRemoteHead(project, "master");
   }

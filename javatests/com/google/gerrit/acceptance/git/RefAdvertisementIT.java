@@ -368,7 +368,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSequencesWithAccessDatabase() throws Exception {
-    assume().that(notesMigration.readChangeSequence()).isTrue();
     try (Repository repo = repoManager.openRepository(allProjects)) {
       assertRefs(repo, newFilter(allProjects, user), true);
 

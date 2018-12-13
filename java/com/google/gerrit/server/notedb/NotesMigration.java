@@ -41,16 +41,6 @@ public class NotesMigration {
   }
 
   /**
-   * Read sequential change ID numbers from NoteDb.
-   *
-   * <p>If true, change IDs are read from {@code refs/sequences/changes} in All-Projects. If false,
-   * change IDs are read from ReviewDb's native sequences.
-   */
-  public final boolean readChangeSequence() {
-    return true;
-  }
-
-  /**
    * Disable ReviewDb access for changes.
    *
    * <p>When set, ReviewDb operations involving the Changes table become no-ops. Lookups return no

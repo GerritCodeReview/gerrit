@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d838074_866a7961",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1076100
+      },
+      "writtenOn": "2018-12-13T19:47:04Z",
+      "side": 1,
+      "message": "My Java doesn\u0027t do default values. Only my Python does that.\n\njava/com/google/gerrit/httpd/UrlModule.java:278: error: expected token )\n  static void toGerrit(String target, HttpServletRequest req, HttpServletResponse rsp, boolean gwt\u003dfalse)\n                                                                                                  ^\n\nCan do an overloaded function, if you really really want to blend it.",
+      "parentUuid": "385d3986_4eaad3f4",
+      "revId": "2812858b23554eb22aaa8915cf0e76e252a663ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18e06ff6_cf12706d",
         "filename": "java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 3

@@ -53,7 +53,8 @@ public class NoteDbSchemaVersionsTest extends GerritBaseTests {
     int minNoteDbVersion = 180;
     ImmutableList<Integer> allSchemaVersions =
         ClassPath.from(getClass().getClassLoader())
-            .getTopLevelClasses(getClass().getPackage().getName()).stream()
+            .getTopLevelClasses(getClass().getPackage().getName())
+            .stream()
             .map(ClassInfo::load)
             .map(NoteDbSchemaVersions::guessVersion)
             .flatMap(Streams::stream)
@@ -67,8 +68,6 @@ public class NoteDbSchemaVersionsTest extends GerritBaseTests {
 
   @Test
   public void schemaConstructors() throws Exception {
-    for (int version : NoteDbSchemaVersions.ALL.keySet()) {
-      NoteDbSchemaVersions.get(NoteDbSchemaVersions.ALL, version);
-    }
+    NoteDbSchemaVersion.Arguments args = new NoteDbSchemaVersion.Arguments(null, null, null);
   }
 }

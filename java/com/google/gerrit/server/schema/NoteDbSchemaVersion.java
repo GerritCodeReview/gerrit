@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -30,11 +31,14 @@ interface NoteDbSchemaVersion {
   class Arguments {
     final GitRepositoryManager repoManager;
     final AllProjectsName allProjects;
+    final AllUsersName allUsersName;
 
     @Inject
-    Arguments(GitRepositoryManager repoManager, AllProjectsName allProjects) {
+    Arguments(
+        GitRepositoryManager repoManager, AllProjectsName allProjects, AllUsersName allUsersName) {
       this.repoManager = repoManager;
       this.allProjects = allProjects;
+      this.allUsersName = allUsersName;
     }
   }
 

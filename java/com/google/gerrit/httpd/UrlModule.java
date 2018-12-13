@@ -134,7 +134,8 @@ class UrlModule extends ServletModule {
 
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-            toGerrit(req.getRequestURI().substring(req.getContextPath().length()), req, rsp);
+            String path = req.getRequestURI().substring(req.getContextPath().length());
+            toGerrit(path, req, rsp, true);
           }
         });
   }
@@ -276,8 +277,16 @@ class UrlModule extends ServletModule {
 
   static void toGerrit(String target, HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
+    toGerrit(target, req, rsp, false);
+  }
+
+  static void toGerrit(String target, HttpServletRequest req, HttpServletResponse rsp, boolean gwt)
+      throws IOException {
     final StringBuilder url = new StringBuilder();
     url.append(req.getContextPath());
+    if (gwt) {
+      url.append("/#");
+    }
     url.append(target);
     rsp.sendRedirect(url.toString());
   }

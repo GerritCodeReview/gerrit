@@ -51,14 +51,14 @@ message Change {
   optional bool work_in_progress = 21;
   optional bool review_started = 22;
   optional Change_Id revert_of = 23;
-  optional string note_db_state = 101;
 
   // Deleted fields, should not be reused:
-  reserved 6;  // sortkey
-  reserved 9;  // open
-  reserved 11; // nbrPatchSets
-  reserved 15; // lastSha1MergeTested
-  reserved 16; // mergeable
+  reserved 6;    // sortkey
+  reserved 9;    // open
+  reserved 11;   // nbrPatchSets
+  reserved 15;   // lastSha1MergeTested
+  reserved 16;   // mergeable
+  reserved 101;  // note_db_state
 }
 
 // Serialized form of com.google.gerrit.reviewdb.client.ChangeMessage.

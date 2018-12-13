@@ -215,10 +215,6 @@ public abstract class AbstractChangeUpdate {
       return null;
     }
 
-    // Allow this method to proceed even if migration.failChangeWrites() = true.
-    // This may be used by an auto-rebuilding step that the caller does not plan
-    // to actually store.
-
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
     checkNotReadOnly();
 

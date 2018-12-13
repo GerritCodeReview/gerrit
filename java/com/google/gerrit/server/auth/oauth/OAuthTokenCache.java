@@ -22,12 +22,12 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.OAuthTokenProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.IntKeyCacheSerializer;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -57,7 +57,7 @@ public class OAuthTokenCache {
   static class Serializer implements CacheSerializer<OAuthToken> {
     @Override
     public byte[] serialize(OAuthToken object) {
-      return ProtoCacheSerializers.toByteArray(
+      return Protos.toByteArray(
           OAuthTokenProto.newBuilder()
               .setToken(object.getToken())
               .setSecret(object.getSecret())
@@ -69,7 +69,7 @@ public class OAuthTokenCache {
 
     @Override
     public OAuthToken deserialize(byte[] in) {
-      OAuthTokenProto proto = ProtoCacheSerializers.parseUnchecked(OAuthTokenProto.parser(), in);
+      OAuthTokenProto proto = Protos.parseUnchecked(OAuthTokenProto.parser(), in);
       return new OAuthToken(
           proto.getToken(),
           proto.getSecret(),

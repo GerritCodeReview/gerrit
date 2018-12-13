@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache.testing;
+package com.google.gerrit.proto.testing;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertAbout;
@@ -30,13 +30,14 @@ import java.util.Map;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 /**
- * Subject about classes that are serialized into persistent caches.
+ * Subject about classes that are serialized into persistent caches or indices.
  *
  * <p>Hand-written {@link com.google.gerrit.server.cache.serialize.CacheSerializer CacheSerializer}
- * implementations depend on the exact representation of the data stored in a class, so it is
- * important to verify any assumptions about the structure of the serialized classes. This class
- * contains assertions about serialized classes, and should be used for every class that has a
- * custom serializer implementation.
+ * and {@link com.google.gerrit.reviewdb.converter.ProtoConverter ProtoConverter} implementations
+ * depend on the exact representation of the data stored in a class, so it is important to verify
+ * any assumptions about the structure of the serialized classes. This class contains assertions
+ * about serialized classes, and should be used for every class that has a custom serializer
+ * implementation.
  *
  * <p>Changing fields of a serialized class (or abstract methods, in the case of {@code @AutoValue}
  * classes) will likely require changes to the serializer implementation, and may require bumping

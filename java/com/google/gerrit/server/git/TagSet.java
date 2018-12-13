@@ -24,7 +24,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.CachedRefProto;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.TagProto;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.ObjectIdConverter;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.util.BitSet;

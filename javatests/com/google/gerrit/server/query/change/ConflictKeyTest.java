@@ -18,11 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.extensions.client.SubmitType.FAST_FORWARD_ONLY;
 import static com.google.gerrit.extensions.client.SubmitType.MERGE_IF_NECESSARY;
+import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
-import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.server.cache.proto.Cache.ConflictKeyProto;
 import com.google.gerrit.testing.GerritBaseTests;
 import org.eclipse.jgit.lib.ObjectId;
@@ -82,10 +83,7 @@ public class ConflictKeyTest extends GerritBaseTests {
     assertThat(ConflictKey.Serializer.INSTANCE.deserialize(serialized)).isEqualTo(key);
   }
 
-  /**
-   * See {@link com.google.gerrit.server.cache.testing.SerializedClassSubject} for background and
-   * what to do if this test fails.
-   */
+  /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
   public void methods() throws Exception {
     assertThatSerializedClass(ConflictKey.class)

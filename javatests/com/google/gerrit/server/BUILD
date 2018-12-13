@@ -44,6 +44,8 @@ junit_tests(
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/mail",
         "//java/com/google/gerrit/metrics",
+        "//java/com/google/gerrit/proto",
+        "//java/com/google/gerrit/proto/testing",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/serialize",

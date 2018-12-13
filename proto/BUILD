@@ -11,14 +11,11 @@ java_proto_library(
 
 proto_library(
     name = "reviewdb_proto",
-    srcs = [":reviewdb.proto"],
+    srcs = ["reviewdb.proto"],
 )
 
 java_proto_library(
     name = "reviewdb_java_proto",
-    visibility = [
-        "//javatests/com/google/gerrit/proto:__pkg__",
-        "//tools/eclipse:__pkg__",
-    ],
+    visibility = ["//visibility:public"],
     deps = [":reviewdb_proto"],
 )

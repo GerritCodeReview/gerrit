@@ -24,6 +24,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -32,8 +33,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.EnumCacheSerializer;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.ObjectIdConverter;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
@@ -146,7 +146,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       @Override
       public byte[] serialize(Key object) {
         ObjectIdConverter idConverter = ObjectIdConverter.create();
-        return ProtoCacheSerializers.toByteArray(
+        return Protos.toByteArray(
             ChangeKindKeyProto.newBuilder()
                 .setPrior(idConverter.toByteString(object.prior()))
                 .setNext(idConverter.toByteString(object.next()))
@@ -156,8 +156,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
       @Override
       public Key deserialize(byte[] in) {
-        ChangeKindKeyProto proto =
-            ProtoCacheSerializers.parseUnchecked(ChangeKindKeyProto.parser(), in);
+        ChangeKindKeyProto proto = Protos.parseUnchecked(ChangeKindKeyProto.parser(), in);
         ObjectIdConverter idConverter = ObjectIdConverter.create();
         return create(
             idConverter.fromByteString(proto.getPrior()),

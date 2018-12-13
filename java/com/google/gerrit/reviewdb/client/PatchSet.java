@@ -39,7 +39,7 @@ public final class PatchSet {
     return isChangeRef(name);
   }
 
-  static String joinGroups(List<String> groups) {
+  public static String joinGroups(List<String> groups) {
     if (groups == null) {
       throw new IllegalArgumentException("groups may not be null");
     }

@@ -20,10 +20,10 @@ import com.google.common.base.Converter;
 import com.google.common.base.Enums;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.ConflictKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers;
-import com.google.gerrit.server.cache.serialize.ProtoCacheSerializers.ObjectIdConverter;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -70,7 +70,7 @@ public abstract class ConflictKey {
     @Override
     public byte[] serialize(ConflictKey object) {
       ObjectIdConverter idConverter = ObjectIdConverter.create();
-      return ProtoCacheSerializers.toByteArray(
+      return Protos.toByteArray(
           ConflictKeyProto.newBuilder()
               .setCommit(idConverter.toByteString(object.commit()))
               .setOtherCommit(idConverter.toByteString(object.otherCommit()))
@@ -81,7 +81,7 @@ public abstract class ConflictKey {
 
     @Override
     public ConflictKey deserialize(byte[] in) {
-      ConflictKeyProto proto = ProtoCacheSerializers.parseUnchecked(ConflictKeyProto.parser(), in);
+      ConflictKeyProto proto = Protos.parseUnchecked(ConflictKeyProto.parser(), in);
       ObjectIdConverter idConverter = ObjectIdConverter.create();
       return create(
           idConverter.fromByteString(proto.getCommit()),

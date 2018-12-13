@@ -26,7 +26,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_READ_ONLY_UNTIL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
@@ -77,7 +76,6 @@ import com.google.gerrit.server.util.LabelVote;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -85,7 +83,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -99,7 +96,6 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
-import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.RawParseUtils;
 
 class ChangeNotesParser {
@@ -163,7 +159,6 @@ class ChangeNotesParser {
   private String submissionId;
   private String tag;
   private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
-  private Timestamp readOnlyUntil;
   private Boolean isPrivate;
   private Boolean workInProgress;
   private Boolean previousWorkInProgressFooter;
@@ -266,7 +261,6 @@ class ChangeNotesParser {
         submitRecords,
         buildAllMessages(),
         comments,
-        readOnlyUntil,
         firstNonNull(isPrivate, false),
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
@@ -399,10 +393,6 @@ class ChangeNotesParser {
       }
       // Don't update timestamp when a reviewer was added, matching RevewDb
       // behavior.
-    }
-
-    if (readOnlyUntil == null) {
-      parseReadOnlyUntil(commit);
     }
 
     if (isPrivate == null) {
@@ -930,20 +920,6 @@ class ChangeNotesParser {
     }
     if (!reviewersByEmail.containsRow(adr)) {
       reviewersByEmail.put(adr, state, ts);
-    }
-  }
-
-  private void parseReadOnlyUntil(ChangeNotesCommit commit) throws ConfigInvalidException {
-    String raw = parseOneFooter(commit, FOOTER_READ_ONLY_UNTIL);
-    if (raw == null) {
-      return;
-    }
-    try {
-      readOnlyUntil = new Timestamp(GitDateParser.parse(raw, null, Locale.US).getTime());
-    } catch (ParseException e) {
-      ConfigInvalidException cie = invalidFooter(FOOTER_READ_ONLY_UNTIL, raw);
-      cie.initCause(e);
-      throw cie;
     }
   }
 

@@ -109,7 +109,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes createChecked(Project.NameKey project, Change.Id changeId)
         throws OrmException {
-      // Prepopulate the change exists with proper noteDbState field.
       Change change = newChange(project, changeId);
       return new ChangeNotes(args, change, true, null).load();
     }
@@ -128,11 +127,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     public static Change newChange(Project.NameKey project, Change.Id changeId) {
-      Change change =
-          new Change(
-              null, changeId, null, new Branch.NameKey(project, "INVALID_NOTE_DB_ONLY"), null);
-      change.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
-      return change;
+      return new Change(
+          null, changeId, null, new Branch.NameKey(project, "INVALID_NOTE_DB_ONLY"), null);
     }
 
     public ChangeNotes create(Project.NameKey project, Change.Id changeId) throws OrmException {

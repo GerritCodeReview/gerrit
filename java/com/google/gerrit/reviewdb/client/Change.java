@@ -520,10 +520,6 @@ public final class Change {
   @Column(id = 23, notNull = false)
   protected Id revertOf;
 
-  /** @see com.google.gerrit.server.notedb.NoteDbChangeState */
-  @Column(id = 101, notNull = false, length = Integer.MAX_VALUE)
-  protected String noteDbState;
-
   protected Change() {}
 
   public Change(
@@ -559,7 +555,6 @@ public final class Change {
     isPrivate = other.isPrivate;
     workInProgress = other.workInProgress;
     reviewStarted = other.reviewStarted;
-    noteDbState = other.noteDbState;
     revertOf = other.revertOf;
   }
 
@@ -736,14 +731,6 @@ public final class Change {
 
   public Id getRevertOf() {
     return this.revertOf;
-  }
-
-  public String getNoteDbState() {
-    return noteDbState;
-  }
-
-  public void setNoteDbState(String state) {
-    noteDbState = state;
   }
 
   @Override

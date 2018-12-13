@@ -357,8 +357,7 @@ public class BatchUpdate implements AutoCloseable {
     DELETED;
   }
 
-  private GitRepositoryManager repoManager;
-
+  private final GitRepositoryManager repoManager;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;

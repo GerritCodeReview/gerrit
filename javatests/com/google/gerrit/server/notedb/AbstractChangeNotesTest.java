@@ -192,7 +192,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
 
   protected Change newChange(boolean workInProgress) throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
-    ChangeUpdate u = newUpdate(c, changeOwner);
+    ChangeUpdate u = newUpdateForNewChange(c, changeOwner);
     u.setChangeId(c.getKey().get());
     u.setBranch(c.getDest().get());
     u.setWorkInProgress(workInProgress);
@@ -208,15 +208,24 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     return newChange(false);
   }
 
+  protected ChangeUpdate newUpdateForNewChange(Change c, CurrentUser user) throws Exception {
+    return newUpdate(c, user, false);
+  }
+
   protected ChangeUpdate newUpdate(Change c, CurrentUser user) throws Exception {
-    ChangeUpdate update = TestChanges.newUpdate(injector, c, user);
+    return newUpdate(c, user, true);
+  }
+
+  protected ChangeUpdate newUpdate(Change c, CurrentUser user, boolean shouldExist)
+      throws Exception {
+    ChangeUpdate update = TestChanges.newUpdate(injector, c, user, shouldExist);
     update.setPatchSetId(c.currentPatchSetId());
     update.setAllowWriteToNewRef(true);
     return update;
   }
 
   protected ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(args, c).load();
+    return new ChangeNotes(args, c, true, null).load();
   }
 
   protected static SubmitRecord submitRecord(

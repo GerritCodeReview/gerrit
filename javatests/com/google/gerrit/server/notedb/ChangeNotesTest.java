@@ -956,7 +956,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
     String trimmedSubj = c.getSubject();
     c.setCurrentPatchSet(c.currentPatchSetId(), "  " + trimmedSubj, c.getOriginalSubject());
-    ChangeUpdate update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
     update.setBranch(c.getDest().get());
     update.commit();
@@ -968,7 +968,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     c = TestChanges.newChange(project, changeOwner.getAccountId());
     c.setCurrentPatchSet(c.currentPatchSetId(), tabSubj, c.getOriginalSubject());
-    update = newUpdate(c, changeOwner);
+    update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
     update.setBranch(c.getDest().get());
     update.commit();
@@ -3067,7 +3067,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void setRevertOfPersistsValue() throws Exception {
     Change changeToRevert = newChange();
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
-    ChangeUpdate update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
     update.setRevertOf(changeToRevert.getId().get());
     update.commit();

@@ -267,7 +267,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public ObjectId commit() throws IOException, OrmException {
     try (NoteDbUpdateManager updateManager = updateManagerFactory.create(getProjectName())) {
       updateManager.add(this);
-      updateManager.stageAndApplyDelta(getChange());
       updateManager.execute();
     }
     return getResult();

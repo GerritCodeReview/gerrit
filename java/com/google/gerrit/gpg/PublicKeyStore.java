@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.common.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -273,7 +274,7 @@ public class PublicKeyStore implements AutoCloseable {
     }
   }
 
-  public void rebuildSubkeyMasterKeyMap(TextProgressMonitor monitor)
+  public void rebuildSubkeyMasterKeyMap(@Nullable TextProgressMonitor monitor)
       throws MissingObjectException, IncorrectObjectTypeException, IOException, PGPException {
     if (reader == null) {
       load();
@@ -287,7 +288,9 @@ public class PublicKeyStore implements AutoCloseable {
             ObjectId masterKeyObjectId = keyObjectId(masterKeyId);
             saveSubkeyMaping(ins, keyRing, masterKeyId, masterKeyObjectId);
           }
-          monitor.update(1);
+          if (monitor != null) {
+            monitor.update(1);
+          }
         }
       }
     }

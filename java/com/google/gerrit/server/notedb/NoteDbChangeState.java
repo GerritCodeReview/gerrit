@@ -79,10 +79,7 @@ public class NoteDbChangeState {
     }
 
     public static PrimaryStorage of(@Nullable Change c) {
-      return of(NoteDbChangeState.parse(c));
-    }
-
-    public static PrimaryStorage of(@Nullable NoteDbChangeState s) {
+      NoteDbChangeState s = NoteDbChangeState.parse(c);
       return s != null ? s.getPrimaryStorage() : REVIEW_DB;
     }
   }
@@ -268,39 +265,6 @@ public class NoteDbChangeState {
             oldState != null ? oldState.getReadOnlyUntil() : Optional.empty());
     change.setNoteDbState(state.toString());
     return state;
-  }
-
-  // TODO(dborowitz): Ugly. Refactor these static methods into a Checker class
-  // or something. They do not belong in NoteDbChangeState itself because:
-  //  - need to inject Config but don't want a whole Factory
-  //  - can't be methods on NoteDbChangeState because state is nullable (though
-  //    we could also solve this by inventing an empty-but-non-null state)
-  // Also we should clean up duplicated code between static/non-static methods.
-  public static boolean isChangeUpToDate(
-      @Nullable NoteDbChangeState state, RefCache changeRepoRefs, Change.Id changeId)
-      throws IOException {
-    if (PrimaryStorage.of(state) == NOTE_DB) {
-      return true; // Primary storage is NoteDb, up to date by definition.
-    }
-    if (state == null) {
-      return !changeRepoRefs.get(changeMetaRef(changeId)).isPresent();
-    }
-    return state.isChangeUpToDate(changeRepoRefs);
-  }
-
-  public static boolean areDraftsUpToDate(
-      @Nullable NoteDbChangeState state,
-      RefCache draftsRepoRefs,
-      Change.Id changeId,
-      Account.Id accountId)
-      throws IOException {
-    if (PrimaryStorage.of(state) == NOTE_DB) {
-      return true; // Primary storage is NoteDb, up to date by definition.
-    }
-    if (state == null) {
-      return !draftsRepoRefs.get(refsDraftComments(changeId, accountId)).isPresent();
-    }
-    return state.areDraftsUpToDate(draftsRepoRefs, accountId);
   }
 
   public static long getReadOnlySkew(Config cfg) {

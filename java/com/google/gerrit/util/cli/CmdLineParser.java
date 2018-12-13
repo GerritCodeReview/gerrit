@@ -166,8 +166,28 @@ public class CmdLineParser {
      *     match exactly the behavior as if passed from the command line originally.
      */
     public void callParameters(String... args) throws CmdLineException {
-      Parameters impl = new Parameters(Arrays.copyOfRange(args, 1, args.length), parser);
-      parser.findOptionByName(args[0]).parseArguments(impl);
+      if (parser.isOption(args[0])) {
+        Parameters impl = new Parameters(Arrays.copyOfRange(args, 1, args.length), parser);
+        parser.findOptionByName(args[0]).parseArguments(impl);
+      } else {
+        // Currently we can only handle the last Argument (can be multivalued). We consume the
+        // Argument so that it is not seen as missing by the parser, but that means this call
+        // must be the last caller to use that Argument.
+        List<OptionHandler> arguments = parser.getArguments();
+        OptionHandler handler = arguments.remove(arguments.size() - 1);
+        if (handler == null) {
+          throw new IllegalStateException("Cannot find @Option or @Argument");
+        }
+        Parameters impl = new Parameters(args, parser);
+        while (impl.size() > 0) {
+          int diff = handler.parseArguments(impl);
+          impl = new Parameters(Arrays.copyOfRange(impl.args, diff, impl.size()), parser);
+          if (!handler.option.isMultiValued() && impl.size() != 0) {
+            // Todo: use Messages.NO_ARGUMENT_ALLOWED (package visible only in arg4j)
+            throw new CmdLineException(parser, "NO_ARGUMENT_ALLOWED " + impl.getParameter(0));
+          }
+        }
+      }
     }
   }
 
@@ -620,6 +640,11 @@ public class CmdLineParser {
         return factory.create(this, option, setter);
       }
       return add(super.createOptionHandler(option, setter));
+    }
+
+    @Override
+    public boolean isOption(String arg) {
+      return super.isOption(arg);
     }
 
     /**

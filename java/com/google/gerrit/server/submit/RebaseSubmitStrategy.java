@@ -177,7 +177,6 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                 .setFireRevisionCreated(false)
                 // Bypass approval copier since SubmitStrategyOp copy all approvals
                 // later anyway.
-                .setCopyApprovals(false)
                 .setValidate(false)
                 .setCheckAddPatchSetPermission(false)
                 // RebaseAlways should set always modify commit message like

@@ -17,7 +17,6 @@ package com.google.gerrit.server.index.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.index.change.StalenessChecker.refsAreStale;
-import static com.google.gerrit.testing.TestChanges.newChange;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
@@ -25,16 +24,12 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.index.RefState;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
-import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
-import com.google.gwtorm.protobuf.CodecFactory;
-import com.google.gwtorm.protobuf.ProtobufCodec;
 import java.util.stream.Stream;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -50,8 +45,6 @@ public class StalenessCheckerTest extends GerritBaseTests {
   private static final Project.NameKey P2 = new Project.NameKey("project2");
 
   private static final Change.Id C = new Change.Id(1234);
-
-  private static final ProtobufCodec<Change> CHANGE_CODEC = CodecFactory.encoder(Change.class);
 
   private GitRepositoryManager repoManager;
   private Repository r1;
@@ -316,29 +309,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
         .isFalse();
   }
 
-  @Test
-  public void reviewDbChangeIsStale() throws Exception {
-    Change indexChange = newChange(P1, new Account.Id(1));
-    indexChange.setNoteDbState(SHA1);
-
-    // Change is missing from ReviewDb but present in index.
-    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, null)).isTrue();
-
-    // Change differs only in primary storage.
-    Change noteDbPrimary = clone(indexChange);
-    noteDbPrimary.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
-    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, noteDbPrimary)).isTrue();
-
-    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, clone(indexChange))).isFalse();
-
-    // Can't easily change row version to check true case.
-  }
-
   private static Iterable<byte[]> byteArrays(String... strs) {
     return Stream.of(strs).map(s -> s != null ? s.getBytes(UTF_8) : null).collect(toList());
-  }
-
-  private static Change clone(Change change) {
-    return CHANGE_CODEC.decode(CHANGE_CODEC.encodeToByteArray(change));
   }
 }

@@ -17,17 +17,13 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.git.RefUpdateUtil;
@@ -51,7 +47,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
@@ -88,64 +83,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   public interface Factory {
     NoteDbUpdateManager create(Project.NameKey projectName);
-  }
-
-  @AutoValue
-  public abstract static class StagedResult {
-    private static StagedResult create(
-        Change.Id id, NoteDbChangeState.Delta delta, OpenRepo changeRepo, OpenRepo allUsersRepo) {
-      ImmutableList<ReceiveCommand> changeCommands = ImmutableList.of();
-      ImmutableList<InsertedObject> changeObjects = ImmutableList.of();
-      if (changeRepo != null) {
-        changeCommands = changeRepo.getCommandsSnapshot();
-        changeObjects = changeRepo.getInsertedObjects();
-      }
-      ImmutableList<ReceiveCommand> allUsersCommands = ImmutableList.of();
-      ImmutableList<InsertedObject> allUsersObjects = ImmutableList.of();
-      if (allUsersRepo != null) {
-        allUsersCommands = allUsersRepo.getCommandsSnapshot();
-        allUsersObjects = allUsersRepo.getInsertedObjects();
-      }
-      return new AutoValue_NoteDbUpdateManager_StagedResult(
-          id, delta,
-          changeCommands, changeObjects,
-          allUsersCommands, allUsersObjects);
-    }
-
-    public abstract Change.Id id();
-
-    @Nullable
-    public abstract NoteDbChangeState.Delta delta();
-
-    public abstract ImmutableList<ReceiveCommand> changeCommands();
-
-    /**
-     * Objects inserted into the change repo for this change.
-     *
-     * <p>Includes all objects inserted for any change in this repo that may have been processed by
-     * the corresponding {@link NoteDbUpdateManager} instance, not just those objects that were
-     * inserted to handle this specific change's updates.
-     *
-     * @return inserted objects, or null if the corresponding {@link NoteDbUpdateManager} was
-     *     configured not to {@link NoteDbUpdateManager#setSaveObjects(boolean) save objects}.
-     */
-    @Nullable
-    public abstract ImmutableList<InsertedObject> changeObjects();
-
-    public abstract ImmutableList<ReceiveCommand> allUsersCommands();
-
-    /**
-     * Objects inserted into the All-Users repo for this change.
-     *
-     * <p>Includes all objects inserted into All-Users for any change that may have been processed
-     * by the corresponding {@link NoteDbUpdateManager} instance, not just those objects that were
-     * inserted to handle this specific change's updates.
-     *
-     * @return inserted objects, or null if the corresponding {@link NoteDbUpdateManager} was
-     *     configured not to {@link NoteDbUpdateManager#setSaveObjects(boolean) save objects}.
-     */
-    @Nullable
-    public abstract ImmutableList<InsertedObject> allUsersObjects();
   }
 
   public static class OpenRepo implements AutoCloseable {
@@ -195,10 +132,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
       return cmds.get(refName);
     }
 
-    ImmutableList<ReceiveCommand> getCommandsSnapshot() {
-      return ImmutableList.copyOf(cmds.getCommands().values());
-    }
-
     @Nullable
     ImmutableList<InsertedObject> getInsertedObjects() {
       return saveObjects ? inMemIns.getInsertedObjects() : null;
@@ -246,7 +179,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
-  private Map<Change.Id, StagedResult> staged;
+  private boolean executed;
   private boolean checkExpectedState = true;
   private boolean saveObjects = true;
   private boolean atomicRefUpdates = true;
@@ -306,23 +239,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   public NoteDbUpdateManager setCheckExpectedState(boolean checkExpectedState) {
     this.checkExpectedState = checkExpectedState;
-    return this;
-  }
-
-  /**
-   * Set whether to save objects and make them available in {@link StagedResult}s.
-   *
-   * <p>If set, all objects inserted into all repos managed by this instance will be buffered in
-   * memory, and the {@link StagedResult}s will return non-null lists from {@link
-   * StagedResult#changeObjects()} and {@link StagedResult#allUsersObjects()}.
-   *
-   * <p>Not recommended if modifying a large number of changes with a single manager.
-   *
-   * @param saveObjects whether to save objects; defaults to true.
-   * @return this
-   */
-  public NoteDbUpdateManager setSaveObjects(boolean saveObjects) {
-    this.saveObjects = saveObjects;
     return this;
   }
 
@@ -429,12 +345,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
    * @param update the update to add.
    */
   public void add(ChangeUpdate update) {
+    checkNotExecuted();
     checkArgument(
         update.getProjectName().equals(projectName),
         "update for project %s cannot be added to manager for project %s",
         update.getProjectName(),
         projectName);
-    checkState(staged == null, "cannot add new update after staging");
     checkArgument(
         !rewriters.containsKey(update.getRefName()),
         "cannot update & rewrite ref %s in one BatchUpdate",
@@ -481,31 +397,25 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   public void add(ChangeDraftUpdate draftUpdate) {
-    checkState(staged == null, "cannot add new update after staging");
+    checkNotExecuted();
     draftUpdates.put(draftUpdate.getRefName(), draftUpdate);
   }
 
   public void deleteChange(Change.Id id) {
-    checkState(staged == null, "cannot add new change to delete after staging");
+    checkNotExecuted();
     toDelete.add(id);
   }
 
   /**
    * Stage updates in the manager's internal list of commands.
    *
-   * @return map of the state that would get written to the applicable repo(s) for each affected
-   *     change.
    * @throws OrmException if a database layer error occurs.
    * @throws IOException if a storage layer error occurs.
    */
-  public Map<Change.Id, StagedResult> stage() throws OrmException, IOException {
-    if (staged != null) {
-      return staged;
-    }
+  private void stage() throws OrmException, IOException {
     try (Timer1.Context timer = metrics.stageUpdateLatency.start(CHANGES)) {
-      staged = new HashMap<>();
       if (isEmpty()) {
-        return staged;
+        return;
       }
 
       initChangeRepo();
@@ -514,65 +424,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
       }
       checkExpectedState();
       addCommands();
-
-      Table<Change.Id, Account.Id, ObjectId> allDraftIds = getDraftIds();
-      Set<Change.Id> changeIds = new HashSet<>();
-      for (ReceiveCommand cmd : changeRepo.getCommandsSnapshot()) {
-        Change.Id changeId = Change.Id.fromRef(cmd.getRefName());
-        if (changeId == null || !cmd.getRefName().equals(RefNames.changeMetaRef(changeId))) {
-          // Not a meta ref update, likely due to a repo update along with the change meta update.
-          continue;
-        }
-        changeIds.add(changeId);
-        Optional<ObjectId> metaId = Optional.of(cmd.getNewId());
-        staged.put(
-            changeId,
-            StagedResult.create(
-                changeId,
-                NoteDbChangeState.Delta.create(
-                    changeId, metaId, allDraftIds.rowMap().remove(changeId)),
-                changeRepo,
-                allUsersRepo));
-      }
-
-      for (Map.Entry<Change.Id, Map<Account.Id, ObjectId>> e : allDraftIds.rowMap().entrySet()) {
-        // If a change remains in the table at this point, it means we are
-        // updating its drafts but not the change itself.
-        StagedResult r =
-            StagedResult.create(
-                e.getKey(),
-                NoteDbChangeState.Delta.create(e.getKey(), Optional.empty(), e.getValue()),
-                changeRepo,
-                allUsersRepo);
-        checkState(
-            r.changeCommands().isEmpty(),
-            "should not have change commands when updating only drafts: %s",
-            r);
-        staged.put(r.id(), r);
-      }
-
-      return staged;
     }
-  }
-
-  private Table<Change.Id, Account.Id, ObjectId> getDraftIds() {
-    Table<Change.Id, Account.Id, ObjectId> draftIds = HashBasedTable.create();
-    if (allUsersRepo == null) {
-      return draftIds;
-    }
-    for (ReceiveCommand cmd : allUsersRepo.getCommandsSnapshot()) {
-      String r = cmd.getRefName();
-      if (r.startsWith(REFS_DRAFT_COMMENTS)) {
-        Change.Id changeId = Change.Id.fromRefPart(r.substring(REFS_DRAFT_COMMENTS.length()));
-        Account.Id accountId = Account.Id.fromRefSuffix(r);
-        checkDraftRef(accountId != null && changeId != null, r);
-        draftIds.put(changeId, accountId, cmd.getNewId());
-      }
-    }
-    return draftIds;
   }
 
   public void flush() throws IOException {
+    checkNotExecuted();
     if (changeRepo != null) {
       changeRepo.flush();
     }
@@ -588,7 +444,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   @Nullable
   public BatchRefUpdate execute(boolean dryrun) throws OrmException, IOException {
+    checkNotExecuted();
     if (isEmpty()) {
+      executed = true;
       return null;
     }
     try (Timer1.Context timer = metrics.updateLatency.start(CHANGES)) {
@@ -603,6 +461,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       // comments can only go from DRAFT to PUBLISHED, not vice versa.
       BatchRefUpdate result = execute(changeRepo, dryrun, pushCert);
       execute(allUsersRepo, dryrun, null);
+      executed = true;
       return result;
     } finally {
       close();
@@ -732,6 +591,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
+  private void checkNotExecuted() {
+    checkState(!executed, "update has already been executed");
+  }
+
   private void checkExpectedState() throws OrmException, IOException {
     if (!checkExpectedState) {
       return;
@@ -856,9 +719,5 @@ public class NoteDbUpdateManager implements AutoCloseable {
       return true;
     }
     return updates.iterator().next().allowWriteToNewRef();
-  }
-
-  private static void checkDraftRef(boolean condition, String refName) {
-    checkState(condition, "invalid draft ref: %s", refName);
   }
 }

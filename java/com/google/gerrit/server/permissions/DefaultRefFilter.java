@@ -133,9 +133,10 @@ class DefaultRefFilter {
       refs = addUsersSelfSymref(refs);
     }
 
+    boolean hasReadOnRefsStar =
+        checkProjectPermission(permissionBackendForProject, ProjectPermission.READ);
     if (skipFullRefEvaluationIfAllRefsAreVisible && !projectState.isAllUsers()) {
-      if (projectState.statePermitsRead()
-          && checkProjectPermission(permissionBackendForProject, ProjectPermission.READ)) {
+      if (projectState.statePermitsRead() && hasReadOnRefsStar) {
         skipFilterCount.increment();
         return refs;
       } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
@@ -197,9 +198,22 @@ class DefaultRefFilter {
           result.put(name, ref);
         }
       } else if (isTag(ref)) {
-        // If its a tag, consider it later.
-        if (ref.getObjectId() != null) {
-          deferredTags.add(ref);
+        if (hasReadOnRefsStar) {
+          // The user has READ on refs/*. This is the broadest permission one can assign. There is
+          // no way to grant access to (specific) tags in Gerrit, so we have to assume that these
+          // users can see all tags because there could be tags that aren't reachable by any visible
+          // ref while the user can see all non-Gerrit refs. This matches Gerrit's historic
+          // behavior.
+          // This makes it so that these users could see commits that they can't see otherwise
+          // (e.g. a private change ref) if a tag was attached to it. Tags are meant to be used on
+          // the regular Git tree that users interact with, not on any of the Gerrit trees, so this
+          // is a negligible risk.
+          result.put(name, ref);
+        } else {
+          // If its a tag, consider it later.
+          if (ref.getObjectId() != null) {
+            deferredTags.add(ref);
+          }
         }
       } else if (name.startsWith(RefNames.REFS_SEQUENCES)) {
         // Sequences are internal database implementation details.

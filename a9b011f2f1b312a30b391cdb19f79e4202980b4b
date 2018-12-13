@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1310791c_9788fb98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-13T06:56:45Z",
+      "side": 1,
+      "message": "Not need to be initialized, as they are assigned below in any case.",
+      "range": {
+        "startLine": 647,
+        "startChar": 0,
+        "endLine": 648,
+        "endChar": 28
+      },
+      "revId": "a9b011f2f1b312a30b391cdb19f79e4202980b4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0056a404_7940807f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-13T06:56:45Z",
+      "side": 1,
+      "message": "Can be simplified, if you initialize with change.isPrivate() and change.isWorkInProgress():\n\n    boolean isPrivate \u003d change.isPrivate();\n    boolean wip \u003d change.isWorkInProgress();\n    if (magicBranch !\u003d null) {\n      if (magicBranch.isPrivate) {\n        isPrivate \u003d true;\n      } else if (magicBranch.removePrivate) {\n        isPrivate \u003d false;\n      }\n      if (magicBranch.workInProgress) {\n        wip \u003d true;\n      } else if (magicBranch.ready) {\n        wip \u003d false;\n      }\n    }",
+      "range": {
+        "startLine": 649,
+        "startChar": 8,
+        "endLine": 667,
+        "endChar": 9
+      },
+      "revId": "a9b011f2f1b312a30b391cdb19f79e4202980b4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

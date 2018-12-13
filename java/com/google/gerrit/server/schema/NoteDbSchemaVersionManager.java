@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.notedb;
+package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_VERSION;
 
@@ -20,6 +20,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.IntBlob;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Optional;
@@ -67,13 +68,7 @@ public class NoteDbSchemaVersionManager {
           allProjectsName,
           REFS_VERSION,
           old.map(IntBlob::id).orElse(ObjectId.zeroId()),
-          // TODO(dborowitz): Find some way to not hard-code this constant here. We can't depend on
-          // NoteDbSchemaVersions from this package, because the schema java_library depends on the
-          // server java_library, so that would add a circular dependency. But *this* class must
-          // live in the server library, because it's used by things like NoteDbMigrator. One
-          // option: once NoteDbMigrator goes away, this class could move back to the schema
-          // subpackage.
-          180,
+          NoteDbSchemaVersions.LATEST,
           GitReferenceUpdated.DISABLED);
     }
   }

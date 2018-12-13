@@ -22,6 +22,30 @@
       "revId": "076989e1a7817de937c02ce4055f2e1e307ab902",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23aef110_6e4267b8",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperations.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-12-13T16:42:59Z",
+      "side": 1,
+      "message": "we could, but head is a more common name. After all, it\u0027s called refs/heads/ and not refs/tips/",
+      "parentUuid": "080e1dc8_69a3f270",
+      "range": {
+        "startLine": 39,
+        "startChar": 14,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "076989e1a7817de937c02ce4055f2e1e307ab902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

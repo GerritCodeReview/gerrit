@@ -23,6 +23,30 @@
       "revId": "fe2281378374224f72958c6d28ef0b415b9d18bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3355070_5d44d37b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-13T08:45:22Z",
+      "side": 1,
+      "message": "I guess that\u0027s getting fixed later in this series by https://gerrit-review.googlesource.com/c/gerrit/+/207372?",
+      "parentUuid": "8addaeab_57dd8209",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "fe2281378374224f72958c6d28ef0b415b9d18bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

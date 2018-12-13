@@ -43,7 +43,6 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -116,7 +115,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private static final String CHANGE_IS_CLOSED = "change is closed";
 
   private final AccountResolver accountResolver;
-  private final ApprovalCopier approvalCopier;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
@@ -162,7 +160,6 @@ public class ReplaceOp implements BatchUpdateOp {
   @Inject
   ReplaceOp(
       AccountResolver accountResolver,
-      ApprovalCopier approvalCopier,
       ApprovalsUtil approvalsUtil,
       ChangeData.Factory changeDataFactory,
       ChangeKindCache changeKindCache,
@@ -190,7 +187,6 @@ public class ReplaceOp implements BatchUpdateOp {
       @Assisted @Nullable MagicBranchInput magicBranch,
       @Assisted @Nullable PushCertificate pushCertificate) {
     this.accountResolver = accountResolver;
-    this.approvalCopier = approvalCopier;
     this.approvalsUtil = approvalsUtil;
     this.changeDataFactory = changeDataFactory;
     this.changeKindCache = changeKindCache;
@@ -315,21 +311,8 @@ public class ReplaceOp implements BatchUpdateOp {
 
     update.setPsDescription(psDescription);
     MailRecipients fromFooters = getRecipientsFromFooters(accountResolver, commit.getFooterLines());
-    Iterable<PatchSetApproval> newApprovals =
-        approvalsUtil.addApprovalsForNewPatchSet(
-            ctx.getDb(),
-            update,
-            projectState.getLabelTypes(),
-            newPatchSet,
-            ctx.getUser(),
-            approvals);
-    approvalCopier.copyInReviewDb(
-        ctx.getDb(),
-        ctx.getNotes(),
-        newPatchSet,
-        ctx.getRevWalk(),
-        ctx.getRepoView().getConfig(),
-        newApprovals);
+    approvalsUtil.addApprovalsForNewPatchSet(
+        ctx.getDb(), update, projectState.getLabelTypes(), newPatchSet, ctx.getUser(), approvals);
 
     reviewerAdditions =
         reviewerAdder.prepare(

@@ -16,7 +16,6 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 
 import com.google.auto.value.AutoValue;
@@ -29,21 +28,15 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
@@ -66,21 +59,16 @@ public class StalenessChecker {
   private final ChangeIndexCollection indexes;
   private final GitRepositoryManager repoManager;
   private final IndexConfig indexConfig;
-  private final Provider<ReviewDb> db;
 
   @Inject
   StalenessChecker(
-      ChangeIndexCollection indexes,
-      GitRepositoryManager repoManager,
-      IndexConfig indexConfig,
-      Provider<ReviewDb> db) {
+      ChangeIndexCollection indexes, GitRepositoryManager repoManager, IndexConfig indexConfig) {
     this.indexes = indexes;
     this.repoManager = repoManager;
     this.indexConfig = indexConfig;
-    this.db = db;
   }
 
-  public boolean isStale(Change.Id id) throws IOException, OrmException {
+  public boolean isStale(Change.Id id) throws IOException {
     ChangeIndex i = indexes.getSearchIndex();
     if (i == null) {
       return false; // No index; caller couldn't do anything if it is stale.
@@ -96,25 +84,16 @@ public class StalenessChecker {
       return true; // Not in index, but caller wants it to be.
     }
     ChangeData cd = result.get();
-    return isStale(
-        repoManager,
-        id,
-        cd.change(),
-        ReviewDbUtil.unwrapDb(db.get()).changes().get(id),
-        parseStates(cd),
-        parsePatterns(cd));
+    return isStale(repoManager, id, parseStates(cd), parsePatterns(cd));
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public static boolean isStale(
       GitRepositoryManager repoManager,
       Change.Id id,
-      Change indexChange,
-      @Nullable Change reviewDbChange,
       SetMultimap<Project.NameKey, RefState> states,
       ListMultimap<Project.NameKey, RefStatePattern> patterns) {
-    return reviewDbChangeIsStale(indexChange, reviewDbChange)
-        || refsAreStale(repoManager, id, states, patterns);
+    return refsAreStale(repoManager, id, states, patterns);
   }
 
   @VisibleForTesting
@@ -132,31 +111,6 @@ public class StalenessChecker {
     }
 
     return false;
-  }
-
-  @VisibleForTesting
-  static boolean reviewDbChangeIsStale(Change indexChange, @Nullable Change reviewDbChange) {
-    requireNonNull(indexChange);
-    PrimaryStorage storageFromIndex = PrimaryStorage.of(indexChange);
-    PrimaryStorage storageFromReviewDb = PrimaryStorage.of(reviewDbChange);
-    if (reviewDbChange == null) {
-      if (storageFromIndex == PrimaryStorage.REVIEW_DB) {
-        return true; // Index says it should have been in ReviewDb, but it wasn't.
-      }
-      return false; // Not in ReviewDb, but that's ok.
-    }
-    checkArgument(
-        indexChange.getId().equals(reviewDbChange.getId()),
-        "mismatched change ID: %s != %s",
-        indexChange.getId(),
-        reviewDbChange.getId());
-    if (storageFromIndex != storageFromReviewDb) {
-      return true; // Primary storage differs, definitely stale.
-    }
-    if (storageFromReviewDb != PrimaryStorage.REVIEW_DB) {
-      return false; // Not a ReviewDb change, don't check rowVersion.
-    }
-    return reviewDbChange.getRowVersion() != indexChange.getRowVersion();
   }
 
   private SetMultimap<Project.NameKey, RefState> parseStates(ChangeData cd) {

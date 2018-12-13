@@ -148,19 +148,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     public abstract ImmutableList<InsertedObject> allUsersObjects();
   }
 
-  @AutoValue
-  public abstract static class Result {
-    static Result create(NoteDbUpdateManager.StagedResult staged, NoteDbChangeState newState) {
-      return new AutoValue_NoteDbUpdateManager_Result(newState, staged);
-    }
-
-    @Nullable
-    public abstract NoteDbChangeState newState();
-
-    @Nullable
-    abstract NoteDbUpdateManager.StagedResult staged();
-  }
-
   public static class OpenRepo implements AutoCloseable {
     public final Repository repo;
     public final RevWalk rw;
@@ -566,13 +553,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
       return staged;
     }
-  }
-
-  public Result stageAndApplyDelta(Change change) throws OrmException, IOException {
-    StagedResult sr = stage().get(change.getId());
-    NoteDbChangeState newState =
-        NoteDbChangeState.applyDelta(change, sr != null ? sr.delta() : null);
-    return Result.create(sr, newState);
   }
 
   private Table<Change.Id, Account.Id, ObjectId> getDraftIds() {

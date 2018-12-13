@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.Singleton;
 import java.util.Objects;
 
@@ -47,24 +46,6 @@ public class NotesMigration {
   }
 
   /**
-   * Write changes to NoteDb.
-   *
-   * <p>This method is awkwardly named because you should be using either {@link
-   * #commitChangeWrites()} or {@link #failChangeWrites()} instead.
-   *
-   * <p>Updates to change data are written to NoteDb refs, but ReviewDb is still the source of
-   * truth. Change data will not be written unless the NoteDb refs are already up to date, and the
-   * write path will attempt to rebuild the change if not.
-   *
-   * <p>If false, the behavior when attempting to write depends on {@code readChanges()}. If {@code
-   * readChanges() = false}, writes to NoteDb are simply ignored; if {@code true}, any attempts to
-   * write will generate an error.
-   */
-  public final boolean rawWriteChangesSetting() {
-    return true;
-  }
-
-  /**
    * Read sequential change ID numbers from NoteDb.
    *
    * <p>If true, change IDs are read from {@code refs/sequences/changes} in All-Projects. If false,
@@ -72,11 +53,6 @@ public class NotesMigration {
    */
   public final boolean readChangeSequence() {
     return true;
-  }
-
-  /** @return default primary storage for new changes. */
-  public final PrimaryStorage changePrimaryStorage() {
-    return PrimaryStorage.NOTE_DB;
   }
 
   /**

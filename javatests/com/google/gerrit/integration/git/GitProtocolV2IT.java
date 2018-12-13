@@ -47,15 +47,15 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
   private final String[] SSH_KEYGEN_CMD =
       new String[] {"ssh-keygen", "-t", "rsa", "-q", "-P", "", "-f"};
   private final String[] GIT_LS_REMOTE =
-      new String[] {"git", "-c", "protocol.version=2", "ls-remote"};
+      new String[] {"git", "-c", "protocol.version=2", "ls-remote", "-o", "trace=12345"};
   private final String GIT_SSH_COMMAND =
       "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i";
 
   @Inject private GerritApi gApi;
   @Inject private AccountCreator accountCreator;
+  @Inject private ProjectOperations projectOperations;
   @Inject private @TestSshServerAddress InetSocketAddress sshAddress;
   @Inject private @GerritServerConfig Config config;
-  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void testGitWireProtocolV2WithSsh() throws Exception {

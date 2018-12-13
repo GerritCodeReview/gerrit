@@ -112,7 +112,7 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
             setUp();
           };
 
-      args = new NoteDbSchemaVersion.Arguments(repoManager, allProjectsName);
+      args = new NoteDbSchemaVersion.Arguments(repoManager, allProjectsName, allUsersName);
       NoteDbSchemaVersionManager versionManager =
           new NoteDbSchemaVersionManager(allProjectsName, repoManager);
       updater =

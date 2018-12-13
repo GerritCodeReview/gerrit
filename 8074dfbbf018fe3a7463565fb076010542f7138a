@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79b9e8ac_97f46c16",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbSchemaVersionManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-13T20:43:39Z",
+      "side": 1,
+      "message": "This is very error prone, as the previous patch set of this change has shown. Hopefully fixed in: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/207450",
+      "range": {
+        "startLine": 76,
+        "startChar": 10,
+        "endLine": 76,
+        "endChar": 13
+      },
+      "revId": "8074dfbbf018fe3a7463565fb076010542f7138a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

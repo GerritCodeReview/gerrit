@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7b07d09_14704822",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1024846
+      },
+      "writtenOn": "2018-12-13T08:38:01Z",
+      "side": 1,
+      "message": "Could we make that the last argument instead of the first, with a default value to false?\n\nI could see that being removed with a potential GWT clean-up down the road.",
+      "range": {
+        "startLine": 278,
+        "startChar": 22,
+        "endLine": 278,
+        "endChar": 34
+      },
+      "revId": "bae5d63c52a1a0c2c5667961161e353b36bc8758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

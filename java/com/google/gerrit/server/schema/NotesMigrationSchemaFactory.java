@@ -16,7 +16,6 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.DisallowedReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -24,12 +23,8 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
-  private final NotesMigration migration;
-
   @Inject
-  NotesMigrationSchemaFactory(NotesMigration migration) {
-    this.migration = migration;
-  }
+  NotesMigrationSchemaFactory() {}
 
   @Override
   public ReviewDb open() throws OrmException {
@@ -63,11 +58,10 @@ public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
     ReviewDb db = new NoChangesReviewDb();
 
     // Second create the wrappers which can be removed by ReviewDbUtil#unwrapDb(ReviewDb).
-    if (migration.readChanges()) {
-      // If reading changes from NoteDb is configured, changes should not be read from ReviewDb.
-      // Make sure that any attempt to read a change from ReviewDb anyway fails with an exception.
-      db = new DisallowedReviewDb(db);
-    }
+    // ReviewDb is no longer supported, make sure that any attempt to read a change from ReviewDb
+    // anyway fails with an exception.
+    db = new DisallowedReviewDb(db);
+
     return db;
   }
 }

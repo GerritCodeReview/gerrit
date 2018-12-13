@@ -44,7 +44,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public abstract class AbstractChangeUpdate {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  protected final NotesMigration migration;
   protected final ChangeNoteUtil noteUtil;
   protected final Account.Id accountId;
   protected final Account.Id realAccountId;
@@ -62,13 +61,11 @@ public abstract class AbstractChangeUpdate {
 
   protected AbstractChangeUpdate(
       Config cfg,
-      NotesMigration migration,
       ChangeNotes notes,
       CurrentUser user,
       PersonIdent serverIdent,
       ChangeNoteUtil noteUtil,
       Date when) {
-    this.migration = migration;
     this.noteUtil = noteUtil;
     this.serverIdent = new PersonIdent(serverIdent, when);
     this.notes = notes;
@@ -83,7 +80,6 @@ public abstract class AbstractChangeUpdate {
 
   protected AbstractChangeUpdate(
       Config cfg,
-      NotesMigration migration,
       ChangeNoteUtil noteUtil,
       PersonIdent serverIdent,
       @Nullable ChangeNotes notes,
@@ -95,7 +91,6 @@ public abstract class AbstractChangeUpdate {
     checkArgument(
         (notes != null && change == null) || (notes == null && change != null),
         "exactly one of notes or change required");
-    this.migration = migration;
     this.noteUtil = noteUtil;
     this.serverIdent = new PersonIdent(serverIdent, when);
     this.notes = notes;

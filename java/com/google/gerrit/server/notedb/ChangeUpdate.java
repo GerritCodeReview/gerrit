@@ -166,7 +166,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -178,7 +177,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this(
         cfg,
         serverIdent,
-        migration,
         updateManagerFactory,
         draftUpdateFactory,
         robotCommentUpdateFactory,
@@ -194,7 +192,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -207,7 +204,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this(
         cfg,
         serverIdent,
-        migration,
         updateManagerFactory,
         draftUpdateFactory,
         robotCommentUpdateFactory,
@@ -228,7 +224,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -238,7 +233,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
-    super(cfg, migration, notes, user, serverIdent, noteUtil, when);
+    super(cfg, notes, user, serverIdent, noteUtil, when);
     this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
@@ -250,7 +245,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -262,17 +256,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted PersonIdent authorIdent,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator) {
-    super(
-        cfg,
-        migration,
-        noteUtil,
-        serverIdent,
-        null,
-        change,
-        accountId,
-        realAccountId,
-        authorIdent,
-        when);
+    super(cfg, noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;

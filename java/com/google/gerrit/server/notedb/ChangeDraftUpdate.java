@@ -94,7 +94,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   private ChangeDraftUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       @Assisted ChangeNotes notes,
@@ -102,17 +101,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(
-        cfg,
-        migration,
-        noteUtil,
-        serverIdent,
-        notes,
-        null,
-        accountId,
-        realAccountId,
-        authorIdent,
-        when);
+    super(cfg, noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
   }
 
@@ -120,7 +109,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   private ChangeDraftUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      NotesMigration migration,
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
@@ -128,17 +116,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(
-        cfg,
-        migration,
-        noteUtil,
-        serverIdent,
-        null,
-        change,
-        accountId,
-        realAccountId,
-        authorIdent,
-        when);
+    super(cfg, noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
   }
 

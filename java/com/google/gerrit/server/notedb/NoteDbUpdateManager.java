@@ -28,7 +28,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.Timer1;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -37,10 +36,8 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.update.RetryingRestModifyView;
-import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -364,7 +361,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
       if (!draftUpdates.isEmpty() || !toDelete.isEmpty()) {
         initAllUsersRepo();
       }
-      checkExpectedState();
       addCommands();
     }
   }
@@ -502,7 +498,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     for (Change.Id id : toDelete) {
       doDelete(id);
     }
-    checkExpectedState();
   }
 
   private void doDelete(Change.Id id) throws IOException {
@@ -522,74 +517,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
-  public static class MismatchedStateException extends OrmException {
-    private static final long serialVersionUID = 1L;
-
-    private MismatchedStateException(Change.Id id, NoteDbChangeState expectedState) {
-      super(
-          String.format(
-              "cannot apply NoteDb updates for change %s; change meta ref does not match %s",
-              id, expectedState.getChangeMetaId().name()));
-    }
-  }
-
   private void checkNotExecuted() {
     checkState(!executed, "update has already been executed");
-  }
-
-  private void checkExpectedState() throws OrmException, IOException {
-    // Refuse to apply an update unless the state in NoteDb matches the state
-    // claimed in the ref. This means we may have failed a NoteDb ref update,
-    // and it would be incorrect to claim that the ref is up to date after this
-    // pipeline.
-    //
-    // Generally speaking, this case should be rare; in most cases, we should
-    // have detected and auto-fixed the stale state when creating ChangeNotes
-    // that got passed into the ChangeUpdate.
-    for (Collection<ChangeUpdate> us : changeUpdates.asMap().values()) {
-      ChangeUpdate u = us.iterator().next();
-      NoteDbChangeState expectedState = NoteDbChangeState.parse(u.getChange());
-
-      if (expectedState == null) {
-        // No previous state means we haven't previously written NoteDb graphs
-        // for this change yet. This means either:
-        //  - The change is new, and we'll be creating its ref.
-        //  - We short-circuited before adding any commands that update this
-        //    ref, and we won't stage a delta for this change either.
-        // Either way, it is safe to proceed here rather than throwing
-        // MismatchedStateException.
-        continue;
-      }
-
-      if (expectedState.getPrimaryStorage() == PrimaryStorage.NOTE_DB) {
-        // NoteDb is primary, no need to compare state to ReviewDb.
-        continue;
-      }
-
-      if (!expectedState.isChangeUpToDate(changeRepo.cmds.getRepoRefCache())) {
-        throw new MismatchedStateException(u.getId(), expectedState);
-      }
-    }
-
-    for (Collection<ChangeDraftUpdate> us : draftUpdates.asMap().values()) {
-      ChangeDraftUpdate u = us.iterator().next();
-      NoteDbChangeState expectedState = NoteDbChangeState.parse(u.getChange());
-
-      if (expectedState == null || expectedState.getPrimaryStorage() == PrimaryStorage.NOTE_DB) {
-        continue; // See above.
-      }
-
-      Account.Id accountId = u.getAccountId();
-      if (!expectedState.areDraftsUpToDate(allUsersRepo.cmds.getRepoRefCache(), accountId)) {
-        ObjectId expectedDraftId =
-            firstNonNull(expectedState.getDraftIds().get(accountId), ObjectId.zeroId());
-        throw new OrmConcurrencyException(
-            String.format(
-                "cannot apply NoteDb updates for change %s;"
-                    + " draft ref for account %s does not match %s",
-                u.getId(), accountId, expectedDraftId.name()));
-      }
-    }
   }
 
   private static <U extends AbstractChangeUpdate> void addUpdates(

@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.httpd.TracingHook;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
@@ -87,7 +88,8 @@ final class Upload extends AbstractGitCommand {
     for (UploadPackInitializer initializer : uploadPackInitializers) {
       initializer.init(projectState.getNameKey(), up);
     }
-    try {
+    try (TracingHook tracingHook = new TracingHook()) {
+      up.setProtocolV2Hook(tracingHook);
       up.upload(in, out, err);
       session.setPeerAgent(up.getPeerUserAgent());
     } catch (UploadValidationException e) {

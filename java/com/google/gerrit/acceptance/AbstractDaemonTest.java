@@ -115,7 +115,6 @@ import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
@@ -261,7 +260,6 @@ public abstract class AbstractDaemonTest {
   @Inject protected PluginConfigFactory pluginConfig;
   @Inject protected Revisions revisions;
   @Inject protected SystemGroupBackend systemGroupBackend;
-  @Inject protected NotesMigration notesMigration;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;

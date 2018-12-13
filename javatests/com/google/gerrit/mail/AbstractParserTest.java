@@ -41,7 +41,7 @@ public class AbstractParserTest extends GerritBaseTests {
       String message, MailComment comment, Comment inReplyTo) {
     assertThat(comment.fileName).isNull();
     assertThat(comment.message).isEqualTo(message);
-    assertThat(comment.inReplyTo).isEqualTo(inReplyTo);
+    assertThat(comment.inReplyTo.key).isEqualTo(inReplyTo.key);
     assertThat(comment.type).isEqualTo(MailComment.CommentType.INLINE_COMMENT);
   }
 

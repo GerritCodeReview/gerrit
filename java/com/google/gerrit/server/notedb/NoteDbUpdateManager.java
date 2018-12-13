@@ -614,10 +614,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   @Nullable
   public BatchRefUpdate execute(boolean dryrun) throws OrmException, IOException {
-    // Check before even inspecting the list, as this is a programmer error.
-    if (migration.failChangeWrites()) {
-      throw new OrmException(CHANGES_READ_ONLY);
-    }
     if (isEmpty()) {
       return null;
     }

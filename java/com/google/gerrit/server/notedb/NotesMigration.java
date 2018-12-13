@@ -49,10 +49,6 @@ public class NotesMigration {
     return true;
   }
 
-  public final boolean failChangeWrites() {
-    return false;
-  }
-
   @Override
   public final boolean equals(Object o) {
     return o instanceof NotesMigration;

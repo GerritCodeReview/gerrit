@@ -73,7 +73,7 @@ public class NoteDbSchemaVersionManager {
           // live in the server library, because it's used by things like NoteDbMigrator. One
           // option: once NoteDbMigrator goes away, this class could move back to the schema
           // subpackage.
-          180,
+          181,
           GitReferenceUpdated.DISABLED);
     }
   }

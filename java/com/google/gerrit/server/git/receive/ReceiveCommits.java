@@ -728,22 +728,9 @@ class ReceiveCommits {
       addMessage("");
       addMessage("Updated Changes:");
       boolean edit = magicBranch != null && (magicBranch.edit || magicBranch.draft);
-      Boolean isPrivate = null;
-      Boolean wip = null;
-      if (magicBranch != null) {
-        if (magicBranch.isPrivate) {
-          isPrivate = true;
-        } else if (magicBranch.removePrivate) {
-          isPrivate = false;
-        }
-        if (magicBranch.workInProgress) {
-          wip = true;
-        } else if (magicBranch.ready) {
-          wip = false;
-        }
-      }
       for (ReplaceRequest u : updated) {
         String subject;
+        Change change = u.notes.getChange();
         if (edit) {
           try {
             subject = receivePack.getRevWalk().parseCommit(u.newCommitId).getShortMessage();
@@ -756,16 +743,24 @@ class ReceiveCommits {
           subject = u.info.getSubject();
         }
 
-        if (isPrivate == null) {
-          isPrivate = u.notes.getChange().isPrivate();
-        }
-        if (wip == null) {
-          wip = u.notes.getChange().isWorkInProgress();
+        boolean isPrivate = change.isPrivate();
+        boolean wip = change.isWorkInProgress();
+        if (magicBranch != null) {
+          if (magicBranch.isPrivate) {
+            isPrivate = true;
+          } else if (magicBranch.removePrivate) {
+            isPrivate = false;
+          }
+          if (magicBranch.workInProgress) {
+            wip = true;
+          } else if (magicBranch.ready) {
+            wip = false;
+          }
         }
 
         ChangeReportFormatter.Input input =
             ChangeReportFormatter.Input.builder()
-                .setChange(u.notes.getChange())
+                .setChange(change)
                 .setSubject(subject)
                 .setIsEdit(edit)
                 .setIsPrivate(isPrivate)

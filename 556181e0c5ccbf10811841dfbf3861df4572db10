@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45d3d7dd_372dd1c7",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersion.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-12-13T07:59:11Z",
+      "side": 1,
+      "message": "Not sure, what was the plan in the original change: [1]: should NoteDbSchemaVersion.Arguments be extended in the change where migration implementation is added, where additional attributes are required, or should this addition be extracted as separate change?\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/204498/8/java/com/google/gerrit/server/schema/NoteDbSchemaVersion.java",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 36
+      },
+      "revId": "556181e0c5ccbf10811841dfbf3861df4572db10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

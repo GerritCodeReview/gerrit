@@ -63,7 +63,6 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.RobotCommentNotes;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -805,19 +804,17 @@ public class ChangeField {
                     .values()
                     .forEach(r -> result.add(RefState.of(r.ref()).toByteArray(allUsers(cd))));
 
-                if (PrimaryStorage.of(cd.change()) == PrimaryStorage.NOTE_DB) {
-                  ChangeNotes notes = cd.notes();
-                  result.add(
-                      RefState.create(notes.getRefName(), notes.getMetaId()).toByteArray(project));
-                  notes.getRobotComments(); // Force loading robot comments.
-                  RobotCommentNotes robotNotes = notes.getRobotCommentNotes();
-                  result.add(
-                      RefState.create(robotNotes.getRefName(), robotNotes.getMetaId())
-                          .toByteArray(project));
-                  cd.draftRefs()
-                      .values()
-                      .forEach(r -> result.add(RefState.of(r).toByteArray(allUsers(cd))));
-                }
+                ChangeNotes notes = cd.notes();
+                result.add(
+                    RefState.create(notes.getRefName(), notes.getMetaId()).toByteArray(project));
+                notes.getRobotComments(); // Force loading robot comments.
+                RobotCommentNotes robotNotes = notes.getRobotCommentNotes();
+                result.add(
+                    RefState.create(robotNotes.getRefName(), robotNotes.getMetaId())
+                        .toByteArray(project));
+                cd.draftRefs()
+                    .values()
+                    .forEach(r -> result.add(RefState.of(r).toByteArray(allUsers(cd))));
 
                 return result;
               });
@@ -842,11 +839,9 @@ public class ChangeField {
                 result.add(
                     RefStatePattern.create(RefNames.refsStarredChangesPrefix(id) + "*")
                         .toByteArray(allUsers(cd)));
-                if (PrimaryStorage.of(cd.change()) == PrimaryStorage.NOTE_DB) {
-                  result.add(
-                      RefStatePattern.create(RefNames.refsDraftCommentsPrefix(id) + "*")
-                          .toByteArray(allUsers(cd)));
-                }
+                result.add(
+                    RefStatePattern.create(RefNames.refsDraftCommentsPrefix(id) + "*")
+                        .toByteArray(allUsers(cd)));
                 return result;
               });
 

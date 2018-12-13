@@ -45,17 +45,6 @@ public class NotesMigration {
     return true;
   }
 
-  /**
-   * Disable ReviewDb access for changes.
-   *
-   * <p>When set, ReviewDb operations involving the Changes table become no-ops. Lookups return no
-   * results; updates do nothing, as does opening, committing, or rolling back a transaction on the
-   * Changes table.
-   */
-  public final boolean disableChangeReviewDb() {
-    return true;
-  }
-
   public final boolean commitChangeWrites() {
     return true;
   }

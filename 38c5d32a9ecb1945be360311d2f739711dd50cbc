@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3846db5d_0626e23e",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperations.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-13T16:44:49Z",
+      "side": 1,
+      "message": "Missing \u0027true\u0027?",
+      "range": {
+        "startLine": 39,
+        "startChar": 14,
+        "endLine": 39,
+        "endChar": 15
+      },
+      "revId": "38c5d32a9ecb1945be360311d2f739711dd50cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c7c06d8_8544290c",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperations.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-12-13T16:44:49Z",
+      "side": 1,
+      "message": "This is in conflict with the first sentence.",
+      "range": {
+        "startLine": 40,
+        "startChar": 48,
+        "endLine": 40,
+        "endChar": 70
+      },
+      "revId": "38c5d32a9ecb1945be360311d2f739711dd50cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

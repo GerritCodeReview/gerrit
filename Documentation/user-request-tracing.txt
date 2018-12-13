@@ -22,12 +22,19 @@ request type:
   `--trace` option. More information about this can be found in
   the link:cmd-index.html#trace[Trace] section of the
   link:cmd-index.html[SSH command documentation].
-* Git: For Git pushes tracing can be enabled by setting the
-  `trace` push option, the trace ID is returned in the command output.
-  More information about this can be found in
-  the link:user-upload.html#trace[Trace] section of the
-  link:user-upload.html[upload documentation]. Tracing for Git requests
-  other than Git push is not supported.
+* Git Push (requires usage of git protocol v2): For Git pushes tracing
+  can be enabled by setting the `trace` push option, the trace ID is
+  returned in the command output. More information about this can be
+  found in the link:user-upload.html#trace[Trace] section of the
+  link:user-upload.html[upload documentation].
+* Git Clone/Fetch/Ls-Remote (requires usage of git protocol v2): For
+  Git clone/fetch/ls-remote tracing can be enabled by setting the
+  `trace` server option. Use '-o trace=<TRACE-ID>' for `git fetch` and
+  `git ls-remote`, and '--server-option trace=<TRACE-ID>' for
+  `git clone`. If the `trace` server option is set without a value
+  (without trace ID) a trace ID is generated but the generated trace ID
+  is not returned to the client (hence a trace ID should always be
+  set).
 
 When request tracing is enabled it is possible to provide an ID that
 should be used as trace ID. If a trace ID is not provided a trace ID is

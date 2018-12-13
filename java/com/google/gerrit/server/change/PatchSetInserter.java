@@ -31,8 +31,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -79,7 +77,6 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final ProjectCache projectCache;
   private final RevisionCreated revisionCreated;
   private final ApprovalsUtil approvalsUtil;
-  private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
 
@@ -101,7 +98,6 @@ public class PatchSetInserter implements BatchUpdateOp {
   private NotifyHandling notify = NotifyHandling.ALL;
   private ListMultimap<RecipientType, Account.Id> accountsToNotify = ImmutableListMultimap.of();
   private boolean allowClosed;
-  private boolean copyApprovals = true;
 
   // Fields set during some phase of BatchUpdate.Op.
   private Change change;
@@ -114,7 +110,6 @@ public class PatchSetInserter implements BatchUpdateOp {
   public PatchSetInserter(
       PermissionBackend permissionBackend,
       ApprovalsUtil approvalsUtil,
-      ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
       PatchSetInfoFactory patchSetInfoFactory,
       CommitValidators.Factory commitValidatorsFactory,
@@ -127,7 +122,6 @@ public class PatchSetInserter implements BatchUpdateOp {
       @Assisted ObjectId commitId) {
     this.permissionBackend = permissionBackend;
     this.approvalsUtil = approvalsUtil;
-    this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
@@ -192,11 +186,6 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
-  public PatchSetInserter setCopyApprovals(boolean copyApprovals) {
-    this.copyApprovals = copyApprovals;
-    return this;
-  }
-
   public Change getChange() {
     checkState(change != null, "getChange() only valid after executing update");
     return change;
@@ -218,8 +207,6 @@ public class PatchSetInserter implements BatchUpdateOp {
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws ResourceConflictException, OrmException, IOException {
-    ReviewDb db = ctx.getDb();
-
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(psId);
     update.setSubjectForCommit("Create patch set " + psId.get());
@@ -263,10 +250,6 @@ public class PatchSetInserter implements BatchUpdateOp {
       change.setStatus(Change.Status.NEW);
     }
     change.setCurrentPatchSet(patchSetInfo);
-    if (copyApprovals) {
-      approvalCopier.copyInReviewDb(
-          db, ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig());
-    }
     if (changeMessage != null) {
       cmUtil.addChangeMessage(update, changeMessage);
     }

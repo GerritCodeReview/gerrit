@@ -34,7 +34,6 @@ import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -419,8 +418,6 @@ public class ChangeIndexer {
           indexImpl(changeDataFactory.create(db.get(), project, id));
           return true;
         }
-      } catch (NoSuchChangeException nsce) {
-        logger.atFine().log("Change %s was deleted, aborting reindexing the change.", id.get());
       } catch (Exception e) {
         if (!isCausedByRepositoryNotFoundException(e)) {
           throw e;

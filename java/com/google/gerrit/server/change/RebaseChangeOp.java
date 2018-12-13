@@ -71,7 +71,6 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private boolean validate = true;
   private boolean checkAddPatchSetPermission = true;
   private boolean forceContentMerge;
-  private boolean copyApprovals = true;
   private boolean detailedCommitMessage;
   private boolean postMessage = true;
   private boolean matchAuthorToCommitterDate = false;
@@ -125,11 +124,6 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
   public RebaseChangeOp setForceContentMerge(boolean forceContentMerge) {
     this.forceContentMerge = forceContentMerge;
-    return this;
-  }
-
-  public RebaseChangeOp setCopyApprovals(boolean copyApprovals) {
-    this.copyApprovals = copyApprovals;
     return this;
   }
 
@@ -189,7 +183,6 @@ public class RebaseChangeOp implements BatchUpdateOp {
             .setDescription("Rebase")
             .setNotify(NotifyHandling.NONE)
             .setFireRevisionCreated(fireRevisionCreated)
-            .setCopyApprovals(copyApprovals)
             .setCheckAddPatchSetPermission(checkAddPatchSetPermission)
             .setValidate(validate);
     if (postMessage) {

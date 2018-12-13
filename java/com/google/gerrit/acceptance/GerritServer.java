@@ -45,7 +45,6 @@ import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeGroupAuditService;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
-import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.SshMode;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -482,8 +481,6 @@ public class GerritServer implements AutoCloseable {
     cfg.setInt("receive", null, "threadPoolSize", 1);
     cfg.setInt("index", null, "threads", 1);
     cfg.setBoolean("index", null, "reindexAfterRefUpdate", false);
-
-    NoteDbMode.newNotesMigrationFromEnv().setConfigValues(cfg);
   }
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {

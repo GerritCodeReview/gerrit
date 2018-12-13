@@ -53,7 +53,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.testing.NoteDbMode;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -369,7 +368,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSequencesWithAccessDatabase() throws Exception {
-    assume().that(notesMigration.readChangeSequence()).isTrue();
     try (Repository repo = repoManager.openRepository(allProjects)) {
       assertRefs(repo, newFilter(allProjects, user), true);
 
@@ -665,9 +663,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     List<String> expectedMetaRefs =
         new ArrayList<>(ImmutableList.of(mr.getPatchSetId().toRefName()));
-    if (NoteDbMode.get() != NoteDbMode.OFF) {
-      expectedMetaRefs.add(changeRefPrefix(mr.getChange().getId()) + "meta");
-    }
+    expectedMetaRefs.add(changeRefPrefix(mr.getChange().getId()) + "meta");
 
     List<String> expectedAllRefs = new ArrayList<>(expectedNonMetaRefs);
     expectedAllRefs.addAll(expectedMetaRefs);

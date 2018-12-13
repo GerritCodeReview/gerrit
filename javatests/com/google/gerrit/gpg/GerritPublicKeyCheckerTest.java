@@ -47,7 +47,6 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryModule;
-import com.google.gerrit.testing.NoteDbMode;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -103,8 +102,7 @@ public class GerritPublicKeyCheckerTest extends GerritBaseTests {
         ImmutableList.of(
             Fingerprint.toString(keyB().getPublicKey().getFingerprint()),
             Fingerprint.toString(keyD().getPublicKey().getFingerprint())));
-    Injector injector =
-        Guice.createInjector(new InMemoryModule(cfg, NoteDbMode.newNotesMigrationFromEnv()));
+    Injector injector = Guice.createInjector(new InMemoryModule(cfg));
 
     lifecycle = new LifecycleManager();
     lifecycle.add(injector);

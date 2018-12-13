@@ -161,10 +161,6 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
                 bind(MetricMaker.class).to(DisabledMetricMaker.class);
                 bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(null));
-                MutableNotesMigration migration = MutableNotesMigration.newDisabled();
-                migration.setFrom(NotesMigrationState.FINAL);
-                bind(MutableNotesMigration.class).toInstance(migration);
-                bind(NotesMigration.class).to(MutableNotesMigration.class);
 
                 // Tests don't support ReviewDb at all, but bindings are required via NoteDbModule.
                 bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})

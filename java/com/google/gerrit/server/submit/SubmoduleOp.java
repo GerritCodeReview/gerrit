@@ -101,39 +101,29 @@ public class SubmoduleOp {
     private final Provider<PersonIdent> serverIdent;
     private final Config cfg;
     private final ProjectCache projectCache;
-    private final BatchUpdate.Factory batchUpdateFactory;
 
     @Inject
     Factory(
         GitModules.Factory gitmodulesFactory,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
         @GerritServerConfig Config cfg,
-        ProjectCache projectCache,
-        BatchUpdate.Factory batchUpdateFactory) {
+        ProjectCache projectCache) {
       this.gitmodulesFactory = gitmodulesFactory;
       this.serverIdent = serverIdent;
       this.cfg = cfg;
       this.projectCache = projectCache;
-      this.batchUpdateFactory = batchUpdateFactory;
     }
 
     public SubmoduleOp create(Set<Branch.NameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleException {
       return new SubmoduleOp(
-          gitmodulesFactory,
-          serverIdent.get(),
-          cfg,
-          projectCache,
-          batchUpdateFactory,
-          updatedBranches,
-          orm);
+          gitmodulesFactory, serverIdent.get(), cfg, projectCache, updatedBranches, orm);
     }
   }
 
   private final GitModules.Factory gitmodulesFactory;
   private final PersonIdent myIdent;
   private final ProjectCache projectCache;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final VerboseSuperprojectUpdate verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
   private final long maxCombinedCommitMessageSize;
@@ -173,14 +163,12 @@ public class SubmoduleOp {
       PersonIdent myIdent,
       Config cfg,
       ProjectCache projectCache,
-      BatchUpdate.Factory batchUpdateFactory,
       Set<Branch.NameKey> updatedBranches,
       MergeOpRepoManager orm)
       throws SubmoduleException {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
     this.projectCache = projectCache;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.verboseSuperProject =
         cfg.getEnum("submodule", null, "verboseSuperprojectUpdate", VerboseSuperprojectUpdate.TRUE);
     this.enableSuperProjectSubscriptions =
@@ -420,7 +408,7 @@ public class SubmoduleOp {
           }
         }
       }
-      batchUpdateFactory.execute(orm.batchUpdates(superProjects), BatchUpdateListener.NONE, false);
+      BatchUpdate.execute(orm.batchUpdates(superProjects), BatchUpdateListener.NONE, false);
     } catch (RestApiException | UpdateException | IOException | NoSuchProjectException e) {
       throw new SubmoduleException("Cannot update gitlinks", e);
     }

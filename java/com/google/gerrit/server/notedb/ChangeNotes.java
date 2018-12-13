@@ -51,7 +51,6 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -113,7 +112,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         throws OrmException {
       // Prepopulate the change exists with proper noteDbState field.
       Change change = newChange(project, changeId);
-      return new ChangeNotes(args, change).load();
+      return new ChangeNotes(args, change, true, null).load();
     }
 
     public ChangeNotes createChecked(Change.Id changeId) throws OrmException {
@@ -139,7 +138,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes create(Project.NameKey project, Change.Id changeId) throws OrmException {
       checkArgument(project != null, "project is required");
-      return new ChangeNotes(args, newChange(project, changeId)).load();
+      return new ChangeNotes(args, newChange(project, changeId), true, null).load();
     }
 
     /**
@@ -150,7 +149,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * @return change notes
      */
     public ChangeNotes createFromIndexedChange(Change change) {
-      return new ChangeNotes(args, change);
+      return new ChangeNotes(args, change, true, null);
     }
 
     public ChangeNotes createForBatchUpdate(Change change, boolean shouldExist)
@@ -232,7 +231,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     @Nullable
     private ChangeNotesResult toResult(Change rawChangeFromNoteDb) {
-      ChangeNotes n = new ChangeNotes(args, rawChangeFromNoteDb);
+      ChangeNotes n = new ChangeNotes(args, rawChangeFromNoteDb, true, null);
       try {
         n.load();
       } catch (OrmException e) {
@@ -319,11 +318,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableSet<Comment.Key> commentKeys;
 
   @VisibleForTesting
-  public ChangeNotes(Args args, Change change) {
-    this(args, change, true, null);
-  }
-
-  private ChangeNotes(Args args, Change change, boolean shouldExist, @Nullable RefCache refs) {
+  public ChangeNotes(Args args, Change change, boolean shouldExist, @Nullable RefCache refs) {
     super(args, change.getId());
     this.change = new Change(change);
     this.shouldExist = shouldExist;
@@ -515,10 +510,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   protected void onLoad(LoadHandle handle) throws NoSuchChangeException, IOException {
     ObjectId rev = handle.id();
     if (rev == null) {
-      // TODO(ekempin): Remove the primary storage check. At the moment it is still needed for the
-      // ChangeNotesParserTest which still runs with ReviewDb changes (see TODO in
-      // TestUpdate#newChange).
-      if (PrimaryStorage.of(change) == PrimaryStorage.NOTE_DB && shouldExist) {
+      if (shouldExist) {
         throw new NoSuchChangeException(getChangeId());
       }
       loadDefaults();

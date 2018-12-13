@@ -41,7 +41,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   @Test
   public void approvalsCommitFormatSimple() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
-    ChangeUpdate update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.putApproval("Verified", (short) 1);
     update.putApproval("Code-Review", (short) -1);
     update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
@@ -84,7 +84,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   @Test
   public void changeMessageCommitFormatSimple() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
-    ChangeUpdate update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.setChangeMessage("Just a little code change.\nHow about a new line");
     update.commit();
     assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
@@ -110,7 +110,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   @Test
   public void changeWithRevision() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
-    ChangeUpdate update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.setChangeMessage("Foo");
     RevCommit commit = tr.commit().message("Subject").create();
     update.setCommit(rw, commit);
@@ -309,7 +309,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void leadingWhitespace() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
     c.setCurrentPatchSet(c.currentPatchSetId(), "  " + c.getSubject(), c.getOriginalSubject());
-    ChangeUpdate update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
     update.setBranch(c.getDest().get());
     update.commit();
@@ -330,7 +330,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
     c = TestChanges.newChange(project, changeOwner.getAccountId());
     c.setCurrentPatchSet(c.currentPatchSetId(), "\t\t" + c.getSubject(), c.getOriginalSubject());
-    update = newUpdate(c, changeOwner);
+    update = newUpdateForNewChange(c, changeOwner);
     update.setChangeId(c.getKey().get());
     update.setBranch(c.getDest().get());
     update.commit();

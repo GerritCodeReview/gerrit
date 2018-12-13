@@ -272,6 +272,25 @@ public class PublicKeyStore implements AutoCloseable {
     }
   }
 
+  public void rebuildSubkeyMasterKeyMap()
+      throws MissingObjectException, IncorrectObjectTypeException, IOException, PGPException {
+    if (reader == null) {
+      load();
+    }
+    if (notes != null) {
+      try (ObjectInserter ins = repo.newObjectInserter()) {
+        for (Note note : notes) {
+          for (PGPPublicKeyRing keyRing :
+              new PGPPublicKeyRingCollection(readKeysFromNote(note, null))) {
+            long masterKeyId = keyRing.getPublicKey().getKeyID();
+            ObjectId masterKeyObjectId = keyObjectId(masterKeyId);
+            saveSubkeyMaping(ins, keyRing, masterKeyId, masterKeyObjectId);
+          }
+        }
+      }
+    }
+  }
+
   /**
    * Add a public key to the store.
    *

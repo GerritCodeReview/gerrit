@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f32c62e2_419f365d",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-12-13T08:33:52Z",
+      "side": 0,
+      "message": "Also remove the documentation of these metrics from metrics.txt.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 18
+      },
+      "revId": "8cd0a22765f82dbf4c3f483aec3cedb23896a939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

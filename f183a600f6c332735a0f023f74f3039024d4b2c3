@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42713793_ab622b7d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-12-13T16:24:58Z",
+      "side": 1,
+      "message": "This is a workaround since https://github.com/GerritCodeReview/gerrit/blob/acf818a85b4e5099ebfc7235e80316ee399da0b7/polygerrit-ui/app/styles/gr-table-styles.html#L50 (last-of-type) catches the last column.",
+      "range": {
+        "startLine": 40,
+        "startChar": 9,
+        "endLine": 40,
+        "endChar": 46
+      },
+      "revId": "f183a600f6c332735a0f023f74f3039024d4b2c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

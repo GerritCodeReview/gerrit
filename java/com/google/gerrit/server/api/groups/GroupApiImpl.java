@@ -47,7 +47,6 @@ import com.google.gerrit.server.restapi.group.PutOptions;
 import com.google.gerrit.server.restapi.group.PutOwner;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.Arrays;
 import java.util.List;
 
 class GroupApiImpl implements GroupApi {
@@ -217,18 +216,18 @@ class GroupApiImpl implements GroupApi {
   }
 
   @Override
-  public void addMembers(String... members) throws RestApiException {
+  public void addMembers(List<String> members) throws RestApiException {
     try {
-      addMembers.apply(rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
+      addMembers.apply(rsrc, AddMembers.Input.fromMembers(members));
     } catch (Exception e) {
       throw asRestApiException("Cannot add group members", e);
     }
   }
 
   @Override
-  public void removeMembers(String... members) throws RestApiException {
+  public void removeMembers(List<String> members) throws RestApiException {
     try {
-      deleteMembers.apply(rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
+      deleteMembers.apply(rsrc, AddMembers.Input.fromMembers(members));
     } catch (Exception e) {
       throw asRestApiException("Cannot remove group members", e);
     }
@@ -244,18 +243,18 @@ class GroupApiImpl implements GroupApi {
   }
 
   @Override
-  public void addGroups(String... groups) throws RestApiException {
+  public void addGroups(List<String> groups) throws RestApiException {
     try {
-      addSubgroups.apply(rsrc, AddSubgroups.Input.fromGroups(Arrays.asList(groups)));
+      addSubgroups.apply(rsrc, AddSubgroups.Input.fromGroups(groups));
     } catch (Exception e) {
       throw asRestApiException("Cannot add subgroups", e);
     }
   }
 
   @Override
-  public void removeGroups(String... groups) throws RestApiException {
+  public void removeGroups(List<String> groups) throws RestApiException {
     try {
-      deleteSubgroups.apply(rsrc, AddSubgroups.Input.fromGroups(Arrays.asList(groups)));
+      deleteSubgroups.apply(rsrc, AddSubgroups.Input.fromGroups(groups));
     } catch (Exception e) {
       throw asRestApiException("Cannot remove subgroups", e);
     }

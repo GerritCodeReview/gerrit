@@ -18,7 +18,6 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -99,7 +98,7 @@ public class GerritServerConfigProvider implements Provider<Config> {
   private static void checkNoteDbConfig(FileBasedConfig noteDbConfig) {
     List<String> bad = new ArrayList<>();
     for (String section : noteDbConfig.getSections()) {
-      if (section.equals(NotesMigration.SECTION_NOTE_DB)) {
+      if (section.equals("noteDb")) {
         continue;
       }
       for (String subsection : noteDbConfig.getSubsections(section)) {

@@ -60,8 +60,6 @@ public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
     //    do nothing. This implementation is not a public class and callers couldn't do anything
     //    useful with it even if it were.
 
-    // First create the underlying stub.
-    checkState(migration.readChanges() && migration.disableChangeReviewDb());
     // Disable writes to change tables in ReviewDb (ReviewDb access for changes are No-Ops); all
     // other table accesses throw runtime exceptions.
     ReviewDb db = new NoChangesReviewDb();

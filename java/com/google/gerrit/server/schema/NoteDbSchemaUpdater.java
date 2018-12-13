@@ -26,7 +26,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -121,6 +120,12 @@ public class NoteDbSchemaUpdater {
     }
   }
 
+  // Config#getEnum requires this to be public, so give it an off-putting name.
+  public enum PrimaryStorageFor216Compatibility {
+    REVIEW_DB,
+    NOTE_DB
+  }
+
   private void checkNoteDbConfigFor216() throws OrmException {
     // Check that the NoteDb migration config matches what we expect from a site that both:
     // * Completed the change migration to NoteDB.
@@ -128,8 +133,9 @@ public class NoteDbSchemaUpdater {
 
     if (!cfg.getBoolean("noteDb", "changes", "write", false)
         || !cfg.getBoolean("noteDb", "changes", "read", false)
-        || cfg.getEnum("noteDb", "changes", "primaryStorage", PrimaryStorage.REVIEW_DB)
-            != PrimaryStorage.NOTE_DB
+        || cfg.getEnum(
+                "noteDb", "changes", "primaryStorage", PrimaryStorageFor216Compatibility.REVIEW_DB)
+            != PrimaryStorageFor216Compatibility.NOTE_DB
         || !cfg.getBoolean("noteDb", "changes", "disableReviewDb", false)) {
       throw new OrmException(
           "You appear to be upgrading from a 2.x site, but the NoteDb change migration was"

@@ -168,7 +168,7 @@ public class ChangeEditModifier {
   }
 
   private void rebase(Repository repository, ChangeEdit changeEdit, PatchSet currentPatchSet)
-      throws IOException, MergeConflictException, InvalidChangeOperationException, OrmException {
+      throws IOException, MergeConflictException, InvalidChangeOperationException {
     RevCommit currentEditCommit = changeEdit.getEditCommit();
     if (currentEditCommit.getParentCount() == 0) {
       throw new InvalidChangeOperationException(
@@ -543,7 +543,7 @@ public class ChangeEditModifier {
       PatchSet basePatchSet,
       ObjectId newEditCommitId,
       Timestamp timestamp)
-      throws IOException, OrmException {
+      throws IOException {
     Change change = notes.getChange();
     String editRefName = getEditRefName(change, basePatchSet);
     updateReference(repository, editRefName, ObjectId.zeroId(), newEditCommitId, timestamp);
@@ -560,7 +560,7 @@ public class ChangeEditModifier {
 
   private ChangeEdit updateEdit(
       Repository repository, ChangeEdit changeEdit, ObjectId newEditCommitId, Timestamp timestamp)
-      throws IOException, OrmException {
+      throws IOException {
     String editRefName = changeEdit.getRefName();
     RevCommit currentEditCommit = changeEdit.getEditCommit();
     updateReference(repository, editRefName, currentEditCommit, newEditCommitId, timestamp);
@@ -627,7 +627,7 @@ public class ChangeEditModifier {
     return user.newRefLogIdent(timestamp, tz);
   }
 
-  private void reindex(Change change) throws IOException, OrmException {
+  private void reindex(Change change) throws IOException {
     indexer.index(reviewDb.get(), change);
   }
 }

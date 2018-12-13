@@ -181,8 +181,8 @@ message ChangeNotesStateProto {
   // JSON produced from com.google.gerrit.reviewdb.client.Comment.
   repeated string published_comment = 16;
 
-  int64 read_only_until = 17;
-  bool has_read_only_until = 18;
+  reserved 17;  // read_only_until
+  reserved 18;  // has_read_only_until
 }
 
 

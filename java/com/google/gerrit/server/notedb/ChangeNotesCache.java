@@ -170,7 +170,6 @@ public class ChangeNotesCache {
           + list(state.changeMessages(), changeMessage())
           + P
           + map(state.publishedComments().asMap(), comment())
-          + T // readOnlyUntil
           + 1 // isPrivate
           + 1 // workInProgress
           + 1; // reviewStarted

@@ -29,7 +29,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_READ_ONLY_UNTIL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
@@ -71,7 +70,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -152,7 +150,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private boolean isAllowWriteToNewtRef;
   private String psDescription;
   private boolean currentPatchSet;
-  private Timestamp readOnlyUntil;
   private Boolean isPrivate;
   private Boolean workInProgress;
   private Integer revertOf;
@@ -730,10 +727,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addIdent(msg, realAccountId).append('\n');
     }
 
-    if (readOnlyUntil != null) {
-      addFooter(msg, FOOTER_READ_ONLY_UNTIL, NoteDbUtil.formatTime(serverIdent, readOnlyUntil));
-    }
-
     if (isPrivate != null) {
       addFooter(msg, FOOTER_PRIVATE, isPrivate);
     }
@@ -793,7 +786,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && tag == null
         && psDescription == null
         && !currentPatchSet
-        && readOnlyUntil == null
         && isPrivate == null
         && workInProgress == null
         && revertOf == null;
@@ -832,10 +824,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.workInProgress = workInProgress;
   }
 
-  void setReadOnlyUntil(Timestamp readOnlyUntil) {
-    this.readOnlyUntil = readOnlyUntil;
-  }
-
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {
     return sb.append(footer.getName()).append(": ");
   }
@@ -856,14 +844,5 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     PersonIdent.appendSanitized(sb, ident.getEmailAddress());
     sb.append('>');
     return sb;
-  }
-
-  @Override
-  protected void checkNotReadOnly() throws OrmException {
-    // Allow setting Read-only-until to 0 to release an existing lease.
-    if (readOnlyUntil != null && readOnlyUntil.getTime() == 0) {
-      return;
-    }
-    super.checkNotReadOnly();
   }
 }

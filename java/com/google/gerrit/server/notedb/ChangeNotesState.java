@@ -120,7 +120,6 @@ public abstract class ChangeNotesState {
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> changeMessages,
       ListMultimap<RevId, Comment> publishedComments,
-      @Nullable Timestamp readOnlyUntil,
       boolean isPrivate,
       boolean workInProgress,
       boolean reviewStarted,
@@ -168,7 +167,6 @@ public abstract class ChangeNotesState {
         .submitRecords(submitRecords)
         .changeMessages(changeMessages)
         .publishedComments(publishedComments)
-        .readOnlyUntil(readOnlyUntil)
         .build();
   }
 
@@ -304,9 +302,6 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableListMultimap<RevId, Comment> publishedComments();
 
-  @Nullable
-  abstract Timestamp readOnlyUntil();
-
   Change newChange(Project.NameKey project) {
     ChangeColumns c = requireNonNull(columns(), "columns are required");
     Change change =
@@ -430,8 +425,6 @@ public abstract class ChangeNotesState {
 
     abstract Builder publishedComments(ListMultimap<RevId, Comment> publishedComments);
 
-    abstract Builder readOnlyUntil(@Nullable Timestamp readOnlyUntil);
-
     abstract ChangeNotesState build();
   }
 
@@ -493,10 +486,6 @@ public abstract class ChangeNotesState {
           .changeMessages()
           .forEach(m -> b.addChangeMessage(toByteString(m, ChangeMessageProtoConverter.INSTANCE)));
       object.publishedComments().values().forEach(c -> b.addPublishedComment(GSON.toJson(c)));
-
-      if (object.readOnlyUntil() != null) {
-        b.setReadOnlyUntil(object.readOnlyUntil().getTime()).setHasReadOnlyUntil(true);
-      }
 
       return Protos.toByteArray(b.build());
     }
@@ -630,9 +619,6 @@ public abstract class ChangeNotesState {
                       .stream()
                       .map(r -> GSON.fromJson(r, Comment.class))
                       .collect(toImmutableListMultimap(c -> new RevId(c.revId), c -> c)));
-      if (proto.getHasReadOnlyUntil()) {
-        b.readOnlyUntil(new Timestamp(proto.getReadOnlyUntil()));
-      }
       return b.build();
     }
 

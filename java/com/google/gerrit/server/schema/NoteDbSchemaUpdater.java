@@ -27,7 +27,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

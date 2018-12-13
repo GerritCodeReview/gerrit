@@ -48,7 +48,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.notedb.NoteDbSchemaVersionManager;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.project.ProjectConfig;

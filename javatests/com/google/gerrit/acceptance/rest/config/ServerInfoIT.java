@@ -127,10 +127,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.user.anonymousCowardName).isEqualTo("Unnamed User");
 
     // notedb
-    notesMigration.setReadChanges(true);
     assertThat(gApi.config().server().getInfo().noteDbEnabled).isTrue();
-    notesMigration.setReadChanges(false);
-    assertThat(gApi.config().server().getInfo().noteDbEnabled).isNull();
   }
 
   @Test

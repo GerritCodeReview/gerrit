@@ -375,7 +375,11 @@ public class GitOverHttpServlet extends GitServlet {
             PreUploadHookChain.newChain(
                 Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
         up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
-        next.doFilter(httpRequest, responseWrapper);
+
+        try (TracingHook tracingHook = new TracingHook()) {
+          up.setProtocolV2Hook(tracingHook);
+          next.doFilter(httpRequest, responseWrapper);
+        }
       } finally {
         groupAuditService.dispatch(
             new HttpAuditEvent(

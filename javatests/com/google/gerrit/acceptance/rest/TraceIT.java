@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import org.apache.http.message.BasicHeader;
+import org.eclipse.jgit.transport.LsRefsV2Request;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -225,6 +226,16 @@ public class TraceIT extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isEqualTo("issue/123");
     assertThat(commitValidationListener.isLoggingForced).isTrue();
+  }
+
+  @Test
+  public void fetchWithoutTrace() throws Exception {
+    LsRefsV2Request req = LsRefsV2Request.builder().addServerOption("trace").build();
+
+    // FetchResult result = testRepo.git().fetch().setRemote("origin").call();
+
+    assertThat(commitValidationListener.traceId).isNull();
+    assertThat(commitValidationListener.isLoggingForced).isFalse();
   }
 
   @Test

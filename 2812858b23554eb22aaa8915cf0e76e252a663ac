@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "385d3986_4eaad3f4",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1024846
+      },
+      "writtenOn": "2018-12-13T18:56:47Z",
+      "side": 1,
+      "message": "Not sure creating a new function is necessary here.\n\n  static void toGerrit(String target, HttpServletRequest req, HttpServletResponse rsp, boolean gwt\u003dfalse)\n      throws IOException {\n    final StringBuilder url \u003d new StringBuilder();\n    url.append(req.getContextPath());\n    if(gwt) {\n      url.append(\"/#\");\n    }\n    url.append(target);\n    rsp.sendRedirect(url.toString());\n  }\n\nMost toGerrit calls would remain the same, which would result ing toGerrit(gwt\u003dfalse), and the call line 38 would become toGerrit(..., true)",
+      "revId": "2812858b23554eb22aaa8915cf0e76e252a663ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18e06ff6_cf12706d",
         "filename": "java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 3

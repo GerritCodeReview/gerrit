@@ -28,7 +28,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.GerritRequestModule;
-import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TransferConfig;
@@ -56,7 +55,6 @@ import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.Scope;
 import com.google.inject.servlet.RequestScoped;
-import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.HashMap;
@@ -123,10 +121,8 @@ class InProcessProtocol extends TestProtocol<Context> {
 
   private static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
     @Inject
-    Propagator(
-        ThreadLocalRequestContext local,
-        Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
-      super(REQUEST, current, local, dbProviderProvider);
+    Propagator(ThreadLocalRequestContext local) {
+      super(REQUEST, current, local);
     }
 
     @Override
@@ -151,8 +147,6 @@ class InProcessProtocol extends TestProtocol<Context> {
    * request.
    */
   static class Context implements RequestContext {
-    private static final Key<RequestScopedReviewDbProvider> DB_KEY =
-        Key.get(RequestScopedReviewDbProvider.class);
     private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
     private static final Key<CurrentUser> USER_KEY = Key.get(CurrentUser.class);
 
@@ -174,7 +168,6 @@ class InProcessProtocol extends TestProtocol<Context> {
       this.project = project;
       map = new HashMap<>();
       cleanup = new RequestCleanup();
-      map.put(DB_KEY, new RequestScopedReviewDbProvider(schemaFactory, Providers.of(cleanup)));
       map.put(RC_KEY, cleanup);
 
       IdentifiedUser user = userFactory.create(accountId);
@@ -189,11 +182,6 @@ class InProcessProtocol extends TestProtocol<Context> {
     @Override
     public CurrentUser getUser() {
       return get(USER_KEY, null);
-    }
-
-    @Override
-    public Provider<ReviewDb> getReviewDbProvider() {
-      return get(DB_KEY, null);
     }
 
     private synchronized <T> T get(Key<T> key, Provider<T> creator) {

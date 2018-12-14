@@ -16,7 +16,6 @@ package com.google.gerrit.testing;
 
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
@@ -24,12 +23,10 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 import org.eclipse.jgit.lib.Config;
 import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
@@ -49,11 +46,9 @@ public final class InMemoryTestEnvironment implements MethodRule {
 
   @Inject private AccountManager accountManager;
   @Inject private IdentifiedUser.GenericFactory userFactory;
-  @Inject private SchemaFactory<ReviewDb> schemaFactory;
   @Inject private SchemaCreator schemaCreator;
   @Inject private ThreadLocalRequestContext requestContext;
 
-  private ReviewDb db;
   private LifecycleManager lifecycle;
 
   /** Create a test environment using an empty base config. */
@@ -96,11 +91,6 @@ public final class InMemoryTestEnvironment implements MethodRule {
           public CurrentUser getUser() {
             return user;
           }
-
-          @Override
-          public Provider<ReviewDb> getReviewDbProvider() {
-            return Providers.of(db);
-          }
         });
   }
 
@@ -115,7 +105,6 @@ public final class InMemoryTestEnvironment implements MethodRule {
     lifecycle.start();
 
     schemaCreator.create();
-    db = schemaFactory.open();
 
     // The first user is added to the "Administrators" group. See AccountManager#create().
     setApiUser(accountManager.authenticate(AuthRequest.forUser("admin")).getAccountId());
@@ -130,9 +119,6 @@ public final class InMemoryTestEnvironment implements MethodRule {
     }
     if (requestContext != null) {
       requestContext.setContext(null);
-    }
-    if (db != null) {
-      db.close();
     }
   }
 }

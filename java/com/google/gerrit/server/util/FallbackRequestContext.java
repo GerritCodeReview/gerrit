@@ -14,12 +14,9 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
 /**
@@ -39,15 +36,5 @@ public class FallbackRequestContext implements RequestContext {
   @Override
   public CurrentUser getUser() {
     return user;
-  }
-
-  @Override
-  public Provider<ReviewDb> getReviewDbProvider() {
-    return new Provider<ReviewDb>() {
-      @Override
-      public ReviewDb get() {
-        throw new ProvisionException("Automatic ReviewDb only available in request scope");
-      }
-    };
   }
 }

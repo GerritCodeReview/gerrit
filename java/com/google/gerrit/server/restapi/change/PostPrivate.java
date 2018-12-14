@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -36,7 +35,6 @@ import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
@@ -45,21 +43,18 @@ public class PostPrivate
     extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, Response<String>>
     implements UiAction<ChangeResource> {
   private final ChangeMessagesUtil cmUtil;
-  private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
   private final SetPrivateOp.Factory setPrivateOpFactory;
   private final boolean disablePrivateChanges;
 
   @Inject
   PostPrivate(
-      Provider<ReviewDb> dbProvider,
       RetryHelper retryHelper,
       ChangeMessagesUtil cmUtil,
       PermissionBackend permissionBackend,
       SetPrivateOp.Factory setPrivateOpFactory,
       @GerritServerConfig Config config) {
     super(retryHelper);
-    this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
     this.permissionBackend = permissionBackend;
     this.setPrivateOpFactory = setPrivateOpFactory;
@@ -84,8 +79,7 @@ public class PostPrivate
 
     SetPrivateOp op = setPrivateOpFactory.create(cmUtil, true, input);
     try (BatchUpdate u =
-        updateFactory.create(
-            dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       u.addOp(rsrc.getId(), op).execute();
     }
 

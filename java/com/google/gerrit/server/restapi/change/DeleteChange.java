@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -41,14 +40,11 @@ import com.google.inject.Singleton;
 public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
     implements UiAction<ChangeResource> {
 
-  private final Provider<ReviewDb> db;
   private final Provider<DeleteChangeOp> opProvider;
 
   @Inject
-  public DeleteChange(
-      Provider<ReviewDb> db, RetryHelper retryHelper, Provider<DeleteChangeOp> opProvider) {
+  public DeleteChange(RetryHelper retryHelper, Provider<DeleteChangeOp> opProvider) {
     super(retryHelper);
-    this.db = db;
     this.opProvider = opProvider;
   }
 
@@ -62,7 +58,7 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
     rsrc.permissions().check(ChangePermission.DELETE);
 
     try (BatchUpdate bu =
-        updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
       bu.setOrder(Order.DB_BEFORE_REPO);
       bu.addOp(id, opProvider.get());

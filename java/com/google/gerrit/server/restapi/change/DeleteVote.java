@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -58,7 +57,6 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.HashMap;
@@ -68,7 +66,6 @@ import java.util.Map;
 public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteInput, Response<?>> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final Provider<ReviewDb> db;
   private final ApprovalsUtil approvalsUtil;
   private final PatchSetUtil psUtil;
   private final ChangeMessagesUtil cmUtil;
@@ -81,7 +78,6 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
   @Inject
   DeleteVote(
-      Provider<ReviewDb> db,
       RetryHelper retryHelper,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
@@ -93,7 +89,6 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache) {
     super(retryHelper);
-    this.db = db;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
     this.cmUtil = cmUtil;
@@ -127,7 +122,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
     try (BatchUpdate bu =
         updateFactory.create(
-            db.get(), change.getProject(), r.getChangeResource().getUser(), TimeUtil.nowTs())) {
+            change.getProject(), r.getChangeResource().getUser(), TimeUtil.nowTs())) {
       bu.addOp(
           change.getId(),
           new Op(

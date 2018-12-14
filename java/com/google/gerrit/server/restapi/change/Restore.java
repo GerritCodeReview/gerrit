@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
@@ -48,7 +47,6 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 
@@ -58,7 +56,6 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final RestoredSender.Factory restoredSenderFactory;
-  private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
@@ -68,7 +65,6 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
   @Inject
   Restore(
       RestoredSender.Factory restoredSenderFactory,
-      Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
@@ -77,7 +73,6 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
       ProjectCache projectCache) {
     super(retryHelper);
     this.restoredSenderFactory = restoredSenderFactory;
-    this.dbProvider = dbProvider;
     this.json = json;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
@@ -98,8 +93,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
 
     Op op = new Op(input);
     try (BatchUpdate u =
-        updateFactory.create(
-            dbProvider.get(), rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       u.addOp(rsrc.getId(), op).execute();
     }
     return json.noOptions().format(op.change);

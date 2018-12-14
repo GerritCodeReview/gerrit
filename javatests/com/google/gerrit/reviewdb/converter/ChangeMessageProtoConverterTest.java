@@ -19,7 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -46,23 +46,23 @@ public class ChangeMessageProtoConverterTest {
     changeMessage.setTag("An arbitrary tag.");
     changeMessage.setRealAuthor(new Account.Id(10003));
 
-    Reviewdb.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
+    Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
-    Reviewdb.ChangeMessage expectedProto =
-        Reviewdb.ChangeMessage.newBuilder()
+    Entities.ChangeMessage expectedProto =
+        Entities.ChangeMessage.newBuilder()
             .setKey(
-                Reviewdb.ChangeMessage_Key.newBuilder()
-                    .setChangeId(Reviewdb.Change_Id.newBuilder().setId(543))
+                Entities.ChangeMessage_Key.newBuilder()
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(543))
                     .setUuid("change-message-21"))
-            .setAuthorId(Reviewdb.Account_Id.newBuilder().setId(63))
+            .setAuthorId(Entities.Account_Id.newBuilder().setId(63))
             .setWrittenOn(9876543)
             .setMessage("This is a change message.")
             .setPatchset(
-                Reviewdb.PatchSet_Id.newBuilder()
-                    .setChangeId(Reviewdb.Change_Id.newBuilder().setId(34))
+                Entities.PatchSet_Id.newBuilder()
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(34))
                     .setPatchSetId(13))
             .setTag("An arbitrary tag.")
-            .setRealAuthor(Reviewdb.Account_Id.newBuilder().setId(10003))
+            .setRealAuthor(Entities.Account_Id.newBuilder().setId(10003))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -76,19 +76,19 @@ public class ChangeMessageProtoConverterTest {
             new Timestamp(9876543),
             new PatchSet.Id(new Change.Id(34), 13));
 
-    Reviewdb.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
+    Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
-    Reviewdb.ChangeMessage expectedProto =
-        Reviewdb.ChangeMessage.newBuilder()
+    Entities.ChangeMessage expectedProto =
+        Entities.ChangeMessage.newBuilder()
             .setKey(
-                Reviewdb.ChangeMessage_Key.newBuilder()
-                    .setChangeId(Reviewdb.Change_Id.newBuilder().setId(543))
+                Entities.ChangeMessage_Key.newBuilder()
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(543))
                     .setUuid("change-message-21"))
-            .setAuthorId(Reviewdb.Account_Id.newBuilder().setId(63))
+            .setAuthorId(Entities.Account_Id.newBuilder().setId(63))
             .setWrittenOn(9876543)
             .setPatchset(
-                Reviewdb.PatchSet_Id.newBuilder()
-                    .setChangeId(Reviewdb.Change_Id.newBuilder().setId(34))
+                Entities.PatchSet_Id.newBuilder()
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(34))
                     .setPatchSetId(13))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
@@ -104,15 +104,15 @@ public class ChangeMessageProtoConverterTest {
             null,
             null);
 
-    Reviewdb.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
+    Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
-    Reviewdb.ChangeMessage expectedProto =
-        Reviewdb.ChangeMessage.newBuilder()
+    Entities.ChangeMessage expectedProto =
+        Entities.ChangeMessage.newBuilder()
             .setKey(
-                Reviewdb.ChangeMessage_Key.newBuilder()
-                    .setChangeId(Reviewdb.Change_Id.newBuilder().setId(543))
+                Entities.ChangeMessage_Key.newBuilder()
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(543))
                     .setUuid("change-message-21"))
-            .setAuthorId(Reviewdb.Account_Id.newBuilder().setId(63))
+            .setAuthorId(Entities.Account_Id.newBuilder().setId(63))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -125,13 +125,13 @@ public class ChangeMessageProtoConverterTest {
         new ChangeMessage(
             new ChangeMessage.Key(new Change.Id(543), "change-message-21"), null, null, null);
 
-    Reviewdb.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
+    Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
-    Reviewdb.ChangeMessage expectedProto =
-        Reviewdb.ChangeMessage.newBuilder()
+    Entities.ChangeMessage expectedProto =
+        Entities.ChangeMessage.newBuilder()
             .setKey(
-                Reviewdb.ChangeMessage_Key.newBuilder()
-                    .setChangeId(Reviewdb.Change_Id.newBuilder().setId(543))
+                Entities.ChangeMessage_Key.newBuilder()
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(543))
                     .setUuid("change-message-21"))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
@@ -181,17 +181,17 @@ public class ChangeMessageProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.ChangeMessage proto =
-        Reviewdb.ChangeMessage.newBuilder()
+    Entities.ChangeMessage proto =
+        Entities.ChangeMessage.newBuilder()
             .setKey(
-                Reviewdb.ChangeMessage_Key.newBuilder()
-                    .setChangeId(Reviewdb.Change_Id.newBuilder().setId(543))
+                Entities.ChangeMessage_Key.newBuilder()
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(543))
                     .setUuid("change-message-21"))
             .build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.ChangeMessage> parser = changeMessageProtoConverter.getParser();
-    Reviewdb.ChangeMessage parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.ChangeMessage> parser = changeMessageProtoConverter.getParser();
+    Entities.ChangeMessage parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

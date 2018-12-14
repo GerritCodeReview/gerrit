@@ -19,7 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.protobuf.Parser;
@@ -33,10 +33,10 @@ public class ProjectNameKeyProtoConverterTest {
   public void allValuesConvertedToProto() {
     Project.NameKey nameKey = new Project.NameKey("project-72");
 
-    Reviewdb.Project_NameKey proto = projectNameKeyProtoConverter.toProto(nameKey);
+    Entities.Project_NameKey proto = projectNameKeyProtoConverter.toProto(nameKey);
 
-    Reviewdb.Project_NameKey expectedProto =
-        Reviewdb.Project_NameKey.newBuilder().setName("project-72").build();
+    Entities.Project_NameKey expectedProto =
+        Entities.Project_NameKey.newBuilder().setName("project-72").build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
@@ -52,12 +52,12 @@ public class ProjectNameKeyProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.Project_NameKey proto =
-        Reviewdb.Project_NameKey.newBuilder().setName("project 36").build();
+    Entities.Project_NameKey proto =
+        Entities.Project_NameKey.newBuilder().setName("project 36").build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.Project_NameKey> parser = projectNameKeyProtoConverter.getParser();
-    Reviewdb.Project_NameKey parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.Project_NameKey> parser = projectNameKeyProtoConverter.getParser();
+    Entities.Project_NameKey parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

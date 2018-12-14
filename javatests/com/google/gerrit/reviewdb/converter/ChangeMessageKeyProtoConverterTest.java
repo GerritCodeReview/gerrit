@@ -19,7 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.proto.reviewdb.Reviewdb;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -35,11 +35,11 @@ public class ChangeMessageKeyProtoConverterTest {
   public void allValuesConvertedToProto() {
     ChangeMessage.Key messageKey = new ChangeMessage.Key(new Change.Id(704), "aabbcc");
 
-    Reviewdb.ChangeMessage_Key proto = messageKeyProtoConverter.toProto(messageKey);
+    Entities.ChangeMessage_Key proto = messageKeyProtoConverter.toProto(messageKey);
 
-    Reviewdb.ChangeMessage_Key expectedProto =
-        Reviewdb.ChangeMessage_Key.newBuilder()
-            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(704))
+    Entities.ChangeMessage_Key expectedProto =
+        Entities.ChangeMessage_Key.newBuilder()
+            .setChangeId(Entities.Change_Id.newBuilder().setId(704))
             .setUuid("aabbcc")
             .build();
     assertThat(proto).isEqualTo(expectedProto);
@@ -57,15 +57,15 @@ public class ChangeMessageKeyProtoConverterTest {
 
   @Test
   public void protoCanBeParsedFromBytes() throws Exception {
-    Reviewdb.ChangeMessage_Key proto =
-        Reviewdb.ChangeMessage_Key.newBuilder()
-            .setChangeId(Reviewdb.Change_Id.newBuilder().setId(704))
+    Entities.ChangeMessage_Key proto =
+        Entities.ChangeMessage_Key.newBuilder()
+            .setChangeId(Entities.Change_Id.newBuilder().setId(704))
             .setUuid("aabbcc")
             .build();
     byte[] bytes = proto.toByteArray();
 
-    Parser<Reviewdb.ChangeMessage_Key> parser = messageKeyProtoConverter.getParser();
-    Reviewdb.ChangeMessage_Key parsedProto = parser.parseFrom(bytes);
+    Parser<Entities.ChangeMessage_Key> parser = messageKeyProtoConverter.getParser();
+    Entities.ChangeMessage_Key parsedProto = parser.parseFrom(bytes);
 
     assertThat(parsedProto).isEqualTo(proto);
   }

@@ -36,7 +36,6 @@ import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.gerrit.sshd.commands.QueryShell;
 import com.google.inject.Inject;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
@@ -77,7 +76,6 @@ public class SshModule extends LifecycleModule {
 
     bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);
     factory(DispatchCommand.Factory.class);
-    factory(QueryShell.Factory.class);
     factory(PeerDaemonUser.Factory.class);
 
     bind(DispatchCommandProvider.class)
